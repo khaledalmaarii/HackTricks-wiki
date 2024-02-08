@@ -22,7 +22,7 @@ Le code de **dyld est open source** et peut être trouvé sur [https://opensourc
 
 C'est comme le [**LD\_PRELOAD sur Linux**](../../../../linux-hardening/privilege-escalation#ld\_preload). Il permet d'indiquer à un processus qu'il va exécuter pour charger une bibliothèque spécifique à partir d'un chemin (si la variable d'environnement est activée)
 
-Cette technique peut également être **utilisée comme une technique ASEP** car chaque application installée a un fichier plist appelé "Info.plist" qui permet de **définir des variables d'environnement** en utilisant une clé appelée `LSEnvironmental`.
+Cette technique peut également être **utilisée comme une technique ASEP** car chaque application installée a un fichier plist appelé "Info.plist" qui permet de **d'assigner des variables d'environnement** en utilisant une clé appelée `LSEnvironmental`.
 
 {% hint style="info" %}
 Depuis 2012, **Apple a considérablement réduit le pouvoir** du **`DYLD_INSERT_LIBRARIES`**.
@@ -43,14 +43,14 @@ Dans les versions plus récentes, vous pouvez trouver cette logique dans la deux
 
 Même si le binaire permet d'utiliser la variable d'environnement **`DYLD_INSERT_LIBRARIES`**, si le binaire vérifie la signature de la bibliothèque pour la charger, il ne chargera pas une bibliothèque personnalisée.
 
-Pour charger une bibliothèque personnalisée, le binaire doit avoir **l'une des autorisations suivantes** :
+Pour charger une bibliothèque personnalisée, le binaire doit avoir **une des autorisations suivantes** :
 
 - &#x20;[`com.apple.security.cs.disable-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.security.cs.disable-library-validation)
 - [`com.apple.private.security.clear-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.private.security.clear-library-validation)
 
 ou le binaire **ne doit pas** avoir le **drapeau de runtime renforcé** ou le **drapeau de validation de bibliothèque**.
 
-Vous pouvez vérifier si un binaire a le **runtime renforcé** avec `codesign --display --verbose <bin>` en vérifiant le drapeau runtime dans **`CodeDirectory`** comme : **`CodeDirectory v=20500 size=767 flags=0x10000(runtime) hashes=13+7 location=embedded`**
+Vous pouvez vérifier si un binaire a le **runtime renforcé** avec `codesign --display --verbose <binaire>` en vérifiant le drapeau runtime dans **`CodeDirectory`** comme : **`CodeDirectory v=20500 size=767 flags=0x10000(runtime) hashes=13+7 location=embedded`**
 
 Vous pouvez également charger une bibliothèque si elle est **signée avec le même certificat que le binaire**.
 
@@ -60,14 +60,14 @@ Trouvez un exemple sur la façon de (ab)user de cela et vérifiez les restrictio
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
 {% endcontent-ref %}
 
-## Piratage de Dylib
+## Dylib Hijacking
 
 {% hint style="danger" %}
-Rappelez-vous que les **restrictions de validation de bibliothèque précédentes s'appliquent également** pour effectuer des attaques de piratage de Dylib.
+Rappelez-vous que les **restrictions de validation de bibliothèque précédentes s'appliquent également** pour effectuer des attaques de détournement de dylib.
 {% endhint %}
 
-Comme sous Windows, sous MacOS, vous pouvez également **pirater des dylibs** pour faire exécuter des **codes arbitraires** par des **applications** (en fait, en tant qu'utilisateur régulier, cela pourrait ne pas être possible car vous pourriez avoir besoin d'une autorisation TCC pour écrire à l'intérieur d'un bundle `.app` et pirater une bibliothèque).\
-Cependant, la façon dont les **applications MacOS** chargent les bibliothèques est **plus restreinte** que sous Windows. Cela implique que les développeurs de **logiciels malveillants** peuvent toujours utiliser cette technique pour **la discrétion**, mais la probabilité de pouvoir **abuser de cela pour escalader les privilèges est beaucoup plus faible**.
+Comme sous Windows, sous MacOS, vous pouvez également **détourner des dylibs** pour faire exécuter **du code arbitraire aux applications** (en fait, en tant qu'utilisateur régulier, cela pourrait ne pas être possible car vous pourriez avoir besoin d'une autorisation TCC pour écrire à l'intérieur d'un bundle `.app` et détourner une bibliothèque).\
+Cependant, la façon dont les applications **MacOS** chargent les bibliothèques est **plus restreinte** que sous Windows. Cela implique que les développeurs de **logiciels malveillants** peuvent toujours utiliser cette technique pour **la discrétion**, mais la probabilité de pouvoir **abuser de cela pour escalader les privilèges est beaucoup plus faible**.
 
 Tout d'abord, il est **plus courant** de constater que les **binaires MacOS indiquent le chemin complet** des bibliothèques à charger. Deuxièmement, **MacOS ne recherche jamais** dans les dossiers du **$PATH** pour les bibliothèques.
 
@@ -77,15 +77,15 @@ Il existe **4 commandes d'en-tête différentes** qu'un binaire macho peut utili
 
 - La commande **`LC_LOAD_DYLIB`** est la commande courante pour charger une dylib.
 - La commande **`LC_LOAD_WEAK_DYLIB`** fonctionne comme la précédente, mais si la dylib n'est pas trouvée, l'exécution se poursuit sans aucune erreur.
-- La commande **`LC_REEXPORT_DYLIB`** elle fait office de proxy (ou réexporte) les symboles d'une bibliothèque différente.
-- La commande **`LC_LOAD_UPWARD_DYLIB`** est utilisée lorsque deux bibliothèques dépendent l'une de l'autre (on parle de _dépendance ascendante_).
+- La commande **`LC_REEXPORT_DYLIB`** elle proxy (ou réexporte) les symboles d'une bibliothèque différente.
+- La commande **`LC_LOAD_UPWARD_DYLIB`** est utilisée lorsque deux bibliothèques dépendent l'une de l'autre (c'est ce qu'on appelle une _dépendance ascendante_).
 
-Cependant, il existe **2 types de piratage de dylib** :
+Cependant, il existe **2 types de détournement de dylib** :
 
 - **Bibliothèques liées faibles manquantes** : Cela signifie que l'application tentera de charger une bibliothèque qui n'existe pas configurée avec **LC\_LOAD\_WEAK\_DYLIB**. Ensuite, **si un attaquant place une dylib là où elle est attendue, elle sera chargée**.
 - Le fait que le lien soit "faible" signifie que l'application continuera de s'exécuter même si la bibliothèque n'est pas trouvée.
-- Le **code lié** à cela se trouve dans la fonction `ImageLoaderMachO::doGetDependentLibraries` de `ImageLoaderMachO.cpp où `lib->required` est `false` uniquement lorsque `LC_LOAD_WEAK_DYLIB` est vrai.
-- **Trouvez des bibliothèques liées faibles** dans les binaires avec (vous avez ensuite un exemple sur la création de bibliothèques de piratage) :
+- Le **code lié** à cela se trouve dans la fonction `ImageLoaderMachO::doGetDependentLibraries` de `ImageLoaderMachO.cpp où `lib->required` est seulement `false` lorsque `LC_LOAD_WEAK_DYLIB` est vrai.
+- **Trouvez des bibliothèques liées faibles** dans les binaires avec (vous avez ensuite un exemple sur la création de bibliothèques de détournement) :
 - ```bash
 otool -l </chemin/vers/bin> | grep LC_LOAD_WEAK_DYLIB -A 5 cmd LC_LOAD_WEAK_DYLIB
 cmdsize 56
@@ -97,7 +97,7 @@ compatibility version 1.0.0
 - **Configuré avec @rpath** : Les binaires Mach-O peuvent avoir les commandes **`LC_RPATH`** et **`LC_LOAD_DYLIB`**. En fonction des **valeurs** de ces commandes, les **bibliothèques** vont être **chargées** à partir de **différents répertoires**.
 - **`LC_RPATH`** contient les chemins de certains dossiers utilisés pour charger les bibliothèques par le binaire.
 - **`LC_LOAD_DYLIB`** contient le chemin des bibliothèques spécifiques à charger. Ces chemins peuvent contenir **`@rpath`**, qui sera **remplacé** par les valeurs dans **`LC_RPATH`**. S'il y a plusieurs chemins dans **`LC_RPATH`**, chacun sera utilisé pour rechercher la bibliothèque à charger. Exemple :
-- Si **`LC_LOAD_DYLIB`** contient `@rpath/library.dylib` et **`LC_RPATH`** contient `/application/app.app/Contents/Framework/v1/` et `/application/app.app/Contents/Framework/v2/`. Les deux dossiers seront utilisés pour charger `library.dylib`**.** Si la bibliothèque n'existe pas dans `[...]/v1/` et que l'attaquant pourrait la placer là pour pirater le chargement de la bibliothèque dans `[...]/v2/` car l'ordre des chemins dans **`LC_LOAD_DYLIB`** est suivi.
+- Si **`LC_LOAD_DYLIB`** contient `@rpath/library.dylib` et **`LC_RPATH`** contient `/application/app.app/Contents/Framework/v1/` et `/application/app.app/Contents/Framework/v2/`. Les deux dossiers seront utilisés pour charger `library.dylib`**.** Si la bibliothèque n'existe pas dans `[...]/v1/` et que l'attaquant pourrait la placer là pour détourner le chargement de la bibliothèque dans `[...]/v2/` car l'ordre des chemins dans **`LC_LOAD_DYLIB`** est suivi.
 - **Trouvez les chemins rpath et les bibliothèques** dans les binaires avec : `otool -l </chemin/vers/binaire> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
 
 {% hint style="info" %}
@@ -122,15 +122,15 @@ Un **rapport avec des détails techniques** sur cette technique peut être trouv
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
 {% endcontent-ref %}
 
-## Piratage de Dlopen
+## Dlopen Hijacking
 
 {% hint style="danger" %}
-Rappelez-vous que les **restrictions de validation de bibliothèque précédentes s'appliquent également** pour effectuer des attaques de piratage de Dlopen.
+Rappelez-vous que les **restrictions de validation de bibliothèque précédentes s'appliquent également** pour effectuer des attaques de détournement de Dlopen.
 {% endhint %}
 
 Depuis **`man dlopen`** :
 
-- Lorsque le chemin **ne contient pas de caractère slash** (c'est-à-dire qu'il s'agit simplement d'un nom de feuille), **dlopen() effectuera une recherche**. Si **`$DYLD_LIBRARY_PATH`** était défini au lancement, dyld cherchera d'abord dans ce répertoire. Ensuite, si le fichier mach-o appelant ou l'exécutable principal spécifie un **`LC_RPATH`**, alors dyld cherchera dans ces répertoires. Ensuite, si le processus est **non restreint**, dyld recherchera dans le **répertoire de travail actuel**. Enfin, pour les anciens binaires, dyld essaiera quelques solutions de repli. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** était défini au lancement, dyld cherchera dans ces répertoires, sinon, dyld cherchera dans **`/usr/local/lib/`** (si le processus est non restreint), puis dans **`/usr/lib/`** (ces informations ont été prises de **`man dlopen`**).
+- Lorsque le chemin **ne contient pas de caractère slash** (c'est-à-dire qu'il s'agit simplement d'un nom de feuille), **dlopen() effectuera une recherche**. Si **`$DYLD_LIBRARY_PATH`** était défini au lancement, dyld cherchera d'abord dans ce répertoire. Ensuite, si le fichier mach-o appelant ou l'exécutable principal spécifie un **`LC_RPATH`**, alors dyld cherchera dans ces répertoires. Ensuite, si le processus est **non restreint**, dyld recherchera dans le **répertoire de travail actuel**. Enfin, pour les anciens binaires, dyld essaiera quelques solutions de repli. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** était défini au lancement, dyld recherchera dans **ces répertoires**, sinon, dyld cherchera dans **`/usr/local/lib/`** (si le processus est non restreint), puis dans **`/usr/lib/`** (ces informations ont été prises de **`man dlopen`**).
 1. `$DYLD_LIBRARY_PATH`
 2. `LC_RPATH`
 3. `CWD`(si non restreint)
@@ -139,13 +139,13 @@ Depuis **`man dlopen`** :
 6. `/usr/lib/`
 
 {% hint style="danger" %}
-S'il n'y a pas de barres obliques dans le nom, il y aurait 2 façons de faire un piratage :
+S'il n'y a pas de barres obliques dans le nom, il y aurait 2 façons de faire un détournement :
 
 - Si un **`LC_RPATH`** est **modifiable** (mais la signature est vérifiée, donc pour cela, vous avez également besoin que le binaire soit non restreint)
 - Si le binaire est **non restreint** et qu'il est alors possible de charger quelque chose à partir du CWD (ou en abusant de l'une des variables d'environnement mentionnées)
 {% endhint %}
 
-- Lorsque le chemin **ressemble à un chemin de framework** (par exemple `/stuff/foo.framework/foo`), si **`$DYLD_FRAMEWORK_PATH`** était défini au lancement, dyld cherchera d'abord dans ce répertoire pour le **chemin partiel du framework** (par exemple `foo.framework/foo`). Ensuite, dyld essaiera le **chemin fourni tel quel** (en utilisant le répertoire de travail actuel pour les chemins relatifs). Enfin, pour les anciens binaires, dyld essaiera quelques solutions de repli. Si **`$DYLD_FALLBACK_FRAMEWORK_PATH`** était défini au lancement, dyld cherchera dans ces répertoires. Sinon, il recherchera dans **`/Library/Frameworks`** (sur macOS si le processus est non restreint), puis dans **`/System/Library/Frameworks`**.
+- Lorsque le chemin **ressemble à un chemin de framework** (par exemple `/stuff/foo.framework/foo`), si **`$DYLD_FRAMEWORK_PATH`** était défini au lancement, dyld cherchera d'abord dans ce répertoire pour le **chemin partiel du framework** (par exemple `foo.framework/foo`). Ensuite, dyld essaiera le **chemin fourni tel quel** (en utilisant le répertoire de travail actuel pour les chemins relatifs). Enfin, pour les anciens binaires, dyld essaiera quelques solutions de repli. Si **`$DYLD_FALLBACK_FRAMEWORK_PATH`** était défini au lancement, dyld recherchera dans ces répertoires. Sinon, il recherchera dans **`/Library/Frameworks`** (sur macOS si le processus est non restreint), puis dans **`/System/Library/Frameworks`**.
 1. `$DYLD_FRAMEWORK_PATH`
 2. chemin fourni (en utilisant le répertoire de travail actuel pour les chemins relatifs si non restreint)
 3. `$DYLD_FALLBACK_FRAMEWORK_PATH`
@@ -153,7 +153,7 @@ S'il n'y a pas de barres obliques dans le nom, il y aurait 2 façons de faire un
 5. `/System/Library/Frameworks`
 
 {% hint style="danger" %}
-Si un chemin de framework, la façon de le pirater serait :
+Si un chemin de framework, la façon de le détourner serait :
 
 - Si le processus est **non restreint**, en abusant du **chemin relatif à partir de CWD** des variables d'environnement mentionnées (même si cela n'est pas dit dans la documentation si le processus est restreint, les variables d'environnement DYLD\_\* sont supprimées)
 {% endhint %}
@@ -207,7 +207,7 @@ sudo fs_usage | grep "dlopentest"
 ```
 ## Détournement de chemin relatif
 
-Si un **binaire/application privilégié** (comme un SUID ou un binaire avec des autorisations puissantes) **charge une bibliothèque de chemin relatif** (par exemple en utilisant `@executable_path` ou `@loader_path`) et que la **Validation de bibliothèque est désactivée**, il pourrait être possible de déplacer le binaire vers un emplacement où l'attaquant pourrait **modifier la bibliothèque chargée par chemin relatif**, et l'exploiter pour injecter du code dans le processus.
+Si un **binaire/application privilégié** (comme un SUID ou un binaire avec des autorisations puissantes) charge une bibliothèque **avec un chemin relatif** (par exemple en utilisant `@executable_path` ou `@loader_path`) et que la **Validation de bibliothèque est désactivée**, il pourrait être possible de déplacer le binaire vers un emplacement où l'attaquant pourrait **modifier la bibliothèque chargée avec un chemin relatif**, et l'utiliser pour injecter du code dans le processus.
 
 ## Élaguer les variables d'environnement `DYLD_*` et `LD_LIBRARY_PATH`
 
@@ -215,7 +215,7 @@ Dans le fichier `dyld-dyld-832.7.1/src/dyld2.cpp`, il est possible de trouver la
 
 Il définira également spécifiquement les variables d'environnement **`DYLD_FALLBACK_FRAMEWORK_PATH`** et **`DYLD_FALLBACK_LIBRARY_PATH`** sur **null** pour les binaires **suid** et **sgid**.
 
-Cette fonction est appelée depuis la fonction **`_main`** du même fichier lors du ciblage de OSX de cette manière :
+Cette fonction est appelée depuis la fonction **`_main`** du même fichier lors du ciblage de macOS de cette manière :
 ```cpp
 #if TARGET_OS_OSX
 if ( !gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache ) {
@@ -256,7 +256,7 @@ Ce qui signifie essentiellement que si le binaire est **suid** ou **sgid**, ou a
 
 Notez que si CS\_REQUIRE\_LV est vrai, alors les variables ne seront pas élaguées mais la validation de la bibliothèque vérifiera qu'elles utilisent le même certificat que le binaire d'origine.
 
-## Vérifier les restrictions
+## Vérifier les Restrictions
 
 ### SUID & SGID
 ```bash
@@ -269,7 +269,7 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 # Remove suid
 sudo chmod -s hello
 ```
-### Section `__RESTRICT` avec le segment `__restrict`
+### Section `__RESTRICT` avec segment `__restrict`
 ```bash
 gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict
@@ -301,28 +301,28 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed # Won't work
 {% endcode %}
 
 {% hint style="danger" %}
-Notez que même s'il y a des binaires signés avec des indicateurs **`0x0(none)`**, ils peuvent obtenir dynamiquement le drapeau **`CS_RESTRICT`** lors de leur exécution et donc cette technique ne fonctionnera pas sur eux.
+Notez que même s'il y a des binaires signés avec des indicateurs **`0x0(none)`**, ils peuvent obtenir dynamiquement l'indicateur **`CS_RESTRICT`** lors de leur exécution et donc cette technique ne fonctionnera pas sur eux.
 
-Vous pouvez vérifier si un processus a ce drapeau avec (obtenez [**csops ici**](https://github.com/axelexic/CSOps)):&#x20;
+Vous pouvez vérifier si un processus a cet indicateur avec (obtenez [**csops ici**](https://github.com/axelexic/CSOps)):&#x20;
 ```bash
 csops -status <pid>
 ```
 et vérifiez ensuite si le drapeau 0x800 est activé.
 {% endhint %}
 
-# Références
+## Références
 * [https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/](https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

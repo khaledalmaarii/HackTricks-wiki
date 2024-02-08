@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -14,9 +14,9 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-## Comment ça fonctionne Expliqué
+## Comment ça marche expliqué
 
-Les processus peuvent être ouverts sur des hôtes où le nom d'utilisateur et soit le mot de passe, soit le hachage sont connus grâce à l'utilisation de WMI. Les commandes sont exécutées à l'aide de WMI par Wmiexec, offrant une expérience de shell semi-interactif.
+Les processus peuvent être ouverts sur des hôtes où le nom d'utilisateur et soit le mot de passe, soit le hachage sont connus grâce à l'utilisation de WMI. Les commandes sont exécutées en utilisant WMI par Wmiexec, offrant une expérience de shell semi-interactif.
 
 **dcomexec.py :** En utilisant différents points de terminaison DCOM, ce script offre un shell semi-interactif similaire à wmiexec.py, en exploitant spécifiquement l'objet DCOM ShellBrowserWindow. Il prend actuellement en charge les objets MMC20. Application, Shell Windows et Shell Browser Window. (source : [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
@@ -105,10 +105,10 @@ Pour exécuter un processus à distance via WMI, tel que le déploiement d'un ag
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
-Ce processus illustre la capacité du WMI à l'exécution à distance et à l'énumération du système, mettant en évidence son utilité à la fois pour l'administration système et les tests de pénétration.
+Ce processus illustre la capacité du WMI à exécuter des tâches à distance et à énumérer des systèmes, mettant en évidence son utilité à la fois pour l'administration système et les tests de pénétration.
 
 
-# Références
+## Références
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-3-wmi-and-winrm/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
 ## Outils Automatiques
@@ -129,7 +129,7 @@ D'autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

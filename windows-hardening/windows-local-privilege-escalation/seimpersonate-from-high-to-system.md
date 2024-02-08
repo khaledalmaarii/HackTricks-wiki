@@ -1,30 +1,29 @@
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm).
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 
 ## Code
 
-Le code suivant, provenant de [ici](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962), permet de **spécifier un ID de processus en argument** et une commande CMD **exécutée en tant qu'utilisateur** du processus indiqué sera exécutée.\
-En exécutant dans un processus à haute intégrité, vous pouvez **indiquer le PID d'un processus exécuté en tant que System** (comme winlogon, wininit) et exécuter un cmd.exe en tant que system.
+Le code suivant provient de [ici](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Il permet d'**indiquer un ID de processus comme argument** et une CMD **s'exécutant en tant qu'utilisateur** du processus indiqué sera exécutée.\
+En exécutant dans un processus à haute intégrité, vous pouvez **indiquer l'ID de processus d'un processus s'exécutant en tant que Système** (comme winlogon, wininit) et exécuter un cmd.exe en tant que système.
 ```cpp
 impersonateuser.exe 1234
 ```
+{% code title="impersonateuser.cpp" %}
 ```cpp
-// impersonateuser.cpp
-```
-Le contenu spécifié est déjà dans le format demandé et ne nécessite pas de traduction.
-```cpp
+// From https://securitytimes.medium.com/understanding-and-abusing-access-tokens-part-ii-b9069f432962
+
 #include <windows.h>
 #include <iostream>
 #include <Lmcons.h>
@@ -152,13 +151,11 @@ printf("[-] CreateProcessWithTokenW Error: %i\n", GetLastError());
 return 0;
 }
 ```
-```markdown
 {% endcode %}
 
 ## Erreur
 
-Dans certains cas, vous pourriez essayer d'usurper l'identité de System et cela ne fonctionnera pas, affichant un message comme le suivant :
-```
+Dans certains cas, vous pouvez essayer de vous faire passer pour le Système et cela ne fonctionnera pas, affichant une sortie comme celle-ci :
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -169,38 +166,22 @@ Dans certains cas, vous pourriez essayer d'usurper l'identité de System et cela
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Cela signifie que même si vous fonctionnez à un niveau d'intégrité élevé, **vous n'avez pas suffisamment de permissions**.\
-Vérifions les permissions actuelles de l'Administrateur sur les processus `svchost.exe` avec **l'explorateur de processus** (ou vous pouvez également utiliser process hacker) :
+Cela signifie que même si vous exécutez avec un niveau d'intégrité élevé **vous n'avez pas suffisamment de permissions**.\
+Vérifions les autorisations actuelles de l'administrateur sur les processus `svchost.exe` avec **Process Explorer** (ou vous pouvez également utiliser Process Hacker) :
 
-1. Sélectionnez un processus de `svchost.exe`
+1. Sélectionnez un processus `svchost.exe`
 2. Clic droit --> Propriétés
-3. Dans l'onglet "Sécurité", cliquez sur le bouton "Permissions" en bas à droite
+3. Dans l'onglet "Sécurité", cliquez en bas à droite sur le bouton "Autorisations"
 4. Cliquez sur "Avancé"
 5. Sélectionnez "Administrateurs" et cliquez sur "Modifier"
-6. Cliquez sur "Afficher les permissions avancées"
+6. Cliquez sur "Afficher les autorisations avancées"
 
 ![](<../../.gitbook/assets/image (322).png>)
 
-L'image précédente contient tous les privilèges que les "Administrateurs" ont sur le processus sélectionné (comme vous pouvez le voir dans le cas de `svchost.exe`, ils n'ont que les privilèges "Query")
+L'image précédente contient tous les privilèges que les "Administrateurs" ont sur le processus sélectionné (comme vous pouvez le voir dans le cas de `svchost.exe`, ils n'ont que des privilèges de "Requête")
 
 Voyez les privilèges que les "Administrateurs" ont sur `winlogon.exe` :
 
 ![](<../../.gitbook/assets/image (323).png>)
 
-À l'intérieur de ce processus, les "Administrateurs" peuvent "Lire la mémoire" et "Lire les permissions", ce qui permet probablement aux Administrateurs d'usurper le jeton utilisé par ce processus.
-
-
-
-<details>
-
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Autres moyens de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+À l'intérieur de ce processus, les "Administrateurs" peuvent "Lire la mémoire" et "Lire les autorisations", ce qui leur permet probablement d'usurper le jeton utilisé par ce processus.

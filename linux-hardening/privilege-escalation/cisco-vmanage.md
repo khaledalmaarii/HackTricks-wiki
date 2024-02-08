@@ -7,8 +7,8 @@
 * Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
@@ -16,7 +16,7 @@
 
 (Exemple de [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-Après avoir fouillé un peu dans une [documentation](http://66.218.245.39/doc/html/rn03re18.html) liée à `confd` et aux différents binaires (accessibles avec un compte sur le site de Cisco), nous avons découvert que pour authentifier le socket IPC, il utilise un secret situé dans `/etc/confd/confd_ipc_secret`:
+Après avoir fouillé un peu dans une [documentation](http://66.218.245.39/doc/html/rn03re18.html) liée à `confd` et aux différents binaires (accessibles avec un compte sur le site Cisco), nous avons découvert que pour authentifier le socket IPC, il utilise un secret situé dans `/etc/confd/confd_ipc_secret`:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
@@ -34,7 +34,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-Le programme `confd_cli` ne prend pas en charge les arguments de ligne de commande mais appelle `/usr/bin/confd_cli_user` avec des arguments. Ainsi, nous pourrions appeler directement `/usr/bin/confd_cli_user` avec notre propre ensemble d'arguments. Cependant, il n'est pas lisible avec nos privilèges actuels, donc nous devons le récupérer à partir du système de fichiers racine et le copier en utilisant scp, lire l'aide, et l'utiliser pour obtenir l'accès au shell:
+Le programme `confd_cli` ne prend pas en charge les arguments de ligne de commande mais appelle `/usr/bin/confd_cli_user` avec des arguments. Ainsi, nous pourrions appeler directement `/usr/bin/confd_cli_user` avec notre propre ensemble d'arguments. Cependant, il n'est pas lisible avec nos privilèges actuels, donc nous devons le récupérer depuis le système de fichiers racine et le copier en utilisant scp, lire l'aide, et l'utiliser pour obtenir l'accès au shell:
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
@@ -100,7 +100,7 @@ Ma première tentative a été d'exécuter directement "cmdptywrapper" en lui fo
 
 Comme mentionné dans le blog de synacktiv (dernier exemple), le programme `confd_cli` ne prend pas en charge les arguments de ligne de commande, mais je peux l'influencer avec un débogueur et heureusement GDB est inclus dans le système.
 
-J'ai créé un script GDB où j'ai forcé l'API `getuid` et `getgid` à renvoyer 0. Puisque j'ai déjà le privilège "vmanage" grâce à l'exécution de code à distance par désérialisation, j'ai l'autorisation de lire directement le fichier `/etc/confd/confd_ipc_secret`.
+J'ai créé un script GDB où j'ai forcé l'API `getuid` et `getgid` à retourner 0. Puisque j'ai déjà le privilège "vmanage" grâce à l'exécution de code à distance par désérialisation, j'ai l'autorisation de lire directement le fichier `/etc/confd/confd_ipc_secret`.
 
 root.gdb:
 ```
@@ -161,7 +161,7 @@ bash-4.4#
 * Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts [hacktricks](https://github.com/carlospolop/hacktricks) et [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

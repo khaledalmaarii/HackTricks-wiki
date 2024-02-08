@@ -1,10 +1,10 @@
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
@@ -15,11 +15,11 @@ Autres façons de soutenir HackTricks :
 
 ## Logstash
 
-Logstash est utilisé pour **rassembler, transformer et envoyer des journaux** à travers un système appelé **pipelines**. Ces pipelines sont composés d'étapes **d'entrée**, de **filtre** et de **sortie**. Un aspect intéressant se présente lorsque Logstash fonctionne sur une machine compromise.
+Logstash est utilisé pour **rassembler, transformer et envoyer des journaux** à travers un système appelé **pipelines**. Ces pipelines sont composés d'étapes **d'entrée**, **de filtre** et **de sortie**. Un aspect intéressant se présente lorsque Logstash fonctionne sur une machine compromise.
 
 ### Configuration du pipeline
 
-Les pipelines sont configurés dans le fichier **/etc/logstash/pipelines.yml**, qui répertorie les emplacements des configurations de pipeline :
+Les pipelines sont configurés dans le fichier **/etc/logstash/pipelines.yml**, qui répertorie les emplacements des configurations de pipeline:
 ```yaml
 # Define your pipelines here. Multiple pipelines can be defined.
 # For details on multiple pipelines, refer to the documentation:
@@ -37,7 +37,7 @@ Ce fichier révèle où se trouvent les fichiers **.conf**, contenant les config
 
 Pour tenter une élévation de privilèges, identifiez d'abord l'utilisateur sous lequel le service Logstash est en cours d'exécution, généralement l'utilisateur **logstash**. Assurez-vous de remplir **l'un** de ces critères :
 
-- Posséder un **accès en écriture** à un fichier **.conf** de pipeline **ou**
+- Posséder un **accès en écriture** à un fichier de configuration de pipeline **.conf** **ou**
 - Le fichier **/etc/logstash/pipelines.yml** utilise un joker, et vous pouvez écrire dans le dossier cible
 
 De plus, **l'une** de ces conditions doit être remplie :
@@ -66,7 +66,7 @@ Voici, **interval** détermine la fréquence d'exécution en secondes. Dans l'ex
 Avec **config.reload.automatic: true** dans **/etc/logstash/logstash.yml**, Logstash détectera et appliquera automatiquement les nouvelles configurations de pipeline modifiées sans nécessiter de redémarrage. En l'absence de joker, des modifications peuvent toujours être apportées aux configurations existantes, mais il est conseillé de faire preuve de prudence pour éviter les perturbations.
 
 
-# Références
+## Références
 
 * [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
 

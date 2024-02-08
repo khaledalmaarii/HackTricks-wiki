@@ -1,55 +1,53 @@
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 
-**Le post original est** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
+**Le message original est** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
 
 ## Résumé
-La sortie du script indique que l'utilisateur actuel possède des permissions d'écriture sur deux clés de registre :
 
-- `HKLM\SYSTEM\CurrentControlSet\Services\Dnscache`
-- `HKLM\SYSTEM\CurrentControlSet\Services\RpcEptMapper`
+Deux clés de registre ont été trouvées en écriture par l'utilisateur actuel :
 
-Pour enquêter davantage sur les permissions du service RpcEptMapper, l'utilisateur mentionne l'utilisation de l'interface graphique regedit et souligne l'utilité de l'onglet Permissions effectives de la fenêtre Paramètres de sécurité avancés. Cet onglet permet aux utilisateurs de vérifier les permissions effectives accordées à un utilisateur ou groupe spécifique sans inspecter les ACE individuels.
+- **`HKLM\SYSTEM\CurrentControlSet\Services\Dnscache`**
+- **`HKLM\SYSTEM\CurrentControlSet\Services\RpcEptMapper`**
 
-La capture d'écran fournie affiche les permissions pour le compte lab-user à faibles privilèges. La plupart des permissions sont standard, telles que Query Value, mais une permission se démarque : Create Subkey. Le nom générique pour cette permission est AppendData/AddSubdirectory, ce qui correspond à ce qui a été rapporté par le script.
+Il a été suggéré de vérifier les autorisations du service **RpcEptMapper** en utilisant l'interface graphique **regedit**, en particulier l'onglet **Autorisations efficaces** de la fenêtre **Paramètres de sécurité avancés**. Cette approche permet d'évaluer les autorisations accordées à des utilisateurs ou groupes spécifiques sans avoir besoin d'examiner chaque entrée de contrôle d'accès (ACE) individuellement.
 
-L'utilisateur explique ensuite que cela signifie qu'ils ne peuvent pas modifier certaines valeurs directement mais peuvent seulement créer de nouvelles sous-clés. Ils montrent un exemple où la tentative de modification de la valeur ImagePath aboutit à une erreur d'accès refusé.
+Une capture d'écran montrait les autorisations attribuées à un utilisateur à faible privilège, parmi lesquelles la permission **Créer un sous-clé** était notable. Cette permission, également appelée **AppendData/AddSubdirectory**, correspondait aux résultats du script.
 
-Cependant, ils précisent que ce n'est pas un faux positif et qu'il y a ici une opportunité intéressante. Ils étudient la structure du registre Windows et découvrent une manière potentielle d'exploiter la sous-clé Performance, qui n'existe pas par défaut pour le service RpcEptMapper. Cette sous-clé pourrait potentiellement permettre l'enregistrement de DLL et la surveillance des performances, offrant une opportunité d'élévation de privilèges.
+L'incapacité à modifier directement certaines valeurs, mais la capacité à créer de nouvelles sous-clés, a été notée. Un exemple mis en avant était une tentative de modifier la valeur **ImagePath**, qui a abouti à un message d'accès refusé.
 
-Ils mentionnent qu'ils ont trouvé de la documentation liée à la sous-clé Performance et comment l'utiliser pour la surveillance des performances. Cela les conduit à créer une DLL de preuve de concept et à montrer le code pour implémenter les fonctions requises : OpenPerfData, CollectPerfData, et ClosePerfData. Ils exportent également ces fonctions pour une utilisation externe.
+Malgré ces limitations, un potentiel d'élévation de privilèges a été identifié grâce à la possibilité d'exploiter la sous-clé **Performance** au sein de la structure de registre du service **RpcEptMapper**, une sous-clé non présente par défaut. Cela pourrait permettre l'enregistrement de DLL et la surveillance des performances.
 
-L'utilisateur démontre le test de la DLL en utilisant rundll32 pour s'assurer qu'elle fonctionne comme prévu, en enregistrant avec succès des informations.
+Une documentation sur la sous-clé **Performance** et son utilisation pour la surveillance des performances a été consultée, conduisant au développement d'une DLL de preuve de concept. Cette DLL, démontrant la mise en œuvre des fonctions **OpenPerfData**, **CollectPerfData** et **ClosePerfData**, a été testée via **rundll32**, confirmant son succès opérationnel.
 
-Ensuite, ils expliquent que le défi est de tromper le service RPC Endpoint Mapper pour qu'il charge leur DLL Performance. Ils mentionnent qu'ils ont observé la création de leur fichier log lors de l'interrogation des classes WMI liées aux données de performance dans PowerShell. Cela leur permet d'exécuter du code arbitraire dans le contexte du service WMI, qui s'exécute en tant que LOCAL SYSTEM. Cela leur fournit un accès inattendu et élevé.
+L'objectif était de forcer le service **RPC Endpoint Mapper** à charger la DLL de Performance créée. Des observations ont révélé que l'exécution de requêtes de classe WMI liées aux données de performance via PowerShell entraînait la création d'un fichier journal, permettant l'exécution de code arbitraire sous le contexte **LOCAL SYSTEM**, accordant ainsi des privilèges élevés.
 
-En conclusion, l'utilisateur souligne la persistance inexpliquée de cette vulnérabilité et son impact potentiel, qui pourrait s'étendre à la post-exploitation, au mouvement latéral et à l'évasion d'antivirus/EDR.
+La persistance et les implications potentielles de cette vulnérabilité ont été soulignées, mettant en lumière sa pertinence pour les stratégies de post-exploitation, le mouvement latéral et l'évasion des systèmes antivirus/EDR.
 
-Ils mentionnent également que bien qu'ils aient initialement rendu la vulnérabilité publique involontairement par le biais de leur script, son impact est limité aux versions non prises en charge de Windows (par exemple, Windows 7 / Server 2008 R2) avec un accès local.
-
+Bien que la vulnérabilité ait été initialement divulguée involontairement via le script, il a été souligné que son exploitation est limitée aux anciennes versions de Windows (par exemple, **Windows 7 / Server 2008 R2**) et nécessite un accès local.
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>

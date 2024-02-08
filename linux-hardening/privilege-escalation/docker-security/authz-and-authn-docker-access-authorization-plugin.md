@@ -33,7 +33,7 @@ Chaque requête envoyée au plugin **inclut l'utilisateur authentifié, les en-t
 
 Pour les commandes qui peuvent potentiellement détourner la connexion HTTP (`Mise à niveau HTTP`), telles que `exec`, le plugin d'autorisation n'est appelé que pour les requêtes HTTP initiales. Une fois que le plugin approuve la commande, l'autorisation n'est pas appliquée au reste du flux. En particulier, les données en streaming ne sont pas transmises aux plugins d'autorisation. Pour les commandes qui renvoient une réponse HTTP fragmentée, telles que `logs` et `events`, seule la requête HTTP est envoyée aux plugins d'autorisation.
 
-Pendant le traitement des requêtes/réponses, certains flux d'autorisation peuvent nécessiter des requêtes supplémentaires au démon Docker. Pour finaliser de tels flux, les plugins peuvent appeler l'API du démon de manière similaire à un utilisateur régulier. Pour permettre ces requêtes supplémentaires, le plugin doit fournir les moyens à un administrateur de configurer des politiques d'authentification et de sécurité appropriées.
+Pendant le traitement des requêtes/réponses, certains flux d'autorisation peuvent nécessiter des requêtes supplémentaires au démon Docker. Pour compléter de tels flux, les plugins peuvent appeler l'API du démon de manière similaire à un utilisateur régulier. Pour permettre ces requêtes supplémentaires, le plugin doit fournir les moyens à un administrateur de configurer des politiques d'authentification et de sécurité appropriées.
 
 ## Plusieurs Plugins
 
@@ -77,7 +77,7 @@ docker run -d --privileged modified-ubuntu
 docker: Error response from daemon: authorization denied by plugin customauth: [DOCKER FIREWALL] Specified Privileged option value is Disallowed.
 See 'docker run --help'.
 ```
-Cependant, un utilisateur peut **créer un shell à l'intérieur du conteneur en cours d'exécution et lui donner des privilèges supplémentaires**:
+Cependant, un utilisateur peut **créer un shell à l'intérieur du conteneur en cours d'exécution et lui donner des privilèges supplémentaires** :
 ```bash
 docker run -d --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu
 #bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de
@@ -103,16 +103,16 @@ host> /tmp/bash
 -p #This will give you a shell as root
 ```
 {% hint style="info" %}
-Notez que vous ne pouvez peut-être pas monter le dossier `/tmp` mais vous pouvez monter un **autre dossier inscriptible**. Vous pouvez trouver des répertoires inscriptibles en utilisant : `find / -writable -type d 2>/dev/null`
+Notez que vous ne pouvez peut-être pas monter le dossier `/tmp`, mais vous pouvez monter un **autre dossier inscriptible**. Vous pouvez trouver des répertoires inscriptibles en utilisant : `find / -writable -type d 2>/dev/null`
 
-**Notez que tous les répertoires sur une machine Linux ne prendront pas en charge le bit suid !** Pour vérifier quels répertoires prennent en charge le bit suid, exécutez `mount | grep -v "nosuid"` Par exemple, généralement `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` et `/var/lib/lxcfs` ne prennent pas en charge le bit suid.
+**Notez que tous les répertoires sur une machine Linux ne prendront pas en charge le bit suid !** Pour vérifier quels répertoires prennent en charge le bit suid, exécutez `mount | grep -v "nosuid"`. Par exemple, généralement `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` et `/var/lib/lxcfs` ne prennent pas en charge le bit suid.
 
-Notez également que si vous pouvez **monter `/etc`** ou tout autre dossier **contenant des fichiers de configuration**, vous pouvez les modifier à partir du conteneur Docker en tant que root pour **les exploiter sur l'hôte** et escalader les privilèges (peut-être en modifiant `/etc/shadow`)
+Notez également que si vous pouvez **monter `/etc`** ou tout autre dossier **contenant des fichiers de configuration**, vous pouvez les modifier à partir du conteneur Docker en tant que root pour **les exploiter sur l'hôte** et escalader les privilèges (peut-être en modifiant `/etc/shadow`).
 {% endhint %}
 
 ## Point d'API non vérifié
 
-La responsabilité de l'administrateur système configurant ce plugin serait de contrôler les actions et les privilèges que chaque utilisateur peut effectuer. Par conséquent, si l'administrateur adopte une approche de **liste noire** avec les points d'extrémité et les attributs, il pourrait **oublier certains d'entre eux** qui pourraient permettre à un attaquant d'**escalader les privilèges**.
+La responsabilité de l'administrateur système configurant ce plugin serait de contrôler quelles actions et avec quels privilèges chaque utilisateur peut effectuer. Par conséquent, si l'administrateur adopte une approche de **liste noire** avec les points d'extrémité et les attributs, il pourrait **oublier certains d'entre eux** qui pourraient permettre à un attaquant d'**escalader les privilèges**.
 
 Vous pouvez vérifier l'API Docker sur [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
 
@@ -155,7 +155,7 @@ curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '
 ```
 ## Attribut JSON non vérifié
 
-Il est possible que lorsque le sysadmin a configuré le pare-feu docker, il **a oublié un attribut important d'un paramètre** de l'[**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) comme "**Capabilities**" à l'intérieur de "**HostConfig**". Dans l'exemple suivant, il est possible d'exploiter cette mauvaise configuration pour créer et exécuter un conteneur avec la capacité **SYS\_MODULE** :
+Il est possible que lorsque le sysadmin a configuré le pare-feu Docker, il **a oublié un attribut important d'un paramètre** de l' [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) comme "**Capabilities**" à l'intérieur de "**HostConfig**". Dans l'exemple suivant, il est possible d'exploiter cette mauvaise configuration pour créer et exécuter un conteneur avec la capacité **SYS\_MODULE** :
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -189,7 +189,7 @@ N'oubliez pas de **réactiver le plugin après l'escalade**, sinon un **redémar
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-# Références
+## Références
 
 * [https://docs.docker.com/engine/extend/plugins\_authorization/](https://docs.docker.com/engine/extend/plugins\_authorization/)
 

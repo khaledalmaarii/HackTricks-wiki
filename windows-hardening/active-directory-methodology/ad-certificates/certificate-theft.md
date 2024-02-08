@@ -1,4 +1,4 @@
-# Vol de Certificat AD CS
+# Vol de certificat AD CS
 
 <details>
 
@@ -8,14 +8,13 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-**Il s'agit d'un petit résumé de la recherche impressionnante de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
-
+**Il s'agit d'un bref résumé des chapitres sur le vol de certificats de la recherche impressionnante de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
 
 ## Que puis-je faire avec un certificat
 
@@ -31,7 +30,7 @@ $Cert.EnhancedKeyUsageList
 # cmd
 certutil.exe -dump -v cert.pfx
 ```
-## Export des certificats en utilisant les API de cryptographie – VOL1
+## Exportation de certificats en utilisant les API de cryptographie – VOL1
 
 Dans une **session de bureau interactive**, extraire un certificat utilisateur ou machine, ainsi que la clé privée, peut être facilement réalisé, en particulier si la **clé privée est exportable**. Cela peut être réalisé en naviguant jusqu'au certificat dans `certmgr.msc`, en faisant un clic droit dessus, et en sélectionnant `Toutes les tâches → Exporter` pour générer un fichier .pfx protégé par mot de passe.
 
@@ -47,7 +46,7 @@ Plus d'informations sur DPAPI dans :
 [dpapi-extracting-passwords.md](../../windows-local-privilege-escalation/dpapi-extracting-passwords.md)
 {% endcontent-ref %}
 
-Sous Windows, **les clés privées des certificats sont protégées par DPAPI**. Il est crucial de reconnaître que les **emplacements de stockage des clés privées utilisateur et machine** sont distincts, et que les structures de fichiers varient en fonction de l'API cryptographique utilisée par le système d'exploitation. **SharpDPAPI** est un outil qui peut naviguer automatiquement dans ces différences lors du déchiffrement des blobs DPAPI.
+Sous Windows, **les clés privées de certificat sont protégées par DPAPI**. Il est crucial de reconnaître que les **emplacements de stockage des clés privées utilisateur et machine** sont distincts, et que les structures de fichiers varient en fonction de l'API cryptographique utilisée par le système d'exploitation. **SharpDPAPI** est un outil qui peut naviguer automatiquement dans ces différences lors du déchiffrement des blobs DPAPI.
 
 Les **certificats utilisateur** sont principalement stockés dans le registre sous `HKEY_CURRENT_USER\SOFTWARE\Microsoft\SystemCertificates`, mais certains peuvent également être trouvés dans le répertoire `%APPDATA%\Microsoft\SystemCertificates\My\Certificates`. Les **clés privées correspondantes** à ces certificats sont généralement stockées dans `%APPDATA%\Microsoft\Crypto\RSA\User SID\` pour les clés **CAPI** et `%APPDATA%\Microsoft\Crypto\Keys\` pour les clés **CNG**.
 
@@ -65,7 +64,7 @@ dpapi::masterkey /in:"C:\PATH\TO\KEY" /rpc
 # With mimikatz, if the user's password is known
 dpapi::masterkey /in:"C:\PATH\TO\KEY" /sid:accountSid /password:PASS
 ```
-Pour rationaliser le décryptage des fichiers de clé principale et des fichiers de clé privée, la commande `certificates` de [**SharpDPAPI**](https://github.com/GhostPack/SharpDPAPI) s'avère bénéfique. Elle accepte les arguments `/pvk`, `/mkfile`, `/password` ou `{GUID}:KEY` pour décrypter les clés privées et les certificats liés, générant ainsi un fichier `.pem`.
+Pour simplifier le décryptage des fichiers de clé principale et des fichiers de clé privée, la commande `certificates` de [**SharpDPAPI**](https://github.com/GhostPack/SharpDPAPI) s'avère bénéfique. Elle accepte les arguments `/pvk`, `/mkfile`, `/password`, ou `{GUID}:KEY` pour décrypter les clés privées et les certificats liés, générant ainsi un fichier `.pem`.
 ```bash
 # Decrypting using SharpDPAPI
 SharpDPAPI.exe certificates /mkfile:C:\temp\mkeys.txt
@@ -84,7 +83,7 @@ Le déchiffrement manuel peut être réalisé en exécutant la commande `lsadump
 
 ## Recherche de fichiers de certificat – THEFT4
 
-Les certificats sont parfois directement trouvés dans le système de fichiers, comme dans les partages de fichiers ou le dossier Téléchargements. Les types de fichiers de certificat les plus couramment rencontrés dans les environnements Windows sont les fichiers `.pfx` et `.p12`. Bien que moins fréquemment, des fichiers avec les extensions `.pkcs12` et `.pem` apparaissent également. Les extensions de fichier supplémentaires liées aux certificats comprennent :
+Les certificats sont parfois directement trouvés dans le système de fichiers, comme dans les partages de fichiers ou le dossier Téléchargements. Les types de fichiers de certificat les plus couramment rencontrés ciblant les environnements Windows sont les fichiers `.pfx` et `.p12`. Bien que moins fréquemment, des fichiers avec les extensions `.pkcs12` et `.pem` apparaissent également. Les extensions de fichier supplémentaires liées aux certificats comprennent :
 - `.key` pour les clés privées,
 - `.crt`/`.cer` pour les certificats uniquement,
 - `.csr` pour les demandes de signature de certificat, qui ne contiennent ni certificats ni clés privées,
@@ -107,7 +106,7 @@ john --wordlist=passwords.txt hash.txt
 
 Le contenu donné explique une méthode de vol de crédentiel NTLM via PKINIT, spécifiquement à travers la méthode de vol étiquetée comme THEFT5. Voici une réexplication en voix passive, avec le contenu anonymisé et résumé lorsque applicable :
 
-Pour prendre en charge l'authentification NTLM [MS-NLMP] pour les applications qui ne facilitent pas l'authentification Kerberos, le KDC est conçu pour renvoyer la fonction unidirectionnelle NTLM de l'utilisateur (OWF) dans le certificat d'attribut de privilège (PAC), spécifiquement dans le tampon `PAC_CREDENTIAL_INFO`, lorsque PKCA est utilisé. Par conséquent, si un compte s'authentifie et sécurise un Ticket-Granting Ticket (TGT) via PKINIT, un mécanisme est intrinsèquement fourni qui permet à l'hôte actuel d'extraire le hachage NTLM du TGT pour maintenir les protocoles d'authentification hérités. Ce processus implique le déchiffrement de la structure `PAC_CREDENTIAL_DATA`, qui est essentiellement une représentation sérialisée NDR du texte en clair NTLM.
+Pour prendre en charge l'authentification NTLM [MS-NLMP] pour les applications qui ne facilitent pas l'authentification Kerberos, le KDC est conçu pour renvoyer la fonction unidirectionnelle NTLM de l'utilisateur (OWF) dans le certificat d'attribut de privilège (PAC), spécifiquement dans le tampon `PAC_CREDENTIAL_INFO`, lors de l'utilisation de PKCA. Par conséquent, si un compte s'authentifie et sécurise un Ticket-Granting Ticket (TGT) via PKINIT, un mécanisme est intrinsèquement fourni qui permet à l'hôte actuel d'extraire le hachage NTLM du TGT pour maintenir les protocoles d'authentification hérités. Ce processus implique le déchiffrement de la structure `PAC_CREDENTIAL_DATA`, qui est essentiellement une représentation sérialisée NDR du texte en clair NTLM.
 
 L'utilitaire **Kekeo**, accessible à [https://github.com/gentilkiwi/kekeo](https://github.com/gentilkiwi/kekeo), est mentionné comme capable de demander un TGT contenant ces données spécifiques, facilitant ainsi la récupération du NTLM de l'utilisateur. La commande utilisée à cette fin est la suivante :
 ```bash

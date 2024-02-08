@@ -17,7 +17,7 @@ Lisez le fichier _ **/etc/exports** _, si vous trouvez un répertoire configuré
 
 **no\_root\_squash**: Cette option donne essentiellement l'autorité à l'utilisateur root sur le client pour accéder aux fichiers sur le serveur NFS en tant que root. Et cela peut entraîner de graves implications en termes de sécurité.
 
-**no\_all\_squash:** C'est similaire à l'option **no\_root\_squash** mais s'applique aux **utilisateurs non root**. Imaginez, vous avez un shell en tant qu'utilisateur nobody ; vérifié le fichier /etc/exports ; l'option no\_all\_squash est présente ; vérifié le fichier /etc/passwd ; émulez un utilisateur non root ; créez un fichier suid en tant qu'utilisateur (en montant en utilisant nfs). Exécutez le suid en tant qu'utilisateur nobody et devenez un utilisateur différent.
+**no\_all\_squash:** C'est similaire à l'option **no\_root\_squash** mais s'applique aux **utilisateurs non root**. Imaginez, vous avez un shell en tant qu'utilisateur nobody; vérifié le fichier /etc/exports; l'option no\_all\_squash est présente; vérifié le fichier /etc/passwd; émulez un utilisateur non root; créez un fichier suid en tant qu'utilisateur (en montant en utilisant nfs). Exécutez le suid en tant qu'utilisateur nobody et devenez un utilisateur différent.
 
 # Élévation de privilèges
 
@@ -25,7 +25,7 @@ Lisez le fichier _ **/etc/exports** _, si vous trouvez un répertoire configuré
 
 Si vous avez trouvé cette vulnérabilité, vous pouvez l'exploiter :
 
-* **Monter ce répertoire** sur une machine cliente, et **en tant que root copier** à l'intérieur du dossier monté le binaire **/bin/bash** et lui donner des droits **SUID**, et **exécuter à partir de la machine victime** ce binaire bash.
+* **Monter ce répertoire** sur une machine cliente, et **copier en tant que root** à l'intérieur du dossier monté le binaire **/bin/bash** et lui donner des droits **SUID**, puis **exécuter à partir de la machine victime** ce binaire bash.
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -57,7 +57,7 @@ cd <SHAREDD_FOLDER>
 {% hint style="info" %}
 Notez que si vous pouvez créer un **tunnel de votre machine vers la machine victime, vous pouvez toujours utiliser la version à distance pour exploiter cette élévation de privilèges en faisant transiter les ports requis**.\
 Le tour de passe-passe suivant est en cas de fichier `/etc/exports` **indiquant une adresse IP**. Dans ce cas, vous **ne pourrez pas utiliser** en aucun cas l'**exploit à distance** et vous devrez **abuser de ce tour de passe-passe**.\
-Une autre exigence requise pour que l'exploit fonctionne est que **l'exportation à l'intérieur de `/etc/export`** **doit utiliser le drapeau `insecure`**.\
+Une autre exigence nécessaire pour que l'exploit fonctionne est que **l'exportation à l'intérieur de `/etc/export`** **doit utiliser le drapeau `insecure`**.\
 \--_Je ne suis pas sûr que si `/etc/export` indique une adresse IP, ce tour de passe-passe fonctionnera_--
 {% endhint %}
 
@@ -99,8 +99,8 @@ LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod u+s nfs:/
 #root
 ```
 
-## Bonus: NFShell pour un Accès Furtif aux Fichiers
-Une fois l'accès root obtenu, pour interagir avec le partage NFS sans changer la propriété (afin d'éviter de laisser des traces), un script Python (nfsh.py) est utilisé. Ce script ajuste l'uid pour correspondre à celui du fichier en cours d'accès, permettant d'interagir avec les fichiers sur le partage sans problèmes de permission :
+## Bonus : NFShell pour un accès furtif aux fichiers
+Une fois l'accès root obtenu, pour interagir avec le partage NFS sans changer la propriété (pour éviter de laisser des traces), un script Python (nfsh.py) est utilisé. Ce script ajuste l'uid pour correspondre à celui du fichier en cours d'accès, permettant d'interagir avec les fichiers sur le partage sans problèmes de permission :
 ```python
 #!/usr/bin/env python
 # script from https://www.errno.fr/nfs_privesc.html
@@ -124,20 +124,20 @@ Exécutez comme suit :
 # ll ./mount/
 drwxr-x---  6 1008 1009 1024 Apr  5  2017 9.3_old
 ```
-# Références
+## Références
 * [https://www.errno.fr/nfs_privesc.html](https://www.errno.fr/nfs_privesc.html)
 
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

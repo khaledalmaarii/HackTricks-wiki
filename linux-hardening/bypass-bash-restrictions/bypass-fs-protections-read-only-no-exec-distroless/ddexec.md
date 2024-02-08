@@ -42,7 +42,7 @@ base64
 
 Si vous êtes capable de modifier arbitrairement la mémoire d'un processus, vous pouvez le prendre en main. Cela peut être utilisé pour détourner un processus existant et le remplacer par un autre programme. Nous pouvons y parvenir en utilisant soit l'appel système `ptrace()` (qui nécessite que vous ayez la capacité d'exécuter des appels système ou que gdb soit disponible sur le système), soit, de manière plus intéressante, en écrivant dans `/proc/$pid/mem`.
 
-Le fichier `/proc/$pid/mem` est un mappage un à un de l'espace d'adressage complet d'un processus (par exemple, de `0x0000000000000000` à `0x7ffffffffffff000` en x86-64). Cela signifie que lire ou écrire dans ce fichier à un décalage `x` revient à lire ou modifier le contenu à l'adresse virtuelle `x`.
+Le fichier `/proc/$pid/mem` est un mappage un à un de tout l'espace d'adressage d'un processus (par exemple, de `0x0000000000000000` à `0x7ffffffffffff000` en x86-64). Cela signifie que lire ou écrire dans ce fichier à un décalage `x` revient à lire ou modifier le contenu à l'adresse virtuelle `x`.
 
 Maintenant, nous avons quatre problèmes de base à résoudre :
 
@@ -52,9 +52,9 @@ Maintenant, nous avons quatre problèmes de base à résoudre :
 
 Ces problèmes ont des solutions qui, bien qu'elles ne soient pas parfaites, sont bonnes :
 
-- La plupart des interprètes de commandes permettent la création de descripteurs de fichiers qui seront ensuite hérités par les processus enfants. Nous pouvons créer un descripteur de fichier pointant vers le fichier `mem` de la console avec des autorisations d'écriture... donc les processus enfants qui utilisent ce descripteur pourront modifier la mémoire de la console.
-- ASLR n'est même pas un problème, nous pouvons consulter le fichier `maps` de la console ou tout autre fichier de procfs pour obtenir des informations sur l'espace d'adressage du processus.
-- Nous devons donc utiliser `lseek()` sur le fichier. Depuis la console, cela ne peut pas être fait sauf en utilisant le tristement célèbre `dd`.
+- La plupart des interprètes de shell permettent la création de descripteurs de fichiers qui seront ensuite hérités par les processus enfants. Nous pouvons créer un descripteur de fichier pointant vers le fichier `mem` du shell avec des autorisations d'écriture... donc les processus enfants qui utilisent ce descripteur pourront modifier la mémoire du shell.
+- ASLR n'est même pas un problème, nous pouvons consulter le fichier `maps` du shell ou tout autre fichier de procfs pour obtenir des informations sur l'espace d'adressage du processus.
+- Nous devons donc effectuer un `lseek()` sur le fichier. Depuis le shell, cela ne peut pas être fait sauf en utilisant le tristement célèbre `dd`.
 
 ### En détail
 
@@ -92,12 +92,12 @@ SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls
 ```
 Bloquez ceci, EDRs.
 
-# Références
+## Références
 * [https://github.com/arget13/DDexec](https://github.com/arget13/DDexec)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 

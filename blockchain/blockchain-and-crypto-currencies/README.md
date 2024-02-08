@@ -1,6 +1,6 @@
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -17,8 +17,8 @@ Autres façons de soutenir HackTricks :
 
 * **Contrat intelligent** : Les contrats intelligents sont simplement des **programmes stockés sur une blockchain qui s'exécutent lorsque des conditions prédéterminées sont remplies**. Ils sont généralement utilisés pour automatiser l'**exécution** d'un **accord** afin que tous les participants puissent être immédiatement certains du résultat, sans l'intervention d'un intermédiaire ou de perte de temps. (De [ici](https://www.ibm.com/topics/smart-contracts)).
 * Fondamentalement, un contrat intelligent est un **morceau de code** qui sera exécuté lorsque les gens accèdent et acceptent le contrat. Les contrats intelligents **s'exécutent dans des blockchains** (donc les résultats sont stockés de manière immuable) et peuvent être lus par les personnes avant de les accepter.
-* **dApps** : Les **applications décentralisées** sont mises en œuvre sur des **contrats** **intelligents**. Elles ont généralement une interface utilisateur où l'utilisateur peut interagir avec l'application, le **back-end** est public (donc il peut être audité) et est implémenté sous forme de **contrat intelligent**. Parfois, l'utilisation d'une base de données est nécessaire, la blockchain Ethereum alloue un certain stockage à chaque compte.
-* **Jetons & pièces** : Une **pièce** est une cryptomonnaie qui agit comme de l'**argent** **numérique** et un **jeton** est quelque chose qui **représente** une **valeur** mais ce n'est pas une pièce.
+* **dApps** : Les **applications décentralisées** sont mises en œuvre sur des **contrats intelligents**. Elles ont généralement une interface utilisateur où l'utilisateur peut interagir avec l'application, le **back-end** est public (donc il peut être audité) et est implémenté sous forme de **contrat intelligent**. Parfois, l'utilisation d'une base de données est nécessaire, la blockchain Ethereum alloue un certain stockage à chaque compte.
+* **Jetons & pièces** : Une **pièce** est une cryptomonnaie qui agit comme de l'**argent numérique** et un **jeton** est quelque chose qui **représente** une **valeur** mais ce n'est pas une pièce.
 * **Jetons d'utilité** : Ces jetons permettent à l'utilisateur d'**accéder à certains services ultérieurement** (c'est quelque chose qui a de la valeur dans un environnement spécifique).
 * **Jetons de sécurité** : Ils représentent la **propriété** ou un actif.
 * **DeFi** : **Finance décentralisée**.
@@ -27,7 +27,7 @@ Autres façons de soutenir HackTricks :
 
 # Mécanismes de consensus
 
-Pour qu'une transaction blockchain soit reconnue, elle doit être **ajoutée** à la **blockchain**. Les validateurs (mineurs) effectuent cet ajout ; dans la plupart des protocoles, ils **reçoivent une récompense** pour le faire. Pour que la blockchain reste sécurisée, elle doit avoir un mécanisme pour **empêcher un utilisateur ou un groupe malveillant de prendre le contrôle de la majorité de la validation**.
+Pour qu'une transaction blockchain soit reconnue, elle doit être **ajoutée** à la **blockchain**. Les validateurs (mineurs) effectuent cette opération ; dans la plupart des protocoles, ils **reçoivent une récompense** pour le faire. Pour que la blockchain reste sécurisée, elle doit avoir un mécanisme pour **empêcher un utilisateur ou un groupe malveillant de prendre le contrôle de la majorité de la validation**.
 
 La preuve de travail, un autre mécanisme de consensus couramment utilisé, utilise une validation de la puissance de calcul pour vérifier les transactions, exigeant qu'un attaquant potentiel acquière une grande fraction de la puissance de calcul du réseau de validateurs.
 
@@ -83,23 +83,23 @@ Chaque transaction bitcoin a plusieurs champs :
 
 * **Entrées** : Le montant et l'adresse **de** laquelle les **bitcoins** sont **transférés**
 * **Sorties** : L'adresse et les montants qui sont **transférés** à **chaque** **sortie**
-* **Frais** : Le montant d'**argent** qui est **payé** au **mineur** de la transaction
+* **Frais** : Le montant d'**argent** payé au **mineur** de la transaction
 * **Script\_sig** : Signature de script de la transaction
 * **Script\_type** : Type de transaction
 
 Il existe **2 principaux types** de transactions :
 
-* **P2PKH : "Pay To Public Key Hash"** : C'est ainsi que les transactions sont effectuées. Vous exigez que l'**expéditeur** fournisse une **signature** valide (à partir de la clé privée) et de la **clé** **publique**. Le script de sortie de transaction utilisera la signature et la clé publique et, à travers certaines fonctions cryptographiques, vérifiera **si elle correspond** au hachage de la clé publique, si c'est le cas, alors les **fonds** seront **dépensables**. Cette méthode masque votre clé publique sous forme de hachage pour une sécurité supplémentaire.
-* **P2SH : "Pay To Script Hash"** : Les sorties d'une transaction sont simplement des **scripts** (cela signifie que la personne qui souhaite cet argent envoie un script) qui, s'ils sont **exécutés avec des paramètres spécifiques, donneront un booléen de `true` ou `false`**. Si un mineur exécute le script de sortie avec les paramètres fournis et que cela donne `true`, l'**argent sera envoyé à la sortie souhaitée**. `P2SH` est utilisé pour les portefeuilles **multi-signatures** rendant les scripts de sortie **logique qui vérifie plusieurs signatures avant d'accepter la transaction**. `P2SH` peut également être utilisé pour permettre à quiconque, ou à personne, de dépenser les fonds. Si le script de sortie d'une transaction P2SH est simplement `1` pour vrai, alors tenter de dépenser la sortie sans fournir de paramètres donnera simplement `1`, rendant l'argent dépensable par quiconque essaie. Cela s'applique également aux scripts qui renvoient `0`, rendant la sortie dépensable par personne.
+* **P2PKH : "Payer à la clé publique hachée"** : C'est ainsi que les transactions sont effectuées. Vous exigez que l'**expéditeur** fournisse une **signature** valide (à partir de la clé privée) et de la **clé publique**. Le script de sortie de transaction utilisera la signature et la clé publique et, à travers certaines fonctions cryptographiques, vérifiera **si elle correspond** à la hachage de la clé publique, si c'est le cas, alors les **fonds** seront **dépensables**. Cette méthode masque votre clé publique sous forme de hachage pour une sécurité supplémentaire.
+* **P2SH : "Payer à un hachage de script"** : Les sorties d'une transaction sont simplement des **scripts** (cela signifie que la personne qui souhaite cet argent envoie un script) qui, s'ils sont **exécutés avec des paramètres spécifiques, donneront un booléen de `true` ou `false`**. Si un mineur exécute le script de sortie avec les paramètres fournis et que cela donne `true`, l'**argent sera envoyé à votre sortie souhaitée**. `P2SH` est utilisé pour les portefeuilles **multi-signatures** rendant les scripts de sortie **logique qui vérifie plusieurs signatures avant d'accepter la transaction**. `P2SH` peut également être utilisé pour permettre à quiconque, ou à personne, de dépenser les fonds. Si le script de sortie d'une transaction P2SH est simplement `1` pour vrai, alors tenter de dépenser la sortie sans fournir de paramètres donnera simplement `1` rendant l'argent dépensable par quiconque essaie. Cela s'applique également aux scripts qui renvoient `0`, rendant la sortie dépensable par personne.
 
 ## Réseau Lightning
 
-Ce protocole aide à **effectuer plusieurs transactions vers un canal** et à **envoyer** **simplement** **l'état** **final** à la blockchain pour l'enregistrer.\
+Ce protocole aide à **effectuer plusieurs transactions vers un canal** et **envoie simplement** l'**état final** à la blockchain pour l'enregistrer.\
 Cela **améliore** la **vitesse** de la blockchain Bitcoin (elle ne permet que 7 paiements par seconde) et permet de créer des **transactions plus difficiles à tracer** car le canal est créé via des nœuds de la blockchain Bitcoin :
 
 ![](<../../.gitbook/assets/image (611).png>)
 
-L'utilisation normale du réseau Lightning consiste à **ouvrir un canal de paiement** en engageant une transaction de financement à la blockchain de base pertinente (couche 1), suivi de la réalisation de **n'importe quel nombre** de transactions du réseau Lightning qui mettent à jour la distribution provisoire des fonds du canal **sans les diffuser à la blockchain**, suivi éventuellement de la fermeture du canal de paiement en **diffusant** la **version finale** de la transaction de règlement pour distribuer les fonds du canal.
+L'utilisation normale du réseau Lightning consiste à **ouvrir un canal de paiement** en engageant une transaction de financement à la blockchain de base pertinente (couche 1), suivi de la réalisation de **tout nombre** de transactions du réseau Lightning qui mettent à jour la distribution provisoire des fonds du canal **sans les diffuser à la blockchain**, suivi éventuellement de la fermeture du canal de paiement en **diffusant** la **version finale** de la transaction de règlement pour distribuer les fonds du canal.
 
 Notez que l'un des deux membres du canal peut arrêter et envoyer à tout moment l'état final du canal à la blockchain.
 
@@ -107,11 +107,11 @@ Notez que l'un des deux membres du canal peut arrêter et envoyer à tout moment
 
 ## Entrée commune
 
-Théoriquement, les entrées d'une transaction peuvent appartenir à différents utilisateurs, mais en réalité, c'est inhabituel car cela nécessite des étapes supplémentaires. Par conséquent, il est souvent possible de supposer que **2 adresses d'entrée dans la même transaction appartiennent au même propriétaire**.
+Théoriquement, les entrées d'une transaction peuvent appartenir à différents utilisateurs, mais en réalité, c'est rare car cela nécessite des étapes supplémentaires. Par conséquent, il est souvent possible de supposer que **2 adresses d'entrée dans la même transaction appartiennent au même propriétaire**.
 
 ## Détection de l'adresse de changement UTXO
 
-**UTXO** signifie **Unspent Transaction Outputs** (UTXOs). Dans une transaction qui utilise la sortie d'une transaction précédente comme entrée, **toute la sortie doit être dépensée** (pour éviter les attaques de double dépense). Par conséquent, si l'intention était d'**envoyer** juste **une partie** de l'argent de cette sortie à une adresse et de **conserver** l'**autre** **partie**, **2 sorties différentes** apparaîtront : celle **prévue** et une **nouvelle adresse de changement aléatoire** où le reste de l'argent sera enregistré.
+**UTXO** signifie **Unspent Transaction Outputs** (UTXOs). Dans une transaction qui utilise la sortie d'une transaction précédente comme entrée, **toute la sortie doit être dépensée** (pour éviter les attaques de double dépense). Par conséquent, si l'intention était de **envoyer** juste **une partie** de l'argent de cette sortie à une adresse et **conserver** l'**autre** **partie**, **2 sorties différentes** apparaîtront : celle **prévue** et une **nouvelle adresse de changement aléatoire** où le reste de l'argent sera enregistré.
 
 Ensuite, un observateur peut supposer que **la nouvelle adresse de changement générée appartient au propriétaire de l'UTXO**.
 
@@ -130,7 +130,7 @@ Aussi appelée "heuristique de changement optimal". Considérez cette transactio
 2 btc --> 4 btc
 3 btc     1 btc
 ```
-Supposons qu'une des sorties est le changement et l'autre sortie est le paiement. Il y a deux interprétations : la sortie de paiement est soit la sortie de 4 BTC, soit la sortie de 1 BTC. Mais si la sortie de 1 BTC est le montant du paiement, alors l'entrée de 3 BTC est inutile, car le portefeuille aurait pu dépenser seulement l'entrée de 2 BTC et payer des frais de mineurs moins élevés pour le faire. Cela indique que la vraie sortie de paiement est de 4 BTC et que 1 BTC est la sortie de changement.
+Supposons qu'une des sorties est le changement et que l'autre sortie est le paiement. Il y a deux interprétations : la sortie de paiement est soit la sortie de 4 BTC, soit la sortie de 1 BTC. Mais si la sortie de 1 BTC est le montant du paiement, alors l'entrée de 3 BTC est inutile, car le portefeuille aurait pu dépenser seulement l'entrée de 2 BTC et payer des frais de mineurs moins élevés pour le faire. Cela indique que la sortie de paiement réelle est de 4 BTC et que 1 BTC est la sortie de changement.
 
 Ceci est un problème pour les transactions qui ont plus d'une entrée. Une façon de corriger cette fuite est d'ajouter plus d'entrées jusqu'à ce que la sortie de changement soit supérieure à n'importe quelle entrée, par exemple :
 ```
@@ -150,7 +150,7 @@ Le comportement correct des portefeuilles est de ne pas dépenser les pièces qu
 
 * **Montants de paiement exacts** : Pour éviter les transactions avec un changement, le paiement doit être égal à l'UTXO (ce qui est très improbable). Par conséquent, une **transaction sans adresse de changement est probablement un transfert entre 2 adresses du même utilisateur**.
 * **Nombres ronds** : Dans une transaction, si l'une des sorties est un "**nombre rond**", il est très probable que ce soit un **paiement à un humain qui a fixé ce** "nombre rond" **comme prix**, donc l'autre partie doit être le reste.
-* **Empreinte digitale du portefeuille** : Un analyste attentif peut parfois déduire quel logiciel a créé une certaine transaction, car les nombreux **logiciels de portefeuille différents ne créent pas toujours des transactions de la même manière**. L'empreinte digitale du portefeuille peut être utilisée pour détecter les sorties de changement car une sortie de changement est celle dépensée avec la même empreinte digitale du portefeuille.
+* **Empreinte digitale du portefeuille** : Un analyste attentif peut parfois déduire quel logiciel a créé une certaine transaction, car les **différents logiciels de portefeuille ne créent pas toujours des transactions de la même manière**. L'empreinte digitale du portefeuille peut être utilisée pour détecter les sorties de changement car une sortie de changement est celle dépensée avec la même empreinte digitale du portefeuille.
 * **Corrélations de montants et de timing** : Si la personne qui a effectué la transaction **divulgue** l'**heure** et/ou le **montant** de la transaction, cela peut être facilement **découvert**.
 
 ## Analyse du trafic
@@ -170,7 +170,7 @@ Pour plus d'attaques, consultez [https://en.bitcoin.it/wiki/Privacy](https://en.
 ## Obtenir des Bitcoins de manière anonyme
 
 * **Échanges en espèces** : Acheter des bitcoins en espèces.
-* **Substitut d'espèces** : Acheter des cartes-cadeaux ou similaires et les échanger contre des bitcoins en ligne.
+* **Substitut en espèces** : Acheter des cartes-cadeaux ou similaires et les échanger contre des bitcoins en ligne.
 * **Minage** : Le minage est le moyen le plus anonyme d'obtenir des bitcoins. Cela s'applique au minage en solo car les [pools de minage](https://en.bitcoin.it/wiki/Pooled\_mining) connaissent généralement l'adresse IP du mineur.
 * **Vol** : En théorie, un autre moyen d'obtenir des bitcoins de manière anonyme est de les voler.
 
@@ -189,29 +189,29 @@ Cela offre un nouveau niveau de confidentialité, cependant, **certaines** **tra
 Des exemples d'identifiants de transactions (probablement) CoinJoin sur la blockchain de Bitcoin sont `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` et `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`.
 
 [**https://coinjoin.io/en**](https://coinjoin.io/en)\
-**Similaire à CoinJoin mais meilleur, pour Ethereum vous avez** [**Tornado Cash**](https://tornado.cash) **(l'argent est donné par les mineurs, donc il apparaît simplement dans votre portefeuille).**
+**Similaire à CoinJoin mais meilleur et pour Ethereum vous avez** [**Tornado Cash**](https://tornado.cash) **(l'argent est donné par les mineurs, donc il apparaît simplement dans votre portefeuille).**
 
 ## PayJoin
 
 Le type de CoinJoin discuté dans la section précédente peut être facilement identifié en vérifiant les multiples sorties avec la même valeur.
 
-PayJoin (également appelé pay-to-end-point ou P2EP) est un type spécial de CoinJoin entre deux parties où une partie paie l'autre. La transaction n'a alors pas les multiples sorties distinctives avec la même valeur, et n'est donc pas clairement visible comme un CoinJoin à sortie égale. Considérez cette transaction :
+PayJoin (également appelé pay-to-end-point ou P2EP) est un type spécial de CoinJoin entre deux parties où une partie paie l'autre. La transaction **n'a alors pas les multiples sorties distinctives avec la même valeur**, et n'est donc pas clairement visible comme un CoinJoin à sortie égale. Considérez cette transaction :
 ```
 2 btc --> 3 btc
 5 btc     4 btc
 ```
-Il pourrait être interprété comme une simple transaction payant quelque part avec de la monnaie restante (ignorer pour l'instant la question de savoir quel est le paiement et quel est le reste). Une autre façon d'interpréter cette transaction est que l'entrée de 2 BTC est détenue par un commerçant et 5 BTC est détenue par son client, et que cette transaction implique que le client paie 1 BTC au commerçant. Il n'y a aucun moyen de dire quelle de ces deux interprétations est correcte. Le résultat est une transaction de coinjoin qui casse l'heuristique de propriété d'entrée commune et améliore la confidentialité, mais est également **indétectable et indiscernable de toute transaction bitcoin régulière**.
+Il pourrait être interprété comme une simple transaction payée quelque part avec de la monnaie restante (ignorons pour l'instant la question de savoir quel est le paiement et quel est le reste). Une autre façon d'interpréter cette transaction est que l'entrée de 2 BTC est détenue par un commerçant et que 5 BTC sont détenus par leur client, et que cette transaction implique que le client paie 1 BTC au commerçant. Il n'y a aucun moyen de dire quelle de ces deux interprétations est correcte. Le résultat est une transaction de coinjoin qui casse l'heuristique de propriété d'entrée commune et améliore la confidentialité, mais est également **indétectable et indiscernable de toute transaction bitcoin régulière**.
 
-Si les transactions PayJoin devenaient même modérément utilisées, cela rendrait l'**heuristique de propriété d'entrée commune complètement défectueuse en pratique**. Comme elles sont indétectables, nous ne saurions même pas si elles sont utilisées aujourd'hui. Comme les entreprises de surveillance des transactions dépendent principalement de cette heuristique, en 2019, il y a une grande excitation autour de l'idée de PayJoin.
+Si les transactions PayJoin devenaient même modérément utilisées, cela rendrait l'**heuristique de propriété d'entrée commune complètement défectueuse en pratique**. Comme elles sont indétectables, nous ne saurions même pas si elles sont utilisées aujourd'hui. Comme les entreprises de surveillance des transactions dépendent principalement de cette heuristique, en 2019, il y avait une grande excitation autour de l'idée de PayJoin.
 
 # Bonnes pratiques de confidentialité Bitcoin
 
 ## Synchronisation du portefeuille
 
-Les portefeuilles Bitcoin doivent d'une manière ou d'une autre obtenir des informations sur leur solde et leur historique. À la fin de 2018, les solutions existantes les plus pratiques et privées sont d'utiliser un **portefeuille de nœud complet** (qui est maximale privée) et **le filtrage de bloc côté client** (qui est très bon).
+Les portefeuilles Bitcoin doivent d'une manière ou d'une autre obtenir des informations sur leur solde et leur historique. À la fin de 2018, les solutions existantes les plus pratiques et privées sont d'utiliser un **portefeuille de nœud complet** (qui est maximale privée) et **le filtrage des blocs côté client** (qui est très bon).
 
 * **Nœud complet :** Les nœuds complets téléchargent l'intégralité de la blockchain qui contient chaque [transaction](https://en.bitcoin.it/wiki/Transaction) sur la blockchain Bitcoin. Ainsi, un adversaire surveillant la connexion Internet de l'utilisateur ne pourra pas savoir quelles transactions ou adresses l'utilisateur s'intéresse.
-* **Filtrage de bloc côté client :** Le filtrage de bloc côté client fonctionne en ayant des **filtres** créés qui contiennent toutes les **adresses** pour chaque transaction dans un bloc. Les filtres peuvent tester si un **élément est dans l'ensemble** ; les faux positifs sont possibles mais pas les faux négatifs. Un portefeuille léger **téléchargerait** tous les filtres pour chaque **bloc** dans la **blockchain** et vérifierait les correspondances avec ses **propres** **adresses**. Les blocs contenant des correspondances seraient téléchargés en entier depuis le réseau pair-à-pair, et ces blocs seraient utilisés pour obtenir l'historique et le solde actuel du portefeuille.
+* **Filtrage des blocs côté client :** Le filtrage des blocs côté client fonctionne en ayant des **filtres** créés qui contiennent toutes les **adresses** pour chaque transaction dans un bloc. Les filtres peuvent tester si un **élément est dans l'ensemble** ; les faux positifs sont possibles mais pas les faux négatifs. Un portefeuille léger **téléchargerait** tous les filtres pour chaque **bloc** dans la **blockchain** et vérifierait les correspondances avec ses **propres** **adresses**. Les blocs contenant des correspondances seraient téléchargés en entier depuis le réseau pair-à-pair, et ces blocs seraient utilisés pour obtenir l'historique et le solde actuel du portefeuille.
 
 ## Tor
 
@@ -227,7 +227,7 @@ Le réseau Bitcoin utilise un réseau pair-à-pair, ce qui signifie que d'autres
 
 ## Éviter le rendu de monnaie
 
-Éviter le rendu de monnaie consiste à choisir soigneusement les entrées et les sorties de transaction de manière à ne pas nécessiter du tout de sortie de rendu de monnaie. **Ne pas avoir de sortie de rendu de monnaie est excellent pour la confidentialité**, car cela casse les heuristiques de détection de rendu de monnaie.
+L'évitement du rendu de monnaie est lorsque les entrées et sorties de transaction sont soigneusement choisies pour ne pas nécessiter du tout de sortie de rendu de monnaie. **Ne pas avoir de sortie de rendu de monnaie est excellent pour la confidentialité**, car cela casse les heuristiques de détection de rendu de monnaie.
 
 ## Multiples sorties de rendu de monnaie
 
@@ -243,7 +243,7 @@ Lorsque Monero a été développé, le besoin béant d'**anonymat complet** éta
 
 Le gas fait référence à l'unité qui mesure la **quantité** d'**effort de calcul** nécessaire pour exécuter des opérations spécifiques sur le réseau Ethereum. Le gas fait référence aux **frais** nécessaires pour effectuer avec succès une **transaction** sur Ethereum.
 
-Les prix du gas sont indiqués en **gwei**, qui est lui-même une dénomination de l'ETH - chaque gwei est égal à **0,000000001 ETH** (10-9 ETH). Par exemple, au lieu de dire que votre gas coûte 0,000000001 ether, vous pouvez dire que votre gas coûte 1 gwei. Le mot 'gwei' lui-même signifie 'giga-wei', et il est égal à **1 000 000 000 wei**. Wei lui-même est la **plus petite unité d'ETH**.
+Les prix du gas sont indiqués en **gwei**, qui est lui-même une dénomination de l'ETH - chaque gwei est égal à **0,000000001 ETH** (10-9 ETH). Par exemple, au lieu de dire que votre gas coûte 0,000000001 ether, vous pouvez dire que votre gas coûte 1 gwei. Le mot 'gwei' lui-même signifie 'giga-wei', et il est égal à **1 000 000 000 wei**. Wei est lui-même la **plus petite unité d'ETH**.
 
 Pour calculer le gas qu'une transaction va coûter, lisez cet exemple :
 
@@ -255,12 +255,12 @@ Lorsque Jordan envoie l'argent, 1,00231 ETH sera déduit du compte de Jordan. Ta
 
 De plus, Jordan peut également définir un frais max (`maxFeePerGas`) pour la transaction. La différence entre le frais max et le frais réel est remboursée à Jordan, c'est-à-dire `remboursement = frais max - (frais de base + frais de priorité)`. Jordan peut définir un montant maximum à payer pour que la transaction s'exécute et ne pas s'inquiéter de payer en trop "au-delà" du frais de base lorsque la transaction est exécutée.
 
-Comme le frais de base est calculé par le réseau en fonction de la demande d'espace de bloc, ce dernier paramètre : maxFeePerGas aide à contrôler le frais maximum qui va être payé.
+Comme le frais de base est calculé par le réseau en fonction de la demande d'espace de bloc, ce dernier paramètre : maxFeePerGas aide à contrôler le montant maximum du frais qui va être payé.
 
 ## Transactions
 
 Remarquez que dans le réseau **Ethereum**, une transaction est effectuée entre 2 adresses et celles-ci peuvent être des **adresses d'utilisateur ou de contrat intelligent**.\
-Les **Contrats Intelligents** sont stockés dans le grand livre distribué via une **transaction spéciale**.
+Les **contrats intelligents** sont stockés dans le grand livre distribué via une **transaction spéciale**.
 
 Les transactions, qui modifient l'état de l'EVM, doivent être diffusées à l'ensemble du réseau. N'importe quel nœud peut diffuser une demande pour qu'une transaction soit exécutée sur l'EVM ; après cela, un **mineur** exécutera la **transaction** et propagera le changement d'état résultant au reste du réseau.\
 Les transactions nécessitent des **frais** et doivent être minées pour devenir valides.
@@ -271,13 +271,13 @@ Une transaction soumise comprend les informations suivantes :
 * `signature` – l'identifiant de l'expéditeur. Cela est généré lorsque la clé privée de l'expéditeur signe la transaction et confirme que l'expéditeur a autorisé cette transaction
 * `valeur` – montant d'ETH à transférer de l'expéditeur au destinataire (en WEI, une dénomination de l'ETH)
 * `données` – champ facultatif pour inclure des données arbitraires
-* `gasLimit` – la quantité maximale d'unités de gas qui peuvent être consommées par la transaction. Les unités de gas représentent des étapes de calcul
+* `limite de gas` – la quantité maximale d'unités de gas qui peuvent être consommées par la transaction. Les unités de gas représentent des étapes de calcul
 * `maxPriorityFeePerGas` - la quantité maximale de gas à inclure en tant que pourboire au mineur
 * `maxFeePerGas` - la quantité maximale de gas prête à être payée pour la transaction (incluant `baseFeePerGas` et `maxPriorityFeePerGas`)
 
 Notez qu'il n'y a pas de champ pour l'adresse d'origine, car celle-ci peut être extrapolée à partir de la signature.
 
-# Références
+## Références
 
 * [https://en.wikipedia.org/wiki/Proof\_of\_stake](https://en.wikipedia.org/wiki/Proof\_of\_stake)
 * [https://www.mycryptopedia.com/public-key-private-key-explained/](https://www.mycryptopedia.com/public-key-private-key-explained/)

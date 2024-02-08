@@ -17,14 +17,14 @@ L'exposition de `/proc` et `/sys` sans une isolation de l'espace de noms appropr
 
 **Vous pouvez trouver plus de détails sur chaque vulnérabilité potentielle dans [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts).**
 
-# Vulnérabilités procfs
+# Vulnérabilités de procfs
 
 ## `/proc/sys`
 Ce répertoire permet l'accès pour modifier les variables du noyau, généralement via `sysctl(2)`, et contient plusieurs sous-répertoires préoccupants :
 
 ### **`/proc/sys/kernel/core_pattern`**
 - Décrit dans [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-- Permet de définir un programme à exécuter lors de la génération du fichier core avec les 128 premiers octets comme arguments. Cela peut entraîner une exécution de code si le fichier commence par un pipe `|`.
+- Permet de définir un programme à exécuter lors de la génération de fichiers core avec les 128 premiers octets comme arguments. Cela peut entraîner une exécution de code si le fichier commence par un pipe `|`.
 - **Exemple de test et d'exploitation** :
 ```bash
 [ -w /proc/sys/kernel/core_pattern ] && echo Oui # Test d'accès en écriture
@@ -34,7 +34,7 @@ sleep 5 && ./crash & # Déclencher le gestionnaire
 ```
 
 ### **`/proc/sys/kernel/modprobe`**
-- Détail dans [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+- Détails dans [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 - Contient le chemin du chargeur de module du noyau, invoqué pour charger les modules du noyau.
 - **Exemple de vérification d'accès** :
 ```bash
@@ -51,7 +51,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Vérifier l'accès à modprobe
 
 ### **`/proc/sys/fs/binfmt_misc`**
 - Permet d'enregistrer des interprètes pour des formats binaires non natifs en fonction de leur numéro magique.
-- Peut entraîner une élévation de privilèges ou un accès au shell root si `/proc/sys/fs/binfmt_misc/register` est inscriptible.
+- Peut entraîner une élévation de privilèges ou un accès à un shell root si `/proc/sys/fs/binfmt_misc/register` est inscriptible.
 - Exploit pertinent et explication :
 - [Rootkit de pauvre homme via binfmt_misc](https://github.com/toffan/binfmt_misc)
 - Tutoriel approfondi : [Lien vidéo](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
@@ -75,12 +75,12 @@ echo b > /proc/sysrq-trigger # Redémarre l'hôte
 
 ### **`/proc/kallsyms`**
 - Liste les symboles exportés du noyau et leurs adresses.
-- Essentiel pour le développement d'exploits du noyau, en particulier pour surmonter le KASLR.
+- Essentiel pour le développement d'exploits du noyau, en particulier pour contourner le KASLR.
 - Les informations d'adresse sont restreintes avec `kptr_restrict` défini sur `1` ou `2`.
 - Détails dans [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 ### **`/proc/[pid]/mem`**
-- Interface avec le périphérique mémoire du noyau `/dev/mem`.
+- Interagit avec le périphérique mémoire du noyau `/dev/mem`.
 - Historiquement vulnérable aux attaques d'élévation de privilèges.
 - Plus sur [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
@@ -106,7 +106,7 @@ echo b > /proc/sysrq-trigger # Redémarre l'hôte
 - Fournit des informations sur les points de montage dans l'espace de noms de montage du processus.
 - Expose l'emplacement du `rootfs` du conteneur ou de l'image.
 
-## Vulnérabilités sys
+## Vulnérabilités de `/sys`
 
 ### **`/sys/kernel/uevent_helper`**
 - Utilisé pour gérer les `uevents` des périphériques du noyau.
@@ -131,22 +131,22 @@ cat /output
 - Contrôle les paramètres de température, pouvant entraîner des attaques de déni de service ou des dommages physiques.
 
 ### **`/sys/kernel/vmcoreinfo`**
-- Fuites les adresses du noyau, compromettant potentiellement le KASLR.
+- Fuites d'adresses du noyau, compromettant potentiellement le KASLR.
 
 ### **`/sys/kernel/security`**
-- Contient l'interface `securityfs`, permettant la configuration des modules de sécurité Linux comme AppArmor.
+- Héberge l'interface `securityfs`, permettant la configuration des modules de sécurité Linux comme AppArmor.
 - L'accès pourrait permettre à un conteneur de désactiver son système MAC.
 
 ### **`/sys/firmware/efi/vars` et `/sys/firmware/efi/efivars`**
 - Exposent des interfaces pour interagir avec les variables EFI dans la NVRAM.
-- Une mauvaise configuration ou une exploitation peut rendre les ordinateurs portables inutilisables ou les machines hôtes non démarrables.
+- Une mauvaise configuration ou une exploitation peut entraîner des ordinateurs portables inutilisables ou des machines hôtes non démarrables.
 
 ### **`/sys/kernel/debug`**
 - `debugfs` offre une interface de débogage "sans règles" au noyau.
 - Historique de problèmes de sécurité en raison de sa nature non restreinte.
 
 
-# Références
+## Références
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [Comprendre et renforcer les conteneurs Linux](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abus des conteneurs Linux privilégiés et non privilégiés](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)

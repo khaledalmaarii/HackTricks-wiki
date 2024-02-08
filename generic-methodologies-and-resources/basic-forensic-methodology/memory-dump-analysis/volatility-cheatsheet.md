@@ -6,11 +6,11 @@
 
 Autres façons de soutenir HackTricks :
 
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
@@ -63,7 +63,7 @@ Volatility a deux approches principales pour les plugins, qui se reflètent parf
 
 Cela rend les plugins "list" assez rapides, mais tout aussi vulnérables que l'API Windows à la manipulation par des logiciels malveillants. Par exemple, si un logiciel malveillant utilise DKOM pour détacher un processus de la liste chaînée `_EPROCESS`, il n'apparaîtra pas dans le Gestionnaire des tâches ni dans la liste des processus.
 
-Les plugins "scan", en revanche, adopteront une approche similaire à celle de la recherche de structures spécifiques dans la mémoire. Par exemple, `psscan` lira la mémoire et essaiera de créer des objets `_EPROCESS` à partir de celle-ci (il utilise la recherche de balises de pool, qui consiste à rechercher des chaînes de 4 octets indiquant la présence d'une structure d'intérêt). L'avantage est qu'il peut retrouver des processus qui ont été arrêtés, et même si un logiciel malveillant altère la liste chaînée `_EPROCESS`, le plugin trouvera toujours la structure laissée en mémoire (car elle doit toujours exister pour que le processus s'exécute). L'inconvénient est que les plugins "scan" sont un peu plus lents que les plugins "list" et peuvent parfois donner des faux positifs (un processus qui s'est arrêté il y a trop longtemps et dont certaines parties de la structure ont été écrasées par d'autres opérations).
+Les plugins "scan", en revanche, adopteront une approche similaire à celle de la recherche dans la mémoire d'éléments qui pourraient avoir un sens lorsqu'ils sont déréférencés en tant que structures spécifiques. Par exemple, `psscan` lira la mémoire et essaiera de créer des objets `_EPROCESS` à partir de celle-ci (il utilise la recherche de balises de pool, qui consiste à rechercher des chaînes de 4 octets indiquant la présence d'une structure d'intérêt). L'avantage est qu'il peut retrouver des processus qui ont été arrêtés, et même si un logiciel malveillant altère la liste chaînée `_EPROCESS`, le plugin trouvera toujours la structure qui traîne en mémoire (car elle doit toujours exister pour que le processus s'exécute). L'inconvénient est que les plugins "scan" sont un peu plus lents que les plugins "list", et peuvent parfois donner des faux positifs (un processus qui s'est arrêté il y a trop longtemps et dont certaines parties de la structure ont été écrasées par d'autres opérations).
 
 Source : [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
@@ -86,7 +86,7 @@ Vous pouvez obtenir la liste des profils pris en charge en exécutant :
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
-Si vous souhaitez utiliser un **nouveau profil que vous avez téléchargé** (par exemple un profil linux), vous devez créer quelque part la structure de dossier suivante : _plugins/overlays/linux_ et placer à l'intérieur de ce dossier le fichier zip contenant le profil. Ensuite, obtenez le nombre de profils en utilisant :
+Si vous souhaitez utiliser un **nouveau profil que vous avez téléchargé** (par exemple un profil Linux), vous devez créer quelque part la structure de dossier suivante : _plugins/overlays/linux_ et placer à l'intérieur de ce dossier le fichier zip contenant le profil. Ensuite, obtenez le nombre de profils en utilisant :
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -111,9 +111,9 @@ volatility kdbgscan -f file.dmp
 ```
 #### **Différences entre imageinfo et kdbgscan**
 
-[**À partir d'ici**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): Contrairement à imageinfo qui fournit simplement des suggestions de profil, **kdbgscan** est conçu pour identifier positivement le profil correct et l'adresse KDBG correcte (s'il y en a plusieurs). Ce plugin recherche les signatures KDBGHeader liées aux profils de Volatility et applique des vérifications de cohérence pour réduire les faux positifs. La verbosité de la sortie et le nombre de vérifications de cohérence pouvant être effectuées dépendent de la capacité de Volatility à trouver un DTB, donc si vous connaissez déjà le bon profil (ou si vous avez une suggestion de profil à partir de imageinfo), assurez-vous de l'utiliser à partir de .
+[**À partir d'ici**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): Contrairement à imageinfo qui fournit simplement des suggestions de profil, **kdbgscan** est conçu pour identifier positivement le bon profil et la bonne adresse KDBG (s'il y en a plusieurs). Ce plugin recherche les signatures KDBGHeader liées aux profils de Volatility et applique des vérifications de cohérence pour réduire les faux positifs. La verbosité de la sortie et le nombre de vérifications de cohérence pouvant être effectuées dépendent de la capacité de Volatility à trouver un DTB, donc si vous connaissez déjà le bon profil (ou si vous avez une suggestion de profil à partir de imageinfo), assurez-vous de l'utiliser à partir de .
 
-Jetez toujours un œil au **nombre de processus trouvés par kdbgscan**. Parfois, imageinfo et kdbgscan peuvent trouver **plus d'un** **profil** approprié, mais seul le **bon aura des processus associés** (Cela est dû au fait que pour extraire des processus, l'adresse KDBG correcte est nécessaire)
+Jetez toujours un œil au **nombre de processus trouvés par kdbgscan**. Parfois, imageinfo et kdbgscan peuvent trouver **plus d'un** profil **approprié**, mais seul le **bon aura des processus associés** (Cela est dû au fait que pour extraire des processus, l'adresse KDBG correcte est nécessaire)
 ```bash
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
@@ -157,7 +157,7 @@ volatility --profile=Win7SP1x86_23418 lsadump -f file.dmp #Grab lsa secrets
 ```
 ## Analyse de la mémoire
 
-Le dump de mémoire d'un processus va **extraire tout** de l'état actuel du processus. Le module **procdump** va seulement **extraire** le **code**.
+Le vidage de la mémoire d'un processus extraira tout de l'état actuel du processus. Le module **procdump** extraira uniquement le **code**.
 ```
 volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
@@ -183,167 +183,17 @@ python3 vol.py -f file.dmp windows.psscan.PsScan # Get hidden process list(malwa
 ```
 {% endtab %}
 
-{% tab title="vol2" %} 
-
-### Feuille de triche Volatility
-
-#### Commandes de base
-
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil commandes_volatility**
-
-#### Analyse de la mémoire
-
-- **volatility.exe -f chemin_vers_le_fichier_memoire imageinfo**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil pslist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil pstree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil psscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil dlllist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil getsids**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil filescan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil cmdline**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil consoles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil connections**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil modscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ldrmodules**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil userassist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil shimcache**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil hivelist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil printkey**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil hivedump -o OffSet -s 0x1000 -l 1000 -D Dossier_de_sortie**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil dumpfiles -Q OffSet -D Dossier_de_sortie**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil memdump -p PID -D Dossier_de_sortie**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil memmap**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil memstrings -s Chaine_de_recherche**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe
+{% onglet title="vol2" %}
 ```bash
 volatility --profile=PROFILE pstree -f file.dmp # Get process tree (not hidden)
 volatility --profile=PROFILE pslist -f file.dmp # Get process list (EPROCESS)
 volatility --profile=PROFILE psscan -f file.dmp # Get hidden process list(malware)
 volatility --profile=PROFILE psxview -f file.dmp # Get hidden process list
 ```
-### Analyse du dump de mémoire
+{% endtab %}
+{% endtabs %}
+
+### Analyse du dump de la mémoire
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -354,163 +204,110 @@ volatility --profile=PROFILE psxview -f file.dmp # Get hidden process list
 
 {% tab title="vol2" %} 
 
-### Feuille de triche Volatility
+## Feuille de triche Volatility
 
-#### Commandes de base
+### Commandes de base
 
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil commandes_volatility**
-
-#### Analyse de la mémoire
-
-- **volatility.exe -f chemin_vers_le_fichier_memoire imageinfo**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil pslist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil pstree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil psscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil dlllist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil filescan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil cmdline**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil netscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil connections**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil consoles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil getsids**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil hivelist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil printkey**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil hashdump**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil userassist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil shimcache**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ldrmodules**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil modscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil apihooks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil timers**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe
+- **volatility -f dump.mem imageinfo** : Affiche des informations générales sur l'image mémoire
+- **volatility -f dump.mem pslist** : Liste les processus en cours d'exécution
+- **volatility -f dump.mem pstree** : Affiche les processus sous forme d'arborescence
+- **volatility -f dump.mem psscan** : Recherche les processus supprimés
+- **volatility -f dump.mem dlllist -p PID** : Liste les DLL chargées par un processus spécifique
+- **volatility -f dump.mem filescan** : Recherche les fichiers ouverts par les processus
+- **volatility -f dump.mem cmdline -p PID** : Affiche la ligne de commande d'un processus spécifique
+- **volatility -f dump.mem netscan** : Recherche les connexions réseau
+- **volatility -f dump.mem connections** : Affiche les connexions réseau
+- **volatility -f dump.mem timeliner** : Crée une timeline des activités du système
+- **volatility -f dump.mem malfind** : Recherche les indicateurs de programmes malveillants
+- **volatility -f dump.mem apihooks** : Recherche les hooks API
+- **volatility -f dump.mem ldrmodules** : Liste les modules chargés dynamiquement
+- **volatility -f dump.mem modscan** : Recherche les modules noyau
+- **volatility -f dump.mem ssdt** : Affiche la table de service du système
+- **volatility -f dump.mem callbacks** : Affiche les callbacks du noyau
+- **volatility -f dump.mem driverirp** : Affiche les IRP des pilotes
+- **volatility -f dump.mem devicetree** : Affiche l'arborescence des périphériques
+- **volatility -f dump.mem hivelist** : Liste les hives de registre
+- **volatility -f dump.mem printkey -o OFFSET** : Affiche les valeurs d'une clé de registre
+- **volatility -f dump.mem userassist** : Affiche les entrées UserAssist
+- **volatility -f dump.mem shimcache** : Affiche les entrées ShimCache
+- **volatility -f dump.mem getsids** : Affiche les SID des processus
+- **volatility -f dump.mem getservicesids** : Affiche les SID des services
+- **volatility -f dump.mem getsids -p PID** : Affiche les SID d'un processus spécifique
+- **volatility -f dump.mem hivescan** : Recherche les hives de registre non montés
+- **volatility -f dump.mem hashdump** : Dump les mots de passe en clair
+- **volatility -f dump.mem truecryptpassphrase** : Récupère les passphrases TrueCrypt
+- **volatility -f dump.mem mimikatz** : Exécute Mimikatz sur l'image mémoire
+- **volatility -f dump.mem yarascan -Y "/path/to/rules"** : Recherche des indicateurs avec Yara
+- **volatility -f dump.mem envars** : Affiche les variables d'environnement
+- **volatility -f dump.mem consoles** : Affiche les consoles interactives
+- **volatility -f dump.mem consoles -p PID** : Affiche les consoles d'un processus spécifique
+- **volatility -f dump.mem deskscan** : Recherche les objets de bureau
+- **volatility -f dump.mem vadinfo -p PID** : Affiche les informations VAD d'un processus spécifique
+- **volatility -f dump.mem vadtree -p PID** : Affiche l'arborescence VAD d'un processus spécifique
+- **volatility -f dump.mem mutantscan** : Recherche les objets mutant
+- **volatility -f dump.mem mutantscan -s** : Recherche les objets mutant partagés
+- **volatility -f dump.mem ldrmodules -p PID** : Liste les modules chargés par un processus spécifique
+- **volatility -f dump.mem malfind -p PID** : Recherche les indicateurs de programmes malveillants pour un processus spécifique
+- **volatility -f dump.mem mftparser -o OFFSET** : Analyse le Master File Table (MFT)
+- **volatility -f dump.mem shimcachemem -s** : Recherche les entrées ShimCache dans l'espace mémoire
+- **volatility -f dump.mem shimcachemem -l** : Recherche les entrées ShimCache dans l'espace mémoire non alloué
+- **volatility -f dump.mem shimcachemem -a** : Recherche les entrées ShimCache dans tous les espaces mémoire
+- **volatility -f dump.mem shimcachemem -c** : Recherche les entrées ShimCache dans les espaces mémoire alloués
+- **volatility -f dump.mem shimcachemem -u** : Recherche les entrées ShimCache dans les espaces mémoire non alloués
+- **volatility -f dump.mem shimcachemem -r** : Recherche les entrées ShimCache dans les espaces mémoire réservés
+- **volatility -f dump.mem shimcachemem -w** : Recherche les entrées ShimCache dans les espaces mémoire écrits
+- **volatility -f dump.mem shimcachemem -x** : Recherche les entrées ShimCache dans les espaces mémoire non écrits
+- **volatility -f dump.mem shimcachemem -m** : Recherche les entrées ShimCache dans les espaces mémoire modifiés
+- **volatility -f dump.mem shimcachemem -n** : Recherche les entrées ShimCache dans les espaces mémoire non modifiés
+- **volatility -f dump.mem shimcachemem -i** : Recherche les entrées ShimCache dans les espaces mémoire initialisés
+- **volatility -f dump.mem shimcachemem -z** : Recherche les entrées ShimCache dans les espaces mémoire non initialisés
+- **volatility -f dump.mem shimcachemem -f FILE** : Recherche les entrées ShimCache dans un fichier spécifique
+- **volatility -f dump.mem shimcachemem -b** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués
+- **volatility -f dump.mem shimcachemem -d** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits
+- **volatility -f dump.mem shimcachemem -t** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés
+- **volatility -f dump.mem shimcachemem -y** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés
+- **volatility -f dump.mem shimcachemem -g** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique
+- **volatility -f dump.mem shimcachemem -h** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires
+- **volatility -f dump.mem shimcachemem -j** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires et des statistiques
+- **volatility -f dump.mem shimcachemem -k** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires, des statistiques et des détails
+- **volatility -f dump.mem shimcachemem -q** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires, des statistiques, des détails et des recommandations
+- **volatility -f dump.mem shimcachemem -v** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires, des statistiques, des détails, des recommandations et des avertissements
+- **volatility -f dump.mem shimcachemem -n** : Recherche les entrées ShimCache dans les espaces mémoire non modifiés
+- **volatility -f dump.mem shimcachemem -i** : Recherche les entrées ShimCache dans les espaces mémoire initialisés
+- **volatility -f dump.mem shimcachemem -z** : Recherche les entrées ShimCache dans les espaces mémoire non initialisés
+- **volatility -f dump.mem shimcachemem -f FILE** : Recherche les entrées ShimCache dans un fichier spécifique
+- **volatility -f dump.mem shimcachemem -b** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués
+- **volatility -f dump.mem shimcachemem -d** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits
+- **volatility -f dump.mem shimcachemem -t** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés
+- **volatility -f dump.mem shimcachemem -y** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés
+- **volatility -f dump.mem shimcachemem -g** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique
+- **volatility -f dump.mem shimcachemem -h** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires
+- **volatility -f dump.mem shimcachemem -j** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires et des statistiques
+- **volatility -f dump.mem shimcachemem -k** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires, des statistiques et des détails
+- **volatility -f dump.mem shimcachemem -q** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires, des statistiques, des détails et des recommandations
+- **volatility -f dump.mem shimcachemem -v** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires, des statistiques, des détails, des recommandations et des avertissements
+- **volatility -f dump.mem shimcachemem -n** : Recherche les entrées ShimCache dans les espaces mémoire non modifiés
+- **volatility -f dump.mem shimcachemem -i** : Recherche les entrées ShimCache dans les espaces mémoire initialisés
+- **volatility -f dump.mem shimcachemem -z** : Recherche les entrées ShimCache dans les espaces mémoire non initialisés
+- **volatility -f dump.mem shimcachemem -f FILE** : Recherche les entrées ShimCache dans un fichier spécifique
+- **volatility -f dump.mem shimcachemem -b** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués
+- **volatility -f dump.mem shimcachemem -d** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits
+- **volatility -f dump.mem shimcachemem -t** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés
+- **volatility -f dump.mem shimcachemem -y** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés
+- **volatility -f dump.mem shimcachemem -g** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique
+- **volatility -f dump.mem shimcachemem -h** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires
+- **volatility -f dump.mem shimcachemem -j** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires et des statistiques
+- **volatility -f dump.mem shimcachemem -k** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires, des statistiques et des détails
+- **volatility -f dump.mem shimcachemem -q** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires, des statistiques, des détails et des recommandations
+- **volatility -f dump.mem shimcachemem -v** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés, initialisés et non initialisés, dans un fichier spécifique, avec des informations supplémentaires, des statistiques, des détails, des recommandations et des avertissements
+- **volatility -f dump.mem shimcachemem -n** : Recherche les entrées ShimCache dans les espaces mémoire non modifiés
+- **volatility -f dump.mem shimcachemem -i** : Recherche les entrées ShimCache dans les espaces mémoire initialisés
+- **volatility -f dump.mem shimcachemem -z** : Recherche les entrées ShimCache dans les espaces mémoire non initialisés
+- **volatility -f dump.mem shimcachemem -f FILE** : Recherche les entrées ShimCache dans un fichier spécifique
+- **volatility -f dump.mem shimcachemem -b** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués
+- **volatility -f dump.mem shimcachemem -d** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits
+- **volatility -f dump.mem shimcachemem -t** : Recherche les entrées ShimCache dans les espaces mémoire alloués et non alloués, écrits et non écrits, modifiés et non modifiés
+- **volatility -f dump.mem shimcachemem -
 ```bash
 volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f file.dmp
 ```
@@ -519,70 +316,13 @@ volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f fil
 
 ### Ligne de commande
 
-Est-ce que quelque chose de suspect a été exécuté ? 
-
-{% tabs %}
-{% tab title="vol3" %}
+Quelque chose de suspect a-t-il été exécuté?
 ```bash
 python3 vol.py -f file.dmp windows.cmdline.CmdLine #Display process command-line arguments
 ```
 {% endtab %}
 
-{% tab title="vol2" %} 
-
-### Feuille de triche Volatility
-
-#### Commandes de base
-
-- **volatility -f dump.raw imageinfo** : Informations sur l'image mémoire
-- **volatility -f dump.raw pslist** : Liste des processus en cours d'exécution
-- **volatility -f dump.raw pstree** : Arborescence des processus
-- **volatility -f dump.raw psscan** : Analyse des processus supprimés
-- **volatility -f dump.raw dlllist -p PID** : Liste des DLL chargées par un processus
-- **volatility -f dump.raw filescan** : Analyse des fichiers ouverts
-- **volatility -f dump.raw cmdline -p PID** : Ligne de commande d'un processus
-- **volatility -f dump.raw netscan** : Liste des connexions réseau
-- **volatility -f dump.raw connections** : Analyse des connexions réseau
-- **volatility -f dump.raw malfind** : Recherche de code malveillant dans les processus
-- **volatility -f dump.raw autoruns** : Liste des programmes s'exécutant au démarrage
-- **volatility -f dump.raw timeliner** : Chronologie des événements
-- **volatility -f dump.raw hivelist** : Liste des fichiers de registre chargés en mémoire
-- **volatility -f dump.raw printkey -o OFFSET** : Afficher les valeurs d'une clé de registre
-- **volatility -f dump.raw userassist** : Liste des programmes utilisés par l'utilisateur
-- **volatility -f dump.raw clipboard** : Analyse du presse-papiers
-- **volatility -f dump.raw screenshot** : Capture d'écran de l'interface graphique
-- **volatility -f dump.raw memdump -p PID -D /path/to/dump/** : Extraction de la mémoire d'un processus
-
-#### Plugins supplémentaires
-
-- **volatility -f dump.raw shimcacheparser** : Analyse de la base de données de compatibilité des applications
-- **volatility -f dump.raw ldrmodules** : Liste des modules chargés dynamiquement
-- **volatility -f dump.raw modscan** : Analyse des modules noyau
-- **volatility -f dump.raw getsids** : Liste des SID des processus
-- **volatility -f dump.raw envars** : Variables d'environnement des processus
-- **volatility -f dump.raw vadinfo -p PID** : Informations sur les espaces d'adressage virtuel d'un processus
-- **volatility -f dump.raw mutantscan** : Analyse des objets de mutation
-- **volatility -f dump.raw atomscan** : Analyse des objets atomiques
-- **volatility -f dump.raw driverirp** : Liste des IRP gérés par les pilotes
-- **volatility -f dump.raw devicetree** : Arborescence des périphériques
-- **volatility -f dump.raw ssdt** : Table des services du noyau
-- **volatility -f dump.raw callbacks** : Liste des callbacks du noyau
-- **volatility -f dump.raw gdt** : Table globale des descripteurs
-- **volatility -f dump.raw idt** : Table des descripteurs d'interruption
-- **volatility -f dump.raw threads** : Liste des threads
-- **volatility -f dump.raw handles** : Liste des handles système
-- **volatility -f dump.raw mutantscan** : Analyse des objets de mutation
-- **volatility -f dump.raw atomscan** : Analyse des objets atomiques
-- **volatility -f dump.raw driverirp** : Liste des IRP gérés par les pilotes
-- **volatility -f dump.raw devicetree** : Arborescence des périphériques
-- **volatility -f dump.raw ssdt** : Table des services du noyau
-- **volatility -f dump.raw callbacks** : Liste des callbacks du noyau
-- **volatility -f dump.raw gdt** : Table globale des descripteurs
-- **volatility -f dump.raw idt** : Table des descripteurs d'interruption
-- **volatility -f dump.raw threads** : Liste des threads
-- **volatility -f dump.raw handles** : Liste des handles système
-
-{% endtab %}
+{% onglet title="vol2" %}
 ```bash
 volatility --profile=PROFILE cmdline -f file.dmp #Display process command-line arguments
 volatility --profile=PROFILE consoles -f file.dmp #command history by scanning for _CONSOLE_INFORMATION
@@ -600,49 +340,7 @@ python3 vol.py -f file.dmp windows.envars.Envars [--pid <pid>] #Display process 
 ```
 {% endtab %}
 
-{% tab title="vol2" %} 
-
-## Feuille de triche Volatility
-
-### Commandes de base
-
-- `volatility -f <dumpfile> imageinfo` : Afficher les informations de l'image mémoire
-- `volatility -f <dumpfile> pslist` : Afficher la liste des processus
-- `volatility -f <dumpfile> pstree` : Afficher l'arborescence des processus
-- `volatility -f <dumpfile> psscan` : Analyser les processus inactifs
-- `volatility -f <dumpfile> dlllist -p <PID>` : Afficher les DLL chargées par un processus
-- `volatility -f <dumpfile> cmdline -p <PID>` : Afficher la ligne de commande d'un processus
-- `volatility -f <dumpfile> filescan` : Analyser les fichiers ouverts
-- `volatility -f <dumpfile> netscan` : Analyser les connexions réseau
-- `volatility -f <dumpfile> connections` : Afficher les connexions réseau
-- `volatility -f <dumpfile> timeliner` : Analyser les artefacts temporels
-- `volatility -f <dumpfile> malfind` : Identifier les injections de code malveillant
-- `volatility -f <dumpfile> yarascan` : Analyser la mémoire à l'aide de règles YARA
-- `volatility -f <dumpfile> dumpfiles -Q <address>` : Extraire un fichier en mémoire
-- `volatility -f <dumpfile> memdump -p <PID> -D <output_directory>` : Extraire l'espace mémoire d'un processus
-
-### Plugins supplémentaires
-
-- `apihooks` : Identifier les hooks d'API
-- `malfind` : Identifier les injections de code malveillant
-- `mimikatz` : Rechercher les traces de Mimikatz
-- `autoruns` : Identifier les programmes s'exécutant au démarrage
-- `svcscan` : Analyser les services
-- `modscan` : Analyser les modules noyau
-- `driverirp` : Analyser les requêtes IRP des pilotes
-- `ssdt` : Afficher la table de service du système
-- `callbacks` : Identifier les callbacks du noyau
-- `devicetree` : Afficher l'arborescence des périphériques
-- `printkey` : Afficher les clés de registre
-- `hivelist` : Afficher les hives de registre chargées
-- `hashdump` : Extraire les hachages de mots de passe
-- `userassist` : Analyser les entrées UserAssist
-- `shellbags` : Analyser les informations des dossiers Windows
-- `getsids` : Afficher les SID des processus
-- `getsids` : Afficher les SID des processus
-- `getsids` : Afficher les SID des processus
-
-{% endtab %}
+{% onglet title="vol2" %}
 ```bash
 volatility --profile=PROFILE envars -f file.dmp [--pid <pid>] #Display process environment variables
 
@@ -660,16 +358,107 @@ python3 vol.py -f file.dmp windows.privileges.Privs | grep "SeImpersonatePrivile
 ```
 {% endtab %}
 
-{% tab title="vol2" %}
+{% tab title="vol2" %} 
+
+### Feuille de triche Volatility
+
+#### Commandes de base
+
+- **volatility -f dump.raw imageinfo** : Affiche des informations générales sur l'image mémoire.
+- **volatility -f dump.raw pslist** : Liste les processus en cours d'exécution.
+- **volatility -f dump.raw pstree** : Affiche les processus sous forme d'arborescence.
+- **volatility -f dump.raw psscan** : Examine les processus inactifs.
+- **volatility -f dump.raw dlllist -p PID** : Liste les DLL chargées par un processus spécifique.
+- **volatility -f dump.raw cmdscan** : Recherche les commandes exécutées.
+- **volatility -f dump.raw filescan** : Recherche les fichiers ouverts par les processus.
+- **volatility -f dump.raw netscan** : Affiche les connexions réseau.
+- **volatility -f dump.raw connections** : Affiche les connexions réseau.
+- **volatility -f dump.raw malfind** : Recherche les injections de code malveillant.
+- **volatility -f dump.raw cmdline** : Affiche les lignes de commande des processus.
+- **volatility -f dump.raw consoles** : Affiche les consoles des processus.
+- **volatility -f dump.raw hivelist** : Liste les hives de registre.
+- **volatility -f dump.raw printkey -o OFFSET** : Affiche les valeurs de clé de registre.
+- **volatility -f dump.raw userassist** : Affiche les éléments récemment ouverts par l'utilisateur.
+- **volatility -f dump.raw shimcache** : Affiche les entrées de la cache de compatibilité des applications.
+- **volatility -f dump.raw ldrmodules** : Affiche les modules chargés par les processus.
+- **volatility -f dump.raw modscan** : Recherche les modules noyau chargés.
+- **volatility -f dump.raw getsids** : Affiche les SID des processus.
+- **volatility -f dump.raw getservicesids** : Affiche les SID des services.
+- **volatility -f dump.raw svcscan** : Enumère les services.
+- **volatility -f dump.raw driverirp** : Affiche les IRP des pilotes.
+- **volatility -f dump.raw callbacks** : Affiche les callbacks du noyau.
+- **volatility -f dump.raw mutantscan** : Recherche les objets de mutation.
+- **volatility -f dump.raw envars** : Affiche les variables d'environnement des processus.
+- **volatility -f dump.raw atomscan** : Recherche les objets atomiques.
+- **volatility -f dump.raw handles** : Affiche les handles des processus.
+- **volatility -f dump.raw vadinfo -p PID** : Affiche les informations VAD d'un processus.
+- **volatility -f dump.raw vadtree -p PID** : Affiche l'arborescence VAD d'un processus.
+- **volatility -f dump.raw vadwalk -p PID -a ADDRESS** : Affiche les informations VAD à partir d'une adresse.
+- **volatility -f dump.raw memmap** : Affiche la carte mémoire.
+- **volatility -f dump.raw memdump -p PID -D output_directory** : Effectue un vidage mémoire d'un processus.
+- **volatility -f dump.raw memdump -p PID -o OFFSET -D output_directory** : Effectue un vidage mémoire à partir d'une adresse.
+- **volatility -f dump.raw memstrings -p PID** : Recherche les chaînes dans l'espace mémoire d'un processus.
+- **volatility -f dump.raw memstrings -o OFFSET** : Recherche les chaînes dans l'espace mémoire à partir d'une adresse.
+- **volatility -f dump.raw yarascan -Y "rule_file"** : Recherche des motifs YARA dans l'image mémoire.
+- **volatility -f dump.raw yarascan -p PID -Y "rule_file"** : Recherche des motifs YARA dans l'espace mémoire d'un processus.
+- **volatility -f dump.raw yarascan -f "file_path" -Y "rule_file"** : Recherche des motifs YARA dans un fichier mémoire.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory** : Extrait les fichiers en mémoire à partir d'une adresse.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -n -D output_directory** : Extrait les fichiers en mémoire à partir d'une adresse sans les reconstruire.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -S 0xSIZE -D output_directory** : Extrait les fichiers en mémoire à partir d'une adresse avec une taille spécifiée.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -U -D output_directory** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant l'extension.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -n -U -D output_directory** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant l'extension sans les reconstruire.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -S 0xSIZE -U -D output_directory** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant l'extension avec une taille spécifiée.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -r "regex_pattern"** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant une expression régulière.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -i "file_extension"** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant une extension spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -t "file_type"** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant un type de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -A** : Extrait tous les fichiers en mémoire à partir d'une adresse.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -b "file_basename"** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant un nom de base de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -s "file_size"** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant une taille de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -l "file_location"** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant un emplacement de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -e "file_extension"** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant une extension de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -m "file_magic"** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant une signature magique de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -c "file_count"** : Extrait un nombre spécifié de fichiers en mémoire à partir d'une adresse.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -z** : Extrait les fichiers compressés en mémoire à partir d'une adresse.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -g "file_extension"** : Extrait les fichiers en mémoire à partir d'une adresse en utilisant une extension de fichier générique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -w** : Extrait les fichiers en mémoire à partir d'une adresse en les écrivant dans un fichier.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -x** : Extrait les fichiers en mémoire à partir d'une adresse en les exécutant.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -j "file_path"** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path"** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant l'extension.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -n** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant l'extension sans les reconstruire.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -S 0xSIZE** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant l'extension avec une taille spécifiée.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -r "regex_pattern"** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant une expression régulière.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -i "file_extension"** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant une extension spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -t "file_type"** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant un type de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -A** : Extrait tous les fichiers en mémoire à partir d'une adresse en les injectant dans un processus.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -b "file_basename"** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant un nom de base de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -s "file_size"** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant une taille de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -l "file_location"** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant un emplacement de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -e "file_extension"** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant une extension de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -m "file_magic"** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant une signature magique de fichier spécifique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -c "file_count"** : Extrait un nombre spécifié de fichiers en mémoire à partir d'une adresse en les injectant dans un processus.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -z** : Extrait les fichiers compressés en mémoire à partir d'une adresse en les injectant dans un processus.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -g "file_extension"** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en utilisant une extension de fichier générique.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -w** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en les écrivant dans un fichier.
+- **volatility -f dump.raw dumpfiles -Q 0xADDRESS -D output_directory -y "file_path" -x** : Extrait les fichiers en mémoire à partir d'une adresse en les injectant dans un processus en les exécutant.
+
+#### Plugins supplémentaires
+
+- **volatility -f dump.raw malfind** : Recherche les injections de code malveillant.
+- **volatility -f dump.raw malfind -p PID** : Recherche les injections de code malveillant dans un processus spécifique.
+- **volatility -f dump.raw malfind -D output_directory** : Recherche les injections de code malveillant et les extrait dans un répertoire.
+- **volatility -f dump.raw malfind -p PID -D output_directory** : Recherche les injections de code malveillant dans un processus spécifique et les extrait dans un répertoire.
+- **volatility -f dump.raw malfind -Y "rule_file"** : Recherche les injections de code malveillant en utilisant des règles YARA.
+- **volatility -f dump.raw malfind -p PID -Y "rule_file"** : Recherche les injections de code malveillant dans un processus spécifique en utilisant des règles YARA.
+- **volatility -f dump.raw malfind -D output_directory -Y "rule_file"** : Recherche les injections de code malveillant et les extrait dans un répertoire en utilisant des règles YARA.
+- **volatility -f dump.raw malfind -p PID -D output_directory -Y "rule_file"** : Recherche les injections de code malveillant dans un processus spécifique et les extrait dans un répertoire en utilisant des règles YARA.
+
+{% endtab %}
 ```bash
 #Get enabled privileges of some processes
 volatility --profile=Win7SP1x86_23418 privs --pid=3152 -f file.dmp | grep Enabled
 #Get all processes with interesting privileges
 volatility --profile=Win7SP1x86_23418 privs -f file.dmp | grep "SeImpersonatePrivilege\|SeAssignPrimaryPrivilege\|SeTcbPrivilege\|SeBackupPrivilege\|SeRestorePrivilege\|SeCreateTokenPrivilege\|SeLoadDriverPrivilege\|SeTakeOwnershipPrivilege\|SeDebugPrivilege"
 ```
-{% endtab %}
-{% endtabs %}
-
 ### SIDs
 
 Vérifiez chaque SSID possédé par un processus.\
@@ -680,62 +469,35 @@ Il pourrait être intéressant de lister les processus utilisant un SID de privi
 ```
 {% endtab %}
 
-{% tab title="vol2" %}
+{% tab title="vol2" %} 
 
 ## Feuille de triche Volatility
 
 ### Commandes de base
 
-- **volatility -f dump.raw imageinfo** : Affiche des informations générales sur l'image mémoire.
-- **volatility -f dump.raw pslist** : Liste les processus en cours d'exécution.
-- **volatility -f dump.raw pstree** : Affiche les processus sous forme d'arborescence.
-- **volatility -f dump.raw psscan** : Recherche les processus supprimés.
-- **volatility -f dump.raw dlllist -p PID** : Liste les DLL chargées par un processus spécifique.
-- **volatility -f dump.raw filescan** : Recherche les fichiers ouverts par les processus.
-- **volatility -f dump.raw cmdline -p PID** : Affiche la ligne de commande d'un processus spécifique.
-- **volatility -f dump.raw netscan** : Recherche les connexions réseau.
-- **volatility -f dump.raw connections** : Affiche les connexions réseau.
-- **volatility -f dump.raw timeliner** : Crée une timeline des activités du système.
-- **volatility -f dump.raw malfind** : Recherche les injections de code malveillant.
-- **volatility -f dump.raw apihooks** : Recherche les hooks d'API.
-- **volatility -f dump.raw ldrmodules** : Liste les modules chargés par les processus.
-- **volatility -f dump.raw mutantscan** : Recherche les objets de synchronisation (mutants).
-- **volatility -f dump.raw yarascan** : Recherche de motifs Yara dans l'image mémoire.
-- **volatility -f dump.raw screenshot** : Prend une capture d'écran du bureau.
-- **volatility -f dump.raw hivelist** : Liste les hives de registre.
-- **volatility -f dump.raw printkey -o OFFSET** : Affiche les sous-clés et valeurs d'une clé de registre.
-- **volatility -f dump.raw userassist** : Affiche les entrées UserAssist.
-- **volatility -f dump.raw shimcache** : Affiche les entrées ShimCache.
-- **volatility -f dump.raw getsids** : Affiche les SID des processus.
-- **volatility -f dump.raw modscan** : Recherche les modules noyau.
-- **volatility -f dump.raw driverirp** : Affiche les IRPHandlers des drivers.
-- **volatility -f dump.raw ssdt** : Affiche la table de services du noyau (SSDT).
-- **volatility -f dump.raw callbacks** : Affiche les callbacks du noyau.
-- **volatility -f dump.raw devicetree** : Affiche l'arborescence des périphériques.
-- **volatility -f dump.raw hivescan** : Recherche les hives de registre non rattachés.
-- **volatility -f dump.raw poolscanner** : Recherche les allocations de pool.
-- **volatility -f dump.raw envars** : Affiche les variables d'environnement.
-- **volatility -f dump.raw vadinfo -p PID** : Affiche les informations VAD d'un processus.
-- **volatility -f dump.raw vadtree -p PID** : Affiche l'arborescence VAD d'un processus.
-- **volatility -f dump.raw handles -p PID** : Affiche les handles d'un processus.
-- **volatility -f dump.raw dumpfiles -Q PATH** : Extrait les fichiers en mémoire correspondant à un chemin spécifique.
-- **volatility -f dump.raw memdump -p PID -D /path/to/dump/** : Effectue un dump de la mémoire d'un processus.
-- **volatility -f dump.raw memmap** : Affiche la carte mémoire du système.
-- **volatility -f dump.raw mftparser** : Analyse le Master File Table (MFT).
-- **volatility -f dump.raw shimcachemem** : Recherche les entrées ShimCache en mémoire.
-- **volatility -f dump.raw userhandles -p PID** : Affiche les handles utilisateur d'un processus.
-- **volatility -f dump.raw userhandles** : Affiche les handles utilisateur.
-- **volatility -f dump.raw vadwalk -p PID** : Effectue une marche VAD pour un processus.
-- **volatility -f dump.raw dumpregistry -o OFFSET -D /path/to/dump/** : Extrait une ruche de registre en mémoire.
-- **volatility -f dump.raw dumpcerts -D /path/to/dump/** : Extrait les certificats en mémoire.
-- **volatility -f dump.raw dumpregistry -o OFFSET -s SIZE -D /path/to/dump/** : Extrait une ruche de registre en mémoire avec une taille spécifique.
-- **volatility -f dump.raw dumpregistry -o OFFSET -s SIZE -f hive -D /path/to/dump/** : Extrait une ruche de registre en mémoire avec une taille spécifique et un format spécifique.
+- **volatility -f dump.mem imageinfo** : Affiche des informations générales sur le dump mémoire.
+- **volatility -f dump.mem pslist** : Liste les processus en cours d'exécution.
+- **volatility -f dump.mem psscan** : Examine les processus à partir des structures EPROCESS.
+- **volatility -f dump.mem pstree** : Affiche les processus sous forme d'arborescence.
+- **volatility -f dump.mem dlllist -p PID** : Liste les DLL chargées par un processus spécifique.
+- **volatility -f dump.mem cmdline -p PID** : Affiche la ligne de commande d'un processus spécifique.
+- **volatility -f dump.mem filescan** : Analyse les handles de fichiers.
+- **volatility -f dump.mem netscan** : Examine les connexions réseau.
+- **volatility -f dump.mem connections** : Affiche les connexions réseau.
+- **volatility -f dump.mem malfind** : Recherche de code malveillant dans les processus.
+- **volatility -f dump.mem apihooks** : Recherche les hooks d'API dans les processus.
+- **volatility -f dump.mem ldrmodules** : Liste les modules chargés dans les processus.
+- **volatility -f dump.mem modscan** : Analyse les modules noyau.
+- **volatility -f dump.mem shimcache** : Extrait les entrées de la base de données ShimCache.
+- **volatility -f dump.mem userassist** : Extrait les entrées UserAssist.
+- **volatility -f dump.mem hivelist** : Liste les hives du registre.
+- **volatility -f dump.mem printkey -o OFFSET** : Affiche les sous-clés et valeurs d'une clé de registre.
+- **volatility -f dump.mem hashdump** : Dump les hachages de mots de passe.
+- **volatility -f dump.mem truecryptpassphrase** : Extrait les passphrases TrueCrypt.
 
 ### Plugins supplémentaires
 
-- **volatility -f dump.raw --profile=PROFILE pluginname** : Utilise un plugin spécifique avec un profil spécifié.
-- **volatility -f dump.raw --plugins=/path/to/plugins/ pluginname** : Charge des plugins supplémentaires à partir d'un répertoire spécifique.
-- **volatility -f dump.raw --conf=/path/to/volatility.conf pluginname** : Utilise une configuration spécifique pour le plugin.
+- **[Volatility Plugins](https://github.com/volatilityfoundation/volatility/wiki/CommandReference-V2.6)** : Référence des plugins supplémentaires disponibles.
 
 {% endtab %}
 ```bash
@@ -750,58 +512,52 @@ vol.py -f file.dmp windows.handles.Handles [--pid <pid>]
 ```
 {% endtab %}
 
-{% tab title="vol2" %}
+{% tab title="vol2" %} 
 
 ## Feuille de triche Volatility
 
 ### Commandes de base
 
-- **volatility -f dump.raw imageinfo** : Affiche des informations générales sur l'image mémoire.
-- **volatility -f dump.raw pslist** : Liste les processus en cours d'exécution.
-- **volatility -f dump.raw pstree** : Affiche les processus sous forme d'arborescence.
-- **volatility -f dump.raw psscan** : Recherche les processus supprimés.
-- **volatility -f dump.raw dlllist -p PID** : Liste les DLL chargées par un processus spécifique.
-- **volatility -f dump.raw filescan** : Recherche les fichiers ouverts par les processus.
-- **volatility -f dump.raw cmdline -p PID** : Affiche la ligne de commande d'un processus spécifique.
-- **volatility -f dump.raw netscan** : Recherche les connexions réseau.
-- **volatility -f dump.raw connections** : Affiche les connexions réseau.
-- **volatility -f dump.raw timeliner** : Crée une timeline des activités du système.
-- **volatility -f dump.raw malfind** : Recherche les injections de code malveillant.
-- **volatility -f dump.raw apihooks** : Recherche les hooks API.
-- **volatility -f dump.raw ldrmodules** : Liste les modules chargés par les processus.
-- **volatility -f dump.raw mutantscan** : Recherche les objets de mutation.
-- **volatility -f dump.raw yarascan** : Recherche les correspondances YARA.
-- **volatility -f dump.raw screenshot** : Capture un screenshot de l'écran.
-- **volatility -f dump.raw hivelist** : Liste les hives de registre.
-- **volatility -f dump.raw printkey -o OFFSET** : Affiche le contenu d'une clé de registre.
-- **volatility -f dump.raw userassist** : Affiche les entrées UserAssist.
-- **volatility -f dump.raw shimcache** : Affiche les entrées ShimCache.
-- **volatility -f dump.raw getsids** : Affiche les SID des processus.
-- **volatility -f dump.raw modscan** : Recherche les modules noyau.
-- **volatility -f dump.raw driverirp** : Affiche les IRP des pilotes.
-- **volatility -f dump.raw ssdt** : Affiche la table de service du noyau.
-- **volatility -f dump.raw callbacks** : Affiche les callbacks du noyau.
-- **volatility -f dump.raw devicetree** : Affiche l'arborescence des périphériques.
-- **volatility -f dump.raw hivescan** : Recherche les hives de registre non rattachées.
-- **volatility -f dump.raw userhandles -p PID** : Affiche les handles utilisateur d'un processus.
-- **volatility -f dump.raw vadinfo -p PID** : Affiche les informations VAD d'un processus.
-- **volatility -f dump.raw vadtree -p PID** : Affiche l'arborescence VAD d'un processus.
-- **volatility -f dump.raw vadwalk -p PID** : Affiche les régions VAD d'un processus.
-- **volatility -f dump.raw dlldump -p PID -D /path/to/dumpdir/** : Dump les DLL d'un processus.
-- **volatility -f dump.raw procdump -p PID -D /path/to/dumpdir/** : Dump un processus.
-- **volatility -f dump.raw memdump -p PID -D /path/to/dumpdir/** : Dump la mémoire d'un processus.
-- **volatility -f dump.raw memmap -p PID** : Affiche la carte mémoire d'un processus.
-- **volatility -f dump.raw memmap** : Affiche la carte mémoire de l'ensemble du système.
+- **volatility -f dump.raw imageinfo** : Informations sur l'image mémoire
+- **volatility -f dump.raw pslist** : Liste des processus en cours d'exécution
+- **volatility -f dump.raw psscan** : Analyse des processus non alloués
+- **volatility -f dump.raw pstree** : Affiche les processus sous forme d'arborescence
+- **volatility -f dump.raw dlllist -p PID** : Liste des DLL chargées par un processus
+- **volatility -f dump.raw filescan** : Analyse des fichiers non alloués
+- **volatility -f dump.raw cmdline -p PID** : Ligne de commande d'un processus
+- **volatility -f dump.raw netscan** : Liste des connexions réseau
+- **volatility -f dump.raw connections** : Analyse des connexions réseau
+- **volatility -f dump.raw malfind** : Recherche de code malveillant dans les processus
+- **volatility -f dump.raw userassist** : Informations sur les programmes utilisés par l'utilisateur
+- **volatility -f dump.raw hivelist** : Liste des hives de registre
+- **volatility -f dump.raw printkey -o OFFSET** : Affiche les valeurs d'une clé de registre
+- **volatility -f dump.raw hashdump** : Dump des mots de passe en mémoire
+- **volatility -f dump.raw shimcache** : Analyse du cache de compatibilité des applications
+- **volatility -f dump.raw ldrmodules** : Liste des modules chargés par les processus
+- **volatility -f dump.raw modscan** : Analyse des modules noyau non alloués
+- **volatility -f dump.raw mutantscan** : Analyse des objets de synchronisation
+- **volatility -f dump.raw svcscan** : Liste des services système
+- **volatility -f dump.raw getsids** : Liste des SID des processus
+- **volatility -f dump.raw apihooks** : Recherche de hooks dans les processus
+- **volatility -f dump.raw envars** : Variables d'environnement des processus
+- **volatility -f dump.raw dumpfiles -Q chemin_dossier** : Extraction des fichiers en mémoire
+- **volatility -f dump.raw memdump -p PID -D chemin_dossier** : Extraction de la mémoire d'un processus
+- **volatility -f dump.raw memmap** : Cartographie de la mémoire
+- **volatility -f dump.raw timeliner** : Création d'une timeline des événements
+- **volatility -f dump.raw screenshot -D chemin_dossier** : Capture d'écran de l'écran mémoire
+- **volatility -f dump.raw procdump -p PID -D chemin_dossier** : Dump du processus mémoire
+- **volatility -f dump.raw procdump -p PID -D chemin_dossier --dump-dir autre_chemin** : Dump du processus mémoire dans un répertoire spécifique
+- **volatility -f dump.raw memstrings -p PID** : Recherche de chaînes ASCII et Unicode en mémoire
+- **volatility -f dump.raw yarascan -Y chemin_regles** : Analyse avec Yara
+- **volatility -f dump.raw yarascan -Y chemin_regles --yara-file fichier_yara** : Analyse avec Yara en utilisant un fichier Yara spécifique
+- **volatility -f dump.raw shimcachemem -s chemin_fichier** : Analyse du cache de compatibilité des applications en mémoire
+- **volatility -f dump.raw shimcachemem -s chemin_fichier --output-file fichier_sortie** : Analyse du cache de compatibilité des applications en mémoire avec sauvegarde dans un fichier de sortie
 
 ### Plugins supplémentaires
 
-- **volatility -f dump.raw plugin_name** : Exécute un plugin spécifique.
-
-### Astuces
-
-- Utilisez les plugins supplémentaires pour une analyse plus approfondie.
-- Comparez les résultats avec des sources fiables pour valider les informations extraites.
-- Documentez soigneusement chaque étape de l'analyse pour référence future.
+- **volatility --plugins=/chemin_vers_plugins -f dump.raw plugin_name** : Utilisation de plugins personnalisés
+- **volatility --info | grep -i plugin_name** : Recherche d'informations sur un plugin
+- **volatility --info | grep -i profile_name** : Recherche d'informations sur un profil
 
 {% endtab %}
 ```bash
@@ -817,7 +573,93 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 ```
 {% endtab %}
 
-{% onglet title="vol2" %}
+{% tab title="vol2" %} 
+
+## Feuille de triche Volatility
+
+### Commandes de base
+
+- **volatility -f dump.mem imageinfo** : Informations sur l'image mémoire
+- **volatility -f dump.mem pslist** : Liste des processus en cours d'exécution
+- **volatility -f dump.mem psscan** : Analyse des processus non affichés dans la liste des tâches
+- **volatility -f dump.mem pstree** : Affiche les processus sous forme d'arborescence
+- **volatility -f dump.mem dlllist -p PID** : Liste des DLL chargées par un processus
+- **volatility -f dump.mem filescan** : Analyse des fichiers ouverts par les processus
+- **volatility -f dump.mem cmdline -p PID** : Ligne de commande d'un processus
+- **volatility -f dump.mem consoles** : Recherche de consoles virtuelles
+- **volatility -f dump.mem connections** : Liste des connexions réseau
+- **volatility -f dump.mem netscan** : Analyse des connexions réseau
+- **volatility -f dump.mem svcscan** : Liste des services
+- **volatility -f dump.mem malfind** : Recherche de code malveillant dans les processus
+- **volatility -f dump.mem apihooks** : Recherche de hooks API dans les processus
+- **volatility -f dump.mem shimcache** : Extraction de la base de données Shimcache
+- **volatility -f dump.mem hivelist** : Liste des hives de registre
+- **volatility -f dump.mem printkey -o OFFSET** : Affiche une clé de registre à partir d'un offset donné
+- **volatility -f dump.mem userassist** : Extraction des entrées UserAssist
+- **volatility -f dump.mem getsids** : Liste des SID des processus
+- **volatility -f dump.mem modscan** : Analyse des modules noyau chargés
+- **volatility -f dump.mem driverirp** : Analyse des IRP des pilotes
+- **volatility -f dump.mem ssdt** : Recherche des adresses de la SSDT
+- **volatility -f dump.mem callbacks** : Recherche des adresses de callbacks
+- **volatility -f dump.mem mutantscan** : Analyse des objets mutant
+- **volatility -f dump.mem ldrmodules** : Liste des modules chargés par le loader
+- **volatility -f dump.mem atomscan** : Analyse des objets atom
+- **volatility -f dump.mem deskscan** : Analyse des objets de bureau
+- **volatility -f dump.mem hivescan** : Analyse des hives de registre
+- **volatility -f dump.mem printkey -K KEY** : Affiche une clé de registre à partir d'un chemin donné
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY** : Extraction d'une partie de la base de registre
+- **volatility -f dump.mem dumpfiles -Q PATH** : Extraction des fichiers en mémoire
+- **volatility -f dump.mem dumpfiles -D DIR -Q PATH** : Extraction des fichiers en mémoire dans un répertoire donné
+- **volatility -f dump.mem dumpfiles -S PATH -Q PATH** : Extraction des fichiers en mémoire avec un nom spécifique
+- **volatility -f dump.mem dumpfiles -n -Q PATH** : Extraction des fichiers en mémoire sans les en-têtes
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR** : Extraction des fichiers en mémoire dans un répertoire spécifique
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR -D DIR** : Extraction des fichiers en mémoire dans un répertoire spécifique avec un préfixe
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR -n** : Extraction des fichiers en mémoire sans les en-têtes dans un répertoire spécifique
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR -n -S PATH** : Extraction des fichiers en mémoire sans les en-têtes dans un répertoire spécifique avec un nom spécifique
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR -n -D DIR** : Extraction des fichiers en mémoire sans les en-têtes dans un répertoire spécifique avec un préfixe
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR -n -D DIR -S PATH** : Extraction des fichiers en mémoire sans les en-têtes dans un répertoire spécifique avec un préfixe et un nom spécifique
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY --dump-dir OUTPUT_DIR** : Extraction d'une partie de la base de registre dans un répertoire spécifique
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY --dump-dir OUTPUT_DIR -D DIR** : Extraction d'une partie de la base de registre dans un répertoire spécifique avec un préfixe
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY --dump-dir OUTPUT_DIR -n** : Extraction d'une partie de la base de registre sans les en-têtes dans un répertoire spécifique
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY --dump-dir OUTPUT_DIR -n -D DIR** : Extraction d'une partie de la base de registre sans les en-têtes dans un répertoire spécifique avec un préfixe
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY --dump-dir OUTPUT_DIR -n -D DIR -S PATH** : Extraction d'une partie de la base de registre sans les en-têtes dans un répertoire spécifique avec un préfixe et un nom spécifique
+
+### Plugins supplémentaires
+
+- **volatility -f dump.mem shimcachemem** : Extraction de la base de données Shimcache en mémoire
+- **volatility -f dump.mem mftparser** : Analyse du Master File Table (MFT)
+- **volatility -f dump.mem hivelist** : Liste des hives de registre
+- **volatility -f dump.mem printkey -o OFFSET** : Affiche une clé de registre à partir d'un offset donné
+- **volvolatility -f dump.mem userassist** : Extraction des entrées UserAssist
+- **volatility -f dump.mem getsids** : Liste des SID des processus
+- **volatility -f dump.mem modscan** : Analyse des modules noyau chargés
+- **volatility -f dump.mem driverirp** : Analyse des IRP des pilotes
+- **volatility -f dump.mem ssdt** : Recherche des adresses de la SSDT
+- **volatility -f dump.mem callbacks** : Recherche des adresses de callbacks
+- **volatility -f dump.mem mutantscan** : Analyse des objets mutant
+- **volatility -f dump.mem ldrmodules** : Liste des modules chargés par le loader
+- **volatility -f dump.mem atomscan** : Analyse des objets atom
+- **volatility -f dump.mem deskscan** : Analyse des objets de bureau
+- **volatility -f dump.mem hivescan** : Analyse des hives de registre
+- **volatility -f dump.mem printkey -K KEY** : Affiche une clé de registre à partir d'un chemin donné
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY** : Extraction d'une partie de la base de registre
+- **volatility -f dump.mem dumpfiles -Q PATH** : Extraction des fichiers en mémoire
+- **volatility -f dump.mem dumpfiles -D DIR -Q PATH** : Extraction des fichiers en mémoire dans un répertoire donné
+- **volatility -f dump.mem dumpfiles -S PATH -Q PATH** : Extraction des fichiers en mémoire avec un nom spécifique
+- **volatility -f dump.mem dumpfiles -n -Q PATH** : Extraction des fichiers en mémoire sans les en-têtes
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR** : Extraction des fichiers en mémoire dans un répertoire spécifique
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR -D DIR** : Extraction des fichiers en mémoire dans un répertoire spécifique avec un préfixe
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR -n** : Extraction des fichiers en mémoire sans les en-têtes dans un répertoire spécifique
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR -n -S PATH** : Extraction des fichiers en mémoire sans les en-têtes dans un répertoire spécifique avec un nom spécifique
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR -n -D DIR** : Extraction des fichiers en mémoire sans les en-têtes dans un répertoire spécifique avec un préfixe
+- **volatility -f dump.mem dumpfiles -Q PATH --dump-dir OUTPUT_DIR -n -D DIR -S PATH** : Extraction des fichiers en mémoire sans les en-têtes dans un répertoire spécifique avec un préfixe et un nom spécifique
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY --dump-dir OUTPUT_DIR** : Extraction d'une partie de la base de registre dans un répertoire spécifique
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY --dump-dir OUTPUT_DIR -D DIR** : Extraction d'une partie de la base de registre dans un répertoire spécifique avec un préfixe
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY --dump-dir OUTPUT_DIR -n** : Extraction d'une partie de la base de registre sans les en-têtes dans un répertoire spécifique
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY --dump-dir OUTPUT_DIR -n -D DIR** : Extraction d'une partie de la base de registre sans les en-têtes dans un répertoire spécifique avec un préfixe
+- **volatility -f dump.mem dumpregistry -o OFFSET -s SIZE -k KEY --dump-dir OUTPUT_DIR -n -D DIR -S PATH** : Extraction d'une partie de la base de registre sans les en-têtes dans un répertoire spécifique avec un préfixe et un nom spécifique
+
+{% endtab %}
 ```bash
 volatility --profile=Win7SP1x86_23418 dlllist --pid=3152 -f file.dmp #Get dlls of a proc
 volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dmp #Dump dlls of a proc
@@ -839,23 +681,87 @@ volatility -f /tmp/file.dmp windows.strings.Strings --string-file /tmp/strings.t
 volatility -f /tmp/file.dmp --profile=Win81U1x64 memdump -p 3532 --dump-dir .
 strings 3532.dmp > strings_file
 ```
-{% endtab %}
-{% endtabs %}
-
-Il permet également de rechercher des chaînes de caractères à l'intérieur d'un processus en utilisant le module yarascan:
+Il permet également de rechercher des chaînes de caractères à l'intérieur d'un processus en utilisant le module yarascan :
 ```bash
 ./vol.py -f file.dmp windows.vadyarascan.VadYaraScan --yara-rules "https://" --pid 3692 3840 3976 3312 3084 2784
 ./vol.py -f file.dmp yarascan.YaraScan --yara-rules "https://"
 ```
 {% endtab %}
 
-{% onglet title="vol2" %}
+{% tab title="vol2" %} 
+
+## Feuille de triche Volatility
+
+### Commandes de base
+
+- **volatility -f dump.mem imageinfo** : Affiche des informations générales sur le dump mémoire.
+- **volatility -f dump.mem pslist** : Liste les processus en cours d'exécution.
+- **volatility -f dump.mem psscan** : Examine les processus à partir de la mémoire physique.
+- **volatility -f dump.mem pstree** : Affiche les processus sous forme d'arborescence.
+- **volatility -f dump.mem dlllist** : Liste les DLL chargées dans les processus.
+- **volatility -f dump.mem filescan** : Recherche les handles de fichiers ouverts.
+- **volatility -f dump.mem cmdline** : Affiche les lignes de commande des processus.
+- **volatility -f dump.mem netscan** : Recherche les connexions réseau.
+- **volatility -f dump.mem connections** : Affiche les connexions réseau.
+- **volatility -f dump.mem malfind** : Recherche les indicateurs de code malveillant.
+- **volatility -f dump.mem apihooks** : Recherche les hooks API.
+- **volatility -f dump.mem ldrmodules** : Liste les modules chargés dynamiquement.
+- **volatility -f dump.mem modscan** : Recherche les modules noyau.
+- **volatility -f dump.mem ssdt** : Affiche la table de service du noyau.
+- **volatility -f dump.mem callbacks** : Affiche les callbacks du noyau.
+- **volatility -f dump.mem driverirp** : Affiche les dispatch routines des pilotes.
+- **volatility -f dump.mem devicetree** : Affiche l'arborescence des périphériques.
+- **volatility -f dump.mem hivelist** : Liste les hives de registre.
+- **volatility -f dump.mem printkey** : Affiche les valeurs de clé de registre.
+- **volatility -f dump.mem userassist** : Affiche les entrées UserAssist.
+- **volatility -f dump.mem shimcache** : Affiche les entrées ShimCache.
+- **volatility -f dump.mem getsids** : Affiche les SID des processus.
+- **volatility -f dump.mem getservicesids** : Affiche les SID des services.
+- **volatility -f dump.mem getsidsandprivs** : Affiche les SID et privilèges des processus.
+- **volatility -f dump.mem envars** : Affiche les variables d'environnement des processus.
+- **volatility -f dump.mem consoles** : Affiche les consoles des processus.
+- **volatility -f dump.mem mutantscan** : Recherche les objets mutant.
+- **volatility -f dump.mem handles** : Affiche les handles des processus.
+- **volatility -f dump.mem vadinfo** : Affiche les informations VAD.
+- **volatility -f dump.mem vadtree** : Affiche l'arborescence VAD.
+- **volatility -f dump.mem vadwalk** : Affiche les pages VAD.
+- **volatility -f dump.mem memmap** : Affiche la carte mémoire.
+- **volatility -f dump.mem memdump -p PID -D dossier** : Effectue un dump de la mémoire d'un processus spécifique.
+- **volatility -f dump.mem memdump -p PID -D dossier --name** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus.
+- **volatility -f dump.mem memdump -p PID -D dossier --name --dump-dir** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus dans un répertoire spécifique.
+- **volatility -f dump.mem memdump -p PID -D dossier --name --dump-dir --output** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus dans un répertoire spécifique et affiche les informations de progression.
+- **volatility -f dump.mem memdump -p PID -D dossier --name --dump-dir --output --phys-offset** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus dans un répertoire spécifique, affiche les informations de progression et l'offset physique.
+- **volatility -f dump.mem memdump -p PID -D dossier --name --dump-dir --output --phys-offset --memory** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus dans un répertoire spécifique, affiche les informations de progression, l'offset physique et la mémoire physique.
+- **volvolatility -f dump.mem memdump -p PID -D dossier --name --dump-dir --output --phys-offset --memory --format** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus dans un répertoire spécifique, affiche les informations de progression, l'offset physique, la mémoire physique et le format de sortie.
+
+### Plugins supplémentaires
+
+- **volatility -f dump.mem kdbgscan** : Recherche le KDBG.
+- **volatility -f dump.mem kpcrscan** : Recherche le KPCR.
+- **volatility -f dump.mem psxview** : Affiche les processus cachés.
+- **volatility -f dump.mem ldrmodules -p PID** : Liste les modules chargés dynamiquement pour un processus spécifique.
+- **volatility -f dump.mem malfind -p PID** : Recherche les indicateurs de code malveillant pour un processus spécifique.
+- **volatility -f dump.mem dlllist -p PID** : Liste les DLL chargées dans un processus spécifique.
+- **volatility -f dump.mem handles -p PID** : Affiche les handles d'un processus spécifique.
+- **volatility -f dump.mem cmdline -p PID** : Affiche la ligne de commande d'un processus spécifique.
+- **volatility -f dump.mem filescan -p PID** : Recherche les handles de fichiers ouverts pour un processus spécifique.
+- **volatility -f dump.mem vadinfo -p PID** : Affiche les informations VAD pour un processus spécifique.
+- **volatility -f dump.mem vadtree -p PID** : Affiche l'arborescence VAD pour un processus spécifique.
+- **volatility -f dump.mem vadwalk -p PID** : Affiche les pages VAD pour un processus spécifique.
+- **volatility -f dump.mem memdump -p PID -D dossier --name** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus.
+- **volatility -f dump.mem memdump -p PID -D dossier --name --dump-dir** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus dans un répertoire spécifique.
+- **volatility -f dump.mem memdump -p PID -D dossier --name --dump-dir --output** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus dans un répertoire spécifique et affiche les informations de progression.
+- **volatility -f dump.mem memdump -p PID -D dossier --name --dump-dir --output --phys-offset** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus dans un répertoire spécifique, affiche les informations de progression et l'offset physique.
+- **volatility -f dump.mem memdump -p PID -D dossier --name --dump-dir --output --phys-offset --memory** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus dans un répertoire spécifique, affiche les informations de progression, l'offset physique et la mémoire physique.
+- **volatility -f dump.mem memdump -p PID -D dossier --name --dump-dir --output --phys-offset --memory --format** : Effectue un dump de la mémoire d'un processus spécifique avec le nom du processus dans un répertoire spécifique, affiche les informations de progression, l'offset physique, la mémoire physique et le format de sortie.
+
+{% endtab %}
 ```bash
 volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3312,3084,2784
 ```
 ### UserAssist
 
-**Windows** garde une trace des programmes que vous exécutez en utilisant une fonctionnalité dans le registre appelée **clés UserAssist**. Ces clés enregistrent combien de fois chaque programme est exécuté et quand il a été lancé pour la dernière fois.
+**Windows** garde une trace des programmes que vous exécutez en utilisant une fonctionnalité dans le registre appelée clés **UserAssist**. Ces clés enregistrent combien de fois chaque programme est exécuté et quand il a été exécuté pour la dernière fois.
 ```bash
 ./vol.py -f file.dmp windows.registry.userassist.UserAssist
 ```
@@ -872,7 +778,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​[**RootedCON**](https://www.rootedcon.com/) est l'événement le plus pertinent en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec pour **mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans chaque discipline.
+​​​​[**RootedCON**](https://www.rootedcon.com/) est l'événement le plus pertinent en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec **pour mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans chaque discipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -883,6 +789,103 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 ```bash
 ./vol.py -f file.dmp windows.svcscan.SvcScan #List services
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+### Feuille de triche Volatility
+
+#### Commandes de base
+
+- **volatility -f dump.mem imageinfo** : Informations sur l'image mémoire
+- **volatility -f dump.mem --profile=PROFILE pslist** : Liste des processus
+- **volatility -f dump.mem --profile=PROFILE pstree** : Arborescence des processus
+- **volatility -f dump.mem --profile=PROFILE psscan** : Analyse des processus
+- **volatility -f dump.mem --profile=PROFILE netscan** : Analyse des connexions réseau
+- **volatility -f dump.mem --profile=PROFILE connections** : Liste des connexions réseau
+- **volatility -f dump.mem --profile=PROFILE cmdscan** : Analyse des commandes exécutées
+- **volatility -f dump.mem --profile=PROFILE consoles** : Liste des consoles interactives
+- **volatility -f dump.mem --profile=PROFILE filescan** : Analyse des fichiers ouverts
+- **volatility -f dump.mem --profile=PROFILE dlllist** : Liste des DLL chargées
+- **volatility -f dump.mem --profile=PROFILE getsids** : Liste des SID
+- **volatility -f dump.mem --profile=PROFILE hivelist** : Liste des hôtes de registre
+- **volatility -f dump.mem --profile=PROFILE userassist** : Liste des éléments UserAssist
+- **volatility -f dump.mem --profile=PROFILE shimcache** : Liste des entrées ShimCache
+- **volatility -f dump.mem --profile=PROFILE mftparser** : Analyse du Master File Table
+- **volatility -f dump.mem --profile=PROFILE ldrmodules** : Liste des modules chargés
+- **volatility -f dump.mem --profile=PROFILE modscan** : Analyse des modules
+- **volatility -f dump.mem --profile=PROFILE mutantscan** : Analyse des objets Mutant
+- **volatility -f dump.mem --profile=PROFILE svcscan** : Analyse des services
+- **volatility -f dump.mem --profile=PROFILE envars** : Liste des variables d'environnement
+- **volatility -f dump.mem --profile=PROFILE cmdline** : Lignes de commande des processus
+- **volatility -f dump.mem --profile=PROFILE consoles** : Liste des consoles interactives
+- **volatility -f dump.mem --profile=PROFILE hivelist** : Liste des hôtes de registre
+- **volatility -f dump.mem --profile=PROFILE userassist** : Liste des éléments UserAssist
+- **volatility -f dump.mem --profile=PROFILE shimcache** : Liste des entrées ShimCache
+- **volatility -f dump.mem --profile=PROFILE mftparser** : Analyse du Master File Table
+- **volatility -f dump.mem --profile=PROFILE ldrmodules** : Liste des modules chargés
+- **volatility -f dump.mem --profile=PROFILE modscan** : Analyse des modules
+- **volatility -f dump.mem --profile=PROFILE mutantscan** : Analyse des objets Mutant
+- **volatility -f dump.mem --profile=PROFILE svcscan** : Analyse des services
+- **volatility -f dump.mem --profile=PROFILE envars** : Liste des variables d'environnement
+- **volatility -f dump.mem --profile=PROFILE cmdline** : Lignes de commande des processus
+
+#### Plugins supplémentaires
+
+- **volatility -f dump.mem --profile=PROFILE timeliner** : Crée une timeline des activités
+- **volatility -f dump.mem --profile=PROFILE dumpfiles -Q ADDRESS -D /path/to/dump/** : Extraction de fichiers
+- **volatility -f dump.mem --profile=PROFILE memdump -p PID -D /path/to/dump/** : Extraction de l'espace mémoire d'un processus
+- **voljson -f dump.mem --profile=PROFILE pslist** : Exporter la sortie en JSON
+- **volatility -f dump.mem --profile=PROFILE linux_bash** : Analyse des artefacts Bash sur Linux
+- **volatility -f dump.mem --profile=PROFILE linux_netstat** : Analyse des connexions réseau sur Linux
+- **volatility -f dump.mem --profile=PROFILE linux_lsof** : Liste des fichiers ouverts sur Linux
+- **volatility -f dump.mem --profile=PROFILE linux_yarascan** : Analyse des fichiers avec Yara sur Linux
+
+{% endtab %}
+```bash
+#Get services and binary path
+volatility --profile=Win7SP1x86_23418 svcscan -f file.dmp
+#Get name of the services and SID (slow)
+volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
+```
+{% endtab %}
+{% endtabs %}
+
+## Réseau
+
+{% tabs %}
+{% tab title="vol3" %}
+```bash
+./vol.py -f file.dmp windows.netscan.NetScan
+#For network info of linux use volatility2
+```
+{% endtab %}
+
+{% onglet title="vol2" %}
+```bash
+volatility --profile=Win7SP1x86_23418 netscan -f file.dmp
+volatility --profile=Win7SP1x86_23418 connections -f file.dmp#XP and 2003 only
+volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections
+volatility --profile=Win7SP1x86_23418 sockscan -f file.dmp#Open sockets
+volatility --profile=Win7SP1x86_23418 sockets -f file.dmp#Scanner for tcp socket objects
+
+volatility --profile=SomeLinux -f file.dmp linux_ifconfig
+volatility --profile=SomeLinux -f file.dmp linux_netstat
+volatility --profile=SomeLinux -f file.dmp linux_netfilter
+volatility --profile=SomeLinux -f file.dmp linux_arp #ARP table
+volatility --profile=SomeLinux -f file.dmp linux_list_raw #Processes using promiscuous raw sockets (comm between processes)
+volatility --profile=SomeLinux -f file.dmp linux_route_cache
+```
+## Registre
+
+### Afficher les ruches disponibles
+
+{% tabs %}
+{% tab title="vol3" %}
+```bash
+./vol.py -f file.dmp windows.registry.hivelist.HiveList #List roots
+./vol.py -f file.dmp windows.registry.printkey.PrintKey #List roots and get initial subkeys
 ```
 {% endtab %}
 
@@ -907,11 +910,8 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil connections**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil netscan**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil hivelist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil printkey**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil hashdump**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil userassist**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil shimcache**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ldrmodules**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil getsids**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil modscan**
@@ -924,168 +924,132 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
 - **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-
-#### Plugins supplémentaires
-
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil plugin_name options**
-
-{% endtab %}
-```bash
-#Get services and binary path
-volatility --profile=Win7SP1x86_23418 svcscan -f file.dmp
-#Get name of the services and SID (slow)
-volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
-```
-{% endtab %}
-{% endtabs %}
-
-## Réseau
-
-{% tabs %}
-{% tab title="vol3" %}
-```bash
-./vol.py -f file.dmp windows.netscan.NetScan
-#For network info of linux use volatility2
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-## Feuille de triche Volatility
-
-### Commandes de base
-
-- **volatility -f dump.mem imageinfo** : Affiche des informations générales sur l'image mémoire
-- **volatility -f dump.mem pslist** : Liste les processus en cours d'exécution
-- **volatility -f dump.mem psscan** : Examine les processus inactifs
-- **volatility -f dump.mem pstree** : Affiche les processus sous forme d'arborescence
-- **volatility -f dump.mem dlllist -p PID** : Liste les DLL chargées par un processus spécifique
-- **volatility -f dump.mem cmdline -p PID** : Affiche la ligne de commande d'un processus spécifique
-- **volatility -f dump.mem filescan** : Analyse les fichiers ouverts par les processus
-- **volatility -f dump.mem netscan** : Recherche les connexions réseau actives
-- **volatility -f dump.mem connections** : Affiche les connexions réseau
-- **volatility -f dump.mem timeliner** : Crée une chronologie des activités à partir de l'image mémoire
-- **volatility -f dump.mem malfind** : Recherche les indicateurs de programmes malveillants
-- **volatility -f dump.mem cmdline** : Affiche les commandes exécutées
-- **volatility -f dump.mem consoles** : Recherche les consoles virtuelles
-- **volatility -f dump.mem hivelist** : Liste les hôtes de registre
-- **volatility -f dump.mem printkey -o OFFSET** : Affiche les valeurs de clé de registre à partir d'un décalage spécifique
-- **volatility -f dump.mem userassist** : Extrait les entrées UserAssist du registre
-- **volatility -f dump.mem shimcache** : Extrait les entrées de la cache de compatibilité des applications
-- **volatility -f dump.mem ldrmodules** : Liste les modules chargés
-- **volatility -f dump.mem modscan** : Recherche les modules noyau
-- **volatility -f dump.mem getsids** : Affiche les SID des processus
-- **volatility -f dump.mem apihooks** : Recherche les hooks API
-- **volatility -f dump.mem mutantscan** : Recherche les objets de mutation
-- **volatility -f dump.mem svcscan** : Recherche les services
-- **volatility -f dump.mem driverirp** : Recherche les objets IRP des pilotes
-- **volatility -f dump.mem ssdt** : Recherche la table de service du noyau
-- **volatility -f dump.mem callbacks** : Recherche les callbacks du noyau
-- **volatility -f dump.mem drivermodule** : Recherche les modules de pilote
-- **volatility -f dump.mem devicetree** : Affiche l'arborescence des périphériques
-- **volatility -f dump.mem threads** : Liste les threads
-- **volatility -f dump.mem handles** : Recherche les descripteurs de fichiers et les objets
-- **volatility -f dump.mem mutantscan** : Recherche les objets de mutation
-- **volatility -f dump.mem yarascan** : Recherche les motifs Yara
-- **volatility -f dump.mem dumpfiles -Q OFFSET -D /path/to/dump/dir/** : Extrait les fichiers à partir d'un décalage spécifique
-- **volatility -f dump.mem memdump -p PID -D /path/to/dump/dir/** : Effectue un vidage mémoire d'un processus spécifique
-- **volatility -f dump.mem memmap** : Affiche la carte mémoire
-- **volatility -f dump.mem memstrings** : Recherche les chaînes dans la mémoire
-- **volatility -f dump.mem mftparser** : Analyse le fichier MFT
-- **volatility -f dump.mem hivelist** : Liste les hôtes de registre
-- **volatility -f dump.mem printkey -o OFFSET** : Affiche les valeurs de clé de registre à partir d'un décalage spécifique
-- **volatility -f dump.mem userassist** : Extrait les entrées UserAssist du registre
-- **volatility -f dump.mem shimcache** : Extrait les entrées de la cache de compatibilité des applications
-- **volatility -f dump.mem ldrmodules** : Liste les modules chargés
-- **volatility -f dump.mem modscan** : Recherche les modules noyau
-- **volatility -f dump.mem getsids** : Affiche les SID des processus
-- **volatility -f dump.mem apihooks** : Recherche les hooks API
-- **volatility -f dump.mem mutantscan** : Recherche les objets de mutation
-- **volatility -f dump.mem svcscan** : Recherche les services
-- **volatility -f dump.mem driverirp** : Recherche les objets IRP des pilotes
-- **volatility -f dump.mem ssdt** : Recherche la table de service du noyau
-- **volatility -f dump.mem callbacks** : Recherche les callbacks du noyau
-- **volatility -f dump.mem drivermodule** : Recherche les modules de pilote
-- **volatility -f dump.mem devicetree** : Affiche l'arborescence des périphériques
-- **volatility -f dump.mem threads** : Liste les threads
-- **volatility -f dump.mem handles** : Recherche les descripteurs de fichiers et les objets
-- **volatility -f dump.mem mutantscan** : Recherche les objets de mutation
-- **volatility -f dump.mem yarascan** : Recherche les motifs Yara
-- **volatility -f dump.mem dumpfiles -Q OFFSET -D /path/to/dump/dir/** : Extrait les fichiers à partir d'un décalage spécifique
-- **volatility -f dump.mem memdump -p PID -D /path/to/dump/dir/** : Effectue un vidage mémoire d'un processus spécifique
-- **volatility -f dump.mem memmap** : Affiche la carte mémoire
-- **volatility -f dump.mem memstrings** : Recherche les chaînes dans la mémoire
-- **volatility -f dump.mem mftparser** : Analyse le fichier MFT
-
-### Plugins supplémentaires
-
-- **volatility -f dump.mem kdbgscan** : Recherche le KDBG
-- **volatility -f dump.mem psxview** : Affiche les processus cachés
-- **volatility -f dump.mem malfind** : Recherche les indicateurs de programmes malveillants
-- **volatility -f dump.mem ldrmodules** : Liste les modules chargés
-- **volatility -f dump.mem modscan** : Recherche les modules noyau
-- **volatility -f dump.mem getsids** : Affiche les SID des processus
-- **volatility -f dump.mem apihooks** : Recherche les hooks API
-- **volatility -f dump.mem mutantscan** : Recherche les objets de mutation
-- **volatility -f dump.mem svcscan** : Recherche les services
-- **volatility -f dump.mem driverirp** : Recherche les objets IRP des pilotes
-- **volatility -f dump.mem ssdt** : Recherche la table de service du noyau
-- **volatility -f dump.mem callbacks** : Recherche les callbacks du noyau
-- **volatility -f dump.mem drivermodule** : Recherche les modules de pilote
-- **volatility -f dump.mem devicetree** : Affiche l'arborescence des périphériques
-- **volatility -f dump.mem threads** : Liste les threads
-- **volatility -f dump.mem handles** : Recherche les descripteurs de fichiers et les objets
-- **volatility -f dump.mem mutantscan** : Recherche les objets de mutation
-- **volatility -f dump.mem yarascan** : Recherche les motifs Yara
-- **volatility -f dump.mem dumpfiles -Q OFFSET -D /path/to/dump/dir/** : Extrait les fichiers à partir d'un décalage spécifique
-- **volatility -f dump.mem memdump -p PID -D /path/to/dump/dir/** : Effectue un vidage mémoire d'un processus spécifique
-- **volatility -f dump.mem memmap** : Affiche la carte mémoire
-- **volatility -f dump.mem memstrings** : Recherche les chaînes dans la mémoire
-- **volatility -f dump.mem mftparser** : Analyse le fichier MFT
-
-{% endtab %}
-```bash
-volatility --profile=Win7SP1x86_23418 netscan -f file.dmp
-volatility --profile=Win7SP1x86_23418 connections -f file.dmp#XP and 2003 only
-volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections
-volatility --profile=Win7SP1x86_23418 sockscan -f file.dmp#Open sockets
-volatility --profile=Win7SP1x86_23418 sockets -f file.dmp#Scanner for tcp socket objects
-
-volatility --profile=SomeLinux -f file.dmp linux_ifconfig
-volatility --profile=SomeLinux -f file.dmp linux_netstat
-volatility --profile=SomeLinux -f file.dmp linux_netfilter
-volatility --profile=SomeLinux -f file.dmp linux_arp #ARP table
-volatility --profile=SomeLinux -f file.dmp linux_list_raw #Processes using promiscuous raw sockets (comm between processes)
-volatility --profile=SomeLinux -f file.dmp linux_route_cache
-```
-## Registre de ruche
-
-### Afficher les ruches disponibles
-
-{% tabs %}
-{% tab title="vol3" %}
-```bash
-./vol.py -f file.dmp windows.registry.hivelist.HiveList #List roots
-./vol.py -f file.dmp windows.registry.printkey.PrintKey #List roots and get initial subkeys
-```
-{% endtab %}
-
-{% onglet title="vol2" %}
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
+- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
+- **
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp hivelist #List roots
 volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get initial subkeys
@@ -1108,7 +1072,7 @@ volatility -f file.dmp --profile=Win7SP1x86 printkey -o 0x9670e9d0 -K 'Software\
 {% endtab %}
 {% endtabs %}
 
-### Capture
+### Vidage
 ```bash
 #Dump a hive
 volatility --profile=Win7SP1x86_23418 hivedump -o 0x9aad6148 -f file.dmp #Offset extracted by hivelist
@@ -1126,7 +1090,81 @@ volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```
 {% endtab %}
 
-{% onglet title="vol2" %}
+{% tab title="vol2" %}
+
+## Feuille de triche Volatility
+
+### Commandes de base
+
+- **volatility -f dump.raw imageinfo** : Affiche des informations générales sur l'image mémoire.
+- **volatility -f dump.raw pslist** : Liste les processus en cours d'exécution.
+- **volatility -f dump.raw pstree** : Affiche les processus sous forme d'arborescence.
+- **volatility -f dump.raw psscan** : Recherche les processus supprimés.
+- **volatility -f dump.raw dlllist -p PID** : Liste les DLL chargées par un processus spécifique.
+- **volatility -f dump.raw cmdline -p PID** : Affiche la ligne de commande d'un processus spécifique.
+- **volatility -f dump.raw filescan** : Recherche les fichiers ouverts par les processus.
+- **volatility -f dump.raw netscan** : Affiche les connexions réseau.
+- **volatility -f dump.raw connections** : Affiche les connexions réseau avec les adresses IP et les ports.
+- **volatility -f dump.raw malfind** : Recherche les indicateurs de programmes malveillants.
+- **volatility -f dump.raw apihooks** : Recherche les hooks d'API.
+- **volatility -f dump.raw ldrmodules** : Liste les modules chargés par les processus.
+- **volatility -f dump.raw handles** : Affiche les handles des processus.
+- **volatility -f dump.raw mutantscan** : Recherche les objets de type mutant.
+- **volatility -f dump.raw svcscan** : Recherche les services.
+- **volatility -f dump.raw modscan** : Recherche les modules noyau.
+- **volatility -f dump.raw driverirp** : Affiche les IRP des pilotes.
+- **volatility -f dump.raw devicetree** : Affiche l'arborescence des périphériques.
+- **volatility -f dump.raw printkey -K "ControlSet001\services"** : Affiche les clés de registre.
+- **volatility -f dump.raw hivelist** : Affiche les hives de registre.
+- **volatility -f dump.raw userassist** : Affiche les entrées UserAssist.
+- **volatility -f dump.raw shimcache** : Affiche les entrées ShimCache.
+- **volatility -f dump.raw getsids** : Affiche les SID des processus.
+- **volatility -f dump.raw getservicesids** : Affiche les SID des services.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Run"** : Affiche les programmes au démarrage.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\RunOnce"** : Affiche les programmes au démarrage (une seule fois).
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run"** : Affiche les programmes approuvés au démarrage.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run32"** : Affiche les programmes approuvés au démarrage (32 bits).
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\StartupFolder"** : Affiche les programmes du dossier de démarrage approuvés.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\StartupFolder"** : Affiche les programmes du dossier de démarrage approuvés (32 bits).
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedMRU"** : Affiche les derniers fichiers ouverts.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU"** : Affiche les fichiers ouverts et enregistrés récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs"** : Affiche les documents récemment ouverts.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths"** : Affiche les chemins d'accès tapés récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU"** : Affiche les commandes exécutées récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSavePidlMRU"** : Affiche les PIDL des fichiers ouverts et enregistrés récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU"** : Affiche les PIDL des derniers fichiers ouverts.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU"** : Affiche les commandes exécutées récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSavePidlMRU"** : Affiche les PIDL des fichiers ouverts et enregistrés récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU"** : Affiche les PIDL des derniers fichiers ouverts.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU"** : Affiche les commandes exécutées récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSavePidlMRU"** : Affiche les PIDL des fichiers ouverts et enregistrés récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU"** : Affiche les PIDL des derniers fichiers ouverts.
+
+### Plugins supplémentaires
+
+- **volatility -f dump.raw mimikatz** : Exécute Mimikatz sur l'image mémoire.
+- **volatility -f dump.raw truecryptpassphrase** : Recherche les passphrases TrueCrypt.
+- **volatility -f dump.raw hashdump** : Dump les hachages de mots de passe.
+- **volatility -f dump.raw hivelist** : Affiche les hives de registre.
+- **volatility -f dump.raw userassist** : Affiche les entrées UserAssist.
+- **volatility -f dump.raw shimcache** : Affiche les entrées ShimCache.
+- **volatility -f dump.raw getsids** : Affiche les SID des processus.
+- **volatility -f dump.raw getservicesids** : Affiche les SID des services.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Run"** : Affiche les programmes au démarrage.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\RunOnce"** : Affiche les programmes au démarrage (une seule fois).
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run"** : Affiche les programmes approuvés au démarrage.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run32"** : Affiche les programmes approuvés au démarrage (32 bits).
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\StartupFolder"** : Affiche les programmes du dossier de démarrage approuvés.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\StartupFolder"** : Affiche les programmes du dossier de démarrage approuvés (32 bits).
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedMRU"** : Affiche les derniers fichiers ouverts.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU"** : Affiche les fichiers ouverts et enregistrés récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs"** : Affiche les documents récemment ouverts.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths"** : Affiche les chemins d'accès tapés récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU"** : Affiche les commandes exécutées récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSavePidlMRU"** : Affiche les PIDL des fichiers ouverts et enregistrés récemment.
+- **volatility -f dump.raw printkey -K "Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU"** : Affiche les PIDL des derniers fichiers ouverts.
+
+{% endtab %}
 ```bash
 volatility --profile=SomeLinux -f file.dmp linux_mount
 volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the entire filesystem (if possible)
@@ -1141,7 +1179,69 @@ volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the en
 ```
 {% endtab %}
 
-{% onglet title="vol2" %}
+{% tab title="vol2" %} 
+
+### Feuille de triche Volatility
+
+#### Commandes de base
+
+- **volatility -f dump.mem imageinfo** : Informations sur l'image mémoire
+- **volatility -f dump.mem pslist** : Liste des processus en cours d'exécution
+- **volatility -f dump.mem pstree** : Arborescence des processus
+- **volatility -f dump.mem psscan** : Analyse des processus
+- **volatility -f dump.mem dlllist -p PID** : Liste des DLL chargées par un processus
+- **volatility -f dump.mem filescan** : Analyse des fichiers ouverts
+- **volatility -f dump.mem cmdscan** : Analyse des commandes exécutées
+- **volatility -f dump.mem netscan** : Analyse des connexions réseau
+- **volatility -f dump.mem connections** : Liste des connexions réseau
+- **volatility -f dump.mem malfind** : Recherche de code malveillant
+- **volatility -f dump.mem apihooks** : Détection des hooks API
+- **volatility -f dump.mem ldrmodules** : Liste des modules chargés
+- **volatility -f dump.mem modscan** : Analyse des modules
+- **volatility -f dump.mem shimcache** : Analyse du cache de compatibilité des applications
+- **volatility -f dump.mem userassist** : Analyse des éléments récemment utilisés par l'utilisateur
+- **volatility -f dump.mem hivelist** : Liste des hives de registre
+- **volatility -f dump.mem printkey -o OFFSET** : Affichage du contenu d'une clé de registre
+- **volatility -f dump.mem cmdline** : Affichage des lignes de commande des processus
+- **volatility -f dump.mem consoles** : Analyse des consoles
+- **volatility -f dump.mem getsids** : Affichage des SID des processus
+- **volatility -f dump.mem envars** : Affichage des variables d'environnement des processus
+- **volatility -f dump.mem mutantscan** : Analyse des objets de mutation
+- **volatility -f dump.mem svcscan** : Analyse des services
+- **volatility -f dump.mem driverirp** : Analyse des IRP des pilotes
+- **volatility -f dump.mem devicetree** : Affichage de l'arborescence des périphériques
+- **volatility -f dump.mem handles** : Analyse des handles
+- **volatility -f dump.mem vadinfo -o OFFSET** : Informations sur une plage d'adresses virtuelles
+- **volatility -f dump.mem vadtree -o OFFSET** : Arborescence des plages d'adresses virtuelles
+- **volatility -f dump.mem vadwalk -o OFFSET** : Parcours des plages d'adresses virtuelles
+- **volatility -f dump.mem dlldump -p PID -D dossier** : Extraction d'une DLL en mémoire
+- **volatility -f dump.mem procdump -p PID -D dossier** : Extraction d'un processus en mémoire
+- **volatility -f dump.mem memdump -p PID -D dossier** : Extraction de la mémoire d'un processus
+- **volatility -f dump.mem memmap -p PID** : Cartographie de la mémoire d'un processus
+- **volatility -f dump.mem memstrings -p PID** : Recherche de chaînes dans la mémoire d'un processus
+- **volatility -f dump.mem memscan -p PID** : Analyse de la mémoire d'un processus
+- **volatility -f dump.mem yarascan -Y dossier_de_règles** : Analyse de la mémoire avec Yara
+- **volatility -f dump.mem procmemdump -p PID -D dossier** : Extraction de la mémoire d'un processus en utilisant Memdump
+- **volatility -f dump.mem malfind -p PID** : Recherche de code malveillant dans un processus
+- **volatility -f dump.mem malfind -D dossier** : Recherche de code malveillant dans tous les processus
+- **volatility -f dump.mem malfind -p PID -D dossier** : Recherche de code malveillant dans un processus et extraction
+- **volatility -f dump.mem malfind -D dossier -Y dossier_de_règles** : Recherche de code malveillant dans tous les processus avec Yara
+- **volatility -f dump.mem malfind -p PID -D dossier -Y dossier_de_règles** : Recherche de code malveillant dans un processus avec Yara
+- **volatility -f dump.mem malfind -D dossier --dump-dir dossier_de_sortie** : Recherche de code malveillant dans tous les processus avec extraction dans un dossier spécifique
+- **volatility -f dump.mem malfind -p PID -D dossier --dump-dir dossier_de_sortie** : Recherche de code malveillant dans un processus avec extraction dans un dossier spécifique
+
+#### Plugins supplémentaires
+
+- **volatility -f dump.mem shimcachemem** : Analyse du cache de compatibilité des applications en mémoire
+- **volatility -f dump.mem userassist -D dossier** : Extraction des éléments récemment utilisés par l'utilisateur
+- **volatility -f dump.mem userassist -p PID** : Affichage des éléments récemment utilisés par un processus
+- **volatility -f dump.mem userassist -p PID -D dossier** : Extraction des éléments récemment utilisés par un processus
+- **volatility -f dump.mem userassist -D dossier -Y dossier_de_règles** : Recherche d'éléments récemment utilisés avec Yara
+- **volatility -f dump.mem userassist -p PID -D dossier -Y dossier_de_règles** : Recherche d'éléments récemment utilisés par un processus avec Yara
+- **volatility -f dump.mem userassist -D dossier --dump-dir dossier_de_sortie** : Extraction des éléments récemment utilisés dans un dossier spécifique
+- **volatility -f dump.mem userassist -p PID -D dossier --dump-dir dossier_de_sortie** : Extraction des éléments récemment utilisés par un processus dans un dossier spécifique
+
+{% endtab %}
 ```bash
 volatility --profile=Win7SP1x86_23418 filescan -f file.dmp #Scan for files inside the dump
 volatility --profile=Win7SP1x86_23418 dumpfiles -n --dump-dir=/tmp -f file.dmp #Dump all files
@@ -1151,7 +1251,7 @@ volatility --profile=SomeLinux -f file.dmp linux_enumerate_files
 volatility --profile=SomeLinux -f file.dmp linux_find_file -F /path/to/file
 volatility --profile=SomeLinux -f file.dmp linux_find_file -i 0xINODENUMBER -O /path/to/dump/file
 ```
-### Tableau principal des fichiers
+### Tableau de maître de fichiers
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -1160,40 +1260,7 @@ volatility --profile=SomeLinux -f file.dmp linux_find_file -i 0xINODENUMBER -O /
 ```
 {% endtab %}
 
-{% tab title="vol2" %} 
-
-## Feuille de triche Volatility
-
-### Commandes de base
-
-- **volatility -f dump.raw imageinfo** : Afficher les informations de l'image mémoire
-- **volatility -f dump.raw pslist** : Afficher la liste des processus
-- **volatility -f dump.raw pstree** : Afficher l'arborescence des processus
-- **volatility -f dump.raw psscan** : Scanner les processus cachés
-- **volatility -f dump.raw dlllist -p PID** : Afficher les DLL chargées par un processus
-- **volatility -f dump.raw filescan** : Scanner les fichiers ouverts
-- **volatility -f dump.raw cmdline -p PID** : Afficher la ligne de commande d'un processus
-- **volatility -f dump.raw netscan** : Scanner les connexions réseau
-- **volatility -f dump.raw connections** : Afficher les connexions réseau
-- **volatility -f dump.raw malfind** : Identifier les injections de code malveillant
-- **volatility -f dump.raw shimcache** : Analyser le cache de compatibilité des applications
-- **volatility -f dump.raw hivelist** : Afficher la liste des hôtes de registre
-- **volatility -f dump.raw printkey -o OFFSET** : Afficher les valeurs d'une clé de registre
-- **volatility -f dump.raw userassist** : Analyser les entrées UserAssist
-- **volatility -f dump.raw timeliner** : Créer une timeline des activités
-- **volatility -f dump.raw memdump -p PID -D /path/to/dump/** : Créer un dump de mémoire pour un processus spécifique
-
-### Plugins supplémentaires
-
-- **volatility -f dump.raw plugin_name** : Utiliser un plugin spécifique
-- **volatility --plugins=/path/to/plugins -f dump.raw plugin_name** : Spécifier un chemin pour les plugins
-
-### Analyse avancée
-
-- **volatility -f dump.raw --profile=ProfileName cmd** : Utiliser un profil spécifique pour l'analyse
-- **volatility -f dump.raw --profile=ProfileName -h** : Afficher les plugins disponibles pour un profil spécifique
-
-{% endtab %}
+{% onglet title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 ```
@@ -1212,59 +1279,16 @@ Le **système de fichiers NTFS** utilise un composant critique connu sous le nom
 ```
 {% endtab %}
 
-{% tab title="vol2" %} 
-
-## Feuille de triche Volatility
-
-### Commandes de base
-
-- **volatility -f dump.mem imageinfo** : Informations sur l'image mémoire
-- **volatility -f dump.mem pslist** : Liste des processus en cours d'exécution
-- **volatility -f dump.mem pstree** : Affiche les processus sous forme d'arborescence
-- **volatility -f dump.mem psscan** : Analyse les processus inactifs
-- **volatility -f dump.mem dlllist -p PID** : Liste les DLL chargées par un processus
-- **volatility -f dump.mem filescan** : Analyse les fichiers ouverts
-- **volatility -f dump.mem cmdline -p PID** : Affiche la ligne de commande d'un processus
-- **volatility -f dump.mem netscan** : Analyse les connexions réseau
-- **volatility -f dump.mem connections** : Affiche les connexions réseau
-- **volatility -f dump.mem malfind** : Recherche de code malveillant dans les processus
-- **volatility -f dump.mem apihooks** : Recherche de hooks API dans les processus
-- **volatility -f dump.mem ldrmodules** : Liste les modules chargés par les processus
-- **volatility -f dump.mem modscan** : Analyse les modules noyau
-- **volatility -f dump.mem shimcache** : Analyse la base de données ShimCache
-- **volatility -f dump.mem userassist** : Analyse les entrées UserAssist
-- **volatility -f dump.mem hivelist** : Liste les hives de registre
-- **volatility -f dump.mem printkey -o OFFSET** : Affiche les valeurs d'une clé de registre
-- **volatility -f dump.mem hashdump** : Extrait les hachages de mots de passe
-- **volatility -f dump.mem truecryptpassphrase** : Extrait les passphrases TrueCrypt
-- **volatility -f dump.mem clipboard** : Examine le contenu du presse-papiers
-- **volatility -f dump.mem screenshot** : Prend une capture d'écran de l'écran mémoire
-- **volatility -f dump.mem memdump -p PID -D /path/to/dump/** : Effectue un dump de la mémoire d'un processus
-- **volatility -f dump.mem memdump -p PID -D /path/to/dump/ -r RANGE** : Effectue un dump de la mémoire d'un processus dans une plage spécifique
-- **volatility -f dump.mem memmap** : Affiche la carte mémoire
-
-### Plugins supplémentaires
-
-- **volatility -f dump.mem shimcachemem** : Analyse la mémoire pour les entrées ShimCache
-- **volatility -f dump.mem timeliner** : Crée une timeline des activités basée sur les horodatages
-- **volatility -f dump.mem dumpregistry -o /path/to/output/** : Extrait la base de registre
-- **volatility -f dump.mem dumpfiles -Q /path/to/output/** : Extrait les fichiers modifiés récemment
-- **volatility -f dump.mem dumpcerts -D /path/to/output/** : Extrait les certificats
-- **volatility -f dump.mem dumpcache -D /path/to/output/** : Extrait les fichiers en cache
-- **volatility -f dump.mem dumpvad -D /path/to/output/** : Extrait les zones d'allocation virtuelle
-- **volatility -f dump.mem yarascan -Y "rule_file.yar"** : Recherche de motifs avec YARA
-- **volatility -f dump.mem malfind -Y "rule_file.yar"** : Recherche de code malveillant avec YARA
-
-{% endtab %}
+{% onglet title="vol2" %}
 ```bash
 #vol2 allos you to search and dump certificates from memory
 #Interesting options for this modules are: --pid, --name, --ssl
 volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ```
-## Logiciel malveillant
+{% endtab %}
+{% endtabs %}
 
-{% tabs %}
-{% tab title="vol3" %}
+## Logiciel malveillant
 ```bash
 ./vol.py -f file.dmp windows.malfind.Malfind [--dump] #Find hidden and injected code, [dump each suspicious section]
 #Malfind will search for suspicious structures related to malware
@@ -1286,81 +1310,58 @@ volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 
 #### Commandes de base
 
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil commandes_volatility**
-
-#### Analyse de la mémoire
-
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil imageinfo**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil pslist**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil pstree**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil psscan**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil dlllist**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil getsids**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil filescan**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil cmdline**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil consoles**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil connections**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil hivelist**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil printkey**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil hashdump -y 0xffffc00002f8e010**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil userassist**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil ldrmodules**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil modscan**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil idt**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil gdt**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil fileinfo -f chemin_vers_le_fichier**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil dumpfiles -Q chemin_dossier_de_sortie -D chemin_dossier_de_sortie**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memdump -p PID -D chemin_dossier_de_sortie**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memmap**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memstrings -s chaine_de_recherche**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memhistory**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memtasks**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memmodules**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memsections**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memmap**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memstrings -s chaine_de_recherche**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memhistory**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memtasks**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memmodules**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memsections**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memmap**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memstrings -s chaine_de_recherche**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memhistory**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memtasks**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memmodules**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memsections**
+- **volatility -f dump.raw imageinfo** : Affiche des informations générales sur l'image mémoire.
+- **volatility -f dump.raw pslist** : Liste les processus en cours d'exécution.
+- **volatility -f dump.raw pstree** : Affiche les processus sous forme d'arborescence.
+- **volatility -f dump.raw psscan** : Examine les processus inactifs.
+- **volatility -f dump.raw dlllist -p PID** : Liste les DLL chargées par un processus spécifique.
+- **volatility -f dump.raw cmdscan** : Recherche les commandes exécutées.
+- **volatility -f dump.raw filescan** : Recherche les fichiers ouverts par les processus.
+- **volatility -f dump.raw netscan** : Affiche les connexions réseau.
+- **volatility -f dump.raw connections** : Affiche les connexions réseau.
+- **volatility -f dump.raw malfind** : Recherche les injections de code malveillant.
+- **volatility -f dump.raw shimcache** : Examine le cache de compatibilité des applications.
+- **volatility -f dump.raw userassist** : Examine les éléments récemment utilisés par l'utilisateur.
+- **volatility -f dump.raw hivelist** : Liste les hôtes de registre actifs.
+- **volatility -f dump.raw printkey -o OFFSET** : Affiche les sous-clés et les valeurs d'une clé de registre.
+- **volatility -f dump.raw cmdline** : Affiche les lignes de commande des processus.
+- **volatility -f dump.raw consoles** : Examine les consoles virtuelles.
+- **volatility -f dump.raw getsids** : Affiche les SID des processus.
+- **volatility -f dump.raw envars** : Affiche les variables d'environnement des processus.
+- **volatility -f dump.raw modscan** : Recherche les modules du noyau.
+- **volatility -f dump.raw mutantscan** : Recherche les objets de mutation.
+- **volatility -f dump.raw svcscan** : Recherche les services.
+- **volatility -f dump.raw driverirp** : Examine les IRP des pilotes.
+- **volatility -f dump.raw devicetree** : Affiche l'arborescence des périphériques.
+- **volatility -f dump.raw idt** : Affiche la table des descripteurs d'interruption.
+- **volatility -f dump.raw gdt** : Affiche la table des descripteurs globaux.
+- **volatility -f dump.raw threads** : Affiche les threads du système.
+- **volatility -f dump.raw handles** : Affiche les handles du système.
+- **volatility -f dump.raw callbacks** : Examine les callbacks du noyau.
+- **volatility -f dump.raw ssdt** : Affiche la table des descripteurs de services.
+- **volatility -f dump.raw drivermodule** : Examine les modules des pilotes.
+- **volatility -f dump.raw modules** : Affiche les modules chargés.
+- **volatility -f dump.raw moddump -b BASE -m MODULE -D output_directory** : Extrait un module du noyau.
+- **volatility -f dump.raw procdump -p PID -D output_directory** : Crée un dump mémoire d'un processus spécifique.
+- **volatility -f dump.raw memdump -p PID -D output_directory** : Crée un dump mémoire d'un processus spécifique.
+- **volatility -f dump.raw memmap** : Affiche la carte mémoire.
+- **volatility -f dump.raw memmap --profile=PROFILE** : Affiche la carte mémoire avec un profil spécifique.
+- **volatility -f dump.raw raw2dmp -i INPUT -o OUTPUT** : Convertit un fichier de volatilité brut en un fichier de volatilité.
+- **volatility -f dump.raw raw2dmp --profile=PROFILE -i INPUT -o OUTPUT** : Convertit un fichier de volatilité brut en un fichier de volatilité avec un profil spécifique.
 
 #### Plugins supplémentaires
 
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil kdbgscan**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil kpcrscan**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil hivescan**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil shimcache**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil ldrmodules**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil modscan**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil idt**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil gdt**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil fileinfo -f chemin_vers_le_fichier**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil dumpfiles -Q chemin_dossier_de_sortie -D chemin_dossier_de_sortie**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memdump -p PID -D chemin_dossier_de_sortie**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memmap**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memstrings -s chaine_de_recherche**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memhistory**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memtasks**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memmodules**
-- **volatility.exe -f chemin_vers_le_fichier_dumps --profile=Nom_du_profil memsections**
+- **volatility -f dump.raw plugin_name** : Exécute un plugin spécifique.
+- **volatility -f dump.raw --plugins=directory/ plugin_name** : Exécute un plugin spécifique à partir d'un répertoire personnalisé.
+
+#### Profils
+
+- **volatility -f dump.raw --profile=PROFILE** : Spécifie un profil pour l'analyse.
+
+#### Autres options
+
+- **-v** : Augmente le niveau de verbosité.
+- **-h** : Affiche l'aide pour la commande donnée.
 
 {% endtab %}
 ```bash
@@ -1418,56 +1419,35 @@ Si vous souhaitez utiliser des plugins externes, assurez-vous que les dossiers l
 
 {% tab title="vol2" %} 
 
-### Feuille de triche Volatility
+## Feuille de triche Volatility
 
-#### Commandes de base
+### Commandes de base
 
-- **volatility -f dump.raw imageinfo** : Informations sur l'image mémoire
-- **volatility -f dump.raw pslist** : Liste des processus en cours d'exécution
-- **volatility -f dump.raw psscan** : Analyse des processus non alloués
-- **volatility -f dump.raw pstree** : Affiche les processus sous forme d'arborescence
-- **volatility -f dump.raw dlllist -p PID** : Liste des DLL chargées par un processus
-- **volatility -f dump.raw filescan** : Analyse des fichiers non alloués
-- **volatility -f dump.raw cmdline -p PID** : Ligne de commande d'un processus
-- **volatility -f dump.raw netscan** : Liste des connexions réseau
-- **volatility -f dump.raw connections** : Analyse des connexions réseau
-- **volatility -f dump.raw malfind** : Recherche de code malveillant dans les processus
-- **volatility -f dump.raw hivelist** : Liste des hives de registre
-- **volatility -f dump.raw printkey -o OFFSET** : Affiche les valeurs d'une clé de registre
-- **volatility -f dump.raw userassist** : Informations sur les programmes utilisés par l'utilisateur
-- **volatility -f dump.raw shimcache** : Liste des fichiers exécutés récemment
-- **volatility -f dump.raw timeliner** : Lister les événements temporels
-- **volatility -f dump.raw memdump -p PID -D /path/to/dump/** : Crée un dump mémoire d'un processus
+- **volatility -f dump.mem imageinfo** : Affiche des informations générales sur l'image mémoire
+- **volatility -f dump.mem pslist** : Liste les processus en cours d'exécution
+- **volatility -f dump.mem pstree** : Affiche les processus sous forme d'arborescence
+- **volatility -f dump.mem psscan** : Recherche les processus supprimés
+- **volatility -f dump.mem dlllist -p PID** : Liste les DLL chargées par un processus spécifique
+- **volatility -f dump.mem cmdline -p PID** : Affiche la ligne de commande d'un processus spécifique
+- **volatility -f dump.mem filescan** : Recherche les fichiers ouverts par les processus
+- **volatility -f dump.mem netscan** : Affiche les connexions réseau
+- **volatility -f dump.mem connections** : Affiche les connexions réseau (alternative)
+- **volatility -f dump.mem timeliner** : Crée une timeline des activités du système
+- **volatility -f dump.mem malfind** : Recherche les injections de code malveillant
+- **volatility -f dump.mem yarascan** : Recherche de motifs avec Yara
+- **volatility -f dump.mem dumpfiles -Q 0xADDRESS -D /path/to/dump/** : Extrait les fichiers en mémoire à partir d'une adresse spécifique
+- **volatility -f dump.mem memdump -p PID -D /path/to/dump/** : Crée un dump de la mémoire d'un processus spécifique
 
-#### Plugins supplémentaires
+### Plugins supplémentaires
 
-- **volatility -f dump.raw mimikatz** : Exécute Mimikatz sur l'image mémoire
-- **volatility -f dump.raw truecryptmaster** : Récupère les clés TrueCrypt
-- **volatility -f dump.raw hashdump** : Dump les mots de passe en mémoire
-- **volatility -f dump.raw lsa_secrets** : Récupère les secrets LSA
-- **volatility -f dump.raw apihooks** : Liste les API hookées
-- **volatility -f dump.raw driverirp** : Analyse les IRP des drivers
-- **volatility -f dump.raw ssdt** : Liste les adresses de la SSDT
-- **volatility -f dump.raw callbacks** : Liste les callbacks du kernel
-- **volatility -f dump.raw devicetree** : Affiche l'arborescence des périphériques
-- **volatility -f dump.raw modscan** : Analyse les modules noyau chargés
-- **volatility -f dump.raw mutantscan** : Liste les objets de synchronisation
-- **volatility -f dump.raw getsids** : Liste les SID des processus
-- **volatility -f dump.raw envars** : Liste les variables d'environnement des processus
-- **volatility -f dump.raw handles** : Liste les handles des processus
-- **volatility -f dump.raw privs** : Liste les privilèges des processus
-- **volatility -f dump.raw cmdline** : Liste les lignes de commande des processus
-- **volatility -f dump.raw consoles** : Liste les consoles allouées
-- **volatility -f dump.raw deskscan** : Liste les objets de bureau
-- **volatility -f dump.raw idt** : Affiche la table d'adresses IDT
-- **volatility -f dump.raw gdt** : Affiche la table de descripteurs GDT
-- **volatility -f dump.raw threads** : Liste les threads
-- **volatility -f dump.raw mutantscan** : Liste les objets de synchronisation
-- **volatility -f dump.raw svcscan** : Liste les services
-- **volatility -f dump.raw ssdeep** : Calcul de hash SSDeep pour les sections PE
-- **volatility -f dump.raw yarascan** : Recherche de motifs Yara
-- **volatility -f dump.raw autoruns** : Liste les programmes exécutés au démarrage
-- **volatility -f dump.raw printkey -K 'ControlSet001\Control\ComputerName\ComputerName'** : Affiche la valeur d'une clé de registre spécifique
+- **apihooks**
+- **malfind**
+- **mftparser**
+- **modscan**
+- **timeliner**
+- **truecrypt**
+- **userassist**
+- **yarascan**
 
 {% endtab %}
 ```bash
@@ -1491,309 +1471,29 @@ volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp auto
 ```
 {% endtab %}
 
-{% tab title="vol2" %} 
-
-### Feuille de triche Volatility
-
-#### Commandes de base
-
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil command_name**
-
-#### Analyse de la mémoire
-
-- **imageinfo :** Affiche des informations générales sur l'image mémoire.
-- **pslist :** Liste les processus en cours d'exécution.
-- **pstree :** Affiche les processus sous forme d'arborescence.
-- **psscan :** Recherche les processus supprimés.
-- **dlllist :** Liste les DLL chargées pour chaque processus.
-- **handles :** Affiche les handles ouverts par chaque processus.
-- **cmdline :** Affiche les lignes de commande des processus.
-- **filescan :** Recherche les fichiers ouverts par les processus.
-- **netscan :** Recherche les connexions réseau.
-- **connections :** Affiche les connexions réseau.
-- **svcscan :** Recherche les services.
-- **malfind :** Recherche les injections de code malveillant.
-- **ldrmodules :** Liste les modules chargés.
-- **apihooks :** Recherche les hooks d'API.
-- **callbacks :** Recherche les callbacks du noyau.
-- **devicetree :** Affiche l'arborescence des périphériques.
-- **modscan :** Recherche les modules noyau.
-- **ssdt :** Affiche la table de service du noyau.
-- **driverirp :** Recherche les dispatch routines des pilotes.
-- **printkey :** Affiche les clés de registre modifiées.
-- **privs :** Affiche les privilèges des processus.
-- **getsids :** Affiche les SID des processus.
-- **dumpfiles :** Extrait les fichiers mémoire.
-- **yarascan :** Recherche les motifs Yara.
-- **memmap :** Affiche la carte mémoire.
-- **vadinfo :** Affiche les informations sur les zones d'allocation virtuelle.
-- **vaddump :** Extrait les zones d'allocation virtuelle.
-- **vadtree :** Affiche les zones d'allocation virtuelle sous forme d'arborescence.
-- **dlldump :** Extrait les DLL d'un processus.
-- **dumpregistry :** Extrait les clés de registre.
-- **dumpcerts :** Extrait les certificats.
-- **consoles :** Affiche les consoles allouées.
-- **hivelist :** Affiche les hives du registre.
-- **hivedump :** Extrait un hive du registre.
-- **hashdump :** Extrait les hachages de mots de passe.
-- **userassist :** Affiche les entrées UserAssist.
-- **shellbags :** Affiche les entrées ShellBags.
-- **mbrparser :** Analyse le Master Boot Record.
-- **mftparser :** Analyse la Master File Table.
-- **usnparser :** Analyse le journal USN.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Recherche les atomes du système.
-- **atomscan :** Re
+{% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 mutantscan -f file.dmp
 volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 ```
-{% endtab %}
-{% endtabs %}
-
 ### Liens symboliques
+
+{% tabs %}
+{% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.symlinkscan.SymlinkScan
+```
+{% endtab %}
+
+{% onglet title="vol2" %}
+```bash
+volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
+```
+### Bash
+
+Il est possible de **lire l'historique bash en mémoire.** Vous pourriez également extraire le fichier _.bash\_history_, mais s'il est désactivé, vous serez heureux de pouvoir utiliser ce module de volatilité.
+```
+./vol.py -f file.dmp linux.bash.Bash
 ```
 {% endtab %}
 
@@ -1803,216 +1503,86 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 
 ### Commandes de base
 
-- **volatility -f dump.mem imageinfo** : Affiche des informations générales sur le dump mémoire
-- **volatility -f dump.mem pslist** : Liste les processus en cours d'exécution
-- **volatility -f dump.mem pstree** : Affiche les processus sous forme d'arborescence
-- **volatility -f dump.mem psscan** : Recherche les processus dans le dump mémoire
-- **volatility -f dump.mem dlllist -p PID** : Liste les DLL chargées par un processus spécifique
-- **volatility -f dump.mem filescan** : Recherche les fichiers ouverts dans le dump mémoire
-- **volatility -f dump.mem cmdline -p PID** : Affiche la ligne de commande d'un processus spécifique
-- **volatility -f dump.mem netscan** : Recherche les connexions réseau
-- **volatility -f dump.mem connections** : Affiche les connexions réseau
-- **volatility -f dump.mem malfind** : Recherche les injections de code malveillant
-- **volatility -f dump.mem apihooks** : Recherche les hooks API
-- **volatility -f dump.mem ldrmodules** : Liste les modules chargés
-- **volatility -f dump.mem modscan** : Recherche les modules noyau
-- **volatility -f dump.mem ssdt** : Affiche la table de service du noyau
-- **volatility -f dump.mem callbacks** : Affiche les callbacks du noyau
-- **volatility -f dump.mem driverirp** : Affiche les IRP gérés par les pilotes
-- **volatility -f dump.mem devicetree** : Affiche l'arborescence des périphériques
-- **volatility -f dump.mem printkey -K "ControlSet001\services"** : Affiche les clés de registre
-- **volatility -f dump.mem hivelist** : Affiche les hives de registre
-- **volatility -f dump.mem userassist** : Affiche les entrées UserAssist
-- **volatility -f dump.mem shimcache** : Affiche les entrées ShimCache
-- **volatility -f dump.mem getsids** : Affiche les SID des processus
-- **volatility -f dump.mem getservicesids** : Affiche les SID des services
-- **volatility -f dump.mem getsids -p PID** : Affiche les SID d'un processus spécifique
-- **volatility -f dump.mem getsids -s SERVICE_NAME** : Affiche les SID d'un service spécifique
+- `volatility -f <dumpfile> imageinfo` : Informations sur l'image mémoire
+- `volatility -f <dumpfile> pslist` : Liste des processus en cours d'exécution
+- `volatility -f <dumpfile> psscan` : Analyse des processus supprimés
+- `volatility -f <dumpfile> pstree` : Affichage de l'arborescence des processus
+- `volatility -f <dumpfile> dlllist -p <PID>` : Liste des DLL chargées par un processus
+- `volatility -f <dumpfile> cmdline -p <PID>` : Ligne de commande d'un processus
+- `volatility -f <dumpfile> filescan` : Analyse des fichiers ouverts
+- `volatility -f <dumpfile> netscan` : Analyse des connexions réseau
+- `volatility -f <dumpfile> connections` : Liste des connexions réseau
+- `volatility -f <dumpfile> timeliner` : Lister les événements temporels
+- `volatility -f <dumpfile> malfind` : Recherche de code malveillant en mémoire
+- `volatility -f <dumpfile> apihooks` : Recherche de hooks API
+- `volatility -f <dumpfile> ldrmodules` : Liste des modules chargés dynamiquement
+- `volatility -f <dumpfile> modscan` : Analyse des modules noyau
+- `volatility -f <dumpfile> ssdt` : Affichage de la table de service du système
+- `volatility -f <dumpfile> callbacks` : Liste des callbacks du noyau
+- `volatility -f <dumpfile> driverirp` : Analyse des requêtes de paquets IRP des pilotes
+- `volatility -f <dumpfile> devicetree` : Affichage de l'arborescence des périphériques
+- `volatility -f <dumpfile> hivelist` : Liste des hives de registre
+- `volatility -f <dumpfile> printkey -o <offset>` : Affichage du contenu d'une clé de registre
+- `volatility -f <dumpfile> userassist` : Analyse des entrées UserAssist
+- `volatility -f <dumpfile> shimcache` : Analyse du cache de compatibilité des applications
+- `volatility -f <dumpfile> getsids` : Liste des SID des processus
+- `volatility -f <dumpfile> getservicesids` : Liste des SID des services
+- `volatility -f <dumpfile> envars` : Affichage des variables d'environnement
+- `volatility -f <dumpfile> consoles` : Liste des consoles
+- `volatility -f <dumpfile> deskscan` : Analyse des objets de bureau
+- `volatility -f <dumpfile> hivescan` : Analyse des hives de registre
+- `volatility -f <dumpfile> userhandles` : Liste des handles utilisateur
+- `volatility -f <dumpfile> mutantscan` : Analyse des objets mutant
+- `volatility -f <dumpfile> svcscan` : Analyse des services
+- `volatility -f <dumpfile> yarascan --yara-file=<rules.yara>` : Analyse avec Yara
+- `volatility -f <dumpfile> dumpfiles -Q <address>` : Extraction de fichiers en mémoire
+- `volatility -f <dumpfile> dumpregistry -o <output_directory>` : Extraction de la base de registre
+- `volatility -f <dumpfile> memdump -p <PID> -D <output_directory>` : Extraction de la mémoire d'un processus
+- `volatility -f <dumpfile> memmap --profile=<profile>` : Affichage de la carte mémoire
+- `volatility -f <dumpfile> mftparser` : Analyse du Master File Table
+- `volatility -f <dumpfile> shimcachemem` : Analyse du cache de compatibilité des applications en mémoire
+- `volatility -f <dumpfile> userassist -output=csv` : Exporter les entrées UserAssist au format CSV
+- `volatility -f <dumpfile> hivelist -o <output_directory>` : Exporter les hives de registre dans un répertoire
+- `volatility -f <dumpfile> dumpfiles -Q <address> -D <output_directory>` : Extraction de fichiers en mémoire dans un répertoire
+- `volatility -f <dumpfile> dumpregistry -o <output_directory>` : Extraction de la base de registre dans un répertoire
+- `volatility -f <dumpfile> memdump -p <PID> -D <output_directory>` : Extraction de la mémoire d'un processus dans un répertoire
 
 ### Plugins supplémentaires
 
-- **[Volatility Plugins](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference)**: Référence des plugins supplémentaires disponibles
+- **VolUtility** : Interface graphique pour Volatility
+- **VolDiff** : Comparaison de deux images mémoire
+- **Volshell** : Shell interactif pour Volatility
+- **YaraScan** : Analyse avec Yara
+- **Malware** : Analyse de logiciels malveillants
+- **TrueCrypt** : Analyse de volumes TrueCrypt
+- **Malfind** : Recherche de code malveillant
+- **MemDmp** : Extraction de la mémoire d'un processus
+- **MemMap** : Affichage de la carte mémoire
+- **MFTParser** : Analyse du Master File Table
+- **APIHooks** : Recherche de hooks API
+- **SSDT** : Affichage de la table de service du système
+- **DriverIRP** : Analyse des requêtes de paquets IRP des pilotes
+- **Devicetree** : Affichage de l'arborescence des périphériques
+- **HiveList** : Liste des hives de registre
+- **PrintKey** : Affichage du contenu d'une clé de registre
+- **DumpFiles** : Extraction de fichiers en mémoire
+- **DumpRegistry** : Extraction de la base de registre
+- **UserAssist** : Analyse des entrées UserAssist
+- **ShimCache** : Analyse du cache de compatibilité des applications
+- **GetSids** : Liste des SID des processus
+- **GetServicesSids** : Liste des SID des services
+- **Envars** : Affichage des variables d'environnement
+- **Consoles** : Liste des consoles
+- **DeskScan** : Analyse des objets de bureau
+- **HiveScan** : Analyse des hives de registre
+- **UserHandles** : Liste des handles utilisateur
+- **MutantScan** : Analyse des objets mutant
+- **SvcScan** : Analyse des services
 
 {% endtab %}
-```bash
-volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
-```
-### Bash
-
-Il est possible de **lire l'historique bash en mémoire.** Vous pourriez également extraire le fichier _.bash\_history_, mais s'il est désactivé, vous serez heureux de pouvoir utiliser ce module de volatilité
-```
-./vol.py -f file.dmp linux.bash.Bash
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-### Feuille de triche Volatility
-
-#### Commandes de base
-
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil commandes_volatility**
-
-#### Analyse de la mémoire
-
-- **volatility.exe -f chemin_vers_le_fichier_memoire imageinfo**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil pslist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil pstree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil psscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil dlllist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil filescan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil cmdline**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil netscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil connections**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil consoles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil getsids**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil hivelist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil printkey**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil hashdump**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil userassist**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil shimcache**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mftparser**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil malfind**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ldrmodules**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil modscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutantscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil svcscan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil yarascan**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil apihooks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil driverirp**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil idt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil gdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil mutants**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil callbacks**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil sockets**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil devicetree**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil drivermodule**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil ssdt**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil threads**
-- **volatility.exe -f chemin_vers_le_fichier_memoire --profile=Nom_du_profil handles**
-- **vol
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
 ```
-{% endtab %}
-{% endtabs %}
-
 ### Chronologie
 
 {% tabs %}
@@ -2022,54 +1592,80 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
 ```
 {% endtab %}
 
-{% tab title="vol2" %}
+{% tab title="vol2" %} 
 
 ## Feuille de triche Volatility
 
 ### Commandes de base
 
-- **volatility -f dump.raw imageinfo** : Affiche des informations générales sur l'image mémoire.
-- **volatility -f dump.raw pslist** : Liste les processus en cours d'exécution.
-- **volatility -f dump.raw pstree** : Affiche les processus sous forme d'arborescence.
-- **volatility -f dump.raw psscan** : Recherche les processus supprimés.
-- **volatility -f dump.raw dlllist -p PID** : Liste les DLL chargées par un processus spécifique.
-- **volatility -f dump.raw filescan** : Recherche les fichiers ouverts par les processus.
-- **volatility -f dump.raw cmdline -p PID** : Affiche la ligne de commande d'un processus.
-- **volatility -f dump.raw netscan** : Recherche les connexions réseau.
-- **volatility -f dump.raw connections** : Affiche les connexions réseau.
-- **volatility -f dump.raw timeliner** : Crée une timeline des activités du système.
-- **volatility -f dump.raw malfind** : Recherche les injections de code malveillant.
-- **volatility -f dump.raw apihooks** : Recherche les hooks d'API.
-- **volatility -f dump.raw ldrmodules** : Liste les modules chargés par les processus.
-- **volatility -f dump.raw mutantscan** : Recherche les objets de synchronisation (mutants).
-- **volatility -f dump.raw userassist** : Extrait les informations de l'UserAssist.
-- **volatility -f dump.raw shimcache** : Extrait les entrées de la ShimCache.
-- **volatility -f dump.raw hivelist** : Liste les hives du Registre.
-- **volatility -f dump.raw printkey -o OFFSET** : Affiche les sous-clés et valeurs d'une clé de Registre.
-- **volatility -f dump.raw hashdump** : Extrait les hachages des mots de passe.
-- **volatility -f dump.raw truecryptpassphrase** : Extrait les passphrases TrueCrypt.
+- **volatility -f dump.mem imageinfo** : Informations sur l'image mémoire
+- **volatility -f dump.mem hivelist** : Liste des hives de registre
+- **volatility -f dump.mem --profile=ProfileName cmdscan** : Analyse des commandes exécutées
+- **volatility -f dump.mem --profile=ProfileName consoles** : Liste des consoles interactives
+- **volatility -f dump.mem --profile=ProfileName pstree** : Affichage de l'arborescence des processus
+- **volatility -f dump.mem --profile=ProfileName netscan** : Analyse des connexions réseau
+- **volatility -f dump.mem --profile=ProfileName filescan** : Analyse des fichiers ouverts
+- **volatility -f dump.mem --profile=ProfileName malfind** : Recherche de code malveillant dans les processus
+- **volatility -f dump.mem --profile=ProfileName getsids** : Liste des SID des processus
+- **volatility -f dump.mem --profile=ProfileName pslist** : Liste des processus actifs
+- **volatility -f dump.mem --profile=ProfileName dlllist -p ProcessID** : Liste des DLL chargées par un processus
+- **volatility -f dump.mem --profile=ProfileName cmdline -p ProcessID** : Ligne de commande d'un processus
+- **volatility -f dump.mem --profile=ProfileName memdump -p ProcessID -D /destination/folder/** : Extraction de la mémoire d'un processus
+- **volatility -f dump.mem --profile=ProfileName memmap** : Cartographie de la mémoire physique
+- **volatility -f dump.mem --profile=ProfileName modscan** : Recherche de modules noyau chargés
+- **volatility -f dump.mem --profile=ProfileName userassist** : Analyse des éléments UserAssist
+- **volatility -f dump.mem --profile=ProfileName shimcache** : Analyse du cache de compatibilité des applications
+- **volatility -f dump.mem --profile=ProfileName ldrmodules** : Liste des modules chargés par les processus
+- **volatility -f dump.mem --profile=ProfileName apihooks** : Recherche de hooks API
+- **volatility -f dump.mem --profile=ProfileName mutantscan** : Analyse des objets de synchronisation
+- **volatility -f dump.mem --profile=ProfileName ssdt** : Affichage de la table de service du noyau
+- **volatility -f dump.mem --profile=ProfileName callbacks** : Recherche de callbacks du noyau
+- **volatility -f dump.mem --profile=ProfileName driverirp** : Analyse des IRP des pilotes
+- **volatility -f dump.mem --profile=ProfileName devicetree** : Affichage de l'arborescence des périphériques
+- **volatility -f dump.mem --profile=ProfileName threads** : Liste des threads actifs
+- **volatility -f dump.mem --profile=ProfileName handles** : Liste des handles ouverts
+- **volatility -f dump.mem --profile=ProfileName mutantscan** : Analyse des objets de synchronisation
+- **volatility -f dump.mem --profile=ProfileName svcscan** : Analyse des services
+- **volatility -f dump.mem --profile=ProfileName printkey -K KeyPath** : Affichage du contenu d'une clé de registre
+- **volatility -f dump.mem --profile=ProfileName hashdump** : Extraction des hachages de mots de passe
+- **volatility -f dump.mem --profile=ProfileName truecryptpassphrase** : Recherche de phrases de passe TrueCrypt
+- **volatility -f dump.mem --profile=ProfileName envars** : Affichage des variables d'environnement
+- **volatility -f dump.mem --profile=ProfileName consoles** : Liste des consoles interactives
+- **volatility -f dump.mem --profile=ProfileName clipboard** : Analyse du presse-papiers
+- **volatility -f dump.mem --profile=ProfileName screenshot** : Capture d'écran de la session utilisateur
+- **volatility -f dump.mem --profile=ProfileName memdump -p ProcessID -D /destination/folder/** : Extraction de la mémoire d'un processus
+- **volatility -f dump.mem --profile=ProfileName dumpfiles -Q AddressRange -D /destination/folder/** : Extraction de fichiers en mémoire
+- **volatility -f dump.mem --profile=ProfileName dumpregistry -o /destination/folder/** : Extraction de la base de registre
+- **volatility -f dump.mem --profile=ProfileName dumpcerts -D /destination/folder/** : Extraction des certificats
+- **volvatility -f dump.mem --profile=ProfileName yarascan -Y RuleFile** : Analyse avec Yara
+- **volatility -f dump.mem --profile=ProfileName yarascan -Y RuleFile -f AddressRange** : Analyse avec Yara sur une plage mémoire
+- **volatility -f dump.mem --profile=ProfileName yarascan -Y RuleFile -p ProcessID** : Analyse avec Yara sur un processus
+- **volatility -f dump.mem --profile=ProfileName yarascan -Y RuleFile -f AddressRange -p ProcessID** : Analyse avec Yara sur une plage mémoire et un processus
+- **volatility -f dump.mem --profile=ProfileName malfind -D /destination/folder/** : Recherche de code malveillant dans les processus et extraction
+- **volatility -f dump.mem --profile=ProfileName malfind -p ProcessID -D /destination/folder/** : Recherche de code malveillant dans un processus et extraction
+- **volatility -f dump.mem --profile=ProfileName malfind -Y RuleFile** : Recherche de code malveillant avec Yara
+- **volatility -f dump.mem --profile=ProfileName malfind -Y RuleFile -D /destination/folder/** : Recherche de code malveillant avec Yara et extraction
+- **volatility -f dump.mem --profile=ProfileName malfind -Y RuleFile -p ProcessID -D /destination/folder/** : Recherche de code malveillant avec Yara dans un processus et extraction
+- **volatility -f dump.mem --profile=ProfileName malfind -D /destination/folder/** : Recherche de code malveillant dans les processus et extraction
+- **volatility -f dump.mem --profile=ProfileName malfind -p ProcessID -D /destination/folder/** : Recherche de code malveillant dans un processus et extraction
+- **volatility -f dump.mem --profile=ProfileName malfind -Y RuleFile** : Recherche de code malveillant avec Yara
+- **volatility -f dump.mem --profile=ProfileName malfind -Y RuleFile -D /destination/folder/** : Recherche de code malveillant avec Yara et extraction
+- **volatility -f dump.mem --profile=ProfileName malfind -Y RuleFile -p ProcessID -D /destination/folder/** : Recherche de code malveillant avec Yara dans un processus et extraction
 
 ### Plugins supplémentaires
 
-- **volatility -f dump.raw --profile=PROFILE plugin_name** : Utilise un plugin spécifique avec un profil spécifié.
-- **volatility -f dump.raw --plugins=PATH plugin_name** : Charge des plugins supplémentaires à partir d'un chemin spécifié.
-
-### Analyse avancée
-
-- **volatility -f dump.raw kdbgscan** : Recherche le KDBG (Kernel Debugger Block).
-- **volatility -f dump.raw vadinfo -p PID** : Affiche des informations sur les espaces d'adressage virtuel d'un processus.
-- **volatility -f dump.raw memmap** : Affiche la carte mémoire du système.
-- **volatility -f dump.raw memdump -p PID -D /path/to/dump/** : Effectue un dump de la mémoire d'un processus spécifique.
-- **volatility -f dump.raw memdump -p PID --dump-dir=/path/to/dump/** : Effectue un dump de la mémoire d'un processus spécifique dans un répertoire spécifié.
+- **[Volatility Plugins](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference)** : Référence des commandes supplémentaires
+- **[Volatility Foundation](https://www.volatilityfoundation.org/)** : Site officiel de Volatility
+- **[Volatility GitHub](https://github.com/volatilityfoundation/volatility)** : Dépôt GitHub de Volatility
 
 {% endtab %}
 ```
 volatility --profile=Win7SP1x86_23418 -f timeliner
 ```
-### Pilotes
+{% endtab %}
+{% endtabs %}
 
-{% tabs %}
-{% tab title="vol3" %}
+### Pilotes
 ```
 ./vol.py -f file.dmp windows.driverscan.DriverScan
 ```
@@ -2079,9 +1675,6 @@ volatility --profile=Win7SP1x86_23418 -f timeliner
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
 ```
-{% endtab %}
-{% endtabs %}
-
 ### Obtenir le presse-papiers
 ```bash
 #Just vol2
@@ -2106,14 +1699,14 @@ volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-Le **Master Boot Record (MBR)** joue un rôle crucial dans la gestion des partitions logiques d'un support de stockage, qui sont structurées avec différents [systèmes de fichiers](https://fr.wikipedia.org/wiki/Syst%C3%A8me_de_fichiers). Il contient non seulement des informations sur la disposition des partitions, mais également du code exécutable agissant comme un chargeur de démarrage. Ce chargeur de démarrage initie soit directement le processus de chargement de la deuxième étape du système d'exploitation (voir [deuxième chargeur de démarrage](https://fr.wikipedia.org/wiki/Deuxi%C3%A8me_chargeur_de_d%C3%A9marrage)) soit fonctionne en harmonie avec l'enregistrement d'amorçage de volume ([volume boot record](https://fr.wikipedia.org/wiki/Volume_boot_record)) (VBR) de chaque partition. Pour une connaissance approfondie, consultez la [page Wikipedia sur le MBR](https://fr.wikipedia.org/wiki/Master_boot_record).
+Le **Master Boot Record (MBR)** joue un rôle crucial dans la gestion des partitions logiques d'un support de stockage, qui sont structurées avec différents [systèmes de fichiers](https://fr.wikipedia.org/wiki/Syst%C3%A8me_de_fichiers). Il contient non seulement des informations sur la disposition des partitions, mais également du code exécutable agissant comme un chargeur de démarrage. Ce chargeur de démarrage initie directement le processus de chargement de la deuxième étape du système d'exploitation (voir [chargeur de démarrage de deuxième étape](https://fr.wikipedia.org/wiki/Chargeur_de_d%C3%A9marrage_de_deuxi%C3%A8me_%C3%A9tape)) ou fonctionne en harmonie avec l'enregistrement de démarrage de volume ([Volume Boot Record](https://fr.wikipedia.org/wiki/Volume_boot_record)) (VBR) de chaque partition. Pour des connaissances approfondies, consultez la [page Wikipedia sur le MBR](https://fr.wikipedia.org/wiki/Master_boot_record).
 
-# Références
+## Références
 * [https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/](https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/)
 * [https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html](https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html)
 * [https://or10nlabs.tech/cgi-sys/suspendedpage.cgi](https://or10nlabs.tech/cgi-sys/suspendedpage.cgi)
 * [https://www.aldeid.com/wiki/Windows-userassist-keys](https://www.aldeid.com/wiki/Windows-userassist-keys)
-* [https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table](https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table)
+​* [https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table](https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table)
 * [https://answers.microsoft.com/en-us/windows/forum/all/uefi-based-pc-protective-mbr-what-is-it/0fc7b558-d8d4-4a7d-bae2-395455bb19aa](https://answers.microsoft.com/en-us/windows/forum/all/uefi-based-pc-protective-mbr-what-is-it/0fc7b558-d8d4-4a7d-bae2-395455bb19aa)
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
@@ -2131,7 +1724,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le groupe [**telegram**](https://t.me/peass) ou suivez-nous sur Twitter 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

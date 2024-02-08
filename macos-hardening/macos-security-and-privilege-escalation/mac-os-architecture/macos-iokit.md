@@ -7,20 +7,20 @@
 * ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
 * Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
 * **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Informations de base
 
-L'I/O Kit est un **cadre de pilote de périphérique** orienté objet open source dans le noyau XNU, gère les **pilotes de périphériques chargés dynamiquement**. Il permet d'ajouter du code modulaire au noyau à la volée, prenant en charge du matériel divers.
+L'IOKit est un **cadre de pilote de périphérique** orienté objet open source dans le noyau XNU, gère les **pilotes de périphériques chargés dynamiquement**. Il permet d'ajouter du code modulaire au noyau à la volée, prenant en charge du matériel divers.
 
 Les pilotes IOKit **exportent essentiellement des fonctions du noyau**. Les types de paramètres de ces fonctions sont **prédéfinis** et vérifiés. De plus, tout comme XPC, IOKit est juste une autre couche **au-dessus des messages Mach**.
 
-Le code du **noyau IOKit XNU** est open source par Apple sur [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). De plus, les composants IOKit de l'espace utilisateur sont également open source sur [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
+Le code du noyau **IOKit XNU** est open source par Apple sur [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). De plus, les composants IOKit de l'espace utilisateur sont également open source sur [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
-Cependant, **aucun pilote IOKit** n'est open source. De toute façon, de temps en temps, une version d'un pilote peut être publiée avec des symboles qui facilitent son débogage. Consultez comment **obtenir les extensions de pilote à partir du micrologiciel ici**](./#ipsw)**.
+Cependant, **aucun pilote IOKit** n'est open source. De toute façon, de temps en temps, une version d'un pilote peut être publiée avec des symboles qui facilitent le débogage. Consultez comment **obtenir les extensions de pilote à partir du micrologiciel ici**](./#ipsw)**.
 
 Il est écrit en **C++**. Vous pouvez obtenir des symboles C++ démanglés avec :
 ```bash
@@ -79,15 +79,15 @@ kextunload com.apple.iokit.IOReportFamily
 ```
 ## IORegistry
 
-Le **IORegistry** est une partie cruciale du framework IOKit dans macOS et iOS qui sert de base de données pour représenter la configuration matérielle et l'état du système. C'est une **collection hiérarchique d'objets qui représentent tout le matériel et les pilotes** chargés sur le système, ainsi que leurs relations mutuelles. 
+Le **IORegistry** est une partie cruciale du framework IOKit dans macOS et iOS qui sert de base de données pour représenter la configuration matérielle et l'état du système. C'est une **collection hiérarchique d'objets qui représentent tout le matériel et les pilotes** chargés sur le système, ainsi que leurs relations mutuelles.&#x20;
 
-Vous pouvez obtenir l'IORegistry en utilisant la ligne de commande **`ioreg`** pour l'inspecter depuis la console (particulièrement utile pour iOS).
+Vous pouvez obtenir l'IORegistry en utilisant la commande **`ioreg`** pour l'inspecter depuis la console (particulièrement utile pour iOS).
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-Vous pouvez télécharger **`IORegistryExplorer`** depuis les **Outils Additionnels Xcode** sur [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) et inspecter le **IORegistry macOS** à travers une interface **graphique**.
+Vous pouvez télécharger **`IORegistryExplorer`** depuis les **Outils Additionnels Xcode** sur [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) et inspecter le **IORegistry de macOS** à travers une interface **graphique**.
 
 <figure><img src="../../../.gitbook/assets/image (695).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -96,7 +96,7 @@ Dans IORegistryExplorer, les "planes" sont utilisés pour organiser et afficher 
 1. **Plane IOService** : Il s'agit du plane le plus général, affichant les objets de service qui représentent les pilotes et les nœuds (canaux de communication entre les pilotes). Il montre les relations fournisseur-client entre ces objets.
 2. **Plane IODeviceTree** : Ce plane représente les connexions physiques entre les appareils tels qu'ils sont attachés au système. Il est souvent utilisé pour visualiser la hiérarchie des appareils connectés via des bus comme USB ou PCI.
 3. **Plane IOPower** : Affiche les objets et leurs relations en termes de gestion de l'alimentation. Il peut montrer quels objets affectent l'état d'alimentation des autres, utile pour le débogage des problèmes liés à l'alimentation.
-4. **Plane IOUSB** : Spécifiquement axé sur les appareils USB et leurs relations, montrant la hiérarchie des concentrateurs USB et des appareils connectés.
+4. **Plane IOUSB** : Axé spécifiquement sur les appareils USB et leurs relations, montrant la hiérarchie des concentrateurs USB et des appareils connectés.
 5. **Plane IOAudio** : Ce plane est pour représenter les appareils audio et leurs relations au sein du système.
 6. ...
 
@@ -106,7 +106,7 @@ Le code suivant se connecte au service IOKit `"VotreNomDeServiceIci"` et appelle
 
 * il appelle d'abord **`IOServiceMatching`** et **`IOServiceGetMatchingServices`** pour obtenir le service.
 * Il établit ensuite une connexion en appelant **`IOServiceOpen`**.
-* Et enfin, il appelle une fonction avec **`IOConnectCallScalarMethod`** en indiquant le sélecteur 0 (le sélecteur est le numéro attribué à la fonction que vous souhaitez appeler).
+* Et il appelle enfin une fonction avec **`IOConnectCallScalarMethod`** en indiquant le sélecteur 0 (le sélecteur est le numéro attribué à la fonction que vous souhaitez appeler).
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -228,7 +228,7 @@ Une fois le tableau créé, vous pouvez voir toutes les fonctions exportées :
 <figure><img src="../../../.gitbook/assets/image (709).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-Si vous vous souvenez, pour **appeler** une fonction **exportée** de l'espace utilisateur, nous n'avons pas besoin d'appeler le nom de la fonction, mais le **numéro de sélecteur**. Ici, vous pouvez voir que le sélecteur **0** est la fonction **`initializeDecoder`**, le sélecteur **1** est **`startDecoder`**, le sélecteur **2** **`initializeEncoder`**...
+Si vous vous souvenez, pour **appeler** une fonction **exportée** depuis l'espace utilisateur, nous n'avons pas besoin d'appeler le nom de la fonction, mais le **numéro de sélecteur**. Ici, vous pouvez voir que le sélecteur **0** est la fonction **`initializeDecoder`**, le sélecteur **1** est **`startDecoder`**, le sélecteur **2** **`initializeEncoder`**...
 {% endhint %}
 
 <details>
@@ -238,7 +238,7 @@ Si vous vous souvenez, pour **appeler** une fonction **exportée** de l'espace u
 * ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
 * Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
 * **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -1,28 +1,28 @@
-# Injection de l'historique des SID
+# Injection de l'historique SID
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez** le [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## Attaque
+## Attaque par injection de l'historique SID
 
-L'historique des SID a été conçu pour prendre en charge les scénarios de migration, où un utilisateur serait déplacé d'un domaine à un autre. Pour préserver l'accès aux ressources dans l'ancien domaine, le **SID précédent de l'utilisateur serait ajouté à l'historique des SID** de son nouveau compte. Ainsi, lors de la création d'un tel ticket, le SID d'un groupe privilégié (EAs, DAs, etc.) dans le domaine parent peut être ajouté, ce qui **accordera l'accès à toutes les ressources dans le domaine parent**.
+L'objectif de l'**attaque par injection de l'historique SID** est d'aider à la **migration des utilisateurs entre les domaines** tout en garantissant un accès continu aux ressources de l'ancien domaine. Cela est réalisé en **incorporant l'identifiant de sécurité (SID) précédent de l'utilisateur dans l'historique SID** de son nouveau compte. Notamment, ce processus peut être manipulé pour accorder un accès non autorisé en ajoutant le SID d'un groupe à haut privilège (tel que les administrateurs d'entreprise ou les administrateurs de domaine) du domaine parent à l'historique SID. Cette exploitation confère un accès à toutes les ressources du domaine parent.
 
-Cela peut être réalisé en utilisant soit un [**Golden Ticket**](sid-history-injection.md#golden-ticket) ou un [**Diamond Ticket**](sid-history-injection.md#diamond-ticket).
+Deux méthodes existent pour exécuter cette attaque : en créant un **Golden Ticket** ou un **Diamond Ticket**.
 
-Pour trouver le **SID** du groupe **"Enterprise Admins"**, vous pouvez trouver le **SID** du **domaine racine** et le définir comme `S-1-5-21-<domaine racine>-519`. Par exemple, à partir du SID du domaine racine `S-1-5-21-280534878-1496970234-700767426`, le SID du groupe **"Enterprise Admins"** est `S-1-5-21-280534878-1496970234-700767426-519`.
+Pour identifier le SID du groupe **"Administrateurs d'entreprise"**, il faut d'abord localiser le SID du domaine racine. Après l'identification, le SID du groupe Administrateurs d'entreprise peut être construit en ajoutant `-519` au SID du domaine racine. Par exemple, si le SID du domaine racine est `S-1-5-21-280534878-1496970234-700767426`, le SID résultant pour le groupe "Administrateurs d'entreprise" serait `S-1-5-21-280534878-1496970234-700767426-519`.
 
-Vous pouvez également utiliser les groupes **Domain Admins**, qui se terminent en **512**.
+Vous pouvez également utiliser les groupes **Administrateurs de domaine**, qui se terminent en **512**.
 
-Une autre façon de trouver le SID d'un groupe de l'autre domaine (par exemple "Domain Admins") est avec:
+Une autre façon de trouver le SID d'un groupe de l'autre domaine (par exemple "Administrateurs de domaine") est avec:
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
@@ -81,7 +81,7 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-Élevez-vous au niveau de DA ou d'administrateur d'entreprise en utilisant le hachage KRBTGT du domaine compromis:
+Élevez-vous au niveau de DA ou d'administrateur d'entreprise en utilisant le hachage KRBTGT du domaine compromis :
 
 {% code overflow="wrap" %}
 ```bash
@@ -97,7 +97,7 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "STCheck114"
 ```
 {% endcode %}
 
-Avec les autorisations acquises lors de l'attaque, vous pouvez par exemple exécuter une attaque DCSync dans le nouveau domaine :
+Avec les permissions acquises lors de l'attaque, vous pouvez par exemple exécuter une attaque DCSync dans le nouveau domaine :
 
 {% content-ref url="dcsync.md" %}
 [dcsync.md](dcsync.md)
@@ -138,7 +138,7 @@ Il s'agit d'un script Impacket qui **automatise l'escalade du domaine enfant au 
 
 Le flux est le suivant :
 
-* Obtient l'identifiant de sécurité du groupe Administrateurs de l'entreprise du domaine parent
+* Obtient l'identifiant de sécurité (SID) du groupe Administrateurs de l'entreprise du domaine parent
 * Récupère le hachage du compte KRBTGT dans le domaine enfant
 * Crée un Golden Ticket
 * Se connecte au domaine parent
@@ -148,8 +148,8 @@ Le flux est le suivant :
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
 ## Références
-
-* [https://studylib.net/doc/25696115/crto](https://studylib.net/doc/25696115/crto)
+* [https://adsecurity.org/?p=1772](https://adsecurity.org/?p=1772)
+* [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
 <details>
 
@@ -158,7 +158,7 @@ raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

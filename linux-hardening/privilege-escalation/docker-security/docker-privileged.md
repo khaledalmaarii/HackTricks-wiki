@@ -4,15 +4,15 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## Qu'est-ce qui est affecté
+## Impacts
 
 Lorsque vous exécutez un conteneur en mode privilégié, voici les protections que vous désactivez :
 
@@ -42,7 +42,7 @@ cpu              nbd0             pts              stdout           tty27       
 ```
 ### Systèmes de fichiers du noyau en lecture seule
 
-Les systèmes de fichiers du noyau fournissent un mécanisme permettant à un processus de modifier le comportement du noyau. Cependant, en ce qui concerne les processus de conteneurs, nous voulons les empêcher de faire des modifications au noyau. Par conséquent, nous montons les systèmes de fichiers du noyau en **lecture seule** à l'intérieur du conteneur, garantissant que les processus du conteneur ne peuvent pas modifier le noyau.
+Les systèmes de fichiers du noyau fournissent un mécanisme permettant à un processus de modifier le comportement du noyau. Cependant, en ce qui concerne les processus de conteneurs, nous voulons les empêcher de faire des modifications au noyau. Par conséquent, nous montons les systèmes de fichiers du noyau en mode **lecture seule** à l'intérieur du conteneur, garantissant que les processus du conteneur ne peuvent pas modifier le noyau.
 
 {% tabs %}
 {% tab title="À l'intérieur du conteneur par défaut" %}
@@ -63,7 +63,7 @@ mount  | grep '(ro'
 ```
 ### Masquage des systèmes de fichiers du noyau
 
-Le système de fichiers **/proc** est sélectivement inscriptible mais, pour des raisons de sécurité, certaines parties sont protégées contre l'accès en écriture et en lecture en les superposant avec **tmpfs**, garantissant que les processus du conteneur ne peuvent pas accéder à des zones sensibles.
+Le système de fichiers **/proc** est sélectivement inscriptible mais pour des raisons de sécurité, certaines parties sont protégées contre l'écriture et la lecture en les superposant avec **tmpfs**, garantissant que les processus du conteneur ne peuvent pas accéder à des zones sensibles.
 
 {% hint style="info" %}
 **tmpfs** est un système de fichiers qui stocke tous les fichiers en mémoire virtuelle. tmpfs ne crée aucun fichier sur votre disque dur. Ainsi, si vous démontez un système de fichiers tmpfs, tous les fichiers qui y résident sont perdus pour toujours.
@@ -87,7 +87,7 @@ mount  | grep /proc.*tmpfs
 ```
 ### Capacités Linux
 
-Les moteurs de conteneurs lancent les conteneurs avec un **nombre limité de capacités** pour contrôler ce qui se passe à l'intérieur du conteneur par défaut. Ceux qui sont **privilégiés** ont **toutes** les **capacités** accessibles. Pour en savoir plus sur les capacités, consultez :
+Les moteurs de conteneurs lancent les conteneurs avec un **nombre limité de capacités** pour contrôler ce qui se passe à l'intérieur du conteneur par défaut. Les conteneurs **privilégiés** ont **toutes** les **capacités** accessibles. Pour en savoir plus sur les capacités, consultez :
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
@@ -216,7 +216,7 @@ PID   USER     TIME  COMMAND
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous souhaitez voir votre **entreprise annoncée dans HackTricks**? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

@@ -7,7 +7,7 @@
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -71,7 +71,7 @@ Si vous souhaitez [**en savoir plus sur l'UAC, lisez cette page**](../authentica
 
 ### Impersonation d'utilisateur avec des informations d'identification
 
-Si vous avez les **informations d'identification valides d'un autre utilisateur**, vous pouvez **créer** une **nouvelle session de connexion** avec ces informations :
+Si vous avez les **informations d'identification valides d'un autre utilisateur**, vous pouvez **créer** une **nouvelle session de connexion** avec ces informations d'identification :
 ```
 runas /user:domain\username cmd.exe
 ```
@@ -86,19 +86,18 @@ Cela est utile si vous avez des informations d'identification utiles pour accéd
 
 Il existe deux types de jetons disponibles :
 
-* **Jeton primaire** : Les jetons primaires ne peuvent être **associés qu'à des processus** et représentent le sujet de sécurité d'un processus. La création de jetons primaires et leur association à des processus sont des opérations privilégiées, nécessitant deux privilèges différents au nom de la séparation des privilèges - le scénario typique voit le service d'authentification créer le jeton, et un service de connexion l'associant à l'interpréteur de commandes du système d'exploitation de l'utilisateur. Les processus héritent initialement d'une copie du jeton primaire du processus parent.
-* **Jeton d'usurpation** : L'usurpation est un concept de sécurité implémenté dans Windows NT qui **permet** à une application serveur de **"être" temporairement** **le client** en termes d'accès aux objets sécurisés. L'usurpation a **quatre niveaux possibles** :
+* **Jeton principal** : Il sert de représentation des informations d'identification de sécurité d'un processus. La création et l'association de jetons principaux avec des processus sont des actions qui nécessitent des privilèges élevés, mettant en avant le principe de séparation des privilèges. En général, un service d'authentification est responsable de la création du jeton, tandis qu'un service de connexion gère son association avec l'interpréteur de commandes de l'utilisateur. Il est à noter que les processus héritent du jeton principal de leur processus parent lors de leur création.
 
-  * **anonyme**, donnant au serveur l'accès d'un utilisateur anonyme/non identifié
-  * **identification**, permettant au serveur d'inspecter l'identité du client mais de ne pas utiliser cette identité pour accéder aux objets
-  * **usurpation**, permettant au serveur d'agir au nom du client
-  * **délégation**, identique à l'usurpation mais étendu aux systèmes distants auxquels le serveur se connecte (par la préservation des informations d'identification).
+* **Jeton d'usurpation** : Permet à une application serveur d'adopter temporairement l'identité du client pour accéder à des objets sécurisés. Ce mécanisme est stratifié en quatre niveaux d'opération :
+- **Anonyme** : Accorde à un serveur un accès similaire à celui d'un utilisateur non identifié.
+- **Identification** : Permet au serveur de vérifier l'identité du client sans l'utiliser pour accéder aux objets.
+- **Usurpation** : Permet au serveur de fonctionner sous l'identité du client.
+- **Délégation** : Similaire à l'Usurpation mais inclut la capacité d'étendre cette supposition d'identité aux systèmes distants avec lesquels le serveur interagit, assurant la préservation des informations d'identification.
 
-Le client peut choisir le niveau d'usurpation maximal (le cas échéant) disponible pour le serveur en tant que paramètre de connexion. La délégation et l'usurpation sont des opérations privilégiées (l'usurpation n'était initialement pas, mais un manque de précaution historique dans la mise en œuvre des API client n'ayant pas restreint le niveau par défaut à "identification", permettant à un serveur non privilégié d'usurper un client privilégié contre son gré, a nécessité cette restriction). **Les jetons d'usurpation ne peuvent être associés qu'à des threads** et représentent le sujet de sécurité d'un processus client. Les jetons d'usurpation sont généralement créés et associés au thread actuel implicitement, par des mécanismes IPC tels que DCE RPC, DDE et les tubes nommés.
 
 #### Usurper des jetons
 
-En utilisant le module _**incognito**_ de metasploit si vous avez suffisamment de privilèges, vous pouvez facilement **énumérer** et **usurper** d'autres **jetons**. Cela pourrait être utile pour effectuer des **actions comme si vous étiez l'autre utilisateur**. Vous pourriez également **escalader les privilèges** avec cette technique.
+En utilisant le module _**incognito**_ de Metasploit, si vous avez suffisamment de privilèges, vous pouvez facilement **list** et **usurper** d'autres **jetons**. Cela pourrait être utile pour effectuer des **actions comme si vous étiez l'autre utilisateur**. Vous pourriez également **escalader les privilèges** avec cette technique.
 
 ### Privilèges des jetons
 
