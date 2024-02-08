@@ -18,7 +18,7 @@ Outras maneiras de apoiar o HackTricks:
 
 Processos podem ser abertos em hosts onde o nome de usuário e a senha ou hash são conhecidos através do uso do WMI. Comandos são executados usando o WMI pelo Wmiexec, proporcionando uma experiência de shell semi-interativa.
 
-**dcomexec.py:** Utilizando diferentes pontos de extremidade DCOM, este script oferece um shell semi-interativo semelhante ao wmiexec.py, especificamente alavancando o objeto DCOM ShellBrowserWindow. Atualmente suporta MMC20. Aplicação, Janelas do Shell e objetos de Janela do Navegador do Shell. (fonte: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Utilizando diferentes pontos de extremidade DCOM, este script oferece um shell semi-interativo semelhante ao wmiexec.py, especificamente alavancando o objeto DCOM ShellBrowserWindow. Atualmente suporta MMC20. Aplicação, Janelas do Shell e objetos da Janela do Navegador do Shell. (fonte: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## Fundamentos do WMI
 
@@ -108,7 +108,7 @@ wmic /node:hostname /user:user path win32_process call create "empire launcher s
 Este processo ilustra a capacidade do WMI para execução remota e enumeração de sistemas, destacando sua utilidade tanto para administração de sistemas quanto para testes de penetração.
 
 
-# Referências
+## Referências
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-3-wmi-and-winrm/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
 ## Ferramentas Automáticas
@@ -128,7 +128,7 @@ SharpLateral redwmi HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.

@@ -4,11 +4,11 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
@@ -16,25 +16,25 @@
 
 - **`ruid`**: O **ID de usuário real** denota o usuário que iniciou o processo.
 - **`euid`**: Conhecido como **ID de usuário efetivo**, representa a identidade do usuário utilizada pelo sistema para determinar os privilégios do processo. Geralmente, `euid` espelha `ruid`, exceto em casos como a execução de um binário SetUID, onde `euid` assume a identidade do proprietário do arquivo, concedendo permissões operacionais específicas.
-- **`suid`**: Este **ID de usuário salvo** é crucial quando um processo de alta privilégio (geralmente em execução como root) precisa temporariamente renunciar aos seus privilégios para realizar determinadas tarefas, apenas para posteriormente recuperar seu status elevado inicial.
+- **`suid`**: Este **ID de usuário salvo** é fundamental quando um processo de alta privilégio (geralmente em execução como root) precisa temporariamente renunciar aos seus privilégios para realizar determinadas tarefas, apenas para posteriormente recuperar seu status elevado inicial.
 
 #### Nota Importante
-Um processo que não opera sob root só pode modificar seu `euid` para corresponder ao `ruid`, `euid` ou `suid` atual.
+Um processo que não está sendo executado como root só pode modificar seu `euid` para corresponder ao `ruid`, `euid` ou `suid` atual.
 
-### Compreensão das Funções set*uid
+### Compreendendo as Funções set*uid
 
 - **`setuid`**: Contrariamente às suposições iniciais, `setuid` modifica principalmente `euid` em vez de `ruid`. Especificamente, para processos privilegiados, alinha `ruid`, `euid` e `suid` com o usuário especificado, frequentemente root, solidificando efetivamente esses IDs devido à substituição de `suid`. Informações detalhadas podem ser encontradas na [página do manual do setuid](https://man7.org/linux/man-pages/man2/setuid.2.html).
-- **`setreuid`** e **`setresuid`**: Essas funções permitem o ajuste sutil de `ruid`, `euid` e `suid`. No entanto, suas capacidades dependem do nível de privilégio do processo. Para processos não root, as modificações são restritas aos valores atuais de `ruid`, `euid` e `suid`. Em contraste, processos root ou aqueles com a capacidade `CAP_SETUID` podem atribuir valores arbitrários a esses IDs. Mais informações podem ser obtidas na [página do manual do setresuid](https://man7.org/linux/man-pages/man2/setresuid.2.html) e na [página do manual do setreuid](https://man7.org/linux/man-pages/man2/setreuid.2.html).
+- **`setreuid`** e **`setresuid`**: Essas funções permitem o ajuste sutil de `ruid`, `euid` e `suid`. No entanto, suas capacidades dependem do nível de privilégio do processo. Para processos não root, as modificações são restritas aos valores atuais de `ruid`, `euid` e `suid`. Em contraste, processos root ou aqueles com a capacidade `CAP_SETUID` podem atribuir valores arbitrários a esses IDs. Mais informações podem ser obtidas na página do manual do [setresuid](https://man7.org/linux/man-pages/man2/setresuid.2.html) e na página do manual do [setreuid](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
 Essas funcionalidades não são projetadas como um mecanismo de segurança, mas sim para facilitar o fluxo operacional pretendido, como quando um programa adota a identidade de outro usuário alterando seu ID de usuário efetivo.
 
-É importante notar que, embora `setuid` possa ser comum para a elevação de privilégios para root (pois alinha todos os IDs a root), diferenciar entre essas funções é crucial para entender e manipular os comportamentos de ID de usuário em cenários variados.
+É importante notar que, embora `setuid` possa ser comum para a elevação de privilégios para root (pois alinha todos os IDs com root), diferenciar entre essas funções é crucial para entender e manipular os comportamentos de ID de usuário em cenários variados.
 
 ### Mecanismos de Execução de Programas no Linux
 
 #### Chamada de Sistema **`execve`**
 - **Funcionalidade**: `execve` inicia um programa, determinado pelo primeiro argumento. Ele recebe dois argumentos de array, `argv` para argumentos e `envp` para o ambiente.
-- **Comportamento**: Mantém o espaço de memória do chamador, mas atualiza a pilha, heap e segmentos de dados. O código do programa é substituído pelo novo programa.
+- **Comportamento**: Mantém o espaço de memória do chamador, mas atualiza a pilha, o heap e os segmentos de dados. O código do programa é substituído pelo novo programa.
 - **Preservação do ID de Usuário**:
 - `ruid`, `euid` e IDs de grupo suplementares permanecem inalterados.
 - `euid` pode ter mudanças sutis se o novo programa tiver o bit SetUID definido.
@@ -58,7 +58,7 @@ Essas funcionalidades não são projetadas como um mecanismo de segurança, mas 
 - O comportamento em relação aos IDs de usuário não é mencionado explicitamente, exceto sob a opção `-i`, enfatizando a preservação da igualdade de `euid` e `ruid`.
 - Informações adicionais estão disponíveis na [página do manual do `sh`](https://man7.org/linux/man-pages/man1/sh.1p.html).
 
-Esses mecanismos, distintos em sua operação, oferecem uma ampla gama de opções para executar e transitar entre programas, com nuances específicas na forma como os IDs de usuário são gerenciados e preservados.
+Esses mecanismos, distintos em sua operação, oferecem uma ampla gama de opções versáteis para executar e transitar entre programas, com nuances específicas na forma como os IDs de usuário são gerenciados e preservados.
 
 ### Testando Comportamentos de ID de Usuário em Execuções
 
@@ -66,7 +66,7 @@ Exemplos retirados de https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#t
 
 #### Caso 1: Usando `setuid` com `system`
 
-**Objetivo**: Entender o efeito de `setuid` em combinação com `system` e `bash` como `sh`.
+**Objetivo**: Compreender o efeito de `setuid` em combinação com `system` e `bash` como `sh`.
 
 **Código C**:
 ```c
@@ -188,7 +188,7 @@ bash-4.2$ $ ./e
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) euid=100
 ```
-# Referências
+## Referências
 * [https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail](https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail)
 
 
@@ -199,7 +199,7 @@ uid=99(nobody) gid=99(nobody) euid=100
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me no** **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

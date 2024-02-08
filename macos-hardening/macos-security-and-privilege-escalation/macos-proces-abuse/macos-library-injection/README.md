@@ -6,7 +6,7 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 - Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 - Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 - **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
@@ -22,7 +22,7 @@ O código do **dyld é de código aberto** e pode ser encontrado em [https://ope
 
 Isso é semelhante ao [**LD\_PRELOAD no Linux**](../../../../linux-hardening/privilege-escalation#ld\_preload). Permite indicar a um processo que será executado para carregar uma biblioteca específica de um caminho (se a variável de ambiente estiver habilitada).
 
-Essa técnica também pode ser **usada como uma técnica ASEP** já que cada aplicativo instalado possui um arquivo plist chamado "Info.plist" que permite a **atribuição de variáveis ambientais** usando uma chave chamada `LSEnvironmental`.
+Essa técnica também pode ser **usada como técnica ASEP** já que cada aplicativo instalado possui um arquivo plist chamado "Info.plist" que permite a **atribuição de variáveis ambientais** usando uma chave chamada `LSEnvironmental`.
 
 {% hint style="info" %}
 Desde 2012, a **Apple reduziu drasticamente o poder** do **`DYLD_INSERT_LIBRARIES`**.
@@ -77,7 +77,7 @@ Existem **4 comandos de cabeçalho diferentes** que um binário macho pode usar 
 
 - O comando **`LC_LOAD_DYLIB`** é o comando comum para carregar um dylib.
 - O comando **`LC_LOAD_WEAK_DYLIB`** funciona como o anterior, mas se o dylib não for encontrado, a execução continua sem nenhum erro.
-- O comando **`LC_REEXPORT_DYLIB`** faz proxy (ou reexporta) os símbolos de uma biblioteca diferente.
+- O comando **`LC_REEXPORT_DYLIB`** ele faz proxy (ou reexporta) os símbolos de uma biblioteca diferente.
 - O comando **`LC_LOAD_UPWARD_DYLIB`** é usado quando duas bibliotecas dependem uma da outra (isso é chamado de _dependência ascendente_).
 
 No entanto, existem **2 tipos de sequestro de dylib**:
@@ -106,7 +106,7 @@ compatibility version 1.0.0
 **`@loader_path`**: É o **caminho** para o **diretório** que contém o **binário Mach-O** que contém o comando de carregamento.
 
 - Quando usado em um executável, **`@loader_path`** é efetivamente o **mesmo** que **`@executable_path`**.
-- Quando usado em um **dylib**, **`@loader_path`** fornece o **caminho** para a **dylib**.
+- Quando usado em um **dylib**, **`@loader_path`** fornece o **caminho** para o **dylib**.
 {% endhint %}
 
 A maneira de **escalar privilégios** abusando dessa funcionalidade seria no caso raro de um **aplicativo** sendo executado **por** **root** estar **procurando** por alguma **biblioteca em alguma pasta onde o atacante tenha permissões de escrita.**
@@ -130,7 +130,7 @@ Lembre-se de que **restrições de Validação de Biblioteca anteriores também 
 
 Do **`man dlopen`**:
 
-- Quando o caminho **não contém um caractere de barra** (ou seja, é apenas um nome de folha), **dlopen() fará a busca**. Se **`$DYLD_LIBRARY_PATH`** foi definido no lançamento, o dyld primeiro **procurará nesse diretório**. Em seguida, se o arquivo mach-o chamador ou o executável principal especificar um **`LC_RPATH`**, então o dyld **procurará nesses** diretórios. Em seguida, se o processo for **não restrito**, o dyld procurará no **diretório de trabalho atual**. Por último, para binários antigos, o dyld tentará algumas alternativas. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** foi definido no lançamento, o dyld procurará nesses diretórios, caso contrário, o dyld procurará em **`/usr/local/lib/`** (se o processo for não restrito), e depois em **`/usr/lib/`** (essas informações foram retiradas do **`man dlopen`**).
+- Quando o caminho **não contém um caractere de barra** (ou seja, é apenas um nome de folha), **dlopen() fará a busca**. Se **`$DYLD_LIBRARY_PATH`** foi definido no lançamento, o dyld primeiro **procurará nesse diretório**. Em seguida, se o arquivo mach-o chamador ou o executável principal especificar um **`LC_RPATH`**, então o dyld **procurará nesses** diretórios. Em seguida, se o processo for **não restrito**, o dyld procurará no **diretório de trabalho atual**. Por último, para binários antigos, o dyld tentará algumas alternativas. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** foi definido no lançamento, o dyld procurará nesses diretórios, caso contrário, o dyld procurará em **`/usr/local/lib/`** (se o processo for não restrito), e depois em **`/usr/lib/`**. 
 1. `$DYLD_LIBRARY_PATH`
 2. `LC_RPATH`
 3. `CWD`(se não restrito)
@@ -142,10 +142,10 @@ Do **`man dlopen`**:
 Se não houver barras no nome, haveria 2 maneiras de fazer um sequestro:
 
 - Se algum **`LC_RPATH`** for **gravável** (mas a assinatura é verificada, então para isso você também precisa que o binário seja não restrito)
-- Se o binário for **não restrito** e então for possível carregar algo do CWD (ou abusando de uma das variáveis de ambiente mencionadas)
+- Se o binário for **não restrito** e então for possível carregar algo do CWD (ou abusar de uma das variáveis de ambiente mencionadas)
 {% endhint %}
 
-- Quando o caminho **parece um caminho de framework** (por exemplo, `/stuff/foo.framework/foo`), se **`$DYLD_FRAMEWORK_PATH`** foi definido no lançamento, o dyld primeiro procurará nesse diretório pelo **caminho parcial do framework** (por exemplo, `foo.framework/foo`). Em seguida, o dyld tentará o **caminho fornecido como está** (usando o diretório de trabalho atual para caminhos relativos). Por último, para binários antigos, o dyld tentará algumas alternativas. Se **`$DYLD_FALLBACK_FRAMEWORK_PATH`** foi definido no lançamento, o dyld procurará nesses diretórios. Caso contrário, ele procurará em **`/Library/Frameworks`** (no macOS se o processo for não restrito), e depois em **`/System/Library/Frameworks`**.
+- Quando o caminho **parece um caminho de framework** (por exemplo, `/stuff/foo.framework/foo`), se **`$DYLD_FRAMEWORK_PATH`** foi definido no lançamento, o dyld primeiro procurará nesse diretório para o **caminho parcial do framework** (por exemplo, `foo.framework/foo`). Em seguida, o dyld tentará o **caminho fornecido como está** (usando o diretório de trabalho atual para caminhos relativos). Por último, para binários antigos, o dyld tentará algumas alternativas. Se **`$DYLD_FALLBACK_FRAMEWORK_PATH`** foi definido no lançamento, o dyld procurará nesses diretórios. Caso contrário, ele procurará em **`/Library/Frameworks`** (no macOS se o processo for não restrito), e depois em **`/System/Library/Frameworks`**.
 1. `$DYLD_FRAMEWORK_PATH`
 2. caminho fornecido (usando o diretório de trabalho atual para caminhos relativos se não restrito)
 3. `$DYLD_FALLBACK_FRAMEWORK_PATH`
@@ -168,7 +168,7 @@ Se for um caminho de framework, a maneira de sequestrá-lo seria:
 {% hint style="danger" %}
 Se houver barras no nome e não for um framework, a maneira de sequestrá-lo seria:
 
-- Se o binário for **não restrito** e então for possível carregar algo do CWD ou `/usr
+- Se o binário for **não restrito** e então for possível carregar algo do CWD ou `/usr/local/lib` (ou abusar de uma das variáveis
 ```c
 // gcc dlopentest.c -o dlopentest -Wl,-rpath,/tmp/test
 #include <dlfcn.h>
@@ -311,7 +311,7 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed # Won't work
 {% endcode %}
 
 {% hint style="danger" %}
-Note que mesmo que existam binários assinados com flags **`0x0(none)`**, eles podem receber dinamicamente a flag **`CS_RESTRICT`** quando executados e, portanto, essa técnica não funcionará neles.
+Note que mesmo que existam binários assinados com flags **`0x0(none)`**, eles podem receber a flag **`CS_RESTRICT`** dinamicamente quando executados e, portanto, essa técnica não funcionará neles.
 
 Você pode verificar se um proc possui essa flag com (obtenha [**csops aqui**](https://github.com/axelexic/CSOps)):&#x20;
 ```bash
@@ -320,7 +320,7 @@ csops -status <pid>
 e então verifique se a flag 0x800 está ativada.
 {% endhint %}
 
-# Referências
+## Referências
 * [https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/](https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/)
 
 <details>
@@ -329,10 +329,10 @@ e então verifique se a flag 0x800 está ativada.
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

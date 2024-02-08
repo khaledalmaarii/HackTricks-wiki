@@ -1,4 +1,4 @@
-# Injeção de Thread no macOS via Porta de Tarefa
+# Injeção de Thread no macOS via porta de tarefa
 
 <details>
 
@@ -26,7 +26,7 @@ Inicialmente, a função **`task_threads()`** é invocada na porta da tarefa par
 
 Para controlar o thread, é chamado **`thread_suspend()`**, interrompendo sua execução.
 
-As únicas operações permitidas no thread remoto envolvem **parar** e **iniciar** o thread, **recuperar** e **modificar** seus valores de registro. Chamadas de função remotas são iniciadas configurando os registros `x0` a `x7` para os **argumentos**, configurando **`pc`** para a função desejada e ativando o thread. Garantir que o thread não falhe após o retorno requer a detecção do retorno.
+As únicas operações permitidas no thread remoto envolvem **parar** e **iniciar** ele, **recuperar** e **modificar** seus valores de registro. Chamadas de função remotas são iniciadas configurando os registros `x0` a `x7` para os **argumentos**, configurando **`pc`** para a função desejada e ativando o thread. Garantir que o thread não falhe após o retorno requer a detecção do retorno.
 
 Uma estratégia envolve **registrar um manipulador de exceção** para o thread remoto usando `thread_set_exception_ports()`, configurando o registro `lr` para um endereço inválido antes da chamada da função. Isso desencadeia uma exceção pós-execução da função, enviando uma mensagem para a porta de exceção, permitindo a inspeção do estado do thread para recuperar o valor de retorno. Alternativamente, como adotado do exploit triple\_fetch de Ian Beer, `lr` é configurado para fazer um loop infinito. Os registros do thread são então monitorados continuamente até que o **`pc` aponte para essa instrução**.
 
@@ -40,7 +40,7 @@ Focando na porta local, o direito de recebimento é mantido pela tarefa local. A
 
 Uma estratégia envolve aproveitar `thread_set_special_port()` para colocar um direito de envio para a porta local no `THREAD_KERNEL_PORT` do thread remoto. Em seguida, instrui-se o thread remoto a chamar `mach_thread_self()` para recuperar o direito de envio.
 
-Para a porta remota, o processo é essencialmente reverso. O thread remoto é direcionado a gerar uma porta Mach via `mach_reply_port()` (como `mach_port_allocate()` não é adequado devido ao seu mecanismo de retorno). Após a criação da porta, `mach_port_insert_right()` é invocado no thread remoto para estabelecer um direito de envio. Este direito é então armazenado no kernel usando `thread_set_special_port()`. De volta à tarefa local, `thread_get_special_port()` é usado no thread remoto para adquirir um direito de envio para a porta Mach recém-alocada na tarefa remota.
+Para a porta remota, o processo é essencialmente reverso. O thread remoto é direcionado a gerar uma porta Mach via `mach_reply_port()` (como `mach_port_allocate()` é inadequado devido ao seu mecanismo de retorno). Após a criação da porta, `mach_port_insert_right()` é invocado no thread remoto para estabelecer um direito de envio. Este direito é então armazenado no kernel usando `thread_set_special_port()`. De volta à tarefa local, `thread_get_special_port()` é usado no thread remoto para adquirir um direito de envio para a porta Mach recém-alocada na tarefa remota.
 
 A conclusão dessas etapas resulta no estabelecimento de portas Mach, preparando o terreno para a comunicação bidirecional.
 
@@ -56,7 +56,7 @@ uint64_t read_func(uint64_t *address) {
 return *address;
 }
 ```
-E para escrever na memória, funções semelhantes a esta estrutura são utilizadas:
+E para escrever na memória, funções semelhantes a esta estrutura são usadas:
 ```c
 void write_func(uint64_t *address, uint64_t value) {
 *address = value;
@@ -82,7 +82,7 @@ const char *property_getName(objc_property_t prop) {
 return prop->name;
 }
 ```
-Este função atua efetivamente como o `read_func` retornando o primeiro campo de `objc_property_t`.
+Esta função atua efetivamente como a `read_func` retornando o primeiro campo de `objc_property_t`.
 
 2. **Escrevendo na Memória:**
 Encontrar uma função pré-construída para escrever na memória é mais desafiador. No entanto, a função `_xpc_int64_set_value()` da libxpc é um candidato adequado com o seguinte desmontagem:
@@ -105,11 +105,11 @@ O objetivo é estabelecer memória compartilhada entre tarefas locais e remotas,
 
 1. **Alocação de Memória**:
 - Aloque a memória para compartilhamento usando `mach_vm_allocate()`.
-- Use `xpc_shmem_create()` para criar um objeto `OS_xpc_shmem` para a região de memória alocada. Esta função gerenciará a criação da entrada de memória Mach e armazenará o direito de envio Mach no deslocamento `0x18` do objeto `OS_xpc_shmem`.
+- Use `xpc_shmem_create()` para criar um objeto `OS_xpc_shmem` para a região de memória alocada. Essa função gerenciará a criação da entrada de memória Mach e armazenará o direito de envio Mach no deslocamento `0x18` do objeto `OS_xpc_shmem`.
 
 2. **Criando Memória Compartilhada no Processo Remoto**:
 - Aloque memória para o objeto `OS_xpc_shmem` no processo remoto com uma chamada remota para `malloc()`.
-- Copie o conteúdo do objeto `OS_xpc_shmem` local para o processo remoto. No entanto, essa cópia inicial terá nomes de entradas de memória Mach incorretos no deslocamento `0x18`.
+- Copie o conteúdo do objeto `OS_xpc_shmem` local para o processo remoto. No entanto, essa cópia inicial terá nomes de entrada de memória Mach incorretos no deslocamento `0x18`.
 
 3. **Corrigindo a Entrada de Memória Mach**:
 - Utilize o método `thread_set_special_port()` para inserir um direito de envio para a entrada de memória Mach na tarefa remota.
@@ -135,14 +135,14 @@ thread_set_special_port(); // for inserting send right
 ```
 ## 5. Alcançando Controle Total
 
-Após estabelecer com sucesso a memória compartilhada e obter capacidades de execução arbitrária, essencialmente ganhamos controle total sobre o processo alvo. As principais funcionalidades que possibilitam esse controle são:
+Após estabelecer com sucesso a memória compartilhada e obter capacidades de execução arbitrárias, essencialmente ganhamos controle total sobre o processo alvo. As principais funcionalidades que possibilitam esse controle são:
 
-1. **Operações de Memória Arbitrária**:
+1. **Operações de Memória Arbitrárias**:
    - Realizar leituras de memória arbitrárias invocando `memcpy()` para copiar dados da região compartilhada.
    - Executar escritas de memória arbitrárias usando `memcpy()` para transferir dados para a região compartilhada.
 
 2. **Manipulação de Chamadas de Função com Múltiplos Argumentos**:
-   - Para funções que requerem mais de 8 argumentos, organize os argumentos adicionais na pilha em conformidade com a convenção de chamada.
+   - Para funções que exigem mais de 8 argumentos, organize os argumentos adicionais na pilha em conformidade com a convenção de chamada.
 
 3. **Transferência de Porta Mach**:
    - Transferir portas Mach entre tarefas por meio de mensagens Mach via portas previamente estabelecidas.
@@ -159,5 +159,5 @@ Esse controle abrangente está encapsulado na biblioteca [threadexec](https://gi
 
 Ao aderir a essas diretrizes e utilizar a biblioteca `threadexec`, é possível gerenciar e interagir eficientemente com processos em um nível granular, alcançando controle total sobre o processo alvo.
 
-# Referências
+## Referências
 * [https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/](https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/)

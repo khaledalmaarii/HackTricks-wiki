@@ -1,72 +1,40 @@
-# Skeleton Key
+# Ataque Skeleton Key
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras formas de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs exclusivos**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## **Skeleton Key**
+## Ataque Skeleton Key
 
-**De:** [**https://blog.stealthbits.com/unlocking-all-the-doors-to-active-directory-with-the-skeleton-key-attack/**](https://blog.stealthbits.com/unlocking-all-the-doors-to-active-directory-with-the-skeleton-key-attack/)
+O **ataque Skeleton Key** é uma técnica sofisticada que permite aos atacantes **burlar a autenticação do Active Directory** ao **injetar uma senha mestra** no controlador de domínio. Isso permite ao atacante **autenticar-se como qualquer usuário** sem a necessidade de suas senhas, concedendo-lhes acesso irrestrito ao domínio.
 
-Existem vários métodos que atacantes podem usar para comprometer contas do Active Directory, elevar privilégios e criar persistência uma vez que se estabeleceram no seu domínio. O Skeleton Key é um malware particularmente assustador direcionado a domínios do Active Directory para tornar alarmantemente fácil sequestrar qualquer conta. Este malware **injeta-se no LSASS e cria uma senha mestra que funcionará para qualquer conta no domínio**. As senhas existentes também continuarão a funcionar, então é muito difícil saber que este ataque ocorreu a menos que você saiba o que procurar.
+Pode ser realizado usando o [Mimikatz](https://github.com/gentilkiwi/mimikatz). Para executar esse ataque, **é necessário ter direitos de Administrador de Domínio**, e o atacante deve visar cada controlador de domínio para garantir uma violação abrangente. No entanto, o efeito do ataque é temporário, pois **reiniciar o controlador de domínio erradica o malware**, exigindo uma nova implementação para acesso sustentado.
 
-Não surpreendentemente, este é um dos muitos ataques que é empacotado e muito fácil de realizar usando [Mimikatz](https://github.com/gentilkiwi/mimikatz). Vamos ver como funciona.
+**Executar o ataque** requer um único comando: `misc::skeleton`.
 
-### Requisitos para o Ataque Skeleton Key
+## Mitigações
 
-Para perpetrar este ataque, **o atacante deve ter direitos de Administrador do Domínio**. Este ataque deve ser **realizado em cada controlador de domínio para comprometimento completo, mas até mesmo mirar em um único controlador de domínio pode ser eficaz**. **Reiniciar** um controlador de domínio **removerá este malware** e ele terá que ser redistribuído pelo atacante.
+Estratégias de mitigação contra tais ataques incluem monitorar IDs de eventos específicos que indicam a instalação de serviços ou o uso de privilégios sensíveis. Especificamente, procurar pelo ID de Evento do Sistema 7045 ou ID de Evento de Segurança 4673 pode revelar atividades suspeitas. Além disso, executar o `lsass.exe` como um processo protegido pode dificultar significativamente os esforços dos atacantes, pois isso os obriga a empregar um driver de modo kernel, aumentando a complexidade do ataque.
 
-### Realizando o Ataque Skeleton Key
+Aqui estão os comandos PowerShell para aprimorar as medidas de segurança:
 
-Realizar o ataque é muito simples. Requer apenas o seguinte **comando a ser executado em cada controlador de domínio**: `misc::skeleton`. Depois disso, você pode se autenticar como qualquer usuário com a senha padrão do Mimikatz.
+- Para detectar a instalação de serviços suspeitos, use: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Driver de Modo Kernel*"}`
 
-![Injetando uma skeleton key usando o comando misc::skeleton em um controlador de domínio com Mimikatz](https://blog.stealthbits.com/wp-content/uploads/2017/07/1-3.png)
+- Especificamente, para detectar o driver do Mimikatz, o seguinte comando pode ser utilizado: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Driver de Modo Kernel*" -and $_.message -like "*mimidrv*"}`
 
-Aqui está uma autenticação para um membro de Administrador do Domínio usando a skeleton key como senha para obter acesso administrativo a um controlador de domínio:
+- Para fortalecer o `lsass.exe`, recomendamos habilitá-lo como um processo protegido: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
 
-![Usando a skeleton key como senha com o comando misc::skeleton para obter acesso administrativo a um controlador de domínio com a senha padrão do Mimikatz](https://blog.stealthbits.com/wp-content/uploads/2017/07/2-5.png)
+A verificação após a reinicialização do sistema é crucial para garantir que as medidas de proteção tenham sido aplicadas com sucesso. Isso é alcançável por meio de: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*processo protegido*`
 
-Nota: Se você receber uma mensagem dizendo, “Erro de sistema 86 ocorreu. A senha de rede especificada está incorreta”, apenas tente usar o formato domínio\conta para o nome de usuário e deve funcionar.
-
-![Usando o formato domínio\conta para o nome de usuário se você receber uma mensagem dizendo Erro de sistema 86 ocorreu A senha de rede especificada está incorreta](https://blog.stealthbits.com/wp-content/uploads/2017/07/3-3.png)
-
-Se o lsass já foi **corrigido** com skeleton, então este **erro** aparecerá:
-
-![](<../../.gitbook/assets/image (160).png>)
-
-### Mitigações
-
-* Eventos:
-* ID de Evento do Sistema 7045 - Um serviço foi instalado no sistema. (Tipo de driver do Modo Kernel)
-* ID de Evento de Segurança 4673 – Uso de Privilégio Sensível ("Auditoria de uso de privilégio" deve estar ativada)
-* ID de Evento 4611 – Um processo de logon confiável foi registrado com a Autoridade de Segurança Local ("Auditoria de uso de privilégio" deve estar ativada)
-* `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "`_`Kernel Mode Driver"}`_
-* Isso só detecta mimidrv `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$`_`.message -like "Kernel Mode Driver" -and $`_`.message -like "`_`mimidrv`_`"}`
-* Mitigação:
-* Execute lsass.exe como um processo protegido, isso força um atacante a carregar um driver de modo kernel
-* `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
-* Verifique após reiniciar: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "`_`protected process"}`_
-
-<details>
-
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Outras formas de apoiar o HackTricks:
-
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs exclusivos**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+## Referências
+* [https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/](https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/)

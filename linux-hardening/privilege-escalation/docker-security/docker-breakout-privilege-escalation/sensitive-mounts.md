@@ -1,6 +1,6 @@
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
@@ -81,13 +81,13 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 
 ### **`/proc/[pid]/mem`**
 - Interface com o dispositivo de memória do kernel `/dev/mem`.
-- Historicamente vulnerável a ataques de escalada de privilégios.
+- Historicamente vulnerável a ataques de escalonamento de privilégios.
 - Mais em [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 ### **`/proc/kcore`**
 - Representa a memória física do sistema no formato de núcleo ELF.
 - A leitura pode vazar conteúdos de memória do host e de outros contêineres.
-- O tamanho do arquivo grande pode levar a problemas de leitura ou travamentos de software.
+- O tamanho do arquivo grande pode levar a problemas de leitura ou falhas de software.
 - Uso detalhado em [Despejando /proc/kcore em 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 ### **`/proc/kmem`**
@@ -128,7 +128,7 @@ cat /output
 %%%
 
 ### **`/sys/class/thermal`**
-- Controla configurações de temperatura, potencialmente causando ataques de negação de serviço ou danos físicos.
+- Controla configurações de temperatura, potencialmente causando ataques de DoS ou danos físicos.
 
 ### **`/sys/kernel/vmcoreinfo`**
 - Vaza endereços do kernel, comprometendo potencialmente o KASLR.
@@ -146,7 +146,7 @@ cat /output
 - Histórico de problemas de segurança devido à sua natureza irrestrita.
 
 
-# Referências
+## Referências
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [Compreensão e Reforço de Contêineres Linux](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusando de Contêineres Linux Privilegiados e Não Privilegiados](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
@@ -154,7 +154,7 @@ cat /output
 
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 

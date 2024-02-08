@@ -61,7 +61,7 @@ mimikatz_command -f "lsadump::sam"
 
 ### Procdump + Mimikatz
 
-Como o **Procdump da** [**SysInternals**](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**é uma ferramenta legítima da Microsoft**, não é detectada pelo Defender.\
+Como o **Procdump da** [**SysInternals**](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**é uma ferramenta legítima da Microsoft**, não é detectado pelo Defender.\
 Você pode usar essa ferramenta para **fazer dump do processo lsass**, **baixar o dump** e **extrair** as **credenciais localmente** do dump.
 
 {% code title="Dump lsass" %}
@@ -85,7 +85,7 @@ mimikatz # sekurlsa::logonPasswords
 
 Este processo é feito automaticamente com o [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Nota**: Alguns **AV** podem **detectar** como **malicioso** o uso do **procdump.exe para fazer dump do lsass.exe**, isso ocorre porque estão **detectando** as strings **"procdump.exe" e "lsass.exe"**. Portanto, é mais **discreto** **passar** como **argumento** o **PID** do lsass.exe para o procdump **em vez de** o nome lsass.exe.
+**Nota**: Alguns **AV** podem **detectar** como **malicioso** o uso do **procdump.exe para fazer dump do lsass.exe**, isso ocorre porque estão **detectando** as strings **"procdump.exe" e "lsass.exe"**. Portanto, é mais **discreto** **passar** como **argumento** o **PID** do lsass.exe para o procdump **em vez de** o **nome lsass.exe.**
 
 ### Fazendo dump do lsass com **comsvcs.dll**
 
@@ -208,18 +208,17 @@ Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c
 ```
 ## **Credenciais do Active Directory - NTDS.dit**
 
-**O arquivo Ntds.dit é um banco de dados que armazena dados do Active Directory**, incluindo informações sobre objetos de usuário, grupos e associações de grupos. Ele inclui os hashes de senha de todos os usuários no domínio.
+O arquivo **NTDS.dit** é conhecido como o coração do **Active Directory**, contendo dados cruciais sobre objetos de usuário, grupos e suas associações. É onde os **hashes de senha** dos usuários do domínio são armazenados. Este arquivo é um banco de dados do **Extensible Storage Engine (ESE)** e reside em **_%SystemRoom%/NTDS/ntds.dit_**.
 
-O importante arquivo NTDS.dit estará **localizado em**: _%SystemRoom%/NTDS/ntds.dit_\
-Este arquivo é um banco de dados _Extensible Storage Engine_ (ESE) e é "oficialmente" composto por 3 tabelas:
+Dentro deste banco de dados, três tabelas principais são mantidas:
 
-* **Tabela de Dados**: Contém as informações sobre os objetos (usuários, grupos...)
-* **Tabela de Links**: Informações sobre as relações (membro de...)
-* **Tabela SD**: Contém os descritores de segurança de cada objeto
+- **Tabela de Dados**: Esta tabela é responsável por armazenar detalhes sobre objetos como usuários e grupos.
+- **Tabela de Links**: Ela mantém o controle de relacionamentos, como associações de grupos.
+- **Tabela SD**: **Descritores de segurança** para cada objeto são mantidos aqui, garantindo a segurança e controle de acesso para os objetos armazenados.
 
 Mais informações sobre isso: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-O Windows usa _Ntdsa.dll_ para interagir com esse arquivo e é usado pelo _lsass.exe_. Então, **parte** do arquivo **NTDS.dit** pode estar localizada **dentro da memória do `lsass`** (você pode encontrar os dados acessados mais recentemente provavelmente devido à melhoria de desempenho ao usar um **cache**).
+O Windows usa o _Ntdsa.dll_ para interagir com esse arquivo e é usado pelo _lsass.exe_. Então, **parte** do arquivo **NTDS.dit** pode estar localizada **dentro da memória do `lsass`** (você pode encontrar os dados acessados mais recentemente provavelmente devido à melhoria de desempenho ao usar um **cache**).
 
 #### Descriptografando os hashes dentro do NTDS.dit
 
@@ -231,13 +230,13 @@ O hash é cifrado 3 vezes:
 
 **PEK** tem o **mesmo valor** em **cada controlador de domínio**, mas é **cifrado** dentro do arquivo **NTDS.dit** usando o **BOOTKEY** do **arquivo SYSTEM do controlador de domínio (é diferente entre controladores de domínio)**. Por isso, para obter as credenciais do arquivo NTDS.dit, **você precisa dos arquivos NTDS.dit e SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
-### Copiando NTDS.dit usando Ntdsutil
+### Copiando o NTDS.dit usando o Ntdsutil
 
 Disponível desde o Windows Server 2008.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-Você também pode usar o truque do [**volume shadow copy**](./#stealing-sam-and-system) para copiar o arquivo **ntds.dit**. Lembre-se de que você também precisará de uma cópia do arquivo **SYSTEM** (novamente, [**faça o dump do registro ou use o truque do volume shadow copy**](./#stealing-sam-and-system)).
+Você também pode usar o truque do **volume shadow copy** para copiar o arquivo **ntds.dit**. Lembre-se de que você também precisará de uma cópia do arquivo **SYSTEM** (novamente, [**extraia do registro ou use o truque do volume shadow copy**](./#stealing-sam-and-system)).
 
 ### **Extraindo hashes do NTDS.dit**
 
@@ -275,7 +274,7 @@ Esta ferramenta pode ser usada para extrair credenciais da memória. Faça o dow
 
 ### fgdump
 
-Extrai credenciais do arquivo SAM
+Extrair credenciais do arquivo SAM
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe

@@ -6,8 +6,8 @@
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -76,36 +76,46 @@ Você pode iniciar um processo que **usa credenciais diferentes para acessar ser
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Este é útil se você tiver credenciais úteis para acessar objetos na rede, mas essas credenciais não são válidas dentro do host atual, pois serão usadas apenas na rede (no host atual, os privilégios do seu usuário atual serão usados).
+Isso é útil se você tiver credenciais úteis para acessar objetos na rede, mas essas credenciais não são válidas dentro do host atual, pois serão usadas apenas na rede (no host atual, os privilégios do seu usuário atual serão usados).
 
 ### Tipos de tokens
 
 Existem dois tipos de tokens disponíveis:
 
-- **Token primário**: Os tokens primários só podem ser **associados a processos** e representam o sujeito de segurança de um processo. A criação de tokens primários e sua associação a processos são operações privilegiadas, exigindo dois privilégios diferentes em nome da separação de privilégios - o cenário típico envolve o serviço de autenticação criando o token e um serviço de logon associando-o ao shell do sistema operacional do usuário. Os processos herdam inicialmente uma cópia do token primário do processo pai.
-- **Token de impersonação**: A impersonação é um conceito de segurança implementado no Windows NT que **permite** a uma aplicação de servidor **"ser temporariamente" o cliente** em termos de acesso a objetos seguros. A impersonação tem **quatro níveis possíveis**:
+* **Token Primário**: Serve como uma representação das credenciais de segurança de um processo. A criação e associação de tokens primários com processos são ações que requerem privilégios elevados, enfatizando o princípio da separação de privilégios. Tipicamente, um serviço de autenticação é responsável pela criação do token, enquanto um serviço de logon lida com sua associação com o shell do sistema operacional do usuário. Vale ressaltar que os processos herdam o token primário de seu processo pai na criação.
 
-  - **anônimo**, dando ao servidor o acesso de um usuário anônimo/não identificado
-  - **identificação**, permitindo que o servidor inspecione a identidade do cliente, mas não use essa identidade para acessar objetos
-  - **impersonação**, permitindo que o servidor aja em nome do cliente
-  - **delegação**, o mesmo que a impersonação, mas estendido a sistemas remotos aos quais o servidor se conecta (através da preservação de credenciais).
-
-O cliente pode escolher o nível máximo de impersonação (se houver) disponível para o servidor como parâmetro de conexão. A delegação e a impersonação são operações privilegiadas (a impersonação inicialmente não era, mas a negligência histórica na implementação das APIs de cliente ao falhar em restringir o nível padrão para "identificação", permitindo que um servidor não privilegiado impersonasse um cliente privilegiado relutante, exigiu isso). **Os tokens de impersonação só podem ser associados a threads** e representam o sujeito de segurança de um processo do cliente. Os tokens de impersonação geralmente são criados e associados implicitamente ao thread atual, por mecanismos IPC como DCE RPC, DDE e pipes nomeados.
+* **Token de Impersonação**: Capacita uma aplicação de servidor a adotar temporariamente a identidade do cliente para acessar objetos seguros. Esse mecanismo é estratificado em quatro níveis de operação:
+- **Anônimo**: Concede acesso ao servidor semelhante ao de um usuário não identificado.
+- **Identificação**: Permite que o servidor verifique a identidade do cliente sem utilizá-la para acesso a objetos.
+- **Impersonação**: Permite que o servidor opere sob a identidade do cliente.
+- **Delegação**: Semelhante à Impersonação, mas inclui a capacidade de estender essa suposição de identidade a sistemas remotos com os quais o servidor interage, garantindo a preservação das credenciais.
 
 #### Impersonate Tokens
 
-Usando o módulo _**incognito**_ do metasploit, se você tiver privilégios suficientes, pode facilmente **listar** e **impersonar** outros **tokens**. Isso pode ser útil para realizar **ações como se você fosse o outro usuário**. Você também pode **escalar privilégios** com essa técnica.
+Usando o módulo _**incognito**_ do metasploit, se você tiver privilégios suficientes, pode facilmente **listar** e **impersonate** outros **tokens**. Isso pode ser útil para realizar **ações como se você fosse o outro usuário**. Você também pode **escalar privilégios** com essa técnica.
 
-### Privilégios de Token
+### Privilégios do Token
 
-Saiba quais **privilégios de token podem ser abusados para escalar privilégios:**
+Saiba quais **privilégios do token podem ser abusados para escalar privilégios:**
 
 {% content-ref url="privilege-escalation-abusing-tokens/" %}
 [privilege-escalation-abusing-tokens](privilege-escalation-abusing-tokens/)
 {% endcontent-ref %}
 
-Dê uma olhada em [**todos os possíveis privilégios de token e algumas definições nesta página externa**](https://github.com/gtworek/Priv2Admin).
+Dê uma olhada em [**todos os possíveis privilégios do token e algumas definições nesta página externa**](https://github.com/gtworek/Priv2Admin).
 
 ## Referências
 
 Saiba mais sobre tokens nestes tutoriais: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) e [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+
+<details>
+
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>

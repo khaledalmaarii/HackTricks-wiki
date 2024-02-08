@@ -15,7 +15,7 @@ Outras maneiras de apoiar o HackTricks:
 
 ## Logstash
 
-O Logstash é usado para **coletar, transformar e despachar logs** por meio de um sistema conhecido como **pipelines**. Essas pipelines são compostas por estágios de **entrada**, **filtro** e **saída**. Um aspecto interessante surge quando o Logstash opera em uma máquina comprometida.
+Logstash é usado para **coletar, transformar e despachar logs** por meio de um sistema conhecido como **pipelines**. Essas pipelines são compostas por estágios de **entrada**, **filtro** e **saída**. Um aspecto interessante surge quando o Logstash opera em uma máquina comprometida.
 
 ### Configuração da Pipeline
 
@@ -31,18 +31,18 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Este arquivo revela onde os arquivos **.conf**, contendo configurações de pipeline, estão localizados. Ao empregar um **módulo de saída do Elasticsearch**, é comum que **pipelines** incluam **credenciais do Elasticsearch**, que frequentemente possuem privilégios extensos devido à necessidade do Logstash de escrever dados no Elasticsearch. Curetas em caminhos de configuração permitem que o Logstash execute todas as pipelines correspondentes no diretório designado.
+Este arquivo revela onde os arquivos **.conf**, contendo configurações de pipeline, estão localizados. Ao empregar um **módulo de saída do Elasticsearch**, é comum que os **pipelines** incluam **credenciais do Elasticsearch**, que frequentemente possuem privilégios extensos devido à necessidade do Logstash de escrever dados no Elasticsearch. Curetas em caminhos de configuração permitem que o Logstash execute todos os pipelines correspondentes no diretório designado.
 
 ### Escalação de Privilégios via Pipelines Graváveis
 
-Para tentar a escalação de privilégios, primeiro identifique o usuário sob o qual o serviço do Logstash está sendo executado, tipicamente o usuário **logstash**. Certifique-se de atender **um** destes critérios:
+Para tentar a escalação de privilégios, primeiro identifique o usuário sob o qual o serviço Logstash está em execução, normalmente o usuário **logstash**. Certifique-se de atender a **um** destes critérios:
 
 - Possuir **acesso de escrita** a um arquivo **.conf** de pipeline **ou**
 - O arquivo **/etc/logstash/pipelines.yml** usa um curinga, e você pode escrever na pasta de destino
 
-Adicionalmente, **um** destes condições deve ser cumprida:
+Além disso, **um** destes requisitos deve ser atendido:
 
-- Capacidade de reiniciar o serviço do Logstash **ou**
+- Capacidade de reiniciar o serviço Logstash **ou**
 - O arquivo **/etc/logstash/logstash.yml** tem **config.reload.automatic: true** configurado
 
 Dado um curinga na configuração, criar um arquivo que corresponda a este curinga permite a execução de comandos. Por exemplo:
@@ -66,7 +66,7 @@ Aqui, **intervalo** determina a frequência de execução em segundos. No exempl
 Com **config.reload.automatic: true** em **/etc/logstash/logstash.yml**, o Logstash detectará e aplicará automaticamente novas ou modificadas configurações de pipeline sem a necessidade de reinicialização. Se não houver caractere curinga, modificações ainda podem ser feitas nas configurações existentes, mas é aconselhável ter cautela para evitar interrupções.
 
 
-# Referências
+## Referências
 
 * [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
 
@@ -77,10 +77,10 @@ Com **config.reload.automatic: true** em **/etc/logstash/logstash.yml**, o Logst
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

@@ -13,15 +13,15 @@ Outras maneiras de apoiar o HackTricks:
 </details>
 
 
-O modelo de **autorização** padrão do **Docker** é **tudo ou nada**. Qualquer usuário com permissão para acessar o daemon do Docker pode **executar qualquer** comando do cliente **Docker**. O mesmo vale para os chamadores que usam a API do Engine do Docker para entrar em contato com o daemon. Se você precisar de um **maior controle de acesso**, você pode criar **plugins de autorização** e adicioná-los à configuração do seu daemon do Docker. Usando um plugin de autorização, um administrador do Docker pode **configurar políticas de acesso granulares** para gerenciar o acesso ao daemon do Docker.
+O modelo de **autorização** padrão do **Docker** é **tudo ou nada**. Qualquer usuário com permissão para acessar o daemon do Docker pode **executar qualquer** comando do cliente **Docker**. O mesmo vale para os chamadores que usam a API do Engine do Docker para entrar em contato com o daemon. Se você precisar de um **controle de acesso maior**, você pode criar **plugins de autorização** e adicioná-los à configuração do seu daemon do Docker. Usando um plugin de autorização, um administrador do Docker pode **configurar políticas de acesso granulares** para gerenciar o acesso ao daemon do Docker.
 
 # Arquitetura básica
 
-Os plugins de autenticação do Docker são **plugins externos** que você pode usar para **permitir/negar** **ações** solicitadas ao Daemon do Docker **dependendo** do **usuário** que a solicitou e da **ação** **solicitada**.
+Os plugins de autenticação do Docker são **plugins externos** que você pode usar para **permitir/negar** **ações** solicitadas ao Daemon do Docker **dependendo** do **usuário** que solicitou e da **ação** **solicitada**.
 
 **[As seguintes informações são dos documentos](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Quando uma **solicitação HTTP** é feita ao daemon do Docker através da CLI ou via API do Engine, o **subsistema de autenticação** **passa** a solicitação para o(s) **plugin(s) de autenticação** instalado(s). A solicitação contém o usuário (chamador) e o contexto do comando. O **plugin** é responsável por decidir se **permite** ou **nega** a solicitação.
+Quando uma **solicitação HTTP** é feita ao daemon do Docker através da CLI ou via API do Engine, o **subsistema de autenticação** **passa** a solicitação para o(s) **plugin(s) de autenticação** instalado(s). A solicitação contém o usuário (chamador) e o contexto do comando. O **plugin** é responsável por decidir se deve **permitir** ou **negar** a solicitação.
 
 Os diagramas de sequência abaixo representam um fluxo de autorização permitido e negado:
 
@@ -29,25 +29,25 @@ Os diagramas de sequência abaixo representam um fluxo de autorização permitid
 
 ![Fluxo de Autorização Negado](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Cada solicitação enviada ao plugin **inclui o usuário autenticado, os cabeçalhos HTTP e o corpo da solicitação/resposta**. Apenas o **nome de usuário** e o **método de autenticação** usado são passados para o plugin. Mais importante, **nenhuma** credencial de usuário **ou tokens são passados**. Por fim, **nem todos os corpos de solicitação/resposta são enviados** para o plugin de autorização. Apenas aqueles corpos de solicitação/resposta em que o `Content-Type` é `text/*` ou `application/json` são enviados.
+Cada solicitação enviada ao plugin **inclui o usuário autenticado, os cabeçalhos HTTP e o corpo da solicitação/resposta**. Apenas o **nome de usuário** e o **método de autenticação** usado são passados para o plugin. Mais importante, **nenhuma** credencial de usuário ou token é passado. Por fim, **nem todos os corpos de solicitação/resposta são enviados** para o plugin de autorização. Apenas aqueles corpos de solicitação/resposta em que o `Content-Type` é `text/*` ou `application/json` são enviados.
 
-Para comandos que podem potencialmente sequestrar a conexão HTTP (`HTTP Upgrade`), como `exec`, o plugin de autorização é chamado apenas para as solicitações HTTP iniciais. Uma vez que o plugin aprova o comando, a autorização não é aplicada ao restante do fluxo. Especificamente, os dados de streaming não são passados para os plugins de autorização. Para comandos que retornam uma resposta HTTP segmentada, como `logs` e `events`, apenas a solicitação HTTP é enviada aos plugins de autorização.
+Para comandos que podem potencialmente sequestrar a conexão HTTP (`HTTP Upgrade`), como `exec`, o plugin de autorização é chamado apenas para as solicitações HTTP iniciais. Uma vez que o plugin aprova o comando, a autorização não é aplicada ao restante do fluxo. Especificamente, os dados de streaming não são passados para os plugins de autorização. Para comandos que retornam resposta HTTP segmentada, como `logs` e `events`, apenas a solicitação HTTP é enviada aos plugins de autorização.
 
-Durante o processamento de solicitações/respostas, alguns fluxos de autorização podem precisar fazer consultas adicionais ao daemon do Docker. Para completar tais fluxos, os plugins podem chamar a API do daemon de forma semelhante a um usuário regular. Para habilitar essas consultas adicionais, o plugin deve fornecer os meios para um administrador configurar políticas de autenticação e segurança adequadas.
+Durante o processamento de solicitação/resposta, alguns fluxos de autorização podem precisar fazer consultas adicionais ao daemon do Docker. Para completar esses fluxos, os plugins podem chamar a API do daemon de forma semelhante a um usuário regular. Para habilitar essas consultas adicionais, o plugin deve fornecer os meios para um administrador configurar políticas de autenticação e segurança adequadas.
 
 ## Vários Plugins
 
-Você é responsável por **registrar** seu **plugin** como parte da **inicialização** do daemon do Docker. Você pode instalar **múltiplos plugins e encadeá-los**. Esta cadeia pode ser ordenada. Cada solicitação ao daemon passa em ordem pela cadeia. Somente quando **todos os plugins concedem acesso** ao recurso, o acesso é concedido.
+Você é responsável por **registrar** seu **plugin** como parte da **inicialização** do daemon do Docker. Você pode instalar **múltiplos plugins e encadeá-los** juntos. Esta cadeia pode ser ordenada. Cada solicitação ao daemon passa em ordem pela cadeia. Somente quando **todos os plugins concedem acesso** ao recurso, o acesso é concedido.
 
 # Exemplos de Plugins
 
 ## Twistlock AuthZ Broker
 
-O plugin [**authz**](https://github.com/twistlock/authz) permite que você crie um simples arquivo **JSON** que o **plugin** estará **lendo** para autorizar as solicitações. Portanto, ele lhe dá a oportunidade de controlar de forma muito fácil quais endpoints da API cada usuário pode alcançar.
+O plugin [**authz**](https://github.com/twistlock/authz) permite que você crie um arquivo **JSON** simples que o **plugin** estará **lendo** para autorizar as solicitações. Portanto, ele lhe dá a oportunidade de controlar muito facilmente quais endpoints da API cada usuário pode alcançar.
 
 Este é um exemplo que permitirá que Alice e Bob criem novos containers: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
-Na página [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) você pode encontrar a relação entre a URL solicitada e a ação. Na página [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) você pode encontrar a relação entre o nome da ação e a ação
+Na página [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) você pode encontrar a relação entre a URL solicitada e a ação. Na página [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) você pode encontrar a relação entre o nome da ação e a ação.
 
 ## Tutorial de Plugin Simples
 
@@ -107,20 +107,20 @@ Note que talvez você não consiga montar a pasta `/tmp`, mas pode montar uma **
 
 **Observe que nem todos os diretórios em uma máquina Linux suportarão o bit suid!** Para verificar quais diretórios suportam o bit suid, execute `mount | grep -v "nosuid"`. Por exemplo, geralmente `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` e `/var/lib/lxcfs` não suportam o bit suid.
 
-Observe também que se você puder **montar `/etc`** ou qualquer outra pasta **contendo arquivos de configuração**, você pode alterá-los a partir do contêiner docker como root para **abusá-los no host** e escalar privilégios (talvez modificando `/etc/shadow`).
+Observe também que se você puder **montar `/etc`** ou qualquer outra pasta **contendo arquivos de configuração**, você pode alterá-los a partir do contêiner Docker como root para **abusá-los no host** e escalar privilégios (talvez modificando `/etc/shadow`).
 {% endhint %}
 
 ## Ponto de Extremidade da API Não Verificado
 
 A responsabilidade do sysadmin ao configurar este plugin seria controlar quais ações e com quais privilégios cada usuário pode executar. Portanto, se o administrador adotar uma abordagem de **lista negra** com os pontos de extremidade e os atributos, ele pode **esquecer alguns deles** que poderiam permitir a um atacante **escalar privilégios**.
 
-Você pode verificar a API do docker em [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
+Você pode verificar a API do Docker em [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
 
 ## Estrutura JSON Não Verificada
 
 ### Vinculações na raiz
 
-É possível que, ao configurar o firewall do docker, o sysadmin tenha **esquecido de algum parâmetro importante** da [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) como "**Vinculações**".\
+É possível que, ao configurar o firewall do Docker, o sysadmin tenha **esquecido de algum parâmetro importante** da [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) como "**Vinculações**".\
 No exemplo a seguir, é possível abusar dessa má configuração para criar e executar um contêiner que monta a pasta raiz (/) do host:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
@@ -155,7 +155,7 @@ curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '
 ```
 ## Atributo JSON não verificado
 
-É possível que, ao configurar o firewall do docker, o sysadmin **tenha esquecido de algum atributo importante de um parâmetro** da [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) como "**Capabilities**" dentro de "**HostConfig**". No exemplo a seguir, é possível abusar dessa configuração incorreta para criar e executar um contêiner com a capacidade **SYS\_MODULE**:
+É possível que, ao configurar o firewall do docker, o sysadmin tenha **esquecido de algum atributo importante de um parâmetro** da [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) como "**Capabilities**" dentro de "**HostConfig**". No exemplo a seguir, é possível abusar dessa configuração incorreta para criar e executar um contêiner com a capacidade **SYS\_MODULE**:
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -166,7 +166,7 @@ capsh --print
 #You can abuse the SYS_MODULE capability
 ```
 {% hint style="info" %}
-O **`HostConfig`** é a chave que geralmente contém os **privilégios** **interessantes** para escapar do contêiner. No entanto, como discutimos anteriormente, observe como o uso de Vínculos fora dele também funciona e pode permitir que você contorne as restrições.
+O **`HostConfig`** é a chave que geralmente contém os **privilégios interessantes** para escapar do contêiner. No entanto, como discutimos anteriormente, observe como o uso de **Binds** fora dele também funciona e pode permitir que você contorne as restrições.
 {% endhint %}
 
 ## Desabilitando o Plugin
@@ -185,11 +185,11 @@ docker plugin enable authobot
 ```
 Lembre-se de **reativar o plugin após a escalada**, ou um **reinício do serviço do docker não funcionará**!
 
-## Writeups de Bypass do Plugin de Autorização
+## Relatórios de bypass do plugin de autenticação
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-# Referências
+## Referências
 
 * [https://docs.docker.com/engine/extend/plugins\_authorization/](https://docs.docker.com/engine/extend/plugins\_authorization/)
 
@@ -200,10 +200,10 @@ Lembre-se de **reativar o plugin após a escalada**, ou um **reinício do servi�
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

@@ -7,7 +7,7 @@
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
@@ -16,7 +16,7 @@
 
 (Exemplo de [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-Após investigar um pouco a documentação relacionada ao `confd` e aos diferentes binários (acessíveis com uma conta no site da Cisco), descobrimos que, para autenticar o soquete IPC, ele usa um segredo localizado em `/etc/confd/confd_ipc_secret`:
+Após investigar um pouco a [documentação](http://66.218.245.39/doc/html/rn03re18.html) relacionada ao `confd` e aos diferentes binários (acessíveis com uma conta no site da Cisco), descobrimos que, para autenticar o soquete IPC, ele usa um segredo localizado em `/etc/confd/confd_ipc_secret`:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
@@ -56,7 +56,7 @@ uid=0(root) gid=0(root) groups=0(root)
 
 (Exemplo de [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-O blog¹ da equipe synacktiv descreveu uma maneira elegante de obter um shell root, mas a ressalva é que requer obter uma cópia do `/usr/bin/confd_cli_user`, que é apenas legível por root. Encontrei outra maneira de escalar para root sem tanto aborrecimento.
+O blog¹ da equipe synacktiv descreveu uma maneira elegante de obter um shell root, mas a ressalva é que requer obter uma cópia do `/usr/bin/confd_cli_user`, que é apenas legível por root. Encontrei outra maneira de escalar para root sem tanto trabalho.
 
 Quando desmontei o binário `/usr/bin/confd_cli`, observei o seguinte:
 ```
@@ -94,11 +94,11 @@ vmanage:~$ ps aux
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-Eu formulei a hipótese de que o programa "confd\_cli" passa o ID do usuário e o ID do grupo coletados do usuário logado para o aplicativo "cmdptywrapper".
+Eu hipotetizei que o programa "confd\_cli" passa o ID do usuário e o ID do grupo coletados do usuário logado para o aplicativo "cmdptywrapper".
 
 Minha primeira tentativa foi executar o "cmdptywrapper" diretamente e fornecendo `-g 0 -u 0`, mas falhou. Parece que um descritor de arquivo (-i 1015) foi criado em algum lugar ao longo do caminho e não consigo falsificá-lo.
 
-Conforme mencionado no blog da synacktiv (último exemplo), o programa `confd_cli` não suporta argumentos de linha de comando, mas posso influenciá-lo com um depurador e, felizmente, o GDB está incluído no sistema.
+Como mencionado no blog da synacktiv (último exemplo), o programa `confd_cli` não suporta argumentos de linha de comando, mas posso influenciá-lo com um depurador e, felizmente, o GDB está incluído no sistema.
 
 Criei um script GDB onde forcei a API `getuid` e `getgid` a retornar 0. Como já tenho o privilégio "vmanage" por meio da RCE de desserialização, tenho permissão para ler diretamente o `/etc/confd/confd_ipc_secret`.
 
@@ -158,10 +158,10 @@ bash-4.4#
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me no** **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

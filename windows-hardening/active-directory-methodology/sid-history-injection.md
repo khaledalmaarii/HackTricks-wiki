@@ -1,4 +1,4 @@
-# Injeção de SID-History
+# Injeção de Histórico de SID
 
 <details>
 
@@ -7,22 +7,22 @@
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## Ataque
+## Ataque de Injeção de Histórico de SID
 
-O SID History foi projetado para suportar cenários de migração, onde um usuário seria movido de um domínio para outro. Para preservar o acesso aos recursos no "antigo" domínio, o **SID anterior do usuário seria adicionado ao SID History** de sua nova conta. Portanto, ao criar esse tíquete, o SID de um grupo privilegiado (EAs, DAs, etc) no domínio pai pode ser adicionado, o que **concederá acesso a todos os recursos no domínio pai**.
+O foco do **Ataque de Injeção de Histórico de SID** é auxiliar na **migração de usuários entre domínios** garantindo acesso contínuo aos recursos do domínio anterior. Isso é feito incorporando o **Identificador de Segurança (SID)** anterior do usuário no Histórico de SID de sua nova conta. Notavelmente, esse processo pode ser manipulado para conceder acesso não autorizado adicionando o SID de um grupo de alta privilégio (como Administradores da Empresa ou Administradores de Domínio) do domínio pai ao Histórico de SID. Essa exploração confere acesso a todos os recursos dentro do domínio pai.
 
-Isso pode ser alcançado usando um [**Golden Ticket**](sid-history-injection.md#golden-ticket) ou [**Diamond Ticket**](sid-history-injection.md#diamond-ticket).
+Existem dois métodos para executar esse ataque: através da criação de um **Golden Ticket** ou de um **Diamond Ticket**.
 
-Para encontrar o **SID** do grupo **"Enterprise Admins"**, você pode encontrar o **SID** do **domínio raiz** e defini-lo como `S-1-5-21-<domínio raiz>-519`. Por exemplo, a partir do SID do domínio raiz `S-1-5-21-280534878-1496970234-700767426`, o SID do grupo **"Enterprise Admins"** é `S-1-5-21-280534878-1496970234-700767426-519`.
+Para identificar o SID do grupo **"Administradores da Empresa"**, é necessário primeiro localizar o SID do domínio raiz. Após a identificação, o SID do grupo Administradores da Empresa pode ser construído acrescentando `-519` ao SID do domínio raiz. Por exemplo, se o SID do domínio raiz for `S-1-5-21-280534878-1496970234-700767426`, o SID resultante para o grupo "Administradores da Empresa" seria `S-1-5-21-280534878-1496970234-700767426-519`.
 
-Você também pode usar os grupos **Domain Admins**, que terminam em **512**.
+Também é possível usar os grupos **Administradores de Domínio**, que terminam em **512**.
 
-Outra maneira de encontrar o SID de um grupo do outro domínio (por exemplo, "Domain Admins") é com:
+Outra maneira de encontrar o SID de um grupo do outro domínio (por exemplo, "Administradores de Domínio") é com:
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
@@ -79,7 +79,9 @@ Para mais informações sobre bilhetes diamond, consulte:
 .\kirbikator.exe lsa .\CIFS.mcorpdc.moneycorp.local.kirbi
 ls \\mcorp-dc.moneycorp.local\c$
 ```
-Eleve-se para DA ou administrador raiz usando o hash KRBTGT do domínio comprometido:
+{% endcode %}
+
+Escalando para DA ou administrador raiz usando o hash KRBTGT do domínio comprometido:
 
 {% code overflow="wrap" %}
 ```bash
@@ -141,13 +143,13 @@ O fluxo é:
 * Cria um Golden Ticket
 * Faz login no domínio pai
 * Recupera credenciais para a conta Administrador no domínio pai
-* Se o switch `target-exec` for especificado, ele se autentica no Controlador de Domínio do domínio pai via Psexec.
+* Se o interruptor `target-exec` for especificado, ele se autentica no Controlador de Domínio do domínio pai via Psexec.
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
 ## Referências
-
-* [https://studylib.net/doc/25696115/crto](https://studylib.net/doc/25696115/crto)
+* [https://adsecurity.org/?p=1772](https://adsecurity.org/?p=1772)
+* [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
 <details>
 
@@ -155,8 +157,8 @@ raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

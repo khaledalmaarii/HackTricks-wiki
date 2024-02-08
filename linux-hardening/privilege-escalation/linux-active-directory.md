@@ -7,7 +7,7 @@
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
@@ -40,13 +40,13 @@ FreeIPA é uma **alternativa** de código aberto ao **Active Directory** da Micr
 
 ### Pass The Ticket
 
-Nesta página, você vai encontrar diferentes lugares onde poderia **encontrar tickets kerberos dentro de um host linux**, na página seguinte você pode aprender como transformar esses formatos de tickets CCache para Kirbi (o formato necessário para uso no Windows) e também como realizar um ataque PTT:
+Nesta página, você vai encontrar diferentes lugares onde poderia **encontrar tickets kerberos dentro de um host linux**, na página seguinte você pode aprender como transformar esses formatos de tickets CCache em Kirbi (o formato necessário para uso no Windows) e também como realizar um ataque PTT:
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/pass-the-ticket.md" %}
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
 {% endcontent-ref %}
 
-### Reutilização de tickets CCACHE a partir de /tmp
+### Reutilização de tickets CCACHE de /tmp
 
 Arquivos CCACHE são formatos binários para **armazenar credenciais Kerberos** geralmente armazenados com permissões 600 em `/tmp`. Esses arquivos podem ser identificados pelo seu **formato de nome, `krb5cc_%{uid}`,** correlacionando com o UID do usuário. Para verificação de ticket de autenticação, a **variável de ambiente `KRB5CCNAME`** deve ser definida como o caminho do arquivo de ticket desejado, permitindo sua reutilização.
 
@@ -91,7 +91,7 @@ klist -k /etc/krb5.keytab
 ```
 ### Extrair contas de /etc/krb5.keytab
 
-As chaves de contas de serviço, essenciais para serviços que operam com privilégios de root, são armazenadas com segurança nos arquivos **`/etc/krb5.keytab`**. Essas chaves, semelhantes a senhas para serviços, exigem confidencialidade estrita.
+As chaves de contas de serviço, essenciais para serviços que operam com privilégios de root, são armazenadas de forma segura nos arquivos **`/etc/krb5.keytab`**. Essas chaves, semelhantes a senhas para serviços, exigem confidencialidade estrita.
 
 Para inspecionar o conteúdo do arquivo keytab, pode-se utilizar o **`klist`**. A ferramenta é projetada para exibir detalhes da chave, incluindo o **NT Hash** para autenticação do usuário, especialmente quando o tipo de chave é identificado como 23.
 ```bash
@@ -103,7 +103,7 @@ Para os usuários do Linux, o **`KeyTabExtract`** oferece funcionalidade para ex
 python3 keytabextract.py krb5.keytab
 # Expected output varies based on hash availability
 ```
-No macOS, **`bifrost`** serve como uma ferramenta para análise de arquivos keytab.
+No macOS, **`bifrost`** atua como uma ferramenta para análise de arquivos keytab.
 ```bash
 ./bifrost -action dump -source keytab -path /path/to/your/file
 ```
@@ -123,7 +123,7 @@ crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDO
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me no** **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

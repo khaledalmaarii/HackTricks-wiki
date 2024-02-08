@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
@@ -16,11 +16,11 @@
 
 ### Chains
 
-No iptables, listas de regras conhecidas como chains são processadas sequencialmente. Entre essas, três chains principais estão universalmente presentes, com outras como NAT sendo potencialmente suportadas dependendo das capacidades do sistema.
+No iptables, listas de regras conhecidas como chains são processadas sequencialmente. Entre essas, três chains principais estão universalmente presentes, com outras como NAT sendo potencialmente suportadas, dependendo das capacidades do sistema.
 
-- **Input Chain**: Utilizada para gerenciar o comportamento de conexões de entrada.
-- **Forward Chain**: Utilizada para lidar com conexões de entrada que não são destinadas ao sistema local. Isso é típico para dispositivos que atuam como roteadores, onde os dados recebidos são destinados a serem encaminhados para outro destino. Esta chain é relevante principalmente quando o sistema está envolvido em roteamento, NATing ou atividades similares.
-- **Output Chain**: Dedicada à regulamentação de conexões de saída.
+- **Input Chain**: Utilizada para gerenciar o comportamento das conexões de entrada.
+- **Forward Chain**: Utilizada para lidar com conexões de entrada que não são destinadas ao sistema local. Isso é típico para dispositivos que atuam como roteadores, onde os dados recebidos devem ser encaminhados para outro destino. Esta chain é relevante principalmente quando o sistema está envolvido em roteamento, NATing ou atividades similares.
+- **Output Chain**: Dedicada à regulamentação das conexões de saída.
 
 Essas chains garantem o processamento ordenado do tráfego de rede, permitindo a especificação de regras detalhadas que regem o fluxo de dados para dentro, através e para fora de um sistema.
 ```bash
@@ -159,27 +159,27 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 
 Suporta intervalos de IP, negações e uma lista de endereços:
 
-| Exemplo                        | Significado                             |
+| Exemplo                        | Significado                                  |
 | ------------------------------ | ---------------------------------------- |
-| ! 1.1.1.1                      | Todo endereço IP exceto 1.1.1.1          |
-| !\[1.1.1.1, 1.1.1.2]           | Todo endereço IP exceto 1.1.1.1 e 1.1.1.2 |
-| $HOME\_NET                     | Sua definição de HOME\_NET no yaml      |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET e não HOME\_NET           |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 exceto 10.0.0.5            |
+| ! 1.1.1.1                      | Todos os endereços IP exceto 1.1.1.1             |
+| !\[1.1.1.1, 1.1.1.2]           | Todos os endereços IP exceto 1.1.1.1 e 1.1.1.2 |
+| $HOME\_NET                     | Sua configuração de HOME\_NET em yaml        |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET e não HOME\_NET          |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 exceto 10.0.0.5          |
 
 #### Portas de Origem e Destino
 
 Suporta intervalos de portas, negações e listas de portas
 
-| Exemplo         | Significado                            |
+| Exemplo         | Significado                                |
 | --------------- | -------------------------------------- |
-| qualquer        | qualquer endereço                      |
-| \[80, 81, 82]   | porta 80, 81 e 82                      |
-| \[80: 82]       | Intervalo de 80 a 82                   |
+| qualquer             | qualquer endereço                            |
+| \[80, 81, 82]   | porta 80, 81 e 82                     |
+| \[80: 82]       | Intervalo de 80 a 82                  |
 | \[1024: ]       | De 1024 até o número de porta mais alto |
-| !80             | Toda porta exceto 80                   |
-| \[80:100,!99]   | Intervalo de 80 a 100, exceto 99       |
-| \[1:80,!\[2,4]] | Intervalo de 1 a 80, exceto portas 2 e 4 |
+| !80             | Todas as portas exceto 80                      |
+| \[80:100,!99]   | Intervalo de 80 a 100, exceto 99 |
+| \[1:80,!\[2,4]] | Intervalo de 1 a 80, exceto portas 2 e 4  |
 
 #### Direção
 
@@ -238,7 +238,7 @@ drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 * Trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me no** **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me no** **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

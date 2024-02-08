@@ -4,7 +4,7 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
@@ -17,7 +17,7 @@ Leia o arquivo _ **/etc/exports** _, se encontrar algum diretório configurado c
 
 **no\_root\_squash**: Essa opção basicamente dá autoridade ao usuário root no cliente para acessar arquivos no servidor NFS como root. E isso pode levar a sérias implicações de segurança.
 
-**no\_all\_squash:** Isso é semelhante à opção **no\_root\_squash** mas se aplica a **usuários não-root**. Imagine, você tem um shell como usuário nobody; verificou o arquivo /etc/exports; a opção no\_all_squash está presente; verifique o arquivo /etc/passwd; emule um usuário não-root; crie um arquivo suid como esse usuário (montando usando nfs). Execute o suid como usuário nobody e torne-se um usuário diferente.
+**no\_all\_squash:** Isso é semelhante à opção **no\_root\_squash** mas se aplica a **usuários não-root**. Imagine, você tem um shell como usuário nobody; verificou o arquivo /etc/exports; a opção no\_all\_squash está presente; verifique o arquivo /etc/passwd; emule um usuário não-root; crie um arquivo suid como esse usuário (montando usando nfs). Execute o suid como usuário nobody e torne-se um usuário diferente.
 
 # Escalação de Privilégios
 
@@ -55,7 +55,7 @@ cd <SHAREDD_FOLDER>
 ## Exploração Local
 
 {% hint style="info" %}
-Note que se você puder criar um **túnel da sua máquina para a máquina da vítima, ainda poderá usar a versão Remota para explorar essa escalada de privilégio, direcionando as portas necessárias**.\
+Note que se você puder criar um **túnel da sua máquina para a máquina da vítima, ainda poderá usar a versão Remota para explorar essa escalada de privilégio tunelando as portas necessárias**.\
 O truque a seguir é no caso de o arquivo `/etc/exports` **indicar um IP**. Nesse caso, você **não poderá usar** em nenhum caso o **exploit remoto** e precisará **abusar desse truque**.\
 Outro requisito necessário para o exploit funcionar é que **a exportação dentro de `/etc/export`** **deve estar usando a flag `insecure`**.\
 \--_Não tenho certeza se, se `/etc/export` estiver indicando um endereço IP, esse truque funcionará_--
@@ -119,12 +119,12 @@ uid = get_file_uid(filepath)
 os.setreuid(uid, uid)
 os.system(' '.join(sys.argv[1:]))
 ```
-Executar como:
+Execute como:
 ```bash
 # ll ./mount/
 drwxr-x---  6 1008 1009 1024 Apr  5  2017 9.3_old
 ```
-# Referências
+## Referências
 * [https://www.errno.fr/nfs_privesc.html](https://www.errno.fr/nfs_privesc.html)
 
 
@@ -134,7 +134,7 @@ drwxr-x---  6 1008 1009 1024 Apr  5  2017 9.3_old
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
