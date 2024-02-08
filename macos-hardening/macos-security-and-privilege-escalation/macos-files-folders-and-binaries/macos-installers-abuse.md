@@ -1,24 +1,24 @@
-# Abuso de Instaladores no macOS
+# Abuso de Instaladores do macOS
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras formas de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 ## Informações Básicas sobre Pkg
 
-Um **pacote de instalação do macOS** (também conhecido como arquivo `.pkg`) é um formato de arquivo usado pelo macOS para **distribuir software**. Esses arquivos são como uma **caixa que contém tudo o que um software** precisa para instalar e funcionar corretamente.
+Um **pacote de instalador** do macOS (também conhecido como arquivo `.pkg`) é um formato de arquivo usado pelo macOS para **distribuir software**. Esses arquivos são como uma **caixa que contém tudo o que um software** precisa para instalar e funcionar corretamente.
 
-O arquivo do pacote em si é um arquivo compactado que contém uma **hierarquia de arquivos e diretórios que serão instalados no computador de destino**. Ele também pode incluir **scripts** para realizar tarefas antes e depois da instalação, como configurar arquivos de configuração ou limpar versões antigas do software.
+O arquivo do pacote em si é um arquivo de arquivo que contém uma **hierarquia de arquivos e diretórios que serão instalados no computador de destino**. Ele também pode incluir **scripts** para realizar tarefas antes e depois da instalação, como configurar arquivos de configuração ou limpar versões antigas do software.
 
 ### Hierarquia
 
@@ -27,8 +27,8 @@ O arquivo do pacote em si é um arquivo compactado que contém uma **hierarquia 
 * **Distribuição (xml)**: Personalizações (título, texto de boas-vindas...) e verificações de script/instalação
 * **PackageInfo (xml)**: Informações, requisitos de instalação, local de instalação, caminhos para scripts a serem executados
 * **Lista de materiais (bom)**: Lista de arquivos para instalar, atualizar ou remover com permissões de arquivo
-* **Carga (arquivo CPIO compactado com gzip)**: Arquivos para instalar no `local de instalação` do PackageInfo
-* **Scripts (arquivo CPIO compactado com gzip)**: Scripts de pré e pós-instalação e mais recursos extraídos para um diretório temporário para execução.
+* **Carga (arquivo CPIO gzip compactado)**: Arquivos para instalar no `local de instalação` do PackageInfo
+* **Scripts (arquivo CPIO gzip compactado)**: Scripts de pré e pós-instalação e mais recursos extraídos para um diretório temporário para execução.
 
 ### Descompactar
 ```bash
@@ -58,7 +58,7 @@ A hierarquia de um arquivo DMG pode ser diferente com base no conteúdo. No enta
 - Aplicativo (.app): Este é o aplicativo real. No macOS, um aplicativo é tipicamente um pacote que contém muitos arquivos e pastas individuais que compõem o aplicativo.
 - Link de Aplicativos: Este é um atalho para a pasta Aplicativos no macOS. O objetivo disso é facilitar a instalação do aplicativo. Você pode arrastar o arquivo .app para este atalho para instalar o aplicativo.
 
-## Privesc via abuso de pkg
+## Privilégios Elevados via abuso de pkg
 
 ### Execução a partir de diretórios públicos
 
@@ -68,21 +68,23 @@ Se um script de pré ou pós-instalação estiver, por exemplo, sendo executado 
 
 ### AuthorizationExecuteWithPrivileges
 
-Esta é uma [função pública](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) que vários instaladores e atualizadores chamarão para **executar algo como root**. Esta função aceita o **caminho** do **arquivo** a **executar** como parâmetro, no entanto, se um atacante puder **modificar** este arquivo, ele poderá **abusar** de sua execução com root para **elevar os privilégios**.
+Esta é uma [função pública](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) que vários instaladores e atualizadores chamarão para **executar algo como root**. Esta função aceita o **caminho** do **arquivo** a **executar** como parâmetro, no entanto, se um atacante puder **modificar** este arquivo, ele poderá **abusar** de sua execução com root para **elevar privilégios**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
+Para mais informações, confira esta palestra: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
+
 ### Execução por montagem
 
-Se um instalador escreve em `/tmp/fixedname/bla/bla`, é possível **criar uma montagem** sobre `/tmp/fixedname` sem proprietários para que você possa **modificar qualquer arquivo durante a instalação** para abusar do processo de instalação.
+Se um instalador escreve em `/tmp/fixedname/bla/bla`, é possível **criar um ponto de montagem** sobre `/tmp/fixedname` sem proprietários para que você possa **modificar qualquer arquivo durante a instalação** para abusar do processo de instalação.
 
-Um exemplo disso é o **CVE-2021-26089** que conseguiu **sobrescrever um script periódico** para obter execução como root. Para mais informações, confira a palestra: [**OBTS v4.0: "Montanha de Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Um exemplo disso é **CVE-2021-26089** que conseguiu **sobrescrever um script periódico** para obter execução como root. Para mais informações, confira a palestra: [**OBTS v4.0: "Montanha de Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
 ## pkg como malware
 
-### Carga vazia
+### Carga Vazia
 
 É possível simplesmente gerar um arquivo **`.pkg`** com **scripts de pré e pós-instalação** sem nenhuma carga útil.
 
@@ -96,3 +98,17 @@ Um exemplo disso é o **CVE-2021-26089** que conseguiu **sobrescrever um script 
 
 * [**DEF CON 27 - Desempacotando Pkgs Uma Visão Interna dos Pacotes de Instalação do MacOS e Falhas Comuns de Segurança**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
 * [**OBTS v4.0: "O Mundo Selvagem dos Instaladores do macOS" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
+
+<details>
+
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Outras formas de apoiar o HackTricks:
+
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>

@@ -6,11 +6,11 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -20,9 +20,9 @@ Os binários do Mac OS geralmente são compilados como **binários universais**.
 
 Esses binários seguem a **estrutura Mach-O** que é basicamente composta por:
 
-* Cabeçalho
-* Comandos de Carregamento
-* Dados
+- Cabeçalho
+- Comandos de Carregamento
+- Dados
 
 ![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (559).png>)
 
@@ -57,17 +57,17 @@ Verifique com:
 /bin/ls (for architecture arm64e):	Mach-O 64-bit executable arm64e
 
 % otool -f -v /bin/ls
-Cabeçalhos Fat
+Fat headers
 fat_magic FAT_MAGIC
 <strong>nfat_arch 2
-</strong><strong>arquitetura x86_64
+</strong><strong>architecture x86_64
 </strong>    cputype CPU_TYPE_X86_64
 cpusubtype CPU_SUBTYPE_X86_64_ALL
 capabilities 0x0
 <strong>    offset 16384
 </strong><strong>    size 72896
 </strong>    align 2^14 (16384)
-<strong>arquitetura arm64e
+<strong>architecture arm64e
 </strong>    cputype CPU_TYPE_ARM64
 cpusubtype CPU_SUBTYPE_ARM64E
 capabilities PTR_AUTH_VERSION USERSPACE 0
@@ -150,13 +150,13 @@ Esses comandos **definem segmentos** que são **mapeados** no **espaço de memó
 
 Existem **diferentes tipos** de segmentos, como o segmento **\_\_TEXT**, que contém o código executável de um programa, e o segmento **\_\_DATA**, que contém dados usados pelo processo. Esses **segmentos estão localizados na seção de dados** do arquivo Mach-O.
 
-**Cada segmento** pode ser **dividido** em várias **seções**. A **estrutura do comando de carga** contém **informações** sobre **essas seções** dentro do respectivo segmento.
+**Cada segmento** pode ser **dividido** em várias **seções**. A estrutura do **comando de carga** contém **informações** sobre **essas seções** dentro do respectivo segmento.
 
 No cabeçalho, primeiro você encontra o **cabeçalho do segmento**:
 
 <pre class="language-c"><code class="lang-c">struct segment_command_64 { /* para arquiteturas de 64 bits */
 uint32_t	cmd;		/* LC_SEGMENT_64 */
-uint32_t	cmdsize;	/* inclui o tamanho das structs section_64 */
+uint32_t	cmdsize;	/* inclui o tamanho dos structs section_64 */
 char		segname[16];	/* nome do segmento */
 uint64_t	vmaddr;		/* endereço de memória deste segmento */
 uint64_t	vmsize;		/* tamanho de memória deste segmento */
@@ -198,11 +198,11 @@ Se você **adicionar** o **deslocamento da seção** (0x37DC) + o **deslocamento
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Também é possível obter **informações de cabeçalho** da **linha de comando** com:
+Também é possível obter **informações de cabeçalho** a partir da **linha de comando** com:
 ```bash
 otool -lv /bin/ls
 ```
-Segmentos comuns carregados por este comando:
+Segmentos comuns carregados por este cmd:
 
 - **`__PAGEZERO`:** Instrui o kernel a **mapear** o **endereço zero** para que ele **não possa ser lido, escrito ou executado**. As variáveis maxprot e minprot na estrutura são definidas como zero para indicar que não há **direitos de leitura-escrita-execução nesta página**.
 - Essa alocação é importante para **mitigar vulnerabilidades de referência de ponteiro nulo**.
@@ -220,7 +220,7 @@ Segmentos comuns carregados por este comando:
 
 ### **`LC_MAIN`**
 
-Contém o ponto de entrada no atributo **entryoff**. No momento do carregamento, o **dyld** simplesmente **adiciona** esse valor à (em memória) **base do binário**, e então **salta** para esta instrução para iniciar a execução do código do binário.
+Contém o ponto de entrada no **atributo entryoff**. No momento do carregamento, o **dyld** simplesmente **adiciona** esse valor à (em memória) **base do binário**, e então **salta** para esta instrução para iniciar a execução do código do binário.
 
 ### **LC\_CODE\_SIGNATURE**
 
@@ -252,7 +252,7 @@ uint32_t compatibility_version;     /* library's compatibility vers number*/
 ```
 ![](<../../../.gitbook/assets/image (558).png>)
 
-Você também pode obter essas informações pelo cli com:
+Você também pode obter essas informações a partir da linha de comando com:
 ```bash
 otool -L /bin/ls
 /bin/ls:
@@ -260,7 +260,7 @@ otool -L /bin/ls
 /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
 /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
 ```
-Algumas bibliotecas potencialmente relacionadas a malware são:
+Algumas bibliotecas potencialmente relacionadas a malwares são:
 
 - **DiskArbitration**: Monitorando unidades USB
 - **AVFoundation:** Captura de áudio e vídeo
@@ -273,7 +273,7 @@ Os deslocamentos de quaisquer construtores são mantidos na seção **\_\_mod\_i
 
 ## **Dados Mach-O**
 
-No cerne do arquivo está a região de dados, composta por vários segmentos conforme definido na região de comandos de carga. **Uma variedade de seções de dados pode ser alojada dentro de cada segmento**, com cada seção **mantendo código ou dados** específicos de um tipo.
+No cerne do arquivo está a região de dados, composta por vários segmentos conforme definido na região de comandos de carga. **Uma variedade de seções de dados pode ser alojada em cada segmento**, com cada seção **mantendo código ou dados** específicos para um tipo.
 
 {% hint style="success" %}
 Os dados são basicamente a parte que contém todas as **informações** carregadas pelos comandos de carga **LC\_SEGMENTS\_64**
@@ -304,7 +304,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

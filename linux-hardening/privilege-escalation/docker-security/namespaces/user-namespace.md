@@ -9,21 +9,21 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 ## Informações Básicas
 
-Um namespace de usuário é um recurso do kernel do Linux que **fornece isolamento de mapeamentos de ID de usuário e grupo**, permitindo que cada namespace de usuário tenha seu **próprio conjunto de IDs de usuário e grupo**. Esse isolamento permite que processos em execução em diferentes namespaces de usuário tenham **privilégios e propriedades diferentes**, mesmo que compartilhem os mesmos IDs de usuário e grupo numericamente.
+Um namespace de usuário é um recurso do kernel do Linux que **fornece isolamento de mapeamentos de ID de usuário e grupo**, permitindo que cada namespace de usuário tenha seu **próprio conjunto de IDs de usuário e grupo**. Esse isolamento permite que processos em diferentes namespaces de usuário **tenham diferentes privilégios e propriedades**, mesmo que compartilhem os mesmos IDs de usuário e grupo numericamente.
 
 Os namespaces de usuário são particularmente úteis na containerização, onde cada contêiner deve ter seu próprio conjunto independente de IDs de usuário e grupo, permitindo uma melhor segurança e isolamento entre os contêineres e o sistema hospedeiro.
 
 ### Como funciona:
 
 1. Quando um novo namespace de usuário é criado, ele **começa com um conjunto vazio de mapeamentos de IDs de usuário e grupo**. Isso significa que qualquer processo em execução no novo namespace de usuário **inicialmente não terá privilégios fora do namespace**.
-2. Os mapeamentos de IDs podem ser estabelecidos entre os IDs de usuário e grupo no novo namespace e aqueles no namespace pai (ou hospedeiro). Isso **permite que processos no novo namespace tenham privilégios e propriedades correspondentes aos IDs de usuário e grupo no namespace pai**. No entanto, os mapeamentos de IDs podem ser restritos a intervalos específicos e subconjuntos de IDs, permitindo um controle detalhado sobre os privilégios concedidos aos processos no novo namespace.
+2. Os mapeamentos de IDs podem ser estabelecidos entre os IDs de usuário e grupo no novo namespace e aqueles no namespace pai (ou hospedeiro). Isso **permite que processos no novo namespace tenham privilégios e propriedades correspondentes aos IDs de usuário e grupo no namespace pai**. No entanto, os mapeamentos de IDs podem ser restritos a intervalos e subconjuntos específicos de IDs, permitindo um controle detalhado sobre os privilégios concedidos aos processos no novo namespace.
 3. Dentro de um namespace de usuário, **os processos podem ter privilégios de root completos (UID 0) para operações dentro do namespace**, enquanto ainda têm privilégios limitados fora do namespace. Isso permite que **contêineres executem com capacidades semelhantes às de root dentro de seu próprio namespace sem ter privilégios de root completos no sistema hospedeiro**.
 4. Os processos podem se mover entre namespaces usando a chamada de sistema `setns()` ou criar novos namespaces usando as chamadas de sistema `unshare()` ou `clone()` com a flag `CLONE_NEWUSER`. Quando um processo se move para um novo namespace ou cria um, ele começará a usar os mapeamentos de IDs de usuário e grupo associados a esse namespace.
 
@@ -41,12 +41,12 @@ Ao montar uma nova instância do sistema de arquivos `/proc` usando o parâmetro
 
 <summary>Erro: bash: fork: Não é possível alocar memória</summary>
 
-Quando o `unshare` é executado sem a opção `-f`, um erro é encontrado devido à forma como o Linux lida com os novos namespaces de PID (Identificador de Processo). Os detalhes-chave e a solução são descritos abaixo:
+Quando o `unshare` é executado sem a opção `-f`, um erro é encontrado devido à forma como o Linux lida com os novos namespaces de PID (Process ID). Os detalhes-chave e a solução são descritos abaixo:
 
 1. **Explicação do Problema**:
-- O kernel do Linux permite que um processo crie novos namespaces usando a chamada de sistema `unshare`. No entanto, o processo que inicia a criação de um novo namespace de PID (referido como o processo "unshare") não entra no novo namespace; apenas seus processos filhos o fazem.
-- Executar `%unshare -p /bin/bash%` inicia `/bin/bash` no mesmo processo que `unshare`. Consequentemente, `/bin/bash` e seus processos filhos estão no namespace de PID original.
-- O primeiro processo filho do `/bin/bash` no novo namespace se torna o PID 1. Quando esse processo sai, ele desencadeia a limpeza do namespace se não houver outros processos, pois o PID 1 tem o papel especial de adotar processos órfãos. O kernel do Linux então desabilitará a alocação de PID nesse namespace.
+- O kernel do Linux permite que um processo crie novos namespaces usando a chamada de sistema `unshare`. No entanto, o processo que inicia a criação de um novo namespace de PID (chamado de processo "unshare") não entra no novo namespace; apenas seus processos filhos o fazem.
+- Executar `%unshare -p /bin/bash%` inicia `/bin/bash` no mesmo processo que `unshare`. Consequentemente, `/bin/bash` e seus processos filhos estão no namespace PID original.
+- O primeiro processo filho do `/bin/bash` no novo namespace se torna o PID 1. Quando esse processo sai, ele aciona a limpeza do namespace se não houver outros processos, pois o PID 1 tem o papel especial de adotar processos órfãos. O kernel do Linux então desabilitará a alocação de PID nesse namespace.
 
 2. **Consequência**:
 - A saída do PID 1 em um novo namespace leva à limpeza da flag `PIDNS_HASH_ADDING`. Isso resulta na função `alloc_pid` falhando ao alocar um novo PID ao criar um novo processo, produzindo o erro "Cannot allocate memory".
@@ -89,6 +89,8 @@ sudo find /proc -maxdepth 3 -type l -name user -exec readlink {} \; 2>/dev/null 
 sudo find /proc -maxdepth 3 -type l -name user -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
 ### Entrar dentro de um namespace de usuário
+
+{% endcode %}
 ```bash
 nsenter -U TARGET_PID --pid /bin/bash
 ```
@@ -114,7 +116,7 @@ root       27756   27755  0 21:11 pts/10   00:00:00 /bin/bash
 
 No caso dos namespaces de usuário, **quando um novo namespace de usuário é criado, o processo que entra no namespace recebe um conjunto completo de capacidades dentro desse namespace**. Essas capacidades permitem que o processo execute operações privilegiadas, como **montar sistemas de arquivos**, criar dispositivos ou alterar a propriedade de arquivos, mas **apenas no contexto de seu namespace de usuário**.
 
-Por exemplo, quando você tem a capacidade `CAP_SYS_ADMIN` dentro de um namespace de usuário, você pode realizar operações que normalmente exigem essa capacidade, como montar sistemas de arquivos, mas apenas no contexto de seu namespace de usuário. Quaisquer operações que você execute com essa capacidade não afetarão o sistema host ou outros namespaces.
+Por exemplo, quando você tem a capacidade `CAP_SYS_ADMIN` dentro de um namespace de usuário, você pode realizar operações que normalmente exigem essa capacidade, como montar sistemas de arquivos, mas apenas no contexto de seu namespace de usuário. Quaisquer operações realizadas com essa capacidade não afetarão o sistema host ou outros namespaces.
 
 {% hint style="warning" %}
 Portanto, mesmo que obter um novo processo dentro de um novo namespace de usuário **lhe devolva todas as capacidades** (CapEff: 000001ffffffffff), na verdade você só pode **usar aquelas relacionadas ao namespace** (como montagem), mas não todas. Portanto, isso por si só não é suficiente para escapar de um contêiner Docker.
@@ -152,10 +154,10 @@ Probando: 0x143 . . . Error
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

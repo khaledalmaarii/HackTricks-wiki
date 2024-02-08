@@ -1,53 +1,53 @@
-# macOS Keychain
+# Chaveiro do macOS
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking da AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-## Principais Keychains
+## Principais Chaveiros
 
-* O **User Keychain** (`~/Library/Keychains/login.keycahin-db`), que é usado para armazenar **credenciais específicas do usuário** como senhas de aplicativos, senhas da internet, certificados gerados pelo usuário, senhas de rede e chaves públicas/privadas geradas pelo usuário.
-* O **System Keychain** (`/Library/Keychains/System.keychain`), que armazena **credenciais de todo o sistema** como senhas de WiFi, certificados raiz do sistema, chaves privadas do sistema e senhas de aplicativos do sistema.
+* O **Chaveiro do Usuário** (`~/Library/Keychains/login.keycahin-db`), que é usado para armazenar **credenciais específicas do usuário** como senhas de aplicativos, senhas de internet, certificados gerados pelo usuário, senhas de rede e chaves públicas/privadas geradas pelo usuário.
+* O **Chaveiro do Sistema** (`/Library/Keychains/System.keychain`), que armazena **credenciais de todo o sistema** como senhas WiFi, certificados raiz do sistema, chaves privadas do sistema e senhas de aplicativos do sistema.
 
-### Acesso ao Keychain de Senhas
+### Acesso ao Chaveiro de Senhas
 
-Esses arquivos, embora não tenham proteção inerente e possam ser **baixados**, são criptografados e requerem a **senha em texto claro do usuário para serem descriptografados**. Uma ferramenta como [**Chainbreaker**](https://github.com/n0fate/chainbreaker) poderia ser usada para descriptografia.
+Esses arquivos, embora não tenham proteção inerente e possam ser **baixados**, são criptografados e exigem a **senha em texto simples do usuário para serem descriptografados**. Uma ferramenta como [**Chainbreaker**](https://github.com/n0fate/chainbreaker) pode ser usada para descriptografia.
 
-## Proteções das Entradas do Keychain
+## Proteções de Entradas do Chaveiro
 
 ### ACLs
 
-Cada entrada no keychain é regida por **Listas de Controle de Acesso (ACLs)** que ditam quem pode realizar várias ações na entrada do keychain, incluindo:
+Cada entrada no chaveiro é governada por **Listas de Controle de Acesso (ACLs)** que ditam quem pode realizar várias ações na entrada do chaveiro, incluindo:
 
 * **ACLAuhtorizationExportClear**: Permite ao detentor obter o texto claro do segredo.
 * **ACLAuhtorizationExportWrapped**: Permite ao detentor obter o texto claro criptografado com outra senha fornecida.
 * **ACLAuhtorizationAny**: Permite ao detentor realizar qualquer ação.
 
-As ACLs são acompanhadas por uma **lista de aplicativos confiáveis** que podem realizar essas ações sem solicitação. Isso pode ser:
+As ACLs são acompanhadas por uma **lista de aplicativos confiáveis** que podem realizar essas ações sem solicitação. Isso poderia ser:
 
 * &#x20;**N`il`** (nenhuma autorização necessária, **todos são confiáveis**)
-* Uma lista **vazia** (**ninguém** é confiável)
-* **Lista** de **aplicativos específicos**.
+* Uma lista **vazia** (ninguém é confiável)
+* Lista de **aplicativos** específicos.
 
-Além disso, a entrada pode conter a chave **`ACLAuthorizationPartitionID`,** que é usada para identificar o **teamid, apple,** e **cdhash.**
+Também a entrada pode conter a chave **`ACLAuthorizationPartitionID`,** que é usada para identificar o **teamid, apple** e **cdhash.**
 
-* Se o **teamid** for especificado, então para **acessar o valor da entrada** **sem** uma **solicitação**, o aplicativo usado deve ter o **mesmo teamid**.
+* Se o **teamid** for especificado, então para **acessar o valor da entrada** sem um **prompt** o aplicativo usado deve ter o **mesmo teamid**.
 * Se o **apple** for especificado, então o aplicativo precisa ser **assinado** pela **Apple**.
-* Se o **cdhash** for indicado, então o **aplicativo** deve ter o específico **cdhash**.
+* Se o **cdhash** for indicado, então o **aplicativo** deve ter o **cdhash** específico.
 
-### Criando uma Entrada no Keychain
+### Criando uma Entrada no Chaveiro
 
-Quando uma **nova** **entrada** é criada usando **`Keychain Access.app`**, as seguintes regras se aplicam:
+Quando uma **nova** **entrada** é criada usando o **`Keychain Access.app`**, as seguintes regras se aplicam:
 
 * Todos os aplicativos podem criptografar.
 * **Nenhum aplicativo** pode exportar/descriptografar (sem solicitar ao usuário).
@@ -55,15 +55,15 @@ Quando uma **nova** **entrada** é criada usando **`Keychain Access.app`**, as s
 * Nenhum aplicativo pode alterar as ACLs.
 * O **partitionID** é definido como **`apple`**.
 
-Quando um **aplicativo cria uma entrada no keychain**, as regras são um pouco diferentes:
+Quando um **aplicativo cria uma entrada no chaveiro**, as regras são ligeiramente diferentes:
 
 * Todos os aplicativos podem criptografar.
-* Apenas o **aplicativo criador** (ou quaisquer outros aplicativos explicitamente adicionados) podem exportar/descriptografar (sem solicitar ao usuário).
+* Apenas o **aplicativo criador** (ou qualquer outro aplicativo explicitamente adicionado) pode exportar/descriptografar (sem solicitar ao usuário).
 * Todos os aplicativos podem ver a verificação de integridade.
 * Nenhum aplicativo pode alterar as ACLs.
-* O **partitionID** é definido como **`teamid:[teamID aqui]`**.
+* O **partitionID** é definido como **`teamid:[teamID aqui]**.
 
-## Acessando o Keychain
+## Acessando o Chaveiro
 
 ### `security`
 ```bash
@@ -79,54 +79,54 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 ### APIs
 
 {% hint style="success" %}
-A **enumeração de chaveiros e o despejo** de segredos que **não gerarão um aviso** podem ser feitos com a ferramenta [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+A **enumeração e dumping do keychain** de segredos que **não geram um prompt** podem ser feitos com a ferramenta [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
-Listar e obter **informações** sobre cada entrada do chaveiro:
+Liste e obtenha **informações** sobre cada entrada do keychain:
 
 * A API **`SecItemCopyMatching`** fornece informações sobre cada entrada e existem alguns atributos que você pode definir ao usá-la:
-* **`kSecReturnData`**: Se verdadeiro, tentará descriptografar os dados (defina como falso para evitar pop-ups potenciais)
-* **`kSecReturnRef`**: Obter também referência ao item do chaveiro (defina como verdadeiro caso depois você veja que pode descriptografar sem pop-up)
-* **`kSecReturnAttributes`**: Obter metadados sobre as entradas
+* **`kSecReturnData`**: Se verdadeiro, tentará descriptografar os dados (defina como falso para evitar possíveis pop-ups)
+* **`kSecReturnRef`**: Obtenha também a referência ao item do keychain (defina como verdadeiro no caso de posteriormente você conseguir descriptografar sem pop-up)
+* **`kSecReturnAttributes`**: Obtenha metadados sobre as entradas
 * **`kSecMatchLimit`**: Quantos resultados retornar
-* **`kSecClass`**: Que tipo de entrada do chaveiro
+* **`kSecClass`**: Que tipo de entrada do keychain
 
-Obter **ACLs** de cada entrada:
+Obtenha **ACLs** de cada entrada:
 
-* Com a API **`SecAccessCopyACLList`** você pode obter o **ACL para o item do chaveiro**, e ela retornará uma lista de ACLs (como `ACLAuhtorizationExportClear` e os outros mencionados anteriormente) onde cada lista tem:
+* Com a API **`SecAccessCopyACLList`** você pode obter o **ACL para o item do keychain**, e ele retornará uma lista de ACLs (como `ACLAuhtorizationExportClear` e os outros mencionados anteriormente) onde cada lista tem:
 * Descrição
-* **Lista de Aplicações Confiáveis**. Isso poderia ser:
+* **Lista de Aplicativos Confiáveis**. Isso poderia ser:
 * Um aplicativo: /Applications/Slack.app
 * Um binário: /usr/libexec/airportd
 * Um grupo: group://AirPort
 
-Exportar os dados:
+Exporte os dados:
 
-* A API **`SecKeychainItemCopyContent`** obtém o texto claro
+* A API **`SecKeychainItemCopyContent`** obtém o texto simples
 * A API **`SecItemExport`** exporta as chaves e certificados, mas pode ser necessário definir senhas para exportar o conteúdo criptografado
 
-E estes são os **requisitos** para poder **exportar um segredo sem um aviso**:
+E estes são os **requisitos** para poder **exportar um segredo sem um prompt**:
 
-* Se **1+ aplicações confiáveis** listadas:
-* Necessário as **autorizações** apropriadas (**`Nil`**, ou fazer **parte** da lista permitida de aplicações na autorização para acessar a informação secreta)
-* Necessário que a assinatura de código corresponda ao **PartitionID**
-* Necessário que a assinatura de código corresponda à de uma **aplicação confiável** (ou ser membro do correto KeychainAccessGroup)
-* Se **todas as aplicações confiáveis**:
-* Necessário as **autorizações** apropriadas
-* Necessário que a assinatura de código corresponda ao **PartitionID**
-* Se **nenhum PartitionID**, então isso não é necessário
+* Se **1+ aplicativos confiáveis** listados:
+* Precisa das **autorizações apropriadas** (**`Nil`**, ou fazer **parte** da lista permitida de aplicativos na autorização para acessar as informações secretas)
+* Precisa que a assinatura de código corresponda ao **PartitionID**
+* Precisa que a assinatura de código corresponda à de um **aplicativo confiável** (ou ser membro do grupo de acesso correto do Keychain)
+* Se **todos os aplicativos são confiáveis**:
+* Precisa das **autorizações apropriadas**
+* Precisa que a assinatura de código corresponda ao **PartitionID**
+* Se **não houver PartitionID**, então isso não é necessário
 
 {% hint style="danger" %}
-Portanto, se houver **1 aplicação listada**, você precisará **injetar código nessa aplicação**.
+Portanto, se houver **1 aplicativo listado**, você precisa **injetar código nesse aplicativo**.
 
-Se **apple** estiver indicado no **partitionID**, você poderia acessá-lo com **`osascript`** então qualquer coisa que confie em todas as aplicações com apple no partitionID. **`Python`** também poderia ser usado para isso.
+Se **apple** for indicado no **partitionID**, você poderá acessá-lo com **`osascript`** para qualquer coisa que confie em todos os aplicativos com apple no partitionID. **`Python`** também poderia ser usado para isso.
 {% endhint %}
 
 ### Dois atributos adicionais
 
-* **Invisível**: É um indicador booleano para **ocultar** a entrada do aplicativo **UI** Keychain
-* **Geral**: É para armazenar **metadados** (portanto, NÃO É CRIPTOGRAFADO)
-* A Microsoft estava armazenando em texto claro todos os tokens de atualização para acessar pontos finais sensíveis.
+* **Invisível**: É uma sinalização booleana para **ocultar** a entrada do aplicativo **UI** Keychain
+* **Geral**: É para armazenar **metadados** (portanto, NÃO É CIFRADO)
+* A Microsoft estava armazenando em texto simples todos os tokens de atualização para acessar pontos finais sensíveis.
 
 ## Referências
 
@@ -134,14 +134,14 @@ Se **apple** estiver indicado no **partitionID**, você poderia acessá-lo com *
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
