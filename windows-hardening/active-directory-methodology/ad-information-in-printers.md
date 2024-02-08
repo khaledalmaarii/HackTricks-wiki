@@ -8,7 +8,7 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -32,6 +32,8 @@ Alguns blogs sobre o tema:
 
 ## Capturando Credenciais
 
+**Para passos mais detalhados, consulte a [fonte original](https://grimhacker.com/2018/03/09/just-a-printer/).**
+
 ### Método 1: Ouvinte Netcat
 Um simples ouvinte netcat pode ser suficiente:
 ```bash
@@ -40,7 +42,7 @@ sudo nc -k -v -l -p 386
 No entanto, o sucesso deste método varia.
 
 ### Método 2: Servidor LDAP Completo com Slapd
-Uma abordagem mais confiável envolve configurar um servidor LDAP completo, pois a impressora realiza uma ligação nula seguida de uma consulta antes de tentar a ligação com credenciais.
+Uma abordagem mais confiável envolve configurar um servidor LDAP completo, pois a impressora realiza uma ligação nula seguida de uma consulta antes de tentar a ligação de credenciais.
 
 1. **Configuração do Servidor LDAP**: O guia segue os passos deste [fonte](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
 2. **Passos Principais**:
@@ -50,13 +52,10 @@ Uma abordagem mais confiável envolve configurar um servidor LDAP completo, pois
 - Definir o nome de domínio no banco de dados LDAP.
 - Configurar o TLS do LDAP.
 3. **Execução do Serviço LDAP**: Uma vez configurado, o serviço LDAP pode ser executado usando:
-```
+```bash
 slapd -d 2
 ```
-
-**Para obter passos mais detalhados, consulte a [fonte](https://grimhacker.com/2018/03/09/just-a-printer/).**
-
-# Referências
+## Referências
 * [https://grimhacker.com/2018/03/09/just-a-printer/](https://grimhacker.com/2018/03/09/just-a-printer/)
 
 
@@ -64,12 +63,12 @@ slapd -d 2
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
