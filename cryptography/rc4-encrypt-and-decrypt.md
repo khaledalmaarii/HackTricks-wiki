@@ -13,7 +13,7 @@ Autres façons de soutenir HackTricks :
 </details>
 
 
-Si vous pouvez de quelque manière que ce soit chiffrer un texte en utilisant un RC4**, vous pouvez décrypter tout contenu chiffré par ce RC4 (en utilisant le même mot de passe) en utilisant simplement la fonction de chiffrement.
+Si vous pouvez de quelque manière que ce soit chiffrer un texte en clair en utilisant RC4, vous pouvez décrypter tout contenu chiffré par ce RC4 (en utilisant le même mot de passe) en utilisant simplement la fonction de chiffrement.
 
 Si vous pouvez chiffrer un texte en clair connu, vous pouvez également extraire le mot de passe. Plus de références peuvent être trouvées dans la machine HTB Kryptos :
 

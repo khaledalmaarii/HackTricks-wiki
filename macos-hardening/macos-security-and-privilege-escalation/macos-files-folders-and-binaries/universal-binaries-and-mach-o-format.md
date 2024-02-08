@@ -9,7 +9,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -129,7 +129,7 @@ Ou en utilisant [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 ## **Commandes de chargement Mach-O**
 
-La **disposition du fichier en mémoire** est spécifiée ici, détaillant l'emplacement de la **table des symboles**, le contexte du thread principal au démarrage de l'exécution, et les **bibliothèques partagées** requises. Des instructions sont fournies au chargeur dynamique **(dyld)** sur le processus de chargement du binaire en mémoire.
+La **mise en page du fichier en mémoire** est spécifiée ici, détaillant l'emplacement de la **table des symboles**, le contexte du thread principal au démarrage de l'exécution, et les **bibliothèques partagées** requises. Des instructions sont fournies au chargeur dynamique **(dyld)** sur le processus de chargement du binaire en mémoire.
 
 Il utilise la structure **load\_command**, définie dans le fichier **`loader.h`**:
 ```objectivec
@@ -152,7 +152,7 @@ Il existe **différents types** de segments, tels que le segment **\_\_TEXT**, q
 
 **Chaque segment** peut être **divisé en plusieurs sections**. La **structure de la commande de chargement** contient des **informations** sur **ces sections** dans le segment respectif.
 
-Dans l'en-tête, vous trouvez d'abord l'**en-tête de segment** :
+Dans l'en-tête, vous trouvez d'abord l'**en-tête du segment** :
 
 <pre class="language-c"><code class="lang-c">struct segment_command_64 { /* pour les architectures 64 bits */
 uint32_t	cmd;		/* LC_SEGMENT_64 */
@@ -173,7 +173,7 @@ Exemple d'en-tête de segment :
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Cet en-tête définit le **nombre de sections dont les en-têtes apparaissent après** lui :
+Cet en-tête définit le **nombre de sections dont les en-têtes apparaissent après** :
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -190,7 +190,7 @@ uint32_t	reserved2;	/* reserved (for count or sizeof) */
 uint32_t	reserved3;	/* reserved */
 };
 ```
-Exemple de **en-tête de section** :
+Exemple de **titre de section** :
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -202,7 +202,7 @@ Il est également possible d'obtenir des **informations d'en-tête** à partir d
 ```bash
 otool -lv /bin/ls
 ```
-Les segments courants chargés par cette commande :
+Les segments communs chargés par cette commande :
 
 * **`__PAGEZERO` :** Il indique au noyau de **mapper** l'**adresse zéro** afin qu'elle ne puisse pas être lue, écrite ou exécutée. Les variables maxprot et minprot dans la structure sont définies à zéro pour indiquer qu'il n'y a **aucun droit de lecture-écriture-exécution sur cette page**.
 * Cette allocation est importante pour **atténuer les vulnérabilités de déréférencement de pointeur NULL**.
@@ -229,11 +229,11 @@ Cependant, vous pouvez trouver des informations sur cette section dans [**ce bil
 
 ### **LC\_LOAD\_DYLINKER**
 
-Contient le **chemin vers l'exécutable du lien dynamique** qui mappe les bibliothèques partagées dans l'espace d'adressage du processus. La **valeur est toujours définie sur `/usr/lib/dyld`**. Il est important de noter que dans macOS, le mappage des dylib se fait en **mode utilisateur**, pas en mode noyau.
+Contient le **chemin vers l'exécutable du chargeur dynamique** qui mappe les bibliothèques partagées dans l'espace d'adressage du processus. La **valeur est toujours définie sur `/usr/lib/dyld`**. Il est important de noter que dans macOS, le mappage dylib se fait en **mode utilisateur**, pas en mode noyau.
 
 ### **`LC_LOAD_DYLIB`**
 
-Cette commande de chargement décrit une **dépendance de bibliothèque dynamique** qui **instructe le chargeur** (dyld) de **charger et lier ladite bibliothèque**. Il y a une commande de chargement LC\_LOAD\_DYLIB **pour chaque bibliothèque** requise par le binaire Mach-O.
+Cette commande de chargement décrit une **dépendance de bibliothèque dynamique** qui **indique** au **chargeur** (dyld) de **charger et lier ladite bibliothèque**. Il y a une commande de chargement LC\_LOAD\_DYLIB **pour chaque bibliothèque** requise par le binaire Mach-O.
 
 * Cette commande de chargement est une structure de type **`dylib_command`** (qui contient une structure dylib, décrivant la bibliothèque dynamique dépendante réelle) :
 ```objectivec
@@ -273,7 +273,7 @@ Les décalages de tout constructeur sont conservés dans la section **\_\_mod\_i
 
 ## **Données Mach-O**
 
-Au cœur du fichier se trouve la région des données, composée de plusieurs segments tels que définis dans la région des commandes de chargement. **Une variété de sections de données peut être logée dans chaque segment**, chaque section **contenant du code ou des données** spécifiques à un type.
+Au cœur du fichier se trouve la région des données, composée de plusieurs segments tels que définis dans la région des commandes de chargement. **Une variété de sections de données peut être contenue dans chaque segment**, chaque section **contenant du code ou des données** spécifiques à un type.
 
 {% hint style="success" %}
 Les données sont essentiellement la partie contenant toutes les **informations** chargées par les commandes de chargement **LC\_SEGMENTS\_64**
@@ -285,9 +285,9 @@ Cela inclut :
 
 * **Table des fonctions** : Qui contient des informations sur les fonctions du programme.
 * **Table des symboles** : Qui contient des informations sur les fonctions externes utilisées par le binaire
-* Il pourrait également contenir des noms de fonctions internes, des noms de variables et plus encore.
+* Il pourrait également contenir des fonctions internes, des noms de variables, et plus encore.
 
-Pour vérifier, vous pourriez utiliser l'outil [**Mach-O View**](https://sourceforge.net/projects/machoview/) :
+Pour vérifier, vous pouvez utiliser l'outil [**Mach-O View**](https://sourceforge.net/projects/machoview/) :
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -297,14 +297,14 @@ size -m /bin/ls
 ```
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge HackTricks AWS)</strong></a><strong>!</strong></summary>
 
-D'autres façons de soutenir HackTricks :
+D'autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

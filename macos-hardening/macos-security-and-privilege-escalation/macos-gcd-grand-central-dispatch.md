@@ -2,42 +2,42 @@
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm).
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 ## Informations de base
 
-**Grand Central Dispatch (GCD),** également connu sous le nom de **libdispatch**, est disponible à la fois sur macOS et iOS. C'est une technologie développée par Apple pour optimiser le support des applications pour l'exécution concurrente (multithread) sur du matériel multicœur.
+**Grand Central Dispatch (GCD),** également connu sous le nom de **libdispatch**, est disponible à la fois sur macOS et iOS. Il s'agit d'une technologie développée par Apple pour optimiser le support des applications pour l'exécution concurrente (multithread) sur un matériel multicœur.
 
-**GCD** fournit et gère des **files d'attente FIFO** auxquelles votre application peut **soumettre des tâches** sous forme d'**objets bloc**. Les blocs soumis aux files d'attente de dispatch sont **exécutés sur un pool de threads** entièrement géré par le système. GCD crée automatiquement des threads pour exécuter les tâches dans les files d'attente de dispatch et planifie ces tâches pour qu'elles s'exécutent sur les cœurs disponibles.
+**GCD** fournit et gère des **files d'attente FIFO** auxquelles votre application peut **soumettre des tâches** sous forme d'**objets de bloc**. Les blocs soumis aux files d'attente de répartition sont **exécutés sur un pool de threads** entièrement géré par le système. GCD crée automatiquement des threads pour exécuter les tâches dans les files d'attente de répartition et planifie l'exécution de ces tâches sur les cœurs disponibles.
 
 {% hint style="success" %}
-En résumé, pour exécuter du code en **parallèle**, les processus peuvent envoyer des **blocs de code à GCD**, qui se chargera de leur exécution. Ainsi, les processus ne créent pas de nouveaux threads ; **GCD exécute le code donné avec son propre pool de threads**.
+En résumé, pour exécuter du code en **parallèle**, les processus peuvent envoyer des **blocs de code à GCD**, qui se chargera de leur exécution. Par conséquent, les processus ne créent pas de nouveaux threads ; **GCD exécute le code donné avec son propre pool de threads**.
 {% endhint %}
 
-Cela est très utile pour gérer avec succès l'exécution parallèle, en réduisant considérablement le nombre de threads que les processus créent et en optimisant l'exécution parallèle. C'est idéal pour les tâches qui nécessitent un **grand parallélisme** (brute-forcing ?) ou pour les tâches qui ne devraient pas bloquer le thread principal : par exemple, le thread principal sur iOS gère les interactions de l'UI, donc toute autre fonctionnalité qui pourrait faire planter l'application (recherche, accès à un web, lecture d'un fichier...) est gérée de cette manière.
+Cela est très utile pour gérer avec succès l'exécution parallèle, réduisant considérablement le nombre de threads que les processus créent et optimisant l'exécution parallèle. Cela est idéal pour les tâches qui nécessitent une **grande parallélisme** (force brute ?) ou pour les tâches qui ne doivent pas bloquer le thread principal : par exemple, le thread principal sur iOS gère les interactions UI, donc toute autre fonctionnalité qui pourrait faire planter l'application (recherche, accès à un site web, lecture d'un fichier...) est gérée de cette manière.
 
 ## Objective-C
 
 En Objective-C, il existe différentes fonctions pour envoyer un bloc à exécuter en parallèle :
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async) : Soumet un bloc pour une exécution asynchrone sur une file d'attente de dispatch et retourne immédiatement.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) : Soumet un objet bloc pour exécution et retourne après que ce bloc ait fini de s'exécuter.
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once) : Exécute un objet bloc une seule fois pendant la durée de vie d'une application.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait) : Soumet un élément de travail pour exécution et retourne seulement après qu'il ait fini de s'exécuter. Contrairement à [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), cette fonction respecte tous les attributs de la file d'attente lorsqu'elle exécute le bloc.
+- [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async) : Soumet un bloc pour une exécution asynchrone sur une file d'attente de répartition et retourne immédiatement.
+- [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) : Soumet un objet de bloc pour exécution et retourne une fois que ce bloc a fini d'exécuter.
+- [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once) : Exécute un objet de bloc une seule fois pendant la durée de vie d'une application.
+- [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait) : Soumet un élément de travail pour exécution et ne retourne qu'après son exécution. Contrairement à [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), cette fonction respecte tous les attributs de la file d'attente lorsqu'elle exécute le bloc.
 
 Ces fonctions attendent ces paramètres : [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
-Voici la **structure d'un Bloc** :
+Voici la **structure d'un bloc** :
 ```c
 struct Block {
 void *isa; // NSConcreteStackBlock,...
@@ -48,7 +48,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-Et voici un exemple d'utilisation du **parallélisme** avec **`dispatch_async`** :
+Et voici un exemple d'utilisation de **parallélisme** avec **`dispatch_async`**:
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -80,8 +80,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** est une bibliothèque qui fournit des **liaisons Swift** au framework Grand Central Dispatch (GCD) qui est à l'origine écrit en C.\
-La bibliothèque **`libswiftDispatch`** encapsule les API GCD en C dans une interface plus conviviale pour Swift, rendant ainsi plus facile et plus intuitif pour les développeurs Swift de travailler avec GCD.
+**`libswiftDispatch`** est une bibliothèque qui fournit des **liaisons Swift** au framework Grand Central Dispatch (GCD) qui est initialement écrit en C.\
+La bibliothèque **`libswiftDispatch`** enveloppe les API C GCD dans une interface plus conviviale pour Swift, facilitant ainsi le travail des développeurs Swift avec GCD.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -89,7 +89,7 @@ La bibliothèque **`libswiftDispatch`** encapsule les API GCD en C dans une inte
 * **`async await`**
 * **`var (data, response) = await URLSession.shared.data(from: URL(string: "https://api.example.com/getData"))`**
 
-**Exemple de code** :
+**Exemple de code**:
 ```swift
 import Foundation
 
@@ -118,7 +118,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Le script Frida suivant peut être utilisé pour **s'ancrer dans plusieurs fonctions `dispatch`** et extraire le nom de la file d'attente, la trace arrière et le bloc : [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Le script Frida suivant peut être utilisé pour **s'accrocher à plusieurs fonctions `dispatch`** et extraire le nom de la file d'attente, la trace de la pile et le bloc : [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -133,9 +133,9 @@ Backtrace:
 ```
 ## Ghidra
 
-Actuellement, Ghidra ne comprend ni la structure **`dispatch_block_t`** d'ObjectiveC, ni celle de **`swift_dispatch_block`**.
+Actuellement, Ghidra ne comprend ni la structure ObjectiveC **`dispatch_block_t`**, ni celle de **`swift_dispatch_block`**.
 
-Donc, si vous voulez qu'il les comprenne, vous pourriez simplement **les déclarer** :
+Donc, si vous voulez qu'il les comprenne, vous pouvez simplement les **déclarer** :
 
 <figure><img src="../../.gitbook/assets/image (688).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -146,29 +146,15 @@ Donc, si vous voulez qu'il les comprenne, vous pourriez simplement **les déclar
 Ensuite, trouvez un endroit dans le code où ils sont **utilisés** :
 
 {% hint style="success" %}
-Notez toutes les références faites à "block" pour comprendre comment vous pourriez déduire que la structure est utilisée.
+Notez toutes les références à "block" pour comprendre comment vous pourriez déterminer que la structure est utilisée.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (692).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Cliquez droit sur la variable -> Retype Variable et sélectionnez dans ce cas **`swift_dispatch_block`** :
+Cliquez avec le bouton droit sur la variable -> Retype Variable et sélectionnez dans ce cas **`swift_dispatch_block`** :
 
 <figure><img src="../../.gitbook/assets/image (693).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ghidra réécrira automatiquement tout :
 
 <figure><img src="../../.gitbook/assets/image (694).png" alt="" width="563"><figcaption></figcaption></figure>
-
-<details>
-
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Autres moyens de soutenir HackTricks :
-
-* Si vous voulez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>

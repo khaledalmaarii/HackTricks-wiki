@@ -9,23 +9,23 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 ## Informations de base
 
-Un espace utilisateur est une fonctionnalité du noyau Linux qui **fournit une isolation des mappings d'identifiants d'utilisateur et de groupe**, permettant à chaque espace utilisateur d'avoir son **propre ensemble d'identifiants d'utilisateur et de groupe**. Cette isolation permet aux processus s'exécutant dans des espaces utilisateurs différents d'avoir des **privilèges et une propriété différents**, même s'ils partagent les mêmes identifiants d'utilisateur et de groupe numériquement.
+Un espace utilisateur est une fonctionnalité du noyau Linux qui **fournit une isolation des mappings d'identifiants d'utilisateur et de groupe**, permettant à chaque espace utilisateur d'avoir son **propre ensemble d'identifiants d'utilisateur et de groupe**. Cette isolation permet aux processus s'exécutant dans des espaces utilisateurs différents d'avoir **des privilèges et une propriété différents**, même s'ils partagent les mêmes identifiants d'utilisateur et de groupe numériquement.
 
 Les espaces utilisateurs sont particulièrement utiles dans la conteneurisation, où chaque conteneur devrait avoir son propre ensemble indépendant d'identifiants d'utilisateur et de groupe, permettant une meilleure sécurité et isolation entre les conteneurs et le système hôte.
 
 ### Comment cela fonctionne :
 
-1. Lorsqu'un nouvel espace utilisateur est créé, il **commence avec un ensemble vide de mappings d'identifiants d'utilisateur et de groupe**. Cela signifie que tout processus s'exécutant dans le nouvel espace utilisateur **n'aura initialement aucun privilège en dehors de l'espace utilisateur**.
-2. Des mappings d'identifiants peuvent être établis entre les identifiants d'utilisateur et de groupe dans le nouvel espace et ceux dans l'espace parent (ou hôte). Cela **permet aux processus dans le nouvel espace d'avoir des privilèges et une propriété correspondant aux identifiants d'utilisateur et de groupe dans l'espace parent**. Cependant, les mappings d'identifiants peuvent être restreints à des plages spécifiques et des sous-ensembles d'identifiants, permettant un contrôle précis sur les privilèges accordés aux processus dans le nouvel espace.
-3. À l'intérieur d'un espace utilisateur, **les processus peuvent avoir des privilèges root complets (UID 0) pour les opérations à l'intérieur de l'espace**, tout en ayant des privilèges limités à l'extérieur de l'espace. Cela permet aux **conteneurs de s'exécuter avec des capacités similaires à root dans leur propre espace sans avoir des privilèges root complets sur le système hôte**.
-4. Les processus peuvent passer d'un espace à un autre en utilisant l'appel système `setns()` ou créer de nouveaux espaces en utilisant les appels système `unshare()` ou `clone()` avec le drapeau `CLONE_NEWUSER`. Lorsqu'un processus passe à un nouvel espace ou en crée un, il commencera à utiliser les mappings d'identifiants d'utilisateur et de groupe associés à cet espace.
+1. Lorsqu'un nouvel espace utilisateur est créé, il **commence avec un ensemble vide de mappings d'identifiants d'utilisateur et de groupe**. Cela signifie que tout processus s'exécutant dans le nouvel espace utilisateur **n'aura initialement aucun privilège en dehors de l'espace**.
+2. Les mappings d'identifiants peuvent être établis entre les identifiants d'utilisateur et de groupe dans le nouvel espace et ceux dans l'espace parent (ou hôte). Cela **permet aux processus dans le nouvel espace d'avoir des privilèges et une propriété correspondant aux identifiants d'utilisateur et de groupe dans l'espace parent**. Cependant, les mappings d'identifiants peuvent être restreints à des plages spécifiques et des sous-ensembles d'identifiants, permettant un contrôle précis sur les privilèges accordés aux processus dans le nouvel espace.
+3. À l'intérieur d'un espace utilisateur, **les processus peuvent avoir des privilèges root complets (UID 0) pour les opérations à l'intérieur de l'espace**, tout en ayant toujours des privilèges limités à l'extérieur de l'espace. Cela permet aux **conteneurs de s'exécuter avec des capacités similaires à root dans leur propre espace sans avoir des privilèges root complets sur le système hôte**.
+4. Les processus peuvent se déplacer entre les espaces en utilisant l'appel système `setns()` ou créer de nouveaux espaces en utilisant les appels système `unshare()` ou `clone()` avec le drapeau `CLONE_NEWUSER`. Lorsqu'un processus se déplace vers un nouvel espace ou en crée un, il commencera à utiliser les mappings d'identifiants d'utilisateur et de groupe associés à cet espace.
 
 ## Laboratoire :
 
@@ -53,7 +53,7 @@ Lorsque `unshare` est exécuté sans l'option `-f`, une erreur est rencontrée e
 
 3. **Solution** :
 - Le problème peut être résolu en utilisant l'option `-f` avec `unshare`. Cette option fait que `unshare` fork un nouveau processus après la création du nouveau namespace PID.
-- L'exécution de `%unshare -fp /bin/bash%` garantit que la commande `unshare` elle-même devient le PID 1 dans le nouveau namespace. `/bin/bash` et ses processus enfants sont alors en toute sécurité contenus dans ce nouveau namespace, empêchant la sortie prématurée du PID 1 et permettant une allocation normale des PID.
+- L'exécution de `%unshare -fp /bin/bash%` garantit que la commande `unshare` elle-même devient le PID 1 dans le nouveau namespace. `/bin/bash` et ses processus enfants sont alors en sécurité dans ce nouveau namespace, empêchant la sortie prématurée du PID 1 et permettant une allocation normale des PID.
 
 En veillant à ce que `unshare` s'exécute avec le drapeau `-f`, le nouveau namespace PID est correctement maintenu, permettant à `/bin/bash` et à ses sous-processus de fonctionner sans rencontrer l'erreur d'allocation de mémoire.
 
@@ -90,11 +90,11 @@ sudo find /proc -maxdepth 3 -type l -name user -exec ls -l  {} \; 2>/dev/null | 
 ```
 {% endcode %}
 
-### Entrer dans un espace utilisateur
+### Entrer dans un espace de noms utilisateur
 ```bash
 nsenter -U TARGET_PID --pid /bin/bash
 ```
-Aussi, vous ne pouvez **entrer dans un autre espace de processus que si vous êtes root**. Et vous ne pouvez **pas** **entrer** dans un autre espace de noms **sans un descripteur** pointant vers lui (comme `/proc/self/ns/user`).
+Aussi, vous ne pouvez **entrer dans un autre espace de processus que si vous êtes root**. Et vous ne pouvez **pas** **entrer** dans un autre espace de noms **sans un descripteur** pointant vers celui-ci (comme `/proc/self/ns/user`).
 
 ### Créer un nouveau User namespace (avec des mappages)
 
@@ -119,7 +119,7 @@ Dans le cas des espaces de noms utilisateur, **lorsqu'un nouvel espace de noms u
 Par exemple, lorsque vous avez la capacité `CAP_SYS_ADMIN` dans un espace de noms utilisateur, vous pouvez effectuer des opérations qui nécessitent généralement cette capacité, comme le montage de systèmes de fichiers, mais uniquement dans le contexte de votre espace de noms utilisateur. Toutes les opérations que vous effectuez avec cette capacité n'affecteront pas le système hôte ou les autres espaces de noms.
 
 {% hint style="warning" %}
-Par conséquent, même si l'obtention d'un nouveau processus à l'intérieur d'un nouvel espace de noms utilisateur **vous redonnera toutes les capacités** (CapEff: 000001ffffffffff), vous ne pourrez en réalité **utiliser que celles liées à l'espace de noms** (comme le montage) mais pas toutes. Ainsi, cela seul n'est pas suffisant pour s'échapper d'un conteneur Docker.
+Par conséquent, même si l'obtention d'un nouveau processus à l'intérieur d'un nouvel espace de noms utilisateur **vous redonnera toutes les capacités** (CapEff: 000001ffffffffff), vous ne pouvez en réalité **utiliser que celles liées à l'espace de noms** (comme le montage) mais pas toutes. Ainsi, cela seul n'est pas suffisant pour s'échapper d'un conteneur Docker.
 {% endhint %}
 ```bash
 # There are the syscalls that are filtered after changing User namespace with:
@@ -157,7 +157,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
