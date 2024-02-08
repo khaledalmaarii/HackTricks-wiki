@@ -61,12 +61,12 @@ codec => rubydebug
 }
 }
 ```
-在这里，**interval** 决定了以秒为单位的执行频率。在给定的示例中，**whoami** 命令每 120 秒运行一次，并将其输出重定向到 **/tmp/output.log**。
+在这里，**interval** 确定了以秒为单位的执行频率。在给定的示例中，**whoami** 命令每 120 秒运行一次，并将其输出重定向到 **/tmp/output.log**。
 
 在 **/etc/logstash/logstash.yml** 中设置 **config.reload.automatic: true**，Logstash 将自动检测并应用新的或修改过的管道配置，无需重新启动。如果没有通配符，仍然可以对现有配置进行修改，但建议谨慎操作以避免中断。
 
 
-# 参考
+## 参考资料
 
 * [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
 
@@ -77,7 +77,7 @@ codec => rubydebug
 
 支持 HackTricks 的其他方式：
 
-* 如果您想看到您的 **公司在 HackTricks 中做广告** 或 **下载 PDF 版的 HackTricks**，请查看 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* 如果您想在 HackTricks 中看到您的 **公司广告** 或 **下载 PDF 版本的 HackTricks**，请查看 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * 探索 [**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**

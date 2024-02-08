@@ -7,7 +7,7 @@
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -60,7 +60,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # 检查对modprobe的访问权限
 
 ### **`/proc/config.gz`**
 - 如果启用了`CONFIG_IKCONFIG_PROC`，可能会显示内核配置。
-- 对攻击者有用，可用于识别运行中内核中的漏洞。
+- 对攻击者有用，以识别运行内核中的漏洞。
 
 ### **`/proc/sysrq-trigger`**
 - 允许调用Sysrq命令，可能导致立即系统重启或其他关键操作。
@@ -131,7 +131,7 @@ cat /output
 - 控制温度设置，可能导致拒绝服务攻击或物理损坏。
 
 ### **`/sys/kernel/vmcoreinfo`**
-- 泄漏内核地址，可能危及KASLR。
+- 泄漏内核地址，可能破坏KASLR。
 
 ### **`/sys/kernel/security`**
 - 包含`securityfs`接口，允许配置Linux安全模块，如AppArmor。
@@ -145,7 +145,7 @@ cat /output
 - `debugfs`为内核提供“无规则”调试接口。
 - 由于其不受限制的性质，存在安全问题的历史。
 
-# 参考资料
+## 参考资料
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [理解和加固Linux容器](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [滥用特权和非特权Linux容器](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
@@ -160,7 +160,7 @@ cat /output
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

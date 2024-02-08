@@ -14,28 +14,32 @@
 
 </details>
 
-## How it Works
+## 工作原理
 
-**Smbexec** 以类似于**Psexec**的方式运行，针对受害者系统上的**cmd.exe**或**powershell.exe**进行后门执行，避免使用恶意可执行文件。
+**Smbexec**是一种用于在Windows系统上进行远程命令执行的工具，类似于**Psexec**，但它避免在目标系统上放置任何恶意文件。
 
-## **SMBExec**
+### **SMBExec**的关键要点
+
+- 它通过在目标机器上创建一个临时服务（例如，“BTOBTO”）来执行命令，通过cmd.exe（%COMSPEC%）执行命令，而不会释放任何二进制文件。
+- 尽管采用了隐蔽的方法，但它确实为执行的每个命令生成事件日志，提供一种非交互式的“shell”形式。
+- 使用**Smbexec**连接的命令如下所示：
 ```bash
-smbexec.py WORKGROUP/username:password@10.10.10.10
+smbexec.py WORKGROUP/genericuser:genericpassword@10.10.10.10
 ```
-Smbexec的功能涉及在目标机器上创建一个临时服务（例如，“BTOBTO”），以执行命令而不会释放二进制文件。该服务被构建为通过cmd.exe的路径（%COMSPEC%）运行命令，将输出重定向到临时文件，并在执行后删除自身。这种方法隐蔽，但为每个命令生成事件日志，通过为每个从攻击者端发出的命令重复此过程，提供一个非交互式“shell”。
+### 在没有二进制文件的情况下执行命令
 
-## 在没有二进制文件的情况下执行命令
-
-这种方法允许通过服务binPaths直接执行命令，无需二进制文件。这对于在Windows目标上执行一次性命令特别有用。例如，使用Metasploit的`web_delivery`模块与针对PowerShell的反向Meterpreter有效载荷可以建立一个监听器，提供必要的执行命令。在攻击者的Windows机器上创建并启动一个远程服务，binPath设置为通过cmd.exe执行此命令，即使可能出现服务响应错误，也可以在Metasploit监听器端实现回调和有效载荷执行。
+- **Smbexec** 通过服务的 binPaths 实现直接命令执行，无需在目标上使用物理二进制文件。
+- 这种方法适用于在 Windows 目标上执行一次性命令。例如，将其与 Metasploit 的 `web_delivery` 模块配对，可以执行针对 PowerShell 的反向 Meterpreter 负载。
+- 通过在攻击者的机器上创建一个远程服务，将 binPath 设置为通过 cmd.exe 运行提供的命令，可以成功执行有效载荷，使用 Metasploit 监听器实现回调和有效载荷执行，即使服务响应错误也会发生。
 
 ### 命令示例
 
 可以使用以下命令创建并启动服务：
-```cmd
+```bash
 sc create [ServiceName] binPath= "cmd.exe /c [PayloadCommand]"
 sc start [ServiceName]
 ```
-# 参考资料
+## 参考资料
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
 <details>
@@ -47,7 +51,7 @@ sc start [ServiceName]
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

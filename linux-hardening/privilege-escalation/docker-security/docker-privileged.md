@@ -2,23 +2,23 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* 您在**网络安全公司**工作吗？ 您想在HackTricks中看到您的**公司广告**吗？ 或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks衣服**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord组**](https://discord.gg/hRep4RUj7f)或[**电报组**](https://t.me/peass)或在**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我。
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
 
 ## 影响
 
-当您将容器运行为特权容器时，您将禁用以下保护措施：
+当您将容器以特权模式运行时，您将禁用以下保护措施：
 
-### 挂载 /dev
+### 挂载/dev
 
-在特权容器中，所有**设备都可以在 `/dev/` 中访问**。因此，您可以通过**挂载**主机的磁盘来**逃逸**。
+在特权容器中，所有**设备都可以在`/dev/`中访问**。 因此，您可以通过**挂载**主机的磁盘来**逃逸**。
 
 {% tabs %}
 {% tab title="默认容器内部" %}
@@ -147,7 +147,7 @@ Seccomp_filters:	0
 
 ### AppArmor
 
-**AppArmor**是一个内核增强功能，用于将容器限制在一组有限的资源和每个程序配置文件中。当您使用`--privileged`标志运行时，此保护将被禁用。
+**AppArmor**是一个内核增强功能，用于将容器限制在一组有限的资源和每个程序的配置文件中。当您使用`--privileged`标志运行时，此保护将被禁用。
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -158,7 +158,7 @@ Seccomp_filters:	0
 ```
 ### SELinux
 
-使用 `--privileged` 标志运行容器会禁用 **SELinux 标签**，导致容器继承容器引擎的标签，通常为 `unconfined`，从而获得类似容器引擎的完全访问权限。在非 root 模式下，使用 `container_runtime_t`，而在 root 模式下，则应用 `spc_t`。
+使用 `--privileged` 标志运行容器会禁用 **SELinux 标签**，导致容器继承容器引擎的标签，通常为 `unconfined`，从而获得类似容器引擎的完全访问权限。在无根模式下，使用 `container_runtime_t`，而在根模式下则应用 `spc_t`。
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -171,7 +171,7 @@ Seccomp_filters:	0
 
 ### 命名空间
 
-命名空间不受 `--privileged` 标志的影响。即使它们没有启用安全约束，**例如，它们不会看到系统上的所有进程或主机网络**。用户可以通过使用 **`--pid=host`、`--net=host`、`--ipc=host`、`--uts=host`** 容器引擎标志来禁用单个命名空间。
+命名空间**不受**`--privileged`标志的影响。尽管它们没有启用安全约束，**例如，它们不会看到系统上的所有进程或主机网络**。用户可以通过使用**`--pid=host`、`--net=host`、`--ipc=host`、`--uts=host`**容器引擎标志来禁用单个命名空间。
 
 {% tabs %}
 {% tab title="在默认特权容器内部" %}
@@ -196,8 +196,8 @@ PID   USER     TIME  COMMAND
 ```
 ### 用户命名空间
 
-**默认情况下，容器引擎不使用用户命名空间，除非是用于无根容器**，后者需要它们来进行文件系统挂载和使用多个UID。用户命名空间对于无根容器至关重要，无法禁用，并通过限制权限显著增强安全性。
+**默认情况下，容器引擎不使用用户命名空间，除非是用于无根容器**，后者需要它们来进行文件系统挂载和使用多个UID。用户命名空间对于无根容器至关重要，无法禁用，并通过限制特权显著增强安全性。
 
-## 参考
+## 参考资料
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)

@@ -2,12 +2,12 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？ 想要在HackTricks中看到您的**公司广告**？ 或者想要访问**PEASS的最新版本或下载HackTricks的PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 您在**网络安全公司**工作吗？ 您想看到您的**公司在HackTricks中做广告**吗？ 或者您想访问**PEASS的最新版本或下载HackTricks的PDF**吗？ 请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord群**](https://discord.gg/hRep4RUj7f) 或 **电报群** 或在**Twitter**上**🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
@@ -16,7 +16,7 @@
 
 (示例来自[https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-在查阅一些与`confd`相关的[文档](http://66.218.245.39/doc/html/rn03re18.html)后，我们发现要对IPC套接字进行身份验证，它使用位于`/etc/confd/confd_ipc_secret`中的一个密钥：
+在查阅一些与`confd`和不同二进制文件相关的[文档](http://66.218.245.39/doc/html/rn03re18.html)后（可通过Cisco网站上的帐户访问），我们发现为了对IPC套接字进行身份验证，它使用位于`/etc/confd/confd_ipc_secret`中的一个密钥：
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
@@ -34,7 +34,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-`confd_cli`程序不支持命令行参数，但会调用`/usr/bin/confd_cli_user`并传递参数。因此，我们可以直接调用`/usr/bin/confd_cli_user`并使用我们自己的参数。然而，由于我们当前的权限无法读取，所以我们需要从rootfs中检索并使用scp进行复制，读取帮助信息，然后使用它获取shell：
+`confd_cli`程序不支持命令行参数，但会调用`/usr/bin/confd_cli_user`并传递参数。因此，我们可以直接调用`/usr/bin/confd_cli_user`并附上我们自己的参数。然而，由于我们当前的权限无法读取，所以我们需要从rootfs中检索并使用scp进行复制，读取帮助信息，然后使用它获取shell：
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
@@ -54,11 +54,11 @@ uid=0(root) gid=0(root) groups=0(root)
 ```
 ## 路径 2
 
-(示例来自[https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
+(示例来自 [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-synacktiv团队的博客¹描述了一种优雅的方式来获取root shell，但需要获取`/usr/bin/confd_cli_user`的副本，而该文件只能被root读取。我找到了另一种无需这么麻烦就能升级为root的方法。
+synacktiv团队的博客¹描述了一种优雅的方式来获得root shell，但缺点是需要获取 `/usr/bin/confd_cli_user` 的副本，而这个文件只有root用户可读。我找到了另一种无需这么麻烦就能升级到root权限的方法。
 
-当我反汇编`/usr/bin/confd_cli`二进制文件时，我观察到以下内容：
+当我反汇编 `/usr/bin/confd_cli` 二进制文件时，我观察到以下内容：
 ```
 vmanage:~$ objdump -d /usr/bin/confd_cli
 … snipped …
@@ -156,12 +156,12 @@ bash-4.4#
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在**网络安全公司**工作吗？想要在 HackTricks 中看到你的**公司广告**？或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 探索我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏品 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)。
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)。
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord 群**](https://discord.gg/hRep4RUj7f) 或 **电报群**](https://t.me/peass) 或在 **推特** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)** 上关注我**。
-* **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
+* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 探索我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)。
+* 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)。
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord群**](https://discord.gg/hRep4RUj7f) 或 **电报群**](https://t.me/peass) 或在**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注我**。
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>

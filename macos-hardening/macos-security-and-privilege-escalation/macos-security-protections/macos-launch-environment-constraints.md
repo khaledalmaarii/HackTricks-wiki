@@ -4,11 +4,11 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想看到您的**公司在HackTricks中做广告**吗？或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 您在**网络安全公司**工作吗？您想看到您的**公司在HackTricks中做广告**吗？或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) **Discord群组**](https://discord.gg/hRep4RUj7f) 或**电报群组**](https://t.me/peass) 或在**Twitter**上**关注**我**🐦**[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我。
+* 通过向[**hacktricks repo**](https://github.com/carlospolop/hacktricks)和[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧
 *
 * .
 
@@ -29,7 +29,7 @@ macOS中的启动约束旨在通过**规范化进程的启动方式、启动者�
 * **责任约束**：应用于通过XPC通信调用服务的**进程**。
 * **库加载约束**：使用库加载约束有选择地描述可加载的代码。
 
-因此，当一个进程尝试启动另一个进程时 — 通过调用`execve(_:_:_:)`或`posix_spawn(_:_:_:_:_:_:)` — 操作系统会检查**可执行文件**是否满足其**自身约束**。它还会检查**父进程的可执行文件**是否满足可执行文件的**父约束**，以及**负责进程的可执行文件**是否满足可执行文件的**责任进程约束**。如果这些启动约束中有任何一个不满足，操作系统将不运行该程序。
+因此，当一个进程尝试启动另一个进程时 — 通过调用`execve(_:_:_:)`或`posix_spawn(_:_:_:_:_:_:)` — 操作系统会检查**可执行文件**是否满足其**自身约束**。它还会检查**父进程的可执行文件是否满足可执行文件的父约束**，以及**负责进程的可执行文件是否满足可执行文件的责任进程约束**。如果这些启动约束中的任何一个不满足，操作系统将不运行该程序。
 
 如果在加载库时**库约束的任何部分不成立**，您的进程**不会加载**该库。
 
@@ -41,17 +41,17 @@ LC由**事实**和**逻辑操作**（与、或等）组成，结合事实。
 
 * is-init-proc：一个布尔值，指示可执行文件是否必须是操作系统的初始化进程（`launchd`）。
 * is-sip-protected：一个布尔值，指示可执行文件是否必须是受系统完整性保护（SIP）保护的文件。
-* `on-authorized-authapfs-volume:` 一个布尔值，指示操作系统是否从经授权的、经认证的APFS卷加载了可执行文件。
-* `on-authorized-authapfs-volume`：一个布尔值，指示操作系统是否从经授权的、经认证的APFS卷加载了可执行文件。
+* `on-authorized-authapfs-volume:` 一个布尔值，指示操作系统是否从经授权的、经过身份验证的APFS卷加载了可执行文件。
+* `on-authorized-authapfs-volume`：一个布尔值，指示操作系统是否从经授权的、经过身份验证的APFS卷加载了可执行文件。
 * Cryptexes卷
 * `on-system-volume:` 一个布尔值，指示操作系统是否从当前引导的系统卷加载了可执行文件。
-* 在/System...
+* 在/System内部...
 * ...
 
 当苹果二进制文件签名时，它会将其分配到**信任缓存**中的**LC类别**中。
 
 * **iOS 16个LC类别**已经[**被逆向并记录在这里**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056)。
-* 当前**LC类别（macOS 14** - Somona）已被逆向，并且它们的[**描述可以在这里找到**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53)。
+* 当前**LC类别（macOS 14 - Somona）**已被逆向，并且它们的[**描述可以在这里找到**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53)。
 
 例如，类别1是：
 ```
@@ -92,7 +92,7 @@ codesign -d -vvvv app.app
 
 ### 枚举信任缓存
 
-之前的信任缓存文件是以**IMG4**和**IM4P**格式，其中IM4P是IMG4格式的有效负载部分。
+之前的信任缓存文件是以**IMG4**和**IM4P**格式存在，其中IM4P是IMG4格式的有效负载部分。
 
 您可以使用[**pyimg4**](https://github.com/m1stadev/PyIMG4)来提取数据库的有效负载：
 
@@ -116,7 +116,7 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 
 （另一个选择是使用工具[**img4tool**](https://github.com/tihmstar/img4tool)，即使发布版本较旧且适用于 x86\_64，如果您将其安装在正确的位置，它也可以在 M1 上运行）。
 
-现在，您可以使用工具[**trustcache**](https://github.com/CRKatri/trustcache)以可读格式获取信息：
+现在，您可以使用工具 [**trustcache**](https://github.com/CRKatri/trustcache) 以可读格式获取信息：
 ```bash
 # Install
 wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
@@ -152,7 +152,7 @@ uint8_t reserved0;
 ```
 然后，您可以使用[**此脚本**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30)来提取数据。
 
-从这些数据中，您可以检查具有**启动约束值为`0`**的应用程序，这些应用程序没有受到约束（[**在此处检查**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056)每个值代表什么）。
+从这些数据中，您可以检查具有`0`启动约束值的应用程序，这些应用程序是没有受到约束的（[**在此处检查**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056)每个值代表什么）。
 
 ## 攻击缓解
 
@@ -164,16 +164,16 @@ uint8_t reserved0;
 
 ### XPC守护程序保护
 
-在Sonoma版本中，一个显著的点是守护程序XPC服务的**责任配置**。XPC服务对自身负责，而不是连接的客户端负责。这在反馈报告FB13206884中有记录。这种设置可能看起来有缺陷，因为它允许与XPC服务进行某些交互：
+在Sonoma版本中，一个值得注意的点是守护程序XPC服务的**责任配置**。XPC服务对自身负责，而不是连接的客户端负责。这在反馈报告FB13206884中有记录。这种设置可能看起来有缺陷，因为它允许与XPC服务进行某些交互：
 
 - **启动XPC服务**：如果被认为是一个错误，这种设置不允许通过攻击者代码启动XPC服务。
 - **连接到活动服务**：如果XPC服务已经运行（可能由其原始应用程序激活），则连接到它没有障碍。
 
-尽管对XPC服务实施约束可能有益于**缩小潜在攻击的窗口**，但它并未解决主要问题。确保XPC服务的安全基本上需要**有效验证连接的客户端**。这仍然是加固服务安全性的唯一方法。另外值得注意的是，所述的责任配置目前正在运行，这可能与预期的设计不符。
+尽管对XPC服务实施约束可能有益于**缩小潜在攻击的窗口**，但它并未解决主要问题。确保XPC服务的安全性基本上需要**有效验证连接的客户端**。这仍然是加固服务安全性的唯一方法。另外值得注意的是，所述的责任配置目前正在运行，这可能与预期的设计不符。
 
 ### Electron保护
 
-即使要求应用程序必须由LaunchService**打开（在父级约束中）。这可以通过**`open`**（可以设置环境变量）或使用**Launch Services API**（可以指定环境变量）来实现。
+即使要求应用程序必须在**父级约束中由LaunchService打开**。这可以通过**`open`**（可以设置环境变量）或使用**Launch Services API**（可以指定环境变量）来实现。
 
 ## 参考资料
 
@@ -181,17 +181,3 @@ uint8_t reserved0;
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
 * [https://eclecticlight.co/2023/06/13/why-wont-a-system-app-or-command-tool-run-launch-constraints-and-trust-caches/](https://eclecticlight.co/2023/06/13/why-wont-a-system-app-or-command-tool-run-launch-constraints-and-trust-caches/)
 * [https://developer.apple.com/videos/play/wwdc2023/10266/](https://developer.apple.com/videos/play/wwdc2023/10266/)
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) **Discord群**](https://discord.gg/hRep4RUj7f) 或**电报群**](https://t.me/peass) 或在**Twitter**上**🐦**[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧**
-*
-* .
-
-</details>

@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Are you working in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? Or do you want to have access to the **latest version of PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Are you working in a **cybersecurity company**? Do you want to see your **company advertised on HackTricks**? Or do you want to have access to the **latest version of PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our exclusive collection of [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Get the official [**PEASS and HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) **Discord group** or the [**telegram group**](https://t.me/peass) or **follow me** on **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) **Discord group** or the [**telegram group**](https://t.me/peass) or **follow me** on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
 * **Share your hacking tricks by sending PR to** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -33,7 +33,7 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-IOKit **暴露的函数** 在客户端尝试调用函数时可以执行**额外的安全检查**，但请注意应用程序通常受到**沙箱**的限制，只能与IOKit函数进行交互。
+IOKit **暴露的函数** 在客户端尝试调用函数时可以执行**额外的安全检查**，但请注意，应用程序通常受到**沙箱**的限制，只能与IOKit函数进行交互。
 {% endhint %}
 
 ## 驱动程序
@@ -79,15 +79,15 @@ kextunload com.apple.iokit.IOReportFamily
 ```
 ## IORegistry
 
-**IORegistry** 是 macOS 和 iOS 中 IOKit 框架的关键部分，用作表示系统硬件配置和状态的数据库。它是一个**分层对象集合，代表系统上加载的所有硬件和驱动程序，以及它们之间的关系**。&#x20;
+**IORegistry** 是 macOS 和 iOS 中 IOKit 框架的关键部分，用作表示系统硬件配置和状态的数据库。它是一个**分层对象集合，代表系统上加载的所有硬件和驱动程序，以及它们之间的关系**。
 
-您可以使用命令行工具 **`ioreg`** 获取 IORegistry，以便从控制台检查它（对 iOS 特别有用）。
+您可以使用命令行工具 **`ioreg`** 来获取 IORegistry 并从控制台检查它（对 iOS 特别有用）。
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-您可以从[Xcode附加工具](https://developer.apple.com/download/all/)下载**`IORegistryExplorer`**，并通过**图形**界面检查**macOS IORegistry**。
+您可以从[Xcode附加工具](https://developer.apple.com/download/all/)下载**`IORegistryExplorer`**，通过**图形**界面检查**macOS IORegistry**。
 
 <figure><img src="../../../.gitbook/assets/image (695).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -106,7 +106,7 @@ ioreg -p <plane> #Check other plane
 
 * 首先调用**`IOServiceMatching`**和**`IOServiceGetMatchingServices`**以获取服务。
 * 然后通过调用**`IOServiceOpen`**建立连接。
-* 最后使用**`IOConnectCallScalarMethod`**调用一个函数，指示选择器0（选择器是您要调用的函数分配的编号）。
+* 最后使用**`IOConnectCallScalarMethod`**调用函数指示选择器0（选择器是您要调用的函数分配的编号）。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -173,7 +173,7 @@ return 0;
 
 <figure><img src="../../../.gitbook/assets/image (697).png" alt=""><figcaption></figcaption></figure>
 
-那个可怕的调用解析意味着：
+那个可怕的调用解码意味着：
 
 {% code overflow="wrap" %}
 ```cpp
@@ -181,7 +181,7 @@ IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArguments
 ```
 {% endcode %}
 
-请注意，在上一个定义中缺少了 **`self`** 参数，正确的定义应该是：
+请注意，在先前的定义中缺少了 **`self`** 参数，正确的定义应该是：
 
 {% code overflow="wrap" %}
 ```cpp
@@ -219,7 +219,7 @@ OSObject * target, void * reference)
 
 <figure><img src="../../../.gitbook/assets/image (707).png" alt="" width="563"><figcaption></figcaption></figure>
 
-现在我们知道在这里有一个**包含7个元素的数组**（检查最终的反编译代码），单击以创建一个包含7个元素的数组：
+现在我们知道在那里有一个**包含7个元素的数组**（检查最终的反编译代码），单击以创建一个包含7个元素的数组：
 
 <figure><img src="../../../.gitbook/assets/image (708).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -238,7 +238,7 @@ OSObject * target, void * reference)
 * ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
 * Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
 * **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

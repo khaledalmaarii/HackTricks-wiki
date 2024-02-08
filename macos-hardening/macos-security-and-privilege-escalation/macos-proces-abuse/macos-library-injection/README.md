@@ -6,8 +6,8 @@
 
 支持HackTricks的其他方式：
 
-- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 - 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
 - **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
 - 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
@@ -29,14 +29,14 @@
 
 转到代码并**检查`src/dyld.cpp`**。在函数**`pruneEnvironmentVariables`**中，您可以看到**`DYLD_*`**变量被移除。
 
-在函数**`processRestricted`**中设置了限制的原因。检查该代码，您可以看到限制的原因是：
+在函数**`processRestricted`**中设置了限制的原因。检查该代码，您会看到限制的原因是：
 
 - 二进制文件是`setuid/setgid`
 - 在macho二进制文件中存在`__RESTRICT/__restrict`部分。
-- 软件具有没有[`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables)授权的**授权**（强化运行时）
+- 软件具有没有[`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables)授权的强化运行时
 - 使用以下命令检查二进制文件的**授权**：`codesign -dv --entitlements :- </path/to/bin>`
 
-在更新的版本中，您可以在函数**`configureProcessRestrictions`**的第二部分找到此逻辑。但是，在较新版本中执行的是函数的**开始检查**（您可以删除与iOS或模拟相关的if，因为这些在macOS中不会使用）。
+在更新的版本中，您可以在函数**`configureProcessRestrictions`**的第二部分找到这种逻辑。然而，在较新版本中执行的是函数的**开始检查**（您可以删除与iOS或模拟相关的if，因为这些在macOS中不会使用）。
 {% endhint %}
 
 ### 库验证
@@ -96,7 +96,7 @@ Macho二进制文件可以使用**4个不同的头部命令**来加载库：
 - **配置为@rpath**：Mach-O二进制文件可以具有**`LC_RPATH`**和**`LC_LOAD_DYLIB`**命令。根据这些命令的**值**，库将从**不同目录**加载。
 - **`LC_RPATH`**包含用于由二进制文件加载库的某些文件夹的路径。
 - **`LC_LOAD_DYLIB`**包含要加载的特定库的路径。这些路径可以包含**`@rpath`**，它将被**`LC_RPATH`**中的值**替换**。如果**`LC_RPATH`**中有几个路径，每个路径都将用于搜索要加载的库。例如：
-  如果**`LC_LOAD_DYLIB`**包含`@rpath/library.dylib`，而**`LC_RPATH`**包含`/application/app.app/Contents/Framework/v1/`和`/application/app.app/Contents/Framework/v2/`。将使用这两个文件夹来加载`library.dylib`**。**如果库在`[...]/v1/`中不存在，并且攻击者可以将其放在那里以劫持`[...]/v2/`中库的加载，因为将遵循**`LC_LOAD_DYLIB`**中路径的顺序。
+  如果**`LC_LOAD_DYLIB`**包含`@rpath/library.dylib`，而**`LC_RPATH`**包含`/application/app.app/Contents/Framework/v1/`和`/application/app.app/Contents/Framework/v2/`。将使用两个文件夹来加载`library.dylib`。如果库不存在于`[...]/v1/`中，攻击者可以将其放在那里以劫持`[...]/v2/`中库的加载，因为将遵循**`LC_LOAD_DYLIB`**中路径的顺序。
 - 使用以下命令在二进制文件中查找rpath路径和库：`otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
 
 {% hint style="info" %}
@@ -104,15 +104,15 @@ Macho二进制文件可以使用**4个不同的头部命令**来加载库：
 
 **`@loader_path`**：是包含**包含加载命令的Mach-O二进制文件**的**目录**的**路径**。
 
-- 在可执行文件中使用时，**`@loader_path`**实际上与**`@executable_path`** **相同**。
+- 在可执行文件中使用时，**`@loader_path`**实际上与**`@executable_path`**相同。
 - 在**dylib**中使用时，**`@loader_path`**给出**dylib**的**路径**。
 {% endhint %}
 
-滥用此功能以提升权限的方式是在**以root身份执行的应用程序**中查找**攻击者具有写权限的某个文件夹中的库**的罕见情况。
+滥用此功能升级权限的方式是在**以root身份执行的应用程序**中查找**攻击者具有写权限的某个文件夹**中的某个库的情况下。
 
 {% hint style="success" %}
 一个很好的**扫描工具**，用于查找应用程序中的**缺失库**是[**Dylib Hijack Scanner**](https://objective-see.com/products/dhs.html)或[**CLI版本**](https://github.com/pandazheng/DylibHijack)。
-关于此技术的技术细节的**报告**可以在[**此处**](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x)找到。
+关于此技术的技术细节的**报告**可以在[**这里**](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x)找到。
 {% endhint %}
 
 **示例**
@@ -141,10 +141,10 @@ Macho二进制文件可以使用**4个不同的头部命令**来加载库：
 如果名称中没有斜杠，则有两种方法可以进行劫持：
 
 - 如果任何**`LC_RPATH`**是**可写的**（但会检查签名，因此对于此，您还需要二进制文件是不受限制的）
-- 如果二进制文件是**不受限制的**，那么可以从CWD加载内容（或滥用其中提到的任一环境变量）
+- 如果二进制文件是**不受限制的**，那么可以从CWD加载内容（或滥用其中提到的环境变量之一）
 {% endhint %}
 
-- 当路径**看起来像框架**路径（例如`/stuff/foo.framework/foo`）时，如果在启动时设置了**`$DYLD_FRAMEWORK_PATH`**，dyld将首先在该目录中查找**框架部分路径**（例如`foo.framework/foo`）。接下来，dyld将尝试**按原样提供的路径**（对于相对路径，使用当前工作目录）。最后，对于旧二进制文件，dyld将尝试一些回退。如果在启动时设置了**`$DYLD_FALLBACK_FRAMEWORK_PATH`**，dyld将在这些目录中搜索。否则，它将在**`/Library/Frameworks`**（在macOS上，如果进程不受限制）中搜索，然后在**`/System/Library/Frameworks`**中搜索。
+- 当路径**看起来像一个框架路径**（例如`/stuff/foo.framework/foo`）时，如果在启动时设置了**`$DYLD_FRAMEWORK_PATH`**，dyld将首先在该目录中查找**框架部分路径**（例如`foo.framework/foo`）。接下来，dyld将尝试**使用提供的路径**（对于相对路径，使用当前工作目录）。最后，对于旧二进制文件，dyld将尝试一些回退。如果在启动时设置了**`$DYLD_FALLBACK_FRAMEWORK_PATH`**，dyld将搜索这些目录。否则，它将搜索**`/Library/Frameworks`**（在macOS上，如果进程不受限制），然后在**`/System/Library/Frameworks`**中搜索。
 1. `$DYLD_FRAMEWORK_PATH`
 2. 提供的路径（对于相对路径，如果不受限制，则使用当前工作目录）
 3. `$DYLD_FALLBACK_FRAMEWORK_PATH`
@@ -152,28 +152,28 @@ Macho二进制文件可以使用**4个不同的头部命令**来加载库：
 5. `/System/Library/Frameworks`
 
 {% hint style="danger" %}
-如果是框架路径，则劫持的方式是：
+如果是框架路径，则劫持它的方式是：
 
-- 如果进程是**不受限制的**，则可以滥用**从CWD的相对路径**和提到的环境变量（即使在文档中没有提到如果进程受限制，则DYLD\_\*环境变量将被删除）
+- 如果进程是**不受限制的**，滥用**相对路径从CWD**和提到的环境变量（即使在文档中没有说过如果进程受限制，DYLD\_\*环境变量将被移除）
 {% endhint %}
 
-- 当路径**包含斜杠但不是框架路径**（即完整路径或指向dylib的部分路径）时，dlopen()首先在（如果设置了）**`$DYLD_LIBRARY_PATH`**中查找（使用路径的叶部分）。接下来，dyld**尝试提供的路径**（对于未受限制的进程，使用当前工作目录来处理相对路径）。最后，对于旧二进制文件，dyld将尝试一些回退。如果在启动时设置了**`$DYLD_FALLBACK_LIBRARY_PATH`**，dyld将在这些目录中搜索，否则，dyld将在**`/usr/local/lib/`**中查找（如果进程不受限制），然后在**`/usr/lib/`**中查找。
+- 当路径**包含斜杠但不是框架路径**（即完整路径或指向dylib的部分路径）时，dlopen()首先在（如果设置了）**`$DYLD_LIBRARY_PATH`**中查找（使用路径的叶部分）。接下来，dyld**尝试提供的路径**（对于相对路径，仅对于不受限制的进程使用当前工作目录）。最后，对于旧二进制文件，dyld将尝试回退。如果在启动时设置了**`$DYLD_FALLBACK_LIBRARY_PATH`**，dyld将在这些目录中搜索，否则，dyld将在**`/usr/local/lib/`**中查找（如果进程不受限制），然后在**`/usr/lib/`**中查找。
 1. `$DYLD_LIBRARY_PATH`
-2. 提供的路径（对于未受限制的进程，使用当前工作目录来处理相对路径）
+2. 提供的路径（对于相对路径，如果不受限制，则使用当前工作目录）
 3. `$DYLD_FALLBACK_LIBRARY_PATH`
 4. `/usr/local/lib/`（如果不受限制）
 5. `/usr/lib/`
 
 {% hint style="danger" %}
-如果名称中包含斜杠但不是框架，则劫持的方式是：
+如果名称中有斜杠而不是框架，则劫持它的方式是：
 
-- 如果二进制文件是**不受限制的**，那么可以从CWD或`/usr/local/lib`加载内容（或滥用其中提到的任一环境变量）
+- 如果二进制文件是**不受限制的**，那么可以从CWD或`/usr/local/lib`加载内容（或滥用其中提到的环境变量）
 {% endhint %}
 
 {% hint style="info" %}
 注意：没有**控制dlopen搜索**的配置文件。
 
-注意：如果主可执行
+注意：如果主可执行文件是**set\[ug\]id二进制文件或具有授权的
 ```c
 // gcc dlopentest.c -o dlopentest -Wl,-rpath,/tmp/test
 #include <dlfcn.h>
@@ -222,15 +222,15 @@ sudo fs_usage | grep "dlopentest"
 ```
 ## 相对路径劫持
 
-如果一个**特权二进制应用程序**（比如SUID或一些具有强大权限的二进制文件）正在**加载相对路径**库（例如使用`@executable_path`或`@loader_path`），并且**禁用了库验证**，那么可能会将二进制文件移动到攻击者可以**修改相对路径加载的库**的位置，并利用它来在进程中注入代码。
+如果一个**特权二进制应用**（比如一个SUID或一些拥有强大权限的二进制应用）正在**加载一个相对路径**库（例如使用`@executable_path`或`@loader_path`），并且**禁用了库验证**，那么可能会将二进制应用移动到攻击者可以**修改相对路径加载的库**的位置，并利用它来在进程中注入代码。
 
-## 修剪 `DYLD_*` 和 `LD_LIBRARY_PATH` 环境变量
+## 清理 `DYLD_*` 和 `LD_LIBRARY_PATH` 环境变量
 
-在文件`dyld-dyld-832.7.1/src/dyld2.cpp`中，可以找到函数**`pruneEnvironmentVariables`**，它将删除任何以`DYLD_`和`LD_LIBRARY_PATH=`**开头的环境变量。
+在文件 `dyld-dyld-832.7.1/src/dyld2.cpp` 中，可以找到函数**`pruneEnvironmentVariables`**，它将删除任何以`DYLD_`开头和`LD_LIBRARY_PATH=`的环境变量。
 
-它还会将**`DYLD_FALLBACK_FRAMEWORK_PATH`**和**`DYLD_FALLBACK_LIBRARY_PATH`**这两个环境变量针对**suid**和**sgid**二进制文件设置为**null**。
+它还会将**`DYLD_FALLBACK_FRAMEWORK_PATH`**和**`DYLD_FALLBACK_LIBRARY_PATH`**这两个环境变量特别设置为**null**，用于**suid**和**sgid**二进制应用。
 
-如果针对OSX，可以从同一文件的**`_main`**函数中调用此函数：
+如果针对类似OSX的目标，该函数将从同一文件的**`_main`**函数中调用：
 ```cpp
 #if TARGET_OS_OSX
 if ( !gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache ) {
@@ -267,7 +267,7 @@ gLinkContext.allowClassicFallbackPaths   = !isRestricted;
 gLinkContext.allowInsertFailures         = false;
 gLinkContext.allowInterposing         	 = true;
 ```
-这基本上意味着，如果二进制文件是**suid**或**sgid**，或者在标头中具有**RESTRICT**段，或者使用**CS\_RESTRICT**标志签名，则**`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`**为真，环境变量将被修剪。
+这基本上意味着，如果二进制文件是**suid**或**sgid**，或者在标头中有一个**RESTRICT**段，或者使用**CS\_RESTRICT**标志签名，那么**`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`**为真，环境变量将被修剪。
 
 请注意，如果CS\_REQUIRE\_LV为真，则变量不会被修剪，但库验证将检查它们是否使用与原始二进制文件相同的证书。
 
@@ -316,7 +316,7 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed # Won't work
 {% endcode %}
 
 {% hint style="danger" %}
-请注意，即使有用标志**`0x0(none)`**签名的二进制文件，当执行时它们可以动态地获得**`CS_RESTRICT`**标志，因此这种技术在它们中将不起作用。
+请注意，即使有用标志**`0x0(none)`**签名的二进制文件，当执行时也可以动态地获得**`CS_RESTRICT`**标志，因此这种技术在其中不起作用。
 
 您可以使用以下命令检查进程是否具有此标志（获取[**csops here**](https://github.com/axelexic/CSOps)）：&#x20;
 ```bash
@@ -325,7 +325,7 @@ csops -status <pid>
 然后检查标志0x800是否已启用。
 {% endhint %}
 
-# 参考资料
+## 参考资料
 * [https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/](https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/)
 
 <details>
@@ -334,9 +334,9 @@ csops -status <pid>
 
 支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 

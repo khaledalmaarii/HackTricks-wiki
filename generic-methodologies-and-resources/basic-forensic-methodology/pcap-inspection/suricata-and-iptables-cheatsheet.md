@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？ 想要在 HackTricks 中看到您的**公司广告**？ 或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 您在**网络安全公司**工作吗？ 想要在 HackTricks 中看到您的**公司广告**？ 或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏品 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord 群组**](https://discord.gg/hRep4RUj7f) 或 **电报群组** 或 **关注** 我的 **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** 上关注**我。
 * **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享您的黑客技巧**。
 
 </details>
@@ -129,7 +129,7 @@ systemctl daemon-reload
 ```
 ### 规则定义
 
-[来自文档：](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) 一个规则/签名由以下部分组成：
+[来自文档：](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) 一个规则/签名由以下内容组成：
 
 * **动作**，确定规则匹配时会发生什么。
 * **头部**，定义规则的协议、IP地址、端口和方向。
@@ -149,27 +149,27 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 
 #### **协议**
 
-* tcp (用于tcp流量)
+* tcp（用于tcp流量）
 * udp
 * icmp
-* ip (ip代表‘所有’或‘任何’)
-* _第7层协议_: http, ftp, tls, smb, dns, ssh... (更多内容请参阅[**文档**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* ip（ip代表‘all’或‘any’）
+* _layer7协议_: http, ftp, tls, smb, dns, ssh...（更多内容请参阅[**文档**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html)）
 
 #### 源地址和目标地址
 
-支持IP范围、否定和地址列表：
+它支持IP范围、否定和地址列表：
 
-| 示例                          | 含义                                  |
+| 示例                          | 含义                                   |
 | ------------------------------ | ---------------------------------------- |
 | ! 1.1.1.1                      | 除了1.1.1.1之外的所有IP地址             |
 | !\[1.1.1.1, 1.1.1.2]           | 除了1.1.1.1和1.1.1.2之外的所有IP地址    |
-| $HOME\_NET                     | 在yaml中设置的HOME\_NET                |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET而不是HOME\_NET           |
+| $HOME\_NET                     | 您在yaml中设置的HOME\_NET               |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET而不是HOME\_NET            |
 | \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24，但不包括10.0.0.5           |
 
 #### 源端口和目标端口
 
-支持端口范围、否定和端口列表
+它支持端口范围、否定和端口列表
 
 | 示例         | 含义                                |
 | --------------- | -------------------------------------- |
@@ -190,7 +190,7 @@ source <> destination  (both directions)
 ```
 #### 关键词
 
-在Suricata中有**数百个选项**可用于搜索您正在寻找的**特定数据包**，如果发现有趣的内容，将在此处提及。查看更多信息，请查阅[**文档**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)!
+在Suricata中有**数百个选项**可用于搜索您正在寻找的**特定数据包**，如果发现有趣的内容，将在此处提及。查看更多信息，请参阅[**文档**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)!
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -233,12 +233,12 @@ drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家 **网络安全公司** 工作吗？想要看到你的 **公司在 HackTricks 中被宣传** 吗？或者想要访问 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord 群组**](https://discord.gg/hRep4RUj7f) 或者 **电报群组** 或者 **在 Twitter 上关注** 我 **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
+* 您在**网络安全公司**工作吗？想要在 HackTricks 中看到您的**公司广告**？或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏品 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord 群**](https://discord.gg/hRep4RUj7f) 或 **电报群**](https://t.me/peass) 或在 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** 上关注我**。
+* **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享您的黑客技巧**。
 
 </details>
