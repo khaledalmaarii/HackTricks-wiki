@@ -4,17 +4,17 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？ 您想看到您的**公司在 HackTricks 中被宣传**吗？ 或者您想访问**PEASS 的最新版本或下载 PDF 格式的 HackTricks**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 您在**网络安全公司**工作吗？ 您想看到您的**公司在 HackTricks 中被宣传**吗？ 或者您想访问**PEASS 的最新版本或下载 HackTricks 的 PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享您的黑客技巧**。
 
 </details>
 
 ## **MSSQL 枚举 / 发现**
 
-在这种情况下，PowerUpSQL powershell 模块[PowerUpSQL](https://github.com/NetSPI/PowerUpSQL)非常有用。
+在这种情况下，PowerUpSQL PowerShell 模块非常有用。
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
@@ -67,18 +67,12 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-也许还可以在 MSSQL 主机内部**执行命令**
+可能还可以在 MSSQL 主机内部执行命令
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
 ### MSSQL基本黑客技巧
-
-{% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
-[pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
-{% endcontent-ref %}
-
-## MSSQL信任链接
 
 如果一个MSSQL实例被另一个MSSQL实例信任（数据库链接）。如果用户对受信任的数据库有特权，他将能够**利用信任关系在另一个实例中执行查询**。这些信任关系可以被链接在一起，最终用户可能能够找到一些配置不当的数据库，从而执行命令。
 
@@ -128,9 +122,9 @@ msf> use exploit/windows/mssql/mssql_linkcrawler
 
 ### 手动 - Openquery()
 
-从 **Linux**，您可以使用 **sqsh** 和 **mssqlclient.py** 获得 MSSQL 控制台 shell。
+从 **Linux** 中，您可以使用 **sqsh** 和 **mssqlclient.py** 获得 MSSQL 控制台 shell。
 
-从 **Windows**，您还可以找到链接，并使用类似 **HeidiSQL** 的 **MSSQL 客户端** 手动执行命令 [**HeidiSQL**](https://www.heidisql.com)
+从 **Windows** 中，您还可以找到链接，并使用类似 **HeidiSQL** 的 **MSSQL 客户端** 手动执行命令。
 
 _使用 Windows 身份验证登录：_
 
@@ -172,8 +166,8 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## 本地权限提升
 
-**MSSQL本地用户**通常具有一种称为**`SeImpersonatePrivilege`**的特殊特权。这允许该帐户在身份验证后“模拟客户端”。
+**MSSQL本地用户**通常具有一种特殊特权称为**`SeImpersonatePrivilege`**。这允许该账户在身份验证后“模拟客户端”。
 
-许多作者提出的一种策略是强制**系统服务**对攻击者创建的**恶意或中间人服务**进行身份验证。然后，这个恶意服务能够在系统服务尝试进行身份验证时冒充系统服务。
+许多作者提出的一种策略是强制**SYSTEM服务**对攻击者创建的恶意或中间人服务进行身份验证。然后，这个恶意服务能够在SYSTEM服务尝试进行身份验证时冒充SYSTEM服务。
 
 [SweetPotato](https://github.com/CCob/SweetPotato)收集了这些各种技术，可以通过Beacon的`execute-assembly`命令执行。

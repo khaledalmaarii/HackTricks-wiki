@@ -1,23 +1,23 @@
 <details>
 
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零到英雄学习AWS黑客攻击！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+其他支持HackTricks的方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 
-这个工具的基本用途是帮助我们找到需要满足某些条件的变量的值，如果手工计算将会非常烦人。因此，您可以向Z3指出变量需要满足的条件，它将找到一些值（如果可能的话）。
+非常基本地，这个工具将帮助我们找到需要满足一些条件的变量的值，手动计算将会很烦人。因此，您可以告诉Z3变量需要满足的条件，它将找到一些值（如果可能的话）。
 
 # 基本操作
 
-## 布尔/与/或/非
+## 布尔值/And/Or/Not
 ```python
 #pip3 install z3-solver
 from z3 import *
@@ -68,7 +68,7 @@ print("%s = %s" % (d.name(), m[d]))
 ```
 # 机器算术
 
-现代CPU和主流编程语言使用的是**固定大小位向量**上的算术。在Z3Py中，机器算术以**位向量（Bit-Vectors）**的形式提供。
+现代 CPU 和主流编程语言使用固定大小比特向量进行算术运算。在 Z3Py 中，可以使用**比特向量**来进行机器算术。
 ```python
 from z3 import *
 
@@ -85,7 +85,7 @@ print(simplify(a == b)) #This is False
 ```
 ## 有符号/无符号数字
 
-Z3 提供了特殊的有符号版本的算术运算，在**将位向量视为有符号或无符号**时会有所不同。在 Z3Py 中，运算符 **<, <=, >, >=, /, % 和 >>** 对应于**有符号**版本。相应的**无符号**运算符是 **ULT, ULE, UGT, UGE, UDiv, URem 和 LShR。**
+Z3提供了特殊的有符号版本的算术操作，在这些操作中，**位向量被视为有符号或无符号**会产生不同的结果。在Z3Py中，运算符**<, <=, >, >=, /, % 和 >>**对应于**有符号**版本。相应的**无符号**运算符是**ULT, ULE, UGT, UGE, UDiv, URem 和 LShR**。
 ```python
 from z3 import *
 
@@ -105,9 +105,9 @@ solve(ULT(x, 0))
 ```
 ## 函数
 
-**解释函数**，例如算术中的**函数 +**，具有**固定的标准解释**（它将两个数字相加）。**未解释的函数**和常量是**最灵活的**；它们允许**任何与**该函数或常量的**约束**相**一致**的**解释**。
+**解释函数**，如算术，其中**函数 +**具有**固定的标准解释**（它将两个数字相加）。**未解释函数**和常量具有**最大的灵活性**；它们允许**与函数或常量上的约束一致的任何解释**。
 
-示例：f 应用于 x 两次结果再次得到 x，但 f 应用一次于 x 时与 x 不同。
+示例：f两次应用于x会再次得到x，但f应用一次于x与x不同。
 ```python
 from z3 import *
 
@@ -126,7 +126,7 @@ s.add(f(x) == 4) #Find the value that generates 4 as response
 s.check()
 print(m.model())
 ```
-# 示例
+# 例子
 
 ## 数独求解器
 ```python
@@ -178,21 +178,21 @@ print_matrix(r)
 else:
 print "failed to solve"
 ```
-# 参考资料
+## 参考资料
 
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
 <details>
 
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零到英雄学习AWS黑客攻击！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
-其他支持HackTricks的方式：
+支持HackTricks的其他方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

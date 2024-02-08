@@ -2,31 +2,31 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客攻击直到成为英雄</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在 **HackTricks中看到您的公司广告** 或 **下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库**提交PR来分享您的黑客技巧**。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 钻石票据
 
-**像金票一样**，钻石票据是一种TGT，可以用来**作为任何用户访问任何服务**。金票是完全离线伪造的，用该域的krbtgt哈希加密，然后传入登录会话中使用。因为域控制器不跟踪它们合法发出的TGTs，所以它们会愉快地接受用自己的krbtgt哈希加密的TGTs。
+**类似于黄金票据**，钻石票据是一种TGT，可用于**以任何用户身份访问任何服务**。 黄金票据完全是离线伪造的，使用该域的krbtgt哈希进行加密，然后传递到登录会话中供使用。 因为域控制器不会跟踪它（或它们）合法发行的TGT，所以它们将乐意接受使用其自身krbtgt哈希加密的TGT。
 
-检测使用金票的两种常见技术是：
+检测黄金票据使用的两种常见技术：
 
-* 寻找没有对应AS-REQ的TGS-REQs。
-* 寻找具有荒谬值的TGTs，例如Mimikatz默认的10年寿命。
+* 查找没有相应AS-REQ的TGS-REQ。
+* 查找具有荒谬值的TGT，例如Mimikatz的默认10年生存期。
 
-**钻石票据**是通过**修改由DC发出的合法TGT的字段**来制作的。这是通过**请求**一个**TGT**，**用域的krbtgt哈希解密**它，**修改**票据的所需字段，然后**重新加密**它来实现的。这**克服了金票的两个上述缺点**，因为：
+**钻石票据**是通过**修改由DC发行的合法TGT的字段**而制作的。 这是通过**请求**一个**TGT**，使用域的krbtgt哈希**解密**它，**修改**票据的所需字段，然后**重新加密**它来实现的。 这**克服了黄金票据的上述两个缺点**，因为：
 
-* TGS-REQs将有一个前置的AS-REQ。
-* TGT是由DC发出的，这意味着它将具有域的Kerberos策略中的所有正确细节。即使这些可以在金票中准确伪造，但它更复杂且容易出错。
+* TGS-REQ将有一个先前的AS-REQ。
+* TGT是由DC发行的，这意味着它将具有来自域Kerberos策略的所有正确详细信息。 即使在黄金票据中可以准确伪造这些信息，但这更加复杂且容易出错。
 ```bash
 # Get user RID
 powershell Get-DomainUser -Identity <username> -Properties objectsid
@@ -39,18 +39,16 @@ powershell Get-DomainUser -Identity <username> -Properties objectsid
 # /groups are the desired group RIDs (512 being Domain Admins).
 # /krbkey is the krbtgt AES256 hash.
 ```
-```markdown
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客攻击与</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+其他支持HackTricks的方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
-```
