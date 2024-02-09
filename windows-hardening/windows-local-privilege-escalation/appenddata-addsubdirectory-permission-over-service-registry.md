@@ -7,7 +7,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -22,9 +22,9 @@ Deux clés de registre ont été trouvées en écriture par l'utilisateur actuel
 - **`HKLM\SYSTEM\CurrentControlSet\Services\Dnscache`**
 - **`HKLM\SYSTEM\CurrentControlSet\Services\RpcEptMapper`**
 
-Il a été suggéré de vérifier les autorisations du service **RpcEptMapper** en utilisant l'interface graphique **regedit**, en particulier l'onglet **Autorisations efficaces** de la fenêtre **Paramètres de sécurité avancés**. Cette approche permet d'évaluer les autorisations accordées à des utilisateurs ou groupes spécifiques sans avoir besoin d'examiner chaque entrée de contrôle d'accès (ACE) individuellement.
+Il a été suggéré de vérifier les autorisations du service **RpcEptMapper** en utilisant l'interface graphique **regedit**, en particulier l'onglet **Autorisations efficaces** de la fenêtre **Paramètres de sécurité avancés**. Cette approche permet d'évaluer les autorisations accordées à des utilisateurs ou des groupes spécifiques sans avoir besoin d'examiner chaque entrée de contrôle d'accès (ACE) individuellement.
 
-Une capture d'écran montrait les autorisations attribuées à un utilisateur à faible privilège, parmi lesquelles la permission **Créer un sous-clé** était notable. Cette permission, également appelée **AppendData/AddSubdirectory**, correspondait aux résultats du script.
+Une capture d'écran montrait les autorisations attribuées à un utilisateur à faibles privilèges, parmi lesquelles la permission **Créer un sous-clé** était notable. Cette permission, également appelée **AppendData/AddSubdirectory**, correspondait aux résultats du script.
 
 L'incapacité à modifier directement certaines valeurs, mais la capacité à créer de nouvelles sous-clés, a été notée. Un exemple mis en avant était une tentative de modifier la valeur **ImagePath**, qui a abouti à un message d'accès refusé.
 
@@ -47,7 +47,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>

@@ -9,19 +9,18 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-**Il s'agit d'un petit résumé des chapitres sur la persistance de la machine de la recherche impressionnante de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
-
+**Il s'agit d'un bref résumé des chapitres sur la persistance de la machine de la recherche impressionnante de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
 
 ## **Comprendre le vol de crédential utilisateur actif avec des certificats - PERSIST1**
 
-Dans un scénario où un certificat permettant l'authentification de domaine peut être demandé par un utilisateur, un attaquant a l'opportunité de **demander** et **voler** ce certificat pour **maintenir la persistance** sur un réseau. Par défaut, le modèle `Utilisateur` dans Active Directory permet de telles demandes, bien qu'elles puissent parfois être désactivées.
+Dans un scénario où un certificat permettant l'authentification de domaine peut être demandé par un utilisateur, un attaquant a l'opportunité de **demander** et **voler** ce certificat pour **maintenir la persistance** sur un réseau. Par défaut, le modèle `Utilisateur` dans Active Directory autorise de telles demandes, bien qu'elles puissent parfois être désactivées.
 
-En utilisant un outil nommé [**Certify**](https://github.com/GhostPack/Certify), on peut rechercher des certificats valides permettant un accès persistant:
+En utilisant un outil nommé [**Certify**](https://github.com/GhostPack/Certify), on peut rechercher des certificats valides permettant un accès persistant :
 ```bash
 Certify.exe find /clientauth
 ```
@@ -39,11 +38,11 @@ Le fichier `.pfx` peut ensuite être téléchargé sur un système cible et util
 ```bash
 Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass!
 ```
-Un avertissement important est partagé sur la façon dont cette technique, combinée à une autre méthode décrite dans la section **THEFT5**, permet à un attaquant d'obtenir de manière persistante le **hachage NTLM** d'un compte sans interagir avec le service sous-système de sécurité local (LSASS), et ce depuis un contexte non élevé, offrant ainsi une méthode plus furtive pour le vol de crédentials à long terme.
+Un avertissement important est partagé sur la façon dont cette technique, combinée à une autre méthode décrite dans la section **THEFT5**, permet à un attaquant d'obtenir de manière persistante le **hachage NTLM** d'un compte sans interagir avec le service sous-système d'autorité de sécurité locale (LSASS), et ce depuis un contexte non élevé, offrant ainsi une méthode plus discrète pour le vol de crédentials à long terme.
 
 ## **Obtention de la persistance sur la machine avec des certificats - PERSIST2**
 
-Une autre méthode implique l'inscription du compte machine d'un système compromis pour un certificat, en utilisant le modèle par défaut `Machine` qui permet de telles actions. Si un attaquant obtient des privilèges élevés sur un système, il peut utiliser le compte **SYSTEM** pour demander des certificats, offrant ainsi une forme de **persistance**:
+Une autre méthode implique l'inscription du compte machine d'un système compromis pour un certificat, en utilisant le modèle par défaut `Machine` qui autorise de telles actions. Si un attaquant obtient des privilèges élevés sur un système, il peut utiliser le compte **SYSTEM** pour demander des certificats, offrant ainsi une forme de **persistance**:
 ```bash
 Certify.exe request /ca:dc.theshire.local/theshire-DC-CA /template:Machine /machine
 ```
@@ -51,7 +50,7 @@ Cet accès permet à l'attaquant de s'authentifier auprès de **Kerberos** en ta
 
 ## **Extension de la persistance via le renouvellement de certificats - PERSIST3**
 
-La méthode finale discutée implique de tirer parti de la **validité** et des **périodes de renouvellement** des modèles de certificats. En **renouvelant** un certificat avant son expiration, un attaquant peut maintenir l'authentification à Active Directory sans avoir besoin d'inscriptions de tickets supplémentaires, ce qui pourrait laisser des traces sur le serveur d'Autorité de Certification (CA).
+La méthode finale discutée implique de tirer parti de la **validité** et des **périodes de renouvellement** des modèles de certificats. En **renouvelant** un certificat avant son expiration, un attaquant peut maintenir l'authentification auprès de l'Active Directory sans avoir besoin d'inscriptions de tickets supplémentaires, ce qui pourrait laisser des traces sur le serveur d'Autorité de Certification (CA).
 
 Cette approche permet une méthode de **persistance étendue**, réduisant le risque de détection grâce à moins d'interactions avec le serveur CA et en évitant la génération d'artefacts qui pourraient alerter les administrateurs de l'intrusion.
 
@@ -63,8 +62,8 @@ Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

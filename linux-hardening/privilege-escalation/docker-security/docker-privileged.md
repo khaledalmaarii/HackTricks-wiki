@@ -2,17 +2,17 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## Impacts
+## Quels sont les impacts
 
 Lorsque vous exécutez un conteneur en mode privilégié, voici les protections que vous désactivez :
 
@@ -42,7 +42,7 @@ cpu              nbd0             pts              stdout           tty27       
 ```
 ### Systèmes de fichiers du noyau en lecture seule
 
-Les systèmes de fichiers du noyau fournissent un mécanisme permettant à un processus de modifier le comportement du noyau. Cependant, en ce qui concerne les processus de conteneurs, nous voulons les empêcher de faire des modifications au noyau. Par conséquent, nous montons les systèmes de fichiers du noyau en mode **lecture seule** à l'intérieur du conteneur, garantissant que les processus du conteneur ne peuvent pas modifier le noyau.
+Les systèmes de fichiers du noyau fournissent un mécanisme permettant à un processus de modifier le comportement du noyau. Cependant, en ce qui concerne les processus de conteneurs, nous voulons les empêcher de faire des modifications au noyau. Par conséquent, nous montons les systèmes de fichiers du noyau en **lecture seule** à l'intérieur du conteneur, garantissant que les processus du conteneur ne peuvent pas modifier le noyau.
 
 {% tabs %}
 {% tab title="À l'intérieur du conteneur par défaut" %}
@@ -63,7 +63,7 @@ mount  | grep '(ro'
 ```
 ### Masquage des systèmes de fichiers du noyau
 
-Le système de fichiers **/proc** est sélectivement inscriptible mais pour des raisons de sécurité, certaines parties sont protégées contre l'écriture et la lecture en les superposant avec **tmpfs**, garantissant que les processus du conteneur ne peuvent pas accéder à des zones sensibles.
+Le système de fichiers **/proc** est sélectivement inscriptible mais, pour des raisons de sécurité, certaines parties sont protégées contre l'écriture et la lecture en les superposant avec **tmpfs**, garantissant que les processus du conteneur ne peuvent pas accéder à des zones sensibles.
 
 {% hint style="info" %}
 **tmpfs** est un système de fichiers qui stocke tous les fichiers en mémoire virtuelle. tmpfs ne crée aucun fichier sur votre disque dur. Ainsi, si vous démontez un système de fichiers tmpfs, tous les fichiers qui y résident sont perdus pour toujours.
@@ -151,7 +151,7 @@ Seccomp_filters:	0
 
 ### AppArmor
 
-**AppArmor** est une amélioration du noyau pour confiner les **containers** à un **ensemble limité** de **ressources** avec des **profils par programme**. Lorsque vous exécutez avec le drapeau `--privileged`, cette protection est désactivée.
+**AppArmor** est une amélioration du noyau pour confiner les **containers** à un **ensemble limité de **ressources** avec des **profils par programme**. Lorsque vous exécutez avec le drapeau `--privileged`, cette protection est désactivée.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -162,7 +162,7 @@ Seccomp_filters:	0
 ```
 ### SELinux
 
-Lancer un conteneur avec le drapeau `--privileged` désactive les **étiquettes SELinux**, le faisant hériter de l'étiquette du moteur de conteneurs, généralement `unconfined`, accordant un accès complet similaire au moteur de conteneurs. En mode sans privilège, il utilise `container_runtime_t`, tandis qu'en mode root, `spc_t` est appliqué.
+L'exécution d'un conteneur avec le drapeau `--privileged` désactive les **étiquettes SELinux**, le faisant hériter de l'étiquette du moteur de conteneurs, généralement `unconfined`, accordant un accès complet similaire au moteur de conteneurs. En mode sans privilège, il utilise `container_runtime_t`, tandis qu'en mode root, `spc_t` est appliqué.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -211,9 +211,9 @@ PID   USER     TIME  COMMAND
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Vous souhaitez voir votre **entreprise annoncée dans HackTricks**? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**

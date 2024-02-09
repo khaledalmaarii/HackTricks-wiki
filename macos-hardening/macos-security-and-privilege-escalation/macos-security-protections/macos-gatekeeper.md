@@ -1,10 +1,10 @@
-# macOS Gatekeeper / Quarantine / XProtect
+# macOS Gatekeeper / Quarantaine / XProtect
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -20,7 +20,7 @@
 
 Le mécanisme clé de Gatekeeper réside dans son processus de **vérification**. Il vérifie si le logiciel téléchargé est **signé par un développeur reconnu**, garantissant l'authenticité du logiciel. De plus, il vérifie si le logiciel est **notarié par Apple**, confirmant qu'il est exempt de contenu malveillant connu et n'a pas été altéré après la notarisation.
 
-De plus, Gatekeeper renforce le contrôle et la sécurité des utilisateurs en **demandant aux utilisateurs d'approuver l'ouverture** du logiciel téléchargé pour la première fois. Cette mesure de sécurité aide à empêcher les utilisateurs d'exécuter involontairement un code exécutable potentiellement nocif qu'ils auraient pu confondre avec un fichier de données inoffensif.
+De plus, Gatekeeper renforce le contrôle et la sécurité de l'utilisateur en **demandant aux utilisateurs d'approuver l'ouverture** du logiciel téléchargé pour la première fois. Cette mesure de sécurité aide à empêcher les utilisateurs d'exécuter involontairement un code exécutable potentiellement nocif qu'ils auraient pu confondre avec un fichier de données inoffensif.
 
 ### Signatures d'application
 
@@ -28,17 +28,17 @@ Les signatures d'application, également appelées signatures de code, sont un �
 
 Voici comment cela fonctionne :
 
-1. **Signature de l'application :** Lorsqu'un développeur est prêt à distribuer son application, il **signe l'application à l'aide d'une clé privée**. Cette clé privée est associée à un **certificat qu'Apple délivre au développeur** lors de son inscription au programme Apple Developer. Le processus de signature implique la création d'un hachage cryptographique de toutes les parties de l'application et le cryptage de ce hachage avec la clé privée du développeur.
+1. **Signature de l'application :** Lorsqu'un développeur est prêt à distribuer son application, il **signe l'application à l'aide d'une clé privée**. Cette clé privée est associée à un **certificat qu'Apple délivre au développeur** lors de son inscription au programme Apple Developer. Le processus de signature consiste à créer un hachage cryptographique de toutes les parties de l'application et à chiffrer ce hachage avec la clé privée du développeur.
 2. **Distribution de l'application :** L'application signée est ensuite distribuée aux utilisateurs avec le certificat du développeur, qui contient la clé publique correspondante.
-3. **Vérification de l'application :** Lorsqu'un utilisateur télécharge et tente d'exécuter l'application, son système d'exploitation Mac utilise la clé publique du certificat du développeur pour décrypter le hachage. Il recalcule ensuite le hachage en fonction de l'état actuel de l'application et le compare avec le hachage décrypté. S'ils correspondent, cela signifie que **l'application n'a pas été modifiée** depuis la signature du développeur, et le système autorise l'exécution de l'application.
+3. **Vérification de l'application :** Lorsqu'un utilisateur télécharge et tente d'exécuter l'application, son système d'exploitation Mac utilise la clé publique du certificat du développeur pour déchiffrer le hachage. Il recalcule ensuite le hachage en fonction de l'état actuel de l'application et le compare avec le hachage déchiffré. S'ils correspondent, cela signifie que **l'application n'a pas été modifiée** depuis que le développeur l'a signée, et le système autorise l'exécution de l'application.
 
 Les signatures d'application sont une partie essentielle de la technologie Gatekeeper d'Apple. Lorsqu'un utilisateur tente d'**ouvrir une application téléchargée depuis Internet**, Gatekeeper vérifie la signature de l'application. Si elle est signée avec un certificat délivré par Apple à un développeur connu et que le code n'a pas été altéré, Gatekeeper autorise l'exécution de l'application. Sinon, il bloque l'application et alerte l'utilisateur.
 
-À partir de macOS Catalina, **Gatekeeper vérifie également si l'application a été notariée** par Apple, ajoutant une couche de sécurité supplémentaire. Le processus de notarisation vérifie l'application pour détecter les problèmes de sécurité connus et le code malveillant, et si ces vérifications sont réussies, Apple ajoute un ticket à l'application que Gatekeeper peut vérifier.
+À partir de macOS Catalina, **Gatekeeper vérifie également si l'application a été notariée** par Apple, ajoutant une couche de sécurité supplémentaire. Le processus de notarisation vérifie l'application pour des problèmes de sécurité connus et du code malveillant, et si ces vérifications sont réussies, Apple ajoute un ticket à l'application que Gatekeeper peut vérifier.
 
 #### Vérification des signatures
 
-Lors de la vérification d'un **échantillon de logiciel malveillant**, vous devriez toujours **vérifier la signature** du binaire car le **développeur** qui l'a signé pourrait déjà être **lié** à un **logiciel malveillant**.
+Lors de la vérification d'un **échantillon de logiciel malveillant**, vous devriez toujours **vérifier la signature** du binaire car le **développeur** qui l'a signé pourrait déjà être **lié** à du **logiciel malveillant**.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -57,7 +57,7 @@ codesign -s <cert-name-keychain> toolsdemo
 ```
 ### Notarisation
 
-Le processus de notarisation d'Apple sert de sauvegarde supplémentaire pour protéger les utilisateurs des logiciels potentiellement nuisibles. Il implique que le **développeur soumette son application pour examen** par le **Service de notarisation d'Apple**, qui ne doit pas être confondu avec l'App Review. Ce service est un **système automatisé** qui examine le logiciel soumis à la recherche de **contenu malveillant** et de tout problème potentiel lié à la signature de code.
+Le processus de notarisation d'Apple sert de sauvegarde supplémentaire pour protéger les utilisateurs des logiciels potentiellement nuisibles. Il implique que le **développeur soumette son application à l'examen** du **Service de notarisation d'Apple**, qui ne doit pas être confondu avec l'App Review. Ce service est un **système automatisé** qui examine le logiciel soumis à la recherche de **contenu malveillant** et de tout problème potentiel lié à la signature de code.
 
 Si le logiciel **passe** cette inspection sans soulever de préoccupations, le Service de notarisation génère un ticket de notarisation. Le développeur est alors tenu de **joindre ce ticket à son logiciel**, un processus appelé 'agrafage'. De plus, le ticket de notarisation est également publié en ligne où Gatekeeper, la technologie de sécurité d'Apple, peut y accéder.
 
@@ -73,7 +73,7 @@ Il est possible de voir le **statut** de GateKeeper avec :
 spctl --status
 ```
 {% hint style="danger" %}
-Notez que les vérifications de signature de GateKeeper ne sont effectuées que sur les **fichiers avec l'attribut Quarantine**, pas sur chaque fichier.
+Notez que les vérifications de signature de GateKeeper ne sont effectuées que sur les **fichiers avec l'attribut Quarantaine**, pas sur chaque fichier.
 {% endhint %}
 
 GateKeeper vérifiera si, selon les **préférences et la signature**, un binaire peut être exécuté :
@@ -147,14 +147,14 @@ spctl --assess -v /Applications/App.app
 ```
 ### Fichiers en quarantaine
 
-Lors du **téléchargement** d'une application ou d'un fichier, des **applications macOS** spécifiques telles que les navigateurs web ou les clients de messagerie **attachent un attribut de fichier étendu**, communément appelé le "**drapeau de quarantaine**", au fichier téléchargé. Cet attribut agit comme une mesure de sécurité pour **marquer le fichier** comme provenant d'une source non fiable (Internet) et potentiellement porteur de risques. Cependant, toutes les applications n'attachent pas cet attribut, par exemple, les logiciels clients BitTorrent courants contournent généralement ce processus.
+Lors du **téléchargement** d'une application ou d'un fichier, des **applications macOS** spécifiques telles que les navigateurs web ou les clients de messagerie **attachent un attribut de fichier étendu**, communément appelé le "**drapeau de quarantaine**," au fichier téléchargé. Cet attribut agit comme une mesure de sécurité pour **marquer le fichier** comme provenant d'une source non fiable (Internet) et potentiellement risqué. Cependant, toutes les applications n'attachent pas cet attribut, par exemple, les logiciels clients BitTorrent courants contournent généralement ce processus.
 
 **La présence d'un drapeau de quarantaine signale la fonction de sécurité Gatekeeper de macOS lorsque l'utilisateur tente d'exécuter le fichier**.
 
 Dans le cas où le **drapeau de quarantaine n'est pas présent** (comme pour les fichiers téléchargés via certains clients BitTorrent), les **vérifications de Gatekeeper peuvent ne pas être effectuées**. Ainsi, les utilisateurs doivent faire preuve de prudence lors de l'ouverture de fichiers téléchargés à partir de sources moins sécurisées ou inconnues.
 
 {% hint style="info" %}
-**Vérifier** la **validité** des signatures de code est un processus **gourmand en ressources** qui implique la génération de **hachages** cryptographiques du code et de toutes ses ressources groupées. De plus, vérifier la validité du certificat implique de faire une **vérification en ligne** auprès des serveurs d'Apple pour voir s'il a été révoqué après son émission. Pour ces raisons, une vérification complète de la signature de code et de la notarisation est **impraticable à exécuter à chaque fois qu'une application est lancée**.
+**Vérifier** la **validité** des signatures de code est un processus **gourmand en ressources** qui inclut la génération de **hachages** cryptographiques du code et de toutes ses ressources groupées. De plus, vérifier la validité du certificat implique de faire une **vérification en ligne** auprès des serveurs d'Apple pour voir s'il a été révoqué après son émission. Pour ces raisons, une vérification complète de la signature de code et de la notarisation est **impraticable à exécuter à chaque fois qu'une application est lancée**.
 
 Par conséquent, ces vérifications ne sont **exécutées que lors de l'exécution d'applications avec l'attribut en quarantaine**.
 {% endhint %}
@@ -180,7 +180,7 @@ xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
-Vérifiez la **valeur** des **attributs** **étendus** et découvrez l'application qui a écrit l'attribut de quarantaine avec:
+Vérifiez la **valeur** des **attributs** **étendus** et découvrez l'application qui a écrit l'attribut de quarantaine avec :
 ```bash
 xattr -l portada.png
 com.apple.macl:
@@ -290,7 +290,7 @@ La base de données XProtect est **régulièrement mise à jour** par Apple avec
 
 Cependant, il convient de noter que **XProtect n'est pas une solution antivirus complète**. Il ne vérifie que pour une liste spécifique de menaces connues et ne réalise pas de balayage à l'accès comme la plupart des logiciels antivirus.
 
-Vous pouvez obtenir des informations sur la dernière mise à jour de XProtect en exécutant :
+Vous pouvez obtenir des informations sur la dernière mise à jour de XProtect en exécutant:
 
 {% code overflow="wrap" %}
 ```bash
@@ -315,7 +315,7 @@ Notez que Gatekeeper **n'est pas exécuté à chaque fois** que vous exécutez u
 
 Par conséquent, il était auparavant possible d'exécuter une application pour la mettre en cache avec Gatekeeper, puis **modifier des fichiers non exécutables de l'application** (comme les fichiers Electron asar ou NIB) et si aucune autre protection n'était en place, l'application était **exécutée** avec les **ajouts malveillants**.
 
-Cependant, maintenant cela n'est plus possible car macOS **empêche la modification des fichiers** à l'intérieur des bundles d'applications. Ainsi, si vous essayez l'attaque [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), vous constaterez qu'il n'est plus possible de l'exploiter car après avoir exécuté l'application pour la mettre en cache avec Gatekeeper, vous ne pourrez pas modifier le bundle. Et si vous changez par exemple le nom du répertoire Contents en NotCon (comme indiqué dans l'exploit), puis exécutez le binaire principal de l'application pour le mettre en cache avec Gatekeeper, une erreur se produira et l'application ne s'exécutera pas.
+Cependant, cela n'est plus possible car macOS **empêche la modification des fichiers** à l'intérieur des bundles d'applications. Ainsi, si vous essayez l'attaque [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), vous constaterez qu'il n'est plus possible de l'exploiter car après avoir exécuté l'application pour la mettre en cache avec Gatekeeper, vous ne pourrez pas modifier le bundle. Et si vous changez par exemple le nom du répertoire Contents en NotCon (comme indiqué dans l'exploit), puis exécutez le binaire principal de l'application pour le mettre en cache avec Gatekeeper, une erreur se produira et l'application ne s'exécutera pas.
 
 ## Contournements de Gatekeeper
 
@@ -364,9 +364,7 @@ xattr: [Errno 13] Permission denied: '/tmp/no-attr'
 ```
 De plus, le format de fichier **AppleDouble** copie un fichier incluant ses ACEs.
 
-Dans le [**code source**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html), il est possible de voir que la représentation textuelle de l'ACL stockée à l'intérieur de l'attribut étendu appelé **`com.apple.acl.text`** va être définie comme ACL dans le fichier décompressé. Ainsi, si vous compressez une application dans un fichier zip avec le format de fichier **AppleDouble** avec un ACL qui empêche l'écriture d'autres xattrs... l'attribut de quarantaine n'est pas défini dans l'application:
-
-{% code overflow="wrap" %}
+Dans le [**code source**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html), il est possible de voir que la représentation textuelle de la liste de contrôle d'accès (ACL) stockée à l'intérieur de l'attribut étendu appelé **`com.apple.acl.text`** va être définie comme ACL dans le fichier décompressé. Ainsi, si vous compressez une application dans un fichier zip avec le format de fichier **AppleDouble** contenant une ACL qui empêche l'écriture d'autres attributs étendus... l'attribut d'isolement (quarantine xattr) ne sera pas défini dans l'application:
 ```bash
 chmod +a "everyone deny write,writeattr,writeextattr" /tmp/test
 ditto -c -k test test.zip
@@ -377,7 +375,7 @@ python3 -m http.server
 
 Consultez le [**rapport original**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) pour plus d'informations.
 
-Notez que cela pourrait également être exploité avec AppleArchives:
+Notez que cela pourrait également être exploité avec AppleArchives :
 ```bash
 mkdir app
 touch app/test
@@ -404,7 +402,7 @@ aa archive -d test/ -o test.aar
 ```
 {% endcode %}
 
-Être capable de créer un fichier sans attribut de quarantaine, il était **possible de contourner Gatekeeper.** L'astuce était de **créer une application de fichier DMG** en utilisant la convention de nom AppleDouble (le commencer par `._`) et de créer un **fichier visible en tant que lien symbolique vers ce fichier caché** sans l'attribut de quarantaine.\
+En étant capable de créer un fichier sans attribut de quarantaine, il était **possible de contourner Gatekeeper.** L'astuce était de **créer une application de fichier DMG** en utilisant la convention de nom AppleDouble (en commençant par `._`) et de créer un **fichier visible en tant que lien symbolique vers ce fichier caché** sans attribut de quarantaine.\
 Lorsque le **fichier dmg est exécuté**, comme il n'a pas d'attribut de quarantaine, il **contournera Gatekeeper**.
 ```bash
 # Create an app bundle with the backdoor an call it app.app

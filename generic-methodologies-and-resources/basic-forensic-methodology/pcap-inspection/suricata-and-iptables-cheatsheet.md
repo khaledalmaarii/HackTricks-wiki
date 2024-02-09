@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
@@ -18,9 +18,9 @@
 
 Dans iptables, des listes de règles appelées chaînes sont traitées séquentiellement. Parmi celles-ci, trois chaînes principales sont universellement présentes, avec d'autres comme NAT pouvant être potentiellement prises en charge en fonction des capacités du système.
 
-- **Chaîne d'entrée** : Utilisée pour gérer le comportement des connexions entrantes.
-- **Chaîne de transfert** : Employée pour gérer les connexions entrantes qui ne sont pas destinées au système local. C'est typique pour les appareils agissant en tant que routeurs, où les données reçues sont destinées à être transférées vers une autre destination. Cette chaîne est principalement pertinente lorsque le système est impliqué dans le routage, le NAT ou des activités similaires.
-- **Chaîne de sortie** : Dédiée à la régulation des connexions sortantes.
+- **Chaîne d'entrée**: Utilisée pour gérer le comportement des connexions entrantes.
+- **Chaîne de transfert**: Utilisée pour gérer les connexions entrantes qui ne sont pas destinées au système local. C'est typique pour les appareils agissant en tant que routeurs, où les données reçues sont destinées à être transférées vers une autre destination. Cette chaîne est principalement pertinente lorsque le système est impliqué dans le routage, le NAT ou des activités similaires.
+- **Chaîne de sortie**: Dédiée à la régulation des connexions sortantes.
 
 Ces chaînes garantissent le traitement ordonné du trafic réseau, permettant la spécification de règles détaillées régissant le flux de données dans, à travers et hors d'un système.
 ```bash
@@ -133,7 +133,7 @@ systemctl daemon-reload
 
 * L'**action**, détermine ce qui se passe lorsque la signature correspond.
 * L'**en-tête**, définit le protocole, les adresses IP, les ports et la direction de la règle.
-* Les **options de règle**, définissent les détails de la règle.
+* Les **options de règle**, définissent les spécificités de la règle.
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
 ```
@@ -152,34 +152,34 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 * tcp (pour le trafic tcp)
 * udp
 * icmp
-* ip (ip signifie 'tous' ou 'n'importe lequel')
-* _protocoles de couche 7_: http, ftp, tls, smb, dns, ssh... (plus dans la [**documentation**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* ip (ip signifie 'tous' ou 'tout')
+* _protocoles de couche 7_: http, ftp, tls, smb, dns, ssh... (plus dans la [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Adresses source et destination
+#### Adresses Source et Destination
 
 Il prend en charge les plages d'adresses IP, les négations et une liste d'adresses :
 
-| Exemple                        | Signification                                  |
+| Exemple                        | Signification                            |
 | ------------------------------ | ---------------------------------------- |
-| ! 1.1.1.1                      | Toutes les adresses IP sauf 1.1.1.1             |
+| ! 1.1.1.1                      | Toutes les adresses IP sauf 1.1.1.1      |
 | !\[1.1.1.1, 1.1.1.2]           | Toutes les adresses IP sauf 1.1.1.1 et 1.1.1.2 |
-| $HOME\_NET                     | Votre paramètre HOME\_NET dans le yaml        |
+| $HOME\_NET                     | Votre paramètre HOME\_NET dans yaml     |
 | \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET et non HOME\_NET          |
 | \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 sauf pour 10.0.0.5          |
 
-#### Ports source et destination
+#### Ports Source et Destination
 
 Il prend en charge les plages de ports, les négations et les listes de ports
 
-| Exemple         | Signification                                |
-| --------------- | -------------------------------------- |
-| any             | n'importe quelle adresse                            |
-| \[80, 81, 82]   | port 80, 81 et 82                     |
-| \[80: 82]       | Plage de 80 à 82                  |
+| Exemple         | Signification                            |
+| --------------- | ---------------------------------------- |
+| any             | n'importe quelle adresse                 |
+| \[80, 81, 82]   | port 80, 81 et 82                        |
+| \[80: 82]       | Plage de 80 à 82                         |
 | \[1024: ]       | De 1024 jusqu'au plus haut numéro de port |
-| !80             | Tous les ports sauf 80                      |
-| \[80:100,!99]   | Plage de 80 à 100 sauf 99 exclu |
-| \[1:80,!\[2,4]] | Plage de 1 à 80, sauf les ports 2 et 4  |
+| !80             | Tous les ports sauf 80                   |
+| \[80:100,!99]   | Plage de 80 à 100 sauf 99 exclu          |
+| \[1:80,!\[2,4]] | Plage de 1 à 80, sauf les ports 2 et 4   |
 
 #### Direction
 
@@ -190,7 +190,7 @@ source <> destination  (both directions)
 ```
 #### Mots-clés
 
-Il existe **des centaines d'options** disponibles dans Suricata pour rechercher le **paquet spécifique** que vous recherchez, ici il sera mentionné si quelque chose d'intéressant est trouvé. Consultez la [**documentation**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) pour plus d'informations!
+Il existe **des centaines d'options** disponibles dans Suricata pour rechercher le **paquet spécifique** que vous recherchez, ici il sera mentionné si quelque chose d'intéressant est trouvé. Consultez la [**documentation**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) pour en savoir plus!
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -233,12 +233,12 @@ drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord**](https://discord.gg/hRep4RUj7f) ou le **groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

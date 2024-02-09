@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord**](https://discord.gg/hRep4RUj7f) ou le **groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts [hacktricks](https://github.com/carlospolop/hacktricks) et [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 Une machine Linux peut également être présente dans un environnement Active Directory.
 
-Une machine Linux dans un AD pourrait **stocker différents tickets CCACHE dans des fichiers. Ces tickets peuvent être utilisés et exploités comme tout autre ticket Kerberos**. Pour lire ces tickets, vous devrez être le propriétaire utilisateur du ticket ou **root** dans la machine.
+Une machine Linux dans un AD pourrait **stocker différents tickets CCACHE à l'intérieur de fichiers. Ces tickets peuvent être utilisés et exploités comme tout autre ticket Kerberos**. Pour lire ces tickets, vous devrez être le propriétaire utilisateur du ticket ou **root** à l'intérieur de la machine.
 
 ## Énumération
 
@@ -30,7 +30,7 @@ Vous pouvez également consulter la page suivante pour apprendre **d'autres faç
 
 ### FreeIPA
 
-FreeIPA est une **alternative** open-source à Microsoft Windows **Active Directory**, principalement pour les environnements **Unix**. Il combine un **annuaire LDAP complet** avec un centre de distribution de clés MIT **Kerberos** pour la gestion similaire à Active Directory. En utilisant le système de certificats Dogtag pour la gestion des certificats CA & RA, il prend en charge l'authentification **multi-facteurs**, y compris les cartes à puce. SSSD est intégré pour les processus d'authentification Unix. En savoir plus à ce sujet dans :
+FreeIPA est une **alternative** open-source à Microsoft Windows **Active Directory**, principalement pour les environnements **Unix**. Il combine un **annuaire LDAP complet** avec un centre de distribution de clés MIT **Kerberos** pour une gestion similaire à Active Directory. En utilisant le système de certificats Dogtag pour la gestion des certificats CA & RA, il prend en charge l'authentification **multi-facteurs**, y compris les cartes à puce. SSSD est intégré pour les processus d'authentification Unix. En savoir plus à ce sujet dans :
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
@@ -40,7 +40,7 @@ FreeIPA est une **alternative** open-source à Microsoft Windows **Active Direct
 
 ### Pass The Ticket
 
-Sur cette page, vous allez trouver différents endroits où vous pourriez **trouver des tickets Kerberos à l'intérieur d'un hôte Linux**, dans la page suivante, vous pouvez apprendre comment transformer ces formats de tickets CCache en Kirbi (le format dont vous avez besoin pour utiliser dans Windows) et aussi comment effectuer une attaque PTT :
+Sur cette page, vous allez trouver différents endroits où vous pourriez **trouver des tickets Kerberos à l'intérieur d'un hôte Linux**, sur la page suivante, vous pouvez apprendre comment transformer ces formats de tickets CCache en Kirbi (le format nécessaire à utiliser dans Windows) et également comment effectuer une attaque PTT :
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/pass-the-ticket.md" %}
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
@@ -48,7 +48,7 @@ Sur cette page, vous allez trouver différents endroits où vous pourriez **trou
 
 ### Réutilisation de tickets CCACHE depuis /tmp
 
-Les fichiers CCACHE sont des formats binaires pour **stocker les informations d'identification Kerberos** sont généralement stockés avec des autorisations 600 dans `/tmp`. Ces fichiers peuvent être identifiés par leur **format de nom, `krb5cc_%{uid}`,** correspondant à l'UID de l'utilisateur. Pour la vérification du ticket d'authentification, la **variable d'environnement `KRB5CCNAME`** doit être définie sur le chemin du fichier de ticket souhaité, permettant sa réutilisation.
+Les fichiers CCACHE sont des formats binaires pour **stocker des informations d'identification Kerberos** sont généralement stockés avec des autorisations 600 dans `/tmp`. Ces fichiers peuvent être identifiés par leur **format de nom, `krb5cc_%{uid}`,** correspondant à l'UID de l'utilisateur. Pour la vérification du ticket d'authentification, la variable d'environnement `KRB5CCNAME` doit être définie sur le chemin du fichier de ticket souhaité, permettant sa réutilisation.
 
 Listez le ticket actuel utilisé pour l'authentification avec `env | grep KRB5CCNAME`. Le format est portable et le ticket peut être **réutilisé en définissant la variable d'environnement** avec `export KRB5CCNAME=/tmp/ticket.ccache`. Le format du nom du ticket Kerberos est `krb5cc_%{uid}` où uid est l'UID de l'utilisateur.
 ```bash
@@ -90,7 +90,7 @@ git clone https://github.com/its-a-feature/KeytabParser
 python KeytabParser.py /etc/krb5.keytab
 klist -k /etc/krb5.keytab
 ```
-### Extraire des comptes depuis /etc/krb5.keytab
+### Extraire des comptes de /etc/krb5.keytab
 
 Les clés de compte de service, essentielles pour les services fonctionnant avec des privilèges root, sont stockées de manière sécurisée dans les fichiers **`/etc/krb5.keytab`**. Ces clés, semblables à des mots de passe pour les services, exigent une confidentialité stricte.
 
@@ -119,12 +119,12 @@ crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDO
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts [hacktricks](https://github.com/carlospolop/hacktricks) et [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

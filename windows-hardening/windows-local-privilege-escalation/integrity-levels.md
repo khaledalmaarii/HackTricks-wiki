@@ -7,20 +7,20 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 
 # Niveaux d'intégrité
 
-Dans Windows Vista et les versions ultérieures, tous les éléments protégés sont associés à une balise de **niveau d'intégrité**. Ce paramétrage attribue principalement un niveau d'intégrité "moyen" aux fichiers et clés de registre, sauf pour certains dossiers et fichiers auxquels Internet Explorer 7 peut écrire à un niveau d'intégrité faible. Le comportement par défaut est que les processus lancés par des utilisateurs standard ont un niveau d'intégrité moyen, tandis que les services fonctionnent généralement à un niveau d'intégrité système. Une étiquette d'intégrité élevée protège le répertoire racine.
+Dans Windows Vista et les versions ultérieures, tous les éléments protégés sont associés à une balise d'**intégrité**. Ce paramétrage attribue principalement un niveau d'intégrité "moyen" aux fichiers et clés de registre, sauf pour certains dossiers et fichiers auxquels Internet Explorer 7 peut écrire à un niveau d'intégrité bas. Le comportement par défaut est que les processus lancés par des utilisateurs standard ont un niveau d'intégrité moyen, tandis que les services fonctionnent généralement à un niveau d'intégrité système. Une étiquette d'intégrité élevée protège le répertoire racine.
 
 Une règle clé est que les objets ne peuvent pas être modifiés par des processus ayant un niveau d'intégrité inférieur à celui de l'objet. Les niveaux d'intégrité sont :
 
 - **Non approuvé** : Ce niveau est destiné aux processus avec des connexions anonymes. %%%Exemple : Chrome%%%
-- **Faible** : Principalement pour les interactions sur Internet, notamment dans le mode protégé d'Internet Explorer, affectant les fichiers et processus associés, et certains dossiers comme le **Dossier Internet Temporaire**. Les processus à faible intégrité font face à des restrictions importantes, notamment aucun accès en écriture au registre et un accès limité à l'écriture de profil utilisateur.
+- **Faible** : Principalement pour les interactions Internet, notamment en mode protégé d'Internet Explorer, affectant les fichiers et processus associés, et certains dossiers comme le **Dossier Internet Temporaire**. Les processus à faible intégrité font face à des restrictions importantes, notamment l'absence d'accès en écriture au registre et un accès limité en écriture au profil utilisateur.
 - **Moyen** : Le niveau par défaut pour la plupart des activités, attribué aux utilisateurs standard et aux objets sans niveaux d'intégrité spécifiques. Même les membres du groupe Administrateurs fonctionnent à ce niveau par défaut.
 - **Élevé** : Réservé aux administrateurs, leur permettant de modifier des objets à des niveaux d'intégrité inférieurs, y compris ceux au niveau élevé lui-même.
 - **Système** : Le niveau opérationnel le plus élevé pour le noyau Windows et les services principaux, inaccessible même pour les administrateurs, assurant la protection des fonctions système vitales.
@@ -36,8 +36,8 @@ Vous pouvez également obtenir votre **niveau d'intégrité actuel** en utilisan
 
 ## Niveaux d'intégrité dans le système de fichiers
 
-Un objet à l'intérieur du système de fichiers peut nécessiter une **exigence minimale de niveau d'intégrité** et si un processus n'a pas ce niveau d'intégrité, il ne pourra pas interagir avec lui.\
-Par exemple, créons un **fichier console régulier à partir d'une console utilisateur régulière et vérifions les autorisations** :
+Un objet à l'intérieur du système de fichiers peut nécessiter un **niveau d'intégrité minimum requis** et si un processus n'a pas ce niveau d'intégrité, il ne pourra pas interagir avec lui.\
+Par exemple, créons un **fichier régulier à partir d'une console utilisateur régulière et vérifions les autorisations** :
 ```
 echo asd >asd.txt
 icacls asd.txt

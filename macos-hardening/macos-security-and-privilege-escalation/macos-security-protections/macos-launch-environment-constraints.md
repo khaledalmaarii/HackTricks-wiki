@@ -1,14 +1,14 @@
-# Contraintes de lancement/environnement macOS & Cache de confiance
+# Contraintes de lancement/environnement macOS et cache de confiance
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
+* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
 *
 * .
 
@@ -16,7 +16,7 @@
 
 ## Informations de base
 
-Les contraintes de lancement dans macOS ont été introduites pour renforcer la sécurité en **régulant comment, par qui et d'où un processus peut être initié**. Initiées dans macOS Ventura, elles fournissent un cadre qui catégorise **chaque binaire système en différentes catégories de contraintes**, définies dans le **cache de confiance**, une liste contenant les binaires système et leurs hachages respectifs. Ces contraintes s'étendent à chaque binaire exécutable du système, impliquant un ensemble de **règles** définissant les exigences pour **lancer un binaire particulier**. Les règles englobent les auto-contraintes qu'un binaire doit satisfaire, les contraintes parentales devant être respectées par son processus parent, et les contraintes responsables devant être respectées par d'autres entités pertinentes.
+Les contraintes de lancement dans macOS ont été introduites pour renforcer la sécurité en **régulant comment, qui et d'où un processus peut être initié**. Initiées dans macOS Ventura, elles fournissent un cadre qui catégorise **chaque binaire système en différentes catégories de contraintes**, définies dans le **cache de confiance**, une liste contenant les binaires système et leurs hachages respectifs. Ces contraintes s'étendent à chaque binaire exécutable du système, impliquant un ensemble de **règles** définissant les exigences pour **lancer un binaire particulier**. Les règles englobent les auto-contraintes qu'un binaire doit satisfaire, les contraintes parentales devant être respectées par son processus parent, et les contraintes responsables devant être respectées par d'autres entités pertinentes.
 
 Le mécanisme s'étend aux applications tierces via les **Contraintes d'Environnement**, à partir de macOS Sonoma, permettant aux développeurs de protéger leurs applications en spécifiant un **ensemble de clés et de valeurs pour les contraintes d'environnement**.
 
@@ -29,7 +29,7 @@ Il existe 4 types de contraintes :
 * **Contraintes responsables** : Contraintes appliquées au **processus appelant le service** dans une communication XPC.
 * **Contraintes de chargement de bibliothèque** : Utilisez des contraintes de chargement de bibliothèque pour décrire sélectivement le code qui peut être chargé.
 
-Ainsi, lorsqu'un processus tente de lancer un autre processus — en appelant `execve(_:_:_:)` ou `posix_spawn(_:_:_:_:_:_:)` — le système d'exploitation vérifie que le **fichier exécutable** satisfait sa **propre contrainte d'auto**. Il vérifie également que le **processus parent** **satisfait la contrainte parentale du fichier exécutable**, et que le **processus responsable** **satisfait la contrainte du processus exécutable responsable**. Si l'une de ces contraintes de lancement n'est pas satisfaite, le système d'exploitation ne lance pas le programme.
+Ainsi, lorsqu'un processus tente de lancer un autre processus — en appelant `execve(_:_:_:)` ou `posix_spawn(_:_:_:_:_:_:)` — le système d'exploitation vérifie que le fichier exécutable **satisfait** sa **propre contrainte d'auto**. Il vérifie également que le fichier exécutable du **processus parent** **satisfait la contrainte parentale** de l'exécutable, et que le fichier exécutable du **processus responsable** **satisfait la contrainte du processus responsable** de l'exécutable. Si l'une de ces contraintes de lancement n'est pas satisfaite, le système d'exploitation ne lance pas le programme.
 
 Si lors du chargement d'une bibliothèque une partie de la **contrainte de bibliothèque n'est pas vraie**, votre processus **ne charge pas** la bibliothèque.
 
@@ -66,7 +66,7 @@ Parent Constraint: is-init-proc
 
 ### Inversion des catégories LC
 
-Vous avez plus d'informations [**à ce sujet ici**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), mais essentiellement, elles sont définies dans **AMFI (AppleMobileFileIntegrity)**, donc vous devez télécharger le Kit de développement du noyau pour obtenir le **KEXT**. Les symboles commençant par **`kConstraintCategory`** sont les **intéressants**. En les extrayant, vous obtiendrez un flux encodé DER (ASN.1) que vous devrez décoder avec [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) ou la bibliothèque python-asn1 et son script `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) qui vous donnera une chaîne plus compréhensible.
+Vous avez plus d'informations [**à ce sujet ici**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), mais en gros, elles sont définies dans **AMFI (AppleMobileFileIntegrity)**, donc vous devez télécharger le Kit de développement du noyau pour obtenir le **KEXT**. Les symboles commençant par **`kConstraintCategory`** sont les **intéressants**. En les extrayant, vous obtiendrez un flux encodé DER (ASN.1) que vous devrez décoder avec [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) ou la bibliothèque python-asn1 et son script `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) qui vous donnera une chaîne plus compréhensible.
 
 ## Contraintes d'environnement
 
@@ -152,24 +152,24 @@ uint8_t reserved0;
 ```
 Ensuite, vous pourriez utiliser un script tel que [**celui-ci**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) pour extraire des données.
 
-À partir de ces données, vous pouvez vérifier les applications avec une **valeur de contraintes de lancement de `0`**, qui sont celles qui ne sont pas contraintes ([**vérifiez ici**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) pour savoir ce que chaque valeur représente).
+À partir de ces données, vous pouvez vérifier les applications avec une **valeur de contrainte de lancement de `0`**, qui sont celles qui ne sont pas contraintes ([**vérifiez ici**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) pour savoir ce que chaque valeur représente).
 
 ## Atténuation des attaques
 
-Les contraintes de lancement auraient atténué plusieurs anciennes attaques en **s'assurant que le processus ne sera pas exécuté dans des conditions inattendues :** par exemple, à partir d'emplacements inattendus ou invoqués par un processus parent inattendu (si seul launchd devrait le lancer).
+Les contraintes de lancement auraient atténué plusieurs anciennes attaques en **s'assurant que le processus ne sera pas exécuté dans des conditions inattendues :** par exemple, à partir d'emplacements inattendus ou en étant invoqué par un processus parent inattendu (si seul launchd devrait le lancer).
 
 De plus, les contraintes de lancement **atténuent les attaques de rétrogradation**.
 
 Cependant, elles **ne atténuent pas les abus XPC** courants, les injections de code **Electron** ou les injections de **dylib** sans validation de bibliothèque (à moins que les ID d'équipe pouvant charger des bibliothèques ne soient connus).
 
-### Protection des démons XPC
+### Protection du démon XPC
 
-Dans la version Sonoma, un point notable est la **configuration de responsabilité** du service XPC démon. Le service XPC est responsable de lui-même, contrairement au client connecté qui est responsable. Cela est documenté dans le rapport de rétroaction FB13206884. Cette configuration peut sembler défectueuse, car elle permet certaines interactions avec le service XPC :
+Dans la version Sonoma, un point notable est la **configuration de responsabilité du service XPC démon**. Le service XPC est responsable de lui-même, contrairement au client connecté qui est responsable. Cela est documenté dans le rapport de rétroaction FB13206884. Cette configuration peut sembler défectueuse, car elle permet certaines interactions avec le service XPC :
 
 - **Lancement du service XPC** : Si on suppose qu'il s'agit d'un bogue, cette configuration ne permet pas d'initier le service XPC via du code malveillant.
 - **Connexion à un service actif** : Si le service XPC est déjà en cours d'exécution (éventuellement activé par son application d'origine), il n'y a pas d'obstacles à s'y connecter.
 
-Bien que l'implémentation de contraintes sur le service XPC puisse être bénéfique en **réduisant la fenêtre d'attaque potentielle**, cela ne résout pas le problème principal. Assurer la sécurité du service XPC nécessite fondamentalement de **valider efficacement le client connecté**. C'est la seule méthode pour renforcer la sécurité du service. De plus, il convient de noter que la configuration de responsabilité mentionnée est actuellement opérationnelle, ce qui peut ne pas correspondre à la conception prévue.
+Bien que l'implémentation de contraintes sur le service XPC puisse être bénéfique en **réduisant la fenêtre d'attaque potentielle**, cela ne résout pas le problème principal. Assurer la sécurité du service XPC nécessite fondamentalement de **valider efficacement le client connecté**. C'est la seule méthode pour renforcer la sécurité du service. Il convient également de noter que la configuration de responsabilité mentionnée est actuellement opérationnelle, ce qui peut ne pas correspondre à la conception prévue.
 
 ### Protection Electron
 
@@ -181,3 +181,17 @@ Même s'il est nécessaire que l'application soit **ouverte par LaunchService** 
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
 * [https://eclecticlight.co/2023/06/13/why-wont-a-system-app-or-command-tool-run-launch-constraints-and-trust-caches/](https://eclecticlight.co/2023/06/13/why-wont-a-system-app-or-command-tool-run-launch-constraints-and-trust-caches/)
 * [https://developer.apple.com/videos/play/wwdc2023/10266/](https://developer.apple.com/videos/play/wwdc2023/10266/)
+
+<details>
+
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
+*
+* .
+
+</details>

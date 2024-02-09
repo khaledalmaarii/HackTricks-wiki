@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
@@ -26,9 +26,9 @@
 
 Malgré ces protections, des outils comme Mimikatz peuvent contourner la Protection LSA en utilisant des pilotes spécifiques, bien que de telles actions soient susceptibles d'être enregistrées dans les journaux d'événements.
 
-### Contrebalancer la suppression du privilège SeDebugPrivilege
+### Contrebalancer la suppression de SeDebugPrivilege
 
-Les administrateurs ont généralement le privilège SeDebugPrivilege, qui leur permet de déboguer des programmes. Ce privilège peut être restreint pour empêcher les vidages de mémoire non autorisés, une technique courante utilisée par les attaquants pour extraire des informations d'identification de la mémoire. Cependant, même avec ce privilège supprimé, le compte TrustedInstaller peut toujours effectuer des vidages de mémoire en utilisant une configuration de service personnalisée :
+Les administrateurs ont généralement le privilège SeDebug, ce qui leur permet de déboguer des programmes. Ce privilège peut être restreint pour empêcher les vidages mémoire non autorisés, une technique courante utilisée par les attaquants pour extraire des informations d'identification de la mémoire. Cependant, même avec ce privilège supprimé, le compte TrustedInstaller peut toujours effectuer des vidages mémoire en utilisant une configuration de service personnalisée :
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
@@ -48,14 +48,14 @@ La manipulation des journaux d'événements dans Mimikatz implique deux actions 
 - **Commande** : Cette action vise à supprimer les journaux d'événements, rendant plus difficile le suivi des activités malveillantes.
 - Mimikatz ne fournit pas de commande directe dans sa documentation standard pour effacer directement les journaux d'événements via sa ligne de commande. Cependant, la manipulation des journaux d'événements implique généralement l'utilisation d'outils système ou de scripts en dehors de Mimikatz pour effacer des journaux spécifiques (par exemple, en utilisant PowerShell ou l'Observateur d'événements Windows).
 
-#### Fonctionnalité expérimentale : Patch du service Événement
+#### Fonction expérimentale : Patch du service Événement
 
 - **Commande** : `event::drop`
-- Cette commande expérimentale est conçue pour modifier le comportement du service d'enregistrement des événements, empêchant efficacement l'enregistrement de nouveaux événements.
+- Cette commande expérimentale est conçue pour modifier le comportement du service de journalisation des événements, empêchant efficacement l'enregistrement de nouveaux événements.
 - Exemple : `mimikatz "privilege::debug" "event::drop" exit`
 
 - La commande `privilege::debug` garantit que Mimikatz fonctionne avec les privilèges nécessaires pour modifier les services système.
-- La commande `event::drop` patche ensuite le service d'enregistrement des événements.
+- La commande `event::drop` patche ensuite le service de journalisation des événements.
 
 
 ### Attaques de Tickets Kerberos
@@ -96,8 +96,8 @@ Les Tickets de Confiance sont utilisés pour accéder à des ressources entre do
 
 - Commande : Similaire au Golden Ticket mais pour les relations de confiance.
 - Paramètres :
-- `/target` : Le FQDN du domaine cible.
-- `/rc4` : Le hachage NTLM du compte de confiance.
+  - `/target` : Le FQDN du domaine cible.
+  - `/rc4` : Le hachage NTLM du compte de confiance.
 
 Exemple :
 ```bash
