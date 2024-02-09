@@ -2,26 +2,26 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
 
 HackTricks का समर्थन करने के अन्य तरीके:
 
-* यदि आप चाहते हैं कि आपकी **कंपनी का विज्ञापन HackTricks में दिखाई दे** या **HackTricks को PDF में डाउनलोड करें**, तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स देखें**](https://github.com/sponsors/carlospolop)!
 * [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
-* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) में **शामिल हों** या [**telegram group**](https://t.me/peass) में या **Twitter** पर मुझे 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm) **का अनुसरण करें**.
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपोज़ में PRs सबमिट करके अपनी हैकिंग ट्रिक्स साझा करें.
+* हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
+* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
+* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
 
 </details>
 
 ### डेस्कटॉप
 
-* **एंटाइटलमेंट**: कोई नहीं
+* **अधिकार**: कोई नहीं
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Desktop` को `/tmp/desktop` में कॉपी करें।
+`$HOME/Desktop` की कॉपी करें `/tmp/desktop` में।
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -55,8 +55,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
-`$HOME/Desktop` को `/tmp/desktop` में कॉपी करें।
+{% tab title="शैल" %}
+`$HOME/Desktop` की `/tmp/desktop` में कॉपी करें।
 {% endtab %}
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
@@ -66,12 +66,12 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 
 ### दस्तावेज़
 
-* **Entitlement**: कोई नहीं
+* **अधिकार**: कोई नहीं
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Documents` को `/tmp/documents` में कॉपी करें।
+`$HOME/Documents` की कॉपी करें `/tmp/documents` में।
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -113,14 +113,14 @@ cp -r "$HOME/Documents" "/tmp/documents"
 {% endtab %}
 {% endtabs %}
 
-### डाउनलोड्स
+### डाउनलोड
 
-* **Entitlement**: कोई नहीं
+* **अधिकार**: कोई नहीं
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Downloads` को `/tmp/downloads` में कॉपी करें।
+`$HOME/Downloads` की `/tmp/downloads` में कॉपी करें।
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -154,8 +154,9 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
-`$HOME/Downloads` को `/tmp/downloads` में कॉपी करें।
+{% tab title="शैल" %}
+`$HOME/Dowloads` को `/tmp/downloads` में कॉपी करें।
+{% endtab %}
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -164,14 +165,12 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 
 ### फोटो लाइब्रेरी
 
-* **एंटाइटलमेंट**: `com.apple.security.personal-information.photos-library`
+* **अधिकार**: `com.apple.security.personal-information.photos-library`
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Pictures/Photos Library.photoslibrary` को `/tmp/photos` में कॉपी करें।
-{% endtab %}
-{% endtabs %}
+`$HOME/Pictures/Photos Library.photoslibrary` की प्रतिलिपि `/tmp/photos` में कॉपी करें।
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -206,7 +205,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-`$HOME/Pictures/Photos Library.photoslibrary` को `/tmp/photos` में कॉपी करें।
+`$HOME/Pictures/Photos Library.photoslibrary` की प्रतिलिपि `/tmp/photos` में कॉपी करें।
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -215,14 +214,12 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 
 ### संपर्क
 
-* **Entitlement**: `com.apple.security.personal-information.addressbook`
+* **अधिकार**: `com.apple.security.personal-information.addressbook`
 * **TCC**: `kTCCServiceAddressBook`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Library/Application Support/AddressBook` को `/tmp/contacts` में कॉपी करें।
-{% endtab %}
-{% endtabs %}
+`$HOME/Library/Application Support/AddressBook` की प्रतिलिपि को `/tmp/contacts` में कॉपी करें।
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -266,14 +263,12 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 
 ### कैलेंडर
 
-* **एंटाइटलमेंट**: `com.apple.security.personal-information.calendars`
+* **अधिकार**: `com.apple.security.personal-information.calendars`
 * **TCC**: `kTCCServiceCalendar`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-`$HOME/Library/Calendars` को `/tmp/calendars` में कॉपी करें।
-{% endtab %}
-{% endtabs %}
+`$HOME/Library/Calendars` की प्रतिलिपि को `/tmp/calendars` में कॉपी करें।
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -317,12 +312,12 @@ cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 
 ### कैमरा
 
-* **Entitlement**: `com.apple.security.device.camera`
+* **अधिकार**: `com.apple.security.device.camera`
 * **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
 {% tab title="ObjetiveC - रिकॉर्ड" %}
-3 सेकंड का वीडियो रिकॉर्ड करें और इसे **`/tmp/recording.mov`** में सेव करें
+3 सेकंड का वीडियो रिकॉर्ड करें और इसे **`/tmp/recording.mov`** में सहेजें
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -400,8 +395,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Check" %}
-कार्यक्रम के पास कैमरा तक पहुँच है या नहीं, इसकी जाँच करें।
+{% tab title="ObjectiveC - जांच" %}
+कैमरे तक पहुंच की जांच करें।
 {% endtab %}
 ```objectivec
 #import <Foundation/Foundation.h>
@@ -434,8 +429,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
-कैमरा के साथ एक फोटो लें
+{% tab title="शैल" %}
+कैमरे के साथ एक फोटो लें
 {% endtab %}
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
@@ -445,7 +440,7 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 
 ### माइक्रोफोन
 
-* **एंटाइटलमेंट**: **com.apple.security.device.audio-input**
+* **अधिकार**: **com.apple.security.device.audio-input**
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
@@ -550,7 +545,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="ObjectiveC - जांच" %}
-जांचें कि क्या ऐप को माइक्रोफोन तक पहुंच है।
+मिक्रोफोन तक पहुंच की जांच करें कि क्या ऐप्लिकेशन का उपयोग है।
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -580,8 +575,9 @@ static void telegram(int argc, const char **argv) {
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
-5 सेकंड की ऑडियो रिकॉर्ड करें और इसे `/tmp/recording.wav` में स्टोर करें
+{% tab title="शैल" %}
+5 सेकंड की ऑडियो रिकॉर्ड करें और इसे `/tmp/recording.wav` में स्टोर करें।
+{% endtab %}
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -594,11 +590,11 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### स्थान
 
 {% hint style="success" %}
-किसी ऐप को स्थान प्राप्त करने के लिए, **Location Services** (गोपनीयता और सुरक्षा से) **सक्षम होना चाहिए,** अन्यथा वह इसे एक्सेस नहीं कर पाएगा।
+किसी ऐप को स्थान प्राप्त करने के लिए, **स्थान सेवाएं** (गोपनीयता और सुरक्षा से) **सक्षम होनी चाहिए,** अगर नहीं है तो यह उसे पहुंचाने में सक्षम नहीं होगा।
 {% endhint %}
 
-* **Entitlement**: `com.apple.security.personal-information.location`
-* **TCC**: `/var/db/locationd/clients.plist` में अनुमति दी गई
+* **अधिकार**: `com.apple.security.personal-information.location`
+* **TCC**: `/var/db/locationd/clients.plist` में प्रदान किया गया है
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
@@ -652,7 +648,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% endtab %}
 
 {% tab title="Shell" %}
-स्थान तक पहुँच प्राप्त करें
+स्थान तक पहुंचें
 {% endtab %}
 ```
 ???
@@ -662,12 +658,12 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 ### स्क्रीन रिकॉर्डिंग
 
-* **एंटाइटलमेंट**: कोई नहीं
+* **अधिकार**: कोई नहीं
 * **TCC**: `kTCCServiceScreenCapture`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-मुख्य स्क्रीन को 5s के लिए `/tmp/screen.mov` में रिकॉर्ड करें
+`/tmp/screen.mov` में मुख्य स्क्रीन को 5 सेकंड के लिए रिकॉर्ड करें
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -723,24 +719,20 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
-मुख्य स्क्रीन को 5 सेकंड के लिए रिकॉर्ड करें
-{% endtab %}
+{% टैब शीर्षक = "शैल" %}
+5 सेकंड के लिए मुख्य स्क्रीन को रिकॉर्ड करें
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
 {% endtab %}
 {% endtabs %}
 
-### एक्सेसिबिलिटी
+### पहुंचनीयता
 
-* **एंटाइटलमेंट**: कोई नहीं
+* **अधिकार**: कोई नहीं
 * **TCC**: `kTCCServiceAccessibility`
 
-Finder को एंटर दबाकर नियंत्रण स्वीकार करने के लिए TCC विशेषाधिकार का उपयोग करें और इस तरह TCC को बायपास करें
-
-{% tabs %}
-{% tab title="TCC स्वीकार करें" %}
+फाइंडर को कंट्रोल करने के लिए TCC विशेषाधिकार का उपयोग करें और TCC को इस तरीके से अनदेखा करें।
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -793,8 +785,8 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="कीलॉगर" %}
-दबाए गए कुंजियों को **`/tmp/keystrokes.txt`** में संग्रहीत करें
+{% tab title="Keylogger" %}
+दबाए गए कुंजी को **`/tmp/keystrokes.txt`** में स्टोर करें।
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -902,19 +894,19 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**Accessibility एक बहुत शक्तिशाली अनुमति है**, आप इसका दुरुपयोग अन्य तरीकों से भी कर सकते हैं, उदाहरण के लिए आप **keystrokes attack** को इसके बिना System Events को कॉल किए बिना ही कर सकते हैं।
+**पहुंचने की अनुमति एक बहुत शक्तिशाली अनुमति है**, आप इसे अन्य तरीकों में दुरुपयोग कर सकते हैं, उदाहरण के लिए आप इससे केवल उसे बुलाने की आवश्यकता न होने पर भी **कीस्ट्रोक्स हमला** कर सकते हैं।
 {% endhint %}
 
 <details>
 
-<summary><strong>AWS हैकिंग सीखें शून्य से लेकर हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
+<summary><strong>जीरो से हीरो तक AWS हैकिंग सीखें</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks का समर्थन करने के अन्य तरीके:
 
-* यदि आप चाहते हैं कि आपकी **कंपनी का विज्ञापन HackTricks में दिखाई दे** या **HackTricks को PDF में डाउनलोड करें** तो [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) देखें!
+* यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) देखें!
 * [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
-* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) में **शामिल हों** या [**telegram group**](https://t.me/peass) में या **Twitter** 🐦 पर **मुझे फॉलो** करें [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **HackTricks** के [**github repos**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) में PRs सबमिट करके अपनी हैकिंग ट्रिक्स साझा करें।
+* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
+* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) पर **फॉलो** करें।
+* **हैकिंग ट्रिक्स साझा करें** हैकट्रिक्स और हैकट्रिक्स क्लाउड github रेपो में PRs सबमिट करके।
 
 </details>
