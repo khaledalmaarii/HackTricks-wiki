@@ -2,70 +2,56 @@
 
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客攻击，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-## 引言
+## **介绍**
 
-固件是一种软件，它提供对设备硬件组件的通信和控制。它是设备运行的第一段代码。通常，它**启动操作系统**并为程序提供与各种硬件组件**通信的特定运行时服务**。大多数（如果不是全部）电子设备都有固件。
+固件是一种基本软件，通过管理和促进硬件组件与用户交互的软件之间的通信，使设备能够正确运行。它存储在永久性存储器中，确保设备可以从通电时刻起访问重要指令，从而启动操作系统。检查和可能修改固件是识别安全漏洞的关键步骤。
 
-设备将固件存储在**非易失性存储器**中，如ROM、EPROM或闪存。
+## **收集信息**
 
-重要的是要**检查**固件，然后尝试**修改**它，因为我们可以在这个过程中发现许多安全问题。
+**收集信息**是了解设备构成和使用的技术的关键初始步骤。这个过程涉及收集以下数据：
 
-## **信息收集和侦察**
+- CPU架构和运行的操作系统
+- 引导加载程序的具体信息
+- 硬件布局和数据表
+- 代码库指标和源位置
+- 外部库和许可证类型
+- 更新历史和监管认证
+- 架构和流程图
+- 安全评估和已识别的漏洞
 
-在这个阶段，尽可能多地收集有关目标的信息，以了解其整体构成和底层技术。尝试收集以下信息：
+为此，**开源情报（OSINT）**工具是非常宝贵的，通过手动和自动审查过程分析任何可用的开源软件组件。像[Coverity Scan](https://scan.coverity.com)和[Semmle’s LGTM](https://lgtm.com/#explore)这样的工具提供免费的静态分析，可用于发现潜在问题。
 
-* 支持的CPU架构
-* 操作系统平台
-* 引导加载程序配置
-* 硬件原理图
-* 数据表
-* 代码行（LoC）估计
-* 源代码仓库位置
-* 第三方组件
-* 开源许可证（例如GPL）
-* 更新日志
-* FCC ID
-* 设计和数据流图
-* 威胁模型
-* 以前的渗透测试报告
-* Bug跟踪票据（例如Jira和bug赏金平台，如BugCrowd或HackerOne）
+## **获取固件**
 
-在可能的情况下，使用开源情报（OSINT）工具和技术获取数据。如果使用开源软件，请下载仓库，并对代码库进行手动和自动的静态分析。有时，开源软件项目已经使用了供应商提供的免费静态分析工具，这些工具提供扫描结果，如[Coverity Scan](https://scan.coverity.com)和[Semmle的LGTM](https://lgtm.com/#explore)。
+获取固件可以通过各种方式进行，每种方式都有其自己的复杂程度：
 
-## 获取固件
-
-下载固件有不同的方法，难度也不同
-
-* **直接**从开发团队、制造商/供应商或客户那里
-* **从头开始构建**，使用制造商提供的教程
-* 从**供应商的支持网站**
-* **Google dork**查询，针对二进制文件扩展名和文件共享平台，如Dropbox、Box和Google Drive
-* 通常可以通过客户在论坛、博客上上传内容，或在他们联系制造商解决问题并通过zip或闪存驱动器获得固件的网站上发表评论时发现固件镜像。
-* 示例：`intitle:"Netgear" intext:"Firmware Download"`
-* 从暴露的云提供商存储位置下载构建，如Amazon Web Services (AWS) S3桶（使用工具如[https://github.com/sa7mon/S3Scanner](https://github.com/sa7mon/S3Scanner)）
-* **中间人攻击**（MITM）设备通信，在**更新**过程中
-* 通过**UART**、**JTAG**、**PICit**等直接**从硬件**提取
-* 嗅探硬件组件内的**串行通信**，寻找**更新服务器请求**
-* 通过移动或厚应用程序内的**硬编码端点**
-* **从引导加载程序**（例如U-boot）**转储**固件到闪存存储或通过**网络**使用**tftp**
-* 移除**闪存芯片**（例如SPI）或MCU，以便离线分析和数据提取（最后手段）。
-* 您将需要一个支持的芯片编程器，用于闪存存储和/或MCU。
+- **直接**从源头（开发人员、制造商）
+- 根据提供的说明**构建**固件
+- 从官方支持站点**下载**
+- 利用**Google dork**查询查找托管的固件文件
+- 直接访问**云存储**，使用诸如[S3Scanner](https://github.com/sa7mon/S3Scanner)之类的工具
+- 通过中间人技术拦截**更新**
+- 通过**UART**、**JTAG**或**PICit**等连接从设备**提取**
+- 在设备通信中**嗅探**更新请求
+- 识别和使用**硬编码的更新端点**
+- 从引导加载程序或网络**转储**
+- 当一切失败时，**移除和读取**存储芯片，使用适当的硬件工具
 
 ## 分析固件
 
-现在您**拥有固件**，您需要提取有关它的信息，以了解如何处理它。您可以使用不同的工具来做到这一点：
+现在您**已经获得了固件**，您需要提取有关固件的信息，以了解如何处理它。您可以使用不同的工具进行此操作：
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -74,24 +60,24 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
-如果使用这些工具没有找到太多信息，请使用 `binwalk -E <bin>` 检查镜像的**熵**，如果熵低，则不太可能是加密的。如果熵高，很可能是加密的（或以某种方式压缩）。
+如果使用这些工具没有找到太多信息，请使用 `binwalk -E <bin>` 检查图像的**熵**，如果熵低，则不太可能被加密。如果熵高，则很可能被加密（或以某种方式被压缩）。
 
-此外，您可以使用这些工具提取**固件内嵌的文件**：
+此外，您可以使用这些工具来提取**嵌入在固件中的文件**：
 
 {% content-ref url="../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-或使用 [**binvis.io**](https://binvis.io/#/) ([代码](https://code.google.com/archive/p/binvis/)) 来检查文件。
+或者使用 [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) 来检查文件。
 
 ### 获取文件系统
 
-使用之前提到的工具，如 `binwalk -ev <bin>`，您应该能够**提取文件系统**。\
-Binwalk 通常会将其提取到一个**以文件系统类型命名的文件夹**中，这通常是以下之一：squashfs、ubifs、romfs、rootfs、jffs2、yaffs2、cramfs、initramfs。
+通过之前提到的工具，如 `binwalk -ev <bin>`，您应该已经能够**提取文件系统**。\
+Binwalk通常会将其提取到一个**以文件系统类型命名的文件夹**中，通常是以下之一：squashfs、ubifs、romfs、rootfs、jffs2、yaffs2、cramfs、initramfs。
 
-#### 手动文件系统提取
+#### 手动提取文件系统
 
-有时，binwalk **可能没有文件系统的魔术字节在其签名中**。在这些情况下，使用 binwalk **找到文件系统的偏移量并从二进制文件中切割压缩的文件系统**，然后根据下面的步骤**手动提取**文件系统。
+有时，binwalk **在其签名中没有文件系统的魔术字节**。在这些情况下，使用binwalk来**找到文件系统的偏移量并从二进制文件中切割压缩的文件系统**，然后根据其类型**手动提取**文件系统，按照以下步骤操作。
 ```
 $ binwalk DIR850L_REVB.bin
 
@@ -103,7 +89,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-执行以下 **dd 命令** 来提取 Squashfs 文件系统。
+运行以下 **dd 命令** 对 Squashfs 文件系统进行切割。
 ```
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
@@ -113,17 +99,17 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536 bytes (8.3 MB, 7.9 MiB) copied, 12.5777 s, 657 kB/s
 ```
-以下命令也可以运行。
+Alternatively, you can run the following command.
 
 `$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
-* 对于 squashfs（如上例所示）
+* 对于 squashfs（在上面的示例中使用）
 
 `$ unsquashfs dir.squashfs`
 
-之后文件将在 "`squashfs-root`" 目录中。
+文件将位于“`squashfs-root`”目录中。
 
-* CPIO 归档文件
+* CPIO 存档文件
 
 `$ cpio -ivd --no-absolute-filenames -F <bin>`
 
@@ -131,214 +117,135 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 `$ jefferson rootfsfile.jffs2`
 
-* 对于带有 NAND flash 的 ubifs 文件系统
+* 对于 NAND 闪存的 ubifs 文件系统
 
 `$ ubireader_extract_images -u UBI -s <start_offset> <bin>`
 
 `$ ubidump.py <bin>`
 
-### 分析文件系统
 
-现在您已经有了文件系统，是时候开始寻找不良实践，例如：
+## 分析固件
 
-* 旧版**不安全的网络守护进程**，如 telnetd（有时制造商会重命名二进制文件以伪装）
-* **硬编码的凭据**（用户名、密码、API 密钥、SSH 密钥和后门变体）
-* **硬编码的 API** 端点和后端服务器详情
-* **更新服务器功能**，可能被用作入口点
-* **审查未编译的代码和启动脚本**，寻找远程代码执行
-* **提取编译后的二进制文件**，用于离线分析，配合反汇编器进行后续步骤
+获取固件后，解剖固件以了解其结构和潜在漏洞至关重要。这个过程涉及使用各种工具来分析并从固件映像中提取有价值的数据。
 
-固件内部一些**值得关注的事项**：
+### 初始分析工具
 
-* etc/shadow 和 etc/passwd
-* 列出 etc/ssl 目录
-* 搜索与 SSL 相关的文件，如 .pem、.crt 等。
-* 搜索配置文件
-* 寻找脚本文件
-* 搜索其他 .bin 文件
-* 寻找关键词，如 admin、password、remote、AWS 密钥等。
-* 搜索 IoT 设备上常用的网络服务器
-* 搜索常见的二进制文件，如 ssh、tftp、dropbear 等。
-* 搜索被禁用的 c 函数
-* 搜索常见的命令注入漏洞函数
-* 搜索 URL、电子邮件地址和 IP 地址
-* 等等…
+提供了一组命令，用于对二进制文件（称为 `<bin>`）进行初始检查。这些命令有助于识别文件类型，提取字符串，分析二进制数据，并了解分区和文件系统的详细信息：
+```bash
+file <bin>
+strings -n8 <bin>
+strings -tx <bin> #prints offsets in hexadecimal
+hexdump -C -n 512 <bin> > hexdump.out
+hexdump -C <bin> | head #useful for finding signatures in the header
+fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
+```
+评估图像的加密状态，可以使用 `binwalk -E <bin>` 检查**熵**。低熵表明缺乏加密，而高熵则表明可能存在加密或压缩。
 
-这些工具可以搜索这类信息（即使您应该始终手动查看并熟悉文件系统结构，这些工具可以帮助您发现**隐藏的东西**）：
+要提取**嵌入文件**，建议使用**file-data-carving-recovery-tools**文档和**binvis.io**进行文件检查。
 
-* [**LinPEAS**](https://github.com/carlospolop/PEASS-ng)**:** 一个很棒的 bash 脚本，在这种情况下，用于搜索文件系统内的**敏感信息**。只需在固件文件系统内**chroot 然后运行它**。
-* [**Firmwalker**](https://github.com/craigz28/firmwalker)**:** Bash 脚本，用于搜索潜在的敏感信息
-* [**固件分析和比较工具 (FACT)**](https://github.com/fkie-cad/FACT_core):
-* 识别软件组件，如操作系统、CPU 架构和第三方组件及其关联的版本信息
-* 从镜像中提取固件文件系统
-* 检测证书和私钥
-* 检测弱实现，映射到常见弱点枚举（CWE）
-* 基于 Feed 和签名的漏洞检测
-* 基本静态行为分析
-* 固件版本和文件的比较（差异）
-* 使用 QEMU 对文件系统二进制文件进行用户模式仿真
-* 检测二进制缓解措施，如 NX、DEP、ASLR、栈金丝雀、RELRO 和 FORTIFY_SOURCE
-* REST API
-* 等等...
-* [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer): FwAnalyzer 是一个工具，用于使用一组可配置的规则分析 (ext2/3/4)、FAT/VFat、SquashFS、UBIFS 文件系统镜像、cpio 归档和目录内容。
-* [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep): 一个免费的 IoT 固件安全分析工具
-* [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go): 这是用 Go 完全重写的原始 ByteSweep 项目。
-* [**EMBA**](https://github.com/e-m-b-a/emba): _EMBA_ 被设计为渗透测试人员的中心固件分析工具。它支持从 _固件提取_ 过程开始的完整安全分析过程，进行 _静态分析_ 和通过仿真进行 _动态分析_，最后生成报告。_EMBA_ 自动发现固件中可能的弱点和漏洞。示例包括不安全的二进制文件、旧的和过时的软件组件、可能存在漏洞的脚本或硬编码密码。
+### 提取文件系统
 
-{% hint style="warning" %}
-在文件系统内部，您还可以找到程序的**源代码**（您应该始终**检查**），但也有**编译后的二进制文件**。这些程序可能以某种方式暴露，您应该**反编译**并**检查**它们以寻找潜在的漏洞。
+使用 `binwalk -ev <bin>`，通常可以提取文件系统，通常会提取到以文件系统类型命名的目录中（例如 squashfs、ubifs）。但是，当**binwalk**由于缺少魔术字节而无法识别文件系统类型时，就需要进行手动提取。这涉及使用 `binwalk` 定位文件系统的偏移量，然后使用 `dd` 命令切割出文件系统：
+```bash
+$ binwalk DIR850L_REVB.bin
 
-像 [**checksec.sh**](https://github.com/slimm609/checksec.sh) 这样的工具可以用来找到未受保护的二进制文件。对于 Windows 二进制文件，您可以使用 [**PESecurity**](https://github.com/NetSPI/PESecurity)。
-{% endhint %}
+$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
+```
+### 文件系统分析
 
-## 仿真固件
+文件系统提取后，开始搜索安全漏洞。注意不安全的网络守护程序、硬编码凭据、API 端点、更新服务器功能、未编译代码、启动脚本以及用于离线分析的已编译二进制文件。
 
-仿真固件的想法是能够对设备**运行**或**单个程序**进行**动态分析**。
+需要检查的**关键位置**和**项目**包括：
 
-{% hint style="info" %}
-有时，由于硬件或架构依赖，部分或全部仿真**可能无法工作**。如果架构和字节序与拥有的设备（如树莓派）匹配，则可以将根文件系统或特定二进制文件传输到设备上进行进一步测试。这种方法也适用于使用与目标相同的架构和字节序的预构建虚拟机。
-{% endhint %}
+- **etc/shadow** 和 **etc/passwd** 中的用户凭据
+- **etc/ssl** 中的 SSL 证书和密钥
+- 潜在漏洞的配置和脚本文件
+- 用于进一步分析的嵌入式二进制文件
+- 常见物联网设备的 Web 服务器和二进制文件
 
-### 二进制仿真
+有几种工具可帮助揭示文件系统中的敏感信息和漏洞：
 
-如果您只想仿真一个程序来搜索漏洞，首先需要确定其字节序和它编译的 CPU 架构。
+- [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) 和 [**Firmwalker**](https://github.com/craigz28/firmwalker) 用于搜索敏感信息
+- [**固件分析和比较工具 (FACT)**](https://github.com/fkie-cad/FACT\_core) 用于全面的固件分析
+- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer)、[**ByteSweep**](https://gitlab.com/bytesweep/bytesweep)、[**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go) 和 [**EMBA**](https://github.com/e-m-b-a/emba) 用于静态和动态分析
 
-#### MIPS 示例
+### 对已编译二进制文件进行安全检查
+
+必须仔细审查文件系统中找到的源代码和已编译二进制文件以查找漏洞。像 **checksec.sh** 用于 Unix 二进制文件，**PESecurity** 用于 Windows 二进制文件等工具有助于识别可能被利用的未受保护的二进制文件。
+
+## 模拟固件进行动态分析
+
+模拟固件的过程使得可以对设备的操作或单个程序进行**动态分析**。这种方法可能会遇到硬件或架构依赖性的挑战，但将根文件系统或特定二进制文件传输到具有匹配架构和字节序的设备（如树莓派）或预构建的虚拟机，可以促进进一步测试。
+
+### 模拟单个二进制文件
+
+对于检查单个程序，识别程序的字节序和 CPU 架构至关重要。
+
+#### MIPS 架构示例
+
+要模拟 MIPS 架构二进制文件，可以使用以下命令：
 ```bash
 file ./squashfs-root/bin/busybox
-./squashfs-root/bin/busybox: ELF 32-bit MSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-uClibc.so.0, stripped
 ```
-现在您可以使用 **QEMU** 来**模拟** busybox 可执行文件。
+并安装必要的仿真工具：
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
-由于可执行文件**是**为**MIPS**编译的，并遵循**big-endian**字节顺序，我们将使用 QEMU 的 **`qemu-mips`** 模拟器。要模拟**little-endian**可执行文件，我们需要选择带有 `el` 后缀的模拟器（`qemu-mipsel`）：
-```bash
-qemu-mips -L ./squashfs-root/ ./squashfs-root/bin/ls
-100              100.7z           15A6D2.squashfs  squashfs-root    squashfs-root-0
-```
-#### ARM 示例
-```bash
-file bin/busybox
-bin/busybox: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-armhf.so.1, no section header
-```
-仿真：
-```bash
-qemu-arm -L ./squashfs-root/ ./squashfs-root/bin/ls
-1C00000.squashfs  B80B6C            C41DD6.xz         squashfs-root     squashfs-root-0
-```
-### 全系统仿真
+### MIPS架构仿真
 
-有几种工具，通常基于 **qemu**，可以让你模拟完整的固件：
+对于MIPS（大端）架构，使用`qemu-mips`，对于小端二进制文件，选择`qemu-mipsel`。
 
-* [**https://github.com/firmadyne/firmadyne**](https://github.com/firmadyne/firmadyne)**：**
-* 你需要安装几样东西，配置 postgres，然后运行 extractor.py 脚本提取固件，使用 getArch.sh 脚本获取架构。然后，使用 tar2db.py 和 makeImage.sh 脚本将提取的镜像信息存储在数据库中，并生成我们可以模拟的 QEMU 镜像。接着，使用 inferNetwork.sh 脚本获取网络接口，最后使用 run.sh 脚本，该脚本会自动在 ./scratch/1/folder 中创建。
-* [**https://github.com/attify/firmware-analysis-toolkit**](https://github.com/attify/firmware-analysis-toolkit)**：**
-* 这个工具依赖于 firmadyne 并自动化使用 firmadynee 模拟固件的过程。在使用它之前你需要配置 `fat.config`：`sudo python3 ./fat.py IoTGoat-rpi-2.img --qemu 2.5.0`
-* [**https://github.com/therealsaumil/emux**](https://github.com/therealsaumil/emux)
-* [**https://github.com/getCUJO/MIPS-X**](https://github.com/getCUJO/MIPS-X)
-* [**https://github.com/qilingframework/qiling#qltool**](https://github.com/qilingframework/qiling#qltool)
+### ARM架构仿真
 
-## **动态分析**
+对于ARM二进制文件，过程类似，使用`qemu-arm`仿真器进行仿真。
 
-在这个阶段，你应该有一个运行固件的设备来攻击，或者模拟固件来攻击。无论哪种情况，都强烈建议你**同时拥有正在运行的操作系统和文件系统的 shell**。
+### 完整系统仿真
 
-请注意，如果你在模拟固件，**模拟中的某些活动可能会失败**，你可能需要重新开始模拟。例如，一个 web 应用可能需要从原始设备集成的设备获取信息，但模拟并未模拟该设备。
+类似[Firmadyne](https://github.com/firmadyne/firmadyne)、[Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit)等工具可实现完整固件仿真，自动化流程并协助动态分析。
 
-你应该**重新检查文件系统**，就像我们在**之前的步骤中已经做过的那样，因为在运行环境中可能会访问到新信息。**
+### 实践中的动态分析
 
-如果**网页**被暴露，阅读代码并访问它们，你应该**测试它们**。在 hacktricks 中，你可以找到关于不同 web 黑客技术的大量信息。
+在此阶段，使用真实或仿真设备环境进行分析。保持对操作系统和文件系统的shell访问至关重要。仿真可能无法完全模拟硬件交互，可能需要偶尔重新启动仿真。分析应重新查看文件系统，利用暴露的网页和网络服务，探索引导加载程序漏洞。固件完整性测试对于识别潜在后门漏洞至关重要。
 
-如果**网络服务**被暴露，你应该尝试攻击它们。在 hacktricks 中，你可以找到关于不同网络服务黑客技术的大量信息。你也可以尝试使用网络和协议**fuzzers**，如 [Mutiny](https://github.com/Cisco-Talos/mutiny-fuzzer)，[boofuzz](https://github.com/jtpereyda/boofuzz)，和 [kitty](https://github.com/cisco-sas/kitty) 对它们进行 fuzz 测试。
+### 运行时分析技术
 
-你应该检查是否可以**攻击 bootloader**以获得 root shell：
+运行时分析涉及使用诸如gdb-multiarch、Frida和Ghidra等工具与进程或二进制文件在其操作环境中交互，通过模糊测试等技术设置断点并识别漏洞。
 
-{% content-ref url="bootloader-testing.md" %}
-[bootloader-testing.md](bootloader-testing.md)
-{% endcontent-ref %}
+### 二进制利用和概念验证
 
-你应该测试设备是否进行任何类型的**固件完整性测试**，如果没有，这将允许攻击者提供后门固件，将它们安装在其他人拥有的设备上，甚至如果存在任何固件更新漏洞，可以远程部署它们：
+为已识别的漏洞开发概念验证（PoC）需要深入了解目标架构并使用低级语言进行编程。嵌入式系统中的二进制运行时保护很少见，但存在时，可能需要使用Return Oriented Programming（ROP）等技术。
 
-{% content-ref url="firmware-integrity.md" %}
-[firmware-integrity.md](firmware-integrity.md)
-{% endcontent-ref %}
+### 用于固件分析的准备操作系统
 
-固件更新漏洞通常发生是因为，**固件**的**完整性**可能**未**被**验证**，使用**未加密**的**网络**协议，使用**硬编码**的**凭据**，一个**不安全的认证**到托管固件的云组件，甚至过度和不安全的**日志记录**（敏感数据），允许**物理更新**而不进行验证。
+操作系统如[AttifyOS](https://github.com/adi0x90/attifyos)和[EmbedOS](https://github.com/scriptingxss/EmbedOS)提供了预配置的固件安全测试环境，配备必要工具。
 
-## **运行时分析**
+### 用于分析固件的准备操作系统
 
-运行时分析涉及在设备在其正常或模拟环境中运行时，附加到正在运行的进程或二进制文件。下面提供了基本的运行时分析步骤：
+- [**AttifyOS**](https://github.com/adi0x90/attifyos)：AttifyOS是一个旨在帮助您执行物联网（IoT）设备的安全评估和渗透测试的发行版。通过提供预配置环境并加载所有必要工具，为您节省大量时间。
+- [**EmbedOS**](https://github.com/scriptingxss/EmbedOS)：基于Ubuntu 18.04的嵌入式安全测试操作系统，预装有固件安全测试工具。
 
-1. `sudo chroot . ./qemu-arch -L <optionalLibPath> -g <gdb_port> <binary>`
-2. 附加 gdb-multiarch 或使用 IDA 模拟二进制文件
-3. 为第 4 步中识别的函数设置断点，如 memcpy, strncpy, strcmp 等。
-4. 使用 fuzzer 执行大型有效载荷字符串以识别溢出或进程崩溃
-5. 如果识别出漏洞，继续执行步骤 8
+### 用于练习的易受攻击固件
 
-以下是一些可能有用的工具（非详尽列表）：
+要练习在固件中发现漏洞，可以使用以下易受攻击的固件项目作为起点。
 
-* gdb-multiarch
-* [Peda](https://github.com/longld/peda)
-* Frida
-* ptrace
-* strace
-* IDA Pro
-* Ghidra
-* Binary Ninja
-* Hopper
+- OWASP IoTGoat
+- [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
+- The Damn Vulnerable Router Firmware Project
+- [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
+- Damn Vulnerable ARM Router (DVAR)
+- [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
+- ARM-X
+- [https://github.com/therealsaumil/armx#downloads](https://github.com/therealsaumil/armx#downloads)
+- Azeria Labs VM 2.0
+- [https://azeria-labs.com/lab-vm-2-0/](https://azeria-labs.com/lab-vm-2-0/)
+- Damn Vulnerable IoT Device (DVID)
+- [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
 
-## **二进制利用**
+### 参考资料
 
-在前面的步骤中识别出二进制文件中的漏洞后，需要一个适当的概念验证 (PoC)，以展示现实世界的影响和风险。开发利用代码需要在较低级别语言（例如 ASM, C/C++, shellcode 等）以及特定目标架构（例如 MIPS, ARM, x86 等）方面的编程经验。PoC 代码涉及通过控制内存中的指令，在设备或应用程序上获得任意执行。
+- [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
+- [Practical IoT Hacking: The Definitive Guide to Attacking the Internet of Things](https://www.amazon.co.uk/Practical-IoT-Hacking-F-Chantzis/dp/1718500904)
 
-在嵌入式系统中通常不会有二进制运行时保护（例如 NX, DEP, ASLR 等），但当这种情况发生时，可能需要额外的技术，如返回导向编程 (ROP)。ROP 允许攻击者通过链接目标进程/二进制代码中已知的代码片段（称为小工具）来实现任意恶意功能。需要采取步骤来利用识别出的漏洞，如缓冲区溢出，通过形成 ROP 链。在这种情况下可能有用的工具是 Capstone 的小工具查找器或 ROPGadget- [https://github.com/JonathanSalwan/ROPgadget](https://github.com/JonathanSalwan/ROPgadget)。
+### 培训和认证
 
-使用以下参考资料以获得进一步指导：
-
-* [https://azeria-labs.com/writing-arm-shellcode/](https://azeria-labs.com/writing-arm-shellcode/)
-* [https://www.corelan.be/index.php/category/security/exploit-writing-tutorials/](https://www.corelan.be/index.php/category/security/exploit-writing-tutorials/)
-
-## 准备好的操作系统来分析固件
-
-* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS 是一个旨在帮助你对物联网 (IoT) 设备进行安全评估和渗透测试的发行版。它通过提供一个预配置的环境，装载了所有必要的工具，为你节省了大量时间。
-* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): 基于 Ubuntu 18.04 的嵌入式安全测试操作系统，预装了固件安全测试工具。
-
-## 易受攻击的固件进行练习
-
-为了练习发现固件中的漏洞，使用以下易受攻击的固件项目作为起点。
-
-* OWASP IoTGoat
-* [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
-* The Damn Vulnerable Router Firmware Project
-* [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
-* Damn Vulnerable ARM Router (DVAR)
-* [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
-* ARM-X
-* [https://github.com/therealsaumil/armx#downloads](https://github.com/therealsaumil/armx#downloads)
-* Azeria Labs VM 2.0
-* [https://azeria-labs.com/lab-vm-2-0/](https://azeria-labs.com/lab-vm-2-0/)
-* Damn Vulnerable IoT Device (DVID)
-* [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
-
-## 参考资料
-
-* [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
-* [Practical IoT Hacking: The Definitive Guide to Attacking the Internet of Things](https://www.amazon.co.uk/Practical-IoT-Hacking-F-Chantzis/dp/1718500904)
-
-## 培训和认证
-
-* [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exploitation)
-
-<details>
-
-<summary><strong>从零开始学习 AWS 黑客攻击，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>成为英雄！</strong></summary>
-
-支持 HackTricks 的其他方式：
-
-* 如果你想在 **HackTricks** 中看到你的**公司广告**或**下载 HackTricks 的 PDF** 版本，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 发现 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏品
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享你的黑客技巧。**
-
-</details>
+- [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exploitation)

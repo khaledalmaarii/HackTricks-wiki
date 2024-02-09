@@ -7,7 +7,7 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -15,7 +15,7 @@
 
 # DCShadow
 
-它在AD中注册一个**新的域控制器**，并使用它来在指定对象上**推送属性**（SIDHistory、SPNs等），而**不会**留下任何关于**修改**的**日志**。您需要DA权限并且必须在**根域**内。\
+它在AD中注册一个**新的域控制器**，并使用它来在指定对象上**推送属性**（SIDHistory、SPNs等），而不会留下任何关于**修改**的**日志**。您需要DA权限并且必须在**根域**内。\
 请注意，如果使用错误的数据，将会出现相当丑陋的日志。
 
 要执行攻击，您需要2个mimikatz实例。其中一个将以SYSTEM权限启动RPC服务器（您必须在此指定要执行的更改），另一个实例将用于推送值：
@@ -37,7 +37,7 @@ lsadump::dcshadow /push
 请注意，**`elevate::token`** 在 `mimikatz1` 会话中不起作用，因为它提升了线程的特权，但我们需要提升**进程的特权**。\
 您还可以选择和“LDAP”对象：`/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
 
-您可以从具有最低权限的 DA 或用户推送更改：
+您可以从具有以下最低权限的 DA 或用户推送更改：
 
 * 在**域对象**中：
 * _DS-Install-Replica_（在域中添加/删除副本）
@@ -50,7 +50,7 @@ lsadump::dcshadow /push
 * **目标对象**：
 * _WriteProperty_（不是 Write）
 
-您可以使用[**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) 将这些权限授予无特权用户（请注意，这将留下一些日志）。这比拥有 DA 特权要严格得多。\
+您可以使用[**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) 将这些权限授予无特权用户（请注意，这将留下一些日志）。这比拥有 DA 权限要严格得多。\
 例如：`Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose` 这意味着用户名 _**student1**_ 在 _**mcorp-student1**_ 计算机上登录时具有对对象 _**root1user**_ 的 DCShadow 权限。
 
 ## 使用 DCShadow 创建后门
@@ -76,7 +76,7 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 ```
 {% endcode %}
 
-## 影子内部 - 使用DCShadow授予DCShadow权限（无修改权限日志）
+## Shadowception - 使用DCShadow授予DCShadow权限（无修改权限日志）
 
 我们需要在以下ACE后附加我们用户的SID：
 
@@ -90,7 +90,9 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 
 要获取对象的当前ACE：`(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
 
-请注意，在这种情况下，您需要进行**多个更改**，而不仅仅是一个。因此，在**mimikatz1会话**（RPC服务器）中，使用参数**`/stack`与您想要进行的每个更改**。这样，您只需要**`/push`**一次即可执行所有堆叠更改的操作。
+请注意，在这种情况下，您需要进行**多个更改**，而不仅仅是一个。因此，在**mimikatz1会话**（RPC服务器）中，使用参数**`/stack`与您想要进行的每个更改**。这样，您只需要**`/push`**一次即可执行在恶意服务器中所有堆积的更改。
+
+
 
 [**有关ired.team中DCShadow的更多信息。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
 
@@ -102,9 +104,9 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**上关注**我。
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

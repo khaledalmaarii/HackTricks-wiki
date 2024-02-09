@@ -9,19 +9,19 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## **密码喷洒**
 
-一旦您找到了几个**有效的用户名**，您可以尝试使用最**常见的密码**（请记住环境的密码策略）来尝试每个发现的用户。\
+一旦您找到了几个**有效的用户名**，您可以尝试使用每个发现的用户的**最常见密码**（请记住环境的密码策略）。\
 **默认情况下**，**密码的最小长度**为**7**。
 
 常见用户名列表也可能会有用：[https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
 
-请注意，如果您尝试多次错误密码，**可能会锁定一些帐户**（默认情况下超过10次）。
+请注意，如果您尝试多次输入错误密码，**可能会锁定某些帐户**（默认情况下超过10次）。
 
 ### 获取密码策略
 
@@ -67,11 +67,11 @@ spray.sh -smb <targetIP> <usernameList> <passwordList> <AttemptsPerLockoutPeriod
 python kerbrute.py -domain jurassic.park -users users.txt -passwords passwords.txt -outputfile jurassic_passwords.txt
 python kerbrute.py -domain jurassic.park -users users.txt -password Password123 -outputfile jurassic_passwords.txt
 ```
-* 使用**Metasploit**的`scanner/smb/smb_login`模块：
+* 使用 **Metasploit** 的 `scanner/smb/smb_login` 模块：
 
 ![](<../../.gitbook/assets/image (132) (1).png>)
 
-* 使用**rpcclient**：
+* 使用 **rpcclient**：
 ```bash
 # https://www.blackhillsinfosec.com/password-spraying-other-fun-with-rpcclient/
 for u in $(cat users.txt); do
@@ -88,7 +88,7 @@ done
 # check passwords for all users in current domain
 .\Rubeus.exe brute /passwords:<passwords_file> /outfile:<output_file>
 ```
-* 使用[**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1)（默认情况下，它可以从域中生成用户，并从域中获取密码策略，根据策略限制尝试次数）:
+* 使用[**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1)（默认情况下，它可以生成域中的用户，并从域中获取密码策略，并根据策略限制尝试次数）:
 ```powershell
 Invoke-DomainPasswordSpray -UserList .\users.txt -Password 123456 -Verbose
 ```
@@ -106,11 +106,11 @@ legba kerberos --target 127.0.0.1 --username admin --password wordlists/password
 
 有多种工具可用于进行Outlook密码喷洒攻击。
 
-* 使用[MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/)
-* 使用[MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/)
-* 使用[Ruler](https://github.com/sensepost/ruler)（可靠！）
-* 使用[DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray)（Powershell）
-* 使用[MailSniper](https://github.com/dafthack/MailSniper)（Powershell）
+- 使用[MSF Owa_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa_login/)
+- 使用[MSF Owa_ews_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa_ews_login/)
+- 使用[Ruler](https://github.com/sensepost/ruler)（可靠！）
+- 使用[DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray)（Powershell）
+- 使用[MailSniper](https://github.com/dafthack/MailSniper)（Powershell）
 
 要使用这些工具之一，您需要一个用户列表和一个密码/一个小密码列表进行喷洒。
 ```bash
@@ -147,7 +147,7 @@ legba kerberos --target 127.0.0.1 --username admin --password wordlists/password
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。 
 
 </details>

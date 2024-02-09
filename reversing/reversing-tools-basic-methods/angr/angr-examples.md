@@ -1,20 +1,22 @@
-# Angr - 例子
+# Angr - 示例
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
-* 你在**网络安全公司**工作吗？想要看到你的**公司在 HackTricks 中被宣传**吗？或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 探索我们的独家[NFTs 集合](https://opensea.io/collection/the-peass-family)，[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中做广告**吗？ 或者想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
 
 {% hint style="info" %}
-如果程序使用 \*\*`scanf` \*\* 从 stdin **一次获取多个值**，则需要生成一个在 **`scanf`** 之后开始的状态。
+如果程序使用`scanf`从stdin**一次获取多个值**，则需要生成一个在**`scanf`**之后开始的状态。
 {% endhint %}
+
+代码取自[https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)
 
 ### 输入以到达地址（指示地址）
 ```python
@@ -210,7 +212,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-在这种情况下，输入是用 `scanf("%u %u")` 获取的，给定了值 `"1 1"`，所以栈中的值 **`0x00000001`** 来自**用户输入**。您可以看到这些值是如何从 `$ebp - 8` 开始的。因此，在代码中，我们已经**从 `$esp` 减去了 8 字节（因为在那时刻 `$ebp` 和 `$esp` 具有相同的值）**，然后我们推入了 BVS。
+在这种情况下，输入是用 `scanf("%u %u")` 获取的，给定的值是 `"1 1"`，所以栈中的值 **`0x00000001`** 来自**用户输入**。您可以看到这些值是如何从 `$ebp - 8` 开始的。因此，在代码中，我们已经**从 `$esp` 减去了 8 字节（因为在那时刻 `$ebp` 和 `$esp` 具有相同的值）**，然后我们推入了 BVS。
 
 ![](<../../../.gitbook/assets/image (614).png>)
 
@@ -417,7 +419,7 @@ main(sys.argv)
 
 {% hint style="info" %}
 有时候像逐个字符比较长度为16的两个单词这样简单的人类操作（循环），对于**angr**来说会**花费**很多资源，因为它需要**指数级地生成分支**，因为每个if语句会生成一个分支：`2^16`。\
-因此，更容易**要求angr回到先前的点**（在那里真正困难的部分已经完成），然后**手动设置这些约束**。
+因此，更容易**要求angr回到先前的一个点**（在那里真正困难的部分已经完成），然后**手动设置这些约束**。
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -538,7 +540,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 钩住/绕过对函数的一次调用
+### 钩住/绕过对函数的一个调用
 ```python
 # This level performs the following computations:
 #
@@ -821,12 +823,12 @@ main(sys.argv)
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
-* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**？或者想要获取**PEASS的最新版本或下载HackTricks的PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 探索我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks上做广告**吗？或者想要获取**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
 * 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或者 [**电报群**](https://t.me/peass) 或者在**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我。
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>

@@ -2,41 +2,41 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中宣传**吗？ 或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中宣传**吗？ 或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我。
-* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧**。
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord群**](https://discord.gg/hRep4RUj7f) 或 **电报群** 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>
 
 ## 简介
 
-当攻击者尝试在两个**跳跃**之间使用**Kerberos身份验证**时，就会出现Kerberos“双跳”问题，例如使用**PowerShell**/**WinRM**。
+Kerberos“双跳”问题出现在攻击者尝试在两个**跳跃**中使用**Kerberos身份验证**时，例如使用**PowerShell**/**WinRM**。
 
-当通过**Kerberos**进行**身份验证**时，**凭据**不会被缓存在**内存**中。因此，即使用户正在运行进程，如果您运行mimikatz，您也**找不到用户**在计算机中的凭据。
+当通过**Kerberos**进行**身份验证**时，**凭据**不会被缓存在**内存**中。因此，如果运行mimikatz，即使用户正在运行进程，也**找不到用户的凭据**。
 
-这是因为连接Kerberos时会执行以下步骤：
+这是因为连接Kerberos时的步骤如下：
 
-1. 用户1提供凭据，**域控制器**返回一个Kerberos **TGT**给用户1。
-2. 用户1使用**TGT**请求一个**服务票证**以**连接**到Server1。
+1. 用户1提供凭据，**域控制器**返回Kerberos **TGT**给用户1。
+2. 用户1使用**TGT**请求**服务票证**以**连接**到Server1。
 3. 用户1**连接**到**Server1**并提供**服务票证**。
-4. **Server1**既没有缓存用户1的凭据，也没有用户1的**TGT**。因此，当来自Server1的用户1尝试登录到第二个服务器时，他**无法进行身份验证**。
+4. **Server1**没有缓存用户1的凭据或用户1的**TGT**。因此，当来自Server1的用户1尝试登录到第二个服务器时，他**无法进行身份验证**。
 
 ### 无限制委派
 
-如果PC上启用了**无限制委派**，则不会发生这种情况，因为**服务器**将获得访问它的每个用户的**TGT**。此外，如果使用了无限制委派，您可能可以从中** compromise the Domain Controller**。\
+如果PC中启用了**无限制委派**，则不会发生这种情况，因为**服务器**将**获取**访问它的每个用户的**TGT**。此外，如果使用了无限制委派，您可能可以从中**危害域控制器**。\
 [**在无限制委派页面了解更多信息**](unconstrained-delegation.md)。
 
 ### CredSSP
 
-另一种避免此问题的方式是[**明显不安全的**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7)**凭据安全支持提供程序**。来自Microsoft的说法：
+另一种避免此问题的方式是[**明显不安全的**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) **凭据安全支持提供程序**。来自Microsoft的说法：
 
 > CredSSP身份验证将用户凭据从本地计算机委派到远程计算机。这种做法增加了远程操作的安全风险。如果远程计算机受到损害，当凭据传递给它时，这些凭据可以用于控制网络会话。
 
-强烈建议在生产系统、敏感网络和类似环境中禁用**CredSSP**，因为存在安全风险。要确定**CredSSP**是否已启用，可以运行`Get-WSManCredSSP`命令。此命令允许**检查CredSSP状态**，甚至可以远程执行，前提是**启用了WinRM**。
+强烈建议在生产系统、敏感网络和类似环境中禁用**CredSSP**，因为存在安全风险。要确定**CredSSP**是否已启用，可以运行`Get-WSManCredSSP`命令。此命令允许**检查CredSSP状态**，甚至可以远程执行，前提是启用了**WinRM**。
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
 Get-WSManCredSSP
@@ -53,9 +53,9 @@ Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
 Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
-### 注册PSSession配置
+### 注册 PSSession 配置
 
-绕过双跳问题的解决方案涉及使用`Register-PSSessionConfiguration`和`Enter-PSSession`。这种方法需要与`evil-winrm`不同的方法，并允许创建一个不受双跳限制影响的会话。
+绕过双跳问题的解决方案涉及使用 `Register-PSSessionConfiguration` 与 `Enter-PSSession`。这种方法需要与 `evil-winrm` 不同的方法，并允许创建一个不受双跳限制影响的会话。
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
@@ -85,7 +85,7 @@ winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 2. 解压缩并运行`Install-sshd.ps1`脚本。
 3. 添加防火墙规则以打开端口22，并验证SSH服务是否正在运行。
 
-为了解决`Connection reset`错误，可能需要更新权限以允许每个人在OpenSSH目录上具有读取和执行访问权限。
+要解决`Connection reset`错误，可能需要更新权限以允许每个人在OpenSSH目录上具有读取和执行访问权限。
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
@@ -98,12 +98,12 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* 您在**网络安全公司**工作吗？ 您想在HackTricks中看到您的**公司广告**吗？ 或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 您在**网络安全公司**工作吗？ 想要在**HackTricks中宣传您的公司**吗？ 或者想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我。
-* 通过向[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧**。
+* 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **在Twitter上** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**关注**我。
+* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧**。
 
 </details>

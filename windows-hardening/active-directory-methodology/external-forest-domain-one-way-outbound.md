@@ -9,7 +9,7 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -42,13 +42,13 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```
 ## 信任账户攻击
 
-当两个域之间建立信任关系时，即域 **A** 和域 **B** 之间建立信任关系时存在安全漏洞。在这种设置中，域 **B** 将其信任扩展到域 **A**。在这种情况下，为域 **B** 在域 **A** 中创建了一个特殊账户，该账户在两个域之间的身份验证过程中起着至关重要的作用。与域 **B** 关联的这个账户用于加密跨域访问服务的票据。
+当两个域之间建立信任关系时，即域 **A** 和域 **B** 之间建立信任关系时存在安全漏洞，其中域 **B** 将其信任扩展到域 **A**。在这种设置中，在域 **A** 中为域 **B** 创建了一个特殊账户，该账户在两个域之间的身份验证过程中起着至关重要的作用。与域 **B** 关联的这个账户用于加密跨域访问服务的票据。
 
 在这里需要理解的关键方面是，可以使用命令行工具从域 **A** 中的域控制器中提取此特殊账户的密码和哈希值。执行此操作的命令是：
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-这种提取是可能的，因为帐户在其名称后面标有**$**，并且属于域**A**的"Domain Users"组，从而继承与该组关联的权限。这使个人可以使用该帐户的凭据对域**A**进行身份验证。
+这种提取是可能的，因为该帐户在其名称后面标有**$**，是活动的，并且属于域**A**的"Domain Users"组，从而继承与该组关联的权限。这允许个人使用该帐户的凭据对域**A**进行身份验证。
 
 **警告：** 可以利用这种情况在域**A**中作为用户获得立足点，尽管权限有限。但是，这种访问权限足以在域**A**上执行枚举。
 
@@ -90,8 +90,8 @@ lsadump::trust /patch
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)** 上**关注我。
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** 上**关注我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

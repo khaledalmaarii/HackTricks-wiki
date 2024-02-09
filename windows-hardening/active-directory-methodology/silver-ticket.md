@@ -9,20 +9,20 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 <img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果您对**黑客职业**感兴趣并想要攻破不可攻破的东西 - **我们正在招聘！**（需要流利的波兰语书面和口头表达能力）。
+如果您对**黑客职业**感兴趣并想要攻破不可攻破的 - **我们正在招聘！**（需要流利的波兰语书面和口头表达能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 ## 银票据
 
-**银票据**攻击涉及利用Active Directory（AD）环境中的服务票据。该方法依赖于**获取服务帐户的NTLM哈希**，例如计算机帐户，以伪造票据授予服务（TGS）票据。通过这个伪造的票据，攻击者可以访问网络上的特定服务，**冒充任何用户**，通常目标是获得管理权限。强调使用AES密钥来伪造票据更安全且更不易被检测。
+**银票据**攻击涉及利用Active Directory（AD）环境中的服务票据。该方法依赖于**获取服务帐户的NTLM哈希**，例如计算机帐户，以伪造票据授予服务（TGS）票据。通过这个伪造的票据，攻击者可以访问网络上的特定服务，**冒充任何用户**，通常目标是获取管理权限。强调使用AES密钥来伪造票据更安全且更不易被检测。
 
 对于票据制作，根据操作系统使用不同的工具：
 
@@ -44,22 +44,22 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
-CIFS服务被强调为访问受害者文件系统的常见目标，但其他服务如HOST和RPCSS也可用于执行任务和WMI查询。
+CIFS服务被强调为访问受害者文件系统的常见目标，但其他服务如HOST和RPCSS也可以被利用来执行任务和WMI查询。
 
 ## 可用服务
 
-| 服务类型                                  | 服务银票                                                         |
-| ---------------------------------------- | --------------------------------------------------------------- |
-| WMI                                      | <p>HOST</p><p>RPCSS</p>                                         |
-| PowerShell远程                           | <p>HOST</p><p>HTTP</p><p>根据操作系统不同还有：</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                    | <p>HOST</p><p>HTTP</p><p>在某些情况下，您可以直接请求：WINRM</p> |
-| 计划任务                                 | HOST                                                            |
-| Windows文件共享，也包括psexec             | CIFS                                                            |
-| LDAP操作，包括DCSync                     | LDAP                                                            |
-| Windows远程服务器管理工具                 | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                |
-| 黄金票证                                 | krbtgt                                                          |
+| 服务类型                                  | 服务银票                                                              |
+| ---------------------------------------- | --------------------------------------------------------------------- |
+| WMI                                      | <p>HOST</p><p>RPCSS</p>                                               |
+| PowerShell远程                           | <p>HOST</p><p>HTTP</p><p>根据操作系统也可能包括：</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                                    | <p>HOST</p><p>HTTP</p><p>在某些情况下，您可以直接请求：WINRM</p>         |
+| 计划任务                                 | HOST                                                                  |
+| Windows文件共享，也包括psexec             | CIFS                                                                  |
+| LDAP操作，包括DCSync                      | LDAP                                                                  |
+| Windows远程服务器管理工具                 | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                      |
+| 黄金票证                                 | krbtgt                                                                |
 
-使用**Rubeus**，您可以使用以下参数请求**所有**这些票证：
+使用**Rubeus**，您可以使用以下参数请求所有这些票证：
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
@@ -97,7 +97,7 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
 ### 主机 + RPCSS
 
-使用这些票据，您可以在受害系统中执行 WMI：
+使用这些票证，您可以在受害系统中执行 WMI：
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -121,7 +121,7 @@ New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
 ### LDAP
 
-使用这个权限，您可以使用**DCSync**来转储DC数据库：
+拥有这个权限后，您可以使用**DCSync**来转储域控制器数据库：
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
@@ -137,7 +137,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果您对**黑客职业**感兴趣并想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
+如果您对**黑客职业**感兴趣，并想要攻破不可攻破的 - **我们正在招聘！**（需要流利的波兰语书面和口头表达能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -150,7 +150,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

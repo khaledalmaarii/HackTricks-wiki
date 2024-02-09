@@ -9,7 +9,7 @@
 * 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)** 上关注我。**
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) 上 **关注**我们。
 * 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
@@ -20,22 +20,22 @@
 
 - 证书的**主体**表示其所有者。
 - 与私钥配对的**公钥**将证书与其合法所有者关联起来。
-- 由**NotBefore**和**NotAfter**日期定义的**有效期**标记证书的有效持续时间。
+- 由**NotBefore**和**NotAfter**日期定义的**有效期**标志着证书的有效持续时间。
 - 由证书颁发机构（CA）提供的唯一**序列号**标识每个证书。
 - **颁发者**指的是颁发证书的 CA。
 - **SubjectAlternativeName** 允许为主体添加其他名称，增强识别灵活性。
 - **基本约束**标识证书是用于 CA 还是终端实体，并定义使用限制。
 - **扩展密钥用途（EKUs）**通过对象标识符（OIDs）详细说明证书的具体用途，如代码签名或电子邮件加密。
 - **签名算法**指定签署证书的方法。
-- 由颁发者的私钥创建的**签名**保证证书的真实性。
+- 由颁发者的私钥创建的**签名**保证了证书的真实性。
 
-### 特殊考虑
+### 特殊考虑事项
 
-- **主体替代名称（SANs）**扩展了证书适用性到多个身份，对于具有多个域的服务器至关重要。安全的颁发流程对于避免攻击者操纵 SAN 规范而造成冒充风险至关重要。
+- **主体替代名称（SANs）**扩展了证书适用于多个身份，对于具有多个域的服务器至关重要。安全的颁发流程对于避免攻击者操纵 SAN 规范而造成的冒充风险至关重要。
 
-### 活动目录（AD）中的证书颁发机构（CAs）
+### Active Directory（AD）中的证书颁发机构（CAs）
 
-AD CS 通过指定的容器承认 AD 森林中的 CA 证书，每个容器都担任独特的角色：
+AD CS 通过指定的容器承认 AD 森林中的 CA 证书，每个容器提供独特的角色：
 
 - **Certification Authorities** 容器保存受信任的根 CA 证书。
 - **Enrolment Services** 容器详细说明企业 CA 及其证书模板。
@@ -51,7 +51,7 @@ AD CS 通过指定的容器承认 AD 森林中的 CA 证书，每个容器都担
 
 ### 证书模板
 
-在 AD 中定义的这些模板概述了颁发证书的设置和权限，包括允许的 EKUs 和注册或修改权限，对于管理证书服务的关键。
+在 AD 中定义的这些模板概述了用于颁发证书的设置和权限，包括允许的 EKUs 和注册或修改权限，对于管理证书服务的关键。
 
 ## 证书注册
 
@@ -62,7 +62,7 @@ AD CS 通过指定的容器承认 AD 森林中的 CA 证书，每个容器都担
 ### 模板注册权限
 
 这些权限通过访问控制条目（ACEs）指定，详细说明权限，如：
-- **Certificate-Enrollment** 和 **Certificate-AutoEnrollment** 权限，每个与特定 GUID 相关联。
+- **Certificate-Enrollment** 和 **Certificate-AutoEnrollment** 权限，每个与特定 GUID 关联。
 - **ExtendedRights**，允许所有扩展权限。
 - **FullControl/GenericAll**，提供对模板的完全控制。
 
@@ -73,7 +73,7 @@ CA 的权限在其安全描述符中概述，可通过证书颁发机构管理�
 ### 附加颁发控制
 
 可能适用某些控制，如：
-- **管理者批准**：将请求置于待定状态，直到证书管理员批准。
+- **管理者批准**：将请求置于待定状态，直到由证书管理员批准。
 - **注册代理和授权签名**：指定 CSR 上所需签名的数量以及必要的应用程序策略 OID。
 
 ### 请求证书的方法
@@ -92,21 +92,21 @@ Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
 ## 证书认证
 
-Active Directory（AD）支持证书认证，主要利用**Kerberos**和**Secure Channel（Schannel）**协议。
+Active Directory（AD）支持证书认证，主要利用 **Kerberos** 和 **Secure Channel (Schannel)** 协议。
 
-### Kerberos认证过程
+### Kerberos 认证过程
 
-在Kerberos认证过程中，用户请求获取票据授予票据（TGT），使用用户证书的**私钥**进行签名。该请求经过域控制器进行多项验证，包括证书的**有效性**、**路径**和**吊销状态**。验证还包括验证证书是否来自受信任的来源，并确认发行者是否存在于**NTAUTH证书存储**中。成功的验证会导致TGT的发放。在AD中的**`NTAuthCertificates`**对象，位于：
+在 Kerberos 认证过程中，用户请求获取票据授予票据（TGT），使用用户证书的 **私钥** 进行签名。该请求经过域控制器进行多项验证，包括证书的 **有效性**、**路径** 和 **吊销状态**。验证还包括验证证书来自受信任的来源，并确认发行者在 **NTAUTH 证书存储** 中的存在。成功的验证会导致 TGT 的颁发。在 AD 中的 **`NTAuthCertificates`** 对象，位于：
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
-### 安全通道（Schannel）认证
+### 安全信道（Schannel）认证
 
 Schannel促进了安全的TLS/SSL连接，在握手过程中，客户端提供一个证书，如果成功验证，就会授权访问。证书与AD帐户的映射可能涉及Kerberos的**S4U2Self**功能或证书的**主体替代名称（SAN）**，以及其他方法。
 
 ### AD证书服务枚举
 
-通过LDAP查询可以枚举AD的证书服务，揭示有关**企业证书颁发机构（CAs）**及其配置的信息。这可被任何具有域身份验证的用户访问，无需特殊权限。工具如**[Certify](https://github.com/GhostPack/Certify)**和**[Certipy](https://github.com/ly4k/Certipy)**用于在AD CS环境中进行枚举和漏洞评估。
+可以通过LDAP查询枚举AD的证书服务，揭示有关**企业证书颁发机构（CAs）**及其配置的信息。这可被任何具有域身份验证的用户访问，无需特殊权限。工具如**[Certify](https://github.com/GhostPack/Certify)**和**[Certipy](https://github.com/ly4k/Certipy)**用于在AD CS环境中进行枚举和漏洞评估。
 
 使用这些工具的命令包括：
 ```bash
@@ -133,10 +133,10 @@ certutil -v -dstemplate
 
 支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* 探索我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

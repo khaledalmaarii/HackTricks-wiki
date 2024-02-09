@@ -8,8 +8,8 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -24,7 +24,7 @@
 
 ## 缓解措施
 
-针对此类攻击的缓解策略包括监视指示安装服务或使用敏感权限的特定事件ID。具体来说，查找系统事件ID 7045或安全事件ID 4673可以揭示可疑活动。此外，将`lsass.exe`作为受保护进程运行可以显著阻碍攻击者的努力，因为这要求他们使用内核模式驱动程序，增加了攻击的复杂性。
+针对此类攻击的缓解策略包括监视指示安装服务或使用敏感权限的特定事件ID。具体来说，查找System事件ID 7045或Security事件ID 4673可以揭示可疑活动。此外，将`lsass.exe`作为受保护进程运行可以显著阻碍攻击者的努力，因为这要求他们使用内核模式驱动程序，增加了攻击的复杂性。
 
 以下是增强安全措施的PowerShell命令：
 
@@ -32,7 +32,7 @@
   
 - 具体来说，要检测Mimikatz的驱动程序，可以使用以下命令：`Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
   
-- 为加固`lsass.exe`，建议将其设置为受保护进程：`New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
+- 为加固`lsass.exe`，建议将其作为受保护进程启用：`New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
 
 重启系统后进行验证至关重要，以确保保护措施已成功应用。可以通过以下方式实现：`Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
 
