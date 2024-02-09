@@ -4,12 +4,12 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -26,7 +26,7 @@ Outras formas de apoiar o HackTricks:
 - **SubjectAlternativeName** permite nomes adicionais para o assunto, aumentando a flexibilidade de identificação.
 - **Restrições Básicas** identificam se o certificado é para uma CA ou uma entidade final e definem restrições de uso.
 - **Usos Estendidos de Chave (EKUs)** delineiam os propósitos específicos do certificado, como assinatura de código ou criptografia de e-mail, por meio de Identificadores de Objetos (OIDs).
-- O **Algoritmo de Assinatura** especifica o método de assinatura do certificado.
+- O **Algoritmo de Assinatura** especifica o método para assinar o certificado.
 - A **Assinatura**, criada com a chave privada do emissor, garante a autenticidade do certificado.
 
 ### Considerações Especiais
@@ -37,14 +37,14 @@ Outras formas de apoiar o HackTricks:
 
 O AD CS reconhece certificados de CA em um floresta AD por meio de contêineres designados, cada um desempenhando funções únicas:
 
-- O contêiner **Certification Authorities** mantém certificados de CA raiz confiáveis.
-- O contêiner **Enrolment Services** detalha CAs empresariais e seus modelos de certificado.
+- O contêiner **Certification Authorities** contém certificados de CA raiz confiáveis.
+- O contêiner **Enrolment Services** detalha CAs corporativas e seus modelos de certificado.
 - O objeto **NTAuthCertificates** inclui certificados de CA autorizados para autenticação AD.
 - O contêiner **AIA (Authority Information Access)** facilita a validação da cadeia de certificados com certificados intermediários e cruzados.
 
 ### Aquisição de Certificados: Fluxo de Solicitação de Certificado do Cliente
 
-1. O processo de solicitação começa com os clientes encontrando uma CA empresarial.
+1. O processo de solicitação começa com os clientes encontrando uma CA corporativa.
 2. Um CSR é criado, contendo uma chave pública e outros detalhes, após a geração de um par de chaves pública-privada.
 3. A CA avalia o CSR em relação aos modelos de certificado disponíveis, emitindo o certificado com base nas permissões do modelo.
 4. Após a aprovação, a CA assina o certificado com sua chave privada e o retorna ao cliente.
@@ -55,9 +55,9 @@ Definidos dentro do AD, esses modelos delineiam as configurações e permissões
 
 ## Inscrição de Certificado
 
-O processo de inscrição para certificados é iniciado por um administrador que **cria um modelo de certificado**, que é então **publicado** por uma Autoridade de Certificação Empresarial (CA). Isso torna o modelo disponível para inscrição de clientes, um passo alcançado adicionando o nome do modelo ao campo `certificatetemplates` de um objeto do Active Directory.
+O processo de inscrição para certificados é iniciado por um administrador que **cria um modelo de certificado**, que é então **publicado** por uma Autoridade de Certificação Corporativa (CA). Isso torna o modelo disponível para inscrição de clientes, um passo alcançado adicionando o nome do modelo ao campo `certificatetemplates` de um objeto do Active Directory.
 
-Para que um cliente solicite um certificado, os **direitos de inscrição** devem ser concedidos. Esses direitos são definidos por descritores de segurança no modelo de certificado e na própria CA empresarial. Permissões devem ser concedidas em ambos os locais para que uma solicitação seja bem-sucedida.
+Para que um cliente solicite um certificado, os **direitos de inscrição** devem ser concedidos. Esses direitos são definidos por descritores de segurança no modelo de certificado e na própria CA corporativa. Permissões devem ser concedidas em ambos os locais para que uma solicitação seja bem-sucedida.
 
 ### Direitos de Inscrição de Modelo
 
@@ -66,7 +66,7 @@ Esses direitos são especificados por Entradas de Controle de Acesso (ACEs), det
 - **ExtendedRights**, permitindo todas as permissões estendidas.
 - **FullControl/GenericAll**, fornecendo controle total sobre o modelo.
 
-### Direitos de Inscrição da CA Empresarial
+### Direitos de Inscrição da CA Corporativa
 
 Os direitos da CA são delineados em seu descritor de segurança, acessível por meio do console de gerenciamento da Autoridade de Certificação. Algumas configurações até permitem que usuários com baixos privilégios acessem remotamente, o que poderia ser uma preocupação de segurança.
 
@@ -79,7 +79,7 @@ Certos controles podem ser aplicados, como:
 ### Métodos para Solicitar Certificados
 
 Certificados podem ser solicitados por meio de:
-1. **Protocolo de Inscrição de Certificado do Cliente Windows** (MS-WCCE), usando interfaces DCOM.
+1. **Protocolo de Inscrição de Certificado do Cliente do Windows** (MS-WCCE), usando interfaces DCOM.
 2. **Protocolo Remoto ICertPassage** (MS-ICPR), por meio de pipes nomeados ou TCP/IP.
 3. A **interface web de inscrição de certificado**, com a função de Inscrição Web da Autoridade de Certificação instalada.
 4. O **Serviço de Inscrição de Certificado** (CES), em conjunto com o serviço de Política de Inscrição de Certificado (CEP).
@@ -100,15 +100,13 @@ No processo de autenticação Kerberos, a solicitação de um Ticket Granting Ti
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
-é fundamental para estabelecer confiança para autenticação de certificados.
-
 ### Autenticação do Canal Seguro (Schannel)
 
 O Schannel facilita conexões seguras TLS/SSL, onde durante um handshake, o cliente apresenta um certificado que, se validado com sucesso, autoriza o acesso. O mapeamento de um certificado para uma conta AD pode envolver a função **S4U2Self** do Kerberos ou o **Nome Alternativo do Assunto (SAN)** do certificado, entre outros métodos.
 
 ### Enumeração de Serviços de Certificado AD
 
-Os serviços de certificado do AD podem ser enumerados por meio de consultas LDAP, revelando informações sobre **Autoridades de Certificação Empresariais (CAs)** e suas configurações. Isso é acessível por qualquer usuário autenticado no domínio sem privilégios especiais. Ferramentas como **[Certify](https://github.com/GhostPack/Certify)** e **[Certipy](https://github.com/ly4k/Certipy)** são usadas para enumeração e avaliação de vulnerabilidades em ambientes AD CS.
+Os serviços de certificado do AD podem ser enumerados por meio de consultas LDAP, revelando informações sobre **Autoridades de Certificação Empresarial (CAs)** e suas configurações. Isso é acessível por qualquer usuário autenticado no domínio sem privilégios especiais. Ferramentas como **[Certify](https://github.com/GhostPack/Certify)** e **[Certipy](https://github.com/ly4k/Certipy)** são usadas para enumeração e avaliação de vulnerabilidades em ambientes AD CS.
 
 Comandos para usar essas ferramentas incluem:
 ```bash
@@ -138,7 +136,7 @@ Outras formas de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

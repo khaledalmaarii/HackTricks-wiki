@@ -9,16 +9,16 @@ Outras formas de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 ## Bilhete Dourado
 
-Um ataque de **Bilhete Dourado** consiste na **criação de um Ticket Granting Ticket (TGT) legítimo se passando por qualquer usuário** através do uso do **hash NTLM da conta krbtgt do Active Directory (AD)**. Essa técnica é particularmente vantajosa porque **permite acesso a qualquer serviço ou máquina** dentro do domínio como o usuário impostor. É crucial lembrar que as **credenciais da conta krbtgt nunca são atualizadas automaticamente**.
+Um ataque de **Bilhete Dourado** consiste na **criação de um Ticket Granting Ticket (TGT) legítimo se passando por qualquer usuário** através do uso do **hash NTLM da conta krbtgt do Active Directory (AD)**. Essa técnica é particularmente vantajosa porque **permite acesso a qualquer serviço ou máquina** dentro do domínio como o usuário falsificado. É crucial lembrar que as **credenciais da conta krbtgt nunca são atualizadas automaticamente**.
 
-Para **adquirir o hash NTLM** da conta krbtgt, vários métodos podem ser empregados. Pode ser extraído do **processo Local Security Authority Subsystem Service (LSASS)** ou do arquivo **NT Directory Services (NTDS.dit)** localizado em qualquer Controlador de Domínio (DC) dentro do domínio. Além disso, **executar um ataque DCsync** é outra estratégia para obter esse hash NTLM, que pode ser realizado usando ferramentas como o **módulo lsadump::dcsync** no Mimikatz ou o **script secretsdump.py** da Impacket. É importante destacar que para realizar essas operações, **geralmente são necessários privilégios de administrador de domínio ou um nível de acesso semelhante**.
+Para **adquirir o hash NTLM** da conta krbtgt, vários métodos podem ser empregados. Ele pode ser extraído do **processo Local Security Authority Subsystem Service (LSASS)** ou do arquivo **NT Directory Services (NTDS.dit)** localizado em qualquer Controlador de Domínio (DC) dentro do domínio. Além disso, **executar um ataque DCsync** é outra estratégia para obter esse hash NTLM, que pode ser realizado usando ferramentas como o **módulo lsadump::dcsync** no Mimikatz ou o **script secretsdump.py** da Impacket. É importante ressaltar que para realizar essas operações, **privilégios de administrador de domínio ou um nível de acesso semelhante geralmente são necessários**.
 
 Embora o hash NTLM sirva como um método viável para esse fim, é **altamente recomendado** **forjar tickets usando as chaves de criptografia avançada do Padrão de Criptografia Avançada (AES) (AES128 e AES256)** por razões de segurança operacional.
 
@@ -51,11 +51,11 @@ As formas mais frequentes de detectar um golden ticket são **inspecionando o tr
 
 `Lifetime : 3/11/2021 12:39:57 PM ; 3/9/2031 12:39:57 PM ; 3/9/2031 12:39:57 PM`
 
-Use os parâmetros `/startoffset`, `/endin` e `/renewmax` para controlar o início do deslocamento, a duração e o número máximo de renovações (todos em minutos).
+Use os parâmetros `/startoffset`, `/endin` e `/renewmax` para controlar o deslocamento inicial, a duração e o número máximo de renovações (todos em minutos).
 ```
 Get-DomainPolicy | select -expand KerberosPolicy
 ```
-Infelizmente, o tempo de vida do TGT não é registrado no 4769, então você não encontrará essa informação nos logs de eventos do Windows. No entanto, o que você pode correlacionar é **ver 4769's sem um 4768 anterior**. Não é possível solicitar um TGS sem um TGT e, se não houver registro de um TGT emitido, podemos inferir que foi forjado offline.
+Infelizmente, o tempo de vida do TGT não é registrado no 4769, então você não encontrará essa informação nos logs de eventos do Windows. No entanto, o que você pode correlacionar é **ver 4769 sem um 4768 anterior**. **Não é possível solicitar um TGS sem um TGT**, e se não houver registro de um TGT emitido, podemos inferir que foi forjado offline.
 
 Para **burlar essa detecção**, verifique os tickets diamond:
 
@@ -69,7 +69,7 @@ Para **burlar essa detecção**, verifique os tickets diamond:
 * 4672: Logon de Administrador
 * `Get-WinEvent -FilterHashtable @{Logname='Security';ID=4672} -MaxEvents 1 | Format-List –Property`
 
-Outros truques que os defensores podem fazer são **alertar sobre 4769's para usuários sensíveis**, como a conta de administrador de domínio padrão.
+Outros truques que os defensores podem fazer é **alertar sobre 4769 para usuários sensíveis** como a conta de administrador de domínio padrão.
 
 ## Referências
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)

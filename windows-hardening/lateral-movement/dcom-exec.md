@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
@@ -14,7 +14,7 @@
 
 <figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Encontre as vulnerabilidades mais importantes para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -24,7 +24,8 @@ Encontre as vulnerabilidades mais importantes para que você possa corrigi-las m
 
 **Para mais informações sobre essa técnica, confira o post original em [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
-O Modelo de Objeto de Componente Distribuído (DCOM) apresenta uma capacidade interessante para interações baseadas em rede com objetos. A Microsoft fornece documentação abrangente tanto para DCOM quanto para o Modelo de Objeto de Componente (COM), acessível [aqui para DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) e [aqui para COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Uma lista de aplicações DCOM pode ser recuperada usando o comando PowerShell:
+
+Objetos do Modelo de Objetos de Componentes Distribuídos (DCOM) apresentam uma capacidade interessante para interações baseadas em rede com objetos. A Microsoft fornece documentação abrangente tanto para DCOM quanto para o Modelo de Objetos de Componentes (COM), acessível [aqui para DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) e [aqui para COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Uma lista de aplicações DCOM pode ser recuperada usando o comando PowerShell:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
@@ -59,7 +60,7 @@ O objeto **MMC20.Application** foi identificado como carente de "LaunchPermissio
 Dois objetos específicos, `ShellBrowserWindow` e `ShellWindows`, foram destacados devido à falta de Permissões de Lançamento explícitas. A ausência de uma entrada de registro `LaunchPermission` em `HKCR:\AppID\{guid}` significa a ausência de permissões explícitas.
 
 ###  ShellWindows
-Para `ShellWindows`, que não possui um ProgID, os métodos .NET `Type.GetTypeFromCLSID` e `Activator.CreateInstance` facilitam a instanciação do objeto usando seu AppID. Esse processo aproveita o OleView .NET para recuperar o CLSID para `ShellWindows`. Uma vez instanciado, a interação é possível através do método `WindowsShell.Item`, levando à invocação de métodos como `Document.Application.ShellExecute`.
+Para `ShellWindows`, que não possui um ProgID, os métodos .NET `Type.GetTypeFromCLSID` e `Activator.CreateInstance` facilitam a instanciação do objeto usando seu AppID. Esse processo utiliza o OleView .NET para recuperar o CLSID para `ShellWindows`. Uma vez instanciado, a interação é possível através do método `WindowsShell.Item`, levando à invocação de métodos como `Document.Application.ShellExecute`.
 
 Exemplos de comandos PowerShell foram fornecidos para instanciar o objeto e executar comandos remotamente:
 ```powershell
@@ -70,7 +71,7 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 ```
 ### Movimentação lateral com Objetos DCOM do Excel
 
-A movimentação lateral pode ser alcançada explorando objetos DCOM do Excel. Para informações detalhadas, é aconselhável ler a discussão sobre a alavancagem do Excel DDE para movimentação lateral via DCOM no [blog da Cybereason](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
+A movimentação lateral pode ser alcançada explorando objetos DCOM do Excel. Para obter informações detalhadas, é aconselhável ler a discussão sobre a alavancagem do Excel DDE para movimentação lateral via DCOM no [blog da Cybereason](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 
 O projeto Empire fornece um script PowerShell, que demonstra a utilização do Excel para execução de código remoto (RCE) manipulando objetos DCOM. Abaixo estão trechos do script disponível no [repositório GitHub do Empire](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), mostrando diferentes métodos para abusar do Excel para RCE:
 ```powershell
@@ -119,7 +120,7 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 <figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Encontre vulnerabilidades que são mais importantes para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+Encontre as vulnerabilidades mais importantes para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -130,9 +131,9 @@ Encontre vulnerabilidades que são mais importantes para que você possa corrigi
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

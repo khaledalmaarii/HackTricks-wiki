@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
@@ -120,23 +120,23 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Você pode facilmente verificar links confiáveis usando o Metasploit.
+Você pode facilmente verificar links confiáveis usando o metasploit.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-Observe que o metasploit tentará abusar apenas da função `openquery()` no MSSQL (portanto, se você não conseguir executar comandos com `openquery()`, precisará tentar o método `EXECUTE` **manualmente** para executar comandos, veja mais abaixo.)
+Observe que o metasploit tentará abusar apenas da função `openquery()` no MSSQL (portanto, se você não puder executar comandos com `openquery()`, precisará tentar o método `EXECUTE` **manualmente** para executar comandos, veja mais abaixo.)
 
 ### Manual - Openquery()
 
-Do **Linux**, você poderia obter um shell de console MSSQL com **sqsh** e **mssqlclient.py.**
+Do **Linux** você poderia obter um shell de console MSSQL com **sqsh** e **mssqlclient.py.**
 
-Do **Windows**, você também poderia encontrar os links e executar comandos manualmente usando um **cliente MSSQL como** [**HeidiSQL**](https://www.heidisql.com)
+Do **Windows** você também poderia encontrar os links e executar comandos manualmente usando um **cliente MSSQL como** [**HeidiSQL**](https://www.heidisql.com)
 
 _Login usando autenticação do Windows:_
 
-![](<../../.gitbook/assets/image (167) (1).png>)
+![](<../../.gitbook/assets/image (167) (1).png>) 
 
 #### Encontrar Links Confiáveis
 ```sql
@@ -144,7 +144,7 @@ select * from master..sysservers
 ```
 ![](<../../.gitbook/assets/image (168).png>)
 
-#### Executar consultas em um link confiável
+#### Executar consultas em link confiável
 
 Execute consultas através do link (exemplo: encontrar mais links na nova instância acessível):
 ```sql
@@ -176,8 +176,8 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## Escalação de Privilégios Local
 
-O **usuário local MSSQL** geralmente possui um tipo especial de privilégio chamado **`SeImpersonatePrivilege`**. Isso permite que a conta "impersonate a client after authentication" (impersonar um cliente após autenticação).
+O usuário local do **MSSQL** geralmente possui um tipo especial de privilégio chamado **`SeImpersonatePrivilege`**. Isso permite que a conta "impersonate a client after authentication" (impersonar um cliente após autenticação).
 
-Uma estratégia que muitos autores desenvolveram é forçar um serviço SYSTEM a autenticar em um serviço falso ou man-in-the-middle que o atacante cria. Esse serviço falso é então capaz de se passar pelo serviço SYSTEM enquanto ele está tentando se autenticar.
+Uma estratégia que muitos autores desenvolveram é forçar um serviço **SYSTEM** a se autenticar em um serviço falso ou de intermediário criado pelo atacante. Esse serviço falso é então capaz de se passar pelo serviço **SYSTEM** enquanto ele tenta se autenticar.
 
-[SweetPotato](https://github.com/CCob/SweetPotato) possui uma coleção dessas várias técnicas que podem ser executadas através do comando `execute-assembly` do Beacon.
+[SweetPotato](https://github.com/CCob/SweetPotato) possui uma coleção dessas várias técnicas que podem ser executadas por meio do comando `execute-assembly` do Beacon.

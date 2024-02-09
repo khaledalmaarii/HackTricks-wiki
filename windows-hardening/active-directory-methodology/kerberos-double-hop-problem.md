@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
@@ -14,11 +14,11 @@
 
 ## Introdução
 
-O problema de "Duplo Salto" do Kerberos ocorre quando um atacante tenta usar **autenticação Kerberos em dois** **saltos**, por exemplo, usando **PowerShell**/**WinRM**.
+O problema de "Duplo Salto" do Kerberos ocorre quando um atacante tenta usar a **autenticação Kerberos em dois** **saltos**, por exemplo, usando **PowerShell**/**WinRM**.
 
 Quando uma **autenticação** ocorre através do **Kerberos**, as **credenciais** **não são** armazenadas em **memória**. Portanto, se você executar o mimikatz, **não encontrará as credenciais** do usuário na máquina, mesmo que ele esteja executando processos.
 
-Isso ocorre porque, ao se conectar com o Kerberos, essas são as etapas:
+Isso ocorre porque ao se conectar com o Kerberos, essas são as etapas:
 
 1. O Usuário1 fornece credenciais e o **controlador de domínio** retorna um **TGT** do Kerberos para o Usuário1.
 2. O Usuário1 usa o **TGT** para solicitar um **ticket de serviço** para **conectar-se** ao Servidor1.
@@ -36,7 +36,7 @@ Outra maneira de evitar esse problema, que é [**notavelmente insegura**](https:
 
 > A autenticação CredSSP delega as credenciais do usuário do computador local para um computador remoto. Essa prática aumenta o risco de segurança da operação remota. Se o computador remoto for comprometido, quando as credenciais forem passadas para ele, as credenciais podem ser usadas para controlar a sessão de rede.
 
-É altamente recomendável que o **CredSSP** seja desativado em sistemas de produção, redes sensíveis e ambientes semelhantes devido a preocupações de segurança. Para determinar se o **CredSSP** está habilitado, o comando `Get-WSManCredSSP` pode ser executado. Este comando permite a **verificação do status do CredSSP** e pode até ser executado remotamente, desde que o **WinRM** esteja habilitado.
+É altamente recomendável que o **CredSSP** seja desativado em sistemas de produção, redes sensíveis e ambientes semelhantes devido a preocupações de segurança. Para determinar se o **CredSSP** está habilitado, o comando `Get-WSManCredSSP` pode ser executado. Esse comando permite a **verificação do status do CredSSP** e pode até ser executado remotamente, desde que o **WinRM** esteja habilitado.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
 Get-WSManCredSSP
@@ -46,7 +46,7 @@ Get-WSManCredSSP
 
 ### Invocar Comando
 
-Para lidar com o problema de duplo salto, é apresentado um método que envolve um `Invoke-Command` aninhado. Isso não resolve o problema diretamente, mas oferece uma solução alternativa sem a necessidade de configurações especiais. A abordagem permite executar um comando (`hostname`) em um servidor secundário por meio de um comando PowerShell executado a partir de uma máquina de ataque inicial ou por meio de uma sessão PS previamente estabelecida com o primeiro servidor. Veja como é feito:
+Para lidar com o problema do salto duplo, é apresentado um método que envolve um `Invoke-Command` aninhado. Isso não resolve o problema diretamente, mas oferece uma solução alternativa sem a necessidade de configurações especiais. A abordagem permite executar um comando (`hostname`) em um servidor secundário por meio de um comando PowerShell executado a partir de uma máquina de ataque inicial ou por meio de uma sessão PS previamente estabelecida com o primeiro servidor. Veja como é feito:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
@@ -79,13 +79,13 @@ winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 
 A instalação do OpenSSH no primeiro servidor permite uma solução alternativa para o problema de double-hop, particularmente útil para cenários de jump box. Este método requer a instalação e configuração da CLI do OpenSSH para Windows. Quando configurado para Autenticação por Senha, isso permite que o servidor intermediário obtenha um TGT em nome do usuário.
 
-#### Passos de Instalação do OpenSSH
+#### Etapas de Instalação do OpenSSH
 
-1. Baixe e mova o arquivo zip da última versão do OpenSSH para o servidor de destino.
+1. Baixe e mova o arquivo zip da versão mais recente do OpenSSH para o servidor de destino.
 2. Descompacte e execute o script `Install-sshd.ps1`.
 3. Adicione uma regra de firewall para abrir a porta 22 e verifique se os serviços SSH estão em execução.
 
-Para resolver erros de `Conexão redefinida`, as permissões podem precisar ser atualizadas para permitir que todos tenham acesso de leitura e execução no diretório do OpenSSH.
+Para resolver erros de `Connection reset`, as permissões podem precisar ser atualizadas para permitir que todos tenham acesso de leitura e execução no diretório do OpenSSH.
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
@@ -98,12 +98,12 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me no** **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -4,29 +4,29 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira [**produtos oficiais PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as **ferramentas comunitárias mais avançadas do mundo**.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as **ferramentas comunitárias mais avançadas do mundo**.\
 Tenha Acesso Hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Política do AppLocker
 
-Uma lista branca de aplicativos é uma lista de aplicativos de software ou executáveis aprovados que podem estar presentes e ser executados em um sistema. O objetivo é proteger o ambiente de malware prejudicial e software não aprovado que não esteja alinhado com as necessidades específicas de negócios de uma organização.
+Uma lista branca de aplicativos é uma lista de aplicativos de software aprovados ou executáveis que têm permissão para estar presentes e ser executados em um sistema. O objetivo é proteger o ambiente de malware prejudicial e software não aprovado que não está alinhado com as necessidades específicas de negócios de uma organização.
 
 [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) é a **solução de lista branca de aplicativos** da Microsoft e dá aos administradores do sistema controle sobre **quais aplicativos e arquivos os usuários podem executar**. Ele fornece **controle granular** sobre executáveis, scripts, arquivos de instalação do Windows, DLLs, aplicativos empacotados e instaladores de aplicativos empacotados.\
-É comum para as organizações **bloquear cmd.exe e PowerShell.exe** e o acesso de escrita a determinados diretórios, **mas tudo isso pode ser contornado**.
+É comum para as organizações **bloquear cmd.exe e PowerShell.exe** e o acesso de gravação a determinados diretórios, **mas tudo isso pode ser contornado**.
 
 ### Verificação
 
@@ -53,11 +53,11 @@ C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-* Comumente **confiáveis** [**binários do "LOLBAS"**](https://lolbas-project.github.io/) também podem ser úteis para burlar o AppLocker.
+* Comumente, binários **confiáveis** do [**"LOLBAS's"**](https://lolbas-project.github.io/) também podem ser úteis para burlar o AppLocker.
 * **Regras mal escritas também podem ser burladas**
-* Por exemplo, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, você pode criar uma **pasta chamada `allowed`** em qualquer lugar e ela será permitida.
-* Organizações frequentemente focam em **bloquear o executável `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, mas esquecem dos **outros** [**locais de executáveis do PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) como `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ou `PowerShell_ISE.exe`.
-* **Aplicação de DLL muito raramente ativada** devido à carga adicional que pode colocar em um sistema, e a quantidade de testes necessários para garantir que nada quebrará. Portanto, usar **DLLs como backdoors ajudará a burlar o AppLocker**.
+* Por exemplo, com **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, você pode criar uma **pasta chamada `allowed`** em qualquer lugar e ela será permitida.
+* Organizações frequentemente focam em **bloquear o executável `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, mas esquecem dos **outros** [**locais executáveis do PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) como `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ou `PowerShell_ISE.exe`.
+* **A aplicação de DLLs raramente é ativada** devido à carga adicional que pode colocar em um sistema e à quantidade de testes necessários para garantir que nada quebrará. Portanto, usar **DLLs como backdoors ajudará a burlar o AppLocker**.
 * Você pode usar [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ou [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) para **executar código Powershell** em qualquer processo e burlar o AppLocker. Para mais informações, acesse: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## Armazenamento de Credenciais
@@ -175,11 +175,11 @@ Você pode ler essa senha com [**GMSAPasswordReader**](https://github.com/rvazar
 ```
 **[Encontre mais informações neste post](https://cube0x0.github.io/Relaying-for-gMSA/)**
 
-Também, confira esta [página da web](https://cube0x0.github.io/Relaying-for-gMSA/) sobre como realizar um ataque de **retransmissão NTLM** para **ler** a **senha** do **gMSA**.
+Além disso, confira esta [página da web](https://cube0x0.github.io/Relaying-for-gMSA/) sobre como realizar um ataque de **relé NTLM** para **ler** a **senha** do **gMSA**.
 
 ## LAPS
 
-A **Solução de Senha do Administrador Local (LAPS)**, disponível para download na [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), permite o gerenciamento de senhas de administrador local. Essas senhas, que são **aleatórias**, únicas e **alteradas regularmente**, são armazenadas centralmente no Active Directory. O acesso a essas senhas é restrito por ACLs a usuários autorizados. Com permissões suficientes concedidas, é possível ler as senhas de administração local.
+A **Local Administrator Password Solution (LAPS)**, disponível para download na [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), permite o gerenciamento de senhas de administrador locais. Essas senhas, que são **aleatórias**, únicas e **alteradas regularmente**, são armazenadas centralmente no Active Directory. O acesso a essas senhas é restrito por ACLs a usuários autorizados. Com permissões suficientes concedidas, é possível ler as senhas de administrador locais.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
@@ -187,7 +187,7 @@ A **Solução de Senha do Administrador Local (LAPS)**, disponível para downloa
 
 ## Modo de Linguagem Constraindo do PowerShell
 
-O [**Modo de Linguagem Constraindo do PowerShell**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **restringe muitos dos recursos** necessários para usar o PowerShell de forma eficaz, como bloquear objetos COM, permitir apenas tipos .NET aprovados, fluxos de trabalho baseados em XAML, classes do PowerShell e mais.
+O PowerShell [**Modo de Linguagem Constraindo**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **restringe muitos dos recursos** necessários para usar o PowerShell de forma eficaz, como bloquear objetos COM, permitir apenas tipos .NET aprovados, fluxos de trabalho baseados em XAML, classes do PowerShell e muito mais.
 
 ### **Verificar**
 ```powershell
@@ -201,7 +201,7 @@ $ExecutionContext.SessionState.LanguageMode
 #Easy bypass
 Powershell -version 2
 ```
-Em versões atuais do Windows, o Bypass não funcionará, mas você pode usar o [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
+No Windows atual, o Bypass não funcionará, mas você pode usar o [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
 **Para compilá-lo, você pode precisar** **adicionar uma Referência** -> _Procurar_ -> _Procurar_ -> adicionar `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` e **alterar o projeto para .Net4.5**.
 
 #### Bypass direto:
@@ -248,7 +248,7 @@ O SSPI será responsável por encontrar o protocolo adequado para duas máquinas
 - %windir%\Windows\System32\kerberos.dll
 - **NTLMv1** e **NTLMv2**: Razões de compatibilidade
 - %windir%\Windows\System32\msv1\_0.dll
-- **Digest**: Servidores Web e LDAP, senha na forma de um hash MD5
+- **Digest**: Servidores web e LDAP, senha na forma de um hash MD5
 - %windir%\Windows\System32\Wdigest.dll
 - **Schannel**: SSL e TLS
 - %windir%\Windows\System32\Schannel.dll
@@ -268,7 +268,7 @@ O SSPI será responsável por encontrar o protocolo adequado para duas máquinas
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, alimentados pelas ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -284,7 +284,7 @@ Outras maneiras de apoiar o HackTricks:
 - Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 - Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 - Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 - **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -2,14 +2,14 @@
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras formas de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -18,14 +18,14 @@ Outras formas de apoiar o HackTricks:
 
 Usando isso, um administrador de domínio pode **permitir** que um computador **se faça passar por um usuário ou computador** em relação a um **serviço** de uma máquina.
 
-* **Serviço para o próprio usuário (**_**S4U2self**_**):** Se uma **conta de serviço** tiver um valor _userAccountControl_ contendo [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), então ela pode obter um TGS para si mesma (o serviço) em nome de qualquer outro usuário.
-* **Serviço para Proxy de Usuário(**_**S4U2proxy**_**):** Uma **conta de serviço** pode obter um TGS em nome de qualquer usuário para o serviço definido em **msDS-AllowedToDelegateTo.** Para fazer isso, primeiro precisa de um TGS desse usuário para si mesmo, mas pode usar o S4U2self para obter esse TGS antes de solicitar o outro.
+* **Serviço para o usuário se auto (**_**S4U2self**_**):** Se uma **conta de serviço** tiver um valor _userAccountControl_ contendo [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), então ela pode obter um TGS para si mesma (o serviço) em nome de qualquer outro usuário.
+* **Serviço para o usuário se passar por(**_**S4U2proxy**_**):** Uma **conta de serviço** pode obter um TGS em nome de qualquer usuário para o serviço definido em **msDS-AllowedToDelegateTo.** Para fazer isso, primeiro precisa de um TGS desse usuário para si mesmo, mas pode usar o S4U2self para obter esse TGS antes de solicitar o outro.
 
-**Nota**: Se um usuário for marcado como '_A conta é sensível e não pode ser delegada_ ' no AD, você **não poderá se passar por** eles.
+**Observação**: Se um usuário for marcado como '_Conta é sensível e não pode ser delegada_' no AD, você **não poderá se passar por** eles.
 
 Isso significa que se você **comprometer o hash do serviço** pode **se passar por usuários** e obter **acesso** em nome deles ao **serviço configurado** (possível **escalada de privilégios**).
 
-Além disso, você **não terá apenas acesso ao serviço que o usuário pode se passar, mas também a qualquer serviço** porque o SPN (o nome do serviço solicitado) não está sendo verificado, apenas os privilégios. Portanto, se você tiver acesso ao **serviço CIFS** também pode ter acesso ao **serviço HOST** usando a flag `/altservice` no Rubeus.
+Além disso, você **não terá apenas acesso ao serviço que o usuário pode se passar, mas também a qualquer serviço** porque o SPN (o nome do serviço solicitado) não está sendo verificado, apenas os privilégios. Portanto, se você tiver acesso ao **serviço CIFS** também poderá ter acesso ao **serviço HOST** usando a flag `/altservice` no Rubeus.
 
 Além disso, o acesso ao **serviço LDAP no DC**, é o que é necessário para explorar um **DCSync**.
 
@@ -62,7 +62,7 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-Existem **outras maneiras de obter um ticket TGT** ou o **RC4** ou **AES256** sem ser SYSTEM no computador, como o Bug da Impressora e a delegação irrestrita, o relé NTLM e o abuso do Serviço de Certificados do Active Directory.
+Existem **outras maneiras de obter um ticket TGT** ou o **RC4** ou **AES256** sem ser SYSTEM no computador, como o Bug da Impressora e a delegação irrestrita, relaying NTLM e abuso do Serviço de Certificados do Active Directory.
 
 **Apenas tendo esse ticket TGT (ou hash) você pode realizar esse ataque sem comprometer todo o computador.**
 {% endhint %}
@@ -110,7 +110,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

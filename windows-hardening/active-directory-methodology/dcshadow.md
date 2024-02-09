@@ -7,7 +7,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -35,9 +35,9 @@ lsadump::dcshadow /push
 {% endcode %}
 
 Observe que **`elevate::token`** não funcionará na sessão `mimikatz1` pois isso eleva os privilégios da thread, mas precisamos elevar o **privilégio do processo**.\
-Você também pode selecionar um objeto "LDAP": `/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
+Você também pode selecionar um objeto "LDAP": `/object:CN=Administrador,CN=Usuários,DC=JEFFLAB,DC=local`
 
-Você pode fazer as alterações de um DA ou de um usuário com essas permissões mínimas:
+Você pode aplicar as alterações de um DA ou de um usuário com essas permissões mínimas:
 
 * No **objeto de domínio**:
 * _DS-Install-Replica_ (Adicionar/Remover Réplica no Domínio)
@@ -50,7 +50,7 @@ Você pode fazer as alterações de um DA ou de um usuário com essas permissõe
 * O **objeto alvo**:
 * _WriteProperty_ (Não Write)
 
-Você pode usar [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) para dar esses privilégios a um usuário não privilegiado (observe que isso deixará alguns logs). Isso é muito mais restritivo do que ter privilégios de DA.\
+Você pode usar [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) para conceder esses privilégios a um usuário não privilegiado (observe que isso deixará alguns logs). Isso é muito mais restritivo do que ter privilégios de DA.\
 Por exemplo: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose`  Isso significa que o nome de usuário _**student1**_ quando conectado na máquina _**mcorp-student1**_ tem permissões DCShadow sobre o objeto _**root1user**_.
 
 ## Usando DCShadow para criar backdoors
@@ -106,7 +106,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

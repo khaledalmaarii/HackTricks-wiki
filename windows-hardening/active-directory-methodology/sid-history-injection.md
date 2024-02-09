@@ -2,23 +2,23 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 ## Ataque de Injeção de Histórico de SID
 
-O foco do **Ataque de Injeção de Histórico de SID** é auxiliar na **migração de usuários entre domínios** garantindo acesso contínuo aos recursos do domínio anterior. Isso é feito incorporando o **Identificador de Segurança (SID)** anterior do usuário no Histórico de SID de sua nova conta. Notavelmente, esse processo pode ser manipulado para conceder acesso não autorizado adicionando o SID de um grupo de alta privilégio (como Administradores da Empresa ou Administradores de Domínio) do domínio pai ao Histórico de SID. Essa exploração confere acesso a todos os recursos dentro do domínio pai.
+O foco do **Ataque de Injeção de Histórico de SID** é auxiliar na **migração de usuários entre domínios** garantindo acesso contínuo aos recursos do domínio anterior. Isso é feito **incorporando o Identificador de Segurança (SID) anterior do usuário no Histórico de SID** de sua nova conta. Notavelmente, esse processo pode ser manipulado para conceder acesso não autorizado adicionando o SID de um grupo de alta privilégio (como Administradores da Empresa ou Administradores de Domínio) do domínio pai ao Histórico de SID. Essa exploração confere acesso a todos os recursos dentro do domínio pai.
 
 Existem dois métodos para executar esse ataque: através da criação de um **Golden Ticket** ou de um **Diamond Ticket**.
 
-Para identificar o SID do grupo **"Administradores da Empresa"**, é necessário primeiro localizar o SID do domínio raiz. Após a identificação, o SID do grupo Administradores da Empresa pode ser construído acrescentando `-519` ao SID do domínio raiz. Por exemplo, se o SID do domínio raiz for `S-1-5-21-280534878-1496970234-700767426`, o SID resultante para o grupo "Administradores da Empresa" seria `S-1-5-21-280534878-1496970234-700767426-519`.
+Para identificar o SID do grupo **"Administradores da Empresa"**, primeiro é necessário localizar o SID do domínio raiz. Após a identificação, o SID do grupo Administradores da Empresa pode ser construído adicionando `-519` ao SID do domínio raiz. Por exemplo, se o SID do domínio raiz for `S-1-5-21-280534878-1496970234-700767426`, o SID resultante para o grupo "Administradores da Empresa" seria `S-1-5-21-280534878-1496970234-700767426-519`.
 
 Também é possível usar os grupos **Administradores de Domínio**, que terminam em **512**.
 
@@ -103,7 +103,7 @@ Com as permissões adquiridas no ataque, você pode executar, por exemplo, um at
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-### Do Linux
+### Do linux
 
 #### Manual com [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)
 
@@ -153,7 +153,7 @@ raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)

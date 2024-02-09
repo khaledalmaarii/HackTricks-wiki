@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
@@ -25,7 +25,7 @@ Pode ser usado para descobrir vulnerabilidades offline ou para comparar diferent
 
 Será necessário o nome de usuário, senha e direção para se conectar (qualquer usuário AD é necessário).
 
-Para fazer uma captura de tela do AD, vá para `Arquivo` --> `Criar Captura de Tela` e insira um nome para a captura.
+Para tirar uma captura de tela do AD, vá para `Arquivo` --> `Criar Captura de Tela` e insira um nome para a captura.
 
 ## ADRecon
 
@@ -40,18 +40,18 @@ De [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/
 
 > BloodHound é uma aplicação web de página única em Javascript, construída em cima do [Linkurious](http://linkurio.us/), compilada com [Electron](http://electron.atom.io/), com um banco de dados [Neo4j](https://neo4j.com/) alimentado por um coletor de dados em C#.
 
-BloodHound utiliza a teoria dos grafos para revelar os relacionamentos ocultos e muitas vezes não intencionais dentro de um ambiente de Active Directory ou Azure. Atacantes podem usar o BloodHound para identificar facilmente caminhos de ataque altamente complexos que de outra forma seriam impossíveis de identificar rapidamente. Defensores podem usar o BloodHound para identificar e eliminar esses mesmos caminhos de ataque. Tanto equipes azuis quanto vermelhas podem usar o BloodHound para obter facilmente uma compreensão mais profunda dos relacionamentos de privilégio em um ambiente de Active Directory ou Azure.
+O BloodHound utiliza a teoria dos grafos para revelar os relacionamentos ocultos e muitas vezes não intencionais dentro de um ambiente Active Directory ou Azure. Os atacantes podem usar o BloodHound para identificar facilmente caminhos de ataque altamente complexos que de outra forma seriam impossíveis de identificar rapidamente. Os defensores podem usar o BloodHound para identificar e eliminar esses mesmos caminhos de ataque. Tanto as equipes azul quanto vermelha podem usar o BloodHound para obter facilmente uma compreensão mais profunda dos relacionamentos de privilégio em um ambiente Active Directory ou Azure.
 
 Portanto, [Bloodhound](https://github.com/BloodHoundAD/BloodHound) é uma ferramenta incrível que pode enumerar um domínio automaticamente, salvar todas as informações, encontrar possíveis caminhos de escalonamento de privilégios e mostrar todas as informações usando gráficos.
 
-Booldhound é composto por 2 partes principais: **ingestores** e a **aplicação de visualização**.
+O Bloodhound é composto por 2 partes principais: **ingestores** e a **aplicação de visualização**.
 
 Os **ingestores** são usados para **enumerar o domínio e extrair todas as informações** em um formato que a aplicação de visualização entenderá.
 
 A **aplicação de visualização usa o neo4j** para mostrar como todas as informações estão relacionadas e para mostrar diferentes maneiras de escalar privilégios no domínio.
 
 ### Instalação
-Após a criação do BloodHound CE, todo o projeto foi atualizado para facilitar o uso com Docker. A maneira mais fácil de começar é usar sua configuração pré-configurada do Docker Compose.
+Após a criação do BloodHound CE, todo o projeto foi atualizado para facilitar o uso com Docker. A maneira mais fácil de começar é usar sua configuração preconfigurada do Docker Compose.
 
 1. Instale o Docker Compose. Isso deve estar incluído na instalação do [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 2. Execute:
@@ -92,4 +92,4 @@ group3r.exe -f <filepath-name.log>
 
 [**PingCastle**](https://www.pingcastle.com/documentation/) **avalia a postura de segurança de um ambiente AD** e fornece um **relatório** detalhado com gráficos.
 
-Para executá-lo, você pode rodar o executável `PingCastle.exe` e ele iniciará uma **sessão interativa** apresentando um menu de opções. A opção padrão a ser usada é **`healthcheck`** que estabelecerá uma **visão geral** da **domínio**, e encontrará **configurações incorretas** e **vulnerabilidades**.&#x20;
+Para executá-lo, você pode rodar o binário `PingCastle.exe` e ele iniciará uma **sessão interativa** apresentando um menu de opções. A opção padrão a ser usada é **`healthcheck`** que estabelecerá uma **visão geral** da **domínio**, e encontrará **configurações incorretas** e **vulnerabilidades**.&#x20;
