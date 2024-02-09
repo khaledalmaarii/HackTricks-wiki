@@ -1,4 +1,4 @@
-# HackTricks Values & faq
+# HackTricks Values & FAQ
 
 <details>
 
@@ -9,7 +9,7 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -20,14 +20,14 @@
 这些是**HackTricks项目的价值观**：
 
 * 为**所有**互联网用户提供**免费**的**教育性黑客**资源。
-* 黑客是关于学习的，学习应该尽可能免费。
+* 黑客是关于学习的，学习应尽可能免费。
 * 本书的目的是作为全面的**教育资源**。
-* **存储**社区发布的精彩**黑客**技术，给予**原作者**所有**功劳**。
-* **我们不想要别人的功劳**，我们只想为每个人存储酷炫的技巧。
-* 我们也在HackTricks中写**我们自己的研究**。
+* **存储**社区发布的精彩**黑客**技术，给予**原作者**所有**荣誉**。
+* **我们不想要其他人的荣誉**，我们只想为每个人存储酷炫的技巧。
+* 我们还在HackTricks中撰写**我们自己的研究**。
 * 在许多情况下，我们将在HackTricks中仅写出技术的重要部分的摘要，并鼓励读者访问原始帖子以获取更多详细信息。
 * **组织**书中的所有黑客技术，使其**更易访问**
-* HackTricks团队已经免费投入了数千小时**仅仅为了组织内容**，以便人们可以**更快学习**
+* HackTricks团队已经免费投入了数千小时**仅仅为了组织内容**，以便人们可以**更快地学习**
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/hack tricks gif.gif" alt="" width="375"><figcaption></figcaption></figure>
@@ -39,19 +39,19 @@
 {% endhint %}
 
 您可以在推特上公开感谢HackTricks团队，因为他们公开整理了所有这些资源，提及[**@hacktricks\_live**](https://twitter.com/hacktricks\_live)。\
-如果您特别感激，还可以[**在这里赞助项目**](https://github.com/sponsors/carlospolop)。\
-不要忘记**给Github项目点个星！**（找到下面的链接）。
+如果您特别感激，还可以在[**这里赞助项目**](https://github.com/sponsors/carlospolop)。\
+不要忘记在Github项目中**给一个星星**！（找到下面的链接）。
 
 {% hint style="success" %}
 * **我如何为项目做贡献？**
 {% endhint %}
 
-您可以与社区分享新的技巧和窍门，或修复您在书籍中发现的错误，通过向相应的Github页面发送**Pull Request**来做出贡献：
+您可以与社区分享新的技巧和窍门，或修复您在书中发现的错误，通过向相应的Github页面发送**Pull Request**来做出贡献：
 
 * [https://github.com/carlospolop/hacktricks](https://github.com/carlospolop/hacktricks)
 * [https://github.com/carlospolop/hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)
 
-不要忘记**给Github项目点个星！**
+不要忘记在Github项目中**给一个星星**！
 
 {% hint style="success" %}
 * **我可以复制HackTricks中的一些内容放到我的博客中吗？**
@@ -63,8 +63,8 @@
 * **我如何引用HackTricks的某一页？**
 {% endhint %}
 
-只要出现您提取信息的页面的链接即可。\
-如果您需要bibtex，可以使用类似以下的内容：
+只要出现您提取信息的页面的链接就足够了。\
+如果您需要一个bibtex，可以使用类似以下的内容：
 ```latex
 @misc{hacktricks-bibtexing,
 author = {"HackTricks Team" or the Authors name of the specific page/trick},
@@ -85,7 +85,7 @@ url = {\url{https://book.hacktricks.xyz/specific-page}},
 * **为什么你们有赞助商？HackTricks书籍是为了商业目的吗？**
 {% endhint %}
 
-**HackTricks**的第一个**价值观**是向**全世界提供免费**的黑客教育资源。HackTricks团队已经**投入了数千小时**来提供这些内容，再次强调，是**免费**的。
+**HackTricks**的第一个**价值观**是为**全世界提供免费**的黑客教育资源。HackTricks团队已经**投入了数千小时**来提供这些内容，再次强调，是**免费**的。
 
 如果你认为HackTricks书籍是为了**商业目的**而制作的，那你是**完全错误**的。
 
@@ -97,7 +97,7 @@ url = {\url{https://book.hacktricks.xyz/specific-page}},
 * **如果某个HackTricks页面是基于我的博客文章但没有引用，我该怎么办？**
 {% endhint %}
 
-**非常抱歉。这不应该发生**。请通过Github问题、Twitter、Discord等方式告诉我们，提供包含内容的HackTricks页面链接以及你的博客链接，**我们将立即检查并添加引用**。
+**我们非常抱歉。这不应该发生**。请通过Github问题、Twitter、Discord等方式告诉我们，提供包含内容的HackTricks页面链接和你的博客链接，**我们将立即检查并添加引用**。
 
 {% hint style="danger" %}
 * **如果HackTricks中有来自我的博客的内容，而我不希望它出现在那里，我该怎么办？**
@@ -105,29 +105,45 @@ url = {\url{https://book.hacktricks.xyz/specific-page}},
 
 无论如何，要知道在这种情况下，HackTricks将会提升你的**SEO**并鼓励人们**查看你的页面**（有人告诉我们，因为他们的某个页面出现在HackTricks中，他们收到了更多访问量）。如果你仍然希望从HackTricks中删除你博客的内容，请告诉我们。
 
-请注意，如果你提出这个要求，我们将**绝对删除到你的博客的所有链接**，以及任何基于它的内容。
+请注意，如果你提出这个要求，我们将**绝对删除到你博客的所有链接**，以及基于它的任何内容。
 
 {% hint style="danger" %}
 * **如果我在HackTricks中发现了复制粘贴的内容，我该怎么办？**
 {% endhint %}
 
-**不幸的是，在项目刚开始时，当这个页面只是一个渗透测试人员的笔记时，可能发生了这种情况**。我们始终尽力**给予原始作者所有的功劳**。如果你发现有复制粘贴内容的页面（即使有原始来源的引用），请告诉我们，我们将**删除它**、**保留链接**或**重写它**。
+**不幸的是，在项目刚开始时，这种做法可能发生了，当时这个页面只是一个渗透测试人员的笔记**。我们始终努力**给予原始作者所有的功劳**。如果你发现有复制粘贴内容的页面（即使有原始来源的引用），请告诉我们，我们将**删除它**、**保留链接**或**重新撰写**。
 
-{% hint style="danger" %}
+## 许可证
 
-## 版权
+版权所有，除非另有说明。
 
-**版权所有 © Carlos Polop 2024。除非另有规定（书中复制的外部信息属于原始作者），Carlos Polop的**[**HACK TRICKS**](https://github.com/carlospolop/hacktricks)**的文本受**[**署名-非商业性使用 4.0 国际 (CC BY-NC 4.0)**](https://creativecommons.org/licenses/by-nc/4.0/)**许可。**\
-**如果您想以商业目的使用，请与我联系。**
+#### 许可证摘要：
+
+* 署名：您可以自由：
+* 分享 — 在任何媒体或格式中复制和传播材料。
+* 调整 — 混合、转换和构建材料。
+
+#### 附加条款：
+
+* 第三方内容：本博客/书籍的某些部分可能包含来自其他来源的内容，例如其他博客或出版物的摘录。使用此类内容是根据公平使用原则或得到各自版权持有者的明确许可而进行的。有关第三方内容的特定许可信息，请参考原始来源。
+* 作者身份：由HackTricks撰写的原始内容受本许可证条款约束。鼓励您在分享或调整此作品时将其归属于作者。
+
+#### 例外：
+
+* 商业用途：有关此内容的商业使用的查询，请与我联系。
+
+此许可证不授予与内容相关的任何商标或品牌权利。本博客/书籍中显示的所有商标和品牌均为其各自所有者的财产。
+
+**通过访问或使用HackTricks，您同意遵守本许可证的条款。如果您不同意这些条款，请不要访问本网站。**
 
 ## **免责声明**
 
 {% hint style="danger" %}
-本书《HackTricks》仅供教育和信息目的。本书中的内容是基于“现状”提供的，作者和出版商对本书中包含的信息、产品、服务或相关图形的完整性、准确性、可靠性、适用性或可用性不作任何明示或暗示的陈述或保证。您对此类信息的任何依赖均完全由您自己承担风险。
+本书《HackTricks》仅供教育和信息目的。本书中的内容基于“原样”提供，作者和出版商对本书中包含的信息、产品、服务或相关图形的完整性、准确性、可靠性、适用性或可用性不作任何明示或暗示的陈述或保证。因此，您对此类信息的任何依赖完全是自担风险的。
 
-作者和出版商在任何情况下均不对任何损失或损害承担责任，包括但不限于间接或后果性的损失或损害，或因使用本书而导致的任何数据或利润损失或损害。
+作者和出版商在任何情况下均不对任何损失或损害承担责任，包括但不限于间接或后果性的损失或损害，或因使用本书而导致的任何数据或利润的损失或损害。
 
-此外，本书中描述的技术和提示仅供教育和信息目的，不应用于任何非法或恶意活动。作者和出版商不赞成或支持任何非法或不道德的活动，任何使用本书中包含的信息均由用户自行承担风险和决定。
+此外，本书中描述的技术和提示仅供教育和信息目的，不应用于任何非法或恶意活动。作者和出版商不赞成或支持任何非法或不道德的活动，任何使用本书中包含的信息都由用户自行承担风险和决定。
 
 用户应对基于本书中包含的信息采取的任何行动负全部责任，并在尝试实施本书中描述的任何技术或提示时，应始终寻求专业建议和帮助。
 
@@ -143,7 +159,7 @@ url = {\url{https://book.hacktricks.xyz/specific-page}},
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**上关注**我。
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来**分享您的黑客技巧**。
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
