@@ -4,14 +4,14 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -40,30 +40,30 @@ reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL
 
 ## 凭据保护
 
-**凭据保护** 是 **Windows 10（企业和教育版本）** 专属的功能，通过 **虚拟安全模式（VSM）** 和 **基于虚拟化的安全（VBS）** 增强了机器凭据的安全性。它利用 CPU 虚拟化扩展来将关键进程隔离在受保护的内存空间中，远离主操作系统的访问范围。这种隔离确保即使内核也无法访问 VSM 中的内存，有效保护凭据免受像 **传递哈希** 这样的攻击。**本地安全机构（LSA）** 在这个安全环境中作为一个信任实体运行，而主操作系统中的 **LSASS** 进程仅作为与 VSM 的 LSA 进行通信的工具。
+**凭据保护** 是 **Windows 10（企业和教育版本）** 专属的功能，通过 **虚拟安全模式（VSM）** 和 **基于虚拟化的安全（VBS）** 增强了机器凭据的安全性。它利用 CPU 虚拟化扩展来将关键进程隔离在受保护的内存空间中，远离主操作系统的访问范围。这种隔离确保即使内核也无法访问 VSM 中的内存，有效保护凭据免受 **传递哈希** 等攻击。**本地安全机构（LSA）** 在这个安全环境中作为一个信任模块运行，而主操作系统中的 **LSASS** 进程仅作为与 VSM 的 LSA 进行通信的工具。
 
-默认情况下，**凭据保护** 处于非活动状态，需要在组织内手动激活。这对增强安全性对抗像 **Mimikatz** 这样的工具至关重要，这些工具在提取凭据方面受到阻碍。然而，仍然可以通过添加自定义 **安全支持提供程序（SSP）** 来利用漏洞，在登录尝试期间捕获明文凭据。
+默认情况下，**凭据保护** 处于非活动状态，需要在组织内手动激活。这对增强安全性非常关键，可以防止像 **Mimikatz** 这样的工具提取凭据。然而，仍然可以通过添加自定义 **安全支持提供程序（SSP）** 来利用漏洞，在登录尝试期间捕获明文凭据。
 
-要验证 **凭据保护** 的激活状态，可以检查 **_HKLM\System\CurrentControlSet\Control\LSA_** 下的注册表键 **_LsaCfgFlags_**。数值为 "**1**" 表示激活并带有 **UEFI 锁**，"**2**" 表示未锁定，"**0**" 表示未启用。尽管这种注册表检查是一个强有力的指标，但并非启用凭据保护的唯一步骤。在线提供了详细指南和用于启用此功能的 PowerShell 脚本。
+要验证 **凭据保护** 的激活状态，可以检查注册表键 **_HKLM\System\CurrentControlSet\Control\LSA_** 下的 **_LsaCfgFlags_**。数值为 "**1**" 表示激活并带有 **UEFI 锁**，"**2**" 表示未锁定，"**0**" 表示未启用。尽管这种注册表检查是一个强有力的指标，但并非启用凭据保护的唯一步骤。在线提供了详细指南和用于启用此功能的 PowerShell 脚本。
 ```powershell
 reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 ```
 要全面了解并了解在Windows 10中启用**凭据保护**以及在**Windows 11企业和教育版（版本22H2）**兼容系统中自动激活的详细说明，请访问[Microsoft的文档](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage)。
 
-有关为凭据捕获实施自定义SSP的更多详细信息，请参阅[此指南](../active-directory-methodology/custom-ssp.md)。
+有关为凭据捕获实施自定义SSP的详细信息，请参阅[此指南](../active-directory-methodology/custom-ssp.md)。
 
 
 ## RDP RestrictedAdmin 模式
 
-**Windows 8.1和Windows Server 2012 R2**引入了几项新的安全功能，包括**_RDP的Restricted Admin模式_**。该模式旨在通过减轻与**[传递哈希](https://blog.ahasayen.com/pass-the-hash/)**攻击相关的风险来增强安全性。
+**Windows 8.1和Windows Server 2012 R2**引入了几项新的安全功能，包括**_RDP的受限管理员模式_**。该模式旨在通过减轻与**[传递哈希](https://blog.ahasayen.com/pass-the-hash/)**攻击相关的风险来增强安全性。
 
-传统上，通过RDP连接到远程计算机时，您的凭据会存储在目标计算机上。这构成了一个重大的安全风险，特别是在使用具有提升权限的帐户时。然而，引入**_Restricted Admin模式_**后，这种风险大大降低了。
+传统上，通过RDP连接到远程计算机时，您的凭据会存储在目标计算机上。这会带来重大的安全风险，特别是在使用具有提升权限的帐户时。然而，引入**_受限管理员模式_**后，这种风险大大降低。
 
-当使用命令**mstsc.exe /RestrictedAdmin**启动RDP连接时，对远程计算机的身份验证是在不将您的凭据存储在其上的情况下执行的。这种方法确保在恶意软件感染或恶意用户访问远程服务器的情况下，您的凭据不会泄露，因为它们未存储在服务器上。
+使用命令**mstsc.exe /RestrictedAdmin**启动RDP连接时，对远程计算机的身份验证是在不将您的凭据存储在其上的情况下执行的。这种方法确保在恶意软件感染或恶意用户访问远程服务器时，您的凭据不会泄露，因为它们未存储在服务器上。
 
-需要注意的是，在**Restricted Admin模式**下，从RDP会话尝试访问网络资源时不会使用您的个人凭据；而是使用**计算机的身份**。
+需要注意的是，在**受限管理员模式**下，从RDP会话尝试访问网络资源时不会使用您的个人凭据；而是使用**计算机的身份**。
 
-这一功能标志着在保护远程桌面连接和防止敏感信息在发生安全漏洞时被暴露方面迈出了重要的一步。
+这一功能在确保远程桌面连接安全性和在安全漏洞发生时保护敏感信息不被暴露方面迈出了重要的一步。
 
 ![](../../.gitbook/assets/ram.png)
 
@@ -72,22 +72,22 @@ reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 
 ## 缓存凭据
 
-Windows通过**本地安全机构（LSA）**来保护**域凭据**，支持使用安全协议如**Kerberos**和**NTLM**进行登录过程。Windows的一个关键功能是其能够缓存**最后十个域登录**，以确保用户即使**域控制器脱机**时仍然可以访问其计算机，这对经常远离公司网络的笔记本电脑用户来说是一个福音。
+Windows通过**本地安全机构（LSA）**来保护**域凭据**，支持使用安全协议如**Kerberos**和**NTLM**的登录过程。Windows的一个关键功能是其能够缓存**最后十个域登录**，以确保用户即使**域控制器脱机**时仍然可以访问其计算机——这对经常远离公司网络的笔记本电脑用户来说是一个福音。
 
 缓存登录次数可通过特定的**注册表键或组策略**进行调整。要查看或更改此设置，使用以下命令：
 ```bash
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLOGON" /v CACHEDLOGONSCOUNT
 ```
-访问这些缓存凭据受到严格控制，只有 **SYSTEM** 帐户具有查看它们所需的权限。需要访问此信息的管理员必须使用 SYSTEM 用户特权进行访问。这些凭据存储在：`HKEY_LOCAL_MACHINE\SECURITY\Cache`
+访问这些缓存凭据受到严格控制，只有 **SYSTEM** 帐户具有查看它们所需的权限。需要访问这些信息的管理员必须以 SYSTEM 用户权限进行访问。这些凭据存储在：`HKEY_LOCAL_MACHINE\SECURITY\Cache`
 
-**Mimikatz** 可以使用命令 `lsadump::cache` 提取这些缓存凭据。
+**Mimikatz** 可以用来提取这些缓存凭据，使用命令 `lsadump::cache`。
 
 有关更多详细信息，请参阅原始 [来源](http://juggernaut.wikidot.com/cached-credentials) 提供的全面信息。
 
 
 ## 受保护用户
 
-加入 **受保护用户组** 为用户引入了几项安全增强功能，确保更高级别的保护，防止凭据被窃取和滥用：
+加入 **受保护用户组** 会为用户引入几项安全增强功能，确保更高级别的保护，防止凭据被窃取和滥用：
 
 - **凭据委派 (CredSSP)**：即使启用了 **允许委派默认凭据** 的组策略设置，受保护用户的明文凭据也不会被缓存。
 - **Windows Digest**：从 **Windows 8.1 和 Windows Server 2012 R2** 开始，系统不会缓存受保护用户的明文凭据，无论 Windows Digest 状态如何。

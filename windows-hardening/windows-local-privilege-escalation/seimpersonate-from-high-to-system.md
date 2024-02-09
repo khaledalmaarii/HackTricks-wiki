@@ -4,10 +4,10 @@
 
 其他支持HackTricks的方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现我们的独家[**NFTs**]收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -15,12 +15,33 @@
 
 ## 代码
 
-以下代码来自[这里](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)。它允许**将一个进程ID作为参数**，并且将作为指定进程用户的CMD运行。\
-在高完整性进程中运行，您可以**指定作为System运行的进程的PID**（如winlogon、wininit），并以system身份执行cmd.exe。
+以下代码来自[这里](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)。它允许**将一个进程ID作为参数**，并且将以指定进程的用户身份运行的CMD将被运行。\
+在高完整性进程中运行，您可以**指定一个以System身份运行的进程的PID**（如winlogon、wininit），并以system身份执行cmd.exe。
 ```cpp
 impersonateuser.exe 1234
 ```
-{% code title="impersonateuser.cpp" %}
+{% code title="impersonateuser.cpp" %} 
+
+```cpp
+#include <Windows.h>
+#include <iostream>
+
+int main()
+{
+    HANDLE hToken;
+    if (OpenProcessToken(GetCurrentProcess(), TOKEN_ALL_ACCESS, &hToken))
+    {
+        if (ImpersonateLoggedOnUser(hToken))
+        {
+            // Your code to be executed as the impersonated user
+            RevertToSelf();
+        }
+        CloseHandle(hToken);
+    }
+
+    return 0;
+}
+```
 ```cpp
 // From https://securitytimes.medium.com/understanding-and-abusing-access-tokens-part-ii-b9069f432962
 

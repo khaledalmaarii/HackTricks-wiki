@@ -6,25 +6,25 @@
 
 其他支持HackTricks的方式：
 
-* 如果您想看到您的**公司在HackTricks中被广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 工作原理解释
 
-通过WMI可以在已知用户名和密码或哈希的主机上打开进程。通过Wmiexec执行命令，提供半交互式的shell体验。
+通过使用WMI，可以在已知用户名和密码或哈希的主机上打开进程。通过Wmiexec执行命令，提供半交互式的shell体验。
 
-**dcomexec.py：** 利用不同的DCOM端点，此脚本提供类似于wmiexec.py的半交互式shell，特别利用ShellBrowserWindow DCOM对象。目前支持MMC20。应用程序、Shell Windows和Shell Browser Window对象。（来源：[Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/)）
+**dcomexec.py：** 利用不同的DCOM端点，此脚本提供类似于wmiexec.py的半交互式shell，特别是利用ShellBrowserWindow DCOM对象。目前支持MMC20。应用程序、Shell Windows和Shell Browser Window对象。（来源：[Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/)）
 
 ## WMI基础知识
 
 ### 命名空间
 
-WMI的顶级容器是\root，采用类似目录样式的层次结构，其中包含额外的目录，称为命名空间。
+WMI的顶层容器是\root，采用类似目录样式的层次结构，其中包含额外的目录，称为命名空间。
 列出命名空间的命令：
 ```bash
 # Retrieval of Root namespaces
@@ -43,7 +43,7 @@ gwmi -Namespace "root/microsoft" -List -Recurse
 ```
 ### **类**
 
-了解 WMI 类名（例如 win32\_process）及其所属的命名空间对于任何 WMI 操作至关重要。
+了解 WMI 类名（例如 win32_process）及其所属的命名空间对于任何 WMI 操作都至关重要。
 列出以 `win32` 开头的类的命令：
 ```bash
 Get-WmiObject -Recurse -List -class win32* | more # Defaults to "root\cimv2"
@@ -97,13 +97,11 @@ wmic useraccount list /format:list
 wmic group list /format:list
 wmic sysaccount list /format:list
 ```
-### **手动远程WMI查询**
+### **手动远程 WMI 查询**
 
-通过精心构建命令，可以远程查询WMI以获取特定信息，如本地管理员或已登录用户。
+通过仔细构建命令，可以远程查询 WMI 获取特定信息，如本地管理员或已登录用户。
 
-要在远程计算机上隐蔽地识别本地管理员和已登录用户，可以通过特定的WMI查询实现。`wmic`还支持从文本文件中读取以同时在多个节点上执行命令。
-
-要通过WMI远程执行进程，例如部署Empire代理，需要使用以下命令结构，成功执行将返回值“0”：
+要远程执行 WMI 上的进程，比如部署 Empire 代理，需要使用以下命令结构，成功执行将返回值为“0”：
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
@@ -127,12 +125,12 @@ SharpLateral redwmi HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 
 <summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-其他支持HackTricks的方式：
+支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

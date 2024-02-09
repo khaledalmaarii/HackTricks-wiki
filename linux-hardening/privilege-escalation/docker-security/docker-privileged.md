@@ -2,12 +2,12 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？ 您想在HackTricks中看到您的**公司广告**吗？ 或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks衣服**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord组**](https://discord.gg/hRep4RUj7f)或[**电报组**](https://t.me/peass)或在**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我。
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中做广告**吗？ 或者您想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
@@ -60,7 +60,7 @@ mount  | grep '(ro'
 ```
 ### 遮蔽内核文件系统
 
-**/proc** 文件系统是可选择性可写的，但为了安全起见，某些部分被用 **tmpfs** 覆盖，确保容器进程无法访问敏感区域。
+**/proc** 文件系统是可选择性可写的，但为了安全起见，某些部分被用 **tmpfs** 遮蔽，确保容器进程无法访问敏感区域。
 
 {% hint style="info" %}
 **tmpfs** 是一个将所有文件存储在虚拟内存中的文件系统。tmpfs 不会在硬盘上创建任何文件。因此，如果卸载 tmpfs 文件系统，其中存储的所有文件将永远丢失。
@@ -113,7 +113,7 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 ```
 ### 特权提升
 
-您可以通过使用`--cap-add`和`--cap-drop`标志，在不运行`--privileged`模式的情况下操纵容器可用的功能。
+您可以通过使用`--cap-add`和`--cap-drop`标志来操纵容器中可用的功能，而无需在`--privileged`模式下运行。
 
 ### Seccomp
 
@@ -147,7 +147,7 @@ Seccomp_filters:	0
 
 ### AppArmor
 
-**AppArmor**是一个内核增强功能，用于将容器限制在一组有限的资源和每个程序的配置文件中。当您使用`--privileged`标志运行时，此保护将被禁用。
+**AppArmor**是一个内核增强功能，用于将容器限制在一组有限的资源上，并使用每个程序的配置文件。当您使用`--privileged`标志运行时，此保护将被禁用。
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -158,7 +158,7 @@ Seccomp_filters:	0
 ```
 ### SELinux
 
-使用 `--privileged` 标志运行容器会禁用 **SELinux 标签**，导致容器继承容器引擎的标签，通常为 `unconfined`，从而获得类似容器引擎的完全访问权限。在无根模式下，使用 `container_runtime_t`，而在根模式下则应用 `spc_t`。
+使用 `--privileged` 标志运行容器会禁用 **SELinux 标签**，导致容器继承容器引擎的标签，通常为 `unconfined`，从而获得类似容器引擎的完全访问权限。在非 root 模式下，使用 `container_runtime_t`，而在 root 模式下，则应用 `spc_t`。
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -198,6 +198,6 @@ PID   USER     TIME  COMMAND
 
 **默认情况下，容器引擎不使用用户命名空间，除非是用于无根容器**，后者需要它们来进行文件系统挂载和使用多个UID。用户命名空间对于无根容器至关重要，无法禁用，并通过限制特权显著增强安全性。
 
-## 参考资料
+## 参考
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)

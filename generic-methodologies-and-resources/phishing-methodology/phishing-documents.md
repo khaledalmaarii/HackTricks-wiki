@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-* 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks中被宣传**吗？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[NFT收藏品**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中宣传**吗？ 或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
 
@@ -27,7 +27,7 @@ assoc | findstr /i "word excel powerp"
 ### 外部图片加载
 
 前往：_插入 --> 快速部件 --> 字段_\
-_**类别**：链接和引用，**字段名称**：includePicture，以及**文件名或URL**：_ http://\<ip>/whatever
+_**类别**：链接和引用，**字段名称**：includePicture，并**文件名或URL**：_ http://\<ip>/whatever
 
 ![](<../../.gitbook/assets/image (316).png>)
 
@@ -37,7 +37,7 @@ _**类别**：链接和引用，**字段名称**：includePicture，以及**文�
 
 #### 自动加载函数
 
-它们越常见，杀毒软件检测到的可能性就越高。
+它们越常见，杀毒软件检测到的可能性就越大。
 
 * AutoOpen()
 * Document\_Open()
@@ -79,7 +79,7 @@ proc.Create "powershell <beacon line generated>
 #### 文档扩展名
 
 完成后，选择 **另存为类型** 下拉菜单，将格式从 **`.docx`** 更改为 **Word 97-2003 `.doc`**。\
-这样做是因为你 **无法在 `.docx` 中保存宏**，而且对于启用宏的 **`.docm`** 扩展名存在 **污名**（例如，缩略图图标上有一个巨大的 `!`，一些网络/电子邮件网关会完全阻止它们）。因此，这个 **传统的 `.doc` 扩展名是最好的折衷方案**。
+这样做是因为你 **无法将宏保存在 `.docx` 中**，而且对于启用宏的 **`.docm`** 扩展名存在 **污名**（例如，缩略图图标上有一个巨大的 `!`，一些网络/电子邮件网关会完全阻止它们）。因此，这个 **传统的 `.doc` 扩展名是最好的折衷方案**。
 
 #### 恶意宏生成器
 
@@ -148,7 +148,7 @@ self.close
 ```
 ## 强制 NTLM 认证
 
-有几种**远程强制 NTLM 认证**的方法，例如，您可以向电子邮件或 HTML 添加**不可见图像**，用户将访问这些图像（甚至是 HTTP MitM？）。或者向受害者发送**文件地址**，只需**打开文件夹**就会**触发****认证**。
+有几种**远程强制 NTLM 认证**的方法，例如，您可以向电子邮件或 HTML 添加**不可见图像**，用户将访问这些图像（甚至可能是 HTTP 中间人攻击？）。或者向受害者发送**文件地址**，只需**打开文件夹**就会**触发**认证。
 
 **在以下页面中查看这些想法和更多内容：**
 
@@ -169,12 +169,12 @@ self.close
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？您想看到您的**公司在 HackTricks 中被宣传**吗？或者您想访问**PEASS 的最新版本或下载 HackTricks 的 PDF 版本**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 行头**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** 上关注我**。
+* 您在**网络安全公司**工作吗？ 想要在**HackTricks 中宣传您的公司**？ 或者想要访问**PEASS 的最新版本或下载 PDF 版本的 HackTricks**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 探索我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** 上关注我**。
 * **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享您的黑客技巧**。
 
 </details>

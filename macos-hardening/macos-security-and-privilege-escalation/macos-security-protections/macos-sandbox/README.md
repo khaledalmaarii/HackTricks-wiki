@@ -6,30 +6,30 @@
 
 支持HackTricks的其他方式：
 
-- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs收藏品](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 基本信息
 
-macOS沙箱（最初称为Seatbelt）**限制在沙箱内运行的应用程序**执行的操作，以**符合应用程序运行时使用的沙箱配置文件中指定的允许操作**。这有助于确保**应用程序仅访问预期资源**。
+MacOS沙箱（最初称为Seatbelt）**限制在沙箱内运行的应用程序**执行的操作，以**符合应用程序运行时使用的沙箱配置文件中指定的允许操作**。这有助于确保**应用程序只能访问预期的资源**。
 
-任何具有**授权** **`com.apple.security.app-sandbox`** 的应用程序将在沙箱内执行。**苹果二进制文件**通常在沙箱内执行，并且为了在**App Store**中发布，**此授权是强制性的**。因此，大多数应用程序将在沙箱内执行。
+任何具有**授权** **`com.apple.security.app-sandbox`** 的应用程序将在沙箱内执行。**苹果二进制文件**通常在沙箱内执行，为了在**App Store**中发布应用程序，**此授权是强制性的**。因此，大多数应用程序将在沙箱内执行。
 
 为了控制进程可以执行的操作，**沙箱在内核中的所有** **系统调用**中都有**钩子**。**根据**应用程序的**授权**，沙箱将**允许**特定操作。
 
 沙箱的一些重要组件包括：
 
-- **内核扩展** `/System/Library/Extensions/Sandbox.kext`
-- **私有框架** `/System/Library/PrivateFrameworks/AppSandbox.framework`
-- 在用户空间运行的**守护进程** `/usr/libexec/sandboxd`
-- **容器** `~/Library/Containers`
+* **内核扩展** `/System/Library/Extensions/Sandbox.kext`
+* **私有框架** `/System/Library/PrivateFrameworks/AppSandbox.framework`
+* 在用户空间运行的**守护程序** `/usr/libexec/sandboxd`
+* **容器** `~/Library/Containers`
 
-在容器文件夹中，您可以找到**为每个在沙箱中执行的应用程序**的文件夹，其名称为捆绑标识符：
+在容器文件夹中，您可以找到**为每个在沙箱中执行的应用程序**的文件夹，文件夹名称为bundle id：
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -64,7 +64,7 @@ drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
 {% hint style="danger" %}
-请注意，即使符号链接存在以“逃离”沙盒并访问其他文件夹，应用程序仍然需要**有权限**访问它们。这些权限位于**`.plist`**文件中。
+请注意，即使符号链接存在以“逃离”沙盒并访问其他文件夹，应用程序仍然需要**具有权限**来访问它们。这些权限位于**`.plist`**文件中。
 {% endhint %}
 ```bash
 # Get permissions
@@ -232,7 +232,7 @@ macOS将系统沙箱配置文件存储在两个位置：**/usr/share/sandbox/** 
 
 在macOS上，与iOS不同，进程必须自行选择加入沙箱。这意味着在macOS上，进程在主动决定进入沙箱之前不受沙箱限制。
 
-如果进程具有权限：`com.apple.security.app-sandbox`，则当它们启动时，进程会自动从用户空间进入沙箱。有关此过程的详细解释，请查看：
+如果进程具有权限：`com.apple.security.app-sandbox`，则在启动时从用户空间自动将进程置于沙箱中。有关此过程的详细解释，请查看：
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
@@ -240,7 +240,7 @@ macOS将系统沙箱配置文件存储在两个位置：**/usr/share/sandbox/** 
 
 ### **检查 PID 权限**
 
-[**根据此**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s)，**`sandbox_check`**（它是一个`__mac_syscall`），可以检查在特定PID中沙箱是否允许执行某个操作。
+[**根据此**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s)，**`sandbox_check`**（它是一个`__mac_syscall`）可以检查在特定PID中沙箱是否允许执行某个操作。
 
 [**工具 sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) 可以检查PID是否可以执行某个操作：
 ```bash
@@ -272,7 +272,7 @@ sbtool <pid> all
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **在Twitter上** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)** 上关注我**。
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **在Twitter上** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** 上关注我们**。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

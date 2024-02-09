@@ -6,23 +6,23 @@
 
 支持 HackTricks 的其他方式：
 
-- 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-- 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
-- **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm) 上**关注**我。
-- 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
+* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) 上 **关注**我们。
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
 
 </details>
 
 <img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果您对**黑客职业**感兴趣并想要攻破不可攻破的 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
+如果您对**黑客职业**感兴趣并想要攻破不可攻破的 - **我们正在招聘！**（需要流利的波兰语书面和口头表达能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 ## WMIC
 
-**Wmic** 可用于在**启动**时运行程序。查看在启动时预定运行的二进制文件：
+**Wmic** 可用于在**启动**时运行程序。查看在启动时编程运行的二进制文件：
 ```bash
 wmic startup get caption,command 2>nul & ^
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
@@ -54,7 +54,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ## 注册表
 
 {% hint style="info" %}
-[从这里注释](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): **Wow6432Node** 注册表项表示您正在运行 64 位 Windows 版本。操作系统使用此键来为在 64 位 Windows 版本上运行的 32 位应用程序显示 HKEY_LOCAL_MACHINE\SOFTWARE 的单独视图。
+[从这里注释](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): **Wow6432Node** 注册表项表示您正在运行 64 位 Windows 版本。操作系统使用此键为在 64 位 Windows 版本上运行的 32 位应用程序显示 HKEY_LOCAL_MACHINE\SOFTWARE 的单独视图。
 {% endhint %}
 
 ### 运行
@@ -91,12 +91,12 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-在 Windows Vista 及更高版本中，**Run** 和 **RunOnce** 注册表键不会自动生成。这些键中的条目可以直接启动程序或将它们指定为依赖项。例如，要在登录时加载 DLL 文件，可以使用 **RunOnceEx** 注册表键以及一个 "Depend" 键。通过添加一个注册表项来执行 "C:\\temp\\evil.dll" 可在系统启动时演示此操作:
+在 Windows Vista 及更高版本中，**Run** 和 **RunOnce** 注册表键不会自动生成。这些键中的条目可以直接启动程序或将它们指定为依赖项。例如，要在登录时加载 DLL 文件，可以使用 **RunOnceEx** 注册表键以及一个 "Depend" 键。通过添加一个注册表项来执行 "C:\\temp\\evil.dll" 可在系统启动时演示此操作：
 ```
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
 {% hint style="info" %}
-**Exploit 1**: 如果你可以写入**HKLM**中提到的任何注册表中，当不同用户登录时，你可以提升权限。
+**Exploit 1**: 如果你可以写入**HKLM**中提到的任何注册表，当不同用户登录时，你可以提升权限。
 {% endhint %}
 
 {% hint style="info" %}
@@ -211,7 +211,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 
 ### 更改安全模式命令提示符
 
-在Windows注册表中的 `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot` 下，默认设置了一个名为 **`AlternateShell`** 的数值，其默认值为 `cmd.exe`。这意味着当您在启动过程中选择“带命令提示符的安全模式”（通过按 F8 键），将使用 `cmd.exe`。但是，可以设置计算机自动启动到此模式，而无需按 F8 并手动选择它。
+在Windows注册表中的 `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot` 下，默认设置了一个名为 **`AlternateShell`** 的数值，其默认值为 `cmd.exe`。这意味着当您在启动过程中选择“带命令提示符的安全模式”（通过按下 F8 键），将使用 `cmd.exe`。但是，您可以设置计算机自动启动到此模式，而无需按下 F8 并手动选择它。
 
 创建一个用于自动启动到“带命令提示符的安全模式”的引导选项的步骤：
 
@@ -222,8 +222,8 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 5. 重新应用原始文件属性：`attrib c:\boot.ini +r +s +h`
 
 - **Exploit 1:** 更改 **AlternateShell** 注册表键允许设置自定义命令 shell，可能用于未经授权的访问。
-- **Exploit 2 (PATH 写入权限):** 对系统 **PATH** 变量的任何部分具有写入权限，特别是在 `C:\Windows\system32` 之前，可以让您执行自定义的 `cmd.exe`，如果系统在安全模式下启动，则可能成为后门。
-- **Exploit 3 (PATH 和 boot.ini 写入权限):** 对 `boot.ini` 的写入访问权限使自动安全模式启动成为可能，在下一次重新启动时促进未经授权的访问。
+- **Exploit 2 (PATH 写入权限):** 拥有对系统 **PATH** 变量的任何部分的写入权限，特别是在 `C:\Windows\system32` 之前，可以让您执行自定义的 `cmd.exe`，如果系统在安全模式下启动，则可能成为后门。
+- **Exploit 3 (PATH 和 boot.ini 写入权限):** 对 `boot.ini` 的写入访问权限使自动启动到安全模式成为可能，在下一次重启时促进未经授权的访问。
 
 要检查当前的 **AlternateShell** 设置，请使用以下命令：
 ```bash
@@ -232,7 +232,7 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 ```
 ### 已安装组件
 
-Active Setup 是 Windows 中的一个功能，在桌面环境完全加载之前启动。它优先执行某些命令，这些命令必须在用户登录继续之前完成。这个过程甚至发生在其他启动条目之前，比如在 Run 或 RunOnce 注册表部分触发的条目。
+Active Setup 是 Windows 中的一个功能，在桌面环境完全加载之前启动。它优先执行某些命令，这些命令必须在用户登录继续之前完成。这个过程甚至发生在其他启动条目之前，比如在 Run 或 RunOnce 注册表部分中触发的条目。
 
 Active Setup 通过以下注册表键进行管理：
 
@@ -245,7 +245,7 @@ Active Setup 通过以下注册表键进行管理：
 
 - **IsInstalled:**
   - `0` 表示组件的命令不会执行。
-  - `1` 表示命令将为每个用户执行一次，这是默认行为，如果 `IsInstalled` 值缺失。
+  - `1` 表示命令将为每个用户执行一次，这是默认行为，如果缺少 `IsInstalled` 值。
 - **StubPath:** 定义由 Active Setup 执行的命令。它可以是任何有效的命令行，比如启动 `notepad`。
 
 **安全见解:**
@@ -264,9 +264,9 @@ reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
 
 ### 浏览器辅助对象（BHOs）概述
 
-浏览器辅助对象（BHOs）是DLL模块，可为Microsoft的Internet Explorer添加额外功能。它们在每次启动时加载到Internet Explorer和Windows Explorer中。然而，通过将**NoExplorer**键设置为1，可以阻止它们在Windows Explorer实例中加载，从而阻止它们的执行。
+浏览器辅助对象（BHOs）是DLL模块，可为Microsoft的Internet Explorer添加额外功能。它们在每次启动时加载到Internet Explorer和Windows Explorer中。然而，通过将**NoExplorer**键设置为1，可以阻止它们在Windows Explorer实例中加载。
 
-BHOs可通过Internet Explorer 11在Windows 10上使用，但不支持Microsoft Edge，这是较新版本Windows中的默认浏览器。
+BHOs通过Internet Explorer 11与Windows 10兼容，但不支持Microsoft Edge，这是较新版本Windows中的默认浏览器。
 
 要查看系统上注册的BHOs，可以检查以下注册表键：
 
@@ -314,13 +314,13 @@ HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Executi
 ```
 ## SysInternals
 
-请注意，您可以找到自动运行的所有站点都已经被**winpeas.exe**搜索过。但是，为了获得更全面的自动执行文件列表，您可以使用[systinternals的autoruns工具](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)。
+请注意，您可以找到自动运行的所有站点都已经被**winpeas.exe**搜索过。但是，为了获得更全面的自动执行文件列表，您可以使用[systinternals的autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)：
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
 ## 更多
 
-**查找更多类似注册表的自动运行程序，请访问[https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)**
+**查找更多类似注册表的Autoruns，请访问[https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)**
 
 ## 参考资料
 
@@ -331,7 +331,7 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 
 <img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果您对**黑客职业**感兴趣并想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
+如果您对**黑客职业**感兴趣并想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书面和口头表达能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -344,7 +344,7 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm) 上**关注**我。
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

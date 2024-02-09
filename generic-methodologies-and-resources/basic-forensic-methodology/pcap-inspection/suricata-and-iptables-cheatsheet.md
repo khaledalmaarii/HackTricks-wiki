@@ -2,12 +2,12 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？ 想要在 HackTricks 中看到您的**公司广告**？ 或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏品 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 您在**网络安全公司**工作吗？ 想要在 HackTricks 中看到您的**公司广告**？ 或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT 收藏品](https://opensea.io/collection/the-peass-family)
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** 上关注**我。
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享您的黑客技巧**。
 
 </details>
@@ -16,7 +16,7 @@
 
 ### 链
 
-在 iptables 中，规则列表被称为链，按顺序处理。其中，有三个主要链是普遍存在的，还有像 NAT 这样的其他链可能会根据系统的功能而被支持。
+在 iptables 中，规则列表被称为链，按顺序处理。其中，有三个主要链是普遍存在的，还有像 NAT 这样的其他链可能会根据系统的能力而得到支持。
 
 - **Input 链**：用于管理传入连接的行为。
 - **Forward 链**：用于处理不是发送到本地系统的传入连接。这对于充当路由器的设备是典型的，其中接收到的数据应转发到另一个目的地。当系统涉及路由、NAT 或类似活动时，此链主要相关。
@@ -129,7 +129,7 @@ systemctl daemon-reload
 ```
 ### 规则定义
 
-[来自文档：](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) 一个规则/签名由以下内容组成：
+[来自文档：](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) 一个规则/签名由以下部分组成：
 
 * **动作**，确定规则匹配时会发生什么。
 * **头部**，定义规则的协议、IP地址、端口和方向。
@@ -157,7 +157,7 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 
 #### 源地址和目标地址
 
-它支持IP范围、否定和地址列表：
+支持IP范围、否定和地址列表：
 
 | 示例                          | 含义                                   |
 | ------------------------------ | ---------------------------------------- |
@@ -169,7 +169,7 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 
 #### 源端口和目标端口
 
-它支持端口范围、否定和端口列表
+支持端口范围、否定和端口列表
 
 | 示例         | 含义                                |
 | --------------- | -------------------------------------- |
@@ -190,7 +190,7 @@ source <> destination  (both directions)
 ```
 #### 关键词
 
-在Suricata中有**数百个选项**可用于搜索您正在寻找的**特定数据包**，如果发现有趣的内容，将在此处提及。查看更多信息，请参阅[**文档**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)!
+在Suricata中有**数百个选项**可用于搜索您正在寻找的**特定数据包**，如果发现有趣的内容，将在此处提及。查看[**文档**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)获取更多信息！
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -233,12 +233,12 @@ drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？想要在 HackTricks 中看到您的**公司广告**？或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏品 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord 群**](https://discord.gg/hRep4RUj7f) 或 **电报群**](https://t.me/peass) 或在 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** 上关注我**。
-* **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享您的黑客技巧**。
+* 您在**网络安全公司**工作吗？想要看到您的**公司在HackTricks中宣传**吗？或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
