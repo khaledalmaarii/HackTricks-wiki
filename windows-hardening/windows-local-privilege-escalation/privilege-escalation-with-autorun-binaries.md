@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras maneiras de apoiar o HackTricks:
+Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 <img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Se você está interessado em uma **carreira em hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
+Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -54,53 +54,53 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ## Registro
 
 {% hint style="info" %}
-[Nota daqui](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): A entrada do registro **Wow6432Node** indica que você está executando uma versão do Windows de 64 bits. O sistema operacional usa essa chave para exibir uma visualização separada de HKEY_LOCAL_MACHINE\SOFTWARE para aplicativos de 32 bits que são executados em versões do Windows de 64 bits.
+[Nota daqui](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): A entrada de registro **Wow6432Node** indica que você está executando uma versão do Windows de 64 bits. O sistema operacional usa essa chave para exibir uma visualização separada de HKEY_LOCAL_MACHINE\SOFTWARE para aplicativos de 32 bits que são executados em versões do Windows de 64 bits.
 {% endhint %}
 
 ### Execuções
 
-Registro de AutoRun **comumente conhecido**:
+Registro de AutoRun comumente conhecido:
 
-* `HKLM\Software\Microsoft\Windows\CurrentVersion\Run`
-* `HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce`
-* `HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run`
-* `HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce`
-* `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`
-* `HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce`
-* `HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run`
-* `HKCU\Software\Wow6432Npde\Microsoft\Windows\CurrentVersion\RunOnce`
-* `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Run`
-* `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce`
-* `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunonceEx`
+- `HKLM\Software\Microsoft\Windows\CurrentVersion\Run`
+- `HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce`
+- `HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run`
+- `HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce`
+- `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`
+- `HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce`
+- `HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run`
+- `HKCU\Software\Wow6432Npde\Microsoft\Windows\CurrentVersion\RunOnce`
+- `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Run`
+- `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce`
+- `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunonceEx`
 
 As chaves de registro conhecidas como **Run** e **RunOnce** são projetadas para executar automaticamente programas toda vez que um usuário faz login no sistema. A linha de comando atribuída como valor de dados de uma chave é limitada a 260 caracteres ou menos.
 
 **Execuções de serviço** (podem controlar a inicialização automática de serviços durante a inicialização):
 
-* `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
-* `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
-* `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices`
-* `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServices`
-* `HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunServicesOnce`
-* `HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunServicesOnce`
-* `HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunServices`
-* `HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunServices`
+- `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
+- `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
+- `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices`
+- `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServices`
+- `HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunServicesOnce`
+- `HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunServicesOnce`
+- `HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunServices`
+- `HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunServices`
 
 **RunOnceEx:**
 
-* `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
-* `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
+- `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
+- `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
 No Windows Vista e versões posteriores, as chaves de registro **Run** e **RunOnce** não são geradas automaticamente. As entradas nessas chaves podem iniciar programas diretamente ou especificá-los como dependências. Por exemplo, para carregar um arquivo DLL no logon, pode-se usar a chave de registro **RunOnceEx** juntamente com uma chave "Depend". Isso é demonstrado adicionando uma entrada de registro para executar "C:\\temp\\evil.dll" durante a inicialização do sistema:
 ```
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
 {% hint style="info" %}
-**Explorar 1**: Se você puder escrever dentro de qualquer um dos registros mencionados dentro de **HKLM**, você pode escalar privilégios quando um usuário diferente fizer login.
+**Explorar 1**: Se você puder escrever dentro de qualquer um dos registros mencionados dentro de **HKLM**, você pode elevar privilégios quando um usuário diferente fizer login.
 {% endhint %}
 
 {% hint style="info" %}
-**Explorar 2**: Se você puder sobrescrever qualquer um dos binários indicados em qualquer um dos registros dentro de **HKLM**, você pode modificar esse binário com uma porta dos fundos quando um usuário diferente fizer login e escalar privilégios.
+**Explorar 2**: Se você puder sobrescrever qualquer um dos binários indicados em qualquer um dos registros dentro de **HKLM**, você pode modificar esse binário com uma porta dos fundos quando um usuário diferente fizer login e elevar privilégios.
 {% endhint %}
 ```bash
 #CMD
@@ -184,7 +184,7 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
-Normalmente, a chave **Userinit** é definida como **userinit.exe**. No entanto, se esta chave for modificada, o executável especificado também será iniciado pelo **Winlogon** após o logon do usuário. Da mesma forma, a chave **Shell** deve apontar para **explorer.exe**, que é o shell padrão do Windows.
+Normalmente, a chave **Userinit** é definida como **userinit.exe**. No entanto, se esta chave for modificada, o executável especificado também será iniciado pelo **Winlogon** após o login do usuário. Da mesma forma, a chave **Shell** deve apontar para **explorer.exe**, que é o shell padrão do Windows.
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell"
@@ -232,7 +232,7 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 ```
 ### Componente Instalado
 
-O Active Setup é um recurso no Windows que **inicia antes que o ambiente de desktop seja totalmente carregado**. Ele prioriza a execução de certos comandos, que devem ser concluídos antes do logon do usuário prosseguir. Esse processo ocorre mesmo antes de outras entradas de inicialização, como aquelas nas seções de registro Run ou RunOnce, serem acionadas.
+O Active Setup é um recurso no Windows que **inicia antes que o ambiente de desktop esteja totalmente carregado**. Ele prioriza a execução de certos comandos, que devem ser concluídos antes do logon do usuário prosseguir. Esse processo ocorre mesmo antes de outras entradas de inicialização, como aquelas nas seções de registro Run ou RunOnce, serem acionadas.
 
 O Active Setup é gerenciado através das seguintes chaves de registro:
 
@@ -266,14 +266,14 @@ reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
 
 Os Objetos Auxiliares do Navegador (BHOs) são módulos DLL que adicionam recursos extras ao Internet Explorer da Microsoft. Eles são carregados no Internet Explorer e no Windows Explorer a cada inicialização. No entanto, sua execução pode ser bloqueada definindo a chave **NoExplorer** como 1, impedindo que sejam carregados com instâncias do Windows Explorer.
 
-Os BHOs são compatíveis com o Windows 10 por meio do Internet Explorer 11, mas não são suportados no Microsoft Edge, o navegador padrão em versões mais recentes do Windows.
+Os BHOs são compatíveis com o Windows 10 via Internet Explorer 11, mas não são suportados no Microsoft Edge, o navegador padrão em versões mais recentes do Windows.
 
 Para explorar os BHOs registrados em um sistema, você pode inspecionar as seguintes chaves de registro:
 
 - `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 - `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
-Cada BHO é representado pelo seu **CLSID** no registro, servindo como identificador único. Informações detalhadas sobre cada CLSID podem ser encontradas em `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`.
+Cada BHO é representado pelo seu **CLSID** no registro, servindo como um identificador único. Informações detalhadas sobre cada CLSID podem ser encontradas em `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`.
 
 Para consultar os BHOs no registro, esses comandos podem ser utilizados:
 ```bash
@@ -314,7 +314,7 @@ HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Executi
 ```
 ## SysInternals
 
-Note que todos os sites onde você pode encontrar autoruns **já foram pesquisados pelo** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). No entanto, para uma **lista mais abrangente de arquivos autoexecutados**, você pode usar o [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) do SysInternals:
+Observe que todos os locais onde você pode encontrar autoruns **já foram pesquisados pelo** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). No entanto, para uma lista **mais abrangente de arquivos autoexecutados**, você pode usar o [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) do SysInternals:
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
@@ -331,7 +331,7 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 
 <img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
+Se você está interessado em uma **carreira de hacking** e hackear o inhackeável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -341,10 +341,10 @@ Se você está interessado em uma **carreira de hacking** e hackear o inquebráv
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

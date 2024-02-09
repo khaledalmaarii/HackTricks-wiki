@@ -2,24 +2,24 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras maneiras de apoiar o HackTricks:
+Outras formas de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 
 # Níveis de Integridade
 
-No Windows Vista e em versões posteriores, todos os itens protegidos vêm com uma etiqueta de **nível de integridade**. Essa configuração atribui principalmente um nível de integridade "médio" a arquivos e chaves de registro, exceto para determinadas pastas e arquivos nos quais o Internet Explorer 7 pode escrever em um nível de integridade baixo. O comportamento padrão é que processos iniciados por usuários padrão tenham um nível de integridade médio, enquanto os serviços geralmente operam em um nível de integridade do sistema. Um rótulo de alta integridade protege o diretório raiz.
+No Windows Vista e versões posteriores, todos os itens protegidos vêm com uma etiqueta de **nível de integridade**. Essa configuração atribui principalmente um nível de integridade "médio" a arquivos e chaves de registro, exceto para determinadas pastas e arquivos nos quais o Internet Explorer 7 pode escrever em um nível de integridade baixo. O comportamento padrão é para processos iniciados por usuários padrão terem um nível de integridade médio, enquanto os serviços geralmente operam em um nível de integridade do sistema. Um rótulo de alta integridade protege o diretório raiz.
 
 Uma regra chave é que objetos não podem ser modificados por processos com um nível de integridade inferior ao nível do objeto. Os níveis de integridade são:
 
-- **Não confiável**: Este nível é para processos com logins anônimos. %%%Exemplo: Chrome%%%
+- **Não Confiável**: Este nível é para processos com logins anônimos. %%%Exemplo: Chrome%%%
 - **Baixo**: Principalmente para interações na internet, especialmente no Modo Protegido do Internet Explorer, afetando arquivos e processos associados, e certas pastas como a **Pasta de Internet Temporária**. Processos de baixa integridade enfrentam restrições significativas, incluindo nenhum acesso de gravação no registro e acesso limitado de gravação no perfil do usuário.
 - **Médio**: O nível padrão para a maioria das atividades, atribuído a usuários padrão e objetos sem níveis de integridade específicos. Mesmo os membros do grupo Administradores operam neste nível por padrão.
 - **Alto**: Reservado para administradores, permitindo que eles modifiquem objetos em níveis de integridade inferiores, incluindo aqueles no próprio nível alto.
@@ -48,7 +48,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-Agora, vamos atribuir um nível de integridade mínimo de **Alto** ao arquivo. Isso **deve ser feito a partir de um console** sendo executado como **administrador**, pois um **console regular** estará sendo executado no nível de integridade Médio e **não terá permissão** para atribuir o nível de integridade Alto a um objeto:
+Agora, vamos atribuir um nível de integridade mínimo de **Alto** ao arquivo. Isso **deve ser feito a partir de um console** sendo executado como **administrador**, pois um **console regular** estará em execução no nível de integridade Médio e **não terá permissão** para atribuir o nível de integridade Alto a um objeto:
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -88,14 +88,14 @@ APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
 APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
 Mandatory Label\Low Mandatory Level:(NW)
 ```
-Agora, quando executo `cmd-low.exe`, ele **irá ser executado em um nível de integridade baixo** em vez de médio:
+Agora, quando eu executar `cmd-low.exe` ele **será executado em um nível de integridade baixo** em vez de médio:
 
 ![](<../../.gitbook/assets/image (320).png>)
 
-Para pessoas curiosas, se você atribuir um nível de integridade alto a um binário (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), ele não será executado automaticamente com um nível de integridade alto (se você o invocar de um nível de integridade médio --por padrão-- ele será executado em um nível de integridade médio).
+Para pessoas curiosas, se você atribuir um nível de integridade alto a um binário (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`) ele não será executado automaticamente com alto nível de integridade (se você o invocar de um nível de integridade médio --por padrão-- ele será executado em um nível de integridade médio).
 
 ## Níveis de Integridade em Processos
 
-Nem todos os arquivos e pastas têm um nível mínimo de integridade, **mas todos os processos estão sendo executados em um nível de integridade**. E semelhante ao que aconteceu com o sistema de arquivos, **se um processo deseja escrever dentro de outro processo, ele deve ter pelo menos o mesmo nível de integridade**. Isso significa que um processo com nível de integridade baixo não pode abrir um identificador com acesso total a um processo com nível de integridade médio.
+Nem todos os arquivos e pastas têm um nível mínimo de integridade, **mas todos os processos estão em execução sob um nível de integridade**. E semelhante ao que aconteceu com o sistema de arquivos, **se um processo deseja escrever dentro de outro processo, ele deve ter pelo menos o mesmo nível de integridade**. Isso significa que um processo com nível de integridade baixo não pode abrir um identificador com acesso total a um processo com nível de integridade médio.
 
-Devido às restrições mencionadas nesta e na seção anterior, do ponto de vista da segurança, é sempre **recomendado executar um processo no nível mais baixo de integridade possível**.
+Devido às restrições comentadas nesta e na seção anterior, do ponto de vista da segurança, é sempre **recomendado executar um processo no nível mais baixo de integridade possível**.

@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
@@ -14,7 +14,7 @@
 
 ## Documentos de Escritório
 
-O Microsoft Word realiza a validação dos dados do arquivo antes de abri-lo. A validação dos dados é feita na forma de identificação da estrutura de dados, em conformidade com o padrão OfficeOpenXML. Se ocorrer algum erro durante a identificação da estrutura de dados, o arquivo em análise não será aberto.
+O Microsoft Word realiza a validação de dados do arquivo antes de abri-lo. A validação de dados é realizada na forma de identificação da estrutura de dados, conforme o padrão OfficeOpenXML. Se ocorrer algum erro durante a identificação da estrutura de dados, o arquivo em análise não será aberto.
 
 Normalmente, arquivos do Word contendo macros usam a extensão `.docm`. No entanto, é possível renomear o arquivo alterando a extensão e ainda manter suas capacidades de execução de macros.\
 Por exemplo, um arquivo RTF não suporta macros, por design, mas um arquivo DOCM renomeado para RTF será tratado pelo Microsoft Word e será capaz de executar macros.\
@@ -27,7 +27,7 @@ assoc | findstr /i "word excel powerp"
 ### Carregamento de Imagem Externa
 
 Vá para: _Inserir --> Partes Rápidas --> Campo_\
-_**Categorias**: Links e Referências, **Nomes de Campos**: includePicture e **Nome do Arquivo ou URL**:_ http://\<ip>/whatever
+_**Categorias**: Links e Referências, **Nomes de Campos**: incluirImagem, e **Nome do Arquivo ou URL**:_ http://\<ip>/qualquercoisa
 
 ![](<../../.gitbook/assets/image (316).png>)
 
@@ -39,8 +39,8 @@ _**Categorias**: Links e Referências, **Nomes de Campos**: includePicture e **N
 
 Quanto mais comuns forem, mais provável é que o AV as detecte.
 
-* AutoOpen()
-* Document\_Open()
+* AutoAbrir()
+* Documento\_Abrir()
 
 #### Exemplos de Código de Macros
 ```vba
@@ -79,7 +79,7 @@ Vá para **Arquivo > Informações > Inspecionar Documento > Inspecionar Documen
 #### Extensão do documento
 
 Ao terminar, selecione o menu suspenso **Salvar como tipo**, altere o formato de **`.docx`** para **Word 97-2003 `.doc`**.\
-Faça isso porque você **não pode salvar macros dentro de um `.docx`** e há um **estigma** em torno da extensão de macro ativada **`.docm`** (por exemplo, o ícone em miniatura tem um `!` enorme e alguns gateways web/email os bloqueiam completamente). Portanto, essa **extensão legada `.doc` é o melhor compromisso**.
+Faça isso porque você **não pode salvar macros dentro de um `.docx`** e há um **estigma** em torno da extensão de macro ativada **`.docm`** (por exemplo, o ícone em miniatura tem um `!` enorme e alguns gateways web/email os bloqueiam completamente). Portanto, esta **extensão legada `.doc` é o melhor compromisso**.
 
 #### Geradores de Macros Maliciosas
 
@@ -169,11 +169,11 @@ Não se esqueça de que você não só pode roubar o hash ou a autenticação, m
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 

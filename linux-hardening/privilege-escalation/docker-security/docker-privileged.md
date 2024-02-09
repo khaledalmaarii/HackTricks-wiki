@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
@@ -40,9 +40,9 @@ core             mqueue           ptmx             stdin            tty26       
 cpu              nbd0             pts              stdout           tty27            tty47            ttyS0
 [...]
 ```
-### Sistemas de arquivos do kernel somente leitura
+### Sistemas de arquivos de kernel somente leitura
 
-Os sistemas de arquivos do kernel fornecem um mecanismo para um processo modificar o comportamento do kernel. No entanto, quando se trata de processos de contêineres, queremos impedi-los de fazer quaisquer alterações no kernel. Portanto, montamos os sistemas de arquivos do kernel como **somente leitura** dentro do contêiner, garantindo que os processos do contêiner não possam modificar o kernel.
+Os sistemas de arquivos de kernel fornecem um mecanismo para um processo modificar o comportamento do kernel. No entanto, quando se trata de processos de contêineres, queremos impedi-los de fazer quaisquer alterações no kernel. Portanto, montamos os sistemas de arquivos de kernel como **somente leitura** dentro do contêiner, garantindo que os processos do contêiner não possam modificar o kernel.
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -53,14 +53,14 @@ cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,c
 ```
 {% endtab %}
 
-{% tab title="Dentro do Contêiner com Privilégios" %}
+{% tab title = "Dentro do Contêiner com Privilégios" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
 ```
 ### Mascaramento sobre sistemas de arquivos do kernel
 
-O sistema de arquivos **/proc** é seletivamente gravável, mas por motivos de segurança, certas partes são protegidas contra acesso de escrita e leitura, sobrepondo-as com **tmpfs**, garantindo que os processos do contêiner não possam acessar áreas sensíveis.
+O sistema de arquivos **/proc** é seletivamente gravável, mas por motivos de segurança, certas partes são protegidas contra acesso de escrita e leitura ao serem sobrepostas com **tmpfs**, garantindo que os processos do contêiner não possam acessar áreas sensíveis.
 
 {% hint style="info" %}
 **tmpfs** é um sistema de arquivos que armazena todos os arquivos na memória virtual. O tmpfs não cria nenhum arquivo no seu disco rígido. Portanto, se você desmontar um sistema de arquivos tmpfs, todos os arquivos nele serão perdidos para sempre.
@@ -102,7 +102,7 @@ Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setg
 ```
 {% endtab %}
 
-{% tab title="Dentro do Contêiner com Privilégios" %}
+{% tab title = "Dentro do Contêiner com Privilégios" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 apk add -U libcap; capsh --print
@@ -131,7 +131,7 @@ Seccomp_filters:	1
 ```
 {% endtab %}
 
-{% tab title="Dentro do Contêiner com Privilégios" %}
+{% tab title = "Dentro do Contêiner com Privilégios" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
@@ -159,7 +159,7 @@ Também, observe que quando o Docker (ou outros CRIs) são usados em um cluster 
 ```
 ### SELinux
 
-Executar um contêiner com a flag `--privileged` desabilita os **rótulos do SELinux**, fazendo com que herde o rótulo do mecanismo do contêiner, normalmente `unconfined`, concedendo acesso total semelhante ao mecanismo do contêiner. No modo sem raiz, ele usa `container_runtime_t`, enquanto no modo raiz, é aplicado `spc_t`.
+Executar um contêiner com a flag `--privileged` desabilita **rótulos SELinux**, fazendo com que herde o rótulo do mecanismo do contêiner, normalmente `unconfined`, concedendo acesso total semelhante ao mecanismo do contêiner. No modo sem privilégios, ele usa `container_runtime_t`, enquanto no modo root, `spc_t` é aplicado.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -208,11 +208,11 @@ PID   USER     TIME  COMMAND
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 

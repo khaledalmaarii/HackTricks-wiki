@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking de AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Equipos Rojos de AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* ¿Trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? Ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS e HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) **grupo do Discord** ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Compartilhe seus truques de hacking enviando PR para** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
+* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
+* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Informações Básicas
+## Informação Básica
 
 O I/O Kit é um **framework de driver de dispositivo** orientado a objetos de código aberto no kernel XNU, que lida com **drivers de dispositivo carregados dinamicamente**. Ele permite que código modular seja adicionado ao kernel dinamicamente, suportando hardware diversificado.
 
-Os drivers IOKit basicamente **exportam funções do kernel**. Os tipos de parâmetros dessas funções são **predefinidos** e verificados. Além disso, assim como o XPC, o IOKit é apenas mais uma camada em **cima das mensagens Mach**.
+Os drivers IOKit basicamente **exportam funções do kernel**. Os tipos de parâmetros dessas funções são **predefinidos** e verificados. Além disso, semelhante ao XPC, o IOKit é apenas mais uma camada em **cima das mensagens Mach**.
 
 O código do **kernel IOKit XNU** é de código aberto pela Apple em [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Além disso, os componentes do IOKit no espaço do usuário também são de código aberto [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
@@ -174,12 +174,14 @@ Você poderia começar a descompilar a função **`externalMethod`** pois esta �
 <figure><img src="../../../.gitbook/assets/image (697).png" alt=""><figcaption></figcaption></figure>
 
 A chamada desembaraçada significa:
+
+{% code overflow="wrap" %}
 ```cpp
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% endcode %}
 
-Observe como na definição anterior o parâmetro **`self`** está faltando, a boa definição seria:
+Observe como na definição anterior o parâmetro **`self`** está faltando, a definição correta seria:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -201,11 +203,11 @@ O novo código descompilado ficará assim:
 
 <figure><img src="../../../.gitbook/assets/image (703).png" alt=""><figcaption></figcaption></figure>
 
-Para o próximo passo, precisamos ter definida a estrutura **`IOExternalMethodDispatch2022`**. É de código aberto em [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), você pode defini-lo:
+Para o próximo passo, precisamos ter definido a estrutura **`IOExternalMethodDispatch2022`**. É de código aberto em [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), você pode defini-lo:
 
 <figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
 
-Agora, seguindo o `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` você pode ver muitos dados:
+Agora, seguindo `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` você pode ver muitos dados:
 
 <figure><img src="../../../.gitbook/assets/image (704).png" alt="" width="563"><figcaption></figcaption></figure>
 

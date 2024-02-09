@@ -6,11 +6,11 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -32,7 +32,7 @@ Adicionar novos usuários é permitido, assim como o login local no DC01.
 
 ## Grupo AdminSDHolder
 
-A Lista de Controle de Acesso (ACL) do grupo **AdminSDHolder** é crucial, pois define as permissões para todos os "grupos protegidos" dentro do Active Directory, incluindo grupos de alta privilégio. Esse mecanismo garante a segurança desses grupos, impedindo modificações não autorizadas.
+A Lista de Controle de Acesso (ACL) do grupo **AdminSDHolder** é crucial, pois define permissões para todos os "grupos protegidos" dentro do Active Directory, incluindo grupos de alta privilégio. Esse mecanismo garante a segurança desses grupos, impedindo modificações não autorizadas.
 
 Um atacante poderia explorar isso modificando a ACL do grupo **AdminSDHolder**, concedendo permissões totais a um usuário padrão. Isso daria a esse usuário controle total sobre todos os grupos protegidos. Se as permissões desse usuário forem alteradas ou removidas, elas seriam automaticamente restabelecidas em uma hora devido ao design do sistema.
 
@@ -48,7 +48,7 @@ Para mais detalhes, visite [ired.team](https://ired.team/offensive-security-expe
 
 ## Lixeira de Reciclagem do AD
 
-A adesão a este grupo permite a leitura de objetos excluídos do Active Directory, o que pode revelar informações sensíveis:
+A adesão a este grupo permite a leitura de objetos do Active Directory excluídos, o que pode revelar informações sensíveis:
 ```bash
 Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
 ```
@@ -58,7 +58,7 @@ O acesso aos arquivos no DC é restrito, a menos que o usuário faça parte do g
 
 ### Escalação de Privilégios
 
-Usando `PsService` ou `sc` do Sysinternals, é possível inspecionar e modificar permissões de serviço. O grupo `Server Operators`, por exemplo, tem controle total sobre determinados serviços, permitindo a execução de comandos arbitrários e escalonamento de privilégios:
+Usando `PsService` ou `sc` do Sysinternals, é possível inspecionar e modificar permissões de serviço. O grupo `Server Operators`, por exemplo, tem controle total sobre certos serviços, permitindo a execução de comandos arbitrários e escalonamento de privilégios:
 ```cmd
 C:\> .\PsService.exe security AppReadiness
 ```
@@ -142,7 +142,7 @@ Para uma demonstração prática, veja [VÍDEO DE DEMONSTRAÇÃO COM IPPSEC](htt
 
 ## DnsAdmins
 
-Membros do grupo **DnsAdmins** podem explorar seus privilégios para carregar uma DLL arbitrária com privilégios do SISTEMA em um servidor DNS, frequentemente hospedado em Controladores de Domínio. Essa capacidade permite um potencial significativo de exploração.
+Membros do grupo **DnsAdmins** podem explorar seus privilégios para carregar uma DLL arbitrária com privilégios de SYSTEM em um servidor DNS, frequentemente hospedado em Controladores de Domínio. Essa capacidade permite um potencial significativo de exploração.
 
 Para listar os membros do grupo DnsAdmins, utilize:
 ```powershell
@@ -181,7 +181,7 @@ Para mais detalhes sobre este vetor de ataque, consulte ired.team.
 Também é viável usar mimilib.dll para execução de comandos, modificando-a para executar comandos específicos ou shells reversos. [Confira este post](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) para mais informações.
 
 ### Registro WPAD para MitM
-Os DnsAdmins podem manipular registros DNS para realizar ataques Man-in-the-Middle (MitM) criando um registro WPAD após desativar a lista de bloqueio de consultas globais. Ferramentas como Responder ou Inveigh podem ser usadas para falsificar e capturar o tráfego de rede.
+Os DnsAdmins podem manipular registros DNS para realizar ataques Man-in-the-Middle (MitM) criando um registro WPAD após desativar a lista de bloqueio de consultas globais. Ferramentas como Responder ou Inveigh podem ser usadas para falsificar e capturar tráfego de rede.
 
 ### Leitores de Log de Eventos
 Os membros podem acessar logs de eventos, potencialmente encontrando informações sensíveis como senhas em texto simples ou detalhes de execução de comandos:
@@ -191,7 +191,7 @@ Get-NetGroupMember -Identity "Event Log Readers" -Recurse
 Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'}
 ```
 ## Permissões do Windows do Exchange
-Este grupo pode modificar DACLs no objeto do domínio, potencialmente concedendo privilégios de DCSync. As técnicas de escalonamento de privilégios que exploram este grupo estão detalhadas no repositório do GitHub Exchange-AD-Privesc.
+Este grupo pode modificar DACLs no objeto de domínio, potencialmente concedendo privilégios de DCSync. As técnicas de escalonamento de privilégios que exploram este grupo estão detalhadas no repositório do GitHub Exchange-AD-Privesc.
 ```powershell
 # List members
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
@@ -208,21 +208,21 @@ sc.exe start MozillaMaintenance
 ```
 ## Gestão da Organização
 
-Em ambientes onde o **Microsoft Exchange** está implantado, um grupo especial conhecido como **Organization Management** detém capacidades significativas. Este grupo tem privilégios para **acessar as caixas de correio de todos os usuários do domínio** e mantém **controle total sobre a Unidade Organizacional 'Microsoft Exchange Security Groups'**. Esse controle inclui o grupo **`Exchange Windows Permissions`**, que pode ser explorado para escalonamento de privilégios.
+Em ambientes onde o **Microsoft Exchange** está implantado, um grupo especial conhecido como **Organization Management** detém capacidades significativas. Este grupo tem o privilégio de **acessar as caixas de correio de todos os usuários do domínio** e mantém **controle total sobre a Unidade Organizacional 'Microsoft Exchange Security Groups'**. Esse controle inclui o grupo **`Exchange Windows Permissions`**, que pode ser explorado para escalonamento de privilégios.
 
 ### Exploração de Privilégios e Comandos
 
 #### Operadores de Impressão
-Os membros do grupo **Print Operators** possuem vários privilégios, incluindo o **`SeLoadDriverPrivilege`**, que lhes permite **fazer logon localmente em um Controlador de Domínio**, desligá-lo e gerenciar impressoras. Para explorar esses privilégios, especialmente se o **`SeLoadDriverPrivilege`** não estiver visível em um contexto não elevado, é necessário contornar o Controle de Conta de Usuário (UAC).
+Os membros do grupo **Print Operators** possuem vários privilégios, incluindo o **`SeLoadDriverPrivilege`**, que lhes permite **fazer login localmente em um Controlador de Domínio**, desligá-lo e gerenciar impressoras. Para explorar esses privilégios, especialmente se o **`SeLoadDriverPrivilege`** não estiver visível em um contexto não elevado, é necessário contornar o Controle de Conta de Usuário (UAC).
 
-Para listar os membros deste grupo, o seguinte comando PowerShell é usado:
+Para listar os membros deste grupo, o seguinte comando PowerShell é utilizado:
 ```powershell
 Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
 Para obter técnicas de exploração mais detalhadas relacionadas ao **`SeLoadDriverPrivilege`**, consulte recursos de segurança específicos.
 
 #### Usuários de Área de Trabalho Remota
-Os membros deste grupo têm acesso concedido aos PCs via Protocolo de Área de Trabalho Remota (RDP). Para enumerar esses membros, comandos do PowerShell estão disponíveis:
+Os membros deste grupo têm acesso concedido aos PCs via Protocolo de Área de Trabalho Remota (RDP). Para enumerar esses membros, estão disponíveis comandos do PowerShell:
 ```powershell
 Get-NetGroupMember -Identity "Remote Desktop Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users"
@@ -235,10 +235,10 @@ Os membros podem acessar PCs por meio do **Windows Remote Management (WinRM)**. 
 Get-NetGroupMember -Identity "Remote Management Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Users"
 ```
-Para técnicas de exploração relacionadas ao **WinRM**, deve-se consultar documentação específica.
+Para técnicas de exploração relacionadas ao **WinRM**, consulte a documentação específica.
 
 #### Operadores de Servidor
-Este grupo tem permissões para realizar várias configurações em Controladores de Domínio, incluindo privilégios de backup e restauração, alteração do horário do sistema e desligamento do sistema. Para enumerar os membros, o comando fornecido é:
+Este grupo tem permissões para realizar várias configurações nos Controladores de Domínio, incluindo privilégios de backup e restauração, alteração do horário do sistema e desligamento do sistema. Para enumerar os membros, o comando fornecido é:
 ```powershell
 Get-NetGroupMember -Identity "Server Operators" -Recurse
 ```
@@ -261,14 +261,14 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao hero com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras formas de apoiar o HackTricks:
 
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

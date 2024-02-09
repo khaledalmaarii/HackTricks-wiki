@@ -4,12 +4,12 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -22,7 +22,7 @@ Como você pode dizer que um certificado é um certificado CA?
 
 Pode ser determinado que um certificado é um certificado CA se várias condições forem atendidas:
 
-- O certificado é armazenado no servidor CA, com sua chave privada protegida pelo DPAPI da máquina, ou por hardware como um TPM/HSM se o sistema operacional suportar.
+- O certificado é armazenado no servidor CA, com sua chave privada protegida pelo DPAPI da máquina, ou por hardware como um TPM/HSM se o sistema operacional o suportar.
 - Os campos Emissor e Assunto do certificado correspondem ao nome distinto do CA.
 - Uma extensão "Versão do CA" está presente exclusivamente nos certificados CA.
 - O certificado não possui campos de Uso Estendido de Chave (EKU).
@@ -48,10 +48,10 @@ Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /pa
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
 {% hint style="warning" %}
-O usuário alvo da falsificação de certificado deve estar ativo e ser capaz de se autenticar no Active Directory para que o processo tenha sucesso. Falsificar um certificado para contas especiais como krbtgt é ineficaz.
+O usuário alvo da falsificação de certificado deve estar ativo e ser capaz de autenticar no Active Directory para o processo ter sucesso. Falsificar um certificado para contas especiais como krbtgt é ineficaz.
 {% endhint %}
 
-Este certificado falsificado será **válido** até a data de término especificada e enquanto o certificado da CA raiz for válido (geralmente de 5 a **10+ anos**). Também é válido para **máquinas**, então, combinado com **S4U2Self**, um atacante pode **manter persistência em qualquer máquina de domínio** enquanto o certificado da CA for válido.\
+Este certificado falsificado será **válido** até a data de término especificada e enquanto o certificado da CA raiz for válido (geralmente de 5 a **10+ anos**). Também é válido para **máquinas**, então combinado com **S4U2Self**, um atacante pode **manter persistência em qualquer máquina de domínio** enquanto o certificado da CA for válido.\
 Além disso, os **certificados gerados** com este método **não podem ser revogados** pois a CA não tem conhecimento deles.
 
 ## Confiando em Certificados de CA Falsos - DPERSIST2
@@ -62,7 +62,7 @@ Um certificado de CA autoassinado pode ser adicionado ao objeto `NTAuthCertifica
 
 Essa capacidade é especialmente relevante quando usada em conjunto com um método previamente descrito envolvendo ForgeCert para gerar certificados dinamicamente.
 
-## Má Configuração Maliciosa - DPERSIST3
+## Configuração Maliciosa - DPERSIST3
 
 As oportunidades de **persistência** por meio de **modificações de descritores de segurança dos componentes AD CS** são abundantes. Modificações descritas na seção "[Escalada de Domínio](domain-escalation.md)" podem ser implementadas de forma maliciosa por um atacante com acesso elevado. Isso inclui a adição de "direitos de controle" (por exemplo, WriteOwner/WriteDACL/etc.) a componentes sensíveis como:
 

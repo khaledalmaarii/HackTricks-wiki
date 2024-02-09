@@ -8,10 +8,10 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -40,11 +40,11 @@ reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL
 
 ## Guarda de Credenciais
 
-A **Guarda de Credenciais**, um recurso exclusivo do **Windows 10 (Enterprise e Education editions)**, aprimora a segurança das credenciais da máquina usando o **Modo Virtual Seguro (VSM)** e a **Segurança Baseada em Virtualização (VBS)**. Ela aproveita as extensões de virtualização da CPU para isolar processos-chave dentro de um espaço de memória protegido, longe do alcance do sistema operacional principal. Essa isolamento garante que nem mesmo o kernel possa acessar a memória no VSM, protegendo efetivamente as credenciais de ataques como **pass-the-hash**. A **Autoridade de Segurança Local (LSA)** opera dentro desse ambiente seguro como um trustlet, enquanto o processo **LSASS** no sistema operacional principal age apenas como um comunicador com a LSA do VSM.
+A **Guarda de Credenciais**, um recurso exclusivo do **Windows 10 (edições Enterprise e Education)**, aprimora a segurança das credenciais da máquina usando o **Modo Seguro Virtual (VSM)** e a **Segurança Baseada em Virtualização (VBS)**. Ela aproveita as extensões de virtualização da CPU para isolar processos-chave dentro de um espaço de memória protegido, longe do alcance do sistema operacional principal. Essa isolamento garante que nem mesmo o kernel possa acessar a memória no VSM, protegendo efetivamente as credenciais de ataques como **pass-the-hash**. A **Autoridade de Segurança Local (LSA)** opera dentro desse ambiente seguro como um trustlet, enquanto o processo **LSASS** no sistema operacional principal atua apenas como um comunicador com a LSA do VSM.
 
-Por padrão, a **Guarda de Credenciais** não está ativa e requer ativação manual dentro de uma organização. É crucial para aprimorar a segurança contra ferramentas como o **Mimikatz**, que são impedidas em sua capacidade de extrair credenciais. No entanto, vulnerabilidades ainda podem ser exploradas por meio da adição de **Provedores de Suporte de Segurança (SSP)** personalizados para capturar credenciais em texto claro durante tentativas de login.
+Por padrão, a **Guarda de Credenciais** não está ativa e requer ativação manual dentro de uma organização. É fundamental para aprimorar a segurança contra ferramentas como o **Mimikatz**, que são impedidas em sua capacidade de extrair credenciais. No entanto, vulnerabilidades ainda podem ser exploradas por meio da adição de **Provedores de Suporte de Segurança (SSP)** personalizados para capturar credenciais em texto claro durante tentativas de login.
 
-Para verificar o status de ativação da **Guarda de Credenciais**, a chave do registro **_LsaCfgFlags_** em **_HKLM\System\CurrentControlSet\Control\LSA_** pode ser inspecionada. Um valor de "**1**" indica ativação com **bloqueio UEFI**, "**2**" sem bloqueio, e "**0**" indica que não está habilitado. Esta verificação de registro, embora um forte indicador, não é o único passo para habilitar a Guarda de Credenciais. Orientações detalhadas e um script do PowerShell para habilitar esse recurso estão disponíveis online.
+Para verificar o status de ativação da **Guarda de Credenciais**, a chave do registro **_LsaCfgFlags_** em **_HKLM\System\CurrentControlSet\Control\LSA_** pode ser inspecionada. Um valor de "**1**" indica ativação com **bloqueio UEFI**, "**2**" sem bloqueio, e "**0**" indica que não está habilitado. Esta verificação de registro, embora um forte indicador, não é o único passo para habilitar a Guarda de Credenciais. Orientações detalhadas e um script do PowerShell para ativar esse recurso estão disponíveis online.
 ```powershell
 reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 ```
@@ -57,9 +57,9 @@ Mais detalhes sobre a implementação de SSPs personalizados para captura de cre
 
 O **Windows 8.1 e o Windows Server 2012 R2** introduziram vários novos recursos de segurança, incluindo o **_Modo Restricted Admin para RDP_**. Esse modo foi projetado para aprimorar a segurança, mitigando os riscos associados aos ataques de **[pass the hash](https://blog.ahasayen.com/pass-the-hash/)**.
 
-Tradicionalmente, ao se conectar a um computador remoto via RDP, suas credenciais são armazenadas na máquina de destino. Isso representa um risco significativo de segurança, especialmente ao usar contas com privilégios elevados. No entanto, com a introdução do **_Modo Restricted Admin_**, esse risco é substancialmente reduzido.
+Tradicionalmente, ao se conectar a um computador remoto via RDP, suas credenciais são armazenadas na máquina de destino. Isso representa um risco significativo à segurança, especialmente ao usar contas com privilégios elevados. No entanto, com a introdução do **_Modo Restricted Admin_**, esse risco é substancialmente reduzido.
 
-Ao iniciar uma conexão RDP usando o comando **mstsc.exe /RestrictedAdmin**, a autenticação no computador remoto é realizada sem armazenar suas credenciais nele. Esse método garante que, no caso de uma infecção por malware ou se um usuário malicioso ganhar acesso ao servidor remoto, suas credenciais não sejam comprometidas, pois não são armazenadas no servidor.
+Ao iniciar uma conexão RDP usando o comando **mstsc.exe /RestrictedAdmin**, a autenticação no computador remoto é realizada sem armazenar suas credenciais nele. Esse método garante que, no caso de uma infecção por malware ou se um usuário malicioso ganhar acesso ao servidor remoto, suas credenciais não sejam comprometidas, pois não estão armazenadas no servidor.
 
 É importante observar que, no **Modo Restricted Admin**, as tentativas de acessar recursos de rede a partir da sessão RDP não usarão suas credenciais pessoais; em vez disso, a **identidade da máquina** é usada.
 
@@ -72,7 +72,7 @@ Para obter informações mais detalhadas, visite [este recurso](https://blog.aha
 
 ## Credenciais em Cache
 
-O Windows protege **credenciais de domínio** por meio da **Autoridade de Segurança Local (LSA)**, suportando processos de logon com protocolos de segurança como **Kerberos** e **NTLM**. Um recurso chave do Windows é sua capacidade de armazenar em cache os **últimos dez logins de domínio** para garantir que os usuários ainda possam acessar seus computadores mesmo se o **controlador de domínio estiver offline**—um benefício para usuários de laptop frequentemente longe da rede da empresa.
+O Windows protege **credenciais de domínio** por meio da **Autoridade de Segurança Local (LSA)**, suportando processos de logon com protocolos de segurança como **Kerberos** e **NTLM**. Um recurso chave do Windows é sua capacidade de armazenar em cache os **últimos dez logins de domínio** para garantir que os usuários ainda possam acessar seus computadores mesmo se o **controlador de domínio estiver offline**—um benefício para usuários de laptops frequentemente longe da rede da empresa.
 
 O número de logins em cache é ajustável por meio de uma **chave de registro específica ou política de grupo**. Para visualizar ou alterar essa configuração, o seguinte comando é utilizado:
 ```bash
@@ -89,17 +89,17 @@ Para mais detalhes, a [fonte](http://juggernaut.wikidot.com/cached-credentials) 
 
 A adesão ao grupo **Protected Users** introduz várias melhorias de segurança para os usuários, garantindo níveis mais altos de proteção contra roubo e uso indevido de credenciais:
 
-- **Delegação de Credenciais (CredSSP)**: Mesmo que a configuração de Política de Grupo para **Permitir a delegação de credenciais padrão** esteja ativada, as credenciais em texto simples dos Protected Users não serão armazenadas em cache.
-- **Windows Digest**: A partir do **Windows 8.1 e Windows Server 2012 R2**, o sistema não armazenará em cache as credenciais em texto simples dos Protected Users, independentemente do status do Windows Digest.
-- **NTLM**: O sistema não armazenará em cache as credenciais em texto simples dos Protected Users ou as funções unidirecionais NT (NTOWF).
-- **Kerberos**: Para os Protected Users, a autenticação Kerberos não gerará chaves **DES** ou **RC4**, nem armazenará em cache as credenciais em texto simples ou chaves de longo prazo além da aquisição inicial do Ticket-Granting Ticket (TGT).
-- **Logon Offline**: Os Protected Users não terão um verificador em cache criado no logon ou desbloqueio, o que significa que o logon offline não é suportado para essas contas.
+- **Delegação de Credenciais (CredSSP)**: Mesmo que a configuração de Política de Grupo para **Permitir a delegação de credenciais padrão** esteja ativada, as credenciais em texto simples dos Usuários Protegidos não serão armazenadas em cache.
+- **Windows Digest**: A partir do **Windows 8.1 e Windows Server 2012 R2**, o sistema não armazenará em cache as credenciais em texto simples dos Usuários Protegidos, independentemente do status do Windows Digest.
+- **NTLM**: O sistema não armazenará em cache as credenciais em texto simples dos Usuários Protegidos ou as funções unidirecionais NT (NTOWF).
+- **Kerberos**: Para os Usuários Protegidos, a autenticação Kerberos não gerará chaves **DES** ou **RC4**, nem armazenará em cache as credenciais em texto simples ou chaves de longo prazo além da aquisição inicial do Ticket-Granting Ticket (TGT).
+- **Logon Offline**: Os Usuários Protegidos não terão um verificador em cache criado no logon ou desbloqueio, o que significa que o logon offline não é suportado para essas contas.
 
 Essas proteções são ativadas no momento em que um usuário, que é membro do grupo **Protected Users**, faz login no dispositivo. Isso garante que medidas de segurança críticas estejam em vigor para proteger contra vários métodos de comprometimento de credenciais.
 
 Para obter informações mais detalhadas, consulte a [documentação](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group) oficial.
 
-**Tabela do** [**documento**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
+**Tabela retirada da** [**documentação**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
 
 | Windows Server 2003 RTM | Windows Server 2003 SP1+ | <p>Windows Server 2012,<br>Windows Server 2008 R2,<br>Windows Server 2008</p> | Windows Server 2016          |
 | ----------------------- | ------------------------ | ----------------------------------------------------------------------------- | ---------------------------- |

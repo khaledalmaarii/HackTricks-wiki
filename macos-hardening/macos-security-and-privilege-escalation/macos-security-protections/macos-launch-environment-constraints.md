@@ -1,12 +1,12 @@
-# Restrições de Inicialização/Ambiente do macOS & Cache de Confiança
+# Restrições de Inicialização/Ambiente do macOS e Cache de Confiança
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
 *
@@ -18,9 +18,9 @@
 
 As restrições de inicialização no macOS foram introduzidas para aprimorar a segurança ao **regulamentar como, quem e de onde um processo pode ser iniciado**. Iniciadas no macOS Ventura, elas fornecem um framework que categoriza **cada binário do sistema em categorias de restrição distintas**, definidas dentro do **cache de confiança**, uma lista contendo binários do sistema e seus respectivos hashes. Essas restrições se estendem a cada binário executável dentro do sistema, envolvendo um conjunto de **regras** que delineiam os requisitos para **iniciar um determinado binário**. As regras abrangem restrições próprias que um binário deve satisfazer, restrições dos pais que devem ser atendidas pelo processo pai e restrições responsáveis a serem seguidas por outras entidades relevantes.
 
-O mecanismo se estende a aplicativos de terceiros por meio de **Restrições de Ambiente**, iniciando no macOS Sonoma, permitindo que os desenvolvedores protejam seus aplicativos especificando um **conjunto de chaves e valores para restrições de ambiente**.
+O mecanismo se estende a aplicativos de terceiros por meio das **Restrições de Ambiente**, iniciando no macOS Sonoma, permitindo que os desenvolvedores protejam seus aplicativos especificando um **conjunto de chaves e valores para restrições de ambiente**.
 
-Você define **restrições de inicialização e biblioteca de ambiente** em dicionários de restrição que você salva em **arquivos de lista de propriedades `launchd`**, ou em **arquivos de lista de propriedades separados** que você usa na assinatura de código.
+Você define **restrições de ambiente de inicialização e de biblioteca** em dicionários de restrição que você salva em **arquivos de lista de propriedades `launchd`**, ou em **arquivos de lista de propriedades separados** que você usa na assinatura de código.
 
 Existem 4 tipos de restrições:
 
@@ -29,7 +29,7 @@ Existem 4 tipos de restrições:
 * **Restrições Responsáveis**: Restrições aplicadas ao **processo que chama o serviço** em uma comunicação XPC.
 * **Restrições de Carregamento de Biblioteca**: Use restrições de carregamento de biblioteca para descrever seletivamente o código que pode ser carregado.
 
-Portanto, quando um processo tenta iniciar outro processo — chamando `execve(_:_:_:)` ou `posix_spawn(_:_:_:_:_:_:)` — o sistema operacional verifica se o **arquivo executável** satisfaz sua **própria restrição**, verifica se o **arquivo executável do processo pai** satisfaz a **restrição do pai do executável** e se o **arquivo executável do processo responsável** satisfaz a **restrição do processo responsável do executável**. Se alguma dessas restrições de inicialização não for atendida, o sistema operacional não executa o programa.
+Portanto, quando um processo tenta iniciar outro processo — chamando `execve(_:_:_:)` ou `posix_spawn(_:_:_:_:_:_:)` — o sistema operacional verifica se o **arquivo executável** satisfaz sua **própria restrição**. Ele também verifica se o **processo pai** **satisfaz a restrição do processo pai** do executável e se o **processo responsável** **satisfaz a restrição do processo responsável** do executável. Se alguma dessas restrições de inicialização não for atendida, o sistema operacional não executa o programa.
 
 Se ao carregar uma biblioteca qualquer parte da **restrição da biblioteca não for verdadeira**, seu processo **não carrega** a biblioteca.
 
@@ -40,7 +40,7 @@ Um LC é composto por **fatos** e **operações lógicas** (e, ou..) que combina
 Os [**fatos que um LC pode usar são documentados**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Por exemplo:
 
 * is-init-proc: Um valor booleano que indica se o executável deve ser o processo de inicialização do sistema operacional (`launchd`).
-* is-sip-protected: Um valor booleano que indica se o executável deve ser um arquivo protegido pelo Sistema de Integridade do Sistema (SIP).
+* is-sip-protected: Um valor booleano que indica se o executável deve ser um arquivo protegido pelo Sistema de Proteção da Integridade (SIP).
 * `on-authorized-authapfs-volume:` Um valor booleano que indica se o sistema operacional carregou o executável de um volume APFS autorizado e autenticado.
 * `on-authorized-authapfs-volume`: Um valor booleano que indica se o sistema operacional carregou o executável de um volume APFS autorizado e autenticado.
 * Volume Cryptexes
@@ -78,7 +78,7 @@ codesign -d -vvvv app.app
 ```
 ## Caches de Confiança
 
-No **macOS**, existem algumas caches de confiança:
+No **macOS** existem algumas caches de confiança:
 
 - **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 - **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
@@ -112,7 +112,9 @@ pyimg4 im4p extract -i /tmp/StaticTrustCache.im4p -o /tmp/StaticTrustCache.data
 
 pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLaunchPolicyData.data
 ```
-(Outra opção poderia ser usar a ferramenta [**img4tool**](https://github.com/tihmstar/img4tool), que funcionará até mesmo no M1, mesmo que a versão seja antiga e para x86\_64 se você a instalar nos locais apropriados).
+{% endcode %}
+
+(Outra opção poderia ser usar a ferramenta [**img4tool**](https://github.com/tihmstar/img4tool), que funcionará até mesmo no M1, mesmo que a versão seja antiga e para x86\_64 se você instalá-la nos locais apropriados).
 
 Agora você pode usar a ferramenta [**trustcache**](https://github.com/CRKatri/trustcache) para obter as informações em um formato legível:
 ```bash
@@ -150,7 +152,7 @@ uint8_t reserved0;
 ```
 Em seguida, você poderia usar um script como [**este**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) para extrair dados.
 
-A partir desses dados, você pode verificar os Apps com um valor de **restrições de lançamento de `0`**, que são aqueles que não estão restritos ([**verifique aqui**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) para saber o que cada valor representa).
+A partir desses dados, você pode verificar os Apps com um valor de **restrições de lançamento de `0`**, que são os que não estão restritos ([**verifique aqui**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) para saber o que cada valor representa).
 
 ## Mitigações de Ataque
 
@@ -158,7 +160,7 @@ As Restrições de Lançamento teriam mitigado vários ataques antigos ao **gara
 
 Além disso, as Restrições de Lançamento também **mitigam ataques de degradação**.
 
-No entanto, elas **não mitigam abusos comuns de XPC**, injeções de código **Electron** ou **injeções de dylib** sem validação de biblioteca (a menos que os IDs de equipe que podem carregar bibliotecas sejam conhecidos).
+No entanto, elas **não mitigam abusos XPC** comuns, injeções de código **Electron** ou **injeções dylib** sem validação de biblioteca (a menos que os IDs de equipe que podem carregar bibliotecas sejam conhecidos).
 
 ### Proteção do Daemon XPC
 
@@ -183,11 +185,11 @@ Mesmo que seja necessário que o aplicativo seja **aberto pelo LaunchService** (
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
 *

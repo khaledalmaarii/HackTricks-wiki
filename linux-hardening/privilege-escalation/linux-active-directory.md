@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
@@ -30,7 +30,7 @@ Você também pode verificar a seguinte página para aprender **outras maneiras 
 
 ### FreeIPA
 
-FreeIPA é uma **alternativa** de código aberto ao **Active Directory** da Microsoft, principalmente para ambientes **Unix**. Ele combina um **diretório LDAP completo** com um Centro de Distribuição de Chaves MIT **Kerberos** para gerenciamento semelhante ao Active Directory. Utilizando o Sistema de Certificados Dogtag para gerenciamento de certificados CA & RA, ele suporta autenticação **multi-fator**, incluindo cartões inteligentes. O SSSD é integrado para processos de autenticação Unix. Saiba mais sobre isso em:
+FreeIPA é uma **alternativa** de código aberto ao **Active Directory** da Microsoft, principalmente para ambientes **Unix**. Ele combina um diretório **LDAP completo** com um Centro de Distribuição de Chaves MIT **Kerberos** para gerenciamento semelhante ao Active Directory. Utilizando o Sistema de Certificados Dogtag para gerenciamento de certificados CA & RA, ele suporta autenticação **multi-fator**, incluindo cartões inteligentes. O SSSD é integrado para processos de autenticação Unix. Saiba mais sobre isso em:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
@@ -40,7 +40,7 @@ FreeIPA é uma **alternativa** de código aberto ao **Active Directory** da Micr
 
 ### Pass The Ticket
 
-Nesta página, você vai encontrar diferentes lugares onde poderia **encontrar tickets kerberos dentro de um host linux**, na página seguinte você pode aprender como transformar esses formatos de tickets CCache em Kirbi (o formato necessário para uso no Windows) e também como realizar um ataque PTT:
+Nesta página, você vai encontrar diferentes lugares onde poderia **encontrar tickets kerberos dentro de um host linux**, na página seguinte você pode aprender como transformar esses formatos de tickets CCache em Kirbi (o formato que você precisa usar no Windows) e também como realizar um ataque PTT:
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/pass-the-ticket.md" %}
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
@@ -70,7 +70,7 @@ cd tickey/tickey
 make CONF=Release
 /tmp/tickey -i
 ```
-Este procedimento tentará injetar em várias sessões, indicando o sucesso ao armazenar os tickets extraídos em `/tmp` com uma convenção de nomenclatura de `__krb_UID.ccache`.
+Este procedimento tentará injetar em várias sessões, indicando sucesso ao armazenar os tickets extraídos em `/tmp` com uma convenção de nomenclatura de `__krb_UID.ccache`.
 
 ### Reutilização de ticket CCACHE a partir do SSSD KCM
 
@@ -91,7 +91,7 @@ klist -k /etc/krb5.keytab
 ```
 ### Extrair contas de /etc/krb5.keytab
 
-As chaves de contas de serviço, essenciais para serviços que operam com privilégios de root, são armazenadas de forma segura nos arquivos **`/etc/krb5.keytab`**. Essas chaves, semelhantes a senhas para serviços, exigem confidencialidade estrita.
+As chaves de contas de serviço, essenciais para serviços que operam com privilégios de root, são armazenadas de forma segura nos arquivos **`/etc/krb5.keytab`**. Essas chaves, semelhantes a senhas para serviços, exigem confidencialidade rigorosa.
 
 Para inspecionar o conteúdo do arquivo keytab, pode-se utilizar o **`klist`**. A ferramenta é projetada para exibir detalhes da chave, incluindo o **NT Hash** para autenticação do usuário, especialmente quando o tipo de chave é identificado como 23.
 ```bash
@@ -103,7 +103,7 @@ Para os usuários do Linux, o **`KeyTabExtract`** oferece funcionalidade para ex
 python3 keytabextract.py krb5.keytab
 # Expected output varies based on hash availability
 ```
-No macOS, **`bifrost`** atua como uma ferramenta para análise de arquivos keytab.
+No macOS, **`bifrost`** serve como uma ferramenta para análise de arquivos keytab.
 ```bash
 ./bifrost -action dump -source keytab -path /path/to/your/file
 ```
@@ -118,12 +118,12 @@ crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDO
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

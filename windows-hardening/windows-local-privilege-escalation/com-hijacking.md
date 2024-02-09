@@ -9,7 +9,7 @@ Outras formas de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -18,7 +18,7 @@ Outras formas de apoiar o HackTricks:
 
 Como os valores de HKCU podem ser modificados pelos usuários, a **Apropriação de COM** pode ser usada como um **mecanismo persistente**. Usando `procmon`, é fácil encontrar registros COM pesquisados que não existem e que um atacante poderia criar para persistir. Filtros:
 
-* Operações **RegOpenKey**.
+* Operações de **RegOpenKey**.
 * onde o _Resultado_ é **NOME NÃO ENCONTRADO**.
 * e o _Caminho_ termina com **InprocServer32**.
 
@@ -42,9 +42,9 @@ if ($Tarefa.Actions.ClassId -ne $null)
 if ($Tarefa.Triggers.Enabled -eq $true)
 {
 $usersSid = "S-1-5-32-545"
-$usersGroup = Get-LocalGroup | Where-Object { $_.SID -eq $usersSid }
+$grupoUsuarios = Get-LocalGroup | Where-Object { $_.SID -eq $usersSid }
 
-if ($Tarefa.Principal.GroupId -eq $usersGroup)
+if ($Tarefa.Principal.GroupId -eq $grupoUsuarios)
 {
 Write-Host "Nome da Tarefa: " $Tarefa.TaskName
 Write-Host "Caminho da Tarefa: " $Tarefa.TaskPath
@@ -84,7 +84,7 @@ Name                                   Property
 PS C:\> Get-Item -Path "HKCU:Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}"
 Get-Item : Cannot find path 'HKCU:\Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}' because it does not exist.
 ```
-Então, você pode simplesmente criar a entrada HKCU e toda vez que o usuário fizer login, sua porta dos fundos será acionada.
+Então, você pode simplesmente criar a entrada HKCU e toda vez que o usuário fizer login, sua backdoor será acionada.
 
 <details>
 
@@ -95,7 +95,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

