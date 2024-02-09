@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
@@ -42,7 +42,7 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```
 ## Attaque du compte de confiance
 
-Une vulnérabilité de sécurité existe lorsqu'une relation de confiance est établie entre deux domaines, identifiés ici comme le domaine **A** et le domaine **B**, où le domaine **B** étend sa confiance au domaine **A**. Dans cette configuration, un compte spécial est créé dans le domaine **A** pour le domaine **B**, qui joue un rôle crucial dans le processus d'authentification entre les deux domaines. Ce compte, associé au domaine **B**, est utilisé pour crypter les tickets permettant d'accéder aux services à travers les domaines.
+Une vulnérabilité de sécurité existe lorsqu'une relation de confiance est établie entre deux domaines, identifiés ici comme le domaine **A** et le domaine **B**, où le domaine **B** étend sa confiance au domaine **A**. Dans cette configuration, un compte spécial est créé dans le domaine **A** pour le domaine **B**, qui joue un rôle crucial dans le processus d'authentification entre les deux domaines. Ce compte, associé au domaine **B**, est utilisé pour chiffrer les tickets permettant d'accéder aux services à travers les domaines.
 
 L'aspect critique à comprendre ici est que le mot de passe et le hash de ce compte spécial peuvent être extraits d'un Contrôleur de Domaine dans le domaine **A** en utilisant un outil en ligne de commande. La commande pour effectuer cette action est :
 ```powershell
@@ -50,7 +50,7 @@ Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.lo
 ```
 Cette extraction est possible car le compte, identifié par un **$** après son nom, est actif et appartient au groupe "Domain Users" du domaine **A**, héritant ainsi des autorisations associées à ce groupe. Cela permet aux individus de s'authentifier contre le domaine **A** en utilisant les identifiants de ce compte.
 
-**Avertissement :** Il est possible de tirer parti de cette situation pour obtenir un point d'entrée dans le domaine **A** en tant qu'utilisateur, bien que avec des autorisations limitées. Cependant, cet accès est suffisant pour effectuer une énumération sur le domaine **A**.
+**Attention :** Il est possible de tirer parti de cette situation pour obtenir un point d'entrée dans le domaine **A** en tant qu'utilisateur, bien que avec des autorisations limitées. Cependant, cet accès est suffisant pour effectuer une énumération sur le domaine **A**.
 
 Dans un scénario où `ext.local` est le domaine faisant confiance et `root.local` est le domaine de confiance, un compte utilisateur nommé `EXT$` serait créé dans `root.local`. À l'aide d'outils spécifiques, il est possible de décharger les clés de confiance Kerberos, révélant les identifiants de `EXT$` dans `root.local`. La commande pour y parvenir est :
 ```bash
@@ -64,9 +64,9 @@ Cette étape d'authentification ouvre la possibilité d'énumérer et même d'ex
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-### Collecte du mot de passe de confiance en clair
+### Collecte du mot de passe de confiance en texte clair
 
-Dans le flux précédent, le hachage de confiance a été utilisé au lieu du **mot de passe en clair** (qui a également été **extrait par mimikatz**).
+Dans le flux précédent, le hachage de confiance a été utilisé à la place du **mot de passe en texte clair** (qui a également été **extrait par mimikatz**).
 
 Le mot de passe en clair peut être obtenu en convertissant la sortie \[ CLEAR ] de mimikatz de l'hexadécimal et en supprimant les octets nuls '\x00':
 
@@ -91,7 +91,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

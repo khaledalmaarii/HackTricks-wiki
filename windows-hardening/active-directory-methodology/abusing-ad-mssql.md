@@ -1,8 +1,8 @@
-# Abus AD MSSQL
+# Abus de MSSQL AD
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
@@ -14,7 +14,7 @@
 
 ## **Énumération / Découverte MSSQL**
 
-Le module powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) est très utile dans ce cas.
+Le module PowerShell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) est très utile dans ce cas.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
@@ -172,8 +172,8 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## Élévation locale des privilèges
 
-L'utilisateur local **MSSQL** a généralement un type de privilège spécial appelé **`SeImpersonatePrivilege`**. Cela permet au compte d' "usurper l'identité d'un client après authentification".
+L'utilisateur local **MSSQL** a généralement un type spécial de privilège appelé **`SeImpersonatePrivilege`**. Cela permet au compte d'**"usurper l'identité d'un client après authentification"**.
 
-Une stratégie que de nombreux auteurs ont développée consiste à forcer un service **SYSTEM** à s'authentifier auprès d'un service malveillant ou de type homme du milieu que l'attaquant crée. Ce service malveillant peut alors usurper l'identité du service **SYSTEM** pendant qu'il tente de s'authentifier.
+Une stratégie à laquelle de nombreux auteurs ont pensé est de forcer un service **SYSTEM** à s'authentifier auprès d'un service malveillant ou de l'homme du milieu que l'attaquant crée. Ce service malveillant peut alors usurper l'identité du service **SYSTEM** pendant qu'il essaie de s'authentifier.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) propose une collection de ces différentes techniques qui peuvent être exécutées via la commande `execute-assembly` de Beacon.

@@ -9,14 +9,14 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -25,7 +25,7 @@ Accédez dès aujourd'hui :
 
 Une liste blanche d'applications est une liste d'applications logicielles ou d'exécutables approuvés qui sont autorisés à être présents et à s'exécuter sur un système. L'objectif est de protéger l'environnement contre les logiciels malveillants nocifs et les logiciels non approuvés qui ne correspondent pas aux besoins commerciaux spécifiques d'une organisation.
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) est la **solution de liste blanche d'applications** de Microsoft et donne aux administrateurs système le contrôle sur **les applications et fichiers que les utilisateurs peuvent exécuter**. Il offre un **contrôle granulaire** sur les exécutables, les scripts, les fichiers d'installation Windows, les DLL, les applications empaquetées et les installateurs d'applications empaquetées.\
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) est la **solution de liste blanche d'applications** de Microsoft et donne aux administrateurs système le contrôle sur **les applications et les fichiers que les utilisateurs peuvent exécuter**. Il offre un **contrôle granulaire** sur les exécutables, les scripts, les fichiers d'installation Windows, les DLL, les applications empaquetées et les installateurs d'applications empaquetées.\
 Il est courant pour les organisations de **bloquer cmd.exe et PowerShell.exe** et l'accès en écriture à certains répertoires, **mais tout cela peut être contourné**.
 
 ### Vérification
@@ -39,12 +39,12 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 $a = Get-ApplockerPolicy -effective
 $a.rulecollections
 ```
-Ce chemin d'accès au registre contient les configurations et les politiques appliquées par AppLocker, offrant un moyen de passer en revue l'ensemble actuel de règles appliquées sur le système :
+Ce chemin de registre contient les configurations et les politiques appliquées par AppLocker, offrant un moyen de passer en revue l'ensemble actuel de règles appliquées sur le système :
 
 - `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
 
 
-### Contournement
+### Contourner
 
 * **Dossiers inscriptibles** utiles pour contourner la politique AppLocker : Si AppLocker autorise l'exécution de quoi que ce soit à l'intérieur de `C:\Windows\System32` ou `C:\Windows`, il existe des **dossiers inscriptibles** que vous pouvez utiliser pour **contourner cela**.
 ```
@@ -53,30 +53,30 @@ C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-* Les binaires **"LOLBAS's"** couramment **fiables** peuvent également être utiles pour contourner AppLocker.
+* Les binaires **"LOLBAS"** communément **fiables** peuvent également être utiles pour contourner AppLocker.
 * Les règles **mal écrites peuvent également être contournées**
 * Par exemple, avec **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, vous pouvez créer un **dossier appelé `allowed`** n'importe où et il sera autorisé.
 * Les organisations se concentrent souvent sur le blocage de l'exécutable `%System32%\WindowsPowerShell\v1.0\powershell.exe`, mais oublient les **autres** [**emplacements des exécutables PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) tels que `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ou `PowerShell_ISE.exe`.
-* **L'application stricte des DLL est très rarement activée** en raison de la charge supplémentaire qu'elle peut mettre sur un système, et de la quantité de tests nécessaires pour s'assurer que rien ne sera cassé. Ainsi, l'utilisation de **DLL comme portes dérobées aidera à contourner AppLocker**.
+* **L'application des DLL est très rarement activée** en raison de la charge supplémentaire qu'elle peut mettre sur un système, et de la quantité de tests nécessaires pour s'assurer que rien ne se cassera. Ainsi, l'utilisation des **DLL comme portes dérobées aidera à contourner AppLocker**.
 * Vous pouvez utiliser [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ou [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) pour **exécuter du code Powershell** dans n'importe quel processus et contourner AppLocker. Pour plus d'informations, consultez : [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
-## Stockage des informations d'identification
+## Stockage des identifiants
 
 ### Gestionnaire de comptes de sécurité (SAM)
 
-Les informations d'identification locales sont présentes dans ce fichier, les mots de passe sont hachés.
+Les identifiants locaux sont présents dans ce fichier, les mots de passe sont hachés.
 
 ### Autorité de sécurité locale (LSA) - LSASS
 
-Les **informations d'identification** (hachées) sont **sauvegardées** dans la **mémoire** de ce sous-système pour des raisons de connexion unique.\
+Les **identifiants** (hachés) sont **enregistrés** dans la **mémoire** de ce sous-système pour des raisons de connexion unique.\
 **LSA** administre la **politique de sécurité** locale (politique de mot de passe, autorisations des utilisateurs...), **l'authentification**, **les jetons d'accès**...\
-LSA sera celui qui **vérifiera** les informations d'identification fournies dans le fichier **SAM** (pour une connexion locale) et **communiquera** avec le **contrôleur de domaine** pour authentifier un utilisateur de domaine.
+LSA sera celui qui **vérifiera** les identifiants fournis dans le fichier **SAM** (pour une connexion locale) et **communiquera** avec le **contrôleur de domaine** pour authentifier un utilisateur de domaine.
 
-Les **informations d'identification** sont **sauvegardées** à l'intérieur du **processus LSASS** : tickets Kerberos, hachages NT et LM, mots de passe facilement déchiffrables.
+Les **identifiants** sont **enregistrés** à l'intérieur du **processus LSASS** : tickets Kerberos, hachages NT et LM, mots de passe facilement déchiffrables.
 
 ### Secrets LSA
 
-LSA pourrait sauvegarder sur le disque certaines informations d'identification :
+LSA pourrait enregistrer sur le disque certains identifiants :
 
 * Mot de passe du compte ordinateur de l'Active Directory (contrôleur de domaine inaccessible).
 * Mots de passe des comptes des services Windows
@@ -149,7 +149,7 @@ Vous pouvez également utiliser `cipher /e` et `cipher /d` à l'intérieur d'un 
 
 #### En tant qu'autorité système
 
-Cette méthode nécessite que l'**utilisateur victime** exécute un **processus** à l'intérieur de l'hôte. Si c'est le cas, en utilisant des sessions `meterpreter`, vous pouvez usurper le jeton du processus de l'utilisateur (`impersonate_token` de `incognito`). Ou vous pourriez simplement `migrer` vers le processus de l'utilisateur.
+Cette méthode nécessite que l'utilisateur **victime** exécute un **processus** à l'intérieur de l'hôte. Dans ce cas, en utilisant des sessions `meterpreter`, vous pouvez usurper le jeton du processus de l'utilisateur (`impersonate_token` de `incognito`). Ou vous pourriez simplement `migrer` vers le processus de l'utilisateur.
 
 #### Connaître le mot de passe de l'utilisateur
 
@@ -160,10 +160,10 @@ Cette méthode nécessite que l'**utilisateur victime** exécute un **processus*
 Microsoft a développé les **Comptes de service gérés par groupe (gMSA)** pour simplifier la gestion des comptes de service dans les infrastructures informatiques. Contrairement aux comptes de service traditionnels qui ont souvent l'option "**Mot de passe n'expire jamais**" activée, les gMSA offrent une solution plus sécurisée et plus facile à gérer :
 
 - **Gestion automatique des mots de passe** : les gMSA utilisent un mot de passe complexe de 240 caractères qui change automatiquement selon la politique de domaine ou d'ordinateur. Ce processus est géré par le Service de distribution de clés de Microsoft (KDC), éliminant le besoin de mises à jour manuelles des mots de passe.
-- **Sécurité renforcée** : ces comptes sont immunisés contre les blocages et ne peuvent pas être utilisés pour des connexions interactives, renforçant leur sécurité.
+- **Sécurité renforcée** : Ces comptes sont immunisés contre les blocages et ne peuvent pas être utilisés pour des connexions interactives, renforçant leur sécurité.
 - **Prise en charge de plusieurs hôtes** : les gMSA peuvent être partagés entre plusieurs hôtes, ce qui les rend idéaux pour les services s'exécutant sur plusieurs serveurs.
-- **Capacité de tâches planifiées** : contrairement aux comptes de service gérés, les gMSA prennent en charge l'exécution de tâches planifiées.
-- **Gestion simplifiée des SPN** : le système met automatiquement à jour le nom principal de service (SPN) lorsqu'il y a des changements dans les détails sAMaccount de l'ordinateur ou le nom DNS, simplifiant la gestion des SPN.
+- **Capacité de tâches planifiées** : Contrairement aux comptes de service gérés, les gMSA prennent en charge l'exécution de tâches planifiées.
+- **Gestion simplifiée des SPN** : Le système met automatiquement à jour le nom principal de service (SPN) lorsqu'il y a des changements dans les détails sAMaccount de l'ordinateur ou le nom DNS, simplifiant la gestion des SPN.
 
 Les mots de passe des gMSA sont stockés dans la propriété LDAP _**msDS-ManagedPassword**_ et sont automatiquement réinitialisés tous les 30 jours par les contrôleurs de domaine (DC). Ce mot de passe, un bloc de données chiffrées connu sous le nom de [MSDS-MANAGEDPASSWORD_BLOB](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), ne peut être récupéré que par des administrateurs autorisés et les serveurs sur lesquels les gMSA sont installés, assurant un environnement sécurisé. Pour accéder à ces informations, une connexion sécurisée telle que LDAPS est requise, ou la connexion doit être authentifiée avec 'Scellement & Sécurité'.
 
@@ -179,7 +179,7 @@ Consultez également cette [page web](https://cube0x0.github.io/Relaying-for-gMS
 
 ## LAPS
 
-La **Solution de mot de passe administrateur local (LAPS)**, disponible en téléchargement depuis [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), permet de gérer les mots de passe des administrateurs locaux. Ces mots de passe, qui sont **aléatoires**, uniques et **changés régulièrement**, sont stockés de manière centralisée dans Active Directory. L'accès à ces mots de passe est restreint par des ACL aux utilisateurs autorisés. Avec les autorisations suffisantes accordées, la capacité de lire les mots de passe des administrateurs locaux est fournie.
+La **Solution de mot de passe administrateur local (LAPS)**, disponible en téléchargement depuis [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), permet de gérer les mots de passe administrateur locaux. Ces mots de passe, qui sont **aléatoires**, uniques et **changés régulièrement**, sont stockés de manière centralisée dans Active Directory. L'accès à ces mots de passe est restreint par des ACL aux utilisateurs autorisés. Avec les autorisations suffisantes accordées, la capacité de lire les mots de passe administrateur locaux est fournie.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
@@ -187,7 +187,7 @@ La **Solution de mot de passe administrateur local (LAPS)**, disponible en tél�
 
 ## Mode de langage PowerShell contraint
 
-Le [**Mode de langage contraint PowerShell**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **verrouille bon nombre des fonctionnalités** nécessaires pour utiliser PowerShell efficacement, telles que le blocage des objets COM, en n'autorisant que les types .NET approuvés, les workflows basés sur XAML, les classes PowerShell, et plus encore.
+Le [**Mode de langage contraint PowerShell**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **verrouille bon nombre des fonctionnalités** nécessaires pour utiliser PowerShell efficacement, telles que le blocage des objets COM, en ne permettant que les types .NET approuvés, les workflows basés sur XAML, les classes PowerShell, et plus encore.
 
 ### **Vérification**
 ```powershell
@@ -214,7 +214,7 @@ Vous pouvez utiliser [**ReflectivePick**](https://github.com/PowerShellEmpire/Po
 
 ## Politique d'exécution PS
 
-Par défaut, elle est définie sur **restricted.** Principales façons de contourner cette politique:
+Par défaut, elle est définie sur **restricted.** Principales façons de contourner cette politique :
 ```powershell
 1º Just copy and paste inside the interactive PS console
 2º Read en Exec
@@ -238,7 +238,7 @@ $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.T
 
 Est l'API qui peut être utilisée pour authentifier les utilisateurs.
 
-Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui veulent communiquer. La méthode préférée pour cela est Kerberos. Ensuite, le SSPI négociera le protocole d'authentification à utiliser, ces protocoles d'authentification sont appelés Fournisseur de Support de Sécurité (SSP), sont situés à l'intérieur de chaque machine Windows sous forme de DLL et les deux machines doivent prendre en charge le même pour pouvoir communiquer.
+Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui veulent communiquer. La méthode préférée pour cela est Kerberos. Ensuite, le SSPI négociera le protocole d'authentification qui sera utilisé, ces protocoles d'authentification sont appelés Fournisseur de Support de Sécurité (SSP), ils sont situés à l'intérieur de chaque machine Windows sous forme de DLL et les deux machines doivent prendre en charge le même pour pouvoir communiquer.
 
 ### Principaux SSP
 
@@ -257,7 +257,7 @@ Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui veu
 
 ## UAC - Contrôle de compte d'utilisateur
 
-[Contrôle de compte d'utilisateur (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) est une fonctionnalité qui permet une **demande de consentement pour des activités élevées**.
+[Contrôle de compte d'utilisateur (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) est une fonctionnalité qui permet une **demande de consentement pour les activités élevées**.
 
 {% content-ref url="windows-security-controls/uac-user-account-control.md" %}
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
@@ -281,8 +281,8 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

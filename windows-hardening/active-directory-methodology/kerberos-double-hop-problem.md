@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité**? Vous souhaitez voir votre **entreprise annoncée dans HackTricks**? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -20,10 +20,10 @@ Lorsqu'une **authentification** se produit via **Kerberos**, les **informations 
 
 Cela est dû au fait que lors de la connexion avec Kerberos, les étapes suivantes sont suivies :
 
-1. L'utilisateur 1 fournit des informations d'identification et le **contrôleur de domaine** renvoie un **TGT** Kerberos à l'utilisateur 1.
-2. L'utilisateur 1 utilise le **TGT** pour demander un **ticket de service** pour se **connecter** au Serveur 1.
-3. L'utilisateur 1 se **connecte** au **Serveur 1** et fournit le **ticket de service**.
-4. Le **Serveur 1** n'a pas les **informations d'identification** de l'utilisateur 1 en cache ni le **TGT** de l'utilisateur 1. Par conséquent, lorsque l'utilisateur 1 du Serveur 1 tente de se connecter à un deuxième serveur, il **ne peut pas s'authentifier**.
+1. L'utilisateur fournit des informations d'identification et le **contrôleur de domaine** renvoie un **TGT** Kerberos à l'utilisateur.
+2. L'utilisateur utilise le **TGT** pour demander un **ticket de service** pour se **connecter** au Serveur1.
+3. L'utilisateur se **connecte** au **Serveur1** et fournit le **ticket de service**.
+4. Le **Serveur1** n'a pas les **informations d'identification** de l'utilisateur en cache ni le **TGT** de l'utilisateur. Par conséquent, lorsque l'utilisateur de Serveur1 tente de se connecter à un deuxième serveur, il **ne peut pas s'authentifier**.
 
 ### Délégation non contrainte
 
@@ -32,7 +32,7 @@ Si la **délégation non contrainte** est activée sur le PC, cela ne se produir
 
 ### CredSSP
 
-Une autre façon d'éviter ce problème, qui est [**notablement peu sécurisée**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7), est le **Provider de support de sécurité des informations d'identification**. Selon Microsoft :
+Une autre façon d'éviter ce problème, qui est [**notablement peu sécurisée**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7), est le **Fournisseur de prise en charge de la sécurité des informations d'identification**. Selon Microsoft :
 
 > L'authentification CredSSP délègue les informations d'identification de l'utilisateur de l'ordinateur local à un ordinateur distant. Cette pratique augmente le risque de sécurité de l'opération à distance. Si l'ordinateur distant est compromis, lorsque les informations d'identification lui sont transmises, les informations d'identification peuvent être utilisées pour contrôler la session réseau.
 
@@ -46,7 +46,7 @@ Get-WSManCredSSP
 
 ### Appeler la commande
 
-Pour résoudre le problème du double saut, une méthode impliquant un `Invoke-Command` imbriqué est présentée. Cela ne résout pas directement le problème mais offre une solution de contournement sans nécessiter de configurations spéciales. Cette approche permet d'exécuter une commande (`hostname`) sur un serveur secondaire via une commande PowerShell exécutée à partir d'une machine d'attaque initiale ou via une session PS précédemment établie avec le premier serveur. Voici comment procéder :
+Pour résoudre le problème du double saut, une méthode impliquant un `Invoke-Command` imbriqué est présentée. Cela ne résout pas le problème directement mais offre une solution de contournement sans nécessiter de configurations spéciales. Cette approche permet d'exécuter une commande (`hostname`) sur un serveur secondaire via une commande PowerShell exécutée à partir d'une machine d'attaque initiale ou via une session PS précédemment établie avec le premier serveur. Voici comment procéder :
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
@@ -98,7 +98,7 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)

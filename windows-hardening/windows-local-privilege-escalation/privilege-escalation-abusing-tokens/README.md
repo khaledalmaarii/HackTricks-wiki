@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts [hacktricks](https://github.com/carlospolop/hacktricks) et [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
@@ -20,7 +20,7 @@ Si vous **ne savez pas ce que sont les jetons d'accès Windows**, lisez cette pa
 [access-tokens.md](../access-tokens.md)
 {% endcontent-ref %}
 
-**Peut-être pourriez-vous escalader les privilèges en abusant des jetons que vous avez déjà**
+**Peut-être pourriez-vous être en mesure d'escalader les privilèges en abusant des jetons que vous avez déjà**
 
 ### SeImpersonatePrivilege
 
@@ -37,8 +37,8 @@ Il s'agit d'un privilège détenu par n'importe quel processus qui permet l'impe
 ### SeAssignPrimaryPrivilege
 
 Il est très similaire à **SeImpersonatePrivilege**, il utilisera la **même méthode** pour obtenir un jeton privilégié.\
-Ensuite, ce privilège permet de **assigner un jeton principal** à un processus nouveau/en attente. Avec le jeton d'impersonation privilégié, vous pouvez dériver un jeton principal (DuplicateTokenEx).\
-Avec le jeton, vous pouvez créer un **nouveau processus** avec 'CreateProcessAsUser' ou créer un processus en attente et **définir le jeton** (en général, vous ne pouvez pas modifier le jeton principal d'un processus en cours d'exécution).
+Ensuite, ce privilège permet de **assigner un jeton principal** à un processus nouveau/suspendu. Avec le jeton d'impersonation privilégié, vous pouvez dériver un jeton principal (DuplicateTokenEx).\
+Avec le jeton, vous pouvez créer un **nouveau processus** avec 'CreateProcessAsUser' ou créer un processus suspendu et **définir le jeton** (en général, vous ne pouvez pas modifier le jeton principal d'un processus en cours d'exécution).
 
 ### SeTcbPrivilege
 
@@ -46,7 +46,7 @@ Si vous avez activé ce jeton, vous pouvez utiliser **KERB\_S4U\_LOGON** pour ob
 
 ### SeBackupPrivilege
 
-Le système est amené à **accorder un accès en lecture** à n'importe quel fichier (limité aux opérations de lecture) par ce privilège. Il est utilisé pour **lire les hachages de mots de passe des comptes Administrateur locaux** à partir du registre, après quoi, des outils comme "**psexec**" ou "**wmicexec**" peuvent être utilisés avec le hachage (technique Pass-the-Hash). Cependant, cette technique échoue dans deux cas : lorsque le compte Administrateur local est désactivé, ou lorsqu'une stratégie est en place qui supprime les droits administratifs des administrateurs locaux se connectant à distance.\
+Le système est amené à **accorder un accès en lecture** à n'importe quel fichier (limité aux opérations de lecture) par ce privilège. Il est utilisé pour **lire les hachages de mots de passe des comptes Administrateur locaux** à partir du registre, après quoi, des outils comme "**psexec**" ou "**wmicexec**" peuvent être utilisés avec le hachage (technique Pass-the-Hash). Cependant, cette technique échoue dans deux cas : lorsque le compte Administrateur local est désactivé, ou lorsqu'une stratégie est en place qui supprime les droits administratifs des Administrateurs locaux se connectant à distance.\
 Vous pouvez **abuser de ce privilège** avec :
 
 * [https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1](https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1)
@@ -67,7 +67,7 @@ La permission pour **accéder en écriture** à n'importe quel fichier système,
 SeCreateTokenPrivilege est une permission puissante, particulièrement utile lorsqu'un utilisateur possède la capacité d'impersonner des jetons, mais aussi en l'absence de SeImpersonatePrivilege. Cette capacité repose sur la capacité d'impersonner un jeton qui représente le même utilisateur et dont le niveau d'intégrité n'excède pas celui du processus actuel.
 
 **Points clés :**
-- **Impersonation sans SeImpersonatePrivilege :** Il est possible de tirer parti de SeCreateTokenPrivilege pour l'élévation de privilèges en impersonnant des jetons dans des conditions spécifiques.
+- **Impersonation sans SeImpersonatePrivilege :** Il est possible d'utiliser SeCreateTokenPrivilege pour l'EoP en impersonnant des jetons dans des conditions spécifiques.
 - **Conditions pour l'impersonation de jetons :** L'impersonation réussie nécessite que le jeton cible appartienne au même utilisateur et ait un niveau d'intégrité inférieur ou égal à celui du processus tentant l'impersonation.
 - **Création et modification de jetons d'impersonation :** Les utilisateurs peuvent créer un jeton d'impersonation et l'améliorer en ajoutant l'identifiant de sécurité (SID) d'un groupe privilégié.
 
@@ -81,8 +81,8 @@ Ce chemin est `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName
 
 **Étapes à suivre :**
 1. Accédez à `HKCU` au lieu de `HKLM` en raison de l'accès en écriture restreint.
-2. Créez le chemin `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` dans `HKCU`, où `<RID>` représente l'Identifiant Relatif de l'utilisateur actuel.
-3. Définissez `ImagePath` sur le chemin d'exécution du binaire.
+2. Créez le chemin `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` dans `HKCU`, où `<RID>` représente l Identifiant Relatif de l'utilisateur actuel.
+3. Définissez le `ImagePath` sur le chemin d'exécution du binaire.
 4. Attribuez le `Type` comme `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 ```python
 # Example Python code to set the registry values
@@ -157,7 +157,7 @@ Ou le **script** intégré dans ce [**poste**](https://www.leeholmes.com/adjusti
 
 ## Tableau
 
-Feuille de triche complète des privilèges de jeton sur [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin), le résumé ci-dessous ne répertorie que les moyens directs d'exploiter le privilège pour obtenir une session administrateur ou lire des fichiers sensibles.
+Feuille de triche complète des privilèges de jeton sur [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin), le résumé ci-dessous ne répertoriera que les moyens directs d'exploiter le privilège pour obtenir une session administrateur ou lire des fichiers sensibles.
 
 | Privilège                  | Impact      | Outil                    | Chemin d'exécution                                                                                                                                                                                                                                                                                                                                     | Remarques                                                                                                                                                                                                                                                                                                                        |
 | -------------------------- | ----------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -165,7 +165,7 @@ Feuille de triche complète des privilèges de jeton sur [https://github.com/gtw
 | **`SeBackup`**             | **Menace**  | _**Commandes intégrées**_ | Lire des fichiers sensibles avec `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- Peut être plus intéressant si vous pouvez lire %WINDIR%\MEMORY.DMP<br><br>- <code>SeBackupPrivilege</code> (et robocopy) n'est pas utile pour les fichiers ouverts.<br><br>- Robocopy nécessite à la fois SeBackup et SeRestore pour fonctionner avec le paramètre /b.</p>                                                                      |
 | **`SeCreateToken`**        | _**Admin**_ | Outil tiers          | Créer un jeton arbitraire incluant des droits d'administrateur local avec `NtCreateToken`.                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
 | **`SeDebug`**              | _**Admin**_ | **PowerShell**          | Dupliquer le jeton `lsass.exe`.                                                                                                                                                                                                                                                                                                                   | Script à trouver sur [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
-| **`SeLoadDriver`**         | _**Admin**_ | Outil tiers          | <p>1. Charger un pilote de noyau bogué tel que <code>szkg64.sys</code><br>2. Exploiter la vulnérabilité du pilote<br><br>Alternativement, le privilège peut être utilisé pour décharger des pilotes liés à la sécurité avec la commande intégrée <code>ftlMC</code>. par exemple : <code>fltMC sysmondrv</code></p>                                                                           | <p>1. La vulnérabilité de <code>szkg64</code> est répertoriée sous le nom de <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. Le code d'exploitation de <code>szkg64</code> a été créé par <a href="https://twitter.com/parvezghh">Parvez Anwar</a></p> |
+| **`SeLoadDriver`**         | _**Admin**_ | Outil tiers          | <p>1. Charger un pilote de noyau bogué tel que <code>szkg64.sys</code><br>2. Exploiter la vulnérabilité du pilote<br><br>Alternativement, le privilège peut être utilisé pour décharger des pilotes liés à la sécurité avec la commande intégrée <code>ftlMC</code>. par exemple : <code>fltMC sysmondrv</code></p>                                                                           | <p>1. La vulnérabilité de <code>szkg64</code> est répertoriée sous <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. Le code d'exploitation de <code>szkg64</code> a été créé par <a href="https://twitter.com/parvezghh">Parvez Anwar</a></p> |
 | **`SeRestore`**            | _**Admin**_ | **PowerShell**          | <p>1. Lancer PowerShell/ISE avec le privilège SeRestore présent.<br>2. Activer le privilège avec <a href="https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeRestorePrivilege.ps1">Enable-SeRestorePrivilege</a>).<br>3. Renommer utilman.exe en utilman.old<br>4. Renommer cmd.exe en utilman.exe<br>5. Verrouiller la console et appuyer sur Win+U</p> | <p>L'attaque peut être détectée par certains logiciels antivirus.</p><p>Une méthode alternative repose sur le remplacement des binaires de service stockés dans "Program Files" en utilisant le même privilège</p>                                                                                                                                                            |
 | **`SeTakeOwnership`**      | _**Admin**_ | _**Commandes intégrées**_ | <p>1. <code>takeown.exe /f "%windir%\system32"</code><br>2. <code>icalcs.exe "%windir%\system32" /grant "%username%":F</code><br>3. Renommer cmd.exe en utilman.exe<br>4. Verrouiller la console et appuyer sur Win+U</p>                                                                                                                                       | <p>L'attaque peut être détectée par certains logiciels antivirus.</p><p>Une méthode alternative repose sur le remplacement des binaires de service stockés dans "Program Files" en utilisant le même privilège.</p>                                                                                                                                                           |
 | **`SeTcb`**                | _**Admin**_ | Outil tiers          | <p>Manipuler les jetons pour inclure des droits d'administrateur local. Peut nécessiter SeImpersonate.</p><p>À vérifier.</p>                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                                                                                                |
@@ -177,12 +177,12 @@ Feuille de triche complète des privilèges de jeton sur [https://github.com/gtw
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
@@ -16,7 +16,7 @@
 
 [L'Explorateur AD](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) est issu de la Suite Sysinternal :
 
-> Un visualiseur et éditeur avancé d'Active Directory (AD). Vous pouvez utiliser l'Explorateur AD pour naviguer facilement dans une base de données AD, définir des emplacements favoris, afficher les propriétés et attributs des objets sans ouvrir de boîtes de dialogue, modifier les autorisations, afficher le schéma d'un objet et exécuter des recherches sophistiquées que vous pouvez enregistrer et réexécuter.
+> Un visualiseur et éditeur avancé de l'Active Directory (AD). Vous pouvez utiliser l'Explorateur AD pour naviguer facilement dans une base de données AD, définir des emplacements favoris, afficher les propriétés et attributs des objets sans ouvrir de boîtes de dialogue, modifier les autorisations, afficher le schéma d'un objet et exécuter des recherches sophistiquées que vous pouvez enregistrer et réexécuter.
 
 ### Instantanés
 
@@ -51,10 +51,10 @@ Les **ingestors** sont utilisés pour **énumérer le domaine et extraire toutes
 L'**application de visualisation utilise neo4j** pour montrer comment toutes les informations sont liées et pour montrer différentes façons d'escalader les privilèges dans le domaine.
 
 ### Installation
-Après la création de BloodHound CE, l'ensemble du projet a été mis à jour pour faciliter son utilisation avec Docker. Le moyen le plus simple de commencer est d'utiliser sa configuration Docker Compose préconfigurée.
+Après la création de BloodHound CE, l'ensemble du projet a été mis à jour pour faciliter son utilisation avec Docker. La manière la plus simple de commencer est d'utiliser sa configuration Docker Compose préconfigurée.
 
-1. Installez Docker Compose. Cela devrait être inclus dans l'installation de [Docker Desktop](https://www.docker.com/products/docker-desktop/).
-2. Exécutez :
+1. Installer Docker Compose. Cela devrait être inclus dans l'installation de [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+2. Exécuter :
 ```
 curl -L https://ghst.ly/getbhce | docker compose -f - up
 ```
@@ -93,3 +93,15 @@ group3r.exe -f <filepath-name.log>
 [**PingCastle**](https://www.pingcastle.com/documentation/) **évalue la posture de sécurité d'un environnement AD** et fournit un **rapport** détaillé avec des graphiques.
 
 Pour l'exécuter, vous pouvez exécuter le binaire `PingCastle.exe` et il démarrera une **session interactive** présentant un menu d'options. L'option par défaut à utiliser est **`healthcheck`** qui établira une **vue d'ensemble** de **domaine**, et trouvera des **mauvaises configurations** et des **vulnérabilités**.&#x20;
+
+<details>
+
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+
+</details>

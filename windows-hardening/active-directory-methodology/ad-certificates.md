@@ -9,8 +9,8 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
@@ -20,12 +20,12 @@ Autres façons de soutenir HackTricks :
 
 - Le **Sujet** du certificat désigne son propriétaire.
 - Une **Clé publique** est associée à une clé détenue en privé pour lier le certificat à son propriétaire légitime.
-- La **Période de validité**, définie par les dates **NotBefore** et **NotAfter**, marque la durée d'efficacité du certificat.
+- La **Période de validité**, définie par les dates **NotBefore** et **NotAfter**, marque la durée effective du certificat.
 - Un **Numéro de série** unique, fourni par l'autorité de certification (CA), identifie chaque certificat.
 - L'**Émetteur** fait référence à la CA qui a délivré le certificat.
 - **SubjectAlternativeName** permet d'ajouter des noms supplémentaires pour le sujet, améliorant la flexibilité d'identification.
 - Les **Contraintes de base** identifient si le certificat est pour une CA ou une entité finale et définissent les restrictions d'utilisation.
-- Les **Usages étendus des clés (EKUs)** délimitent les objectifs spécifiques du certificat, tels que la signature de code ou le chiffrement des e-mails, à travers des Identifiants d'Objet (OID).
+- Les **Usages étendus des clés (EKUs)** délimitent les objectifs spécifiques du certificat, comme la signature de code ou le chiffrement des e-mails, à travers des Identifiants d'Objet (OID).
 - L'**Algorithme de signature** spécifie la méthode de signature du certificat.
 - La **Signature**, créée avec la clé privée de l'émetteur, garantit l'authenticité du certificat.
 
@@ -44,7 +44,7 @@ AD CS reconnaît les certificats de CA dans une forêt AD à travers des contene
 
 ### Acquisition de certificats : Flux de demande de certificat client
 
-1. Le processus de demande commence par les clients trouvant une CA d'entreprise.
+1. Le processus de demande commence avec les clients trouvant une CA d'entreprise.
 2. Une CSR est créée, contenant une clé publique et d'autres détails, après la génération d'une paire de clés publique-privée.
 3. La CA évalue la CSR par rapport aux modèles de certificat disponibles, délivrant le certificat en fonction des autorisations du modèle.
 4. Après approbation, la CA signe le certificat avec sa clé privée et le renvoie au client.
@@ -57,7 +57,7 @@ Définis dans AD, ces modèles détaillent les paramètres et autorisations pour
 
 Le processus d'inscription des certificats est initié par un administrateur qui **crée un modèle de certificat**, ensuite **publié** par une Autorité de Certification d'Entreprise (CA). Cela rend le modèle disponible pour l'inscription des clients, une étape réalisée en ajoutant le nom du modèle au champ `certificatetemplates` d'un objet Active Directory.
 
-Pour qu'un client puisse demander un certificat, des **droits d'inscription** doivent être accordés. Ces droits sont définis par des descripteurs de sécurité sur le modèle de certificat et la CA d'entreprise elle-même. Les autorisations doivent être accordées dans les deux emplacements pour qu'une demande soit réussie.
+Pour qu'un client demande un certificat, des **droits d'inscription** doivent être accordés. Ces droits sont définis par des descripteurs de sécurité sur le modèle de certificat et la CA d'entreprise elle-même. Les autorisations doivent être accordées aux deux emplacements pour qu'une demande soit réussie.
 
 ### Droits d'inscription de modèle
 
@@ -83,7 +83,7 @@ Les certificats peuvent être demandés via :
 2. Le **Protocole distant ICertPassage** (MS-ICPR), via des tubes nommés ou TCP/IP.
 3. L'**interface web d'inscription de certificat**, avec le rôle d'inscription web de l'Autorité de Certification installé.
 4. Le **Service d'inscription de certificat** (CES), en conjonction avec le service de politique d'inscription de certificat (CEP).
-5. Le **Service d'inscription de périphérique réseau** (NDES) pour les périphériques réseau, en utilisant le Protocole d'Inscription de Certificat Simple (SCEP).
+5. Le **Service d'inscription de périphériques réseau** (NDES) pour les périphériques réseau, en utilisant le Protocole d'Inscription de Certificat Simple (SCEP).
 
 Les utilisateurs Windows peuvent également demander des certificats via l'interface graphique (`certmgr.msc` ou `certlm.msc`) ou des outils en ligne de commande (`certreq.exe` ou la commande `Get-Certificate` de PowerShell).
 ```powershell
@@ -96,7 +96,7 @@ Active Directory (AD) prend en charge l'authentification par certificat, utilisa
 
 ### Processus d'authentification Kerberos
 
-Dans le processus d'authentification Kerberos, la demande d'un Ticket Granting Ticket (TGT) par un utilisateur est signée à l'aide de la **clé privée** du certificat de l'utilisateur. Cette demande subit plusieurs validations par le contrôleur de domaine, notamment la **validité**, le **chemin** et le **statut de révocation** du certificat. Les validations incluent également la vérification que le certificat provient d'une source de confiance et la confirmation de la présence de l'émetteur dans le magasin de certificats **NTAUTH**. Des validations réussies entraînent la délivrance d'un TGT. L'objet **`NTAuthCertificates`** dans AD, se trouve à :
+Dans le processus d'authentification Kerberos, la demande d'un Ticket Granting Ticket (TGT) d'un utilisateur est signée à l'aide de la **clé privée** du certificat de l'utilisateur. Cette demande subit plusieurs validations par le contrôleur de domaine, notamment la **validité**, le **chemin**, et le **statut de révocation** du certificat. Les validations incluent également la vérification que le certificat provient d'une source de confiance et la confirmation de la présence de l'émetteur dans le magasin de certificats **NTAUTH**. Des validations réussies entraînent la délivrance d'un TGT. L'objet **`NTAuthCertificates`** dans AD, se trouve à :
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
@@ -106,7 +106,7 @@ Schannel facilite les connexions sécurisées TLS/SSL, où lors d'une poignée d
 
 ### Énumération des services de certificats AD
 
-Les services de certificats AD peuvent être énumérés via des requêtes LDAP, révélant des informations sur les **Autorités de certification d'entreprise (CA)** et leurs configurations. Cela est accessible par tout utilisateur authentifié dans le domaine sans privilèges spéciaux. Des outils comme **[Certify](https://github.com/GhostPack/Certify)** et **[Certipy](https://github.com/ly4k/Certipy)** sont utilisés pour l'énumération et l'évaluation des vulnérabilités dans les environnements AD CS.
+Les services de certificats AD peuvent être énumérés à travers des requêtes LDAP, révélant des informations sur les **Autorités de certification d'entreprise (CA)** et leurs configurations. Cela est accessible par n'importe quel utilisateur authentifié du domaine sans privilèges spéciaux. Des outils tels que **[Certify](https://github.com/GhostPack/Certify)** et **[Certipy](https://github.com/ly4k/Certipy)** sont utilisés pour l'énumération et l'évaluation des vulnérabilités dans les environnements AD CS.
 
 Commandes pour utiliser ces outils :
 ```bash
@@ -129,14 +129,14 @@ certutil -v -dstemplate
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

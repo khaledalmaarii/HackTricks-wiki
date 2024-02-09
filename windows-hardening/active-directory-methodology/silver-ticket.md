@@ -6,23 +6,23 @@
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 <img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossible - **nous recrutons !** (_maîtrise du polonais à l'écrit et à l'oral requise_).
+Si vous êtes intéressé par une **carrière en piratage** et pirater l'impiratable - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 ## Billet Silver
 
-L'attaque du **Billet Silver** implique l'exploitation des tickets de service dans les environnements Active Directory (AD). Cette méthode repose sur **l'acquisition du hachage NTLM d'un compte de service**, tel qu'un compte d'ordinateur, pour falsifier un ticket de service de délivrance de tickets (TGS). Avec ce ticket falsifié, un attaquant peut accéder à des services spécifiques sur le réseau, **en se faisant passer pour n'importe quel utilisateur**, visant généralement les privilèges administratifs. Il est souligné que l'utilisation de clés AES pour falsifier des tickets est plus sécurisée et moins détectable.
+L'attaque du **Billet Silver** implique l'exploitation des tickets de service dans les environnements Active Directory (AD). Cette méthode repose sur **l'acquisition du hachage NTLM d'un compte de service**, tel qu'un compte d'ordinateur, pour falsifier un ticket de service de billetterie (TGS). Avec ce ticket falsifié, un attaquant peut accéder à des services spécifiques sur le réseau, **en se faisant passer pour n'importe quel utilisateur**, visant généralement les privilèges administratifs. Il est souligné que l'utilisation de clés AES pour falsifier des tickets est plus sécurisée et moins détectable.
 
 Pour la création de tickets, différents outils sont utilisés en fonction du système d'exploitation :
 
@@ -48,12 +48,12 @@ Le service CIFS est mis en avant comme une cible courante pour accéder au syst�
 
 ## Services Disponibles
 
-| Type de Service                            | Tickets Silver pour le Service                                             |
+| Type de Service                           | Tickets Silver pour le Service                                             |
 | ------------------------------------------ | -------------------------------------------------------------------------- |
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>En fonction du système d'exploitation également :</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Dans certains cas, vous pouvez simplement demander : WINRM</p> |
-| Tâches Planifiées                          | HOST                                                                       |
+| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>En fonction du système d'exploitation également:</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Dans certains cas, vous pouvez simplement demander: WINRM</p> |
+| Tâches Planifiées                         | HOST                                                                       |
 | Partage de Fichiers Windows, également psexec | CIFS                                                                       |
 | Opérations LDAP, incluant DCSync           | LDAP                                                                       |
 | Outils d'Administration de Serveur à Distance Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
@@ -107,9 +107,15 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
+Trouvez **plus d'informations sur wmiexec** sur la page suivante:
+
+{% content-ref url="../ntlm/wmicexec.md" %}
+[wmicexec.md](../ntlm/wmicexec.md)
+{% endcontent-ref %}
+
 ### HÔTE + WSMAN (WINRM)
 
-Avec l'accès winrm sur un ordinateur, vous pouvez y accéder et même obtenir un PowerShell:
+Avec l'accès winrm sur un ordinateur, vous pouvez **y accéder** et même obtenir un PowerShell:
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
@@ -154,7 +160,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

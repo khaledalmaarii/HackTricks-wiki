@@ -1,24 +1,23 @@
-```markdown
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 
-# Vérifiez les actions possibles à l'intérieur de l'application GUI
+# Vérifier les actions possibles à l'intérieur de l'application GUI
 
-Les **Dialogues Communs** sont ces options de **sauvegarde d'un fichier**, **ouverture d'un fichier**, sélection d'une police, d'une couleur... La plupart offriront une **fonctionnalité d'Explorateur complète**. Cela signifie que vous pourrez accéder aux fonctionnalités de l'Explorateur si vous pouvez accéder à ces options :
+Les **Dialogues courants** sont ces options de **sauvegarde d'un fichier**, **ouverture d'un fichier**, sélection d'une police, d'une couleur... La plupart d'entre eux **offriront une fonctionnalité d'Explorateur complète**. Cela signifie que vous pourrez accéder aux fonctionnalités de l'Explorateur si vous pouvez accéder à ces options :
 
-* Fermer/Enregistrer sous
+* Fermer/Fermer sous
 * Ouvrir/Ouvrir avec
 * Imprimer
 * Exporter/Importer
@@ -32,9 +31,9 @@ Vous devriez vérifier si vous pouvez :
 * Accéder à des zones restreintes
 * Exécuter d'autres applications
 
-## Exécution de Commande
+## Exécution de commandes
 
-Peut-être qu'en **utilisant l'option** _**Ouvrir avec**_ vous pouvez ouvrir/exécuter une sorte de shell.
+Peut-être **en utilisant une option `Ouvrir avec`** vous pouvez ouvrir/exécuter une sorte de shell.
 
 ### Windows
 
@@ -46,15 +45,15 @@ _bash, sh, zsh..._ Plus ici : [https://gtfobins.github.io/](https://gtfobins.git
 
 # Windows
 
-## Contournement des restrictions de chemin
+## Contourner les restrictions de chemin
 
 * **Variables d'environnement** : Il y a beaucoup de variables d'environnement qui pointent vers un chemin
 * **Autres protocoles** : _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **Liens symboliques**
-* **Raccourcis** : CTRL+N (ouvrir nouvelle session), CTRL+R (Exécuter Commandes), CTRL+SHIFT+ESC (Gestionnaire de tâches),  Windows+E (ouvrir explorateur), CTRL-B, CTRL-I (Favoris), CTRL-H (Historique), CTRL-L, CTRL-O (Dialogue Fichier/Ouvrir), CTRL-P (Dialogue Imprimer), CTRL-S (Enregistrer sous)
-* Menu Administratif caché : CTRL-ALT-F8, CTRL-ESC-F9
-* **URI Shell** : _shell:Outils d'administration, shell:Bibliothèque de documents, shell:Bibliothèques, shell:Profils d'utilisateur, shell:Personnel, shell:Dossier de recherche, shell:Système, shell:Dossier de lieux réseau, shell:Envoyer à, shell:Profils d'utilisateur, shell:Outils d'administration communs, shell:Dossier Mon Ordinateur, shell:Dossier Internet_
-* **Chemins UNC** : Chemins pour se connecter aux dossiers partagés. Vous devriez essayer de vous connecter au C$ de la machine locale ("\\\127.0.0.1\c$\Windows\System32")
+* **Raccourcis** : CTRL+N (ouvrir une nouvelle session), CTRL+R (Exécuter des commandes), CTRL+SHIFT+ESC (Gestionnaire des tâches),  Windows+E (ouvrir l'explorateur), CTRL-B, CTRL-I (Favoris), CTRL-H (Historique), CTRL-L, CTRL-O (Boîte de dialogue Ouvrir/Fichier), CTRL-P (Boîte de dialogue Imprimer), CTRL-S (Enregistrer sous)
+* Menu administratif caché : CTRL-ALT-F8, CTRL-ESC-F9
+* **URI Shell** : _shell:Outils administratifs, shell:Bibliothèque de documents, shell:Bibliothèques, shell:ProfilsUtilisateurs, shell:Personnel, shell:DossierRechercheAccueil, shell:Réseau, shell:EnvoyerVers, shell:ProfilsUtilisateurs, shell:Outils administratifs communs, shell:PosteTravail, shell:DossierInternet_
+* **Chemins UNC** : Chemins pour se connecter à des dossiers partagés. Vous devriez essayer de vous connecter au C$ de la machine locale ("\\\127.0.0.1\c$\Windows\System32")
 * **Plus de chemins UNC :**
 
 | UNC                       | UNC            | UNC                  |
@@ -69,7 +68,7 @@ _bash, sh, zsh..._ Plus ici : [https://gtfobins.github.io/](https://gtfobins.git
 | %TMP%                     | %USERDOMAIN%   | %USERNAME%           |
 | %USERPROFILE%             | %WINDIR%       |                      |
 
-## Téléchargez vos Binaires
+## Téléchargez vos binaires
 
 Console : [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
 Explorateur : [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
@@ -89,193 +88,165 @@ Explorateur : [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2
 
 ## Raccourcis
 
-* Touches Collantes – Appuyez 5 fois sur SHIFT
-* Touches Souris – SHIFT+ALT+VERROU NUM
-* Contraste Élevé – SHIFT+ALT+IMPR ÉCRAN
-* Touches Bascule – Maintenez VERROU NUM pendant 5 secondes
-* Touches Filtre – Maintenez la touche SHIFT droite pendant 12 secondes
+* Sticky Keys – Appuyez sur SHIFT 5 fois
+* Mouse Keys – SHIFT+ALT+NUMLOCK
+* Contraste élevé – SHIFT+ALT+PRINTSCN
+* Touche de bascule – Maintenez NUMLOCK enfoncé pendant 5 secondes
+* Touches de filtre – Maintenez la touche droite SHIFT enfoncée pendant 12 secondes
 * WINDOWS+F1 – Recherche Windows
-* WINDOWS+D – Afficher le Bureau
-* WINDOWS+E – Lancer l'Explorateur Windows
+* WINDOWS+D – Afficher le bureau
+* WINDOWS+E – Lancer l'explorateur Windows
 * WINDOWS+R – Exécuter
-* WINDOWS+U – Centre d'Accessibilité
+* WINDOWS+U – Centre d'accessibilité
 * WINDOWS+F – Recherche
-* SHIFT+F10 – Menu Contextuel
-* CTRL+SHIFT+ESC – Gestionnaire de Tâches
-* CTRL+ALT+SUPPR – Écran de démarrage sur les nouvelles versions de Windows
+* SHIFT+F10 – Menu contextuel
+* CTRL+SHIFT+ESC – Gestionnaire des tâches
+* CTRL+ALT+DEL – Écran de démarrage sur les nouvelles versions de Windows
 * F1 – Aide F3 – Recherche
-* F6 – Barre d'Adresse
+* F6 – Barre d'adresse
 * F11 – Basculer en plein écran dans Internet Explorer
 * CTRL+H – Historique Internet Explorer
-* CTRL+T – Internet Explorer – Nouvel Onglet
-* CTRL+N – Internet Explorer – Nouvelle Page
-* CTRL+O – Ouvrir Fichier
+* CTRL+T – Internet Explorer – Nouvel onglet
+* CTRL+N – Internet Explorer – Nouvelle page
+* CTRL+O – Ouvrir un fichier
 * CTRL+S – Enregistrer CTRL+N – Nouveau RDP / Citrix
 
-## Balayages
+## Gestes
 
-* Balayez de la gauche vers la droite pour voir toutes les fenêtres ouvertes, minimisant l'application KIOSK et accédant directement à tout le système d'exploitation ;
-* Balayez de la droite vers la gauche pour ouvrir le Centre d'Action, minimisant l'application KIOSK et accédant directement à tout le système d'exploitation ;
-* Balayez du haut vers le bas pour rendre la barre de titre visible pour une application ouverte en mode plein écran ;
-* Balayez du bas vers le haut pour afficher la barre des tâches dans une application en plein écran.
+* Faites glisser du côté gauche vers la droite pour voir toutes les fenêtres ouvertes, minimisant l'application KIOSK et accédant directement à l'ensemble du système d'exploitation ;
+* Faites glisser du côté droit vers la gauche pour ouvrir le Centre d'action, minimisant l'application KIOSK et accédant directement à l'ensemble du système d'exploitation ;
+* Faites glisser depuis le bord supérieur pour rendre la barre de titre visible pour une application ouverte en mode plein écran ;
+* Faites glisser vers le haut depuis le bas pour afficher la barre des tâches dans une application en plein écran.
 
 ## Astuces Internet Explorer
 
-### 'Barre d'outils Image'
+### 'Barre d'images'
 
-C'est une barre d'outils qui apparaît en haut à gauche de l'image lorsqu'elle est cliquée. Vous pourrez Enregistrer, Imprimer, Mailto, Ouvrir "Mes Images" dans l'Explorateur. Le Kiosque doit utiliser Internet Explorer.
+C'est une barre d'outils qui apparaît en haut à gauche de l'image lorsqu'elle est cliquée. Vous pourrez Enregistrer, Imprimer, Envoyer par e-mail, Ouvrir "Mes images" dans l'Explorateur. Le Kiosque doit utiliser Internet Explorer.
 
 ### Protocole Shell
 
-Tapez ces URL pour obtenir une vue Explorateur :
+Tapez ces URL pour obtenir une vue de l'Explorateur :
 
-* `shell:Outils d'administration`
+* `shell:Outils administratifs`
 * `shell:Bibliothèque de documents`
 * `shell:Bibliothèques`
-* `shell:Profils d'utilisateur`
+* `shell:ProfilsUtilisateurs`
 * `shell:Personnel`
-* `shell:Dossier de recherche`
-* `shell:Dossier de lieux réseau`
-* `shell:Envoyer à`
-* `shell:Profils d'utilisateur`
-* `shell:Outils d'administration communs`
-* `shell:Dossier Mon Ordinateur`
-* `shell:Dossier Internet`
+* `shell:DossierRechercheAccueil`
+* `shell:Réseau`
+* `shell:EnvoyerVers`
+* `shell:ProfilsUtilisateurs`
+* `shell:Outils administratifs communs`
+* `shell:PosteTravail`
+* `shell:DossierInternet`
 * `Shell:Profil`
 * `Shell:ProgramFiles`
-* `Shell:Système`
-* `Shell:Dossier du Panneau de Contrôle`
+* `Shell:System`
+* `Shell:DossierPanneauConfiguration`
 * `Shell:Windows`
-* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Panneau de Contrôle
-* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Mon Ordinateur
-* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Mes Lieux Réseau
+* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Panneau de configuration
+* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Poste de travail
+* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Mes lieux réseau
 * `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> Internet Explorer
 
-# Astuces pour navigateurs
+## Afficher les extensions de fichier
 
-Versions de sauvegarde iKat :
+Consultez cette page pour plus d'informations : [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
+
+# Astuces des navigateurs
+
+Sauvegardez les versions iKat :
 
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\
 
-Créez un dialogue commun en utilisant JavaScript et accédez à l'explorateur de fichiers : `document.write('<input/type=file>')`
+Créez une boîte de dialogue commune en utilisant JavaScript et accédez à l'explorateur de fichiers : `document.write('<input/type=file>')`
 Source : https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
 
 # iPad
 
-## Gestes et fonds
+## Gestes et boutons
 
-### Balayez vers le haut avec quatre (ou cinq) doigts / Double-tapez sur le bouton Home
+* Faites glisser vers le haut avec quatre (ou cinq) doigts / Double-tapez sur le bouton Accueil : Pour afficher la vue multitâche et changer d'application
 
-Pour voir la vue multitâche et changer d'application
+* Faites glisser d'un côté ou de l'autre avec quatre ou cinq doigts : Pour changer vers l'application suivante/précédente
 
-### Balayez d'un côté ou de l'autre avec quatre ou cinq doigts
+* Pincez l'écran avec cinq doigts / Touchez le bouton Accueil / Faites glisser vers le haut avec 1 doigt depuis le bas de l'écran en un mouvement rapide vers le haut : Pour accéder à l'Accueil
 
-Pour passer à l'application suivante/précédente
+* Faites glisser un doigt depuis le bas de l'écran juste à 1-2 pouces (lentement) : Le dock apparaîtra
 
-### Pincez l'écran avec cinq doigts / Touchez le bouton Home / Balayez vers le haut avec 1 doigt depuis le bas de l'écran dans un mouvement rapide vers le haut
+* Faites glisser vers le bas depuis le haut de l'écran avec 1 doigt : Pour afficher vos notifications
 
-Pour accéder à l'accueil
+* Faites glisser vers le bas avec 1 doigt dans le coin supérieur droit de l'écran : Pour voir le centre de contrôle de l'iPad Pro
 
-### Balayez un doigt depuis le bas de l'écran juste 1-2 pouces (lentement)
+* Faites glisser 1 doigt depuis la gauche de l'écran sur 1-2 pouces : Pour voir la vue Aujourd'hui
 
-Le dock apparaîtra
+* Faites glisser rapidement 1 doigt depuis le centre de l'écran vers la droite ou la gauche : Pour changer vers l'application suivante/précédente
 
-### Balayez vers le bas depuis le haut de l'écran avec 1 doigt
+* Maintenez enfoncé le bouton Marche/Arrêt en haut à droite de l'iPad + Déplacez le curseur Éteindre tout à droite : Pour éteindre
 
-Pour voir vos notifications
+* Appuyez sur le bouton Marche/Arrêt en haut à droite de l'iPad et le bouton Accueil pendant quelques secondes : Pour forcer un arrêt complet
 
-### Balayez vers le bas avec 1 doigt le coin supérieur droit de l'écran
-
-Pour voir le centre de contrôle de l'iPad Pro
-
-### Balayez 1 doigt depuis la gauche de l'écran 1-2 pouces
-
-Pour voir la vue Aujourd'hui
-
-### Balayez rapidement 1 doigt depuis le centre de l'écran vers la droite ou la gauche
-
-Pour changer à l'application suivante/précédente
-
-### Appuyez et maintenez le bouton On/**Off**/Veille en haut à droite de l'**iPad +** Déplacez le curseur Éteindre vers la droite,
-
-Pour éteindre
-
-### Appuyez sur le bouton On/**Off**/Veille en haut à droite de l'**iPad et le bouton Home pendant quelques secondes**
-
-Pour forcer un arrêt complet
-
-### Appuyez sur le bouton On/**Off**/Veille en haut à droite de l'**iPad et le bouton Home rapidement**
-
-Pour prendre une capture d'écran qui apparaîtra dans le coin inférieur gauche de l'écran. Appuyez sur les deux boutons en même temps très brièvement car si vous les maintenez quelques secondes, un arrêt complet sera effectué.
+* Appuyez sur le bouton Marche/Arrêt en haut à droite de l'iPad et le bouton Accueil rapidement : Pour prendre une capture d'écran qui apparaîtra en bas à gauche de l'écran. Appuyez brièvement sur les deux boutons en même temps, car si vous les maintenez enfoncés quelques secondes, un arrêt complet sera effectué.
 
 ## Raccourcis
 
 Vous devriez avoir un clavier iPad ou un adaptateur de clavier USB. Seuls les raccourcis qui pourraient aider à s'échapper de l'application seront montrés ici.
 
-| Touche | Nom           |
-| ------ | ------------- |
-| ⌘      | Commande      |
-| ⌥      | Option (Alt)  |
-| ⇧      | Majuscule     |
-| ↩      | Retour        |
-| ⇥      | Tabulation    |
-| ^      | Contrôle      |
-| ←      | Flèche Gauche |
-| →      | Flèche Droite |
-| ↑      | Flèche Haut   |
-| ↓      | Flèche Bas    |
+| Touche | Nom         |
+| --- | ------------ |
+| ⌘   | Commande      |
+| ⌥   | Option (Alt) |
+| ⇧   | Majuscule        |
+| ↩   | Retour       |
+| ⇥   | Tabulation          |
+| ^   | Contrôle      |
+| ←   | Flèche gauche   |
+| →   | Flèche droite  |
+| ↑   | Flèche vers le haut     |
+| ↓   | Flèche vers le bas   |
 
 ### Raccourcis système
 
 Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'utilisation de l'iPad.
 
 | Raccourci | Action                                                                         |
-| --------- | ------------------------------------------------------------------------------ |
-| F1        | Assombrir l'écran                                                              |
-| F2        | Éclaircir l'écran                                                              |
-| F7        | Revenir une chanson en arrière                                                 |
-| F8        | Lecture/pause                                                                  |
-| F9        | Passer la chanson                                                              |
-| F10       | Muet                                                                           |
-| F11       | Diminuer le volume                                                             |
-| F12       | Augmenter le volume                                                            |
-| ⌘ Espace  | Afficher une liste de langues disponibles ; pour en choisir une, appuyez à nouveau sur la barre d'espace. |
+| -------- | ------------------------------------------------------------------------------ |
+| F1       | Diminuer la luminosité de l'écran                                                                    |
+| F2       | Augmenter la luminosité de l'écran                                                                |
+| F7       | Revenir en arrière d'une chanson                                                                  |
+| F8       | Lecture/pause                                                                     |
+| F9       | Passer à la chanson suivante                                                                      |
+| F10      | Muet                                                                           |
+| F11      | Diminuer le volume                                                                |
+| F12      | Augmenter le volume                                                                |
+| ⌘ Espace  | Afficher une liste des langues disponibles ; pour en choisir une, appuyez à nouveau sur la barre d'espace. |
 
 ### Navigation iPad
 
-| Raccourci                                         | Action                                                  |
-| ------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                | Aller à l'accueil                                       |
-| ⌘⇧H (Commande-Majuscule-H)                        | Aller à l'accueil                                       |
-| ⌘ (Espace)                                        | Ouvrir Spotlight                                        |
-| ⌘⇥ (Commande-Tabulation)                          | Lister les dix dernières applications utilisées         |
-| ⌘\~                                               | Aller à la dernière application                         |
-| ⌘⇧3 (Commande-Majuscule-3)                        | Capture d'écran (flotte en bas à gauche pour sauvegarder ou agir dessus) |
-| ⌘⇧4                                                | Capture d'écran et l'ouvrir dans l'éditeur              |
-| Maintenir appuyé ⌘                                 | Liste des raccourcis disponibles pour l'application     |
-| ⌘⌥D (Commande-Option/Alt-D)                       | Faire apparaître le dock                                |
-| ^⌥H (Contrôle-Option-H)                           | Bouton d'accueil                                        |
-| ^⌥H H (Contrôle-Option-H-H)                       | Afficher la barre multitâche                            |
-| ^⌥I (Contrôle-Option-i)                           | Choix de l'élément                                      |
-| Échapper                                           | Bouton de retour                                        |
-| → (Flèche droite)                                  | Élément suivant                                         |
-| ← (Flèche gauche)                                  | Élément précédent                                       |
-| ↑↓ (Flèche haut, Flèche bas)                       | Appuyer simultanément sur l'élément sélectionné         |
-| ⌥ ↓ (Option-Flèche bas)                            | Faire défiler vers le bas                               |
-| ⌥↑ (Option-Flèche haut)                            | Faire défiler vers le haut                              |
-| ⌥← ou ⌥→ (Option-Flèche gauche ou Option-Flèche droite) | Faire défiler vers la gauche ou la droite              |
-| ^⌥S (Contrôle-Option-S)                            | Activer ou désactiver la parole de VoiceOver            |
-| ⌘⇧⇥ (Commande-Majuscule-Tabulation)                | Passer à l'application précédente                       |
-| ⌘⇥ (Commande-Tabulation)                           | Revenir à l'application d'origine                       |
-| ←+→, puis Option + ← ou Option+→                   | Naviguer dans le Dock                                   |
-
-### Raccourcis Safari
-
-| Raccourci              | Action                                           |
-| ---------------------- | ------------------------------------------------ |
-| ⌘L (Commande-L)        | Ouvrir l'emplacement                             |
-| ⌘T                     | Ouvrir un nouvel onglet                          |
-| ⌘W                     | Fermer l'onglet actuel                           |
-| ⌘R                     | Rafraîchir l'onglet actuel                       |
-|
+| Raccourci                                           | Action                                                  |
+| -------------------------------------------------- | ------------------------------------------------------- |
+| ⌘H                                                 | Aller à l'Accueil                                              |
+| ⌘⇧H (Commande-Majuscule-H)                              | Aller à l'Accueil                                              |
+| ⌘ (Espace)                                          | Ouvrir Spotlight                                          |
+| ⌘⇥ (Commande-Tabulation)                                   | Liste des dix dernières applications utilisées                                 |
+| ⌘\~                                                | Aller à la dernière application                                       |
+| ⌘⇧3 (Commande-Majuscule-3)                              | Capture d'écran (apparaît en bas à gauche pour enregistrer ou agir dessus) |
+| ⌘⇧4                                                | Capture d'écran et ouverture dans l'éditeur                    |
+| Maintenir enfoncé ⌘                                   | Liste des raccourcis disponibles pour l'application                 |
+| ⌘⌥D (Commande-Option/Alt-D)                         | Fait apparaître le dock                                      |
+| ^⌥H (Contrôle-Option-H)                             | Bouton Accueil                                             |
+| ^⌥H H (Contrôle-Option-H-H)                         | Afficher la barre de multitâche                                      |
+| ^⌥I (Contrôle-Option-i)                             | Sélecteur d'éléments                                            |
+| Échap                                             | Bouton Retour                                             |
+| → (Flèche droite)                                    | Élément suivant                                               |
+| ← (Flèche gauche)                                     | Élément précédent                                           |
+| ↑↓ (Flèche vers le haut, Flèche vers le bas)                          | Appuyer simultanément sur l'élément sélectionné                        |
+| ⌥ ↓ (Option-Flèche vers le bas)                            | Faire défiler vers le bas                                             |
+| ⌥↑ (Option-Flèche vers le haut)                               | Faire défiler vers le haut                                               |
+| ⌥← ou ⌥→ (Option-Flèche gauche ou Option-Flèche droite) | Faire défiler vers la gauche ou la droite                                    |
+| ^⌥S (Contrôle-Option-S)                             | Activer ou désactiver la synthèse vocale VoiceOver                         |
+| ⌘⇧⇥ (Commande-Majuscule-Tabulation)                            | Passer à l'application précédente                              |
+| ⌘⇥ (Commande-Tabulation)                                   | Revenir à l'application d'origine                         |
+| ←+→, puis Option
