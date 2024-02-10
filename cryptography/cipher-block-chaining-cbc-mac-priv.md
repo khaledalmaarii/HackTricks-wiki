@@ -1,85 +1,81 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
 
 
 # CBC
 
-If the **cookie** is **only** the **username** (or the first part of the cookie is the username) and you want to impersonate the username "**admin**". Then, you can create the username **"bdmin"** and **bruteforce** the **first byte** of the cookie.
+Se il **cookie** è **solo** l'**username** (o la prima parte del cookie è l'username) e vuoi impersonare l'username "**admin**". Allora, puoi creare l'username **"bdmin"** e **forzare** il **primo byte** del cookie.
 
 # CBC-MAC
 
-**Cipher block chaining message authentication code** (**CBC-MAC**) is a method used in cryptography. It works by taking a message and encrypting it block by block, where each block's encryption is linked to the one before it. This process creates a **chain of blocks**, making sure that changing even a single bit of the original message will lead to an unpredictable change in the last block of encrypted data. To make or reverse such a change, the encryption key is required, ensuring security.
+Il **cipher block chaining message authentication code** (**CBC-MAC**) è un metodo utilizzato in crittografia. Funziona prendendo un messaggio e crittografandolo blocco per blocco, dove la crittografia di ogni blocco è collegata a quella precedente. Questo processo crea una **catena di blocchi**, garantendo che anche una singola modifica di un bit del messaggio originale porti a una modifica imprevedibile nell'ultimo blocco dei dati crittografati. Per effettuare o invertire tale modifica, è necessaria la chiave di crittografia, garantendo la sicurezza.
 
-To calculate the CBC-MAC of message m, one encrypts m in CBC mode with zero initialization vector and keeps the last block. The following figure sketches the computation of the CBC-MAC of a message comprising blocks![https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5) using a secret key k and a block cipher E:
+Per calcolare il CBC-MAC del messaggio m, si crittografa m in modalità CBC con un vettore di inizializzazione zero e si conserva l'ultimo blocco. La figura seguente illustra il calcolo del CBC-MAC di un messaggio composto da blocchi![https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5) utilizzando una chiave segreta k e un cifrario a blocchi E:
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png)
 
-# Vulnerability
+# Vulnerabilità
 
-With CBC-MAC usually the **IV used is 0**.\
-This is a problem because 2 known messages (`m1` and `m2`) independently will generate 2 signatures (`s1` and `s2`). So:
+Con CBC-MAC di solito l'**IV utilizzato è 0**.\
+Questo è un problema perché 2 messaggi noti (`m1` e `m2`) genereranno indipendentemente 2 firme (`s1` e `s2`). Quindi:
 
 * `E(m1 XOR 0) = s1`
 * `E(m2 XOR 0) = s2`
 
-Then a message composed by m1 and m2 concatenated (m3) will generate 2 signatures (s31 and s32):
+Quindi un messaggio composto da m1 e m2 concatenati (m3) genererà 2 firme (s31 e s32):
 
 * `E(m1 XOR 0) = s31 = s1`
 * `E(m2 XOR s1) = s32`
 
-**Which is possible to calculate without knowing the key of the encryption.**
+**È possibile calcolare ciò senza conoscere la chiave della crittografia.**
 
-Imagine you are encrypting the name **Administrator** in **8bytes** blocks:
+Immagina di crittografare il nome **Administrator** in blocchi di **8 byte**:
 
 * `Administ`
 * `rator\00\00\00`
 
-You can create a username called **Administ** (m1) and retrieve the signature (s1).\
-Then, you can create a username called the result of `rator\00\00\00 XOR s1`. This will generate `E(m2 XOR s1 XOR 0)` which is s32.\
-now, you can use s32 as the signature of the full name **Administrator**.
+Puoi creare un username chiamato **Administ** (m1) e recuperare la firma (s1).\
+Quindi, puoi creare un username chiamato il risultato di `rator\00\00\00 XOR s1`. Questo genererà `E(m2 XOR s1 XOR 0)` che è s32.\
+Ora, puoi utilizzare s32 come firma del nome completo **Administrator**.
 
-### Summary
+### Riassunto
 
-1. Get the signature of username **Administ** (m1) which is s1
-2. Get the signature of username **rator\x00\x00\x00 XOR s1 XOR 0** is s32**.**
-3. Set the cookie to s32 and it will be a valid cookie for the user **Administrator**.
+1. Ottieni la firma dell'username **Administ** (m1) che è s1
+2. Ottieni la firma dell'username **rator\x00\x00\x00 XOR s1 XOR 0** che è s32**.**
+3. Imposta il cookie su s32 e sarà un cookie valido per l'utente **Administrator**.
 
-# Attack Controlling IV
+# Attacco al controllo dell'IV
 
-If you can control the used IV the attack could be very easy.\
-If the cookies is just the username encrypted, to impersonate the user "**administrator**" you can create the user "**Administrator**" and you will get it's cookie.\
-Now, if you can control the IV, you can change the first Byte of the IV so **IV\[0] XOR "A" == IV'\[0] XOR "a"** and regenerate the cookie for the user **Administrator.** This cookie will be valid to **impersonate** the user **administrator** with the initial **IV**.
+Se puoi controllare l'IV utilizzato, l'attacco potrebbe essere molto facile.\
+Se i cookie sono solo l'username criptato, per impersonare l'utente "**administrator**" puoi creare l'utente "**Administrator**" e otterrai il suo cookie.\
+Ora, se puoi controllare l'IV, puoi cambiare il primo byte dell'IV in modo che **IV\[0] XOR "A" == IV'\[0] XOR "a"** e rigenerare il cookie per l'utente **Administrator**. Questo cookie sarà valido per **impersonare** l'utente **administrator** con l'IV iniziale.
 
-## References
+## Riferimenti
 
-More information in [https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)
+Ulteriori informazioni su [https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
-
-

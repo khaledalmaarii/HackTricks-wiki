@@ -1,54 +1,50 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** repository di [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
 
 
-# Identifying packed binaries
+# Identificazione di binari compressi
 
-* **lack of strings**: It's common to find that packed binaries doesn't have almost any string
-* A lot of **unused strings**: Also, when a malware is using some kind of commercial packer it's common to find a lot of strings without cross-references. Even if these strings exist that doesn't mean that the binary isn't packed.
-* You can also use some tools to try to find which packer was used to pack a binary:
-  * [PEiD](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/PEiD-updated.shtml)
-  * [Exeinfo PE](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/ExEinfo-PE.shtml)
-  * [Language 2000](http://farrokhi.net/language/)
+* **Mancanza di stringhe**: È comune trovare che i binari compressi non abbiano quasi nessuna stringa.
+* Molte **stringhe inutilizzate**: Inoltre, quando un malware utilizza qualche tipo di pacchetto commerciale, è comune trovare molte stringhe senza riferimenti incrociati. Anche se queste stringhe esistono, ciò non significa che il binario non sia compresso.
+* È anche possibile utilizzare alcuni strumenti per cercare di individuare quale pacchetto è stato utilizzato per comprimere un binario:
+* [PEiD](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/PEiD-updated.shtml)
+* [Exeinfo PE](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/ExEinfo-PE.shtml)
+* [Language 2000](http://farrokhi.net/language/)
 
-# Basic Recommendations
+# Raccomandazioni di base
 
-* **Start** analysing the packed binary **from the bottom in IDA and move up**. Unpackers exit once the unpacked code exit so it's unlikely that the unpacker passes execution to the unpacked code at the start.
-* Search for **JMP's** or **CALLs** to **registers** or **regions** of **memory**. Also search for **functions pushing arguments and an address direction and then calling `retn`**, because the return of the function in that case may call the address just pushed to the stack before calling it.
-* Put a **breakpoint** on `VirtualAlloc` as this allocates space in memory where the program can write unpacked code. The "run to user code" or use F8 to **get to value inside EAX** after executing the function and "**follow that address in dump**". You never know if that is the region where the unpacked code is going to be saved.
-  * **`VirtualAlloc`** with the value "**40**" as an argument means Read+Write+Execute (some code that needs execution is going to be copied here).
-* **While unpacking** code it's normal to find **several calls** to **arithmetic operations** and functions like **`memcopy`** or **`Virtual`**`Alloc`. If you find yourself in a function that apparently only perform arithmetic operations and maybe some `memcopy` , the recommendation is to try to **find the end of the function** (maybe a JMP or call to some register) **or** at least the **call to the last function** and run to then as the code isn't interesting.
-* While unpacking code **note** whenever you **change memory region** as a memory region change may indicate the **starting of the unpacking code**. You can easily dump a memory region using Process Hacker (process --> properties --> memory).
-* While trying to unpack code a good way to **know if you are already working with the unpacked code** (so you can just dump it) is to **check the strings of the binary**. If at some point you perform a jump (maybe changing the memory region) and you notice that **a lot more strings where added**, then you can know **you are working with the unpacked code**.\
-  However, if the packer already contains a lot of strings you can see how many strings contains the word "http" and see if this number increases.
-* When you dump an executable from a region of memory you can fix some headers using [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases).
+* **Inizia** analizzando il binario compresso **dal basso in IDA e risali**. Gli unpacker escono una volta che il codice decompresso esce, quindi è improbabile che l'unpacker passi l'esecuzione al codice decompresso all'inizio.
+* Cerca **JMP** o **CALL** a **registri** o **regioni** di **memoria**. Cerca anche **funzioni che pushano argomenti e un indirizzo di direzione e poi chiamano `retn`**, perché il ritorno della funzione in quel caso potrebbe chiamare l'indirizzo appena pushato nello stack prima di chiamarlo.
+* Metti un **breakpoint** su `VirtualAlloc` poiché questo alloca spazio in memoria dove il programma può scrivere il codice decompresso. Esegui "run to user code" o usa F8 per **arrivare al valore dentro EAX** dopo l'esecuzione della funzione e "**seguire quell'indirizzo nel dump**". Non si sa mai se quella è la regione in cui verrà salvato il codice decompresso.
+* **`VirtualAlloc`** con il valore "**40**" come argomento significa Read+Write+Execute (qui verrà copiato del codice che necessita di esecuzione).
+* Mentre si decomprime il codice, è normale trovare **diverse chiamate** a **operazioni aritmetiche** e funzioni come **`memcopy`** o **`Virtual`**`Alloc`. Se ti trovi in una funzione che apparentemente esegue solo operazioni aritmetiche e forse qualche `memcopy`, la raccomandazione è cercare di **trovare la fine della funzione** (forse un JMP o una chiamata a qualche registro) **o** almeno la **chiamata all'ultima funzione** ed eseguire fino ad allora poiché il codice non è interessante.
+* Mentre si decomprime il codice, **fai attenzione** ogni volta che **cambi regione di memoria**, poiché un cambio di regione di memoria può indicare l'inizio del codice decompresso. Puoi facilmente scaricare una regione di memoria utilizzando Process Hacker (processo --> proprietà --> memoria).
+* Mentre si cerca di decomprimere il codice, un buon modo per **sapere se si sta già lavorando con il codice decompresso** (quindi puoi semplicemente scaricarlo) è **controllare le stringhe del binario**. Se in qualche punto esegui un salto (magari cambiando la regione di memoria) e ti accorgi che **sono state aggiunte molte più stringhe**, allora puoi sapere **che stai lavorando con il codice decompresso**.\
+Tuttavia, se il pacchetto contiene già molte stringhe, puoi contare quante stringhe contengono la parola "http" e vedere se questo numero aumenta.
+* Quando scarichi un eseguibile da una regione di memoria, puoi correggere alcuni header utilizzando [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases).
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** repository di [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
-
-

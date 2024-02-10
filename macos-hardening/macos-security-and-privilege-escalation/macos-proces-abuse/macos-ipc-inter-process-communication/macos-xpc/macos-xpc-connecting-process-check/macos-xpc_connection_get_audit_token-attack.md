@@ -1,152 +1,135 @@
-# macOS xpc\_connection\_get\_audit\_token Attack
+# Attacco xpc\_connection\_get\_audit\_token su macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-**For further information check the original post: [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)**. This is a summary:
+**Per ulteriori informazioni consulta il post originale: [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)**. Questo è un riassunto:
 
 
-## Mach Messages Basic Info
+## Informazioni di base su Mach Messages
 
-If you don't know what Mach Messages are start checking this page:
+Se non sai cosa sono le Mach Messages, inizia controllando questa pagina:
 
 {% content-ref url="../../../../mac-os-architecture/macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-For the moment remember that ([definition from here](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
-Mach messages are sent over a _mach port_, which is a **single receiver, multiple sender communication** channel built into the mach kernel. **Multiple processes can send messages** to a mach port, but at any point **only a single process can read from it**. Just like file descriptors and sockets, mach ports are allocated and managed by the kernel and processes only see an integer, which they can use to indicate to the kernel which of their mach ports they want to use.
+Per il momento ricorda che ([definizione da qui](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
+Le Mach Messages vengono inviate su una _porta Mach_, che è un canale di comunicazione **singolo ricevitore, multiplo mittente** incorporato nel kernel Mach. **Più processi possono inviare messaggi** a una porta Mach, ma in ogni momento **solo un singolo processo può leggerne**. Proprio come i descrittori di file e le socket, le porte Mach vengono allocate e gestite dal kernel e i processi vedono solo un numero intero, che possono utilizzare per indicare al kernel quale delle loro porte Mach desiderano utilizzare.
 
-## XPC Connection
+## Connessione XPC
 
-If you don't know how a XPC connection is established check:
+Se non sai come viene stabilita una connessione XPC, controlla:
 
 {% content-ref url="../" %}
 [..](../)
 {% endcontent-ref %}
 
-## Vuln Summary
+## Riassunto della vulnerabilità
 
-What is interesting for you to know is that **XPC’s abstraction is a one-to-one connection**, but it is based on top of a technology which **can have multiple senders, so:**
+Ciò che è interessante sapere è che **l'astrazione di XPC è una connessione uno a uno**, ma si basa su una tecnologia che **può avere più mittenti, quindi**:
 
-* Mach ports are single receiver, **multiple sender**.
-* An XPC connection’s audit token is the audit token of **copied from the most recently received message**.
-* Obtaining the **audit token** of an XPC connection is critical to many **security checks**.
+* Le porte Mach sono singolo ricevitore, **multiplo mittente**.
+* Il token di audit di una connessione XPC è il token di audit **copiato dal messaggio ricevuto più di recente**.
+* Ottenere il **token di audit** di una connessione XPC è fondamentale per molti **controlli di sicurezza**.
 
-Although the previous situation sounds promising there are some scenarios where this is not going to cause problems ([from here](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
+Anche se la situazione precedente sembra promettente, ci sono alcuni scenari in cui ciò non causerà problemi ([da qui](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
 
-* Audit tokens are often used for an authorization check to decide whether to accept a connection. As this happens using a message to the service port, there is **no connection established yet**. More messages on this port will just be handled as additional connection requests. So any **checks before accepting a connection are not vulnerable** (this also means that within `-listener:shouldAcceptNewConnection:` the audit token is safe). We are therefore **looking for XPC connections that verify specific actions**.
-* XPC event handlers are handled synchronously. This means that the event handler for one message must be completed before calling it for the next one, even on concurrent dispatch queues. So inside an **XPC event handler the audit token can not be overwritten** by other normal (non-reply!) messages.
+* I token di audit vengono spesso utilizzati per un controllo di autorizzazione per decidere se accettare una connessione. Poiché ciò avviene utilizzando un messaggio alla porta di servizio, **non è ancora stata stabilita una connessione**. Altri messaggi su questa porta verranno semplicemente gestiti come richieste di connessione aggiuntive. Quindi **i controlli prima di accettare una connessione non sono vulnerabili** (ciò significa anche che all'interno di `-listener:shouldAcceptNewConnection:` il token di audit è sicuro). Stiamo quindi **cercando connessioni XPC che verifichino azioni specifiche**.
+* Gli event handler XPC vengono gestiti in modo sincrono. Ciò significa che l'event handler per un messaggio deve essere completato prima di chiamarlo per il successivo, anche su code di invio simultaneo. Quindi all'interno di un **event handler XPC il token di audit non può essere sovrascritto** da altri messaggi normali (non di risposta!).
 
-Two different methods this might be exploitable:
+Ci sono due diversi metodi con cui ciò potrebbe essere sfruttato:
 
-1. Variant1:
-   * **Exploit** **connects** to service **A** and service **B**
-     * Service **B** can call a **privileged functionality** in service A that the user cannot
-   * Service **A** calls **`xpc_connection_get_audit_token`** while _**not**_ inside the **event handler** for a connection in a **`dispatch_async`**.
-     * So a **different** message could **overwrite the Audit Token** because it's being dispatched asynchronously outside of the event handler.
-   * The exploit passes to **service B the SEND right to service A**.
-     * So svc **B** will be actually **sending** the **messages** to service **A**.
-   * The **exploit** tries to **call** the **privileged action.** In a RC svc **A** **checks** the authorization of this **action** while **svc B overwrote the Audit token** (giving the exploit access to call the privileged action).
-2. Variant 2:
-   * Service **B** can call a **privileged functionality** in service A that the user cannot
-   * Exploit connects with **service A** which **sends** the exploit a **message expecting a response** in a specific **replay** **port**.
-   * Exploit sends **service** B a message passing **that reply port**.
-   * When service **B replies**, it s**ends the message to service A**, **while** the **exploit** sends a different **message to service A** trying to **reach a privileged functionality** and expecting that the reply from service B will overwrite the Audit token in the perfect moment (Race Condition).
+1. Variante 1:
+* L'**exploit** si **connette** al servizio **A** e al servizio **B**.
+* Il servizio **B** può chiamare una **funzionalità privilegiata** in servizio A a cui l'utente non può accedere.
+* Il servizio **A** chiama **`xpc_connection_get_audit_token`** mentre **non è** all'interno dell'**event handler** per una connessione in un **`dispatch_async`**.
+* Quindi un **messaggio diverso** potrebbe **sovrascrivere il Token di Audit** perché viene inviato in modo asincrono al di fuori dell'event handler.
+* L'exploit passa a **servizio B il diritto di invio a servizio A**.
+* Quindi svc **B** invierà effettivamente i messaggi a servizio **A**.
+* L'**exploit** cerca di **chiamare l'azione privilegiata**. In un RC svc **A verifica** l'autorizzazione di questa **azione** mentre **svc B sovrascrive il Token di Audit** (dando all'exploit l'accesso per chiamare l'azione privilegiata).
+2. Variante 2:
+* Il servizio **B** può chiamare una **funzionalità privilegiata** in servizio A a cui l'utente non può accedere.
+* L'exploit si connette con **servizio A** che **invia** all'exploit un **messaggio che si aspetta una risposta** in una specifica **porta di risposta**.
+* L'exploit invia al **servizio B** un messaggio passando **quella porta di risposta**.
+* Quando il servizio **B risponde**, invia il messaggio a servizio **A**, **mentre** l'**exploit** invia un messaggio diverso a servizio A cercando di **raggiungere una funzionalità privilegiata** e aspettando che la risposta da servizio B sovrascriva il Token di Audit nel momento perfetto (Race Condition).
 
-## Variant 1: calling xpc\_connection\_get\_audit\_token outside of an event handler <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
+## Variante 1: chiamare xpc\_connection\_get\_audit\_token al di fuori di un event handler <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
 
 Scenario:
 
-* Two mach services **`A`** and **`B`** that we can both connect to (based on the sandbox profile and the authorization checks before accepting the connection).
-* _**A**_ must have an **authorization check** for a specific action that **`B`** can pass (but our app can’t).
-  * For example, if B has some **entitlements** or is running as **root**, it might allow him to ask A to perform a privileged action.
-* For this authorization check, **`A`** obtains the audit token asynchronously, for example by calling `xpc_connection_get_audit_token` from **`dispatch_async`**.
+* Due servizi Mach **`A`** e **`B`** a cui possiamo entrambi connetterci (in base al profilo sandbox e ai controlli di autorizzazione prima di accettare la connessione).
+* _**A**_ deve avere un **controllo di autorizzazione** per un'azione specifica che **`B`** può superare (ma la nostra app non può).
+* Ad esempio, se B ha alcuni **entitlements** o viene eseguito come **root**, potrebbe consentirgli di chiedere ad A di eseguire un'azione privilegiata.
+* Per questo controllo di autorizzazione, **`A`** ottiene il token di audit in modo asincrono, ad esempio chiam
+4. Il passo successivo prevede di istruire `diagnosticd` ad avviare il monitoraggio di un processo scelto (potenzialmente quello dell'utente). Contestualmente, viene inviata una serie di messaggi di routine 1004 a `smd`. L'intento qui è quello di installare uno strumento con privilegi elevati.
+5. Questa azione scatena una condizione di gara all'interno della funzione `handle_bless`. Il tempismo è critico: la chiamata alla funzione `xpc_connection_get_pid` deve restituire l'ID del processo dell'utente (poiché lo strumento privilegiato risiede nel bundle dell'app dell'utente). Tuttavia, la funzione `xpc_connection_get_audit_token`, in particolare all'interno della subroutine `connection_is_authorized`, deve fare riferimento al token di audit appartenente a `diagnosticd`.
 
-{% hint style="danger" %}
-In this case an attacker could trigger a **Race Condition** making a **exploit** that **asks A to perform an action** several times while making **B send messages to `A`**. When the RC is **successful**, the **audit token** of **B** will be copied in memory **while** the request of our **exploit** is being **handled** by A, giving it **access to the privilege action only B could request**.
-{% endhint %}
+## Variante 2: inoltro delle risposte
 
-This happened with **`A`** as `smd` and **`B`** as `diagnosticd`. The function [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) from smb an be used to install a new privileged helper toot (as **root**). If a **process running as root contact** **smd**, no other checks will be performed.
+In un ambiente di comunicazione tra processi XPC (Cross-Process Communication), sebbene gli event handler non vengano eseguiti contemporaneamente, la gestione dei messaggi di risposta ha un comportamento unico. In particolare, esistono due metodi distinti per l'invio di messaggi che si aspettano una risposta:
 
-Therefore, the service **B** is **`diagnosticd`** because it runs as **root** and can be used to **monitor** a process, so once monitoring has started, it will **send multiple messages per second.**
+1. **`xpc_connection_send_message_with_reply`**: Qui, il messaggio XPC viene ricevuto e elaborato in una coda designata.
+2. **`xpc_connection_send_message_with_reply_sync`**: Al contrario, in questo metodo, il messaggio XPC viene ricevuto e elaborato nella coda di dispatch corrente.
 
-To perform the attack:
+Questa distinzione è cruciale perché consente la possibilità di **analizzare i pacchetti di risposta contemporaneamente all'esecuzione di un event handler XPC**. In particolare, sebbene `_xpc_connection_set_creds` implementi un blocco per proteggere da sovrascritture parziali del token di audit, non estende questa protezione all'intero oggetto di connessione. Di conseguenza, si crea una vulnerabilità in cui il token di audit può essere sostituito durante l'intervallo tra l'analisi di un pacchetto e l'esecuzione del suo event handler.
 
-1. Initiate a **connection** to the service named `smd` using the standard XPC protocol.
-2. Form a secondary **connection** to `diagnosticd`. Contrary to normal procedure, rather than creating and sending two new mach ports, the client port send right is substituted with a duplicate of the **send right** associated with the `smd` connection.
-3. As a result, XPC messages can be dispatched to `diagnosticd`, but responses from `diagnosticd` are rerouted to `smd`. To `smd`, it appears as though the messages from both the user and `diagnosticd` are originating from the same connection.
+Per sfruttare questa vulnerabilità, è necessaria la seguente configurazione:
 
-![Image depicting the exploit process](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
+- Due servizi mach, denominati **`A`** e **`B`**, entrambi in grado di stabilire una connessione.
+- Il servizio **`A`** dovrebbe includere un controllo di autorizzazione per un'azione specifica che solo **`B`** può eseguire (l'applicazione dell'utente non può).
+- Il servizio **`A`** dovrebbe inviare un messaggio che si aspetta una risposta.
+- L'utente può inviare un messaggio a **`B`** a cui risponderà.
 
-4. The next step involves instructing `diagnosticd` to initiate monitoring of a chosen process (potentially the user's own). Concurrently, a flood of routine 1004 messages is sent to `smd`. The intent here is to install a tool with elevated privileges.
-5. This action triggers a race condition within the `handle_bless` function. The timing is critical: the `xpc_connection_get_pid` function call must return the PID of the user's process (as the privileged tool resides in the user's app bundle). However, the `xpc_connection_get_audit_token` function, specifically within the `connection_is_authorized` subroutine, must reference the audit token belonging to `diagnosticd`.
+Il processo di sfruttamento prevede i seguenti passaggi:
 
-## Variant 2: reply forwarding
+1. Attendere che il servizio **`A`** invii un messaggio che si aspetta una risposta.
+2. Invece di rispondere direttamente a **`A`**, la porta di risposta viene dirottata e utilizzata per inviare un messaggio a **`B`**.
+3. Successivamente, viene inviato un messaggio che coinvolge l'azione vietata, con l'aspettativa che venga elaborato contemporaneamente alla risposta da **`B`**.
 
-In an XPC (Cross-Process Communication) environment, although event handlers don't execute concurrently, the handling of reply messages has a unique behavior. Specifically, two distinct methods exist for sending messages that expect a reply:
-
-1. **`xpc_connection_send_message_with_reply`**: Here, the XPC message is received and processed on a designated queue.
-2. **`xpc_connection_send_message_with_reply_sync`**: Conversely, in this method, the XPC message is received and processed on the current dispatch queue.
-
-This distinction is crucial because it allows for the possibility of **reply packets being parsed concurrently with the execution of an XPC event handler**. Notably, while `_xpc_connection_set_creds` does implement locking to safeguard against the partial overwrite of the audit token, it does not extend this protection to the entire connection object. Consequently, this creates a vulnerability where the audit token can be replaced during the interval between the parsing of a packet and the execution of its event handler.
-
-To exploit this vulnerability, the following setup is required:
-
-- Two mach services, referred to as **`A`** and **`B`**, both of which can establish a connection.
-- Service **`A`** should include an authorization check for a specific action that only **`B`** can perform (the user's application cannot).
-- Service **`A`** should send a message that anticipates a reply.
-- The user can send a message to **`B`** that it will respond to.
-
-The exploitation process involves the following steps:
-
-1. Wait for service **`A`** to send a message that expects a reply.
-2. Instead of replying directly to **`A`**, the reply port is hijacked and used to send a message to service **`B`**.
-3. Subsequently, a message involving the forbidden action is dispatched, with the expectation that it will be processed concurrently with the reply from **`B`**.
-
-Below is a visual representation of the described attack scenario:
+Di seguito è riportata una rappresentazione visiva dello scenario di attacco descritto:
 
 ![https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png](../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 
 <figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 
-## Discovery Problems
+## Problemi di scoperta
 
-- **Difficulties in Locating Instances**: Searching for instances of `xpc_connection_get_audit_token` usage was challenging, both statically and dynamically.
-- **Methodology**: Frida was employed to hook the `xpc_connection_get_audit_token` function, filtering calls not originating from event handlers. However, this method was limited to the hooked process and required active usage.
-- **Analysis Tooling**: Tools like IDA/Ghidra were used for examining reachable mach services, but the process was time-consuming, complicated by calls involving the dyld shared cache.
-- **Scripting Limitations**: Attempts to script the analysis for calls to `xpc_connection_get_audit_token` from `dispatch_async` blocks were hindered by complexities in parsing blocks and interactions with the dyld shared cache.
+- **Difficoltà nella localizzazione delle istanze**: La ricerca delle istanze di utilizzo di `xpc_connection_get_audit_token` è stata difficile, sia staticamente che dinamicamente.
+- **Metodologia**: È stato utilizzato Frida per agganciare la funzione `xpc_connection_get_audit_token`, filtrando le chiamate non originate dagli event handler. Tuttavia, questo metodo era limitato al processo agganciato e richiedeva un utilizzo attivo.
+- **Strumenti di analisi**: Sono stati utilizzati strumenti come IDA/Ghidra per esaminare i servizi mach raggiungibili, ma il processo è stato lungo e complicato dalle chiamate che coinvolgono la cache condivisa dyld.
+- **Limitazioni degli script**: I tentativi di scrivere uno script per l'analisi delle chiamate a `xpc_connection_get_audit_token` dai blocchi `dispatch_async` sono stati ostacolati dalla complessità del parsing dei blocchi e dalle interazioni con la cache condivisa dyld.
 
-## The fix <a href="#the-fix" id="the-fix"></a>
+## La soluzione <a href="#the-fix" id="the-fix"></a>
 
-- **Reported Issues**: A report was submitted to Apple detailing the general and specific issues found within `smd`.
-- **Apple's Response**: Apple addressed the issue in `smd` by substituting `xpc_connection_get_audit_token` with `xpc_dictionary_get_audit_token`.
-- **Nature of the Fix**: The `xpc_dictionary_get_audit_token` function is considered secure as it retrieves the audit token directly from the mach message tied to the received XPC message. However, it's not part of the public API, similar to `xpc_connection_get_audit_token`.
-- **Absence of a Broader Fix**: It remains unclear why Apple didn't implement a more comprehensive fix, such as discarding messages not aligning with the saved audit token of the connection. The possibility of legitimate audit token changes in certain scenarios (e.g., `setuid` usage) might be a factor.
-- **Current Status**: The issue persists in iOS 17 and macOS 14, posing a challenge for those seeking to identify and understand it.
+- **Segnalazione dei problemi**: È stata inviata una segnalazione ad Apple in cui sono stati descritti i problemi generali e specifici riscontrati in `smd`.
+- **Risposta di Apple**: Apple ha risolto il problema in `smd` sostituendo `xpc_connection_get_audit_token` con `xpc_dictionary_get_audit_token`.
+- **Natura della soluzione**: La funzione `xpc_dictionary_get_audit_token` è considerata sicura in quanto recupera direttamente il token di audit dal messaggio mach legato al messaggio XPC ricevuto. Tuttavia, non fa parte dell'API pubblica, come `xpc_connection_get_audit_token`.
+- **Assenza di una soluzione più ampia**: Non è chiaro perché Apple non abbia implementato una soluzione più completa, come scartare i messaggi che non corrispondono al token di audit salvato della connessione. La possibilità di modifiche legittime al token di audit in determinati scenari (ad esempio, l'uso di `setuid`) potrebbe essere un fattore.
+- **Stato attuale**: Il problema persiste in iOS 17 e macOS 14, rappresentando una sfida per coloro che cercano di identificarlo e comprenderlo.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) **e** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

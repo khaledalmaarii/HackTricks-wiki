@@ -2,114 +2,113 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+Trova le vulnerabilità più importanti in modo da poterle correggere più velocemente. Intruder traccia la tua superficie di attacco, esegue scansioni proattive delle minacce, trova problemi in tutta la tua infrastruttura tecnologica, dalle API alle applicazioni web e ai sistemi cloud. [**Provalo gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) oggi stesso.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 ***
 
-## Intro <a href="#9wrzi" id="9wrzi"></a>
+## Introduzione <a href="#9wrzi" id="9wrzi"></a>
 
-For info about RFID and NFC check the following page:
+Per informazioni su RFID e NFC, consulta la seguente pagina:
 
 {% content-ref url="../../../radio-hacking/pentesting-rfid.md" %}
 [pentesting-rfid.md](../../../radio-hacking/pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Supported NFC cards <a href="#9wrzi" id="9wrzi"></a>
+## Schede NFC supportate <a href="#9wrzi" id="9wrzi"></a>
 
 {% hint style="danger" %}
-Apart from NFC cards Flipper Zero supports **other type of High-frequency cards** such as several **Mifare** Classic and Ultralight and **NTAG**.
+Oltre alle schede NFC, Flipper Zero supporta **altro tipo di schede ad alta frequenza** come diverse schede **Mifare** Classic e Ultralight e **NTAG**.
 {% endhint %}
 
-New types of NFC cards will be added to the list of supported cards. Flipper Zero supports the following **NFC cards type A** (ISO 14443A):
+Nuovi tipi di schede NFC verranno aggiunti all'elenco delle schede supportate. Flipper Zero supporta i seguenti **tipi di schede NFC A** (ISO 14443A):
 
-* ﻿**Bank cards (EMV)** — only read UID, SAK, and ATQA without saving.
-* ﻿**Unknown cards** — read (UID, SAK, ATQA) and emulate an UID.
+* ﻿**Carte bancarie (EMV)** - leggi solo UID, SAK e ATQA senza salvare.
+* ﻿**Schede sconosciute** - leggi (UID, SAK, ATQA) ed emula un UID.
 
-For **NFC cards type B, type F, and type V**, Flipper Zero is able to read an UID without saving it.
+Per le **schede NFC di tipo B, tipo F e tipo V**, Flipper Zero è in grado di leggere un UID senza salvarlo.
 
-### NFC cards type A <a href="#uvusf" id="uvusf"></a>
+### Schede NFC di tipo A <a href="#uvusf" id="uvusf"></a>
 
-#### Bank card (EMV) <a href="#kzmrp" id="kzmrp"></a>
+#### Carta bancaria (EMV) <a href="#kzmrp" id="kzmrp"></a>
 
-Flipper Zero can only read an UID, SAK, ATQA, and stored data on bank cards **without saving**.
+Flipper Zero può solo leggere un UID, SAK, ATQA e dati memorizzati su carte bancarie **senza salvarli**.
 
-Bank card reading screenFor bank cards, Flipper Zero can only read data **without saving and emulating it**.
+Schermata di lettura della carta bancariaPer le carte bancarie, Flipper Zero può solo leggere i dati **senza salvarli ed emularli**.
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
-#### Unknown cards <a href="#37eo8" id="37eo8"></a>
+#### Schede sconosciute <a href="#37eo8" id="37eo8"></a>
 
-When Flipper Zero is **unable to determine NFC card's type**, then only an **UID, SAK, and ATQA** can be **read and saved**.
+Quando Flipper Zero è **incapace di determinare il tipo di scheda NFC**, allora può essere **letto e salvato solo un UID, SAK e ATQA**.
 
-Unknown card reading screenFor unknown NFC cards, Flipper Zero can emulate only an UID.
+Schermata di lettura della scheda sconosciutaPer le schede NFC sconosciute, Flipper Zero può solo emulare un UID.
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-27-53.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=932&#x26;w=2634" alt=""><figcaption></figcaption></figure>
 
-### NFC cards types B, F, and V <a href="#wyg51" id="wyg51"></a>
+### Schede NFC di tipo B, F e V <a href="#wyg51" id="wyg51"></a>
 
-For **NFC cards types B, F, and V**, Flipper Zero can only **read and display an UID** without saving it.
+Per le **schede NFC di tipo B, F e V**, Flipper Zero può solo **leggere e visualizzare un UID** senza salvarlo.
 
 <figure><img src="https://archbee.imgix.net/3StCFqarJkJQZV-7N79yY/zBU55Fyj50TFO4U7S-OXH_screenshot-2022-08-12-at-182540.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=1080&#x26;w=2704" alt=""><figcaption></figcaption></figure>
 
-## Actions
+## Azioni
 
-For an intro about NFC [**read this page**](../../../radio-hacking/pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
+Per una introduzione su NFC [**leggi questa pagina**](../../../radio-hacking/pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
 
-### Read
+### Lettura
 
-Flipper Zero can **read NFC cards**, however, it **doesn't understand all the protocols** that are based on ISO 14443. However, since **UID is a low-level attribute**, you might find yourself in a situation when **UID is already read, but the high-level data transfer protocol is still unknown**. You can read, emulate and manually input UID using Flipper for the primitive readers that use UID for authorization.
+Flipper Zero può **leggere schede NFC**, tuttavia, **non comprende tutti i protocolli** basati su ISO 14443. Tuttavia, poiché l'UID è un attributo a basso livello, potresti trovarti in una situazione in cui l'UID è già stato letto, ma il protocollo di trasferimento dati ad alto livello è ancora sconosciuto. Puoi leggere, emulare e inserire manualmente l'UID utilizzando Flipper per i lettori primitivi che utilizzano l'UID per l'autorizzazione.
 
-#### Reading the UID VS Reading the Data Inside <a href="#reading-the-uid-vs-reading-the-data-inside" id="reading-the-uid-vs-reading-the-data-inside"></a>
+#### Lettura dell'UID rispetto alla lettura dei dati interni <a href="#reading-the-uid-vs-reading-the-data-inside" id="reading-the-uid-vs-reading-the-data-inside"></a>
 
 <figure><img src="../../../.gitbook/assets/image (26).png" alt=""><figcaption></figcaption></figure>
 
-In Flipper, reading 13.56 MHz tags can be divided into two parts:
+In Flipper, la lettura dei tag a 13,56 MHz può essere divisa in due parti:
 
-* **Low-level read** — reads only the UID, SAK, and ATQA. Flipper tries to guess the high-level protocol based on this data read from the card. You can't be 100% certain with this, as it is just an assumption based on certain factors.
-* **High-level read** — reads the data from the card's memory using a specific high-level protocol. That would be reading the data on a Mifare Ultralight, reading the sectors from a Mifare Classic, or reading the card's attributes from PayPass/Apple Pay.
+* **Lettura a basso livello** - legge solo l'UID, SAK e ATQA. Flipper cerca di indovinare il protocollo ad alto livello basato su questi dati letti dalla scheda. Non puoi essere al 100% certo di questo, poiché è solo un'ipotesi basata su determinati fattori.
+* **Lettura ad alto livello** - legge i dati dalla memoria della scheda utilizzando un protocollo di trasferimento dati ad alto livello specifico. Questo potrebbe essere la lettura dei dati su una Mifare Ultralight, la lettura dei settori da una Mifare Classic o la lettura degli attributi della scheda da PayPass/Apple Pay.
 
-### Read Specific
+### Lettura specifica
 
-In case Flipper Zero isn't capable of finding the type of card from the low level data, in `Extra Actions` you can select `Read Specific Card Type` and **manually** **indicate the type of card you would like to read**.
+Nel caso in cui Flipper Zero non sia in grado di trovare il tipo di scheda dai dati a basso livello, nelle `Azioni extra` puoi selezionare `Lettura di un tipo di scheda specifico` e **indicare manualmente il tipo di scheda che desideri leggere**.
+#### Carte bancarie EMV (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
 
-#### EMV Bank Cards (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
+Oltre a leggere semplicemente l'UID, è possibile estrarre molte altre informazioni da una carta bancaria. È possibile **ottenere il numero completo della carta** (i 16 numeri presenti sul fronte della carta), la **data di validità** e in alcuni casi anche il **nome del proprietario** insieme a un elenco delle **transazioni più recenti**.\
+Tuttavia, **non è possibile leggere il CVV in questo modo** (i 3 numeri sul retro della carta). Inoltre, le **carte bancarie sono protette dagli attacchi di replay**, quindi copiarle con Flipper e poi cercare di emularle per pagare qualcosa non funzionerà.
 
-Apart from simply reading the UID, you can extract a lot more data from a bank card. It's possible to **get the full card number** (the 16 digits on the front of the card), **validity date**, and in some cases even the **owner's name** along with a list of the **most recent transactions**.\
-However, you **can't read the CVV this way** (the 3 digits on the back of the card). Also **bank cards are protected from replay attacks**, so copying it with Flipper and then trying to emulate it to pay for something won't work.
-
-## References
+## Riferimenti
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+Trova le vulnerabilità che contano di più in modo da poterle correggere più velocemente. Intruder traccia la tua superficie di attacco, esegue scansioni proattive delle minacce, trova problemi in tutta la tua infrastruttura tecnologica, dalle API alle applicazioni web e ai sistemi cloud. [**Provalo gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) oggi stesso.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

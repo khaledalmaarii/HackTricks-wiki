@@ -1,63 +1,60 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 
-# Basic Information
+# Informazioni di base
 
-UART is a serial protocol, which means it transfers data between components one bit at a time. In contrast, parallel communication protocols transmit data simultaneously through multiple channels. Common serial protocols include RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express, and USB.
+UART è un protocollo seriale, il che significa che trasferisce i dati tra i componenti un bit alla volta. Al contrario, i protocolli di comunicazione parallela trasmettono i dati contemporaneamente attraverso più canali. I protocolli seriali comuni includono RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express e USB.
 
-Generally, the line is held high (at a logical 1 value) while UART is in the idle state. Then, to signal the start of a data transfer, the transmitter sends a start bit to the receiver, during which the signal is held low (at a logical 0 value). Next, the transmitter sends five to eight data bits containing the actual message, followed by an optional parity bit and one or two stop bits (with a logical 1 value), depending on the configuration. The parity bit, used for error checking, is rarely seen in practice. The stop bit (or bits) signify the end of transmission.
+In generale, la linea viene mantenuta alta (a un valore logico 1) mentre UART è nello stato di inattività. Successivamente, per segnalare l'inizio di un trasferimento di dati, il trasmettitore invia un bit di start al ricevitore, durante il quale il segnale viene mantenuto basso (a un valore logico 0). Successivamente, il trasmettitore invia da cinque a otto bit di dati contenenti il messaggio effettivo, seguiti da un bit di parità opzionale e uno o due bit di stop (con un valore logico 1), a seconda della configurazione. Il bit di parità, utilizzato per il controllo degli errori, è raramente utilizzato nella pratica. Il bit di stop (o i bit) indicano la fine della trasmissione.
 
-We call the most common configuration 8N1: eight data bits, no parity, and one stop bit. For example, if we wanted to send the character C, or 0x43 in ASCII, in an 8N1 UART configuration, we would send the following bits: 0 (the start bit); 0, 1, 0, 0, 0, 0, 1, 1 (the value of 0x43 in binary), and 0 (the stop bit).
+Chiamiamo la configurazione più comune 8N1: otto bit di dati, nessuna parità e un bit di stop. Ad esempio, se volessimo inviare il carattere C, o 0x43 in ASCII, in una configurazione UART 8N1, invieremmo i seguenti bit: 0 (il bit di start); 0, 1, 0, 0, 0, 0, 1, 1 (il valore di 0x43 in binario) e 0 (il bit di stop).
 
 ![](<../../.gitbook/assets/image (648) (1) (1) (1) (1).png>)
 
-Hardware tools to communicate with UART:
+Strumenti hardware per comunicare con UART:
 
-* USB-to-serial adapter
-* Adapters with the CP2102 or PL2303 chips
-* Multipurpose tool such as: Bus Pirate, the Adafruit FT232H, the Shikra, or the Attify Badge
+* Adattatore USB-seriale
+* Adattatori con chip CP2102 o PL2303
+* Strumento multipurpose come: Bus Pirate, Adafruit FT232H, Shikra o Attify Badge
 
-## Identifying UART Ports
+## Identificazione delle porte UART
 
-UART has 4 ports: **TX**(Transmit), **RX**(Receive), **Vcc**(Voltage), and **GND**(Ground). You might be able to find 4 ports with the **`TX`** and **`RX`** letters **written** in the PCB. But if there is no indication, you might need to try to find them yourself using a **multimeter** or a **logic analyzer**.
+UART ha 4 porte: **TX** (trasmetti), **RX** (ricevi), **Vcc** (tensione) e **GND** (terra). Potresti essere in grado di trovare 4 porte con le lettere **`TX`** e **`RX`** **scritte** sulla PCB. Ma se non c'è alcuna indicazione, potresti dover cercare di trovarle tu stesso utilizzando un **multimetro** o un **analizzatore logico**.
 
-With a **multimeter** and the device powered off:
+Con un **multimetro** e il dispositivo spento:
 
-* To identify the **GND** pin use the **Continuity Test** mode, place the back lead into ground and test with the red one until you hear a sound from the multimeter. Several GND pins can be found the PCB, so you might have found or not the one belonging to UART.
-* To identify the **VCC port**, set the **DC voltage mode** and set it up to 20 V of voltage. Black probe on ground and red probe on the pin. Power on the device. If the multimeter measures a constant voltage of either 3.3 V or 5 V, you’ve found the Vcc pin. If you get other voltages, retry with other ports.
-* To identify the **TX** **port**, **DC voltage mode** up to 20 V of voltage, black probe on ground, and red probe on the pin, and power on the device. If you find the voltage fluctuates for a few seconds and then stabilizes at the Vcc value, you’ve most likely found the TX port. This is because when powering on, it sends some debug data.
-* The **RX port** would be the closest one to the other 3, it has the lowest voltage fluctuation and lowest overall value of all the UART pins.
+* Per identificare il pin **GND** utilizza la modalità **Test di continuità**, posiziona il cavo di ritorno a terra e testa con il cavo rosso fino a sentire un suono dal multimetro. Sulla PCB possono essere presenti diversi pin GND, quindi potresti aver trovato o meno quello relativo a UART.
+* Per identificare la porta **VCC**, imposta la modalità **tensione DC** e impostala su 20 V di tensione. Sonda nera a terra e sonda rossa sul pin. Accendi il dispositivo. Se il multimetro misura una tensione costante di 3,3 V o 5 V, hai trovato il pin Vcc. Se ottieni altre tensioni, riprova con altre porte.
+* Per identificare la porta **TX**, modalità **tensione DC** fino a 20 V di tensione, sonda nera a terra e sonda rossa sul pin, e accendi il dispositivo. Se trovi che la tensione fluttua per alcuni secondi e poi si stabilizza al valore di Vcc, molto probabilmente hai trovato la porta TX. Questo perché quando si accende, invia alcuni dati di debug.
+* La porta **RX** sarebbe quella più vicina alle altre 3, ha la fluttuazione di tensione più bassa e il valore complessivo più basso di tutti i pin UART.
 
-You can confuse the TX and RX ports and nothing would happen, but if you confuses the GND and the VCC port you might fry the circuit.
+Puoi confondere le porte TX e RX e non succederà nulla, ma se confondi la porta GND e la porta VCC potresti danneggiare il circuito.
 
-With a logic analyzer:
+Con un analizzatore logico:
 
-## Identifying the UART Baud Rate
+## Identificazione del baud rate UART
 
-The easiest way to identify the correct baud rate is to look at the **TX pin’s output and try to read the data**. If the data you receive isn’t readable, switch to the next possible baud rate until the data becomes readable. You can use a USB-to-serial adapter or a multipurpose device like Bus Pirate to do this, paired with a helper script, such as [baudrate.py](https://github.com/devttys0/baudrate/). The most common baud rates are 9600, 38400, 19200, 57600, and 115200.
+Il modo più semplice per identificare il baud rate corretto è guardare l'output del pin **TX e cercare di leggere i dati**. Se i dati che ricevi non sono leggibili, passa al successivo baud rate possibile fino a quando i dati diventano leggibili. Puoi utilizzare un adattatore USB-seriale o un dispositivo multipurpose come Bus Pirate per fare ciò, abbinato a uno script di supporto, come [baudrate.py](https://github.com/devttys0/baudrate/). I baud rate più comuni sono 9600, 38400, 19200, 57600 e 115200.
 
 {% hint style="danger" %}
-It's important to note that in this protocol you need to connect the TX of one device to the RX of the other!
+È importante notare che in questo protocollo è necessario collegare il TX di un dispositivo al RX dell'altro!
 {% endhint %}
 
 # Bus Pirate
 
-In this scenario we are going to sniff the UART communication of the Arduino that is sending all the prints of the program to the Serial Monitor.
-
+In questo scenario stiamo intercettando la comunicazione UART dell'Arduino che sta inviando tutte le stampe del programma al Monitor Seriale.
 ```bash
 # Check the modes
 UART>m
@@ -77,39 +74,39 @@ x. exit(without change)
 # Select UART
 (1)>3
 Set serial port speed: (bps)
- 1. 300
- 2. 1200
- 3. 2400
- 4. 4800
- 5. 9600
- 6. 19200
- 7. 38400
- 8. 57600
- 9. 115200
+1. 300
+2. 1200
+3. 2400
+4. 4800
+5. 9600
+6. 19200
+7. 38400
+8. 57600
+9. 115200
 10. BRG raw value
 
 # Select the speed the communication is occurring on (you BF all this until you find readable things)
 # Or you could later use the macro (4) to try to find the speed
 (1)>5
 Data bits and parity:
- 1. 8, NONE *default
- 2. 8, EVEN
- 3. 8, ODD
- 4. 9, NONE
- 
- # From now on pulse enter for default
+1. 8, NONE *default
+2. 8, EVEN
+3. 8, ODD
+4. 9, NONE
+
+# From now on pulse enter for default
 (1)>
 Stop bits:
- 1. 1 *default
- 2. 2
+1. 1 *default
+2. 2
 (1)>
 Receive polarity:
- 1. Idle 1 *default
- 2. Idle 0
+1. Idle 1 *default
+2. Idle 0
 (1)>
 Select output type:
- 1. Open drain (H=Hi-Z, L=GND)
- 2. Normal (H=3.3V, L=GND)
+1. Open drain (H=Hi-Z, L=GND)
+2. Normal (H=3.3V, L=GND)
 
 (1)>
 Clutch disengaged!!!
@@ -129,20 +126,16 @@ Escritura inicial completada:
 AAA Hi Dreg! AAA
 waiting a few secs to repeat....
 ```
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
-
-

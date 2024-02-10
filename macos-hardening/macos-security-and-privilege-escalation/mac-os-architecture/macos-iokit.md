@@ -2,28 +2,27 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Do you work in a **cybersecurity company**? Do you want to see your **company advertised on HackTricks**? Or do you want to have access to the **latest version of PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our exclusive collection of [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Get the [**official PEASS and HackTricks swag**](https://peass.creator-spring.com)
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) **Discord group** or the [**telegram group**](https://t.me/peass) or **follow me** on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Share your hacking tricks by sending PR to** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Basic Information
+## Informazioni di base
 
-The I/O Kit is an open-source, object-oriented **device-driver framework** in the XNU kernel, handles **dynamically loaded device drivers**. It allows modular code to be added to the kernel on-the-fly, supporting diverse hardware.
+IOKit è un framework open-source orientato agli oggetti per i **driver di dispositivo** nel kernel XNU, gestisce i **driver di dispositivo caricati dinamicamente**. Consente l'aggiunta di codice modulare al kernel al volo, supportando hardware diversi.
 
-IOKit drivers will basically **export functions from the kernel**. These function parameter **types** are **predefined** and are verified. Moreover, similar to XPC, IOKit is just another layer on **top of Mach messages**.
+I driver IOKit **esportano fondamentalmente funzioni dal kernel**. I tipi di parametri di queste funzioni sono **predefiniti** e verificati. Inoltre, simile a XPC, IOKit è solo un altro livello **sopra i messaggi Mach**.
 
-**IOKit XNU kernel code** is opensourced by Apple in [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Moreover, the user space IOKit components are also opensource [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
+Il codice del kernel IOKit XNU è open source da Apple su [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Inoltre, i componenti IOKit dello spazio utente sono anche open source su [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
-However, **no IOKit drivers** are opensource. Anyway, from time to time a release of a driver might come with symbols that makes it easier to debug it. Check how to [**get the driver extensions from the firmware here**](./#ipsw)**.**
+Tuttavia, **nessun driver IOKit** è open source. Tuttavia, di tanto in tanto un rilascio di un driver potrebbe includere simboli che facilitano il debug. Verifica come [**ottenere le estensioni del driver dal firmware qui**](./#ipsw)**.**
 
-It's written in **C++**. You can get demangled C++ symbols with:
-
+È scritto in **C++**. Puoi ottenere i simboli C++ demangled con:
 ```bash
 # Get demangled symbols
 nm -C com.apple.driver.AppleJPEGDriver
@@ -33,159 +32,148 @@ c++filt
 __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaquePK28IOExternalMethodDispatch2022mP8OSObjectPv
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
-
 {% hint style="danger" %}
-IOKit **exposed functions** could perform **additional security checks** when a client tries to call a function but note that the apps are usually **limited** by the **sandbox** to which IOKit functions they can interact with.
+Le funzioni esposte di IOKit potrebbero eseguire controlli di sicurezza aggiuntivi quando un client tenta di chiamare una funzione, ma nota che le app sono di solito limitate dal sandbox con cui le funzioni di IOKit possono interagire.
 {% endhint %}
 
-## Drivers
+## Driver
 
-In macOS they are located in:
+In macOS sono situati in:
 
 * **`/System/Library/Extensions`**
-  * KEXT files built into the OS X operating system.
+* File KEXT incorporati nel sistema operativo OS X.
 * **`/Library/Extensions`**
-  * KEXT files installed by 3rd party software
+* File KEXT installati da software di terze parti.
 
-In iOS they are located in:
+In iOS sono situati in:
 
 * **`/System/Library/Extensions`**
-
 ```bash
 #Use kextstat to print the loaded drivers
 kextstat
 Executing: /usr/bin/kmutil showloaded
 No variant specified, falling back to release
 Index Refs Address            Size       Wired      Name (Version) UUID <Linked Against>
-    1  142 0                  0          0          com.apple.kpi.bsd (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-    2   11 0                  0          0          com.apple.kpi.dsep (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-    3  170 0                  0          0          com.apple.kpi.iokit (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-    4    0 0                  0          0          com.apple.kpi.kasan (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-    5  175 0                  0          0          com.apple.kpi.libkern (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-    6  154 0                  0          0          com.apple.kpi.mach (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-    7   88 0                  0          0          com.apple.kpi.private (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-    8  106 0                  0          0          com.apple.kpi.unsupported (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-    9    2 0xffffff8003317000 0xe000     0xe000     com.apple.kec.Libm (1) 6C1342CC-1D74-3D0F-BC43-97D5AD38200A <5>
-   10   12 0xffffff8003544000 0x92000    0x92000    com.apple.kec.corecrypto (11.1) F5F1255F-6552-3CF4-A9DB-D60EFDEB4A9A <8 7 6 5 3 1>
+1  142 0                  0          0          com.apple.kpi.bsd (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
+2   11 0                  0          0          com.apple.kpi.dsep (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
+3  170 0                  0          0          com.apple.kpi.iokit (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
+4    0 0                  0          0          com.apple.kpi.kasan (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
+5  175 0                  0          0          com.apple.kpi.libkern (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
+6  154 0                  0          0          com.apple.kpi.mach (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
+7   88 0                  0          0          com.apple.kpi.private (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
+8  106 0                  0          0          com.apple.kpi.unsupported (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
+9    2 0xffffff8003317000 0xe000     0xe000     com.apple.kec.Libm (1) 6C1342CC-1D74-3D0F-BC43-97D5AD38200A <5>
+10   12 0xffffff8003544000 0x92000    0x92000    com.apple.kec.corecrypto (11.1) F5F1255F-6552-3CF4-A9DB-D60EFDEB4A9A <8 7 6 5 3 1>
 ```
+Fino al numero 9, i driver elencati vengono **caricati all'indirizzo 0**. Ciò significa che non sono driver reali ma **parte del kernel e non possono essere scaricati**.
 
-Until the number 9 the listed drivers are **loaded in the address 0**. This means that those aren't real drivers but **part of the kernel and they cannot be unloaded**.
-
-In order to find specific extensions you can use:
-
+Per trovare estensioni specifiche, è possibile utilizzare:
 ```bash
 kextfind -bundle-id com.apple.iokit.IOReportFamily #Search by full bundle-id
 kextfind -bundle-id -substring IOR #Search by substring in bundle-id
 ```
-
-To load and unload kernel extensions do:
-
+Per caricare e scaricare le estensioni del kernel, eseguire i seguenti comandi:
 ```bash
 kextload com.apple.iokit.IOReportFamily
 kextunload com.apple.iokit.IOReportFamily
 ```
-
 ## IORegistry
 
-The **IORegistry** is a crucial part of the IOKit framework in macOS and iOS which serves as a database for representing the system's hardware configuration and state. It's a **hierarchical collection of objects that represent all the hardware and drivers** loaded on the system, and their relationships to each other.&#x20;
+L'**IORegistry** è una parte fondamentale del framework IOKit in macOS e iOS che funge da database per rappresentare la configurazione hardware e lo stato del sistema. È una **raccolta gerarchica di oggetti che rappresentano tutto l'hardware e i driver** caricati sul sistema e le loro relazioni reciproche.&#x20;
 
-You can get the IORegistry using the cli **`ioreg`** to inspect it from the console (specially useful for iOS).
-
+È possibile ottenere l'IORegistry utilizzando la CLI **`ioreg`** per ispezionarlo dalla console (particolarmente utile per iOS).
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-
-You could download **`IORegistryExplorer`** from **Xcode Additional Tools** from [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) and inspect the **macOS IORegistry** through a **graphical** interface.
+È possibile scaricare **`IORegistryExplorer`** da **Xcode Additional Tools** da [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) e ispezionare la **IORegistry di macOS** attraverso un'interfaccia **grafica**.
 
 <figure><img src="../../../.gitbook/assets/image (695).png" alt="" width="563"><figcaption></figcaption></figure>
 
-In IORegistryExplorer, "planes" are used to organize and display the relationships between different objects in the IORegistry. Each plane represents a specific type of relationship or a particular view of the system's hardware and driver configuration. Here are some of the common planes you might encounter in IORegistryExplorer:
+In IORegistryExplorer, i "piani" vengono utilizzati per organizzare e visualizzare le relazioni tra diversi oggetti nella IORegistry. Ogni piano rappresenta un tipo specifico di relazione o una particolare vista della configurazione hardware e dei driver del sistema. Ecco alcuni dei piani comuni che potresti incontrare in IORegistryExplorer:
 
-1. **IOService Plane**: This is the most general plane, displaying the service objects that represent drivers and nubs (communication channels between drivers). It shows the provider-client relationships between these objects.
-2. **IODeviceTree Plane**: This plane represents the physical connections between devices as they are attached to the system. It is often used to visualize the hierarchy of devices connected via buses like USB or PCI.
-3. **IOPower Plane**: Displays objects and their relationships in terms of power management. It can show which objects are affecting the power state of others, useful for debugging power-related issues.
-4. **IOUSB Plane**: Specifically focused on USB devices and their relationships, showing the hierarchy of USB hubs and connected devices.
-5. **IOAudio Plane**: This plane is for representing audio devices and their relationships within the system.
+1. **Piano IOService**: Questo è il piano più generale, che mostra gli oggetti di servizio che rappresentano i driver e i nub (canali di comunicazione tra i driver). Mostra le relazioni provider-client tra questi oggetti.
+2. **Piano IODeviceTree**: Questo piano rappresenta le connessioni fisiche tra i dispositivi mentre sono collegati al sistema. Viene spesso utilizzato per visualizzare la gerarchia dei dispositivi collegati tramite bus come USB o PCI.
+3. **Piano IOPower**: Mostra gli oggetti e le loro relazioni in termini di gestione dell'alimentazione. Può mostrare quali oggetti influenzano lo stato di alimentazione degli altri, utile per il debug di problemi legati all'alimentazione.
+4. **Piano IOUSB**: Specificamente focalizzato sui dispositivi USB e sulle loro relazioni, mostra la gerarchia degli hub USB e dei dispositivi collegati.
+5. **Piano IOAudio**: Questo piano serve a rappresentare i dispositivi audio e le loro relazioni all'interno del sistema.
 6. ...
 
-## Driver Comm Code Example
+## Esempio di codice di comunicazione del driver
 
-The following code connects to the IOKit service `"YourServiceNameHere"` and calls the function inside the selector 0. For it:
+Il seguente codice si connette al servizio IOKit `"YourServiceNameHere"` e chiama la funzione all'interno del selettore 0. Per farlo:
 
-* it first calls **`IOServiceMatching`** and **`IOServiceGetMatchingServices`** to get the service.
-* It then establish a connection calling **`IOServiceOpen`**.
-* And it finally calls a function with **`IOConnectCallScalarMethod`** indicating the selector 0 (the selector is the number the function you want to call has assigned).
-
+* prima chiama **`IOServiceMatching`** e **`IOServiceGetMatchingServices`** per ottenere il servizio.
+* Successivamente stabilisce una connessione chiamando **`IOServiceOpen`**.
+* Infine, chiama una funzione con **`IOConnectCallScalarMethod`** indicando il selettore 0 (il selettore è il numero assegnato alla funzione che si desidera chiamare).
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
 
 int main(int argc, const char * argv[]) {
-    @autoreleasepool {
-        // Get a reference to the service using its name
-        CFMutableDictionaryRef matchingDict = IOServiceMatching("YourServiceNameHere");
-        if (matchingDict == NULL) {
-            NSLog(@"Failed to create matching dictionary");
-            return -1;
-        }
-        
-        // Obtain an iterator over all matching services
-        io_iterator_t iter;
-        kern_return_t kr = IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &iter);
-        if (kr != KERN_SUCCESS) {
-            NSLog(@"Failed to get matching services");
-            return -1;
-        }
-        
-        // Get a reference to the first service (assuming it exists)
-        io_service_t service = IOIteratorNext(iter);
-        if (!service) {
-            NSLog(@"No matching service found");
-            IOObjectRelease(iter);
-            return -1;
-        }
-        
-        // Open a connection to the service
-        io_connect_t connect;
-        kr = IOServiceOpen(service, mach_task_self(), 0, &connect);
-        if (kr != KERN_SUCCESS) {
-            NSLog(@"Failed to open service");
-            IOObjectRelease(service);
-            IOObjectRelease(iter);
-            return -1;
-        }
-        
-        // Call a method on the service
-        // Assume the method has a selector of 0, and takes no arguments
-        kr = IOConnectCallScalarMethod(connect, 0, NULL, 0, NULL, NULL);
-        if (kr != KERN_SUCCESS) {
-            NSLog(@"Failed to call method");
-        }
-        
-        // Cleanup
-        IOServiceClose(connect);
-        IOObjectRelease(service);
-        IOObjectRelease(iter);
-    }
-    return 0;
+@autoreleasepool {
+// Get a reference to the service using its name
+CFMutableDictionaryRef matchingDict = IOServiceMatching("YourServiceNameHere");
+if (matchingDict == NULL) {
+NSLog(@"Failed to create matching dictionary");
+return -1;
+}
+
+// Obtain an iterator over all matching services
+io_iterator_t iter;
+kern_return_t kr = IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &iter);
+if (kr != KERN_SUCCESS) {
+NSLog(@"Failed to get matching services");
+return -1;
+}
+
+// Get a reference to the first service (assuming it exists)
+io_service_t service = IOIteratorNext(iter);
+if (!service) {
+NSLog(@"No matching service found");
+IOObjectRelease(iter);
+return -1;
+}
+
+// Open a connection to the service
+io_connect_t connect;
+kr = IOServiceOpen(service, mach_task_self(), 0, &connect);
+if (kr != KERN_SUCCESS) {
+NSLog(@"Failed to open service");
+IOObjectRelease(service);
+IOObjectRelease(iter);
+return -1;
+}
+
+// Call a method on the service
+// Assume the method has a selector of 0, and takes no arguments
+kr = IOConnectCallScalarMethod(connect, 0, NULL, 0, NULL, NULL);
+if (kr != KERN_SUCCESS) {
+NSLog(@"Failed to call method");
+}
+
+// Cleanup
+IOServiceClose(connect);
+IOObjectRelease(service);
+IOObjectRelease(iter);
+}
+return 0;
 }
 ```
-
-There are **other** functions that can be used to call IOKit functions apart of **`IOConnectCallScalarMethod`** like **`IOConnectCallMethod`**, **`IOConnectCallStructMethod`**...
+Ci sono **altre** funzioni che possono essere utilizzate per chiamare le funzioni IOKit oltre a **`IOConnectCallScalarMethod`** come **`IOConnectCallMethod`**, **`IOConnectCallStructMethod`**...
 
 ## Reversing driver entrypoint
 
-You could obtain these for example from a [**firmware image (ipsw)**](./#ipsw). Then, load it into your favourite decompiler.
+Puoi ottenerle ad esempio da un'immagine del firmware (ipsw). Quindi, caricala nel tuo decompiler preferito.
 
-You could start decompiling the **`externalMethod`** function as this is the driver function that will be receiving the call and calling the correct function:
+Puoi iniziare a decompilare la funzione **`externalMethod`** poiché questa è la funzione del driver che riceverà la chiamata e chiamerà la funzione corretta:
 
 <figure><img src="../../../.gitbook/assets/image (696).png" alt="" width="315"><figcaption></figcaption></figure>
 
 <figure><img src="../../../.gitbook/assets/image (697).png" alt=""><figcaption></figcaption></figure>
 
-That awful call demagled means:
+Quella terribile chiamata demagled significa:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -193,7 +181,7 @@ IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArguments
 ```
 {% endcode %}
 
-Note how in the previous definition the **`self`** param is missed, the good definition would be:
+Nota come nella definizione precedente manchi il parametro **`self`**, la definizione corretta sarebbe:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -201,58 +189,56 @@ IOUserClient2022::dispatchExternalMethod(self, unsigned int, IOExternalMethodArg
 ```
 {% endcode %}
 
-Actually, you can find the real definition in [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388):
-
+In realtà, puoi trovare la definizione reale su [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388):
 ```cpp
 IOUserClient2022::dispatchExternalMethod(uint32_t selector, IOExternalMethodArgumentsOpaque *arguments,
-    const IOExternalMethodDispatch2022 dispatchArray[], size_t dispatchArrayCount,
-    OSObject * target, void * reference)
+const IOExternalMethodDispatch2022 dispatchArray[], size_t dispatchArrayCount,
+OSObject * target, void * reference)
 ```
-
-With this info you can rewrite Ctrl+Right -> `Edit function signature` and set the known types:
+Con questa informazione puoi riscrivere Ctrl+Right -> `Modifica firma della funzione` e impostare i tipi noti:
 
 <figure><img src="../../../.gitbook/assets/image (702).png" alt=""><figcaption></figcaption></figure>
 
-The new decompiled code will look like:
+Il nuovo codice decompilato sarà simile a:
 
 <figure><img src="../../../.gitbook/assets/image (703).png" alt=""><figcaption></figcaption></figure>
 
-For the next step we need to have defined the **`IOExternalMethodDispatch2022`** struct. It's opensource in [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), you could define it:
+Per il prossimo passaggio è necessario avere definita la struttura **`IOExternalMethodDispatch2022`**. È open source su [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), puoi definirla:
 
 <figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
 
-Now, following the `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` you can see a lot of data:
+Ora, seguendo `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` puoi vedere molti dati:
 
 <figure><img src="../../../.gitbook/assets/image (704).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Change the Data Type to **`IOExternalMethodDispatch2022:`**
+Cambia il tipo di dati in **`IOExternalMethodDispatch2022:`**
 
 <figure><img src="../../../.gitbook/assets/image (705).png" alt="" width="375"><figcaption></figcaption></figure>
 
-after the change:
+dopo il cambio:
 
 <figure><img src="../../../.gitbook/assets/image (707).png" alt="" width="563"><figcaption></figcaption></figure>
 
-And as we now in there we have an **array of 7 elements** (check the final decompiled code), click to create an array of 7 elements:
+E come sappiamo, abbiamo un **array di 7 elementi** (controlla il codice decompilato finale), clicca per creare un array di 7 elementi:
 
 <figure><img src="../../../.gitbook/assets/image (708).png" alt="" width="563"><figcaption></figcaption></figure>
 
-After the array is created you can see all the exported functions:
+Dopo aver creato l'array puoi vedere tutte le funzioni esportate:
 
 <figure><img src="../../../.gitbook/assets/image (709).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-If you remember, to **call** an **exported** function from user space we don't need to call the name of the function, but the **selector number**. Here you can see that the selector **0** is the function **`initializeDecoder`**, the selector **1** is **`startDecoder`**, the selector **2** **`initializeEncoder`**...
+Se ricordi, per **chiamare** una funzione **esportata** dallo spazio utente non è necessario chiamare il nome della funzione, ma il **numero del selettore**. Qui puoi vedere che il selettore **0** è la funzione **`initializeDecoder`**, il selettore **1** è **`startDecoder`**, il selettore **2** è **`initializeEncoder`**...
 {% endhint %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Do you work in a **cybersecurity company**? Do you want to see your **company advertised on HackTricks**? Or do you want to have access to the **latest version of PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our exclusive collection of [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Get the official [**PEASS and HackTricks swag**](https://peass.creator-spring.com)
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) **Discord group** or the [**telegram group**](https://t.me/peass) or **follow me** on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Share your hacking tricks by sending PR to** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

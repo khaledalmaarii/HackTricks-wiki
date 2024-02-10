@@ -1,181 +1,176 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di github.
 
 </details>
 
 
-# Timestamps
+# Timestamp
 
-An attacker may be interested in **changing the timestamps of files** to avoid being detected.\
-It's possible to find the timestamps inside the MFT in attributes `$STANDARD_INFORMATION` __ and __ `$FILE_NAME`.
+Un attaccante potrebbe essere interessato a **modificare i timestamp dei file** per evitare di essere rilevato.\
+È possibile trovare i timestamp all'interno del MFT negli attributi `$STANDARD_INFORMATION` __ e __ `$FILE_NAME`.
 
-Both attributes have 4 timestamps: **Modification**, **access**, **creation**, and **MFT registry modification** (MACE or MACB).
+Entrambi gli attributi hanno 4 timestamp: **Modifica**, **accesso**, **creazione** e **modifica del registro MFT** (MACE o MACB).
 
-**Windows explorer** and other tools show the information from **`$STANDARD_INFORMATION`**.
+**Windows Explorer** e altri strumenti mostrano le informazioni da **`$STANDARD_INFORMATION`**.
 
-## TimeStomp - Anti-forensic Tool
+## TimeStomp - Strumento anti-forense
 
-This tool **modifies** the timestamp information inside **`$STANDARD_INFORMATION`** **but** **not** the information inside **`$FILE_NAME`**. Therefore, it's possible to **identify** **suspicious** **activity**.
+Questo strumento **modifica** le informazioni sui timestamp all'interno di **`$STANDARD_INFORMATION`** **ma non** le informazioni all'interno di **`$FILE_NAME`**. Pertanto, è possibile **identificare** **attività sospette**.
 
 ## Usnjrnl
 
-The **USN Journal** (Update Sequence Number Journal) is a feature of the NTFS (Windows NT file system) that keeps track of volume changes. The [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) tool allows for the examination of these changes.
+Il **USN Journal** (Update Sequence Number Journal) è una caratteristica del file system NTFS (Windows NT) che tiene traccia delle modifiche al volume. Lo strumento [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) consente di esaminare queste modifiche.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-The previous image is the **output** shown by the **tool** where it can be observed that some **changes were performed** to the file.
+L'immagine precedente è l'**output** mostrato dallo **strumento** in cui è possibile osservare che sono state eseguite alcune **modifiche al file**.
 
 ## $LogFile
 
-**All metadata changes to a file system are logged** in a process known as [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). The logged metadata is kept in a file named `**$LogFile**`, located in the root directory of an NTFS file system. Tools such as [LogFileParser](https://github.com/jschicht/LogFileParser) can be used to parse this file and identify changes.
+**Tutte le modifiche ai metadati di un file system vengono registrate** in un processo noto come [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). I metadati registrati sono conservati in un file chiamato `**$LogFile**`, situato nella directory radice di un file system NTFS. Strumenti come [LogFileParser](https://github.com/jschicht/LogFileParser) possono essere utilizzati per analizzare questo file e identificare le modifiche.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Again, in the output of the tool it's possible to see that **some changes were performed**.
+Anche in output dello strumento è possibile vedere che sono state eseguite **alcune modifiche**.
 
-Using the same tool it's possible to identify to **which time the timestamps were modified**:
+Utilizzando lo stesso strumento è possibile identificare a **quale ora sono stati modificati i timestamp**:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
-* CTIME: File's creation time
-* ATIME: File's modification time
-* MTIME: File's MFT registry modification
-* RTIME: File's access time
+* CTIME: Ora di creazione del file
+* ATIME: Ora di modifica del file
+* MTIME: Ora di modifica del registro MFT del file
+* RTIME: Ora di accesso al file
 
-## `$STANDARD_INFORMATION` and `$FILE_NAME` comparison
+## Confronto tra `$STANDARD_INFORMATION` e `$FILE_NAME`
 
-Another way to identify suspicious modified files would be to compare the time on both attributes looking for **mismatches**.
+Un altro modo per identificare file modificati in modo sospetto sarebbe confrontare l'ora in entrambi gli attributi alla ricerca di **discrepanze**.
 
-## Nanoseconds
+## Nanosecondi
 
-**NTFS** timestamps have a **precision** of **100 nanoseconds**. Then, finding files with timestamps like 2010-10-10 10:10:**00.000:0000 is very suspicious**.
+I timestamp di **NTFS** hanno una **precisione** di **100 nanosecondi**. Trovare file con timestamp come 2010-10-10 10:10:**00.000:0000 è molto sospetto**.
 
-## SetMace - Anti-forensic Tool
+## SetMace - Strumento anti-forense
 
-This tool can modify both attributes `$STARNDAR_INFORMATION` and `$FILE_NAME`. However, from Windows Vista, it's necessary for a live OS to modify this information.
+Questo strumento può modificare entrambi gli attributi `$STARNDAR_INFORMATION` e `$FILE_NAME`. Tuttavia, a partire da Windows Vista, è necessario un sistema operativo in esecuzione per modificare queste informazioni.
 
-# Data Hiding
+# Nascondere dati
 
-NFTS uses a cluster and the minimum information size. That means that if a file occupies uses and cluster and a half, the **reminding half is never going to be used** until the file is deleted. Then, it's possible to **hide data in this slack space**.
+NTFS utilizza un cluster e la dimensione minima delle informazioni. Ciò significa che se un file occupa un cluster e mezzo, la **parte rimanente non verrà mai utilizzata** fino a quando il file non viene eliminato. Pertanto, è possibile **nascondere dati in questo spazio vuoto**.
 
-There are tools like slacker that allow hiding data in this "hidden" space. However, an analysis of the `$logfile` and `$usnjrnl` can show that some data was added:
+Ci sono strumenti come slacker che consentono di nascondere dati in questo spazio "nascosto". Tuttavia, un'analisi del `$logfile` e `$usnjrnl` può mostrare che sono stati aggiunti alcuni dati:
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-Then, it's possible to retrieve the slack space using tools like FTK Imager. Note that this kind of tool can save the content obfuscated or even encrypted.
+Pertanto, è possibile recuperare lo spazio vuoto utilizzando strumenti come FTK Imager. Notare che questo tipo di strumento può salvare il contenuto oscurato o addirittura crittografato.
 
 # UsbKill
 
-This is a tool that will **turn off the computer if any change in the USB** ports is detected.\
-A way to discover this would be to inspect the running processes and **review each python script running**.
+Questo è uno strumento che **spegne il computer se viene rilevata una modifica alle porte USB**.\
+Un modo per scoprirlo sarebbe ispezionare i processi in esecuzione e **verificare ogni script Python in esecuzione**.
 
-# Live Linux Distributions
+# Distribuzioni Linux in esecuzione
 
-These distros are **executed inside the RAM** memory. The only way to detect them is **in case the NTFS file-system is mounted with write permissions**. If it's mounted just with read permissions it won't be possible to detect the intrusion.
+Queste distribuzioni sono **eseguite nella memoria RAM**. L'unico modo per rilevarle è **nel caso in cui il file system NTFS sia montato con permessi di scrittura**. Se viene montato solo con permessi di lettura, non sarà possibile rilevare l'intrusione.
 
-# Secure Deletion
+# Cancellazione sicura
 
 [https://github.com/Claudio-C/awesome-data-sanitization](https://github.com/Claudio-C/awesome-data-sanitization)
 
-# Windows Configuration
+# Configurazione di Windows
 
-It's possible to disable several windows logging methods to make the forensics investigation much harder.
+È possibile disabilitare diversi metodi di registrazione di Windows per rendere molto più difficile l'indagine forense.
 
-## Disable Timestamps - UserAssist
+## Disabilita i timestamp - UserAssist
 
-This is a registry key that maintains dates and hours when each executable was run by the user.
+Si tratta di una chiave di registro che mantiene le date e le ore in cui ogni eseguibile è stato eseguito dall'utente.
 
-Disabling UserAssist requires two steps:
+La disabilitazione di UserAssist richiede due passaggi:
 
-1. Set two registry keys, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` and `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, both to zero in order to signal that we want UserAssist disabled.
-2. Clear your registry subtrees that look like `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
+1. Impostare due chiavi di registro, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` e `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, entrambe a zero per segnalare che desideriamo disabilitare UserAssist.
+2. Eliminare i sottoalberi del registro che assomigliano a `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
 
-## Disable Timestamps - Prefetch
+## Disabilita i timestamp - Prefetch
 
-This will save information about the applications executed with the goal of improving the performance of the Windows system. However, this can also be useful for forensics practices.
+Questo salva informazioni sulle applicazioni eseguite con l'obiettivo di migliorare le prestazioni del sistema Windows. Tuttavia, ciò può essere utile anche per le pratiche forensi.
 
-* Execute `regedit`
-* Select the file path `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* Right-click on both `EnablePrefetcher` and `EnableSuperfetch`
-* Select Modify on each of these to change the value from 1 (or 3) to 0
-* Restart
+* Esegui `regedit`
+* Seleziona il percorso del file `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
+* Fai clic con il pulsante destro su `EnablePrefetcher` e `EnableSuperfetch`
+* Seleziona Modifica su ciascuno di questi per cambiare il valore da 1 (o 3) a 0
+* Riavvia
 
-## Disable Timestamps - Last Access Time
+## Disabilita i timestamp - Last Access Time
 
-Whenever a folder is opened from an NTFS volume on a Windows NT server, the system takes the time to **update a timestamp field on each listed folder**, called the last access time. On a heavily used NTFS volume, this can affect performance.
+Ogni volta che una cartella viene aperta da un volume NTFS su un server Windows NT, il sistema impiega del tempo per **aggiornare un campo di timestamp su ogni cartella elencata**, chiamato last access time. Su un volume NTFS molto utilizzato, ciò può influire sulle prestazioni.
 
-1. Open the Registry Editor (Regedit.exe).
-2. Browse to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Look for `NtfsDisableLastAccessUpdate`. If it doesn’t exist, add this DWORD and set its value to 1, which will disable the process.
-4. Close the Registry Editor, and reboot the server.
+1. Apri l'Editor del Registro (Regedit.exe).
+2. Passa a `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
+3. Cerca `NtfsDisableLastAccessUpdate`. Se non esiste, aggiungi questo DWORD e imposta il suo valore su 1, che disabiliterà il processo.
+4. Chiudi l'Editor del Registro e riavvia il server.
+## Eliminare la cronologia delle USB
 
-## Delete USB History
+Tutte le **voci dei dispositivi USB** vengono memorizzate nel Registro di sistema di Windows sotto la chiave di registro **USBSTOR**, che contiene sottocchiavi create ogni volta che si collega un dispositivo USB al PC o al laptop. È possibile trovare questa chiave qui: H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Eliminando questa chiave**, si eliminerà la cronologia delle USB.\
+È anche possibile utilizzare lo strumento [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) per assicurarsi di averle eliminate (e per eliminarle).
 
-All the **USB Device Entries** are stored in Windows Registry Under the **USBSTOR** registry key that contains sub keys which are created whenever you plug a USB Device into your PC or Laptop. You can find this key here H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deleting this** you will delete the USB history.\
-You may also use the tool [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) to be sure you have deleted them (and to delete them).
+Un altro file che salva informazioni sulle USB è il file `setupapi.dev.log` all'interno di `C:\Windows\INF`. Anche questo dovrebbe essere eliminato.
 
-Another file that saves information about the USBs is the file `setupapi.dev.log` inside `C:\Windows\INF`. This should also be deleted.
+## Disabilitare le copie shadow
 
-## Disable Shadow Copies
+**Elencare** le copie shadow con `vssadmin list shadowstorage`\
+**Eliminarle** eseguendo `vssadmin delete shadow`
 
-**List** shadow copies with `vssadmin list shadowstorage`\
-**Delete** them running `vssadmin delete shadow`
+È anche possibile eliminarle tramite GUI seguendo i passaggi proposti in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-You can also delete them via GUI following the steps proposed in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
+Per disabilitare le copie shadow [seguire i passaggi da qui](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
-To disable shadow copies [steps from here](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+1. Aprire il programma Servizi digitando "servizi" nella casella di ricerca di testo dopo aver cliccato sul pulsante di avvio di Windows.
+2. Dalla lista, trovare "Volume Shadow Copy", selezionarlo e quindi accedere alle Proprietà facendo clic con il pulsante destro del mouse.
+3. Scegliere Disabilitato dal menu a discesa "Tipo di avvio" e quindi confermare la modifica cliccando su Applica e OK.
 
-1. Open the Services program by typing "services" into the text search box after clicking the Windows start button.
-2. From the list, find "Volume Shadow Copy", select it, and then access Properties by right-clicking.
-3. Choose Disabled from the "Startup type" drop-down menu, and then confirm the change by clicking Apply and OK.
+È anche possibile modificare la configurazione dei file che verranno copiati nella copia shadow nel registro `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
-It's also possible to modify the configuration of which files are going to be copied in the shadow copy in the registry `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
+## Sovrascrivere i file eliminati
 
-## Overwrite deleted files
+* È possibile utilizzare uno **strumento di Windows**: `cipher /w:C`. Questo indicherà a Cipher di rimuovere tutti i dati dallo spazio su disco non utilizzato disponibile nell'unità C.
+* È anche possibile utilizzare strumenti come [**Eraser**](https://eraser.heidi.ie)
 
-* You can use a **Windows tool**: `cipher /w:C` This will indicate cipher to remove any data from the available unused disk space inside the C drive.
-* You can also use tools like [**Eraser**](https://eraser.heidi.ie)
+## Eliminare i log degli eventi di Windows
 
-## Delete Windows event logs
-
-* Windows + R --> eventvwr.msc --> Expand "Windows Logs" --> Right click each category and select "Clear Log"
+* Windows + R --> eventvwr.msc --> Espandere "Registri di Windows" --> Fare clic con il pulsante destro del mouse su ogni categoria e selezionare "Cancella registro"
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
-## Disable Windows event logs
+## Disabilitare i log degli eventi di Windows
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Inside the services section disable the service "Windows Event Log"
-* `WEvtUtil.exec clear-log` or `WEvtUtil.exe cl`
+* All'interno della sezione dei servizi, disabilitare il servizio "Windows Event Log"
+* `WEvtUtil.exec clear-log` o `WEvtUtil.exe cl`
 
-## Disable $UsnJrnl
+## Disabilitare $UsnJrnl
 
 * `fsutil usn deletejournal /d c:`
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF**, controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**repository di HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
-
-

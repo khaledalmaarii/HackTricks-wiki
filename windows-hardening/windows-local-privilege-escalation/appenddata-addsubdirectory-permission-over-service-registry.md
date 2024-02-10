@@ -1,57 +1,53 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository GitHub di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 
-**The original post is** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
+**Il post originale è** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
 
-## Summary
+## Sommario
 
-Two registry keys were found to be writable by the current user:
+Sono state trovate due chiavi di registro scrivibili dall'utente corrente:
 
 - **`HKLM\SYSTEM\CurrentControlSet\Services\Dnscache`**
 - **`HKLM\SYSTEM\CurrentControlSet\Services\RpcEptMapper`**
 
-It was suggested to check the permissions of the **RpcEptMapper** service using the **regedit GUI**, specifically the **Advanced Security Settings** window's **Effective Permissions** tab. This approach enables the assessment of granted permissions to specific users or groups without the need to examine each Access Control Entry (ACE) individually.
+Si è suggerito di verificare i permessi del servizio **RpcEptMapper** utilizzando l'interfaccia grafica di **regedit**, in particolare la scheda **Permessi effettivi** delle **Impostazioni di sicurezza avanzate**. Questo approccio consente di valutare i permessi concessi a utenti o gruppi specifici senza la necessità di esaminare singolarmente ogni voce di controllo di accesso (ACE).
 
-A screenshot showed the permissions assigned to a low-privileged user, among which the **Create Subkey** permission was notable. This permission, also referred to as **AppendData/AddSubdirectory**, corresponds with the script's findings.
+È stata mostrata una schermata con i permessi assegnati a un utente con privilegi limitati, tra cui spiccava il permesso **Crea sottocartella**. Questo permesso, anche chiamato **AppendData/AddSubdirectory**, corrisponde alle scoperte dello script.
 
-The inability to modify certain values directly, yet the capability to create new subkeys, was noted. An example highlighted was an attempt to alter the **ImagePath** value, which resulted in an access denied message.
+È stata notata l'incapacità di modificare direttamente determinati valori, ma la capacità di creare nuove sottocartelle. È stato evidenziato un esempio di tentativo di modificare il valore **ImagePath**, che ha prodotto un messaggio di accesso negato.
 
-Despite these limitations, a potential for privilege escalation was identified through the possibility of leveraging the **Performance** subkey within the **RpcEptMapper** service's registry structure, a subkey not present by default. This could enable DLL registration and performance monitoring.
+Nonostante queste limitazioni, è stata identificata la possibilità di un'escalation dei privilegi attraverso l'utilizzo della sottocartella **Performance** all'interno della struttura di registro del servizio **RpcEptMapper**, una sottocartella non presente di default. Ciò potrebbe consentire la registrazione di DLL e il monitoraggio delle prestazioni.
 
-Documentation on the **Performance** subkey and its utilization for performance monitoring was consulted, leading to the development of a proof-of-concept DLL. This DLL, demonstrating the implementation of **OpenPerfData**, **CollectPerfData**, and **ClosePerfData** functions, was tested via **rundll32**, confirming its operational success.
+È stata consultata la documentazione sulla sottocartella **Performance** e il suo utilizzo per il monitoraggio delle prestazioni, il che ha portato allo sviluppo di una DLL di prova. Questa DLL, che dimostra l'implementazione delle funzioni **OpenPerfData**, **CollectPerfData** e **ClosePerfData**, è stata testata tramite **rundll32**, confermando il suo successo operativo.
 
-The goal was to coerce the **RPC Endpoint Mapper service** into loading the crafted Performance DLL. Observations revealed that executing WMI class queries related to Performance Data via PowerShell resulted in the creation of a log file, enabling the execution of arbitrary code under the **LOCAL SYSTEM** context, thus granting elevated privileges.
+L'obiettivo era costringere il servizio **RPC Endpoint Mapper** a caricare la DLL di Performance creata. Le osservazioni hanno rivelato che l'esecuzione di query di classe WMI relative ai dati di prestazione tramite PowerShell ha comportato la creazione di un file di log, consentendo l'esecuzione di codice arbitrario nel contesto di **LOCAL SYSTEM**, garantendo così privilegi elevati.
 
-The persistence and potential implications of this vulnerability were underscored, highlighting its relevance for post-exploitation strategies, lateral movement, and evasion of antivirus/EDR systems.
+È stata sottolineata la persistenza e le potenziali implicazioni di questa vulnerabilità, evidenziando la sua rilevanza per le strategie di post-exploitation, il movimento laterale e l'evasione dei sistemi antivirus/EDR.
 
-Although the vulnerability was initially disclosed unintentionally through the script, it was emphasized that its exploitation is constrained to outdated Windows versions (e.g., **Windows 7 / Server 2008 R2**) and requires local access.
+Sebbene la vulnerabilità sia stata inizialmente divulgata involontariamente tramite lo script, è stato sottolineato che la sua sfruttabilità è limitata a versioni obsolete di Windows (ad esempio, **Windows 7 / Server 2008 R2**) e richiede l'accesso locale.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository GitHub di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
-
-

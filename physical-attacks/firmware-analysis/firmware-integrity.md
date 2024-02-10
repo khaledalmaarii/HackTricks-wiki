@@ -1,62 +1,58 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
 
-## Firmware Integrity
+## Integrità del Firmware
 
-The **custom firmware and/or compiled binaries can be uploaded to exploit integrity or signature verification flaws**. The following steps can be followed for backdoor bind shell compilation:
+Il **firmware personalizzato e/o i file binari compilati possono essere caricati per sfruttare le vulnerabilità di integrità o di verifica delle firme**. I seguenti passaggi possono essere seguiti per la compilazione di un backdoor bind shell:
 
-1. The firmware can be extracted using firmware-mod-kit (FMK).
-2. The target firmware architecture and endianness should be identified.
-3. A cross compiler can be built using Buildroot or other suitable methods for the environment.
-4. The backdoor can be built using the cross compiler.
-5. The backdoor can be copied to the extracted firmware /usr/bin directory.
-6. The appropriate QEMU binary can be copied to the extracted firmware rootfs.
-7. The backdoor can be emulated using chroot and QEMU.
-8. The backdoor can be accessed via netcat.
-9. The QEMU binary should be removed from the extracted firmware rootfs.
-10. The modified firmware can be repackaged using FMK.
-11. The backdoored firmware can be tested by emulating it with firmware analysis toolkit (FAT) and connecting to the target backdoor IP and port using netcat.
+1. Il firmware può essere estratto utilizzando firmware-mod-kit (FMK).
+2. Dovrebbe essere identificata l'architettura del firmware di destinazione e l'endianness.
+3. Può essere creato un compilatore incrociato utilizzando Buildroot o altri metodi adatti all'ambiente.
+4. Il backdoor può essere creato utilizzando il compilatore incrociato.
+5. Il backdoor può essere copiato nella directory /usr/bin del firmware estratto.
+6. Il binario QEMU appropriato può essere copiato nella rootfs del firmware estratto.
+7. Il backdoor può essere emulato utilizzando chroot e QEMU.
+8. Il backdoor può essere accessibile tramite netcat.
+9. Il binario QEMU dovrebbe essere rimosso dalla rootfs del firmware estratto.
+10. Il firmware modificato può essere ricompattato utilizzando FMK.
+11. Il firmware con backdoor può essere testato emulandolo con il firmware analysis toolkit (FAT) e connettendosi all'IP e alla porta del backdoor di destinazione utilizzando netcat.
 
-If a root shell has already been obtained through dynamic analysis, bootloader manipulation, or hardware security testing, precompiled malicious binaries such as implants or reverse shells can be executed. Automated payload/implant tools like the Metasploit framework and 'msfvenom' can be leveraged using the following steps:
+Se è già stato ottenuto un shell di root tramite analisi dinamica, manipolazione del bootloader o test di sicurezza hardware, possono essere eseguiti file binari maligni precompilati come implant o reverse shell. Gli strumenti di payload/implant automatizzati come il framework Metasploit e 'msfvenom' possono essere sfruttati seguendo i seguenti passaggi:
 
-1. The target firmware architecture and endianness should be identified.
-2. Msfvenom can be used to specify the target payload, attacker host IP, listening port number, filetype, architecture, platform, and the output file.
-3. The payload can be transferred to the compromised device and ensured that it has execution permissions.
-4. Metasploit can be prepared to handle incoming requests by starting msfconsole and configuring the settings according to the payload.
-5. The meterpreter reverse shell can be executed on the compromised device.
-6. Meterpreter sessions can be monitored as they open.
-7. Post-exploitation activities can be performed.
+1. Dovrebbe essere identificata l'architettura del firmware di destinazione e l'endianness.
+2. Msfvenom può essere utilizzato per specificare il payload di destinazione, l'IP dell'host attaccante, il numero di porta di ascolto, il tipo di file, l'architettura, la piattaforma e il file di output.
+3. Il payload può essere trasferito al dispositivo compromesso e assicurarsi di avere i permessi di esecuzione.
+4. Metasploit può essere preparato per gestire le richieste in ingresso avviando msfconsole e configurando le impostazioni in base al payload.
+5. Il reverse shell di meterpreter può essere eseguito sul dispositivo compromesso.
+6. Le sessioni di meterpreter possono essere monitorate man mano che si aprono.
+7. Possono essere eseguite attività di post-sfruttamento.
 
-If possible, vulnerabilities within startup scripts can be exploited to gain persistent access to a device across reboots. These vulnerabilities arise when startup scripts reference, [symbolically link](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data), or depend on code located in untrusted mounted locations such as SD cards and flash volumes used for storing data outside of root filesystems.
+Se possibile, possono essere sfruttate vulnerabilità all'interno degli script di avvio per ottenere un accesso persistente a un dispositivo durante i riavvii. Queste vulnerabilità si verificano quando gli script di avvio fanno riferimento, [creano link simbolici](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data) o dipendono da codice situato in posizioni montate non attendibili come schede SD e volumi flash utilizzati per archiviare dati al di fuori dei filesystem di root.
 
-## References
-* For further information check [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
+## Riferimenti
+* Per ulteriori informazioni, consulta [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
-
-

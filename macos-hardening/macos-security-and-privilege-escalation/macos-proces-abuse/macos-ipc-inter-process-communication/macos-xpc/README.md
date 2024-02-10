@@ -2,46 +2,45 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Basic Information
+## Informazioni di base
 
-XPC, which stands for XNU (the kernel used by macOS) inter-Process Communication, is a framework for **communication between processes** on macOS and iOS. XPC provides a mechanism for making **safe, asynchronous method calls between different processes** on the system. It's a part of Apple's security paradigm, allowing for the **creation of privilege-separated applications** where each **component** runs with **only the permissions it needs** to do its job, thereby limiting the potential damage from a compromised process.
+XPC, che sta per XNU (il kernel utilizzato da macOS) Inter-Process Communication, è un framework per la **comunicazione tra processi** su macOS e iOS. XPC fornisce un meccanismo per effettuare **chiamate di metodo sicure e asincrone tra processi diversi** nel sistema. Fa parte del paradigma di sicurezza di Apple, consentendo la **creazione di applicazioni con privilegi separati** in cui ogni **componente** viene eseguito con **solo i permessi necessari** per svolgere il proprio lavoro, limitando così i danni potenziali da un processo compromesso.
 
-XPC uses a form of Inter-Process Communication (IPC), which is a set of methods for different programs running on the same system to send data back and forth.
+XPC utilizza una forma di Inter-Process Communication (IPC), che è un insieme di metodi per inviare dati avanti e indietro tra programmi diversi in esecuzione sullo stesso sistema.
 
-The primary benefits of XPC include:
+I principali vantaggi di XPC includono:
 
-1. **Security**: By separating work into different processes, each process can be granted only the permissions it needs. This means that even if a process is compromised, it has limited ability to do harm.
-2. **Stability**: XPC helps isolate crashes to the component where they occur. If a process crashes, it can be restarted without affecting the rest of the system.
-3. **Performance**: XPC allows for easy concurrency, as different tasks can be run simultaneously in different processes.
+1. **Sicurezza**: Separando il lavoro in diversi processi, ogni processo può essere autorizzato solo ai permessi necessari. Ciò significa che anche se un processo viene compromesso, ha una capacità limitata di causare danni.
+2. **Stabilità**: XPC aiuta a isolare i crash al componente in cui si verificano. Se un processo si blocca, può essere riavviato senza influire sul resto del sistema.
+3. **Prestazioni**: XPC consente una facile concorrenza, poiché diverse attività possono essere eseguite contemporaneamente in diversi processi.
 
-The only **drawback** is that **separating an application in several processes** making them communicate via XPC is **less efficient**. But in todays systems this isn't almost noticeable and the benefits are better.
+L'unico **svantaggio** è che **separare un'applicazione in diversi processi** che comunicano tramite XPC è **meno efficiente**. Ma nei sistemi odierni questo è quasi impercettibile e i vantaggi sono maggiori.
 
-## Application Specific XPC services
+## Servizi XPC specifici dell'applicazione
 
-The XPC components of an application are **inside the application itself.** For example, in Safari you can find them in **`/Applications/Safari.app/Contents/XPCServices`**. They have extension **`.xpc`** (like **`com.apple.Safari.SandboxBroker.xpc`**) and are **also bundles** with the main binary inside of it: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` and an `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
+I componenti XPC di un'applicazione sono **all'interno dell'applicazione stessa**. Ad esempio, in Safari puoi trovarli in **`/Applications/Safari.app/Contents/XPCServices`**. Hanno l'estensione **`.xpc`** (come **`com.apple.Safari.SandboxBroker.xpc`**) e sono **anche bundle** con il binario principale al suo interno: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` e un `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-As you might be thinking a **XPC component will have different entitlements and privileges** than the other XPC components or the main app binary. EXCEPT if a XPC service is configured with [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) set to “True” in its **Info.plist** file. In this case, the XPC service will run in the **same security session as the application** that called it.
+Come potresti pensare, un **componente XPC avrà diversi diritti e privilegi** rispetto agli altri componenti XPC o al binario principale dell'applicazione. ECCETTO se un servizio XPC è configurato con [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) impostato su "True" nel suo file **Info.plist**. In questo caso, il servizio XPC verrà eseguito nella **stessa sessione di sicurezza dell'applicazione** che lo ha chiamato.
 
-XPC services are **started** by **launchd** when required and **shut down** once all tasks are **complete** to free system resources. **Application-specific XPC components can only be utilized by the application**, thereby reducing the risk associated with potential vulnerabilities.
+I servizi XPC vengono **avviati** da **launchd** quando necessario e **chiusi** una volta completate tutte le attività per liberare le risorse di sistema. **I componenti XPC specifici dell'applicazione possono essere utilizzati solo dall'applicazione**, riducendo così il rischio associato a potenziali vulnerabilità.
 
-## System Wide XPC services
+## Servizi XPC a livello di sistema
 
-System-wide XPC services are accessible to all users. These services, either launchd or Mach-type, need to be **defined in plist** files located in specified directories such as **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, or **`/Library/LaunchAgents`**.
+I servizi XPC a livello di sistema sono accessibili a tutti gli utenti. Questi servizi, sia di tipo launchd che di tipo Mach, devono essere **definiti in file plist** situati in directory specificate come **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, o **`/Library/LaunchAgents`**.
 
-These plists files will have a key called **`MachServices`** with the name of the service, and a key called **`Program`** with the path to the binary:
-
+Questi file plist avranno una chiave chiamata **`MachServices`** con il nome del servizio e una chiave chiamata **`Program`** con il percorso del binario:
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -49,59 +48,57 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Program</key>
-	<string>/Library/Application Support/JAMF/Jamf.app/Contents/MacOS/JamfDaemon.app/Contents/MacOS/JamfDaemon</string>
-	<key>AbandonProcessGroup</key>
-	<true/>
-	<key>KeepAlive</key>
-	<true/>
-	<key>Label</key>
-	<string>com.jamf.management.daemon</string>
-	<key>MachServices</key>
-	<dict>
-		<key>com.jamf.management.daemon.aad</key>
-		<true/>
-		<key>com.jamf.management.daemon.agent</key>
-		<true/>
-		<key>com.jamf.management.daemon.binary</key>
-		<true/>
-		<key>com.jamf.management.daemon.selfservice</key>
-		<true/>
-		<key>com.jamf.management.daemon.service</key>
-		<true/>
-	</dict>
-	<key>RunAtLoad</key>
-	<true/>
+<key>Program</key>
+<string>/Library/Application Support/JAMF/Jamf.app/Contents/MacOS/JamfDaemon.app/Contents/MacOS/JamfDaemon</string>
+<key>AbandonProcessGroup</key>
+<true/>
+<key>KeepAlive</key>
+<true/>
+<key>Label</key>
+<string>com.jamf.management.daemon</string>
+<key>MachServices</key>
+<dict>
+<key>com.jamf.management.daemon.aad</key>
+<true/>
+<key>com.jamf.management.daemon.agent</key>
+<true/>
+<key>com.jamf.management.daemon.binary</key>
+<true/>
+<key>com.jamf.management.daemon.selfservice</key>
+<true/>
+<key>com.jamf.management.daemon.service</key>
+<true/>
+</dict>
+<key>RunAtLoad</key>
+<true/>
 </dict>
 </plist>
 ```
+Quelli in **`LaunchDameons`** sono eseguiti da root. Quindi, se un processo non privilegiato può comunicare con uno di questi, potrebbe essere in grado di ottenere privilegi elevati.
 
-The ones in **`LaunchDameons`** are run by root. So if an unprivileged process can talk with one of these it could be able to escalate privileges.
+## Messaggi di evento XPC
 
-## XPC Event Messages
+Le applicazioni possono **sottoscriversi** a diversi **messaggi di evento**, consentendo loro di essere **iniziate su richiesta** quando tali eventi si verificano. La **configurazione** di questi servizi viene effettuata nei file **plist di launchd**, situati nelle **stesse directory dei precedenti** e contenenti una chiave **`LaunchEvent`** aggiuntiva.
 
-Applications can **subscribe** to different event **messages**, enabling them to be **initiated on-demand** when such events happen. The **setup** for these services is done in l**aunchd plist files**, located in the **same directories as the previous ones** and containing an extra **`LaunchEvent`** key.
+### Controllo del processo di connessione XPC
 
-### XPC Connecting Process Check
-
-When a process tries to call a method from via an XPC connection, the **XPC service should check if that process is allowed to connect**. Here are the common ways to check that and the common pitfalls:
+Quando un processo tenta di chiamare un metodo tramite una connessione XPC, il **servizio XPC dovrebbe verificare se tale processo è autorizzato a connettersi**. Ecco i modi comuni per effettuare tale verifica e le trappole comuni:
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-## XPC Authorization
+## Autorizzazione XPC
 
-Apple also allows apps to **configure some rights and how to get them** so if the calling process have them it would be **allowed to call a method** from the XPC service:
+Apple consente anche alle app di **configurare alcuni diritti e come ottenerli**, quindi se il processo chiamante li possiede, sarà **autorizzato a chiamare un metodo** dal servizio XPC:
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-## XPC Sniffer
+## Sniffer XPC
 
-To sniff the XPC messages you could use [**xpcspy**](https://github.com/hot3eed/xpcspy) which uses **Frida**.
-
+Per intercettare i messaggi XPC, è possibile utilizzare [**xpcspy**](https://github.com/hot3eed/xpcspy) che utilizza **Frida**.
 ```bash
 # Install
 pip3 install xpcspy
@@ -112,8 +109,7 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
-
-## XPC Communication C Code Example
+## Esempio di codice C per la comunicazione XPC
 
 {% tabs %}
 {% tab title="xpc_server.c" %}
@@ -123,86 +119,109 @@ xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 #include <xpc/xpc.h>
 
 static void handle_event(xpc_object_t event) {
-    if (xpc_get_type(event) == XPC_TYPE_DICTIONARY) {
-        // Print received message
-        const char* received_message = xpc_dictionary_get_string(event, "message");
-        printf("Received message: %s\n", received_message);
+if (xpc_get_type(event) == XPC_TYPE_DICTIONARY) {
+// Print received message
+const char* received_message = xpc_dictionary_get_string(event, "message");
+printf("Received message: %s\n", received_message);
 
-        // Create a response dictionary
-        xpc_object_t response = xpc_dictionary_create(NULL, NULL, 0);
-        xpc_dictionary_set_string(response, "received", "received");
+// Create a response dictionary
+xpc_object_t response = xpc_dictionary_create(NULL, NULL, 0);
+xpc_dictionary_set_string(response, "received", "received");
 
-        // Send response
-        xpc_connection_t remote = xpc_dictionary_get_remote_connection(event);
-        xpc_connection_send_message(remote, response);
+// Send response
+xpc_connection_t remote = xpc_dictionary_get_remote_connection(event);
+xpc_connection_send_message(remote, response);
 
-        // Clean up
-        xpc_release(response);
-    }
+// Clean up
+xpc_release(response);
+}
 }
 
 static void handle_connection(xpc_connection_t connection) {
-    xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
-        handle_event(event);
-    });
-    xpc_connection_resume(connection);
+xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
+handle_event(event);
+});
+xpc_connection_resume(connection);
 }
 
 int main(int argc, const char *argv[]) {
-    xpc_connection_t service = xpc_connection_create_mach_service("xyz.hacktricks.service",
-                                                                   dispatch_get_main_queue(),
-                                                                   XPC_CONNECTION_MACH_SERVICE_LISTENER);
-    if (!service) {
-        fprintf(stderr, "Failed to create service.\n");
-        exit(EXIT_FAILURE);
-    }
+xpc_connection_t service = xpc_connection_create_mach_service("xyz.hacktricks.service",
+dispatch_get_main_queue(),
+XPC_CONNECTION_MACH_SERVICE_LISTENER);
+if (!service) {
+fprintf(stderr, "Failed to create service.\n");
+exit(EXIT_FAILURE);
+}
 
-    xpc_connection_set_event_handler(service, ^(xpc_object_t event) {
-        xpc_type_t type = xpc_get_type(event);
-        if (type == XPC_TYPE_CONNECTION) {
-            handle_connection(event);
-        }
-    });
+xpc_connection_set_event_handler(service, ^(xpc_object_t event) {
+xpc_type_t type = xpc_get_type(event);
+if (type == XPC_TYPE_CONNECTION) {
+handle_connection(event);
+}
+});
 
-    xpc_connection_resume(service);
-    dispatch_main();
+xpc_connection_resume(service);
+dispatch_main();
 
-    return 0;
+return 0;
 }
 ```
-{% endtab %}
-
-{% tab title="xpc_client.c" %}
 ```c
-// gcc xpc_client.c -o xpc_client
-
+#include <stdio.h>
 #include <xpc/xpc.h>
 
-int main(int argc, const char *argv[]) {
-    xpc_connection_t connection = xpc_connection_create_mach_service("xyz.hacktricks.service", NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
-
+int main(int argc, const char * argv[]) {
+    xpc_connection_t connection = xpc_connection_create_mach_service("com.apple.securityd", NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
+    
     xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
-        if (xpc_get_type(event) == XPC_TYPE_DICTIONARY) {
-            // Print received message
-            const char* received_message = xpc_dictionary_get_string(event, "received");
-            printf("Received message: %s\n", received_message);
+        xpc_type_t type = xpc_get_type(event);
+        
+        if (type == XPC_TYPE_DICTIONARY) {
+            const char *description = xpc_dictionary_get_string(event, "description");
+            printf("Received event: %s\n", description);
         }
     });
-
+    
     xpc_connection_resume(connection);
-
-    xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
-    xpc_dictionary_set_string(message, "message", "Hello, Server!");
-
-    xpc_connection_send_message(connection, message);
-
-    dispatch_main();
+    
+    sleep(10);
+    
+    xpc_release(connection);
     
     return 0;
 }
 ```
 {% endtab %}
 
+{% tab title="xpc_server.c" %}
+```c
+// gcc xpc_client.c -o xpc_client
+
+#include <xpc/xpc.h>
+
+int main(int argc, const char *argv[]) {
+xpc_connection_t connection = xpc_connection_create_mach_service("xyz.hacktricks.service", NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
+
+xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
+if (xpc_get_type(event) == XPC_TYPE_DICTIONARY) {
+// Print received message
+const char* received_message = xpc_dictionary_get_string(event, "received");
+printf("Received message: %s\n", received_message);
+}
+});
+
+xpc_connection_resume(connection);
+
+xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
+xpc_dictionary_set_string(message, "message", "Hello, Server!");
+
+xpc_connection_send_message(connection, message);
+
+dispatch_main();
+
+return 0;
+}
+```
 {% tab title="xyz.hacktricks.service.plist" %}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -211,22 +230,21 @@ int main(int argc, const char *argv[]) {
 <key>Label</key>
 <string>xyz.hacktricks.service</string>
 <key>MachServices</key>
-    <dict>
-        <key>xyz.hacktricks.service</key>
-        <true/>
-    </dict>
+<dict>
+<key>xyz.hacktricks.service</key>
+<true/>
+</dict>
 <key>Program</key>
-    <string>/tmp/xpc_server</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/tmp/xpc_server</string>
-    </array>
+<string>/tmp/xpc_server</string>
+<key>ProgramArguments</key>
+<array>
+<string>/tmp/xpc_server</string>
+</array>
 </dict>
 </plist>
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # Compile the server & client
 gcc xpc_server.c -o xpc_server
@@ -246,8 +264,44 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
+```objective-c
+#import <Foundation/Foundation.h>
+#import <xpc/xpc.h>
 
-## XPC Communication Objective-C Code Example
+void handle_request(xpc_object_t request) {
+    // Handle the request here
+    // ...
+}
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        xpc_connection_t connection = xpc_connection_create_mach_service("com.example.myxpc", NULL, XPC_CONNECTION_MACH_SERVICE_LISTENER);
+        
+        xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
+            xpc_type_t type = xpc_get_type(event);
+            
+            if (type == XPC_TYPE_DICTIONARY) {
+                const char *message = xpc_dictionary_get_string(event, "message");
+                if (message) {
+                    printf("Received message: %s\n", message);
+                }
+                
+                handle_request(event);
+            }
+        });
+        
+        xpc_connection_resume(connection);
+        
+        dispatch_main();
+    }
+    
+    return 0;
+}
+```
+{% endtab %}
+{% endtabs %}
+
+## Esempio di codice Objective-C per la comunicazione XPC
 
 {% tabs %}
 {% tab title="oc_xpc_server.m" %}
@@ -265,9 +319,9 @@ sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 
 @implementation MyXPCObject
 - (void)sayHello:(NSString *)some_string withReply:(void (^)(NSString *))reply {
-    NSLog(@"Received message: %@", some_string);
-    NSString *response = @"Received";
-    reply(response);
+NSLog(@"Received message: %@", some_string);
+NSString *response = @"Received";
+reply(response);
 }
 @end
 
@@ -278,30 +332,28 @@ sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 @implementation MyDelegate
 
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection {
-    newConnection.exportedInterface = [NSXPCInterface interfaceWithProtocol:@protocol(MyXPCProtocol)];
+newConnection.exportedInterface = [NSXPCInterface interfaceWithProtocol:@protocol(MyXPCProtocol)];
 
-    MyXPCObject *my_object = [MyXPCObject new];
+MyXPCObject *my_object = [MyXPCObject new];
 
-    newConnection.exportedObject = my_object;
+newConnection.exportedObject = my_object;
 
-    [newConnection resume];
-    return YES;
+[newConnection resume];
+return YES;
 }
 @end
 
 int main(void) {
 
-    NSXPCListener *listener = [[NSXPCListener alloc] initWithMachServiceName:@"xyz.hacktricks.svcoc"];
+NSXPCListener *listener = [[NSXPCListener alloc] initWithMachServiceName:@"xyz.hacktricks.svcoc"];
 
-    id <NSXPCListenerDelegate> delegate = [MyDelegate new];
-    listener.delegate = delegate;
-    [listener resume];
+id <NSXPCListenerDelegate> delegate = [MyDelegate new];
+listener.delegate = delegate;
+[listener resume];
 
-    sleep(10); // Fake something is done and then it ends
+sleep(10); // Fake something is done and then it ends
 }
 ```
-{% endtab %}
-
 {% tab title="oc_xpc_client.m" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
@@ -312,21 +364,19 @@ int main(void) {
 @end
 
 int main(void) {
-    NSXPCConnection *connection = [[NSXPCConnection alloc] initWithMachServiceName:@"xyz.hacktricks.svcoc" options:NSXPCConnectionPrivileged];
-    connection.remoteObjectInterface = [NSXPCInterface interfaceWithProtocol:@protocol(MyXPCProtocol)];
-    [connection resume];
+NSXPCConnection *connection = [[NSXPCConnection alloc] initWithMachServiceName:@"xyz.hacktricks.svcoc" options:NSXPCConnectionPrivileged];
+connection.remoteObjectInterface = [NSXPCInterface interfaceWithProtocol:@protocol(MyXPCProtocol)];
+[connection resume];
 
-    [[connection remoteObjectProxy] sayHello:@"Hello, Server!" withReply:^(NSString *response) {
-        NSLog(@"Received response: %@", response);
-    }];
+[[connection remoteObjectProxy] sayHello:@"Hello, Server!" withReply:^(NSString *response) {
+NSLog(@"Received response: %@", response);
+}];
 
-    [[NSRunLoop currentRunLoop] run];
+[[NSRunLoop currentRunLoop] run];
 
-    return 0;
+return 0;
 }
 ```
-{% endtab %}
-
 {% tab title="xyz.hacktricks.svcoc.plist" %}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -335,22 +385,21 @@ int main(void) {
 <key>Label</key>
 <string>xyz.hacktricks.svcoc</string>
 <key>MachServices</key>
-    <dict>
-        <key>xyz.hacktricks.svcoc</key>
-        <true/>
-    </dict>
+<dict>
+<key>xyz.hacktricks.svcoc</key>
+<true/>
+</dict>
 <key>Program</key>
-    <string>/tmp/oc_xpc_server</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/tmp/oc_xpc_server</string>
-    </array>
+<string>/tmp/oc_xpc_server</string>
+<key>ProgramArguments</key>
+<array>
+<string>/tmp/oc_xpc_server</string>
+</array>
 </dict>
 </plist>
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # Compile the server & client
 gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
@@ -370,9 +419,68 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 ```
+## Client all'interno di un codice Dylb
 
-## Client inside a Dylb code
+The client code is responsible for establishing a connection with the server and sending requests to it. In the case of a Dylb code, the client is embedded within the code itself.
 
+Il codice del client è responsabile di stabilire una connessione con il server e inviare richieste ad esso. Nel caso di un codice Dylb, il client è incorporato direttamente nel codice stesso.
+
+To create a client inside a Dylb code, you can use the following steps:
+
+Per creare un client all'interno di un codice Dylb, è possibile seguire i seguenti passaggi:
+
+1. Import the necessary libraries or modules required for establishing a network connection.
+
+   Importare le librerie o i moduli necessari per stabilire una connessione di rete.
+
+2. Define the server's IP address and port number to establish a connection.
+
+   Definire l'indirizzo IP del server e il numero di porta per stabilire una connessione.
+
+3. Create a socket object to establish a connection with the server.
+
+   Creare un oggetto socket per stabilire una connessione con il server.
+
+4. Use the socket object to send requests to the server.
+
+   Utilizzare l'oggetto socket per inviare richieste al server.
+
+5. Receive and process the server's response.
+
+   Ricevere e elaborare la risposta del server.
+
+Here is an example of a client code inside a Dylb code:
+
+Ecco un esempio di codice client all'interno di un codice Dylb:
+
+```python
+import socket
+
+# Define server IP address and port number
+server_ip = "192.168.0.1"
+server_port = 8080
+
+# Create a socket object
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Establish a connection with the server
+client_socket.connect((server_ip, server_port))
+
+# Send a request to the server
+request = "Hello, server!"
+client_socket.send(request.encode())
+
+# Receive and process the server's response
+response = client_socket.recv(1024).decode()
+print("Server response:", response)
+
+# Close the connection
+client_socket.close()
+```
+
+Make sure to replace the `server_ip` and `server_port` variables with the actual IP address and port number of the server you want to connect to.
+
+Assicurarsi di sostituire le variabili `server_ip` e `server_port` con l'effettivo indirizzo IP e numero di porta del server a cui si desidera connettersi.
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -387,36 +495,35 @@ sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 __attribute__((constructor))
 static void customConstructor(int argc, const char **argv)
 {
-        NSString*  _serviceName = @"xyz.hacktricks.svcoc";
+NSString*  _serviceName = @"xyz.hacktricks.svcoc";
 
-        NSXPCConnection* _agentConnection = [[NSXPCConnection alloc] initWithMachServiceName:_serviceName options:4096];
-    
-        [_agentConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(MyXPCProtocol)]];
-    
-        [_agentConnection resume];
+NSXPCConnection* _agentConnection = [[NSXPCConnection alloc] initWithMachServiceName:_serviceName options:4096];
 
-        [[_agentConnection remoteObjectProxyWithErrorHandler:^(NSError* error) {
-            (void)error;
-            NSLog(@"Connection Failure");
-        }] sayHello:@"Hello, Server!" withReply:^(NSString *response) {
-            NSLog(@"Received response: %@", response);
-    }    ];
-        NSLog(@"Done!");
+[_agentConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(MyXPCProtocol)]];
 
-    return;
+[_agentConnection resume];
+
+[[_agentConnection remoteObjectProxyWithErrorHandler:^(NSError* error) {
+(void)error;
+NSLog(@"Connection Failure");
+}] sayHello:@"Hello, Server!" withReply:^(NSString *response) {
+NSLog(@"Received response: %@", response);
+}    ];
+NSLog(@"Done!");
+
+return;
 }
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

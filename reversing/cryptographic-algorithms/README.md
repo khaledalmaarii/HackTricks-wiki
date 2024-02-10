@@ -1,210 +1,209 @@
-# Cryptographic/Compression Algorithms
+# Algoritmi crittografici/compressione
 
-## Cryptographic/Compression Algorithms
+## Algoritmi crittografici/compressione
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Identifying Algorithms
+## Identificazione degli algoritmi
 
-If you ends in a code **using shift rights and lefts, xors and several arithmetic operations** it's highly possible that it's the implementation of a **cryptographic algorithm**. Here it's going to be showed some ways to **identify the algorithm that it's used without needing to reverse each step**.
+Se ti trovi in un codice **che utilizza shift a destra e sinistra, xor e diverse operazioni aritmetiche**, è molto probabile che si tratti dell'implementazione di un **algoritmo crittografico**. Qui verranno mostrati alcuni modi per **identificare l'algoritmo utilizzato senza dover invertire ogni passaggio**.
 
-### API functions
+### Funzioni API
 
 **CryptDeriveKey**
 
-If this function is used, you can find which **algorithm is being used** checking the value of the second parameter:
+Se viene utilizzata questa funzione, è possibile trovare quale **algoritmo viene utilizzato** controllando il valore del secondo parametro:
 
 ![](<../../.gitbook/assets/image (375) (1) (1) (1) (1).png>)
 
-Check here the table of possible algorithms and their assigned values: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Controlla qui la tabella degli algoritmi possibili e dei loro valori assegnati: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 **RtlCompressBuffer/RtlDecompressBuffer**
 
-Compresses and decompresses a given buffer of data.
+Comprime e decomprime un determinato buffer di dati.
 
 **CryptAcquireContext**
 
-From [the docs](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): The **CryptAcquireContext** function is used to acquire a handle to a particular key container within a particular cryptographic service provider (CSP). **This returned handle is used in calls to CryptoAPI** functions that use the selected CSP.
+Da [documentazione](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): La funzione **CryptAcquireContext** viene utilizzata per acquisire un handle a un particolare contenitore di chiavi all'interno di un particolare provider di servizi crittografici (CSP). **Questo handle restituito viene utilizzato nelle chiamate alle funzioni CryptoAPI** che utilizzano il CSP selezionato.
 
 **CryptCreateHash**
 
-Initiates the hashing of a stream of data. If this function is used, you can find which **algorithm is being used** checking the value of the second parameter:
+Inizia l'hashing di un flusso di dati. Se viene utilizzata questa funzione, è possibile trovare quale **algoritmo viene utilizzato** controllando il valore del secondo parametro:
 
 ![](<../../.gitbook/assets/image (376).png>)
 
 \
-Check here the table of possible algorithms and their assigned values: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Controlla qui la tabella degli algoritmi possibili e dei loro valori assegnati: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
-### Code constants
+### Costanti di codice
 
-Sometimes it's really easy to identify an algorithm thanks to the fact that it needs to use a special and unique value.
+A volte è molto facile identificare un algoritmo grazie al fatto che deve utilizzare un valore speciale e unico.
 
 ![](<../../.gitbook/assets/image (370).png>)
 
-If you search for the first constant in Google this is what you get:
+Se cerchi la prima costante su Google, otterrai questo risultato:
 
 ![](<../../.gitbook/assets/image (371).png>)
 
-Therefore, you can assume that the decompiled function is a **sha256 calculator.**\
-You can search any of the other constants and you will obtain (probably) the same result.
+Pertanto, puoi assumere che la funzione decompilata sia un **calcolatore sha256**.\
+Puoi cercare qualsiasi altra costante e otterrai (probabilmente) lo stesso risultato.
 
-### data info
+### informazioni sui dati
 
-If the code doesn't have any significant constant it may be **loading information from the .data section**.\
-You can access that data, **group the first dword** and search for it in google as we have done in the section before:
+Se il codice non ha alcuna costante significativa, potrebbe essere **caricamento di informazioni dalla sezione .data**.\
+Puoi accedere a quei dati, **raggruppare il primo dword** e cercarlo su Google come abbiamo fatto nella sezione precedente:
 
 ![](<../../.gitbook/assets/image (372).png>)
 
-In this case, if you look for **0xA56363C6** you can find that it's related to the **tables of the AES algorithm**.
+In questo caso, se cerchi **0xA56363C6** puoi scoprire che è correlato alle **tabelle dell'algoritmo AES**.
 
-## RC4 **(Symmetric Crypt)**
+## RC4 **(Crittografia simmetrica)**
 
-### Characteristics
+### Caratteristiche
 
-It's composed of 3 main parts:
+È composto da 3 parti principali:
 
-* **Initialization stage/**: Creates a **table of values from 0x00 to 0xFF** (256bytes in total, 0x100). This table is commonly call **Substitution Box** (or SBox).
-* **Scrambling stage**: Will **loop through the table** crated before (loop of 0x100 iterations, again) creating modifying each value with **semi-random** bytes. In order to create this semi-random bytes, the RC4 **key is used**. RC4 **keys** can be **between 1 and 256 bytes in length**, however it is usually recommended that it is above 5 bytes. Commonly, RC4 keys are 16 bytes in length.
-* **XOR stage**: Finally, the plain-text or cyphertext is **XORed with the values created before**. The function to encrypt and decrypt is the same. For this, a **loop through the created 256 bytes** will be performed as many times as necessary. This is usually recognized in a decompiled code with a **%256 (mod 256)**.
+* **Fase di inizializzazione/**: Crea una **tabella di valori da 0x00 a 0xFF** (256 byte in totale, 0x100). Questa tabella è comunemente chiamata **Substitution Box** (o SBox).
+* **Fase di scrambling**: Attraverserà **la tabella** creata in precedenza (ciclo di 0x100 iterazioni, ancora) modificando ogni valore con byte **semi-random**. Per creare questi byte semi-random, viene utilizzata la **chiave RC4**. Le chiavi RC4 possono essere **lunghe da 1 a 256 byte**, anche se di solito si consiglia di utilizzare una lunghezza superiore a 5 byte. Comunemente, le chiavi RC4 sono lunghe 16 byte.
+* **Fase di XOR**: Infine, il testo in chiaro o il testo cifrato viene **XORato con i valori creati in precedenza**. La funzione per crittografare e decrittografare è la stessa. A tal fine, verrà eseguito un **ciclo attraverso i 256 byte creati** tante volte quanto necessario. Questo di solito viene riconosciuto in un codice decompilato con un **%256 (mod 256)**.
 
 {% hint style="info" %}
-**In order to identify a RC4 in a disassembly/decompiled code you can check for 2 loops of size 0x100 (with the use of a key) and then a XOR of the input data with the 256 values created before in the 2 loops probably using a %256 (mod 256)**
+**Per identificare un RC4 in un codice di disassemblaggio/decompilato, puoi controllare 2 cicli di dimensione 0x100 (con l'uso di una chiave) e quindi un XOR dei dati di input con i 256 valori creati in precedenza nei 2 cicli probabilmente usando un %256 (mod 256)**
 {% endhint %}
 
-### **Initialization stage/Substitution Box:** (Note the number 256 used as counter and how a 0 is written in each place of the 256 chars)
+### **Fase di inizializzazione/Substitution Box:** (Nota il numero 256 utilizzato come contatore e come viene scritto uno 0 in ogni posizione dei 256 caratteri)
 
 ![](<../../.gitbook/assets/image (377).png>)
 
-### **Scrambling Stage:**
+### **Fase di scrambling:**
 
 ![](<../../.gitbook/assets/image (378).png>)
 
-### **XOR Stage:**
+### **Fase di XOR:**
 
 ![](<../../.gitbook/assets/image (379).png>)
 
-## **AES (Symmetric Crypt)**
+## **AES (Crittografia simmetrica)**
 
-### **Characteristics**
+### **Caratteristiche**
 
-* Use of **substitution boxes and lookup tables**
-  * It's possible to **distinguish AES thanks to the use of specific lookup table values** (constants). _Note that the **constant** can be **stored** in the binary **or created**_ _**dynamically**._
-* The **encryption key** must be **divisible** by **16** (usually 32B) and usually an **IV** of 16B is used.
+* Utilizzo di **tabelle di sostituzione e tabelle di ricerca**
+* È possibile **distinguere AES grazie all'uso di valori specifici delle tabelle di ricerca** (costanti). _Nota che la **costante** può essere **memorizzata** nel binario **o creata**_ _**dinamicamente**._
+* La **chiave di crittografia** deve essere **divisibile** per **16** (di solito 32B) e di solito viene utilizzato un **IV** di 16B.
 
-### SBox constants
+### Costanti SBox
 
 ![](<../../.gitbook/assets/image (380).png>)
 
-## Serpent **(Symmetric Crypt)**
+## Serpent **(Crittografia simmetrica)**
 
-### Characteristics
+### Caratteristiche
 
-* It's rare to find some malware using it but there are examples (Ursnif)
-* Simple to determine if an algorithm is Serpent or not based on it's length (extremely long function)
+* È raro trovare malware che lo utilizza, ma ci sono esempi (Ursnif)
+* Semplice determinare se un algoritmo è Serpent o meno in base alla sua lunghezza (funzione estremamente lunga)
 
-### Identifying
+### Identificazione
 
-In the following image notice how the constant **0x9E3779B9** is used (note that this constant is also used by other crypto algorithms like **TEA** -Tiny Encryption Algorithm).\
-Also note the **size of the loop** (**132**) and the **number of XOR operations** in the **disassembly** instructions and in the **code** example:
+Nell'immagine seguente, nota come viene utilizzata la costante **0x9E3779B9** (nota che questa costante viene utilizzata anche da altri algoritmi crittografici come **TEA** - Tiny Encryption Algorithm).\
+Nota anche la **dimensione del ciclo** (**132**) e il **numero di operazioni XOR** nelle istruzioni di **disassemblaggio** e nell'**esempio di codice**:
 
 ![](<../../.gitbook/assets/image (381).png>)
 
-As it was mentioned before, this code can be visualized inside any decompiler as a **very long function** as there **aren't jumps** inside of it. The decompiled code can look like the following:
+Come accennato in precedenza, questo codice può essere visualizzato all'interno di qualsiasi decompiler come una **funzione molto lunga** poiché non ci sono **salti** al suo interno. Il codice decompilato può apparire come segue:
 
 ![](<../../.gitbook/assets/image (382).png>)
 
-Therefore, it's possible to identify this algorithm checking the **magic number** and the **initial XORs**, seeing a **very long function** and **comparing** some **instructions** of the long function **with an implementation** (like the shift left by 7 and the rotate left by 22).
+Pertanto, è possibile identificare questo algoritmo controllando il **numero magico** e gli **XOR iniziali**, osservando una **funzione molto lunga** e **confrontando** alcune **istruzioni** della lunga funzione **con un'implementazione** (come lo shift a sinistra di
+## RSA **(Crittografia Asimmetrica)**
 
-## RSA **(Asymmetric Crypt)**
+### Caratteristiche
 
-### Characteristics
+* Più complesso rispetto agli algoritmi simmetrici
+* Non ci sono costanti! (le implementazioni personalizzate sono difficili da determinare)
+* KANAL (un analizzatore crittografico) non fornisce suggerimenti su RSA in quanto si basa su costanti.
 
-* More complex than symmetric algorithms
-* There are no constants! (custom implementation are difficult to determine)
-* KANAL (a crypto analyzer) fails to show hints on RSA ad it relies on constants.
-
-### Identifying by comparisons
+### Identificazione tramite confronti
 
 ![](<../../.gitbook/assets/image (383).png>)
 
-* In line 11 (left) there is a `+7) >> 3` which is the same as in line 35 (right): `+7) / 8`
-* Line 12 (left) is checking if `modulus_len < 0x040` and in line 36 (right) it's checking if `inputLen+11 > modulusLen`
+* Nella riga 11 (sinistra) c'è `+7) >> 3`, che è lo stesso della riga 35 (destra): `+7) / 8`
+* La riga 12 (sinistra) controlla se `modulus_len < 0x040` e nella riga 36 (destra) controlla se `inputLen+11 > modulusLen`
 
 ## MD5 & SHA (hash)
 
-### Characteristics
+### Caratteristiche
 
-* 3 functions: Init, Update, Final
-* Similar initialize functions
+* 3 funzioni: Init, Update, Final
+* Funzioni di inizializzazione simili
 
-### Identify
+### Identificazione
 
 **Init**
 
-You can identify both of them checking the constants. Note that the sha\_init has 1 constant that MD5 doesn't have:
+Puoi identificarli entrambi controllando le costanti. Nota che sha\_init ha una costante che MD5 non ha:
 
 ![](<../../.gitbook/assets/image (385).png>)
 
 **MD5 Transform**
 
-Note the use of more constants
+Nota l'uso di più costanti
 
 ![](<../../.gitbook/assets/image (253) (1) (1) (1).png>)
 
 ## CRC (hash)
 
-* Smaller and more efficient as it's function is to find accidental changes in data
-* Uses lookup tables (so you can identify constants)
+* Più piccolo ed efficiente in quanto la sua funzione è trovare cambiamenti accidentali nei dati
+* Utilizza tabelle di ricerca (quindi puoi identificare le costanti)
 
-### Identify
+### Identificazione
 
-Check **lookup table constants**:
+Controlla le **costanti delle tabelle di ricerca**:
 
 ![](<../../.gitbook/assets/image (387).png>)
 
-A CRC hash algorithm looks like:
+Un algoritmo di hash CRC assomiglia a:
 
 ![](<../../.gitbook/assets/image (386).png>)
 
-## APLib (Compression)
+## APLib (Compressione)
 
-### Characteristics
+### Caratteristiche
 
-* Not recognizable constants
-* You can try to write the algorithm in python and search for similar things online
+* Costanti non riconoscibili
+* Puoi provare a scrivere l'algoritmo in Python e cercare cose simili online
 
-### Identify
+### Identificazione
 
-The graph is quiet large:
+Il grafico è piuttosto grande:
 
 ![](<../../.gitbook/assets/image (207) (2) (1).png>)
 
-Check **3 comparisons to recognise it**:
+Controlla **3 confronti per riconoscerlo**:
 
 ![](<../../.gitbook/assets/image (384).png>)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF**, controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository GitHub di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

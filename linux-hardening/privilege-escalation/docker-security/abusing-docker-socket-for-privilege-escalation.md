@@ -1,57 +1,57 @@
-# Abusing Docker Socket for Privilege Escalation
+# Abuso del Socket Docker per l'Elevazione dei Privilegi
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) di GitHub.
 
 </details>
 
-There are some occasions were you just have **access to the docker socket** and you want to use it to **escalate privileges**. Some actions might be very suspicious and you may want to avoid them, so here you can find different flags that can be useful to escalate privileges:
+Ci sono alcune occasioni in cui hai **accesso al socket Docker** e vuoi usarlo per **elevare i privilegi**. Alcune azioni potrebbero essere molto sospette e potresti voler evitarle, quindi qui puoi trovare diversi flag che possono essere utili per l'elevazione dei privilegi:
 
-### Via mount
+### Attraverso il mount
 
-You can **mount** different parts of the **filesystem** in a container running as root and **access** them.\
-You could also **abuse a mount to escalate privileges** inside the container.
+Puoi **montare** diverse parti del **filesystem** in un container in esecuzione come root e **accedervi**.\
+Puoi anche **abusare di un mount per l'elevazione dei privilegi** all'interno del container.
 
-* **`-v /:/host`** -> Mount the host filesystem in the container so you can **read the host filesystem.**
-  * If you want to **feel like you are in the host** but being on the container you could disable other defense mechanisms using flags like:
-    * `--privileged`
-    * `--cap-add=ALL`
-    * `--security-opt apparmor=unconfined`
-    * `--security-opt seccomp=unconfined`
-    * `-security-opt label:disable`
-    * `--pid=host`
-    * `--userns=host`
-    * `--uts=host`
-    * `--cgroupns=host`
-* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> This is similar to the previous method, but here we are **mounting the device disk**. Then, inside the container run `mount /dev/sda1 /mnt` and you can **access** the **host filesystem** in `/mnt`
-  * Run `fdisk -l` in the host to find the `</dev/sda1>` device to mount
-* **`-v /tmp:/host`** -> If for some reason you can **just mount some directory** from the host and you have access inside the host. Mount it and create a **`/bin/bash`** with **suid** in the mounted directory so you can **execute it from the host and escalate to root**.
+* **`-v /:/host`** -> Monta il filesystem dell'host nel container in modo da poter **leggere il filesystem dell'host**.
+* Se vuoi **sentirti come se fossi nell'host** ma essere nel container, puoi disabilitare altri meccanismi di difesa utilizzando flag come:
+* `--privileged`
+* `--cap-add=ALL`
+* `--security-opt apparmor=unconfined`
+* `--security-opt seccomp=unconfined`
+* `-security-opt label:disable`
+* `--pid=host`
+* `--userns=host`
+* `--uts=host`
+* `--cgroupns=host`
+* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> Questo è simile al metodo precedente, ma qui stiamo **montando il disco del dispositivo**. Quindi, all'interno del container esegui `mount /dev/sda1 /mnt` e puoi **accedere** al **filesystem dell'host** in `/mnt`
+* Esegui `fdisk -l` nell'host per trovare il dispositivo `</dev/sda1>` da montare
+* **`-v /tmp:/host`** -> Se per qualche motivo puoi **solo montare una directory** dall'host e hai accesso all'interno dell'host. Montala e crea un **`/bin/bash`** con **suid** nella directory montata in modo da poterlo **eseguire dall'host ed elevarti a root**.
 
 {% hint style="info" %}
-Note that maybe you cannot mount the folder `/tmp` but you can mount a **different writable folder**. You can find writable directories using: `find / -writable -type d 2>/dev/null`
+Nota che potresti non essere in grado di montare la cartella `/tmp` ma puoi montare una **diversa cartella scrivibile**. Puoi trovare directory scrivibili utilizzando: `find / -writable -type d 2>/dev/null`
 
-**Note that not all the directories in a linux machine will support the suid bit!** In order to check which directories support the suid bit run `mount | grep -v "nosuid"` For example usually `/dev/shm` , `/run` , `/proc` , `/sys/fs/cgroup` and `/var/lib/lxcfs` don't support the suid bit.
+**Nota che non tutte le directory in una macchina Linux supporteranno il bit suid!** Per verificare quali directory supportano il bit suid, esegui `mount | grep -v "nosuid"` Ad esempio, di solito `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` e `/var/lib/lxcfs` non supportano il bit suid.
 
-Note also that if you can **mount `/etc`** or any other folder **containing configuration files**, you may change them from the docker container as root in order to **abuse them in the host** and escalate privileges (maybe modifying `/etc/shadow`)
+Nota anche che se puoi **montare `/etc`** o qualsiasi altra cartella **contenente file di configurazione**, puoi modificarli dal container Docker come root per **abusarli nell'host** ed elevare i privilegi (forse modificando `/etc/shadow`)
 {% endhint %}
 
-### Escaping from the container
+### Fuga dal container
 
-* **`--privileged`** -> With this flag you [remove all the isolation from the container](docker-privileged.md#what-affects). Check techniques to [escape from privileged containers as root](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape).
-* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> To [escalate abusing capabilities](../linux-capabilities.md), **grant that capability to the container** and disable other protection methods that may prevent the exploit to work.
+* **`--privileged`** -> Con questo flag [rimuovi tutto l'isolamento dal container](docker-privileged.md#what-affects). Verifica le tecniche per [fuggire dai container privilegiati come root](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape).
+* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> Per [elevare gli accessi abusando delle capacità](../linux-capabilities.md), **concedi quella capacità al container** e disabilita altri metodi di protezione che potrebbero impedire all'exploit di funzionare.
 
 ### Curl
 
-In this page we have discussed ways to escalate privileges using docker flags, you can find **ways to abuse these methods using curl** command in the page:
+In questa pagina abbiamo discusso modi per elevare i privilegi utilizzando i flag di Docker, puoi trovare **modi per abusare di questi metodi utilizzando il comando curl** nella pagina:
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
@@ -59,14 +59,14 @@ In this page we have discussed ways to escalate privileges using docker flags, y
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) di GitHub.
 
 </details>

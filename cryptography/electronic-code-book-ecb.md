@@ -1,104 +1,94 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github.
 
 </details>
 
 
 # ECB
 
-(ECB) Electronic Code Book - symmetric encryption scheme which **replaces each block of the clear text** by the **block of ciphertext**. It is the **simplest** encryption scheme. The main idea is to **split** the clear text into **blocks of N bits** (depends on the size of the block of input data, encryption algorithm) and then to encrypt (decrypt) each block of clear text using the only key.
+(ECB) Electronic Code Book - schema di crittografia simmetrica che **sostituisce ogni blocco di testo in chiaro** con il **blocco di testo cifrato**. È lo schema di crittografia **più semplice**. L'idea principale è **dividere** il testo in chiaro in **blocchi di N bit** (a seconda della dimensione del blocco di dati di input, dell'algoritmo di crittografia) e quindi cifrare (decifrare) ogni blocco di testo in chiaro utilizzando l'unico chiave.
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/ECB_decryption.svg/601px-ECB_decryption.svg.png)
 
-Using ECB has multiple security implications:
+L'utilizzo di ECB ha diverse implicazioni sulla sicurezza:
 
-* **Blocks from encrypted message can be removed**
-* **Blocks from encrypted message can be moved around**
+* **Blocchi del messaggio cifrato possono essere rimossi**
+* **Blocchi del messaggio cifrato possono essere spostati**
 
-# Detection of the vulnerability
+# Rilevamento della vulnerabilità
 
-Imagine you login into an application several times and you **always get the same cookie**. This is because the cookie of the application is **`<username>|<password>`**.\
-Then, you generate to new users, both of them with the **same long password** and **almost** the **same** **username**.\
-You find out that the **blocks of 8B** where the **info of both users** is the same are **equals**. Then, you imagine that this might be because **ECB is being used**. 
+Immagina di accedere a un'applicazione diverse volte e di ottenere **sempre lo stesso cookie**. Questo perché il cookie dell'applicazione è **`<username>|<password>`**.\
+Quindi, generi due nuovi utenti, entrambi con la **stessa password lunga** e **quasi** lo **stesso** **username**.\
+Scopri che i **blocchi di 8B** in cui le **informazioni di entrambi gli utenti** sono uguali sono **identici**. Quindi, immagini che ciò possa essere dovuto all'uso di **ECB**.
 
-Like in the following example. Observe how these** 2 decoded cookies** has several times the block **`\x23U\xE45K\xCB\x21\xC8`**
-
+Come nell'esempio seguente. Osserva come questi **2 cookie decodificati** hanno diverse volte il blocco **`\x23U\xE45K\xCB\x21\xC8`**
 ```
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 ```
+Questo perché il **nome utente e la password di quei cookie contenevano più volte la lettera "a"** (ad esempio). I **blocchi** che sono **diversi** sono blocchi che contenevano **almeno 1 carattere diverso** (forse il delimitatore "|" o qualche differenza necessaria nel nome utente).
 
-This is because the **username and password of those cookies contained several times the letter "a"** (for example). The **blocks** that are **different** are blocks that contained **at least 1 different character** (maybe the delimiter "|" or some necessary difference in the username).
+Ora, l'attaccante deve solo scoprire se il formato è `<nome utente><delimitatore><password>` o `<password><delimitatore><nome utente>`. Per farlo, può semplicemente **generare diversi nomi utente** con nomi utente e password **simili e lunghi** fino a trovare il formato e la lunghezza del delimitatore:
 
-Now, the attacker just need to discover if the format is `<username><delimiter><password>` or `<password><delimiter><username>`. For doing that, he can just **generate several usernames **with s**imilar and long usernames and passwords until he find the format and the length of the delimiter:**
+| Lunghezza nome utente: | Lunghezza password: | Lunghezza nome utente+password: | Lunghezza cookie (dopo la decodifica): |
+| --------------------- | ------------------- | ------------------------------ | ------------------------------------- |
+| 2                     | 2                   | 4                              | 8                                     |
+| 3                     | 3                   | 6                              | 8                                     |
+| 3                     | 4                   | 7                              | 8                                     |
+| 4                     | 4                   | 8                              | 16                                    |
+| 7                     | 7                   | 14                             | 16                                    |
 
-| Username length: | Password length: | Username+Password length: | Cookie's length (after decoding): |
-| ---------------- | ---------------- | ------------------------- | --------------------------------- |
-| 2                | 2                | 4                         | 8                                 |
-| 3                | 3                | 6                         | 8                                 |
-| 3                | 4                | 7                         | 8                                 |
-| 4                | 4                | 8                         | 16                                |
-| 7                | 7                | 14                        | 16                                |
+# Sfruttamento della vulnerabilità
 
-# Exploitation of the vulnerability
+## Rimozione di interi blocchi
 
-## Removing entire blocks
-
-Knowing the format of the cookie (`<username>|<password>`), in order to impersonate the username `admin` create a new user called `aaaaaaaaadmin` and get the cookie and decode it:
-
+Conoscendo il formato del cookie (`<nome utente>|<password>`), per impersonare il nome utente `admin` crea un nuovo utente chiamato `aaaaaaaaadmin` e ottieni il cookie e decodificalo:
 ```
 \x23U\xE45K\xCB\x21\xC8\xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
-
-We can see the pattern `\x23U\xE45K\xCB\x21\xC8` created previously with the username that contained only `a`.\
-Then, you can remove the first block of 8B and you will et a valid cookie for the username `admin`:
-
+Possiamo vedere il pattern `\x23U\xE45K\xCB\x21\xC8` creato in precedenza con lo username che conteneva solo `a`.\
+Successivamente, puoi rimuovere il primo blocco di 8B e otterrai un cookie valido per lo username `admin`:
 ```
 \xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
+## Spostare i blocchi
 
-## Moving blocks
+In molti database è la stessa cosa cercare `WHERE username='admin';` o `WHERE username='admin    ';` _(Nota gli spazi extra)_
 
-In many databases it is the same to search for `WHERE username='admin';` or for `WHERE username='admin    ';` _(Note the extra spaces)_
+Quindi, un altro modo per impersonare l'utente `admin` sarebbe:
 
-So, another way to impersonate the user `admin` would be to:
+* Generare un nome utente che: `len(<username>) + len(<delimiter>) % len(block)`. Con una dimensione del blocco di `8B` puoi generare un nome utente chiamato: `username       `, con il delimitatore `|` il chunk `<username><delimiter>` genererà 2 blocchi di 8B.
+* Quindi, generare una password che riempirà un numero esatto di blocchi contenenti il nome utente che vogliamo impersonare e spazi, come: `admin   `
 
-* Generate a username that: `len(<username>) + len(<delimiter) % len(block)`. With a block size of `8B` you can generate username called: `username       `, with the delimiter `|` the chunk `<username><delimiter>` will generate 2 blocks of 8Bs.
-* Then, generate a password that will fill an exact number of blocks containing the username we want to impersonate and spaces, like: `admin   ` 
+Il cookie di questo utente sarà composto da 3 blocchi: i primi 2 sono i blocchi del nome utente + delimitatore e il terzo è quello della password (che sta fingendo il nome utente): `username       |admin   `
 
-The cookie of this user is going to be composed by 3 blocks: the first 2 is the blocks of the username + delimiter and the third one of the password (which is faking the username): `username       |admin   `
+**Quindi, basta sostituire il primo blocco con l'ultimo e impersoneremo l'utente `admin`: `admin          |username`**
 
-**Then, just replace the first block with the last time and will be impersonating the user `admin`: `admin          |username`**
-
-## References
+## Riferimenti
 
 * [http://cryptowiki.net/index.php?title=Electronic_Code_Book\_(ECB)](http://cryptowiki.net/index.php?title=Electronic_Code_Book_\(ECB\))
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

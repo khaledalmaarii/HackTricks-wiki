@@ -1,32 +1,32 @@
-# macOS Security Protections
+# Protezioni di sicurezza di macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ## Gatekeeper
 
-Gatekeeper is usually used to refer to the combination of **Quarantine + Gatekeeper + XProtect**, 3 macOS security modules that will try to **prevent users from executing potentially malicious software downloaded**.
+Gatekeeper è solitamente utilizzato per fare riferimento alla combinazione di **Quarantine + Gatekeeper + XProtect**, 3 moduli di sicurezza di macOS che cercheranno di **impedire agli utenti di eseguire software potenzialmente dannoso scaricato**.
 
-More information in:
+Ulteriori informazioni in:
 
 {% content-ref url="macos-gatekeeper.md" %}
 [macos-gatekeeper.md](macos-gatekeeper.md)
 {% endcontent-ref %}
 
-## Processes Limitants
+## Limitazioni dei processi
 
-### SIP - System Integrity Protection
+### SIP - Protezione dell'integrità del sistema
 
 {% content-ref url="macos-sip.md" %}
 [macos-sip.md](macos-sip.md)
@@ -34,103 +34,94 @@ More information in:
 
 ### Sandbox
 
-MacOS Sandbox **limits applications** running inside the sandbox to the **allowed actions specified in the Sandbox profile** the app is running with. This helps to ensure that **the application will be accessing only expected resources**.
+La Sandbox di macOS **limita le applicazioni** in esecuzione all'interno della sandbox alle **azioni consentite specificate nel profilo della Sandbox** con cui l'app viene eseguita. Ciò aiuta a garantire che **l'applicazione acceda solo alle risorse previste**.
 
 {% content-ref url="macos-sandbox/" %}
 [macos-sandbox](macos-sandbox/)
 {% endcontent-ref %}
 
-### TCC - **Transparency, Consent, and Control**
+### TCC - **Trasparenza, consenso e controllo**
 
-**TCC (Transparency, Consent, and Control)** is a security framework. It's designed to **manage the permissions** of applications, specifically by regulating their access to sensitive features. This includes elements like **location services, contacts, photos, microphone, camera, accessibility, and full disk access**. TCC ensures that apps can only access these features after obtaining explicit user consent, thereby bolstering privacy and control over personal data.
+**TCC (Trasparenza, consenso e controllo)** è un framework di sicurezza. È progettato per **gestire le autorizzazioni** delle applicazioni, regolando specificamente il loro accesso alle funzioni sensibili. Ciò include elementi come **servizi di localizzazione, contatti, foto, microfono, fotocamera, accessibilità e accesso completo al disco**. TCC garantisce che le app possano accedere a queste funzioni solo dopo aver ottenuto il consenso esplicito dell'utente, rafforzando così la privacy e il controllo sui dati personali.
 
 {% content-ref url="macos-tcc/" %}
 [macos-tcc](macos-tcc/)
 {% endcontent-ref %}
 
-### Launch/Environment Constraints & Trust Cache
+### Vincoli di avvio/ambiente e cache di fiducia
 
-Launch constraints in macOS are a security feature to **regulate process initiation** by defining **who can launch** a process, **how**, and **from where**. Introduced in macOS Ventura, they categorize system binaries into constraint categories within a **trust cache**. Every executable binary has set **rules** for its **launch**, including **self**, **parent**, and **responsible** constraints. Extended to third-party apps as **Environment** Constraints in macOS Sonoma, these features help mitigate potential system exploitations by governing process launching conditions.
+I vincoli di avvio in macOS sono una funzionalità di sicurezza per **regolare l'avvio dei processi** definendo **chi può avviare** un processo, **come** e **da dove**. Introdotto in macOS Ventura, categorizza i binari di sistema in categorie di vincoli all'interno di una **cache di fiducia**. Ogni binario eseguibile ha regole impostate per il suo avvio, inclusi vincoli **self**, **parent** e **responsible**. Estesi alle app di terze parti come Vincoli di **Ambiente** in macOS Sonoma, queste funzionalità aiutano a mitigare potenziali sfruttamenti del sistema governando le condizioni di avvio dei processi.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
 {% endcontent-ref %}
 
-## MRT - Malware Removal Tool
+## MRT - Strumento di rimozione malware
 
-The Malware Removal Tool (MRT) is another part of macOS's security infrastructure. As the name suggests, MRT's main function is to **remove known malware from infected systems**.
+Lo Strumento di rimozione malware (MRT) è un'altra parte dell'infrastruttura di sicurezza di macOS. Come suggerisce il nome, la funzione principale di MRT è **rimuovere il malware noto dai sistemi infetti**.
 
-Once malware is detected on a Mac (either by XProtect or by some other means), MRT can be used to automatically **remove the malware**. MRT operates silently in the background and typically runs whenever the system is updated or when a new malware definition is downloaded (it looks like the rules MRT has to detect malware are inside the binary).
+Una volta rilevato il malware su un Mac (sia da XProtect che da altri mezzi), MRT può essere utilizzato per **rimuovere automaticamente il malware**. MRT opera in modo silenzioso in background e di solito viene eseguito ogni volta che il sistema viene aggiornato o quando viene scaricata una nuova definizione di malware (sembra che le regole che MRT ha per rilevare il malware siano all'interno del binario).
 
-While both XProtect and MRT are part of macOS's security measures, they perform different functions:
+Mentre sia XProtect che MRT fanno parte delle misure di sicurezza di macOS, svolgono funzioni diverse:
 
-* **XProtect** is a preventative tool. It **checks files as they're downloaded** (via certain applications), and if it detects any known types of malware, it **prevents the file from opening**, thereby preventing the malware from infecting your system in the first place.
-* **MRT**, on the other hand, is a **reactive tool**. It operates after malware has been detected on a system, with the goal of removing the offending software to clean up the system.
+* **XProtect** è uno strumento preventivo. **Controlla i file durante il download** (tramite determinate applicazioni) e se rileva tipi di malware noti, **impedisce l'apertura del file**, evitando così che il malware infetti il sistema in primo luogo.
+* **MRT**, d'altra parte, è uno strumento **reattivo**. Opera dopo che il malware è stato rilevato su un sistema, con l'obiettivo di rimuovere il software dannoso per ripulire il sistema.
 
-The MRT application is located in **`/Library/Apple/System/Library/CoreServices/MRT.app`**
+L'applicazione MRT si trova in **`/Library/Apple/System/Library/CoreServices/MRT.app`**
 
-## Background Tasks Management
+## Gestione delle attività in background
 
-**macOS** now **alerts** every time a tool uses a well known **technique to persist code execution** (such as Login Items, Daemons...), so the user knows better **which software is persisting**.
+**macOS** ora **avverte** ogni volta che un tool utilizza una nota **tecnica per persistere l'esecuzione del codice** (come Login Items, Daemons...), in modo che l'utente sappia meglio **quali software stanno persistendo**.
 
 <figure><img src="../../../.gitbook/assets/image (711).png" alt=""><figcaption></figcaption></figure>
 
-This runs with a **daemon** located in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` and the **agent** in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
+Ciò avviene con un **daemon** situato in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` e l'**agente** in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
 
-The way **`backgroundtaskmanagementd`** knows something is installed in a persistent folder is by **getting the FSEvents** and creating some **handlers** for those.
+Il modo in cui **`backgroundtaskmanagementd`** sa che qualcosa è installato in una cartella persistente è **ottenendo gli FSEvents** e creando alcuni **gestori** per quelli.
 
-Moreover, there is a plist file that contains **well known applications** that frequently persists maintained by apple located in: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
-
+Inoltre, c'è un file plist che contiene **applicazioni ben note** che persistono frequentemente mantenute da Apple, situato in: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
 ```json
 [...]
 "us.zoom.ZoomDaemon" => {
-    "AssociatedBundleIdentifiers" => [
-      0 => "us.zoom.xos"
-    ]
-    "Attribution" => "Zoom"
-    "Program" => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
-    "ProgramArguments" => [
-      0 => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
-    ]
-    "TeamIdentifier" => "BJ4HAAB9B3"
-  }
+"AssociatedBundleIdentifiers" => [
+0 => "us.zoom.xos"
+]
+"Attribution" => "Zoom"
+"Program" => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
+"ProgramArguments" => [
+0 => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
+]
+"TeamIdentifier" => "BJ4HAAB9B3"
+}
 [...]
 ```
+### Enumerazione
 
-### Enumeration
-
-It's possible to **enumerate all** the configured background items running the Apple cli tool:
-
+È possibile **enumerare tutti** gli elementi di sfondo configurati in esecuzione tramite lo strumento cli di Apple:
 ```bash
 # The tool will always ask for the users password
 sfltool dumpbtm
 ```
-
-Moreover, it's also possible to list this information with [**DumpBTM**](https://github.com/objective-see/DumpBTM).
-
+Inoltre, è anche possibile elencare queste informazioni con [**DumpBTM**](https://github.com/objective-see/DumpBTM).
 ```bash
 # You need to grant the Terminal Full Disk Access for this to work
 chmod +x dumpBTM
 xattr -rc dumpBTM # Remove quarantine attr
 ./dumpBTM
 ```
+Questa informazione viene memorizzata in **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** e il Terminale ha bisogno di FDA.
 
-This information is being stored in **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** and the Terminal needs FDA.
+### Manipolazione di BTM
 
-### Messing with BTM
+Quando viene trovata una nuova persistenza, viene generato un evento di tipo **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Quindi, qualsiasi modo per **prevenire** l'invio di questo **evento** o per impedire all'agente di **avvisare** l'utente aiuterà un attaccante a _**eludere**_ BTM.
 
-When a new persistence is found an event of type **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. So, any way to **prevent** this **event** from being sent or the **agent from alerting** the user will help an attacker to _**bypass**_ BTM.
-
-* **Reseting the database**: Running the following command will reset the database (should rebuild it from the ground), however, for some reason, after running this, **no new persistence will be alerted until the system is rebooted**.
-  * **root** is required.
-
+* **Ripristino del database**: Eseguendo il seguente comando verrà ripristinato il database (dovrebbe essere ricostruito da zero), tuttavia, per qualche motivo, dopo aver eseguito questo comando, **nessuna nuova persistenza verrà segnalata fino al riavvio del sistema**.
+* È richiesto l'accesso **root**.
 ```bash
 # Reset the database
 sfltool resettbtm
 ```
-
-* **Stop the Agent**: It's possible to send a stop signal to the agent so it **won't be alerting the user** when new detections are found.
-
+* **Arrestare l'Agente**: È possibile inviare un segnale di arresto all'agente in modo che **non avvisi l'utente** quando vengono rilevate nuove minacce.
 ```bash
 # Get PID
 pgrep BackgroundTaskManagementAgent
@@ -143,10 +134,9 @@ kill -SIGSTOP 1011
 ps -o state 1011
 T
 ```
+* **Bug**: Se il **processo che ha creato la persistenza esiste velocemente dopo**, il demone cercherà di **ottenere informazioni** su di esso, **fallirà** e **non sarà in grado di inviare l'evento** che indica che qualcosa di nuovo sta persistendo.
 
-* **Bug**: If the **process that created the persistence exists fast right after it**, the daemon will try to **get information** about it, **fail**, and **won't be able to send the event** indicating that a new thing is persisting.
-
-References and **more information about BTM**:
+Riferimenti e **ulteriori informazioni su BTM**:
 
 * [https://youtu.be/9hjUmT031tc?t=26481](https://youtu.be/9hjUmT031tc?t=26481)
 * [https://www.patreon.com/posts/new-developer-77420730?l=fr](https://www.patreon.com/posts/new-developer-77420730?l=fr)
@@ -154,14 +144,14 @@ References and **more information about BTM**:
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF**, controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

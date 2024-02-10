@@ -1,71 +1,71 @@
-# macOS Serial Number
+# Numero di serie di macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
 
 
-## Basic Information
+## Informazioni di base
 
-Apple devices post-2010 have serial numbers consisting of **12 alphanumeric characters**, each segment conveying specific information:
+I dispositivi Apple post-2010 hanno numeri di serie composti da **12 caratteri alfanumerici**, ciascun segmento che trasmette informazioni specifiche:
 
-- **First 3 Characters**: Indicate the **manufacturing location**.
-- **Characters 4 & 5**: Denote the **year and week of manufacture**.
-- **Characters 6 to 8**: Serve as a **unique identifier** for each device.
-- **Last 4 Characters**: Specify the **model number**.
+- **Primi 3 caratteri**: Indicano la **posizione di produzione**.
+- **Caratteri 4 e 5**: Indicano l'**anno e la settimana di produzione**.
+- **Caratteri 6-8**: Servono come **identificatore unico** per ogni dispositivo.
+- **Ultimi 4 caratteri**: Specificano il **numero di modello**.
 
-For instance, the serial number **C02L13ECF8J2** follows this structure.
+Ad esempio, il numero di serie **C02L13ECF8J2** segue questa struttura.
 
-### **Manufacturing Locations (First 3 Characters)**
-Certain codes represent specific factories:
-- **FC, F, XA/XB/QP/G8**: Various locations in the USA.
-- **RN**: Mexico.
-- **CK**: Cork, Ireland.
-- **VM**: Foxconn, Czech Republic.
+### **Posizioni di produzione (Primi 3 caratteri)**
+Determinati codici rappresentano fabbriche specifiche:
+- **FC, F, XA/XB/QP/G8**: Diverse posizioni negli Stati Uniti.
+- **RN**: Messico.
+- **CK**: Cork, Irlanda.
+- **VM**: Foxconn, Repubblica Ceca.
 - **SG/E**: Singapore.
-- **MB**: Malaysia.
-- **PT/CY**: Korea.
+- **MB**: Malesia.
+- **PT/CY**: Corea.
 - **EE/QT/UV**: Taiwan.
-- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**: Different locations in China.
-- **C0, C3, C7**: Specific cities in China.
-- **RM**: Refurbished devices.
+- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**: Diverse posizioni in Cina.
+- **C0, C3, C7**: Città specifiche in Cina.
+- **RM**: Dispositivi ricondizionati.
 
-### **Year of Manufacturing (4th Character)**
-This character varies from 'C' (representing the first half of 2010) to 'Z' (second half of 2019), with different letters indicating different half-year periods.
+### **Anno di produzione (4° carattere)**
+Questo carattere varia da 'C' (che rappresenta la prima metà del 2010) a 'Z' (seconda metà del 2019), con diverse lettere che indicano diversi semestri.
 
-### **Week of Manufacturing (5th Character)**
-Digits 1-9 correspond to weeks 1-9. Letters C-Y (excluding vowels and 'S') represent weeks 10-27. For the second half of the year, 26 is added to this number.
+### **Settimana di produzione (5° carattere)**
+I numeri da 1 a 9 corrispondono alle settimane da 1 a 9. Le lettere C-Y (escludendo le vocali e la lettera 'S') rappresentano le settimane da 10 a 27. Per la seconda metà dell'anno, a questo numero viene aggiunto 26.
 
-### **Unique Identifier (Characters 6 to 8)**
-These three digits ensure each device, even of the same model and batch, has a distinct serial number.
+### **Identificatore unico (Caratteri 6-8)**
+Queste tre cifre garantiscono che ogni dispositivo, anche dello stesso modello e lotto, abbia un numero di serie distinto.
 
-### **Model Number (Last 4 Characters)**
-These digits identify the specific model of the device.
+### **Numero di modello (Ultimi 4 caratteri)**
+Queste cifre identificano il modello specifico del dispositivo.
 
-### Reference
+### Riferimento
 
 * [https://beetstech.com/blog/decode-meaning-behind-apple-serial-number](https://beetstech.com/blog/decode-meaning-behind-apple-serial-number)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>

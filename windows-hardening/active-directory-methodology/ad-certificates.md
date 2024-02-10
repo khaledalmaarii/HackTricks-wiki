@@ -1,121 +1,116 @@
-# AD Certificates
+# Certificati AD
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di github.
 
 </details>
 
-## Introduction
+## Introduzione
 
-### Components of a Certificate
+### Componenti di un certificato
 
-- The **Subject** of the certificate denotes its owner.
-- A **Public Key** is paired with a privately held key to link the certificate to its rightful owner.
-- The **Validity Period**, defined by **NotBefore** and **NotAfter** dates, marks the certificate's effective duration.
-- A unique **Serial Number**, provided by the Certificate Authority (CA), identifies each certificate.
-- The **Issuer** refers to the CA that has issued the certificate.
-- **SubjectAlternativeName** allows for additional names for the subject, enhancing identification flexibility.
-- **Basic Constraints** identify if the certificate is for a CA or an end entity and define usage restrictions.
-- **Extended Key Usages (EKUs)** delineate the certificate's specific purposes, like code signing or email encryption, through Object Identifiers (OIDs).
-- The **Signature Algorithm** specifies the method for signing the certificate.
-- The **Signature**, created with the issuer's private key, guarantees the certificate's authenticity.
+- Il **Soggetto** del certificato indica il suo proprietario.
+- Una **Chiave Pubblica** è associata a una chiave privata per collegare il certificato al suo legittimo proprietario.
+- Il **Periodo di Validità**, definito dalle date **NotBefore** e **NotAfter**, indica la durata effettiva del certificato.
+- Un **Numero Seriale** univoco, fornito dall'Autorità di Certificazione (CA), identifica ogni certificato.
+- L'**Emittente** si riferisce alla CA che ha emesso il certificato.
+- **SubjectAlternativeName** consente nomi aggiuntivi per il soggetto, migliorando la flessibilità di identificazione.
+- **Vincoli di Base** identificano se il certificato è per una CA o un'entità finale e definiscono le restrizioni di utilizzo.
+- **Usi Estesi delle Chiavi (EKUs)** delimitano gli scopi specifici del certificato, come la firma del codice o la crittografia delle email, attraverso gli Identificatori degli Oggetti (OID).
+- L'**Algoritmo di Firma** specifica il metodo per firmare il certificato.
+- La **Firma**, creata con la chiave privata dell'emittente, garantisce l'autenticità del certificato.
 
-### Special Considerations
+### Considerazioni speciali
 
-- **Subject Alternative Names (SANs)** expand a certificate's applicability to multiple identities, crucial for servers with multiple domains. Secure issuance processes are vital to avoid impersonation risks by attackers manipulating the SAN specification.
+- **Subject Alternative Names (SAN)** ampliano l'applicabilità di un certificato a identità multiple, fondamentali per i server con più domini. Processi di emissione sicuri sono vitali per evitare rischi di impersonificazione da parte di attaccanti che manipolano la specifica SAN.
 
-### Certificate Authorities (CAs) in Active Directory (AD)
+### Autorità di Certificazione (CA) in Active Directory (AD)
 
-AD CS acknowledges CA certificates in an AD forest through designated containers, each serving unique roles:
+AD CS riconosce i certificati CA in un dominio AD attraverso contenitori designati, ognuno con ruoli unici:
 
-- **Certification Authorities** container holds trusted root CA certificates.
-- **Enrolment Services** container details Enterprise CAs and their certificate templates.
-- **NTAuthCertificates** object includes CA certificates authorized for AD authentication.
-- **AIA (Authority Information Access)** container facilitates certificate chain validation with intermediate and cross CA certificates.
+- Il contenitore **Certification Authorities** contiene i certificati CA radice fidati.
+- Il contenitore **Enrolment Services** dettaglia le CA aziendali e i relativi modelli di certificato.
+- L'oggetto **NTAuthCertificates** include i certificati CA autorizzati per l'autenticazione AD.
+- Il contenitore **AIA (Authority Information Access)** facilita la validazione della catena di certificati con certificati intermedi e cross CA.
 
-### Certificate Acquisition: Client Certificate Request Flow
+### Acquisizione del certificato: flusso di richiesta del certificato client
 
-1. The request process begins with clients finding an Enterprise CA.
-2. A CSR is created, containing a public key and other details, after generating a public-private key pair.
-3. The CA assesses the CSR against available certificate templates, issuing the certificate based on the template's permissions.
-4. Upon approval, the CA signs the certificate with its private key and returns it to the client.
+1. Il processo di richiesta inizia con i client che trovano una CA aziendale.
+2. Viene creata una CSR, contenente una chiave pubblica e altri dettagli, dopo la generazione di una coppia di chiavi pubblica-privata.
+3. La CA valuta la CSR rispetto ai modelli di certificato disponibili, emettendo il certificato in base alle autorizzazioni del modello.
+4. Dopo l'approvazione, la CA firma il certificato con la propria chiave privata e lo restituisce al client.
 
-### Certificate Templates
+### Modelli di certificato
 
-Defined within AD, these templates outline the settings and permissions for issuing certificates, including permitted EKUs and enrollment or modification rights, critical for managing access to certificate services.
+Definiti all'interno di AD, questi modelli delineano le impostazioni e le autorizzazioni per l'emissione dei certificati, inclusi gli EKU consentiti e i diritti di registrazione o modifica, fondamentali per la gestione dell'accesso ai servizi di certificazione.
 
-## Certificate Enrollment
+## Registrazione del certificato
 
-The enrollment process for certificates is initiated by an administrator who **creates a certificate template**, which is then **published** by an Enterprise Certificate Authority (CA). This makes the template available for client enrollment, a step achieved by adding the template's name to the `certificatetemplates` field of an Active Directory object.
+Il processo di registrazione dei certificati viene avviato da un amministratore che **crea un modello di certificato**, che viene quindi **pubblicato** da un'Enterprise Certificate Authority (CA). Ciò rende il modello disponibile per la registrazione del client, un passaggio che si ottiene aggiungendo il nome del modello al campo `certificatetemplates` di un oggetto Active Directory.
 
-For a client to request a certificate, **enrollment rights** must be granted. These rights are defined by security descriptors on the certificate template and the Enterprise CA itself. Permissions must be granted in both locations for a request to be successful.
+Perché un client possa richiedere un certificato, devono essere concessi **diritti di registrazione**. Questi diritti sono definiti da descrittori di sicurezza sul modello di certificato e sulla stessa Enterprise CA. Le autorizzazioni devono essere concesse in entrambe le posizioni affinché una richiesta abbia successo.
 
-### Template Enrollment Rights
+### Diritti di registrazione del modello
 
-These rights are specified through Access Control Entries (ACEs), detailing permissions like:
-- **Certificate-Enrollment** and **Certificate-AutoEnrollment** rights, each associated with specific GUIDs.
-- **ExtendedRights**, allowing all extended permissions.
-- **FullControl/GenericAll**, providing complete control over the template.
+Questi diritti sono specificati tramite Voci di Controllo di Accesso (ACE), che dettagliano le autorizzazioni come:
+- Diritti di **Certificate-Enrollment** e **Certificate-AutoEnrollment**, ciascuno associato a GUID specifiche.
+- **ExtendedRights**, che consentono tutte le autorizzazioni estese.
+- **FullControl/GenericAll**, che fornisce il controllo completo sul modello.
 
-### Enterprise CA Enrollment Rights
+### Diritti di registrazione dell'Enterprise CA
 
-The CA's rights are outlined in its security descriptor, accessible via the Certificate Authority management console. Some settings even allow low-privileged users remote access, which could be a security concern.
+I diritti della CA sono definiti nel suo descrittore di sicurezza, accessibile tramite la console di gestione dell'Autorità di Certificazione. Alcune impostazioni consentono persino agli utenti a basso privilegio l'accesso remoto, il che potrebbe rappresentare un problema di sicurezza.
 
-### Additional Issuance Controls
+### Controlli di emissione aggiuntivi
 
-Certain controls may apply, such as:
-- **Manager Approval**: Places requests in a pending state until approved by a certificate manager.
-- **Enrolment Agents and Authorized Signatures**: Specify the number of required signatures on a CSR and the necessary Application Policy OIDs.
+Possono essere applicati determinati controlli, come:
+- **Approvazione del responsabile**: mette le richieste in uno stato di attesa fino all'approvazione da parte di un responsabile dei certificati.
+- **Agenti di registrazione e firme autorizzate**: specificano il numero di firme richieste su una CSR e le necessarie Application Policy OIDs.
 
-### Methods to Request Certificates
+### Metodi per richiedere certificati
 
-Certificates can be requested through:
-1. **Windows Client Certificate Enrollment Protocol** (MS-WCCE), using DCOM interfaces.
-2. **ICertPassage Remote Protocol** (MS-ICPR), through named pipes or TCP/IP.
-3. The **certificate enrollment web interface**, with the Certificate Authority Web Enrollment role installed.
-4. The **Certificate Enrollment Service** (CES), in conjunction with the Certificate Enrollment Policy (CEP) service.
-5. The **Network Device Enrollment Service** (NDES) for network devices, using the Simple Certificate Enrollment Protocol (SCEP).
+I certificati possono essere richiesti tramite:
+1. **Protocollo di registrazione del certificato client di Windows** (MS-WCCE), utilizzando interfacce DCOM.
+2. **Protocollo remoto ICertPassage** (MS-ICPR), tramite named pipe o TCP/IP.
+3. L'**interfaccia web di registrazione del certificato**, con il ruolo di registrazione web dell'Autorità di Certificazione installato.
+4. Il **Servizio di Registrazione del Certificato** (CES), in collaborazione con il servizio di Politica di Registrazione del Certificato (CEP).
+5. Il **Servizio di Registrazione dei Dispositivi di Rete** (NDES) per i dispositivi di rete, utilizzando il Protocollo di Registrazione Semplice dei Certificati (SCEP).
 
-Windows users can also request certificates via the GUI (`certmgr.msc` or `certlm.msc`) or command-line tools (`certreq.exe` or PowerShell's `Get-Certificate` command).
-
+Gli utenti di Windows possono anche richiedere certificati tramite l'interfaccia grafica (`certmgr.msc` o `certlm.msc`) o strumenti da riga di comando (`certreq.exe` o il comando `Get-Certificate` di PowerShell).
 ```powershell
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
+## Autenticazione tramite certificato
 
-## Certificate Authentication
+Active Directory (AD) supporta l'autenticazione tramite certificato, utilizzando principalmente i protocolli **Kerberos** e **Secure Channel (Schannel)**.
 
-Active Directory (AD) supports certificate authentication, primarily utilizing **Kerberos** and **Secure Channel (Schannel)** protocols. 
+### Processo di autenticazione Kerberos
 
-### Kerberos Authentication Process
-
-In the Kerberos authentication process, a user's request for a Ticket Granting Ticket (TGT) is signed using the **private key** of the user's certificate. This request undergoes several validations by the domain controller, including the certificate's **validity**, **path**, and **revocation status**. Validations also include verifying that the certificate comes from a trusted source and confirming the issuer's presence in the **NTAUTH certificate store**. Successful validations result in the issuance of a TGT. The **`NTAuthCertificates`** object in AD, found at:
-
+Nel processo di autenticazione Kerberos, la richiesta di un Ticket Granting Ticket (TGT) da parte di un utente viene firmata utilizzando la **chiave privata** del certificato dell'utente. Questa richiesta viene sottoposta a diverse validazioni da parte del domain controller, tra cui la **validità**, il **percorso** e lo **stato di revoca** del certificato. Le validazioni includono anche la verifica che il certificato provenga da una fonte affidabile e la conferma della presenza dell'emittente nel **certificato NTAUTH store**. Le validazioni riuscite comportano l'emissione di un TGT. L'oggetto **`NTAuthCertificates`** in AD, che si trova in:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
+è fondamentale per stabilire la fiducia nell'autenticazione tramite certificato.
 
-is central to establishing trust for certificate authentication.
+### Autenticazione del canale sicuro (Schannel)
 
-### Secure Channel (Schannel) Authentication
+Schannel facilita le connessioni sicure TLS/SSL, in cui durante una handshake, il client presenta un certificato che, se convalidato con successo, autorizza l'accesso. La mappatura di un certificato a un account AD può coinvolgere la funzione **S4U2Self** di Kerberos o il **Subject Alternative Name (SAN)** del certificato, tra gli altri metodi.
 
-Schannel facilitates secure TLS/SSL connections, where during a handshake, the client presents a certificate that, if successfully validated, authorizes access. The mapping of a certificate to an AD account may involve Kerberos’s **S4U2Self** function or the certificate’s **Subject Alternative Name (SAN)**, among other methods.
+### Enumerazione dei servizi di certificazione AD
 
-### AD Certificate Services Enumeration
+I servizi di certificazione di AD possono essere enumerati tramite query LDAP, rivelando informazioni su **Enterprise Certificate Authorities (CA)** e le loro configurazioni. Questo è accessibile da qualsiasi utente autenticato nel dominio senza privilegi speciali. Strumenti come **[Certify](https://github.com/GhostPack/Certify)** e **[Certipy](https://github.com/ly4k/Certipy)** vengono utilizzati per l'enumerazione e la valutazione delle vulnerabilità negli ambienti AD CS.
 
-AD's certificate services can be enumerated through LDAP queries, revealing information about **Enterprise Certificate Authorities (CAs)** and their configurations. This is accessible by any domain-authenticated user without special privileges. Tools like **[Certify](https://github.com/GhostPack/Certify)** and **[Certipy](https://github.com/ly4k/Certipy)** are used for enumeration and vulnerability assessment in AD CS environments.
-
-Commands for using these tools include:
-
+I comandi per l'utilizzo di questi strumenti includono:
 ```bash
 # Enumerate trusted root CA certificates and Enterprise CAs with Certify
 Certify.exe cas
@@ -129,22 +124,21 @@ certipy find -vulnerable -u john@corp.local -p Passw0rd -dc-ip 172.16.126.128
 certutil.exe -TCAInfo
 certutil -v -dstemplate
 ```
-
-## References
+## Riferimenti
 
 * [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF**, controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

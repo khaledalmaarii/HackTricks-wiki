@@ -1,152 +1,148 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
 
 
 # [ProjectHoneypot](https://www.projecthoneypot.org/)
 
-You can ask if an IP is related to suspicious/malicious activities. Completely free.
+Puoi chiedere se un IP è correlato ad attività sospette/maliziose. Completamente gratuito.
 
 # [**BotScout**](http://botscout.com/api.htm)
 
-Check if the IP address is related to a bot that register accounts. It can also check usernames and emails. Initially free.
+Verifica se l'indirizzo IP è correlato a un bot che registra account. Può anche verificare nomi utente ed email. Inizialmente gratuito.
 
 # [Hunter](https://hunter.io/)
 
-Find and verify emails.  
-Some free API requests free, for more you need to pay.  
-Commercial?
+Trova e verifica email.
+Alcune richieste API gratuite, per altre è necessario pagare.
+Commerciale?
 
 # [AlientVault](https://otx.alienvault.com/api)
 
-Find Malicious activities related to IPs and Domains. Free.
+Trova attività maliziose correlate a IP e domini. Gratuito.
 
 # [Clearbit](https://dashboard.clearbit.com/)
 
-Find related personal data to a email \(profiles on other platforms\), domain \(basic company info ,mails and people working\) and companies \(get company info from mail\).  
-You need to pay to access all the possibilities.  
-Commercial?
+Trova dati personali correlati a un'email \(profilo su altre piattaforme\), dominio \(informazioni di base sull'azienda, email e persone che lavorano\) e aziende \(ottieni informazioni sull'azienda dall'email\).
+È necessario pagare per accedere a tutte le possibilità.
+Commerciale?
 
 # [BuiltWith](https://builtwith.com/)
 
-Technologies used by webs. Expensive...  
-Commercial?
+Tecnologie utilizzate dai siti web. Costoso...
+Commerciale?
 
 # [Fraudguard](https://fraudguard.io/)
 
-Check if a host \(domain or IP\) is related with suspicious/malicious activities. Have some free API access.  
-Commercial?
+Verifica se un host \(dominio o IP\) è correlato ad attività sospette/maliziose. Ha un accesso API gratuito.
+Commerciale?
 
 # [FortiGuard](https://fortiguard.com/)
 
-Check if a host \(domain or IP\) is related with suspicious/malicious activities. Have some free API access.
+Verifica se un host \(dominio o IP\) è correlato ad attività sospette/maliziose. Ha un accesso API gratuito.
 
 # [SpamCop](https://www.spamcop.net/)
 
-Indicates if host is related to spam activity. Have some free API access.
+Indica se l'host è correlato all'attività di spam. Ha un accesso API gratuito.
 
 # [mywot](https://www.mywot.com/)
 
-Based on opinions and other metrics get if a domain is related with suspicious/malicious information.
+In base alle opinioni e ad altre metriche, verifica se un dominio è correlato a informazioni sospette/maliziose.
 
 # [ipinfo](https://ipinfo.io/)
 
-Obtains basic info from an IP address. You can test up to 100K/month.
+Ottiene informazioni di base da un indirizzo IP. Puoi testare fino a 100.000 al mese.
 
 # [securitytrails](https://securitytrails.com/app/account)
 
-This platform give information about domains and IP addresses like domains inside an IP or inside a domain server, domains owned by an email \(find related domains\), IP history of domains \(find the host behind CloudFlare\), all domains using a nameserver....  
-You have some free access.
+Questa piattaforma fornisce informazioni su domini e indirizzi IP, come domini all'interno di un IP o di un server di dominio, domini di proprietà di un'email \(trova domini correlati\), cronologia IP dei domini \(trova l'host dietro CloudFlare\), tutti i domini che utilizzano un nameserver....
+Hai accesso gratuito a qualche funzionalità.
 
 # [fullcontact](https://www.fullcontact.com/)
 
-Allows to search by email, domain or company name and retrieve "personal" information related. It can also verify emails. There is some free access.
+Consente di cercare per email, dominio o nome azienda e recuperare informazioni "personali" correlate. Può anche verificare email. C'è un accesso gratuito a qualche funzionalità.
 
 # [RiskIQ](https://www.spiderfoot.net/documentation/)
 
-A lot of information from domains and IPs even in the free/community version.
+Molte informazioni su domini e IP, anche nella versione gratuita/community.
 
 # [\_IntelligenceX](https://intelx.io/)
 
-Search Domains, IPs and emails and get info from dumps. Have some free access.
+Cerca domini, IP ed email e ottieni informazioni da dump. Hai accesso gratuito a qualche funzionalità.
 
 # [IBM X-Force Exchange](https://exchange.xforce.ibmcloud.com/)
 
-Search by IP and gather information related to suspicions activities. There is some free access.
+Cerca per IP e raccogli informazioni correlate ad attività sospette. C'è un accesso gratuito a qualche funzionalità.
 
 # [Greynoise](https://viz.greynoise.io/)
 
-Search by IP or IP range and get information about IPs scanning the Internet. 15 days free access.
+Cerca per IP o intervallo di IP e ottieni informazioni sugli IP che scansionano Internet. Accesso gratuito per 15 giorni.
 
 # [Shodan](https://www.shodan.io/)
 
-Get scan information of an IP address. Have some free api access.
+Ottieni informazioni di scansione di un indirizzo IP. Hai un accesso gratuito a qualche funzionalità API.
 
 # [Censys](https://censys.io/)
 
-Very similar to shodan
+Molto simile a Shodan.
 
 # [buckets.grayhatwarfare.com](https://buckets.grayhatwarfare.com/)
 
-Find open S3 buckets searching by keyword.
+Trova bucket S3 aperti cercando per parola chiave.
 
 # [Dehashed](https://www.dehashed.com/data)
 
-Find leaked credentials of emails and even domains  
-Commercial?
+Trova credenziali trapelate di email e persino di domini.
+Commerciale?
 
 # [psbdmp](https://psbdmp.ws/)
 
-Search pastebins where a email appeared. Commercial?
+Cerca pastebin in cui è apparsa un'email. Commerciale?
 
 # [emailrep.io](https://emailrep.io/key)
 
-Get reputation of a mail. Commercial?
+Ottieni la reputazione di una mail. Commerciale?
 
 # [ghostproject](https://ghostproject.fr/)
 
-Get passwords from leaked emails. Commercial?
+Ottieni password da email trapelate. Commerciale?
 
 # [Binaryedge](https://www.binaryedge.io/)
 
-Obtain interesting info from IPs
+Ottieni informazioni interessanti da IP
 
 # [haveibeenpwned](https://haveibeenpwned.com/)
 
-Search by domain and email and get if it was pwned and passwords. Commercial?
+Cerca per dominio ed email e scopri se sono stati compromessi e le password. Commerciale?
 
-[https://dnsdumpster.com/](https://dnsdumpster.com/)\(in a commercial tool?\)
+[https://dnsdumpster.com/](https://dnsdumpster.com/)\(in uno strumento commerciale?\)
 
-[https://www.netcraft.com/](https://www.netcraft.com/) \(in a commercial tool?\)
+[https://www.netcraft.com/](https://www.netcraft.com/) \(in uno strumento commerciale?\)
 
-[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) \(in a commercial tool?\)
+[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) \(in uno strumento commerciale?\)
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
-
-

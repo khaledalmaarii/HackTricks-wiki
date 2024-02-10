@@ -1,38 +1,36 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>
 
 
 # CBC - Cipher Block Chaining
 
-In CBC mode the **previous encrypted block is used as IV** to XOR with the next block:
+Nel modo CBC, il **blocco crittografato precedente viene utilizzato come IV** per effettuare l'XOR con il blocco successivo:
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
-To decrypt CBC the **opposite** **operations** are done:
+Per decrittare CBC vengono effettuate le **operazioni opposte**:
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
-Notice how it's needed to use an **encryption** **key** and an **IV**.
+Si noti che è necessario utilizzare una **chiave di crittografia** e un **IV**.
 
 # Message Padding
 
-As the encryption is performed in **fixed** **size** **blocks**, **padding** is usually needed in the **last** **block** to complete its length.\
-Usually **PKCS7** is used, which generates a padding **repeating** the **number** of **bytes** **needed** to **complete** the block. For example, if the last block is missing 3 bytes, the padding will be `\x03\x03\x03`.
+Poiché la crittografia viene eseguita in **blocchi di dimensioni fisse**, di solito è necessario utilizzare un **padding** nell'**ultimo blocco** per completarne la lunghezza.\
+Di solito viene utilizzato il **PKCS7**, che genera un padding **ripetendo** il **numero** di **byte necessari** per **completare** il blocco. Ad esempio, se all'ultimo blocco mancano 3 byte, il padding sarà `\x03\x03\x03`.
 
-Let's look at more examples with a **2 blocks of length 8bytes**:
+Vediamo altri esempi con **2 blocchi di lunghezza 8 byte**:
 
 | byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
@@ -41,51 +39,43 @@ Let's look at more examples with a **2 blocks of length 8bytes**:
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | **0x05** | **0x05** | **0x05** | **0x05** | **0x05** |
 | P       | A       | S       | S       | W       | O       | R       | D       | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** |
 
-Note how in the last example the **last block was full so another one was generated only with padding**.
+Si noti come nell'ultimo esempio l'**ultimo blocco era pieno, quindi ne è stato generato un altro solo con il padding**.
 
 # Padding Oracle
 
-When an application decrypts encrypted data, it will first decrypt the data; then it will remove the padding. During the cleanup of the padding, if an **invalid padding triggers a detectable behaviour**, you have a **padding oracle vulnerability**. The detectable behaviour can be an **error**, a **lack of results**, or a **slower response**.
+Quando un'applicazione decrittografa dati crittografati, prima decrittografa i dati; quindi rimuove il padding. Durante la rimozione del padding, se un **padding non valido provoca un comportamento rilevabile**, si ha una **vulnerabilità dell'oracolo di padding**. Il comportamento rilevabile può essere un **errore**, una **mancanza di risultati** o una **risposta più lenta**.
 
-If you detect this behaviour, you can **decrypt the encrypted data** and even **encrypt any cleartext**.
+Se si rileva questo comportamento, è possibile **decrittografare i dati crittografati** e persino **crittografare qualsiasi testo in chiaro**.
 
-## How to exploit
+## Come sfruttare
 
-You could use [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) to exploit this kind of vulnerability or just do
-
+È possibile utilizzare [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) per sfruttare questo tipo di vulnerabilità o semplicemente fare
 ```
 sudo apt-get install padbuster
 ```
-
-In order to test if the cookie of a site is vulnerable you could try:
-
+Per testare se il cookie di un sito è vulnerabile, potresti provare:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA=="
 ```
+**Codifica 0** significa che viene utilizzato **base64** (ma sono disponibili anche altre opzioni, controlla il menu di aiuto).
 
-**Encoding 0** means that **base64** is used (but others are available, check the help menu).
-
-You could also **abuse this vulnerability to encrypt new data. For example, imagine that the content of the cookie is "**_**user=MyUsername**_**", then you may change it to "\_user=administrator\_" and escalate privileges inside the application. You could also do it using `paduster`specifying the -plaintext** parameter:
-
+Potresti anche **sfruttare questa vulnerabilità per crittografare nuovi dati. Ad esempio, immagina che il contenuto del cookie sia "**_**user=MyUsername**_**", allora potresti cambiarlo in "\_user=administrator\_" e ottenere privilegi elevati all'interno dell'applicazione. Puoi farlo anche utilizzando `padbuster` specificando il parametro -plaintext**:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-
-If the site is vulnerable `padbuster`will automatically try to find when the padding error occurs, but you can also indicating the error message it using the **-error** parameter.
-
+Se il sito è vulnerabile, `padbuster` cercherà automaticamente di individuare quando si verifica l'errore di padding, ma è anche possibile indicare il messaggio di errore utilizzando il parametro **-error**.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
+## La teoria
 
-## The theory
-
-In **summary**, you can start decrypting the encrypted data by guessing the correct values that can be used to create all the **different paddings**. Then, the padding oracle attack will start decrypting bytes from the end to the start by guessing which will be the correct value that **creates a padding of 1, 2, 3, etc**.
+In **sintesi**, è possibile iniziare a decifrare i dati criptati indovinando i valori corretti che possono essere utilizzati per creare tutti i **diversi padding**. Quindi, l'attacco dell'oracolo di padding inizierà a decifrare i byte dalla fine all'inizio, indovinando quale sarà il valore corretto che **crea un padding di 1, 2, 3, ecc**.
 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 
-Imagine you have some encrypted text that occupies **2 blocks** formed by the bytes from **E0 to E15**.\
-In order to **decrypt** the **last** **block** (**E8** to **E15**), the whole block passes through the "block cipher decryption" generating the **intermediary bytes I0 to I15**.\
-Finally, each intermediary byte is **XORed** with the previous encrypted bytes (E0 to E7). So:
+Immagina di avere del testo criptato che occupa **2 blocchi** formati dai byte da **E0 a E15**.\
+Per **decifrare** l'**ultimo blocco** (**E8** a **E15**), l'intero blocco passa attraverso la "decifratura del cifrario a blocchi" generando i **byte intermedi I0 a I15**.\
+Infine, ogni byte intermedio viene **XORato** con i byte criptati precedenti (E0 a E7). Quindi:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
 * `C14 = I14 ^ E6`
@@ -93,44 +83,42 @@ Finally, each intermediary byte is **XORed** with the previous encrypted bytes (
 * `C12 = I12 ^ E4`
 * ...
 
-Now, It's possible to **modify `E7` until `C15` is `0x01`**, which will also be a correct padding. So, in this case: `\x01 = I15 ^ E'7`
+Ora, è possibile **modificare `E7` fino a quando `C15` diventa `0x01`**, che sarà anche un padding corretto. Quindi, in questo caso: `\x01 = I15 ^ E'7`
 
-So, finding E'7, it's **possible to calculate I15**: `I15 = 0x01 ^ E'7`
+Quindi, trovando E'7, è **possibile calcolare I15**: `I15 = 0x01 ^ E'7`
 
-Which allow us to **calculate C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
+Ciò ci permette di **calcolare C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-Knowing **C15**, now it's possible to **calculate C14**, but this time brute-forcing the padding `\x02\x02`.
+Conoscendo **C15**, ora è possibile **calcolare C14**, ma questa volta forzando il padding `\x02\x02`.
 
-This BF is as complex as the previous one as it's possible to calculate the the `E''15` whose value is 0x02: `E''7 = \x02 ^ I15` so it's just needed to find the **`E'14`** that generates a **`C14` equals to `0x02`**.\
-Then, do the same steps to decrypt C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
+Questo BF è complesso quanto il precedente, poiché è possibile calcolare l'E''15 il cui valore è 0x02: `E''7 = \x02 ^ I15` quindi è sufficiente trovare l'**`E'14`** che genera un **`C14` uguale a `0x02`**.\
+Quindi, esegui gli stessi passaggi per decifrare C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
-**Follow this chain until you decrypt the whole encrypted text.**
+**Segui questa catena fino a decifrare l'intero testo criptato.**
 
-## Detection of the vulnerability
+## Rilevamento della vulnerabilità
 
-Register and account and log in with this account .\
-If you **log in many times** and always get the **same cookie**, there is probably **something** **wrong** in the application. The **cookie sent back should be unique** each time you log in. If the cookie is **always** the **same**, it will probably always be valid and there **won't be anyway to invalidate i**t.
+Registrati e accedi con questo account.\
+Se effettui il **login molte volte** e ottieni sempre lo **stesso cookie**, probabilmente c'è **qualcosa di sbagliato** nell'applicazione. Il cookie restituito dovrebbe essere unico ogni volta che effettui il login. Se il cookie è **sempre** lo **stesso**, probabilmente sarà sempre valido e non ci sarà modo di invalidarlo.
 
-Now, if you try to **modify** the **cookie**, you can see that you get an **error** from the application.\
-But if you BF the padding (using padbuster for example) you manage to get another cookie valid for a different user. This scenario is highly probably vulnerable to padbuster.
+Ora, se provi a **modificare** il **cookie**, puoi vedere che ottieni un **errore** dall'applicazione.\
+Ma se forzi il padding (utilizzando ad esempio padbuster) riesci a ottenere un altro cookie valido per un utente diverso. Questo scenario è molto probabilmente vulnerabile a padbuster.
 
-## References
+## Riferimenti
 
 * [https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation](https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

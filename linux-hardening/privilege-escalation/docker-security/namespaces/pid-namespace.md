@@ -1,82 +1,88 @@
-# PID Namespace
+# Spazio dei nomi PID
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Basic Information
+## Informazioni di base
 
-The PID (Process IDentifier) namespace is a feature in the Linux kernel that provides process isolation by enabling a group of processes to have their own set of unique PIDs, separate from the PIDs in other namespaces. This is particularly useful in containerization, where process isolation is essential for security and resource management.
+Lo spazio dei nomi PID (Process IDentifier) è una funzionalità nel kernel Linux che fornisce l'isolamento dei processi abilitando un gruppo di processi ad avere il proprio set di PID univoci, separati dai PID in altri spazi dei nomi. Questo è particolarmente utile nella containerizzazione, dove l'isolamento dei processi è essenziale per la sicurezza e la gestione delle risorse.
 
-When a new PID namespace is created, the first process in that namespace is assigned PID 1. This process becomes the "init" process of the new namespace and is responsible for managing other processes within the namespace. Each subsequent process created within the namespace will have a unique PID within that namespace, and these PIDs will be independent of PIDs in other namespaces.
+Quando viene creato un nuovo spazio dei nomi PID, il primo processo in tale spazio dei nomi viene assegnato il PID 1. Questo processo diventa il processo "init" del nuovo spazio dei nomi ed è responsabile della gestione degli altri processi all'interno dello spazio dei nomi. Ogni processo successivo creato all'interno dello spazio dei nomi avrà un PID univoco all'interno di tale spazio dei nomi e questi PID saranno indipendenti dai PID in altri spazi dei nomi.
 
-From the perspective of a process within a PID namespace, it can only see other processes in the same namespace. It is not aware of processes in other namespaces, and it cannot interact with them using traditional process management tools (e.g., `kill`, `wait`, etc.). This provides a level of isolation that helps prevent processes from interfering with one another.
+Dal punto di vista di un processo all'interno di uno spazio dei nomi PID, può vedere solo gli altri processi nello stesso spazio dei nomi. Non è consapevole dei processi in altri spazi dei nomi e non può interagire con essi utilizzando gli strumenti tradizionali di gestione dei processi (ad esempio, `kill`, `wait`, ecc.). Ciò fornisce un livello di isolamento che aiuta a prevenire l'interferenza tra i processi.
 
-### How it works:
+### Come funziona:
 
-1. When a new process is created (e.g., by using the `clone()` system call), the process can be assigned to a new or existing PID namespace. **If a new namespace is created, the process becomes the "init" process of that namespace**.
-2. The **kernel** maintains a **mapping between the PIDs in the new namespace and the corresponding PIDs** in the parent namespace (i.e., the namespace from which the new namespace was created). This mapping **allows the kernel to translate PIDs when necessary**, such as when sending signals between processes in different namespaces.
-3. **Processes within a PID namespace can only see and interact with other processes in the same namespace**. They are not aware of processes in other namespaces, and their PIDs are unique within their namespace.
-4. When a **PID namespace is destroyed** (e.g., when the "init" process of the namespace exits), **all processes within that namespace are terminated**. This ensures that all resources associated with the namespace are properly cleaned up.
+1. Quando viene creato un nuovo processo (ad esempio, utilizzando la chiamata di sistema `clone()`), il processo può essere assegnato a uno spazio dei nomi PID nuovo o esistente. **Se viene creato un nuovo spazio dei nomi, il processo diventa il processo "init" di tale spazio dei nomi**.
+2. Il **kernel** mantiene una **mappatura tra i PID nel nuovo spazio dei nomi e i PID corrispondenti** nello spazio dei nomi padre (cioè lo spazio dei nomi da cui è stato creato il nuovo spazio dei nomi). Questa mappatura **consente al kernel di tradurre i PID quando necessario**, ad esempio quando si inviano segnali tra processi in spazi dei nomi diversi.
+3. **I processi all'interno di uno spazio dei nomi PID possono vedere e interagire solo con gli altri processi nello stesso spazio dei nomi**. Non sono consapevoli dei processi in altri spazi dei nomi e i loro PID sono univoci all'interno del loro spazio dei nomi.
+4. Quando viene **distrutto uno spazio dei nomi PID** (ad esempio, quando il processo "init" dello spazio dei nomi esce), **tutti i processi all'interno di tale spazio dei nomi vengono terminati**. Ciò garantisce che tutte le risorse associate allo spazio dei nomi vengano correttamente pulite.
 
-## Lab:
+## Laboratorio:
 
-### Create different Namespaces
+### Creare spazi dei nomi diversi
 
 #### CLI
-
 ```bash
 sudo unshare -pf --mount-proc /bin/bash
 ```
-
 <details>
 
-<summary>Error: bash: fork: Cannot allocate memory</summary>
+<summary>Errore: bash: fork: impossibile allocare memoria</summary>
 
-When `unshare` is executed without the `-f` option, an error is encountered due to the way Linux handles new PID (Process ID) namespaces. The key details and the solution are outlined below:
+Quando `unshare` viene eseguito senza l'opzione `-f`, si verifica un errore a causa del modo in cui Linux gestisce i nuovi spazi dei nomi PID (Process ID). Di seguito sono riportati i dettagli chiave e la soluzione:
 
-1. **Problem Explanation**:
-    - The Linux kernel allows a process to create new namespaces using the `unshare` system call. However, the process that initiates the creation of a new PID namespace (referred to as the "unshare" process) does not enter the new namespace; only its child processes do.
-    - Running `%unshare -p /bin/bash%` starts `/bin/bash` in the same process as `unshare`. Consequently, `/bin/bash` and its child processes are in the original PID namespace.
-    - The first child process of `/bin/bash` in the new namespace becomes PID 1. When this process exits, it triggers the cleanup of the namespace if there are no other processes, as PID 1 has the special role of adopting orphan processes. The Linux kernel will then disable PID allocation in that namespace.
+1. **Spiegazione del problema**:
+- Il kernel Linux consente a un processo di creare nuovi spazi dei nomi utilizzando la chiamata di sistema `unshare`. Tuttavia, il processo che avvia la creazione di un nuovo spazio dei nomi PID (chiamato "processo di unshare") non entra nel nuovo spazio dei nomi; solo i suoi processi figlio lo fanno.
+- L'esecuzione di `%unshare -p /bin/bash%` avvia `/bin/bash` nello stesso processo di `unshare`. Di conseguenza, `/bin/bash` e i suoi processi figlio si trovano nello spazio dei nomi PID originale.
+- Il primo processo figlio di `/bin/bash` nel nuovo spazio dei nomi diventa PID 1. Quando questo processo esce, viene attivata la pulizia dello spazio dei nomi se non ci sono altri processi, poiché il PID 1 ha il ruolo speciale di adottare i processi orfani. Il kernel Linux disabiliterà quindi l'allocazione dei PID in tale spazio dei nomi.
 
-2. **Consequence**:
-    - The exit of PID 1 in a new namespace leads to the cleaning of the `PIDNS_HASH_ADDING` flag. This results in the `alloc_pid` function failing to allocate a new PID when creating a new process, producing the "Cannot allocate memory" error.
+2. **Conseguenza**:
+- L'uscita del PID 1 in un nuovo spazio dei nomi porta alla pulizia del flag `PIDNS_HASH_ADDING`. Ciò comporta il fallimento della funzione `alloc_pid` nell'allocazione di un nuovo PID durante la creazione di un nuovo processo, producendo l'errore "Impossibile allocare memoria".
 
-3. **Solution**:
-    - The issue can be resolved by using the `-f` option with `unshare`. This option makes `unshare` fork a new process after creating the new PID namespace.
-    - Executing `%unshare -fp /bin/bash%` ensures that the `unshare` command itself becomes PID 1 in the new namespace. `/bin/bash` and its child processes are then safely contained within this new namespace, preventing the premature exit of PID 1 and allowing normal PID allocation.
+3. **Soluzione**:
+- Il problema può essere risolto utilizzando l'opzione `-f` con `unshare`. Questa opzione fa sì che `unshare` crei un nuovo processo dopo aver creato il nuovo spazio dei nomi PID.
+- Eseguendo `%unshare -fp /bin/bash%`, si garantisce che il comando `unshare` stesso diventi PID 1 nel nuovo spazio dei nomi. `/bin/bash` e i suoi processi figlio sono quindi contenuti in modo sicuro all'interno di questo nuovo spazio dei nomi, evitando l'uscita prematura del PID 1 e consentendo un'allocazione normale dei PID.
 
-By ensuring that `unshare` runs with the `-f` flag, the new PID namespace is correctly maintained, allowing `/bin/bash` and its sub-processes to operate without encountering the memory allocation error.
+Assicurandosi che `unshare` venga eseguito con l'opzione `-f`, il nuovo spazio dei nomi PID viene mantenuto correttamente, consentendo a `/bin/bash` e ai suoi sottoprocessi di funzionare senza incontrare l'errore di allocazione della memoria.
 
 </details>
 
-By mounting a new instance of the `/proc` filesystem if you use the param `--mount-proc`, you ensure that the new mount namespace has an **accurate and isolated view of the process information specific to that namespace**.
+Montando una nuova istanza del filesystem `/proc` se si utilizza il parametro `--mount-proc`, si garantisce che il nuovo spazio dei nomi di montaggio abbia una **visualizzazione accurata e isolata delle informazioni sui processi specifiche di tale spazio dei nomi**.
 
 #### Docker
-
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
+### &#x20;Controlla in quale namespace si trova il tuo processo
 
-### &#x20;Check which namespace are your process in
+To check which namespace your process is in, you can use the following command:
 
+Per controllare in quale namespace si trova il tuo processo, puoi utilizzare il seguente comando:
+
+```bash
+cat /proc/$$/ns/pid
+```
+
+This will display the inode number of the PID namespace associated with your process.
+
+Questo mostrerà il numero di inode dello spazio dei nomi PID associato al tuo processo.
 ```bash
 ls -l /proc/self/ns/pid
 lrwxrwxrwx 1 root root 0 Apr  3 18:45 /proc/self/ns/pid -> 'pid:[4026532412]'
 ```
-
-### Find all PID namespaces
+### Trova tutti i namespace PID
 
 {% code overflow="wrap" %}
 ```bash
@@ -84,31 +90,29 @@ sudo find /proc -maxdepth 3 -type l -name pid -exec readlink {} \; 2>/dev/null |
 ```
 {% endcode %}
 
-Note that the root use from the initial (default) PID namespace can see all the processes, even the ones in new PID names paces, thats why we can see all the PID namespaces.
+Nota che l'utente root dal PID namespace iniziale (predefinito) può vedere tutti i processi, anche quelli nei nuovi PID namespaces, ecco perché possiamo vedere tutti i PID namespaces.
 
-### Enter inside a PID namespace
-
+### Entra all'interno di un PID namespace
 ```bash
 nsenter -t TARGET_PID --pid /bin/bash
 ```
+Quando entri all'interno di uno spazio dei processi (PID namespace) dal namespace predefinito, sarai comunque in grado di vedere tutti i processi. E il processo dal PID ns sarà in grado di vedere il nuovo bash nel PID ns.
 
-When you enter inside a PID namespace from the default namespace, you will still be able to see all the processes. And the process from that PID ns will be able to see the new bash on the PID ns.
+Inoltre, puoi **entrare in un altro PID namespace solo se sei root**. E **non puoi** **entrare** in un altro namespace **senza un descrittore** che punti ad esso (come `/proc/self/ns/pid`)
 
-Also, you can only **enter in another process PID namespace if you are root**. And you **cannot** **enter** in other namespace **without a descriptor** pointing to it (like `/proc/self/ns/pid`)
-
-## References
+## Riferimenti
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

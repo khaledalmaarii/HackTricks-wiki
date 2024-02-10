@@ -1,80 +1,80 @@
-# Browser Artifacts
+# Artefatti del browser
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare flussi di lavoro** con gli strumenti comunitari più avanzati al mondo.\
+Ottieni l'accesso oggi stesso:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Browsers Artifacts <a href="#id-3def" id="id-3def"></a>
+## Artefatti del browser <a href="#id-3def" id="id-3def"></a>
 
-Browser artifacts include various types of data stored by web browsers, such as navigation history, bookmarks, and cache data. These artifacts are kept in specific folders within the operating system, differing in location and name across browsers, yet generally storing similar data types.
+Gli artefatti del browser includono vari tipi di dati memorizzati dai browser web, come la cronologia di navigazione, i segnalibri e i dati della cache. Questi artefatti sono conservati in cartelle specifiche all'interno del sistema operativo, con posizione e nome diversi a seconda del browser, ma generalmente memorizzano tipi di dati simili.
 
-Here's a summary of the most common browser artifacts:
+Ecco un riassunto degli artefatti del browser più comuni:
 
-- **Navigation History**: Tracks user visits to websites, useful for identifying visits to malicious sites.
-- **Autocomplete Data**: Suggestions based on frequent searches, offering insights when combined with navigation history.
-- **Bookmarks**: Sites saved by the user for quick access.
-- **Extensions and Add-ons**: Browser extensions or add-ons installed by the user.
-- **Cache**: Stores web content (e.g., images, JavaScript files) to improve website loading times, valuable for forensic analysis.
-- **Logins**: Stored login credentials.
-- **Favicons**: Icons associated with websites, appearing in tabs and bookmarks, useful for additional information on user visits.
-- **Browser Sessions**: Data related to open browser sessions.
-- **Downloads**: Records of files downloaded through the browser.
-- **Form Data**: Information entered in web forms, saved for future autofill suggestions.
-- **Thumbnails**: Preview images of websites.
-- **Custom Dictionary.txt**: Words added by the user to the browser's dictionary.
+- **Cronologia di navigazione**: Traccia le visite dell'utente ai siti web, utile per identificare le visite a siti maligni.
+- **Dati di autocompletamento**: Suggerimenti basati su ricerche frequenti, offrendo informazioni utili quando combinati con la cronologia di navigazione.
+- **Segnalibri**: Siti salvati dall'utente per un accesso rapido.
+- **Estensioni e componenti aggiuntivi**: Estensioni del browser o componenti aggiuntivi installati dall'utente.
+- **Cache**: Memorizza contenuti web (ad esempio, immagini, file JavaScript) per migliorare i tempi di caricamento del sito web, preziosi per l'analisi forense.
+- **Accessi**: Credenziali di accesso memorizzate.
+- **Favicon**: Icone associate ai siti web, che appaiono nelle schede e nei segnalibri, utili per ulteriori informazioni sulle visite dell'utente.
+- **Sessioni del browser**: Dati relativi alle sessioni del browser aperte.
+- **Download**: Registrazioni dei file scaricati tramite il browser.
+- **Dati dei moduli**: Informazioni inserite nei moduli web, salvate per suggerimenti di autocompletamento futuri.
+- **Thumbnail**: Immagini di anteprima dei siti web.
+- **Custom Dictionary.txt**: Parole aggiunte dall'utente al dizionario del browser.
 
 
 ## Firefox
 
-Firefox organizes user data within profiles, stored in specific locations based on the operating system:
+Firefox organizza i dati dell'utente all'interno dei profili, memorizzati in posizioni specifiche in base al sistema operativo:
 
 - **Linux**: `~/.mozilla/firefox/`
 - **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 - **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-A `profiles.ini` file within these directories lists the user profiles. Each profile's data is stored in a folder named in the `Path` variable within `profiles.ini`, located in the same directory as `profiles.ini` itself. If a profile's folder is missing, it may have been deleted.
+Un file `profiles.ini` all'interno di queste directory elenca i profili degli utenti. I dati di ogni profilo sono memorizzati in una cartella denominata nella variabile `Path` all'interno di `profiles.ini`, situata nella stessa directory di `profiles.ini` stesso. Se la cartella di un profilo è mancante, potrebbe essere stata eliminata.
 
-Within each profile folder, you can find several important files:
+All'interno di ogni cartella del profilo, è possibile trovare diversi file importanti:
 
-- **places.sqlite**: Stores history, bookmarks, and downloads. Tools like [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html) on Windows can access the history data.
-  - Use specific SQL queries to extract history and downloads information.
-- **bookmarkbackups**: Contains backups of bookmarks.
-- **formhistory.sqlite**: Stores web form data.
-- **handlers.json**: Manages protocol handlers.
-- **persdict.dat**: Custom dictionary words.
-- **addons.json** and **extensions.sqlite**: Information on installed add-ons and extensions.
-- **cookies.sqlite**: Cookie storage, with [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) available for inspection on Windows.
-- **cache2/entries** or **startupCache**: Cache data, accessible through tools like [MozillaCacheView](https://www.nirsoft.net/utils/mozilla_cache_viewer.html).
-- **favicons.sqlite**: Stores favicons.
-- **prefs.js**: User settings and preferences.
-- **downloads.sqlite**: Older downloads database, now integrated into places.sqlite.
-- **thumbnails**: Website thumbnails.
-- **logins.json**: Encrypted login information.
-- **key4.db** or **key3.db**: Stores encryption keys for securing sensitive information.
+- **places.sqlite**: Memorizza la cronologia, i segnalibri e i download. Strumenti come [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html) su Windows possono accedere ai dati della cronologia.
+- Utilizzare query SQL specifiche per estrarre informazioni sulla cronologia e sui download.
+- **bookmarkbackups**: Contiene backup dei segnalibri.
+- **formhistory.sqlite**: Memorizza i dati dei moduli web.
+- **handlers.json**: Gestisce i gestori di protocollo.
+- **persdict.dat**: Parole personalizzate del dizionario.
+- **addons.json** e **extensions.sqlite**: Informazioni sulle estensioni e i componenti aggiuntivi installati.
+- **cookies.sqlite**: Archiviazione dei cookie, con [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) disponibile per l'ispezione su Windows.
+- **cache2/entries** o **startupCache**: Dati della cache, accessibili tramite strumenti come [MozillaCacheView](https://www.nirsoft.net/utils/mozilla_cache_viewer.html).
+- **favicons.sqlite**: Memorizza le favicon.
+- **prefs.js**: Impostazioni e preferenze dell'utente.
+- **downloads.sqlite**: Database dei download più vecchio, ora integrato in places.sqlite.
+- **thumbnails**: Anteprime dei siti web.
+- **logins.json**: Informazioni di accesso crittografate.
+- **key4.db** o **key3.db**: Archivia le chiavi di crittografia per proteggere informazioni sensibili.
 
-Additionally, checking the browser’s anti-phishing settings can be done by searching for `browser.safebrowsing` entries in `prefs.js`, indicating whether safe browsing features are enabled or disabled.
+Inoltre, è possibile verificare le impostazioni anti-phishing del browser cercando le voci `browser.safebrowsing` in `prefs.js`, che indicano se le funzionalità di navigazione sicura sono abilitate o disabilitate.
 
 
-To try to decrypt the master password, you can use [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-With the following script and call you can specify a password file to brute force:
+Per cercare di decrittare la password principale, è possibile utilizzare [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+Con lo script e la chiamata seguenti è possibile specificare un file di password per forzare la decrittazione:
 
 {% code title="brute.sh" %}
 ```bash
@@ -83,8 +83,8 @@ With the following script and call you can specify a password file to brute forc
 #./brute.sh top-passwords.txt 2>/dev/null | grep -A2 -B2 "chrome:"
 passfile=$1
 while read pass; do
-  echo "Trying $pass"
-  echo "$pass" | python firefox_decrypt.py
+echo "Trying $pass"
+echo "$pass" | python firefox_decrypt.py
 done < $passfile
 ```
 {% endcode %}
@@ -93,113 +93,85 @@ done < $passfile
 
 ## Google Chrome
 
-Google Chrome stores user profiles in specific locations based on the operating system:
+Google Chrome memorizza i profili degli utenti in posizioni specifiche in base al sistema operativo:
 
 - **Linux**: `~/.config/google-chrome/`
 - **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
 - **MacOS**: `/Users/$USER/Library/Application Support/Google/Chrome/`
 
-Within these directories, most user data can be found in the **Default/** or **ChromeDefaultData/** folders. The following files hold significant data:
+All'interno di queste directory, la maggior parte dei dati degli utenti può essere trovata nelle cartelle **Default/** o **ChromeDefaultData/**. I seguenti file contengono dati significativi:
 
-- **History**: Contains URLs, downloads, and search keywords. On Windows, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome_history_view.html) can be used to read the history. The "Transition Type" column has various meanings, including user clicks on links, typed URLs, form submissions, and page reloads.
-- **Cookies**: Stores cookies. For inspection, [ChromeCookiesView](https://www.nirsoft.net/utils/chrome_cookies_view.html) is available.
-- **Cache**: Holds cached data. To inspect, Windows users can utilize [ChromeCacheView](https://www.nirsoft.net/utils/chrome_cache_view.html).
-- **Bookmarks**: User bookmarks.
-- **Web Data**: Contains form history.
-- **Favicons**: Stores website favicons.
-- **Login Data**: Includes login credentials like usernames and passwords.
-- **Current Session**/**Current Tabs**: Data about the current browsing session and open tabs.
-- **Last Session**/**Last Tabs**: Information about the sites active during the last session before Chrome was closed.
-- **Extensions**: Directories for browser extensions and addons.
-- **Thumbnails**: Stores website thumbnails.
-- **Preferences**: A file rich in information, including settings for plugins, extensions, pop-ups, notifications, and more.
-- **Browser’s built-in anti-phishing**: To check if anti-phishing and malware protection are enabled, run `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Look for `{"enabled: true,"}` in the output.
+- **History**: Contiene URL, download e parole chiave di ricerca. Su Windows, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome_history_view.html) può essere utilizzato per leggere la cronologia. La colonna "Transition Type" ha vari significati, tra cui clic dell'utente sui link, URL digitati, invio di moduli e ricariche della pagina.
+- **Cookies**: Memorizza i cookie. Per l'ispezione, è disponibile [ChromeCookiesView](https://www.nirsoft.net/utils/chrome_cookies_view.html).
+- **Cache**: Contiene dati memorizzati nella cache. Gli utenti di Windows possono utilizzare [ChromeCacheView](https://www.nirsoft.net/utils/chrome_cache_view.html) per l'ispezione.
+- **Bookmarks**: Segnalibri dell'utente.
+- **Web Data**: Contiene la cronologia dei form.
+- **Favicons**: Memorizza le icone dei siti web.
+- **Login Data**: Include le credenziali di accesso come nomi utente e password.
+- **Current Session**/**Current Tabs**: Dati sulla sessione di navigazione corrente e sulle schede aperte.
+- **Last Session**/**Last Tabs**: Informazioni sui siti attivi durante l'ultima sessione prima della chiusura di Chrome.
+- **Extensions**: Directory per le estensioni e i componenti aggiuntivi del browser.
+- **Thumbnails**: Memorizza le miniature dei siti web.
+- **Preferences**: Un file ricco di informazioni, tra cui impostazioni per plugin, estensioni, popup, notifiche e altro ancora.
+- **Anti-phishing integrato nel browser**: Per verificare se l'anti-phishing e la protezione da malware sono abilitati, eseguire il comando `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Cercare `{"enabled: true,"}` nell'output.
 
 
-## **SQLite DB Data Recovery**
+## **Recupero dati da database SQLite**
 
-As you can observe in the previous sections, both Chrome and Firefox use **SQLite** databases to store the data. It's possible to **recover deleted entries using the tool** [**sqlparse**](https://github.com/padfoot999/sqlparse) **or** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+Come si può osservare nelle sezioni precedenti, sia Chrome che Firefox utilizzano database **SQLite** per memorizzare i dati. È possibile **recuperare voci eliminate utilizzando lo strumento** [**sqlparse**](https://github.com/padfoot999/sqlparse) **o** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
 
 ## **Internet Explorer 11**
 
-Internet Explorer 11 manages its data and metadata across various locations, aiding in separating stored information and its corresponding details for easy access and management.
+Internet Explorer 11 gestisce i suoi dati e metadati in varie posizioni, facilitando la separazione delle informazioni memorizzate e dei relativi dettagli per un facile accesso e gestione.
 
-### Metadata Storage
-Metadata for Internet Explorer is stored in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (with VX being V01, V16, or V24). Accompanying this, the `V01.log` file might show modification time discrepancies with `WebcacheVX.data`, indicating a need for repair using `esentutl /r V01 /d`. This metadata, housed in an ESE database, can be recovered and inspected using tools like photorec and [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html), respectively. Within the **Containers** table, one can discern the specific tables or containers where each data segment is stored, including cache details for other Microsoft tools such as Skype.
+### Archiviazione dei metadati
+I metadati per Internet Explorer sono memorizzati in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (dove VX può essere V01, V16 o V24). Inoltre, il file `V01.log` potrebbe mostrare discrepanze di orario di modifica rispetto a `WebcacheVX.data`, indicando la necessità di riparazione utilizzando `esentutl /r V01 /d`. Questi metadati, contenuti in un database ESE, possono essere recuperati e ispezionati utilizzando strumenti come photorec e [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html), rispettivamente. All'interno della tabella **Containers**, è possibile individuare le tabelle o i contenitori specifici in cui viene memorizzato ogni segmento di dati, inclusi i dettagli della cache per altri strumenti Microsoft come Skype.
 
-### Cache Inspection
-The [IECacheView](https://www.nirsoft.net/utils/ie_cache_viewer.html) tool allows for cache inspection, requiring the cache data extraction folder location. Metadata for cache includes filename, directory, access count, URL origin, and timestamps indicating cache creation, access, modification, and expiry times.
+### Ispezione della cache
+Lo strumento [IECacheView](https://www.nirsoft.net/utils/ie_cache_viewer.html) consente di ispezionare la cache, richiedendo la posizione della cartella di estrazione dei dati della cache. I metadati della cache includono il nome del file, la directory, il conteggio di accesso, l'origine dell'URL e i timestamp che indicano la creazione, l'accesso, la modifica e la scadenza della cache.
 
-### Cookies Management
-Cookies can be explored using [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), with metadata encompassing names, URLs, access counts, and various time-related details. Persistent cookies are stored in `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, with session cookies residing in memory.
+### Gestione dei cookie
+I cookie possono essere esplorati utilizzando [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), con metadati che comprendono nomi, URL, conteggio di accesso e vari dettagli relativi all'orario. I cookie persistenti sono memorizzati in `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, mentre i cookie di sessione risiedono in memoria.
 
-### Download Details
-Downloads metadata is accessible via [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html), with specific containers holding data like URL, file type, and download location. Physical files can be found under `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
+### Dettagli dei download
+I metadati dei download sono accessibili tramite [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html), con contenitori specifici che contengono dati come URL, tipo di file e posizione di download. I file fisici possono essere trovati in `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
-### Browsing History
-To review browsing history, [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html) can be used, requiring the location of extracted history files and configuration for Internet Explorer. Metadata here includes modification and access times, along with access counts. History files are located in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+### Cronologia di navigazione
+Per visualizzare la cronologia di navigazione, è possibile utilizzare [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html), che richiede la posizione dei file di cronologia estratti e la configurazione per Internet Explorer. I metadati qui includono orari di modifica e accesso, insieme a conteggi di accesso. I file di cronologia si trovano in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
-### Typed URLs
-Typed URLs and their usage timings are stored within the registry under `NTUSER.DAT` at `Software\Microsoft\InternetExplorer\TypedURLs` and `Software\Microsoft\InternetExplorer\TypedURLsTime`, tracking the last 50 URLs entered by the user and their last input times.
+### URL digitati
+Gli URL digitati e i relativi tempi di utilizzo sono memorizzati nel registro di sistema in `NTUSER.DAT` in `Software\Microsoft\InternetExplorer\TypedURLs` e `Software\Microsoft\InternetExplorer\TypedURLsTime`, tenendo traccia degli ultimi 50 URL inseriti dall'utente e dei loro ultimi tempi di input.
 
 
 ## Microsoft Edge
 
-Microsoft Edge stores user data in `%userprofile%\Appdata\Local\Packages`. The paths for various data types are:
+Microsoft Edge memorizza i dati degli utenti in `%userprofile%\Appdata\Local\Packages`. I percorsi per vari tipi di dati sono:
 
-- **Profile Path**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
-- **History, Cookies, and Downloads**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
-- **Settings, Bookmarks, and Reading List**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb`
+- **Percorso del profilo**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
+- **Cronologia, Cookie e Download**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
+- **Impostazioni, Segnalibri e Lista di lettura**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb`
 - **Cache**: `C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC#!XXX\MicrosoftEdge\Cache`
-- **Last Active Sessions**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active`
+- **Sessioni attive precedenti**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active`
 
 ## Safari
 
-Safari data is stored at `/Users/$User/Library/Safari`. Key files include:
+I dati di Safari sono memorizzati in `/Users/$User/Library/Safari`. I file chiave includono:
 
-- **History.db**: Contains `history_visits` and `history_items` tables with URLs and visit timestamps. Use `sqlite3` to query.
-- **Downloads.plist**: Information about downloaded files.
-- **Bookmarks.plist**: Stores bookmarked URLs.
-- **TopSites.plist**: Most frequently visited sites.
-- **Extensions.plist**: List of Safari browser extensions. Use `plutil` or `pluginkit` to retrieve.
-- **UserNotificationPermissions.plist**: Domains permitted to push notifications. Use `plutil` to parse.
-- **LastSession.plist**: Tabs from the last session. Use `plutil` to parse.
-- **Browser’s built-in anti-phishing**: Check using `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. A response of 1 indicates the feature is active.
+- **History.db**: Contiene le tabelle `history_visits` e `history_items` con URL e timestamp delle visite. Utilizzare `sqlite3` per le query.
+- **Downloads.plist**: Informazioni sui file scaricati.
+- **Bookmarks.plist**: Memorizza gli URL dei segnalibri.
+- **TopSites.plist**: Siti più visitati.
+- **Extensions.plist**: Elenco delle estensioni del browser Safari. Utilizzare `plutil` o `pluginkit` per recuperare.
+- **UserNotificationPermissions.plist**: Domini autorizzati a inviare notifiche. Utilizzare `plutil` per l'analisi.
+- **LastSession.plist**: Schede dell'ultima sessione. Utilizzare `plutil` per l'analisi.
+- **Anti-phishing integrato nel browser**: Verificare utilizzando `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Una risposta di 1 indica che la funzione è attiva.
 
 ## Opera
 
-Opera's data resides in `/Users/$USER/Library/Application Support/com.operasoftware.Opera` and shares Chrome's format for history and downloads.
-
-- **Browser’s built-in anti-phishing**: Verify by checking if `fraud_protection_enabled` in the Preferences file is set to `true` using `grep`.
-
-These paths and commands are crucial for accessing and understanding the browsing data stored by different web browsers.
-
-
-## References
-* [https://nasbench.medium.com/web-browsers-forensics-7e99940c579a](https://nasbench.medium.com/web-browsers-forensics-7e99940c579a)
-* [https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/](https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/)
-* [https://books.google.com/books?id=jfMqCgAAQBAJ&pg=PA128&lpg=PA128&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ&pg=PA128&lpg=PA128&dq=%22This+file)
-* **Book: OS X Incident Response: Scripting and Analysis By Jaron Bradley pag 123**
-
-
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+I dati di Opera si trovano in `/Users/$USER/Library
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi.
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>

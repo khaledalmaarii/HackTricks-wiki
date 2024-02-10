@@ -1,50 +1,50 @@
-# macOS Proces Abuse
+# Abuso dei processi su macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## MacOS Process Abuse
+## Abuso dei processi su macOS
 
-MacOS, like any other operating system, provides a variety of methods and mechanisms for **processes to interact, communicate, and share data**. While these techniques are essential for efficient system functioning, they can also be abused by threat actors to **perform malicious activities**.
+macOS, come qualsiasi altro sistema operativo, fornisce una varietà di metodi e meccanismi per **l'interazione, la comunicazione e la condivisione dei dati tra i processi**. Sebbene queste tecniche siano essenziali per il corretto funzionamento del sistema, possono anche essere sfruttate dagli attori minacciosi per **eseguire attività malevole**.
 
-### Library Injection
+### Iniezione di librerie
 
-Library Injection is a technique wherein an attacker **forces a process to load a malicious library**. Once injected, the library runs in the context of the target process, providing the attacker with the same permissions and access as the process.
+L'iniezione di librerie è una tecnica in cui un attaccante **costringe un processo a caricare una libreria malevola**. Una volta iniettata, la libreria viene eseguita nel contesto del processo di destinazione, fornendo all'attaccante gli stessi permessi e accessi del processo.
 
 {% content-ref url="macos-library-injection/" %}
 [macos-library-injection](macos-library-injection/)
 {% endcontent-ref %}
 
-### Function Hooking
+### Hooking di funzioni
 
-Function Hooking involves **intercepting function calls** or messages within a software code. By hooking functions, an attacker can **modify the behavior** of a process, observe sensitive data, or even gain control over the execution flow.
+L'hooking di funzioni consiste nell'**intercettare le chiamate alle funzioni** o i messaggi all'interno del codice di un software. Attraverso l'hooking delle funzioni, un attaccante può **modificare il comportamento** di un processo, osservare dati sensibili o addirittura ottenere il controllo del flusso di esecuzione.
 
 {% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
 [macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
-### Inter Process Communication
+### Comunicazione tra processi
 
-Inter Process Communication (IPC) refers to different methods by which separate processes **share and exchange data**. While IPC is fundamental for many legitimate applications, it can also be misused to subvert process isolation, leak sensitive information, or perform unauthorized actions.
+La comunicazione tra processi (IPC) si riferisce a diversi metodi con cui i processi separati **condividono e scambiano dati**. Sebbene l'IPC sia fondamentale per molte applicazioni legittime, può anche essere utilizzato impropriamente per eludere l'isolamento dei processi, divulgare informazioni sensibili o eseguire azioni non autorizzate.
 
 {% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-### Electron Applications Injection
+### Iniezione nelle applicazioni Electron
 
-Electron applications executed with specific env variables could be vulnerable to process injection:
+Le applicazioni Electron eseguite con specifiche variabili d'ambiente potrebbero essere vulnerabili all'iniezione di processi:
 
 {% content-ref url="macos-electron-applications-injection.md" %}
 [macos-electron-applications-injection.md](macos-electron-applications-injection.md)
@@ -52,57 +52,56 @@ Electron applications executed with specific env variables could be vulnerable t
 
 ### Dirty NIB
 
-NIB files **define user interface (UI) elements** and their interactions within an application. However, they can **execute arbitrary commands** and **Gatekeeper doesn't stop** an already executed application from being executed if a **NIB file is modified**. Therefore, they could be used to make arbitrary programs execute arbitrary commands:
+I file NIB **definiscono gli elementi dell'interfaccia utente (UI)** e le loro interazioni all'interno di un'applicazione. Tuttavia, possono **eseguire comandi arbitrari** e **Gatekeeper non impedisce** l'esecuzione di un'applicazione già eseguita se un file NIB viene modificato. Pertanto, potrebbero essere utilizzati per far eseguire programmi arbitrari:
 
 {% content-ref url="macos-dirty-nib.md" %}
 [macos-dirty-nib.md](macos-dirty-nib.md)
 {% endcontent-ref %}
 
-### Java Applications Injection
+### Iniezione nelle applicazioni Java
 
-It's possible to abuse certain java capabilities (like the **`_JAVA_OPTS`** env variable) to make a java application execute **arbitrary code/commands**.
+È possibile sfruttare determinate capacità di Java (come la variabile d'ambiente **`_JAVA_OPTS`**) per far eseguire a un'applicazione Java **codice/comandi arbitrari**.
 
 {% content-ref url="macos-java-apps-injection.md" %}
 [macos-java-apps-injection.md](macos-java-apps-injection.md)
 {% endcontent-ref %}
 
-### .Net Applications Injection
+### Iniezione nelle applicazioni .Net
 
-It's possible to inject code into .Net applications by **abusing the .Net debugging functionality** (not protected by macOS protections such as runtime hardening).
+È possibile iniettare codice nelle applicazioni .Net **sfruttando la funzionalità di debug di .Net** (non protetta dalle protezioni di macOS come l'indurimento in esecuzione).
 
 {% content-ref url="macos-.net-applications-injection.md" %}
 [macos-.net-applications-injection.md](macos-.net-applications-injection.md)
 {% endcontent-ref %}
 
-### Perl Injection
+### Iniezione in Perl
 
-Check different options to make a Perl script execute arbitrary code in:
+Verifica le diverse opzioni per far eseguire a uno script Perl codice arbitrario in:
 
 {% content-ref url="macos-perl-applications-injection.md" %}
 [macos-perl-applications-injection.md](macos-perl-applications-injection.md)
 {% endcontent-ref %}
 
-### Ruby Injection
+### Iniezione in Ruby
 
-I't also possible to abuse ruby env variables to make arbitrary scripts execute arbitrary code:
+È anche possibile sfruttare le variabili d'ambiente di Ruby per far eseguire script arbitrari:
 
 {% content-ref url="macos-ruby-applications-injection.md" %}
 [macos-ruby-applications-injection.md](macos-ruby-applications-injection.md)
 {% endcontent-ref %}
 
-### Python Injection
+### Iniezione in Python
 
-If the environment variable **`PYTHONINSPECT`** is set, the python process will drop into a python cli once it's finished. It's also possible to use **`PYTHONSTARTUP`** to indicate a python script to execute at the beginning of an interactive session.\
-However, note that **`PYTHONSTARTUP`** script won't be executed when **`PYTHONINSPECT`** creates the interactive session.
+Se la variabile d'ambiente **`PYTHONINSPECT`** è impostata, il processo Python passerà a una CLI Python una volta terminato. È anche possibile utilizzare **`PYTHONSTARTUP`** per indicare uno script Python da eseguire all'inizio di una sessione interattiva.\
+Tuttavia, nota che lo script **`PYTHONSTARTUP`** non verrà eseguito quando **`PYTHONINSPECT`** crea la sessione interattiva.
 
-Other env variables such as **`PYTHONPATH`** and **`PYTHONHOME`** could also be useful to make a python command execute arbitrary code.
+Altre variabili d'ambiente come **`PYTHONPATH`** e **`PYTHONHOME`** potrebbero essere utili per far eseguire un comando Python codice arbitrario.
 
-Note that executables compiled with **`pyinstaller`** won't use these environmental variables even if they are running using an embedded python.
+Tieni presente che gli eseguibili compilati con **`pyinstaller`** non utilizzeranno queste variabili d'ambiente anche se vengono eseguiti utilizzando un Python integrato.
 
 {% hint style="danger" %}
-Overall I couldn't find a way to make python execute arbitrary code abusing environment variables.\
-However, most of the people install pyhton using **Hombrew**, which will install pyhton in a **writable location** for the default admin user. You can hijack it with something like:
-
+In generale, non sono riuscito a trovare un modo per far eseguire a Python codice arbitrario sfruttando le variabili d'ambiente.\
+Tuttavia, la maggior parte delle persone installa Python utilizzando **Homebrew**, che installerà Python in una posizione **scrivibile** per l'utente amministratore predefinito. Puoi dirottarlo con qualcosa del genere:
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -112,42 +111,41 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
-
-Even **root** will run this code when running python.
+Anche **root** eseguirà questo codice quando si esegue python.
 {% endhint %}
 
-## Detection
+## Rilevamento
 
 ### Shield
 
-[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) is an open source application that can **detect and block process injection** actions:
+[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) è un'applicazione open source che può **rilevare e bloccare le azioni di iniezione di processo**:
 
-* Using **Environmental Variables**: It will monitor the presence of any of the following environmental variables: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** and **`ELECTRON_RUN_AS_NODE`**
-* Using **`task_for_pid`** calls: To find when one process wants to get the **task port of another** which allows to inject code in the process.
-* **Electron apps params**: Someone can use **`--inspect`**, **`--inspect-brk`** and **`--remote-debugging-port`** command line argument to start an Electron app in debugging mode, and thus inject code to it.
-* Using **symlinks** or **hardlinks**: Typically the most common abuse is to **place a link with our user privileges**, and **point it to a higher privilege** location. The detection is very simple for both hardlink and symlinks. If the process creating the link has a **different privilege level** than the target file, we create an **alert**. Unfortunately in the case of symlinks blocking is not possible, as we don’t have information about the destination of the link prior creation. This is a limitation of Apple’s EndpointSecuriy framework.
+* Utilizzando **Variabili Ambientali**: Monitorerà la presenza di una qualsiasi delle seguenti variabili ambientali: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** e **`ELECTRON_RUN_AS_NODE`**
+* Utilizzando chiamate **`task_for_pid`**: Per trovare quando un processo vuole ottenere la **porta del task di un altro** che consente di iniettare codice nel processo.
+* **Parametri delle app Electron**: Qualcuno può utilizzare gli argomenti della riga di comando **`--inspect`**, **`--inspect-brk`** e **`--remote-debugging-port`** per avviare un'app Electron in modalità di debug e quindi iniettare codice in essa.
+* Utilizzando **symlink** o **hardlink**: Tipicamente l'abuso più comune è quello di **posizionare un link con i privilegi dell'utente**, e **puntarlo a una posizione con privilegi superiori**. La rilevazione è molto semplice sia per gli hardlink che per i symlink. Se il processo che crea il link ha un **livello di privilegio diverso** rispetto al file di destinazione, creiamo un **avviso**. Purtroppo, nel caso dei symlink, il blocco non è possibile, poiché non abbiamo informazioni sulla destinazione del link prima della creazione. Questa è una limitazione del framework EndpointSecuriy di Apple.
 
-### Calls made by other processes
+### Chiamate effettuate da altri processi
 
-In [**this blog post**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) you can find how it's possible to use the function **`task_name_for_pid`** to get information about other **processes injecting code in a process** and then getting information about that other process.
+In [**questo post del blog**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) puoi trovare come è possibile utilizzare la funzione **`task_name_for_pid`** per ottenere informazioni su altri **processi che iniettano codice in un processo** e quindi ottenere informazioni su quell'altro processo.
 
-Note that to call that function you need to be **the same uid** as the one running the process or **root** (and it returns info about the process, not a way to inject code).
+Nota che per chiamare quella funzione devi essere **lo stesso uid** di quello che esegue il processo o **root** (e restituisce informazioni sul processo, non un modo per iniettare codice).
 
-## References
+## Riferimenti
 
 * [https://theevilbit.github.io/shield/](https://theevilbit.github.io/shield/)
 * [https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Altri modi per supportare HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
