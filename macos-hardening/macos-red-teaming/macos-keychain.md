@@ -2,71 +2,60 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Main Keychains
+## Κύρια Keychains
 
-* The **User Keychain** (`~/Library/Keychains/login.keycahin-db`), which is used to store **user-specific credentials** like application passwords, internet passwords, user-generated certificates, network passwords, and user-generated public/private keys.
-* The **System Keychain** (`/Library/Keychains/System.keychain`), which stores **system-wide credentials** such as WiFi passwords, system root certificates, system private keys, and system application passwords.
+* Το **Keychain του χρήστη** (`~/Library/Keychains/login.keycahin-db`), το οποίο χρησιμοποιείται για να αποθηκεύει **συνθηματικά που αφορούν τον χρήστη** όπως κωδικοί πρόσβασης εφαρμογών, κωδικοί πρόσβασης στο διαδίκτυο, πιστοποιητικά που δημιουργήθηκαν από τον χρήστη, κωδικοί πρόσβασης δικτύου και δημόσια/ιδιωτικά κλειδιά που δημιουργήθηκαν από τον χρήστη.
+* Το **Keychain του συστήματος** (`/Library/Keychains/System.keychain`), το οποίο αποθηκεύει **συνθηματικά που αφορούν ολόκληρο το σύστημα** όπως κωδικοί πρόσβασης WiFi, πιστοποιητικά ρίζας συστήματος, ιδιωτικά κλειδιά συστήματος και κωδικοί πρόσβασης εφαρμογών συστήματος.
 
-### Password Keychain Access
+### Πρόσβαση στο Keychain Κωδικού
 
-These files, while they do not have inherent protection and can be **downloaded**, are encrypted and require the **user's plaintext password to be decrypted**. A tool like [**Chainbreaker**](https://github.com/n0fate/chainbreaker) could be used for decryption.
+Αυτά τα αρχεία, παρόλο που δεν έχουν ενσωματωμένη προστασία και μπορούν να **κατεβληθούν**, είναι κρυπτογραφημένα και απαιτούν το **καθαρό κείμενο του κωδικού πρόσβασης του χρήστη για να αποκρυπτογραφηθούν**. Ένα εργαλείο όπως το [**Chainbreaker**](https://github.com/n0fate/chainbreaker) μπορεί να χρησιμοποιηθεί για την αποκρυπτογράφηση.
 
-## Keychain Entries Protections
+## Προστασίες Καταχωρήσεων Keychain
 
 ### ACLs
 
-Each entry in the keychain is governed by **Access Control Lists (ACLs)** which dictate who can perform various actions on the keychain entry, including:
+Κάθε καταχώρηση στο keychain διέπεται από **Λίστες Ελέγχου Πρόσβασης (ACLs)** που καθορίζουν ποιος μπορεί να εκτελέσει διάφορες ενέργειες στην καταχώρηση του keychain, συμπεριλαμβανομένων:
 
-* **ACLAuhtorizationExportClear**: Allows the holder to get the clear text of the secret.
-* **ACLAuhtorizationExportWrapped**: Allows the holder to get the clear text encrypted with another provided password.
-* **ACLAuhtorizationAny**: Allows the holder to perform any action.
+* **ACLAuhtorizationExportClear**: Επιτρέπει στον κάτοχο να λάβει το καθαρό κείμενο του μυστικού.
+* **ACLAuhtorizationExportWrapped**: Επιτρέπει στον κάτοχο να λάβει το καθαρό κείμενο κρυπτογραφημένο με έναν άλλο καθορισμένο κωδικό πρόσβασης.
+* **ACLAuhtorizationAny**: Επιτρέπει στον κάτοχο να εκτελέσει οποιαδήποτε ενέργεια.
 
-The ACLs are further accompanied by a **list of trusted applications** that can perform these actions without prompting. This could be:
+Οι ACLs συνοδεύονται επίσης από μια **λίστα αξιόπιστων εφαρμογών** που μπορούν να εκτελέσουν αυτές τις ενέργειες χωρίς να ζητηθεί επιβεβαίωση. Αυτό μπορεί να είναι:
 
-* &#x20;**N`il`** (no authorization required, **everyone is trusted**)
-* An **empty** list (**nobody** is trusted)
-* **List** of specific **applications**.
+* &#x20;**N`il`** (δεν απαιτείται εξουσιοδότηση, **όλοι είναι αξιόπιστοι**)
+* Μια **κενή** λίστα (**κανείς** δεν είναι αξιόπιστος)
+* **Λίστα** συγκεκριμένων **εφαρμογών**.
 
-Also the entry might contain the key **`ACLAuthorizationPartitionID`,** which is use to identify the **teamid, apple,** and **cdhash.**
+Επίσης, η καταχώρηση μπορεί να περιέχει το κλειδί **`ACLAuthorizationPartitionID`**, το οποίο χρησιμοποιείται για την αναγνώριση του **teamid, apple** και **cdhash**.
 
-* If the **teamid** is specified, then in order to **access the entry** value **withuot** a **prompt** the used application must have the **same teamid**.
-* If the **apple** is specified, then the app needs to be **signed** by **Apple**.
-* If the **cdhash** is indicated, then **app** must have the specific **cdhash**.
+* Εάν το **teamid** είναι καθορισμένο, τότε για να **έχει πρόσβαση** στην τιμή της καταχώρησης **χωρίς** ερώτημα, η χρησιμοποιούμενη εφαρμογή πρέπει να έχει το **ίδιο teamid**.
+* Εάν το **apple** είναι καθορισμένο, τότε η εφαρμογή πρέπει να είναι **υπογεγραμμένη** από την **Apple**.
+* Εάν το **cdhash** είναι καθορισμένο, τότε η εφαρμογή πρέπει να έχει το συγκεκριμένο **cdhash**.
 
-### Creating a Keychain Entry
+### Δημιουργία Καταχώρησης Keychain
 
-When a **new** **entry** is created using **`Keychain Access.app`**, the following rules apply:
+Όταν δημιουργείται μια **νέα καταχώρηση** χρησιμοποιώντας το **`Keychain Access.app`**, ισχύουν οι εξής κανόνες:
 
-* All apps can encrypt.
-* **No apps** can export/decrypt (without prompting the user).
-* All apps can see the integrity check.
-* No apps can change ACLs.
-* The **partitionID** is set to **`apple`**.
+* Όλες οι εφαρμογές μπορούν να κρυπτογραφήσουν.
+* **Καμία εφαρμογή** δεν μπορεί να εξαγάγει/αποκρυπτογραφήσει (χωρίς να ζητηθεί επιβεβαίωση από τον χρήστη).
+* Όλες οι εφαρμογές μπορούν να δουν τον έλεγχο ακεραιότητας.
+* Καμία εφαρμογή δεν μπορεί να αλλάξει τις ACLs.
+* Το **partitionID** ορίζεται σε **`apple`**.
 
-When an **application creates an entry in the keychain**, the rules are slightly different:
-
-* All apps can encrypt.
-* Only the **creating application** (or any other apps explicitly added) can export/decrypt (without prompting the user).
-* All apps can see the integrity check.
-* No apps can change the ACLs.
-* The **partitionID** is set to **`teamid:[teamID here]`**.
-
-## Accessing the Keychain
-
-### `security`
-
+Όταν μια **εφαρμογή δημιουργεί μια καταχώρηση στο keychain**, οι κανόνες είναι ελαφρώς διαφορετ
 ```bash
 # Dump all metadata and decrypted secrets (a lot of pop-ups)
 security dump-keychain -a -d
@@ -77,73 +66,69 @@ security find-generic-password -a "Slack" -g
 # Change the specified entrys PartitionID entry
 security set-generic-password-parition-list -s "test service" -a "test acount" -S
 ```
-
-### APIs
+### ΑΠΙ
 
 {% hint style="success" %}
-The **keychain enumeration and dumping** of secrets that **won't generate a prompt** can be done with the tool [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+Η **απαρίθμηση και απόρριψη** μυστικών του **keychain που δεν θα προκαλέσει ερώτηση** μπορεί να γίνει με το εργαλείο [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
-List and get **info** about each keychain entry:
+Λίστα και λήψη **πληροφοριών** για κάθε καταχώρηση keychain:
 
-* The API **`SecItemCopyMatching`** gives info about each entry and there are some attributes you can set when using it:
-  * **`kSecReturnData`**: If true, it will try to decrypt the data (set to false to avoid potential pop-ups)
-  * **`kSecReturnRef`**: Get also reference to keychain item (set to true in case later you see you can decrypt without pop-up)
-  * **`kSecReturnAttributes`**: Get metadata about entries
-  * **`kSecMatchLimit`**: How many results to return
-  * **`kSecClass`**: What kind of keychain entry
+* Η API **`SecItemCopyMatching`** δίνει πληροφορίες για κάθε καταχώρηση και υπάρχουν ορισμένα χαρακτηριστικά που μπορείτε να ορίσετε κατά τη χρήση της:
+* **`kSecReturnData`**: Εάν είναι true, θα προσπαθήσει να αποκρυπτογραφήσει τα δεδομένα (ορίστε το σε false για να αποφευχθούν πιθανές αναδυόμενες παράθυρα)
+* **`kSecReturnRef`**: Λήψη αναφοράς στο στοιχείο keychain (ορίστε το σε true σε περίπτωση που αργότερα δείτε ότι μπορείτε να αποκρυπτογραφήσετε χωρίς αναδυόμενο παράθυρο)
+* **`kSecReturnAttributes`**: Λήψη μεταδεδομένων για τις καταχωρήσεις
+* **`kSecMatchLimit`**: Πόσα αποτελέσματα να επιστραφούν
+* **`kSecClass`**: Τι είδους καταχώρηση keychain
 
-Get **ACLs** of each entry:
+Λήψη **ACLs** για κάθε καταχώρηση:
 
-* With the API **`SecAccessCopyACLList`** you can get the **ACL for the keychain item**, and it will return a list of ACLs (like `ACLAuhtorizationExportClear` and the others previously mentioned)  where each list has:
-  * Description
-  * **Trusted Application List**. This could be:
-    * An app: /Applications/Slack.app
-    * A binary: /usr/libexec/airportd
-    * A group: group://AirPort
+* Με την API **`SecAccessCopyACLList`** μπορείτε να λάβετε το **ACL για το στοιχείο keychain**, και θα επιστρέψει μια λίστα με τα ACLs (όπως `ACLAuhtorizationExportClear` και τα άλλα προηγουμένως αναφερθέντα) όπου κάθε λίστα έχει:
+* Περιγραφή
+* **Λίστα Εμπιστευμένων Εφαρμογών**. Αυτό μπορεί να είναι:
+* Μια εφαρμογή: /Applications/Slack.app
+* Ένα δυαδικό αρχείο: /usr/libexec/airportd
+* Μια ομάδα: group://AirPort
 
-Export the data:
+Εξαγωγή των δεδομένων:
 
-* The API **`SecKeychainItemCopyContent`** gets the plaintext
-* The API  **`SecItemExport`** exports the keys and certificates but might have to set passwords to export the content encrypted
+* Η API **`SecKeychainItemCopyContent`** λαμβάνει το κείμενο καθαρού κειμένου
+* Η API **`SecItemExport`** εξάγει τα κλειδιά και τα πιστοποιητικά, αλλά μπορεί να χρειαστεί να ορίσετε κωδικούς πρόσβασης για να εξαχθούν τα περιεχόμενα κρυπτογραφημένα
 
-And these are the **requirements** to be able to **export a secret without a prompt**:
+Και αυτές είναι οι **απαιτήσεις** για να μπορείτε να **εξάγετε ένα μυστικό χωρίς ερώτηση**:
 
-* If **1+ trusted** apps listed:
-  * Need the appropriate **authorizations** (**`Nil`**, or be **part** of the allowed list of apps in the authorization to access the secret info)
-  * Need code signature to match **PartitionID**
-  * Need code signature to match that of one **trusted app** (or be a member of the right KeychainAccessGroup)
-* If **all applications trusted**:
-  * Need the appropriate **authorizations**
-  * Need code signature to match **PartitionID**
-    * If **no PartitionID**, then this isn't needed
+* Εάν υπάρχουν **1+ εμπιστευμένες** εφαρμογές που αναφέρονται:
+* Χρειάζεστε τις κατάλληλες **εξουσιοδοτήσεις** (**`Nil`**, ή να είστε **μέρος** της επιτρεπόμενης λίστας εφαρμογών στην εξουσιοδότηση για πρόσβαση στις πληροφορίες του μυστικού)
+* Χρειάζεστε την υπογραφή κώδικα για να ταιριάζει με το **PartitionID**
+* Χρειάζεστε την υπογραφή κώδικα για να ταιριάζει με μια **εμπιστευμένη εφαρμογή** (ή να είστε μέλος της σωστής KeychainAccessGroup)
+* Εάν **εμπιστεύονται όλες οι εφαρμογές**:
+* Χρειάζεστε τις κατάλληλες **εξουσιοδοτήσεις**
+* Χρειάζεστε την υπογραφή κώδικα για να ταιριάζει με το **PartitionID**
+* Εάν δεν υπάρχει **PartitionID**, τότε αυτό δεν είναι απαραίτητο
 
 {% hint style="danger" %}
-Therefore, if there is **1 application listed**, you need to **inject code in that application**.
+Συνεπώς, εάν υπάρχει **1 εφαρμογή που αναφέρεται**, χρειάζεστε να **ενσωματώσετε κώδικα σε αυτήν την εφαρμογή**.
 
-If **apple** is indicated in the **partitionID**, you could access it with **`osascript`** so anything that is trusting all applications with apple in the partitionID. **`Python`** could also be used for this.
+Εάν η λέξη **apple** αναφέρεται στο **partitionID**, μπορείτε να αποκτήσετε πρόσβαση με τη χρήση της εντολής **`osascript`**, οπότε οτιδήποτε εμπιστεύεται όλες τις εφαρμογές με το apple στο partitionID. Μπορεί να χρησιμοποιηθεί επίσης το **`Python`** για αυτό.
 {% endhint %}
 
-### Two additional attributes
+### Δύο επιπλέον χαρακτηριστικά
 
-* **Invisible**: It's a boolean flag to **hide** the entry from the **UI** Keychain app
-* **General**: It's to store **metadata** (so it's NOT ENCRYPTED)
-  * Microsoft was storing in plain text all the refresh tokens to access sensitive endpoint.
+* **Αόρατο**: Είναι ένα σημαία boolean για να **αποκρύψει** την καταχώρηση από την εφαρμογή **UI** Keychain
+* **Γενικό**: Χρησιμοποιείται για την αποθήκευση **μεταδεδομένων** (οπότε ΔΕΝ ΕΙΝΑΙ ΚΡΥΠΤΟΓΡΑΦΗΜΕΝΟ)
+* Η Microsoft αποθήκευε όλα τα διακριτικά ανανέωσης σε καθαρό κείμενο για πρόσβαση σε ευαίσθητα σημεία πρόσβασης.
 
-## References
+## Αναφορές
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* Εάν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε

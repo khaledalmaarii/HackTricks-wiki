@@ -1,114 +1,71 @@
-# macOS Dangerous Entitlements & TCC perms
+# Επικίνδυνες Εξουσιοδοτήσεις και Άδειες TCC στο macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
 
 </details>
 
 {% hint style="warning" %}
-Note that entitlements starting with **`com.apple`** are not available to third-parties, only Apple can grant them.
+Σημειώστε ότι οι εξουσιοδοτήσεις που ξεκινούν με **`com.apple`** δεν είναι διαθέσιμες σε τρίτους, μόνο η Apple μπορεί να τις χορηγήσει.
 {% endhint %}
 
-## High
+## Υψηλό
 
 ### `com.apple.rootless.install.heritable`
 
-The entitlement **`com.apple.rootless.install.heritable`** allows to **bypass SIP**. Check [this for more info](macos-sip.md#com.apple.rootless.install.heritable).
+Η εξουσιοδότηση **`com.apple.rootless.install.heritable`** επιτρέπει την **παράκαμψη του SIP**. Ελέγξτε [εδώ για περισσότερες πληροφορίες](macos-sip.md#com.apple.rootless.install.heritable).
 
 ### **`com.apple.rootless.install`**
 
-The entitlement **`com.apple.rootless.install`** allows to **bypass SIP**. Check[ this for more info](macos-sip.md#com.apple.rootless.install).
+Η εξουσιοδότηση **`com.apple.rootless.install`** επιτρέπει την **παράκαμψη του SIP**. Ελέγξτε [εδώ για περισσότερες πληροφορίες](macos-sip.md#com.apple.rootless.install).
 
-### **`com.apple.system-task-ports` (previously called `task_for_pid-allow`)**
+### **`com.apple.system-task-ports` (προηγουμένως ονομαζόταν `task_for_pid-allow`)**
 
-This entitlement allows to get the **task port for any** process, except the kernel. Check [**this for more info**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Αυτή η εξουσιοδότηση επιτρέπει την απόκτηση της **task port για οποιαδήποτε** διεργασία, εκτός από τον πυρήνα. Ελέγξτε [**εδώ για περισσότερες πληροφορίες**](../mac-os-architecture/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-This entitlement allows other processes with the **`com.apple.security.cs.debugger`** entitlement to get the task port of the process run by the binary with this entitlement and **inject code on it**. Check [**this for more info**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Αυτή η εξουσιοδότηση επιτρέπει σε άλλες διεργασίες με την εξουσιοδότηση **`com.apple.security.cs.debugger`** να αποκτήσουν την task port της διεργασίας που εκτελείται από το δυαδικό αρχείο με αυτήν την εξουσιοδότηση και να **εισάγουν κώδικα σε αυτήν**. Ελέγξτε [**εδώ για περισσότερες πληροφορίες**](../mac-os-architecture/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
-Apps with the Debugging Tool Entitlement can call `task_for_pid()` to retrieve a valid task port for unsigned and third-party apps with the `Get Task Allow` entitlement set to `true`. However, even with the debugging tool entitlement, a debugger **can’t get the task ports** of processes that **don’t have the `Get Task Allow` entitlement**, and that are therefore protected by System Integrity Protection. Check [**this for more info**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Οι εφαρμογές με την εξουσιοδότηση Debugging Tool μπορούν να καλέσουν την `task_for_pid()` για να ανακτήσουν μια έγκυρη task port για μη υπογεγραμμένες και τρίτες εφαρμογές με την εξουσιοδότηση `Get Task Allow` που έχει οριστεί σε `true`. Ωστόσο, ακόμα και με την εξουσιοδότηση του εργαλείου αποσφαλμάτωσης, ένας αποσφαλματωτής **δεν μπορεί να αποκτήσει τις task ports** των διεργασιών που **δεν έχουν την εξουσιοδότηση `Get Task Allow`**, και που προστατεύονται επομένως από το System Integrity Protection. Ελέγξτε [**εδώ για περισσότερες πληροφορίες**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
-This entitlement allows to **load frameworks, plug-ins, or libraries without being either signed by Apple or signed with the same Team ID** as the main executable, so an attacker could abuse some arbitrary library load to inject code. Check [**this for more info**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Αυτή η εξουσιοδότηση επιτρέπει την **φόρτωση πλαισίων, προσθέτων ή βιβλιοθηκών χωρίς να έχουν υπογραφεί από την Apple ή να έχουν υπογραφεί με το ίδιο Team ID** όπως το κύριο εκτελέσιμο, οπότε ένας επιτιθέμενος μπορεί να καταχραστεί μια αυθαίρετη φόρτωση βιβλιοθήκης για να εισάγει κώδικα. Ελέγξτε [**εδώ για περισσότερες πληροφορίες**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
-This entitlement is very similar to **`com.apple.security.cs.disable-library-validation`** but **instead** of **directly disabling** library validation, it allows the process to **call a `csops` system call to disable it**.\
-Check [**this for more info**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
-
-### `com.apple.security.cs.allow-dyld-environment-variables`
-
-This entitlement allows to **use DYLD environment variables** that could be used to inject libraries and code. Check [**this for more info**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
-
-### `com.apple.private.tcc.manager` or `com.apple.rootless.storage`.`TCC`
-
-[**According to this blog**](https://objective-see.org/blog/blog\_0x4C.html) **and** [**this blog**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), these entitlements allows to **modify** the **TCC** database.
-
-### **`system.install.apple-software`** and **`system.install.apple-software.standar-user`**
-
-These entitlements allows to **install software without asking for permissions** to the user, which can be helpful for a **privilege escalation**.
-
-### `com.apple.private.security.kext-management`
-
-Entitlement needed to ask the **kernel to load a kernel extension**.
-
-### **`com.apple.private.icloud-account-access`**
-
-The entitlement **`com.apple.private.icloud-account-access`** it's possible to communicate with **`com.apple.iCloudHelper`** XPC service which will **provide iCloud tokens**.
-
-**iMovie** and **Garageband** had this entitlement.
-
-For more **information** about the exploit to **get icloud tokens** from that entitlement check the talk: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
-
-### `com.apple.private.tcc.manager.check-by-audit-token`
-
-TODO: I don't know what this allows to do
-
-### `com.apple.private.apfs.revert-to-snapshot`
-
-TODO: In [**this report**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **is mentioned that this could be used to** update the SSV-protected contents after a reboot. If you know how it send a PR please!
-
-### `com.apple.private.apfs.create-sealed-snapshot`
-
-TODO: In [**this report**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **is mentioned that this could be used to** update the SSV-protected contents after a reboot. If you know how it send a PR please!
-
-### `keychain-access-groups`
-
-This entitlement list **keychain** groups the application has access to:
-
+Αυτή η εξουσιοδότηση είναι πολύ παρόμοια με την **`com.apple.security.cs.disable-library-validation`**, αλλά αντί να απενεργοποιεί απευθείας τον έλεγχο της βιβλιοθήκης, επιτρέπει στη διεργασία να καλέσει ένα σύστημα κλήσης `csops` για να τον απενεργοπ
 ```xml
 <key>keychain-access-groups</key>
 <array>
-        <string>ichat</string>
-        <string>apple</string>
-        <string>appleaccount</string>
-        <string>InternetAccounts</string>
-        <string>IMCore</string>
+<string>ichat</string>
+<string>apple</string>
+<string>appleaccount</string>
+<string>InternetAccounts</string>
+<string>IMCore</string>
 </array>
 ```
-
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
-Gives **Full Disk Access** permissions, one of the TCC highest permissions you can have.
+Παρέχει δικαιώματα **Πλήρης Πρόσβασης στον Δίσκο**, ένα από τα υψηλότερα δικαιώματα TCC που μπορεί να έχει κάποιος.
 
 ### **`kTCCServiceAppleEvents`**
 
-Allows the app to send events to other applications that are commonly used for **automating tasks**. Controlling other apps, it can abuse the permissions granted to these other apps.
+Επιτρέπει στην εφαρμογή να στέλνει γεγονότα σε άλλες εφαρμογές που συνήθως χρησιμοποιούνται για την **αυτοματοποίηση εργασιών**. Ελέγχοντας άλλες εφαρμογές, μπορεί να καταχραστεί τα δικαιώματα που έχουν χορηγηθεί σε αυτές τις εφαρμογές.
 
-Like making them ask the user for its password:
+Όπως για παράδειγμα να τις καθησυχάσει να ζητήσουν από τον χρήστη τον κωδικό του:
 
 {% code overflow="wrap" %}
 ```bash
@@ -116,48 +73,48 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 ```
 {% endcode %}
 
-Or making them perform **arbitrary actions**.
+Ή να τους κάνει να εκτελούν **οποιεσδήποτε ενέργειες**.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
-Allows, among other permissions, to **write the users TCC database**.
+Επιτρέπει, μεταξύ άλλων δικαιωμάτων, την **εγγραφή στη βάση δεδομένων TCC των χρηστών**.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Allows to **change** the **`NFSHomeDirectory`** attribute of a user that changes his home folder path and therefore allows to **bypass TCC**.
+Επιτρέπει την **αλλαγή** του χαρακτηριστικού **`NFSHomeDirectory`** ενός χρήστη που αλλάζει τη διαδρομή του φακέλου του αρχικού φακέλου και επομένως επιτρέπει την **παράκαμψη του TCC**.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Allow to modify files inside apps bundle (inside app.app), which is **disallowed by default**.
+Επιτρέπει την τροποποίηση αρχείων μέσα στο πακέτο των εφαρμογών (μέσα στο app.app), το οποίο απαγορεύεται από προεπιλογή.
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-It's possible to check who has this access in _System Settings_ > _Privacy & Security_ > _App Management._
+Είναι δυνατό να ελεγχθεί ποιος έχει πρόσβαση σε αυτήν την εξουσιοδότηση στις _Ρυθμίσεις συστήματος_ > _Απόρρητο & Ασφάλεια_ > _Διαχείριση εφαρμογών_.
 
 ### `kTCCServiceAccessibility`
 
-The process will be able to **abuse the macOS accessibility features**, Which means that for example he will be able to press keystrokes. SO he could request access to control an app like Finder and approve the dialog with this permission.
+Η διαδικασία θα μπορεί να **καταχραστεί τις δυνατότητες προσβασιμότητας του macOS**, πράγμα που σημαίνει ότι για παράδειγμα θα μπορεί να πατήσει πλήκτρα. Έτσι, θα μπορούσε να ζητήσει πρόσβαση για να ελέγξει μια εφαρμογή όπως ο Finder και να εγκρίνει το παράθυρο διαλόγου με αυτήν την άδεια.
 
-## Medium
+## Μεσαίο
 
 ### `com.apple.security.cs.allow-jit`
 
-This entitlement allows to **create memory that is writable and executable** by passing the `MAP_JIT` flag to the `mmap()` system function. Check [**this for more info**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+Αυτή η εξουσιοδότηση επιτρέπει τη **δημιουργία μνήμης που είναι εγγράψιμη και εκτελέσιμη** περνώντας τη σημαία `MAP_JIT` στη συνάρτηση συστήματος `mmap()`. Ελέγξτε [**αυτό για περισσότερες πληροφορίες**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-This entitlement allows to **override or patch C code**, use the long-deprecated **`NSCreateObjectFileImageFromMemory`** (which is fundamentally insecure), or use the **DVDPlayback** framework. Check [**this for more info**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Αυτή η εξουσιοδότηση επιτρέπει τη **παράκαμψη ή την τροποποίηση του C κώδικα**, τη χρήση της παλαιάς και αποσυρμένης συνάρτησης **`NSCreateObjectFileImageFromMemory`** (η οποία είναι θεμελιωδώς ανασφαλής), ή τη χρήση του πλαισίου **DVDPlayback**. Ελέγξτε [**αυτό για περισσότερες πληροφορίες**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Including this entitlement exposes your app to common vulnerabilities in memory-unsafe code languages. Carefully consider whether your app needs this exception.
+Η συμπερίληψη αυτής της εξουσιοδότησης εκθέτει την εφαρμογή σας σε κοινές ευπάθειες σε γλώσσες κώδικα με μνήμη που δεν είναι ασφαλείς. Σκεφτείτε προσεκτικά εάν η εφαρμογή σας χρειάζεται αυτήν την εξαίρεση.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-This entitlement allows to **modify sections of its own executable files** on disk to forcefully exit. Check [**this for more info**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
+Αυτή η εξουσιοδότηση επιτρέπει τη **τροποποίηση τμημάτων των ίδιων εκτελέσιμων αρχείων** στον δίσκο για να εξέλθει με βία. Ελέγξτε [**αυτό για περισσότερες πληροφορίες**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-The Disable Executable Memory Protection Entitlement is an extreme entitlement that removes a fundamental security protection from your app, making it possible for an attacker to rewrite your app’s executable code without detection. Prefer narrower entitlements if possible.
+Η εξουσιοδότηση Απενεργοποίησης Προστασίας Εκτελέσιμης Μνήμης είναι μια ακραία εξουσιοδότηση που αφαιρεί μια θεμελιώδη προστασία ασφαλείας από την εφαρμογή σας, καθιστώντας δυνατή την επανεγγραφή του εκτελέσιμου κώδικα της εφαρμογής σας από έναν επιτιθέμενο χωρίς ανίχνευση. Προτιμήστε πιο περιορισμένες εξουσιοδοτήσεις, αν είναι δυνατόν.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -166,33 +123,31 @@ TODO
 
 ### `com.apple.private.nullfs_allow`
 
-This entitlement allows to mount a nullfs file system (forbidden by default). Tool: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
+Αυτή η εξουσιοδότηση επιτρέπει την προσάρτηση ενός αρχείου συστήματος nullfs (απαγορευμένο από προεπιλογή). Εργαλείο: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
 
 ### `kTCCServiceAll`
 
-According to this blogpost, this TCC permission usually found in the form:
-
+Σύμφωνα με αυτήν την ανάρτηση στο blog, αυτή η άδεια TCC συνήθως βρίσκεται στη μορφή:
 ```
 [Key] com.apple.private.tcc.allow-prompting
-	[Value]
-		[Array]
-			[String] kTCCServiceAll
+[Value]
+[Array]
+[String] kTCCServiceAll
 ```
-
-Allow the process to **ask for all the TCC permissions**.
+Επιτρέψτε στη διαδικασία να ζητήσει όλες τις άδειες TCC.
 
 ### **`kTCCServicePostEvent`**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

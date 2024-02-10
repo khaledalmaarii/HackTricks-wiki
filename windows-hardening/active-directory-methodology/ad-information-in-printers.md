@@ -1,82 +1,72 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 
-There are several blogs in the Internet which **highlight the dangers of leaving printers configured with LDAP with default/weak** logon credentials.\
-This is because an attacker could **trick the printer to authenticate against a rouge LDAP server** (typically a `nc -vv -l -p 444` is enough) and to capture the printer **credentials on clear-text**.
+Υπάρχουν αρκετά ιστολόγια στο Διαδίκτυο που **επισημαίνουν τους κινδύνους της αφήνοντας τους εκτυπωτές ρυθμισμένους με LDAP με προεπιλεγμένα/αδύναμα** διαπιστευτήρια σύνδεσης.\
+Αυτό συμβαίνει επειδή ένας επιτιθέμενος μπορεί να **εξαπατήσει τον εκτυπωτή για να πιστοποιηθεί έναν ψεύτικο διακομιστή LDAP** (συνήθως ένα `nc -vv -l -p 444` είναι αρκετό) και να καταγράψει τα διαπιστευτήρια του εκτυπωτή **σε καθαρό κείμενο**.
 
-Also, several printers will contains **logs with usernames** or could even be able to **download all usernames** from the Domain Controller.
+Επίσης, αρκετοί εκτυπωτές θα περιέχουν **αρχεία καταγραφής με ονόματα χρηστών** ή ακόμα και θα μπορούν να **κατεβάσουν όλα τα ονόματα χρηστών** από τον ελεγκτή του τομέα.
 
-All this **sensitive information** and the common **lack of security** makes printers very interesting for attackers.
+Όλες αυτές οι **ευαίσθητες πληροφορίες** και η συνηθισμένη **έλλειψη ασφάλειας** καθιστούν τους εκτυπωτές πολύ ενδιαφέροντες για τους επιτιθέμενους.
 
-Some blogs about the topic:
+Ορισμένα ιστολόγια για το θέμα:
 
 * [https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/](https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/)
 * [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 
-## Printer Configuration
-- **Location**: The LDAP server list is found at: `Network > LDAP Setting > Setting Up LDAP`.
-- **Behavior**: The interface allows LDAP server modifications without re-entering credentials, aiming for user convenience but posing security risks.
-- **Exploit**: The exploit involves redirecting the LDAP server address to a controlled machine and leveraging the "Test Connection" feature to capture credentials.
+## Ρύθμιση Εκτυπωτή
+- **Τοποθεσία**: Ο κατάλογος του διακομιστή LDAP βρίσκεται στο: `Δίκτυο > Ρύθμιση LDAP > Ρύθμιση LDAP`.
+- **Συμπεριφορά**: Η διεπαφή επιτρέπει τροποποιήσεις στον διακομιστή LDAP χωρίς να ξανακαταχωρίζετε τα διαπιστευτήρια, με σκοπό την ευκολία του χρήστη αλλά προκαλώντας κινδύνους ασφάλειας.
+- **Εκμετάλλευση**: Η εκμετάλλευση περιλαμβάνει την ανακατεύθυνση της διεύθυνσης του διακομιστή LDAP σε έναν ελεγχόμενο υπολογιστή και την αξιοποίηση της λειτουργίας "Έλεγχος Σύνδεσης" για την καταγραφή των διαπιστευτηρίων.
 
-## Capturing Credentials
+## Καταγραφή Διαπιστευτηρίων
 
-**For more detailed steps, refer to the original [source](https://grimhacker.com/2018/03/09/just-a-printer/).**
+**Για περισσότερες λεπτομερείς οδηγίες, ανατρέξτε στην αρχική [πηγή](https://grimhacker.com/2018/03/09/just-a-printer/).**
 
-### Method 1: Netcat Listener
-A simple netcat listener might suffice:
-
+### Μέθοδος 1: Ακροατής Netcat
+Ένας απλός ακροατής netcat μπορεί να είναι αρκετός:
 ```bash
 sudo nc -k -v -l -p 386
 ```
+### Μέθοδος 2: Πλήρης διακομιστής LDAP με το Slapd
+Μια πιο αξιόπιστη προσέγγιση περιλαμβάνει τη δημιουργία ενός πλήρους διακομιστή LDAP, επειδή ο εκτυπωτής πραγματοποιεί ένα null bind ακολουθούμενο από μια ερώτηση πριν προσπαθήσει να συνδεθεί με διαπιστευτήρια.
 
-However, this method's success varies.
-
-### Method 2: Full LDAP Server with Slapd
-A more reliable approach involves setting up a full LDAP server because the printer performs a null bind followed by a query before attempting credential binding.
-
-1. **LDAP Server Setup**: The guide follows steps from [this source](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
-2. **Key Steps**:
-    - Install OpenLDAP.
-    - Configure admin password.
-    - Import basic schemas.
-    - Set domain name on LDAP DB.
-    - Configure LDAP TLS.
-3. **LDAP Service Execution**: Once set up, the LDAP service can be run using:
-
+1. **Ρύθμιση διακομιστή LDAP**: Ο οδηγός ακολουθεί τα βήματα από [αυτή την πηγή](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
+2. **Κύρια βήματα**:
+- Εγκατάσταση του OpenLDAP.
+- Ρύθμιση του κωδικού διαχειριστή.
+- Εισαγωγή βασικών σχημάτων.
+- Ορισμός ονόματος τομέα στη βάση δεδομένων LDAP.
+- Ρύθμιση του LDAP TLS.
+3. **Εκτέλεση υπηρεσίας LDAP**: Αφού ολοκληρωθεί η ρύθμιση, η υπηρεσία LDAP μπορεί να εκτελεστεί χρησιμοποιώντας:
 ```bash
 slapd -d 2
 ```
-
-## References
+## Αναφορές
 * [https://grimhacker.com/2018/03/09/just-a-printer/](https://grimhacker.com/2018/03/09/just-a-printer/)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΛΑΝΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
-
-

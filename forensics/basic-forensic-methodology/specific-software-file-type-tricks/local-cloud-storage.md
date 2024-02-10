@@ -1,138 +1,112 @@
-# Local Cloud Storage
+# Τοπική Αποθήκευση Νέφους
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## OneDrive
 
-In Windows, you can find the OneDrive folder in `\Users\<username>\AppData\Local\Microsoft\OneDrive`. And inside `logs\Personal` it's possible to find the file `SyncDiagnostics.log` which contains some interesting data regarding the synchronized files:
+Στα Windows, μπορείτε να βρείτε τον φάκελο του OneDrive στον δρόμο `\Users\<username>\AppData\Local\Microsoft\OneDrive`. Και μέσα στον φάκελο `logs\Personal` είναι δυνατόν να βρείτε το αρχείο `SyncDiagnostics.log` που περιέχει μερικά ενδιαφέροντα δεδομένα σχετικά με τα συγχρονισμένα αρχεία:
 
-* Size in bytes
-* Creation date
-* Modification date
-* Number of files in the cloud
-* Number of files in the folder
-* **CID**: Unique ID of the OneDrive user
-* Report generation time
-* Size of the HD of the OS
+* Μέγεθος σε bytes
+* Ημερομηνία δημιουργίας
+* Ημερομηνία τροποποίησης
+* Αριθμός αρχείων στο νέφος
+* Αριθμός αρχείων στον φάκελο
+* **CID**: Μοναδικό αναγνωριστικό του χρήστη του OneDrive
+* Χρόνος δημιουργίας αναφοράς
+* Μέγεθος του σκληρού δίσκου του λειτουργικού συστήματος
 
-Once you have found the CID it's recommended to **search files containing this ID**. You may be able to find files with the name: _**\<CID>.ini**_ and _**\<CID>.dat**_ that may contain interesting information like the names of files synchronized with OneDrive.
+Αφού βρείτε το CID, συνίσταται να **αναζητήσετε αρχεία που περιέχουν αυτό το αναγνωριστικό**. Μπορείτε να βρείτε αρχεία με τα ονόματα: _**\<CID>.ini**_ και _**\<CID>.dat**_ που μπορεί να περιέχουν ενδιαφέρουσες πληροφορίες όπως τα ονόματα των αρχείων που συγχρονίζονται με το OneDrive.
 
 ## Google Drive
 
-In Windows, you can find the main Google Drive folder in `\Users\<username>\AppData\Local\Google\Drive\user_default`\
-This folder contains a file called Sync\_log.log with information like the email address of the account, filenames, timestamps, MD5 hashes of the files, etc. Even deleted files appear in that log file with its corresponding MD5.
+Στα Windows, μπορείτε να βρείτε τον κύριο φάκελο του Google Drive στον δρόμο `\Users\<username>\AppData\Local\Google\Drive\user_default`\
+Αυτός ο φάκελος περιέχει ένα αρχείο με το όνομα Sync\_log.log με πληροφορίες όπως η διεύθυνση email του λογαριασμού, τα ονόματα αρχείων, οι χρονοσφραγίδες, τα MD5 hashes των αρχείων, κλπ. Ακόμα και τα διαγραμμένα αρχεία εμφανίζονται σε αυτό το αρχείο καταγραφής με το αντίστοιχο MD5 τους.
 
-The file **`Cloud_graph\Cloud_graph.db`** is a sqlite database which contains the table **`cloud_graph_entry`**. In this table you can find the **name** of the **synchronized** **files**, modified time, size, and the MD5 checksum of the files.
+Το αρχείο **`Cloud_graph\Cloud_graph.db`** είναι μια βάση δεδομένων sqlite που περιέχει τον πίνακα **`cloud_graph_entry`**. Σε αυτόν τον πίνακα μπορείτε να βρείτε το **όνομα** των **συγχρονισμένων** **αρχείων**, την τροποποιημένη ώρα, το μέγεθος και το MD5 checksum των αρχείων.
 
-The table data of the database **`Sync_config.db`** contains the email address of the account, the path of the shared folders and the Google Drive version.
+Τα δεδομένα του πίνακα της βάσης δεδομένων **`Sync_config.db`** περιέχουν τη διεύθυνση email του λογαριασμού, τη διαδρομή των κοινόχρηστων φακέλων και την έκδοση του Google Drive.
 
 ## Dropbox
 
-Dropbox uses **SQLite databases** to manage the files. In this\
-You can find the databases in the folders:
+Η Dropbox χρησιμοποιεί **βάσεις δεδομένων SQLite** για τη διαχείριση των αρχείων. Σε αυτόν\
+Μπορείτε να βρείτε τις βάσεις δεδομένων στους φακέλους:
 
 * `\Users\<username>\AppData\Local\Dropbox`
 * `\Users\<username>\AppData\Local\Dropbox\Instance1`
 * `\Users\<username>\AppData\Roaming\Dropbox`
 
-And the main databases are:
+Και οι κύριες βάσεις δεδομένων είναι:
 
 * Sigstore.dbx
 * Filecache.dbx
 * Deleted.dbx
 * Config.dbx
 
-The ".dbx" extension means that the **databases** are **encrypted**. Dropbox uses **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
-
-To understand better the encryption that Dropbox uses you can read [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
-
-However, the main information is:
-
-* **Entropy**: d114a55212655f74bd772e37e64aee9b
-* **Salt**: 0D638C092E8B82FC452883F95F355B8E
-* **Algorithm**: PBKDF2
-* **Iterations**: 1066
-
-Apart from that information, to decrypt the databases you still need:
-
-* The **encrypted DPAPI key**: You can find it in the registry inside `NTUSER.DAT\Software\Dropbox\ks\client` (export this data as binary)
-* The **`SYSTEM`** and **`SECURITY`** hives
-* The **DPAPI master keys**: Which can be found in `\Users\<username>\AppData\Roaming\Microsoft\Protect`
-* The **username** and **password** of the Windows user
-
-Then you can use the tool [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
-
-![](<../../../.gitbook/assets/image (448).png>)
-
-If everything goes as expected, the tool will indicate the **primary key** that you need to **use to recover the original one**. To recover the original one, just use this [cyber\_chef receipt](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) putting the primary key as the "passphrase" inside the receipt.
-
-The resulting hex is the final key used to encrypt the databases which can be decrypted with:
-
+Η επέκταση ".dbx" σημαίνει ότι οι **βάσεις δεδομένων** είναι **κρυπτογραφημένες**. Η Dropbox χρησιμοποιεί το **DPAPI** ([https://docs.microsoft.com
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
+Η βάση δεδομένων **`config.dbx`** περιέχει:
 
-The **`config.dbx`** database contains:
+* **Email**: Το email του χρήστη
+* **usernamedisplayname**: Το όνομα του χρήστη
+* **dropbox\_path**: Η διαδρομή όπου βρίσκεται ο φάκελος του Dropbox
+* **Host\_id: Hash**: Χρησιμοποιείται για την πιστοποίηση στο cloud. Μπορεί να ανακληθεί μόνο από τον ιστό.
+* **Root\_ns**: Αναγνωριστικό χρήστη
 
-* **Email**: The email of the user
-* **usernamedisplayname**: The name of the user
-* **dropbox\_path**: Path where the dropbox folder is located
-* **Host\_id: Hash** used to authenticate to the cloud. This can only be revoked from the web.
-* **Root\_ns**: User identifier
+Η βάση δεδομένων **`filecache.db`** περιέχει πληροφορίες για όλα τα αρχεία και φακέλους που συγχρονίζονται με το Dropbox. Ο πίνακας `File_journal` είναι αυτός με τις περισσότερες χρήσιμες πληροφορίες:
 
-The **`filecache.db`** database contains information about all the files and folders synchronized with Dropbox. The table `File_journal` is the one with more useful information:
+* **Server\_path**: Διαδρομή όπου βρίσκεται το αρχείο μέσα στον διακομιστή (αυτή η διαδρομή προηγείται από το `host_id` του πελάτη).
+* **local\_sjid**: Έκδοση του αρχείου
+* **local\_mtime**: Ημερομηνία τροποποίησης
+* **local\_ctime**: Ημερομηνία δημιουργίας
 
-* **Server\_path**: Path where the file is located inside the server (this path is preceded by the `host_id` of the client).
-* **local\_sjid**: Version of the file
-* **local\_mtime**: Modification date
-* **local\_ctime**: Creation date
+Άλλοι πίνακες μέσα σε αυτήν τη βάση δεδομένων περιέχουν περισσότερες ενδιαφέρουσες πληροφορίες:
 
-Other tables inside this database contain more interesting information:
-
-* **block\_cache**: hash of all the files and folders of Dropbox
-* **block\_ref**: Related the hash ID of the table `block_cache` with the file ID in the table `file_journal`
-* **mount\_table**: Share folders of dropbox
-* **deleted\_fields**: Dropbox deleted files
+* **block\_cache**: hash όλων των αρχείων και φακέλων του Dropbox
+* **block\_ref**: Σχετίζει το αναγνωριστικό hash του πίνακα `block_cache` με το αναγνωριστικό αρχείου στον πίνακα `file_journal`
+* **mount\_table**: Κοινόχρηστοι φάκελοι του Dropbox
+* **deleted\_fields**: Διαγραμμένα αρχεία του Dropbox
 * **date\_added**
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να αυτοματοποιήσετε εργασιακές διαδικασίες με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την εταιρεία σας να διαφημίζεται στο HackTricks ή να κατεβάσετε το HackTricks σε μορφή PDF, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github.
 
 </details>

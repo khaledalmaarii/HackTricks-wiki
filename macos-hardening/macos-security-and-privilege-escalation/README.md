@@ -1,45 +1,45 @@
-# macOS Security & Privilege Escalation
+# Ασφάλεια και Επέκταση Προνομίων στο macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Συμμετάσχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Εγγραφείτε στον [**διακομιστή HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) για να επικοινωνήσετε με έμπειρους χάκερ και κυνηγούς ευρημάτων ασφαλείας!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Εισαγωγή στο Χάκινγκ**\
+Ασχοληθείτε με περιεχόμενο που εξερευνά τον ενθουσιασμό και τις προκλήσεις του χάκινγκ
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Ειδήσεις Χάκινγκ σε Πραγματικό Χρόνο**\
+Μείνετε ενημερωμένοι με τον γρήγορο ρυθμό του κόσμου του χάκινγκ μέσω ειδήσεων και αναλύσεων σε πραγματικό χρόνο
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**Τελευταίες Ανακοινώσεις**\
+Μείνετε ενημερωμένοι με τις νεότερες ευρήματα ασφαλείας που κυκλοφορούν και τις κρίσιμες ενημερώσεις των πλατφορμών
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Συμμετέχετε στο** [**Discord**](https://discord.com/invite/N3FrSbmwdy) **και αρχίστε να συνεργάζεστε με τους κορυφαίους χάκερ σήμερα!**
 
-## Basic MacOS
+## Βασικά για το macOS
 
-If you are not familiar with macOS, you should start learning the basics of macOS:
+Εάν δεν είστε εξοικειωμένοι με το macOS, θα πρέπει να ξεκινήσετε με τις βασικές γνώσεις του macOS:
 
-* Special macOS **files & permissions:**
+* Ειδικά αρχεία και δικαιώματα του macOS:
 
 {% content-ref url="macos-files-folders-and-binaries/" %}
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
 {% endcontent-ref %}
 
-* Common macOS **users**
+* Συνηθισμένοι χρήστες του macOS
 
 {% content-ref url="macos-users.md" %}
 [macos-users.md](macos-users.md)
@@ -51,90 +51,47 @@ If you are not familiar with macOS, you should start learning the basics of macO
 [macos-applefs.md](macos-applefs.md)
 {% endcontent-ref %}
 
-* The **architecture** of the k**ernel**
+* Η **αρχιτεκτονική** του πυρήνα
 
 {% content-ref url="mac-os-architecture/" %}
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Common macOS n**etwork services & protocols**
+* Συνηθισμένες υπηρεσίες και πρωτόκολλα δικτύου του macOS
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
 * **Opensource** macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
-  * To download a `tar.gz` change a URL such as [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) to [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
+* Για να κατεβάσετε ένα `tar.gz` αλλάξτε μια διεύθυνση URL όπως [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) σε [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 
-### MacOS MDM
+### Διαχείριση MDM στο macOS
 
-In companies **macOS** systems are highly probably going to be **managed with a MDM**. Therefore, from the perspective of an attacker is interesting to know **how that works**:
+Στις εταιρείες τα συστήματα **macOS** πιθανόν να διαχειρίζονται με ένα MDM. Επομένως, από την οπτική γωνία ενός επιτιθέμενου είναι ενδιαφέρον να γνωρίζει **πώς λειτουργεί** αυτό:
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
 {% endcontent-ref %}
 
-### MacOS - Inspecting, Debugging and Fuzzing
+### Έλεγχος, Αποσφαλμάτωση και Fuzzing στο macOS
 
 {% content-ref url="macos-apps-inspecting-debugging-and-fuzzing/" %}
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
 {% endcontent-ref %}
 
-## MacOS Security Protections
+## Προστασίες Ασφάλειας του macOS
 
 {% content-ref url="macos-security-protections/" %}
 [macos-security-protections](macos-security-protections/)
 {% endcontent-ref %}
 
-## Attack Surface
+## Επιθέσεις
 
-### File Permissions
+### Δικαιώματα Αρχείων
 
-If a **process running as root writes** a file that can be controlled by a user, the user could abuse this to **escalate privileges**.\
-This could occur in the following situations:
-
-* File used was already created by a user (owned by the user)
-* File used is writable by the user because of a group
-* File used is inside a directory owned by the user (the user could create the file)
-* File used is inside a directory owned by root but user has write access over it because of a group (the user could create the file)
-
-Being able to **create a file** that is going to be **used by root**, allows a user to **take advantage of its content** or even create **symlinks/hardlinks** to point it to another place.
-
-For this kind of vulnerabilities don't forget to **check vulnerable `.pkg` installers**:
-
-{% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
-[macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
-{% endcontent-ref %}
-
-
-
-### File Extension & URL scheme app handlers
-
-Weird apps registered by file extensions could be abused and different applications can be register to open specific protocols
-
-{% content-ref url="macos-file-extension-apps.md" %}
-[macos-file-extension-apps.md](macos-file-extension-apps.md)
-{% endcontent-ref %}
-
-## macOS TCC / SIP Privilege Escalation
-
-In macOS **applications and binaries can have permissions** to access folders or settings that make them more privileged than others.
-
-Therefore, an attacker that wants to successfully compromise a macOS machine will need to **escalate its TCC privileges** (or even **bypass SIP**, depending on his needs).
-
-These privileges are usually given in the form of **entitlements** the application is signed with, or the application might requested some accesses and after the **user approving them** they can be found in the **TCC databases**. Another way a process can obtain these privileges is by being a **child of a process** with those **privileges** as they are usually **inherited**.
-
-Follow these links to find different was to [**escalate privileges in TCC**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), to [**bypass TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) and how in the past [**SIP has been bypassed**](macos-security-protections/macos-sip.md#sip-bypasses).
-
-## macOS Traditional Privilege Escalation
-
-Of course from a red teams perspective you should be also interested in escalating to root. Check the following post for some hints:
-
-{% content-ref url="macos-privilege-escalation.md" %}
-[macos-privilege-escalation.md](macos-privilege-escalation.md)
-{% endcontent-ref %}
-
-## References
+Εάν ένα **διεργασία που εκτελείται ως root γράφει** ένα αρχείο που μπορεί να ελεγχθεί από έναν χρήστη, ο χρήστη
+## Αναφορές
 
 * [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
@@ -144,29 +101,29 @@ Of course from a red teams perspective you should be also interested in escalati
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Συμμετέχετε στον διακομιστή [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) για να επικοινωνήσετε με έμπειρους χάκερ και κυνηγούς ευρημάτων ασφαλείας!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Εισαγωγή στο Hacking**\
+Ασχοληθείτε με περιεχόμενο που εξερευνά τον ενθουσιασμό και τις προκλήσεις του χάκινγκ.
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Ειδήσεις Χάκινγκ σε Πραγματικό Χρόνο**\
+Μείνετε ενημερωμένοι με τον γρήγορο ρυθμό του κόσμου του χάκινγκ μέσω ειδήσεων και αναλύσεων σε πραγματικό χρόνο.
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**Τελευταίες Ανακοινώσεις**\
+Μείνετε ενημερωμένοι με τις νεότερες ευρήματα ασφαλείας που κυκλοφορούν και τις κρίσιμες ενημερώσεις των πλατφορμών.
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Συμμετέχετε στο** [**Discord**](https://discord.com/invite/N3FrSbmwdy) **και αρχίστε να συνεργάζεστε με τους κορυφαίους χάκερ σήμερα!**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Συμμετάσχετε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) **και** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **αποθετήρια του github.**
 
 </details>

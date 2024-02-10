@@ -1,14 +1,14 @@
-# macOS Gatekeeper / Quarantine / XProtect
+# macOS Gatekeeper / Καραντίνα / XProtect
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Εγγραφείτε** [**💬**](https://emojipedia.org/speech-balloon/) [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ τρικς σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
 *
 * .
 
@@ -16,30 +16,21 @@
 
 ## Gatekeeper
 
-**Gatekeeper** is a security feature developed for Mac operating systems, designed to ensure that users **run only trusted software** on their systems. It functions by **validating software** that a user downloads and attempts to open from **sources outside the App Store**, such as an app, a plug-in, or an installer package.
+Το **Gatekeeper** είναι μια λειτουργία ασφαλείας που αναπτύχθηκε για τα λειτουργικά συστήματα Mac, σχεδιασμένη για να εξασφαλίζει ότι οι χρήστες **εκτελούν μόνο αξιόπιστο λογισμικό** στα συστήματά τους. Λειτουργεί με τον **έλεγχο του λογισμικού** που ένας χρήστης κατεβάζει και προσπαθεί να ανοίξει από **πηγές εκτός του App Store**, όπως μια εφαρμογή, ένα πρόσθετο ή ένα πακέτο εγκατάστασης.
 
-The key mechanism of Gatekeeper lies in its **verification** process. It checks if the downloaded software is **signed by a recognized developer**, ensuring the software's authenticity. Further, it ascertains whether the software is **notarised by Apple**, confirming that it is devoid of known malicious content and has not been tampered with after notarisation.
+Ο βασικός μηχανισμός του Gatekeeper βρίσκεται στη διαδικασία του **έλεγχου**. Ελέγχει εάν το κατεβασμένο λογισμικό είναι **υπογεγραμμένο από αναγνωρισμένο προγραμματιστή**, εξασφαλίζοντας την αυθεντικότητα του λογισμικού. Επιπλέον, ελέγχει εάν το λογισμικό έχει **επικυρωθεί από την Apple**, επιβεβαιώνοντας ότι είναι απαλλαγμένο από γνωστό κακόβουλο περιεχόμενο και δεν έχει τροποποιηθεί μετά την επικύρωση.
 
-Additionally, Gatekeeper reinforces user control and security by **prompting users to approve the opening** of downloaded software for the first time. This safeguard helps prevent users from inadvertently running potentially harmful executable code that they may have mistaken for a harmless data file.
+Επιπλέον, το Gatekeeper ενισχύει τον έλεγχο και την ασφάλεια του χρήστη με το **ζήτημα έγκρισης από τον χρήστη** για το άνοιγμα του κατεβασμένου λογισμικού για πρώτη φορά. Αυτός ο μηχανισμός ασφαλείας βοηθά να αποτραπεί η ακούσια εκτέλεση πιθανώς επιβλαβούς εκτελέσιμου κώδικα που ο χρήστης μπορεί να έχει παρερμηνεύσει ως ακίνδυνο αρχείο δεδομένων.
 
-### Application Signatures
+### Υπογραφές Εφαρμογών
 
-Application signatures, also known as code signatures, are a critical component of Apple's security infrastructure. They're used to **verify the identity of the software author** (the developer) and to ensure that the code hasn't been tampered with since it was last signed.
+Οι υπογραφές εφαρμογών, γνωστές επίσης ως υπογραφές κώδικα, είναι ένα κρίσιμο στοιχείο της ασφάλειας της Apple. Χρησιμοποιούνται για να **επαληθεύσουν την ταυτότητα του συγγραφέα του λογισμικού** (του προγραμματιστή) και να εξασφαλίσουν ότι ο κώδικας δεν έχει τροποποιηθεί από την τελευταία φορά που υπογράφηκε.
 
-Here's how it works:
+Ας δούμε πώς λειτουργεί:
 
-1. **Signing the Application:** When a developer is ready to distribute their application, they **sign the application using a private key**. This private key is associated with a **certificate that Apple issues to the developer** when they enrol in the Apple Developer Program. The signing process involves creating a cryptographic hash of all parts of the app and encrypting this hash with the developer's private key.
-2. **Distributing the Application:** The signed application is then distributed to users along with the developer's certificate, which contains the corresponding public key.
-3. **Verifying the Application:** When a user downloads and attempts to run the application, their Mac operating system uses the public key from the developer's certificate to decrypt the hash. It then recalculates the hash based on the current state of the application and compares this with the decrypted hash. If they match, it means **the application hasn't been modified** since the developer signed it, and the system permits the application to run.
-
-Application signatures are an essential part of Apple's Gatekeeper technology. When a user attempts to **open an application downloaded from the internet**, Gatekeeper verifies the application signature. If it's signed with a certificate issued by Apple to a known developer and the code hasn't been tampered with, Gatekeeper permits the application to run. Otherwise, it blocks the application and alerts the user.
-
-Starting from macOS Catalina, **Gatekeeper also checks whether the application has been notarized** by Apple, adding an extra layer of security. The notarization process checks the application for known security issues and malicious code, and if these checks pass, Apple adds a ticket to the application that Gatekeeper can verify.
-
-#### Check Signatures
-
-When checking some **malware sample** you should always **check the signature** of the binary as the **developer** that signed it may be already **related** with **malware.**
-
+1. **Υπογραφή της Εφαρμογής:** Όταν ένας προγραμματιστής είναι έτοιμος να διανείμει την εφαρμογή του, **υπογράφει την εφαρμογή χρησιμοποιώντας ένα ιδιωτικό κλειδί**. Αυτό το ιδιωτικό κλειδί συσχετίζεται με ένα **πιστοποιητικό που η Apple εκδίδει στον προγραμματιστή** όταν εγγράφεται στο Apple Developer Program. Η διαδικασία υπογραφής περιλαμβάνει τη δημιουργία ενός κρυπτογραφικού hash όλων των μερών της εφαρμογής και την κρυπτογράφηση αυτού του hash με το ιδιωτικό κλειδί του προγραμματιστή.
+2. **Διανομή της Εφαρμογής:** Η υπογεγραμμένη εφαρμογή διανέμεται στους χρήστες μαζί με το πιστοποιητικό του προγραμματιστή, που περιέχει το αντίστοιχο δημόσιο κλειδί.
+3. **Επαλήθευση της Εφαρμογής:** Όταν ένας χρήστης κατεβάζει και προσπαθεί να εκτελέσει την εφαρμογή, το λειτουργικό σύστημα Mac χρησιμοποιεί το δημόσιο κλειδί από το πιστοποιητικό του προγραμματιστή για να αποκρυπτογραφήσει το hash. Στη συνέχεια, υπολογίζει ξανά το hash με βάση την τρέχουσα κατάσταση της εφαρμογής και συγκρίνει αυτό με το αποκρυπτογραφημένο hash. Εά
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -56,36 +47,32 @@ spctl --assess --verbose /Applications/Safari.app
 # Sign a binary
 codesign -s <cert-name-keychain> toolsdemo
 ```
+### Επικύρωση
 
-### Notarization
+Η διαδικασία επικύρωσης της Apple λειτουργεί ως μια επιπλέον προστασία για τους χρήστες από πιθανά επιβλαβές λογισμικό. Περιλαμβάνει τον **προγραμματιστή να υποβάλει την εφαρμογή του για εξέταση** από την **Υπηρεσία Επικύρωσης της Apple**, η οποία δεν πρέπει να συγχέεται με την Αναθεώρηση Εφαρμογών. Αυτή η υπηρεσία είναι ένα **αυτοματοποιημένο σύστημα** που εξετάζει το υποβληθέν λογισμικό για την παρουσία **κακόβουλου περιεχομένου** και οποιαδήποτε πιθανά προβλήματα με την υπογραφή του κώδικα.
 
-Apple's notarization process serves as an additional safeguard to protect users from potentially harmful software. It involves the **developer submitting their application for examination** by **Apple's Notary Service**, which should not be confused with App Review. This service is an **automated system** that scrutinizes the submitted software for the presence of **malicious content** and any potential issues with code-signing.
+Εάν το λογισμικό **περάσει** αυτόν τον έλεγχο χωρίς να προκαλέσει ανησυχίες, η Υπηρεσία Επικύρωσης δημιουργεί ένα εισιτήριο επικύρωσης. Ο προγραμματιστής είναι τότε υποχρεωμένος να **συνδέσει αυτό το εισιτήριο στο λογισμικό του**, μια διαδικασία που ονομάζεται 'συνδεσμοποίηση'. Επιπλέον, το εισιτήριο επικύρωσης δημοσιεύεται επίσης στο διαδίκτυο, όπου το Gatekeeper, η τεχνολογία ασφαλείας της Apple, μπορεί να το ανακτήσει.
 
-If the software **passes** this inspection without raising any concerns, the Notary Service generates a notarization ticket. The developer is then required to **attach this ticket to their software**, a process known as 'stapling.' Furthermore, the notarization ticket is also published online where Gatekeeper, Apple's security technology, can access it.
+Κατά την πρώτη εγκατάσταση ή εκτέλεση του λογισμικού από τον χρήστη, η ύπαρξη του εισιτηρίου επικύρωσης - είτε συνδεδεμένου με το εκτελέσιμο είτε βρεθεί στο διαδίκτυο - **ενημερώνει το Gatekeeper ότι το λογισμικό έχει επικυρωθεί από την Apple**. Ως αποτέλεσμα, το Gatekeeper εμφανίζει ένα περιγραφικό μήνυμα στο αρχικό παράθυρο εκκίνησης, που υποδεικνύει ότι το λογισμικό έχει υποβληθεί σε έλεγχο για κακόβουλο περιεχόμενο από την Apple. Με αυτήν τη διαδικασία, ενισχύεται η εμπιστοσύνη των χρηστών στην ασφάλεια του λογισμικού που εγκαθιστούν ή εκτελούν στα συστήματά τους.
 
-Upon the user's first installation or execution of the software, the existence of the notarization ticket - whether stapled to the executable or found online - **informs Gatekeeper that the software has been notarized by Apple**. As a result, Gatekeeper displays a descriptive message in the initial launch dialog, indicating that the software has undergone checks for malicious content by Apple. This process thereby enhances user confidence in the security of the software they install or run on their systems.
+### Απαρίθμηση του GateKeeper
 
-### Enumerating GateKeeper
+Το GateKeeper είναι τόσο **πολλαπλά στοιχεία ασφαλείας** που αποτρέπουν την εκτέλεση μη αξιόπιστων εφαρμογών, όσο και **ένα από τα στοιχεία**.
 
-GateKeeper is both, **several security components** that prevent untrusted apps from being executed and also **one of the components**.
-
-It's possible to see the **status** of GateKeeper with:
-
+Είναι δυνατόν να δείτε την **κατάσταση** του GateKeeper με:
 ```bash
 # Check the status
 spctl --status
 ```
-
 {% hint style="danger" %}
-Note that GateKeeper signature checks are performed only to **files with the Quarantine attribute**, not to every file.
+Σημείωση ότι οι έλεγχοι υπογραφής του GateKeeper πραγματοποιούνται μόνο σε **αρχεία με το χαρακτηριστικό Καραντίνα**, όχι σε κάθε αρχείο.
 {% endhint %}
 
-GateKeeper will check if according to the **preferences & the signature** a binary can be executed:
+Ο GateKeeper θα ελέγξει αν σύμφωνα με τις **προτιμήσεις και την υπογραφή** μια δυαδική μπορεί να εκτελεστεί:
 
 <figure><img src="../../../.gitbook/assets/image (678).png" alt=""><figcaption></figcaption></figure>
 
-The database that keeps this configuration ins located in **`/var/db/SystemPolicy`**. You can check this database as root with:
-
+Η βάση δεδομένων που διατηρεί αυτή τη διαμόρφωση βρίσκεται στο **`/var/db/SystemPolicy`**. Μπορείτε να ελέγξετε αυτήν τη βάση δεδομένων ως ριζικός χρήστης με:
 ```bash
 # Open database
 sqlite3 /var/db/SystemPolicy
@@ -99,12 +86,10 @@ anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] exists
 anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists and (certificate leaf[field.1.2.840.113635.100.6.1.14] or certificate leaf[field.1.2.840.113635.100.6.1.13]) and notarized|1|0|Notarized Developer ID
 [...]
 ```
+Παρατηρήστε πώς ο πρώτος κανόνας τελείωσε σε "**App Store**" και ο δεύτερος σε "**Developer ID**" και ότι στην προηγούμενη εικόνα ήταν **ενεργοποιημένη η εκτέλεση εφαρμογών από το App Store και από τους εντοπισμένους προγραμματιστές**.\
+Εάν **τροποποιήσετε** αυτήν τη ρύθμιση σε App Store, οι κανόνες "**Notarized Developer ID" θα εξαφανιστούν**.
 
-Note how the first rule ended in "**App Store**" and the second one in "**Developer ID**" and that in the previous imaged it was **enabled to execute apps from the App Store and identified developers**.\
-If you **modify** that setting to App Store, the "**Notarized Developer ID" rules will disappear**.
-
-There are also thousands of rules of **type GKE**:
-
+Υπάρχουν επίσης χιλιάδες κανόνες τύπου GKE:
 ```bash
 SELECT requirement,allow,disabled,label from authority where label = 'GKE' limit 5;
 cdhash H"b40281d347dc574ae0850682f0fd1173aa2d0a39"|1|0|GKE
@@ -113,17 +98,13 @@ cdhash H"4317047eefac8125ce4d44cab0eb7b1dff29d19a"|1|0|GKE
 cdhash H"0a71962e7a32f0c2b41ddb1fb8403f3420e1d861"|1|0|GKE
 cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
 ```
+Αυτά είναι τα hashes που προέρχονται από τα **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** και **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**
 
-These are hashes that come from **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** and **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**
-
-Or you could list the previous info with:
-
+Ή μπορείτε να αναφέρετε τις προηγούμενες πληροφορίες με:
 ```bash
 sudo spctl --list
 ```
-
-The options **`--master-disable`** and **`--global-disable`** of **`spctl`** will completely **disable** these signature checks:
-
+Οι επιλογές **`--master-disable`** και **`--global-disable`** του **`spctl`** θα απενεργοποιήσουν εντελώς αυτούς τους έλεγχους υπογραφής:
 ```bash
 # Disable GateKeeper
 spctl --global-disable
@@ -133,22 +114,18 @@ spctl --master-disable
 spctl --global-enable
 spctl --master-enable
 ```
-
-When completely enabled, a new option will appear:
+Όταν είναι πλήρως ενεργοποιημένο, θα εμφανιστεί μια νέα επιλογή:
 
 <figure><img src="../../../.gitbook/assets/image (679).png" alt=""><figcaption></figcaption></figure>
 
-It's possible to **check if an App will be allowed by GateKeeper** with:
-
+Είναι δυνατόν να **ελεγχθεί εάν μια εφαρμογή θα επιτραπεί από το GateKeeper** με:
 ```bash
 spctl --assess -v /Applications/App.app
 ```
-
-It's possible to add new rules in GateKeeper to allow the execution of certain apps with:
-
+Είναι δυνατόν να προστεθούν νέοι κανόνες στο GateKeeper για να επιτραπεί η εκτέλεση συγκεκριμένων εφαρμογών με:
 ```bash
 # Check if allowed - nop
-spctl --assess -v /Applications/App.app          
+spctl --assess -v /Applications/App.app
 /Applications/App.app: rejected
 source=no usable signature
 
@@ -157,32 +134,30 @@ sudo spctl --add --label "whitelist" /Applications/App.app
 sudo spctl --enable --label "whitelist"
 
 # Check again - yep
-spctl --assess -v /Applications/App.app            
+spctl --assess -v /Applications/App.app
 /Applications/App.app: accepted
 ```
+### Αρχεία Καραντίνας
 
-### Quarantine Files
+Κατά την **λήψη** μιας εφαρμογής ή αρχείου, συγκεκριμένες εφαρμογές του macOS, όπως οι περιηγητές ιστού ή οι πελάτες ηλεκτρονικού ταχυδρομείου, **προσθέτουν ένα επεκτεινόμενο χαρακτηριστικό αρχείου**, γνωστό ως "**σημαία καραντίνας**", στο κατεβασμένο αρχείο. Αυτό το χαρακτηριστικό λειτουργεί ως μέτρο ασφαλείας για να **επισημάνει το αρχείο** ως προερχόμενο από μη έμπιστη πηγή (το διαδίκτυο) και πιθανώς να φέρει κινδύνους. Ωστόσο, όχι όλες οι εφαρμογές προσθέτουν αυτό το χαρακτηριστικό, για παράδειγμα, οι συνηθισμένοι πελάτες BitTorrent παρακάμπτουν συνήθως αυτήν τη διαδικασία.
 
-Upon **downloading** an application or file, specific macOS **applications** such as web browsers or email clients **attach an extended file attribute**, commonly known as the "**quarantine flag**," to the downloaded file. This attribute acts as a security measure to **mark the file** as coming from an untrusted source (the internet), and potentially carrying risks. However, not all applications attach this attribute, for instance, common BitTorrent client software usually bypasses this process.
+**Η παρουσία της σημαίας καραντίνας ενημερώνει το χαρακτηριστικό ασφαλείας Gatekeeper του macOS όταν ο χρήστης προσπαθεί να εκτελέσει το αρχείο**.
 
-**The presence of a quarantine flag signals macOS's Gatekeeper security feature when a user attempts to execute the file**.
-
-In the case where the **quarantine flag is not present** (as with files downloaded via some BitTorrent clients), Gatekeeper's **checks may not be performed**. Thus, users should exercise caution when opening files downloaded from less secure or unknown sources.
+Στην περίπτωση που **η σημαία καραντίνας δεν είναι παρούσα** (όπως στα αρχεία που λήφθηκαν μέσω ορισμένων πελατών BitTorrent), οι ελέγχοι του Gatekeeper **μπορεί να μην πραγματοποιηθούν**. Επομένως, οι χρήστες πρέπει να είναι προσεκτικοί όταν ανοίγουν αρχεία που έχουν ληφθεί από λιγότερο ασφαλείς ή άγνωστες πηγές.
 
 {% hint style="info" %}
-**Checking** the **validity** of code signatures is a **resource-intensive** process that includes generating cryptographic **hashes** of the code and all its bundled resources. Furthermore, checking certificate validity involves doing an **online check** to Apple's servers to see if it has been revoked after it was issued. For these reasons, a full code signature and notarization check is **impractical to run every time an app is launched**.
+Ο **έλεγχος** της **εγκυρότητας** των υπογραφών κώδικα είναι μια διαδικασία που απαιτεί πολλούς πόρους και περιλαμβάνει τη δημιουργία κρυπτογραφικών **κατακερματισμών** του κώδικα και όλων των συνοδευτικών πόρων του. Επιπλέον, ο έλεγχος της εγκυρότητας του πιστοποιητικού περιλαμβάνει μια **διαδικτυακή έλεγχο** στους διακομιστές της Apple για να δει αν έχει ανακληθεί μετά την έκδοσή του. Για αυτούς τους λόγους, ο πλήρης έλεγχος της υπογραφής κώδικα και της επικύρωσης δεν είναι **πρακτικός για να εκτελείται κάθε φορά που εκκινείται μια εφαρμογή**.
 
-Therefore, these checks are **only run when executing apps with the quarantined attribute.**
+Για αυτόν τον λόγο, αυτοί οι έλεγχοι **εκτελούνται μόνο όταν εκτελούνται εφαρμογές με το χαρακτηριστικό καραντίνας**.
 {% endhint %}
 
 {% hint style="warning" %}
-This attribute must be **set by the application creating/downloading** the file.
+Αυτό το χαρακτηριστικό πρέπει να **ορίζεται από την εφαρμογή που δημιουργεί/κατεβάζει** το αρχείο.
 
-However, files that are sandboxed will have this attribute set to every file they create. And non sandboxed apps can set it themselves, or specify the [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) key in the **Info.plist** which will make the system set the `com.apple.quarantine` extended attribute on the files created,
+Ωστόσο, τα αρχεία που είναι απομονωμένα θα έχουν αυτό το χαρακτηριστικό ορισμένο σε κάθε αρχείο που δημιουργούν. Και οι μη απομονωμένες εφαρμογές μπορούν να το ορίσουν μόνες τους ή να καθορίσουν το κλειδί [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) στο **Info.plist**, το οποίο θα κάνει το σύστημα να ορίσει το επεκτεινόμενο χαρακτηριστικό `com.apple.quarantine` στα δημιουργούμενα αρχεία.
 {% endhint %}
 
-It's possible to **check it's status and enable/disable** (root required) with:
-
+Είναι δυνατόν να **ελέγξετε την κατάστασή του και να ενεργοποιήσετε/απενεργοποιήσετε** (απαιτεί δικαιώματα διαχειριστή) με την εντολή:
 ```bash
 spctl --status
 assessments enabled
@@ -191,17 +166,13 @@ spctl --enable
 spctl --disable
 #You can also allow nee identifies to execute code using the binary "spctl"
 ```
-
-You can also **find if a file has the quarantine extended attribute** with:
-
+Μπορείτε επίσης να **βρείτε αν ένα αρχείο έχει το επιπλέον χαρακτηριστικό καραντίνας** με την εντολή:
 ```bash
 xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
-
-Check the **value** of the **extended** **attributes** and find out the app that wrote the quarantine attr with:
-
+Ελέγξτε τη **τιμή** των **επεκταμένων** **χαρακτηριστικών** και βρείτε την εφαρμογή που έγραψε το χαρακτηριστικό καραντίνας με:
 ```bash
 xattr -l portada.png
 com.apple.macl:
@@ -217,22 +188,20 @@ com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
 # Brave -- App
 # F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
 ```
-
-Actually a process "could set quarantine flags to the files it creates" (i tried to apply the USER\_APPROVED flag in a created file but it won't apply it):
+Πραγματικά, ένας διεργασία "μπορεί να ορίσει σημαίες καραντίνας στα αρχεία που δημιουργεί" (προσπάθησα να εφαρμόσω τη σημαία USER_APPROVED σε ένα δημιουργημένο αρχείο, αλλά δεν την εφάρμοσε):
 
 <details>
 
-<summary>Source Code apply quarantine flags</summary>
-
+<summary>Πηγαίος Κώδικας εφαρμογής σημαιών καραντίνας</summary>
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 
 enum qtn_flags {
-    QTN_FLAG_DOWNLOAD = 0x0001,
-    QTN_FLAG_SANDBOX = 0x0002,
-    QTN_FLAG_HARD = 0x0004,
-    QTN_FLAG_USER_APPROVED = 0x0040,
+QTN_FLAG_DOWNLOAD = 0x0001,
+QTN_FLAG_SANDBOX = 0x0002,
+QTN_FLAG_HARD = 0x0004,
+QTN_FLAG_USER_APPROVED = 0x0040,
 };
 
 #define qtn_proc_alloc _qtn_proc_alloc
@@ -268,33 +237,30 @@ int qtn_proc_set_identifier(qtn_proc_t qp, const char* bundleid);
 
 int main() {
 
-  qtn_proc_t qp = qtn_proc_alloc();
-  qtn_proc_set_identifier(qp, "xyz.hacktricks.qa");
-  qtn_proc_set_flags(qp, QTN_FLAG_DOWNLOAD | QTN_FLAG_USER_APPROVED);
-  qtn_proc_apply_to_self(qp);
-  qtn_proc_free(qp);
+qtn_proc_t qp = qtn_proc_alloc();
+qtn_proc_set_identifier(qp, "xyz.hacktricks.qa");
+qtn_proc_set_flags(qp, QTN_FLAG_DOWNLOAD | QTN_FLAG_USER_APPROVED);
+qtn_proc_apply_to_self(qp);
+qtn_proc_free(qp);
 
-  FILE *fp;
-  fp = fopen("thisisquarantined.txt", "w+");
-  fprintf(fp, "Hello Quarantine\n");
-  fclose(fp);
+FILE *fp;
+fp = fopen("thisisquarantined.txt", "w+");
+fprintf(fp, "Hello Quarantine\n");
+fclose(fp);
 
-  return 0;
-  
+return 0;
+
 }
 ```
-
 </details>
 
-And **remove** that attribute with:
-
+Και **αφαιρέστε** αυτήν την ιδιότητα με:
 ```bash
 xattr -d com.apple.quarantine portada.png
 #You can also remove this attribute from every file with
 find . -iname '*' -print0 | xargs -0 xattr -d com.apple.quarantine
 ```
-
-And find all the quarantined files with:
+Και βρείτε όλα τα καραντιναρισμένα αρχεία με:
 
 {% code overflow="wrap" %}
 ```bash
@@ -302,21 +268,21 @@ find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; pri
 ```
 {% endcode %}
 
-Quarantine information is also stored in a central database managed by LaunchServices in **`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**.
+Οι πληροφορίες της καραντίνας αποθηκεύονται επίσης σε μια κεντρική βάση δεδομένων που διαχειρίζεται η LaunchServices στο **`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**.
 
 #### **Quarantine.kext**
 
-The kernel extension is only available through the **kernel cache on the system**; however, you _can_ download the **Kernel Debug Kit from https://developer.apple.com/**, which will contain a symbolicated version of the extension.
+Η επέκταση πυρήνα είναι διαθέσιμη μόνο μέσω της **προσωρινής μνήμης του πυρήνα στο σύστημα**. Ωστόσο, μπορείτε να κατεβάσετε το **Kernel Debug Kit από τη διεύθυνση https://developer.apple.com/**, το οποίο θα περιέχει μια συμβολική έκδοση της επέκτασης.
 
 ### XProtect
 
-XProtect is a built-in **anti-malware** feature in macOS. XProtect **checks any application when it's first launched or modified against its database** of known malware and unsafe file types. When you download a file through certain apps, such as Safari, Mail, or Messages, XProtect automatically scans the file. If it matches any known malware in its database, XProtect will **prevent the file from running** and alert you to the threat.
+Το XProtect είναι μια ενσωματωμένη λειτουργία **αντι-κακόβουλου λογισμικού** στο macOS. Το XProtect **ελέγχει κάθε εφαρμογή όταν την εκτελέσετε για πρώτη φορά ή την τροποποιήσετε, σε σχέση με τη βάση δεδομένων του** γνωστού κακόβουλου λογισμικού και των μη ασφαλών τύπων αρχείων. Όταν κατεβάζετε ένα αρχείο μέσω ορισμένων εφαρμογών, όπως το Safari, το Mail ή το Messages, το XProtect σαρώνει αυτόματα το αρχείο. Εάν ταιριάζει με οποιοδήποτε γνωστό κακόβουλο λογισμικό στη βάση δεδομένων του, το XProtect θα **αποτρέψει την εκτέλεση του αρχείου** και θα σας ειδοποιήσει για τον κίνδυνο.
 
-The XProtect database is **updated regularly** by Apple with new malware definitions, and these updates are automatically downloaded and installed on your Mac. This ensures that XProtect is always up-to-date with the latest known threats.
+Η βάση δεδομένων του XProtect ενημερώνεται **τακτικά** από την Apple με νέους ορισμούς κακόβουλου λογισμικού, και αυτές οι ενημερώσεις λαμβάνονται και εγκαθίστανται αυτόματα στο Mac σας. Αυτό εξασφαλίζει ότι το XProtect είναι πάντα ενημερωμένο με τις τελευταίες γνωστές απειλές.
 
-However, it's worth noting that **XProtect isn't a full-featured antivirus solution**. It only checks for a specific list of known threats and doesn't perform on-access scanning like most antivirus software.
+Ωστόσο, αξίζει να σημειωθεί ότι το **XProtect δεν είναι μια πλήρως λειτουργική λύση αντιιούστρωσης**. Ελέγχει μόνο μια συγκεκριμένη λίστα γνωστών απειλών και δεν πραγματοποιεί σάρωση κατά την πρόσβαση όπως η πλειονότητα των λογισμικών αντιιούστρωσης.
 
-You can get information about the latest XProtect update running:
+Μπορείτε να λάβετε πληροφορίες για την τελευταία ενημέρωση του XProtect εκτελώντας:
 
 {% code overflow="wrap" %}
 ```bash
@@ -324,79 +290,73 @@ system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistC
 ```
 {% endcode %}
 
-XProtect is located on. SIP protected location at **/Library/Apple/System/Library/CoreServices/XProtect.bundle** and inside the bundle you can find information XProtect uses:
+Το XProtect βρίσκεται σε προστατευμένη τοποθεσία SIP στο **/Library/Apple/System/Library/CoreServices/XProtect.bundle** και μέσα στο bundle μπορείτε να βρείτε τις πληροφορίες που χρησιμοποιεί το XProtect:
 
-* **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: Allows code with those cdhashes to use legacy entitlements.
-* **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: List of plugins and extensions that are disallowed to load via BundleID and TeamID or indicating a minimum version.
-* **`XProtect.bundle/Contents/Resources/XProtect.yara`**: Yara rules to detect malware.
-* **`XProtect.bundle/Contents/Resources/gk.db`**: SQLite3 database with hashes of blocked applications and TeamIDs.
+* **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: Επιτρέπει στον κώδικα με αυτά τα cdhashes να χρησιμοποιεί παλαιές εξουσιοδοτήσεις.
+* **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: Λίστα προσθέτων και επεκτάσεων που δεν επιτρέπεται να φορτωθούν μέσω του BundleID και TeamID ή που υποδεικνύουν μια ελάχιστη έκδοση.
+* **`XProtect.bundle/Contents/Resources/XProtect.yara`**: Κανόνες Yara για την ανίχνευση κακόβουλου λογισμικού.
+* **`XProtect.bundle/Contents/Resources/gk.db`**: Βάση δεδομένων SQLite3 με κατακερματισμένες εφαρμογές και TeamIDs που έχουν αποκλειστεί.
 
-Note that there is another App in **`/Library/Apple/System/Library/CoreServices/XProtect.app`** related to XProtect that isn't involved with the Gatekeeper process.
+Σημειώστε ότι υπάρχει μια άλλη εφαρμογή στο **`/Library/Apple/System/Library/CoreServices/XProtect.app`** που σχετίζεται με το XProtect και δεν συμμετέχει στη διαδικασία του Gatekeeper.
 
-### Not Gatekeeper
+### Όχι Gatekeeper
 
 {% hint style="danger" %}
-Note that Gatekeeper **isn't executed every time** you execute an application, just _**AppleMobileFileIntegrity**_ (AMFI) will only **verify executable code signatures** when you execute an app that has been already executed and verified by Gatekeeper.
+Σημειώστε ότι το Gatekeeper **δεν εκτελείται κάθε φορά** που εκτελείτε μια εφαρμογή, απλώς ο _**AppleMobileFileIntegrity**_ (AMFI) θα επιβεβαιώσει μόνο τις υπογραφές του εκτελέσιμου κώδικα όταν εκτελείτε μια εφαρμογή που έχει ήδη εκτελεστεί και επιβεβαιωθεί από το Gatekeeper.
 {% endhint %}
 
-Therefore, previously it was possible to execute an app to cache it with Gatekeeper, then **modify not executables files of the application** (like Electron asar or NIB files) and if no other protections were in place, the application was **executed** with the **malicious** additions.
+Επομένως, προηγουμένως ήταν δυνατό να εκτελεστεί μια εφαρμογή για να την κρυφτεί με το Gatekeeper, στη συνέχεια να **τροποποιηθούν μη εκτελέσιμα αρχεία της εφαρμογής** (όπως τα αρχεία Electron asar ή NIB) και αν δεν υπήρχαν άλλες προστασίες, η εφαρμογή εκτελούνταν με τις **κακόβουλες** προσθήκες.
 
-However, now this is not possible because macOS **prevents modifying files** inside applications bundles. So, if you try the [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md) attack, you will find that it's not longer possible to abuse it because after executing the app to cache it with Gatekeeper, you won't be able to modify the bundle. And if you change for example the name of the Contents directory to NotCon (as indicated in the exploit), and then execute the main binary of the app to cache it with Gatekeeper, it will trigger an error and won't execute.
+Ωστόσο, τώρα αυτό δεν είναι δυνατό επειδή το macOS **αποτρέπει την τροποποίηση αρχείων** μέσα στα πακέτα των εφαρμογών. Έτσι, αν προσπαθήσετε την επίθεση [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), θα διαπιστώσετε ότι δεν είναι πλέον δυνατή η κατάχρησή της επειδή μετά την εκτέλεση της εφαρμογής για να την κρυφτεί με το Gatekeeper, δεν θα μπορείτε να τροποποιήσετε το πακέτο. Και αν αλλάξετε, για παράδειγμα, το όνομα του καταλόγου Contents σε NotCon (όπως υποδεικνύεται στην εκμετάλλευση), και στη συνέχεια εκτελέσετε τον κύριο δυαδικό της εφαρμογής για να την κρυφτεί με το Gatekeeper, θα προκαλέσει ένα σφάλμα και δεν θα εκτελεστεί.
 
-## Gatekeeper Bypasses
+## Παράκαμψη του Gatekeeper
 
-Any way to bypass Gatekeeper (manage to make the user download something and execute it when Gatekeeper should disallow it) is considered a vulnerability in macOS. These are some CVEs assigned to techniques that allowed to bypass Gatekeeper in the past:
+Οποιοδήποτε τρόπος παράκαμψης του Gatekeeper (καταφέρνοντας να κάνετε τον χρήστη να κατεβάσει και να εκτελέσει κάτι όταν ο Gatekeeper θα έπρεπε να το απαγορεύσει) θεωρείται ευπάθεια στο macOS. Αυτά είναι μερικά CVE που έχουν ανατεθεί σε τεχνικές που επέτρεπαν την παράκαμψη του Gatekeeper στο παρελθόν:
 
 ### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
 
-It was observed that if the **Archive Utility** is used for extraction, files with **paths exceeding 886 characters** do not receive the com.apple.quarantine extended attribute. This situation inadvertently allows those files to **circumvent Gatekeeper's** security checks.
+Παρατηρήθηκε ότι εάν χρησιμοποιηθεί το **Archive Utility** για την αποσυμπίεση, τα αρχεία με **μονοπάτια που υπερβαίνουν τους 886 χαρακτήρες** δεν λαμβάνουν το επεκτεινόμενο χαρακτηριστικό com.apple.quarantine. Αυτή η κατάσταση επιτρέπει κατά λάθος σε αυτά τα αρχεία να **παρακάμψουν τους έλεγχους ασφαλείας** του Gatekeeper.
 
-Check the [**original report**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810) for more information.
+Ελέγξτε την [**αρχική αναφορά**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810) για περισσότερες πληροφορίες.
 
 ### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
 
-When an application is created with **Automator**, the information about what it needs to execute is inside `application.app/Contents/document.wflow` not in the executable. The executable is just a generic Automator binary called **Automator Application Stub**.
+Όταν δημιουργείται μια εφαρμογή με το **Automator**, οι πληροφορίες για το τι χρειάζεται να εκτελεστεί βρίσκονται μέσα στο `application.app/Contents/document.wflow` και όχι στο εκτελέσιμο. Το εκτελέσιμο είναι απλώς ένα γενικό δυαδικό του Automator που ονομάζεται **Automator Application Stub**.
 
-Therefore, you could make `application.app/Contents/MacOS/Automator\ Application\ Stub` **point with a symbolic link to another Automator Application Stub inside the system** and it will execute what is inside `document.wflow` (you script) **without triggering Gatekeeper** because the actual executable doesn't have the quarantine xattr.&#x20;
+Επομένως, μπορείτε να κάνετε το `application.app/Contents/MacOS/Automator\ Application\ Stub` **να δείχνει με ένα συμβολικό σύνδεσμο σε ένα άλλο Automator Application Stub μέσα στο σύστημα** και θα εκτελεί αυτό που βρίσκεται μέσα στο `document.wflow` (το σενάριό σας) **χωρίς να ενεργοποιεί τον Gatekeeper** επειδή το πραγματικό εκτελέσιμο δεν έχει το quarantine xattr.
 
-Example os expected location: `/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
+Παράδειγμα αναμενόμενης τοποθεσίας: `/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
 
-Check the [**original report**](https://ronmasas.com/posts/bypass-macos-gatekeeper) for more information.
+Ελέγξτε την [**αρχική αναφορά**](https://ronmasas.com/posts/bypass-macos-gatekeeper) για περισσότερες πληροφορίες.
 
 ### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
-In this bypass a zip file was created with an application starting to compress from `application.app/Contents` instead of `application.app`.  Therefore, the **quarantine attr** was applied to all the **files from `application.app/Contents`** but **not to `application.app`**, which is was Gatekeeper was checking, so Gatekeeper was bypassed because when `application.app` was triggered it **didn't have the quarantine attribute.**
-
+Σε αυτήν την παράκαμψη δημιουργήθηκε ένα αρχείο zip με μια εφαρμογή που ξεκινά τη συμπίεση από το `application.app/Contents` αντί για το `application.app`. Επομένως, το **χαρακτηριστικό καραντίνας** εφαρμόστηκε σε όλα τα **αρχεία από το `application.app/Contents`** αλλά **όχι στο `application.app`**, που ήταν αυτό που ελέγχονταν από
 ```bash
 zip -r test.app/Contents test.zip
 ```
-
-Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) for more information.
+Ελέγξτε την [**αρχική αναφορά**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) για περισσότερες πληροφορίες.
 
 ### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
-Even if the components are different the exploitation of this vulnerability is very similar to the previous one. In this case with will generate an Apple Archive from **`application.app/Contents`** so **`application.app` won't get the quarantine attr** when decompressed by **Archive Utility**.
-
+Ακόμα κι αν οι συστατικές είναι διαφορετικές, η εκμετάλλευση αυτής της ευπάθειας είναι πολύ παρόμοια με την προηγούμενη. Σε αυτήν την περίπτωση, θα δημιουργήσουμε ένα Apple Archive από το **`application.app/Contents`**, έτσι ώστε το **`application.app` να μην λάβει το χαρακτηριστικό καραντίνας** όταν αποσυμπιέζεται από το **Archive Utility**.
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
-
-Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/) for more information.
+Ελέγξτε την [**αρχική αναφορά**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/) για περισσότερες πληροφορίες.
 
 ### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
 
-The ACL **`writeextattr`** can be used to prevent anyone from writing an attribute in a file:
-
+Το ACL **`writeextattr`** μπορεί να χρησιμοποιηθεί για να αποτρέψει οποιονδήποτε από το να γράψει ένα χαρακτηριστικό σε ένα αρχείο:
 ```bash
 touch /tmp/no-attr
 chmod +a "everyone deny writeextattr" /tmp/no-attr
 xattr -w attrname vale /tmp/no-attr
 xattr: [Errno 13] Permission denied: '/tmp/no-attr'
 ```
+Επιπλέον, η μορφή αρχείου **AppleDouble** αντιγράφει ένα αρχείο συμπεριλαμβάνοντας τις ACEs του.
 
-Moreover, **AppleDouble** file format copies a file including its ACEs.
-
-In the [**source code**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) it's possible to see that the ACL text representation stored inside the xattr called **`com.apple.acl.text`**  is going to be set as ACL in the decompressed file. So, if you compressed an application into a zip file with **AppleDouble** file format with an ACL that prevents other xattrs to be written to it... the quarantine xattr wasn't set into de application:
+Στον [**πηγαίο κώδικα**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) είναι δυνατό να δούμε ότι η αναπαράσταση κειμένου του ACL που αποθηκεύεται μέσα στο xattr με το όνομα **`com.apple.acl.text`** θα οριστεί ως ACL στο αποσυμπιεσμένο αρχείο. Έτσι, αν συμπιέσετε μια εφαρμογή σε ένα αρχείο zip με τη μορφή αρχείου **AppleDouble** και έχετε ένα ACL που αποτρέπει την εγγραφή άλλων xattrs σε αυτό... το xattr της καραντίνας δεν θα οριστεί στην εφαρμογή:
 
 {% code overflow="wrap" %}
 ```bash
@@ -407,24 +367,22 @@ python3 -m http.server
 ```
 {% endcode %}
 
-Check the [**original report**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) for more information.
+Ελέγξτε την [**αρχική αναφορά**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) για περισσότερες πληροφορίες.
 
-Note that this could also be be exploited with AppleArchives:
-
+Σημειώστε ότι αυτό μπορεί επίσης να εκμεταλλευτεί με το AppleArchives:
 ```bash
 mkdir app
 touch app/test
 chmod +a "everyone deny write,writeattr,writeextattr" app/test
 aa archive -d app -o test.aar
 ```
-
 ### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
 
-It was discovered that **Google Chrome wasn't setting the quarantine attribute** to downloaded files because of some macOS internal problems.
+Ανακαλύφθηκε ότι το **Google Chrome δεν έθετε το χαρακτηριστικό καραντίνας** σε κατεβασμένα αρχεία λόγω ορισμένων εσωτερικών προβλημάτων του macOS.
 
 ### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
 
-AppleDouble file formats store the attributes of a file in a separate file starting by `._`, this helps to copy dile attributes **across macOS machines**. However, it was noticed that after decompressing an AppleDouble file, the file starting with `._` **wasn't given the quarantine attribute**.
+Τα αρχεία μορφής AppleDouble αποθηκεύουν τα χαρακτηριστικά ενός αρχείου σε ένα ξεχωριστό αρχείο που ξεκινά με `._`, αυτό βοηθά στην αντιγραφή των χαρακτηριστικών των αρχείων **σε διάφορες συσκευές macOS**. Ωστόσο, παρατηρήθηκε ότι μετά την αποσυμπίεση ενός αρχείου AppleDouble, το αρχείο που ξεκινά με `._` **δεν είχε το χαρακτηριστικό καραντίνας**.
 
 {% code overflow="wrap" %}
 ```bash
@@ -438,9 +396,8 @@ aa archive -d test/ -o test.aar
 ```
 {% endcode %}
 
-Being able to create a file that won't have the quarantine attribute set, it was **possible to bypass Gatekeeper.** The trick was to **create a DMG file application** using the AppleDouble name convention (start it with `._`) and create a **visible file as a sym link to this hidden** file without the quarantine attribute.\
-When the **dmg file is executed**, as it doesn't have a quarantine attribute it'll **bypass Gatekeeper**.
-
+Με τη δυνατότητα δημιουργίας ενός αρχείου που δεν θα έχει το χαρακτηριστικό καραντίνας, ήταν **δυνατό να παρακάμψουμε το Gatekeeper**. Το κόλπο ήταν να **δημιουργήσουμε ένα αρχείο DMG εφαρμογή** χρησιμοποιώντας το συμβατικό όνομα AppleDouble (ξεκινάμε με `._`) και να δημιουργήσουμε ένα **ορατό αρχείο ως σύνδεσμος προς αυτό το κρυφό** αρχείο χωρίς το χαρακτηριστικό καραντίνας.\
+Όταν το **αρχείο dmg εκτελείται**, καθώς δεν έχει το χαρακτηριστικό καραντίνας, θα **παρακάμπτει το Gatekeeper**.
 ```bash
 # Create an app bundle with the backdoor an call it app.app
 
@@ -448,7 +405,7 @@ echo "[+] creating disk image with app"
 hdiutil create -srcfolder app.app app.dmg
 
 echo "[+] creating directory and files"
-mkdir 
+mkdir
 mkdir -p s/app
 cp app.dmg s/app/._app.dmg
 ln -s ._app.dmg s/app/app.dmg
@@ -456,21 +413,20 @@ ln -s ._app.dmg s/app/app.dmg
 echo "[+] compressing files"
 aa archive -d s/ -o app.aar
 ```
+### Αποτροπή Χαρακτηριστικού Καραντίνας
 
-### Prevent Quarantine xattr
-
-In an ".app" bundle if the quarantine xattr is not added to it, when executing it **Gatekeeper won't be triggered**.
+Σε ένα πακέτο ".app", αν το χαρακτηριστικό καραντίνας δεν προστεθεί σε αυτό, όταν το εκτελέσουμε **δεν θα ενεργοποιηθεί ο Gatekeeper**.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Συμμετάσχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
 
 </details>

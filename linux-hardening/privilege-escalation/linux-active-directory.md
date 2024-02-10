@@ -2,27 +2,27 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Εγγραφείτε** [**💬**](https://emojipedia.org/speech-balloon/) [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-A linux machine can also be present inside an Active Directory environment.
+Ένα linux μηχάνημα μπορεί επίσης να βρίσκεται μέσα σε ένα περιβάλλον Active Directory.
 
-A linux machine in an AD might be **storing different CCACHE tickets inside files. This tickets can be used and abused as any other kerberos ticket**. In order to read this tickets you will need to be the user owner of the ticket or **root** inside the machine.
+Ένα linux μηχάνημα σε ένα AD μπορεί να **αποθηκεύει διάφορα CCACHE εισιτήρια μέσα σε αρχεία. Αυτά τα εισιτήρια μπορούν να χρησιμοποιηθούν και καταχραστεί όπως οποιοδήποτε άλλο εισιτήριο kerberos**. Για να διαβάσετε αυτά τα εισιτήρια, θα πρέπει να είστε ο κάτοχος του εισιτηρίου ως χρήστης ή **root** μέσα στο μηχάνημα.
 
-## Enumeration
+## Απαρίθμηση
 
-### AD enumeration from linux
+### Απαρίθμηση AD από linux
 
-If you have access over an AD in linux (or bash in Windows) you can try [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) to enumerate the AD.
+Εάν έχετε πρόσβαση σε ένα AD σε linux (ή bash σε Windows) μπορείτε να δοκιμάσετε το [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) για να απαριθμήσετε το AD.
 
-You can also check the following page to learn **other ways to enumerate AD from linux**:
+Μπορείτε επίσης να ελέγξετε την ακόλουθη σελίδα για να μάθετε **άλλους τρόπους απαρίθμησης του AD από linux**:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -30,28 +30,27 @@ You can also check the following page to learn **other ways to enumerate AD from
 
 ### FreeIPA
 
-FreeIPA is an open-source **alternative** to Microsoft Windows **Active Directory**, mainly for **Unix** environments. It combines a complete **LDAP directory** with an MIT **Kerberos** Key Distribution Center for management akin to Active Directory. Utilizing the Dogtag **Certificate System** for CA & RA certificate management, it supports **multi-factor** authentication, including smartcards. SSSD is integrated for Unix authentication processes. Learn more about it in:
+Το FreeIPA είναι μια ανοιχτού κώδικα **εναλλακτική λύση** για το Microsoft Windows **Active Directory**, κυρίως για περιβάλλοντα **Unix**. Συνδυάζει έναν πλήρη **κατάλογο LDAP** με ένα κέντρο διανομής κλειδιών MIT **Kerberos** για τη διαχείριση παρόμοια με το Active Directory. Χρησιμοποιώντας το Dogtag **Certificate System** για τη διαχείριση πιστοποιητικών CA & RA, υποστηρίζει **πολυπαραγοντική** πιστοποίηση, συμπεριλαμβανομένων των έξυπνων καρτών. Το SSSD είναι ενσωματωμένο για διαδικασίες πιστοποίησης Unix. Μάθετε περισσότερα για αυτό στο:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
 {% endcontent-ref %}
 
-## Playing with tickets
+## Παιχνίδι με εισιτήρια
 
 ### Pass The Ticket
 
-In this page you are going to find different places were you could **find kerberos tickets inside a linux host**, in the following page you can learn how to transform this CCache tickets formats to Kirbi (the format you need to use in Windows) and also how to perform a PTT attack:
+Σε αυτήν τη σελίδα θα βρείτε διάφορα μέρη όπου μπορείτε **να βρείτε εισιτήρια kerberos μέσα σε ένα linux υπολογιστή**, στην ακόλουθη σελίδα μπορείτε να μάθετε πώς να μετατρέψετε αυτά τα εισιτήρια CCache σε μορφή Kirbi (τη μορφή που χρειάζεστε να χρησιμοποιήσετε στα Windows) και επίσης πώς να πραγματοποιήσετε μια επίθεση PTT:
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/pass-the-ticket.md" %}
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
 {% endcontent-ref %}
 
-### CCACHE ticket reuse from /tmp
+### Επαναχρησιμοποίηση εισιτηρίου CCACHE από το /tmp
 
-CCACHE files are binary formats for **storing Kerberos credentials** are typically stored with 600 permissions in `/tmp`. These files can be identified by their **name format, `krb5cc_%{uid}`,** correlating to the user's UID. For authentication ticket verification, the **environment variable `KRB5CCNAME`** should be set to the path of the desired ticket file, enabling its reuse.
+Τα αρχεία CCACHE είναι δυαδικές μορφές για **αποθήκευση διαπιστευτηρίων Kerberos** και συνήθως αποθηκεύονται με δικαιώματα 600 στο `/tmp`. Αυτά τα αρχεία μπορούν να αναγνωριστούν από τη μορφή τους με το όνομα, `krb5cc_%{uid}`, που συσχετίζεται με το UID του χρήστη. Για τον έλεγχο του εισιτηρίου πιστοποίησης, η **μεταβλητή περιβάλλοντος `KRB5CCNAME`** πρέπει να οριστεί στη διαδρομή του επιθυμητού αρχείου εισιτηρίου, επιτρέποντας την επαναχρησιμοποίησή του.
 
-List the current ticket used for authentication with `env | grep KRB5CCNAME`. The format is portable and the ticket can be **reused by setting the environment variable** with `export KRB5CCNAME=/tmp/ticket.ccache`. Kerberos ticket name format is `krb5cc_%{uid}` where uid is the user UID.
-
+Εμφανίστε το τρέχον εισιτήριο που χρησιμοποιείται για την πιστοποίηση με `env | grep KRB5CCNAME`. Η μορφή είναι φορητή και το εισιτήριο μπορεί να **επαναχρησιμοποιηθεί ορίζοντας τη μεταβλητή περιβάλλοντος** με `export KRB5CCNAME=/tmp/ticket.ccache`. Η μορφή ονόματος εισιτηρίου Kerberos είναι `krb5cc_%{uid}`, όπου το uid είναι το UID του χρήστη.
 ```bash
 # Find tickets
 ls /tmp/ | grep krb5cc
@@ -60,87 +59,72 @@ krb5cc_1000
 # Prepare to use it
 export KRB5CCNAME=/tmp/krb5cc_1000
 ```
+### Επαναχρησιμοποίηση εισιτηρίων CCACHE από το keyring
 
-### CCACHE ticket reuse from keyring
+**Τα εισιτήρια Kerberos που αποθηκεύονται στη μνήμη ενός διεργασίας μπορούν να εξαχθούν**, ειδικά όταν η προστασία ptrace της μηχανής είναι απενεργοποιημένη (`/proc/sys/kernel/yama/ptrace_scope`). Ένα χρήσιμο εργαλείο για αυτόν τον σκοπό βρίσκεται στο [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), το οποίο διευκολύνει την εξαγωγή εισιτηρίων εισάγοντας σε συνεδρίες και αποθηκεύοντας τα εισιτήρια στο `/tmp`.
 
-**Kerberos tickets stored in a process's memory can be extracted**, particularly when the machine's ptrace protection is disabled (`/proc/sys/kernel/yama/ptrace_scope`). A useful tool for this purpose is found at [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), which facilitates the extraction by injecting into sessions and dumping tickets into `/tmp`.
-
-To configure and use this tool, the steps below are followed:
-
+Για να ρυθμίσετε και να χρησιμοποιήσετε αυτό το εργαλείο, ακολουθήστε τα παρακάτω βήματα:
 ```bash
 git clone https://github.com/TarlogicSecurity/tickey
 cd tickey/tickey
 make CONF=Release
 /tmp/tickey -i
 ```
+Αυτή η διαδικασία θα προσπαθήσει να εισχωρήσει σε διάφορες συνεδρίες, υποδεικνύοντας επιτυχία με την αποθήκευση εξαχθεισών εισιτηρίων στο `/tmp` με μια συμβολοσειρά ονομασίας `__krb_UID.ccache`.
 
-This procedure will attempt to inject into various sessions, indicating success by storing extracted tickets in `/tmp` with a naming convention of `__krb_UID.ccache`. 
 
+### Επαναχρησιμοποίηση εισιτηρίου CCACHE από το SSSD KCM
 
-### CCACHE ticket reuse from SSSD KCM
+Το SSSD διατηρεί ένα αντίγραφο της βάσης δεδομένων στη διαδρομή `/var/lib/sss/secrets/secrets.ldb`. Ο αντίστοιχος κλειδί αποθηκεύεται ως κρυφό αρχείο στη διαδρομή `/var/lib/sss/secrets/.secrets.mkey`. Από προεπιλογή, το κλειδί είναι αναγνώσιμο μόνο αν έχετε δικαιώματα **root**.
 
-SSSD maintains a copy of the database at the path `/var/lib/sss/secrets/secrets.ldb`. The corresponding key is stored as a hidden file at the path `/var/lib/sss/secrets/.secrets.mkey`. By default, the key is only readable if you have **root** permissions.
-
-Invoking \*\*`SSSDKCMExtractor` \*\* with the --database and --key parameters will parse the database and **decrypt the secrets**.
-
+Η εκτέλεση της εντολής \*\*`SSSDKCMExtractor` \*\* με τις παραμέτρους --database και --key θα αναλύσει τη βάση δεδομένων και θα **αποκρυπτογραφήσει τα μυστικά**.
 ```bash
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
 ```
+Το **credential cache Kerberos blob μπορεί να μετατραπεί σε ένα αρχείο Kerberos CCache** που μπορεί να περαστεί στο Mimikatz/Rubeus.
 
-The **credential cache Kerberos blob can be converted into a usable Kerberos CCache** file that can be passed to Mimikatz/Rubeus.
-
-### CCACHE ticket reuse from keytab
-
+### Επαναχρησιμοποίηση εισιτηρίου CCACHE από keytab
 ```bash
 git clone https://github.com/its-a-feature/KeytabParser
 python KeytabParser.py /etc/krb5.keytab
 klist -k /etc/krb5.keytab
 ```
+### Εξαγωγή λογαριασμών από το /etc/krb5.keytab
 
-### Extract accounts from /etc/krb5.keytab
+Τα κλειδιά των λογαριασμών υπηρεσίας, τα οποία είναι απαραίτητα για υπηρεσίες που λειτουργούν με δικαιώματα root, αποθηκεύονται με ασφάλεια στα αρχεία **`/etc/krb5.keytab`**. Αυτά τα κλειδιά, παρόμοια με κωδικούς πρόσβασης για υπηρεσίες, απαιτούν αυστηρή εχεμύθεια.
 
-Service account keys, essential for services operating with root privileges, are securely stored in **`/etc/krb5.keytab`** files. These keys, akin to passwords for services, demand strict confidentiality.
-
-To inspect the keytab file's contents, **`klist`** can be employed. The tool is designed to display key details, including the **NT Hash** for user authentication, particularly when the key type is identified as 23.
-
+Για να επιθεωρήσετε το περιεχόμενο του αρχείου keytab, μπορείτε να χρησιμοποιήσετε την εντολή **`klist`**. Το εργαλείο αυτό σχεδιάστηκε για να εμφανίζει λεπτομέρειες των κλειδιών, συμπεριλαμβανομένου του **NT Hash** για την πιστοποίηση του χρήστη, ειδικά όταν ο τύπος του κλειδιού αναγνωρίζεται ως 23.
 ```bash
 klist.exe -t -K -e -k FILE:C:/Path/to/your/krb5.keytab
 # Output includes service principal details and the NT Hash
 ```
-
-For Linux users, **`KeyTabExtract`** offers functionality to extract the RC4 HMAC hash, which can be leveraged for NTLM hash reuse.
-
+Για τους χρήστες Linux, το **`KeyTabExtract`** προσφέρει λειτουργικότητα για την εξαγωγή του κατακερματισμένου RC4 HMAC, το οποίο μπορεί να αξιοποιηθεί για την επαναχρησιμοποίηση του κατακερματισμένου NTLM.
 ```bash
-python3 keytabextract.py krb5.keytab 
+python3 keytabextract.py krb5.keytab
 # Expected output varies based on hash availability
 ```
-
-On macOS, **`bifrost`** serves as a tool for keytab file analysis.
-
+Στο macOS, το **`bifrost`** λειτουργεί ως εργαλείο για την ανάλυση αρχείων keytab.
 ```bash
 ./bifrost -action dump -source keytab -path /path/to/your/file
 ```
-
-Utilizing the extracted account and hash information, connections to servers can be established using tools like **`crackmapexec`**.
-
+Χρησιμοποιώντας τις εξαγόμενες πληροφορίες λογαριασμού και κατακερματισμένων δεδομένων, μπορούν να δημιουργηθούν συνδέσεις με διακομιστές χρησιμοποιώντας εργαλεία όπως το **`crackmapexec`**.
 ```bash
 crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDOMAIN"
 ```
-
-## References
+## Αναφορές
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 * [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#linux-active-directory](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#linux-active-directory)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Συμμετάσχετε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

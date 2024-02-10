@@ -1,57 +1,43 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 
-**The original post is** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
+**Η αρχική ανάρτηση είναι** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
 
-## Summary
+## Περίληψη
 
-Two registry keys were found to be writable by the current user:
+Βρέθηκαν δύο κλειδιά του μητρώου που μπορούν να εγγραφούν από τον τρέχοντα χρήστη:
 
 - **`HKLM\SYSTEM\CurrentControlSet\Services\Dnscache`**
 - **`HKLM\SYSTEM\CurrentControlSet\Services\RpcEptMapper`**
 
-It was suggested to check the permissions of the **RpcEptMapper** service using the **regedit GUI**, specifically the **Advanced Security Settings** window's **Effective Permissions** tab. This approach enables the assessment of granted permissions to specific users or groups without the need to examine each Access Control Entry (ACE) individually.
+Προτάθηκε να ελεγχθούν οι άδειες του υπηρεσίας **RpcEptMapper** χρησιμοποιώντας το **regedit GUI**, ειδικά το παράθυρο **Advanced Security Settings** και την καρτέλα **Effective Permissions**. Αυτή η προσέγγιση επιτρέπει την αξιολόγηση των χορηγημένων δικαιωμάτων σε συγκεκριμένους χρήστες ή ομάδες χωρίς την ανάγκη να εξετάζονται ξεχωριστά κάθε Access Control Entry (ACE).
 
-A screenshot showed the permissions assigned to a low-privileged user, among which the **Create Subkey** permission was notable. This permission, also referred to as **AppendData/AddSubdirectory**, corresponds with the script's findings.
+Παρουσιάστηκε μια στιγμιότυπη εικόνα με τις δικαιώματα που έχει ένας χρήστης με χαμηλά προνόμια, μεταξύ των οποίων ξεχώριζε το δικαίωμα **Create Subkey**. Αυτό το δικαίωμα, που αναφέρεται επίσης ως **AppendData/AddSubdirectory**, αντιστοιχεί με τα ευρήματα του σεναρίου.
 
-The inability to modify certain values directly, yet the capability to create new subkeys, was noted. An example highlighted was an attempt to alter the **ImagePath** value, which resulted in an access denied message.
+Σημειώθηκε η αδυναμία να τροποποιηθούν ορισμένες τιμές απευθείας, αλλά η δυνατότητα δημιουργίας νέων υποκλειδιών. Ένα παράδειγμα που τονίστηκε ήταν η προσπάθεια να αλλάξει η τιμή **ImagePath**, η οποία οδήγησε σε ένα μήνυμα απόρριψης πρόσβασης.
 
-Despite these limitations, a potential for privilege escalation was identified through the possibility of leveraging the **Performance** subkey within the **RpcEptMapper** service's registry structure, a subkey not present by default. This could enable DLL registration and performance monitoring.
+Παρά τους περιορισμούς αυτούς, εντοπίστηκε η δυνατότητα ανόδου προνομίων μέσω της δυνατότητας εκμετάλλευσης του υποκλειδιού **Performance** εντός της δομής του μητρώου της υπηρεσίας **RpcEptMapper**, ένα υποκλειδί που δεν υπάρχει από προεπιλογή. Αυτό θα μπορούσε να επιτρέψει την εγγραφή DLL και την παρακολούθηση της απόδοσης.
 
-Documentation on the **Performance** subkey and its utilization for performance monitoring was consulted, leading to the development of a proof-of-concept DLL. This DLL, demonstrating the implementation of **OpenPerfData**, **CollectPerfData**, and **ClosePerfData** functions, was tested via **rundll32**, confirming its operational success.
+Συμβουλευτήκαμε την τεκμηρίωση για το υποκλειδί **Performance** και τη χρήση του για την παρακολούθηση της απόδοσης, με αποτέλεσμα την ανάπτυξη ενός DLL προσχεδίου. Αυτό το DLL, που δείχνει την υλοποίηση των συναρτήσεων **OpenPerfData**, **CollectPerfData** και **ClosePerfData**, δοκιμάστηκε μέσω του **rundll32**, επιβεβαιώνοντας τη λειτουργική του επιτυχία.
 
-The goal was to coerce the **RPC Endpoint Mapper service** into loading the crafted Performance DLL. Observations revealed that executing WMI class queries related to Performance Data via PowerShell resulted in the creation of a log file, enabling the execution of arbitrary code under the **LOCAL SYSTEM** context, thus granting elevated privileges.
+Ο στόχος ήταν να αναγκαστεί η υπηρεσία **RPC Endpoint Mapper** να φορτώσει το δημιουργημένο DLL της Απόδοσης. Παρατηρήσεις έδειξαν ότι η εκτέλεση ερωτημάτων κλάσης WMI που σχετίζονται με τα δεδομένα απόδοσης μέσω του PowerShell οδηγούσε στη δημιουργία ενός αρχείου καταγραφής, επιτρέποντας την εκτέλεση αυθαίρετου κώδικα υπό το πλαίσιο του **LOCAL SYSTEM**, παρέχοντας έτσι αυξημένα προνόμια.
 
-The persistence and potential implications of this vulnerability were underscored, highlighting its relevance for post-exploitation strategies, lateral movement, and evasion of antivirus/EDR systems.
+Επισημάνθηκε η μόνιμη ύπαρξη και οι δυνητικές επιπτώσεις αυτής της ευπάθειας, τονίζοντας τη σημασία της για στρατηγικές μετά-εκμετάλλευσης, πλευρικής κίνησης και αποφυγής συστημάτων αντιιικών/EDR.
 
-Although the vulnerability was initially disclosed unintentionally through the script, it was emphasized that its exploitation is constrained to outdated Windows versions (e.g., **Windows 7 / Server 2008 R2**) and requires local access.
+Παρόλο που η ευπάθεια αποκαλύφθηκε αρχικά ακούσια μέσω του σεναρίου, τονίστηκε ότι η εκμετάλλευσή της περιορίζεται σε παλαιές εκδόσεις των Windows (π.χ. **Windows 7 / Server 2008 R2**) και απαιτεί τοπική πρόσβαση.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong

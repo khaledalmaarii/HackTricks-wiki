@@ -1,23 +1,20 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 
-The only modified line from the [original code](https://github.com/OALabs/BlobRunner) is the line 10.  
-In order to compile it just **create a C/C++ project in Visual Studio Code, copy and paste the code and build it**.
-
+Η μόνη τροποποιημένη γραμμή από τον [αρχικό κώδικα](https://github.com/OALabs/BlobRunner) είναι η γραμμή 10.
+Για να το μεταγλωττίσετε, απλά **δημιουργήστε ένα έργο C/C++ στο Visual Studio Code, αντιγράψτε και επικολλήστε τον κώδικα και κάντε την κατασκευή**.
 ```c
 #include <stdio.h>
 #include <windows.h>
@@ -44,198 +41,193 @@ const char* _banner = " __________.__        ___.  __________\n"
 
 
 void banner() {
-	system("cls");
-	printf(_banner, _version);
-	return;
+system("cls");
+printf(_banner, _version);
+return;
 }
 
 LPVOID process_file(char* inputfile_name, bool jit, int offset, bool debug) {
-	LPVOID lpvBase;
-	FILE* file;
-	unsigned long fileLen;
-	char* buffer;
-	DWORD dummy;
+LPVOID lpvBase;
+FILE* file;
+unsigned long fileLen;
+char* buffer;
+DWORD dummy;
 
-	file = fopen(inputfile_name, "rb");
+file = fopen(inputfile_name, "rb");
 
-	if (!file) {
-		printf(" [!] Error: Unable to open %s\n", inputfile_name);
+if (!file) {
+printf(" [!] Error: Unable to open %s\n", inputfile_name);
 
-		return (LPVOID)NULL;
-	}
+return (LPVOID)NULL;
+}
 
-	printf(" [*] Reading file...\n");
-	fseek(file, 0, SEEK_END);
-	fileLen = ftell(file); //Get Length
+printf(" [*] Reading file...\n");
+fseek(file, 0, SEEK_END);
+fileLen = ftell(file); //Get Length
 
-	printf(" [*] File Size: 0x%04x\n", fileLen);
-	fseek(file, 0, SEEK_SET); //Reset
+printf(" [*] File Size: 0x%04x\n", fileLen);
+fseek(file, 0, SEEK_SET); //Reset
 
-	fileLen += 1;
+fileLen += 1;
 
-	buffer = (char*)malloc(fileLen); //Create Buffer
-	fread(buffer, fileLen, 1, file);
-	fclose(file);
+buffer = (char*)malloc(fileLen); //Create Buffer
+fread(buffer, fileLen, 1, file);
+fclose(file);
 
-	printf(" [*] Allocating Memory...");
+printf(" [*] Allocating Memory...");
 
-	lpvBase = VirtualAlloc(NULL, fileLen, 0x3000, 0x40);
+lpvBase = VirtualAlloc(NULL, fileLen, 0x3000, 0x40);
 
-	printf(".Allocated!\n");
-	printf(" [*]   |-Base: 0x%08x\n", (int)(size_t)lpvBase);
-	printf(" [*] Copying input data...\n");
+printf(".Allocated!\n");
+printf(" [*]   |-Base: 0x%08x\n", (int)(size_t)lpvBase);
+printf(" [*] Copying input data...\n");
 
-	CopyMemory(lpvBase, buffer, fileLen);
-	return lpvBase;
+CopyMemory(lpvBase, buffer, fileLen);
+return lpvBase;
 }
 
 void execute(LPVOID base, int offset, bool nopause, bool jit, bool debug)
 {
-	LPVOID shell_entry;
+LPVOID shell_entry;
 
 #ifdef _WIN64
-	DWORD   thread_id;
-	HANDLE  thread_handle;
-	const char msg[] = " [*] Navigate to the Thread Entry and set a breakpoint. Then press any key to resume the thread.\n";
+DWORD   thread_id;
+HANDLE  thread_handle;
+const char msg[] = " [*] Navigate to the Thread Entry and set a breakpoint. Then press any key to resume the thread.\n";
 #else
-	const char msg[] = " [*] Navigate to the EP and set a breakpoint. Then press any key to jump to the shellcode.\n";
+const char msg[] = " [*] Navigate to the EP and set a breakpoint. Then press any key to jump to the shellcode.\n";
 #endif
 
-	shell_entry = (LPVOID)((UINT_PTR)base + offset);
+shell_entry = (LPVOID)((UINT_PTR)base + offset);
 
 #ifdef _WIN64
 
-	printf(" [*] Creating Suspended Thread...\n");
-	thread_handle = CreateThread(
-		NULL,          // Attributes
-		0,             // Stack size (Default)
-		shell_entry,         // Thread EP
-		NULL,          // Arguments
-		0x4,           // Create Suspended
-		&thread_id);   // Thread identifier
+printf(" [*] Creating Suspended Thread...\n");
+thread_handle = CreateThread(
+NULL,          // Attributes
+0,             // Stack size (Default)
+shell_entry,         // Thread EP
+NULL,          // Arguments
+0x4,           // Create Suspended
+&thread_id);   // Thread identifier
 
-	if (thread_handle == NULL) {
-		printf(" [!] Error Creating thread...");
-		return;
-	}
-	printf(" [*] Created Thread: [%d]\n", thread_id);
-	printf(" [*] Thread Entry: 0x%016x\n", (int)(size_t)shell_entry);
+if (thread_handle == NULL) {
+printf(" [!] Error Creating thread...");
+return;
+}
+printf(" [*] Created Thread: [%d]\n", thread_id);
+printf(" [*] Thread Entry: 0x%016x\n", (int)(size_t)shell_entry);
 
 #endif
 
-	if (nopause == false) {
-		printf("%s", msg);
-		getchar();
-	}
-	else
-	{
-		if (jit == true) {
-			// Force an exception by making the first byte not executable.
-			// This will cause
-			DWORD oldp;
+if (nopause == false) {
+printf("%s", msg);
+getchar();
+}
+else
+{
+if (jit == true) {
+// Force an exception by making the first byte not executable.
+// This will cause
+DWORD oldp;
 
-			printf(" [*] Removing EXECUTE access to trigger exception...\n");
+printf(" [*] Removing EXECUTE access to trigger exception...\n");
 
-			VirtualProtect(shell_entry, 1 , PAGE_READWRITE, &oldp);
-		}
-	}
+VirtualProtect(shell_entry, 1 , PAGE_READWRITE, &oldp);
+}
+}
 
 #ifdef _WIN64
-	printf(" [*] Resuming Thread..\n");
-	ResumeThread(thread_handle);
+printf(" [*] Resuming Thread..\n");
+ResumeThread(thread_handle);
 #else
-	printf(" [*] Entry: 0x%08x\n", (int)(size_t)shell_entry);
-	printf(" [*] Jumping to shellcode\n");
-	__asm jmp shell_entry;
+printf(" [*] Entry: 0x%08x\n", (int)(size_t)shell_entry);
+printf(" [*] Jumping to shellcode\n");
+__asm jmp shell_entry;
 #endif
 }
 
 void print_help() {
-	printf(" [!] Error: No file!\n\n");
-	printf("     Required args: <inputfile>\n\n");
-	printf("     Optional Args:\n");
-	printf("         --offset <offset> The offset to jump into.\n");
-	printf("         --nopause         Don't pause before jumping to shellcode. Danger!!! \n");
-	printf("         --jit             Forces an exception by removing the EXECUTE permission from the alloacted memory.\n");
-	printf("         --debug           Verbose logging.\n");
-	printf("         --version         Print version and exit.\n\n");
+printf(" [!] Error: No file!\n\n");
+printf("     Required args: <inputfile>\n\n");
+printf("     Optional Args:\n");
+printf("         --offset <offset> The offset to jump into.\n");
+printf("         --nopause         Don't pause before jumping to shellcode. Danger!!! \n");
+printf("         --jit             Forces an exception by removing the EXECUTE permission from the alloacted memory.\n");
+printf("         --debug           Verbose logging.\n");
+printf("         --version         Print version and exit.\n\n");
 }
 
 int main(int argc, char* argv[])
 {
-	LPVOID base;
-	int i;
-	int offset = 0;
-	bool nopause = false;
-	bool debug = false;
-	bool jit = false;
-	char* nptr;
+LPVOID base;
+int i;
+int offset = 0;
+bool nopause = false;
+bool debug = false;
+bool jit = false;
+char* nptr;
 
-	banner();
+banner();
 
-	if (argc < 2) {
-		print_help();
-		return -1;
-	}
+if (argc < 2) {
+print_help();
+return -1;
+}
 
-	printf(" [*] Using file: %s \n", argv[1]);
+printf(" [*] Using file: %s \n", argv[1]);
 
-	for (i = 2; i < argc; i++) {
-		if (strcmp(argv[i], "--offset") == 0) {
-			printf(" [*] Parsing offset...\n");
-			i = i + 1;
-			if (strncmp(argv[i], "0x", 2) == 0) {
-			    offset = strtol(argv[i], &nptr, 16);
-            }
-			else {
-			    offset = strtol(argv[i], &nptr, 10);
-			}
-		}
-		else if (strcmp(argv[i], "--nopause") == 0) {
-			nopause = true;
-		}
-		else if (strcmp(argv[i], "--jit") == 0) {
-			jit = true;
-			nopause = true;
-		}
-		else if (strcmp(argv[i], "--debug") == 0) {
-			debug = true;
-		}
-		else if (strcmp(argv[i], "--version") == 0) {
-			printf("Version: %s", _version);
-		}
-		else {
-			printf("[!] Warning: Unknown arg: %s\n", argv[i]);
-		}
-	}
+for (i = 2; i < argc; i++) {
+if (strcmp(argv[i], "--offset") == 0) {
+printf(" [*] Parsing offset...\n");
+i = i + 1;
+if (strncmp(argv[i], "0x", 2) == 0) {
+offset = strtol(argv[i], &nptr, 16);
+}
+else {
+offset = strtol(argv[i], &nptr, 10);
+}
+}
+else if (strcmp(argv[i], "--nopause") == 0) {
+nopause = true;
+}
+else if (strcmp(argv[i], "--jit") == 0) {
+jit = true;
+nopause = true;
+}
+else if (strcmp(argv[i], "--debug") == 0) {
+debug = true;
+}
+else if (strcmp(argv[i], "--version") == 0) {
+printf("Version: %s", _version);
+}
+else {
+printf("[!] Warning: Unknown arg: %s\n", argv[i]);
+}
+}
 
-	base = process_file(argv[1], jit, offset, debug);
-	if (base == NULL) {
-		printf(" [!] Exiting...");
-		return -1;
-	}
-	printf(" [*] Using offset: 0x%08x\n", offset);
-	execute(base, offset, nopause, jit, debug);
-	printf("Pausing - Press any key to quit.\n");
-	getchar();
-	return 0;
+base = process_file(argv[1], jit, offset, debug);
+if (base == NULL) {
+printf(" [!] Exiting...");
+return -1;
+}
+printf(" [*] Using offset: 0x%08x\n", offset);
+execute(base, offset, nopause, jit, debug);
+printf("Pausing - Press any key to quit.\n");
+getchar();
+return 0;
 }
 ```
-
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
-
-

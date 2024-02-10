@@ -1,59 +1,54 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 
-# Integrity Levels
+# Επίπεδα Ακεραιότητας
 
-In Windows Vista and later versions, all protected items come with an **integrity level** tag. This setup mostly assigns a "medium" integrity level to files and registry keys, except for certain folders and files that Internet Explorer 7 can write to at a low integrity level. The default behavior is for processes initiated by standard users to have a medium integrity level, whereas services typically operate at a system integrity level. A high-integrity label safeguards the root directory.
+Στα Windows Vista και μεταγενέστερες εκδόσεις, όλα τα προστατευμένα αντικείμενα έχουν μια ετικέτα **επιπέδου ακεραιότητας**. Αυτή η ρύθμιση αναθέτει κυρίως ένα "μεσαίο" επίπεδο ακεραιότητας σε αρχεία και κλειδιά της καταχώρησης, εκτός από ορισμένους φακέλους και αρχεία στους οποίους ο Internet Explorer 7 μπορεί να γράψει σε χαμηλό επίπεδο ακεραιότητας. Η προεπιλεγμένη συμπεριφορά είναι να έχουν οι διεργασίες που ξεκινούν από τους τυπικούς χρήστες ένα μεσαίο επίπεδο ακεραιότητας, ενώ οι υπηρεσίες λειτουργούν συνήθως σε ένα επίπεδο ακεραιότητας συστήματος. Ένα επίπεδο υψηλής ακεραιότητας προστατεύει τον ριζικό κατάλογο.
 
-A key rule is that objects can't be modified by processes with a lower integrity level than the object's level. The integrity levels are:
+Ένας βασικός κανόνας είναι ότι τα αντικείμενα δεν μπορούν να τροποποιηθούν από διεργασίες με χαμηλότερο επίπεδο ακεραιότητας από το επίπεδο του αντικειμένου. Τα επίπεδα ακεραιότητας είναι:
 
-- **Untrusted**: This level is for processes with anonymous logins. %%%Example: Chrome%%%
-- **Low**: Mainly for internet interactions, especially in Internet Explorer's Protected Mode, affecting associated files and processes, and certain folders like the **Temporary Internet Folder**. Low integrity processes face significant restrictions, including no registry write access and limited user profile write access.
-- **Medium**: The default level for most activities, assigned to standard users and objects without specific integrity levels. Even members of the Administrators group operate at this level by default.
-- **High**: Reserved for administrators, allowing them to modify objects at lower integrity levels, including those at the high level itself.
-- **System**: The highest operational level for the Windows kernel and core services, out of reach even for administrators, ensuring protection of vital system functions.
-- **Installer**: A unique level that stands above all others, enabling objects at this level to uninstall any other object.
+- **Μη έμπιστο**: Αυτό το επίπεδο είναι για διεργασίες με ανώνυμες συνδέσεις. %%%Παράδειγμα: Chrome%%%
+- **Χαμηλό**: Κυρίως για διαδικτυακές αλληλεπιδράσεις, ειδικά στην Προστατευμένη Λειτουργία του Internet Explorer, επηρεάζοντας συνδεδεμένα αρχεία και διεργασίες, καθώς και ορισμένους φακέλους όπως ο **Προσωρινός Φάκελος Διαδικτύου**. Οι διεργασίες χαμηλής ακεραιότητας αντιμετωπίζουν σημαντικούς περιορισμούς, συμπεριλαμβανομένης της απουσίας πρόσβασης εγγραφής στην καταχώρηση και της περιορισμένης πρόσβασης εγγραφής στο προφίλ του χρήστη.
+- **Μεσαίο**: Το προεπιλεγμένο επίπεδο για τις περισσότερες δραστηριότητες, ανατίθεται σε τυπικούς χρήστες και αντικείμενα χωρίς συγκεκριμένα επίπεδα ακεραιότητας. Ακόμη και τα μέλη της ομάδας Διαχειριστών λειτουργούν σε αυτό το επίπεδο από προεπιλογή.
+- **Υψηλό**: Κατοχυρωμένο για διαχειριστές, επιτρέποντάς τους να τροποποιούν αντικείμενα σε χαμηλότερα επίπεδα ακεραιότητας, συμπεριλαμβανομένων αυτών στο ίδιο υψηλό επίπεδο.
+- **Σύστημα**: Το υψηλότερο επίπεδο λειτουργίας για τον πυρήνα των Windows και τις βασικές υπηρεσίες, μη προσβάσιμο ακόμη και από διαχειριστές, εξασφαλίζοντας την προστασία των ζωτικών λειτουργιών του συστήματος.
+- **Εγκαταστάτης**: Ένα μοναδικό επίπεδο που βρίσκεται πάνω από όλα τα άλλα, επιτρέποντας σε αντικείμενα σε αυτό το επίπεδο να απεγκαταστήσουν οποιοδήποτε άλλο αντικείμενο.
 
-You can get the integrity level of a process using **Process Explorer** from **Sysinternals**, accessing the **properties** of the process and viewing the "**Security**" tab:
+Μπορείτε να λάβετε το επίπεδο ακεραιότητας μιας διεργασίας χρησιμοποιώντας το **Process Explorer** από το **Sysinternals**, αποκτώντας πρόσβαση στις **ιδιότητες** της διεργασίας και προβάλλοντας την καρτέλα "**Ασφάλεια**":
 
 ![](<../../.gitbook/assets/image (318).png>)
 
-You can also get your **current integrity level** using `whoami /groups`
+Μπορείτε επίσης να λάβετε το **τρέχον επίπεδο ακεραιότητας** σας χρησιμοποιώντας την εντολή `whoami /groups`
 
 ![](<../../.gitbook/assets/image (319).png>)
 
-## Integrity Levels in File-system
+## Επίπεδα Ακεραιότητας στο Σύστημα Αρχείων
 
-A object inside the file-system may need an **minimum integrity level requirement** and if a process doesn't have this integrity process it won't be able to interact with it.\
-For example, lets **create a regular from a regular user console file and check the permissions**:
-
+Ένα αντικείμενο μέσα στο σύστημα αρχείων μπορεί να χρειάζεται ένα **ελάχιστο επίπεδο ακεραιότητας** και αν μια διεργασία δεν έχει αυτό το επίπεδο ακεραιότητας, δεν θα μπορεί να αλληλεπιδράσει με αυτό.\
+Για παράδειγμα, ας **δημιουργήσουμε ένα κανονικό αρχείο από την κονσόλα ενός κανονικού χρήστη και να ελέγξουμε τα δικαιώματα**:
 ```
 echo asd >asd.txt
 icacls asd.txt
 asd.txt BUILTIN\Administrators:(I)(F)
-        DESKTOP-IDJHTKP\user:(I)(F)
-        NT AUTHORITY\SYSTEM:(I)(F)
-        NT AUTHORITY\INTERACTIVE:(I)(M,DC)
-        NT AUTHORITY\SERVICE:(I)(M,DC)
-        NT AUTHORITY\BATCH:(I)(M,DC)
+DESKTOP-IDJHTKP\user:(I)(F)
+NT AUTHORITY\SYSTEM:(I)(F)
+NT AUTHORITY\INTERACTIVE:(I)(M,DC)
+NT AUTHORITY\SERVICE:(I)(M,DC)
+NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-
-Now, lets assign a minimum integrity level of **High** to the file. This **must be done from a console** running as **administrator** as a **regular console** will be running in Medium Integrity level and **won't be allowed** to assign High Integrity level to an object:
-
+Τώρα, ας αναθέσουμε ένα ελάχιστο επίπεδο ακεραιότητας **Υψηλό** στο αρχείο. Αυτό **πρέπει να γίνει από ένα παράθυρο κονσόλας** που εκτελείται ως **διαχειριστής**, καθώς ένα **κανονικό παράθυρο κονσόλας** θα εκτελείται σε επίπεδο Μεσαίας Ακεραιότητας και **δεν θα επιτρέπεται** να αναθέσει Υψηλό Επίπεδο Ακεραιότητας σε ένα αντικείμενο:
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -61,16 +56,14 @@ Successfully processed 1 files; Failed processing 0 files
 
 C:\Users\Public>icacls asd.txt
 asd.txt BUILTIN\Administrators:(I)(F)
-        DESKTOP-IDJHTKP\user:(I)(F)
-        NT AUTHORITY\SYSTEM:(I)(F)
-        NT AUTHORITY\INTERACTIVE:(I)(M,DC)
-        NT AUTHORITY\SERVICE:(I)(M,DC)
-        NT AUTHORITY\BATCH:(I)(M,DC)
-        Mandatory Label\High Mandatory Level:(NW)
+DESKTOP-IDJHTKP\user:(I)(F)
+NT AUTHORITY\SYSTEM:(I)(F)
+NT AUTHORITY\INTERACTIVE:(I)(M,DC)
+NT AUTHORITY\SERVICE:(I)(M,DC)
+NT AUTHORITY\BATCH:(I)(M,DC)
+Mandatory Label\High Mandatory Level:(NW)
 ```
-
-This is where things get interesting. You can see that the user `DESKTOP-IDJHTKP\user` has **FULL privileges** over the file (indeed this was the user that created the file), however, due to the minimum integrity level implemented he won't be able to modify the file anymore unless he is running inside a High Integrity Level (note that he will be able to read it):
-
+Εδώ είναι που τα πράγματα γίνονται ενδιαφέροντα. Μπορείτε να δείτε ότι ο χρήστης `DESKTOP-IDJHTKP\user` έχει **πλήρη δικαιώματα** στο αρχείο (πράγματι, αυτός ήταν ο χρήστης που δημιούργησε το αρχείο), ωστόσο, λόγω του ελάχιστου επιπέδου ακεραιότητας που έχει εφαρμοστεί, δεν θα μπορεί πλέον να τροποποιήσει το αρχείο εκτός αν εκτελείται μέσα σε ένα Υψηλό Επίπεδο Ακεραιότητας (σημειώστε ότι θα μπορεί να το διαβάσει):
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -79,50 +72,45 @@ del asd.txt
 C:\Users\Public\asd.txt
 Access is denied.
 ```
-
 {% hint style="info" %}
-**Therefore, when a file has a minimum integrity level, in order to modify it you need to be running at least in that integrity level.**
+**Επομένως, όταν ένα αρχείο έχει ένα ελάχιστο επίπεδο ακεραιότητας, για να το τροποποιήσετε πρέπει να εκτελείστε τουλάχιστον σε αυτό το επίπεδο ακεραιότητας.**
 {% endhint %}
 
-## Integrity Levels in Binaries
+## Επίπεδα Ακεραιότητας στα Δυαδικά Αρχεία
 
-I made a copy of `cmd.exe` in `C:\Windows\System32\cmd-low.exe` and set it an **integrity level of low from an administrator console:**
-
+Έκανα αντιγραφή του `cmd.exe` στο `C:\Windows\System32\cmd-low.exe` και του έθεσα ένα **επίπεδο ακεραιότητας χαμηλό από μια κονσόλα διαχειριστή:**
 ```
 icacls C:\Windows\System32\cmd-low.exe
 C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)
-                                BUILTIN\Administrators:(I)(F)
-                                BUILTIN\Users:(I)(RX)
-                                APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
-                                APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
-                                Mandatory Label\Low Mandatory Level:(NW)
+BUILTIN\Administrators:(I)(F)
+BUILTIN\Users:(I)(RX)
+APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
+APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
+Mandatory Label\Low Mandatory Level:(NW)
 ```
-
-Now, when I run `cmd-low.exe` it will **run under a low-integrity level** instead of a medium one:
+Τώρα, όταν εκτελώ το `cmd-low.exe`, θα **εκτελείται με χαμηλό επίπεδο ακεραιότητας** αντί για μεσαίο:
 
 ![](<../../.gitbook/assets/image (320).png>)
 
-For curious people, if you assign high integrity level to a binary (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`) it won't run with high integrity level automatically (if you invoke it from a medium integrity level --by default-- it will run under a medium integrity level).
+Για περιέργους, αν αναθέσετε υψηλό επίπεδο ακεραιότητας σε ένα δυαδικό αρχείο (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), δεν θα εκτελεστεί αυτόματα με υψηλό επίπεδο ακεραιότητας (αν το καλέσετε από ένα μεσαίο επίπεδο ακεραιότητας - από προεπιλογή - θα εκτελεστεί με μεσαίο επίπεδο ακεραιότητας).
 
-## Integrity Levels in Processes
+## Επίπεδα Ακεραιότητας στις Διεργασίες
 
-Not all files and folders have a minimum integrity level, **but all processes are running under an integrity level**. And similar to what happened with the file-system, **if a process wants to write inside another process it must have at least the same integrity level**. This means that a process with low integrity level can’t open a handle with full access to a process with medium integrity level.
+Όχι όλα τα αρχεία και οι φάκελοι έχουν ένα ελάχιστο επίπεδο ακεραιότητας, **αλλά όλες οι διεργασίες εκτελούνται με ένα επίπεδο ακεραιότητας**. Και παρόμοια με αυτό που συνέβη με το σύστημα αρχείων, **αν μια διεργασία θέλει να γράψει μέσα σε μια άλλη διεργασία, πρέπει να έχει τουλάχιστον το ίδιο επίπεδο ακεραιότητας**. Αυτό σημαίνει ότι μια διεργασία με χαμηλό επίπεδο ακεραιότητας δεν μπορεί να ανοίξει ένα χειριστήριο με πλήρη πρόσβαση σε μια διεργασία με μεσαίο επίπεδο ακεραιότητας.
 
-Due to the restrictions commented in this and the previous section, from a security point of view, it's always **recommended to run a process in the lower level of integrity possible**.
+Λόγω των περιορισμών που αναφέρθηκαν σε αυτήν και την προηγούμενη ενότητα, από την άποψη της ασφάλειας, πάντα **συνιστάται να εκτελείται μια διεργασία με το χαμηλότερο δυνατό επίπεδο ακεραιότητας**.
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ τρικς σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
-
-

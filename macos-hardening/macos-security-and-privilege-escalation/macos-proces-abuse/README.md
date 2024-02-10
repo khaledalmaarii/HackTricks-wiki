@@ -1,108 +1,58 @@
-# macOS Proces Abuse
+# Κατάχρηση Διεργασιών στο macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## MacOS Process Abuse
+## Κατάχρηση Διεργασιών στο macOS
 
-MacOS, like any other operating system, provides a variety of methods and mechanisms for **processes to interact, communicate, and share data**. While these techniques are essential for efficient system functioning, they can also be abused by threat actors to **perform malicious activities**.
+Το macOS, όπως κάθε άλλο λειτουργικό σύστημα, παρέχει μια ποικιλία μεθόδων και μηχανισμών για την **αλληλεπίδραση, επικοινωνία και κοινή χρήση δεδομένων** μεταξύ των διεργασιών. Αν και αυτές οι τεχνικές είναι απαραίτητες για την αποτελεσματική λειτουργία του συστήματος, μπορούν επίσης να καταχραστούν από κακόβουλους χρήστες για την **εκτέλεση κακόβουλων δραστηριοτήτων**.
 
-### Library Injection
+### Εισαγωγή Βιβλιοθήκης
 
-Library Injection is a technique wherein an attacker **forces a process to load a malicious library**. Once injected, the library runs in the context of the target process, providing the attacker with the same permissions and access as the process.
+Η Εισαγωγή Βιβλιοθήκης είναι μια τεχνική όπου ένας επιτιθέμενος **αναγκάζει μια διεργασία να φορτώσει μια κακόβουλη βιβλιοθήκη**. Μόλις γίνει η εισαγωγή, η βιβλιοθήκη εκτελείται στο πλαίσιο της στόχος διεργασίας, παρέχοντας στον επιτιθέμενο τα ίδια δικαιώματα και πρόσβαση με τη διεργασία.
 
 {% content-ref url="macos-library-injection/" %}
 [macos-library-injection](macos-library-injection/)
 {% endcontent-ref %}
 
-### Function Hooking
+### Αγκίστρωμα Συνάρτησης
 
-Function Hooking involves **intercepting function calls** or messages within a software code. By hooking functions, an attacker can **modify the behavior** of a process, observe sensitive data, or even gain control over the execution flow.
+Το Αγκίστρωμα Συνάρτησης περιλαμβάνει την **παρεμβολή κλήσεων συναρτήσεων** ή μηνυμάτων στον κώδικα λογισμικού. Με το αγκίστρωμα συναρτήσεων, ένας επιτιθέμενος μπορεί να **τροποποιήσει τη συμπεριφορά** μιας διεργασίας, να παρατηρήσει ευαίσθητα δεδομένα ή ακόμα και να αποκτήσει έλεγχο επί της ροής εκτέλεσης.
 
 {% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
 [macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
-### Inter Process Communication
+### Επικοινωνία Μεταξύ Διεργασιών
 
-Inter Process Communication (IPC) refers to different methods by which separate processes **share and exchange data**. While IPC is fundamental for many legitimate applications, it can also be misused to subvert process isolation, leak sensitive information, or perform unauthorized actions.
+Η Επικοινωνία Μεταξύ Διεργασιών (IPC) αναφέρεται σε διάφορες μεθόδους με τις οποίες ξεχωριστές διεργασίες **μοιράζονται και ανταλλάσσουν δεδομένα**. Αν και η IPC είναι θεμελιώδης για πολλές νόμιμες εφαρμογές, μπορεί επίσης να καταχραστεί για να παραβιάσει την απομόνωση διεργασιών, να διαρρεύσει ευαίσθητες πληροφορίες ή να εκτελέσει μη εξουσιοδοτημένες ενέργειες.
 
 {% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-### Electron Applications Injection
+### Εισαγωγή Εφαρμογών Electron
 
-Electron applications executed with specific env variables could be vulnerable to process injection:
+Οι εφαρμογές Electron που εκτελούνται με συγκεκριμένες μεταβλητές περιβάλλοντος μπορεί να είναι ευάλωτες στην εισαγωγή διεργασιών:
 
 {% content-ref url="macos-electron-applications-injection.md" %}
 [macos-electron-applications-injection.md](macos-electron-applications-injection.md)
 {% endcontent-ref %}
 
-### Dirty NIB
+### Ακαθάριστο NIB
 
-NIB files **define user interface (UI) elements** and their interactions within an application. However, they can **execute arbitrary commands** and **Gatekeeper doesn't stop** an already executed application from being executed if a **NIB file is modified**. Therefore, they could be used to make arbitrary programs execute arbitrary commands:
-
-{% content-ref url="macos-dirty-nib.md" %}
-[macos-dirty-nib.md](macos-dirty-nib.md)
-{% endcontent-ref %}
-
-### Java Applications Injection
-
-It's possible to abuse certain java capabilities (like the **`_JAVA_OPTS`** env variable) to make a java application execute **arbitrary code/commands**.
-
-{% content-ref url="macos-java-apps-injection.md" %}
-[macos-java-apps-injection.md](macos-java-apps-injection.md)
-{% endcontent-ref %}
-
-### .Net Applications Injection
-
-It's possible to inject code into .Net applications by **abusing the .Net debugging functionality** (not protected by macOS protections such as runtime hardening).
-
-{% content-ref url="macos-.net-applications-injection.md" %}
-[macos-.net-applications-injection.md](macos-.net-applications-injection.md)
-{% endcontent-ref %}
-
-### Perl Injection
-
-Check different options to make a Perl script execute arbitrary code in:
-
-{% content-ref url="macos-perl-applications-injection.md" %}
-[macos-perl-applications-injection.md](macos-perl-applications-injection.md)
-{% endcontent-ref %}
-
-### Ruby Injection
-
-I't also possible to abuse ruby env variables to make arbitrary scripts execute arbitrary code:
-
-{% content-ref url="macos-ruby-applications-injection.md" %}
-[macos-ruby-applications-injection.md](macos-ruby-applications-injection.md)
-{% endcontent-ref %}
-
-### Python Injection
-
-If the environment variable **`PYTHONINSPECT`** is set, the python process will drop into a python cli once it's finished. It's also possible to use **`PYTHONSTARTUP`** to indicate a python script to execute at the beginning of an interactive session.\
-However, note that **`PYTHONSTARTUP`** script won't be executed when **`PYTHONINSPECT`** creates the interactive session.
-
-Other env variables such as **`PYTHONPATH`** and **`PYTHONHOME`** could also be useful to make a python command execute arbitrary code.
-
-Note that executables compiled with **`pyinstaller`** won't use these environmental variables even if they are running using an embedded python.
-
-{% hint style="danger" %}
-Overall I couldn't find a way to make python execute arbitrary code abusing environment variables.\
-However, most of the people install pyhton using **Hombrew**, which will install pyhton in a **writable location** for the default admin user. You can hijack it with something like:
-
+Τα αρχεία NIB **ορίζουν τα στοιχεία της διεπαφής χρήστη (UI)** και τις αλληλεπιδράσεις τους μέσα σε μια εφαρμογή. Ωστόσο, μπορούν να **εκτελέσουν αυθαίρετες εντολές** και ο Gatekeeper δεν εμποδίζει την εκτέλεση μιας ήδη εκτελούμενης εφαρμογής αν ένα αρχείο NIB έχει τροποποιηθεί. Επομένως, μπορούν να χρησιμοποιηθούν για να κάνουν αυθαίρετα προγράμματα να εκτελέσουν αυθαίρετες εντολές:
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -112,42 +62,41 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
-
-Even **root** will run this code when running python.
+Ακόμη και ο **root** θα εκτελέσει αυτόν τον κώδικα κατά την εκτέλεση της python.
 {% endhint %}
 
-## Detection
+## Ανίχνευση
 
 ### Shield
 
-[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) is an open source application that can **detect and block process injection** actions:
+[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) είναι μια εφαρμογή ανοιχτού κώδικα που μπορεί να **ανιχνεύει και να αποκλείει ενέργειες εισαγωγής διεργασίας**:
 
-* Using **Environmental Variables**: It will monitor the presence of any of the following environmental variables: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** and **`ELECTRON_RUN_AS_NODE`**
-* Using **`task_for_pid`** calls: To find when one process wants to get the **task port of another** which allows to inject code in the process.
-* **Electron apps params**: Someone can use **`--inspect`**, **`--inspect-brk`** and **`--remote-debugging-port`** command line argument to start an Electron app in debugging mode, and thus inject code to it.
-* Using **symlinks** or **hardlinks**: Typically the most common abuse is to **place a link with our user privileges**, and **point it to a higher privilege** location. The detection is very simple for both hardlink and symlinks. If the process creating the link has a **different privilege level** than the target file, we create an **alert**. Unfortunately in the case of symlinks blocking is not possible, as we don’t have information about the destination of the link prior creation. This is a limitation of Apple’s EndpointSecuriy framework.
+* Χρησιμοποιώντας **Περιβαλλοντικές Μεταβλητές**: Θα παρακολουθεί την παρουσία οποιασδήποτε από τις ακόλουθες περιβαλλοντικές μεταβλητές: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** και **`ELECTRON_RUN_AS_NODE`**
+* Χρησιμοποιώντας κλήσεις **`task_for_pid`**: Για να βρει όταν μια διεργασία θέλει να πάρει τη **θύρα εργασίας μιας άλλης** που επιτρέπει την εισαγωγή κώδικα στη διεργασία.
+* **Παράμετροι εφαρμογών Electron**: Κάποιος μπορεί να χρησιμοποιήσει τις παρακάτω παραμέτρους γραμμής εντολών **`--inspect`**, **`--inspect-brk`** και **`--remote-debugging-port`** για να ξεκινήσει μια εφαρμογή Electron σε λειτουργία αποσφαλμάτωσης και έτσι να εισάγει κώδικα σε αυτήν.
+* Χρησιμοποιώντας **συμβολικά συνδέσμους** ή **συνδέσμους σκληρού δίσκου**: Συνήθως το πιο κοινό κατάχρησης είναι να **τοποθετήσουμε ένα σύνδεσμο με τα δικαιώματα του χρήστη μας**, και **να τον κατευθύνουμε προς μια τοποθεσία με υψηλότερα δικαιώματα**. Η ανίχνευση είναι πολύ απλή τόσο για συμβολικούς συνδέσμους όσο και για συνδέσμους σκληρού δίσκου. Εάν η διεργασία που δημιουργεί τον σύνδεσμο έχει **διαφορετικό επίπεδο δικαιωμάτων** από το αρχείο-στόχο, δημιουργούμε μια **ειδοποίηση**. Δυστυχώς, στην περίπτωση των συμβολικών συνδέσμων, δεν είναι δυνατή η απόκλειση, καθώς δεν έχουμε πληροφορίες για τον προορισμό του συνδέσμου πριν τη δημιουργία του. Αυτό είναι ένα περιορισμός του πλαισίου EndpointSecuriy της Apple.
 
-### Calls made by other processes
+### Κλήσεις που πραγματοποιούνται από άλλες διεργασίες
 
-In [**this blog post**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) you can find how it's possible to use the function **`task_name_for_pid`** to get information about other **processes injecting code in a process** and then getting information about that other process.
+Στο [**αυτό το blog post**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) μπορείτε να βρείτε πώς είναι δυνατόν να χρησιμοποιήσετε τη συνάρτηση **`task_name_for_pid`** για να λάβετε πληροφορίες για άλλες **διεργασίες που εισάγουν κώδικα σε μια διεργασία** και στη συνέχεια να λάβετε πληροφορίες για αυτήν την άλλη διεργασία.
 
-Note that to call that function you need to be **the same uid** as the one running the process or **root** (and it returns info about the process, not a way to inject code).
+Σημειώστε ότι για να καλέσετε αυτήν τη συνάρτηση πρέπει να είστε **το ίδιο uid** με αυτό που εκτελεί τη διεργασία ή **root** (και επιστρέφει πληροφορίες για τη διεργασία, όχι έναν τρόπο για να εισάγετε κώδικα).
 
-## References
+## Αναφορές
 
 * [https://theevilbit.github.io/shield/](https://theevilbit.github.io/shield/)
 * [https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

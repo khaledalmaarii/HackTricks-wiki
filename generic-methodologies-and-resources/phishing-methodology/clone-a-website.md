@@ -1,59 +1,84 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 
-For a phishing assessment sometimes it might be useful to completely **clone a website**.
+Για μια αξιολόγηση phishing, μερικές φορές μπορεί να είναι χρήσιμο να κλωνοποιήσετε εντελώς έναν ιστότοπο.
 
-Note that you can add also some payloads to the cloned website like a BeEF hook to "control" the tab of the user. 
+Σημειώστε ότι μπορείτε επίσης να προσθέσετε ορισμένα φορτία στον κλωνοποιημένο ιστότοπο, όπως ένα BeEF hook για να "ελέγχετε" τον πίνακα του χρήστη.
 
-There are different tools you can use for this purpose:
+Υπάρχουν διάφορα εργαλεία που μπορείτε να χρησιμοποιήσετε για αυτόν τον σκοπό:
 
 ## wget
-
 ```text
 wget -mk -nH
 ```
-
 ## goclone
 
+Το `goclone` είναι ένα εργαλείο γραμμής εντολών που χρησιμοποιείται για την αντιγραφή ιστότοπων. Με το `goclone`, μπορείτε να κλωνοποιήσετε έναν ιστότοπο και να τον αποθηκεύσετε τοπικά στον υπολογιστή σας.
+
+### Εγκατάσταση
+
+Για να εγκαταστήσετε το `goclone`, ακολουθήστε τα παρακάτω βήματα:
+
+1. Κατεβάστε τον κώδικα του `goclone` από το αποθετήριο του στο GitHub.
+2. Αποσυμπιέστε το αρχείο και μεταβείτε στον φάκελο του `goclone`.
+3. Ανοίξτε ένα τερματικό και εκτελέστε την εντολή `go build` για να δημιουργήσετε το εκτελέσιμο αρχείο του `goclone`.
+4. Μετακινήστε το εκτελέσιμο αρχείο στον φάκελο `/usr/local/bin` για να είναι προσβάσιμο από οποιοδήποτε μέρος του συστήματός σας.
+
+### Χρήση
+
+Για να χρησιμοποιήσετε το `goclone`, ακολουθήστε τα παρακάτω βήματα:
+
+1. Ανοίξτε ένα τερματικό και μεταβείτε στον φάκελο όπου θέλετε να αποθηκεύσετε τον κλωνοποιημένο ιστότοπο.
+2. Εκτελέστε την εντολή `goclone <URL>` όπου `<URL>` είναι η διεύθυνση URL του ιστότοπου που θέλετε να κλωνοποιήσετε.
+3. Αναμένετε την ολοκλήρωση της διαδικασίας κλωνοποίησης. Ο κλωνοποιημένος ιστότοπος θα αποθηκευτεί στον φάκελο που επιλέξατε.
+
+Με το `goclone`, μπορείτε να αντιγράψετε ιστότοπους για ανάλυση, δοκιμές ασφαλείας ή οποιοδήποτε άλλο σκοπό χωρίς να χρειάζεται να συνδεθείτε στον πραγματικό ιστότοπο. Ανακαλύψτε τις δυνατότητες του `goclone` και επωφεληθείτε από αυτό το ισχυρό εργαλείο.
 ```bash
 #https://github.com/imthaghost/goclone
 goclone <url>
 ```
+## Εργαλείο Κοινωνικής Μηχανικής
 
-## Social Engineering Toolit
+### Μεθοδολογία Κλωνοποίησης Ιστοσελίδας
 
+Η κλωνοποίηση ιστοσελίδας είναι μια τεχνική κοινωνικής μηχανικής που χρησιμοποιείται για να αποκτηθούν προσωπικά στοιχεία από τα θύματα. Αυτή η μέθοδος συνήθως περιλαμβάνει τη δημιουργία μιας ακριβούς αντιγραφής μιας ιστοσελίδας, όπως μια τράπεζα ή μια πλατφόρμα κοινωνικής δικτύωσης, με σκοπό την απάτη των χρηστών και την κλοπή των διαπιστευτηρίων τους.
+
+Για να κλωνοποιήσετε μια ιστοσελίδα, ακολουθήστε τα παρακάτω βήματα:
+
+1. Επιλέξτε την ιστοσελίδα που θέλετε να κλωνοποιήσετε και αναλύστε τη δομή της.
+2. Κατεβάστε τον πηγαίο κώδικα της ιστοσελίδας.
+3. Αντιγράψτε τον πηγαίο κώδικα σε έναν τοπικό φάκελο στον υπολογιστή σας.
+4. Τροποποιήστε τον πηγαίο κώδικα για να προσθέσετε τον κακόβουλο κώδικα που θα σας επιτρέψει να καταγράψετε τα διαπιστευτήρια των θυμάτων.
+5. Ανεβάστε τον τροποποιημένο πηγαίο κώδικα σε έναν διακομιστή ή σε μια υπηρεσία cloud/SaaS.
+6. Δημιουργήστε έναν σύνδεσμο προς την κλωνοποιημένη ιστοσελίδα και αποστείλτε τον στα θύματα μέσω email, μηνύματος κειμένου ή κοινωνικών δικτύων.
+7. Παρακολουθήστε τον κλωνοποιημένο ιστότοπο για να συλλέξετε τα διαπιστευτήρια των θυμάτων.
+
+Είναι σημαντικό να θυμάστε ότι η κλωνοποίηση ιστοσελίδας είναι παράνομη και απαγορεύεται. Χρησιμοποιήστε αυτήν τη μέθοδο μόνο για εκπαιδευτικούς σκοπούς και με την έγκριση του νόμου.
 ```bash
 #https://github.com/trustedsec/social-engineer-toolkit
 ```
-
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
-
-

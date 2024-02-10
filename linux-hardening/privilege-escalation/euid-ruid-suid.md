@@ -2,86 +2,55 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Συμμετάσχετε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-### User Identification Variables
+### Μεταβλητές Αναγνώρισης Χρήστη
 
-- **`ruid`**: The **real user ID** denotes the user who initiated the process.
-- **`euid`**: Known as the **effective user ID**, it represents the user identity utilized by the system to ascertain process privileges. Generally, `euid` mirrors `ruid`, barring instances like a SetUID binary execution, where `euid` assumes the file owner's identity, thus granting specific operational permissions.
-- **`suid`**: This **saved user ID** is pivotal when a high-privilege process (typically running as root) needs to temporarily relinquish its privileges to perform certain tasks, only to later reclaim its initial elevated status.
+- **`ruid`**: Το **πραγματικό ID χρήστη** υποδεικνύει τον χρήστη που ξεκίνησε τη διεργασία.
+- **`euid`**: Επίσης γνωστό ως **αποτελεσματικό ID χρήστη**, αντιπροσωπεύει την ταυτότητα του χρήστη που χρησιμοποιείται από το σύστημα για να καθορίσει τα δικαιώματα της διεργασίας. Γενικά, το `euid` αντικατοπτρίζει το `ruid`, εκτός από περιπτώσεις όπως η εκτέλεση ενός δυαδικού αρχείου SetUID, όπου το `euid` παίρνει την ταυτότητα του ιδιοκτήτη του αρχείου, παρέχοντας έτσι συγκεκριμένα δικαιώματα λειτουργίας.
+- **`suid`**: Αυτό το **αποθηκευμένο ID χρήστη** είναι κρίσιμο όταν μια διεργασία υψηλών προνομίων (συνήθως εκτελούμενη ως root) χρειάζεται να αποδώσει προσωρινά τα προνόμιά της για να εκτελέσει ορισμένες εργασίες, μόνο για να ανακτήσει αργότερα την αρχική της αυξημένη κατάσταση.
 
-#### Important Note
-A process not operating under root can only modify its `euid` to match the current `ruid`, `euid`, or `suid`.
+#### Σημαντική Σημείωση
+Μια διεργασία που δεν λειτουργεί ως root μπορεί να τροποποιήσει μόνο το `euid` της για να ταιριάζει με το τρέχον `ruid`, `euid` ή `suid`.
 
-### Understanding set*uid Functions
+### Κατανόηση των Συναρτήσεων set*uid
 
-- **`setuid`**: Contrary to initial assumptions, `setuid` primarily modifies `euid` rather than `ruid`. Specifically, for privileged processes, it aligns `ruid`, `euid`, and `suid` with the specified user, often root, effectively solidifying these IDs due to the overriding `suid`. Detailed insights can be found in the [setuid man page](https://man7.org/linux/man-pages/man2/setuid.2.html).
-- **`setreuid`** and **`setresuid`**: These functions allow for the nuanced adjustment of `ruid`, `euid`, and `suid`. However, their capabilities are contingent on the process's privilege level. For non-root processes, modifications are restricted to the current values of `ruid`, `euid`, and `suid`. In contrast, root processes or those with `CAP_SETUID` capability can assign arbitrary values to these IDs. More information can be gleaned from the [setresuid man page](https://man7.org/linux/man-pages/man2/setresuid.2.html) and the [setreuid man page](https://man7.org/linux/man-pages/man2/setreuid.2.html).
+- **`setuid`**: Αντίθετα με τις αρχικές υποθέσεις, το `setuid` τροποποιεί κυρίως το `euid` αντί του `ruid`. Συγκεκριμένα, για διεργασίες με προνόμια, ευθυγραμμίζει τα `ruid`, `euid` και `suid` με τον καθορισμένο χρήστη, συνήθως το root, ενισχύοντας αποτελεσματικά αυτά τα αναγνωριστικά λόγω του αντικαθιστώντος `suid`. Λεπτομερείς πληροφορίες μπορούν να βρεθούν στη [σελίδα του εγχειριδίου του setuid](https://man7.org/linux/man-pages/man2/setuid.2.html).
+- **`setreuid`** και **`setresuid`**: Αυτές οι συναρτήσεις επιτρέπουν τη λεπτομερή προσαρμογή των `ruid`, `euid` και `suid`. Ωστόσο, οι δυνατότητές τους εξαρτώνται από το επίπεδο προνομίων της διεργασίας. Για μη-ριζικές διεργασίες, οι τροποποιήσεις περιορίζονται στις τρέχουσες τιμές των `ruid`, `euid` και `suid`. Αντίθετα, οι διεργασίες root ή αυτές με δυνατότητα `CAP_SETUID` μπορούν να αναθέσουν αυθαίρετες τιμές σε αυτά τα αναγνωριστικά. Περισσότερες πληροφορίες μπορούν να αντληθούν από τη [σελίδα του εγχειριδίου του setresuid](https://man7.org/linux/man-pages/man2/setresuid.2.html) και τη [σελίδα του εγχειριδίου του setreuid](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
-These functionalities are designed not as a security mechanism but to facilitate the intended operational flow, such as when a program adopts another user's identity by altering its effective user ID.
-
-Notably, while `setuid` might be a common go-to for privilege elevation to root (since it aligns all IDs to root), differentiating between these functions is crucial for understanding and manipulating user ID behaviors in varying scenarios.
-
-### Program Execution Mechanisms in Linux
-
-#### **`execve` System Call**
-- **Functionality**: `execve` initiates a program, determined by the first argument. It takes two array arguments, `argv` for arguments and `envp` for the environment.
-- **Behavior**: It retains the memory space of the caller but refreshes the stack, heap, and data segments. The program's code is replaced by the new program.
-- **User ID Preservation**:
-  - `ruid`, `euid`, and supplementary group IDs remain unaltered.
-  - `euid` might have nuanced changes if the new program has the SetUID bit set.
-  - `suid` gets updated from `euid` post-execution.
-- **Documentation**: Detailed information can be found on the [`execve` man page](https://man7.org/linux/man-pages/man2/execve.2.html).
-
-#### **`system` Function**
-- **Functionality**: Unlike `execve`, `system` creates a child process using `fork` and executes a command within that child process using `execl`.
-- **Command Execution**: Executes the command via `sh` with `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
-- **Behavior**: As `execl` is a form of `execve`, it operates similarly but in the context of a new child process.
-- **Documentation**: Further insights can be obtained from the [`system` man page](https://man7.org/linux/man-pages/man3/system.3.html).
-
-#### **Behavior of `bash` and `sh` with SUID**
-- **`bash`**:
-  - Has a `-p` option influencing how `euid` and `ruid` are treated.
-  - Without `-p`, `bash` sets `euid` to `ruid` if they initially differ.
-  - With `-p`, the initial `euid` is preserved.
-  - More details can be found on the [`bash` man page](https://linux.die.net/man/1/bash).
-- **`sh`**:
-  - Does not possess a mechanism similar to `-p` in `bash`.
-  - The behavior concerning user IDs is not explicitly mentioned, except under the `-i` option, emphasizing the preservation of `euid` and `ruid` equality.
-  - Additional information is available on the [`sh` man page](https://man7.org/linux/man-pages/man1/sh.1p.html).
-
-These mechanisms, distinct in their operation, offer a versatile range of options for executing and transitioning between programs, with specific nuances in how user IDs are managed and preserved.
-
-### Testing User ID Behaviors in Executions
-
-Examples taken from https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, check it for further information
-
-#### Case 1: Using `setuid` with `system`
-
-**Objective**: Understanding the effect of `setuid` in combination with `system` and `bash` as `sh`.
-
-**C Code**:
+Αυτές οι λειτουργίες σχ
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    system("id");
-    return 0;
+setuid(1000);
+system("id");
+return 0;
 }
 ```
+**Συλλογή και Δικαιώματα:**
 
-**Compilation and Permissions:**
+Όταν μιλάμε για συλλογή και δικαιώματα στο Linux, αναφερόμαστε στη διαδικασία της ανάθεσης δικαιωμάτων σε αρχεία και φακέλους. Τα δικαιώματα καθορίζουν ποιος έχει πρόσβαση σε ένα αρχείο ή φάκελο και ποιες ενέργειες μπορεί να εκτελέσει.
+
+Στο Linux, κάθε αρχείο και φάκελος έχει τρία βασικά δικαιώματα: ανάγνωση (r), εγγραφή (w) και εκτέλεση (x). Αυτά τα δικαιώματα μπορούν να ανατεθούν σε τρεις διαφορετικές ομάδες: τον ιδιοκτήτη του αρχείου, την ομάδα του αρχείου και τους υπόλοιπους χρήστες.
+
+Οι διαδικασίες που εκτελούνται στο Linux έχουν έναν πραγματικό αριθμό χρήστη (RUID) και έναν αριθμό χρήστη αποτελέσματος (EUID). Ο RUID αντιπροσωπεύει τον πραγματικό χρήστη που εκτελεί τη διεργασία, ενώ ο EUID αντιπροσωπεύει τον χρήστη που χρησιμοποιείται για την εκτέλεση της διεργασίας.
+
+Οι διαδικασίες μπορούν να αλλάξουν τον EUID τους σε έναν άλλο χρήστη, αρκεί να έχουν τα ανάλογα δικαιώματα. Αυτή η δυνατότητα μπορεί να χρησιμοποιηθεί για την απόκτηση προνομίων και την ανόρθωση της διαδικασίας.
+
+Επιπλέον, οι αρχειοθέτες στο Linux μπορούν να ανατεθούν με το δικαίωμα SUID (Set User ID), το οποίο επιτρέπει σε ένα αρχείο να εκτελείται με τα δικαιώματα του ιδιοκτήτη του αρχείου, ανεξάρτητα από τον χρήστη που το εκτελεί.
+
+Κατά την ανάπτυξη μιας εφαρμογής ή την ρύθμιση ενός συστήματος Linux, είναι σημαντικό να λαμβάνονται υπόψη οι σωστές διαδικασίες συλλογής και τα δικαιώματα των αρχείων και των φακέλων, καθώς αυτά μπορούν να επηρεάσουν την ασφάλεια του συστήματος.
 ```bash
 oxdf@hacky$ gcc a.c -o /mnt/nfsshare/a;
 oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
@@ -91,133 +60,132 @@ oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
 bash-4.2$ $ ./a
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Ανάλυση:**
 
-**Analysis:**
+* Οι `ruid` και `euid` ξεκινούν ως 99 (nobody) και 1000 (frank) αντίστοιχα.
+* Η `setuid` ευθυγραμμίζει και τους δύο στο 1000.
+* Η `system` εκτελεί την εντολή `/bin/bash -c id` λόγω του symlink από το sh στο bash.
+* Το `bash`, χωρίς την επιλογή `-p`, προσαρμόζει το `euid` για να ταιριάζει με το `ruid`, με αποτέλεσμα και οι δύο να είναι 99 (nobody).
 
-* `ruid` and `euid` start as 99 (nobody) and 1000 (frank) respectively.
-* `setuid` aligns both to 1000.
-* `system` executes `/bin/bash -c id` due to the symlink from sh to bash.
-* `bash`, without `-p`, adjusts `euid` to match `ruid`, resulting in both being 99 (nobody).
+#### Περίπτωση 2: Χρήση της setreuid με την system
 
-#### Case 2: Using setreuid with system
-
-**C Code**:
+**Κώδικας C**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setreuid(1000, 1000);
-    system("id");
-    return 0;
+setreuid(1000, 1000);
+system("id");
+return 0;
 }
 ```
+**Συλλογή και Δικαιώματα:**
 
-**Compilation and Permissions:**
+Όταν μιλάμε για συλλογή και δικαιώματα στο Linux, αναφερόμαστε στη διαδικασία της ανάθεσης δικαιωμάτων σε αρχεία και φακέλους. Τα δικαιώματα καθορίζουν ποιος έχει πρόσβαση σε ένα αρχείο ή φάκελο και ποιες ενέργειες μπορεί να εκτελέσει.
+
+Στο Linux, κάθε αρχείο και φάκελος έχει τρία βασικά δικαιώματα: ανάγνωση (read), εγγραφή (write) και εκτέλεση (execute). Αυτά τα δικαιώματα μπορούν να ανατεθούν σε τρεις κατηγορίες χρηστών: τον ιδιοκτήτη του αρχείου, την ομάδα του αρχείου και τους υπόλοιπους χρήστες.
+
+Οι διαχειριστές συστήματος μπορούν να αλλάξουν τα δικαιώματα ενός αρχείου ή φακέλου χρησιμοποιώντας την εντολή `chmod`. Επιπλέον, μπορούν να αλλάξουν τον ιδιοκτήτη ενός αρχείου ή φακέλου χρησιμοποιώντας την εντολή `chown`.
+
+Η σωστή διαχείριση των δικαιωμάτων είναι σημαντική για την ασφάλεια του συστήματος, καθώς μπορεί να περιορίσει την πρόσβαση των χρηστών σε ευαίσθητα αρχεία και να αποτρέψει την ανεξουσιότητα.
 ```bash
 oxdf@hacky$ gcc b.c -o /mnt/nfsshare/b; chmod 4755 /mnt/nfsshare/b
 ```
+**Εκτέλεση και Αποτέλεσμα:**
 
-**Execution and Result:**
-
+To εκτελέσεις και τα αποτελέσματα:
 ```bash
 bash-4.2$ $ ./b
 uid=1000(frank) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Ανάλυση:**
 
-**Analysis:**
+* Το `setreuid` ορίζει τόσο το ruid όσο και το euid σε 1000.
+* Το `system` καλεί το bash, το οποίο διατηρεί τα αναγνωριστικά χρήστη λόγω της ισότητάς τους, λειτουργώντας αποτελεσματικά ως frank.
 
-* `setreuid` sets both ruid and euid to 1000.
-* `system` invokes bash, which maintains the user IDs due to their equality, effectively operating as frank.
-
-#### Case 3: Using setuid with execve
-Objective: Exploring the interaction between setuid and execve.
-
+#### Περίπτωση 3: Χρήση του setuid με το execve
+Στόχος: Εξερεύνηση της αλληλεπίδρασης μεταξύ του setuid και του execve.
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/usr/bin/id", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/usr/bin/id", NULL, NULL);
+return 0;
 }
 ```
+**Εκτέλεση και Αποτέλεσμα:**
 
-**Execution and Result:**
-
+To εκτελέσεις και τα αποτελέσματα:
 ```bash
 bash-4.2$ $ ./c
 uid=99(nobody) gid=99(nobody) euid=1000(frank) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Ανάλυση:**
 
-**Analysis:**
+* Το `ruid` παραμένει 99, αλλά το `euid` ορίζεται σε 1000, σύμφωνα με το αποτέλεσμα του `setuid`.
 
-* `ruid` remains 99, but euid is set to 1000, in line with setuid's effect.
-
-**C Code Example 2 (Calling Bash):**
-
+**Παράδειγμα Κώδικα C 2 (Κλήση του Bash):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/bin/bash", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/bin/bash", NULL, NULL);
+return 0;
 }
 ```
+**Εκτέλεση και Αποτέλεσμα:**
 
-**Execution and Result:**
-
+To εκτελέσεις και τα αποτελέσματα:
 ```bash
 bash-4.2$ $ ./d
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Ανάλυση:**
 
-**Analysis:**
+* Παρόλο που το `euid` ορίζεται σε 1000 από το `setuid`, το `bash` επαναφέρει το `euid` στο `ruid` (99) λόγω της απουσίας της επιλογής `-p`.
 
-* Although `euid` is set to 1000 by `setuid`, `bash` resets euid to `ruid` (99) due to the absence of `-p`.
-
-**C Code Example 3 (Using bash -p):**
-
+**Παράδειγμα Κώδικα C 3 (Χρήση του bash -p):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    char *const paramList[10] = {"/bin/bash", "-p", NULL};
-    setuid(1000);
-    execve(paramList[0], paramList, NULL);
-    return 0;
+char *const paramList[10] = {"/bin/bash", "-p", NULL};
+setuid(1000);
+execve(paramList[0], paramList, NULL);
+return 0;
 }
 ```
+**Εκτέλεση και Αποτέλεσμα:**
 
-**Execution and Result:**
-
+To εκτελέσεις και τα αποτελέσματα:
 ```bash
 bash-4.2$ $ ./e
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) euid=100
 ```
-
-## References
+## Αναφορές
 * [https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail](https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

@@ -1,71 +1,69 @@
-# macOS Serial Number
+# Αριθμός Σειριακού Αριθμού macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 
-## Basic Information
+## Βασικές Πληροφορίες
 
-Apple devices post-2010 have serial numbers consisting of **12 alphanumeric characters**, each segment conveying specific information:
+Τα συσκευές Apple μετά το 2010 έχουν σειριακούς αριθμούς που αποτελούνται από **12 αλφαριθμητικούς χαρακτήρες**, με κάθε τμήμα να μεταφέρει συγκεκριμένες πληροφορίες:
 
-- **First 3 Characters**: Indicate the **manufacturing location**.
-- **Characters 4 & 5**: Denote the **year and week of manufacture**.
-- **Characters 6 to 8**: Serve as a **unique identifier** for each device.
-- **Last 4 Characters**: Specify the **model number**.
+- **Πρώτοι 3 χαρακτήρες**: Υποδεικνύουν τη **τοποθεσία κατασκευής**.
+- **Χαρακτήρες 4 & 5**: Δηλώνουν το **έτος και την εβδομάδα κατασκευής**.
+- **Χαρακτήρες 6 έως 8**: Λειτουργούν ως **μοναδικός αναγνωριστικός αριθμός** για κάθε συσκευή.
+- **Τελευταίοι 4 χαρακτήρες**: Καθορίζουν το **μοντέλο της συσκευής**.
 
-For instance, the serial number **C02L13ECF8J2** follows this structure.
+Για παράδειγμα, ο σειριακός αριθμός **C02L13ECF8J2** ακολουθεί αυτήν τη δομή.
 
-### **Manufacturing Locations (First 3 Characters)**
-Certain codes represent specific factories:
-- **FC, F, XA/XB/QP/G8**: Various locations in the USA.
-- **RN**: Mexico.
-- **CK**: Cork, Ireland.
-- **VM**: Foxconn, Czech Republic.
-- **SG/E**: Singapore.
-- **MB**: Malaysia.
-- **PT/CY**: Korea.
-- **EE/QT/UV**: Taiwan.
-- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**: Different locations in China.
-- **C0, C3, C7**: Specific cities in China.
-- **RM**: Refurbished devices.
+### **Τοποθεσίες Κατασκευής (Πρώτοι 3 χαρακτήρες)**
+Ορισμένοι κωδικοί αντιπροσωπεύουν συγκεκριμένες εργοστάσια:
+- **FC, F, XA/XB/QP/G8**: Διάφορες τοποθεσίες στις ΗΠΑ.
+- **RN**: Μεξικό.
+- **CK**: Κορκ, Ιρλανδία.
+- **VM**: Foxconn, Τσεχία.
+- **SG/E**: Σιγκαπούρη.
+- **MB**: Μαλαισία.
+- **PT/CY**: Κορέα.
+- **EE/QT/UV**: Ταϊβάν.
+- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**: Διάφορες τοποθεσίες στην Κίνα.
+- **C0, C3, C7**: Συγκεκριμένες πόλεις στην Κίνα.
+- **RM**: Ανακατασκευασμένες συσκευές.
 
-### **Year of Manufacturing (4th Character)**
-This character varies from 'C' (representing the first half of 2010) to 'Z' (second half of 2019), with different letters indicating different half-year periods.
+### **Έτος Κατασκευής (4ος χαρακτήρας)**
+Αυτός ο χαρακτήρας ποικίλει από το 'C' (που αντιπροσωπεύει το πρώτο μισό του 2010) έως το 'Z' (δεύτερο μισό του 2019), με διάφορους χαρακτήρες που υποδηλώνουν διάφορες περιόδους του ημιετούς.
 
-### **Week of Manufacturing (5th Character)**
-Digits 1-9 correspond to weeks 1-9. Letters C-Y (excluding vowels and 'S') represent weeks 10-27. For the second half of the year, 26 is added to this number.
+### **Εβδομάδα Κατασκευής (5ος χαρακτήρας)**
+Οι αριθμοί 1-9 αντιστοιχούν στις εβδομάδες 1-9. Οι χαρακτήρες C-Y (εξαιρουμένων των φωνηέντων και του 'S') αντιπροσωπεύουν τις εβδομάδες 10-27. Για το δεύτερο μισό του έτους, προστίθεται το 26 σε αυτόν τον αριθμό.
 
-### **Unique Identifier (Characters 6 to 8)**
-These three digits ensure each device, even of the same model and batch, has a distinct serial number.
+### **Μοναδικός Αναγνωριστικός Αριθμός (Χαρακτήρες 6 έως 8)**
+Αυτοί οι τρεις αριθμοί εξασφαλίζουν ότι κάθε συσκευή, ακόμα και του ίδιου μοντέλου και παρτίδας, έχει έναν διακριτό σειριακό αριθμό.
 
-### **Model Number (Last 4 Characters)**
-These digits identify the specific model of the device.
+### **Αριθμός Μοντέλου (Τελευταίοι 4 χαρακτήρες)**
+Αυτοί οι αριθμοί αναγνωρίζουν το συγκεκριμένο μοντέλο της συσκευής.
 
-### Reference
+### Αναφορά
 
 * [https://beetstech.com/blog/decode-meaning-behind-apple-serial-number](https://beetstech.com/blog/decode-meaning-behind-apple-serial-number)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μο

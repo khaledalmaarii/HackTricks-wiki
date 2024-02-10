@@ -1,71 +1,67 @@
-# Shadow Credentials
+# Σκιώδεις Διαπιστευτήρια
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Εγγραφείτε** [**💬**](https://emojipedia.org/speech-balloon/) **στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## Intro <a href="#3f17" id="3f17"></a>
+## Εισαγωγή <a href="#3f17" id="3f17"></a>
 
-**Check the original post for [all the information about this technique](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab).**
+**Ελέγξτε την αρχική ανάρτηση για [όλες τις πληροφορίες σχετικά με αυτήν την τεχνική](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab).**
 
-As **summary**: if you can write to the **msDS-KeyCredentialLink** property of a user/computer, you can retrieve the **NT hash of that object**.
+Συνοπτικά: αν μπορείτε να γράψετε στην ιδιότητα **msDS-KeyCredentialLink** ενός χρήστη/υπολογιστή, μπορείτε να ανακτήσετε το **NT hash αυτού του αντικειμένου**.
 
-In the post, a method is outlined for setting up **public-private key authentication credentials** to acquire a unique **Service Ticket** that includes the target's NTLM hash. This process involves the encrypted NTLM_SUPPLEMENTAL_CREDENTIAL within the Privilege Attribute Certificate (PAC), which can be decrypted.
+Στην ανάρτηση, περιγράφεται μια μέθοδος για τη δημιουργία δημόσιων-ιδιωτικών κλειδιών για την απόκτηση ενός μοναδικού **Service Ticket** που περιλαμβάνει το NTLM hash του στόχου. Αυτή η διαδικασία περιλαμβάνει τον κρυπτογραφημένο NTLM_SUPPLEMENTAL_CREDENTIAL μέσα στο Privilege Attribute Certificate (PAC), το οποίο μπορεί να αποκρυπτογραφηθεί.
 
-### Requirements
+### Απαιτήσεις
 
-To apply this technique, certain conditions must be met:
-- A minimum of one Windows Server 2016 Domain Controller is needed.
-- The Domain Controller must have a server authentication digital certificate installed.
-- The Active Directory must be at the Windows Server 2016 Functional Level.
-- An account with delegated rights to modify the msDS-KeyCredentialLink attribute of the target object is required.
+Για να εφαρμόσετε αυτήν την τεχνική, πρέπει να πληρούνται ορισμένες προϋποθέσεις:
+- Χρειάζεται τουλάχιστον ένας Windows Server 2016 Domain Controller.
+- Ο Domain Controller πρέπει να έχει εγκατεστημένο ένα ψηφιακό πιστοποιητικό επαλήθευσης του διακομιστή.
+- Το Active Directory πρέπει να είναι στο επίπεδο λειτουργίας του Windows Server 2016.
+- Απαιτείται ένας λογαριασμός με εξουσιοδοτημένα δικαιώματα για την τροποποίηση της ιδιότητας msDS-KeyCredentialLink του στοχευμένου αντικειμένου.
 
-## Abuse
+## Κατάχρηση
 
-The abuse of Key Trust for computer objects encompasses steps beyond obtaining a Ticket Granting Ticket (TGT) and the NTLM hash. The options include:
-1. Creating an **RC4 silver ticket** to act as privileged users on the intended host.
-2. Using the TGT with **S4U2Self** for impersonation of **privileged users**, necessitating alterations to the Service Ticket to add a service class to the service name.
+Η κατάχρηση του Key Trust για αντικείμενα υπολογιστών περιλαμβάνει βήματα πέρα ​​από την απόκτηση ενός Ticket Granting Ticket (TGT) και του NTLM hash. Οι επιλογές περιλαμβάνουν:
+1. Δημιουργία ενός **RC4 silver ticket** για να λειτουργήσει ως προνομιούχος χρήστης στον επιθυμητό κεντρικό υπολογιστή.
+2. Χρήση του TGT με το **S4U2Self** για εμψύχωση **προνομιούχων χρηστών**, απαιτώντας τροποποιήσεις στο Service Ticket για να προστεθεί μια κλάση υπηρεσίας στο όνομα της υπηρεσίας.
 
-A significant advantage of Key Trust abuse is its limitation to the attacker-generated private key, avoiding delegation to potentially vulnerable accounts and not requiring the creation of a computer account, which could be challenging to remove.
+Ένα σημαντικό πλεονέκτημα της κατάχρησης του Key Trust είναι η περιορισμένη χρήση του ιδιωτικού κλειδιού που δημιουργεί ο επιτιθέμενος, αποφεύγοντας την ανάθεση σε πιθανά ευάλωτους λογαριασμούς και χωρίς να απαιτείται η δημιουργία ενός λογαριασμού υπολογιστή, που μπορεί να είναι δύσκολο να αφαιρεθεί.
 
-## Tools
+## Εργαλεία
 
 ### [**Whisker**](https://github.com/eladshamir/Whisker)
 
-It's based on DSInternals providing a C# interface for this attack. Whisker and its Python counterpart, **pyWhisker**, enable manipulation of the `msDS-KeyCredentialLink` attribute to gain control over Active Directory accounts. These tools support various operations like adding, listing, removing, and clearing key credentials from the target object.
+Βασίζεται στο DSInternals και παρέχει μια διεπαφή C# για αυτήν την επίθεση. Το Whisker και η αντίστοιχη Python έκδοσή του, **pyWhisker**, επιτρέπουν την επεξεργασία της ιδιότητας `msDS-KeyCredentialLink` για τον έλεγχο των λογαριασμών Active Directory. Αυτά τα εργαλεία υποστηρίζουν διάφορες λειτουργίες όπως προσθήκη, λίστα, αφαίρεση και εκκαθάριση κλειδιών διαπιστευτηρίων από το στοχευμένο αντικείμενο.
 
-**Whisker** functions include:
-- **Add**: Generates a key pair and adds a key credential.
-- **List**: Displays all key credential entries.
-- **Remove**: Deletes a specified key credential.
-- **Clear**: Erases all key credentials, potentially disrupting legitimate WHfB usage.
-
+Οι λειτουργίες του **Whisker** περιλαμβάνουν:
+- **Add**: Δημιουργεί ένα ζευγάρι κλειδιών και προσθέτει ένα κλειδί διαπιστευτηρίου.
+- **List**: Εμφανίζει όλες τις καταχωρήσεις κλειδιών διαπιστευτηρίων.
+- **Remove**: Διαγράφει ένα συγκεκριμένο κλειδί διαπιστευτηρίου.
+- **Clear**: Διαγράφει όλα τα κλειδιά διαπιστευτηρίων, προκαλώντας πιθανή διαταραχή της νόμιμης χρήσης του WHfB.
 ```shell
 Whisker.exe add /target:computername$ /domain:constoso.local /dc:dc1.contoso.local /path:C:\path\to\file.pfx /password:P@ssword1
 ```
+### [pyWhisker](https://github.com/ShutdownRepo/pywhisker)
 
-### [pyWhisker](https://github.com/ShutdownRepo/pywhisker) 
-
-It extends Whisker functionality to **UNIX-based systems**, leveraging Impacket and PyDSInternals for comprehensive exploitation capabilities, including listing, adding, and removing KeyCredentials, as well as importing and exporting them in JSON format.
-
+Επεκτείνει τη λειτουργικότητα του Whisker σε συστήματα βασισμένα σε **UNIX**, εκμεταλλευόμενο το Impacket και το PyDSInternals για πλήρεις δυνατότητες εκμετάλλευσης, συμπεριλαμβανομένης της λίστας, προσθήκης και αφαίρεσης KeyCredentials, καθώς και την εισαγωγή και εξαγωγή τους σε μορφή JSON.
 ```shell
 python3 pywhisker.py -d "domain.local" -u "user1" -p "complexpassword" --target "user2" --action "list"
 ```
-
 ### [ShadowSpray](https://github.com/Dec0ne/ShadowSpray/)
 
-ShadowSpray aims to **exploit GenericWrite/GenericAll permissions that wide user groups may have over domain objects** to apply ShadowCredentials broadly. It entails logging into the domain, verifying the domain's functional level, enumerating domain objects, and attempting to add KeyCredentials for TGT acquisition and NT hash revelation. Cleanup options and recursive exploitation tactics enhance its utility.
+Το ShadowSpray στοχεύει να **εκμεταλλευτεί τα δικαιώματα GenericWrite/GenericAll που ευρέως ομάδες χρηστών μπορεί να έχουν πάνω σε αντικείμενα του τομέα** για να εφαρμόσει ευρέως τα ShadowCredentials. Περιλαμβάνει την είσοδο στον τομέα, τον έλεγχο του επιπέδου λειτουργικότητας του τομέα, την απαρίθμηση των αντικειμένων του τομέα και την προσπάθεια προσθήκης KeyCredentials για την απόκτηση TGT και την αποκάλυψη του NT hash. Οι επιλογές καθαρισμού και οι τακτικές αναδρομικής εκμετάλλευσης ενισχύουν τη χρησιμότητά του.
 
 
-## References
+## Αναφορές
 
 * [https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab)
 * [https://github.com/eladshamir/Whisker](https://github.com/eladshamir/Whisker)
@@ -74,12 +70,12 @@ ShadowSpray aims to **exploit GenericWrite/GenericAll permissions that wide user
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα κόλπα σας στο hacking υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

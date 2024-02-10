@@ -2,30 +2,29 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Context
+## Πλαίσιο
 
-In Linux in order to run a program it must exist as a file, it must be accessible in some way through the file system hierarchy (this is just how `execve()` works). This file may reside on disk or in ram (tmpfs, memfd) but you need a filepath. This has made very easy to control what is run on a Linux system, it makes easy to detect threats and attacker's tools or to prevent them from trying to execute anything of theirs at all (_e. g._ not allowing unprivileged users to place executable files anywhere).
+Στο Linux, για να εκτελεστεί ένα πρόγραμμα πρέπει να υπάρχει ως ένα αρχείο, πρέπει να είναι προσβάσιμο με κάποιον τρόπο μέσω της ιεραρχίας του συστήματος αρχείων (αυτό είναι ακριβώς πώς λειτουργεί η `execve()`). Αυτό το αρχείο μπορεί να βρίσκεται στον δίσκο ή στη μνήμη (tmpfs, memfd), αλλά χρειάζεστε ένα διαδρομή αρχείου. Αυτό έχει καταστήσει πολύ εύκολο τον έλεγχο του τι εκτελείται σε ένα σύστημα Linux, καθιστά εύκολη την ανίχνευση απειλών και εργαλείων του εισβολέα ή την αποτροπή τους από το να προσπαθήσουν να εκτελέσουν οτιδήποτε δικό τους (_π.χ._ να μην επιτρέπεται σε μη προνομιούχους χρήστες να τοποθετούν εκτελέσιμα αρχεία οπουδήποτε).
 
-But this technique is here to change all of this. If you can not start the process you want... **then you hijack one already existing**.
+Αλλά αυτή η τεχνική είναι εδώ για να αλλάξει όλα αυτά. Εάν δεν μπορείτε να ξεκινήσετε τη διεργασία που θέλετε... **τότε καταλαμβάνετε μία ήδη υπάρχουσα**.
 
-This technique allows you to **bypass common protection techniques such as read-only, noexec, file-name whitelisting, hash whitelisting...**
+Αυτή η τεχνική σας επιτρέπει να **παρακάμψετε κοινές τεχνικές προστασίας όπως το read-only, noexec, λευκή λίστα ονομάτων αρχείων, λευκή λίστα κατακερματισμού...**
 
-## Dependencies
+## Εξαρτήσεις
 
-The final script depends on the following tools to work, they need to be accessible in the system you are attacking (by default you will find all of them everywhere):
-
+Το τελικό σενάριο εξαρτάται από τα παρακάτω εργαλεία για να λειτουργήσει, πρέπει να είναι προσβάσιμα στο σύστημα που επιτίθεστε (από προεπιλογή θα τα βρείτε παντού):
 ```
 dd
 bash | zsh | ash (busybox)
@@ -39,80 +38,73 @@ wc
 tr
 base64
 ```
+## Η τεχνική
 
-## The technique
+Εάν μπορείτε να τροποποιήσετε αυθαίρετα τη μνήμη ενός διεργασίας, τότε μπορείτε να την αναλάβετε. Αυτό μπορεί να χρησιμοποιηθεί για να αποκτήσετε τον έλεγχο ενός ήδη υπάρχοντος διεργασίας και να τον αντικαταστήσετε με ένα άλλο πρόγραμμα. Μπορούμε να επιτύχουμε αυτό είτε χρησιμοποιώντας την κλήση συστήματος `ptrace()` (η οποία απαιτεί να έχετε τη δυνατότητα εκτέλεσης κλήσεων συστήματος ή να έχετε το gdb διαθέσιμο στο σύστημα) ή, πιο ενδιαφέροντα, εγγράφοντας στο `/proc/$pid/mem`.
 
-If you are able to modify arbitrarily the memory of a process then you can take over it. This can be used to hijack an already existing process and replace it with another program. We can achieve this either by using the `ptrace()` syscall (which requires you to have the ability to execute syscalls or to have gdb available on the system) or, more interestingly, writing to `/proc/$pid/mem`.
+Το αρχείο `/proc/$pid/mem` είναι ένας αντιστοιχισμένος ένα προς ένα χάρτης του πλήρους χώρου διευθύνσεων μιας διεργασίας (π.χ. από `0x0000000000000000` έως `0x7ffffffffffff000` σε x86-64). Αυτό σημαίνει ότι η ανάγνωση ή η εγγραφή σε αυτό το αρχείο σε μια θέση `x` είναι το ίδιο με την ανάγνωση ή την τροποποίηση του περιεχομένου στην εικονική διεύθυνση `x`.
 
-The file `/proc/$pid/mem` is a one-to-one mapping of the entire address space of a process (_e. g._ from `0x0000000000000000` to `0x7ffffffffffff000` in x86-64). This means that reading from or writing to this file at an offset `x` is the same as reading from or modifying the contents at the virtual address `x`.
+Τώρα, έχουμε τέσσερα βασικά προβλήματα που πρέπει να αντιμετωπίσουμε:
 
-Now, we have four basic problems to face:
-
-* In general, only root and the program owner of the file may modify it.
+* Γενικά, μόνο ο ριζικός χρήστης και ο ιδιοκτήτης του αρχείου μπορούν να το τροποποιήσουν.
 * ASLR.
-* If we try to read or write to an address not mapped in the address space of the program we will get an I/O error.
+* Εάν προσπαθήσουμε να διαβάσουμε ή να γράψουμε σε μια διεύθυνση που δεν έχει αντιστοιχιστεί στον χώρο διευθύνσεων του προγράμματος, θα λάβουμε ένα σφάλμα εισόδου/εξόδου.
 
-This problems have solutions that, although they are not perfect, are good:
+Αυτά τα προβλήματα έχουν λύσεις που, αν και δεν είναι τέλειες, είναι καλές:
 
-* Most shell interpreters allow the creation of file descriptors that will then be inherited by child processes. We can create a fd pointing to the `mem` file of the sell with write permissions... so child processes that use that fd will be able to modify the shell's memory.
-* ASLR isn't even a problem, we can check the shell's `maps` file or any other from the procfs in order to gain information about the address space of the process.
-* So we need to `lseek()` over the file. From the shell this cannot be done unless using the infamous `dd`.
+* Οι περισσότεροι διερμηνείς κελύφους επιτρέπουν τη δημιουργία περιγραφέων αρχείων που θα κληρονομηθούν από διεργασίες-παιδιά. Μπορούμε να δημιουργήσουμε έναν περιγραφέα αρχείου που δείχνει στο αρχείο `mem` του κελύφους με δικαιώματα εγγραφής... έτσι, οι διεργασίες-παιδιά που χρησιμοποιούν αυτόν τον περιγραφέα αρχείου θα μπορούν να τροποποιήσουν τη μνήμη του κελύφους.
+* Το ASLR δεν είναι κανένα πρόβλημα, μπορούμε να ελέγξουμε το αρχείο `maps` του κελύφους ή οποιοδήποτε άλλο αρχείο από το procfs για να αποκτήσουμε πληροφορίες σχετικά με τον χώρο διευθύνσεων της διεργασίας.
+* Έτσι, πρέπει να κάνουμε `lseek()` στο αρχείο. Από το κελύφος αυτό δεν μπορεί να γίνει εκτός αν χρησιμοποιήσουμε τον περίφημο `dd`.
 
-### In more detail
+### Περισσότερες λεπτομέρειες
 
-The steps are relatively easy and do not require any kind of expertise to understand them:
+Τα βήματα είναι σχετικά εύκολα και δεν απαιτούν καμία ειδική γνώση για να τα κατανοήσετε:
 
-* Parse the binary we want to run and the loader to find out what mappings they need. Then craft a "shell"code that will perform, broadly speaking, the same steps that the kernel does upon each call to `execve()`:
-  * Create said mappings.
-  * Read the binaries into them.
-  * Set up permissions.
-  * Finally initialize the stack with the arguments for the program and place the auxiliary vector (needed by the loader).
-  * Jump into the loader and let it do the rest (load libraries needed by the program).
-* Obtain from the `syscall` file the address to which the process will return after the syscall it is executing.
-* Overwrite that place, which will be executable, with our shellcode (through `mem` we can modify unwritable pages).
-* Pass the program we want to run to the stdin of the process (will be `read()` by said "shell"code).
-* At this point it is up to the loader to load the necessary libraries for our program and jump into it.
+* Αναλύστε το δυαδικό που θέλουμε να εκτελέσουμε και τον φορτωτή για να βρούμε ποιους χάρτες χρειάζονται. Στη συνέχεια, δημιουργήστε έναν "κώδικα κελύφους" που θα εκτελέσει, γενικά, τα ίδια βήματα που κάνει το πυρήνας κατά την κλήση `execve()`:
+* Δημιουργήστε τους χάρτες αυτούς.
+* Διαβάστε τα δυαδικά αρχεία σε αυτούς.
+* Ρυθμίστε τα δικαιώματα.
+* Τέλος, αρχικοποιήστε τη στοίβα με τα ορίσματα για το πρόγραμμα και τοποθετήστε τον βοηθητικό διάνυσμα (απαραίτητο από τον φορτωτή).
+* Μεταβείτε στον φορτωτή και αφήστε τον να κάνει τα υπόλοιπα (φόρτωση βιβλιοθηκών που χρειάζεται το πρόγραμμα).
+* Αποκτήστε από το αρχείο `syscall` τη διεύθυνση στην οποία θα επιστρέψει η διεργασία μετά την κλήση συστήματος που εκτελείται.
+* Αντικαταστήστε αυτήν τη θέση, η οποία θα είναι εκτελέσιμη, με τον κώδικα κελύφους μας (μέσω του `mem` μπορούμε να τροποποιήσουμε σελίδες που δεν είναι εγγράψιμες).
+* Περάστε το πρόγραμμα που θέλουμε να εκτελέσουμε στην είσοδο της διεργασίας (θα το διαβάσει το εν λόγω "κώδικα κελύφους").
+* Σε αυτό το σημείο, είναι υπόθεση του φορτωτή να φορτώσει τις απαραίτητες βιβλιοθήκες για το πρόγραμμά μας και να μεταβεί σε αυτό.
 
-**Check out the tool in** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
+**Ελέγξτε το εργαλείο στο** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
 
 ## EverythingExec
 
-There are several alternatives to `dd`, one of which, `tail`, is currently the default program used to `lseek()` through the `mem` file (which was the sole purpose for using `dd`). Said alternatives are:
-
+Υπάρχουν αρκετές εναλλακτικές για το `dd`, μία από τις οποίες, το `tail`, είναι αυτήν τη στιγμή το προεπιλεγμένο πρόγραμμα που χρησιμοποιείται για το `lseek()` μέσω του αρχείου `mem` (που ήταν ο μοναδικός σκοπός για τον οποίο χρησιμοποιούνταν το `dd`). Οι εναλλακτικές αυτές είναι:
 ```bash
 tail
 hexdump
 cmp
 xxd
 ```
-
-Setting the variable `SEEKER` you may change the seeker used, _e. g._:
-
+Με την ρύθμιση της μεταβλητής `SEEKER` μπορείτε να αλλάξετε τον ψάκτη που χρησιμοποιείται, _π.χ._:
 ```bash
 SEEKER=cmp bash ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-
-If you find another valid seeker not implemented in the script you may still use it setting the `SEEKER_ARGS` variable:
-
+Εάν βρείτε έναν άλλο έγκυρο seeker που δεν έχει εφαρμοστεί στο σενάριο, μπορείτε ακόμα να το χρησιμοποιήσετε ορίζοντας τη μεταβλητή `SEEKER_ARGS`:
 ```bash
 SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
+Φράξτε αυτό, EDRs.
 
-Block this, EDRs.
-
-## References
+## Αναφορές
 * [https://github.com/arget13/DDexec](https://github.com/arget13/DDexec)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΛΑΝΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

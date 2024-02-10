@@ -1,50 +1,46 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 
 # ECB
 
-(ECB) Electronic Code Book - symmetric encryption scheme which **replaces each block of the clear text** by the **block of ciphertext**. It is the **simplest** encryption scheme. The main idea is to **split** the clear text into **blocks of N bits** (depends on the size of the block of input data, encryption algorithm) and then to encrypt (decrypt) each block of clear text using the only key.
+(ECB) Ηλεκτρονικό Βιβλίο Κωδικοποίησης - συμμετρικό σχήμα κρυπτογράφησης που **αντικαθιστά κάθε μπλοκ του καθαρού κειμένου** με το **μπλοκ του κρυπτοκειμένου**. Είναι το **απλούστερο** σχήμα κρυπτογράφησης. Η κύρια ιδέα είναι να **διαιρέσετε** το καθαρό κείμενο σε **μπλοκ των N bits** (εξαρτάται από το μέγεθος του μπλοκ των εισροών δεδομένων, αλγόριθμο κρυπτογράφησης) και στη συνέχεια να κρυπτογραφήσετε (αποκρυπτογραφήσετε) κάθε μπλοκ του καθαρού κειμένου χρησιμοποιώντας μόνο το κλειδί.
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/ECB_decryption.svg/601px-ECB_decryption.svg.png)
 
-Using ECB has multiple security implications:
+Η χρήση του ECB έχει πολλές ασφαλείας συνέπειες:
 
-* **Blocks from encrypted message can be removed**
-* **Blocks from encrypted message can be moved around**
+* **Μπορούν να αφαιρεθούν μπλοκ από το κρυπτογραφημένο μήνυμα**
+* **Μπορούν να μετακινηθούν μπλοκ από το κρυπτογραφημένο μήνυμα**
 
-# Detection of the vulnerability
+# Ανίχνευση της ευπάθειας
 
-Imagine you login into an application several times and you **always get the same cookie**. This is because the cookie of the application is **`<username>|<password>`**.\
-Then, you generate to new users, both of them with the **same long password** and **almost** the **same** **username**.\
-You find out that the **blocks of 8B** where the **info of both users** is the same are **equals**. Then, you imagine that this might be because **ECB is being used**. 
+Φανταστείτε ότι συνδέεστε σε μια εφαρμογή αρκετές φορές και πάντα λαμβάνετε το ίδιο cookie. Αυτό συμβαίνει επειδή το cookie της εφαρμογής είναι **`<username>|<password>`**.\
+Στη συνέχεια, δημιουργείτε δύο νέους χρήστες, και οι δύο με το **ίδιο μακρύ κωδικό πρόσβασης** και **σχεδόν** το **ίδιο** **όνομα χρήστη**.\
+Ανακαλύπτετε ότι τα **μπλοκ των 8B** όπου οι **πληροφορίες και των δύο χρηστών** είναι ίδιες είναι **ίσα**. Σκέφτεστε ότι αυτό μπορεί να συμβαίνει επειδή χρησιμοποιείται η ECB.
 
-Like in the following example. Observe how these** 2 decoded cookies** has several times the block **`\x23U\xE45K\xCB\x21\xC8`**
-
+Όπως στο παρακάτω παράδειγμα. Παρατηρήστε πώς αυτά τα **2 αποκωδικοποιημένα cookies** έχουν αρκετές φορές το μπλοκ **`\x23U\xE45K\xCB\x21\xC8`**
 ```
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 ```
+Αυτό συμβαίνει επειδή το **όνομα χρήστη και ο κωδικός πρόσβασης αυτών των cookies περιέχουν αρκετές φορές το γράμμα "α"** (για παράδειγμα). Τα **τμήματα** που είναι **διαφορετικά** είναι τμήματα που περιέχουν **τουλάχιστον 1 διαφορετικό χαρακτήρα** (ίσως το διαχωριστικό "|" ή κάποια απαραίτητη διαφορά στο όνομα χρήστη).
 
-This is because the **username and password of those cookies contained several times the letter "a"** (for example). The **blocks** that are **different** are blocks that contained **at least 1 different character** (maybe the delimiter "|" or some necessary difference in the username).
+Τώρα, ο επιτιθέμενος απλά χρειάζεται να ανακαλύψει αν η μορφή είναι `<όνομα χρήστη><διαχωριστικό><κωδικός πρόσβασης>` ή `<κωδικός πρόσβασης><διαχωριστικό><όνομα χρήστη>`. Για να το κάνει αυτό, μπορεί απλά να **δημιουργήσει αρκετά ονόματα χρηστών** με παρόμοια και μακριά ονόματα χρηστών και κωδικούς πρόσβασης μέχρι να βρει τη μορφή και το μήκος του διαχωριστικού:
 
-Now, the attacker just need to discover if the format is `<username><delimiter><password>` or `<password><delimiter><username>`. For doing that, he can just **generate several usernames **with s**imilar and long usernames and passwords until he find the format and the length of the delimiter:**
-
-| Username length: | Password length: | Username+Password length: | Cookie's length (after decoding): |
+| Μήκος ονόματος χρήστη: | Μήκος κωδικού πρόσβασης: | Συνολικό μήκος ονόματος χρήστη + κωδικού πρόσβασης: | Μήκος cookie (μετά την αποκωδικοποίηση): |
 | ---------------- | ---------------- | ------------------------- | --------------------------------- |
 | 2                | 2                | 4                         | 8                                 |
 | 3                | 3                | 6                         | 8                                 |
@@ -52,53 +48,47 @@ Now, the attacker just need to discover if the format is `<username><delimiter><
 | 4                | 4                | 8                         | 16                                |
 | 7                | 7                | 14                        | 16                                |
 
-# Exploitation of the vulnerability
+# Εκμετάλλευση της ευπάθειας
 
-## Removing entire blocks
+## Αφαίρεση ολόκληρων τμημάτων
 
-Knowing the format of the cookie (`<username>|<password>`), in order to impersonate the username `admin` create a new user called `aaaaaaaaadmin` and get the cookie and decode it:
-
+Γνωρίζοντας τη μορφή του cookie (`<όνομα χρήστη>|<κωδικός πρόσβασης>`), για να προσομοιώσετε το όνομα χρήστη `admin`, δημιουργήστε ένα νέο χρήστη με το όνομα `aaaaaaaaadmin` και αποκτήστε το cookie και αποκωδικοποιήστε το:
 ```
 \x23U\xE45K\xCB\x21\xC8\xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
-
-We can see the pattern `\x23U\xE45K\xCB\x21\xC8` created previously with the username that contained only `a`.\
-Then, you can remove the first block of 8B and you will et a valid cookie for the username `admin`:
-
+Μπορούμε να δούμε το πρότυπο `\x23U\xE45K\xCB\x21\xC8` που δημιουργήθηκε προηγουμένως με το όνομα χρήστη που περιείχε μόνο το `a`.\
+Στη συνέχεια, μπορείτε να αφαιρέσετε τον πρώτο κομμάτι των 8B και θα λάβετε ένα έγκυρο cookie για το όνομα χρήστη `admin`:
 ```
 \xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
+## Μετακίνηση τμημάτων
 
-## Moving blocks
+Σε πολλές βάσεις δεδομένων είναι το ίδιο να αναζητήσετε `WHERE username='admin';` ή `WHERE username='admin    ';` _(Σημειώστε τα επιπλέον κενά)_
 
-In many databases it is the same to search for `WHERE username='admin';` or for `WHERE username='admin    ';` _(Note the extra spaces)_
+Έτσι, ένας άλλος τρόπος να προσποιηθείτε τον χρήστη `admin` θα ήταν:
 
-So, another way to impersonate the user `admin` would be to:
+* Δημιουργήστε ένα όνομα χρήστη που: `len(<username>) + len(<delimiter) % len(block)`. Με μέγεθος τμήματος `8B` μπορείτε να δημιουργήσετε ένα όνομα χρήστη με το όνομα: `username       `, με τον διαχωριστή `|` το τμήμα `<username><delimiter>` θα δημιουργήσει 2 τμήματα των 8Bs.
+* Στη συνέχεια, δημιουργήστε έναν κωδικό πρόσβασης που θα γεμίσει έναν ακριβή αριθμό τμημάτων που περιέχουν το όνομα χρήστη που θέλουμε να προσποιηθούμε και κενά, όπως: `admin   `
 
-* Generate a username that: `len(<username>) + len(<delimiter) % len(block)`. With a block size of `8B` you can generate username called: `username       `, with the delimiter `|` the chunk `<username><delimiter>` will generate 2 blocks of 8Bs.
-* Then, generate a password that will fill an exact number of blocks containing the username we want to impersonate and spaces, like: `admin   ` 
+Το cookie αυτού του χρήστη θα αποτελείται από 3 τμήματα: τα πρώτα 2 είναι τα τμήματα του ονόματος χρήστη + διαχωριστής και το τρίτο είναι το τμήμα του κωδικού πρόσβασης (που προσποιείται το όνομα χρήστη): `username       |admin   `
 
-The cookie of this user is going to be composed by 3 blocks: the first 2 is the blocks of the username + delimiter and the third one of the password (which is faking the username): `username       |admin   `
+**Στη συνέχεια, απλά αντικαταστήστε το πρώτο τμήμα με το τελευταίο και θα προσποιείστε τον χρήστη `admin`: `admin          |username`**
 
-**Then, just replace the first block with the last time and will be impersonating the user `admin`: `admin          |username`**
-
-## References
+## Αναφορές
 
 * [http://cryptowiki.net/index.php?title=Electronic_Code_Book\_(ECB)](http://cryptowiki.net/index.php?title=Electronic_Code_Book_\(ECB\))
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
-
-

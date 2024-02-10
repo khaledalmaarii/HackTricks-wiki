@@ -1,181 +1,113 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
 
 </details>
 
 
-# Timestamps
+# Χρονικές σημάνσεις
 
-An attacker may be interested in **changing the timestamps of files** to avoid being detected.\
-It's possible to find the timestamps inside the MFT in attributes `$STANDARD_INFORMATION` __ and __ `$FILE_NAME`.
+Ένας επιτιθέμενος μπορεί να ενδιαφέρεται να **αλλάξει τις χρονικές σημάνσεις των αρχείων** για να αποφύγει την ανίχνευσή του.\
+Είναι δυνατόν να βρεθούν οι χρονικές σημάνσεις μέσα στο MFT στα χαρακτηριστικά `$STANDARD_INFORMATION` __και__ __`$FILE_NAME`.
 
-Both attributes have 4 timestamps: **Modification**, **access**, **creation**, and **MFT registry modification** (MACE or MACB).
+Και τα δύο χαρακτηριστικά έχουν 4 χρονικές σημάνσεις: **Τροποποίηση**, **πρόσβαση**, **δημιουργία** και **τροποποίηση καταγραφής MFT** (MACE ή MACB).
 
-**Windows explorer** and other tools show the information from **`$STANDARD_INFORMATION`**.
+Ο **Windows explorer** και άλλα εργαλεία εμφανίζουν τις πληροφορίες από το **`$STANDARD_INFORMATION`**.
 
-## TimeStomp - Anti-forensic Tool
+## TimeStomp - Εργαλείο αντι-ανακριτικής
 
-This tool **modifies** the timestamp information inside **`$STANDARD_INFORMATION`** **but** **not** the information inside **`$FILE_NAME`**. Therefore, it's possible to **identify** **suspicious** **activity**.
+Αυτό το εργαλείο **τροποποιεί** τις πληροφορίες των χρονικών σημάνσεων μέσα στο **`$STANDARD_INFORMATION`** **αλλά όχι** τις πληροφορίες μέσα στο **`$FILE_NAME`**. Επομένως, είναι δυνατόν να **ανιχνευθεί** **ύποπτη** **δραστηριότητα**.
 
 ## Usnjrnl
 
-The **USN Journal** (Update Sequence Number Journal) is a feature of the NTFS (Windows NT file system) that keeps track of volume changes. The [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) tool allows for the examination of these changes.
+Το **USN Journal** (Update Sequence Number Journal) είναι μια λειτουργία του NTFS (σύστημα αρχείων Windows NT) που καταγράφει τις αλλαγές του όγκου. Το εργαλείο [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) επιτρέπει την εξέταση αυτών των αλλαγών.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-The previous image is the **output** shown by the **tool** where it can be observed that some **changes were performed** to the file.
+Η προηγούμενη εικόνα είναι το **αποτέλεσμα** που εμφανίζεται από το **εργαλείο** όπου μπορεί να παρατηρηθεί ότι έγιναν κάποιες **αλλαγές** στο αρχείο.
 
 ## $LogFile
 
-**All metadata changes to a file system are logged** in a process known as [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). The logged metadata is kept in a file named `**$LogFile**`, located in the root directory of an NTFS file system. Tools such as [LogFileParser](https://github.com/jschicht/LogFileParser) can be used to parse this file and identify changes.
+**Όλες οι αλλαγές μεταδεδομένων σε ένα σύστημα αρχείων καταγράφονται** σε ένα διαδικασία που ονομάζεται [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). Τα καταγεγραμμένα μεταδεδομένα κρατούνται σε ένα αρχείο με το όνομα `**$LogFile**`, που βρίσκεται στον ριζικό κατάλογο ενός συστήματος αρχείων NTFS. Εργαλεία όπως το [LogFileParser](https://github.com/jschicht/LogFileParser) μπορούν να χρησιμοποιηθούν για να αναλύσουν αυτό το αρχείο και να ανιχνεύσουν αλλαγές.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Again, in the output of the tool it's possible to see that **some changes were performed**.
+Και πάλι, στην έξοδο του εργαλείου είναι δυνατόν να δείτε ότι **έγιναν κάποιες αλλαγές**.
 
-Using the same tool it's possible to identify to **which time the timestamps were modified**:
+Χρησιμοποιώντας το ίδιο εργαλείο είναι δυνατόν να ανιχνευθεί σε **ποια χρονική στιγμή τροποποιήθηκαν οι χρονικές σημάνσεις**:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
-* CTIME: File's creation time
-* ATIME: File's modification time
-* MTIME: File's MFT registry modification
-* RTIME: File's access time
+* CTIME: Χρόνος δημιουργίας του αρχείου
+* ATIME: Χρόνος τροποποίησης του αρχείου
+* MTIME: Χρόνος τροποποίησης του μητρώου MFT του αρχείου
+* RTIME: Χρόνος πρόσβασης στο αρχείο
 
-## `$STANDARD_INFORMATION` and `$FILE_NAME` comparison
+## Σύγκριση `$STANDARD_INFORMATION` και `$FILE_NAME`
 
-Another way to identify suspicious modified files would be to compare the time on both attributes looking for **mismatches**.
+Ένας άλλος τ
+## Διαγραφή Ιστορικού USB
 
-## Nanoseconds
+Όλες οι **καταχωρήσεις συσκευών USB** αποθηκεύονται στο Μητρώο των Windows κάτω από το κλειδί μητρώου **USBSTOR**, το οποίο περιέχει υποκλειδιά που δημιουργούνται κάθε φορά που συνδέετε μια συσκευή USB στον υπολογιστή ή το laptop σας. Μπορείτε να βρείτε αυτό το κλειδί εδώ: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Διαγράφοντας αυτό**, θα διαγράψετε το ιστορικό USB.\
+Μπορείτε επίσης να χρησιμοποιήσετε το εργαλείο [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) για να είστε βέβαιοι ότι τα έχετε διαγράψει (και για να τα διαγράψετε).
 
-**NTFS** timestamps have a **precision** of **100 nanoseconds**. Then, finding files with timestamps like 2010-10-10 10:10:**00.000:0000 is very suspicious**.
+Ένα άλλο αρχείο που αποθηκεύει πληροφορίες σχετικά με τις USB είναι το αρχείο `setupapi.dev.log` μέσα στο `C:\Windows\INF`. Αυτό πρέπει επίσης να διαγραφεί.
 
-## SetMace - Anti-forensic Tool
+## Απενεργοποίηση Αντιγράφων Σκιάς
 
-This tool can modify both attributes `$STARNDAR_INFORMATION` and `$FILE_NAME`. However, from Windows Vista, it's necessary for a live OS to modify this information.
+**Λίστα** αντιγράφων σκιάς με την εντολή `vssadmin list shadowstorage`\
+**Διαγραφή** τους με την εντολή `vssadmin delete shadow`
 
-# Data Hiding
+Μπορείτε επίσης να τα διαγράψετε μέσω του γραφικού περιβάλλοντος ακολουθώντας τα βήματα που προτείνονται στην [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-NFTS uses a cluster and the minimum information size. That means that if a file occupies uses and cluster and a half, the **reminding half is never going to be used** until the file is deleted. Then, it's possible to **hide data in this slack space**.
+Για να απενεργοποιήσετε τα αντίγραφα σκιάς [βήματα από εδώ](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
-There are tools like slacker that allow hiding data in this "hidden" space. However, an analysis of the `$logfile` and `$usnjrnl` can show that some data was added:
+1. Ανοίξτε το πρόγραμμα Υπηρεσιών πληκτρολογώντας "services" στο πλαίσιο αναζήτησης κειμένου μετά από κλικ στο κουμπί Έναρξη των Windows.
+2. Από τη λίστα, βρείτε την "Volume Shadow Copy", επιλέξτε την και στη συνέχεια αποκτήστε πρόσβαση στις Ιδιότητες κάνοντας δεξί κλικ.
+3. Επιλέξτε την επιλογή "Disabled" από το αναπτυσσόμενο μενού "Τύπος εκκίνησης" και επιβεβαιώστε την αλλαγή κάνοντας κλικ στο Εφαρμογή και ΟΚ.
 
-![](<../../.gitbook/assets/image (452).png>)
+Είναι επίσης δυνατή η τροποποίηση της διαμόρφωσης των αρχείων που θα αντιγραφούν στο αντίγραφο σκιάς στο μητρώο `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
-Then, it's possible to retrieve the slack space using tools like FTK Imager. Note that this kind of tool can save the content obfuscated or even encrypted.
+## Αντικατάσταση διαγραμμένων αρχείων
 
-# UsbKill
+* Μπορείτε να χρησιμοποιήσετε ένα **εργαλείο των Windows**: `cipher /w:C` Αυτό θα οδηγήσει το cipher να αφαιρέσει οποιαδήποτε δεδομένα από το διαθέσιμο αχρησιμοποίητο χώρο στον δίσκο C.
+* Μπορείτε επίσης να χρησιμοποιήσετε εργαλεία όπως το [**Eraser**](https://eraser.heidi.ie)
 
-This is a tool that will **turn off the computer if any change in the USB** ports is detected.\
-A way to discover this would be to inspect the running processes and **review each python script running**.
+## Διαγραφή αρχείων καταγραφής συμβάντων των Windows
 
-# Live Linux Distributions
-
-These distros are **executed inside the RAM** memory. The only way to detect them is **in case the NTFS file-system is mounted with write permissions**. If it's mounted just with read permissions it won't be possible to detect the intrusion.
-
-# Secure Deletion
-
-[https://github.com/Claudio-C/awesome-data-sanitization](https://github.com/Claudio-C/awesome-data-sanitization)
-
-# Windows Configuration
-
-It's possible to disable several windows logging methods to make the forensics investigation much harder.
-
-## Disable Timestamps - UserAssist
-
-This is a registry key that maintains dates and hours when each executable was run by the user.
-
-Disabling UserAssist requires two steps:
-
-1. Set two registry keys, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` and `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, both to zero in order to signal that we want UserAssist disabled.
-2. Clear your registry subtrees that look like `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
-
-## Disable Timestamps - Prefetch
-
-This will save information about the applications executed with the goal of improving the performance of the Windows system. However, this can also be useful for forensics practices.
-
-* Execute `regedit`
-* Select the file path `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* Right-click on both `EnablePrefetcher` and `EnableSuperfetch`
-* Select Modify on each of these to change the value from 1 (or 3) to 0
-* Restart
-
-## Disable Timestamps - Last Access Time
-
-Whenever a folder is opened from an NTFS volume on a Windows NT server, the system takes the time to **update a timestamp field on each listed folder**, called the last access time. On a heavily used NTFS volume, this can affect performance.
-
-1. Open the Registry Editor (Regedit.exe).
-2. Browse to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Look for `NtfsDisableLastAccessUpdate`. If it doesn’t exist, add this DWORD and set its value to 1, which will disable the process.
-4. Close the Registry Editor, and reboot the server.
-
-## Delete USB History
-
-All the **USB Device Entries** are stored in Windows Registry Under the **USBSTOR** registry key that contains sub keys which are created whenever you plug a USB Device into your PC or Laptop. You can find this key here H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deleting this** you will delete the USB history.\
-You may also use the tool [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) to be sure you have deleted them (and to delete them).
-
-Another file that saves information about the USBs is the file `setupapi.dev.log` inside `C:\Windows\INF`. This should also be deleted.
-
-## Disable Shadow Copies
-
-**List** shadow copies with `vssadmin list shadowstorage`\
-**Delete** them running `vssadmin delete shadow`
-
-You can also delete them via GUI following the steps proposed in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
-
-To disable shadow copies [steps from here](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
-
-1. Open the Services program by typing "services" into the text search box after clicking the Windows start button.
-2. From the list, find "Volume Shadow Copy", select it, and then access Properties by right-clicking.
-3. Choose Disabled from the "Startup type" drop-down menu, and then confirm the change by clicking Apply and OK.
-
-It's also possible to modify the configuration of which files are going to be copied in the shadow copy in the registry `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
-
-## Overwrite deleted files
-
-* You can use a **Windows tool**: `cipher /w:C` This will indicate cipher to remove any data from the available unused disk space inside the C drive.
-* You can also use tools like [**Eraser**](https://eraser.heidi.ie)
-
-## Delete Windows event logs
-
-* Windows + R --> eventvwr.msc --> Expand "Windows Logs" --> Right click each category and select "Clear Log"
+* Windows + R --> eventvwr.msc --> Ανάπτυξη "Καταγραφές των Windows" --> Δεξί κλικ σε κάθε κατηγορία και επιλογή "Εκκαθάριση καταγραφής"
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
-## Disable Windows event logs
+## Απενεργοποίηση καταγραφής συμβάντων των Windows
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Inside the services section disable the service "Windows Event Log"
-* `WEvtUtil.exec clear-log` or `WEvtUtil.exe cl`
+* Εντός της ενότητας υπηρεσιών, απενεργοποιήστε την υπηρεσία "Windows Event Log"
+* `WEvtUtil.exec clear-log` ή `WEvtUtil.exe cl`
 
-## Disable $UsnJrnl
+## Απενεργοποίηση $UsnJrnl
 
 * `fsutil usn deletejournal /d c:`
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Συμμετάσχετε** 💬 στην ομάδα [**Discord**](https://discord.gg/hRep4RUj7f) ή στην ομάδα [**telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github.
 
 </details>
-
-

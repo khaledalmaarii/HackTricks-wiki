@@ -1,40 +1,37 @@
-# Linux Forensics
+# Ανάλυση Linux
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να αυτοματοποιήσετε ροές εργασίας με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την εταιρεία σας να διαφημίζεται στο HackTricks ή να κατεβάσετε το HackTricks σε μορφή PDF, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Initial Information Gathering
+## Αρχική Συλλογή Πληροφοριών
 
-### Basic Information
+### Βασικές Πληροφορίες
 
-First of all, it's recommended to have some **USB** with **good known binaries and libraries on it** (you can just get ubuntu and copy the folders _/bin_, _/sbin_, _/lib,_ and _/lib64_), then mount the USB, and modify the env variables to use those binaries:
-
+Καταρχήν, συνιστάται να έχετε ένα **USB** με **γνωστά καλά δυαδικά αρχεία και βιβλιοθήκες** (μπορείτε απλά να πάρετε το ubuntu και να αντιγράψετε τους φακέλους _/bin_, _/sbin_, _/lib_ και _/lib64_), στη συνέχεια να προσαρτήσετε το USB και να τροποποιήσετε τις μεταβλητές περιβάλλοντος για να χρησιμοποιήσετε αυτά τα δυαδικά αρχεία:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
 ```
-
-Once you have configured the system to use good and known binaries you can start **extracting some basic information**:
-
+Αφού έχετε ρυθμίσει το σύστημα να χρησιμοποιεί καλά και γνωστά δυαδικά αρχεία, μπορείτε να ξεκινήσετε την **εξαγωγή ορισμένων βασικών πληροφοριών**:
 ```bash
 date #Date and time (Clock may be skewed, Might be at a different timezone)
 uname -a #OS info
@@ -52,51 +49,47 @@ cat /etc/passwd #Unexpected data?
 cat /etc/shadow #Unexpected data?
 find /directory -type f -mtime -1 -print #Find modified files during the last minute in the directory
 ```
+#### Υποψίασμα για ύποπτες πληροφορίες
 
-#### Suspicious information
+Κατά την απόκτηση των βασικών πληροφοριών, θα πρέπει να ελέγξετε για παράξενα πράγματα όπως:
 
-While obtaining the basic information you should check for weird things like:
+* Οι **διεργασίες root** συνήθως εκτελούνται με χαμηλά PIDS, οπότε αν βρείτε μια διεργασία root με ένα μεγάλο PID μπορεί να υπάρχει υποψία
+* Ελέγξτε τις **εγγεγραμμένες συνδέσεις** χρηστών χωρίς κέλυφος μέσα στο `/etc/passwd`
+* Ελέγξτε για **κατακερματισμένους κωδικούς πρόσβασης** μέσα στο `/etc/shadow` για χρήστες χωρίς κέλυφος
 
-* **Root processes** usually run with low PIDS, so if you find a root process with a big PID you may suspect
-* Check **registered logins** of users without a shell inside `/etc/passwd`
-* Check for **password hashes** inside `/etc/shadow` for users without a shell
+### Αντιγραφή μνήμης
 
-### Memory Dump
-
-To obtain the memory of the running system, it's recommended to use [**LiME**](https://github.com/504ensicsLabs/LiME).\
-To **compile** it, you need to use the **same kernel** that the victim machine is using.
+Για να αποκτήσετε τη μνήμη του εκτελούμενου συστήματος, συνίσταται να χρησιμοποιήσετε το [**LiME**](https://github.com/504ensicsLabs/LiME).\
+Για να το **μεταγλωττίσετε**, πρέπει να χρησιμοποιήσετε το **ίδιο πυρήνα** που χρησιμοποιεί η μηχανή θύμα.
 
 {% hint style="info" %}
-Remember that you **cannot install LiME or any other thing** in the victim machine as it will make several changes to it
+Θυμηθείτε ότι **δεν μπορείτε να εγκαταστήσετε το LiME ή οτιδήποτε άλλο** στη μηχανή θύμα, καθώς θα προκαλέσει αλλαγές σε αυτήν.
 {% endhint %}
 
-So, if you have an identical version of Ubuntu you can use `apt-get install lime-forensics-dkms`\
-In other cases, you need to download [**LiME**](https://github.com/504ensicsLabs/LiME) from github and compile it with correct kernel headers. To **obtain the exact kernel headers** of the victim machine, you can just **copy the directory** `/lib/modules/<kernel version>` to your machine, and then **compile** LiME using them:
-
+Έτσι, αν έχετε μια πανομοιότυπη έκδοση του Ubuntu, μπορείτε να χρησιμοποιήσετε την εντολή `apt-get install lime-forensics-dkms`\
+Σε άλλες περιπτώσεις, πρέπει να κατεβάσετε το [**LiME**](https://github.com/504ensicsLabs/LiME) από το github και να το μεταγλωττίσετε με τις σωστές κεφαλίδες του πυρήνα. Για να **αποκτήσετε τις ακριβείς κεφαλίδες του πυρήνα** της μηχανής θύματος, απλά **αντιγράψτε τον φάκελο** `/lib/modules/<έκδοση πυρήνα>` στη μηχανή σας και στη συνέχεια **μεταγλωττίστε** το LiME χρησιμοποιώντας αυτές.
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
 ```
+Το LiME υποστηρίζει 3 **μορφές**:
 
-LiME supports 3 **formats**:
+* Raw (κάθε τμήμα ενωμένο μαζί)
+* Padded (ίδιο με το raw, αλλά με μηδενικά στα δεξιά bits)
+* Lime (συνιστώμενη μορφή με μεταδεδομένα)
 
-* Raw (every segment concatenated together)
-* Padded (same as raw, but with zeroes in right bits)
-* Lime (recommended format with metadata
+Το LiME μπορεί επίσης να χρησιμοποιηθεί για να **στείλει το dump μέσω δικτύου** αντί να το αποθηκεύσει στο σύστημα χρησιμοποιώντας κάτι όπως: `path=tcp:4444`
 
-LiME can also be used to **send the dump via network** instead of storing it on the system using something like: `path=tcp:4444`
+### Δημιουργία εικόνας δίσκου
 
-### Disk Imaging
+#### Απενεργοποίηση
 
-#### Shutting down
+Καταρχάς, θα πρέπει να **απενεργοποιήσετε το σύστημα**. Αυτό δεν είναι πάντα μια επιλογή, καθώς μερικές φορές το σύστημα θα είναι ένας παραγωγικός διακομιστής που η εταιρεία δεν μπορεί να τον απενεργοποιήσει.\
+Υπάρχουν **2 τρόποι** απενεργοποίησης του συστήματος, μια **κανονική απενεργοποίηση** και μια **απενεργοποίηση "τραβώντας το φις"**. Ο πρώτος θα επιτρέψει στις **διεργασίες να τερματίσουν κανονικά** και το **σύστημα αρχείων** να **συγχρονιστεί**, αλλά θα επιτρέψει επίσης στον πιθανό **κακόβουλο κώδικα** να **καταστρέψει τα αποδεικτικά στοιχεία**. Η προσέγγιση "τραβώντας το φις" μπορεί να οδηγήσει σε **απώλεια ορισμένων πληροφοριών** (δεν θα χαθεί πολλή πληροφορία καθώς ήδη πήραμε μια εικόνα της μνήμης) και ο **κακόβουλος κώδικας δεν θα έχει καμία ευκαιρία** να κάνει κάτι γι' αυτό. Επομένως, αν **υποψιάζεστε** ότι μπορεί να υπάρχει **κακόβουλος κώδικας**, απλά εκτελέστε την εντολή **`sync`** στο σύστημα και τραβήξτε το φις.
 
-First of all, you will need to **shut down the system**. This isn't always an option as some times system will be a production server that the company cannot afford to shut down.\
-There are **2 ways** of shutting down the system, a **normal shutdown** and a **"plug the plug" shutdown**. The first one will allow the **processes to terminate as usual** and the **filesystem** to be **synchronized**, but it will also allow the possible **malware** to **destroy evidence**. The "pull the plug" approach may carry **some information loss** (not much of the info is going to be lost as we already took an image of the memory ) and the **malware won't have any opportunity** to do anything about it. Therefore, if you **suspect** that there may be a **malware**, just execute the **`sync`** **command** on the system and pull the plug.
+#### Δημιουργία εικόνας του δίσκου
 
-#### Taking an image of the disk
-
-It's important to note that **before connecting your computer to anything related to the case**, you need to be sure that it's going to be **mounted as read only** to avoid modifying any information.
-
+Είναι σημαντικό να σημειώσουμε ότι **πριν συνδέσετε τον υπολογιστή σας με οτιδήποτε σχετίζεται με την υπόθεση**, πρέπει να είστε σίγουροι ότι θα γίνει **προσάρτηση με ανάγνωση μόνο** για να αποφευχθεί οποιαδήποτε τροποποίηση πληροφοριών.
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -105,35 +98,33 @@ dd if=<subject device> of=<image file> bs=512
 dcfldd if=<subject device> of=<image file> bs=512 hash=<algorithm> hashwindow=<chunk size> hashlog=<hash file>
 dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/media/usb/pc.hashes
 ```
+### Προ-ανάλυση εικόνας δίσκου
 
-### Disk Image pre-analysis
-
-Imaging a disk image with no more data.
-
+Δημιουργία εικόνας δίσκου χωρίς περισσότερα δεδομένα.
 ```bash
 #Find out if it's a disk image using "file" command
-file disk.img 
+file disk.img
 disk.img: Linux rev 1.0 ext4 filesystem data, UUID=59e7a736-9c90-4fab-ae35-1d6a28e5de27 (extents) (64bit) (large files) (huge files)
 
 #Check which type of disk image it's
-img_stat -t evidence.img 
+img_stat -t evidence.img
 raw
 #You can list supported types with
 img_stat -i list
 Supported image format types:
-        raw (Single or split raw file (dd))
-        aff (Advanced Forensic Format)
-        afd (AFF Multiple File)
-        afm (AFF with external metadata)
-        afflib (All AFFLIB image formats (including beta ones))
-        ewf (Expert Witness Format (EnCase))
+raw (Single or split raw file (dd))
+aff (Advanced Forensic Format)
+afd (AFF Multiple File)
+afm (AFF with external metadata)
+afflib (All AFFLIB image formats (including beta ones))
+ewf (Expert Witness Format (EnCase))
 
 #Data of the image
-fsstat -i raw -f ext4 disk.img 
+fsstat -i raw -f ext4 disk.img
 FILE SYSTEM INFORMATION
 --------------------------------------------
 File System Type: Ext4
-Volume Name: 
+Volume Name:
 Volume ID: 162850f203fd75afab4f1e4736a7e776
 
 Last Written at: 2020-02-06 06:22:48 (UTC)
@@ -162,42 +153,40 @@ r/r 16: secret.txt
 icat -i raw -f ext4 disk.img 16
 ThisisTheMasterSecret
 ```
-
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να αυτοματοποιήσετε εργασιακές διαδικασίες με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Search for known Malware
+## Αναζήτηση για γνωστό κακόβουλο λογισμικό
 
-### Modified System Files
+### Τροποποιημένα αρχεία συστήματος
 
-Linux offers tools for ensuring the integrity of system components, crucial for spotting potentially problematic files. 
+Το Linux προσφέρει εργαλεία για τη διασφάλιση της ακεραιότητας των συστατικών του συστήματος, το οποίο είναι κρίσιμο για τον εντοπισμό πιθανών προβληματικών αρχείων.
 
-- **RedHat-based systems**: Use `rpm -Va` for a comprehensive check.
-- **Debian-based systems**: `dpkg --verify` for initial verification, followed by `debsums | grep -v "OK$"` (after installing `debsums` with `apt-get install debsums`) to identify any issues.
+- **Συστήματα βασισμένα σε RedHat**: Χρησιμοποιήστε την εντολή `rpm -Va` για μια συνολική έλεγχο.
+- **Συστήματα βασισμένα σε Debian**: Χρησιμοποιήστε την εντολή `dpkg --verify` για αρχικό έλεγχο, ακολουθούμενη από την εντολή `debsums | grep -v "OK$"` (μετά την εγκατάσταση του `debsums` με την εντολή `apt-get install debsums`) για τον εντοπισμό οποιουδήποτε προβλήματος.
 
-### Malware/Rootkit Detectors
+### Εργαλεία ανίχνευσης κακόβουλου λογισμικού/Rootkit
 
-Read the following page to learn about tools that can be useful to find malware:
+Διαβάστε την παρακάτω σελίδα για να μάθετε για εργαλεία που μπορούν να είναι χρήσιμα για τον εντοπισμό κακόβουλου λογισμικού:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
 {% endcontent-ref %}
 
-## Search installed programs
+## Αναζήτηση εγκατεστημένων προγραμμάτων
 
-To effectively search for installed programs on both Debian and RedHat systems, consider leveraging system logs and databases alongside manual checks in common directories. 
+Για να αναζητήσετε αποτελεσματικά εγκατεστημένα προγράμματα τόσο σε συστήματα Debian όσο και σε συστήματα RedHat, εξετάστε τα αρχεία καταγραφής και τις βάσεις δεδομένων του συστήματος, σε συνδυασμό με χειροκίνητους ελέγχους σε κοινά καταλόγους.
 
-- For Debian, inspect **_`/var/lib/dpkg/status`_** and **_`/var/log/dpkg.log`_** to fetch details about package installations, using `grep` to filter for specific information. 
+- Για το Debian, εξετάστε τα αρχεία **_`/var/lib/dpkg/status`_** και **_`/var/log/dpkg.log`_** για να λάβετε λεπτομέρειες σχετικά με τις εγκαταστάσεις πακέτων, χρησιμοποιώντας την εντολή `grep` για να φιλτράρετε συγκεκριμένες πληροφορίες.
 
-- RedHat users can query the RPM database with `rpm -qa --root=/mntpath/var/lib/rpm` to list installed packages. 
+- Οι χρήστες του RedHat μπορούν να ερωτήσουν τη βάση δεδομένων RPM με την εντολή `rpm -qa --root=/mntpath/var/lib/rpm` για να εμφανίσουν τα εγκατεστημένα πακέτα.
 
-To uncover software installed manually or outside of these package managers, explore directories like **_`/usr/local`_**, **_`/opt`_**, **_`/usr/sbin`_**, **_`/usr/bin`_**, **_`/bin`_**, and **_`/sbin`_**. Combine directory listings with system-specific commands to identify executables not associated with known packages, enhancing your search for all installed programs.
-
+Για να ανακαλύψετε λογισμικό που έχει εγκατασταθεί χειροκίνητα ή εκτός αυτών των διαχειριστών πακέτων, εξερευνήστε καταλόγους όπως **_`/usr/local`_**, **_`/opt`_**, **_`/usr/sbin`_**, **_`/usr/bin`_**, **_`/bin`_**, και **_`/sbin`_**. Συνδυάστε τη λίστα των καταλόγων με εντολές που είναι συγκεκριμένες για το σύστημα για να εντοπίσετε εκτελέσιμα που δεν σχετίζονται με γνωστά πακέτα, βελτιώνοντας έτσι την αναζήτησή σας για όλα τα εγκατεστημένα προγράμματα.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -213,30 +202,25 @@ find /sbin/ –exec rpm -qf {} \; | grep "is not"
 # Find exacuable files
 find / -type f -executable | grep <something>
 ```
-
-
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να αυτοματοποιήσετε εύκολα ροές εργασίας με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Recover Deleted Running Binaries
+## Ανάκτηση Διαγραμμένων Εκτελέσιμων Αρχείων
 
-Imagina a process taht was executed from /tmp/exec and deleted. It's possible to extract it
-
+Φανταστείτε ένα διεργασία που εκτελέστηκε από το /tmp/exec και διαγράφηκε. Είναι δυνατή η εξαγωγή του
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
 dd if=mem bs=1 skip=08048000 count=1000 of=/tmp/exec2 #Recorver it
 ```
+## Επιθεώρηση τοποθεσιών αυτόματης εκκίνησης
 
-## Inspect Autostart locations
-
-### Scheduled Tasks
-
+### Προγραμματισμένες εργασίες
 ```bash
 cat /var/spool/cron/crontabs/*  \
 /var/spool/cron/atjobs \
@@ -250,106 +234,84 @@ cat /var/spool/cron/crontabs/*  \
 #MacOS
 ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Library/LaunchAgents/
 ```
+### Υπηρεσίες
 
-### Services
+Διαδρομές όπου μπορεί να εγκατασταθεί κακόβουλο λογισμικό ως υπηρεσία:
 
-Paths where a malware could be isntalled as a service:
-
-- **/etc/inittab**: Calls initialization scripts like rc.sysinit, directing further to startup scripts.
-- **/etc/rc.d/** and **/etc/rc.boot/**: Contain scripts for service startup, the latter being found in older Linux versions.
-- **/etc/init.d/**: Used in certain Linux versions like Debian for storing startup scripts.
-- Services may also be activated via **/etc/inetd.conf** or **/etc/xinetd/**, depending on the Linux variant.
-- **/etc/systemd/system**: A directory for system and service manager scripts.
-- **/etc/systemd/system/multi-user.target.wants/**: Contains links to services that should be started in a multi-user runlevel.
-- **/usr/local/etc/rc.d/**: For custom or third-party services.
-- **~/.config/autostart/**: For user-specific automatic startup applications, which can be a hiding spot for user-targeted malware.
-- **/lib/systemd/system/**: System-wide default unit files provided by installed packages.
+- **/etc/inittab**: Καλεί σενάρια αρχικοποίησης όπως το rc.sysinit, καθοδηγώντας περαιτέρω σε σενάρια εκκίνησης.
+- **/etc/rc.d/** και **/etc/rc.boot/**: Περιέχουν σενάρια για την εκκίνηση των υπηρεσιών, με το δεύτερο να βρίσκεται σε παλαιότερες εκδόσεις του Linux.
+- **/etc/init.d/**: Χρησιμοποιείται σε ορισμένες εκδόσεις του Linux, όπως το Debian, για την αποθήκευση σεναρίων εκκίνησης.
+- Οι υπηρεσίες μπορεί επίσης να ενεργοποιηθούν μέσω των **/etc/inetd.conf** ή **/etc/xinetd/**, ανάλογα με την παραλλαγή του Linux.
+- **/etc/systemd/system**: Ένας κατάλογος για σενάρια συστήματος και διαχείρισης υπηρεσιών.
+- **/etc/systemd/system/multi-user.target.wants/**: Περιέχει συνδέσμους προς υπηρεσίες που πρέπει να ξεκινήσουν σε ένα επίπεδο εκτέλεσης πολλαπλών χρηστών.
+- **/usr/local/etc/rc.d/**: Για προσαρμοσμένες ή υπηρεσίες τρίτων.
+- **~/.config/autostart/**: Για εφαρμογές εκκίνησης αυτόματης εκκίνησης που είναι συγκεκριμένες για τον χρήστη, η οποία μπορεί να είναι ένα κρυψώνα για κακόβουλο λογισμικό που στοχεύει τον χρήστη.
+- **/lib/systemd/system/**: Παγκόσμια προεπιλεγμένα αρχεία μονάδας που παρέχονται από εγκατεστημένα πακέτα.
 
 
-### Kernel Modules
+### Πυρήνας Ενοτήτων
 
-Linux kernel modules, often utilized by malware as rootkit components, are loaded at system boot. The directories and files critical for these modules include:
+Οι ενότητες πυρήνα Linux, που συχνά χρησιμοποιούνται από κακόβουλο λογισμικό ως στοιχεία rootkit, φορτώνονται κατά την εκκίνηση του συστήματος. Οι κατάλογοι και τα αρχεία που είναι κρίσιμα για αυτές τις ενότητες περιλαμβάνουν:
 
-- **/lib/modules/$(uname -r)**: Holds modules for the running kernel version.
-- **/etc/modprobe.d**: Contains configuration files to control module loading.
-- **/etc/modprobe** and **/etc/modprobe.conf**: Files for global module settings.
+- **/lib/modules/$(uname -r)**: Περιέχει ενότητες για την τρέχουσα έκδοση του πυρήνα.
+- **/etc/modprobe.d**: Περιέχει αρχεία ρύθμισης για τον έλεγχο της φόρτωσης των ενοτήτων.
+- **/etc/modprobe** και **/etc/modprobe.conf**: Αρχεία για τις γενικές ρυθμίσεις των ενοτήτων.
 
-### Other Autostart Locations
+### Άλλες Τοποθεσίες Αυτόματης Εκκίνησης
 
-Linux employs various files for automatically executing programs upon user login, potentially harboring malware:
+Το Linux χρησιμοποιεί διάφορα αρχεία για την αυτόματη εκτέλεση προγραμμάτων κατά την σύνδεση του χρήστη, πιθανώς κρύβοντας κακόβουλο λογισμικό:
 
-- **/etc/profile.d/***, **/etc/profile**, and **/etc/bash.bashrc**: Executed for any user login.
-- **~/.bashrc**, **~/.bash_profile**, **~/.profile**, and **~/.config/autostart**: User-specific files that run upon their login.
-- **/etc/rc.local**: Runs after all system services have started, marking the end of the transition to a multiuser environment.
+- **/etc/profile.d/***, **/etc/profile** και **/etc/bash.bashrc**: Εκτελούνται για κάθε σύνδεση χρήστη.
+- **~/.bashrc**, **~/.bash_profile**, **~/.profile** και **~/.config/autostart**: Αρχεία που αφορούν συγκεκριμένους χρήστες και εκτελούνται κατά την σύνδεσή τους.
+- **/etc/rc.local**: Εκτελείται μετά την εκκίνηση όλων των υπηρεσιών του συστήματος, σηματοδοτώντας το τέλος της μετάβασης σε ένα πολλαπλών χρηστών περιβάλλον.
 
-## Examine Logs
+## Εξέταση Αρχείων Καταγραφής
 
-Linux systems track user activities and system events through various log files. These logs are pivotal for identifying unauthorized access, malware infections, and other security incidents. Key log files include:
+Τα συστήματα Linux καταγράφουν τις δραστηριότητες των χρηστών και τα γεγονότα του συστήματος μέσω διάφορων αρχείων καταγραφής. Αυτά τα αρχεία καταγραφής είναι κρίσιμα για την αναγνώριση μη εξουσιοδοτημένης πρόσβασης, μολύνσεων από κακόβουλο λογισμικό και άλλων περιστατικών ασφαλείας. Τα κύρια αρχεία καταγραφής περιλαμβάνουν:
 
-- **/var/log/syslog** (Debian) or **/var/log/messages** (RedHat): Capture system-wide messages and activities.
-- **/var/log/auth.log** (Debian) or **/var/log/secure** (RedHat): Record authentication attempts, successful and failed logins.
-  - Use `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` to filter relevant authentication events.
-- **/var/log/boot.log**: Contains system startup messages.
-- **/var/log/maillog** or **/var/log/mail.log**: Logs email server activities, useful for tracking email-related services.
-- **/var/log/kern.log**: Stores kernel messages, including errors and warnings.
-- **/var/log/dmesg**: Holds device driver messages.
-- **/var/log/faillog**: Records failed login attempts, aiding in security breach investigations.
-- **/var/log/cron**: Logs cron job executions.
-- **/var/log/daemon.log**: Tracks background service activities.
-- **/var/log/btmp**: Documents failed login attempts.
-- **/var/log/httpd/**: Contains Apache HTTPD error and access logs.
-- **/var/log/mysqld.log** or **/var/log/mysql.log**: Logs MySQL database activities.
-- **/var/log/xferlog**: Records FTP file transfers.
-- **/var/log/**: Always check for unexpected logs here.
-
-{% hint style="info" %}
-Linux system logs and audit subsystems may be disabled or deleted in an intrusion or malware incident. Because logs on Linux systems generally contain some of the most useful information about malicious activities, intruders routinely delete them. Therefore, when examining available log files, it is important to look for gaps or out of order entries that might be an indication of deletion or tampering.
-{% endhint %}
-
-**Linux maintains a command history for each user**, stored in:
-
-- ~/.bash_history
-- ~/.zsh_history
-- ~/.zsh_sessions/*
-- ~/.python_history
-- ~/.*_history
-
-Moreover, the `last -Faiwx` command provides a list of user logins. Check it for unknown or unexpected logins.
-
-Check files that can grant extra rprivileges:
-
-- Review `/etc/sudoers` for unanticipated user privileges that may have been granted.
-- Review `/etc/sudoers.d/` for unanticipated user privileges that may have been granted.
-- Examine `/etc/groups` to identify any unusual group memberships or permissions.
-- Examine `/etc/passwd` to identify any unusual group memberships or permissions.
-
-Some apps alse generates its own logs:
-
-- **SSH**: Examine _~/.ssh/authorized_keys_ and _~/.ssh/known_hosts_ for unauthorized remote connections.
-- **Gnome Desktop**: Look into _~/.recently-used.xbel_ for recently accessed files via Gnome applications.
-- **Firefox/Chrome**: Check browser history and downloads in _~/.mozilla/firefox_ or _~/.config/google-chrome_ for suspicious activities.
-- **VIM**: Review _~/.viminfo_ for usage details, such as accessed file paths and search history.
-- **Open Office**: Check for recent document access that may indicate compromised files.
-- **FTP/SFTP**: Review logs in _~/.ftp_history_ or _~/.sftp_history_ for file transfers that might be unauthorized.
-- **MySQL**: Investigate _~/.mysql_history_ for executed MySQL queries, potentially revealing unauthorized database activities.
-- **Less**: Analyze _~/.lesshst_ for usage history, including viewed files and commands executed.
-- **Git**: Examine _~/.gitconfig_ and project _.git/logs_ for changes to repositories.
-
-### USB Logs
-
-[**usbrip**](https://github.com/snovvcrash/usbrip) is a small piece of software written in pure Python 3 which parses Linux log files (`/var/log/syslog*` or `/var/log/messages*` depending on the distro) for constructing USB event history tables.
-
-It is interesting to **know all the USBs that have been used** and it will be more useful if you have an authorized list of USBs to find "violation events" (the use of USBs that aren't inside that list).
-
-### Installation
-
+- **/var/log/syslog** (Debian) ή **/var/log/messages** (RedHat): Καταγράφουν μηνύματα και δραστηριότητες σε όλο το σύστημα.
+- **/var/log/auth.log** (Debian) ή **/var/log/secure** (RedHat): Καταγράφουν προσπάθειες πιστοποίησης, επιτυχείς και αποτυχημένες συνδέσεις.
+- Χρησιμοποιήστε την εντολή `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` για να φιλτράρετε σχετικά γεγονότα πιστοποίησης.
+- **/var/log/boot.log**: Περιέχει μηνύματα εκκίνησης του συστήματος.
+- **/var/log/maillog** ή **/var/log/mail.log**: Καταγράφουν δραστηριότητες του διακομιστή ηλεκτρονικού ταχυδρομείου, χρήσιμες για την παρακολούθηση υπηρεσιών που σχετίζονται με το ηλεκτρονικό ταχυδρομείο.
+- **/var/log/kern.log**: Αποθηκεύει μη
 ```bash
 pip3 install usbrip
 usbrip ids download #Download USB ID database
 ```
+### Παραδείγματα
 
-### Examples
+#### Εύρεση αρχείων
 
+Για να εντοπίσετε αρχεία σε ένα σύστημα Linux, μπορείτε να χρησιμοποιήσετε την εντολή `find`. Για παράδειγμα, για να βρείτε όλα τα αρχεία με κατάληξη `.txt` στον κατάλογο `/home/user`, μπορείτε να εκτελέσετε την εξής εντολή:
+
+```bash
+find /home/user -name "*.txt"
+```
+
+#### Ανάλυση αρχείων καταγραφής
+
+Για να αναλύσετε ένα αρχείο καταγραφής σε ένα σύστημα Linux, μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `grep` ή το `awk`. Για παράδειγμα, για να βρείτε όλες τις εμφανίσεις της λέξης "error" σε ένα αρχείο καταγραφής με όνομα `logfile.txt`, μπορείτε να εκτελέσετε την εξής εντολή:
+
+```bash
+grep "error" logfile.txt
+```
+
+#### Ανάκτηση διαγραμμένων αρχείων
+
+Για να ανακτήσετε διαγραμμένα αρχεία σε ένα σύστημα Linux, μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `extundelete` ή το `foremost`. Για παράδειγμα, για να ανακτήσετε όλα τα διαγραμμένα αρχεία από τον κατάλογο `/home/user`, μπορείτε να εκτελέσετε την εξής εντολή:
+
+```bash
+extundelete /dev/sda1 --restore-all
+```
+
+#### Ανάλυση μνήμης
+
+Για να αναλύσετε τη μνήμη ενός συστήματος Linux, μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` ή το `LiME`. Για παράδειγμα, για να εκτελέσετε μια ανάλυση μνήμης σε ένα αντίγραφο ασφαλείας της μνήμης με όνομα `memory.dump`, μπορείτε να εκτελέσετε την εξής εντολή:
+
+```bash
+volatility -f memory.dump imageinfo
+```
 ```bash
 usbrip events history #Get USB history of your curent linux machine
 usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR user
@@ -357,115 +319,109 @@ usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR
 usbrip ids download #Downlaod database
 usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
-
-More examples and info inside the github: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
+Περισσότερα παραδείγματα και πληροφορίες μπορείτε να βρείτε στο GitHub: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
 
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να αυτοματοποιήσετε εργασιακές διαδικασίες με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 
 
-## Review User Accounts and Logon Activities
+## Αναθεώρηση Λογαριασμών Χρηστών και Δραστηριοτήτων Σύνδεσης
 
-Examine the _**/etc/passwd**_, _**/etc/shadow**_ and **security logs** for unusual names or accounts created and or used in close proximity to known unauthorized events. Also, check possible sudo brute-force attacks.\
-Moreover, check files like _**/etc/sudoers**_ and _**/etc/groups**_ for unexpected privileges given to users.\
-Finally, look for accounts with **no passwords** or **easily guessed** passwords.
+Εξετάστε τα αρχεία _**/etc/passwd**_, _**/etc/shadow**_ και τα **αρχεία καταγραφής ασφαλείας** για ασυνήθιστα ονόματα ή λογαριασμούς που δημιουργήθηκαν ή χρησιμοποιήθηκαν κοντά σε γνωστά μη εξουσιοδοτημένα γεγονότα. Επίσης, ελέγξτε πιθανές επιθέσεις brute-force στο sudo.\
+Επιπλέον, ελέγξτε αρχεία όπως το _**/etc/sudoers**_ και το _**/etc/groups**_ για απροσδόκητα προνόμια που έχουν δοθεί σε χρήστες.\
+Τέλος, αναζητήστε λογαριασμούς χωρίς κωδικούς πρόσβασης ή με εύκολα μαντεψιάματα κωδικούς.
 
-## Examine File System
+## Εξέταση Συστήματος Αρχείων
 
-### Analyzing File System Structures in Malware Investigation
+### Ανάλυση Δομών Συστήματος Αρχείων σε Έρευνα Κακόβουλου Λογισμικού
 
-When investigating malware incidents, the structure of the file system is a crucial source of information, revealing both the sequence of events and the malware's content. However, malware authors are developing techniques to hinder this analysis, such as modifying file timestamps or avoiding the file system for data storage.
+Κατά την έρευνα κακόβουλων περιστατικών, η δομή του συστήματος αρχείων είναι μια κρίσιμη πηγή πληροφοριών, αποκαλύπτοντας τόσο την ακολουθία των γεγονότων όσο και το περιεχόμενο του κακόβουλου λογισμικού. Ωστόσο, οι συγγραφείς κακόβουλου λογισμικού αναπτύσσουν τεχνικές για να δυσκολέψουν αυτήν την ανάλυση, όπως η τροποποίηση των χρονοσημάτων των αρχείων ή η αποφυγή του συστήματος αρχείων για την αποθήκευση δεδομένων.
 
-To counter these anti-forensic methods, it's essential to:
+Για να αντιμετωπίσετε αυτές τις αντι-δικαστικές μεθόδους, είναι απαραίτητο:
 
-- **Conduct a thorough timeline analysis** using tools like **Autopsy** for visualizing event timelines or **Sleuth Kit's** `mactime` for detailed timeline data.
-- **Investigate unexpected scripts** in the system's $PATH, which might include shell or PHP scripts used by attackers.
-- **Examine `/dev` for atypical files**, as it traditionally contains special files, but may house malware-related files.
-- **Search for hidden files or directories** with names like ".. " (dot dot space) or "..^G" (dot dot control-G), which could conceal malicious content.
-- **Identify setuid root files** using the command: 
-  ```find / -user root -perm -04000 -print```
-  This finds files with elevated permissions, which could be abused by attackers.
-- **Review deletion timestamps** in inode tables to spot mass file deletions, possibly indicating the presence of rootkits or trojans.
-- **Inspect consecutive inodes** for nearby malicious files after identifying one, as they may have been placed together.
-- **Check common binary directories** (_/bin_, _/sbin_) for recently modified files, as these could be altered by malware.
-
+- **Να διεξάγετε μια λεπτομερή ανάλυση χρονολογίας** χρησιμοποιώντας εργαλεία όπως το **Autopsy** για την οπτικοποίηση της χρονολογίας των γεγονότων ή το `mactime` του **Sleuth Kit** για λεπτομερείς χρονολογικές πληροφορίες.
+- **Να ερευνήσετε απροσδόκητα scripts** στον $PATH του συστήματος, τα οποία μπορεί να περιλαμβάνουν shell ή PHP scripts που χρησιμοποιούνται από επιτιθέμενους.
+- **Να εξετάσετε τον φάκελο `/dev` για ατυπα αρχεία**, καθώς παραδοσιακά περιέχει ειδικά αρχεία, αλλά μπορεί να περιέχει και αρχεία που σχετίζονται με κακόβουλο λογισμικό.
+- **Να αναζητήσετε κρυφά αρχεία ή φακέλους** με ονόματα όπως ".. " (τελεία τελεία κενό) ή "..^G" (τελεία τελεία control-G), τα οποία μπορεί να κρύβουν κακόβουλο περιεχόμενο.
+- **Να εντοπίσετε αρχεία setuid root** χρησιμοποιώντας την εντολή:
+```find / -user root -perm -04000 -print```
+Αυτό εντοπίζει αρχεία με αυξημένα δικαιώματα, τα οποία μπορεί να καταχραστούν οι επιτιθέμενοι.
+- **Να ελέγξετε τα χρονοσήματα διαγραφής** στους πίνακες inode για να εντοπίσετε μαζικές διαγραφές αρχείων, που μπορεί να υποδηλώνουν την παρουσία rootkits ή τροϊανών.
+- **Να επιθεωρήσετε συνεχόμενα inodes** για κοντινά κακόβουλα αρχεία μετά τον εντοπισμό ενός, καθώς μπορεί να έχουν τοποθετηθεί μαζί.
+- **Να ελέγξετε κοινούς δυαδικούς φακέλους** (_/bin_, _/sbin_) για πρόσφατα τροποποιημένα αρχεία, καθώς αυτά μπορεί να έχουν τροποποιηθεί από κακόβουλο λογισμικό.
 ```bash
-# List recent files in a directory: 
+# List recent files in a directory:
 ls -laR --sort=time /bin```
 
-# Sort files in a directory by inode: 
+# Sort files in a directory by inode:
 ls -lai /bin | sort -n```
 ```
-
 {% hint style="info" %}
-Note that an **attacker** can **modify** the **time** to make **files appear** **legitimate**, but he **cannot** modify the **inode**. If you find that a **file** indicates that it was created and modified at the **same time** as the rest of the files in the same folder, but the **inode** is **unexpectedly bigger**, then the **timestamps of that file were modified**.
+Σημείωση ότι ένας **επιτιθέμενος** μπορεί να **τροποποιήσει** την **ώρα** για να κάνει τα **αρχεία να φαίνονται νόμιμα**, αλλά δεν μπορεί να τροποποιήσει το **inode**. Εάν διαπιστώσετε ότι ένα **αρχείο** υποδεικνύει ότι δημιουργήθηκε και τροποποιήθηκε την **ίδια ώρα** με τα υπόλοιπα αρχεία στον ίδιο φάκελο, αλλά το **inode** είναι **απροσδόκητα μεγαλύτερο**, τότε οι **χρονοσφραγίδες του αρχείου αυτού τροποποιήθηκαν**.
 {% endhint %}
 
-## Compare files of different filesystem versions
+## Σύγκριση αρχείων διαφορετικών εκδόσεων συστήματος αρχείων
 
-### Filesystem Version Comparison Summary
+### Περίληψη σύγκρισης εκδόσεων συστήματος αρχείων
 
-To compare filesystem versions and pinpoint changes, we use simplified `git diff` commands:
+Για να συγκρίνουμε τις εκδόσεις του συστήματος αρχείων και να εντοπίσουμε τις αλλαγές, χρησιμοποιούμε απλοποιημένες εντολές `git diff`:
 
-- **To find new files**, compare two directories:
+- **Για να βρούμε νέα αρχεία**, συγκρίνουμε δύο φακέλους:
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
-
-- **For modified content**, list changes while ignoring specific lines:
+- **Για τροποποιημένο περιεχόμενο**, αναφέρετε τις αλλαγές αγνοώντας συγκεκριμένες γραμμές:
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
-
-- **To detect deleted files**:
+- **Για τον εντοπισμό διαγραμμένων αρχείων**:
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
+- **Επιλογές φίλτρου** (`--diff-filter`) βοηθούν στον περιορισμό σε συγκεκριμένες αλλαγές όπως προστιθέμενα (`A`), διαγραμμένα (`D`) ή τροποποιημένα (`M`) αρχεία.
+- `A`: Προστιθέμενα αρχεία
+- `C`: Αντιγραμμένα αρχεία
+- `D`: Διαγραμμένα αρχεία
+- `M`: Τροποποιημένα αρχεία
+- `R`: Μετονομασμένα αρχεία
+- `T`: Αλλαγές τύπου (π.χ. αρχείο σε σύνδεσμο)
+- `U`: Μη συγχωνευμένα αρχεία
+- `X`: Άγνωστα αρχεία
+- `B`: Κατεστραμμένα αρχεία
 
-- **Filter options** (`--diff-filter`) help narrow down to specific changes like added (`A`), deleted (`D`), or modified (`M`) files.
-  - `A`: Added files
-  - `C`: Copied files
-  - `D`: Deleted files
-  - `M`: Modified files
-  - `R`: Renamed files
-  - `T`: Type changes (e.g., file to symlink)
-  - `U`: Unmerged files
-  - `X`: Unknown files
-  - `B`: Broken files
-
-## References
+## Αναφορές
 
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **Book: Malware Forensics Field Guide for Linux Systems: Digital Forensics Field Guides**
+* **Βιβλίο: Malware Forensics Field Guide for Linux Systems: Digital Forensics Field Guides**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Συμμετάσχετε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 
-**Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+**Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

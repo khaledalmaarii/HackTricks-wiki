@@ -1,59 +1,48 @@
-# Certificates
+# Πιστοποιητικά
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## What is a Certificate
+## Τι είναι ένα πιστοποιητικό
 
-A **public key certificate** is a digital ID used in cryptography to prove someone owns a public key. It includes the key's details, the owner's identity (the subject), and a digital signature from a trusted authority (the issuer). If the software trusts the issuer and the signature is valid, secure communication with the key's owner is possible.
+Ένα **πιστοποιητικό δημόσιου κλειδιού** είναι ένα ψηφιακό αναγνωριστικό που χρησιμοποιείται στην κρυπτογραφία για να αποδείξει ότι κάποιος είναι κάτοχος ενός δημόσιου κλειδιού. Περιλαμβάνει τις λεπτομέρειες του κλειδιού, την ταυτότητα του ιδιοκτήτη (το θέμα) και μια ψηφιακή υπογραφή από μια αξιόπιστη αρχή (ο εκδότης). Εάν το λογισμικό εμπιστεύεται τον εκδότη και η υπογραφή είναι έγκυρη, είναι δυνατή η ασφαλής επικοινωνία με τον ιδιοκτήτη του κλειδιού.
 
-Certificates are mostly issued by [certificate authorities](https://en.wikipedia.org/wiki/Certificate_authority) (CAs) in a [public-key infrastructure](https://en.wikipedia.org/wiki/Public-key_infrastructure) (PKI) setup. Another method is the [web of trust](https://en.wikipedia.org/wiki/Web_of_trust), where users directly verify each other’s keys. The common format for certificates is [X.509](https://en.wikipedia.org/wiki/X.509), which can be adapted for specific needs as outlined in RFC 5280.
+Τα πιστοποιητικά εκδίδονται κυρίως από [πιστοποιητικές αρχές](https://en.wikipedia.org/wiki/Certificate_authority) (CAs) σε ένα περιβάλλον [υποδομής δημόσιου κλειδιού](https://en.wikipedia.org/wiki/Public-key_infrastructure) (PKI). Ένας άλλος τρόπος είναι το [δίκτυο εμπιστοσύνης](https://en.wikipedia.org/wiki/Web_of_trust), όπου οι χρήστες επαληθεύουν απευθείας τα κλειδιά τους. Η κοινή μορφή για τα πιστοποιητικά είναι η [X.509](https://en.wikipedia.org/wiki/X.509), η οποία μπορεί να προσαρμοστεί για συγκεκριμένες ανάγκες, όπως περιγράφεται στο RFC 5280.
 
-## x509 Common Fields
+## Κοινά πεδία x509
 
-### **Common Fields in x509 Certificates**
+### **Κοινά πεδία στα πιστοποιητικά x509**
 
-In x509 certificates, several **fields** play critical roles in ensuring the certificate's validity and security. Here's a breakdown of these fields:
+Στα πιστοποιητικά x509, αρκετά **πεδία** παίζουν κρίσιμο ρόλο για την εγκυρότητα και την ασφάλεια του πιστοποιητικού. Εδώ υπάρχει μια ανάλυση αυτών των πεδίων:
 
-- **Version Number** signifies the x509 format's version.
-- **Serial Number** uniquely identifies the certificate within a Certificate Authority's (CA) system, mainly for revocation tracking.
-- The **Subject** field represents the certificate's owner, which could be a machine, an individual, or an organization. It includes detailed identification such as:
-  - **Common Name (CN)**: Domains covered by the certificate.
-  - **Country (C)**, **Locality (L)**, **State or Province (ST, S, or P)**, **Organization (O)**, and **Organizational Unit (OU)** provide geographical and organizational details.
-  - **Distinguished Name (DN)** encapsulates the full subject identification.
-- **Issuer** details who verified and signed the certificate, including similar subfields as the Subject for the CA.
-- **Validity Period** is marked by **Not Before** and **Not After** timestamps, ensuring the certificate is not used before or after a certain date.
-- The **Public Key** section, crucial for the certificate's security, specifies the algorithm, size, and other technical details of the public key.
-- **x509v3 extensions** enhance the certificate's functionality, specifying **Key Usage**, **Extended Key Usage**, **Subject Alternative Name**, and other properties to fine-tune the certificate's application.
-
-#### **Key Usage and Extensions**
-
-- **Key Usage** identifies cryptographic applications of the public key, like digital signature or key encipherment.
-- **Extended Key Usage** further narrows down the certificate's use cases, e.g., for TLS server authentication.
-- **Subject Alternative Name** and **Basic Constraint** define additional host names covered by the certificate and whether it's a CA or end-entity certificate, respectively.
-- Identifiers like **Subject Key Identifier** and **Authority Key Identifier** ensure uniqueness and traceability of keys.
-- **Authority Information Access** and **CRL Distribution Points** provide paths to verify the issuing CA and check certificate revocation status.
-- **CT Precertificate SCTs** offer transparency logs, crucial for public trust in the certificate.
-
+- Ο αριθμός **Έκδοσης** υποδηλώνει την έκδοση της μορφής x509.
+- Ο αριθμός **Σειράς** αναγνωρίζει μοναδικά το πιστοποιητικό εντός του συστήματος μιας Πιστοποιητικής Αρχής (CA), κυρίως για την παρακολούθηση ανάκλησης.
+- Το πεδίο **Θέματος** αντιπροσωπεύει τον ιδιοκτήτη του πιστοποιητικού, ο οποίος μπορεί να είναι μια μηχανή, ένα άτομο ή μια οργάνωση. Περιλαμβάνει λεπτομερείς πληροφορίες, όπως:
+- **Κοινό Όνομα (CN)**: Τομείς που καλύπτονται από το πιστοποιητικό.
+- **Χώρα (C)**, **Τοποθεσία (L)**, **Πολιτεία ή Επαρχία (ST, S ή P)**, **Οργανισμός (O)** και **Μονάδα Οργανισμού (OU)** παρέχουν γεωγραφικές και οργανωτικές λεπτομέρειες.
+- Το **Διακριτικό Όνομα (DN)** ενθυλακώνει την πλήρη ταυτοποίηση του θέματος.
+- Ο **Εκδότης** αναφέρει ποιος επαλήθευσε και υπέγραψε το πιστοποιητικό, περιλαμβάνοντας παρόμοια υποπεδία με το Θέμα για την ΠΑ.
+- Η **Περίοδος Ισχύος** σηματοδοτείται από τις χρονοσφραγίδες **Μη Πριν** και **Μη Μετά**, εξασφαλίζοντας ότι το πιστοποιητικό δεν χρησιμοποιείται πριν ή μετά από μια συγκεκριμένη ημερομηνία.
+- Η ενότητα **Δημόσιο Κλειδί**, η οποία είναι κρίσιμη για την ασφάλεια του πιστοποιητικού, κα
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -61,8 +50,8 @@ from cryptography.hazmat.backends import default_backend
 
 # Load an x509 certificate (assuming cert.pem is a certificate file)
 with open("cert.pem", "rb") as file:
-    cert_data = file.read()
-    certificate = x509.load_pem_x509_certificate(cert_data, default_backend())
+cert_data = file.read()
+certificate = x509.load_pem_x509_certificate(cert_data, default_backend())
 
 # Accessing fields
 serial_number = certificate.serial_number
@@ -75,139 +64,199 @@ print(f"Issuer: {issuer}")
 print(f"Subject: {subject}")
 print(f"Public Key: {public_key}")
 ```
+### **Διαφορά μεταξύ OCSP και CRL Distribution Points**
 
-### **Difference between OCSP and CRL Distribution Points**
+Το **OCSP** (**RFC 2560**) περιλαμβάνει έναν πελάτη και έναν ανταποκρίτη που συνεργάζονται για να ελέγξουν εάν ένα ψηφιακό πιστοποιητικό δημόσιου κλειδιού έχει ανακληθεί, χωρίς να χρειάζεται να κατεβάσουν το πλήρες **CRL**. Αυτή η μέθοδος είναι πιο αποδοτική από το παραδοσιακό **CRL**, το οποίο παρέχει μια λίστα με τους αριθμούς σειράς των ανακλημένων πιστοποιητικών αλλά απαιτεί τη λήψη ενός ενδεχομένως μεγάλου αρχείου. Τα CRL μπορούν να περιλαμβάνουν έως και 512 καταχωρήσεις. Περισσότερες λεπτομέρειες είναι διαθέσιμες [εδώ](https://www.arubanetworks.com/techdocs/ArubaOS%206_3_1_Web_Help/Content/ArubaFrameStyles/CertRevocation/About_OCSP_and_CRL.htm).
 
-**OCSP** (**RFC 2560**) involves a client and a responder working together to check if a digital public-key certificate has been revoked, without needing to download the full **CRL**. This method is more efficient than the traditional **CRL**, which provides a list of revoked certificate serial numbers but requires downloading a potentially large file. CRLs can include up to 512 entries. More details are available [here](https://www.arubanetworks.com/techdocs/ArubaOS%206_3_1_Web_Help/Content/ArubaFrameStyles/CertRevocation/About_OCSP_and_CRL.htm).
+### **Τι είναι η Certificate Transparency**
 
-### **What is Certificate Transparency**
+Η Certificate Transparency βοηθά στην καταπολέμηση απειλών που σχετίζονται με πιστοποιητικά, εξασφαλίζοντας ότι η έκδοση και η ύπαρξη των πιστοποιητικών SSL είναι ορατές για τους ιδιοκτήτες τομέα, τις αρχές πιστοποίησης και τους χρήστες. Οι στόχοι της είναι:
 
-Certificate Transparency helps combat certificate-related threats by ensuring the issuance and existence of SSL certificates are visible to domain owners, CAs, and users. Its objectives are:
+* Να αποτρέπει τις αρχές πιστοποίησης από το να εκδίδουν πιστοποιητικά SSL για έναν τομέα χωρίς τη γνώση του ιδιοκτήτη του τομέα.
+* Να θεσπίσει ένα ανοιχτό σύστημα ελέγχου για την παρακολούθηση πιστοποιητικών που έχουν εκδοθεί κατά λάθος ή κακόβουλα.
+* Να προστατεύει τους χρήστες από απάτες με πιστοποιητικά.
 
-* Preventing CAs from issuing SSL certificates for a domain without the domain owner's knowledge.
-* Establishing an open auditing system for tracking mistakenly or maliciously issued certificates.
-* Safeguarding users against fraudulent certificates.
+#### **Αρχεία καταγραφής πιστοποιητικών**
 
-#### **Certificate Logs**
+Τα αρχεία καταγραφής πιστοποιητικών είναι δημόσια ελεγξίμα αρχεία με αποκλειστική εγγραφή πιστοποιητικών, τα οποία διατηρούνται από υπηρεσίες δικτύου. Αυτά τα αρχεία παρέχουν κρυπτογραφικές αποδείξεις για σκοπούς ελέγχου. Τόσο οι αρχές έκδοσης όσο και το κοινό μπορούν να υποβάλουν πιστοποιητικά σε αυτά τα αρχεία ή να τα ερωτήσουν για επαλήθευση. Ενώ ο ακριβής αριθμός των διακομιστών καταγραφής δεν είναι σταθερός, αναμένεται να είναι λιγότερο από χίλια παγκοσμίως. Αυτοί οι διακομιστές μπορούν να διαχειρίζονται ανεξάρτητα από αρχές πιστοποίησης, παροχείς υπηρεσιών Internet ή οποιοδήποτε ενδιαφερόμενο φορέα.
 
-Certificate logs are publicly auditable, append-only records of certificates, maintained by network services. These logs provide cryptographic proofs for auditing purposes. Both issuance authorities and the public can submit certificates to these logs or query them for verification. While the exact number of log servers is not fixed, it's expected to be less than a thousand globally. These servers can be independently managed by CAs, ISPs, or any interested entity.
+#### **Ερώτημα**
 
-#### **Query**
+Για να εξερευνήσετε τα αρχεία καταγραφής πιστοποιητικών Certificate Transparency για οποιονδήποτε τομέα, επισκεφθείτε το [https://crt.sh/](https://crt.sh).
 
-To explore Certificate Transparency logs for any domain, visit [https://crt.sh/](https://crt.sh).
+Υπάρχουν διάφορες μορφές για την αποθήκευση πιστοποιητικών, καθεμία με τις δικές της περιπτώσεις χρήσης και συμβατότητα. Αυτό το σύνοψη καλύπτει τις κύριες μορφές και παρέχει καθοδήγηση για τη μετατροπή μεταξύ τους.
 
-Different formats exist for storing certificates, each with its own use cases and compatibility. This summary covers the main formats and provides guidance on converting between them.
+## **Μορφές**
 
-## **Formats**
+### **Μορφή PEM**
+- Η πιο διαδεδομένη μορφή για πιστοποιητικά.
+- Απαιτεί ξεχωριστά αρχεία για πιστοποιητικά και ιδιωτικά κλειδιά, κωδικοποιημένα σε Base64 ASCII.
+- Συνηθισμένες επεκτάσεις: .cer, .crt, .pem, .key.
+- Χρησιμοποιείται κυρίως από τον Apache και παρόμοιους διακομιστές.
 
-### **PEM Format**
-- Most widely used format for certificates.
-- Requires separate files for certificates and private keys, encoded in Base64 ASCII.
-- Common extensions: .cer, .crt, .pem, .key.
-- Primarily used by Apache and similar servers.
+### **Μορφή DER**
+- Μια δυαδική μορφή πιστοποιητικών.
+- Δεν περιλαμβάνει τις δηλώσεις "BEGIN/END CERTIFICATE" που βρίσκονται στα αρχεία PEM.
+- Συνηθισμένες επεκτάσεις: .cer, .der.
+- Χρησιμοποιείται συχνά με πλατφόρμες Java.
 
-### **DER Format**
-- A binary format of certificates.
-- Lacks the "BEGIN/END CERTIFICATE" statements found in PEM files.
-- Common extensions: .cer, .der.
-- Often used with Java platforms.
+### **Μορφή P7B/PKCS#7**
+- Αποθηκεύεται σε Base64 ASCII, με επεκτάσεις .p7b ή .p7c.
+- Περιέχει μόνο πιστοποιητικά και αλυσίδες πιστοποιητικών, χωρίς το ιδιωτικό κλειδί.
+- Υποστηρίζεται από τα Microsoft Windows και Java Tomcat.
 
-### **P7B/PKCS#7 Format**
-- Stored in Base64 ASCII, with extensions .p7b or .p7c.
-- Contains only certificates and chain certificates, excluding the private key.
-- Supported by Microsoft Windows and Java Tomcat.
+### **Μορφή PFX/P12/PKCS#12**
+- Μια δυαδική μορφή που ενθυλακώνει πιστοποιητικά διακομιστή, ενδιάμεσα πιστοποιητικά και ιδιωτικά κλειδιά σε ένα αρχείο.
+- Επεκτάσεις: .pfx, .p12.
+- Χρησιμοποιείται κυρίως στα Windows για την εισαγωγή και εξαγωγή πιστοποιητικών. 
 
-### **PFX/P12/PKCS#12 Format**
-- A binary format that encapsulates server certificates, intermediate certificates, and private keys in one file.
-- Extensions: .pfx, .p12.
-- Mainly used on Windows for certificate import and export.
+### **Μετατροπή μορφών**
 
-### **Converting Formats**
+Οι **μετατροπές PEM** είναι απαραίτητες για τη συμβατότητα:
 
-**PEM conversions** are essential for compatibility:
-
-- **x509 to PEM**
-
+- **x509 σε PEM**
 ```bash
 openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```
+- **PEM σε DER**
 
+Η μετατροπή από τη μορφή PEM στη μορφή DER μπορεί να γίνει με τη χρήση του εργαλείου `openssl`. Ακολουθήστε τα παρακάτω βήματα για να πραγματοποιήσετε τη μετατροπή:
 
-- **PEM to DER**
+1. Ανοίξτε ένα τερματικό και εκτελέστε την ακόλουθη εντολή:
+   ```
+   openssl x509 -outform der -in certificate.pem -out certificate.der
+   ```
+
+   Αντικαταστήστε το `certificate.pem` με το όνομα του αρχείου PEM που θέλετε να μετατρέψετε και το `certificate.der` με το όνομα που θέλετε να δώσετε στο νέο αρχείο DER.
+
+2. Το εργαλείο `openssl` θα δημιουργήσει ένα νέο αρχείο με το όνομα που καθορίσατε, σε μορφή DER.
+
+Με αυτόν τον τρόπο, μπορείτε να μετατρέψετε ένα αρχείο πιστοποιητικού από τη μορφή PEM στη μορφή DER.
 ```bash
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
+- **DER σε PEM**
 
+Για να μετατρέψετε ένα πιστοποιητικό από τη μορφή DER σε μορφή PEM, μπορείτε να χρησιμοποιήσετε την εντολή `openssl`. Ακολουθήστε τα παρακάτω βήματα:
 
-- **DER to PEM**
+1. Ανοίξτε ένα τερματικό και εκτελέστε την εντολή:
+
+   ```plaintext
+   openssl x509 -inform der -in certificate.der -out certificate.pem
+   ```
+
+   Αντικαταστήστε το `certificate.der` με το όνομα του αρχείου DER πιστοποιητικού που θέλετε να μετατρέψετε και το `certificate.pem` με το όνομα που θέλετε να δώσετε στο νέο αρχείο PEM.
+
+2. Το πιστοποιητικό σας τώρα έχει μετατραπεί από τη μορφή DER σε μορφή PEM και είναι έτοιμο για χρήση.
 ```bash
 openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
+- **Μετατροπή από PEM σε P7B**
 
-- **PEM to P7B**
+Για να μετατρέψετε ένα αρχείο πιστοποιητικού στη μορφή PEM σε μορφή P7B, μπορείτε να χρησιμοποιήσετε την εντολή `openssl`. Ακολουθήστε τα παρακάτω βήματα:
+
+1. Ανοίξτε ένα τερματικό και εκτελέστε την εντολή:
+   ```
+   openssl crl2pkcs7 -nocrl -certfile certificate.pem -out certificate.p7b
+   ```
+
+   Αντικαταστήστε το `certificate.pem` με το όνομα του αρχείου πιστοποιητικού που θέλετε να μετατρέψετε.
+
+2. Το αρχείο P7B θα δημιουργηθεί στον ίδιο φάκελο με το αρχείο PEM.
+
+Τώρα έχετε μετατρέψει με επιτυχία το αρχείο πιστοποιητικού από τη μορφή PEM στη μορφή P7B.
 ```bash
 openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b -certfile CACert.cer
 ```
+- **Μετατροπή PKCS7 σε PEM**
 
+To convert a PKCS7 certificate to PEM format, you can use the following OpenSSL command:
 
-- **PKCS7 to PEM**
+```plaintext
+openssl pkcs7 -print_certs -in certificate.p7b -out certificate.pem
+```
+
+This command will extract the certificates from the PKCS7 file and save them in PEM format. The resulting PEM file can then be used for various cryptographic operations.
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
+**Οι μετατροπές PFX** είναι κρίσιμες για τη διαχείριση πιστοποιητικών στα Windows:
 
-
-**PFX conversions** are crucial for managing certificates on Windows:
-
-- **PFX to PEM**
+- **PFX σε PEM**
 ```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
-
-
-- **PFX to PKCS#8** involves two steps:
-  1. Convert PFX to PEM
-
+- **PFX σε PKCS#8** περιλαμβάνει δύο βήματα:
+1. Μετατροπή PFX σε PEM
 ```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
+2. Μετατροπή από PEM σε PKCS8
 
-  2. Convert PEM to PKCS8
+Για να μετατρέψετε ένα αρχείο PEM σε μορφή PKCS8, μπορείτε να χρησιμοποιήσετε την εντολή `openssl` στο τερματικό. Ακολουθήστε τα παρακάτω βήματα:
+
+1. Ανοίξτε ένα τερματικό και εκτελέστε την εντολή:
+   ```
+   openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.pkcs8
+   ```
+
+   Αντικαταστήστε το `private_key.pem` με το όνομα του αρχείου PEM που θέλετε να μετατρέψετε και το `private_key.pkcs8` με το όνομα που θέλετε να δώσετε στο νέο αρχείο PKCS8.
+
+2. Θα σας ζητηθεί να εισαγάγετε τον κωδικό πρόσβασης του ιδιωτικού κλειδιού PEM.
+
+3. Το νέο αρχείο PKCS8 θα δημιουργηθεί στον ίδιο φάκελο με το αρχικό αρχείο PEM.
+
+Με αυτόν τον τρόπο, μπορείτε να μετατρέψετε ένα αρχείο PEM σε μορφή PKCS8 για περαιτέρω χρήση στις κρυπτογραφικές σας εργασίες.
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
-
-
-- **P7B to PFX** also requires two commands:
-  1. Convert P7B to CER
+- **P7B σε PFX** απαιτεί επίσης δύο εντολές:
+1. Μετατροπή P7B σε CER
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
 ```
+2. Μετατροπή CER και Ιδιωτικού Κλειδιού σε PFX
 
-  2. Convert CER and Private Key to PFX
+Για να μετατρέψετε ένα αρχείο CER και το αντίστοιχο ιδιωτικό κλειδί σε μορφή PFX, μπορείτε να χρησιμοποιήσετε το εργαλείο OpenSSL. Ακολουθήστε τα παρακάτω βήματα:
+
+1. Ανοίξτε ένα τερματικό παράθυρο και μεταβείτε στον φάκελο όπου βρίσκονται τα αρχεία CER και ιδιωτικού κλειδιού.
+
+2. Εκτελέστε την παρακάτω εντολή για να δημιουργήσετε ένα αρχείο PFX:
+
+```plaintext
+openssl pkcs12 -export -out certificate.pfx -inkey private.key -in certificate.cer
+```
+
+Σημείωση: Αντικαταστήστε τα `private.key` και `certificate.cer` με τα ονόματα των αρχείων που έχετε.
+
+3. Θα σας ζητηθεί να εισαγάγετε έναν κωδικό πρόσβασης για το αρχείο PFX. Εισαγάγετε τον επιθυμητό κωδικό πρόσβασης και πατήστε Enter.
+
+4. Το αρχείο PFX με το πιστοποιητικό και το ιδιωτικό κλειδί θα δημιουργηθεί στον ίδιο φάκελο όπου εκτελέσατε την εντολή.
+
+Μετά την ολοκλήρωση αυτών των βημάτων, θα έχετε μετατρέψει με επιτυχία το αρχείο CER και το ιδιωτικό κλειδί σε μορφή PFX.
 ```bash
 openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile cacert.cer
 ```
-
 ***
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να αυτοματοποιήσετε εργασιακές διαδικασίες με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την εταιρεία σας να διαφημίζεται στο HackTricks ή να κατεβάσετε το HackTricks σε μορφή PDF, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

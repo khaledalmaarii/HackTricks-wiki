@@ -2,85 +2,82 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Abusing MDMs
+## Κατάχρηση των MDMs
 
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-If you manage to **compromise admin credentials** to access the management platform, you can **potentially compromise all the computers** by distributing your malware in the machines.
+Εάν καταφέρετε να **παραβιάσετε τα διαπιστευτήρια διαχειριστή** για να αποκτήσετε πρόσβαση στην πλατφόρμα διαχείρισης, μπορείτε **πιθανώς να παραβιάσετε όλους τους υπολογιστές** διανέμοντας το malware σας στις μηχανές.
 
-For red teaming in MacOS environments it's highly recommended to have some understanding of how the MDMs work:
+Για το red teaming σε περιβάλλοντα MacOS, συνιστάται ιδιαίτερα να έχετε κάποια κατανόηση του τρόπου λειτουργίας των MDMs:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
 {% endcontent-ref %}
 
-### Using MDM as a C2
+### Χρήση του MDM ως C2
 
-A MDM will have permission to install, query or remove profiles, install applications, create local admin accounts, set firmware password, change the FileVault key...
+Ένα MDM θα έχει άδεια να εγκαταστήσει, να ερωτήσει ή να αφαιρέσει προφίλ, να εγκαταστήσει εφαρμογές, να δημιουργήσει τοπικούς λογαριασμούς διαχειριστή, να ορίσει κωδικό πρόσβασης του firmware, να αλλάξει το κλειδί του FileVault...
 
-In order to run your own MDM you need to **your CSR signed by a vendor** which you could try to get with [**https://mdmcert.download/**](https://mdmcert.download/). And to run your own MDM for Apple devices you could use [**MicroMDM**](https://github.com/micromdm/micromdm).
+Για να εκτελέσετε το δικό σας MDM, χρειάζεστε **το CSR σας να υπογραφεί από έναν προμηθευτή** τον οποίο μπορείτε να προσπαθήσετε να λάβετε από το [**https://mdmcert.download/**](https://mdmcert.download/). Και για να εκτελέσετε το δικό σας MDM για συσκευές Apple, μπορείτε να χρησιμοποιήσετε το [**MicroMDM**](https://github.com/micromdm/micromdm).
 
-However, to install an application in an enrolled device, you still need it to be signed by a developer account... however, upon MDM enrolment the **device adds the SSL cert of the MDM as a trusted CA**, so you can now sign anything.
+Ωστόσο, για να εγκαταστήσετε μια εφαρμογή σε μια εγγεγραμμένη συσκευή, εξακολουθείτε να χρειάζεστε να υπογραφεί από έναν λογαριασμό προγραμματιστή... ωστόσο, κατά την εγγραφή στο MDM η συσκευή προσθέτει το πιστοποιητικό SSL του MDM ως έμπιστη Αρχή (CA), οπότε τώρα μπορείτε να υπογράψετε οτιδήποτε.
 
-To enrol the device in a MDM you. need to install a **`mobileconfig`** file as root, which could be delivered via a **pkg** file (you could compress it in zip and when downloaded from safari it will be decompressed).
+Για να εγγράψετε τη συσκευή σε ένα MDM, χρειάζεστε να εγκαταστήσετε ένα αρχείο **`mobileconfig`** ως root, το οποίο μπορεί να παραδοθεί μέσω ενός αρχείου **pkg** (μπορείτε να το συμπιέσετε σε μορφή zip και όταν το κατεβάσετε από το safari θα αποσυμπιεστεί).
 
-**Mythic agent Orthrus** uses this technique.
+Ο **Mythic agent Orthrus** χρησιμοποιεί αυτήν την τεχνική.
 
-### Abusing JAMF PRO
+### Κατάχρηση του JAMF PRO
 
-JAMF can run **custom scripts** (scripts developed by the sysadmin), **native payloads** (local account creation, set EFI password, file/process monitoring...) and **MDM** (device configurations, device certificates...).
+Το JAMF μπορεί να εκτελέσει **προσαρμοσμένα scripts** (scripts που έχουν αναπτυχθεί από τον συστημικό διαχειριστή), **native payloads** (δημιουργία τοπικού λογαριασμού, ορισμός κωδικού EFI, παρακολούθηση αρχείων/διεργασιών...) και **MDM** (διαμορφώσεις συσκευής, πιστοποιητικά συσκευής...).
 
-#### JAMF self-enrolment
+#### Αυτοεγγραφή JAMF
 
-Go to a page such as `https://<company-name>.jamfcloud.com/enroll/` to see if they have **self-enrolment enabled**. If they have it might **ask for credentials to access**.
+Πηγαίνετε σε μια σελίδα όπως `https://<όνομα-εταιρείας>.jamfcloud.com/enroll/` για να δείτε εάν έχουν ενεργοποιημένη την **αυτοεγγραφή**. Εάν το έχουν, μπορεί να **ζητήσει διαπιστευτήρια πρόσβασης**.
 
-You could use the script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) to perform a password spraying attack.
+Μπορείτε να χρησιμοποιήσετε το script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) για να εκτελέσετε μια επίθεση password spraying.
 
-Moreover, after finding proper credentials you could be able to brute-force other usernames with the next form:
+Επιπλέον, αφού βρείτε κατάλληλα διαπιστευτήρια, μπορείτε να δοκιμάσετε να βρείτε με βίαιο τρόπο άλλα ονόματα χρηστών με την επόμενη φόρμα:
 
 ![](<../../.gitbook/assets/image (7) (1) (1).png>)
 
-#### JAMF device Authentication
+#### Πιστοποίηση συσκευής JAMF
 
 <figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-The **`jamf`** binary contained the secret to open the keychain which at the time of the discovery was **shared** among everybody and it was: **`jk23ucnq91jfu9aj`**.\
-Moreover, jamf **persist** as a **LaunchDaemon** in **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
+Το δυαδικό **`jamf`** περιείχε το μυστικό για να ανοίξει το keychain που την στιγμή της ανακάλυψης ήταν **κοινόχρηστο** από όλους και ήταν: **`jk23ucnq91jfu9aj`**.\
+Επιπλέον, το jamf **διατηρείται** ως **LaunchDaemon** στο **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
-#### JAMF Device Takeover
+#### Πάροχος συσκευής JAMF
 
-The **JSS** (Jamf Software Server) **URL** that **`jamf`** will use is located in **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
-This file basically contains the URL:
-
-{% code overflow="wrap" %}
+Η **URL**
 ```bash
 plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 
 [...]
-	<key>is_virtual_machine</key>
-	<false/>
-	<key>jss_url</key>
-	<string>https://halbornasd.jamfcloud.com/</string>
-	<key>last_management_framework_change_id</key>
-	<integer>4</integer>
+<key>is_virtual_machine</key>
+<false/>
+<key>jss_url</key>
+<string>https://halbornasd.jamfcloud.com/</string>
+<key>last_management_framework_change_id</key>
+<integer>4</integer>
 [...]
 ```
 {% endcode %}
 
-So, an attacker could drop a malicious package (`pkg`) that **overwrites this file** when installed setting the **URL to a Mythic C2 listener from a Typhon agent** to now be able to abuse JAMF as C2.
+Έτσι, ένας επιτιθέμενος θα μπορούσε να εγκαταστήσει ένα κακόβουλο πακέτο (`pkg`) που **αντικαθιστά αυτό το αρχείο** κατά την εγκατάσταση, ορίζοντας το **URL σε ένα Mythic C2 listener από έναν πράκτορα Typhon** για να μπορεί να καταχραστεί το JAMF ως C2.
 
 {% code overflow="wrap" %}
 ```bash
@@ -91,28 +88,28 @@ sudo jamf policy -id 0
 ```
 {% endcode %}
 
-#### JAMF Impersonation
+#### Παραπληροφόρηση JAMF
 
-In order to **impersonate the communication** between a device and JMF you need:
+Για να **παραπλανήσετε την επικοινωνία** μεταξύ μιας συσκευής και του JMF, χρειάζεστε:
 
-* The **UUID** of the device: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
-* The **JAMF keychain** from: `/Library/Application\ Support/Jamf/JAMF.keychain` which contains the device certificate
+* Το **UUID** της συσκευής: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
+* Το **JAMF keychain** από: `/Library/Application\ Support/Jamf/JAMF.keychain` που περιέχει το πιστοποιητικό της συσκευής
 
-With this information, **create a VM** with the **stolen** Hardware **UUID** and with **SIP disabled**, drop the **JAMF keychain,** **hook** the Jamf **agent** and steal its information.
+Με αυτές τις πληροφορίες, **δημιουργήστε ένα VM** με το **κλεμμένο** Hardware **UUID** και με το **SIP απενεργοποιημένο**, αποθηκεύστε το **JAMF keychain**, **συνδέστε** τον πράκτορα του Jamf και κλέψτε τις πληροφορίες του.
 
-#### Secrets stealing
+#### Κλοπή μυστικών
 
 <figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-You could also monitor the location `/Library/Application Support/Jamf/tmp/` for the **custom scripts** admins might want to execute via Jamf as they are **placed here, executed and removed**. These scripts **might contain credentials**.
+Μπορείτε επίσης να παρακολουθείτε την τοποθεσία `/Library/Application Support/Jamf/tmp/` για τα **προσαρμοσμένα scripts** που οι διαχειριστές μπορεί να θέλουν να εκτελέσουν μέσω του Jamf καθώς αυτά τοποθετούνται εδώ, εκτελούνται και αφαιρούνται. Αυτά τα scripts **μπορεί να περιέχουν διαπιστευτήρια**.
 
-However, **credentials** might be passed tho these scripts as **parameters**, so you would need to monitor `ps aux | grep -i jamf` (without even being root).
+Ωστόσο, τα **διαπιστευτήρια** μπορεί να περνούν μέσω αυτών των scripts ως **παράμετροι**, οπότε θα χρειαστεί να παρακολουθείτε την εντολή `ps aux | grep -i jamf` (χωρίς να είστε root).
 
-The script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) can listen for new files being added and new process arguments.
+Το script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) μπορεί να ακούει για νέα αρχεία που προστίθενται και νέες παραμέτρους διεργασιών.
 
-### macOS Remote Access
+### Απομακρυσμένη πρόσβαση στο macOS
 
-And also about **MacOS** "special" **network** **protocols**:
+Και επίσης για τα **ειδικά** **δίκτυα** **πρωτόκολλα** του **MacOS**:
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -120,7 +117,7 @@ And also about **MacOS** "special" **network** **protocols**:
 
 ## Active Directory
 
-In some occasions you will find that the **MacOS computer is connected to an AD**. In this scenario you should try to **enumerate** the active directory as you are use to it. Find some **help** in the following pages:
+Σε ορισμένες περιπτώσεις θα διαπιστώσετε ότι ο υπολογιστής **MacOS είναι συνδεδεμένος σε ένα AD**. Σε αυτό το σενάριο θα πρέπει να προσπαθήσετε να **απαριθμήσετε** τον ενεργό κατάλογο όπως είστε συνηθισμένοι. Βρείτε κάποια **βοήθεια** στις παρακάτω σελίδες:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -134,41 +131,36 @@ In some occasions you will find that the **MacOS computer is connected to an AD*
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Some **local MacOS tool** that may also help you is `dscl`:
-
+Ένα εργαλείο **τοπικού MacOS** που μπορεί να σας βοηθήσει είναι το `dscl`:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
+Επίσης, υπάρχουν μερικά εργαλεία που έχουν προετοιμαστεί για το MacOS για αυτόματη απαρίθμηση του AD και παιχνίδι με το Kerberos:
 
-Also there are some tools prepared for MacOS to automatically enumerate the AD and play with kerberos:
+* [**Machound**](https://github.com/XMCyber/MacHound): Το MacHound είναι μια επέκταση του εργαλείου ελέγχου Bloodhound που επιτρέπει τη συλλογή και την εισαγωγή σχέσεων Active Directory σε υπολογιστές MacOS.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Το Bifrost είναι ένα έργο Objective-C που σχεδιάστηκε για να αλληλεπιδρά με τις διεπαφές Heimdal krb5 στο macOS. Ο στόχος του έργου είναι να επιτρέψει καλύτερο έλεγχο ασφαλείας γύρω από το Kerberos σε συσκευές macOS χρησιμοποιώντας τις ενσωματωμένες διεπαφές χωρίς να απαιτείται οποιοδήποτε άλλο πλαίσιο ή πακέτο στον στόχο.
+* [**Orchard**](https://github.com/its-a-feature/Orchard): Εργαλείο JavaScript για την Αυτοματοποίηση (JXA) για απαρίθμηση του Active Directory. 
 
-* [**Machound**](https://github.com/XMCyber/MacHound): MacHound is an extension to the Bloodhound audting tool allowing collecting and ingesting of Active Directory relationships on MacOS hosts.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost is an Objective-C project designed to interact with the Heimdal krb5 APIs on macOS. The goal of the project is to enable better security testing around Kerberos on macOS devices using native APIs without requiring any other framework or packages on the target.
-* [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript for Automation (JXA) tool to do Active Directory enumeration.
-
-### Domain Information
-
+### Πληροφορίες τομέα
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
+### Χρήστες
 
-### Users
+Οι τρεις τύποι χρηστών του MacOS είναι:
 
-The three types of MacOS users are:
+* **Τοπικοί Χρήστες** - Διαχειρίζονται από την τοπική υπηρεσία OpenDirectory και δεν συνδέονται με το Active Directory.
+* **Δικτυακοί Χρήστες** - Προσωρινοί χρήστες του Active Directory που απαιτούν σύνδεση στον διακομιστή DC για την πιστοποίησή τους.
+* **Κινητοί Χρήστες** - Χρήστες του Active Directory με τοπικό αντίγραφο ασφαλείας για τα διαπιστευτήριά τους και τα αρχεία τους.
 
-* **Local Users** — Managed by the local OpenDirectory service, they aren’t connected in any way to the Active Directory.
-* **Network Users** — Volatile Active Directory users who require a connection to the DC server to authenticate.
-* **Mobile Users** — Active Directory users with a local backup for their credentials and files.
+Οι τοπικές πληροφορίες για τους χρήστες και τις ομάδες αποθηκεύονται στον φάκελο _/var/db/dslocal/nodes/Default._\
+Για παράδειγμα, οι πληροφορίες για τον χρήστη με το όνομα _mark_ αποθηκεύονται στο _/var/db/dslocal/nodes/Default/users/mark.plist_ και οι πληροφορίες για την ομάδα _admin_ βρίσκονται στο _/var/db/dslocal/nodes/Default/groups/admin.plist_.
 
-The local information about users and groups is stored in in the folder _/var/db/dslocal/nodes/Default._\
-For example, the info about user called _mark_ is stored in _/var/db/dslocal/nodes/Default/users/mark.plist_ and the info about the group _admin_ is in _/var/db/dslocal/nodes/Default/groups/admin.plist_.
+Εκτός από τη χρήση των ακμών HasSession και AdminTo, το **MacHound προσθέτει τρεις νέες ακμές** στη βάση δεδομένων Bloodhound:
 
-In addition to using the HasSession and AdminTo edges, **MacHound adds three new edges** to the Bloodhound database:
-
-* **CanSSH** - entity allowed to SSH to host
-* **CanVNC** - entity allowed to VNC to host
-* **CanAE** - entity allowed to execute AppleEvent scripts on host
-
+* **CanSSH** - οντότητα που επιτρέπεται να συνδεθεί με SSH στον υπολογιστή
+* **CanVNC** - οντότητα που επιτρέπεται να συνδεθεί με VNC στον υπολογιστή
+* **CanAE** - οντότητα που επιτρέπεται να εκτελέσει AppleEvent scripts στον υπολογιστή
 ```bash
 #User enumeration
 dscl . ls /Users
@@ -190,30 +182,29 @@ dscl "/Active Directory/TEST/All Domains" read "/Groups/[groupname]"
 #Domain Information
 dsconfigad -show
 ```
+Περισσότερες πληροφορίες στο [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
 
-More info in [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
+## Πρόσβαση στο Keychain
 
-## Accessing the Keychain
-
-The Keychain highly probably contains sensitive information that if accessed withuot generating a prompt could help to move forward a red team exercise:
+Το Keychain περιέχει πιθανώς ευαίσθητες πληροφορίες που, αν αποκτηθούν χωρίς να προκαλέσουν ειδοποίηση, μπορούν να βοηθήσουν στην προώθηση μιας άσκησης κόκκινης ομάδας:
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
 {% endcontent-ref %}
 
-## External Services
+## Εξωτερικές Υπηρεσίες
 
-MacOS Red Teaming is different from a regular Windows Red Teaming as usually **MacOS is integrated with several external platforms directly**. A common configuration of MacOS is to access to the computer using **OneLogin synchronised credentials, and accessing several external services** (like github, aws...) via OneLogin.
+Η κόκκινη ομάδα MacOS διαφέρει από μια κανονική κόκκινη ομάδα Windows, καθώς συνήθως **το MacOS είναι ενσωματωμένο με αρκετές εξωτερικές πλατφόρμες απευθείας**. Μια συνηθισμένη διαμόρφωση του MacOS είναι η πρόσβαση στον υπολογιστή χρησιμοποιώντας **συγχρονισμένα διαπιστευτήρια OneLogin και πρόσβαση σε διάφορες εξωτερικές υπηρεσίες** (όπως github, aws...) μέσω του OneLogin.
 
-## Misc Red Team techniques
+## Διάφορες τεχνικές κόκκινης ομάδας
 
 ### Safari
 
-When a file is downloaded in Safari, if its a "safe" file, it will be **automatically opened**. So for example, if you **download a zip**, it will be automatically decompressed:
+Όταν ένα αρχείο λήψης στο Safari είναι ένα "ασφαλές" αρχείο, θα ανοίξει **αυτόματα**. Έτσι, για παράδειγμα, αν κατεβάσετε ένα zip, θα αποσυμπιεστεί αυτόματα:
 
 <figure><img src="../../.gitbook/assets/image (12) (3).png" alt=""><figcaption></figcaption></figure>
 
-## References
+## Αναφορές
 
 * [**https://www.youtube.com/watch?v=IiMladUbL6E**](https://www.youtube.com/watch?v=IiMladUbL6E)
 * [**https://medium.com/xm-cyber/introducing-machound-a-solution-to-macos-active-directory-based-attacks-2a425f0a22b6**](https://medium.com/xm-cyber/introducing-machound-a-solution-to-macos-active-directory-based-attacks-2a425f0a22b6)
@@ -223,14 +214,14 @@ When a file is downloaded in Safari, if its a "safe" file, it will be **automati
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Αν θέλετε να δείτε την εταιρεία σας να διαφημίζεται στο HackTricks ή να κατεβάσετε το HackTricks σε μορφή PDF, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

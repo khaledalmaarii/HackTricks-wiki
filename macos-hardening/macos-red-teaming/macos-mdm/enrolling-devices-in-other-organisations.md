@@ -1,82 +1,40 @@
-# Enrolling Devices in Other Organisations
+# Εγγραφή Συσκευών σε Άλλους Οργανισμούς
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-## Intro
-
-As [**previously commented**](./#what-is-mdm-mobile-device-management)**,** in order to try to enrol a device into an organization **only a Serial Number belonging to that Organization is needed**. Once the device is enrolled, several organizations will install sensitive data on the new device: certificates, applications, WiFi passwords, VPN configurations [and so on](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Therefore, this could be a dangerous entrypoint for attackers if the enrolment process isn't correctly protected.
-
-**The following is a summary of the research [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Check it for further technical details!**
-
-## Overview of DEP and MDM Binary Analysis
-
-This research delves into the binaries associated with the Device Enrollment Program (DEP) and Mobile Device Management (MDM) on macOS. Key components include:
-
-- **`mdmclient`**: Communicates with MDM servers and triggers DEP check-ins on macOS versions before 10.13.4.
-- **`profiles`**: Manages Configuration Profiles, and triggers DEP check-ins on macOS versions 10.13.4 and later.
-- **`cloudconfigurationd`**: Manages DEP API communications and retrieves Device Enrollment profiles.
-
-DEP check-ins utilize the `CPFetchActivationRecord` and `CPGetActivationRecord` functions from the private Configuration Profiles framework to fetch the Activation Record, with `CPFetchActivationRecord` coordinating with `cloudconfigurationd` through XPC.
-
-## Tesla Protocol and Absinthe Scheme Reverse Engineering
-
-The DEP check-in involves `cloudconfigurationd` sending an encrypted, signed JSON payload to _iprofiles.apple.com/macProfile_. The payload includes the device's serial number and the action "RequestProfileConfiguration". The encryption scheme used is referred to internally as "Absinthe". Unraveling this scheme is complex and involves numerous steps, which led to exploring alternative methods for inserting arbitrary serial numbers in the Activation Record request.
-
-## Proxying DEP Requests
-
-Attempts to intercept and modify DEP requests to _iprofiles.apple.com_ using tools like Charles Proxy were hindered by payload encryption and SSL/TLS security measures. However, enabling the `MCCloudConfigAcceptAnyHTTPSCertificate` configuration allows bypassing the server certificate validation, although the payload's encrypted nature still prevents modification of the serial number without the decryption key.
-
-## Instrumenting System Binaries Interacting with DEP
-
-Instrumenting system binaries like `cloudconfigurationd` requires disabling System Integrity Protection (SIP) on macOS. With SIP disabled, tools like LLDB can be used to attach to system processes and potentially modify the serial number used in DEP API interactions. This method is preferable as it avoids the complexities of entitlements and code signing.
-
-**Exploiting Binary Instrumentation:**
-Modifying the DEP request payload before JSON serialization in `cloudconfigurationd` proved effective. The process involved:
-
-1. Attaching LLDB to `cloudconfigurationd`.
-2. Locating the point where the system serial number is fetched.
-3. Injecting an arbitrary serial number into the memory before the payload is encrypted and sent.
-
-This method allowed for retrieving complete DEP profiles for arbitrary serial numbers, demonstrating a potential vulnerability.
-
-### Automating Instrumentation with Python
-
-The exploitation process was automated using Python with the LLDB API, making it feasible to programmatically inject arbitrary serial numbers and retrieve corresponding DEP profiles.
-
-### Potential Impacts of DEP and MDM Vulnerabilities
-
-The research highlighted significant security concerns:
-
-1. **Information Disclosure**: By providing a DEP-registered serial number, sensitive organizational information contained in the DEP profile can be retrieved.
-2. **Rogue DEP Enrollment**: Without proper authentication, an attacker with a DEP-registered serial number can enroll a rogue device into an organization's MDM server, potentially gaining access to sensitive data and network resources.
-
-In conclusion, while DEP and MDM provide powerful tools for managing Apple devices in enterprise environments, they also present potential attack vectors that need to be secured and monitored.
-
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
+
+## Εισαγωγή
+
+Όπως [**προαναφέρθηκε**](./#what-is-mdm-mobile-device-management), για να προσπαθήσετε να εγγράψετε μια συσκευή σε έναν οργανισμό, χρειάζεται μόνο ένας αριθμός σειράς που ανήκει σε αυτόν τον Οργανισμό. Αφού η συσκευή εγγραφεί, πολλοί οργανισμοί θα εγκαταστήσουν ευαίσθητα δεδομένα στη νέα συσκευή: πιστοποιητικά, εφαρμογές, κωδικούς πρόσβασης WiFi, ρυθμίσεις VPN [και ούτω καθεξής](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Επομένως, αυτό μπορεί να αποτελέσει μια επικίνδυνη ευκαιρία για επιτιθέμενους εάν η διαδικασία εγγραφής δεν προστατεύεται σωστά.
+
+**Το παρακάτω είναι ένα σύνοψη της έρευνας [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Ελέγξτε το για περαιτέρω τεχνικές λεπτομέρειες!**
+
+## Επισκόπηση του DEP και της Ανάλυσης του MDM Binary
+
+Αυτή η έρευνα εξετάζει τα δυαδικά αρχεία που σχετίζονται με το Device Enrollment Program (DEP) και τη Διαχείριση Συσκευών Mobile (MDM) στο macOS. Οι κύριες συνιστώσες περιλαμβάνουν:
+
+- **`mdmclient`**: Επικοινωνεί με τους διακομιστές MDM και ενεργοποιεί ελέγχους DEP σε εκδόσεις macOS πριν από την 10.13.4.
+- **`profiles`**: Διαχειρίζεται τις Προφίλ Διαμόρφωσης και ενεργοποιεί ελέγχους DEP σε εκδόσεις macOS 10.13.4 και μεταγενέστερες.
+- **`cloudconfigurationd`**: Διαχειρίζεται τις επικοινωνίες του DEP API και ανακτά προφίλ εγγραφής συσκευής.
+
+Οι ελέγχοι DEP χρησιμοποιούν τις λειτουργίες `CPFetchActivationRecord` και `CPGetActivationRecord` από το ιδιωτικό πλαίσιο Configuration Profiles για να ανακτήσουν το Αρχείο Ενεργοποίησης, με το `CPFetchActivationRecord` να συνεργάζεται με το `cloudconfigurationd` μέσω του XPC.
+
+## Ανάπτυξη του Πρωτοκόλλου Tesla και Ανάλυση του Σχήματος Absinthe
+
+Ο έλεγχος DEP περιλαμβάνει το `cloudconfigurationd` να στέλνει ένα κρυπτογραφημένο, υπογεγραμμένο JSON φορτίο στο _iprofiles.apple.com/macProfile_. Το φορτίο περιλαμβάνει τον αριθμό σειράς της συσκευής και την ενέργεια "RequestProfileConfiguration". Το σχήμα κρυπτογράφησης που χρησιμοποιείται αναφέρεται εσωτερικά ως "Absinthe". Η αποκωδικοποίηση αυτού του σχήματος είναι πολύπλοκη και περιλαμβάνει πολλά βήματα, τα οποία οδήγησαν στην εξερεύνηση εναλλακτικών μεθόδων για την εισαγωγή αυθαίρετων αριθμών σειράς στο αίτημα Εγγραφής Ενεργοποίησης.
+
+## Προϊστάμενοι των Αιτημάτων DEP
+
+Οι προσπάθειες παρεμβολής και τροποποίησης των αιτημάτων DEP προς το _iprofiles.apple.com_ χρησιμοποιώντας εργαλεί

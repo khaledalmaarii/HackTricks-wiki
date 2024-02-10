@@ -1,36 +1,35 @@
-# macOS Sandbox
+# Αμμοδοχείο macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Basic Information
+## Βασικές Πληροφορίες
 
-MacOS Sandbox (initially called Seatbelt) **limits applications** running inside the sandbox to the **allowed actions specified in the Sandbox profile** the app is running with. This helps to ensure that **the application will be accessing only expected resources**.
+Το Ammosdoxeío MacOS (αρχικά ονομαζόταν Seatbelt) **περιορίζει τις εφαρμογές** που εκτελούνται μέσα στο ammosdoxeío στις **επιτρεπόμενες ενέργειες που καθορίζονται στο προφίλ του ammosdoxeίου** με το οποίο εκτελείται η εφαρμογή. Αυτό βοηθά να διασφαλιστεί ότι **η εφαρμογή θα έχει πρόσβαση μόνο σε αναμενόμενους πόρους**.
 
-Any app with the **entitlement** **`com.apple.security.app-sandbox`** will be executed inside the sandbox. **Apple binaries** are usually executed inside a Sandbox and in order to publish inside the **App Store**, **this entitlement is mandatory**. So most applications will be executed inside the sandbox.
+Οποιαδήποτε εφαρμογή με το **δικαίωμα** **`com.apple.security.app-sandbox`** θα εκτελείται μέσα στο ammosdoxeío. Τα **δυαδικά αρχεία της Apple** συνήθως εκτελούνται μέσα σε ένα ammosdoxeío και για να δημοσιευτούν στο **App Store**, **αυτό το δικαίωμα είναι υποχρεωτικό**. Έτσι, οι περισσότερες εφαρμογές θα εκτελούνται μέσα στο ammosdoxeío.
 
-In order to control what a process can or cannot do the **Sandbox has hooks** in all **syscalls** across the kernel. **Depending** on the **entitlements** of the app the Sandbox will **allow** certain actions.
+Για να ελέγξετε τι μπορεί ή δεν μπορεί να κάνει ένας διεργασία, το **ammosdoxeío έχει hooks** σε όλες τις **κλήσεις συστήματος** στον πυρήνα. **Ανάλογα** με τα **δικαιώματα** της εφαρμογής, το ammosdoxeío θα **επιτρέπει** ορισμένες ενέργειες.
 
-Some important components of the Sandbox are:
+Ορισμένα σημαντικά στοιχεία του ammosdoxeίου είναι:
 
-* The **kernel extension** `/System/Library/Extensions/Sandbox.kext`
-* The **private framework** `/System/Library/PrivateFrameworks/AppSandbox.framework`
-* A **daemon** running in userland `/usr/libexec/sandboxd`
-* The **containers** `~/Library/Containers`
+* Η **επέκταση πυρήνα** `/System/Library/Extensions/Sandbox.kext`
+* Το **ιδιωτικό πλαίσιο** `/System/Library/PrivateFrameworks/AppSandbox.framework`
+* Ένα **daemon** που εκτελείται στον χώρο χρήστη `/usr/libexec/sandboxd`
+* Οι **κάδοι** `~/Library/Containers`
 
-Inside the containers folder you can find **a folder for each app executed sandboxed** with the name of the bundle id:
-
+Μέσα στον φάκελο των κάδων μπορείτε να βρείτε **έναν φάκελο για κάθε εφαρμογή που εκτελείται μέσα στο ammosdoxeío** με το όνομα του αναγνωριστικού δέσμης:
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -41,9 +40,7 @@ drwx------@ 4 username  staff  128 Mar 25 14:14 com.apple.Accessibility-Settings
 drwx------@ 4 username  staff  128 Mar 25 14:10 com.apple.ActionKit.BundledIntentHandler
 [...]
 ```
-
-Inside each bundle id folder you can find the **plist** and the **Data directory** of the App:
-
+Μέσα σε κάθε φάκελο με το αναγνωριστικό της εφαρμογής (bundle id), μπορείτε να βρείτε το αρχείο **plist** και τον φάκελο **Data** της εφαρμογής:
 ```bash
 cd /Users/username/Library/Containers/com.apple.Safari
 ls -la
@@ -66,11 +63,9 @@ lrwxr-xr-x   1 username  staff    20 Mar 24 18:02 Pictures -> ../../../../Pictur
 drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
-
 {% hint style="danger" %}
-Note that even if the symlinks are there to "escape" from the Sandbox and access other folders, the App still needs to **have permissions** to access them. These permissions are inside the **`.plist`**.
+Να σημειωθεί ότι ακόμα κι αν τα συμβολικά συνδέσμοι υπάρχουν για να "δραπετεύσουν" από το Sandbox και να έχουν πρόσβαση σε άλλους φακέλους, η εφαρμογή πρέπει ακόμα να **έχει δικαιώματα** για να τους προσεγγίσει. Αυτά τα δικαιώματα βρίσκονται μέσα στο **`.plist`**.
 {% endhint %}
-
 ```bash
 # Get permissions
 plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
@@ -79,56 +74,54 @@ plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
 <key>SandboxProfileData</key>
 <data>
 AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
-		
+
 # In this file you can find the entitlements:
 <key>Entitlements</key>
-	<dict>
-		<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
-		<true/>
-		<key>com.apple.accounts.appleaccount.fullaccess</key>
-		<true/>
-		<key>com.apple.appattest.spi</key>
-		<true/>
-		<key>keychain-access-groups</key>
-		<array>
-			<string>6N38VWS5BX.ru.keepcoder.Telegram</string>
-			<string>6N38VWS5BX.ru.keepcoder.TelegramShare</string>
-		</array>
+<dict>
+<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
+<true/>
+<key>com.apple.accounts.appleaccount.fullaccess</key>
+<true/>
+<key>com.apple.appattest.spi</key>
+<true/>
+<key>keychain-access-groups</key>
+<array>
+<string>6N38VWS5BX.ru.keepcoder.Telegram</string>
+<string>6N38VWS5BX.ru.keepcoder.TelegramShare</string>
+</array>
 [...]
 
 # Some parameters
 <key>Parameters</key>
-	<dict>
-		<key>_HOME</key>
-		<string>/Users/username</string>
-		<key>_UID</key>
-		<string>501</string>
-		<key>_USER</key>
-		<string>username</string>
+<dict>
+<key>_HOME</key>
+<string>/Users/username</string>
+<key>_UID</key>
+<string>501</string>
+<key>_USER</key>
+<string>username</string>
 [...]
 
 # The paths it can access
 <key>RedirectablePaths</key>
-	<array>
-		<string>/Users/username/Downloads</string>
-		<string>/Users/username/Documents</string>
-		<string>/Users/username/Library/Calendars</string>
-		<string>/Users/username/Desktop</string>
+<array>
+<string>/Users/username/Downloads</string>
+<string>/Users/username/Documents</string>
+<string>/Users/username/Library/Calendars</string>
+<string>/Users/username/Desktop</string>
 <key>RedirectedPaths</key>
-	<array/>
+<array/>
 [...]
 ```
-
 {% hint style="warning" %}
-Everything created/modified by a Sandboxed application will get the **quarantine attribut**e. This will prevent a sandbox space by triggering Gatekeeper if the sandbox app tries to execute something with **`open`**.
+Όλα τα δημιουργημένα/τροποποιημένα από μια εφαρμογή που εκτελείται σε άμμο θα λάβουν το **χαρακτηριστικό καραντίνας**. Αυτό θα εμποδίσει τον χώρο άμμου να ενεργοποιήσει τον Gatekeeper αν η εφαρμογή άμμου προσπαθήσει να εκτελέσει κάτι με την εντολή **`open`**.
 {% endhint %}
 
-### Sandbox Profiles
+### Προφίλ άμμου
 
-The Sandbox profiles are configuration files that indicate what is going to be **allowed/forbidden** in that **Sandbox**. It uses the **Sandbox Profile Language (SBPL)**, which uses the [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programming language.
+Τα προφίλ άμμου είναι αρχεία ρυθμίσεων που υποδεικνύουν τι επιτρέπεται/απαγορεύεται σε αυτήν την άμμο. Χρησιμοποιεί την γλώσσα προφίλ άμμου (SBPL), η οποία χρησιμοποιεί την [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) γλώσσα προγραμματισμού.
 
-Here you can find an example:
-
+Εδώ μπορείτε να βρείτε ένα παράδειγμα:
 ```scheme
 (version 1) ; First you get the version
 
@@ -137,48 +130,73 @@ Here you can find an example:
 (allow network*) ; You can use wildcards and allow everything
 
 (allow file-read* ; You can specify where to apply the rule
-    (subpath "/Users/username/")
-    (literal "/tmp/afile")
-    (regex #"^/private/etc/.*")
+(subpath "/Users/username/")
+(literal "/tmp/afile")
+(regex #"^/private/etc/.*")
 )
 
 (allow mach-lookup
-    (global-name "com.apple.analyticsd")
+(global-name "com.apple.analyticsd")
 )
 ```
-
 {% hint style="success" %}
-Check this [**research**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **to check more actions that could be allowed or denied.**
+Ελέγξτε αυτήν την [**έρευνα**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **για να ελέγξετε περισσότερες ενέργειες που μπορεί να επιτρέπονται ή να απαγορεύονται**.
 {% endhint %}
 
-Important **system services** also run inside their own custom **sandbox** such as the `mdnsresponder` service. You can view these custom **sandbox profiles** inside:
+Σημαντικές **υπηρεσίες συστήματος** τρέχουν επίσης μέσα στο δικό τους προσαρμοσμένο **sandbox** όπως η υπηρεσία `mdnsresponder`. Μπορείτε να δείτε αυτά τα προσαρμοσμένα **προφίλ sandbox** μέσα στα:
 
 * **`/usr/share/sandbox`**
 * **`/System/Library/Sandbox/Profiles`**&#x20;
-* Other sandbox profiles can be checked in [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
+* Άλλα προφίλ sandbox μπορούν να ελεγχθούν στο [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
 
-**App Store** apps use the **profile** **`/System/Library/Sandbox/Profiles/application.sb`**. You can check in this profile how entitlements such as **`com.apple.security.network.server`** allows a process to use the network.
+Οι εφαρμογές **App Store** χρησιμοποιούν το **προφίλ** **`/System/Library/Sandbox/Profiles/application.sb`**. Μπορείτε να ελέγξετε σε αυτό το προφίλ πώς οι εξουσιοδοτήσεις όπως **`com.apple.security.network.server`** επιτρέπουν σε ένα διεργασία να χρησιμοποιεί το δίκτυο.
 
-SIP is a Sandbox profile called platform\_profile in /System/Library/Sandbox/rootless.conf
+Το SIP είναι ένα προφίλ Sandbox που ονομάζεται platform\_profile στο /System/Library/Sandbox/rootless.conf
 
-### Sandbox Profile Examples
+### Παραδείγματα προφίλ Sandbox
 
-To start an application with an **specific sandbox profile** you can use:
-
+Για να ξεκινήσετε μια εφαρμογή με ένα **συγκεκριμένο προφίλ sandbox** μπορείτε να χρησιμοποιήσετε:
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
-
-{% tabs %}
-{% tab title="touch" %}
 {% code title="touch.sb" %}
+
+```plaintext
+(version 1)
+(deny default)
+(allow file-read-metadata)
+(allow file-write-metadata)
+(allow file-read-data (literal "/path/to/file"))
+(allow file-write-data (literal "/path/to/file"))
+```
+
+Το αρχείο `touch.sb` περιέχει τον κώδικα για το sandbox του macOS που επιτρέπει στην εφαρμογή να διαβάζει και να γράφει μεταδεδομένα αρχείων, καθώς και να διαβάζει και να γράφει δεδομένα σε ένα συγκεκριμένο αρχείο στη διαδρομή "/path/to/file".
+```
+{% endcode %}
+{% endtab %}
+
+{% tab title="sandbox-exec" %}
+{% code title="sandbox-exec.sb" %}
+```plaintext
+(version 1)
+(deny default)
+(allow file-read-metadata)
+(allow file-write-metadata)
+(allow file-read-data (literal "/path/to/file"))
+(allow file-write-data (literal "/path/to/file"))
+```
+
+Το αρχείο `sandbox-exec.sb` περιέχει τον κώδικα για το sandbox του macOS που επιτρέπει στην εφαρμογή να διαβάζει και να γράφει μεταδεδομένα αρχείων, καθώς και να διαβάζει και να γράφει δεδομένα σε ένα συγκεκριμένο αρχείο στη διαδρομή "/path/to/file".
+```
+{% endcode %}
+{% endtab %}
+{% endtabs %}
 ```scheme
 (version 1)
 (deny default)
 (allow file* (literal "/tmp/hacktricks.txt"))
 ```
 {% endcode %}
-
 ```bash
 # This will fail because default is denied, so it cannot execute touch
 sandbox-exec -f touch.sb touch /tmp/hacktricks.txt
@@ -191,8 +209,51 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 2023-05-26 13:42:52.701382+0200  localhost kernel[0]: (Sandbox) 5 duplicate reports for Sandbox: sandbox-exec(41398) deny(1) file-read-metadata /var
 [...]
 ```
-
 {% code title="touch2.sb" %}
+
+Ο ακόλουθος κώδικας είναι ένα παράδειγμα ενός αρχείου sandbox για το macOS. Το αρχείο αυτό ονομάζεται touch2.sb και χρησιμοποιείται για να περιορίσει τις δυνατότητες ενός προγράμματος που εκτελείται στο sandbox του macOS.
+
+```plaintext
+(version 1)
+(deny default)
+
+(allow file-write*
+    (literal "/private/var/tmp/")
+    (regex #"^/private/var/tmp/[^/]+\.txt$"))
+
+(allow file-read*
+    (literal "/private/var/tmp/")
+    (regex #"^/private/var/tmp/[^/]+\.txt$"))
+
+(allow file-read-metadata
+    (literal "/private/var/tmp/")
+    (regex #"^/private/var/tmp/[^/]+\.txt$"))
+
+(allow file-write-data
+    (literal "/private/var/tmp/")
+    (regex #"^/private/var/tmp/[^/]+\.txt$"))
+
+(allow file-write-metadata
+    (literal "/private/var/tmp/")
+    (regex #"^/private/var/tmp/[^/]+\.txt$"))
+
+(allow mach-lookup
+    (global-name "com.apple.security.keychain"))
+
+(allow sysctl-read)
+
+(allow signal)
+
+(allow process-exec
+    (literal "/bin/echo")
+    (literal "/usr/bin/echo"))
+
+(allow process-info-pidinfo)
+
+(allow ipc-posix-shm)
+```
+
+Αυτός ο κώδικας ορίζει τις επιτρεπόμενες ενέργειες για το πρόγραμμα που εκτελείται στο sandbox. Επιτρέπει την εγγραφή και ανάγνωση αρχείων στον φάκελο "/private/var/tmp/" με την κατάληξη ".txt". Επιτρέπει επίσης την πρόσβαση στα μεταδεδομένα των αρχείων και την εκτέλεση των προγραμμάτων "/bin/echo" και "/usr/bin/echo". Επιπλέον, επιτρέπει την πρόσβαση στο keychain του macOS και την ανάγνωση των πληροφοριών των διεργασιών. Τέλος, επιτρέπει τη χρήση των IPC POSIX shared memory.
 ```scheme
 (version 1)
 (deny default)
@@ -206,8 +267,6 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
-{% endcode %}
-
 {% code title="touch3.sb" %}
 ```scheme
 (version 1)
@@ -222,73 +281,69 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-Note that the **Apple-authored** **software** that runs on **Windows** **doesn’t have additional security precautions**, such as application sandboxing.
+Σημειώστε ότι το **λογισμικό που έχει αναπτύξει η Apple** και τρέχει σε **Windows** **δεν έχει επιπλέον μέτρα ασφαλείας**, όπως η εφαρμογή sandboxing.
 {% endhint %}
 
-Bypasses examples:
+Παραδείγματα παράκαμψης:
 
 * [https://lapcatsoftware.com/articles/sandbox-escape.html](https://lapcatsoftware.com/articles/sandbox-escape.html)
-* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (they are able to write files outside the sandbox whose name starts with `~$`).
+* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (μπορούν να γράψουν αρχεία έξω από το sandbox με όνομα που ξεκινά με `~$`).
 
-### MacOS Sandbox Profiles
+### Προφίλ Sandbox του MacOS
 
-macOS stores system sandbox profiles in two locations: **/usr/share/sandbox/** and **/System/Library/Sandbox/Profiles**.
+Το macOS αποθηκεύει τα προφίλ του συστήματος sandbox σε δύο τοποθεσίες: **/usr/share/sandbox/** και **/System/Library/Sandbox/Profiles**.
 
-And if a third-party application carry the _**com.apple.security.app-sandbox**_ entitlement, the system applies the **/System/Library/Sandbox/Profiles/application.sb** profile to that process.
+Και αν μια εφαρμογή τρίτου μέρους έχει το δικαίωμα _**com.apple.security.app-sandbox**_, το σύστημα εφαρμόζει το προφίλ **/System/Library/Sandbox/Profiles/application.sb** σε αυτήν τη διεργασία.
 
-### **iOS Sandbox Profile**
+### **Προφίλ Sandbox του iOS**
 
-The default profile is called **container** and we don't have the SBPL text representation. In memory, this sandbox is represented as Allow/Deny binary tree for each permissions from the sandbox.
+Το προεπιλεγμένο προφίλ ονομάζεται **container** και δεν έχουμε την αναπαράσταση SBPL σε κείμενο. Στη μνήμη, αυτό το sandbox αναπαρίσταται ως δυαδικό δέντρο Allow/Deny για κάθε άδεια από το sandbox.
 
-### Debug & Bypass Sandbox
+### Αποσφαλμάτωση και Παράκαμψη Sandbox
 
-On macOS, unlike iOS where processes are sandboxed from the start by the kernel, **processes must opt-in to the sandbox themselves**. This means on macOS, a process is not restricted by the sandbox until it actively decides to enter it.
+Στο macOS, αντίθετα από το iOS όπου οι διεργασίες είναι sandboxed από την αρχή από τον πυρήνα, **οι διεργασίες πρέπει να επιλέξουν ενεργά να εισέλθουν στο sandbox**. Αυτό σημαίνει ότι στο macOS, μια διεργασία δεν περιορίζεται από το sandbox μέχρι να αποφασίσει ενεργά να εισέλθει σε αυτό.
 
-Processes are automatically Sandboxed from userland when they start if they have the entitlement: `com.apple.security.app-sandbox`. For a detailed explanation of this process check:
+Οι διεργασίες αυτόματα εισέρχονται στο Sandbox από τον χρήστη όταν ξεκινούν αν έχουν το δικαίωμα: `com.apple.security.app-sandbox`. Για μια λεπτομερή εξήγηση αυτής της διαδικασίας, ελέγξτε:
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
 {% endcontent-ref %}
 
-### **Check PID Privileges**
+### **Έλεγχος Προνομίων PID**
 
-[**According to this**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), the **`sandbox_check`** (it's a `__mac_syscall`), can check **if an operation is allowed or not** by the sandbox in a certain PID.
+[**Σύμφωνα με αυτό**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), το **`sandbox_check`** (είναι ένα `__mac_syscall`), μπορεί να ελέγξει **αν μια λειτουργία επιτρέπεται ή όχι** από το sandbox σε ένα συγκεκριμένο PID.
 
-The [**tool sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) can check if a PID can perform a certain action:
-
+Το [**εργαλείο sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) μπορεί να ελέγξει αν ένα PID μπορεί να εκτελέσει μια συγκεκριμένη ενέργεια:
 ```bash
 sbtool <pid> mach #Check mac-ports (got from launchd with an api)
 sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
+### Προσαρμοσμένα SBPL σε εφαρμογές App Store
 
-### Custom SBPL in App Store apps
+Είναι δυνατό για τις εταιρείες να κάνουν τις εφαρμογές τους να τρέχουν **με προσαρμοσμένα προφίλ Sandbox** (αντί για το προεπιλεγμένο). Πρέπει να χρησιμοποιήσουν το entitlement **`com.apple.security.temporary-exception.sbpl`** το οποίο πρέπει να εξουσιοδοτηθεί από την Apple.
 
-It could be possible for companies to make their apps run **with custom Sandbox profiles** (instead of with the default one). They need to use the entitlement **`com.apple.security.temporary-exception.sbpl`** which needs to be authorized by Apple.
-
-It's possible to check the definition of this entitlement in **`/System/Library/Sandbox/Profiles/application.sb:`**
-
+Είναι δυνατό να ελεγχθεί ο ορισμός αυτού του entitlement στο **`/System/Library/Sandbox/Profiles/application.sb:`**
 ```scheme
 (sandbox-array-entitlement
-  "com.apple.security.temporary-exception.sbpl"
-  (lambda (string)
-    (let* ((port (open-input-string string)) (sbpl (read port)))
-      (with-transparent-redirection (eval sbpl)))))
+"com.apple.security.temporary-exception.sbpl"
+(lambda (string)
+(let* ((port (open-input-string string)) (sbpl (read port)))
+(with-transparent-redirection (eval sbpl)))))
 ```
-
-This will **eval the string after this entitlement** as an Sandbox profile.
+Αυτό θα **αξιολογήσει το συμβολοσειρά μετά από αυτήν την εξουσιοδότηση** ως ένα προφίλ Sandbox.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΛΑΝΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

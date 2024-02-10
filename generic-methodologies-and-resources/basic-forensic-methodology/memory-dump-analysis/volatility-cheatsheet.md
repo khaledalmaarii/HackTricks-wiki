@@ -1,16 +1,16 @@
-# Volatility - CheatSheet
+# Volatility - Φύλλο απατεώνα
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
@@ -18,37 +18,31 @@ Other ways to support HackTricks:
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+​​[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σχετικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένας ζωηρός συναντήσεων τεχνολογίας και επαγγελματιών κυβερνοασφάλειας σε κάθε ειδικότητα.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-If you want something **fast and crazy** that will launch several Volatility plugins on parallel you can use: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
-
+Εάν θέλετε κάτι **γρήγορο και τρελό** που θα εκτελέσει πολλά πρόσθετα Volatility παράλληλα, μπορείτε να χρησιμοποιήσετε: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
 ```bash
 python autoVolatility.py -f MEMFILE -d OUT_DIRECTORY -e /home/user/tools/volatility/vol.py # It will use the most important plugins (could use a lot of space depending on the size of the memory)
 ```
-
-## Installation
+## Εγκατάσταση
 
 ### volatility3
-
 ```bash
 git clone https://github.com/volatilityfoundation/volatility3.git
 cd volatility3
 python3 setup.py install
 python3 vol.py —h
 ```
-
 ### volatility2
 
 {% tabs %}
-{% tab title="Method1" %}
+{% tab title="Μέθοδος 1" %}
 ```
 Download the executable from https://www.volatilityfoundation.org/26
 ```
-{% endtab %}
-
-{% tab title="Method 2" %}
+{% tab title="Μέθοδος 2" %}
 ```bash
 git clone https://github.com/volatilityfoundation/volatility.git
 cd volatility
@@ -57,26 +51,26 @@ python setup.py install
 {% endtab %}
 {% endtabs %}
 
-## Volatility Commands
+## Εντολές Volatility
 
-Access the official doc in [Volatility command reference](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)
+Αποκτήστε πρόσβαση στο επίσημο έγγραφο στο [Αναφορά εντολών Volatility](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)
 
-### A note on “list” vs. “scan” plugins
+### Σημείωση για τα πρόσθετα "list" έναντι "scan"
 
-Volatility has two main approaches to plugins, which are sometimes reflected in their names. “list” plugins will try to navigate through Windows Kernel structures to retrieve information like processes (locate and walk the linked list of `_EPROCESS` structures in memory), OS handles (locating and listing the handle table, dereferencing any pointers found, etc). They more or less behave like the Windows API would if requested to, for example, list processes.
+Το Volatility έχει δύο κύριες προσεγγίσεις για τα πρόσθετα, οι οποίες καμιά φορά αντανακλώνται στα ονόματά τους. Τα πρόσθετα "list" θα προσπαθήσουν να πλοηγηθούν μέσω των δομών του πυρήνα των Windows για να ανακτήσουν πληροφορίες όπως διεργασίες (εντοπισμός και περιήγηση στη συνδεδεμένη λίστα δομών `_EPROCESS` στη μνήμη), λαβές του λειτουργικού συστήματος (εντοπισμός και καταγραφή του πίνακα λαβών, αναφορά σε οποιουσδήποτε δείκτες βρεθούν κλπ). Συμπεριφέρονται περίπου όπως θα έκανε η διεπαφή προγραμματισμού εφαρμογών των Windows αν ζητούνταν, για παράδειγμα, η καταγραφή διεργασιών.
 
-That makes “list” plugins pretty fast, but just as vulnerable as the Windows API to manipulation by malware. For instance, if malware uses DKOM to unlink a process from the `_EPROCESS` linked list, it won’t show up in the Task Manager and neither will it in the pslist.
+Αυτό καθιστά τα πρόσθετα "list" αρκετά γρήγορα, αλλά ευάλωτα όπως και η διεπαφή προγραμματισμού εφαρμογών των Windows στην παρεμβολή κακόβουλου λογισμικού. Για παράδειγμα, αν το κακόβουλο λογισμικό χρησιμοποιεί DKOM για να αποσυνδέσει μια διεργασία από τη συνδεδεμένη λίστα δομών `_EPROCESS`, δεν θα εμφανιστεί στον Διαχειριστή Εργασιών και ούτε στο pslist.
 
-“scan” plugins, on the other hand, will take an approach similar to carving the memory for things that might make sense when dereferenced as specific structures. `psscan` for instance will read the memory and try to make`_EPROCESS` objects out of it (it uses pool-tag scanning, which is searching for 4-byte strings that indicate the presence of a structure of interest). The advantage is that it can dig up processes that have exited, and even if malware tampers with the `_EPROCESS` linked list, the plugin will still find the structure lying around in memory (since it still needs to exist for the process to run). The downfall is that “scan” plugins are a bit slower than “list” plugins, and can sometimes yield false positives (a process that exited too long ago and had parts of its structure overwritten by other operations).
+Τα πρόσθετα "scan", από την άλλη πλευρά, θα ακολουθήσουν μια προσέγγιση παρόμοια με το να αναζητούν στη μνήμη πράγματα που θα είχαν νόημα όταν αναφέρονται ως συγκεκριμένες δομές. Το `psscan` για παράδειγμα θα διαβάσει τη μνήμη και θα προσπαθήσει να δημιουργήσει αντικείμενα `_EPROCESS` από αυτήν (χρησιμοποιεί ανίχνευση με βάση τα pool-tag, που αναζητά 4-byte αλφαριθμητικά που υποδηλώνουν την ύπαρξη μιας δομής που ενδιαφέρει). Το πλεονέκτημα είναι ότι μπορεί να ανακαλύψει διεργασίες που έχουν τερματιστεί και ακόμα κι αν το κακόβουλο λογισμικό παρεμβάλλει τη συνδεδεμένη λίστα δομών `_EPROCESS`, το πρόσθετο θα βρει ακόμα τη δομή που βρίσκεται στη μνήμη (καθώς πρέπει ακόμα να υπάρχει για να εκτελεστεί η διεργασία). Το μειονέκτημα είναι ότι τα πρόσθετα "scan" είναι λίγο πιο αργά από τα πρόσθετα "list" και μπορεί να παράγουν μερικές φορές ψευδείς θετικά αποτελέσματα (μια διεργασία που τερματίστηκε πριν από πολύ καιρό και έχει αντικατασταθεί με άλλες λειτουργίες).
 
-From: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
+Από: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
-## OS Profiles
+## Προφίλ Λειτουργικού Συστήματος
 
 ### Volatility3
 
-As explained inside the readme you need to put the **symbol table of the OS** you want to support inside _volatility3/volatility/symbols_.\
-Symbol table packs for the various operating systems are available for **download** at:
+Όπως εξηγείται στο readme, πρέπει να τοποθετήσετε τον **πίνακα συμβόλων του λειτουργικού συστήματος** που θέλετε να υποστηρίξετε μέσα στο _volatility3/volatility/symbols_.\
+Οι πακέτα πίνακα συμβόλων για τα διάφορα λειτουργικά συστήματα είναι διαθέσιμα για **λήψη** στις παρακάτω διευθύνσεις:
 
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip)
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip)
@@ -84,16 +78,13 @@ Symbol table packs for the various operating systems are available for **downloa
 
 ### Volatility2
 
-#### External Profile
+#### Εξωτερικό Προφίλ
 
-You can get the list of supported profiles doing:
-
+Μπορείτε να λάβετε τη λίστα των υποστηριζόμενων προφίλ κάνοντας:
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
-
-If you want to use a **new profile you have downloaded** (for example a linux one) you need to create somewhere the following folder structure: _plugins/overlays/linux_ and put inside this folder the zip file containing the profile. Then, get the number of the profiles using:
-
+Εάν θέλετε να χρησιμοποιήσετε ένα **νέο προφίλ που έχετε κατεβάσει** (για παράδειγμα ένα για Linux), πρέπει να δημιουργήσετε κάπου την ακόλουθη δομή φακέλων: _plugins/overlays/linux_ και να τοποθετήσετε μέσα σε αυτόν τον φάκελο το αρχείο zip που περιέχει το προφίλ. Στη συνέχεια, πάρτε τον αριθμό των προφίλ χρησιμοποιώντας:
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -105,28 +96,28 @@ LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 - A Profile for Linux CentOS7_3.10
 VistaSP0x64                                   - A Profile for Windows Vista SP0 x64
 VistaSP0x86                                   - A Profile for Windows Vista SP0 x86
 ```
+Μπορείτε να **κατεβάσετε προφίλ Linux και Mac** από [https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles)
 
-You can **download Linux and Mac profiles** from [https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles)
-
-In the previous chunk you can see that the profile is called `LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64`, and you can use it to execute something like:
-
+Στο προηγούμενο τμήμα μπορείτε να δείτε ότι το προφίλ ονομάζεται `LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64`, και μπορείτε να το χρησιμοποιήσετε για να εκτελέσετε κάτι όπως:
 ```bash
 ./vol -f file.dmp --plugins=. --profile=LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 linux_netscan
 ```
+#### Ανακάλυψη Προφίλ
 
-#### Discover Profile
+```plaintext
+volatility -f <memory_dump> imageinfo
+```
 
+Χρησιμοποιήστε την εντολή αυτή για να ανακαλύψετε πληροφορίες σχετικά με το προφίλ της μνήμης που αναλύετε.
 ```
 volatility imageinfo -f file.dmp
 volatility kdbgscan -f file.dmp
 ```
+#### **Διαφορές μεταξύ imageinfo και kdbgscan**
 
-#### **Differences between imageinfo and kdbgscan**
+[**Από εδώ**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): Αντίθετα με το imageinfo που απλώς παρέχει προτάσεις για προφίλ, το **kdbgscan** σχεδιάστηκε για να αναγνωρίζει θετικά το σωστό προφίλ και τη σωστή διεύθυνση KDBG (αν υπάρχουν πολλαπλές). Αυτό το πρόσθετο σαρώνει για τις υπογραφές KDBGHeader που συνδέονται με τα προφίλ του Volatility και εφαρμόζει ελέγχους λογικής για να μειώσει τα ψευδή θετικά. Η αναλυτικότητα της έξοδου και ο αριθμός των ελέγχων λογικής που μπορούν να πραγματοποιηθούν εξαρτώνται από το αν το Volatility μπορεί να βρει ένα DTB, οπότε αν ήδη γνωρίζετε το σωστό προφίλ (ή αν έχετε μια πρόταση προφίλ από το imageinfo), βεβαιωθείτε ότι το χρησιμοποιείτε από .
 
-[**From here**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): As opposed to imageinfo which simply provides profile suggestions, **kdbgscan** is designed to positively identify the correct profile and the correct KDBG address (if there happen to be multiple). This plugin scans for the KDBGHeader signatures linked to Volatility profiles and applies sanity checks to reduce false positives. The verbosity of the output and the number of sanity checks that can be performed depends on whether Volatility can find a DTB, so if you already know the correct profile (or if you have a profile suggestion from imageinfo), then make sure you use it from .
-
-Always take a look at the **number of processes that kdbgscan has found**. Sometimes imageinfo and kdbgscan can find **more than one** suitable **profile** but only the **valid one will have some process related** (This is because to extract processes the correct KDBG address is needed)
-
+Πάντα ρίξτε μια ματιά στον **αριθμό των διεργασιών που βρήκε το kdbgscan**. Μερικές φορές το imageinfo και το kdbgscan μπορούν να βρουν **περισσότερα από ένα** κατάλληλα **προφίλ**, αλλά μόνο το **έγκυρο θα έχει σχετικές διεργασίες** (Αυτό συμβαίνει επειδή για να εξαχθούν οι διεργασίες απαιτείται η σωστή διεύθυνση KDBG)
 ```bash
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
@@ -138,23 +129,20 @@ PsLoadedModuleList            : 0xfffff8000119aae0 (116 modules)
 PsActiveProcessHead           : 0xfffff800011947f0 (0 processes)
 PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
-
 #### KDBG
 
-The **kernel debugger block**, referred to as **KDBG** by Volatility, is crucial for forensic tasks performed by Volatility and various debuggers. Identified as `KdDebuggerDataBlock` and of the type `_KDDEBUGGER_DATA64`, it contains essential references like `PsActiveProcessHead`. This specific reference points to the head of the process list, enabling the listing of all processes, which is fundamental for thorough memory analysis.
+Το **kernel debugger block**, γνωστό ως **KDBG** από το Volatility, είναι κρίσιμο για τις αναλύσεις που πραγματοποιεί το Volatility και διάφορα εργαλεία αποσφαλμάτωσης. Αναγνωρίζεται ως `KdDebuggerDataBlock` και είναι τύπου `_KDDEBUGGER_DATA64`. Περιέχει σημαντικές αναφορές όπως το `PsActiveProcessHead`. Αυτή η συγκεκριμένη αναφορά δείχνει στην κεφαλή της λίστας διεργασιών, επιτρέποντας την καταγραφή όλων των διεργασιών, που είναι θεμελιώδες για μια λεπτομερή ανάλυση μνήμης.
 
-## OS Information
-
+## Πληροφορίες Λειτουργικού Συστήματος
 ```bash
 #vol3 has a plugin to give OS information (note that imageinfo from vol2 will give you OS info)
 ./vol.py -f file.dmp windows.info.Info
 ```
+Το πρόσθετο `banners.Banners` μπορεί να χρησιμοποιηθεί στο **vol3 για να αναζητήσει linux banners** στο dump.
 
-The plugin `banners.Banners` can be used in **vol3 to try to find linux banners** in the dump.
+## Hashes/Κωδικοί πρόσβασης
 
-## Hashes/Passwords
-
-Extract SAM hashes, [domain cached credentials](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) and [lsa secrets](../../../windows-hardening/authentication-credentials-uac-and-efs.md#lsa-secrets).
+Εξαγάγετε τους SAM hashes, [domain cached credentials](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) και [lsa secrets](../../../windows-hardening/authentication-credentials-uac-and-efs.md#lsa-secrets).
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -163,39 +151,44 @@ Extract SAM hashes, [domain cached credentials](../../../windows-hardening/steal
 ./vol.py -f file.dmp windows.cachedump.Cachedump #Grab domain cache hashes inside the registry
 ./vol.py -f file.dmp windows.lsadump.Lsadump #Grab lsa secrets
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 volatility --profile=Win7SP1x86_23418 hashdump -f file.dmp #Grab common windows hashes (SAM+SYSTEM)
 volatility --profile=Win7SP1x86_23418 cachedump -f file.dmp #Grab domain cache hashes inside the registry
 volatility --profile=Win7SP1x86_23418 lsadump -f file.dmp #Grab lsa secrets
 ```
-{% endtab %}
-{% endtabs %}
+## Ανάλυση Αντιγράφου Μνήμης
 
-## Memory Dump
-
-The memory dump of a process will **extract everything** of the current status of the process. The **procdump** module will only **extract** the **code**.
-
+Το αντίγραφο μνήμης ενός διεργασίας θα εξάγει **τα πάντα** για την τρέχουσα κατάσταση της διεργασίας. Το **module procdump** θα εξάγει μόνο τον **κώδικα**.
 ```
 volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
-
-​
-
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+​​​[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σχετικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή να προωθήσει την τεχνική γνώση**, αυτό το συνέδριο είναι ένας ζωντανός συναντήσεων χώρος για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε ειδικότητα.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Processes
+## Διεργασίες
 
-### List processes
+### Λίστα διεργασιών
 
-Try to find **suspicious** processes (by name) or **unexpected** child **processes** (for example a cmd.exe as a child of iexplorer.exe).\
-It could be interesting to **compare** the result of pslist with the one of psscan to identify hidden processes.
+Προσπαθήστε να βρείτε **ύποπτες** διεργασίες (βάσει ονόματος) ή **απροσδόκητες** παιδικές **διεργασίες** (για παράδειγμα ένα cmd.exe ως παιδί του iexplorer.exe).\
+Μπορεί να είναι ενδιαφέρον να **συγκρίνετε** το αποτέλεσμα της pslist με αυτό της psscan για να αναγνωρίσετε κρυφές διεργασίες.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -204,9 +197,21 @@ python3 vol.py -f file.dmp windows.pstree.PsTree # Get processes tree (not hidde
 python3 vol.py -f file.dmp windows.pslist.PsList # Get process list (EPROCESS)
 python3 vol.py -f file.dmp windows.psscan.PsScan # Get hidden process list(malware)
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το Volatility.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Αυτό περιλαμβάνει την εντοπισμό και την ανάκτηση δεδομένων, την αναγνώριση διεργασιών και νημάτων, καθώς και την ανίχνευση κακόβουλου λογισμικού.
+
+3. Ανάκτηση δεδομένων: Αφού ολοκληρωθεί η ανάλυση, μπορείτε να προχωρήσετε στην ανάκτηση δεδομένων από το αποτύπωμα της μνήμης. Αυτό μπορεί να περιλαμβάνει την ανάκτηση αρχείων, κωδικών πρόσβασης και άλλων ευαίσθητων πληροφοριών.
+
+4. Ανάλυση ευπαθειών ασφαλείας: Τέλος, μπορείτε να αναλύσετε το αποτύπωμα της μνήμης για να εντοπίσετε ευπάθειες ασφαλείας στο σύστημα. Αυτό μπορεί να σας βοηθήσει να προστατεύσετε το σύστημα σας από επιθέσεις και να βελτιώσετε την ασφάλεια του.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για περαιτέρω ανάλυση και έρευνα στον τομέα της ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 volatility --profile=PROFILE pstree -f file.dmp # Get process tree (not hidden)
 volatility --profile=PROFILE pslist -f file.dmp # Get process list (EPROCESS)
@@ -216,34 +221,55 @@ volatility --profile=PROFILE psxview -f file.dmp # Get hidden process list
 {% endtab %}
 {% endtabs %}
 
-### Dump proc
+### Ανάλυση του αποτυπώματος μνήμης
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f file.dmp
 ```
 {% endtab %}
 {% endtabs %}
 
-### Command line
+### Εντολή γραμμής
 
-Anything suspicious was executed?
-
-{% tabs %}
-{% tab title="vol3" %}
+Έχει εκτελεστεί κάτι ύποπτο;
 ```bash
 python3 vol.py -f file.dmp windows.cmdline.CmdLine #Display process command-line arguments
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 volatility --profile=PROFILE cmdline -f file.dmp #Display process command-line arguments
 volatility --profile=PROFILE consoles -f file.dmp #command history by scanning for _CONSOLE_INFORMATION
@@ -251,44 +277,72 @@ volatility --profile=PROFILE consoles -f file.dmp #command history by scanning f
 {% endtab %}
 {% endtabs %}
 
-Commands executed in `cmd.exe` are managed by **`conhost.exe`** (or `csrss.exe` on systems before Windows 7). This means that if **`cmd.exe`** is terminated by an attacker before a memory dump is obtained, it's still possible to recover the session's command history from the memory of **`conhost.exe`**. To do this, if unusual activity is detected within the console's modules, the memory of the associated **`conhost.exe`** process should be dumped. Then, by searching for **strings** within this dump, command lines used in the session can potentially be extracted.
+Οι εντολές που εκτελούνται στο `cmd.exe` διαχειρίζονται από τον **`conhost.exe`** (ή `csrss.exe` σε συστήματα πριν τα Windows 7). Αυτό σημαίνει ότι αν το **`cmd.exe`** τερματιστεί από έναν επιτιθέμενο πριν ληφθεί ένα αντίγραφο μνήμης, είναι ακόμα δυνατή η ανάκτηση του ιστορικού εντολών της συνεδρίας από τη μνήμη του **`conhost.exe`**. Για να γίνει αυτό, αν ανιχνευθεί ασυνήθιστη δραστηριότητα στις μονάδες της κονσόλας, πρέπει να γίνει αντιγραφή της μνήμης της σχετικής διεργασίας **`conhost.exe`**. Στη συνέχεια, αναζητώντας **συμβολοσειρές** μέσα σε αυτό το αντίγραφο, μπορούν πιθανώς να εξαχθούν οι γραμμές εντολών που χρησιμοποιήθηκαν στη συνεδρία.
 
-### Environment
+### Περιβάλλον
 
-Get the env variables of each running process. There could be some interesting values.
-
-{% tabs %}
-{% tab title="vol3" %}
+Λάβετε τις μεταβλητές περιβάλλοντος κάθε εκτελούμενης διεργασίας. Μπορεί να υπάρχουν κάποιες ενδιαφέρουσες τιμές.
 ```bash
 python3 vol.py -f file.dmp windows.envars.Envars [--pid <pid>] #Display process environment variables
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος μπορεί να χρησιμοποιηθεί για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανακάλυψη ευπαθειών και την ανάκτηση δεδομένων.
+
+### Βήματα Βασικής Μεθοδολογίας
+
+1. Συλλογή Αποτυπώματος Μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit`, το `winpmem` ή το `LiME`.
+
+2. Ανάλυση Αποτυπώματος Μνήμης: Στο επόμενο βήμα, πρέπει να αναλύσετε το αποτύπωμα της μνήμης που συλλέξατε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `Volatility`.
+
+3. Ανίχνευση Κακόβουλου Λογισμικού: Με τη χρήση του `Volatility`, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό στο αποτύπωμα της μνήμης. Αυτό μπορεί να περιλαμβάνει την ανίχνευση τροποποιημένων διεργασιών, κακόβουλων καταχωρήσεων καταλόγων και άλλων ενδείξεων κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση Δεδομένων: Τέλος, μπορείτε να ανακτήσετε δεδομένα από το αποτύπωμα της μνήμης. Αυτό μπορεί να περιλαμβάνει την ανάκτηση κωδικών πρόσβασης, αρχείων, ιστορικού περιήγησης και άλλων ευαίσθητων πληροφοριών.
+
+### Εργαλεία Ανάλυσης Αποτυπώματος Μνήμης
+
+Υπάρχουν πολλά εργαλεία που μπορούν να χρησιμοποιηθούν για την ανάλυση αποτυπωμάτων μνήμης. Ορισμένα από αυτά είναι:
+
+- `Volatility`: Το `Volatility` είναι ένα από τα πιο δημοφιλή εργαλεία για την ανάλυση αποτυπωμάτων μνήμης. Παρέχει πολλά plugins για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανάκτηση δεδομένων και άλλες λειτουργίες.
+
+- `Rekall`: Το `Rekall` είναι ένα ισχυρό εργαλείο ανάλυσης αποτυπωμάτων μνήμης που παρέχει πολλές λειτουργίες για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανάκτηση δεδομένων και άλλες εργασίες.
+
+- `LiME`: Το `LiME` είναι ένα εργαλείο που χρησιμοποιείται για τη συλλογή αποτυπωμάτων μνήμης από συστήματα Linux. Είναι εύκολο στη χρήση και παρέχει πολλές επιλογές για την ανάλυση των αποτυπωμάτων.
+
+Αυτά είναι μερικά από τα βασικά βήματα και εργαλεία που μπορούν να χρησιμοποιηθούν για την ανάλυση αποτυπωμάτων μνήμης. Με τη χρήση αυτών των μεθόδων και εργαλείων, μπορείτε να ανακαλύψετε πολλές πληροφορίες και να αναλύσετε την κακόβουλη δραστηριότητα σε ένα σύστημα.
 ```bash
 volatility --profile=PROFILE envars -f file.dmp [--pid <pid>] #Display process environment variables
 
-volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of process. runlevel var means the runlevel where the proc is initated 
+volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of process. runlevel var means the runlevel where the proc is initated
 ```
 {% endtab %}
 {% endtabs %}
 
-### Token privileges
+### Δικαιώματα διακριτικών
 
-Check for privileges tokens in unexpected services.\
-It could be interesting to list the processes using some privileged token.
-
-{% tabs %}
-{% tab title="vol3" %}
+Ελέγξτε για διακριτικά δικαιωμάτων σε αναπάντεχες υπηρεσίες.\
+Μπορεί να είναι ενδιαφέρον να καταγράψετε τις διεργασίες που χρησιμοποιούν κάποιο διακριτικό με προνομιούχα δικαιώματα.
 ```bash
 #Get enabled privileges of some processes
 python3 vol.py -f file.dmp windows.privileges.Privs [--pid <pid>]
 #Get all processes with interesting privileges
 python3 vol.py -f file.dmp windows.privileges.Privs | grep "SeImpersonatePrivilege\|SeAssignPrimaryPrivilege\|SeTcbPrivilege\|SeBackupPrivilege\|SeRestorePrivilege\|SeCreateTokenPrivilege\|SeLoadDriverPrivilege\|SeTakeOwnershipPrivilege\|SeDebugPrivilege"
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος μπορεί να χρησιμοποιηθεί για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Η ανάλυση αποτυπώματος μνήμης μπορεί να γίνει με τη χρήση εργαλείων όπως το Volatility. Το Volatility είναι ένα εργαλείο ανοιχτού κώδικα που επιτρέπει την ανάλυση αποτυπωμάτων μνήμης από διάφορα λειτουργικά συστήματα, όπως τα Windows, τα Linux και τα macOS.
+
+Η βασική μεθοδολογία ανάλυσης αποτυπώματος μνήμης περιλαμβάνει τα εξής βήματα:
+
+1. Απόκτηση αποτυπώματος μνήμης: Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το [LiME](https://github.com/504ensicsLabs/LiME) ή το [Winpmem](https://github.com/Velocidex/c-aff4/releases).
+
+2. Ανάλυση αποτυπώματος μνήμης: Χρησιμοποιώντας το Volatility, μπορούμε να εκτελέσουμε διάφορες εντολές για την ανάλυση του αποτυπώματος μνήμης. Οι εντολές αυτές μπορούν να μας παράσχουν πληροφορίες για τις διεργασίες, τα νήματα, τα αντικείμενα και άλλα στοιχεία που υπάρχουν στη μνήμη.
+
+3. Ανάκτηση δεδομένων: Με τη χρήση του Volatility, μπορούμε επίσης να ανακτήσουμε δεδομένα από το αποτύπωμα μνήμης, όπως αρχεία, κωδικούς πρόσβασης και ιστορικό περιήγησης.
+
+Η ανάλυση αποτυπώματος μνήμης είναι μια ισχυρή τεχνική που μπορεί να χρησιμοποιηθεί για την ανίχνευση και την αντιμετώπιση κυβερνοεπιθέσεων. Με την κατανόηση της βασικής μεθοδολογίας ανάλυσης αποτυπώματος μνήμης και τη χρήση του εργαλείου Volatility, μπορείτε να αποκτήσετε πολύτιμες πληροφορίες για τα συστήματα που εξετάζετε.
 ```bash
 #Get enabled privileges of some processes
 volatility --profile=Win7SP1x86_23418 privs --pid=3152 -f file.dmp | grep Enabled
@@ -300,18 +354,27 @@ volatility --profile=Win7SP1x86_23418 privs -f file.dmp | grep "SeImpersonatePri
 
 ### SIDs
 
-Check each SSID owned by a process.\
-It could be interesting to list the processes using a privileges SID (and the processes using some service SID).
-
-{% tabs %}
-{% tab title="vol3" %}
+Ελέγξτε κάθε SSID που ανήκει σε ένα διεργασία.\
+Μπορεί να είναι ενδιαφέρον να αναφέρετε τις διεργασίες που χρησιμοποιούν ένα SID προνομίων (και τις διεργασίες που χρησιμοποιούν κάποιο SID υπηρεσίας).
 ```bash
 ./vol.py -f file.dmp windows.getsids.GetSIDs [--pid <pid>] #Get SIDs of processes
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το Volatility.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Αυτό περιλαμβάνει την εντοπισμό και την ανάκτηση δεδομένων, την αναγνώριση διεργασιών και νημάτων, καθώς και την ανίχνευση κακόβουλου λογισμικού.
+
+3. Ανάκτηση δεδομένων: Αφού ολοκληρωθεί η ανάλυση, μπορείτε να προχωρήσετε στην ανάκτηση δεδομένων από το αποτύπωμα της μνήμης. Αυτό μπορεί να περιλαμβάνει την ανάκτηση αρχείων, κωδικών πρόσβασης και άλλων ευαίσθητων πληροφοριών.
+
+4. Ανάλυση ευπαθειών ασφαλείας: Τέλος, μπορείτε να αναλύσετε το αποτύπωμα της μνήμης για να εντοπίσετε ευπάθειες ασφαλείας στο σύστημα. Αυτό μπορεί να σας βοηθήσει να προστατεύσετε το σύστημα σας από επιθέσεις και να βελτιώσετε την ασφάλεια του.
+
+Αυτή ήταν μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης. Μπορείτε να χρησιμοποιήσετε αυτήν τη μέθοδο για να ανακαλύψετε πολλές πληροφορίες από τη μνήμη ενός συστήματος και να βελτιώσετε την ασφάλεια του.
 ```bash
 volatility --profile=Win7SP1x86_23418 getsids -f file.dmp #Get the SID owned by each process
 volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of each service
@@ -319,18 +382,27 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of
 {% endtab %}
 {% endtabs %}
 
-### Handles
+### Χειριστές
 
-Useful to know to which other files, keys, threads, processes... a **process has a handle** for (has opened)
-
-{% tabs %}
-{% tab title="vol3" %}
+Χρήσιμο για να γνωρίζετε σε ποια άλλα αρχεία, κλειδιά, νήματα, διεργασίες... ένα **πρόγραμμα έχει έναν χειριστή** (έχει ανοίξει)
 ```bash
 vol.py -f file.dmp windows.handles.Handles [--pid <pid>]
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 ```
@@ -341,13 +413,36 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 
 {% tabs %}
 {% tab title="vol3" %}
+
+Οι DLL (Dynamic Link Libraries) είναι αρχεία που περιέχουν κώδικα και δεδομένα που μπορούν να χρησιμοποιηθούν από πολλές εφαρμογές ταυτόχρονα. Στη μνήμη, οι DLLs φορτώνονται από τις εφαρμογές και μπορούν να παρέχουν σημαντικές πληροφορίες για την εκτέλεση των εφαρμογών.
+
+Οι εντολές Volatility που σχετίζονται με τις DLLs περιλαμβάνουν:
+
+- `dlllist`: Εμφανίζει τη λίστα των φορτωμένων DLLs.
+- `dlldump`: Αντιγράφει τη μνήμη μιας φορτωμένης DLL σε ένα αρχείο.
+- `dllscan`: Σαρώνει τη μνήμη για την εύρεση φορτωμένων DLLs.
+- `dllhooks`: Εμφανίζει τις αγκίστρωσεις (hooks) που έχουν τοποθετηθεί σε φορτωμένες DLLs.
+
+Αυτές οι εντολές μπορούν να χρησιμοποιηθούν για την ανάλυση της μνήμης και την εντοπισμό ενδεχόμενων επιθέσεων ή κακόβουλου λογισμικού που χρησιμοποιείται από τις εφαρμογές.
 ```bash
 ./vol.py -f file.dmp windows.dlllist.DllList [--pid <pid>] #List dlls used by each
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory process
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το Volatility.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Αυτό περιλαμβάνει την εντοπισμό και την ανάκτηση δεδομένων, την αναγνώριση διεργασιών και νημάτων, καθώς και την ανίχνευση κακόβουλου λογισμικού.
+
+3. Ανάλυση δεδομένων: Μετά την ανάλυση του αποτυπώματος μνήμης, πρέπει να αναλύσετε τα εξαχθέντα δεδομένα για να εξάγετε πληροφορίες. Αυτό μπορεί να περιλαμβάνει την αναγνώριση κρυπτογραφημένων δεδομένων, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων που έχουν διαγραφεί.
+
+4. Ανάλυση κακόβουλου λογισμικού: Τέλος, αν εντοπίσετε κακόβουλο λογισμικό κατά τη διάρκεια της ανάλυσης, πρέπει να το αναλύσετε για να κατανοήσετε τη λειτουργία του και τις επιπτώσεις του.
+
+Η ανάλυση αποτυπώματος μνήμης είναι μια ισχυρή τεχνική που μπορεί να παρέχει πολλές πληροφορίες για ένα σύστημα. Με τη χρήση της παραπάνω μεθοδολογίας, μπορείτε να ανακαλύψετε κρυφά δεδομένα, να ανιχνεύσετε κακόβουλο λογισμικό και να ανακτήσετε δεδομένα που έχουν διαγραφεί.
 ```bash
 volatility --profile=Win7SP1x86_23418 dlllist --pid=3152 -f file.dmp #Get dlls of a proc
 volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dmp #Dump dlls of a proc
@@ -355,9 +450,9 @@ volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dm
 {% endtab %}
 {% endtabs %}
 
-### Strings per processes
+### Συμβολοσειρές ανά διεργασίες
 
-Volatility allows us to check which process a string belongs to.
+Το Volatility μας επιτρέπει να ελέγξουμε σε ποια διεργασία ανήκει μια συμβολοσειρά.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -365,9 +460,29 @@ Volatility allows us to check which process a string belongs to.
 strings file.dmp > /tmp/strings.txt
 ./vol.py -f /tmp/file.dmp windows.strings.Strings --strings-file /tmp/strings.txt
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος μπορεί να χρησιμοποιηθεί για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανακάλυψη ευπαθειών και την ανάκτηση δεδομένων.
+
+### Βήματα Βασικής Μεθοδολογίας
+
+1. Συλλογή Αποτυπώματος Μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit`, το `winpmem` ή το `LiME`.
+
+2. Ανάλυση Αποτυπώματος Μνήμης: Στο επόμενο βήμα, πρέπει να αναλύσετε το αποτύπωμα της μνήμης που συλλέξατε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `Volatility`, το `Rekall` ή το `Mandiant Redline`.
+
+3. Ανάκτηση Πληροφοριών: Μετά την ανάλυση του αποτυπώματος της μνήμης, πρέπει να ανακτήσετε τις απαραίτητες πληροφορίες. Αυτές οι πληροφορίες μπορεί να περιλαμβάνουν διευθύνσεις μνήμης, διαδικασίες, ανοιχτά αρχεία, κλειδιά κρυπτογράφησης και άλλα.
+
+4. Ανάλυση Δεδομένων: Τέλος, πρέπει να αναλύσετε τα δεδομένα που ανακτήσατε από το αποτύπωμα της μνήμης. Αυτό μπορεί να περιλαμβάνει την ανίχνευση κακόβουλου λογισμικού, την ανάκτηση διαγραμμένων αρχείων ή την ανάκτηση κρυπτογραφημένων δεδομένων.
+
+### Εργαλεία Ανάλυσης Αποτυπώματος Μνήμης
+
+Υπάρχουν πολλά εργαλεία που μπορούν να χρησιμοποιηθούν για την ανάλυση αποτυπωμάτων μνήμης. Ορισμένα από αυτά είναι:
+
+- `Volatility`: Ένα εργαλείο ανάλυσης αποτυπωμάτων μνήμης που υποστηρίζει πολλά λειτουργικά συστήματα, όπως τα Windows, το Linux και το macOS.
+- `Rekall`: Ένα εργαλείο ανάλυσης αποτυπωμάτων μνήμης που παρέχει πολλές λειτουργίες και υποστηρίζει πολλά λειτουργικά συστήματα.
+- `Mandiant Redline`: Ένα εργαλείο ανάλυσης αποτυπωμάτων μνήμης που παρέχει πολλές λειτουργίες και υποστηρίζει τα Windows.
+
+Αυτά τα εργαλεία μπορούν να χρησιμοποιηθούν για την ανάλυση αποτυπωμάτων μνήμης και την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος.
 ```bash
 strings file.dmp > /tmp/strings.txt
 volatility -f /tmp/file.dmp windows.strings.Strings --string-file /tmp/strings.txt
@@ -378,7 +493,7 @@ strings 3532.dmp > strings_file
 {% endtab %}
 {% endtabs %}
 
-It also allows to search for strings inside a process using the yarascan module:
+Επίσης, επιτρέπει την αναζήτηση για αλφαριθμητικά μέσα σε ένα διεργασία χρησιμοποιώντας το μοντέλο yarascan: 
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -386,9 +501,21 @@ It also allows to search for strings inside a process using the yarascan module:
 ./vol.py -f file.dmp windows.vadyarascan.VadYaraScan --yara-rules "https://" --pid 3692 3840 3976 3312 3084 2784
 ./vol.py -f file.dmp yarascan.YaraScan --yara-rules "https://"
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3312,3084,2784
 ```
@@ -397,16 +524,34 @@ volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3
 
 ### UserAssist
 
-**Windows** keeps track of programs you run using a feature in the registry called **UserAssist keys**. These keys record how many times each program is executed and when it was last run.
-
-{% tabs %}
-{% tab title="vol3" %}
+Το **Windows** καταγράφει τα προγράμματα που εκτελείτε χρησιμοποιώντας μια λειτουργία στο μητρώο που ονομάζεται **UserAssist keys**. Αυτά τα κλειδιά καταγράφουν πόσες φορές εκτελέστηκε κάθε πρόγραμμα και πότε τελευταία εκτελέστηκε.
 ```bash
 ./vol.py -f file.dmp windows.registry.userassist.UserAssist
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος μπορεί να χρησιμοποιηθεί για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανακάλυψη ευπαθειών και την ανάκτηση δεδομένων.
+
+### Βήματα Βασικής Μεθοδολογίας
+
+1. Συλλογή Αποτυπώματος Μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit`, το `winpmem` ή το `LiME`.
+
+2. Ανάλυση Αποτυπώματος Μνήμης: Στο επόμενο βήμα, πρέπει να αναλύσετε το αποτύπωμα της μνήμης που συλλέξατε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `Volatility`.
+
+3. Ανάκτηση Πληροφοριών: Αφού αναλύσετε το αποτύπωμα της μνήμης, πρέπει να ανακτήσετε τις απαραίτητες πληροφορίες. Αυτό μπορεί να περιλαμβάνει την εξαγωγή διευθύνσεων μνήμης, την ανακάλυψη διεργασιών, την εξαγωγή αρχείων και άλλων στοιχείων.
+
+4. Ανάλυση Δεδομένων: Τέλος, πρέπει να αναλύσετε τα δεδομένα που ανακτήσατε από το αποτύπωμα της μνήμης. Αυτό μπορεί να περιλαμβάνει την ανίχνευση κακόβουλου λογισμικού, την ανάκτηση κρυπτογραφημένων δεδομένων και άλλων ευαίσθητων πληροφοριών.
+
+### Εργαλεία Ανάλυσης Αποτυπώματος Μνήμης
+
+Υπάρχουν πολλά εργαλεία που μπορούν να χρησιμοποιηθούν για την ανάλυση αποτυπωμάτων μνήμης. Ορισμένα από αυτά είναι:
+
+- `Volatility`: Ένα εργαλείο ανάλυσης αποτυπωμάτων μνήμης που υποστηρίζει πολλά λειτουργικά συστήματα, όπως τα Windows, το Linux και το macOS.
+- `Rekall`: Ένα άλλο εργαλείο ανάλυσης αποτυπωμάτων μνήμης που παρέχει πολλές λειτουργίες και υποστηρίζει πολλά λειτουργικά συστήματα.
+- `LiME`: Ένα εργαλείο για τη συλλογή αποτυπωμάτων μνήμης σε συστήματα Linux.
+- `dumpit` και `winpmem`: Εργαλεία για τη συλλογή αποτυπωμάτων μνήμης σε συστήματα Windows.
+
+Αυτά τα εργαλεία μπορούν να χρησιμοποιηθούν για την ανάλυση αποτυπωμάτων μνήμης και την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος.
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 ```
@@ -417,11 +562,11 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+​​​​[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σχετικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένας ζωντανός συναντήσεων τεχνολογίας και επαγγελματιών κυβερνοασφάλειας σε κάθε ειδικότητα.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Services
+## Υπηρεσίες
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -429,19 +574,28 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 ./vol.py -f file.dmp windows.svcscan.SvcScan #List services
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το Volatility.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Αυτό περιλαμβάνει την εντοπισμό και την ανάκτηση δεδομένων, την αναγνώριση διεργασιών και νημάτων, καθώς και την ανίχνευση κακόβουλου λογισμικού.
+
+3. Ανάλυση δεδομένων: Μετά την ανάλυση του αποτυπώματος μνήμης, πρέπει να αναλύσετε τα εξαχθέντα δεδομένα για να εξάγετε πληροφορίες. Αυτό μπορεί να περιλαμβάνει την αναγνώριση κρυπτογραφημένων δεδομένων, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων που έχουν διαγραφεί.
+
+4. Ανάλυση κακόβουλου λογισμικού: Τέλος, αν εντοπίσετε κακόβουλο λογισμικό κατά τη διάρκεια της ανάλυσης, πρέπει να το αναλύσετε για να κατανοήσετε τη λειτουργία του και τις επιπτώσεις του στο σύστημα.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για περαιτέρω αναλύσεις αποτυπωμάτων μνήμης. Είναι σημαντικό να έχετε υπόψη ότι η ανάλυση αποτυπωμάτων μνήμης απαιτεί εξειδικευμένες γνώσεις και εργαλεία, καθώς και την τήρηση των νόμων περί απορρήτου και ασφάλειας δεδομένων.
 ```bash
 #Get services and binary path
 volatility --profile=Win7SP1x86_23418 svcscan -f file.dmp
 #Get name of the services and SID (slow)
 volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
 ```
-{% endtab %}
-{% endtabs %}
-
-## Network
+## Δίκτυο
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -449,13 +603,25 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
 ./vol.py -f file.dmp windows.netscan.NetScan
 #For network info of linux use volatility2
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το Volatility.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Αυτό περιλαμβάνει την εντοπισμό και την ανάκτηση δεδομένων, την αναγνώριση διεργασιών και νημάτων, καθώς και την ανίχνευση κακόβουλου λογισμικού.
+
+3. Ανάλυση δεδομένων: Μετά την ανάλυση του αποτυπώματος μνήμης, πρέπει να αναλύσετε τα εξαχθέντα δεδομένα για να εξάγετε πληροφορίες. Αυτό μπορεί να περιλαμβάνει την αναγνώριση κρυπτογραφημένων δεδομένων, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων που έχουν διαγραφεί.
+
+4. Ανάλυση κακόβουλου λογισμικού: Τέλος, αν εντοπίσετε κακόβουλο λογισμικό κατά τη διάρκεια της ανάλυσης, πρέπει να το αναλύσετε για να κατανοήσετε τη λειτουργία του και τις επιπτώσεις του.
+
+Η ανάλυση αποτυπώματος μνήμης είναι μια ισχυρή τεχνική που μπορεί να παρέχει πολλές πληροφορίες για ένα σύστημα. Με τη χρήση της παραπάνω μεθοδολογίας, μπορείτε να ανακαλύψετε και να αναλύσετε πολλά στοιχεία που μπορούν να σας βοηθήσουν στην επίλυση προβλημάτων ασφαλείας και στην αντιμετώπιση κακόβουλων επιθέσεων.
 ```bash
 volatility --profile=Win7SP1x86_23418 netscan -f file.dmp
 volatility --profile=Win7SP1x86_23418 connections -f file.dmp#XP and 2003 only
-volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections 
+volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections
 volatility --profile=Win7SP1x86_23418 sockscan -f file.dmp#Open sockets
 volatility --profile=Win7SP1x86_23418 sockets -f file.dmp#Scanner for tcp socket objects
 
@@ -469,9 +635,9 @@ volatility --profile=SomeLinux -f file.dmp linux_route_cache
 {% endtab %}
 {% endtabs %}
 
-## Registry hive
+## Καταγραφικό κελύφους
 
-### Print available hives
+### Εκτύπωση διαθέσιμων κελυφών
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -479,9 +645,29 @@ volatility --profile=SomeLinux -f file.dmp linux_route_cache
 ./vol.py -f file.dmp windows.registry.hivelist.HiveList #List roots
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey #List roots and get initial subkeys
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος μπορεί να χρησιμοποιηθεί για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανακάλυψη ευπαθειών και την ανάκτηση δεδομένων.
+
+### Βήματα Βασικής Μεθοδολογίας
+
+1. Συλλογή Αποτυπώματος Μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit`, το `winpmem` ή το `LiME`.
+
+2. Ανάλυση Αποτυπώματος Μνήμης: Στο επόμενο βήμα, πρέπει να αναλύσετε το αποτύπωμα της μνήμης που συλλέξατε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `Volatility`, το `Rekall` ή το `Mandiant Redline`.
+
+3. Ανάκτηση Πληροφοριών: Μετά την ανάλυση του αποτυπώματος της μνήμης, πρέπει να ανακτήσετε τις απαραίτητες πληροφορίες. Αυτές οι πληροφορίες μπορεί να περιλαμβάνουν διευθύνσεις μνήμης, διαδικασίες, ανοιχτά αρχεία, κλειδιά κρυπτογράφησης και άλλα.
+
+4. Ανάλυση Δεδομένων: Τέλος, πρέπει να αναλύσετε τα δεδομένα που ανακτήσατε από το αποτύπωμα της μνήμης. Αυτό μπορεί να περιλαμβάνει την αναγνώριση κακόβουλου λογισμικού, την ανάκτηση διαγραμμένων αρχείων ή την ανάλυση των δραστηριοτήτων των χρηστών.
+
+### Εργαλεία Ανάλυσης Αποτυπώματος Μνήμης
+
+Υπάρχουν πολλά εργαλεία που μπορούν να χρησιμοποιηθούν για την ανάλυση αποτυπωμάτων μνήμης. Ορισμένα από αυτά είναι:
+
+- `Volatility`: Ένα εργαλείο ανάλυσης αποτυπωμάτων μνήμης που υποστηρίζει πολλά λειτουργικά συστήματα, όπως τα Windows, το Linux και το macOS.
+- `Rekall`: Ένα εργαλείο ανάλυσης αποτυπωμάτων μνήμης που παρέχει πολλές λειτουργίες και υποστηρίζει πολλά λειτουργικά συστήματα.
+- `Mandiant Redline`: Ένα εργαλείο ανάλυσης αποτυπωμάτων μνήμης που παρέχει πολλές λειτουργίες και υποστηρίζει τα Windows.
+
+Αυτά τα εργαλεία μπορούν να χρησιμοποιηθούν για την ανάλυση αποτυπωμάτων μνήμης και την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος.
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp hivelist #List roots
 volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get initial subkeys
@@ -489,16 +675,36 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get i
 {% endtab %}
 {% endtabs %}
 
-### Get a value
+### Λάβετε μια τιμή
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey --key "Software\Microsoft\Windows NT\CurrentVersion"
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος μπορεί να χρησιμοποιηθεί για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανακάλυψη ευπαθειών και την ανάκτηση δεδομένων.
+
+### Βήματα Βασικής Μεθοδολογίας
+
+1. Συλλογή Αποτυπώματος Μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση Αποτυπώματος Μνήμης: Στο επόμενο βήμα, πρέπει να αναλύσετε το αποτύπωμα της μνήμης που συλλέξατε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `Volatility`.
+
+3. Ανάκτηση Πληροφοριών: Αφού αναλύσετε το αποτύπωμα της μνήμης, πρέπει να ανακτήσετε τις απαραίτητες πληροφορίες. Αυτό μπορεί να περιλαμβάνει την εξαγωγή διευθύνσεων μνήμης, την ανακάλυψη διεργασιών, την εξαγωγή αρχείων και άλλων στοιχείων.
+
+4. Ανάλυση Δεδομένων: Τέλος, πρέπει να αναλύσετε τα δεδομένα που ανακτήσατε από το αποτύπωμα της μνήμης. Αυτό μπορεί να περιλαμβάνει την ανίχνευση κακόβουλου λογισμικού, την ανάκτηση κωδικών πρόσβασης και άλλων ευαίσθητων πληροφοριών.
+
+### Εργαλεία Ανάλυσης Αποτυπώματος Μνήμης
+
+Υπάρχουν πολλά εργαλεία που μπορούν να χρησιμοποιηθούν για την ανάλυση αποτυπωμάτων μνήμης. Ορισμένα από αυτά είναι:
+
+- `Volatility`: Ένα εργαλείο ανάλυσης αποτυπωμάτων μνήμης που υποστηρίζει πολλά λειτουργικά συστήματα, όπως τα Windows, το Linux και το macOS.
+- `Rekall`: Ένα άλλο εργαλείο ανάλυσης αποτυπωμάτων μνήμης που παρέχει πολλές λειτουργίες και υποστηρίζει πολλά λειτουργικά συστήματα.
+- `LiME`: Ένα εργαλείο για τη συλλογή αποτυπωμάτων μνήμης σε συστήματα Linux.
+
+Αυτά τα εργαλεία μπορούν να χρησιμοποιηθούν για την ανάλυση αποτυπωμάτων μνήμης και την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος.
 ```bash
 volatility --profile=Win7SP1x86_23418 printkey -K "Software\Microsoft\Windows NT\CurrentVersion" -f file.dmp
 # Get Run binaries registry value
@@ -507,27 +713,37 @@ volatility -f file.dmp --profile=Win7SP1x86 printkey -o 0x9670e9d0 -K 'Software\
 {% endtab %}
 {% endtabs %}
 
-### Dump
-
+### Απορρόφηση δεδομένων
 ```bash
 #Dump a hive
 volatility --profile=Win7SP1x86_23418 hivedump -o 0x9aad6148 -f file.dmp #Offset extracted by hivelist
 #Dump all hives
 volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```
+## Αρχείοσυστήματος
 
-## Filesystem
-
-### Mount
+### Προσάρτηση
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 #See vol2
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος μπορεί να χρησιμοποιηθεί για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανακάλυψη ευπαθειών και την ανάκτηση δεδομένων.
+
+### Βήματα Βασικής Μεθοδολογίας
+
+1. Συλλογή Αποτυπώματος Μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit`, το `winpmem` ή το `LiME`.
+
+2. Ανάλυση Αποτυπώματος Μνήμης: Στο επόμενο βήμα, πρέπει να αναλύσετε το αποτύπωμα της μνήμης που συλλέξατε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `Volatility`. Κατά τη διάρκεια της ανάλυσης, μπορείτε να εξάγετε πληροφορίες όπως διεργασίες, καταχωρητές, συνδέσεις δικτύου και πολλά άλλα.
+
+3. Ανίχνευση Κακόβουλου Λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που ενδέχεται να είναι ενεργό στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τις συνδέσεις δικτύου και τις καταχωρητές για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση Δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, καταχωρητές και άλλα στοιχεία που μπορούν να σας βοηθήσουν να ανακτήσετε χαμένα δεδομένα.
+
+Αυτή είναι μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης. Μπορείτε να προσαρμόσετε αυτά τα βήματα ανάλογα με τις ανάγκες σας και τον τύπο της ανάλυσης που θέλετε να πραγματοποιήσετε.
 ```bash
 volatility --profile=SomeLinux -f file.dmp linux_mount
 volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the entire filesystem (if possible)
@@ -535,7 +751,7 @@ volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the en
 {% endtab %}
 {% endtabs %}
 
-### Scan/dump
+### Σάρωση/αντιγραφή
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -543,9 +759,21 @@ volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the en
 ./vol.py -f file.dmp windows.filescan.FileScan #Scan for files inside the dump
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --physaddr <0xAAAAA> #Offset from previous command
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 volatility --profile=Win7SP1x86_23418 filescan -f file.dmp #Scan for files inside the dump
 volatility --profile=Win7SP1x86_23418 dumpfiles -n --dump-dir=/tmp -f file.dmp #Dump all files
@@ -558,25 +786,37 @@ volatility --profile=SomeLinux -f file.dmp linux_find_file -i 0xINODENUMBER -O /
 {% endtab %}
 {% endtabs %}
 
-### Master File Table
+### Κύριος Πίνακας Αρχείων
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 # I couldn't find any plugin to extract this information in volatility3
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 ```
 {% endtab %}
 {% endtabs %}
 
-The **NTFS file system** uses a critical component known as the _master file table_ (MFT). This table includes at least one entry for every file on a volume, covering the MFT itself too. Vital details about each file, such as **size, timestamps, permissions, and actual data**, are encapsulated within the MFT entries or in areas external to the MFT but referenced by these entries. More details can be found in the [official documentation](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
+Το **σύστημα αρχείων NTFS** χρησιμοποιεί ένα κρίσιμο στοιχείο που ονομάζεται _master file table_ (MFT). Αυτός ο πίνακας περιλαμβάνει τουλάχιστον μία καταχώρηση για κάθε αρχείο σε έναν τόμο, καλύπτοντας επίσης τον ίδιο τον MFT. Στις καταχωρήσεις του MFT ή σε περιοχές εκτός του MFT αλλά αναφερόμενες από αυτές, ενσωματώνονται σημαντικές λεπτομέρειες για κάθε αρχείο, όπως **μέγεθος, χρονικές σφραγίδες, άδειες, και πραγματικά δεδομένα**. Περισσότερες λεπτομέρειες μπορούν να βρεθούν στην [επίσημη τεκμηρίωση](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
 
-### SSL Keys/Certs
+### Κλειδιά/Πιστοποιητικά SSL
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -584,18 +824,27 @@ The **NTFS file system** uses a critical component known as the _master file tab
 #vol3 allows to search for certificates inside the registry
 ./vol.py -f file.dmp windows.registry.certificates.Certificates
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 #vol2 allos you to search and dump certificates from memory
 #Interesting options for this modules are: --pid, --name, --ssl
 volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ```
-{% endtab %}
-{% endtabs %}
-
-## Malware
+## Κακόβουλο Λογισμικό
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -612,9 +861,21 @@ volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ./vol.py -f file.dmp linux.check_modules.Check_modules #Compares module list to sysfs info, if available
 ./vol.py -f file.dmp linux.tty_check.tty_check #Checks tty devices for hooks
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp malfind [-D /tmp] #Find hidden and injected code [dump each suspicious section]
 volatility --profile=Win7SP1x86_23418 -f file.dmp apihooks #Detect API hooks in process and kernel memory
@@ -633,13 +894,10 @@ volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
 {% endtab %}
 {% endtabs %}
 
-### Scanning with yara
+### Σάρωση με το yara
 
-Use this script to download and merge all the yara malware rules from github: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
-Create the _**rules**_ directory and execute it. This will create a file called _**malware\_rules.yar**_ which contains all the yara rules for malware.
-
-{% tabs %}
-{% tab title="vol3" %}
+Χρησιμοποιήστε αυτό το σενάριο για να κατεβάσετε και να συγχωνεύσετε όλους τους κανόνες yara για κακόβουλο λογισμικό από το github: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
+Δημιουργήστε τον φάκελο _**rules**_ και εκτελέστε το. Αυτό θα δημιουργήσει ένα αρχείο με το όνομα _**malware\_rules.yar**_ που περιέχει όλους τους κανόνες yara για κακόβουλο λογισμικό.
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
 mkdir rules
@@ -649,9 +907,21 @@ python malware_yara_rules.py
 #All
 ./vol.py -f file.dmp yarascan.YaraScan --yara-file /tmp/malware_rules.yar
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
 mkdir rules
@@ -663,42 +933,70 @@ volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp |
 
 ## MISC
 
-### External plugins
+### Εξωτερικά πρόσθετα
 
-If you want to use external plugins make sure that the folders related to the plugins are the first parameter used.
-
-{% tabs %}
-{% tab title="vol3" %}
+Εάν θέλετε να χρησιμοποιήσετε εξωτερικά πρόσθετα, βεβαιωθείτε ότι οι φάκελοι που σχετίζονται με τα πρόσθετα είναι το πρώτο παράμετρο που χρησιμοποιείται.
 ```bash
 ./vol.py --plugin-dirs "/tmp/plugins/" [...]
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το Volatility.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Αυτό περιλαμβάνει την εντοπισμό και την ανάκτηση δεδομένων, την αναγνώριση διεργασιών και νημάτων, καθώς και την ανίχνευση κακόβουλου λογισμικού.
+
+3. Ανάλυση δεδομένων: Μετά την ανάλυση του αποτυπώματος μνήμης, πρέπει να αναλύσετε τα εξαχθέντα δεδομένα για να εξάγετε πληροφορίες. Αυτό μπορεί να περιλαμβάνει την αναγνώριση κρυπτογραφημένων δεδομένων, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων που έχουν διαγραφεί.
+
+4. Ανάλυση κακόβουλου λογισμικού: Τέλος, αν εντοπίσετε κακόβουλο λογισμικό κατά τη διάρκεια της ανάλυσης, πρέπει να το αναλύσετε για να κατανοήσετε τη λειτουργία του και τις επιπτώσεις του στο σύστημα.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για περαιτέρω αναλύσεις αποτυπωμάτων μνήμης. Είναι σημαντικό να έχετε υπόψη ότι η ανάλυση αποτυπωμάτων μνήμης απαιτεί εξειδικευμένες γνώσεις και εργαλεία, καθώς και την τήρηση των νόμων περί απορρήτου και ασφάλειας δεδομένων.
 ```bash
- volatilitye --plugins="/tmp/plugins/" [...]
+volatilitye --plugins="/tmp/plugins/" [...]
 ```
 {% endtab %}
 {% endtabs %}
 
-#### Autoruns
+#### Εκτέλεση αυτόματων ενεργειών
 
-Download it from [https://github.com/tomchop/volatility-autoruns](https://github.com/tomchop/volatility-autoruns)
-
+Κατεβάστε το από [https://github.com/tomchop/volatility-autoruns](https://github.com/tomchop/volatility-autoruns)
 ```
- volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp autoruns
+volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp autoruns
 ```
-
-### Mutexes
+### Μεταβλητές Mutex
 
 {% tabs %}
 {% tab title="vol3" %}
 ```
 ./vol.py -f file.dmp windows.mutantscan.MutantScan
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος μπορεί να χρησιμοποιηθεί για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανακάλυψη ευπαθειών και την ανάκτηση δεδομένων.
+
+### Βήματα Βασικής Μεθοδολογίας
+
+1. Συλλογή Αποτυπώματος Μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit`, το `winpmem` ή το `LiME`.
+
+2. Ανάλυση Αποτυπώματος Μνήμης: Στο επόμενο βήμα, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Εξαγωγή Πληροφοριών: Μετά την ανάλυση του αποτυπώματος της μνήμης, πρέπει να εξάγετε τις απαραίτητες πληροφορίες για την ανίχνευση και την ανάλυση του προβλήματος που ερευνάτε. Αυτές οι πληροφορίες μπορεί να περιλαμβάνουν διεργασίες, αρχεία, καταγραφές δικτύου και άλλα.
+
+4. Ανάλυση Δεδομένων: Τέλος, πρέπει να αναλύσετε τα εξαγόμενα δεδομένα για να ανακαλύψετε πληροφορίες και να κατανοήσετε το πρόβλημα που ερευνάτε. Αυτό μπορεί να περιλαμβάνει την αναγνώριση κακόβουλου λογισμικού, την ανάκτηση δεδομένων ή την ανακάλυψη ευπαθειών.
+
+### Εργαλεία Ανάλυσης Αποτυπώματος Μνήμης
+
+Υπάρχουν πολλά εργαλεία που μπορείτε να χρησιμοποιήσετε για την ανάλυση αποτυπωμάτων μνήμης. Ορισμένα από αυτά είναι:
+
+- `Volatility`: Ένα εργαλείο ανάλυσης αποτυπωμάτων μνήμης που υποστηρίζει πολλά λειτουργικά συστήματα, όπως τα Windows, τα Linux και τα macOS.
+- `Rekall`: Ένα εργαλείο ανάλυσης αποτυπωμάτων μνήμης που παρέχει πολλές λειτουργίες και υποστηρίζει πολλά λειτουργικά συστήματα.
+- `LiME`: Ένα εργαλείο για τη συλλογή αποτυπωμάτων μνήμης σε συστήματα Linux.
+- `dumpit`: Ένα εργαλείο για τη συλλογή αποτυπωμάτων μνήμης σε συστήματα Windows.
+
+Αυτά τα εργαλεία μπορούν να σας βοηθήσουν να εκτελέσετε αναλύσεις αποτυπωμάτων μνήμης και να εξάγετε πληροφορίες για την ανίχνευση και την ανάλυση προβλημάτων.
 ```bash
 volatility --profile=Win7SP1x86_23418 mutantscan -f file.dmp
 volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
@@ -706,16 +1004,28 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 {% endtab %}
 {% endtabs %}
 
-### Symlinks
+### Συμβολικοί σύνδεσμοι
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.symlinkscan.SymlinkScan
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 ```
@@ -724,91 +1034,150 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 
 ### Bash
 
-It's possible to **read from memory the bash history.** You could also dump the _.bash\_history_ file, but it was disabled you will be glad you can use this volatility module
-
-{% tabs %}
-{% tab title="vol3" %}
+Είναι δυνατόν να **διαβάσετε από τη μνήμη το ιστορικό του bash**. Μπορείτε επίσης να αποθηκεύσετε το αρχείο _.bash\_history_, αλλά αν έχει απενεργοποιηθεί θα χαρείτε που μπορείτε να χρησιμοποιήσετε αυτήν την ενότητα του volatility.
 ```
 ./vol.py -f file.dmp linux.bash.Bash
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος μπορεί να χρησιμοποιηθεί για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Η ανάλυση αποτυπώματος μνήμης μπορεί να γίνει με τη χρήση εργαλείων όπως το Volatility, το οποίο είναι ένα από τα πιο δημοφιλή εργαλεία για αυτόν τον σκοπό. Το Volatility παρέχει μια σειρά από εντολές που μπορούν να χρησιμοποιηθούν για την ανάλυση διάφορων τύπων αποτυπωμάτων μνήμης.
+
+Παρακάτω παρέχεται ένας απλός οδηγός για τη βασική μεθοδολογία ανάλυσης αποτυπώματος μνήμης με τη χρήση του Volatility:
+
+1. Ανάκτηση του αποτυπώματος μνήμης από το σύστημα που θέλουμε να αναλύσουμε.
+2. Ανάλυση του αποτυπώματος μνήμης με τη χρήση του Volatility.
+3. Αναζήτηση για ενδείξεις κακόβουλου λογισμικού, ευπαθειών ασφαλείας και άλλων ενδιαφέρουσων πληροφοριών.
+4. Ανάκτηση δεδομένων από το αποτύπωμα μνήμης, όπως κωδικούς πρόσβασης, αρχεία και ιστορικό περιήγησης.
+5. Ανάλυση των αποτελεσμάτων και σύνταξη αναφοράς.
+
+Η ανάλυση αποτυπώματος μνήμης είναι μια ισχυρή τεχνική που μπορεί να παρέχει πολλές πληροφορίες για ένα σύστημα. Με τη χρήση του Volatility και την εφαρμογή της βασικής μεθοδολογίας ανάλυσης, μπορείτε να ανακαλύψετε πολλά ενδιαφέροντα στοιχεία και να προχωρήσετε σε περαιτέρω έρευνα και ανάλυση.
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
 ```
 {% endtab %}
 {% endtabs %}
 
-### TimeLine
+### Χρονολόγιο
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp timeLiner.TimeLiner
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `dumpit` ή το `winpmem`.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το `Volatility` για να εκτελέσετε αναλύσεις όπως την εύρεση διεργασιών, των ανοιχτών αρχείων και των συνδέσεων δικτύου.
+
+3. Ανίχνευση κακόβουλου λογισμικού: Με τη χρήση της ανάλυσης αποτυπώματος μνήμης, μπορείτε να ανιχνεύσετε κακόβουλο λογισμικό που εκτελείται στο σύστημα. Μπορείτε να εξετάσετε τις διεργασίες, τα αρχεία και τις συνδέσεις δικτύου για ενδείξεις κακόβουλης δραστηριότητας.
+
+4. Ανάκτηση δεδομένων: Τέλος, μπορείτε να χρησιμοποιήσετε την ανάλυση αποτυπώματος μνήμης για την ανάκτηση δεδομένων που έχουν διαγραφεί από το σύστημα. Μπορείτε να εξάγετε αρχεία, κωδικούς πρόσβασης και άλλες πληροφορίες που μπορεί να είναι χρήσιμες για την ανάκτηση δεδομένων.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για πιο προηγμένες τεχνικές ανάλυσης αποτυπωμάτων μνήμης.
 ```
 volatility --profile=Win7SP1x86_23418 -f timeliner
 ```
 {% endtab %}
 {% endtabs %}
 
-### Drivers
+### Οδηγοί
 
 {% tabs %}
 {% tab title="vol3" %}
 ```
 ./vol.py -f file.dmp windows.driverscan.DriverScan
 ```
-{% endtab %}
+## Βασική Μεθοδολογία Ανάλυσης Αποτυπώματος Μνήμης
 
-{% tab title="vol2" %}
+Η ανάλυση αποτυπώματος μνήμης είναι μια τεχνική που χρησιμοποιείται για την εξαγωγή πληροφοριών από τη μνήμη ενός συστήματος. Αυτή η μέθοδος είναι χρήσιμη για την ανίχνευση και την ανάλυση κακόβουλου λογισμικού, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων.
+
+Παρακάτω παρουσιάζεται μια βασική μεθοδολογία για την ανάλυση αποτυπώματος μνήμης:
+
+1. Συλλογή αποτυπώματος μνήμης: Αρχικά, πρέπει να συλλέξετε το αποτύπωμα της μνήμης του συστήματος που θέλετε να αναλύσετε. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το Volatility.
+
+2. Ανάλυση αποτυπώματος μνήμης: Στη συνέχεια, πρέπει να αναλύσετε το αποτύπωμα της μνήμης για να εξάγετε πληροφορίες. Αυτό περιλαμβάνει την εντοπισμό και την ανάκτηση δεδομένων, την αναγνώριση διεργασιών και νημάτων, καθώς και την ανίχνευση κακόβουλου λογισμικού.
+
+3. Ανάλυση δεδομένων: Μετά την ανάλυση του αποτυπώματος μνήμης, πρέπει να αναλύσετε τα εξαχθέντα δεδομένα για να εξάγετε πληροφορίες. Αυτό μπορεί να περιλαμβάνει την αναγνώριση κρυπτογραφημένων δεδομένων, την ανίχνευση ευπάθειών ασφαλείας και την ανάκτηση δεδομένων που έχουν διαγραφεί.
+
+4. Ανάλυση κακόβουλου λογισμικού: Τέλος, αν εντοπίσετε κακόβουλο λογισμικό κατά τη διάρκεια της ανάλυσης, πρέπει να το αναλύσετε για να κατανοήσετε τη λειτουργία του και τις επιπτώσεις του στο σύστημα.
+
+Αυτή η βασική μεθοδολογία μπορεί να χρησιμοποιηθεί ως αφετηρία για περαιτέρω αναλύσεις αποτυπωμάτων μνήμης. Είναι σημαντικό να έχετε υπόψη ότι η ανάλυση αποτυπωμάτων μνήμης απαιτεί εξειδικευμένες γνώσεις και εργαλεία, καθώς και την τήρηση των νόμων περί απορρήτου και ασφάλειας δεδομένων.
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
 ```
 {% endtab %}
 {% endtabs %}
 
-### Get clipboard
-
+### Λήψη προχείρου
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 clipboard -f file.dmp
 ```
+### Ανάκτηση ιστορικού του IE
 
-### Get IE history
+To Volatility υποστηρίζει την ανάκτηση του ιστορικού του Internet Explorer (IE) από μια μνήμη κατά την ανάλυση ενός αποτυπώματος μνήμης. Αυτό μπορεί να παρέχει πολύτιμες πληροφορίες για τις ιστοσελίδες που έχουν επισκεφθεί οι χρήστες στο παρελθόν.
 
+Για να ανακτήσετε το ιστορικό του IE, μπορείτε να χρησιμοποιήσετε την εντολή `iehistory` του Volatility. Ακολουθεί ένα παράδειγμα χρήσης:
+
+```
+volatility -f <memory_dump> --profile=<profile> iehistory
+```
+
+Αντικαταστήστε το `<memory_dump>` με το αρχείο αποτυπώματος μνήμης που θέλετε να αναλύσετε και το `<profile>` με το προφίλ του συστήματος που χρησιμοποιείτε.
+
+Η εντολή `iehistory` θα εμφανίσει το ιστορικό του IE, συμπεριλαμβανομένων των URL, των τίτλων των ιστοσελίδων και των χρόνων επίσκεψης. Αυτές οι πληροφορίες μπορούν να βοηθήσουν στην ανάλυση και την εξαγωγή στοιχείων από το αποτύπωμα μνήμης.
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 iehistory -f file.dmp
 ```
+### Λήψη κειμένου από το Notepad
 
-### Get notepad text
+To get the text from a Notepad process memory dump, you can use the following Volatility command:
 
+```
+volatility -f <memory_dump> --profile=<profile> notepad
+```
+
+Replace `<memory_dump>` with the path to the memory dump file and `<profile>` with the appropriate Volatility profile for the operating system.
+
+This command will extract the text from the Notepad process memory and display it in the terminal.
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 notepad -f file.dmp
 ```
-
-### Screenshot
-
+### Στιγμιότυπο οθόνης
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```
+### Κύριο Αρχείο Εκκίνησης (MBR)
 
-### Master Boot Record (MBR)
+The Master Boot Record (MBR) is the first sector of a storage device (such as a hard disk) that contains the boot loader and partition table. It plays a crucial role in the boot process of a computer system. By analyzing the MBR, forensic analysts can gather important information about the system's boot process, including the installed operating systems and their respective partitions.
 
+To analyze the MBR using Volatility, you can use the `mbrparser` plugin. This plugin allows you to extract and analyze the MBR data from a memory dump. By examining the MBR, you may be able to identify any modifications or malicious code that could have been injected into the boot process.
+
+Here is an example command to run the `mbrparser` plugin in Volatility:
+
+```
+volatility -f memory_dump.mem mbrparser
+```
+
+This command will extract and display the MBR data from the memory dump file `memory_dump.mem`. The output will include information such as the disk signature, partition table entries, and the boot code.
+
+Analyzing the MBR can provide valuable insights into the system's boot process and help identify any potential tampering or malicious activity. It is an essential step in forensic investigations to understand the overall state of the system and any potential security breaches.
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
+Το **Master Boot Record (MBR)** παίζει ένα κρίσιμο ρόλο στη διαχείριση των λογικών διαμερισμάτων ενός αποθηκευτικού μέσου, τα οποία είναι δομημένα με διάφορα [συστήματα αρχείων](https://en.wikipedia.org/wiki/File_system). Δεν κρατά μόνο πληροφορίες διάταξης διαμερισμάτων, αλλά περιέχει εκτελέσιμο κώδικα που λειτουργεί ως φορτωτής εκκίνησης. Αυτός ο φορτωτής εκκινεί είτε απευθείας τη διαδικασία φόρτωσης της δεύτερης φάσης του λειτουργικού συστήματος (δείτε [φορτωτής εκκίνησης δεύτερης φάσης](https://en.wikipedia.org/wiki/Second-stage_boot_loader)) είτε λειτουργεί συνεργαστικά με το [volume boot record](https://en.wikipedia.org/wiki/Volume_boot_record) (VBR) κάθε διαμερίσματος. Για λεπτομερείς πληροφορίες, ανατρέξτε στη σελίδα του [MBR στη Wikipedia](https://en.wikipedia.org/wiki/Master_boot_record).
 
-The **Master Boot Record (MBR)** plays a crucial role in managing the logical partitions of a storage medium, which are structured with different [file systems](https://en.wikipedia.org/wiki/File_system). It not only holds partition layout information but also contains executable code acting as a boot loader. This boot loader either directly initiates the OS's second-stage loading process (see [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage_boot_loader)) or works in harmony with the [volume boot record](https://en.wikipedia.org/wiki/Volume_boot_record) (VBR) of each partition. For in-depth knowledge, refer to the [MBR Wikipedia page](https://en.wikipedia.org/wiki/Master_boot_record).
-
-## References
+## Αναφορές
 * [https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/](https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/)
 * [https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html](https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html)
 * [https://or10nlabs.tech/cgi-sys/suspendedpage.cgi](https://or10nlabs.tech/cgi-sys/suspendedpage.cgi)
@@ -818,20 +1187,20 @@ The **Master Boot Record (MBR)** plays a crucial role in managing the logical pa
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σχετικό συνέδριο κυβερνοασφάλειας στη **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένας ζωντανός σημείο συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε ειδικότητα.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

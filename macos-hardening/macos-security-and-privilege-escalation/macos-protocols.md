@@ -1,31 +1,30 @@
-# macOS Network Services & Protocols
+# Υπηρεσίες και πρωτόκολλα δικτύου για macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Remote Access Services
+## Υπηρεσίες απομακρυσμένης πρόσβασης
 
-These are the common macOS services to access them remotely.\
-You can enable/disable these services in `System Settings` --> `Sharing`
+Αυτές είναι οι κοινές υπηρεσίες του macOS για πρόσβαση απομακρυσμένα.\
+Μπορείτε να ενεργοποιήσετε/απενεργοποιήσετε αυτές τις υπηρεσίες στις `Ρυθμίσεις Συστήματος` --> `Κοινή χρήση`
 
-* **VNC**, known as “Screen Sharing” (tcp:5900)
-* **SSH**, called “Remote Login” (tcp:22)
-* **Apple Remote Desktop** (ARD), or “Remote Management” (tcp:3283, tcp:5900)
-* **AppleEvent**, known as “Remote Apple Event” (tcp:3031)
+* **VNC**, γνωστό ως "Κοινή χρήση Οθόνης" (tcp:5900)
+* **SSH**, ονομάζεται "Απομακρυσμένη Σύνδεση" (tcp:22)
+* **Apple Remote Desktop** (ARD), ή "Απομακρυσμένη Διαχείριση" (tcp:3283, tcp:5900)
+* **AppleEvent**, γνωστό ως "Απομακρυσμένο Apple Event" (tcp:3031)
 
-Check if any is enabled running:
-
+Ελέγξτε εάν κάποια από αυτές είναι ενεργοποιημένη εκτελώντας:
 ```bash
 rmMgmt=$(netstat -na | grep LISTEN | grep tcp46 | grep "*.3283" | wc -l);
 scrShrng=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.5900" | wc -l);
@@ -35,102 +34,88 @@ rAE=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.3031" | wc -l);
 bmM=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.4488" | wc -l);
 printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharing: %s\nFile Sharing: %s\nRemote Login: %s\nRemote Mgmt: %s\nRemote Apple Events: %s\nBack to My Mac: %s\n\n" "$scrShrng" "$flShrng" "$rLgn" "$rmMgmt" "$rAE" "$bmM";
 ```
+### Πεντεστάρισμα ARD
 
-### Pentesting ARD
+Το Apple Remote Desktop (ARD) είναι μια βελτιωμένη έκδοση του [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) σχεδιασμένη για το macOS, προσφέροντας επιπλέον χαρακτηριστικά. Μια σημαντική ευπάθεια στο ARD είναι η μέθοδος πιστοποίησης για τον κωδικό πρόσβασης της οθόνης ελέγχου, η οποία χρησιμοποιεί μόνο τους πρώτους 8 χαρακτήρες του κωδικού, καθιστώντας το ευάλωτο σε επιθέσεις [brute force](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) με εργαλεία όπως το Hydra ή το [GoRedShell](https://github.com/ahhh/GoRedShell/), καθώς δεν υπάρχουν προεπιλεγμένα όρια ρυθμού.
 
-Apple Remote Desktop (ARD) is an enhanced version of [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) tailored for macOS, offering additional features. A notable vulnerability in ARD is its authentication method for the control screen password, which only uses the first 8 characters of the password, making it prone to [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) with tools like Hydra or [GoRedShell](https://github.com/ahhh/GoRedShell/), as there are no default rate limits.
+Οι ευπάθειες περιπτώσεις μπορούν να ανιχνευθούν χρησιμοποιώντας το σενάριο `vnc-info` του **nmap**. Οι υπηρεσίες που υποστηρίζουν την `VNC Authentication (2)` είναι ιδιαίτερα ευάλωτες σε επιθέσεις brute force λόγω της περικοπής του κωδικού σε 8 χαρακτήρες.
 
-Vulnerable instances can be identified using **nmap**'s `vnc-info` script. Services supporting `VNC Authentication (2)` are especially susceptible to brute force attacks due to the 8-character password truncation.
-
-To enable ARD for various administrative tasks like privilege escalation, GUI access, or user monitoring, use the following command:
-
+Για να ενεργοποιήσετε το ARD για διάφορες διαχειριστικές εργασίες όπως η ανέλιξη προνομίων, η πρόσβαση στο γραφικό περιβάλλον ή η παρακολούθηση χρηστών, χρησιμοποιήστε την παρακάτω εντολή:
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
+Το ARD παρέχει ευέλικτα επίπεδα ελέγχου, συμπεριλαμβανομένης της παρατήρησης, του κοινόχρηστου ελέγχου και του πλήρους ελέγχου, με τις συνεδρίες να διατηρούνται ακόμα και μετά από αλλαγές κωδικού πρόσβασης του χρήστη. Επιτρέπει την αποστολή εντολών Unix απευθείας και την εκτέλεσή τους ως root για διαχειριστικούς χρήστες. Οι εξαιρετικές δυνατότητες περιλαμβάνουν τον προγραμματισμό εργασιών και την αναζήτηση μέσω του Remote Spotlight, που διευκολύνουν την απομακρυσμένη αναζήτηση για ευαίσθητα αρχεία σε πολλές μηχανές.
 
-ARD provides versatile control levels, including observation, shared control, and full control, with sessions persisting even after user password changes. It allows sending Unix commands directly, executing them as root for administrative users. Task scheduling and Remote Spotlight search are notable features, facilitating remote, low-impact searches for sensitive files across multiple machines.
+## Πρωτόκολλο Bonjour
 
+Το Bonjour, μια τεχνολογία που σχεδιάστηκε από την Apple, επιτρέπει στις συσκευές στο ίδιο δίκτυο να ανιχνεύουν τις προσφερόμενες υπηρεσίες η μίας της άλλης. Επίσης γνωστό ως Rendezvous, Zero Configuration ή Zeroconf, επιτρέπει σε μια συσκευή να ενταχθεί σε ένα δίκτυο TCP/IP, να επιλέξει αυτόματα μια διεύθυνση IP και να μεταδώσει τις υπηρεσίες της σε άλλες συσκευές του δικτύου.
 
-## Bonjour Protocol
+Το Zero Configuration Networking, που παρέχεται από το Bonjour, εξασφαλίζει ότι οι συσκευές μπορούν:
+* Να αποκτήσουν αυτόματα μια διεύθυνση IP ακόμα και σε περίπτωση που δεν υπάρχει DHCP server.
+* Να πραγματοποιήσουν μετάφραση ονόματος σε διεύθυνση χωρίς την ανάγκη ενός DNS server.
+* Να ανακαλύψουν τις διαθέσιμες υπηρεσίες στο δίκτυο.
 
-Bonjour, an Apple-designed technology, allows **devices on the same network to detect each other's offered services**. Known also as Rendezvous, **Zero Configuration**, or Zeroconf, it enables a device to join a TCP/IP network, **automatically choose an IP address**, and broadcast its services to other network devices.
+Οι συσκευές που χρησιμοποιούν το Bonjour θα αναθέσουν μια διεύθυνση IP από την περιοχή 169.254/16 και θα επαληθεύσουν την μοναδικότητά της στο δίκτυο. Οι Mac διατηρούν μια καταχώρηση πίνακα δρομολόγησης για αυτό το υποδίκτυο, που μπορεί να επαληθευτεί μέσω της εντολής `netstat -rn | grep 169`.
 
-Zero Configuration Networking, provided by Bonjour, ensures that devices can:
-* **Automatically obtain an IP Address** even in the absence of a DHCP server.
-* Perform **name-to-address translation** without requiring a DNS server.
-* **Discover services** available on the network.
+Για το DNS, το Bonjour χρησιμοποιεί το πρωτόκολλο Multicast DNS (mDNS). Το mDNS λειτουργεί στη θύρα 5353/UDP, χρησιμοποιώντας τυπικές ερωτήσεις DNS αλλά στοχεύοντας στην πολυεκπομπή διεύθυνση 224.0.0.251. Με αυτήν την προσέγγιση, εξασφαλίζεται ότι όλες οι συσκευές που ακούνε στο δίκτυο μπορούν να λάβουν και να απαντήσουν στις ερωτήσεις, διευκολύνοντας την ενημέρωση των εγγραφών τους.
 
-Devices using Bonjour will assign themselves an **IP address from the 169.254/16 range** and verify its uniqueness on the network. Macs maintain a routing table entry for this subnet, verifiable via `netstat -rn | grep 169`.
+Μετά την ενταξή του στο δίκτυο, κάθε συσκευή επιλέγει αυτόματα ένα όνομα, που συνήθως τελειώνει σε .local, το οποίο μπορεί να προέρχεται από το όνομα του υπολογιστή ή να δημιουργείται τυχαία.
 
-For DNS, Bonjour utilizes the **Multicast DNS (mDNS) protocol**. mDNS operates over **port 5353/UDP**, employing **standard DNS queries** but targeting the **multicast address 224.0.0.251**. This approach ensures that all listening devices on the network can receive and respond to the queries, facilitating the update of their records.
+Η ανακάλυψη υπηρεσιών εντός του δικτύου διευκολύνεται από το DNS Service Discovery (DNS-SD). Χρησιμοποιώντας τη μορφή των εγγραφών DNS SRV, το DNS-SD χρησιμοποιεί εγγραφές DNS PTR για να επιτρέψει τη λίστα πολλαπλών υπηρεσιών. Ένας πελάτης που αναζητά μια συγκεκριμένη υπηρεσία θα ζητήσει μια εγγραφή PTR για το `<Υπηρεσία>.<Domain>`, λαμβάνοντας ως απάντηση μια λίστα εγγραφών PTR με τη μορφή `<Παράδειγμα>.<Υπηρεσία>.<Domain>` αν η υπηρεσία είναι διαθέσιμη από πολλούς υπολογιστές.
 
-Upon joining the network, each device self-selects a name, typically ending in **.local**, which may be derived from the hostname or randomly generated.
+Το εργαλείο `dns-sd` μπορεί να χρησιμοποιηθεί για την ανακάλυψη και τη διαφήμιση υπηρεσιών δικτύου. Παρακάτω παρουσιάζονται μερικά παραδείγματα χρήσης του:
 
-Service discovery within the network is facilitated by **DNS Service Discovery (DNS-SD)**. Leveraging the format of DNS SRV records, DNS-SD uses **DNS PTR records** to enable the listing of multiple services. A client seeking a specific service will request a PTR record for `<Service>.<Domain>`, receiving in return a list of PTR records formatted as `<Instance>.<Service>.<Domain>` if the service is available from multiple hosts.
+### Αναζήτηση για υπηρεσίες SSH
 
-
-The `dns-sd` utility can be employed for **discovering and advertising network services**. Here are some examples of its usage:
-
-### Searching for SSH Services
-
-To search for SSH services on the network, the following command is used:
+Για να αναζητήσετε υπηρεσίες SSH στο δίκτυο, χρησιμοποιείται η παρακάτω εντολή:
 ```bash
 dns-sd -B _ssh._tcp
 ```
+Αυτή η εντολή ξεκινά την αναζήτηση για υπηρεσίες _ssh._tcp και εμφανίζει λεπτομέρειες όπως χρονική σήμανση, σημαίες, διεπαφή, τομέας, τύπος υπηρεσίας και όνομα παράδειγμα.
 
-This command initiates browsing for _ssh._tcp services and outputs details such as timestamp, flags, interface, domain, service type, and instance name.
+### Διαφήμιση μιας υπηρεσίας HTTP
 
-### Advertising an HTTP Service
-
-To advertise an HTTP service, you can use:
-
+Για να διαφημίσετε μια υπηρεσία HTTP, μπορείτε να χρησιμοποιήσετε:
 ```bash
 dns-sd -R "Index" _http._tcp . 80 path=/index.html
 ```
+Αυτή η εντολή καταχωρεί ένα υπηρεσία HTTP με το όνομα "Index" στη θύρα 80 με μονοπάτι `/index.html`.
 
-This command registers an HTTP service named "Index" on port 80 with a path of `/index.html`.
-
-To then search for HTTP services on the network:
-
+Για να αναζητήσετε στη συνέχεια υπηρεσίες HTTP στο δίκτυο:
 ```bash
 dns-sd -B _http._tcp
 ```
+Όταν ένας υπηρεσία ξεκινά, ανακοινώνει τη διαθεσιμότητά της σε όλες τις συσκευές στο υποδίκτυο μεταδίδοντας πολλαπλά μηνύματα για την παρουσία της. Οι συσκευές που ενδιαφέρονται για αυτές τις υπηρεσίες δεν χρειάζεται να στείλουν αιτήματα, αλλά απλά να ακούν για αυτές τις ανακοινώσεις.
 
-When a service starts, it announces its availability to all devices on the subnet by multicasting its presence. Devices interested in these services don't need to send requests but simply listen for these announcements.
+Για μια πιο φιλική προς τον χρήστη διεπαφή, η εφαρμογή **Discovery - DNS-SD Browser**, διαθέσιμη στο Apple App Store, μπορεί να οπτικοποιήσει τις υπηρεσίες που προσφέρονται στο τοπικό δίκτυο σας.
 
-For a more user-friendly interface, the **Discovery - DNS-SD Browser** app available on the Apple App Store can visualize the services offered on your local network.
-
-Alternatively, custom scripts can be written to browse and discover services using the `python-zeroconf` library. The [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) script demonstrates creating a service browser for `_http._tcp.local.` services, printing added or removed services:
-
+Εναλλακτικά, μπορούν να γραφούν προσαρμοσμένα scripts για την αναζήτηση και ανακάλυψη υπηρεσιών χρησιμοποιώντας τη βιβλιοθήκη `python-zeroconf`. Το script [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) δείχνει πώς να δημιουργήσετε έναν περιηγητή υπηρεσιών για τις υπηρεσίες `_http._tcp.local.`, εκτυπώνοντας τις προστιθέμενες ή αφαιρεθείσες υπηρεσίες:
 ```python
 from zeroconf import ServiceBrowser, Zeroconf
 
 class MyListener:
 
-    def remove_service(self, zeroconf, type, name):
-        print("Service %s removed" % (name,))
+def remove_service(self, zeroconf, type, name):
+print("Service %s removed" % (name,))
 
-    def add_service(self, zeroconf, type, name):
-        info = zeroconf.get_service_info(type, name)
-        print("Service %s added, service info: %s" % (name, info))
+def add_service(self, zeroconf, type, name):
+info = zeroconf.get_service_info(type, name)
+print("Service %s added, service info: %s" % (name, info))
 
 zeroconf = Zeroconf()
 listener = MyListener()
 browser = ServiceBrowser(zeroconf, "_http._tcp.local.", listener)
 try:
-    input("Press enter to exit...\n\n")
+input("Press enter to exit...\n\n")
 finally:
-    zeroconf.close()
+zeroconf.close()
 ```
-
-### Disabling Bonjour
-If there are concerns about security or other reasons to disable Bonjour, it can be turned off using the following command:
-
+### Απενεργοποίηση του Bonjour
+Εάν υπάρχουν ανησυχίες για την ασφάλεια ή άλλους λόγους για να απενεργοποιηθεί το Bonjour, μπορεί να γίνει απενεργοποίηση χρησιμοποιώντας την παρακάτω εντολή:
 ```bash
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
 ```
-
-## References
+## Αναφορές
 
 * [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
@@ -138,14 +123,14 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.p
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

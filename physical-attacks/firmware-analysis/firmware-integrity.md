@@ -1,62 +1,41 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Firmware Integrity
+## Ακεραιότητα Firmware
 
-The **custom firmware and/or compiled binaries can be uploaded to exploit integrity or signature verification flaws**. The following steps can be followed for backdoor bind shell compilation:
+Το **προσαρμοσμένο firmware και/ή οι μεταγλωττισμένες δυαδικές εντολές μπορούν να ανέβουν για εκμετάλλευση αδυναμιών ακεραιότητας ή επαλήθευσης υπογραφής**. Οι παρακάτω βήματα μπορούν να ακολουθηθούν για τη σύνθεση ενός backdoor bind shell:
 
-1. The firmware can be extracted using firmware-mod-kit (FMK).
-2. The target firmware architecture and endianness should be identified.
-3. A cross compiler can be built using Buildroot or other suitable methods for the environment.
-4. The backdoor can be built using the cross compiler.
-5. The backdoor can be copied to the extracted firmware /usr/bin directory.
-6. The appropriate QEMU binary can be copied to the extracted firmware rootfs.
-7. The backdoor can be emulated using chroot and QEMU.
-8. The backdoor can be accessed via netcat.
-9. The QEMU binary should be removed from the extracted firmware rootfs.
-10. The modified firmware can be repackaged using FMK.
-11. The backdoored firmware can be tested by emulating it with firmware analysis toolkit (FAT) and connecting to the target backdoor IP and port using netcat.
+1. Το firmware μπορεί να εξαχθεί χρησιμοποιώντας το firmware-mod-kit (FMK).
+2. Πρέπει να αναγνωριστεί η αρχιτεκτονική και η endianness του επιθυμητού firmware.
+3. Μπορεί να δημιουργηθεί ένας διασυνδετήρας μεταγλωττισμού χρησιμοποιώντας το Buildroot ή άλλες κατάλληλες μεθόδους για το περιβάλλον.
+4. Το backdoor μπορεί να δημιουργηθεί χρησιμοποιώντας τον διασυνδετήρα μεταγλωττισμού.
+5. Το backdoor μπορεί να αντιγραφεί στον κατάλογο /usr/bin του εξαχθέντος firmware.
+6. Το κατάλληλο δυαδικό QEMU μπορεί να αντιγραφεί στο rootfs του εξαχθέντος firmware.
+7. Το backdoor μπορεί να προσομοιωθεί χρησιμοποιώντας το chroot και το QEMU.
+8. Το backdoor μπορεί να προσπελαστεί μέσω του netcat.
+9. Το δυαδικό QEMU πρέπει να αφαιρεθεί από το rootfs του εξαχθέντος firmware.
+10. Το τροποποιημένο firmware μπορεί να επανασυσκευαστεί χρησιμοποιώντας το FMK.
+11. Το backdoored firmware μπορεί να δοκιμαστεί προσομοιώνοντάς το με το εργαλείο ανάλυσης firmware (FAT) και συνδέοντας στην IP και θύρα του επιθυμητού backdoor χρησιμοποιώντας το netcat.
 
-If a root shell has already been obtained through dynamic analysis, bootloader manipulation, or hardware security testing, precompiled malicious binaries such as implants or reverse shells can be executed. Automated payload/implant tools like the Metasploit framework and 'msfvenom' can be leveraged using the following steps:
+Εάν έχει ήδη ληφθεί ένα root shell μέσω δυναμικής ανάλυσης, παρεμβολής του φορτωτή, ή δοκιμών ασφαλείας υλικού, μπορούν να εκτελεστούν κακόβουλες δυαδικές εντολές όπως implants ή αντίστροφα κελύφη. Αυτό μπορεί να γίνει χρησιμοποιώντας τα αυτόματα εργαλεία φορτίου/implant όπως το Metasploit framework και το 'msfvenom' ακολουθώντας τα παρακάτω βήματα:
 
-1. The target firmware architecture and endianness should be identified.
-2. Msfvenom can be used to specify the target payload, attacker host IP, listening port number, filetype, architecture, platform, and the output file.
-3. The payload can be transferred to the compromised device and ensured that it has execution permissions.
-4. Metasploit can be prepared to handle incoming requests by starting msfconsole and configuring the settings according to the payload.
-5. The meterpreter reverse shell can be executed on the compromised device.
-6. Meterpreter sessions can be monitored as they open.
-7. Post-exploitation activities can be performed.
+1. Πρέπει να αναγνωριστεί η αρχιτεκτονική και η endianness του επιθυμητού firmware.
+2. Το msfvenom μπορεί να χρησιμοποιηθεί για να καθορίσει το φορτίο στόχο, τη διεύθυνση IP του επιτιθέμενου υπολογιστή, τον αριθμό θύρας ακρόασης, τον τύπο αρχείου, την αρχιτεκτονική, την πλατφόρμα και το αρχείο εξόδου.
+3. Το φορτίο μπορεί να μεταφερθεί στην παραβιασμένη συσκευή και να εξασφαλιστεί ότι έχει δικαιώματα εκτέλεσης.
+4. Το Metasploit μπορεί να προετοιμαστεί για την αντιμετώπιση εισερχόμενων αιτημάτων ξεκινώντας το msfconsole και ρυθμίζοντας τις ρυθμίσεις ανάλογα με το φορτίο.
+5. Το αντίστροφο κέλυφος meterpreter μπορεί να εκτελεστεί στην παραβιασμένη συσκευή.
+6. Οι συνεδρίες meterpreter μπορούν να παρακολουθούνται καθώς ανοίγονται.
+7. Μπορούν να πραγματοποιηθούν δραστηριότητες μετά την εκμετάλλευση.
 
-If possible, vulnerabilities within startup scripts can be exploited to gain persistent access to a device across reboots. These vulnerabilities arise when startup scripts reference, [symbolically link](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data), or depend on code located in untrusted mounted locations such as SD cards and flash volumes used for storing data outside of root filesystems.
-
-## References
-* For further information check [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-
+Εάν είναι δυνατόν, μπορούν να εκμεταλλευτούν ευπάθειες στα scripts εκκίνησης για να αποκτηθεί μόνιμη πρόσβαση σε μια συσκευή μετά από επανεκκίνηση. Αυτές οι ευπάθειες προκύπτουν όταν τα scripts εκκίνησης αναφέρονται, [συμβολικά συν

@@ -1,62 +1,41 @@
-# macOS Kernel Extensions
+# Επεκτάσεις πυρήνα macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), την αποκλειστική μας συλλογή [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο swag του PEASS και του HackTricks**](https://peass.creator-spring.com)
+* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) **ομάδα Discord** ή στην [**ομάδα Telegram**](https://t.me/peass) ή **ακολουθήστε με** στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Μοιραστείτε τα χάκινγκ κόλπα σας στέλνοντας PR στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Basic Information
+## Βασικές πληροφορίες
 
-Kernel extensions (Kexts) are **packages** with a **`.kext`** extension that are **loaded directly into the macOS kernel space**, providing additional functionality to the main operating system.
+Οι επεκτάσεις πυρήνα (Kexts) είναι **πακέτα** με **επέκταση `.kext`** που φορτώνονται απευθείας στον πυρήνα του macOS, παρέχοντας επιπλέον λειτουργικότητα στο κύριο λειτουργικό σύστημα.
 
-### Requirements
+### Απαιτήσεις
 
-Obviously, this is so powerful that it is **complicated to load a kernel extension**. These are the **requirements** that a kernel extension must meet to be loaded:
+Φυσικά, αυτό είναι τόσο ισχυρό που είναι **δύσκολο να φορτωθεί μια επέκταση πυρήνα**. Αυτές είναι οι **απαιτήσεις** που πρέπει να πληροί μια επέκταση πυρήνα για να φορτωθεί:
 
-* When **entering recovery mode**, kernel **extensions must be allowed** to be loaded:
+* Όταν **εισέρχεστε σε λειτουργία ανάκτησης**, οι **επεκτάσεις πυρήνα πρέπει να επιτρέπεται να φορτωθούν**:
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-* The kernel extension must be **signed with a kernel code signing certificate**, which can only be **granted by Apple**. Who will review in detail the company and the reasons why it is needed.
-* The kernel extension must also be **notarized**, Apple will be able to check it for malware.
-* Then, the **root** user is the one who can **load the kernel extension** and the files inside the package must **belong to root**.
-* During the upload process, the package must be prepared in a **protected non-root location**: `/Library/StagedExtensions` (requires the `com.apple.rootless.storage.KernelExtensionManagement` grant).
-* Finally, when attempting to load it, the user will [**receive a confirmation request**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) and, if accepted, the computer must be **restarted** to load it.
+* Η επέκταση πυρήνα πρέπει να **υπογραφεί με ένα πιστοποιητικό υπογραφής κώδικα πυρήνα**, το οποίο μπορεί να χορηγηθεί μόνο από την Apple. Η Apple θα ελέγξει λεπτομερώς την εταιρεία και τους λόγους για τους οποίους απαιτείται.
+* Η επέκταση πυρήνα πρέπει επίσης να **έχει υποβληθεί σε έλεγχο από την Apple**, για την ανίχνευση κακόβουλου λογισμικού.
+* Στη συνέχεια, ο **root** χρήστης είναι αυτός που μπορεί να **φορτώσει την επέκταση πυρήνα** και τα αρχεία μέσα στο πακέτο πρέπει να **ανήκουν στον root**.
+* Κατά τη διαδικασία φόρτωσης, το πακέτο πρέπει να προετοιμαστεί σε μια **προστατευμένη μη-ριζική τοποθεσία**: `/Library/StagedExtensions` (απαιτεί την άδεια `com.apple.rootless.storage.KernelExtensionManagement`).
+* Τέλος, κατά την προσπάθεια φόρτωσής της, ο χρήστης θα [**λάβει ένα αίτημα επιβεβαίωσης**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) και, αν γίνει αποδεκτό, ο υπολογιστής πρέπει να **επανεκκινηθεί** για να τη φορτώσει.
 
-### Loading process
+### Διαδικασία φόρτωσης
 
-In Catalina it was like this: It is interesting to note that the **verification** process occurs in **userland**. However, only applications with the **`com.apple.private.security.kext-management`** grant can **request the kernel to load an extension**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+Στο Catalina ήταν ως εξής: Είναι ενδιαφέρον να σημειωθεί ότι η διαδικασία **επαλήθευσης** λαμβάνει χώρα στο **userland**. Ωστόσο, μόνο εφαρμογές με την άδεια **`com.apple.private.security.kext-management`** μπορούν να **ζητήσουν από τον πυρήνα να φορτώσει μια επέκταση**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
-1. **`kextutil`** cli **starts** the **verification** process for loading an extension
-   * It will talk to **`kextd`** by sending using a **Mach service**.
-2. **`kextd`** will check several things, such as the **signature**
-   * It will talk to **`syspolicyd`** to **check** if the extension can be **loaded**.
-3. **`syspolicyd`** will **prompt** the **user** if the extension has not been previously loaded.
-   * **`syspolicyd`** will report the result to **`kextd`**
-4. **`kextd`** will finally be able to **tell the kernel to load** the extension
-
-If **`kextd`** is not available, **`kextutil`** can perform the same checks.
-
-## Referencias
-
-* [https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/](https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/)
-* [https://www.youtube.com/watch?v=hGKOskSiaQo](https://www.youtube.com/watch?v=hGKOskSiaQo)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+1. Η εντολή **`kextutil`** ξεκινά τη διαδικασία **επαλήθευσης** για τη φόρτωση μιας επέκτασης
+* Θα επικοινωνήσει με τον **`kextd`** αποστέλλοντας ένα **Mach service**.
+2. Ο **`kextd`** θα ελέγξει διάφορα πράγματα, όπως η **υπογραφή**
+* Θα επικοινωνήσει με τον **`syspolicyd`** για να **ελέγξει** αν μπορεί να φορτωθεί η επέκταση.
+3. Ο **`syspolicyd`** θα **ζητήσει** από τον **χρήστη** επιβεβαίωση αν η επέκταση δεν έχει φορτωθεί π

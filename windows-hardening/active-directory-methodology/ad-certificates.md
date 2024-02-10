@@ -1,121 +1,76 @@
-# AD Certificates
+# Πιστοποιητικά AD
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Introduction
+## Εισαγωγή
 
-### Components of a Certificate
+### Συστατικά ενός πιστοποιητικού
 
-- The **Subject** of the certificate denotes its owner.
-- A **Public Key** is paired with a privately held key to link the certificate to its rightful owner.
-- The **Validity Period**, defined by **NotBefore** and **NotAfter** dates, marks the certificate's effective duration.
-- A unique **Serial Number**, provided by the Certificate Authority (CA), identifies each certificate.
-- The **Issuer** refers to the CA that has issued the certificate.
-- **SubjectAlternativeName** allows for additional names for the subject, enhancing identification flexibility.
-- **Basic Constraints** identify if the certificate is for a CA or an end entity and define usage restrictions.
-- **Extended Key Usages (EKUs)** delineate the certificate's specific purposes, like code signing or email encryption, through Object Identifiers (OIDs).
-- The **Signature Algorithm** specifies the method for signing the certificate.
-- The **Signature**, created with the issuer's private key, guarantees the certificate's authenticity.
+- Το **Θέμα** του πιστοποιητικού υποδηλώνει τον ιδιοκτήτη του.
+- Ένα **Δημόσιο Κλειδί** συνδέεται με ένα ιδιωτικό κλειδί για να συσχετίσει το πιστοποιητικό με τον νόμιμο ιδιοκτήτη του.
+- Η **Περίοδος Ισχύος**, καθορίζεται από τις ημερομηνίες **NotBefore** και **NotAfter**, καθορίζει την αποτελεσματική διάρκεια του πιστοποιητικού.
+- Ένας μοναδικός **Σειριακός Αριθμός**, που παρέχεται από την Αρχή Πιστοποίησης (CA), αναγνωρίζει κάθε πιστοποιητικό.
+- Ο **Εκδότης** αναφέρεται στην Αρχή Πιστοποίησης που έχει εκδώσει το πιστοποιητικό.
+- Το **SubjectAlternativeName** επιτρέπει επιπλέον ονόματα για το θέμα, βελτιώνοντας την ευελιξία της αναγνώρισης.
+- Οι **Βασικοί Περιορισμοί** αναγνωρίζουν εάν το πιστοποιητικό είναι για μια Αρχή Πιστοποίησης ή για ένα τελικό στοιχείο και καθορίζουν περιορισμούς χρήσης.
+- Οι **Επεκταμένες Χρήσεις Κλειδιού (EKUs)** διαχωρίζουν τους συγκεκριμένους σκοπούς του πιστοποιητικού, όπως η υπογραφή κώδικα ή η κρυπτογράφηση ηλεκτρονικού ταχυδρομείου, μέσω ταυτοποιητικών αντικειμένων (OIDs).
+- Ο **Αλγόριθμος Υπογραφής** καθορίζει τη μέθοδο υπογραφής του πιστοποιητικού.
+- Η **Υπογραφή**, που δημιουργείται με το ιδιωτικό κλειδί του εκδότη, εγγυάται την αυθεντικότητα του πιστοποιητικού.
 
-### Special Considerations
+### Ειδικές Προσοχές
 
-- **Subject Alternative Names (SANs)** expand a certificate's applicability to multiple identities, crucial for servers with multiple domains. Secure issuance processes are vital to avoid impersonation risks by attackers manipulating the SAN specification.
+- Οι **Εναλλακτικές Ονομασίες Θέματος (SANs)** επεκτείνουν την εφαρμογή ενός πιστοποιητικού σε πολλαπλές ταυτότητες, κρίσιμες για διακομιστές με πολλά τομέα. Είναι ζωτικής σημασίας η ασφαλής διαδικασία έκδοσης για να αποφευχθούν οι κίνδυνοι παραπληροφόρησης από επιτιθέμενους που επεξεργάζονται την προδιαγραφή SAN.
 
-### Certificate Authorities (CAs) in Active Directory (AD)
+### Αρχές Πιστοποίησης (CAs) στο Active Directory (AD)
 
-AD CS acknowledges CA certificates in an AD forest through designated containers, each serving unique roles:
+Το AD CS αναγνωρίζει τα πιστοποιητικά CA σε ένα δάσος AD μέσω ειδικών δοχείων, τα οποία εξυπηρετούν μοναδικούς ρόλους:
 
-- **Certification Authorities** container holds trusted root CA certificates.
-- **Enrolment Services** container details Enterprise CAs and their certificate templates.
-- **NTAuthCertificates** object includes CA certificates authorized for AD authentication.
-- **AIA (Authority Information Access)** container facilitates certificate chain validation with intermediate and cross CA certificates.
+- Το δοχείο **Certification Authorities** περιέχει πιστοποιητικά ρίζας CA.
+- Το δοχείο **Enrolment Services** περιλαμβάνει τις επιχειρησιακές CA και τα πρότυπα πιστοποιητικών τους.
+- Το αντικείμενο **NTAuthCertificates** περιλαμβάνει πιστοποιητικά CA που έχουν εξουσιοδοτηθεί για την πιστοποίηση AD.
+- Το δοχείο **AIA (Authority Information Access)** διευκολύνει τον έλεγχο της αλυσίδας πιστοποιητικών με ενδιάμεσα και διασυνοριακά πιστοποιητικά CA.
 
-### Certificate Acquisition: Client Certificate Request Flow
+### Απόκτηση Πιστοποιητικού: Ροή Αίτησης Πιστοποιητικού Πελάτη
 
-1. The request process begins with clients finding an Enterprise CA.
-2. A CSR is created, containing a public key and other details, after generating a public-private key pair.
-3. The CA assesses the CSR against available certificate templates, issuing the certificate based on the template's permissions.
-4. Upon approval, the CA signs the certificate with its private key and returns it to the client.
-
-### Certificate Templates
-
-Defined within AD, these templates outline the settings and permissions for issuing certificates, including permitted EKUs and enrollment or modification rights, critical for managing access to certificate services.
-
-## Certificate Enrollment
-
-The enrollment process for certificates is initiated by an administrator who **creates a certificate template**, which is then **published** by an Enterprise Certificate Authority (CA). This makes the template available for client enrollment, a step achieved by adding the template's name to the `certificatetemplates` field of an Active Directory object.
-
-For a client to request a certificate, **enrollment rights** must be granted. These rights are defined by security descriptors on the certificate template and the Enterprise CA itself. Permissions must be granted in both locations for a request to be successful.
-
-### Template Enrollment Rights
-
-These rights are specified through Access Control Entries (ACEs), detailing permissions like:
-- **Certificate-Enrollment** and **Certificate-AutoEnrollment** rights, each associated with specific GUIDs.
-- **ExtendedRights**, allowing all extended permissions.
-- **FullControl/GenericAll**, providing complete control over the template.
-
-### Enterprise CA Enrollment Rights
-
-The CA's rights are outlined in its security descriptor, accessible via the Certificate Authority management console. Some settings even allow low-privileged users remote access, which could be a security concern.
-
-### Additional Issuance Controls
-
-Certain controls may apply, such as:
-- **Manager Approval**: Places requests in a pending state until approved by a certificate manager.
-- **Enrolment Agents and Authorized Signatures**: Specify the number of required signatures on a CSR and the necessary Application Policy OIDs.
-
-### Methods to Request Certificates
-
-Certificates can be requested through:
-1. **Windows Client Certificate Enrollment Protocol** (MS-WCCE), using DCOM interfaces.
-2. **ICertPassage Remote Protocol** (MS-ICPR), through named pipes or TCP/IP.
-3. The **certificate enrollment web interface**, with the Certificate Authority Web Enrollment role installed.
-4. The **Certificate Enrollment Service** (CES), in conjunction with the Certificate Enrollment Policy (CEP) service.
-5. The **Network Device Enrollment Service** (NDES) for network devices, using the Simple Certificate Enrollment Protocol (SCEP).
-
-Windows users can also request certificates via the GUI (`certmgr.msc` or `certlm.msc`) or command-line tools (`certreq.exe` or PowerShell's `Get-Certificate` command).
-
+1. Η διαδικασία αίτησης ξεκινά με τους πελάτες να βρίσκουν μια Επιχειρησιακή CA.
+2. Δημιουργείται ένα CSR, που περιέχει ένα δημόσιο κλειδί και άλλες λεπτομέρειες, μετά τ
 ```powershell
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
+## Πιστοποίηση με Πιστοποιητικά
 
-## Certificate Authentication
+Το Active Directory (AD) υποστηρίζει την πιστοποίηση με πιστοποιητικά, χρησιμοποιώντας κυρίως τα πρωτόκολλα **Kerberos** και **Secure Channel (Schannel)**.
 
-Active Directory (AD) supports certificate authentication, primarily utilizing **Kerberos** and **Secure Channel (Schannel)** protocols. 
+### Διαδικασία Πιστοποίησης Kerberos
 
-### Kerberos Authentication Process
-
-In the Kerberos authentication process, a user's request for a Ticket Granting Ticket (TGT) is signed using the **private key** of the user's certificate. This request undergoes several validations by the domain controller, including the certificate's **validity**, **path**, and **revocation status**. Validations also include verifying that the certificate comes from a trusted source and confirming the issuer's presence in the **NTAUTH certificate store**. Successful validations result in the issuance of a TGT. The **`NTAuthCertificates`** object in AD, found at:
-
+Στη διαδικασία πιστοποίησης Kerberos, ο αίτημα ενός χρήστη για ένα Ticket Granting Ticket (TGT) υπογράφεται χρησιμοποιώντας το **ιδιωτικό κλειδί** του πιστοποιητικού του χρήστη. Αυτό το αίτημα υπόκειται σε αρκετές επαληθεύσεις από τον ελεγκτή του τομέα, συμπεριλαμβανομένης της **εγκυρότητας**, της **διαδρομής** και της **κατάστασης ανάκλησης** του πιστοποιητικού. Οι επαληθεύσεις περιλαμβάνουν επίσης τον έλεγχο ότι το πιστοποιητικό προέρχεται από ένα αξιόπιστο πηγή και την επιβεβαίωση της παρουσίας του εκδότη στο **κατάστημα πιστοποιητικών NTAUTH**. Επιτυχείς επαληθεύσεις οδηγούν στην έκδοση ενός TGT. Το αντικείμενο **`NTAuthCertificates`** στο AD, βρίσκεται στην:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
+είναι κεντρικό για την εγκαθίδρυση εμπιστοσύνης για την πιστοποίηση με πιστοποιητικά.
 
-is central to establishing trust for certificate authentication.
+### Πιστοποίηση Ασφαλούς Καναλιού (Schannel)
 
-### Secure Channel (Schannel) Authentication
+Το Schannel διευκολύνει ασφαλείς συνδέσεις TLS/SSL, όπου κατά τη διάρκεια μιας χειραψίας, ο πελάτης παρουσιάζει ένα πιστοποιητικό που, εάν επικυρωθεί με επιτυχία, εξουσιοδοτεί την πρόσβαση. Η αντιστοίχιση ενός πιστοποιητικού σε έναν λογαριασμό AD μπορεί να περιλαμβάνει τη λειτουργία **S4U2Self** του Kerberos ή το **Subject Alternative Name (SAN)** του πιστοποιητικού, μεταξύ άλλων μεθόδων.
 
-Schannel facilitates secure TLS/SSL connections, where during a handshake, the client presents a certificate that, if successfully validated, authorizes access. The mapping of a certificate to an AD account may involve Kerberos’s **S4U2Self** function or the certificate’s **Subject Alternative Name (SAN)**, among other methods.
+### Απαρίθμηση Υπηρεσιών Πιστοποιητικών AD
 
-### AD Certificate Services Enumeration
+Οι υπηρεσίες πιστοποιητικών του AD μπορούν να απαριθμηθούν μέσω ερωτημάτων LDAP, αποκαλύπτοντας πληροφορίες σχετικά με τις **Επιχειρησιακές Αρχές Πιστοποίησης (CAs)** και τις ρυθμίσεις τους. Αυτό είναι προσβάσιμο από οποιονδήποτε χρήστη που έχει επαληθευτεί στον τομέα χωρίς ειδικά προνόμια. Εργαλεία όπως το **[Certify](https://github.com/GhostPack/Certify)** και το **[Certipy](https://github.com/ly4k/Certipy)** χρησιμοποιούνται για την απαρίθμηση και την αξιολόγηση ευπαθειών σε περιβάλλοντα AD CS.
 
-AD's certificate services can be enumerated through LDAP queries, revealing information about **Enterprise Certificate Authorities (CAs)** and their configurations. This is accessible by any domain-authenticated user without special privileges. Tools like **[Certify](https://github.com/GhostPack/Certify)** and **[Certipy](https://github.com/ly4k/Certipy)** are used for enumeration and vulnerability assessment in AD CS environments.
-
-Commands for using these tools include:
-
+Οι εντολές για τη χρήση αυτών των εργαλείων περιλαμβάνουν:
 ```bash
 # Enumerate trusted root CA certificates and Enterprise CAs with Certify
 Certify.exe cas
@@ -129,22 +84,21 @@ certipy find -vulnerable -u john@corp.local -p Passw0rd -dc-ip 172.16.126.128
 certutil.exe -TCAInfo
 certutil -v -dstemplate
 ```
-
-## References
+## Αναφορές
 
 * [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

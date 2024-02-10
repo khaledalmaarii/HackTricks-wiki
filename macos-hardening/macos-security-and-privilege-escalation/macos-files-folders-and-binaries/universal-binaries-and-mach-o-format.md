@@ -1,34 +1,34 @@
-# macOS Universal binaries & Mach-O Format
+# macOS Πανεπιστημιακά αρχεία και Μορφή Mach-O
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Basic Information
+## Βασικές πληροφορίες
 
-Mac OS binaries usually are compiled as **universal binaries**. A **universal binary** can **support multiple architectures in the same file**.
+Τα δυαδικά αρχεία του Mac OS συνήθως μεταγλωττίζονται ως **πανεπιστημιακά αρχεία**. Ένα **πανεπιστημιακό αρχείο** μπορεί να **υποστηρίζει πολλές αρχιτεκτονικές στο ίδιο αρχείο**.
 
-These binaries follows the **Mach-O structure** which is basically compased of:
+Αυτά τα δυαδικά ακολουθούν τη **δομή Mach-O** που αποτελείται βασικά από:
 
-* Header
-* Load Commands
-* Data
+* Κεφαλίδα
+* Φορτώσεις εντολών
+* Δεδομένα
 
 ![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (559).png>)
 
-## Fat Header
+## Παχύ Κεφαλίδα
 
-Search for the file with: `mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
+Αναζητήστε το αρχείο με: `mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
 
 <pre class="language-c"><code class="lang-c"><strong>#define FAT_MAGIC	0xcafebabe
 </strong><strong>#define FAT_CIGAM	0xbebafeca	/* NXSwapLong(FAT_MAGIC) */
@@ -39,17 +39,17 @@ struct fat_header {
 </strong>};
 
 struct fat_arch {
-	cpu_type_t	cputype;	/* cpu specifier (int) */
-	cpu_subtype_t	cpusubtype;	/* machine specifier (int) */
-	uint32_t	offset;		/* file offset to this object file */
-	uint32_t	size;		/* size of this object file */
-	uint32_t	align;		/* alignment as a power of 2 */
+cpu_type_t	cputype;	/* cpu specifier (int) */
+cpu_subtype_t	cpusubtype;	/* machine specifier (int) */
+uint32_t	offset;		/* file offset to this object file */
+uint32_t	size;		/* size of this object file */
+uint32_t	align;		/* alignment as a power of 2 */
 };
 </code></pre>
 
-The header has the **magic** bytes followed by the **number** of **archs** the file **contains** (`nfat_arch`) and each arch will have a `fat_arch` struct.
+Η κεφαλίδα έχει τα **μαγικά** bytes που ακολουθούνται από τον **αριθμό** των **αρχιτεκτονικών** που περιέχει το αρχείο (`nfat_arch`) και κάθε αρχιτεκτονική θα έχει μια δομή `fat_arch`.
 
-Check it with:
+Ελέγξτε το με:
 
 <pre class="language-shell-session"><code class="lang-shell-session">% file /bin/ls
 /bin/ls: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
@@ -62,265 +62,249 @@ fat_magic FAT_MAGIC
 <strong>nfat_arch 2
 </strong><strong>architecture x86_64
 </strong>    cputype CPU_TYPE_X86_64
-    cpusubtype CPU_SUBTYPE_X86_64_ALL
-    capabilities 0x0
+cpusubtype CPU_SUBTYPE_X86_64_ALL
+capabilities 0x0
 <strong>    offset 16384
 </strong><strong>    size 72896
 </strong>    align 2^14 (16384)
 <strong>architecture arm64e
 </strong>    cputype CPU_TYPE_ARM64
-    cpusubtype CPU_SUBTYPE_ARM64E
-    capabilities PTR_AUTH_VERSION USERSPACE 0
+cpusubtype CPU_SUBTYPE_ARM64E
+capabilities PTR_AUTH_VERSION USERSPACE 0
 <strong>    offset 98304
 </strong><strong>    size 88816
 </strong>    align 2^14 (16384)
 </code></pre>
 
-or using the [Mach-O View](https://sourceforge.net/projects/machoview/) tool:
+ή χρησιμοποιώντας το εργαλείο [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-As you may be thinking usually a universal binary compiled for 2 architectures **doubles the size** of one compiled for just 1 arch.
+Όπως μπορείτε να σκεφτείτε, ένα πανεπιστημιακό δυαδικό που έχει μεταγλωττιστεί για 2 αρχιτεκτονικές **διπλασιάζει το μέγεθος** ενός που έχει μεταγλωττιστεί για μόνο 1 αρχιτεκτονική.
 
-## **Mach-O Header**
+## **Κεφαλίδα Mach-O**
 
-The header contains basic information about the file, such as magic bytes to identify it as a Mach-O file and information about the target architecture. You can find it in: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
-
+Η κεφαλίδα περιέχει βασικές πληροφορίες για το αρχείο, όπως μαγικά bytes για να το αναγνωρίσει ως αρχείο Mach-O και πληροφορίες για την αρχιτεκτονική στόχο. Μπορείτε να το βρείτε στο: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
 struct mach_header {
-	uint32_t	magic;		/* mach magic number identifier */
-	cpu_type_t	cputype;	/* cpu specifier (e.g. I386) */
-	cpu_subtype_t	cpusubtype;	/* machine specifier */
-	uint32_t	filetype;	/* type of file (usage and alignment for the file) */
-	uint32_t	ncmds;		/* number of load commands */
-	uint32_t	sizeofcmds;	/* the size of all the load commands */
-	uint32_t	flags;		/* flags */
+uint32_t	magic;		/* mach magic number identifier */
+cpu_type_t	cputype;	/* cpu specifier (e.g. I386) */
+cpu_subtype_t	cpusubtype;	/* machine specifier */
+uint32_t	filetype;	/* type of file (usage and alignment for the file) */
+uint32_t	ncmds;		/* number of load commands */
+uint32_t	sizeofcmds;	/* the size of all the load commands */
+uint32_t	flags;		/* flags */
 };
 
 #define MH_MAGIC_64 0xfeedfacf /* the 64-bit mach magic number */
 #define MH_CIGAM_64 0xcffaedfe /* NXSwapInt(MH_MAGIC_64) */
 struct mach_header_64 {
-	uint32_t	magic;		/* mach magic number identifier */
-	int32_t		cputype;	/* cpu specifier */
-	int32_t		cpusubtype;	/* machine specifier */
-	uint32_t	filetype;	/* type of file */
-	uint32_t	ncmds;		/* number of load commands */
-	uint32_t	sizeofcmds;	/* the size of all the load commands */
-	uint32_t	flags;		/* flags */
-	uint32_t	reserved;	/* reserved */
+uint32_t	magic;		/* mach magic number identifier */
+int32_t		cputype;	/* cpu specifier */
+int32_t		cpusubtype;	/* machine specifier */
+uint32_t	filetype;	/* type of file */
+uint32_t	ncmds;		/* number of load commands */
+uint32_t	sizeofcmds;	/* the size of all the load commands */
+uint32_t	flags;		/* flags */
+uint32_t	reserved;	/* reserved */
 };
 ```
+**Τύποι αρχείων**:
 
-**Filetypes**:
-
-* MH\_EXECUTE (0x2): Standard Mach-O executable
-* MH\_DYLIB (0x6): A Mach-O dynamic linked library (i.e. .dylib)
-* MH\_BUNDLE (0x8): A Mach-O bundle (i.e. .bundle)
-
+* MH\_EXECUTE (0x2): Κανονικό εκτελέσιμο αρχείο Mach-O
+* MH\_DYLIB (0x6): Δυναμική συνδεδεμένη βιβλιοθήκη Mach-O (δηλαδή .dylib)
+* MH\_BUNDLE (0x8): Πακέτο Mach-O (δηλαδή .bundle)
 ```bash
 # Checking the mac header of a binary
 otool -arch arm64e -hv /bin/ls
 Mach header
-      magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags
+magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags
 MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DYLDLINK TWOLEVEL PIE
 ```
-
-Or using [Mach-O View](https://sourceforge.net/projects/machoview/):
+Ή χρησιμοποιώντας το [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-## **Mach-O Load commands**
+## **Εντολές φόρτωσης Mach-O**
 
-The **file's layout in memory** is specified here, detailing the **symbol table's location**, the context of the main thread at execution start, and the required **shared libraries**. Instructions are provided to the dynamic loader **(dyld)** on the binary's loading process into memory.
+Εδώ καθορίζεται η **διάταξη του αρχείου στη μνήμη**, αναλύοντας τη **θέση του πίνακα συμβόλων**, το πλαίσιο του κύριου νήματος κατά την έναρξη εκτέλεσης και τις απαιτούμενες **κοινόχρηστες βιβλιοθήκες**. Δίνονται οδηγίες στον δυναμικό φορτωτή **(dyld)** για τη διαδικασία φόρτωσης του δυαδικού αρχείου στη μνήμη.
 
-The uses the **load\_command** structure, defined in the mentioned **`loader.h`**:
-
+Χρησιμοποιείται η δομή **load\_command**, που ορίζεται στο αναφερόμενο **`loader.h`**:
 ```objectivec
 struct load_command {
-        uint32_t cmd;           /* type of load command */
-        uint32_t cmdsize;       /* total size of command in bytes */
+uint32_t cmd;           /* type of load command */
+uint32_t cmdsize;       /* total size of command in bytes */
 };
 ```
-
-There are about **50 different types of load commands** that the system handles differently. The most common ones are: `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB`, and `LC_CODE_SIGNATURE`.
+Υπάρχουν περίπου **50 διαφορετικοί τύποι εντολών φόρτωσης** που το σύστημα χειρίζεται διαφορετικά. Οι πιο συνηθισμένοι είναι: `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB` και `LC_CODE_SIGNATURE`.
 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Basically, this type of Load Command define **how to load the \_\_TEXT** (executable code) **and \_\_DATA** (data for the process) **segments** according to the **offsets indicated in the Data section** when the binary is executed.
+Βασικά, αυτός ο τύπος εντολής φόρτωσης καθορίζει **πώς να φορτώσει τα \_\_TEXT** (εκτελέσιμος κώδικας) **και \_\_DATA** (δεδομένα για τη διεργασία) **τμήματα** σύμφωνα με τις **μετατοπίσεις που υποδεικνύονται στην ενότητα Δεδομένων** όταν εκτελείται το δυαδικό αρχείο.
 {% endhint %}
 
-These commands **define segments** that are **mapped** into the **virtual memory space** of a process when it is executed.
+Αυτές οι εντολές **καθορίζουν τα τμήματα** που **αντιστοιχίζονται** στον **εικονικό χώρο μνήμης** μιας διεργασίας όταν εκτελείται.
 
-There are **different types** of segments, such as the **\_\_TEXT** segment, which holds the executable code of a program, and the **\_\_DATA** segment, which contains data used by the process. These **segments are located in the data section** of the Mach-O file.
+Υπάρχουν **διάφοροι τύποι** τμημάτων, όπως το τμήμα **\_\_TEXT**, που περιέχει τον εκτελέσιμο κώδικα ενός προγράμματος, και το τμήμα **\_\_DATA**, που περιέχει δεδομένα που χρησιμοποιούνται από τη διεργασία. Αυτά τα **τμήματα βρίσκονται στην ενότητα δεδομένων** του αρχείου Mach-O.
 
-**Each segment** can be further **divided** into multiple **sections**. The **load command structure** contains **information** about **these sections** within the respective segment.
+**Κάθε τμήμα** μπορεί να χωριστεί περαιτέρω σε πολλαπλές **ενότητες**. Η δομή της εντολής φόρτωσης περιέχει **πληροφορίες** για **αυτές τις ενότητες** εντός του αντίστοιχου τμήματος.
 
-In the header first you find the **segment header**:
+Στην κεφαλίδα πρώτα βρίσκεται η **κεφαλίδα τμήματος**:
 
-<pre class="language-c"><code class="lang-c">struct segment_command_64 { /* for 64-bit architectures */
-	uint32_t	cmd;		/* LC_SEGMENT_64 */
-	uint32_t	cmdsize;	/* includes sizeof section_64 structs */
-	char		segname[16];	/* segment name */
-	uint64_t	vmaddr;		/* memory address of this segment */
-	uint64_t	vmsize;		/* memory size of this segment */
-	uint64_t	fileoff;	/* file offset of this segment */
-	uint64_t	filesize;	/* amount to map from the file */
-	int32_t		maxprot;	/* maximum VM protection */
-	int32_t		initprot;	/* initial VM protection */
-<strong>	uint32_t	nsects;		/* number of sections in segment */
-</strong>	uint32_t	flags;		/* flags */
+<pre class="language-c"><code class="lang-c">struct segment_command_64 { /* για 64-bit αρχιτεκτονικές */
+uint32_t	cmd;		/* LC_SEGMENT_64 */
+uint32_t	cmdsize;	/* περιλαμβάνει το μέγεθος των δομών section_64 */
+char		segname[16];	/* όνομα τμήματος */
+uint64_t	vmaddr;		/* διεύθυνση μνήμης αυτού του τμήματος */
+uint64_t	vmsize;		/* μέγεθος μνήμης αυτού του τμήματος */
+uint64_t	fileoff;	/* αρχείο μετατόπισης αυτού του τμήματος */
+uint64_t	filesize;	/* ποσό για χαρτογράφηση από το αρχείο */
+int32_t		maxprot;	/* μέγιστη προστασία VM */
+int32_t		initprot;	/* αρχική προστασία VM */
+<strong>	uint32_t	nsects;		/* αριθμός ενοτήτων στο τμήμα */
+</strong>	uint32_t	flags;		/* σημαίες */
 };
 </code></pre>
 
-Example of segment header:
+Παράδειγμα κεφαλίδας τμήματος:
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-This header defines the **number of sections whose headers appear after** it:
-
+Αυτή η κεφαλίδα καθορίζει τον **αριθμό των ενοτήτων των οποίων οι κεφαλίδες ακολουθούν** μετά από αυτήν:
 ```c
 struct section_64 { /* for 64-bit architectures */
-	char		sectname[16];	/* name of this section */
-	char		segname[16];	/* segment this section goes in */
-	uint64_t	addr;		/* memory address of this section */
-	uint64_t	size;		/* size in bytes of this section */
-	uint32_t	offset;		/* file offset of this section */
-	uint32_t	align;		/* section alignment (power of 2) */
-	uint32_t	reloff;		/* file offset of relocation entries */
-	uint32_t	nreloc;		/* number of relocation entries */
-	uint32_t	flags;		/* flags (section type and attributes)*/
-	uint32_t	reserved1;	/* reserved (for offset or index) */
-	uint32_t	reserved2;	/* reserved (for count or sizeof) */
-	uint32_t	reserved3;	/* reserved */
+char		sectname[16];	/* name of this section */
+char		segname[16];	/* segment this section goes in */
+uint64_t	addr;		/* memory address of this section */
+uint64_t	size;		/* size in bytes of this section */
+uint32_t	offset;		/* file offset of this section */
+uint32_t	align;		/* section alignment (power of 2) */
+uint32_t	reloff;		/* file offset of relocation entries */
+uint32_t	nreloc;		/* number of relocation entries */
+uint32_t	flags;		/* flags (section type and attributes)*/
+uint32_t	reserved1;	/* reserved (for offset or index) */
+uint32_t	reserved2;	/* reserved (for count or sizeof) */
+uint32_t	reserved3;	/* reserved */
 };
 ```
-
-Example of **section header**:
+Παράδειγμα του **επικεφαλίδας ενότητας**:
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
-If you **add** the **section offset** (0x37DC) + the **offset** where the **arch starts**, in this case `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
+Εάν **προσθέσετε** το **offset της ενότητας** (0x37DC) + το **offset** όπου **αρχίζει η αρχιτεκτονική**, σε αυτήν την περίπτωση `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-It's also possible to get **headers information** from the **command line** with:
-
+Είναι επίσης δυνατό να πάρετε τις πληροφορίες των **επικεφαλίδων** από τη **γραμμή εντολών** με:
 ```bash
 otool -lv /bin/ls
 ```
+Κοινά τμήματα που φορτώνονται από αυτήν την εντολή:
 
-Common segments loaded by this cmd:
-
-* **`__PAGEZERO`:** It instructs the kernel to **map** the **address zero** so it **cannot be read from, written to, or executed**. The maxprot and minprot variables in the structure are set to zero to indicate there are **no read-write-execute rights on this page**.
-  * This allocation is important to **mitigate NULL pointer dereference vulnerabilities**.
-* **`__TEXT`**: Contains **executable** **code** with **read** and **execute** permissions (no writable)**.** Common sections of this segment:
-  * `__text`: Compiled binary code
-  * `__const`: Constant data
-  * `__cstring`: String constants
-  * `__stubs` and `__stubs_helper`: Involved during the dynamic library loading process
-* **`__DATA`**: Contains data that is **readable** and **writable** (no executable)**.**
-  * `__data`: Global variables (that have been initialized)
-  * `__bss`: Static variables (that have not been initialized)
-  * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc): Information used by the Objective-C runtime
-* **`__LINKEDIT`**: Contains information for the linker (dyld) such as, "symbol, string, and relocation table entries."
-* **`__OBJC`**: Contains information used by the Objective-C runtime. Though this information might also be found in the \_\_DATA segment, within various in \_\_objc\_\* sections.
+* **`__PAGEZERO`:** Οδηγεί τον πυρήνα να **χαρτογραφήσει** τη **διεύθυνση μηδέν** έτσι ώστε να **μην μπορεί να διαβαστεί, να γραφτεί ή να εκτελεστεί**. Οι μεταβλητές maxprot και minprot στη δομή ορίζονται σε μηδέν για να υποδείξουν ότι δεν υπάρχουν **δικαιώματα ανάγνωσης-εγγραφής-εκτέλεσης σε αυτήν τη σελίδα**.
+* Αυτή η δέσμευση είναι σημαντική για την **αντιμετώπιση ευπάθειας αναφοράς σε μηδενικό δείκτη**.
+* **`__TEXT`**: Περιέχει **εκτελέσιμο** **κώδικα** με δικαιώματα **ανάγνωσης** και **εκτέλεσης** (χωρίς εγγράψιμο)**.** Κοινά τμήματα αυτού του τμήματος:
+* `__text`: Μεταγλωττισμένος δυαδικός κώδικας
+* `__const`: Σταθερά δεδομένα
+* `__cstring`: Σταθερές συμβολοσειρές
+* `__stubs` και `__stubs_helper`: Συμμετέχουν κατά τη διάρκεια της διαδικασίας φόρτωσης δυναμικής βιβλιοθήκης
+* **`__DATA`**: Περιέχει δεδομένα που είναι **αναγνώσιμα** και **εγγράψιμα** (χωρίς εκτελέσιμο)**.**
+* `__data`: Παγκόσμιες μεταβλητές (που έχουν αρχικοποιηθεί)
+* `__bss`: Στατικές μεταβλητές (που δεν έχουν αρχικοποιηθεί)
+* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, κλπ): Πληροφορίες που χρησιμοποιούνται από τον χρόνο εκτέλεσης Objective-C
+* **`__LINKEDIT`**: Περιέχει πληροφορίες για τον σύνδεσμο (dyld) όπως "σύμβολο, συμβολοσειρά και καταχωρητές ανακατάταξης".
+* **`__OBJC`**: Περιέχει πληροφορίες που χρησιμοποιούνται από τον χρόνο εκτέλεσης Objective-C. Ωστόσο, αυτές οι πληροφορίες μπορεί επίσης να βρεθούν στο τμήμα \_\_DATA, μέσα σε διάφορα τμήματα \_\_objc\_\*.
 
 ### **`LC_MAIN`**
 
-Contains the entrypoint in the **entryoff attribute.** At load time, **dyld** simply **adds** this value to the (in-memory) **base of the binary**, then **jumps** to this instruction to start execution of the binary’s code.
+Περιέχει το σημείο εισόδου στο **attribute entryoff**. Κατά τη φόρτωση, ο **dyld** απλά **προσθέτει** αυτήν την τιμή στη (στη μνήμη) **βάση του δυαδικού**, και στη συνέχεια **μεταβαίνει** σε αυτήν την εντολή για να ξεκινήσει την εκτέλεση του κώδικα του δυαδικού.
 
 ### **LC\_CODE\_SIGNATURE**
 
-Contains information about the **code signature of the Macho-O file**. It only contains an **offset** that **points** to the **signature blob**. This is typically at the very end of the file.\
-However, you can find some information about this section in [**this blog post**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) and this [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
+Περιέχει πληροφορίες σχετικά με την **υπογραφή κώδικα του αρχείου Macho-O**. Περιέχει μόνο μια **μετατόπιση** που **δείχνει** στο **μπλοκ υπογραφής**. Αυτό συνήθως βρίσκεται στο τέλος του αρχείου.\
+Ωστόσο, μπορείτε να βρείτε ορισμένες πληροφορίες σχετικά με αυτήν την ενότητα σε αυτήν την [**ανάρτηση στο blog**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) και αυτό το [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
 
 ### **LC\_LOAD\_DYLINKER**
 
-Contains the **path to the dynamic linker executable** that maps shared libraries into the process address space. The **value is always set to `/usr/lib/dyld`**. It’s important to note that in macOS, dylib mapping happens in **user mode**, not in kernel mode.
+Περιέχει τη **διαδρομή προς το εκτελέσιμο δυναμικού συνδέσμου** που αντιστοιχεί τις κοινόχρηστες βιβλιοθήκες στο χώρο διευθύνσεων της διεργασίας. Η τιμή ορίζεται πάντα σε `/usr/lib/dyld`. Σημαντικό είναι να σημειωθεί ότι στο macOS, η αντιστοίχιση dylib γίνεται σε **χρήστης** και όχι σε λειτουργία πυρήνα.
 
 ### **`LC_LOAD_DYLIB`**
 
-This load command describes a **dynamic** **library** dependency which **instructs** the **loader** (dyld) to **load and link said library**. There is a LC\_LOAD\_DYLIB load command **for each library** that the Mach-O binary requires.
+Αυτή η εντολή φόρτωσης περιγράφει μια **δυναμική** **εξάρτηση βιβλιοθήκης** που **οδηγεί** τον **φορτωτή** (dyld) να **φορτώσει και να συνδέσει τη συγκεκριμένη βιβλιοθήκη**. Υπάρχει μια εντολή φόρτωσης LC\_LOAD\_DYLIB **για κάθε βιβλιοθήκη** που απαιτείται από το δυαδικό Mach-O.
 
-* This load command is a structure of type **`dylib_command`** (which contains a struct dylib, describing the actual dependent dynamic library):
-
+* Αυτή η εντολή φόρτωσης είναι μια δομή τύπου **`dylib_command`** (η οποία περιέχει μια δομή dylib που περιγράφει την πραγματική εξαρτώμενη δυναμική βιβλιοθήκη):
 ```objectivec
 struct dylib_command {
-        uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
-        uint32_t        cmdsize;        /* includes pathname string */
-        struct dylib    dylib;          /* the library identification */ 
+uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
+uint32_t        cmdsize;        /* includes pathname string */
+struct dylib    dylib;          /* the library identification */
 };
 
 struct dylib {
-    union lc_str  name;                 /* library's path name */
-    uint32_t timestamp;                 /* library's build time stamp */
-    uint32_t current_version;           /* library's current version number */
-    uint32_t compatibility_version;     /* library's compatibility vers number*/
+union lc_str  name;                 /* library's path name */
+uint32_t timestamp;                 /* library's build time stamp */
+uint32_t current_version;           /* library's current version number */
+uint32_t compatibility_version;     /* library's compatibility vers number*/
 };
 ```
-
 ![](<../../../.gitbook/assets/image (558).png>)
 
-You could also get this info from the cli with:
-
+Μπορείτε επίσης να λάβετε αυτές τις πληροφορίες από το cli με την εντολή:
 ```bash
 otool -L /bin/ls
 /bin/ls:
-	/usr/lib/libutil.dylib (compatibility version 1.0.0, current version 1.0.0)
-	/usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
-	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
+/usr/lib/libutil.dylib (compatibility version 1.0.0, current version 1.0.0)
+/usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
+/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
 ```
+Ορισμένες δυνητικές βιβλιοθήκες που σχετίζονται με κακόβουλο λογισμικό είναι:
 
-Some potential malware related libraries are:
-
-* **DiskArbitration**: Monitoring USB drives
-* **AVFoundation:** Capture audio and video
-* **CoreWLAN**: Wifi scans.
+* **DiskArbitration**: Παρακολούθηση των USB μονάδων
+* **AVFoundation:** Καταγραφή ήχου και εικόνας
+* **CoreWLAN**: Σάρωση Wifi.
 
 {% hint style="info" %}
-A Mach-O binary can contain one or **more** **constructors**, that will be **executed** **before** the address specified in **LC\_MAIN**.\
-The offsets of any constructors are held in the **\_\_mod\_init\_func** section of the **\_\_DATA\_CONST** segment.
+Ένα δυαδικό Mach-O μπορεί να περιέχει έναν ή **περισσότερους** **constructors**, που θα εκτελεστούν **πριν** τη διεύθυνση που καθορίζεται στο **LC\_MAIN**.\
+Οι μετατοπίσεις οποιουδήποτε constructor βρίσκονται στην ενότητα **\_\_mod\_init\_func** του τμήματος **\_\_DATA\_CONST**.
 {% endhint %}
 
-## **Mach-O Data**
+## **Δεδομένα Mach-O**
 
-At the core of the file lies the data region, which is composed of several segments as defined in the load-commands region. **A variety of data sections can be housed within each segment**, with each section **holding code or data** specific to a type.
+Στην καρδιά του αρχείου βρίσκεται η περιοχή δεδομένων, η οποία αποτελείται από αρκετά τμήματα όπως ορίζονται στην περιοχή των φορτωτικών εντολών. **Μια ποικιλία τμημάτων δεδομένων μπορεί να φιλοξενηθεί σε κάθε τμήμα**, με κάθε τμήμα να **κρατά κώδικα ή δεδομένα** που είναι συγκεκριμένα για έναν τύπο.
 
 {% hint style="success" %}
-The data is basically the part containing all the **information** that is loaded by the load commands **LC\_SEGMENTS\_64**
+Τα δεδομένα είναι βασικά η μέρος που περιέχει όλες τις **πληροφορίες** που φορτώνονται από τις φορτωτικές εντολές **LC\_SEGMENTS\_64**
 {% endhint %}
 
 ![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055_02_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
 
-This includes:
+Αυτό περιλαμβάνει:
 
-* **Function table:** Which holds information about the program functions.
-* **Symbol table**: Which contains information about the external function used by the binary
-* It could also contain internal function, variable names as well and more.
+* **Πίνακας συναρτήσεων:** Ο οποίος περιέχει πληροφορίες για τις συναρτήσεις του προγράμματος.
+* **Πίνακας συμβόλων**: Ο οποίος περιέχει πληροφορίες για τις εξωτερικές συναρτήσεις που χρησιμοποιούνται από το δυαδικό αρχείο
+* Μπορεί επίσης να περιέχει εσωτερικές συναρτήσεις, ονόματα μεταβλητών και άλλα.
 
-To check it you could use the [**Mach-O View**](https://sourceforge.net/projects/machoview/) tool:
+Για να το ελέγξετε, μπορείτε να χρησιμοποιήσετε το εργαλείο [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-Or from the cli:
-
+Ή από το cli:
 ```bash
 size -m /bin/ls
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

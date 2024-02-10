@@ -2,43 +2,40 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 ## Apple Propietary File System (APFS)
 
-**Apple File System (APFS)** is a modern file system designed to supersede the Hierarchical File System Plus (HFS+). Its development was driven by the need for **improved performance, security, and efficiency**.
+Το **Apple File System (APFS)** είναι ένα σύγχρονο σύστημα αρχείων που σχεδιάστηκε για να αντικαταστήσει το Hierarchical File System Plus (HFS+). Η ανάπτυξή του οδηγήθηκε από την ανάγκη για **βελτιωμένη απόδοση, ασφάλεια και αποδοτικότητα**.
 
-Some notable features of APFS include:
+Ορισμένα σημαντικά χαρακτηριστικά του APFS περιλαμβάνουν:
 
-1. **Space Sharing**: APFS allows multiple volumes to **share the same underlying free storage** on a single physical device. This enables more efficient space utilization as the volumes can dynamically grow and shrink without the need for manual resizing or repartitioning.
-   1. This means, compared with traditional partitions in file disks, **that in APFS different partitions (volumes) shares all the disk space**, while a regular partition usually had a fixed size.
-2. **Snapshots**: APFS supports **creating snapshots**, which are **read-only**, point-in-time instances of the file system. Snapshots enable efficient backups and easy system rollbacks, as they consume minimal additional storage and can be quickly created or reverted.
-3. **Clones**: APFS can **create file or directory clones that share the same storage** as the original until either the clone or the original file is modified. This feature provides an efficient way to create copies of files or directories without duplicating the storage space.
-4. **Encryption**: APFS **natively supports full-disk encryption** as well as per-file and per-directory encryption, enhancing data security across different use cases.
-5. **Crash Protection**: APFS uses a **copy-on-write metadata scheme that ensures file system consistency** even in cases of sudden power loss or system crashes, reducing the risk of data corruption.
+1. **Κοινή χρήση χώρου**: Το APFS επιτρέπει σε πολλούς τόμους να **μοιράζονται τον ίδιο ελεύθερο αποθηκευτικό χώρο** σε ένα μόνο φυσικό συσκευή. Αυτό επιτρέπει πιο αποδοτική χρήση του χώρου καθώς οι τόμοι μπορούν να αυξομειώνονται δυναμικά χωρίς την ανάγκη για χειροκίνητη αλλαγή μεγέθους ή ανακατανομής.
+1. Αυτό σημαίνει, σε σύγκριση με τις παραδοσιακές διαμερίσεις σε αρχεία δίσκων, **ότι στο APFS διάφορες διαμερίσεις (τόμοι) μοιράζονται όλο τον χώρο του δίσκου**, ενώ μια κανονική διαμέριση είχε συνήθως ένα σταθερό μέγεθος.
+2. **Snapshots**: Το APFS υποστηρίζει **τη δημιουργία αντιγράφων ασφαλείας**, τα οποία είναι **μόνο για ανάγνωση**, στιγμιότυπων του συστήματος αρχείων. Τα στιγμιότυπα επιτρέπουν αποδοτικά αντίγραφα ασφαλείας και εύκολη αναστροφή του συστήματος, καθώς καταναλώνουν ελάχιστο επιπλέον αποθηκευτικό χώρο και μπορούν να δημιουργηθούν ή να αναστραφούν γρήγορα.
+3. **Κλώνοι**: Το APFS μπορεί να **δημιουργήσει κλώνους αρχείων ή καταλόγων που μοιράζονται την ίδια αποθήκευση** με το αρχικό αρχείο μέχρι ο κλώνος ή το αρχικό αρχείο να τροποποιηθεί. Αυτή η δυνατότητα παρέχει έναν αποδοτικό τρόπο δημιουργίας αντιγράφων αρχείων ή καταλόγων χωρίς να διπλασιάζεται ο χώρος αποθήκευσης.
+4. **Κρυπτογράφηση**: Το APFS **υποστηρίζει φυσικά την κρυπτογράφηση ολόκληρου του δίσκου**, καθώς και την κρυπτογράφηση ανά αρχείο και ανά κατάλογο, ενισχύοντας την ασφάλεια των δεδομένων σε διάφορες περιπτώσεις χρήσης.
+5. **Προστασία από απροσδόκητα σφάλματα**: Το APFS χρησιμοποιεί ένα **σχήμα μεταδεδομένων αντιγραφής-κατά-εγγραφή που εξασφαλίζει τη συνέπεια του συστήματος αρχείων** ακόμη και σε περιπτώσεις απότομης απώλειας ισχύος ή κατάρρευσης του συστήματος, μειώνοντας τον κίνδυνο διάβρωσης των δεδομένων.
 
-Overall, APFS offers a more modern, flexible, and efficient file system for Apple devices, with a focus on improved performance, reliability, and security.
-
+Συνολικά, το APFS προσφέρει ένα πιο σύγχρονο, ευέλικτο και αποδοτικό σύστημα αρχείων για τις συσκευές της Apple, με έμφαση στη βελτιωμένη απόδοση, αξιοπιστία και ασφάλεια.
 ```bash
 diskutil list # Get overview of the APFS volumes
 ```
-
 ## Firmlinks
 
-The `Data` volume is mounted in **`/System/Volumes/Data`** (you can check this with `diskutil apfs list`).
+Ο τόμος `Data` είναι προσαρτημένος στο **`/System/Volumes/Data`** (μπορείτε να το ελέγξετε με την εντολή `diskutil apfs list`).
 
-The list of firmlinks can be found in the **`/usr/share/firmlinks`** file.
-
+Η λίστα των firmlinks μπορεί να βρεθεί στο αρχείο **`/usr/share/firmlinks`**.
 ```bash
 cat /usr/share/firmlinks
 /AppleInternal	AppleInternal
@@ -46,19 +43,18 @@ cat /usr/share/firmlinks
 /Library	Library
 [...]
 ```
-
-On the **left**, there is the directory path on the **System volume**, and on the **right**, the directory path where it maps on the **Data volume**. So, `/library` --> `/system/Volumes/data/library`
+Στα **αριστερά**, υπάρχει η διαδρομή καταλόγου στο **Όγκο του Συστήματος**, και στα **δεξιά**, η διαδρομή καταλόγου όπου αντιστοιχεί στο **Όγκο Δεδομένων**. Έτσι, `/library` --> `/system/Volumes/data/library`
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

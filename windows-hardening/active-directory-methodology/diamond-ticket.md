@@ -1,33 +1,32 @@
-# Diamond Ticket
+# Διαμαντένιο Εισιτήριο
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Diamond Ticket
+## Διαμαντένιο Εισιτήριο
 
-**Like a golden ticket**, a diamond ticket is a TGT which can be used to **access any service as any user**.  A golden ticket is forged completely offline, encrypted with the krbtgt hash of that domain, and then passed into a logon session for use.  Because domain controllers don't track TGTs it (or they) have legitimately issued, they will happily accept TGTs that are encrypted with its own krbtgt hash.
+**Όπως ένα χρυσό εισιτήριο**, ένα διαμαντένιο εισιτήριο είναι ένα TGT που μπορεί να χρησιμοποιηθεί για να **έχετε πρόσβαση σε οποιαδήποτε υπηρεσία ως οποιοσδήποτε χρήστης**. Ένα χρυσό εισιτήριο δημιουργείται πλήρως εκτός σύνδεσης, κρυπτογραφείται με το hash του krbtgt της περιοχής και στη συνέχεια περνιέται σε μια συνεδρία σύνδεσης για χρήση. Επειδή οι ελεγκτές τομέων δεν καταγράφουν τα TGT που έχουν εκδοθεί νόμιμα, θα δεχθούν ευχαρίστως TGT που έχουν κρυπτογραφηθεί με το δικό τους krbtgt hash.
 
-There are two common techniques to detect the use of golden tickets:
+Υπάρχουν δύο κοινές τεχνικές για τον εντοπισμό της χρήσης χρυσών εισιτηρίων:
 
-* Look for TGS-REQs that have no corresponding AS-REQ.
-* Look for TGTs that have silly values, such as Mimikatz's default 10-year lifetime.
+* Αναζήτηση για TGS-REQs που δεν έχουν αντίστοιχο AS-REQ.
+* Αναζήτηση για TGTs που έχουν αστείες τιμές, όπως η προεπιλεγμένη διάρκεια ζωής 10 ετών του Mimikatz.
 
-A **diamond ticket** is made by **modifying the fields of a legitimate TGT that was issued by a DC**.  This is achieved by **requesting** a **TGT**, **decrypting** it with the domain's krbtgt hash, **modifying** the desired fields of the ticket, then **re-encrypting it**.  This **overcomes the two aforementioned shortcomings** of a golden ticket because:
+Ένα **διαμαντένιο εισιτήριο** δημιουργείται **τροποποιώντας τα πεδία ενός νόμιμου TGT που έχει εκδοθεί από έναν ελεγκτή τομέα**. Αυτό επιτυγχάνεται με το **ζήτημα** ενός **TGT**, την **αποκρυπτογράφησή** του με το hash krbtgt του τομέα, την **τροποποίηση** των επιθυμητών πεδίων του εισιτηρίου και στη συνέχεια την **επανακρυπτογράφησή** του. Αυτό **ξεπερνά τα δύο προαναφερθέντα μειονεκτήματα** ενός χρυσού εισιτηρίου επειδή:
 
-* TGS-REQs will have a preceding AS-REQ.
-* The TGT was issued by a DC which means it will have all the correct details from the domain's Kerberos policy.  Even though these can be accurately forged in a golden ticket, it's more complex and open to mistakes.
-
+* Τα TGS-REQs θα έχουν ένα προηγούμενο AS-REQ.
+* Το TGT εκδόθηκε από έναν ελεγκτή τομέα, πράγμα που σημαίνει ότι θα έχει όλες τις σωστές λεπτομέρειες από την πολιτική Kerberos του τομέα. Αν και αυτές μπορούν να πλαστογραφηθούν με ακρίβεια σε ένα χρυσό εισιτήριο, είναι πιο περίπλοκο και ευάλωτο σε λάθη.
 ```bash
 # Get user RID
 powershell Get-DomainUser -Identity <username> -Properties objectsid
@@ -38,20 +37,18 @@ powershell Get-DomainUser -Identity <username> -Properties objectsid
 # /ticketuser is the username of the principal to impersonate.
 # /ticketuserid is the domain RID of that principal.
 # /groups are the desired group RIDs (512 being Domain Admins).
-# /krbkey is the krbtgt AES256 hash. 
+# /krbkey is the krbtgt AES256 hash.
 ```
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

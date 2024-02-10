@@ -1,4 +1,4 @@
-## Attribution
-We value your knowledge and encourage you to share content. Please ensure that you only upload content that you own or have explicit permission to use from the original author. Your respect for intellectual property rights fosters a trustworthy and legal sharing environment for everyone.
+## Αποδοχή
+Εκτιμούμε τη γνώση σας και σας ενθαρρύνουμε να μοιραστείτε περιεχόμενο. Βεβαιωθείτε ότι μόνο ανεβάζετε περιεχόμενο που σας ανήκει ή έχετε ρητή άδεια από τον αρχικό συντάκτη. Ο σεβασμός σας για τα πνευματικά δικαιώματα συμβάλλει σε ένα αξιόπιστο και νόμιμο περιβάλλον κοινής χρήσης για όλους.
 
-Thank you for contributing to HackTricks!
+Σας ευχαριστούμε για τη συνεισφορά σας στο HackTricks!

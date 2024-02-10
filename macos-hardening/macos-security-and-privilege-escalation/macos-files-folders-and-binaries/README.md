@@ -1,98 +1,44 @@
-# macOS Files, Folders, Binaries & Memory
+# Αρχεία, Φάκελοι, Εκτελέσιμα & Μνήμη του macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## File hierarchy layout
+## Δομή ιεραρχίας αρχείων
 
-* **/Applications**: The installed apps should be here. All the users will be able to access them.
-* **/bin**: Command line binaries
-* **/cores**: If exists, it's used to store core dumps
-* **/dev**: Everything is treated as a file so you may see hardware devices stored here.
-* **/etc**: Configuration files
-* **/Library**: A lot of subdirectories and files related to preferences, caches and logs can be found here. A Library folder exists in root and on each user's directory.
-* **/private**: Undocumented but a lot of the mentioned folders are symbolic links to the private directory.
-* **/sbin**: Essential system binaries (related to administration)
-* **/System**: File fo making OS X run. You should find mostly only Apple specific files here (not third party).
-* **/tmp**: Files are deleted after 3 days (it's a soft link to /private/tmp)
-* **/Users**: Home directory for users.
-* **/usr**: Config and system binaries
-* **/var**: Log files
-* **/Volumes**: The mounted drives will apear here.
-* **/.vol**: Running `stat a.txt` you obtain something like `16777223 7545753 -rw-r--r-- 1 username wheel ...` where the first number is the id number of the volume where the file exists and the second one is the inode number. You can access the content of this file through /.vol/ with that information running `cat /.vol/16777223/7545753`
+* **/Applications**: Οι εγκατεστημένες εφαρμογές πρέπει να βρίσκονται εδώ. Όλοι οι χρήστες θα μπορούν να τις προσπελάσουν.
+* **/bin**: Εκτελέσιμα αρχεία γραμμής εντολών
+* **/cores**: Εάν υπάρχει, χρησιμοποιείται για την αποθήκευση αποτυπωμάτων πυρήνα
+* **/dev**: Όλα θεωρούνται ως αρχεία, οπότε μπορείτε να δείτε συσκευές υλικού που αποθηκεύονται εδώ.
+* **/etc**: Αρχεία ρυθμίσεων
+* **/Library**: Μπορείτε να βρείτε πολλούς υποφακέλους και αρχεία που σχετίζονται με προτιμήσεις, προσωρινά αρχεία και αρχεία καταγραφής εδώ. Υπάρχει ένας φάκελος Library στη ρίζα και σε κάθε φάκελο χρήστη.
+* **/private**: Μη τεκμηριωμένος, αλλά πολλοί από τους αναφερόμενους φακέλους είναι συμβολικοί σύνδεσμοι στον ιδιωτικό φάκελο.
+* **/sbin**: Απαραίτητα δυαδικά αρχεία συστήματος (σχετίζονται με τη διαχείριση)
+* **/System**: Αρχείο για την εκτέλεση του OS X. Εδώ θα βρείτε κυρίως μόνο αρχεία της Apple (όχι από τρίτους).
+* **/tmp**: Τα αρχεία διαγράφονται μετά από 3 ημέρες (είναι μια μαλακή σύνδεση στο /private/tmp)
+* **/Users**: Ο φάκελος αρχικού καταλόγου για τους χρήστες.
+* **/usr**: Ρυθμίσεις και δυαδικά αρχεία συστήματος
+* **/var**: Αρχεία καταγραφής
+* **/Volumes**: Οι προσαρτημένοι δίσκοι θα εμφανιστούν εδώ.
+* **/.vol**: Εκτελώντας την εντολή `stat a.txt` θα λάβετε κάτι σαν `16777223 7545753 -rw-r--r-- 1 username wheel ...` όπου το πρώτο νούμερο είναι το αναγνωριστικό του όγκου όπου βρίσκεται το αρχείο και το δεύτερο είναι το αναγνωριστικό inode. Μπορείτε να έχετε πρόσβαση στο περιεχόμενο αυτού του αρχείου μέσω του /.vol/ με αυτές τις πληροφορίες εκτελώντας την εντολή `cat /.vol/16777223/7545753`
 
-### Applications Folders
+### Φάκελοι Εφαρμογών
 
-* **System applications** are located under `/System/Applications`
-* **Installed** applications are usually installed in `/Applications` or in `~/Applications`
-* **Application data** can be found in `/Library/Application Support` for the applications running as root and `~/Library/Application Support` for applications running as the user.
-* Third-party applications **daemons** that **need to run as root** as usually located in `/Library/PrivilegedHelperTools/`
-* **Sandboxed** apps are mapped into the `~/Library/Containers` folder. Each app has a folder named according to the application’s bundle ID (`com.apple.Safari`).
-* The **kernel** is located in `/System/Library/Kernels/kernel`
-* **Apple's kernel extensions** are located in `/System/Library/Extensions`
-* **Third-party kernel extensions** are stored in `/Library/Extensions`
-
-### Files with Sensitive Information
-
-MacOS stores information such as passwords in several places:
-
-{% content-ref url="macos-sensitive-locations.md" %}
-[macos-sensitive-locations.md](macos-sensitive-locations.md)
-{% endcontent-ref %}
-
-### Vulnerable pkg installers
-
-{% content-ref url="macos-installers-abuse.md" %}
-[macos-installers-abuse.md](macos-installers-abuse.md)
-{% endcontent-ref %}
-
-## OS X Specific Extensions
-
-* **`.dmg`**: Apple Disk Image files are very frequent for installers.
-* **`.kext`**: It must follow a specific structure and it's the OS X version of a driver. (it's a bundle)
-* **`.plist`**: Also known as property list stores information in XML or binary format.
-  * Can be XML or binary. Binary ones can be read with:
-    * `defaults read config.plist`
-    * `/usr/libexec/PlistBuddy -c print config.plsit`
-    * `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
-    * `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
-    * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
-* **`.app`**: Apple applications that follows directory structure (It's a bundle).
-* **`.dylib`**: Dynamic libraries (like Windows DLL files)
-* **`.pkg`**: Are the same as xar (eXtensible Archive format). The installer command can be use to install the contents of these files.
-* **`.DS_Store`**: This file is on each directory, it saves the attributes and customisations of the directory.
-* **`.Spotlight-V100`**: This folder appears on the root directory of every volume on the system.
-* **`.metadata_never_index`**: If this file is at the root of a volume Spotlight won't index that volume.
-* **`.noindex`**: Files and folder with this extension won't be indexed by Spotlight.
-
-### macOS Bundles
-
-A bundle is a **directory** which **looks like an object in Finder** (a Bundle example are `*.app` files).
-
-{% content-ref url="macos-bundles.md" %}
-[macos-bundles.md](macos-bundles.md)
-{% endcontent-ref %}
-
-## Dyld Shared Cache
-
-On macOS (and iOS) all system shared libraries, like frameworks and dylibs, are **combined into a single file**, called the **dyld shared cache**. This improved performance, since code can be loaded faster.
-
-Similar to the dyld shared cache, the kernel and the kernel extensions are also compiled into a kernel cache, which is loaded at boot time.
-
-In order to extract the libraries from the single file dylib shared cache it was possible to use the binary  [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) which might not be working nowadays but you can also use [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
-
-{% code overflow="wrap" %}
+* Οι **εφαρμογές του συστήματος** βρίσκονται στο `/System/Applications`
+* Οι **εγκατεστημένες** εφαρμογές συνήθως εγκαθίστανται στο `/Applications` ή στο `~/Applications`
+* Τα **δεδομένα των εφαρμογών** μπορούν να βρεθούν στο `/Library/Application Support` για τις εφαρμογές που εκτελούνται ως root και στο `~/Library/Application Support` για τις εφαρμογές που εκτελούνται ως χρήστης.
+* Οι **δαίμονες** των εφαρμογών **τρίτων** που **χρειάζονται να εκτελούνται ως root** συνήθως βρίσκονται στο `/Library/PrivilegedHelperTools/`
+* Οι **εφαρμογές με αμμούχο περιβάλλον** αντιστοιχούν στον φάκελο `~/Library/Containers`. Κάθε εφαρμογή έχει έναν φάκελο με το όνομα του αναγνω
 ```bash
 # dyld_shared_cache_util
 dyld_shared_cache_util -extract ~/shared_cache/ /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e
@@ -104,63 +50,56 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 ```
 {% endcode %}
 
-In older versions you might be able to find the **shared cache** in **`/System/Library/dyld/`**.
+Σε παλαιότερες εκδόσεις μπορείτε να βρείτε την **κοινόχρηστη μνήμη** στο **`/System/Library/dyld/`**.
 
-In iOS you can find them in **`/System/Library/Caches/com.apple.dyld/`**.
+Στο iOS μπορείτε να τα βρείτε στο **`/System/Library/Caches/com.apple.dyld/`**.
 
 {% hint style="success" %}
-Note that even if `dyld_shared_cache_util` tool doesn't work, you can pass the **shared dyld binary to Hopper** and Hopper will be able to identify all the libraries and let you **select which one** you want to investigate:
+Σημειώστε ότι ακόμη κι αν το εργαλείο `dyld_shared_cache_util` δεν λειτουργεί, μπορείτε να περάσετε το **κοινό dyld δυαδικό αρχείο στο Hopper** και το Hopper θα είναι σε θέση να αναγνωρίσει όλες τις βιβλιοθήκες και να σας επιτρέψει να **επιλέξετε ποια θέλετε** να ερευνήσετε:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Special File Permissions
+## Ειδικές άδειες αρχείων
 
-### Folder permissions
+### Άδειες φακέλου
 
-In a **folder**, **read** allows to **list it**, **write** allows to **delete** and **write** files on it, and **execute** allows to **traverse** the directory. So, for example, a user with **read permission over a file** inside a directory where he **doesn't have execute** permission **won't be able to read** the file.
+Σε έναν **φάκελο**, το **read** επιτρέπει να τον **καταλογογραφήσετε**, το **write** επιτρέπει να **διαγράψετε** και να **γράψετε** αρχεία σε αυτόν, και το **execute** επιτρέπει να **διασχίσετε** τον κατάλογο. Έτσι, για παράδειγμα, ένας χρήστης με **άδεια ανάγνωσης για ένα αρχείο** μέσα σε έναν κατάλογο όπου δεν έχει **άδεια εκτέλεσης** **δεν θα μπορεί να διαβάσει** το αρχείο.
 
-### Flag modifiers
+### Τροποποιητές σημαιών
 
-There are some flags that could be set in the files that will make file behave differently. You can **check the flags** of the files inside a directory with `ls -lO /path/directory`
+Υπάρχουν ορισμένες σημαίες που μπορούν να οριστούν στα αρχεία και θα κάνουν το αρχείο να συμπεριφέρεται διαφορετικά. Μπορείτε να **ελέγξετε τις σημαίες** των αρχείων μέσα σε έναν κατάλογο με την εντολή `ls -lO /path/directory`
 
-* **`uchg`**: Known as **uchange** flag will **prevent any action** changing or deleting the **file**. To set it do: `chflags uchg file.txt`
-  * The root user could **remove the flag** and modify the file
-* **`restricted`**: This flag makes the file be **protected by SIP** (you cannot add this flag to a file).
-* **`Sticky bit`**: If a directory with sticky bit, **only** the **directories owner or root can remane or delete** files. Typically this is set on the /tmp directory to prevent ordinary users from deleting or moving other users’ files.
+* **`uchg`**: Επικαλούμενη ως **σημαία uchange** θα **εμποδίσει οποιαδήποτε ενέργεια** αλλαγής ή διαγραφής του **αρχείου**. Για να το ορίσετε, χρησιμοποιήστε: `chflags uchg file.txt`
+* Ο ριζικός χρήστης μπορεί να **αφαιρέσει τη σημαία** και να τροποποιήσει το αρχείο
+* **`restricted`**: Αυτή η σημαία καθιστά το αρχείο **προστατευμένο από το SIP** (δεν μπορείτε να προσθέσετε αυτήν τη σημαία σε ένα αρχείο).
+* **`Sticky bit`**: Αν ένας κατάλογος έχει το sticky bit, **μόνο** ο ιδιοκτήτης του καταλόγου ή ο ριζικός χρήστης μπορεί να μετονομάσει ή να διαγράψει αρχεία. Συνήθως αυτό ορίζεται στον κατάλογο /tmp για να αποτρέψει τους απλούς χρήστες από τη διαγραφή ή τη μετακίνηση αρχείων άλλων χρηστών.
 
-### **File ACLs**
+### **ACLs αρχείων**
 
-File **ACLs** contain **ACE** (Access Control Entries) where more **granular permissions** can be assigned to different users.
+Τα **ACLs αρχείων** περιέχουν **ACE** (Access Control Entries) όπου μπορούν να ανατεθούν πιο **λεπτομερείς άδειες** σε διάφορους χρήστες.
 
-It's possible to grant a **directory** these permissions: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
-Ans to a **file**: `read`, `write`, `append`, `execute`.
+Είναι δυνατόν να χορηγηθούν αυτές οι άδειες σε έναν **κατάλογο**: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
+Και σε ένα **αρχείο**: `read`, `write`, `append`, `execute`.
 
-When the file contains ACLs you will **find a "+" when listing the permissions like in**:
-
+Όταν το αρχείο περιέχει ACLs, θα **βρείτε ένα "+" κατά την εμφάνιση των άδειών όπως εδώ**:
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
 ```
-
-You can **read the ACLs** of the file with:
-
+Μπορείτε να **διαβάσετε τα ACLs** του αρχείου με:
 ```bash
 ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
- 0: group:everyone deny delete
+0: group:everyone deny delete
 ```
-
-You can find **all the files with ACLs** with (this is veeery slow):
-
+Μπορείτε να βρείτε **όλα τα αρχεία με ACLs** με (αυτό είναι πολύ αργό):
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
+### Πηγαία Αποθήκευση | macOS ADS
 
-### Resource Forks | macOS ADS
-
-This is a way to obtain **Alternate Data Streams in MacOS** machines. You can save content inside an extended attribute called **com.apple.ResourceFork** inside a file by saving it in **file/..namedfork/rsrc**.
-
+Αυτός είναι ένας τρόπος για να αποκτήσετε **Εναλλακτικά Ροές Δεδομένων σε μηχανήματα MacOS**. Μπορείτε να αποθηκεύσετε περιεχόμενο μέσα σε ένα επεκταμένο χαρακτηριστικό που ονομάζεται **com.apple.ResourceFork** μέσα σε ένα αρχείο αποθηκεύοντάς το στο **file/..namedfork/rsrc**.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -171,8 +110,7 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-
-You can **find all the files containing this extended attribute** with:
+Μπορείτε **να βρείτε όλα τα αρχεία που περιέχουν αυτό το επεκταμένο χαρακτηριστικό** με την εντολή:
 
 {% code overflow="wrap" %}
 ```bash
@@ -180,50 +118,50 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 ```
 {% endcode %}
 
-## **Universal binaries &** Mach-o Format
+## **Παγκόσμια δυαδικά &** Μορφή Mach-o
 
-Mac OS binaries usually are compiled as **universal binaries**. A **universal binary** can **support multiple architectures in the same file**.
+Οι δυαδικοί κώδικες του Mac OS συνήθως μεταγλωττίζονται ως **παγκόσμιοι δυαδικοί κώδικες**. Ένας **παγκόσμιος δυαδικός κώδικας** μπορεί να **υποστηρίζει πολλές αρχιτεκτονικές στον ίδιο αρχείο**.
 
 {% content-ref url="universal-binaries-and-mach-o-format.md" %}
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
 {% endcontent-ref %}
 
-## macOS memory dumping
+## Απορροφητήριο μνήμης macOS
 
 {% content-ref url="macos-memory-dumping.md" %}
 [macos-memory-dumping.md](macos-memory-dumping.md)
 {% endcontent-ref %}
 
-## Risk Category Files Mac OS
+## Αρχεία κατηγορίας κινδύνου Mac OS
 
-The directory `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` is where information about the **risk associated with different file extensions is stored**. This directory categorizes files into various risk levels, influencing how Safari handles these files upon download. The categories are as follows:
+Ο κατάλογος `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` είναι ο τόπος όπου αποθηκεύονται πληροφορίες σχετικά με το **κίνδυνο που συνδέεται με διάφορες επεκτάσεις αρχείων**. Αυτός ο κατάλογος κατηγοριοποιεί τα αρχεία σε διάφορα επίπεδα κινδύνου, επηρεάζοντας τον τρόπο με τον οποίο το Safari χειρίζεται αυτά τα αρχεία κατά τη λήψη. Οι κατηγορίες είναι οι εξής:
 
-- **LSRiskCategorySafe**: Files in this category are considered **completely safe**. Safari will automatically open these files after they are downloaded.
-- **LSRiskCategoryNeutral**: These files come with no warnings and are **not automatically opened** by Safari.
-- **LSRiskCategoryUnsafeExecutable**: Files under this category **trigger a warning** indicating that the file is an application. This serves as a security measure to alert the user.
-- **LSRiskCategoryMayContainUnsafeExecutable**: This category is for files, such as archives, that might contain an executable. Safari will **trigger a warning** unless it can verify that all contents are safe or neutral.
+- **LSRiskCategorySafe**: Τα αρχεία σε αυτήν την κατηγορία θεωρούνται **εντελώς ασφαλή**. Το Safari θα ανοίγει αυτόματα αυτά τα αρχεία μετά τη λήψη τους.
+- **LSRiskCategoryNeutral**: Αυτά τα αρχεία δεν συνοδεύονται από προειδοποιήσεις και δεν ανοίγονται **αυτόματα** από το Safari.
+- **LSRiskCategoryUnsafeExecutable**: Τα αρχεία σε αυτήν την κατηγορία **ενεργοποιούν μια προειδοποίηση** που υποδεικνύει ότι το αρχείο είναι μια εφαρμογή. Αυτό λειτουργεί ως μέτρο ασφαλείας για να ειδοποιήσει τον χρήστη.
+- **LSRiskCategoryMayContainUnsafeExecutable**: Αυτή η κατηγορία αφορά αρχεία, όπως αρχεία αρχειοθέτησης, που μπορεί να περιέχουν μια εκτελέσιμη εφαρμογή. Το Safari θα **ενεργοποιήσει μια προειδοποίηση** εκτός αν μπορεί να επαληθεύσει ότι όλο το περιεχόμενο είναι ασφαλές ή ουδέτερο.
 
-## Log files
+## Αρχεία καταγραφής
 
-* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Contains information about downloaded files, like the URL from where they were downloaded.
-* **`/var/log/system.log`**: Main log of OSX systems. com.apple.syslogd.plist is responsible for the execution of syslogging (you can check if it's disabled looking for "com.apple.syslogd" in `launchctl list`.
-* **`/private/var/log/asl/*.asl`**: These are the Apple System Logs which may contain interesting information.
-* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Stores recently accessed files and applications through "Finder".
-* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Stores items to launch upon system startup
-* **`$HOME/Library/Logs/DiskUtility.log`**: Log file for thee DiskUtility App (info about drives, including USBs)
-* **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Data about wireless access points.
-* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: List of daemons deactivated.
+* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Περιέχει πληροφορίες σχετικά με τα ληφθέντα αρχεία, όπως η URL από την οποία λήφθηκαν.
+* **`/var/log/system.log`**: Κύρια καταγραφή των συστημάτων OSX. Το αρχείο com.apple.syslogd.plist είναι υπεύθυνο για την εκτέλεση της καταγραφής συστήματος (μπορείτε να ελέγξετε εάν είναι απενεργοποιημένο αναζητώντας το "com.apple.syslogd" στο `launchctl list`.
+* **`/private/var/log/asl/*.asl`**: Αυτά είναι τα αρχεία καταγραφής του Apple System που μπορεί να περιέχουν ενδιαφέρουσες πληροφορίες.
+* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Αποθηκεύει πρόσφατα ανακτηθέντα αρχεία και εφαρμογές μέσω του "Finder".
+* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Αποθηκεύει στοιχεία που θα εκκινηθούν κατά την εκκίνηση του συστήματος
+* **`$HOME/Library/Logs/DiskUtility.log`**: Αρχείο καταγραφής για την εφαρμογή DiskUtility (πληροφορίες σχετικά με τους δίσκους, συμπεριλαμβανομένων των USB)
+* **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Δεδομένα σχετικά με τα ασύρματα σημεία πρόσβασης.
+* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Λίστα απενεργοποιημένων δαίμονων.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

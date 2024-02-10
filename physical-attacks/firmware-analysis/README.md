@@ -1,86 +1,83 @@
-# Firmware Analysis
+# Ανάλυση Firmware
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## **Introduction**
+## **Εισαγωγή**
 
-Firmware is essential software that enables devices to operate correctly by managing and facilitating communication between the hardware components and the software that users interact with. It's stored in permanent memory, ensuring the device can access vital instructions from the moment it's powered on, leading to the operating system's launch. Examining and potentially modifying firmware is a critical step in identifying security vulnerabilities.
+Το firmware είναι ουσιαστικό λογισμικό που επιτρέπει στις συσκευές να λειτουργούν σωστά διαχειριζόμενο και διευκολύνοντας την επικοινωνία μεταξύ των υλικών συστατικών και του λογισμικού με το οποίο αλληλεπιδρούν οι χρήστες. Αποθηκεύεται σε μόνιμη μνήμη, εξασφαλίζοντας ότι η συσκευή μπορεί να έχει πρόσβαση σε ζωτικές οδηγίες από τη στιγμή που ενεργοποιείται, οδηγώντας στην εκκίνηση του λειτουργικού συστήματος. Η εξέταση και η πιθανή τροποποίηση του firmware είναι ένα κρίσιμο βήμα για την εντοπισμό ασφαλείας.
 
-## **Gathering Information**
+## **Συλλογή Πληροφοριών**
 
-**Gathering information** is a critical initial step in understanding a device's makeup and the technologies it uses. This process involves collecting data on:
+Η **συλλογή πληροφοριών** είναι ένα κρίσιμο αρχικό βήμα για την κατανόηση της δομής μιας συσκευής και των τεχνολογιών που χρησιμοποιεί. Αυτή η διαδικασία περιλαμβάνει τη συλλογή δεδομένων για:
 
-- The CPU architecture and operating system it runs
-- Bootloader specifics
-- Hardware layout and datasheets
-- Codebase metrics and source locations
-- External libraries and license types
-- Update histories and regulatory certifications
-- Architectural and flow diagrams
-- Security assessments and identified vulnerabilities
+- Την αρχιτεκτονική της CPU και το λειτουργικό σύστημα που εκτελεί
+- Τις λεπτομέρειες του bootloader
+- Τη διάταξη του υλικού και τις τεχνικές προδιαγραφές
+- Τις μετρήσεις του κώδικα και τις τοποθεσίες πηγαίου κώδικα
+- Τις εξωτερικές βιβλιοθήκες και τους τύπους αδειών
+- Τις ιστορικές ενημερώσεις και τις πιστοποιήσεις ρύθμισης
+- Τα αρχιτεκτονικά και τα διαγράμματα ροής
+- Τις αξιολογήσεις ασφαλείας και τις εντοπισμένες ευπάθειες
 
-For this purpose, **open-source intelligence (OSINT)** tools are invaluable, as is the analysis of any available open-source software components through manual and automated review processes. Tools like [Coverity Scan](https://scan.coverity.com) and [Semmle’s LGTM](https://lgtm.com/#explore) offer free static analysis that can be leveraged to find potential issues.
+Για αυτόν τον σκοπό, τα εργαλεία **ανοικτής πηγής πληροφορίας (OSINT)** είναι ανεκτίμητα, όπως και η ανάλυση οποιωνδήποτε διαθέσιμων συστατικών λογισμικού ανοικτού κώδικα μέσω μη αυτόματων και αυτόματων διαδικασιών αναθεώρησης. Εργαλεία όπως το [Coverity Scan](https://scan.coverity.com) και το [Semmle’s LGTM](https://lgtm.com/#explore) προσφέρουν δωρεάν στατική ανάλυση που μπορεί να αξιοποιηθεί για την εύρεση πιθανών προβλημάτων.
 
-## **Acquiring the Firmware**
+## **Απόκτηση του Firmware**
 
-Obtaining firmware can be approached through various means, each with its own level of complexity:
+Η απόκτηση του firmware μπορεί να γίνει με διάφορους τρόπους, καθένας με το δικό του επίπεδο πολυπλοκότητας:
 
-- **Directly** from the source (developers, manufacturers)
-- **Building** it from provided instructions
-- **Downloading** from official support sites
-- Utilizing **Google dork** queries for finding hosted firmware files
-- Accessing **cloud storage** directly, with tools like [S3Scanner](https://github.com/sa7mon/S3Scanner)
-- Intercepting **updates** via man-in-the-middle techniques
-- **Extracting** from the device through connections like **UART**, **JTAG**, or **PICit**
-- **Sniffing** for update requests within device communication
-- Identifying and using **hardcoded update endpoints**
-- **Dumping** from the bootloader or network
-- **Removing and reading** the storage chip, when all else fails, using appropriate hardware tools
+- **Απευθείας** από την πηγή (προγραμματιστές, κατασκευαστές)
+- **Κατασκευή** από παρεχόμενες οδηγίες
+- **Λήψη** από επίσημους ιστότοπους υποστήριξης
+- Χρήση **ερωτημάτων Google dork** για την εύρεση φιλοξενούμενων αρχείων firmware
+- Πρόσβαση σε **αποθήκευση στο cloud** απευθείας, με εργαλεία όπως το [S3Scanner](https://github.com/sa7mon/S3Scanner)
+- Παρεμβολή **ενημερώσεων** μέσω τεχνικών man-in-the-middle
+- **Εξαγωγή** από τη συσκευή μέσω συνδέσεων όπως **UART**, **JTAG** ή **PICit**
+- **Καταγραφή** αιτημάτων ενημέρωσης εντός της επικοινωνίας της συσκευής
+- Εντοπισμός και χρήση **σκληροκωδικοποιημένων σημείων ενημέρωσης**
+- **Ανάκτηση** από τον bootloader ή το δίκτυο
+- **Αφαίρεση και ανάγνωση** του επίπεδου αποθήκευσης, όταν αποτυγχάνουν όλα τα άλλα, χρησιμοποιώντας κατάλληλα εργαλεία υλικού
 
-## Analyzing the firmware
+## Ανάλυση του firmware
 
-Now that you **have the firmware**, you need to extract information about it to know how to treat it. Different tools you can use for that:
-
+Τώρα που **έχετε το firmware**, πρέπει να εξάγετε πληροφορίες για αυτό για να ξέρετε πώς να το χειριστείτε. Διάφορα εργαλεία που μπορείτε να χρησιμοποιήσετε για αυτό:
 ```bash
-file <bin>  
-strings -n8 <bin> 
+file <bin>
+strings -n8 <bin>
 strings -tx <bin> #print offsets in hex
-hexdump -C -n 512 <bin> > hexdump.out  
+hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
+Εάν δεν βρείτε πολλά με αυτά τα εργαλεία, ελέγξτε την **εντροπία** της εικόνας με την εντολή `binwalk -E <bin>`. Εάν η εντροπία είναι χαμηλή, τότε πιθανότατα δεν είναι κρυπτογραφημένη. Εάν η εντροπία είναι υψηλή, τότε πιθανότατα είναι κρυπτογραφημένη (ή συμπιεσμένη με κάποιον τρόπο).
 
-If you don't find much with those tools check the **entropy** of the image with `binwalk -E <bin>`, if low entropy, then it's not likely to be encrypted. If high entropy, Its likely encrypted (or compressed in some way).
-
-Moreover, you can use these tools to extract **files embedded inside the firmware**:
+Επιπλέον, μπορείτε να χρησιμοποιήσετε αυτά τα εργαλεία για να εξάγετε **αρχεία που είναι ενσωματωμένα στο firmware**:
 
 {% content-ref url="../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-Or [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) to inspect the file.
+Ή [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) για να επιθεωρήσετε το αρχείο.
 
-### Getting the Filesystem
+### Απόκτηση του Συστήματος Αρχείων
 
-With the previous commented tools like `binwalk -ev <bin>` you should have been able to **extract the filesystem**.\
-Binwalk usually extracts it inside a **folder named as the filesystem type**, which usually is one of the following: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
+Με τα προηγούμενα εργαλεία που αναφέρθηκαν, όπως `binwalk -ev <bin>`, θα πρέπει να έχετε καταφέρει να **εξάγετε το σύστημα αρχείων**.\
+Το Binwalk συνήθως το εξάγει μέσα σε ένα **φάκελο με το όνομα του τύπου του συστήματος αρχείων**, που συνήθως είναι ένα από τα παρακάτω: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
 
-#### Manual Filesystem Extraction
+#### Χειροκίνητη Εξαγωγή Συστήματος Αρχείων
 
-Sometimes, binwalk will **not have the magic byte of the filesystem in its signatures**. In these cases, use binwalk to **find the offset of the filesystem and carve the compressed filesystem** from the binary and **manually extract** the filesystem according to its type using the steps below.
-
+Μερικές φορές, το binwalk **δεν έχει το μαγικό byte του συστήματος αρχείων στις υπογραφές του**. Σε αυτές τις περιπτώσεις, χρησιμοποιήστε το binwalk για να **βρείτε τη θέση του συστήματος αρχείων και να ανακόψετε το συμπιεσμένο σύστημα αρχείων** από το δυαδικό αρχείο και **εξάγετε χειροκίνητα** το σύστημα αρχείων ανάλογα με τον τύπο του χρησιμοποιώντας τα παρακάτω βήματα.
 ```
 $ binwalk DIR850L_REVB.bin
 
@@ -92,11 +89,9 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-
-Run the following **dd command** carving the Squashfs filesystem.
-
+Εκτελέστε την ακόλουθη εντολή **dd** για να ανακτήσετε το αρχείο συστήματος Squashfs.
 ```
-$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs 
+$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536+0 records in
 
@@ -104,176 +99,153 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536 bytes (8.3 MB, 7.9 MiB) copied, 12.5777 s, 657 kB/s
 ```
-
-Alternatively, the following command could also be run.
+Εναλλακτικά, μπορεί να εκτελεστεί και η παρακάτω εντολή.
 
 `$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
-* For squashfs (used in the example above)
+* Για το squashfs (που χρησιμοποιείται στο παράδειγμα παραπάνω)
 
 `$ unsquashfs dir.squashfs`
 
-Files will be in "`squashfs-root`" directory afterwards.
+Τα αρχεία θα βρίσκονται στον φάκελο "`squashfs-root`" αφού ολοκληρωθεί η διαδικασία.
 
-* CPIO archive files
+* Αρχεία αρχειοθήκης CPIO
 
 `$ cpio -ivd --no-absolute-filenames -F <bin>`
 
-* For jffs2 filesystems
+* Για τα αρχεία συστήματος jffs2
 
 `$ jefferson rootfsfile.jffs2`
 
-* For ubifs filesystems with NAND flash
+* Για τα αρχεία συστήματος ubifs με NAND flash
 
 `$ ubireader_extract_images -u UBI -s <start_offset> <bin>`
 
 `$ ubidump.py <bin>`
 
 
-## Analyzing Firmware
+## Ανάλυση Λογισμικού
 
-Once the firmware is obtained, it's essential to dissect it for understanding its structure and potential vulnerabilities. This process involves utilizing various tools to analyze and extract valuable data from the firmware image.
+Μόλις αποκτηθεί το λογισμικό, είναι απαραίτητο να αναλυθεί για να κατανοήσουμε τη δομή του και τυχόν ευπάθειες. Αυτή η διαδικασία περιλαμβάνει τη χρήση διάφορων εργαλείων για την ανάλυση και εξαγωγή πολύτιμων δεδομένων από την εικόνα του λογισμικού.
 
-### Initial Analysis Tools
+### Εργαλεία Αρχικής Ανάλυσης
 
-A set of commands is provided for initial inspection of the binary file (referred to as `<bin>`). These commands help in identifying file types, extracting strings, analyzing binary data, and understanding the partition and filesystem details:
-
+Παρέχεται ένα σύνολο εντολών για τον αρχικό έλεγχο του δυαδικού αρχείου (αναφέρεται ως `<bin>`). Αυτές οι εντολές βοηθούν στον προσδιορισμό των τύπων αρχείων, την εξαγωγή συμβολοσειρών, την ανάλυση δυαδικών δεδομένων και την κατανόηση των λεπτομερειών των διαμερισμάτων και του συστήματος αρχείων:
 ```bash
-file <bin>  
-strings -n8 <bin> 
+file <bin>
+strings -n8 <bin>
 strings -tx <bin> #prints offsets in hexadecimal
-hexdump -C -n 512 <bin> > hexdump.out  
+hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head #useful for finding signatures in the header
 fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
 ```
+Για να αξιολογηθεί η κατάσταση κρυπτογράφησης της εικόνας, ελέγχεται η **εντροπία** με την εντολή `binwalk -E <bin>`. Χαμηλή εντροπία υποδηλώνει έλλειψη κρυπτογράφησης, ενώ υψηλή εντροπία υποδηλώνει πιθανή κρυπτογράφηση ή συμπίεση.
 
-To assess the encryption status of the image, the **entropy** is checked with `binwalk -E <bin>`. Low entropy suggests a lack of encryption, while high entropy indicates possible encryption or compression.
+Για την εξαγωγή **ενσωματωμένων αρχείων**, συνιστώνται εργαλεία και πόροι όπως η τεκμηρίωση **file-data-carving-recovery-tools** και το **binvis.io** για τον έλεγχο των αρχείων.
 
-For extracting **embedded files**, tools and resources like the **file-data-carving-recovery-tools** documentation and **binvis.io** for file inspection are recommended.
+### Εξαγωγή του Συστήματος Αρχείων
 
-### Extracting the Filesystem
-
-Using `binwalk -ev <bin>`, one can usually extract the filesystem, often into a directory named after the filesystem type (e.g., squashfs, ubifs). However, when **binwalk** fails to recognize the filesystem type due to missing magic bytes, manual extraction is necessary. This involves using `binwalk` to locate the filesystem's offset, followed by the `dd` command to carve out the filesystem:
-
+Χρησιμοποιώντας την εντολή `binwalk -ev <bin>`, συνήθως μπορεί να εξαχθεί το σύστημα αρχείων, συχνά σε έναν κατάλογο με το όνομα του τύπου του συστήματος αρχείων (π.χ. squashfs, ubifs). Ωστόσο, όταν το **binwalk** αποτυγχάνει να αναγνωρίσει τον τύπο του συστήματος αρχείων λόγω της απουσίας μαγικών bytes, απαιτείται χειροκίνητη εξαγωγή. Αυτό περιλαμβάνει τη χρήση του `binwalk` για τον εντοπισμό της μετατόπισης του συστήματος αρχείων, ακολουθούμενη από την εντολή `dd` για την αποκοπή του συστήματος αρχείων:
 ```bash
 $ binwalk DIR850L_REVB.bin
 
-$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs 
+$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 ```
+Στη συνέχεια, ανάλογα με τον τύπο του συστήματος αρχείων (π.χ. squashfs, cpio, jffs2, ubifs), χρησιμοποιούνται διάφορες εντολές για τη χειροκίνητη εξαγωγή των περιεχομένων.
 
-Afterwards, depending on the filesystem type (e.g., squashfs, cpio, jffs2, ubifs), different commands are used to manually extract the contents.
+### Ανάλυση Συστήματος Αρχείων
 
-### Filesystem Analysis
+Μετά την εξαγωγή του συστήματος αρχείων, ξεκινά η αναζήτηση ευπάθειας ασφάλειας. Προσέχεται η αναζήτηση μη ασφαλών δαίμονων δικτύου, σκληροκωδικοποιημένων διαπιστευτηρίων, σημείων πρόσβασης στο API, λειτουργιών ενημέρωσης του διακομιστή, μη μεταγλωττισμένου κώδικα, εκκινητικών σεναρίων και μεταγλωττισμένων δυαδικών αρχείων για ανάλυση εκτός σύνδεσης.
 
-With the filesystem extracted, the search for security flaws begins. Attention is paid to insecure network daemons, hardcoded credentials, API endpoints, update server functionalities, uncompiled code, startup scripts, and compiled binaries for offline analysis.
+**Κύριες τοποθεσίες** και **στοιχεία** που πρέπει να ελεγχθούν περιλαμβάνουν:
 
-**Key locations** and **items** to inspect include:
+- **etc/shadow** και **etc/passwd** για διαπιστευτήρια χρήστη
+- Πιστοποιητικά SSL και κλειδιά στο **etc/ssl**
+- Αρχεία ρυθμίσεων και σεναρίων για πιθανές ευπάθειες
+- Ενσωματωμένα δυαδικά αρχεία για περαιτέρω ανάλυση
+- Κοινοί διακομιστές ιστοσελίδων και δυαδικά αρχεία συσκευών IoT
 
-- **etc/shadow** and **etc/passwd** for user credentials
-- SSL certificates and keys in **etc/ssl**
-- Configuration and script files for potential vulnerabilities
-- Embedded binaries for further analysis
-- Common IoT device web servers and binaries
+Πολλά εργαλεία βοηθούν στον εντοπισμό ευαίσθητων πληροφοριών και ευπαθειών εντός του συστήματος αρχείων:
 
-Several tools assist in uncovering sensitive information and vulnerabilities within the filesystem:
+- [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) και [**Firmwalker**](https://github.com/craigz28/firmwalker) για αναζήτηση ευαίσθητων πληροφοριών
+- [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) για λεπτομερή ανάλυση του firmware
+- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go) και [**EMBA**](https://github.com/e-m-b-a/emba) για στατική και δυναμική ανάλυση
 
-- [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) and [**Firmwalker**](https://github.com/craigz28/firmwalker) for sensitive information search
-- [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) for comprehensive firmware analysis
-- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go), and [**EMBA**](https://github.com/e-m-b-a/emba) for static and dynamic analysis
+### Έλεγχοι Ασφάλειας σε Μεταγλωττισμένα Δυαδικά Αρχεία
 
-### Security Checks on Compiled Binaries
+Τόσο ο πηγαίος κώδικας όσο και τα μεταγλωττισμένα δυαδικά αρχεία που βρίσκονται στο σύστημα αρχείων πρέπει να ελεγχθούν για ευπάθειες. Εργαλεία όπως το **checksec.sh** για δυαδικά αρχεία Unix και το **PESecurity** για δυαδικά αρχεία Windows βοηθούν στον εντοπισμό μη προστατευμένων δυαδικών αρχείων που μπορούν να εκμεταλλευτούν.
 
-Both source code and compiled binaries found in the filesystem must be scrutinized for vulnerabilities. Tools like **checksec.sh** for Unix binaries and **PESecurity** for Windows binaries help identify unprotected binaries that could be exploited.
+## Προσομοίωση Firmware για Δυναμική Ανάλυση
 
-## Emulating Firmware for Dynamic Analysis
+Η διαδικασία προσομοίωσης του firmware επιτρέπει τη **δυναμική ανάλυση** είτε της λειτουργίας μιας συσκευής είτε ενός μεμονωμένου προγράμματος. Αυτή η προσέγγιση μπορεί να αντιμετωπίσει προκλήσεις με εξαρτήσεις από υλικό ή αρχιτεκτονική, αλλά η μεταφορά του ριζικού συστήματος αρχείων ή συγκεκριμένων δυαδικών αρχείων σε μια συσκευή με την ίδια αρχιτεκτονική και τέλεια σειρά byte, όπως ένα Raspberry Pi, ή σε μια προετοιμασμένη εικονική μηχανή, μπορεί να διευκολύνει περαιτέρω δοκιμές.
 
-The process of emulating firmware enables **dynamic analysis** either of a device's operation or an individual program. This approach can encounter challenges with hardware or architecture dependencies, but transferring the root filesystem or specific binaries to a device with matching architecture and endianness, such as a Raspberry Pi, or to a pre-built virtual machine, can facilitate further testing.
+### Προσομοίωση Μεμονωμένων Δυαδικών Αρχείων
 
-### Emulating Individual Binaries
+Για την εξέταση μεμονωμένων προγραμμάτων, είναι κρίσιμο να αναγνωριστεί η σειρά byte και η αρχιτεκτονική του προγράμματος.
 
-For examining single programs, identifying the program's endianness and CPU architecture is crucial.
+#### Παράδειγμα με Αρχιτεκτονική MIPS
 
-#### Example with MIPS Architecture
-
-To emulate a MIPS architecture binary, one can use the command:
-
+Για να προσομοιώσετε ένα δυαδικό αρχείο με αρχιτεκτονική MIPS, μπορείτε να χρησιμοποιήσετε την εντολή:
 ```bash
 file ./squashfs-root/bin/busybox
 ```
-
-And to install the necessary emulation tools:
-
+Και για να εγκαταστήσετε τα απαραίτητα εργαλεία εξομοίωσης:
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
+Για το MIPS (big-endian), χρησιμοποιείται το `qemu-mips`, ενώ για τα little-endian δυαδικά, η επιλογή θα ήταν το `qemu-mipsel`.
 
-For MIPS (big-endian), `qemu-mips` is used, and for little-endian binaries, `qemu-mipsel` would be the choice.
+#### Προσομοίωση Αρχιτεκτονικής ARM
 
-#### ARM Architecture Emulation
+Για τα δυαδικά αρχεία ARM, η διαδικασία είναι παρόμοια, με τον εξομοιωτή `qemu-arm` να χρησιμοποιείται για την προσομοίωση.
 
-For ARM binaries, the process is similar, with the `qemu-arm` emulator being utilized for emulation.
+### Πλήρης Προσομοίωση Συστήματος
 
-### Full System Emulation
+Εργαλεία όπως το [Firmadyne](https://github.com/firmadyne/firmadyne), το [Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit) και άλλα, διευκολύνουν την πλήρη προσομοίωση του firmware, αυτοματοποιώντας τη διαδικασία και βοηθώντας στη δυναμική ανάλυση.
 
-Tools like [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit), and others, facilitate full firmware emulation, automating the process and aiding in dynamic analysis.
+## Τεχνικές Δυναμικής Ανάλυσης στην Πράξη
 
-## Dynamic Analysis in Practice
+Σε αυτό το στάδιο, χρησιμοποιείται είτε ένα πραγματικό είτε ένα εξομοιωμένο περιβάλλον συσκευής για ανάλυση. Είναι απαραίτητο να διατηρείται πρόσβαση στο κέλυφος του λειτουργικού συστήματος και στο σύστημα αρχείων. Η προσομοίωση ενδέχεται να μην αντιγράφει απόλυτα τις αλληλεπιδράσεις του υλικού, επομένως ενδέχεται να χρειαστούν περιοδικές επανεκκινήσεις της προσομοίωσης. Η ανάλυση θα πρέπει να επανεξετάζει το σύστημα αρχείων, να εκμεταλλεύεται εκθέτομενες ιστοσελίδες και υπηρεσίες δικτύου και να εξετάζει ευπάθειες του εκκινητή. Οι δοκιμές ακεραιότητας του firmware είναι κρίσιμες για τον εντοπισμό πιθανών ευπάθειών πίσω πόρτας.
 
-At this stage, either a real or emulated device environment is used for analysis. It's essential to maintain shell access to the OS and filesystem. Emulation may not perfectly mimic hardware interactions, necessitating occasional emulation restarts. Analysis should revisit the filesystem, exploit exposed webpages and network services, and explore bootloader vulnerabilities. Firmware integrity tests are critical to identify potential backdoor vulnerabilities.
+## Τεχνικές Ανάλυσης Εκτέλεσης
 
-## Runtime Analysis Techniques
+Η ανάλυση εκτέλεσης περιλαμβάνει την αλληλεπίδραση με ένα διεργασία ή δυαδικό αρχείο στο περιβάλλον λειτουργίας του, χρησιμοποιώντας εργαλεία όπως το gdb-multiarch, το Frida και το Ghidra για τον ορισμό σημείων ανακοπής και τον εντοπισμό ευπαθειών μέσω της τεχνικής του fuzzing και άλλων τεχνικών.
 
-Runtime analysis involves interacting with a process or binary in its operating environment, using tools like gdb-multiarch, Frida, and Ghidra for setting breakpoints and identifying vulnerabilities through fuzzing and other techniques.
+## Εκμετάλλευση Δυαδικών Αρχείων και Απόδειξη Έκθεσης
 
-## Binary Exploitation and Proof-of-Concept
+Για την ανάπτυξη μιας απόδειξης έκθεσης για εντοπισμένες ευπάθειες, απαιτείται μια βαθιά κατανόηση της αρχιτεκτονικής στόχου και της προγραμματισμού σε γλώσσες χαμηλού επιπέδου. Οι προστασίες εκτέλεσης δυαδικών σε ενσωματωμένα συστήματα είναι σπάνιες, αλλά όταν υπάρχουν, ενδέχεται να είναι απαραίτητες τεχνικές όπως η Return Oriented Programming (ROP).
 
-Developing a PoC for identified vulnerabilities requires a deep understanding of the target architecture and programming in lower-level languages. Binary runtime protections in embedded systems are rare, but when present, techniques like Return Oriented Programming (ROP) may be necessary.
+## Προετοιμασμένα Λειτουργικά Συστήματα για Ανάλυση Firmware
 
-## Prepared Operating Systems for Firmware Analysis
+Λειτουργικά συστήματα όπως το [AttifyOS](https://github.com/adi0x90/attifyos) και το [EmbedOS](https://github.com/scriptingxss/EmbedOS) παρέχουν προετοιμασμένα περιβάλλοντα για τη δοκιμή ασφάλειας του firmware, εφοδιασμένα με τα απαραίτητα εργαλεία.
 
-Operating systems like [AttifyOS](https://github.com/adi0x90/attifyos) and [EmbedOS](https://github.com/scriptingxss/EmbedOS) provide pre-configured environments for firmware security testing, equipped with necessary tools.
+## Προετοιμασμένα ΛΣ για την Ανάλυση Firmware
 
-## Prepared OSs to analyze Firmware
+* [**AttifyOS**](https://github.com/adi0x90/attifyos): Το AttifyOS είναι μια διανομή που σκοπό έχει να σας βοηθήσει να πραγματοποιήσετε αξιολόγηση ασφάλειας και δοκιμές διείσδυσης σε συσκευές Internet of Things (IoT). Σας εξοικονομεί πολύ χρόνο παρέχοντας ένα προετοιμασμένο περιβάλλον με όλα τα απαραίτητα εργαλεία φορτωμένα.
+* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Λειτουργικό σύστημα ασφαλείας ενσωματωμένων συστημάτων βασισμένο στο Ubuntu 18.04 προφορτωμένο με εργαλεία για την ασφάλεια του firmware.
 
-* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS is a distro intended to help you perform security assessment and penetration testing of Internet of Things (IoT) devices. It saves you a lot of time by providing a pre-configured environment with all the necessary tools loaded.
-* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Embedded security testing operating system based on Ubuntu 18.04 preloaded with firmware security testing tools.
+## Ευπαθή Firmware για Πρακτική
 
-## Vulnerable firmware to practice
-
-To practice discovering vulnerabilities in firmware, use the following vulnerable firmware projects as a starting point.
+Για να πρακτικά ανακαλύψετε ευπάθειες στο firmware, χρησιμοποιήστε τα παρακάτω ευπαθή έργα firmware ως αφετηρία.
 
 * OWASP IoTGoat
-  * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
+* [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
 * The Damn Vulnerable Router Firmware Project
-  * [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
+* [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
 * Damn Vulnerable ARM Router (DVAR)
-  * [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
+* [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
 * ARM-X
-  * [https://github.com/therealsaumil/armx#downloads](https://github.com/therealsaumil/armx#downloads)
+* [https://github.com/therealsaumil/armx#downloads](https://github.com/therealsaumil/armx#downloads)
 * Azeria Labs VM 2.0
-  * [https://azeria-labs.com/lab-vm-2-0/](https://azeria-labs.com/lab-vm-2-0/)
+* [https://azeria-labs.com/lab-vm-2-0/](https://azeria-labs.com/lab-vm-2-0/)
 * Damn Vulnerable IoT Device (DVID)
-  * [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
+* [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
 
-## References
+## Αναφορές
 
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 * [Practical IoT Hacking: The Definitive Guide to Attacking the Internet of Things](https://www.amazon.co.uk/Practical-IoT-Hacking-F-Chantzis/dp/1718500904)
 
-## Trainning and Cert
+## Εκπαίδευση και Πιστοποίηση
 
-* [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exploitation)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exp

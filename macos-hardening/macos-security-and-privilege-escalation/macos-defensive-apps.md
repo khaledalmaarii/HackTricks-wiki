@@ -1,55 +1,41 @@
-# macOS Defensive Apps
+# Εφαρμογές Άμυνας για macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Συμμετάσχετε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο GitHub.
 
 </details>
 
 ## Firewalls
 
-* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): It will monitor every connection made by each process. Depending on the mode (silent allow connections, silent deny connection and alert) it will **show you an alert** every time a new connection is stablished. It also has a very nice GUI to see all this information.
-* [**LuLu**](https://objective-see.org/products/lulu.html): Objective-See firewall. This is a basic firewall that will alert you for suspicious connections (it has a GUI but it isn't as fancy as the one of Little Snitch).
+* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): Θα παρακολουθεί κάθε σύνδεση που πραγματοποιείται από κάθε διεργασία. Ανάλογα με τη λειτουργία (αθόρυβη επιτροπή συνδέσεων, αθόρυβη απόρριψη συνδέσεων και ειδοποίηση), θα **σας εμφανίζει μια ειδοποίηση** κάθε φορά που πραγματοποιείται μια νέα σύνδεση. Έχει επίσης ένα πολύ ωραίο γραφικό περιβάλλον χρήστη για να δείτε όλες αυτές τις πληροφορίες.
+* [**LuLu**](https://objective-see.org/products/lulu.html): Το προγραμματιστικό περιβάλλον χρήστη του Objective-See. Αυτό είναι ένα βασικό τείχος προστασίας που θα σας ειδοποιεί για ύποπτες συνδέσεις (έχει ένα γραφικό περιβάλλον χρήστη, αλλά δεν είναι τόσο φανταχτερό όσο αυτό του Little Snitch).
 
-## Persistence detection
+## Εντοπισμός Διατήρησης
 
-* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Objective-See application that will search in several locations where **malware could be persisting** (it's a one-shot tool, not a monitoring service).
-* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Like KnockKnock by monitoring processes that generate persistence.
+* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Εφαρμογή του Objective-See που θα αναζητήσει σε διάφορες τοποθεσίες όπου **μπορεί να υπάρχει κακόβουλο λογισμικό** (είναι ένα εργαλείο μιας φοράς, όχι ένα υπηρεσία παρακολούθησης).
+* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Όπως το KnockKnock, παρακολουθεί διεργασίες που δημιουργούν διατήρηση.
 
-## Keyloggers detection
+## Εντοπισμός Keyloggers
 
-* [**ReiKey**](https://objective-see.org/products/reikey.html): Objective-See application to find **keyloggers** that install keyboard "event taps"&#x20;
+* [**ReiKey**](https://objective-see.org/products/reikey.html): Εφαρμογή του Objective-See για τον εντοπισμό **keyloggers** που εγκαθιστούν "event taps" στο πληκτρολόγιο.
 
-## Ransomware detection
+## Εντοπισμός Ransomware
 
-* [**RansomWhere**](https://objective-see.org/products/ransomwhere.html): Objective-See application to detect **file encryption** actions.
+* [**RansomWhere**](https://objective-see.org/products/ransomwhere.html): Εφαρμογή του Objective-See για τον εντοπισμό **ενεργειών κρυπτογράφησης αρχείων**.
 
-## Mic & Webcam detection
+## Εντοπισμός Μικροφώνου και Κάμερας
 
-* [**OverSight**](https://objective-see.org/products/oversight.html): Objective-See application to detect **application that starts using webcam and mic.**
+* [**OverSight**](https://objective-see.org/products/oversight.html): Εφαρμογή του Objective-See για τον εντοπισμό **εφαρμογών που χρησιμοποιούν την κάμερα και το μικρόφωνο**.
 
-## Process Injection detection
+## Εντοπισμός Εγχύσεων Διεργασιών
 
-* [**Shield**](https://theevilbit.github.io/shield/): Applicaiton that **detects different process injection** techniques.
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* [**Shield**](https://theevilbit.github.io/shield/): Εφαρμογή που **ανιχνεύει διάφορες τεχνικές εγχύσεων διεργασιών**.

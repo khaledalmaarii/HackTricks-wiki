@@ -1,61 +1,44 @@
-# Other Web Tricks
+# Άλλα Κόλπα για τον Ιστό
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο GitHub.
 
 </details>
 
-### Host header
+### Κεφαλίδα Κεντρικού Σέρβερ
 
-Several times the back-end trust the **Host header** to perform some actions. For example, it could use its value as the **domain to send a password reset**. So when you receive an email with a link to reset your password, the domain being used is the one you put in the Host header.Then, you can request the password reset of other users and change the domain to one controlled by you to steal their password reset codes. [WriteUp](https://medium.com/nassec-cybersecurity-writeups/how-i-was-able-to-take-over-any-users-account-with-host-header-injection-546fff6d0f2).
+Πολλές φορές το πίσω μέρος εμπιστεύεται την **κεφαλίδα κεντρικού σέρβερ** για να εκτελέσει κάποιες ενέργειες. Για παράδειγμα, μπορεί να χρησιμοποιήσει την τιμή της ως το **τομέα για να στείλει έναν κωδικό επαναφοράς κωδικού πρόσβασης**. Έτσι, όταν λαμβάνετε ένα email με ένα σύνδεσμο για επαναφορά κωδικού πρόσβασης, ο τομέας που χρησιμοποιείται είναι αυτός που έχετε βάλει στην κεφαλίδα κεντρικού σέρβερ. Έπειτα, μπορείτε να ζητήσετε την επαναφορά κωδικού πρόσβασης άλλων χρηστών και να αλλάξετε τον τομέα σε έναν που ελέγχετε εσείς για να κλέψετε τους κωδικούς επαναφοράς τους. [WriteUp](https://medium.com/nassec-cybersecurity-writeups/how-i-was-able-to-take-over-any-users-account-with-host-header-injection-546fff6d0f2).
 
 {% hint style="warning" %}
-Note that it's possible that you don't even need to wait for the user to click on the reset password link to get the token, as maybe even **spam filters or other intermediary devices/bots will click on it to analyze it**.
+Σημειώστε ότι είναι δυνατόν να μην χρειάζεται καν να περιμένετε να κάνει κλικ ο χρήστης στον σύνδεσμο επαναφοράς κωδικού για να λάβετε το διακριτικό, καθώς ίσως ακόμα και **φίλτρα ανεπιθύμητων μηνυμάτων ή άλλες μεσολαβητικές συσκευές/ρομπότ να κάνουν κλικ για να το αναλύσουν**.
 {% endhint %}
 
-### Session booleans
+### Λογικές Τιμές Συνεδρίας
 
-Some times when you complete some verification correctly the back-end will **just add a boolean with the value "True" to a security attribute your session**. Then, a different endpoint will know if you successfully passed that check.\
-However, if you **pass the check** and your sessions is granted that "True" value in the security attribute, you can try to **access other resources** that **depends on the same attribute** but that you **shouldn't have permissions** to access. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
+Μερικές φορές, όταν ολοκληρώνετε μια επαλήθευση σωστά, το πίσω μέρος θα **προσθέσει απλώς μια λογική τιμή "True" σε ένα ασφαλές γνώρισμα της συνεδρίας σας**. Έπειτα, ένας διαφορετικός τερματικός σημείο θα γνωρίζει εάν περάσατε με επιτυχία αυτόν τον έλεγχο.\
+Ωστόσο, εάν **περάσετε τον έλεγχο** και η συνεδρία σας έχει αποκτήσει αυτήν την τιμή "True" στο ασφαλές γνώρισμα, μπορείτε να δοκιμάσετε να **αποκτήσετε πρόσβαση σε άλλους πόρους** που **εξαρτώνται από το ίδιο γνώρισμα** αλλά που **δεν θα έπρεπε να έχετε δικαιώματα** να αποκτήσετε πρόσβαση. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
 
-### Register functionality
+### Λειτουργία Εγγραφής
 
-Try to register as an already existent user. Try also using equivalent characters (dots, lots of spaces and Unicode).
+Προσπαθήστε να εγγραφείτε ως ήδη υπάρχων χρήστης. Δοκιμάστε επίσης να χρησιμοποιήσετε ισοδύναμους χαρακτήρες (τελείες, πολλά κενά και Unicode).
 
-### Takeover emails
+### Κατάληψη Emails
 
-Register an email, before confirming it change the email, then, if the new confirmation email is sent to the first registered email,you can takeover any email. Or if you can enable the second email confirming the firt one, you can also takeover any account.
+Εγγραφείτε με ένα email, πριν το επιβεβαιώσετε αλλάξτε το email. Στη συνέχεια, εάν το νέο email επιβεβαίωσης σταλεί στο πρώτο εγγεγραμμένο email, μπορείτε να καταλάβετε οποιοδήποτε email. Ή εάν μπορείτε να ενεργοποιήσετε το δεύτερο email επιβεβαίωσης του πρώτου, μπορείτε επίσης να καταλάβετε οποιοδήποτε λογαριασμό.
 
-### Access Internal servicedesk of companies using atlassian
+### Πρόσβαση στον Εσωτερικό Πάγκο Υπηρεσιών Εταιρειών που χρησιμοποιούν το Atlassian
 
 {% embed url="https://yourcompanyname.atlassian.net/servicedesk/customer/user/login" %}
 
-### TRACE method
+### Μέθοδος TRACE
 
-Developers might forget to disable various debugging options in the production environment. For example, the HTTP `TRACE` method is designed for diagnostic purposes. If enabled, the web server will respond to requests that use the `TRACE` method by echoing in the response the exact request that was received. This behaviour is often harmless, but occasionally leads to information disclosure, such as the name of internal authentication headers that may be appended to requests by reverse proxies.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
-
-![Image for post](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Οι προγραμματιστές μπορεί να ξεχάσουν να απενεργοποιήσουν διάφορες επιλογές αποσφαλμάτωσης στο περιβάλλον παραγωγής. Για παράδειγμα,

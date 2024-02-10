@@ -2,30 +2,29 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Basic Information
+## Βασικές Πληροφορίες
 
-**Linux Control Groups**, or **cgroups**, are a feature of the Linux kernel that allows the allocation, limitation, and prioritization of system resources like CPU, memory, and disk I/O among process groups. They offer a mechanism for **managing and isolating the resource usage** of process collections, beneficial for purposes such as resource limitation, workload isolation, and resource prioritization among different process groups.
+Τα **Linux Control Groups**, ή **cgroups**, είναι μια δυνατότητα του πυρήνα του Linux που επιτρέπει την κατανομή, περιορισμό και προτεραιοποίηση των πόρων του συστήματος, όπως η CPU, η μνήμη και η διάβαση/εγγραφή στον δίσκο, μεταξύ ομάδων διεργασιών. Προσφέρουν έναν μηχανισμό για την **διαχείριση και απομόνωση της χρήσης πόρων** συλλογών διεργασιών, ωφέλιμο για σκοπούς όπως ο περιορισμός πόρων, η απομόνωση φορτίου εργασίας και η προτεραιοποίηση πόρων μεταξύ διαφορετικών ομάδων διεργασιών.
 
-There are **two versions of cgroups**: version 1 and version 2. Both can be used concurrently on a system. The primary distinction is that **cgroups version 2** introduces a **hierarchical, tree-like structure**, enabling more nuanced and detailed resource distribution among process groups. Additionally, version 2 brings various enhancements, including:
+Υπάρχουν **δύο εκδόσεις των cgroups**: έκδοση 1 και έκδοση 2. Και οι δύο μπορούν να χρησιμοποιηθούν ταυτόχρονα σε ένα σύστημα. Η κύρια διάκριση είναι ότι η **έκδοση 2 των cgroups** εισάγει μια **ιεραρχική, δενδρική δομή**, που επιτρέπει πιο λεπτομερή κατανομή πόρων μεταξύ ομάδων διεργασιών. Επιπλέον, η έκδοση 2 φέρνει διάφορες βελτιώσεις, συμπεριλαμβανομένων:
 
-In addition to the new hierarchical organization, cgroups version 2 also introduced **several other changes and improvements**, such as support for **new resource controllers**, better support for legacy applications, and improved performance.
+Εκτός από τη νέα ιεραρχική οργάνωση, η έκδοση 2 των cgroups εισήγαγε επίσης **άλλες αλλαγές και βελτιώσεις**, όπως η υποστήριξη για **νέους ελεγκτές πόρων**, καλύτερη υποστήριξη για παλαιότερες εφαρμογές και βελτιωμένη απόδοση.
 
-Overall, cgroups **version 2 offers more features and better performance** than version 1, but the latter may still be used in certain scenarios where compatibility with older systems is a concern.
+Συνολικά, η έκδοση 2 των cgroups προσφέρει περισσότερες δυνατότητες και καλύτερη απόδοση από την έκδοση 1, αλλά η τελευταία εξακολουθεί να χρησιμοποιείται σε ορισμένα σενάρια όπου η συμβατότητα με παλαιότερα συστήματα είναι ανησυχία.
 
-You can list the v1 and v2 cgroups for any process by looking at its cgroup file in /proc/\<pid>. You can start by looking at your shell’s cgroups with this command:
-
+Μπορείτε να εμφανίσετε τα cgroups v1 και v2 για οποιαδήποτε διεργασία κοιτάζοντας το αρχείο cgroup της στο /proc/\<pid>. Μπορείτε να ξεκινήσετε κοιτώντας τα cgroups του κελύφους σας με αυτήν την εντολή:
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -40,75 +39,68 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
+Η δομή της έξοδου είναι η εξής:
 
-The output structure is as follows:
+- **Αριθμοί 2-12**: cgroups v1, με κάθε γραμμή που αναπαριστά ένα διαφορετικό cgroup. Οι ελεγκτές για αυτούς καθορίζονται δίπλα στον αριθμό.
+- **Αριθμός 1**: Επίσης cgroups v1, αλλά αποκλειστικά για σκοπούς διαχείρισης (ορίζεται από, για παράδειγμα, το systemd), και δεν έχει ελεγκτή.
+- **Αριθμός 0**: Αντιπροσωπεύει cgroups v2. Δεν αναφέρονται ελεγκτές και αυτή η γραμμή είναι αποκλειστική για συστήματα που εκτελούν μόνο cgroups v2.
+- Τα **ονόματα είναι ιεραρχικά**, μοιάζοντας με διαδρομές αρχείων, που υποδεικνύουν τη δομή και τη σχέση μεταξύ διαφορετικών cgroups.
+- **Ονόματα όπως /user.slice ή /system.slice** καθορίζουν την κατηγοριοποίηση των cgroups, με το user.slice να χρησιμοποιείται συνήθως για συνεδρίες σύνδεσης που διαχειρίζεται το systemd και το system.slice για υπηρεσίες του συστήματος.
 
-- **Numbers 2–12**: cgroups v1, with each line representing a different cgroup. Controllers for these are specified adjacent to the number.
-- **Number 1**: Also cgroups v1, but solely for management purposes (set by, e.g., systemd), and lacks a controller.
-- **Number 0**: Represents cgroups v2. No controllers are listed, and this line is exclusive on systems only running cgroups v2.
-- The **names are hierarchical**, resembling file paths, indicating the structure and relationship between different cgroups.
-- **Names like /user.slice or /system.slice** specify the categorization of cgroups, with user.slice typically for login sessions managed by systemd and system.slice for system services.
+### Προβολή cgroups
 
-### Viewing cgroups
-
-The filesystem is typically utilized for accessing **cgroups**, diverging from the Unix system call interface traditionally used for kernel interactions. To investigate a shell's cgroup configuration, one should examine the **/proc/self/cgroup** file, which reveals the shell's cgroup. Then, by navigating to the **/sys/fs/cgroup** (or **`/sys/fs/cgroup/unified`**) directory and locating a directory that shares the cgroup's name, one can observe various settings and resource usage information pertinent to the cgroup.
+Το σύστημα αρχείων χρησιμοποιείται συνήθως για την πρόσβαση στα **cgroups**, αποκλίνοντας από τη διεπαφή κλήσης συστήματος Unix που χρησιμοποιείται παραδοσιακά για τις αλληλεπιδράσεις με τον πυρήνα. Για να εξετάσετε τη διαμόρφωση του cgroup ενός κελύφους, πρέπει να εξετάσετε το αρχείο **/proc/self/cgroup**, το οποίο αποκαλύπτει το cgroup του κελύφους. Στη συνέχεια, μεταβαίνοντας στον κατάλογο **/sys/fs/cgroup** (ή **`/sys/fs/cgroup/unified`**) και εντοπίζοντας έναν κατάλογο που μοιράζεται το όνομα του cgroup, μπορείτε να παρατηρήσετε διάφορες ρυθμίσεις και πληροφορίες χρήσης πόρων που σχετίζονται με το cgroup.
 
 ![Cgroup Filesystem](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
 
-The key interface files for cgroups are prefixed with **cgroup**. The **cgroup.procs** file, which can be viewed with standard commands like cat, lists the processes within the cgroup. Another file, **cgroup.threads**, includes thread information.
+Τα κύρια αρχεία διεπαφής για τα cgroups έχουν πρόθεμα **cgroup**. Το αρχείο **cgroup.procs**, το οποίο μπορεί να προβληθεί με τυπικές εντολές όπως το cat, αναφέρει τις διεργασίες εντός του cgroup. Ένα άλλο αρχείο, το **cgroup.threads**, περιλαμβάνει πληροφορίες νημάτων.
 
 ![Cgroup Procs](../../../.gitbook/assets/image%20(1)%20(1)%20(5).png)
 
-Cgroups managing shells typically encompass two controllers that regulate memory usage and process count. To interact with a controller, files bearing the controller's prefix should be consulted. For instance, **pids.current** would be referenced to ascertain the count of threads in the cgroup.
+Τα cgroups που διαχειρίζονται τα κελύφη συνήθως περιλαμβάνουν δύο ελεγκτές που ρυθμίζουν τη χρήση μνήμης και τον αριθμό των διεργασιών. Για να αλληλεπιδράσετε με έναν ελεγκτή, πρέπει να εξετάσετε τα αρχεία που φέρουν το πρόθεμα του ελεγκτή. Για παράδειγμα, το **pids.current** θα αναφερθεί για να διαπιστωθεί ο αριθμός των νημάτων στο cgroup.
 
 ![Cgroup Memory](../../../.gitbook/assets/image%20(3)%20(5).png)
 
-The indication of **max** in a value suggests the absence of a specific limit for the cgroup. However, due to the hierarchical nature of cgroups, limits might be imposed by a cgroup at a lower level in the directory hierarchy.
+Η ένδειξη **max** σε μια τιμή υποδηλώνει την απουσία ενός συγκεκριμένου ορίου για το cgroup. Ωστόσο, λόγω της ιεραρχικής φύσης των cgroups, τα όρια μπορεί να επιβληθούν από ένα cgroup σε χαμηλότερο επίπεδο στην ιεραρχία του καταλόγου.
 
 
-### Manipulating and Creating cgroups
+### Αλλαγή και δημιουργία cgroups
 
-Processes are assigned to cgroups by **writing their Process ID (PID) to the `cgroup.procs` file**. This requires root privileges. For instance, to add a process:
-
+Οι διεργασίες αντιστοιχίζονται σε cgroups γράφοντας το Process ID (PID) τους στο αρχείο `cgroup.procs`. Αυτό απαιτεί δικαιώματα διαχειριστή. Για παράδειγμα, για να προσθέσετε μια διεργασία:
 ```bash
 echo [pid] > cgroup.procs
 ```
-
-Similarly, **modifying cgroup attributes, like setting a PID limit**, is done by writing the desired value to the relevant file. To set a maximum of 3,000 PIDs for a cgroup:
-
+Ομοίως, η τροποποίηση των χαρακτηριστικών του cgroup, όπως η οριοθέτηση ενός ορίου PID, γίνεται με το να γράψετε την επιθυμητή τιμή στο αντίστοιχο αρχείο. Για να ορίσετε ένα μέγιστο όριο 3.000 PIDs για ένα cgroup:
 ```bash
 echo 3000 > pids.max
 ```
+**Δημιουργία νέων cgroups** περιλαμβάνει τη δημιουργία ενός νέου υποκαταλόγου εντός της ιεραρχίας των cgroup, η οποία προκαλεί τον πυρήνα να δημιουργήσει αυτόματα τα απαραίτητα αρχεία διεπαφής. Αν και τα cgroups χωρίς ενεργές διεργασίες μπορούν να αφαιρεθούν με την εντολή `rmdir`, πρέπει να λάβετε υπόψη τους ορισμένους περιορισμούς:
 
-**Creating new cgroups** involves making a new subdirectory within the cgroup hierarchy, which prompts the kernel to automatically generate necessary interface files. Though cgroups without active processes can be removed with `rmdir`, be aware of certain constraints:
-
-- **Processes can only be placed in leaf cgroups** (i.e., the most nested ones in a hierarchy). 
-- **A cgroup cannot possess a controller absent in its parent**.
-- **Controllers for child cgroups must be explicitly declared** in the `cgroup.subtree_control` file. For example, to enable CPU and PID controllers in a child cgroup:
-
+- **Οι διεργασίες μπορούν να τοποθετηθούν μόνο σε leaf cgroups** (δηλαδή, τα πιο εμβαδοπροσανατολισμένα σε μια ιεραρχία).
+- **Ένα cgroup δεν μπορεί να έχει έναν ελεγκτή που λείπει από τον γονέα του**.
+- **Οι ελεγκτές για τα παιδικά cgroups πρέπει να δηλωθούν ρητά** στο αρχείο `cgroup.subtree_control`. Για παράδειγμα, για να ενεργοποιήσετε τους ελεγκτές CPU και PID σε ένα παιδικό cgroup:
 ```bash
 echo "+cpu +pids" > cgroup.subtree_control
 ```
+Το **root cgroup** είναι μια εξαίρεση από αυτούς τους κανόνες, επιτρέποντας την άμεση τοποθέτηση διεργασιών. Αυτό μπορεί να χρησιμοποιηθεί για να αφαιρέσει διεργασίες από τη διαχείριση του systemd.
 
-The **root cgroup** is an exception to these rules, allowing direct process placement. This can be used to remove processes from systemd management.
+**Η παρακολούθηση της χρήσης της CPU** εντός ενός cgroup είναι δυνατή μέσω του αρχείου `cpu.stat`, που εμφανίζει το συνολικό χρόνο CPU που καταναλώνεται, χρήσιμο για την παρακολούθηση της χρήσης σε υποδιεργασίες ενός υπηρεσίας:
 
-**Monitoring CPU usage** within a cgroup is possible through the `cpu.stat` file, displaying total CPU time consumed, helpful for tracking usage across a service's subprocesses:
+<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>Στατιστικά χρήσης CPU όπως φαίνονται στο αρχείο cpu.stat</figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>CPU usage statistics as shown in the cpu.stat file</figcaption></figure>
-
-## References
-* **Book: How Linux Works, 3rd Edition: What Every Superuser Should Know By Brian Ward**
+## Αναφορές
+* **Βιβλίο: How Linux Works, 3η έκδοση: Τι πρέπει να γνωρίζει κάθε υπερχρήστης από τον Brian Ward**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

@@ -1,74 +1,58 @@
-# macOS Bundles
+# Πακέτα macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Basic Information
+## Βασικές Πληροφορίες
 
-Bundles in macOS serve as containers for a variety of resources including applications, libraries, and other necessary files, making them appear as single objects in Finder, such as the familiar `*.app` files. The most commonly encountered bundle is the `.app` bundle, though other types like `.framework`, `.systemextension`, and `.kext` are also prevalent.
+Τα πακέτα στο macOS λειτουργούν ως δοχεία για διάφορους πόρους, συμπεριλαμβανομένων εφαρμογών, βιβλιοθηκών και άλλων απαραίτητων αρχείων, καθιστώντας τα να φαίνονται ως μοναδικά αντικείμενα στο Finder, όπως τα γνωστά αρχεία `*.app`. Το πιο συνηθισμένο πακέτο που συναντάται είναι το `.app` πακέτο, αλλά και άλλοι τύποι όπως τα `.framework`, `.systemextension` και `.kext` είναι επίσης κοινά.
 
-### Essential Components of a Bundle
+### Βασικά Στοιχεία ενός Πακέτου
 
-Within a bundle, particularly within the `<application>.app/Contents/` directory, a variety of important resources are housed:
+Εντός ενός πακέτου, ιδιαίτερα μέσα στον φάκελο `<application>.app/Contents/`, υπάρχουν διάφοροι σημαντικοί πόροι:
 
-- **_CodeSignature**: This directory stores code-signing details vital for verifying the integrity of the application. You can inspect the code-signing information using commands like:
-  %%%bash
-  openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64
-  %%%
-- **MacOS**: Contains the executable binary of the application that runs upon user interaction.
-- **Resources**: A repository for the application's user interface components including images, documents, and interface descriptions (nib/xib files).
-- **Info.plist**: Acts as the application's main configuration file, crucial for the system to recognize and interact with the application appropriately.
+- **_CodeSignature**: Αυτός ο φάκελος αποθηκεύει λεπτομέρειες υπογραφής κώδικα που είναι ζωτικής σημασίας για τον έλεγχο της ακεραιότητας της εφαρμογής. Μπορείτε να επιθεωρήσετε τις πληροφορίες υπογραφής κώδικα χρησιμοποιώντας εντολές όπως:
+%%%bash
+openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64
+%%%
+- **MacOS**: Περιέχει το εκτελέσιμο δυαδικό της εφαρμογής που εκτελείται κατά τη διάρκεια της αλληλεπίδρασης με τον χρήστη.
+- **Resources**: Ένα αποθετήριο για τα στοιχεία της διεπαφής χρήστη της εφαρμογής, συμπεριλαμβανομένων εικόνων, εγγράφων και περιγραφών διεπαφής (αρχεία nib/xib).
+- **Info.plist**: Λειτουργεί ως το κύριο αρχείο διαμόρφωσης της εφαρμογής, κρίσιμο για το σύστημα για την αναγνώριση και αλληλεπίδραση με την εφαρμογή κατάλληλα.
 
-#### Important Keys in Info.plist
+#### Σημαντικά Κλειδιά στο Info.plist
 
-The `Info.plist` file is a cornerstone for application configuration, containing keys such as:
+Το αρχείο `Info.plist` είναι θεμέλιος λίθος για τη διαμόρφωση της εφαρμογής, περιέχοντας κλειδιά όπως:
 
-- **CFBundleExecutable**: Specifies the name of the main executable file located in the `Contents/MacOS` directory.
-- **CFBundleIdentifier**: Provides a global identifier for the application, used extensively by macOS for application management.
-- **LSMinimumSystemVersion**: Indicates the minimum version of macOS required for the application to run.
+- **CFBundleExecutable**: Καθορίζει το όνομα του κύριου εκτελέσιμου αρχείου που βρίσκεται στον φάκελο `Contents/MacOS`.
+- **CFBundleIdentifier**: Παρέχει ένα παγκόσμιο αναγνωριστικό για την εφαρμογή, που χρησιμοποιείται εκτενώς από το macOS για τη διαχείριση των εφαρμογών.
+- **LSMinimumSystemVersion**: Υποδεικνύει την ελάχιστη έκδοση του macOS που απαιτείται για την εκτέλεση της εφαρμογής.
 
-### Exploring Bundles
+### Εξερεύνηση Πακέτων
 
-To explore the contents of a bundle, such as `Safari.app`, the following command can be used:
+Για να εξερευνήσετε το περιεχόμενο ενός πακέτου, όπως το `Safari.app`, μπορείτε να χρησιμοποιήσετε την ακόλουθη εντολή:
 %%%bash
 ls -lR /Applications/Safari.app/Contents
 %%%
 
-This exploration reveals directories like `_CodeSignature`, `MacOS`, `Resources`, and files like `Info.plist`, each serving a unique purpose from securing the application to defining its user interface and operational parameters.
+Αυτή η εξερεύνηση αποκαλύπτει φακέλους όπως `_CodeSignature`, `MacOS`, `Resources` και αρχεία όπως το `Info.plist`, καθένα από τα οποία εξυπηρετεί μοναδικό σκοπό από την ασφάλεια της εφαρμογής μέχρι τον καθορισμό της διεπαφής χρήστη και των παραμέτρων λειτουργίας της.
 
-#### Additional Bundle Directories
+#### Επιπλέον Φακέλοι Πακέτων
 
-Beyond the common directories, bundles may also include:
+Εκτός από τους κοινούς φακέλους, τα πακέτα μπορεί να περιλαμβάνουν επίσης:
 
-- **Frameworks**: Contains bundled frameworks used by the application.
-- **PlugIns**: A directory for plug-ins and extensions that enhance the application's capabilities.
-- **XPCServices**: Holds XPC services used by the application for out-of-process communication.
+- **Frameworks**: Περιέχει συσκευασμένα πλαίσια που χρησιμοποιούνται από την εφαρμογή.
+- **PlugIns**: Ένας φάκελος για πρόσθετα και επεκτάσεις που ενισχύουν τις δυνατότητες της εφαρμογής.
+- **XPCServices**: Περιέχει XPC υπηρεσίες που χρησιμοποιούνται από την εφαρμογή για επικοινωνία εκτός διεργασίας.
 
-This structure ensures that all necessary components are encapsulated within the bundle, facilitating a modular and secure application environment.
-
-For more detailed information on `Info.plist` keys and their meanings, the Apple developer documentation provides extensive resources: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Α

