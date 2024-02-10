@@ -1,45 +1,45 @@
-# Cookies Policy
+# Cookies-Richtlinie
 
-Last updated: 02/04/2023
+Zuletzt aktualisiert: 02/04/2023
 
-### Introduction
+### Einführung
 
-This Cookies Policy applies to the following websites owned and operated by HackTricks team ("HackTricks", "we", "us" or "our"):
+Diese Cookies-Richtlinie gilt für die folgenden von HackTricks-Team ("HackTricks", "wir", "uns" oder "unser") besessenen und betriebenen Websites:
 
 * hacktricks.xyz
 * [www.hacktricks.xyz](http://www.hacktricks.xyz/)
 * book.hacktricks.xyz
 * cloud.hacktricks.xyz
 
-By using any of these websites, you agree to the use of cookies in accordance with this Cookies Policy. If you do not agree, please disable cookies in your browser settings or refrain from using our websites.
+Durch die Nutzung einer dieser Websites stimmen Sie der Verwendung von Cookies gemäß dieser Cookies-Richtlinie zu. Wenn Sie nicht zustimmen, deaktivieren Sie bitte Cookies in den Einstellungen Ihres Browsers oder verzichten Sie auf die Nutzung unserer Websites.
 
-### What are cookies?
+### Was sind Cookies?
 
-Cookies are small text files that are stored on your computer or mobile device when you visit a website. They are widely used to make websites work, improve their functionality, and provide a more personalized user experience.
+Cookies sind kleine Textdateien, die auf Ihrem Computer oder Mobilgerät gespeichert werden, wenn Sie eine Website besuchen. Sie werden häufig verwendet, um Websites zum Funktionieren zu bringen, ihre Funktionalität zu verbessern und ein personalisiertes Benutzererlebnis zu bieten.
 
-### How we use cookies
+### Wie wir Cookies verwenden
 
-We use cookies on our websites for the following purposes:
+Wir verwenden Cookies auf unseren Websites für folgende Zwecke:
 
-1. Essential cookies: These cookies are necessary for the basic functionality of our websites, such as enabling user authentication, maintaining security, and remembering your preferences.
-2. Performance cookies: These cookies help us understand how visitors interact with our websites, by collecting and reporting information anonymously. This allows us to improve our website performance and user experience.
-3. Functionality cookies: These cookies enable our websites to remember choices you make, such as your language or region, to provide a more personalized experience.
-4. Targeting/advertising cookies: These cookies are used to deliver relevant ads and marketing communications based on your interests, browsing history, and interactions with our websites.
+1. Wesentliche Cookies: Diese Cookies sind für die grundlegende Funktionalität unserer Websites erforderlich, z. B. zur Aktivierung der Benutzerauthentifizierung, Aufrechterhaltung der Sicherheit und Speicherung Ihrer Einstellungen.
+2. Leistungscookies: Diese Cookies helfen uns zu verstehen, wie Besucher mit unseren Websites interagieren, indem sie anonym Informationen sammeln und berichten. Dadurch können wir die Leistung unserer Website und das Benutzererlebnis verbessern.
+3. Funktionalitätscookies: Diese Cookies ermöglichen es unseren Websites, von Ihnen getroffene Auswahlmöglichkeiten, wie z. B. Ihre Sprache oder Region, zu speichern, um ein personalisierteres Erlebnis zu bieten.
+4. Targeting-/Werbe-Cookies: Diese Cookies werden verwendet, um relevante Anzeigen und Marketingkommunikation basierend auf Ihren Interessen, Ihrem Browserverlauf und Ihrer Interaktion mit unseren Websites bereitzustellen.
 
-Moreover, the pages book.hacktricks.xyz and cloud.hacktricks.xyz are hosted in Gitbook. You can find more information about Gitbooks cookies in [https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy).
+Darüber hinaus werden die Seiten book.hacktricks.xyz und cloud.hacktricks.xyz auf Gitbook gehostet. Weitere Informationen zu Gitbooks Cookies finden Sie unter [https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy).
 
-### Third-party cookies
+### Cookies von Drittanbietern
 
-In addition to our own cookies, we may also use third-party cookies to report website usage statistics, deliver advertisements, and enable social media sharing buttons. The use of third-party cookies is subject to their respective privacy policies.
+Neben unseren eigenen Cookies verwenden wir möglicherweise auch Cookies von Drittanbietern, um Statistiken zur Nutzung der Website zu erstellen, Werbung zu schalten und Social-Media-Sharing-Buttons zu aktivieren. Die Verwendung von Cookies von Drittanbietern unterliegt deren jeweiligen Datenschutzrichtlinien.
 
-Managing cookies
+Verwaltung von Cookies
 
-Most web browsers allow you to manage cookies through their settings. You can choose to block, delete, or limit the use of cookies on your device. However, please note that disabling cookies may affect the functionality and performance of our websites.
+Die meisten Webbrowser ermöglichen es Ihnen, Cookies über ihre Einstellungen zu verwalten. Sie können wählen, Cookies auf Ihrem Gerät zu blockieren, zu löschen oder ihre Verwendung einzuschränken. Bitte beachten Sie jedoch, dass das Deaktivieren von Cookies die Funktionalität und Leistung unserer Websites beeinträchtigen kann.
 
-Changes to this Cookies Policy
+Änderungen dieser Cookies-Richtlinie
 
-We may update this Cookies Policy from time to time to reflect changes in our practices or relevant laws. We encourage you to periodically review this page for the latest information on our cookie practices.
+Wir können diese Cookies-Richtlinie von Zeit zu Zeit aktualisieren, um Änderungen in unseren Praktiken oder relevanten Gesetzen widerzuspiegeln. Wir empfehlen Ihnen, diese Seite regelmäßig auf die neuesten Informationen zu unseren Cookie-Praktiken zu überprüfen.
 
-### Contact us
+### Kontaktieren Sie uns
 
-If you have any questions or concerns about this Cookies Policy, please contact us at [support@hacktricks.xyz](mailto:support@hacktricks.xyz)
+Wenn Sie Fragen oder Bedenken zu dieser Cookies-Richtlinie haben, kontaktieren Sie uns bitte unter [support@hacktricks.xyz](mailto:support@hacktricks.xyz)

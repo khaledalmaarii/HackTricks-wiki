@@ -2,30 +2,29 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
 
 </details>
 
-## Basic Information
+## Grundlegende Informationen
 
-**Linux Control Groups**, or **cgroups**, are a feature of the Linux kernel that allows the allocation, limitation, and prioritization of system resources like CPU, memory, and disk I/O among process groups. They offer a mechanism for **managing and isolating the resource usage** of process collections, beneficial for purposes such as resource limitation, workload isolation, and resource prioritization among different process groups.
+**Linux Control Groups** oder **cgroups** sind eine Funktion des Linux-Kernels, die die Zuweisung, Begrenzung und Priorisierung von Systemressourcen wie CPU, Speicher und Festplatten-E/A für Prozessgruppen ermöglicht. Sie bieten einen Mechanismus zum **Verwalten und Isolieren der Ressourcennutzung** von Prozesssammlungen, der für Zwecke wie Ressourcenbegrenzung, Arbeitslastisolierung und Ressourcenpriorisierung zwischen verschiedenen Prozessgruppen vorteilhaft ist.
 
-There are **two versions of cgroups**: version 1 and version 2. Both can be used concurrently on a system. The primary distinction is that **cgroups version 2** introduces a **hierarchical, tree-like structure**, enabling more nuanced and detailed resource distribution among process groups. Additionally, version 2 brings various enhancements, including:
+Es gibt **zwei Versionen von cgroups**: Version 1 und Version 2. Beide können gleichzeitig auf einem System verwendet werden. Der Hauptunterschied besteht darin, dass **cgroups Version 2** eine **hierarchische, baumartige Struktur** einführt, die eine nuanciertere und detailliertere Ressourcenverteilung zwischen Prozessgruppen ermöglicht. Darüber hinaus bringt Version 2 verschiedene Verbesserungen mit sich, darunter:
 
-In addition to the new hierarchical organization, cgroups version 2 also introduced **several other changes and improvements**, such as support for **new resource controllers**, better support for legacy applications, and improved performance.
+Neben der neuen hierarchischen Organisation hat cgroups Version 2 auch **weitere Änderungen und Verbesserungen** eingeführt, wie die Unterstützung für **neue Ressourcencontroller**, eine bessere Unterstützung für Legacy-Anwendungen und verbesserte Leistung.
 
-Overall, cgroups **version 2 offers more features and better performance** than version 1, but the latter may still be used in certain scenarios where compatibility with older systems is a concern.
+Insgesamt bietet cgroups **Version 2 mehr Funktionen und bessere Leistung** als Version 1, aber letztere kann immer noch in bestimmten Szenarien verwendet werden, in denen die Kompatibilität mit älteren Systemen eine Rolle spielt.
 
-You can list the v1 and v2 cgroups for any process by looking at its cgroup file in /proc/\<pid>. You can start by looking at your shell’s cgroups with this command:
-
+Sie können die v1- und v2-cgroups für jeden Prozess auflisten, indem Sie die cgroup-Datei in /proc/\<pid> betrachten. Sie können mit diesem Befehl mit den cgroups Ihrer Shell beginnen:
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -40,75 +39,68 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
+Die Ausgabestruktur ist wie folgt:
 
-The output structure is as follows:
+- **Zahlen 2–12**: cgroups v1, wobei jede Zeile einen anderen cgroup darstellt. Die Controller für diese werden neben der Nummer angegeben.
+- **Nummer 1**: Auch cgroups v1, aber ausschließlich für Verwaltungszwecke (festgelegt durch z.B. systemd) und ohne Controller.
+- **Nummer 0**: Stellt cgroups v2 dar. Es werden keine Controller aufgelistet und diese Zeile ist exklusiv für Systeme, die nur cgroups v2 ausführen.
+- Die **Namen sind hierarchisch**, ähnlich wie Dateipfade, und geben die Struktur und Beziehung zwischen verschiedenen cgroups an.
+- **Namen wie /user.slice oder /system.slice** geben die Kategorisierung der cgroups an, wobei user.slice in der Regel für von systemd verwaltete Anmeldesitzungen und system.slice für Systemdienste verwendet wird.
 
-- **Numbers 2–12**: cgroups v1, with each line representing a different cgroup. Controllers for these are specified adjacent to the number.
-- **Number 1**: Also cgroups v1, but solely for management purposes (set by, e.g., systemd), and lacks a controller.
-- **Number 0**: Represents cgroups v2. No controllers are listed, and this line is exclusive on systems only running cgroups v2.
-- The **names are hierarchical**, resembling file paths, indicating the structure and relationship between different cgroups.
-- **Names like /user.slice or /system.slice** specify the categorization of cgroups, with user.slice typically for login sessions managed by systemd and system.slice for system services.
+### Anzeigen von cgroups
 
-### Viewing cgroups
+Das Dateisystem wird in der Regel zur **Zugriff auf cgroups** verwendet, im Gegensatz zur Unix-Systemaufrufschnittstelle, die traditionell für Kernelinteraktionen verwendet wird. Um die cgroup-Konfiguration einer Shell zu untersuchen, sollte die Datei **/proc/self/cgroup** überprüft werden, die die cgroup der Shell anzeigt. Anschließend kann man durch Navigieren zum Verzeichnis **/sys/fs/cgroup** (oder **`/sys/fs/cgroup/unified`**) und das Auffinden eines Verzeichnisses mit demselben Namen wie die cgroup verschiedene Einstellungen und Informationen zur Ressourcennutzung anzeigen.
 
-The filesystem is typically utilized for accessing **cgroups**, diverging from the Unix system call interface traditionally used for kernel interactions. To investigate a shell's cgroup configuration, one should examine the **/proc/self/cgroup** file, which reveals the shell's cgroup. Then, by navigating to the **/sys/fs/cgroup** (or **`/sys/fs/cgroup/unified`**) directory and locating a directory that shares the cgroup's name, one can observe various settings and resource usage information pertinent to the cgroup.
+![Cgroup-Dateisystem](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
 
-![Cgroup Filesystem](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
-
-The key interface files for cgroups are prefixed with **cgroup**. The **cgroup.procs** file, which can be viewed with standard commands like cat, lists the processes within the cgroup. Another file, **cgroup.threads**, includes thread information.
+Die wichtigsten Schnittstellendateien für cgroups haben das Präfix **cgroup**. Die Datei **cgroup.procs**, die mit Standardbefehlen wie cat angezeigt werden kann, listet die Prozesse innerhalb der cgroup auf. Eine andere Datei, **cgroup.threads**, enthält Thread-Informationen.
 
 ![Cgroup Procs](../../../.gitbook/assets/image%20(1)%20(1)%20(5).png)
 
-Cgroups managing shells typically encompass two controllers that regulate memory usage and process count. To interact with a controller, files bearing the controller's prefix should be consulted. For instance, **pids.current** would be referenced to ascertain the count of threads in the cgroup.
+Cgroups, die Shells verwalten, umfassen in der Regel zwei Controller, die den Speicherverbrauch und die Prozessanzahl regeln. Um mit einem Controller zu interagieren, sollten Dateien mit dem Präfix des Controllers konsultiert werden. Zum Beispiel würde **pids.current** verwendet, um die Anzahl der Threads in der cgroup zu ermitteln.
 
 ![Cgroup Memory](../../../.gitbook/assets/image%20(3)%20(5).png)
 
-The indication of **max** in a value suggests the absence of a specific limit for the cgroup. However, due to the hierarchical nature of cgroups, limits might be imposed by a cgroup at a lower level in the directory hierarchy.
+Das Vorhandensein von **max** in einem Wert deutet auf das Fehlen einer spezifischen Begrenzung für die cgroup hin. Aufgrund der hierarchischen Struktur von cgroups können jedoch Begrenzungen von einer cgroup auf einer niedrigeren Ebene in der Verzeichnishierarchie auferlegt werden.
 
 
-### Manipulating and Creating cgroups
+### Manipulation und Erstellung von cgroups
 
-Processes are assigned to cgroups by **writing their Process ID (PID) to the `cgroup.procs` file**. This requires root privileges. For instance, to add a process:
-
+Prozesse werden cgroups zugewiesen, indem ihre Prozess-ID (PID) in die Datei `cgroup.procs` geschrieben wird. Hierfür sind Root-Rechte erforderlich. Um beispielsweise einen Prozess hinzuzufügen:
 ```bash
 echo [pid] > cgroup.procs
 ```
-
-Similarly, **modifying cgroup attributes, like setting a PID limit**, is done by writing the desired value to the relevant file. To set a maximum of 3,000 PIDs for a cgroup:
-
+Ebenso wird das **Ändern von cgroup-Attributen, wie das Festlegen eines PID-Limits**, durch das Schreiben des gewünschten Werts in die entsprechende Datei durchgeführt. Um ein Maximum von 3.000 PIDs für eine cgroup festzulegen:
 ```bash
 echo 3000 > pids.max
 ```
+**Erstellen neuer cgroups** beinhaltet das Erstellen eines neuen Unterverzeichnisses innerhalb der cgroup-Hierarchie, was dazu führt, dass der Kernel automatisch die erforderlichen Schnittstellen-Dateien generiert. Obwohl cgroups ohne aktive Prozesse mit `rmdir` entfernt werden können, sollten bestimmte Einschränkungen beachtet werden:
 
-**Creating new cgroups** involves making a new subdirectory within the cgroup hierarchy, which prompts the kernel to automatically generate necessary interface files. Though cgroups without active processes can be removed with `rmdir`, be aware of certain constraints:
-
-- **Processes can only be placed in leaf cgroups** (i.e., the most nested ones in a hierarchy). 
-- **A cgroup cannot possess a controller absent in its parent**.
-- **Controllers for child cgroups must be explicitly declared** in the `cgroup.subtree_control` file. For example, to enable CPU and PID controllers in a child cgroup:
-
+- **Prozesse können nur in Blattcgroups platziert werden** (d.h. den am weitesten verschachtelten in einer Hierarchie).
+- **Ein cgroup kann keinen Controller besitzen, der in seinem Elternteil fehlt**.
+- **Controller für Untercgroups müssen explizit im `cgroup.subtree_control`-Datei deklariert werden**. Zum Beispiel, um CPU- und PID-Controller in einer Untercgroup zu aktivieren:
 ```bash
 echo "+cpu +pids" > cgroup.subtree_control
 ```
+Die **Root-Cgroup** ist eine Ausnahme von diesen Regeln und ermöglicht eine direkte Prozessplatzierung. Dies kann verwendet werden, um Prozesse aus der systemd-Verwaltung zu entfernen.
 
-The **root cgroup** is an exception to these rules, allowing direct process placement. This can be used to remove processes from systemd management.
+Die **Überwachung der CPU-Auslastung** innerhalb einer Cgroup ist über die Datei `cpu.stat` möglich, die die insgesamt verbrauchte CPU-Zeit anzeigt und hilfreich ist, um die Nutzung über die Unterprozesse eines Dienstes zu verfolgen:
 
-**Monitoring CPU usage** within a cgroup is possible through the `cpu.stat` file, displaying total CPU time consumed, helpful for tracking usage across a service's subprocesses:
+<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>CPU-Auslastungsstatistik wie in der Datei cpu.stat angezeigt</figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>CPU usage statistics as shown in the cpu.stat file</figcaption></figure>
-
-## References
-* **Book: How Linux Works, 3rd Edition: What Every Superuser Should Know By Brian Ward**
+## Referenzen
+* **Buch: How Linux Works, 3. Auflage: Was jeder Superuser wissen sollte von Brian Ward**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

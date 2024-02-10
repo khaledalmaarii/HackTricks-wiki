@@ -2,148 +2,147 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Lernen Sie das Hacken von AWS von Null auf Held mit <a href="https://training.hacktricks.xyz/courses/arte">htARTE (HackTricks AWS Red Team Expert)</a>!</summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+- Wenn Sie Ihr Unternehmen in HackTricks bewerben möchten oder HackTricks als PDF herunterladen möchten, überprüfen Sie die [ABONNEMENTPLÄNE](https://github.com/sponsors/carlospolop)!
+- Holen Sie sich das offizielle PEASS & HackTricks-Merchandise
+- Entdecken Sie die PEASS-Familie, unsere Sammlung exklusiver NFTs
+- Treten Sie der Discord-Gruppe oder der Telegram-Gruppe bei oder folgen Sie uns auf Twitter
+- Teilen Sie Ihre Hacking-Tricks, indem Sie PRs zu den HackTricks- und HackTricks Cloud-GitHub-Repositories einreichen.
 
 </details>
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+Finden Sie die wichtigsten Schwachstellen, damit Sie sie schneller beheben können. Intruder verfolgt Ihre Angriffsfläche, führt proaktive Bedrohungsscans durch und findet Probleme in Ihrer gesamten Technologieinfrastruktur, von APIs über Webanwendungen bis hin zu Cloud-Systemen. Probieren Sie es noch heute [kostenlos aus](https://www.intruder.io/?utm_source=referral&utm_campaign=hacktricks).
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 ***
 
-## Intro <a href="#kfpn7" id="kfpn7"></a>
+## Einführung <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero can **receive and transmit radio frequencies in the range of 300-928 MHz** with its built-in module, which can read, save, and emulate remote controls. These controls are used for interaction with gates, barriers, radio locks, remote control switches, wireless doorbells, smart lights, and more. Flipper Zero can help you to learn if your security is compromised.
+Flipper Zero kann Funkfrequenzen im Bereich von 300-928 MHz empfangen und senden. Mit seinem integrierten Modul kann es Fernbedienungen lesen, speichern und emulieren. Diese Fernbedienungen werden zur Interaktion mit Toren, Schranken, Funktürschlössern, drahtlosen Türklingeln, intelligenten Lichtern und mehr verwendet. Flipper Zero kann Ihnen helfen herauszufinden, ob Ihre Sicherheit gefährdet ist.
 
 <figure><img src="../../../.gitbook/assets/image (3) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Sub-GHz hardware <a href="#kfpn7" id="kfpn7"></a>
+## Sub-GHz-Hardware <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero has a built-in sub-1 GHz module based on a [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101 chip](https://www.ti.com/lit/ds/symlink/cc1101.pdf) and a radio antenna (the maximum range is 50 meters). Both the CC1101 chip and the antenna are designed to operate at frequencies in the 300-348 MHz, 387-464 MHz, and 779-928 MHz bands.
+Flipper Zero verfügt über ein integriertes Sub-1-GHz-Modul, das auf einem [CC1101-Chip](https://www.ti.com/lit/ds/symlink/cc1101.pdf) und einer Funkantenne basiert (die maximale Reichweite beträgt 50 Meter). Sowohl der CC1101-Chip als auch die Antenne sind für den Betrieb bei Frequenzen in den Bändern 300-348 MHz, 387-464 MHz und 779-928 MHz ausgelegt.
 
 <figure><img src="../../../.gitbook/assets/image (1) (8) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Actions
+## Aktionen
 
-### Frequency Analyser
-
-{% hint style="info" %}
-How to find which frequency is the remote using
-{% endhint %}
-
-When analysing, Flipper Zero is scanning signals strength (RSSI) at all the frequencies available in frequency configuration. Flipper Zero displays the frequency with the highest RSSI value, with signal strength higher than -90 [dBm](https://en.wikipedia.org/wiki/DBm).
-
-To determine the remote's frequency, do the following:
-
-1. Place the remote control very close to the left of Flipper Zero.
-2. Go to **Main Menu** **→ Sub-GHz**.
-3. Select **Frequency Analyzer**, then press and hold the button on the remote control you want to analyze.
-4. Review the frequency value on the screen.
-
-### Read
+### Frequenzanalysator
 
 {% hint style="info" %}
-Find info about the frequency used (also another way to find which frequency is used)
+Wie man herausfindet, welche Frequenz die Fernbedienung verwendet
 {% endhint %}
 
-The **Read** option **listens on the configured frequency** on the indicated modulation: 433.92 AM by default. If **something is found** when reading, **info is given** in the screen. This info could be use to replicate the signal in the future.
+Beim Analysieren scannt Flipper Zero die Signalstärke (RSSI) bei allen verfügbaren Frequenzen in der Frequenzkonfiguration. Flipper Zero zeigt die Frequenz mit dem höchsten RSSI-Wert an, mit einer Signalstärke von mehr als -90 [dBm](https://en.wikipedia.org/wiki/DBm).
 
-While Read is in use, it's possible to press the **left button** and **configure it**.\
-At this moment it has **4 modulations** (AM270, AM650, FM328 and FM476), and **several relevant frequencies** stored:
+Um die Frequenz der Fernbedienung zu bestimmen, gehen Sie wie folgt vor:
+
+1. Platzieren Sie die Fernbedienung ganz nah links von Flipper Zero.
+2. Gehen Sie zu **Hauptmenü → Sub-GHz**.
+3. Wählen Sie **Frequenzanalysator** aus und halten Sie dann die Taste auf der Fernbedienung gedrückt, die Sie analysieren möchten.
+4. Überprüfen Sie den Frequenzwert auf dem Bildschirm.
+
+### Lesen
+
+{% hint style="info" %}
+Informationen über die verwendete Frequenz finden (auch eine andere Möglichkeit, die verwendete Frequenz zu finden)
+{% endhint %}
+
+Die Option **Lesen** **hört auf der konfigurierten Frequenz** mit der angegebenen Modulation: standardmäßig 433,92 AM. Wenn beim Lesen **etwas gefunden wird**, werden Informationen auf dem Bildschirm angezeigt. Diese Informationen können verwendet werden, um das Signal in der Zukunft zu replizieren.
+
+Während Lesen verwendet wird, ist es möglich, die **linke Taste zu drücken und sie zu konfigurieren**.\
+Zu diesem Zeitpunkt stehen **4 Modulationen** zur Verfügung (AM270, AM650, FM328 und FM476), und **mehrere relevante Frequenzen** sind gespeichert:
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
-You can set **any that interests you**, however, if you are **not sure which frequency** could be the one used by the remote you have, **set Hopping to ON** (Off by default), and press the button several times until Flipper captures it and give you the info you need to set the frequency.
+Sie können **jede interessante Frequenz** einstellen. Wenn Sie jedoch **nicht sicher sind, welche Frequenz** von der Fernbedienung verwendet wird, die Sie haben, **schalten Sie das Hopping ein** (standardmäßig aus) und drücken Sie die Taste mehrmals, bis Flipper sie erfasst und Ihnen die benötigten Informationen zur Einstellung der Frequenz gibt.
 
 {% hint style="danger" %}
-Switching between frequencies takes some time, therefore signals transmitted at the time of switching can be missed. For better signal reception, set a fixed frequency determined by Frequency Analyzer.
+Das Umschalten zwischen Frequenzen dauert einige Zeit, daher können Signale, die während des Umschaltens übertragen werden, verpasst werden. Für einen besseren Signalempfang stellen Sie eine feste Frequenz ein, die durch den Frequenzanalysator bestimmt wird.
 {% endhint %}
 
-### **Read Raw**
+### **Rohdaten lesen**
 
 {% hint style="info" %}
-Steal (and replay) a signal in the configured frequency
+Ein Signal in der konfigurierten Frequenz stehlen (und wiederholen)
 {% endhint %}
 
-The **Read Raw** option **records signals** send in the listening frequency. This can be used to **steal** a signal and **repeat** it.
+Die Option **Rohdaten lesen** **zeichnet Signale** auf, die in der empfangenen Frequenz gesendet werden. Dies kann verwendet werden, um ein Signal zu **stehlen** und es zu **wiederholen**.
 
-By default **Read Raw is also in 433.92 in AM650**, but if with the Read option you found that the signal that interest you is in a **different frequency/modulation, you can also modify that** pressing left (while inside the Read Raw option).
+Standardmäßig ist **Rohdaten lesen auch auf 433,92 in AM650** eingestellt, aber wenn Sie mit der Option Lesen festgestellt haben, dass das interessierende Signal in einer **anderen Frequenz/Modulation** liegt, können Sie dies auch ändern, indem Sie links drücken (während Sie sich in der Option Rohdaten lesen befinden).
 
 ### Brute-Force
 
-If you know the protocol used for example by the garage door it's possible to g**enerate all the codes and send them with the Flipper Zero.** This is an example that support general common types of garages: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)\*\*\*\*
+Wenn Sie das Protokoll kennen, das beispielsweise von der Garagentür verwendet wird, können Sie **alle Codes generieren und mit dem Flipper Zero senden**. Hier ist ein Beispiel, das allgemeine gängige Arten von Garagen unterstützt: [https://github.com/tobiabocchi/flipperzero-bruteforce](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
-### Add Manually
+### Manuell hinzufügen
 
 {% hint style="info" %}
-Add signals from a configured list of protocols
+Signale aus einer konfigurierten Liste von Protokollen hinzufügen
 {% endhint %}
 
-#### List of [supported protocols](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#3iglu" id="3iglu"></a>
+#### Liste der [unterstützten Protokolle](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#3iglu" id="3iglu"></a>
 
-| Princeton\_433 (works with the majority of static code systems) | 433.92 | Static  |
+| Princeton\_433 (funktioniert mit den meisten statischen Codesystemen) | 433,92 | Statisch |
 | --------------------------------------------------------------- | ------ | ------- |
-| Nice Flo 12bit\_433                                             | 433.92 | Static  |
-| Nice Flo 24bit\_433                                             | 433.92 | Static  |
-| CAME 12bit\_433                                                 | 433.92 | Static  |
-| CAME 24bit\_433                                                 | 433.92 | Static  |
-| Linear\_300                                                     | 300.00 | Static  |
-| CAME TWEE                                                       | 433.92 | Static  |
-| Gate TX\_433                                                    | 433.92 | Static  |
-| DoorHan\_315                                                    | 315.00 | Dynamic |
-| DoorHan\_433                                                    | 433.92 | Dynamic |
-| LiftMaster\_315                                                 | 315.00 | Dynamic |
-| LiftMaster\_390                                                 | 390.00 | Dynamic |
-| Security+2.0\_310                                               | 310.00 | Dynamic |
-| Security+2.0\_315                                               | 315.00 | Dynamic |
-| Security+2.0\_390                                               | 390.00 | Dynamic |
+| Nice Flo 12bit\_433                                             | 433,92 | Statisch |
+| Nice Flo 24bit\_433                                             | 433,92 | Statisch |
+| CAME 12bit\_433                                                 | 433,92 | Statisch |
+| CAME 24bit\_433                                                 | 433,92 | Statisch |
+| Linear\_300                                                     | 300,00 | Statisch |
+| CAME TWEE                                                       | 433,92 | Statisch |
+| Gate TX\_433                                                    | 433,92 | Statisch |
+| DoorHan\_315                                                    | 315,00 | Dynamisch |
+| DoorHan\_433                                                    | 433,92 | Dynamisch |
+| LiftMaster\_315                                                 | 315,00 | Dynamisch |
+| LiftMaster\_390                                                 | 390,00 | Dynamisch |
+| Security+2.0\_310                                               | 310,00 | Dynamisch |
+| Security+2.0\_315                                               | 315,00 | Dynamisch |
+| Security+2.0\_390                                               | 390,00 | Dynamisch |
+### Unterstützte Sub-GHz-Anbieter
 
-### Supported Sub-GHz vendors
+Überprüfen Sie die Liste unter [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
 
-Check the list in [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
+### Unterstützte Frequenzen nach Region
 
-### Supported Frequencies by region
-
-Check the list in [https://docs.flipperzero.one/sub-ghz/frequencies](https://docs.flipperzero.one/sub-ghz/frequencies)
+Überprüfen Sie die Liste unter [https://docs.flipperzero.one/sub-ghz/frequencies](https://docs.flipperzero.one/sub-ghz/frequencies)
 
 ### Test
 
 {% hint style="info" %}
-Get dBms of the saved frequencies
+Erhalten Sie dBms der gespeicherten Frequenzen
 {% endhint %}
 
-## Reference
+## Referenz
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+Finden Sie die wichtigsten Schwachstellen, damit Sie sie schneller beheben können. Intruder verfolgt Ihre Angriffsfläche, führt proaktive Bedrohungsscans durch und findet Probleme in Ihrer gesamten Technologie-Stack, von APIs über Webanwendungen bis hin zu Cloud-Systemen. [**Probieren Sie es noch heute kostenlos aus**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

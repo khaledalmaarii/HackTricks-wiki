@@ -2,30 +2,29 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
 
 </details>
 
-## Context
+## Kontext
 
-In Linux in order to run a program it must exist as a file, it must be accessible in some way through the file system hierarchy (this is just how `execve()` works). This file may reside on disk or in ram (tmpfs, memfd) but you need a filepath. This has made very easy to control what is run on a Linux system, it makes easy to detect threats and attacker's tools or to prevent them from trying to execute anything of theirs at all (_e. g._ not allowing unprivileged users to place executable files anywhere).
+In Linux muss ein Programm existieren und als Datei zugänglich sein, um ausgeführt werden zu können (so funktioniert `execve()`). Diese Datei kann auf der Festplatte oder im RAM (tmpfs, memfd) liegen, aber Sie benötigen einen Dateipfad. Dadurch wird es sehr einfach, zu kontrollieren, was auf einem Linux-System ausgeführt wird. Es erleichtert die Erkennung von Bedrohungen und Angreiferwerkzeugen oder verhindert, dass nicht privilegierte Benutzer ausführbare Dateien überhaupt irgendwo platzieren können.
 
-But this technique is here to change all of this. If you can not start the process you want... **then you hijack one already existing**.
+Aber diese Technik ist hier, um all das zu ändern. Wenn Sie den gewünschten Prozess nicht starten können... **übernehmen Sie einfach einen bereits vorhandenen**.
 
-This technique allows you to **bypass common protection techniques such as read-only, noexec, file-name whitelisting, hash whitelisting...**
+Diese Technik ermöglicht es Ihnen, gängige Schutztechniken wie schreibgeschützt, noexec, Whitelist für Dateinamen, Whitelist für Hashes zu umgehen...
 
-## Dependencies
+## Abhängigkeiten
 
-The final script depends on the following tools to work, they need to be accessible in the system you are attacking (by default you will find all of them everywhere):
-
+Das endgültige Skript hängt von den folgenden Tools ab, um zu funktionieren. Sie müssen auf dem System, das Sie angreifen, zugänglich sein (standardmäßig finden Sie sie überall):
 ```
 dd
 bash | zsh | ash (busybox)
@@ -39,80 +38,73 @@ wc
 tr
 base64
 ```
+## Die Technik
 
-## The technique
+Wenn Sie den Speicher eines Prozesses beliebig ändern können, können Sie ihn übernehmen. Dies kann verwendet werden, um einen bereits vorhandenen Prozess zu übernehmen und durch ein anderes Programm zu ersetzen. Dies kann entweder durch Verwendung des `ptrace()`-Systemaufrufs (der das Ausführen von Systemaufrufen erfordert oder gdb auf dem System verfügbar haben muss) oder interessanterweise durch Schreiben in `/proc/$pid/mem` erreicht werden.
 
-If you are able to modify arbitrarily the memory of a process then you can take over it. This can be used to hijack an already existing process and replace it with another program. We can achieve this either by using the `ptrace()` syscall (which requires you to have the ability to execute syscalls or to have gdb available on the system) or, more interestingly, writing to `/proc/$pid/mem`.
+Die Datei `/proc/$pid/mem` ist eine Eins-zu-Eins-Abbildung des gesamten Adressraums eines Prozesses (_z. B._ von `0x0000000000000000` bis `0x7ffffffffffff000` in x86-64). Dies bedeutet, dass das Lesen oder Schreiben dieser Datei an einer Offset-Position `x` dem Lesen oder Ändern des Inhalts an der virtuellen Adresse `x` entspricht.
 
-The file `/proc/$pid/mem` is a one-to-one mapping of the entire address space of a process (_e. g._ from `0x0000000000000000` to `0x7ffffffffffff000` in x86-64). This means that reading from or writing to this file at an offset `x` is the same as reading from or modifying the contents at the virtual address `x`.
+Nun haben wir vier grundlegende Probleme zu bewältigen:
 
-Now, we have four basic problems to face:
-
-* In general, only root and the program owner of the file may modify it.
+* Im Allgemeinen können nur der Root-Benutzer und der Programm-Besitzer die Datei ändern.
 * ASLR.
-* If we try to read or write to an address not mapped in the address space of the program we will get an I/O error.
+* Wenn wir versuchen, an eine Adresse zu lesen oder zu schreiben, die nicht im Adressraum des Programms abgebildet ist, erhalten wir einen E/A-Fehler.
 
-This problems have solutions that, although they are not perfect, are good:
+Diese Probleme haben Lösungen, die zwar nicht perfekt sind, aber gut:
 
-* Most shell interpreters allow the creation of file descriptors that will then be inherited by child processes. We can create a fd pointing to the `mem` file of the sell with write permissions... so child processes that use that fd will be able to modify the shell's memory.
-* ASLR isn't even a problem, we can check the shell's `maps` file or any other from the procfs in order to gain information about the address space of the process.
-* So we need to `lseek()` over the file. From the shell this cannot be done unless using the infamous `dd`.
+* Die meisten Shell-Interpreter ermöglichen die Erstellung von Dateideskriptoren, die dann von Kindprozessen geerbt werden. Wir können einen Dateideskriptor erstellen, der auf die `mem`-Datei der Shell mit Schreibberechtigungen zeigt... so dass Kindprozesse, die diesen Dateideskriptor verwenden, den Speicher der Shell ändern können.
+* ASLR ist kein Problem, wir können die `maps`-Datei der Shell oder eine andere aus dem procfs überprüfen, um Informationen über den Adressraum des Prozesses zu erhalten.
+* Wir müssen uns also über die Datei bewegen (`lseek()`). Dies kann von der Shell aus nicht gemacht werden, es sei denn, man verwendet das berüchtigte `dd`.
 
-### In more detail
+### Detaillierter
 
-The steps are relatively easy and do not require any kind of expertise to understand them:
+Die Schritte sind relativ einfach und erfordern keine besondere Expertise, um sie zu verstehen:
 
-* Parse the binary we want to run and the loader to find out what mappings they need. Then craft a "shell"code that will perform, broadly speaking, the same steps that the kernel does upon each call to `execve()`:
-  * Create said mappings.
-  * Read the binaries into them.
-  * Set up permissions.
-  * Finally initialize the stack with the arguments for the program and place the auxiliary vector (needed by the loader).
-  * Jump into the loader and let it do the rest (load libraries needed by the program).
-* Obtain from the `syscall` file the address to which the process will return after the syscall it is executing.
-* Overwrite that place, which will be executable, with our shellcode (through `mem` we can modify unwritable pages).
-* Pass the program we want to run to the stdin of the process (will be `read()` by said "shell"code).
-* At this point it is up to the loader to load the necessary libraries for our program and jump into it.
+* Analysieren Sie die auszuführende Binärdatei und den Loader, um herauszufinden, welche Abbildungen sie benötigen. Erstellen Sie dann einen "Shell"-Code, der im Wesentlichen die gleichen Schritte ausführt, die der Kernel bei jedem Aufruf von `execve()` durchführt:
+* Erstellen Sie diese Abbildungen.
+* Lesen Sie die Binärdateien in sie ein.
+* Richten Sie Berechtigungen ein.
+* Initialisieren Sie schließlich den Stack mit den Argumenten für das Programm und platzieren Sie den Hilfsvektor (der vom Loader benötigt wird).
+* Springen Sie in den Loader und lassen Sie ihn den Rest erledigen (Laden der für das Programm benötigten Bibliotheken).
+* Ermitteln Sie aus der Datei `syscall` die Adresse, zu der der Prozess nach dem Ausführen des Systemaufrufs zurückkehren wird.
+* Überschreiben Sie diesen Ort, der ausführbar sein wird, mit unserem Shellcode (über `mem` können wir unbeschreibbare Seiten ändern).
+* Übergeben Sie das Programm, das wir ausführen möchten, an den stdin des Prozesses (wird von besagtem "Shell"-Code `read()`).
+* An diesem Punkt liegt es am Loader, die erforderlichen Bibliotheken für unser Programm zu laden und in es zu springen.
 
-**Check out the tool in** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
+**Schauen Sie sich das Tool unter** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec) **an**
 
 ## EverythingExec
 
-There are several alternatives to `dd`, one of which, `tail`, is currently the default program used to `lseek()` through the `mem` file (which was the sole purpose for using `dd`). Said alternatives are:
-
+Es gibt mehrere Alternativen zu `dd`, von denen `tail` eine ist, die derzeit das Standardprogramm ist, das zum `lseek()` durch die `mem`-Datei verwendet wird (was der einzige Zweck für die Verwendung von `dd` war). Diese Alternativen sind:
 ```bash
 tail
 hexdump
 cmp
 xxd
 ```
-
-Setting the variable `SEEKER` you may change the seeker used, _e. g._:
-
+Durch das Setzen der Variable `SEEKER` können Sie den verwendeten Sucher ändern, z. B.:
 ```bash
 SEEKER=cmp bash ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-
-If you find another valid seeker not implemented in the script you may still use it setting the `SEEKER_ARGS` variable:
-
+Wenn Sie einen anderen gültigen Sucher finden, der nicht im Skript implementiert ist, können Sie ihn immer noch verwenden, indem Sie die Variable `SEEKER_ARGS` festlegen:
 ```bash
 SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
+Blockieren Sie das, EDRs.
 
-Block this, EDRs.
-
-## References
+## Referenzen
 * [https://github.com/arget13/DDexec](https://github.com/arget13/DDexec)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

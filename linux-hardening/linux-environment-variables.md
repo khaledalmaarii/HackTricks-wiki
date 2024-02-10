@@ -1,50 +1,57 @@
-# Linux Environment Variables
+# Linux Umgebungsvariablen
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
-## Global variables
+## Globale Variablen
 
-The global variables **will be** inherited by **child processes**.
+Die globalen Variablen **werden** von **Kindprozessen** geerbt.
 
-You can create a global variable for your current session doing:
-
+Sie können eine globale Variable für Ihre aktuelle Sitzung erstellen, indem Sie Folgendes tun:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
+Diese Variable ist für Ihre aktuellen Sitzungen und deren Kindprozesse zugänglich.
 
-This variable will be accessible by your current sessions and its child processes.
-
-You can **remove** a variable doing:
-
+Sie können eine Variable **entfernen**, indem Sie Folgendes tun:
 ```bash
 unset MYGLOBAL
 ```
+## Lokale Variablen
 
-## Local variables
-
-The **local variables** can only be **accessed** by the **current shell/script**.
-
+Die **lokalen Variablen** können nur von der **aktuellen Shell/dem aktuellen Skript** **abgerufen** werden.
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
+## Liste aktueller Variablen
 
-## List current variables
+To list the current environment variables in Linux, you can use the `printenv` command. This command will display all the variables and their values in the current environment.
 
+```bash
+printenv
+```
+
+Alternatively, you can use the `env` command to achieve the same result:
+
+```bash
+env
+```
+
+Both commands will provide you with a list of the current environment variables, which can be useful for troubleshooting or understanding the system's configuration.
 ```bash
 set
 env
@@ -52,97 +59,88 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
+## Gemeinsame Variablen
 
-## Common variables
+Von: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
+* **DISPLAY** - die Anzeige, die von **X** verwendet wird. Diese Variable ist normalerweise auf **:0.0** eingestellt, was die erste Anzeige auf dem aktuellen Computer bedeutet.
+* **EDITOR** - der bevorzugte Texteditor des Benutzers.
+* **HISTFILESIZE** - die maximale Anzahl von Zeilen, die in der Verlaufsdatei enthalten sind.
+* **HISTSIZE** - Anzahl der Zeilen, die der Verlaufsdatei hinzugefügt werden, wenn der Benutzer seine Sitzung beendet.
+* **HOME** - Ihr Home-Verzeichnis.
+* **HOSTNAME** - der Hostname des Computers.
+* **LANG** - Ihre aktuelle Sprache.
+* **MAIL** - der Speicherort des Postfachs des Benutzers. Normalerweise **/var/spool/mail/USER**.
+* **MANPATH** - die Liste der Verzeichnisse, in denen nach Handbuchseiten gesucht wird.
+* **OSTYPE** - der Typ des Betriebssystems.
+* **PS1** - die Standard-Eingabeaufforderung in Bash.
+* **PATH** - speichert den Pfad aller Verzeichnisse, die ausführbare Binärdateien enthalten, die Sie nur durch Angabe des Dateinamens und nicht durch relativen oder absoluten Pfad ausführen möchten.
+* **PWD** - das aktuelle Arbeitsverzeichnis.
+* **SHELL** - der Pfad zur aktuellen Befehlsshell (z. B. **/bin/bash**).
+* **TERM** - der aktuelle Terminaltyp (z. B. **xterm**).
+* **TZ** - Ihre Zeitzone.
+* **USER** - Ihr aktueller Benutzername.
 
-* **DISPLAY** – the display used by **X**. This variable is usually set to **:0.0**, which means the first display on the current computer.
-* **EDITOR** – the user’s preferred text editor.
-* **HISTFILESIZE** – the maximum number of lines contained in the history file.
-* **HISTSIZE** – Number of lines added to the history file when the user finish his session
-* **HOME** – your home directory.
-* **HOSTNAME** – the hostname of the computer.
-* **LANG** – your current language.
-* **MAIL** – the location of the user’s mail spool. Usually **/var/spool/mail/USER**.
-* **MANPATH** – the list of directories to search for manual pages.
-* **OSTYPE** – the type of operating system.
-* **PS1** – the default prompt in bash.
-* **PATH** – stores the path of all the directories which holds binary files you want to execute just by specifying the name of the file and not by relative or absolute path.
-* **PWD** – the current working directory.
-* **SHELL** – the path to the current command shell (for example, **/bin/bash**).
-* **TERM** – the current terminal type (for example, **xterm**).
-* **TZ** – your time zone.
-* **USER** – your current username.
-
-## Interesting variables for hacking
+## Interessante Variablen zum Hacken
 
 ### **HISTFILESIZE**
 
-Change the **value of this variable to 0**, so when you **end your session** the **history file** (\~/.bash\_history) **will be deleted**.
-
+Ändern Sie den **Wert dieser Variable auf 0**, damit die **Verlaufsdatei** (\~/.bash\_history) **gelöscht wird**, wenn Sie **Ihre Sitzung beenden**.
 ```bash
 export HISTFILESIZE=0
 ```
-
 ### **HISTSIZE**
 
-Change the **value of this variable to 0**, so when you **end your session** any command will be added to the **history file** (\~/.bash\_history).
-
+Ändern Sie den **Wert dieser Variable auf 0**, damit bei **Beendigung Ihrer Sitzung** keine Befehle zur **Verlaufsdatei** (\~/.bash\_history) hinzugefügt werden.
 ```bash
 export HISTSIZE=0
 ```
-
 ### http\_proxy & https\_proxy
 
-The processes will use the **proxy** declared here to connect to internet through **http or https**.
-
+Die Prozesse verwenden den hier deklarierten **Proxy**, um eine Verbindung zum Internet über **http oder https** herzustellen.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
-
 ### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-The processes will trust the certificates indicated in **these env variables**.
-
+Die Prozesse werden den in **diesen Umgebungsvariablen** angegebenen Zertifikaten vertrauen.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
 ```
-
 ### PS1
 
-Change how your prompt looks.
+Ändern Sie das Aussehen Ihrer Eingabeaufforderung.
 
-[**This is an example**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
+[**Hier ist ein Beispiel**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
 Root:
 
 ![](<../.gitbook/assets/image (87).png>)
 
-Regular user:
+Normaler Benutzer:
 
 ![](<../.gitbook/assets/image (88).png>)
 
-One, two and three backgrounded jobs:
+Ein, zwei und drei im Hintergrund laufende Jobs:
 
 ![](<../.gitbook/assets/image (89).png>)
 
-One background job, one stopped and last command didn't finish correctly:
+Ein im Hintergrund laufender Job, einer gestoppt und der letzte Befehl wurde nicht korrekt beendet:
 
 ![](<../.gitbook/assets/image (90).png>)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

@@ -1,16 +1,16 @@
-# Volatility - CheatSheet
+# Volatility - Spickzettel
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
@@ -18,37 +18,48 @@ Other ways to support HackTricks:
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+​​[**RootedCON**](https://www.rootedcon.com/) ist die relevanteste Cybersicherheitsveranstaltung in **Spanien** und eine der wichtigsten in **Europa**. Mit **dem Ziel, technisches Wissen zu fördern**, ist dieser Kongress ein brodelnder Treffpunkt für Technologie- und Cybersicherheitsfachleute in jeder Disziplin.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-If you want something **fast and crazy** that will launch several Volatility plugins on parallel you can use: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
-
+Wenn Sie etwas **Schnelles und Verrücktes** wollen, das mehrere Volatility-Plugins parallel startet, können Sie dies verwenden: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
 ```bash
 python autoVolatility.py -f MEMFILE -d OUT_DIRECTORY -e /home/user/tools/volatility/vol.py # It will use the most important plugins (could use a lot of space depending on the size of the memory)
 ```
-
 ## Installation
 
 ### volatility3
-
 ```bash
 git clone https://github.com/volatilityfoundation/volatility3.git
 cd volatility3
 python3 setup.py install
 python3 vol.py —h
 ```
+#### Methode 1: Prozessliste anzeigen
 
-### volatility2
+Verwenden Sie den Befehl `pslist`, um eine Liste aller laufenden Prozesse im Speicherabbild anzuzeigen.
 
-{% tabs %}
-{% tab title="Method1" %}
+```bash
+volatility -f memory_dump.raw --profile=PROFILE pslist
+```
+
+Ersetzen Sie `memory_dump.raw` durch den Pfad zum Speicherabbild und `PROFILE` durch das Profil, das für das Speicherabbild geeignet ist.
+
+Dieser Befehl zeigt Informationen wie PID (Prozess-ID), Name, Elternprozess-ID, Startzeit und Speicherbereich des Prozesses an.
+
+Beispiel:
+
+```bash
+volatility -f memory_dump.raw --profile=Win7SP1x64 pslist
+```
+
+{% endtab %}
+
+{% tab title="Method2" %}
 ```
 Download the executable from https://www.volatilityfoundation.org/26
 ```
-{% endtab %}
-
-{% tab title="Method 2" %}
+{% tab title="Methode 2" %}
 ```bash
 git clone https://github.com/volatilityfoundation/volatility.git
 cd volatility
@@ -57,26 +68,26 @@ python setup.py install
 {% endtab %}
 {% endtabs %}
 
-## Volatility Commands
+## Volatility-Befehle
 
-Access the official doc in [Volatility command reference](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)
+Greifen Sie auf die offizielle Dokumentation unter [Volatility-Befehlsreferenz](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan) zu.
 
-### A note on “list” vs. “scan” plugins
+### Hinweis zu "list"- und "scan"-Plugins
 
-Volatility has two main approaches to plugins, which are sometimes reflected in their names. “list” plugins will try to navigate through Windows Kernel structures to retrieve information like processes (locate and walk the linked list of `_EPROCESS` structures in memory), OS handles (locating and listing the handle table, dereferencing any pointers found, etc). They more or less behave like the Windows API would if requested to, for example, list processes.
+Volatility hat zwei Hauptansätze für Plugins, die sich manchmal in ihren Namen widerspiegeln. "List"-Plugins versuchen, durch Windows-Kernel-Strukturen zu navigieren, um Informationen wie Prozesse (Suchen und Durchlaufen der verketteten Liste der `_EPROCESS`-Strukturen im Speicher), Betriebssystem-Handles (Suchen und Auflisten der Handle-Tabelle, Dereferenzieren von gefundenen Zeigern usw.) abzurufen. Sie verhalten sich mehr oder weniger wie die Windows-API, wenn sie beispielsweise Prozesse auflistet.
 
-That makes “list” plugins pretty fast, but just as vulnerable as the Windows API to manipulation by malware. For instance, if malware uses DKOM to unlink a process from the `_EPROCESS` linked list, it won’t show up in the Task Manager and neither will it in the pslist.
+Das macht "List"-Plugins ziemlich schnell, aber genauso anfällig für Manipulationen durch Malware wie die Windows-API. Wenn beispielsweise Malware DKOM verwendet, um einen Prozess aus der verketteten Liste `_EPROCESS` zu trennen, wird er nicht im Task-Manager angezeigt und auch nicht in der pslist.
 
-“scan” plugins, on the other hand, will take an approach similar to carving the memory for things that might make sense when dereferenced as specific structures. `psscan` for instance will read the memory and try to make`_EPROCESS` objects out of it (it uses pool-tag scanning, which is searching for 4-byte strings that indicate the presence of a structure of interest). The advantage is that it can dig up processes that have exited, and even if malware tampers with the `_EPROCESS` linked list, the plugin will still find the structure lying around in memory (since it still needs to exist for the process to run). The downfall is that “scan” plugins are a bit slower than “list” plugins, and can sometimes yield false positives (a process that exited too long ago and had parts of its structure overwritten by other operations).
+"Scan"-Plugins hingegen verwenden einen Ansatz ähnlich dem Herausschneiden des Speichers nach Dingen, die Sinn ergeben könnten, wenn sie als bestimmte Strukturen dereferenziert werden. `psscan` liest beispielsweise den Speicher und versucht, `_EPROCESS`-Objekte daraus zu erstellen (es verwendet Pool-Tag-Scanning, bei dem nach 4-Byte-Zeichenketten gesucht wird, die auf das Vorhandensein einer interessanten Struktur hinweisen). Der Vorteil ist, dass es Prozesse ausgraben kann, die beendet wurden, und selbst wenn Malware die verkettete Liste `_EPROCESS` manipuliert, findet das Plugin die Struktur immer noch im Speicher (da sie für den Prozess weiterhin vorhanden sein muss). Der Nachteil ist, dass "Scan"-Plugins etwas langsamer als "List"-Plugins sind und manchmal falsch positive Ergebnisse liefern können (ein Prozess, der vor langer Zeit beendet wurde und dessen Struktur von anderen Operationen überschrieben wurde).
 
-From: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
+Quelle: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
-## OS Profiles
+## Betriebssystem-Profile
 
 ### Volatility3
 
-As explained inside the readme you need to put the **symbol table of the OS** you want to support inside _volatility3/volatility/symbols_.\
-Symbol table packs for the various operating systems are available for **download** at:
+Wie im Readme erklärt, müssen Sie die **Symboltabelle des Betriebssystems**, das Sie unterstützen möchten, in _volatility3/volatility/symbols_ platzieren.\
+Symboltabelle-Pakete für verschiedene Betriebssysteme stehen zum **Download** zur Verfügung unter:
 
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip)
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip)
@@ -84,16 +95,13 @@ Symbol table packs for the various operating systems are available for **downloa
 
 ### Volatility2
 
-#### External Profile
+#### Externes Profil
 
-You can get the list of supported profiles doing:
-
+Sie können die Liste der unterstützten Profile erhalten, indem Sie Folgendes tun:
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
-
-If you want to use a **new profile you have downloaded** (for example a linux one) you need to create somewhere the following folder structure: _plugins/overlays/linux_ and put inside this folder the zip file containing the profile. Then, get the number of the profiles using:
-
+Wenn Sie ein **neues Profil, das Sie heruntergeladen haben**, verwenden möchten (zum Beispiel ein Linux-Profil), müssen Sie die folgende Ordnerstruktur erstellen: _plugins/overlays/linux_ und die Zip-Datei mit dem Profil in diesen Ordner legen. Anschließend erhalten Sie die Anzahl der Profile mit dem Befehl:
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -105,28 +113,149 @@ LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 - A Profile for Linux CentOS7_3.10
 VistaSP0x64                                   - A Profile for Windows Vista SP0 x64
 VistaSP0x86                                   - A Profile for Windows Vista SP0 x86
 ```
+Sie können **Linux- und Mac-Profile** von [https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles) herunterladen.
 
-You can **download Linux and Mac profiles** from [https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles)
-
-In the previous chunk you can see that the profile is called `LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64`, and you can use it to execute something like:
-
+Im vorherigen Abschnitt sehen Sie, dass das Profil `LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64` genannt wird und Sie es verwenden können, um etwas Ähnliches auszuführen:
 ```bash
 ./vol -f file.dmp --plugins=. --profile=LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 linux_netscan
 ```
+#### Profil entdecken
 
-#### Discover Profile
+```plaintext
+volatility -f <memory_dump> imageinfo
+```
 
+```plaintext
+volatility -f <memory_dump> kdbgscan
+```
+
+```plaintext
+volatility -f <memory_dump> hivelist
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=html -D <output_directory>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=csv -D <output_directory>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=json -D <output_directory>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations> --output-encryption-mode=<output_encryption_mode>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations> --output-encryption-mode=<output_encryption_mode> --output-encryption-padding=<output_encryption_padding>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations> --output-encryption-mode=<output_encryption_mode> --output-encryption-padding=<output_encryption_padding> --output-encryption-authentication=<output_encryption_authentication>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations> --output-encryption-mode=<output_encryption_mode> --output-encryption-padding=<output_encryption_padding> --output-encryption-authentication=<output_encryption_authentication> --output-encryption-authentication-key=<output_encryption_authentication_key>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations> --output-encryption-mode=<output_encryption_mode> --output-encryption-padding=<output_encryption_padding> --output-encryption-authentication=<output_encryption_authentication> --output-encryption-authentication-key=<output_encryption_authentication_key> --output-encryption-authentication-iv=<output_encryption_authentication_iv>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations> --output-encryption-mode=<output_encryption_mode> --output-encryption-padding=<output_encryption_padding> --output-encryption-authentication=<output_encryption_authentication> --output-encryption-authentication-key=<output_encryption_authentication_key> --output-encryption-authentication-iv=<output_encryption_authentication_iv> --output-encryption-authentication-tag=<output_encryption_authentication_tag>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations> --output-encryption-mode=<output_encryption_mode> --output-encryption-padding=<output_encryption_padding> --output-encryption-authentication=<output_encryption_authentication> --output-encryption-authentication-key=<output_encryption_authentication_key> --output-encryption-authentication-iv=<output_encryption_authentication_iv> --output-encryption-authentication-tag=<output_encryption_authentication_tag> --output-encryption-authentication-aad=<output_encryption_authentication_aad>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations> --output-encryption-mode=<output_encryption_mode> --output-encryption-padding=<output_encryption_padding> --output-encryption-authentication=<output_encryption_authentication> --output-encryption-authentication-key=<output_encryption_authentication_key> --output-encryption-authentication-iv=<output_encryption_authentication_iv> --output-encryption-authentication-tag=<output_encryption_authentication_tag> --output-encryption-authentication-aad=<output_encryption_authentication_aad> --output-encryption-authentication-tag-length=<output_encryption_authentication_tag_length>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations> --output-encryption-mode=<output_encryption_mode> --output-encryption-padding=<output_encryption_padding> --output-encryption-authentication=<output_encryption_authentication> --output-encryption-authentication-key=<output_encryption_authentication_key> --output-encryption-authentication-iv=<output_encryption_authentication_iv> --output-encryption-authentication-tag=<output_encryption_authentication_tag> --output-encryption-authentication-aad=<output_encryption_authentication_aad> --output-encryption-authentication-tag-length=<output_encryption_authentication_tag_length> --output-encryption-authentication-tag-iv=<output_encryption_authentication_tag_iv>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations> --output-encryption-mode=<output_encryption_mode> --output-encryption-padding=<output_encryption_padding> --output-encryption-authentication=<output_encryption_authentication> --output-encryption-authentication-key=<output_encryption_authentication_key> --output-encryption-authentication-iv=<output_encryption_authentication_iv> --output-encryption-authentication-tag=<output_encryption_authentication_tag> --output-encryption-authentication-aad=<output_encryption_authentication_aad> --output-encryption-authentication-tag-length=<output_encryption_authentication_tag_length> --output-encryption-authentication-tag-iv=<output_encryption_authentication_tag_iv> --output-encryption-authentication-tag-iv-length=<output_encryption_authentication_tag_iv_length>
+```
+
+```plaintext
+volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=sqlite -D <output_directory> --output-file=<output_file> --output-format=<output_format> --output-encoding=<output_encoding> --output-compression=<output_compression> --output-compression-level=<output_compression_level> --output-encryption=<output_encryption> --output-password=<output_password> --output-encryption-algorithm=<output_encryption_algorithm> --output-encryption-key=<output_encryption_key> --output-encryption-iv=<output_encryption_iv> --output-encryption-salt=<output_encryption_salt> --output-encryption-iterations=<output_encryption_iterations> --output-encryption-mode=<output_encryption_mode> --output-encryption-padding=<output_encryption_padding> --output-encryption-authentication=<output_encryption_authentication> --output-encryption-authentication-key=<output_encryption_authentication_key> --output-encryption-authentication-iv=<output_encryption_authentication_iv> --output-encryption-authentication-tag=<output_encryption_authentication_tag> --output-encryption-authentication-aad=<output_encryption_authentication_aad> --output-encryption-authentication-tag-length=<output_encryption_authentication_tag_length> --output-encryption-authentication-tag-iv=<output_encryption_authentication_tag_iv> --output-encryption-authentication-tag-iv-length=<output_encryption_authentication_tag_iv_length> --output
 ```
 volatility imageinfo -f file.dmp
 volatility kdbgscan -f file.dmp
 ```
+#### **Unterschiede zwischen imageinfo und kdbgscan**
 
-#### **Differences between imageinfo and kdbgscan**
+[**Von hier**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): Im Gegensatz zu imageinfo, das nur Profilvorschläge liefert, ist **kdbgscan** darauf ausgelegt, das richtige Profil und die richtige KDBG-Adresse (falls mehrere vorhanden sind) positiv zu identifizieren. Dieses Plugin sucht nach den mit Volatility-Profilen verknüpften KDBGHeader-Signaturen und wendet Integritätsprüfungen an, um falsche positive Ergebnisse zu reduzieren. Die Ausführlichkeit der Ausgabe und die Anzahl der durchgeführten Integritätsprüfungen hängen davon ab, ob Volatility eine DTB finden kann. Wenn Sie also bereits das richtige Profil kennen (oder wenn Sie einen Profilvorschlag von imageinfo haben), stellen Sie sicher, dass Sie es verwenden.
 
-[**From here**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): As opposed to imageinfo which simply provides profile suggestions, **kdbgscan** is designed to positively identify the correct profile and the correct KDBG address (if there happen to be multiple). This plugin scans for the KDBGHeader signatures linked to Volatility profiles and applies sanity checks to reduce false positives. The verbosity of the output and the number of sanity checks that can be performed depends on whether Volatility can find a DTB, so if you already know the correct profile (or if you have a profile suggestion from imageinfo), then make sure you use it from .
-
-Always take a look at the **number of processes that kdbgscan has found**. Sometimes imageinfo and kdbgscan can find **more than one** suitable **profile** but only the **valid one will have some process related** (This is because to extract processes the correct KDBG address is needed)
-
+Werfen Sie immer einen Blick auf die **Anzahl der Prozesse, die kdbgscan gefunden hat**. Manchmal können imageinfo und kdbgscan **mehr als ein geeignetes Profil finden**, aber nur das **gültige Profil wird einige prozessbezogene Informationen enthalten** (Dies liegt daran, dass zur Extraktion von Prozessen die richtige KDBG-Adresse benötigt wird).
 ```bash
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
@@ -138,23 +267,20 @@ PsLoadedModuleList            : 0xfffff8000119aae0 (116 modules)
 PsActiveProcessHead           : 0xfffff800011947f0 (0 processes)
 PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
-
 #### KDBG
 
-The **kernel debugger block**, referred to as **KDBG** by Volatility, is crucial for forensic tasks performed by Volatility and various debuggers. Identified as `KdDebuggerDataBlock` and of the type `_KDDEBUGGER_DATA64`, it contains essential references like `PsActiveProcessHead`. This specific reference points to the head of the process list, enabling the listing of all processes, which is fundamental for thorough memory analysis.
+Der **Kernel Debugger Block**, von Volatility als **KDBG** bezeichnet, ist für forensische Aufgaben, die von Volatility und verschiedenen Debuggern durchgeführt werden, entscheidend. Er wird als `KdDebuggerDataBlock` identifiziert und hat den Typ `_KDDEBUGGER_DATA64`. Er enthält wichtige Verweise wie `PsActiveProcessHead`. Dieser spezifische Verweis zeigt auf den Anfang der Prozessliste und ermöglicht die Auflistung aller Prozesse, was für eine gründliche Speicheranalyse unerlässlich ist.
 
-## OS Information
-
+## Betriebssysteminformationen
 ```bash
 #vol3 has a plugin to give OS information (note that imageinfo from vol2 will give you OS info)
 ./vol.py -f file.dmp windows.info.Info
 ```
+Das Plugin `banners.Banners` kann in **vol3 verwendet werden, um Linux-Banner** im Dump zu finden.
 
-The plugin `banners.Banners` can be used in **vol3 to try to find linux banners** in the dump.
+## Hashes/Passwörter
 
-## Hashes/Passwords
-
-Extract SAM hashes, [domain cached credentials](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) and [lsa secrets](../../../windows-hardening/authentication-credentials-uac-and-efs.md#lsa-secrets).
+Extrahiere SAM-Hashes, [zwischengespeicherte Anmeldeinformationen der Domäne](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) und [lsa secrets](../../../windows-hardening/authentication-credentials-uac-and-efs.md#lsa-secrets).
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -163,8 +289,6 @@ Extract SAM hashes, [domain cached credentials](../../../windows-hardening/steal
 ./vol.py -f file.dmp windows.cachedump.Cachedump #Grab domain cache hashes inside the registry
 ./vol.py -f file.dmp windows.lsadump.Lsadump #Grab lsa secrets
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 hashdump -f file.dmp #Grab common windows hashes (SAM+SYSTEM)
@@ -174,28 +298,24 @@ volatility --profile=Win7SP1x86_23418 lsadump -f file.dmp #Grab lsa secrets
 {% endtab %}
 {% endtabs %}
 
-## Memory Dump
+## Speicherabbild
 
-The memory dump of a process will **extract everything** of the current status of the process. The **procdump** module will only **extract** the **code**.
-
+Das Speicherabbild eines Prozesses extrahiert **alles** zum aktuellen Status des Prozesses. Das Modul **procdump** extrahiert nur den **Code**.
 ```
 volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
-
-​
-
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) ist die relevanteste Cybersicherheitsveranstaltung in **Spanien** und eine der wichtigsten in **Europa**. Mit der Mission, technisches Wissen zu fördern, ist dieser Kongress ein brodelnder Treffpunkt für Technologie- und Cybersicherheitsprofis in jeder Disziplin.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Processes
+## Prozesse
 
-### List processes
+### Prozesse auflisten
 
-Try to find **suspicious** processes (by name) or **unexpected** child **processes** (for example a cmd.exe as a child of iexplorer.exe).\
-It could be interesting to **compare** the result of pslist with the one of psscan to identify hidden processes.
+Versuchen Sie, **verdächtige** Prozesse (nach Namen) oder **unerwartete** Kindprozesse zu finden (zum Beispiel eine cmd.exe als Kind von iexplorer.exe).\
+Es könnte interessant sein, das Ergebnis von pslist mit dem von psscan zu vergleichen, um versteckte Prozesse zu identifizieren.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -204,8 +324,6 @@ python3 vol.py -f file.dmp windows.pstree.PsTree # Get processes tree (not hidde
 python3 vol.py -f file.dmp windows.pslist.PsList # Get process list (EPROCESS)
 python3 vol.py -f file.dmp windows.psscan.PsScan # Get hidden process list(malware)
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=PROFILE pstree -f file.dmp # Get process tree (not hidden)
@@ -223,8 +341,6 @@ volatility --profile=PROFILE psxview -f file.dmp # Get hidden process list
 ```bash
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f file.dmp
@@ -232,18 +348,67 @@ volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f fil
 {% endtab %}
 {% endtabs %}
 
-### Command line
+### Befehlszeile
 
-Anything suspicious was executed?
+Wurde etwas Verdächtiges ausgeführt?
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 python3 vol.py -f file.dmp windows.cmdline.CmdLine #Display process command-line arguments
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+### Volatility Installation
+
+To install Volatility, follow these steps:
+
+1. Download the latest version of Volatility from the official GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+2. Extract the downloaded file to a directory of your choice.
+3. Open a terminal and navigate to the directory where you extracted Volatility.
+4. Run the command `python setup.py install` to install Volatility.
+
+### Basic Volatility Commands
+
+- `volatility -f <memory_dump_file> imageinfo`: This command displays information about the memory dump file, such as the operating system version and architecture.
+- `volatility -f <memory_dump_file> --profile=<profile_name> pslist`: This command lists all running processes in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile_name> psscan`: This command scans the memory dump for hidden or terminated processes.
+- `volatility -f <memory_dump_file> --profile=<profile_name> dlllist -p <process_id>`: This command lists all loaded DLLs for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> cmdline -p <process_id>`: This command displays the command line arguments for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> filescan`: This command scans the memory dump for file objects.
+- `volatility -f <memory_dump_file> --profile=<profile_name> dumpfiles -Q <file_object_address> -D <output_directory>`: This command dumps a specific file from the memory dump.
+
+### Advanced Volatility Commands
+
+- `volatility -f <memory_dump_file> --profile=<profile_name> malfind`: This command scans the memory dump for injected or modified code.
+- `volatility -f <memory_dump_file> --profile=<profile_name> apihooks`: This command lists all API hooks in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile_name> handles -p <process_id>`: This command lists all open handles for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> netscan`: This command scans the memory dump for network connections.
+- `volatility -f <memory_dump_file> --profile=<profile_name> connscan`: This command scans the memory dump for TCP and UDP connections.
+- `volatility -f <memory_dump_file> --profile=<profile_name> timeliner`: This command creates a timeline of events based on timestamps in the memory dump.
+
+### Memory Analysis Plugins
+
+Volatility provides a wide range of plugins for analyzing different aspects of memory dumps. Some of the most commonly used plugins include:
+
+- `pslist`: Lists all running processes.
+- `psscan`: Scans for hidden or terminated processes.
+- `dlllist`: Lists loaded DLLs for a specific process.
+- `cmdline`: Displays command line arguments for a specific process.
+- `filescan`: Scans for file objects.
+- `dumpfiles`: Dumps specific files from the memory dump.
+- `malfind`: Scans for injected or modified code.
+- `apihooks`: Lists API hooks.
+- `handles`: Lists open handles for a specific process.
+- `netscan`: Scans for network connections.
+- `connscan`: Scans for TCP and UDP connections.
+- `timeliner`: Creates a timeline of events based on timestamps.
+
+### Additional Resources
+
+- [Volatility GitHub repository](https://github.com/volatilityfoundation/volatility)
+- [Volatility documentation](https://github.com/volatilityfoundation/volatility/wiki)
+- [Volatility plugins](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference)
 ```bash
 volatility --profile=PROFILE cmdline -f file.dmp #Display process command-line arguments
 volatility --profile=PROFILE consoles -f file.dmp #command history by scanning for _CONSOLE_INFORMATION
@@ -251,43 +416,36 @@ volatility --profile=PROFILE consoles -f file.dmp #command history by scanning f
 {% endtab %}
 {% endtabs %}
 
-Commands executed in `cmd.exe` are managed by **`conhost.exe`** (or `csrss.exe` on systems before Windows 7). This means that if **`cmd.exe`** is terminated by an attacker before a memory dump is obtained, it's still possible to recover the session's command history from the memory of **`conhost.exe`**. To do this, if unusual activity is detected within the console's modules, the memory of the associated **`conhost.exe`** process should be dumped. Then, by searching for **strings** within this dump, command lines used in the session can potentially be extracted.
+Befehle, die in `cmd.exe` ausgeführt werden, werden von **`conhost.exe`** (oder `csrss.exe` in Systemen vor Windows 7) verwaltet. Das bedeutet, dass, wenn **`cmd.exe`** von einem Angreifer beendet wird, bevor ein Memory-Dump erhalten wird, es immer noch möglich ist, die Befehlshistorie der Sitzung aus dem Speicher von **`conhost.exe`** wiederherzustellen. Um dies zu tun, sollte bei ungewöhnlicher Aktivität innerhalb der Konsolenmodule der Speicher des zugehörigen **`conhost.exe`**-Prozesses gedumpt werden. Anschließend können durch die Suche nach **Strings** in diesem Dump potenziell verwendete Befehlszeilen der Sitzung extrahiert werden.
 
-### Environment
+### Umgebung
 
-Get the env variables of each running process. There could be some interesting values.
+Erhalten Sie die Umgebungsvariablen jedes laufenden Prozesses. Es könnten einige interessante Werte vorhanden sein.
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 python3 vol.py -f file.dmp windows.envars.Envars [--pid <pid>] #Display process environment variables
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=PROFILE envars -f file.dmp [--pid <pid>] #Display process environment variables
 
-volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of process. runlevel var means the runlevel where the proc is initated 
+volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of process. runlevel var means the runlevel where the proc is initated
 ```
 {% endtab %}
 {% endtabs %}
 
-### Token privileges
+### Token-Berechtigungen
 
-Check for privileges tokens in unexpected services.\
-It could be interesting to list the processes using some privileged token.
-
-{% tabs %}
-{% tab title="vol3" %}
+Überprüfen Sie Berechtigungstoken in unerwarteten Diensten.\
+Es könnte interessant sein, die Prozesse aufzulisten, die ein privilegiertes Token verwenden.
 ```bash
 #Get enabled privileges of some processes
 python3 vol.py -f file.dmp windows.privileges.Privs [--pid <pid>]
 #Get all processes with interesting privileges
 python3 vol.py -f file.dmp windows.privileges.Privs | grep "SeImpersonatePrivilege\|SeAssignPrimaryPrivilege\|SeTcbPrivilege\|SeBackupPrivilege\|SeRestorePrivilege\|SeCreateTokenPrivilege\|SeLoadDriverPrivilege\|SeTakeOwnershipPrivilege\|SeDebugPrivilege"
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 #Get enabled privileges of some processes
@@ -300,18 +458,72 @@ volatility --profile=Win7SP1x86_23418 privs -f file.dmp | grep "SeImpersonatePri
 
 ### SIDs
 
-Check each SSID owned by a process.\
-It could be interesting to list the processes using a privileges SID (and the processes using some service SID).
-
-{% tabs %}
-{% tab title="vol3" %}
+Überprüfen Sie jede SSID, die von einem Prozess verwendet wird.\
+Es könnte interessant sein, die Prozesse aufzulisten, die eine privilegierte SSID verwenden (und die Prozesse, die eine bestimmte Dienst-SSID verwenden).
 ```bash
 ./vol.py -f file.dmp windows.getsids.GetSIDs [--pid <pid>] #Get SIDs of processes
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+### Volatility Installation
+
+To install Volatility, follow these steps:
+
+1. Download the latest version of Volatility from the official GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+2. Extract the downloaded file to a directory of your choice.
+3. Open a terminal and navigate to the directory where you extracted Volatility.
+4. Run the command `python setup.py install` to install Volatility.
+
+### Basic Volatility Commands
+
+- `volatility -f <memory_dump_file> imageinfo`: This command displays information about the memory dump file, such as the profile and operating system version.
+- `volatility -f <memory_dump_file> --profile=<profile> <command>`: This command runs a specific Volatility command using the specified profile.
+- `volatility -f <memory_dump_file> --profile=<profile> --output-file=<output_file> <command>`: This command runs a specific Volatility command and saves the output to a file.
+
+### Memory Analysis
+
+- `volatility -f <memory_dump_file> --profile=<profile> pslist`: This command lists all running processes in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> psscan`: This command scans for hidden processes in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> pstree`: This command displays the process tree in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> dlllist -p <pid>`: This command lists the DLLs loaded by a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile> handles -p <pid>`: This command lists the handles opened by a specific process.
+
+### Network Analysis
+
+- `volatility -f <memory_dump_file> --profile=<profile> connections`: This command lists the network connections in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> connscan`: This command scans for hidden network connections in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> netscan`: This command scans for network artifacts in the memory dump.
+
+### File Analysis
+
+- `volatility -f <memory_dump_file> --profile=<profile> filescan`: This command scans for file objects in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> dumpfiles -Q <address_range>`: This command dumps files from the memory dump based on the specified address range.
+
+### Registry Analysis
+
+- `volatility -f <memory_dump_file> --profile=<profile> hivelist`: This command lists the registry hives in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> printkey -K <key_path>`: This command displays the contents of a specific registry key.
+
+### Malware Analysis
+
+- `volatility -f <memory_dump_file> --profile=<profile> malfind`: This command scans for injected code and suspicious processes in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> malprocfind`: This command scans for malicious processes in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> malsysproc`: This command lists the system processes associated with malware in the memory dump.
+
+### Plugin Usage
+
+- `volatility -f <memory_dump_file> --profile=<profile> --plugins=<plugin_directory> <plugin_name>`: This command runs a specific Volatility plugin using the specified profile and plugin directory.
+
+### Additional Resources
+
+- Volatility GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+- Volatility documentation: [https://github.com/volatilityfoundation/volatility/wiki](https://github.com/volatilityfoundation/volatility/wiki)
+- Volatility plugins: [https://github.com/volatilityfoundation/community](https://github.com/volatilityfoundation/community)
+
+### References
+
+- Volatility Cheat Sheet: [https://github.com/sans-dfir/sift-cheatsheet/blob/master/cheatsheets/Volatility-Commands.pdf](https://github.com/sans-dfir/sift-cheatsheet/blob/master/cheatsheets/Volatility-Commands.pdf)
 ```bash
 volatility --profile=Win7SP1x86_23418 getsids -f file.dmp #Get the SID owned by each process
 volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of each service
@@ -321,16 +533,72 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of
 
 ### Handles
 
-Useful to know to which other files, keys, threads, processes... a **process has a handle** for (has opened)
-
-{% tabs %}
-{% tab title="vol3" %}
+Nützlich zu wissen, zu welchen anderen Dateien, Schlüsseln, Threads, Prozessen... ein Prozess einen **Handle** hat (geöffnet hat)
 ```bash
 vol.py -f file.dmp windows.handles.Handles [--pid <pid>]
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+### Introduction
+
+This cheat sheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. It includes commands and techniques for analyzing memory dumps to extract valuable information during forensic investigations.
+
+### Installation
+
+To install Volatility, follow these steps:
+
+1. Install Python 2.7 or Python 3.x.
+2. Install the required dependencies using pip: `pip install -r requirements.txt`.
+3. Download the latest release of Volatility from the official GitHub repository: `git clone https://github.com/volatilityfoundation/volatility.git`.
+4. Navigate to the Volatility directory: `cd volatility`.
+5. Run Volatility using the command `python vol.py`.
+
+### Basic Usage
+
+To analyze a memory dump with Volatility, use the following command:
+
+```
+python vol.py -f <memory_dump> <plugin_name>
+```
+
+Replace `<memory_dump>` with the path to the memory dump file and `<plugin_name>` with the name of the plugin you want to use for analysis.
+
+### Common Plugins
+
+Here are some commonly used plugins in Volatility:
+
+- `pslist`: Lists running processes.
+- `pstree`: Displays a process tree.
+- `dlllist`: Lists loaded DLLs.
+- `handles`: Lists open handles.
+- `cmdline`: Displays command-line arguments.
+- `filescan`: Scans for file objects in memory.
+- `malfind`: Finds hidden and injected code.
+- `svcscan`: Lists Windows services.
+- `connscan`: Scans for network connections.
+- `netscan`: Lists network connections.
+- `printkey`: Prints registry keys.
+- `hivelist`: Lists registry hives.
+
+### Advanced Techniques
+
+Volatility also supports advanced techniques for memory analysis, such as:
+
+- **Process Memory Analysis**: Analyzing the memory of a specific process.
+- **Kernel Memory Analysis**: Analyzing the kernel memory.
+- **Network Analysis**: Analyzing network connections and traffic.
+- **Registry Analysis**: Analyzing the Windows registry.
+- **Malware Analysis**: Analyzing malware artifacts in memory.
+
+### Additional Resources
+
+For more information on using Volatility and memory forensics, refer to the following resources:
+
+- [Volatility Documentation](https://github.com/volatilityfoundation/volatility/wiki)
+- [Volatility GitHub Repository](https://github.com/volatilityfoundation/volatility)
+- [The Art of Memory Forensics](https://www.amazon.com/Art-Memory-Forensics-Detecting-Malware/dp/1118825098)
+
+Happy memory analysis!
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 ```
@@ -345,8 +613,6 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 ./vol.py -f file.dmp windows.dlllist.DllList [--pid <pid>] #List dlls used by each
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory process
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 dlllist --pid=3152 -f file.dmp #Get dlls of a proc
@@ -355,9 +621,9 @@ volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dm
 {% endtab %}
 {% endtabs %}
 
-### Strings per processes
+### Strings pro Prozess
 
-Volatility allows us to check which process a string belongs to.
+Volatility ermöglicht es uns zu überprüfen, welchem Prozess eine Zeichenkette gehört.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -365,8 +631,6 @@ Volatility allows us to check which process a string belongs to.
 strings file.dmp > /tmp/strings.txt
 ./vol.py -f /tmp/file.dmp windows.strings.Strings --strings-file /tmp/strings.txt
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 strings file.dmp > /tmp/strings.txt
@@ -378,7 +642,7 @@ strings 3532.dmp > strings_file
 {% endtab %}
 {% endtabs %}
 
-It also allows to search for strings inside a process using the yarascan module:
+Es ermöglicht auch die Suche nach Zeichenketten innerhalb eines Prozesses mithilfe des yarascan-Moduls:
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -386,8 +650,6 @@ It also allows to search for strings inside a process using the yarascan module:
 ./vol.py -f file.dmp windows.vadyarascan.VadYaraScan --yara-rules "https://" --pid 3692 3840 3976 3312 3084 2784
 ./vol.py -f file.dmp yarascan.YaraScan --yara-rules "https://"
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3312,3084,2784
@@ -397,15 +659,10 @@ volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3
 
 ### UserAssist
 
-**Windows** keeps track of programs you run using a feature in the registry called **UserAssist keys**. These keys record how many times each program is executed and when it was last run.
-
-{% tabs %}
-{% tab title="vol3" %}
+**Windows** speichert Informationen über die von Ihnen ausgeführten Programme mithilfe eines Features namens **UserAssist-Schlüssel** in der Registrierung. Diese Schlüssel protokollieren, wie oft jedes Programm ausgeführt wurde und wann es zuletzt ausgeführt wurde.
 ```bash
 ./vol.py -f file.dmp windows.registry.userassist.UserAssist
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
@@ -417,11 +674,11 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+​​​​[**RootedCON**](https://www.rootedcon.com/) ist die relevanteste Cybersicherheitsveranstaltung in **Spanien** und eine der wichtigsten in **Europa**. Mit **dem Ziel, technisches Wissen zu fördern**, ist dieser Kongress ein brodelnder Treffpunkt für Technologie- und Cybersicherheitsprofis in jeder Disziplin.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Services
+## Dienstleistungen
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -429,8 +686,6 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 ./vol.py -f file.dmp windows.svcscan.SvcScan #List services
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 #Get services and binary path
@@ -438,10 +693,7 @@ volatility --profile=Win7SP1x86_23418 svcscan -f file.dmp
 #Get name of the services and SID (slow)
 volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
 ```
-{% endtab %}
-{% endtabs %}
-
-## Network
+## Netzwerk
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -449,13 +701,11 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
 ./vol.py -f file.dmp windows.netscan.NetScan
 #For network info of linux use volatility2
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 netscan -f file.dmp
 volatility --profile=Win7SP1x86_23418 connections -f file.dmp#XP and 2003 only
-volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections 
+volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections
 volatility --profile=Win7SP1x86_23418 sockscan -f file.dmp#Open sockets
 volatility --profile=Win7SP1x86_23418 sockets -f file.dmp#Scanner for tcp socket objects
 
@@ -469,9 +719,9 @@ volatility --profile=SomeLinux -f file.dmp linux_route_cache
 {% endtab %}
 {% endtabs %}
 
-## Registry hive
+## Registrierungshive
 
-### Print available hives
+### Verfügbare Hives anzeigen
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -479,9 +729,63 @@ volatility --profile=SomeLinux -f file.dmp linux_route_cache
 ./vol.py -f file.dmp windows.registry.hivelist.HiveList #List roots
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey #List roots and get initial subkeys
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+### Volatility Installation
+
+To install Volatility, follow these steps:
+
+1. Download the latest version of Volatility from the official GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+2. Extract the downloaded file to a directory of your choice.
+3. Open a terminal and navigate to the directory where you extracted Volatility.
+4. Run the command `python setup.py install` to install Volatility.
+
+### Basic Volatility Commands
+
+Here are some basic Volatility commands that you can use for memory analysis:
+
+- `volatility -f <memory_dump> imageinfo`: This command displays information about the memory dump file, such as the operating system version and profile.
+- `volatility -f <memory_dump> --profile=<profile> pslist`: This command lists all running processes in the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> psscan`: This command scans for processes in the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> pstree`: This command displays the process tree in the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> dlllist -p <pid>`: This command lists the loaded DLLs for a specific process.
+- `volatility -f <memory_dump> --profile=<profile> cmdline -p <pid>`: This command displays the command line arguments for a specific process.
+- `volatility -f <memory_dump> --profile=<profile> filescan`: This command scans for file objects in the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> netscan`: This command scans for network connections in the memory dump.
+
+### Advanced Volatility Commands
+
+Here are some advanced Volatility commands that you can use for more in-depth memory analysis:
+
+- `volatility -f <memory_dump> --profile=<profile> malfind`: This command scans for injected or modified code in the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> apihooks`: This command lists API hooks in the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> handles`: This command lists open handles in the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> privs`: This command lists the privileges for each process in the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> getsids`: This command lists the security identifiers (SIDs) for each process in the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> printkey -K <registry_key>`: This command displays the values and subkeys of a specific registry key in the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> hivelist`: This command lists the registry hives in the memory dump.
+
+### Volatility Plugins
+
+Volatility also provides a wide range of plugins that can be used for specific memory analysis tasks. Some popular plugins include:
+
+- `volatility -f <memory_dump> --profile=<profile> timeliner`: This plugin creates a timeline of events based on timestamps in the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> screenshot`: This plugin extracts screenshots from memory dump.
+- `volatility -f <memory_dump> --profile=<profile> dumpfiles -Q <file_extension>`: This plugin extracts files with a specific extension from the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> iehistory`: This plugin extracts Internet Explorer browsing history from the memory dump.
+- `volatility -f <memory_dump> --profile=<profile> chromehistory`: This plugin extracts Google Chrome browsing history from the memory dump.
+
+### Additional Resources
+
+Here are some additional resources that can help you learn more about memory analysis with Volatility:
+
+- [Volatility Documentation](https://github.com/volatilityfoundation/volatility/wiki)
+- [Volatility GitHub Repository](https://github.com/volatilityfoundation/volatility)
+- [Volatility Cheat Sheet](https://github.com/volatilityfoundation/volatility/wiki/Volatility-Usage)
+- [Volatility Training](https://www.volatilityfoundation.org/training)
+- [Volatility Community](https://www.volatilityfoundation.org/community)
+
+Happy memory analysis with Volatility!
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp hivelist #List roots
 volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get initial subkeys
@@ -489,16 +793,71 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get i
 {% endtab %}
 {% endtabs %}
 
-### Get a value
+### Einen Wert erhalten
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey --key "Software\Microsoft\Windows NT\CurrentVersion"
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+Dieses Cheat Sheet enthält eine Liste der häufig verwendeten Volatility-Befehle und deren Verwendung.
+
+### Volatility-Befehle
+
+#### Allgemeine Befehle
+
+- `volatility -f <dumpfile> imageinfo`: Zeigt Informationen über das Speicherabbild an.
+- `volatility -f <dumpfile> --profile=<profile> <command>`: Führt einen Befehl unter Verwendung eines bestimmten Profils aus.
+- `volatility -f <dumpfile> --profile=<profile> --output-file=<outputfile> <command>`: Speichert die Ausgabe eines Befehls in einer Datei.
+
+#### Prozesse und Threads
+
+- `volatility -f <dumpfile> --profile=<profile> pslist`: Listet alle aktiven Prozesse auf.
+- `volatility -f <dumpfile> --profile=<profile> psscan`: Scannt den Speicher nach Prozessen.
+- `volatility -f <dumpfile> --profile=<profile> pstree`: Zeigt die Prozesshierarchie an.
+- `volatility -f <dumpfile> --profile=<profile> psxview`: Zeigt versteckte Prozesse an.
+- `volatility -f <dumpfile> --profile=<profile> threads`: Listet alle Threads auf.
+
+#### Netzwerk
+
+- `volatility -f <dumpfile> --profile=<profile> connections`: Zeigt aktive Netzwerkverbindungen an.
+- `volatility -f <dumpfile> --profile=<profile> connscan`: Scannt den Speicher nach Netzwerkverbindungen.
+- `volatility -f <dumpfile> --profile=<profile> sockets`: Zeigt offene Sockets an.
+
+#### Dateisystem
+
+- `volatility -f <dumpfile> --profile=<profile> filescan`: Scannt den Speicher nach Dateien.
+- `volatility -f <dumpfile> --profile=<profile> mftparser`: Analysiert die Master File Table (MFT).
+- `volatility -f <dumpfile> --profile=<profile> mftparser --output=csv --output-file=<outputfile>`: Speichert die MFT-Analyseergebnisse in einer CSV-Datei.
+- `volatility -f <dumpfile> --profile=<profile> filescan | grep -i <keyword>`: Sucht nach Dateien, die ein bestimmtes Schlüsselwort enthalten.
+
+#### Registry
+
+- `volatility -f <dumpfile> --profile=<profile> hivelist`: Listet die geladenen Registrierungshives auf.
+- `volatility -f <dumpfile> --profile=<profile> printkey -K <key>`: Zeigt den Inhalt eines bestimmten Registrierungsschlüssels an.
+- `volatility -f <dumpfile> --profile=<profile> printkey -K <key> --output-file=<outputfile>`: Speichert den Inhalt eines bestimmten Registrierungsschlüssels in einer Datei.
+
+#### Benutzer und Anmeldeinformationen
+
+- `volatility -f <dumpfile> --profile=<profile> hivescan`: Scannt den Speicher nach Registrierungshives.
+- `volatility -f <dumpfile> --profile=<profile> hashdump`: Dumpert die Passwort-Hashes.
+- `volatility -f <dumpfile> --profile=<profile> hashdump --output-file=<outputfile>`: Speichert die Passwort-Hashes in einer Datei.
+- `volatility -f <dumpfile> --profile=<profile> getsids`: Zeigt die SIDs der Benutzer an.
+- `volatility -f <dumpfile> --profile=<profile> getsids -u <username>`: Zeigt die SID eines bestimmten Benutzers an.
+
+#### Systeminformationen
+
+- `volatility -f <dumpfile> --profile=<profile> timeliner`: Erstellt eine Zeitleiste der Ereignisse.
+- `volatility -f <dumpfile> --profile=<profile> timeliner --output=body --output-file=<outputfile>`: Speichert die Zeitleiste der Ereignisse in einer Datei.
+- `volatility -f <dumpfile> --profile=<profile> getservicesids`: Zeigt die SIDs der Dienste an.
+- `volatility -f <dumpfile> --profile=<profile> getservicesids -s <servicename>`: Zeigt die SID eines bestimmten Dienstes an.
+
+### Weitere Ressourcen
+
+- [Volatility-Dokumentation](https://github.com/volatilityfoundation/volatility/wiki)
+- [Volatility-Plugins](https://github.com/volatilityfoundation/community/tree/master/plugins)
 ```bash
 volatility --profile=Win7SP1x86_23418 printkey -K "Software\Microsoft\Windows NT\CurrentVersion" -f file.dmp
 # Get Run binaries registry value
@@ -508,26 +867,73 @@ volatility -f file.dmp --profile=Win7SP1x86 printkey -o 0x9670e9d0 -K 'Software\
 {% endtabs %}
 
 ### Dump
-
 ```bash
 #Dump a hive
 volatility --profile=Win7SP1x86_23418 hivedump -o 0x9aad6148 -f file.dmp #Offset extracted by hivelist
 #Dump all hives
 volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```
+## Dateisystem
 
-## Filesystem
-
-### Mount
+### Mounten
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 #See vol2
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+### Volatility Installation
+
+To install Volatility, follow these steps:
+
+1. Download the latest version of Volatility from the official GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+2. Extract the downloaded file to a directory of your choice.
+3. Open a terminal and navigate to the directory where you extracted Volatility.
+4. Run the command `python setup.py install` to install Volatility.
+
+### Basic Volatility Commands
+
+- `volatility -f <memory_dump_file> imageinfo`: This command displays information about the memory dump file, such as the operating system version and architecture.
+- `volatility -f <memory_dump_file> --profile=<profile_name> pslist`: This command lists all running processes in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile_name> psscan`: This command scans the memory dump for hidden or terminated processes.
+- `volatility -f <memory_dump_file> --profile=<profile_name> dlllist -p <process_id>`: This command lists all loaded DLLs for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> cmdline -p <process_id>`: This command displays the command line arguments for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> filescan`: This command scans the memory dump for file objects.
+- `volatility -f <memory_dump_file> --profile=<profile_name> dumpfiles -Q <file_object_address> -D <output_directory>`: This command dumps a specific file from the memory dump.
+
+### Advanced Volatility Commands
+
+- `volatility -f <memory_dump_file> --profile=<profile_name> malfind`: This command scans the memory dump for injected or modified code.
+- `volatility -f <memory_dump_file> --profile=<profile_name> apihooks`: This command lists all API hooks in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile_name> handles -p <process_id>`: This command lists all open handles for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> netscan`: This command scans the memory dump for network connections.
+- `volatility -f <memory_dump_file> --profile=<profile_name> connscan`: This command scans the memory dump for TCP connections.
+- `volatility -f <memory_dump_file> --profile=<profile_name> timeliner`: This command creates a timeline of events based on timestamps in the memory dump.
+
+### Memory Analysis Plugins
+
+Volatility provides a wide range of plugins for analyzing different aspects of memory dumps. Some of the most commonly used plugins include:
+
+- `pslist`: Lists all running processes.
+- `psscan`: Scans for hidden or terminated processes.
+- `dlllist`: Lists loaded DLLs for a specific process.
+- `cmdline`: Displays command line arguments for a specific process.
+- `filescan`: Scans for file objects.
+- `dumpfiles`: Dumps specific files from the memory dump.
+- `malfind`: Scans for injected or modified code.
+- `apihooks`: Lists API hooks.
+- `handles`: Lists open handles for a specific process.
+- `netscan`: Scans for network connections.
+- `connscan`: Scans for TCP connections.
+- `timeliner`: Creates a timeline of events based on timestamps.
+
+### Additional Resources
+
+- [Volatility GitHub repository](https://github.com/volatilityfoundation/volatility)
+- [Volatility documentation](https://github.com/volatilityfoundation/volatility/wiki)
+- [Volatility plugins](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference)
 ```bash
 volatility --profile=SomeLinux -f file.dmp linux_mount
 volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the entire filesystem (if possible)
@@ -535,7 +941,7 @@ volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the en
 {% endtab %}
 {% endtabs %}
 
-### Scan/dump
+### Scannen/dumpen
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -543,9 +949,95 @@ volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the en
 ./vol.py -f file.dmp windows.filescan.FileScan #Scan for files inside the dump
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --physaddr <0xAAAAA> #Offset from previous command
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+### Volatility Installation
+
+To install Volatility, follow these steps:
+
+1. Download the latest version of Volatility from the official GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+2. Extract the downloaded file to a directory of your choice.
+3. Open a terminal and navigate to the directory where you extracted Volatility.
+4. Run the command `python setup.py install` to install Volatility.
+
+### Volatility Basic Commands
+
+- `volatility -f <memory_dump_file> imageinfo`: This command displays information about the memory dump file, such as the profile and the operating system version.
+- `volatility -f <memory_dump_file> --profile=<profile> <command>`: This command runs a specific Volatility command using the specified profile.
+- `volatility -f <memory_dump_file> --profile=<profile> --output-file=<output_file> <command>`: This command runs a specific Volatility command and saves the output to a file.
+
+### Volatility Plugins
+
+Volatility provides a wide range of plugins for analyzing memory dumps. Some commonly used plugins include:
+
+- `pslist`: Lists all running processes.
+- `pstree`: Displays the process tree.
+- `dlllist`: Lists loaded DLLs.
+- `handles`: Lists open handles.
+- `cmdline`: Displays the command line arguments of processes.
+- `filescan`: Scans for file objects in memory.
+- `malfind`: Finds hidden and injected code.
+
+To use a plugin, run the following command: `volatility -f <memory_dump_file> --profile=<profile> <plugin_name>`. Replace `<plugin_name>` with the name of the desired plugin.
+
+### Volatility Advanced Techniques
+
+- **Process Memory Analysis**: Analyze the memory of a specific process using the `procdump` plugin.
+- **Network Connections Analysis**: Analyze network connections using the `netscan` and `connscan` plugins.
+- **Registry Analysis**: Analyze the Windows registry using the `hivelist`, `printkey`, and `hashdump` plugins.
+- **File System Analysis**: Analyze the file system using the `mftparser`, `usnjrnl`, and `filescan` plugins.
+- **Malware Analysis**: Analyze malware using the `malfind`, `yarascan`, and `virustotal` plugins.
+
+### Volatility Resources
+
+- Official Volatility GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+- Volatility documentation: [https://github.com/volatilityfoundation/volatility/wiki](https://github.com/volatilityfoundation/volatility/wiki)
+- Volatility plugins repository: [https://github.com/volatilityfoundation/community](https://github.com/volatilityfoundation/community)
+
+### Volatility Cheat Sheet
+
+#### Volatility Installation
+
+Um Volatility zu installieren, befolgen Sie diese Schritte:
+
+1. Laden Sie die neueste Version von Volatility aus dem offiziellen GitHub-Repository herunter: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+2. Entpacken Sie die heruntergeladene Datei in ein Verzeichnis Ihrer Wahl.
+3. Öffnen Sie ein Terminal und navigieren Sie zum Verzeichnis, in dem Sie Volatility entpackt haben.
+4. Führen Sie den Befehl `python setup.py install` aus, um Volatility zu installieren.
+
+#### Grundlegende Volatility-Befehle
+
+- `volatility -f <memory_dump_file> imageinfo`: Dieser Befehl zeigt Informationen über die Memory-Dump-Datei an, wie das Profil und die Betriebssystemversion.
+- `volatility -f <memory_dump_file> --profile=<profile> <command>`: Dieser Befehl führt einen bestimmten Volatility-Befehl mit dem angegebenen Profil aus.
+- `volatility -f <memory_dump_file> --profile=<profile> --output-file=<output_file> <command>`: Dieser Befehl führt einen bestimmten Volatility-Befehl aus und speichert die Ausgabe in einer Datei.
+
+#### Volatility-Plugins
+
+Volatility bietet eine Vielzahl von Plugins zur Analyse von Memory-Dumps. Einige häufig verwendete Plugins sind:
+
+- `pslist`: Listet alle laufenden Prozesse auf.
+- `pstree`: Zeigt den Prozessbaum an.
+- `dlllist`: Listet geladene DLLs auf.
+- `handles`: Listet offene Handles auf.
+- `cmdline`: Zeigt die Befehlszeilenargumente von Prozessen an.
+- `filescan`: Sucht nach Dateiobjekten im Speicher.
+- `malfind`: Findet versteckten und injizierten Code.
+
+Um ein Plugin zu verwenden, führen Sie den folgenden Befehl aus: `volatility -f <memory_dump_file> --profile=<profile> <plugin_name>`. Ersetzen Sie `<plugin_name>` durch den Namen des gewünschten Plugins.
+
+#### Fortgeschrittene Volatility-Techniken
+
+- **Analyse des Prozessspeichers**: Analysieren Sie den Speicher eines bestimmten Prozesses mithilfe des `procdump`-Plugins.
+- **Analyse von Netzwerkverbindungen**: Analysieren Sie Netzwerkverbindungen mithilfe der Plugins `netscan` und `connscan`.
+- **Registry-Analyse**: Analysieren Sie die Windows-Registry mithilfe der Plugins `hivelist`, `printkey` und `hashdump`.
+- **Dateisystemanalyse**: Analysieren Sie das Dateisystem mithilfe der Plugins `mftparser`, `usnjrnl` und `filescan`.
+- **Malware-Analyse**: Analysieren Sie Malware mithilfe der Plugins `malfind`, `yarascan` und `virustotal`.
+
+#### Volatility-Ressourcen
+
+- Offizielles Volatility-GitHub-Repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+- Volatility-Dokumentation: [https://github.com/volatilityfoundation/volatility/wiki](https://github.com/volatilityfoundation/volatility/wiki)
+- Volatility-Plugins-Repository: [https://github.com/volatilityfoundation/community](https://github.com/volatilityfoundation/community)
 ```bash
 volatility --profile=Win7SP1x86_23418 filescan -f file.dmp #Scan for files inside the dump
 volatility --profile=Win7SP1x86_23418 dumpfiles -n --dump-dir=/tmp -f file.dmp #Dump all files
@@ -558,25 +1050,83 @@ volatility --profile=SomeLinux -f file.dmp linux_find_file -i 0xINODENUMBER -O /
 {% endtab %}
 {% endtabs %}
 
-### Master File Table
+### Masterdateitabelle
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 # I couldn't find any plugin to extract this information in volatility3
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+### Introduction
+
+This cheat sheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. It includes commands and techniques for analyzing memory dumps to extract valuable information during forensic investigations.
+
+### Installation
+
+To install Volatility, follow these steps:
+
+1. Install Python 2.7 or Python 3.x.
+2. Install the required dependencies using pip: `pip install -r requirements.txt`.
+3. Download the latest release of Volatility from the official GitHub repository: `git clone https://github.com/volatilityfoundation/volatility.git`.
+4. Navigate to the Volatility directory: `cd volatility`.
+5. Run Volatility using the command `python vol.py`.
+
+### Basic Usage
+
+To analyze a memory dump with Volatility, use the following command:
+
+```
+python vol.py -f <memory_dump> <plugin_name>
+```
+
+Replace `<memory_dump>` with the path to the memory dump file and `<plugin_name>` with the name of the plugin you want to use for analysis.
+
+### Common Plugins
+
+Here are some commonly used plugins in Volatility:
+
+- `pslist`: Lists running processes.
+- `pstree`: Displays a process tree.
+- `dlllist`: Lists loaded DLLs.
+- `handles`: Lists open handles.
+- `cmdline`: Displays command-line arguments.
+- `filescan`: Scans for file objects in memory.
+- `malfind`: Finds hidden and injected code.
+- `svcscan`: Lists Windows services.
+- `connections`: Lists network connections.
+- `netscan`: Scans for network artifacts.
+
+### Advanced Techniques
+
+Volatility also provides advanced techniques for memory analysis, such as:
+
+- **Process Memory Analysis**: Analyzing the memory of a specific process.
+- **Kernel Memory Analysis**: Analyzing the kernel memory.
+- **Network Memory Analysis**: Analyzing network-related artifacts in memory.
+- **Malware Analysis**: Analyzing memory for signs of malware.
+
+### Additional Resources
+
+For more information on using Volatility and memory forensics, refer to the following resources:
+
+- [Volatility Documentation](https://github.com/volatilityfoundation/volatility/wiki)
+- [Volatility GitHub Repository](https://github.com/volatilityfoundation/volatility)
+- [The Art of Memory Forensics](https://www.amazon.com/Art-Memory-Forensics-Detecting-Malware/dp/1118825098)
+
+### Conclusion
+
+This cheat sheet provides a starting point for using Volatility in memory forensics. By leveraging the power of Volatility and its plugins, you can extract valuable information from memory dumps to aid in forensic investigations.
 ```bash
 volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 ```
 {% endtab %}
 {% endtabs %}
 
-The **NTFS file system** uses a critical component known as the _master file table_ (MFT). This table includes at least one entry for every file on a volume, covering the MFT itself too. Vital details about each file, such as **size, timestamps, permissions, and actual data**, are encapsulated within the MFT entries or in areas external to the MFT but referenced by these entries. More details can be found in the [official documentation](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
+Das **NTFS-Dateisystem** verwendet eine wichtige Komponente namens _Master File Table_ (MFT). Diese Tabelle enthält mindestens einen Eintrag für jede Datei auf einem Volume, einschließlich der MFT selbst. Wichtige Details zu jeder Datei, wie **Größe, Zeitstempel, Berechtigungen und tatsächliche Daten**, sind in den MFT-Einträgen oder in Bereichen außerhalb des MFT, aber von diesen Einträgen referenziert, enthalten. Weitere Details finden Sie in der [offiziellen Dokumentation](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
 
-### SSL Keys/Certs
+### SSL-Schlüssel/Zertifikate
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -584,17 +1134,12 @@ The **NTFS file system** uses a critical component known as the _master file tab
 #vol3 allows to search for certificates inside the registry
 ./vol.py -f file.dmp windows.registry.certificates.Certificates
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 #vol2 allos you to search and dump certificates from memory
 #Interesting options for this modules are: --pid, --name, --ssl
 volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ```
-{% endtab %}
-{% endtabs %}
-
 ## Malware
 
 {% tabs %}
@@ -612,8 +1157,6 @@ volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ./vol.py -f file.dmp linux.check_modules.Check_modules #Compares module list to sysfs info, if available
 ./vol.py -f file.dmp linux.tty_check.tty_check #Checks tty devices for hooks
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp malfind [-D /tmp] #Find hidden and injected code [dump each suspicious section]
@@ -633,13 +1176,10 @@ volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
 {% endtab %}
 {% endtabs %}
 
-### Scanning with yara
+### Scannen mit yara
 
-Use this script to download and merge all the yara malware rules from github: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
-Create the _**rules**_ directory and execute it. This will create a file called _**malware\_rules.yar**_ which contains all the yara rules for malware.
-
-{% tabs %}
-{% tab title="vol3" %}
+Verwenden Sie dieses Skript, um alle yara-Malware-Regeln von GitHub herunterzuladen und zusammenzuführen: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
+Erstellen Sie das Verzeichnis _**rules**_ und führen Sie es aus. Dadurch wird eine Datei namens _**malware\_rules.yar**_ erstellt, die alle yara-Regeln für Malware enthält.
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
 mkdir rules
@@ -649,8 +1189,6 @@ python malware_yara_rules.py
 #All
 ./vol.py -f file.dmp yarascan.YaraScan --yara-file /tmp/malware_rules.yar
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
@@ -663,41 +1201,83 @@ volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp |
 
 ## MISC
 
-### External plugins
+### Externe Plugins
 
-If you want to use external plugins make sure that the folders related to the plugins are the first parameter used.
-
-{% tabs %}
-{% tab title="vol3" %}
+Wenn Sie externe Plugins verwenden möchten, stellen Sie sicher, dass die Ordner, die mit den Plugins zusammenhängen, der erste verwendete Parameter sind.
 ```bash
 ./vol.py --plugin-dirs "/tmp/plugins/" [...]
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+### Volatility Installation
+
+To install Volatility, follow these steps:
+
+1. Download the latest version of Volatility from the official GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+2. Extract the downloaded file to a directory of your choice.
+3. Open a terminal and navigate to the directory where you extracted Volatility.
+4. Run the command `python setup.py install` to install Volatility.
+
+### Basic Volatility Commands
+
+- `volatility -f <memory_dump_file> imageinfo`: This command displays information about the memory dump file, such as the operating system version and architecture.
+- `volatility -f <memory_dump_file> --profile=<profile_name> pslist`: This command lists all running processes in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile_name> psscan`: This command scans the memory dump for hidden or terminated processes.
+- `volatility -f <memory_dump_file> --profile=<profile_name> dlllist -p <process_id>`: This command lists all loaded DLLs for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> cmdline -p <process_id>`: This command displays the command line arguments for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> filescan`: This command scans the memory dump for file objects.
+- `volatility -f <memory_dump_file> --profile=<profile_name> dumpfiles -Q <file_object_address> -D <output_directory>`: This command dumps a specific file from the memory dump.
+
+### Advanced Volatility Commands
+
+- `volatility -f <memory_dump_file> --profile=<profile_name> malfind`: This command scans the memory dump for injected or modified code.
+- `volatility -f <memory_dump_file> --profile=<profile_name> apihooks`: This command lists all API hooks in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile_name> handles -p <process_id>`: This command lists all open handles for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> netscan`: This command scans the memory dump for network connections.
+- `volatility -f <memory_dump_file> --profile=<profile_name> connscan`: This command scans the memory dump for TCP connections.
+- `volatility -f <memory_dump_file> --profile=<profile_name> timeliner`: This command creates a timeline of events based on timestamps in the memory dump.
+
+### Memory Analysis Plugins
+
+Volatility provides a wide range of plugins for analyzing different aspects of memory dumps. Some of the most commonly used plugins include:
+
+- `pslist`: Lists all running processes.
+- `psscan`: Scans for hidden or terminated processes.
+- `dlllist`: Lists loaded DLLs for a specific process.
+- `cmdline`: Displays command line arguments for a specific process.
+- `filescan`: Scans for file objects.
+- `dumpfiles`: Dumps specific files from the memory dump.
+- `malfind`: Scans for injected or modified code.
+- `apihooks`: Lists API hooks.
+- `handles`: Lists open handles for a specific process.
+- `netscan`: Scans for network connections.
+- `connscan`: Scans for TCP connections.
+- `timeliner`: Creates a timeline of events based on timestamps.
+
+### Additional Resources
+
+- [Volatility GitHub repository](https://github.com/volatilityfoundation/volatility)
+- [Volatility documentation](https://github.com/volatilityfoundation/volatility/wiki)
+- [Volatility plugins](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference)
 ```bash
- volatilitye --plugins="/tmp/plugins/" [...]
+volatilitye --plugins="/tmp/plugins/" [...]
 ```
 {% endtab %}
 {% endtabs %}
 
 #### Autoruns
 
-Download it from [https://github.com/tomchop/volatility-autoruns](https://github.com/tomchop/volatility-autoruns)
-
+Laden Sie es von [https://github.com/tomchop/volatility-autoruns](https://github.com/tomchop/volatility-autoruns) herunter
 ```
- volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp autoruns
+volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp autoruns
 ```
-
-### Mutexes
+### Mutexe
 
 {% tabs %}
 {% tab title="vol3" %}
 ```
 ./vol.py -f file.dmp windows.mutantscan.MutantScan
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 mutantscan -f file.dmp
@@ -706,16 +1286,69 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 {% endtab %}
 {% endtabs %}
 
-### Symlinks
+### Symbolische Links
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.symlinkscan.SymlinkScan
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+### Volatility Installation
+
+To install Volatility, follow these steps:
+
+1. Download the latest version of Volatility from the official GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+2. Extract the downloaded file to a directory of your choice.
+3. Open a terminal and navigate to the directory where you extracted Volatility.
+4. Run the command `python setup.py install` to install Volatility.
+
+### Basic Volatility Commands
+
+- `volatility -f <memory_dump_file> imageinfo`: This command displays information about the memory dump file, such as the profile and the operating system version.
+- `volatility -f <memory_dump_file> --profile=<profile> <command>`: This command runs a specific Volatility command using the specified profile.
+- `volatility -f <memory_dump_file> --profile=<profile> --output-file=<output_file> <command>`: This command runs a specific Volatility command and saves the output to a file.
+
+### Memory Analysis
+
+- `volatility -f <memory_dump_file> --profile=<profile> pslist`: This command lists all running processes in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> psscan`: This command scans for hidden or terminated processes in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> pstree`: This command displays the process tree in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> dlllist -p <pid>`: This command lists the loaded DLLs for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile> handles -p <pid>`: This command lists the open handles for a specific process.
+
+### Network Analysis
+
+- `volatility -f <memory_dump_file> --profile=<profile> connections`: This command lists the network connections in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> connscan`: This command scans for hidden or terminated network connections in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> netscan`: This command scans for network artifacts in the memory dump.
+
+### File Analysis
+
+- `volatility -f <memory_dump_file> --profile=<profile> filescan`: This command scans for file objects in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> dumpfiles -Q <address_range>`: This command dumps files from the memory dump based on the specified address range.
+
+### Registry Analysis
+
+- `volatility -f <memory_dump_file> --profile=<profile> hivelist`: This command lists the registry hives in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> printkey -K <key_path>`: This command prints the values and subkeys of a specific registry key.
+
+### Malware Analysis
+
+- `volatility -f <memory_dump_file> --profile=<profile> malfind`: This command scans for injected or hidden code in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile> malprocfind`: This command scans for processes associated with known malware in the memory dump.
+
+### Plugin Usage
+
+- `volatility -f <memory_dump_file> --profile=<profile> --plugins=<plugin_directory> <plugin_name>`: This command runs a specific Volatility plugin using the specified profile and plugin directory.
+
+### Additional Resources
+
+- Volatility GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+- Volatility documentation: [https://github.com/volatilityfoundation/volatility/wiki](https://github.com/volatilityfoundation/volatility/wiki)
+
+{% endtab %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 ```
@@ -724,91 +1357,276 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 
 ### Bash
 
-It's possible to **read from memory the bash history.** You could also dump the _.bash\_history_ file, but it was disabled you will be glad you can use this volatility module
+Es ist möglich, **die Bash-History aus dem Speicher auszulesen**. Sie könnten auch die Datei _.bash\_history_ dumpen, aber wenn sie deaktiviert wurde, werden Sie froh sein, dass Sie dieses Volatility-Modul verwenden können.
 
 {% tabs %}
 {% tab title="vol3" %}
 ```
 ./vol.py -f file.dmp linux.bash.Bash
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+Dieses Cheat Sheet enthält eine Liste der häufig verwendeten Volatility-Befehle und deren Verwendung.
+
+### Volatility-Befehle
+
+#### Allgemeine Befehle
+
+- `volatility -f <dumpfile> imageinfo`: Zeigt Informationen über das Speicherabbild an.
+- `volatility -f <dumpfile> --profile=<profile> <command>`: Führt einen Befehl unter Verwendung eines bestimmten Profils aus.
+- `volatility -f <dumpfile> --profile=<profile> --output-file=<outputfile> <command>`: Speichert die Ausgabe eines Befehls in einer Datei.
+
+#### Prozesse und Threads
+
+- `volatility -f <dumpfile> --profile=<profile> pslist`: Listet alle aktiven Prozesse auf.
+- `volatility -f <dumpfile> --profile=<profile> psscan`: Scannt den Speicher nach Prozessen.
+- `volatility -f <dumpfile> --profile=<profile> pstree`: Zeigt die Prozesshierarchie an.
+- `volatility -f <dumpfile> --profile=<profile> psxview`: Zeigt versteckte Prozesse an.
+- `volatility -f <dumpfile> --profile=<profile> threads`: Listet alle Threads auf.
+
+#### Netzwerk
+
+- `volatility -f <dumpfile> --profile=<profile> connections`: Zeigt aktive Netzwerkverbindungen an.
+- `volatility -f <dumpfile> --profile=<profile> connscan`: Scannt den Speicher nach Netzwerkverbindungen.
+- `volatility -f <dumpfile> --profile=<profile> sockets`: Zeigt offene Sockets an.
+
+#### Dateisystem
+
+- `volatility -f <dumpfile> --profile=<profile> filescan`: Scannt den Speicher nach Dateien.
+- `volatility -f <dumpfile> --profile=<profile> mftparser`: Analysiert die Master File Table (MFT).
+- `volatility -f <dumpfile> --profile=<profile> mftparser --output=csv --output-file=<outputfile>`: Speichert die MFT-Analyseergebnisse in einer CSV-Datei.
+- `volatility -f <dumpfile> --profile=<profile> filescan | grep -i <keyword>`: Sucht nach Dateien, die ein bestimmtes Schlüsselwort enthalten.
+
+#### Registry
+
+- `volatility -f <dumpfile> --profile=<profile> hivelist`: Listet die geladenen Registrierungshives auf.
+- `volatility -f <dumpfile> --profile=<profile> printkey -K <key>`: Zeigt den Inhalt eines bestimmten Registrierungsschlüssels an.
+- `volatility -f <dumpfile> --profile=<profile> printkey -K <key> --output-file=<outputfile>`: Speichert den Inhalt eines bestimmten Registrierungsschlüssels in einer Datei.
+
+#### Benutzer und Anmeldeinformationen
+
+- `volatility -f <dumpfile> --profile=<profile> hivescan`: Scannt den Speicher nach Registrierungshives.
+- `volatility -f <dumpfile> --profile=<profile> hashdump`: Dumpert die Passwort-Hashes.
+- `volatility -f <dumpfile> --profile=<profile> hashdump --output-file=<outputfile>`: Speichert die Passwort-Hashes in einer Datei.
+- `volatility -f <dumpfile> --profile=<profile> getsids`: Zeigt die Sicherheits-IDs (SIDs) der Benutzer an.
+
+#### DLLs und Treiber
+
+- `volatility -f <dumpfile> --profile=<profile> dlllist`: Listet alle geladenen DLLs auf.
+- `volatility -f <dumpfile> --profile=<profile> driverirp`: Zeigt Informationen über die Treiber-IRPs an.
+
+#### Systeminformationen
+
+- `volatility -f <dumpfile> --profile=<profile> getservicesids`: Zeigt die Sicherheits-IDs (SIDs) der Dienste an.
+- `volatility -f <dumpfile> --profile=<profile> getsids`: Zeigt die Sicherheits-IDs (SIDs) der Benutzer an.
+- `volatility -f <dumpfile> --profile=<profile> getsids -U`: Zeigt die Sicherheits-IDs (SIDs) der Benutzer und Gruppen an.
+- `volatility -f <dumpfile> --profile=<profile> getsids -G`: Zeigt die Sicherheits-IDs (SIDs) der Gruppen an.
+
+### Weitere Ressourcen
+
+- [Volatility-Dokumentation](https://github.com/volatilityfoundation/volatility/wiki)
+- [Volatility-Plugins](https://github.com/volatilityfoundation/community/tree/master/plugins)
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
 ```
 {% endtab %}
 {% endtabs %}
 
-### TimeLine
+### Zeitachse
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp timeLiner.TimeLiner
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+### Volatility Installation
+
+To install Volatility, follow these steps:
+
+1. Download the latest version of Volatility from the official GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+2. Extract the downloaded file to a directory of your choice.
+3. Open a terminal and navigate to the directory where you extracted Volatility.
+4. Run the command `python setup.py install` to install Volatility.
+
+### Basic Volatility Commands
+
+- `volatility -f <memory_dump_file> imageinfo`: This command displays information about the memory dump file, such as the operating system version and architecture.
+- `volatility -f <memory_dump_file> --profile=<profile_name> pslist`: This command lists all running processes in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile_name> psscan`: This command scans the memory dump for hidden or terminated processes.
+- `volatility -f <memory_dump_file> --profile=<profile_name> dlllist -p <process_id>`: This command lists all loaded DLLs for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> cmdline -p <process_id>`: This command displays the command line arguments for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> filescan`: This command scans the memory dump for file objects.
+- `volatility -f <memory_dump_file> --profile=<profile_name> dumpfiles -Q <file_object_address> -D <output_directory>`: This command dumps a specific file from the memory dump.
+
+### Advanced Volatility Commands
+
+- `volatility -f <memory_dump_file> --profile=<profile_name> malfind`: This command scans the memory dump for injected or modified code.
+- `volatility -f <memory_dump_file> --profile=<profile_name> apihooks`: This command lists all API hooks in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile_name> handles -p <process_id>`: This command lists all open handles for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> netscan`: This command scans the memory dump for network connections.
+- `volatility -f <memory_dump_file> --profile=<profile_name> connscan`: This command scans the memory dump for TCP and UDP connections.
+- `volatility -f <memory_dump_file> --profile=<profile_name> timeliner`: This command creates a timeline of events based on timestamps in the memory dump.
+
+### Memory Analysis Plugins
+
+Volatility provides a wide range of plugins for analyzing different aspects of memory dumps. Some of the most commonly used plugins include:
+
+- `pslist`: Lists all running processes.
+- `psscan`: Scans for hidden or terminated processes.
+- `dlllist`: Lists loaded DLLs for a specific process.
+- `cmdline`: Displays command line arguments for a specific process.
+- `filescan`: Scans for file objects.
+- `dumpfiles`: Dumps specific files from the memory dump.
+- `malfind`: Scans for injected or modified code.
+- `apihooks`: Lists API hooks.
+- `handles`: Lists open handles for a specific process.
+- `netscan`: Scans for network connections.
+- `connscan`: Scans for TCP and UDP connections.
+- `timeliner`: Creates a timeline of events based on timestamps.
+
+### Additional Resources
+
+- [Volatility GitHub repository](https://github.com/volatilityfoundation/volatility)
+- [Volatility documentation](https://github.com/volatilityfoundation/volatility/wiki)
+- [Volatility plugins](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference)
 ```
 volatility --profile=Win7SP1x86_23418 -f timeliner
 ```
 {% endtab %}
 {% endtabs %}
 
-### Drivers
+### Treiber
 
 {% tabs %}
 {% tab title="vol3" %}
 ```
 ./vol.py -f file.dmp windows.driverscan.DriverScan
 ```
-{% endtab %}
+## Volatility Cheat Sheet
 
-{% tab title="vol2" %}
+### Volatility Installation
+
+To install Volatility, follow these steps:
+
+1. Download the latest version of Volatility from the official GitHub repository: [https://github.com/volatilityfoundation/volatility](https://github.com/volatilityfoundation/volatility)
+2. Extract the downloaded file to a directory of your choice.
+3. Open a terminal and navigate to the directory where you extracted Volatility.
+4. Run the command `python setup.py install` to install Volatility.
+
+### Basic Volatility Commands
+
+- `volatility -f <memory_dump_file> imageinfo`: This command displays information about the memory dump file, such as the operating system version and architecture.
+- `volatility -f <memory_dump_file> --profile=<profile_name> pslist`: This command lists all running processes in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile_name> psscan`: This command scans the memory dump for hidden or terminated processes.
+- `volatility -f <memory_dump_file> --profile=<profile_name> dlllist -p <process_id>`: This command lists all loaded DLLs for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> cmdline -p <process_id>`: This command displays the command line arguments for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> filescan`: This command scans the memory dump for file objects.
+- `volatility -f <memory_dump_file> --profile=<profile_name> dumpfiles -Q <file_object_address> -D <output_directory>`: This command dumps a specific file from the memory dump.
+
+### Advanced Volatility Commands
+
+- `volatility -f <memory_dump_file> --profile=<profile_name> malfind`: This command scans the memory dump for injected or modified code.
+- `volatility -f <memory_dump_file> --profile=<profile_name> apihooks`: This command lists all API hooks in the memory dump.
+- `volatility -f <memory_dump_file> --profile=<profile_name> handles -p <process_id>`: This command lists all open handles for a specific process.
+- `volatility -f <memory_dump_file> --profile=<profile_name> netscan`: This command scans the memory dump for network connections.
+- `volatility -f <memory_dump_file> --profile=<profile_name> connscan`: This command scans the memory dump for TCP and UDP connections.
+- `volatility -f <memory_dump_file> --profile=<profile_name> timeliner`: This command creates a timeline of events based on timestamps in the memory dump.
+
+### Additional Resources
+
+- [Volatility GitHub Repository](https://github.com/volatilityfoundation/volatility)
+- [Volatility Documentation](https://github.com/volatilityfoundation/volatility/wiki)
+- [Volatility Plugins](https://github.com/volatilityfoundation/community)
+
+### References
+
+- [Volatility Cheat Sheet](https://github.com/volatilityfoundation/volatility/wiki/Volatility-Usage#cheat-sheet)
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
 ```
 {% endtab %}
 {% endtabs %}
 
-### Get clipboard
-
+### Zwischenablage abrufen
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 clipboard -f file.dmp
 ```
+### IE-Verlauf abrufen
 
-### Get IE history
+Um den Internet Explorer-Verlauf abzurufen, können Sie den folgenden Befehl verwenden:
 
+```bash
+volatility -f <memory_dump> iehistory
+```
+
+Ersetzen Sie `<memory_dump>` durch den Pfad zur Speicherabbilddatei, die Sie analysieren möchten.
+
+Dieser Befehl extrahiert den Verlauf des Internet Explorers aus dem Speicherabbild und zeigt Informationen wie besuchte URLs, Titel der besuchten Seiten, Zeitstempel und andere relevante Daten an.
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 iehistory -f file.dmp
 ```
+### Notizbuchtext abrufen
 
-### Get notepad text
+```
+volatility -f <memory_dump> notepad
+```
 
+Dieser Befehl extrahiert den Text, der in der Anwendung Notepad im Speicherdump gespeichert ist.
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 notepad -f file.dmp
 ```
-
 ### Screenshot
-
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```
-
 ### Master Boot Record (MBR)
 
+Der Master Boot Record (MBR) ist ein spezieller Bereich auf einer Festplatte, der Informationen über die Partitionierung und das Starten des Betriebssystems enthält. Er befindet sich im ersten Sektor der Festplatte und besteht aus einem Bootloader und einer Partitionstabelle.
+
+#### Analyse des MBR
+
+Um den MBR zu analysieren, können Sie die folgenden Volatility-Befehle verwenden:
+
+- `mbrparser`: Dieser Befehl analysiert den MBR und gibt Informationen über die Partitionstabelle und den Bootloader aus.
+
+Beispiel:
+
+```
+volatility -f memory_dump.raw mbrparser
+```
+
+#### Verdächtige Aktivitäten im MBR
+
+Einige verdächtige Aktivitäten im MBR können auf eine Malware-Infektion oder eine Manipulation hinweisen. Hier sind einige Anzeichen für verdächtige Aktivitäten:
+
+- Änderungen in der Partitionstabelle: Wenn sich die Partitionstabelle plötzlich ändert oder unbekannte Partitionen hinzugefügt werden, kann dies auf eine Malware-Infektion hinweisen.
+- Modifizierter Bootloader: Wenn der Bootloader im MBR verändert wurde, kann dies darauf hindeuten, dass ein Angreifer versucht hat, das Betriebssystem zu manipulieren oder eine Hintertür einzurichten.
+- Bootkit-Infektion: Ein Bootkit ist eine Art von Malware, die den Bootloader infiziert und es Angreifern ermöglicht, Kontrolle über das System zu erlangen. Wenn verdächtige Aktivitäten im MBR festgestellt werden, sollten Sie nach Anzeichen für eine Bootkit-Infektion suchen.
+
+#### Gegenmaßnahmen
+
+Um den MBR vor Angriffen zu schützen, können Sie die folgenden Maßnahmen ergreifen:
+
+- Aktualisieren Sie Ihr Betriebssystem und Ihre Sicherheitssoftware regelmäßig, um bekannte Schwachstellen zu beheben.
+- Verwenden Sie eine zuverlässige Antivirensoftware, um Malware-Infektionen zu erkennen und zu entfernen.
+- Seien Sie vorsichtig beim Herunterladen und Öffnen von Dateien aus unsicheren Quellen.
+- Überprüfen Sie regelmäßig den MBR auf verdächtige Aktivitäten und führen Sie gegebenenfalls eine forensische Analyse durch.
+
+#### Fazit
+
+Die Analyse des MBR kann wichtige Informationen über die Partitionierung und das Starten des Betriebssystems liefern. Durch die Überwachung und Untersuchung verdächtiger Aktivitäten im MBR können Sie potenzielle Bedrohungen erkennen und geeignete Gegenmaßnahmen ergreifen, um Ihr System zu schützen.
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
+Der **Master Boot Record (MBR)** spielt eine entscheidende Rolle bei der Verwaltung der logischen Partitionen eines Speichermediums, die mit unterschiedlichen [Dateisystemen](https://de.wikipedia.org/wiki/Dateisystem) strukturiert sind. Er enthält nicht nur Informationen zur Partitionslayout, sondern enthält auch ausführbaren Code, der als Bootloader fungiert. Dieser Bootloader initiiert entweder direkt den OS-Zweistufen-Ladevorgang (siehe [Zweistufiger Bootloader](https://de.wikipedia.org/wiki/Zweistufiger_Bootloader)) oder arbeitet in Harmonie mit dem [Volume Boot Record](https://de.wikipedia.org/wiki/Volume_boot_record) (VBR) jeder Partition. Für vertiefte Kenntnisse siehe die [MBR Wikipedia-Seite](https://de.wikipedia.org/wiki/Master_boot_record).
 
-The **Master Boot Record (MBR)** plays a crucial role in managing the logical partitions of a storage medium, which are structured with different [file systems](https://en.wikipedia.org/wiki/File_system). It not only holds partition layout information but also contains executable code acting as a boot loader. This boot loader either directly initiates the OS's second-stage loading process (see [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage_boot_loader)) or works in harmony with the [volume boot record](https://en.wikipedia.org/wiki/Volume_boot_record) (VBR) of each partition. For in-depth knowledge, refer to the [MBR Wikipedia page](https://en.wikipedia.org/wiki/Master_boot_record).
-
-## References
+## Referenzen
 * [https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/](https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/)
 * [https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html](https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html)
 * [https://or10nlabs.tech/cgi-sys/suspendedpage.cgi](https://or10nlabs.tech/cgi-sys/suspendedpage.cgi)
@@ -818,20 +1636,20 @@ The **Master Boot Record (MBR)** plays a crucial role in managing the logical pa
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) ist die relevanteste Cybersicherheitsveranstaltung in **Spanien** und eine der wichtigsten in **Europa**. Mit **der Mission, technisches Wissen zu fördern**, ist dieser Kongress ein brodelnder Treffpunkt für Technologie- und Cybersicherheitsprofis in jeder Disziplin.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repos senden.
 
 </details>

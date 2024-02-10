@@ -2,85 +2,85 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
-**For further detail about the technique check the original post from: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** Here is a summary:
+**Für weitere Details zur Technik lesen Sie den Originalbeitrag unter: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** Hier ist eine Zusammenfassung:
 
-NIB files, part of Apple's development ecosystem, are intended for defining **UI elements** and their interactions in applications. They encompass serialized objects such as windows and buttons, and are loaded at runtime. Despite their ongoing usage, Apple now advocates for Storyboards for more comprehensive UI flow visualization.
+NIB-Dateien, Teil des Apple-Entwicklungsumfelds, dienen zur Definition von **UI-Elementen** und deren Interaktionen in Anwendungen. Sie umfassen serialisierte Objekte wie Fenster und Schaltflächen und werden zur Laufzeit geladen. Obwohl sie weiterhin verwendet werden, empfiehlt Apple jetzt Storyboards für eine umfassendere Visualisierung des UI-Flusses.
 
-### Security Concerns with NIB Files
-It's critical to note that **NIB files can be a security risk**. They have the potential to **execute arbitrary commands**, and alterations to NIB files within an app don't hinder Gatekeeper from executing the app, posing a significant threat.
+### Sicherheitsbedenken bei NIB-Dateien
+Es ist wichtig zu beachten, dass **NIB-Dateien ein Sicherheitsrisiko darstellen** können. Sie haben das Potenzial, **beliebige Befehle auszuführen**, und Änderungen an NIB-Dateien innerhalb einer App hindern Gatekeeper nicht daran, die App auszuführen, was eine erhebliche Bedrohung darstellt.
 
-### Dirty NIB Injection Process
-#### Creating and Setting Up a NIB File
-1. **Initial Setup**:
-   - Create a new NIB file using XCode.
-   - Add an Object to the interface, setting its class to `NSAppleScript`.
-   - Configure the initial `source` property via User Defined Runtime Attributes.
+### Dirty NIB-Injektionsprozess
+#### Erstellen und Einrichten einer NIB-Datei
+1. **Erstmalige Einrichtung**:
+- Erstellen Sie eine neue NIB-Datei mit XCode.
+- Fügen Sie ein Objekt zur Oberfläche hinzu und setzen Sie seine Klasse auf `NSAppleScript`.
+- Konfigurieren Sie das anfängliche `source`-Attribut über benutzerdefinierte Laufzeitattribute.
 
-2. **Code Execution Gadget**:
-   - The setup facilitates running AppleScript on demand.
-   - Integrate a button to activate the `Apple Script` object, specifically triggering the `executeAndReturnError:` selector.
+2. **Code-Ausführungsgadget**:
+- Die Einrichtung ermöglicht das Ausführen von AppleScript auf Abruf.
+- Integrieren Sie eine Schaltfläche, um das `Apple Script`-Objekt zu aktivieren und den `executeAndReturnError:`-Selektor spezifisch auszulösen.
 
-3. **Testing**:
-   - A simple Apple Script for testing purposes:
-     ```bash
-     set theDialogText to "PWND"
-     display dialog theDialogText
-     ```
-   - Test by running in the XCode debugger and clicking the button.
+3. **Testen**:
+- Ein einfaches AppleScript zum Testen:
+```bash
+set theDialogText to "PWND"
+display dialog theDialogText
+```
+- Testen Sie, indem Sie es im XCode-Debugger ausführen und auf die Schaltfläche klicken.
 
-#### Targeting an Application (Example: Pages)
-1. **Preparation**:
-   - Copy the target app (e.g., Pages) into a separate directory (e.g., `/tmp/`).
-   - Initiate the app to sidestep Gatekeeper issues and cache it.
+#### Ausrichtung auf eine Anwendung (Beispiel: Pages)
+1. **Vorbereitung**:
+- Kopieren Sie die Ziel-App (z. B. Pages) in ein separates Verzeichnis (z. B. `/tmp/`).
+- Starten Sie die App, um Gatekeeper-Probleme zu umgehen und sie zu cachen.
 
-2. **Overwriting NIB File**:
-   - Replace an existing NIB file (e.g., About Panel NIB) with the crafted DirtyNIB file.
+2. **Überschreiben der NIB-Datei**:
+- Ersetzen Sie eine vorhandene NIB-Datei (z. B. About Panel NIB) durch die erstellte DirtyNIB-Datei.
 
-3. **Execution**:
-   - Trigger the execution by interacting with the app (e.g., selecting the `About` menu item).
+3. **Ausführung**:
+- Starten Sie die Ausführung, indem Sie mit der App interagieren (z. B. das Menüelement `About` auswählen).
 
-#### Proof of Concept: Accessing User Data
-- Modify the AppleScript to access and extract user data, such as photos, without user consent.
+#### Proof of Concept: Zugriff auf Benutzerdaten
+- Ändern Sie das AppleScript, um auf Benutzerdaten zuzugreifen und sie ohne Zustimmung des Benutzers zu extrahieren, z. B. Fotos.
 
-### Code Sample: Malicious .xib File
-- Access and review a [**sample of a malicious .xib file**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) that demonstrates executing arbitrary code.
+### Codebeispiel: Bösartige .xib-Datei
+- Greifen Sie auf eine [**Beispiel einer bösartigen .xib-Datei**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) zu, die die Ausführung beliebigen Codes demonstriert.
 
-### Addressing Launch Constraints
-- Launch Constraints hinder app execution from unexpected locations (e.g., `/tmp`).
-- It's possible to identify apps not protected by Launch Constraints and target them for NIB file injection.
+### Umgang mit Startbeschränkungen
+- Startbeschränkungen verhindern die Ausführung von Apps an unerwarteten Orten (z. B. `/tmp`).
+- Es ist möglich, Apps zu identifizieren, die nicht durch Startbeschränkungen geschützt sind, und sie für die Injektion von NIB-Dateien anzugreifen.
 
-### Additional macOS Protections
-From macOS Sonoma onwards, modifications inside App bundles are restricted. However, earlier methods involved:
-1. Copying the app to a different location (e.g., `/tmp/`).
-2. Renaming directories within the app bundle to bypass initial protections.
-3. After running the app to register with Gatekeeper, modifying the app bundle (e.g., replacing MainMenu.nib with Dirty.nib).
-4. Renaming directories back and rerunning the app to execute the injected NIB file.
+### Weitere macOS-Schutzmaßnahmen
+Ab macOS Sonoma sind Änderungen innerhalb von App-Bundles eingeschränkt. Frühere Methoden umfassten jedoch:
+1. Kopieren der App an einen anderen Ort (z. B. `/tmp/`).
+2. Umbenennen von Verzeichnissen innerhalb des App-Bundles, um anfängliche Schutzmaßnahmen zu umgehen.
+3. Nach dem Ausführen der App zur Registrierung bei Gatekeeper das App-Bundle ändern (z. B. MainMenu.nib durch Dirty.nib ersetzen).
+4. Umbenennen der Verzeichnisse zurück und erneutes Ausführen der App zur Ausführung der injizierten NIB-Datei.
 
-**Note**: Recent macOS updates have mitigated this exploit by preventing file modifications within app bundles post Gatekeeper caching, rendering the exploit ineffective.
+**Hinweis**: Aktuelle macOS-Updates haben diesen Exploit durch die Verhinderung von Dateiänderungen innerhalb von App-Bundles nach dem Gatekeeper-Caching abgeschwächt, wodurch der Exploit unwirksam wird.
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

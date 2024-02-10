@@ -1,109 +1,107 @@
-# Writable Sys Path +Dll Hijacking Privesc
+# Writable Sys Path +Dll Hijacking Privilegierhöhung
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Lernen Sie AWS-Hacking von Grund auf mit <a href="https://training.hacktricks.xyz/courses/arte">htARTE (HackTricks AWS Red Team Expert)</a>!</summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+- Wenn Sie Ihr Unternehmen in HackTricks bewerben möchten oder HackTricks als PDF herunterladen möchten, überprüfen Sie die [ABONNEMENTPLÄNE](https://github.com/sponsors/carlospolop)!
+- Holen Sie sich das offizielle PEASS & HackTricks-Merchandise
+- Entdecken Sie die PEASS-Familie, unsere Sammlung exklusiver NFTs
+- Treten Sie der Discord-Gruppe oder der Telegram-Gruppe bei oder folgen Sie uns auf Twitter
+- Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die HackTricks- und HackTricks Cloud-GitHub-Repositories senden.
 
 </details>
 
-## Introduction
+## Einführung
 
-If you found that you can **write in a System Path folder** (note that this won't work if you can write in a User Path folder) it's possible that you could **escalate privileges** in the system.
+Wenn Sie feststellen, dass Sie in einem Systempfad-Ordner schreiben können (beachten Sie, dass dies nicht funktioniert, wenn Sie in einem Benutzerpfad-Ordner schreiben können), ist es möglich, dass Sie Privilegien im System eskalieren können.
 
-In order to do that you can abuse a **Dll Hijacking** where you are going to **hijack a library being loaded** by a service or process with **more privileges** than yours, and because that service is loading a Dll that probably doesn't even exist in the entire system, it's going to try to load it from the System Path where you can write.
+Um dies zu erreichen, können Sie eine Dll-Hijacking-Methode missbrauchen, bei der Sie eine Bibliothek, die von einem Dienst oder Prozess mit höheren Privilegien geladen wird, hijacken. Da dieser Dienst eine Dll lädt, die wahrscheinlich im gesamten System nicht einmal existiert, wird er versuchen, sie aus dem Systempfad zu laden, in dem Sie schreiben können.
 
-For more info about **what is Dll Hijackig** check:
+Weitere Informationen zum Thema Dll-Hijacking finden Sie unter:
 
 {% content-ref url="../dll-hijacking.md" %}
 [dll-hijacking.md](../dll-hijacking.md)
 {% endcontent-ref %}
 
-## Privesc with Dll Hijacking
+## Privilegierhöhung mit Dll-Hijacking
 
-### Finding a missing Dll
+### Suche nach einer fehlenden Dll
 
-The first thing you need is to **identify a process** running with **more privileges** than you that is trying to **load a Dll from the System Path** you can write in.
+Das erste, was Sie tun müssen, ist, einen Prozess zu identifizieren, der mit höheren Privilegien als Sie ausgeführt wird und versucht, eine Dll aus dem Systempfad zu laden, in den Sie schreiben können.
 
-The problem in this cases is that probably thoses processes are already running. To find which Dlls are lacking the services you need to launch procmon as soon as possible (before processes are loaded). So, to find lacking .dlls do:
+Das Problem in solchen Fällen ist, dass diese Prozesse wahrscheinlich bereits ausgeführt werden. Um herauszufinden, welche Dlls den Diensten fehlen, müssen Sie Procmon so schnell wie möglich starten (bevor die Prozesse geladen werden). Um fehlende .dlls zu finden, führen Sie folgende Schritte aus:
 
-* **Create** the folder `C:\privesc_hijacking` and add the path `C:\privesc_hijacking` to **System Path env variable**. You can do this **manually** or with **PS**:
-
+- Erstellen Sie den Ordner `C:\privesc_hijacking` und fügen Sie den Pfad `C:\privesc_hijacking` zur Systempfad-Umgebungsvariable hinzu. Sie können dies manuell oder mit PS tun:
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
 
 # Create the folder if it does not exist
 if (!(Test-Path $folderPath -PathType Container)) {
-    New-Item -ItemType Directory -Path $folderPath | Out-Null
+New-Item -ItemType Directory -Path $folderPath | Out-Null
 }
 
 # Set the folder path in the System environment variable PATH
 $envPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 if ($envPath -notlike "*$folderPath*") {
-    $newPath = "$envPath;$folderPath"
-    [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
+$newPath = "$envPath;$folderPath"
+[Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
-
-* Launch **`procmon`** and go to **`Options`** --> **`Enable boot logging`** and press **`OK`** in the prompt.
-* Then, **reboot**. When the computer is restarted **`procmon`** will start **recording** events asap.
-* Once **Windows** is **started execute `procmon`** again, it'll tell you that it has been running and will **ask you if you want to store** the events in a file. Say **yes** and **store the events in a file**.
-* **After** the **file** is **generated**, **close** the opened **`procmon`** window and **open the events file**.
-* Add these **filters** and you will find all the Dlls that some **proccess tried to load** from the writable System Path folder:
+* Starten Sie **`procmon`** und gehen Sie zu **`Optionen`** --> **`Bootprotokollierung aktivieren`** und klicken Sie auf **`OK`** in der Meldung.
+* Starten Sie dann den **Computer neu**. Wenn der Computer neu gestartet wird, beginnt **`procmon`** sofort mit der Aufzeichnung von Ereignissen.
+* Sobald **Windows** gestartet ist, führen Sie **`procmon`** erneut aus. Es wird Ihnen mitteilen, dass es ausgeführt wurde, und Sie fragen, ob Sie die Ereignisse in einer Datei speichern möchten. Sagen Sie **ja** und **speichern Sie die Ereignisse in einer Datei**.
+* **Nachdem** die **Datei** generiert wurde, **schließen** Sie das geöffnete **`procmon`**-Fenster und **öffnen Sie die Ereignisdatei**.
+* Fügen Sie diese **Filter** hinzu und Sie finden alle DLLs, die von einem **Prozess versucht wurden**, aus dem beschreibbaren Systempfad-Ordner zu laden:
 
 <figure><img src="../../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
-### Missed Dlls
+### Fehlende DLLs
 
-Running this in a free **virtual (vmware) Windows 11 machine** I got these results:
+Bei der Ausführung auf einer kostenlosen **virtuellen (VMware) Windows 11-Maschine** erhielt ich diese Ergebnisse:
 
 <figure><img src="../../../.gitbook/assets/image (253).png" alt=""><figcaption></figcaption></figure>
 
-In this case the .exe are useless so ignore them, the missed DLLs where from:
+In diesem Fall sind die .exe-Dateien nutzlos, also ignorieren Sie sie. Die fehlenden DLLs stammen von:
 
-| Service                         | Dll                | CMD line                                                             |
+| Dienst                          | DLL                | Befehlszeile                                                        |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
-| Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
-| Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
+| Aufgabenplanung (Schedule)      | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
+| Diagnoserichtliniendienst (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
-After finding this, I found this interesting blog post that also explains how to [**abuse WptsExtensions.dll for privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Which is what we **are going to do now**.
+Nachdem ich dies gefunden hatte, fand ich diesen interessanten Blog-Beitrag, der auch erklärt, wie man [**WptsExtensions.dll für Privilege Escalation missbraucht**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Das ist es, was wir jetzt tun werden.
 
-### Exploitation
+### Ausnutzung
 
-So, to **escalate privileges** we are going to hijack the library **WptsExtensions.dll**. Having the **path** and the **name** we just need to **generate the malicious dll**.
+Um also Privilegien zu **eskalierten**, werden wir die Bibliothek **WptsExtensions.dll** hijacken. Wenn wir den **Pfad** und den **Namen** haben, müssen wir nur die bösartige DLL generieren.
 
-You can [**try to use any of these examples**](../dll-hijacking.md#creating-and-compiling-dlls). You could run payloads such as: get a rev shell, add a user, execute a beacon...
+Sie können [**eines dieser Beispiele verwenden**](../dll-hijacking.md#creating-and-compiling-dlls). Sie könnten Payloads ausführen wie: eine Reverse-Shell erhalten, einen Benutzer hinzufügen, einen Beacon ausführen...
 
 {% hint style="warning" %}
-Note that **not all the service are run** with **`NT AUTHORITY\SYSTEM`** some are also run with **`NT AUTHORITY\LOCAL SERVICE`** which has **less privileges** and you **won't be able to create a new user** abuse its permissions.\
-However, that user has the **`seImpersonate`** privilege, so you can use the[ **potato suite to escalate privileges**](../roguepotato-and-printspoofer.md). So, in this case a rev shell is a better option that trying to create a user.
+Beachten Sie, dass **nicht alle Dienste** mit **`NT AUTHORITY\SYSTEM`** ausgeführt werden, einige werden auch mit **`NT AUTHORITY\LOCAL SERVICE`** ausgeführt, der **weniger Privilegien** hat und Sie **keinen neuen Benutzer erstellen können**, um seine Berechtigungen zu missbrauchen.\
+Dieser Benutzer hat jedoch das **`seImpersonate`**-Privileg, sodass Sie die [**Potato Suite zur Privilege Escalation verwenden können**](../roguepotato-and-printspoofer.md). In diesem Fall ist eine Reverse-Shell eine bessere Option als der Versuch, einen Benutzer zu erstellen.
 {% endhint %}
 
-At the moment of writing the **Task Scheduler** service is run with **Nt AUTHORITY\SYSTEM**.
+Zum Zeitpunkt des Schreibens wird der Dienst **Aufgabenplanung** mit **Nt AUTHORITY\SYSTEM** ausgeführt.
 
-Having **generated the malicious Dll** (_in my case I used x64 rev shell and I got a shell back but defender killed it because it was from msfvenom_), save it in the writable System Path with the name **WptsExtensions.dll** and **restart** the computer (or restart the service or do whatever it takes to rerun the affected service/program).
+Nachdem Sie die bösartige DLL generiert haben (_in meinem Fall habe ich eine x64 Reverse-Shell verwendet und eine Shell erhalten, aber der Defender hat sie getötet, weil sie von msfvenom stammte_), speichern Sie sie im beschreibbaren Systempfad mit dem Namen **WptsExtensions.dll** und **starten Sie den Computer neu** (oder starten Sie den Dienst neu oder tun Sie, was auch immer erforderlich ist, um den betroffenen Dienst/Programm erneut auszuführen).
 
-When the service is re-started, the **dll should be loaded and executed** (you can **reuse** the **procmon** trick to check if the **library was loaded as expected**).
+Wenn der Dienst neu gestartet wird, sollte die **DLL geladen und ausgeführt** werden (Sie können den **procmon**-Trick erneut verwenden, um zu überprüfen, ob die **Bibliothek wie erwartet geladen** wurde).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie das Hacken von AWS von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder folgen Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **GitHub-Repositories** senden.
 
 </details>

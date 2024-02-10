@@ -1,115 +1,107 @@
-# BloodHound & Other AD Enum Tools
+# BloodHound & Andere AD Enum Tools
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks-Repository](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud-Repository](https://github.com/carlospolop/hacktricks-cloud) senden**.
 
 </details>
 
 ## AD Explorer
 
-[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) is from Sysinternal Suite:
+[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) stammt aus der Sysinternal Suite:
 
-> An advanced Active Directory (AD) viewer and editor. You can use AD Explorer to navigate an AD database easily, define favourite locations, view object properties, and attributes without opening dialog boxes, edit permissions, view an object's schema, and execute sophisticated searches that you can save and re-execute.
+> Ein fortschrittlicher Active Directory (AD) Viewer und Editor. Sie können AD Explorer verwenden, um eine AD-Datenbank einfach zu durchsuchen, bevorzugte Standorte festzulegen, Objekteigenschaften und Attribute ohne Öffnen von Dialogfeldern anzuzeigen, Berechtigungen zu bearbeiten, das Schema eines Objekts anzuzeigen und komplexe Suchvorgänge auszuführen, die Sie speichern und erneut ausführen können.
 
 ### Snapshots
 
-AD Explorer can create snapshots of an AD so you can check it offline.\
-It can be used to discover vulns offline, or to compare different states of the AD DB across the time.
+AD Explorer kann Snapshots eines AD erstellen, sodass Sie es offline überprüfen können.\
+Es kann verwendet werden, um Offline-Schwachstellen zu entdecken oder verschiedene Zustände der AD-Datenbank im Laufe der Zeit zu vergleichen.
 
-You will be requires the username, password, and direction to connect (any AD user is required).
+Sie benötigen den Benutzernamen, das Passwort und die Richtung, um eine Verbindung herzustellen (jeder AD-Benutzer ist erforderlich).
 
-To take a snapshot of AD, go to `File` --> `Create Snapshot` and enter a name for the snapshot.
+Um einen Snapshot von AD zu erstellen, gehen Sie zu `File` --> `Create Snapshot` und geben Sie einen Namen für den Snapshot ein.
 
 ## ADRecon
 
-[**ADRecon**](https://github.com/adrecon/ADRecon) is a tool which extracts and combines various artefacts out of an AD environment. The information can be presented in a **specially formatted** Microsoft Excel **report** that includes summary views with metrics to facilitate analysis and provide a holistic picture of the current state of the target AD environment.
-
+[**ADRecon**](https://github.com/adrecon/ADRecon) ist ein Tool, das verschiedene Artefakte aus einer AD-Umgebung extrahiert und kombiniert. Die Informationen können in einem **speziell formatierten** Microsoft Excel **Bericht** präsentiert werden, der Zusammenfassungsansichten mit Metriken enthält, um die Analyse zu erleichtern und ein ganzheitliches Bild des aktuellen Zustands der Ziel-AD-Umgebung zu liefern.
 ```bash
 # Run it
 .\ADRecon.ps1
 ```
-
 ## BloodHound
 
-From [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
+Von [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
 
-> BloodHound is a single page Javascript web application, built on top of [Linkurious](http://linkurio.us/), compiled with [Electron](http://electron.atom.io/), with a [Neo4j](https://neo4j.com/) database fed by a C# data collector.
+> BloodHound ist eine Single-Page-Javascript-Webanwendung, die auf [Linkurious](http://linkurio.us/) aufbaut, mit [Electron](http://electron.atom.io/) kompiliert ist und eine von einem C#-Datenkollektor gespeiste Neo4j-Datenbank verwendet.
 
-BloodHound uses graph theory to reveal the hidden and often unintended relationships within an Active Directory or Azure environment. Attackers can use BloodHound to easily identify highly complex attack paths that would otherwise be impossible to quickly identify. Defenders can use BloodHound to identify and eliminate those same attack paths. Both blue and red teams can use BloodHound to easily gain a deeper understanding of privilege relationships in an Active Directory or Azure environment.
+BloodHound verwendet Graphentheorie, um die versteckten und oft unbeabsichtigten Beziehungen innerhalb einer Active Directory- oder Azure-Umgebung aufzudecken. Angreifer können BloodHound verwenden, um hochkomplexe Angriffspfade zu identifizieren, die sonst nur schwer zu erkennen wären. Verteidiger können BloodHound verwenden, um diese Angriffspfade zu identifizieren und zu beseitigen. Sowohl Blue- als auch Red-Teams können BloodHound verwenden, um ein tieferes Verständnis für Privilegienbeziehungen in einer Active Directory- oder Azure-Umgebung zu erlangen.
 
-So, [Bloodhound ](https://github.com/BloodHoundAD/BloodHound)is an amazing tool which can enumerate a domain automatically, save all the information, find possible privilege escalation paths and show all the information using graphs.
+Also ist [Bloodhound](https://github.com/BloodHoundAD/BloodHound) ein erstaunliches Tool, das automatisch eine Domäne aufzählt, alle Informationen speichert, mögliche Privileg-Eskalationspfade findet und alle Informationen mithilfe von Graphen anzeigt.
 
-Booldhound is composed of 2 main parts: **ingestors** and the **visualisation application**.
+Bloodhound besteht aus 2 Hauptteilen: **Ingestors** und der **Visualisierungsanwendung**.
 
-The **ingestors** are used to **enumerate the domain and extract all the information** in a format that the visualisation application will understand.
+Die **Ingestors** werden verwendet, um die Domäne aufzulisten und alle Informationen in einem Format zu extrahieren, das von der Visualisierungsanwendung verstanden wird.
 
-The **visualisation application uses neo4j** to show how all the information is related and to show different ways to escalate privileges in the domain.
+Die **Visualisierungsanwendung verwendet Neo4j**, um anzuzeigen, wie alle Informationen miteinander zusammenhängen und verschiedene Möglichkeiten zur Eskalation von Privilegien in der Domäne anzuzeigen.
 
 ### Installation
-After the creation of BloodHound CE, the entire project was updated for ease of use with Docker. The easiest way to get started is to use its pre-configured Docker Compose configuration.
+Nach der Erstellung von BloodHound CE wurde das gesamte Projekt für eine einfache Verwendung mit Docker aktualisiert. Der einfachste Weg, um loszulegen, besteht darin, die vorkonfigurierte Docker Compose-Konfiguration zu verwenden.
 
-1. Install Docker Compose. This should be included with the [Docker Desktop](https://www.docker.com/products/docker-desktop/) installation.
-2. Run:
+1. Installieren Sie Docker Compose. Dies sollte mit der [Docker Desktop](https://www.docker.com/products/docker-desktop/) Installation enthalten sein.
+2. Führen Sie aus:
 ```
 curl -L https://ghst.ly/getbhce | docker compose -f - up
 ```
-3. Locate the randomly generated password in the terminal output of Docker Compose.
-4. In a browser, navigate to http://localhost:8080/ui/login. Login with a username of admin and the randomly generated password from the logs.
+3. Suchen Sie das zufällig generierte Passwort in der Terminalausgabe von Docker Compose.
+4. Öffnen Sie einen Browser und navigieren Sie zu http://localhost:8080/ui/login. Melden Sie sich mit dem Benutzernamen "admin" und dem zufällig generierten Passwort aus den Protokollen an.
 
-After this you will need to change the randomly generated password and you will have the new interface ready, from which you can directly download the ingestors.
+Danach müssen Sie das zufällig generierte Passwort ändern und haben die neue Benutzeroberfläche bereit, von der aus Sie die Ingestors direkt herunterladen können.
 
 ### SharpHound
 
-They have several options but if you want to run SharpHound from a PC joined to the domain, using your current user and extract all the information you can do:
-
+Es gibt mehrere Optionen, aber wenn Sie SharpHound von einem PC ausführen möchten, der der Domäne beigetreten ist, und dabei Ihren aktuellen Benutzer verwenden und alle verfügbaren Informationen extrahieren möchten, können Sie Folgendes tun:
 ```
 ./SharpHound.exe --CollectionMethods All
 Invoke-BloodHound -CollectionMethod All
 ```
+> Weitere Informationen zur **CollectionMethod** und zur Schleifensitzung finden Sie [hier](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained)
 
-> You can read more about **CollectionMethod** and loop session [here](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained)
-
-If you wish to execute SharpHound using different credentials you can create a CMD netonly session and run SharpHound from there:
-
+Wenn Sie SharpHound mit verschiedenen Anmeldeinformationen ausführen möchten, können Sie eine CMD-Netonly-Sitzung erstellen und SharpHound von dort ausführen:
 ```
 runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ```
-
-[**Learn more about Bloodhound in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
+[**Erfahren Sie mehr über Bloodhound auf ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
 
 
 ## Group3r
 
-[**Group3r**](https://github.com/Group3r/Group3r) is a tool to find **vulnerabilities** in Active Directory associated **Group Policy**. \
-You need to **run group3r** from a host inside the domain using **any domain user**.
-
+[**Group3r**](https://github.com/Group3r/Group3r) ist ein Tool zum Auffinden von **Schwachstellen** in Active Directory, die mit **Gruppenrichtlinien** verbunden sind. \
+Sie müssen **group3r ausführen** von einem Host innerhalb der Domäne unter Verwendung **eines beliebigen Domänenbenutzers**.
 ```bash
-group3r.exe -f <filepath-name.log> 
+group3r.exe -f <filepath-name.log>
 # -s sends results to stdin
 # -f send results to file
 ```
-
 ## PingCastle
 
-[**PingCastle**](https://www.pingcastle.com/documentation/) **evaluates the security posture of an AD environment** and provides a nice **report** with graphs.
+[**PingCastle**](https://www.pingcastle.com/documentation/) **bewertet den Sicherheitszustand einer AD-Umgebung** und erstellt einen übersichtlichen **Bericht** mit Diagrammen.
 
-To run it, can execute the binary `PingCastle.exe` and it will start an **interactive session** presenting a menu of options. The default option to use is **`healthcheck`** which will establish a baseline **overview** of the **domain**, and find **misconfigurations** and **vulnerabilities**.&#x20;
+Um es auszuführen, können Sie die ausführbare Datei `PingCastle.exe` starten und es wird eine **interaktive Sitzung** gestartet, die ein Menü mit Optionen anzeigt. Die Standardoption, die verwendet werden sollte, ist **`healthcheck`**, mit der eine grundlegende **Übersicht** der **Domäne** erstellt wird und **Fehlkonfigurationen** und **Schwachstellen** gefunden werden.&#x20;
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie das Hacken von AWS von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks-Repository](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud-Repository](https://github.com/carlospolop/hacktricks-cloud) senden**.
 
 </details>

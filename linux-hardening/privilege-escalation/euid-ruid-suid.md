@@ -2,86 +2,97 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie das Hacken von AWS von Null bis zum Experten mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks-Repository](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud-Repository](https://github.com/carlospolop/hacktricks-cloud) senden**.
 
 </details>
 
-### User Identification Variables
+### Benutzeridentifikationsvariablen
 
-- **`ruid`**: The **real user ID** denotes the user who initiated the process.
-- **`euid`**: Known as the **effective user ID**, it represents the user identity utilized by the system to ascertain process privileges. Generally, `euid` mirrors `ruid`, barring instances like a SetUID binary execution, where `euid` assumes the file owner's identity, thus granting specific operational permissions.
-- **`suid`**: This **saved user ID** is pivotal when a high-privilege process (typically running as root) needs to temporarily relinquish its privileges to perform certain tasks, only to later reclaim its initial elevated status.
+- **`ruid`**: Die **reale Benutzer-ID** bezeichnet den Benutzer, der den Prozess gestartet hat.
+- **`euid`**: Als **effektive Benutzer-ID** bekannt, repräsentiert sie die Benutzeridentität, die vom System verwendet wird, um Prozessprivilegien festzustellen. Im Allgemeinen spiegelt `euid` `ruid` wider, mit Ausnahme von Fällen wie der Ausführung einer SetUID-Binärdatei, bei der `euid` die Identität des Dateibesitzers annimmt und bestimmte Betriebsberechtigungen gewährt.
+- **`suid`**: Diese **gespeicherte Benutzer-ID** ist entscheidend, wenn ein Prozess mit hohen Privilegien (in der Regel als root ausgeführt) vorübergehend seine Privilegien aufgeben muss, um bestimmte Aufgaben auszuführen, nur um später seinen ursprünglichen erhöhten Status wiederzuerlangen.
 
-#### Important Note
-A process not operating under root can only modify its `euid` to match the current `ruid`, `euid`, or `suid`.
+#### Wichtiger Hinweis
+Ein Prozess, der nicht als root ausgeführt wird, kann nur seine `euid` ändern, um mit der aktuellen `ruid`, `euid` oder `suid` übereinzustimmen.
 
-### Understanding set*uid Functions
+### Verständnis der set*uid-Funktionen
 
-- **`setuid`**: Contrary to initial assumptions, `setuid` primarily modifies `euid` rather than `ruid`. Specifically, for privileged processes, it aligns `ruid`, `euid`, and `suid` with the specified user, often root, effectively solidifying these IDs due to the overriding `suid`. Detailed insights can be found in the [setuid man page](https://man7.org/linux/man-pages/man2/setuid.2.html).
-- **`setreuid`** and **`setresuid`**: These functions allow for the nuanced adjustment of `ruid`, `euid`, and `suid`. However, their capabilities are contingent on the process's privilege level. For non-root processes, modifications are restricted to the current values of `ruid`, `euid`, and `suid`. In contrast, root processes or those with `CAP_SETUID` capability can assign arbitrary values to these IDs. More information can be gleaned from the [setresuid man page](https://man7.org/linux/man-pages/man2/setresuid.2.html) and the [setreuid man page](https://man7.org/linux/man-pages/man2/setreuid.2.html).
+- **`setuid`**: Entgegen erster Annahmen ändert `setuid` hauptsächlich `euid` anstelle von `ruid`. Für privilegierte Prozesse gleicht es `ruid`, `euid` und `suid` mit dem angegebenen Benutzer, oft root, ab und festigt diese IDs effektiv aufgrund der überschreibenden `suid`. Detaillierte Einblicke finden Sie in der [setuid-Manpage](https://man7.org/linux/man-pages/man2/setuid.2.html).
+- **`setreuid`** und **`setresuid`**: Diese Funktionen ermöglichen die differenzierte Anpassung von `ruid`, `euid` und `suid`. Ihre Fähigkeiten hängen jedoch vom Privilegienlevel des Prozesses ab. Für Nicht-Root-Prozesse sind Änderungen auf die aktuellen Werte von `ruid`, `euid` und `suid` beschränkt. Im Gegensatz dazu können Root-Prozesse oder solche mit der `CAP_SETUID`-Fähigkeit beliebige Werte diesen IDs zuweisen. Weitere Informationen finden Sie in der [setresuid-Manpage](https://man7.org/linux/man-pages/man2/setresuid.2.html) und der [setreuid-Manpage](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
-These functionalities are designed not as a security mechanism but to facilitate the intended operational flow, such as when a program adopts another user's identity by altering its effective user ID.
+Diese Funktionen sind nicht als Sicherheitsmechanismus konzipiert, sondern sollen den beabsichtigten Arbeitsablauf erleichtern, z. B. wenn ein Programm die Identität eines anderen Benutzers annimmt, indem es seine effektive Benutzer-ID ändert.
 
-Notably, while `setuid` might be a common go-to for privilege elevation to root (since it aligns all IDs to root), differentiating between these functions is crucial for understanding and manipulating user ID behaviors in varying scenarios.
+Es ist wichtig zu beachten, dass `setuid` zwar häufig zur Erhöhung der Privilegien auf root verwendet wird (da es alle IDs auf root ausrichtet), aber es ist entscheidend, zwischen diesen Funktionen zu unterscheiden, um das Verhalten der Benutzer-IDs in verschiedenen Szenarien zu verstehen und zu manipulieren.
 
-### Program Execution Mechanisms in Linux
+### Programm-Ausführungsmechanismen in Linux
 
-#### **`execve` System Call**
-- **Functionality**: `execve` initiates a program, determined by the first argument. It takes two array arguments, `argv` for arguments and `envp` for the environment.
-- **Behavior**: It retains the memory space of the caller but refreshes the stack, heap, and data segments. The program's code is replaced by the new program.
-- **User ID Preservation**:
-  - `ruid`, `euid`, and supplementary group IDs remain unaltered.
-  - `euid` might have nuanced changes if the new program has the SetUID bit set.
-  - `suid` gets updated from `euid` post-execution.
-- **Documentation**: Detailed information can be found on the [`execve` man page](https://man7.org/linux/man-pages/man2/execve.2.html).
+#### **`execve`-Systemaufruf**
+- **Funktionalität**: `execve` startet ein Programm, das durch das erste Argument bestimmt wird. Es nimmt zwei Array-Argumente entgegen: `argv` für Argumente und `envp` für die Umgebung.
+- **Verhalten**: Es behält den Speicherplatz des Aufrufers bei, aktualisiert jedoch den Stack, den Heap und die Datensegmente. Der Code des Programms wird durch das neue Programm ersetzt.
+- **Erhaltung der Benutzer-ID**:
+- `ruid`, `euid` und zusätzliche Gruppen-IDs bleiben unverändert.
+- `euid` kann subtile Änderungen aufweisen, wenn das neue Programm das SetUID-Bit gesetzt hat.
+- `suid` wird nach der Ausführung von `euid` aktualisiert.
+- **Dokumentation**: Detaillierte Informationen finden Sie in der [`execve`-Manpage](https://man7.org/linux/man-pages/man2/execve.2.html).
 
-#### **`system` Function**
-- **Functionality**: Unlike `execve`, `system` creates a child process using `fork` and executes a command within that child process using `execl`.
-- **Command Execution**: Executes the command via `sh` with `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
-- **Behavior**: As `execl` is a form of `execve`, it operates similarly but in the context of a new child process.
-- **Documentation**: Further insights can be obtained from the [`system` man page](https://man7.org/linux/man-pages/man3/system.3.html).
+#### **`system`-Funktion**
+- **Funktionalität**: Im Gegensatz zu `execve` erstellt `system` einen Kindprozess mit `fork` und führt einen Befehl in diesem Kindprozess mit `execl` aus.
+- **Befehlsausführung**: Führt den Befehl über `sh` mit `execl("/bin/sh", "sh", "-c", command, (char *) NULL);` aus.
+- **Verhalten**: Da `execl` eine Form von `execve` ist, funktioniert es ähnlich, jedoch im Kontext eines neuen Kindprozesses.
+- **Dokumentation**: Weitere Einblicke finden Sie in der [`system`-Manpage](https://man7.org/linux/man-pages/man3/system.3.html).
 
-#### **Behavior of `bash` and `sh` with SUID**
+#### **Verhalten von `bash` und `sh` mit SUID**
 - **`bash`**:
-  - Has a `-p` option influencing how `euid` and `ruid` are treated.
-  - Without `-p`, `bash` sets `euid` to `ruid` if they initially differ.
-  - With `-p`, the initial `euid` is preserved.
-  - More details can be found on the [`bash` man page](https://linux.die.net/man/1/bash).
+- Hat eine `-p`-Option, die beeinflusst, wie `euid` und `ruid` behandelt werden.
+- Ohne `-p` setzt `bash` `euid` auf `ruid`, wenn sie anfangs unterschiedlich sind.
+- Mit `-p` wird das anfängliche `euid` beibehalten.
+- Weitere Details finden Sie in der [`bash`-Manpage](https://linux.die.net/man/1/bash).
 - **`sh`**:
-  - Does not possess a mechanism similar to `-p` in `bash`.
-  - The behavior concerning user IDs is not explicitly mentioned, except under the `-i` option, emphasizing the preservation of `euid` and `ruid` equality.
-  - Additional information is available on the [`sh` man page](https://man7.org/linux/man-pages/man1/sh.1p.html).
+- Besitzt keinen Mechanismus ähnlich wie `-p` in `bash`.
+- Das Verhalten in Bezug auf Benutzer-IDs wird nicht explizit erwähnt, außer unter der `-i`-Option, die die Gleichheit von `euid` und `ruid` betont.
+- Weitere Informationen finden Sie in der [`sh`-Manpage](https://man7.org/linux/man-pages/man1/sh.1p.html).
 
-These mechanisms, distinct in their operation, offer a versatile range of options for executing and transitioning between programs, with specific nuances in how user IDs are managed and preserved.
+Diese Mechanismen, die sich in ihrem Betrieb unterscheiden, bieten eine vielseitige Auswahl an Optionen zum Ausführen und Wechseln zwischen Programmen, wobei spezifische Nuancen in der Verwaltung und Erhaltung von Benutzer-IDs bestehen.
 
-### Testing User ID Behaviors in Executions
+### Testen des Verhaltens der Benutzer-IDs bei der Ausführung
 
-Examples taken from https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, check it for further information
+Beispiele entnommen von https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, überprüfen Sie es für weitere Informationen
 
-#### Case 1: Using `setuid` with `system`
+#### Fall 1: Verwendung von `setuid` mit `system`
 
-**Objective**: Understanding the effect of `setuid` in combination with `system` and `bash` as `sh`.
+**Ziel**: Verständnis der Auswirkungen von `setuid` in Kombination mit `system` und `bash` als `sh`.
 
-**C Code**:
+**C-Code**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    system("id");
-    return 0;
+setuid(1000);
+system("id");
+return 0;
 }
 ```
+**Kompilierung und Berechtigungen:**
 
-**Compilation and Permissions:**
+Beim Kompilieren von Programmen unter Linux werden verschiedene Berechtigungen festgelegt, um die Ausführung und den Zugriff auf Dateien zu steuern. Diese Berechtigungen werden durch die Eigentümer- und Gruppenrechte sowie die Zugriffsrechte für andere Benutzer definiert.
+
+Die Eigentümerrechte bestimmen, welche Aktionen der Eigentümer einer Datei ausführen kann. Dies umfasst das Lesen, Schreiben und Ausführen der Datei. Die Gruppenrechte legen fest, welche Aktionen Mitglieder der Gruppe, zu der die Datei gehört, ausführen können. Die Zugriffsrechte für andere Benutzer bestimmen, welche Aktionen alle anderen Benutzer ausführen können.
+
+Die Berechtigungen werden in Form von Zahlenwerten dargestellt. Jeder Wert repräsentiert eine bestimmte Kombination von Berechtigungen. Zum Beispiel steht die Zahl 7 für die Berechtigungen "Lesen, Schreiben und Ausführen", während die Zahl 4 für "Lesen" steht.
+
+Um die Berechtigungen einer Datei anzuzeigen, verwenden Sie den Befehl `ls -l`. Dies zeigt die Berechtigungen für den Eigentümer, die Gruppe und andere Benutzer an.
+
+Um die Berechtigungen einer Datei zu ändern, verwenden Sie den Befehl `chmod`. Zum Beispiel können Sie mit `chmod 755 datei.txt` die Berechtigungen so ändern, dass der Eigentümer die Datei lesen, schreiben und ausführen kann, während die Gruppe und andere Benutzer die Datei nur lesen und ausführen können.
+
+Es ist wichtig, die Berechtigungen sorgfältig zu verwalten, um die Sicherheit des Systems zu gewährleisten. Falsch konfigurierte Berechtigungen können dazu führen, dass unbefugte Benutzer auf sensible Informationen zugreifen oder schädlichen Code ausführen können.
 ```bash
 oxdf@hacky$ gcc a.c -o /mnt/nfsshare/a;
 oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
@@ -91,133 +102,128 @@ oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
 bash-4.2$ $ ./a
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Analyse:**
 
-**Analysis:**
+* `ruid` und `euid` starten jeweils als 99 (nobody) und 1000 (frank).
+* `setuid` passt beide auf 1000 an.
+* `system` führt `/bin/bash -c id` aus, aufgrund des Symlinks von sh zu bash.
+* `bash`, ohne `-p`, passt `euid` an `ruid` an, sodass beide 99 (nobody) sind.
 
-* `ruid` and `euid` start as 99 (nobody) and 1000 (frank) respectively.
-* `setuid` aligns both to 1000.
-* `system` executes `/bin/bash -c id` due to the symlink from sh to bash.
-* `bash`, without `-p`, adjusts `euid` to match `ruid`, resulting in both being 99 (nobody).
+#### Fall 2: Verwendung von setreuid mit system
 
-#### Case 2: Using setreuid with system
-
-**C Code**:
+**C-Code**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setreuid(1000, 1000);
-    system("id");
-    return 0;
+setreuid(1000, 1000);
+system("id");
+return 0;
 }
 ```
+**Kompilierung und Berechtigungen:**
 
-**Compilation and Permissions:**
+Beim Kompilieren von Programmen unter Linux werden verschiedene Berechtigungen festgelegt, um die Ausführung und den Zugriff auf Dateien zu steuern. Diese Berechtigungen werden durch die Eigentümer- und Gruppenrechte sowie die Zugriffsrechte für andere Benutzer definiert.
+
+Die Eigentümerrechte bestimmen, welche Aktionen der Eigentümer einer Datei ausführen kann. Dies umfasst das Lesen, Schreiben und Ausführen der Datei. Die Gruppenrechte legen fest, welche Aktionen Mitglieder der Gruppe, zu der die Datei gehört, ausführen können. Die Zugriffsrechte für andere Benutzer bestimmen, welche Aktionen alle anderen Benutzer ausführen können.
+
+Die Berechtigungen werden in Form von Zahlenwerten dargestellt. Jeder Wert repräsentiert eine bestimmte Kombination von Berechtigungen. Zum Beispiel steht die Zahl 7 für die Berechtigungen "Lesen, Schreiben und Ausführen", während die Zahl 4 für "Lesen" steht.
+
+Um die Berechtigungen einer Datei anzuzeigen, verwenden Sie den Befehl `ls -l`. Dies zeigt die Berechtigungen für den Eigentümer, die Gruppe und andere Benutzer an.
+
+Um die Berechtigungen einer Datei zu ändern, verwenden Sie den Befehl `chmod`. Zum Beispiel können Sie mit `chmod 755 datei.txt` die Berechtigungen so ändern, dass der Eigentümer die Datei lesen, schreiben und ausführen kann, während die Gruppe und andere Benutzer die Datei nur lesen und ausführen können.
+
+Es ist wichtig, die Berechtigungen sorgfältig zu verwalten, um die Sicherheit des Systems zu gewährleisten. Falsch konfigurierte Berechtigungen können dazu führen, dass unbefugte Benutzer auf sensible Informationen zugreifen oder schädlichen Code ausführen können.
 ```bash
 oxdf@hacky$ gcc b.c -o /mnt/nfsshare/b; chmod 4755 /mnt/nfsshare/b
 ```
-
-**Execution and Result:**
-
+**Ausführung und Ergebnis:**
 ```bash
 bash-4.2$ $ ./b
 uid=1000(frank) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Analyse:**
 
-**Analysis:**
+* `setreuid` setzt sowohl ruid als auch euid auf 1000.
+* `system` ruft bash auf, die aufgrund ihrer Gleichheit die Benutzer-IDs beibehält und effektiv als frank agiert.
 
-* `setreuid` sets both ruid and euid to 1000.
-* `system` invokes bash, which maintains the user IDs due to their equality, effectively operating as frank.
-
-#### Case 3: Using setuid with execve
-Objective: Exploring the interaction between setuid and execve.
-
+#### Fall 3: Verwendung von setuid mit execve
+Ziel: Erforschung der Interaktion zwischen setuid und execve.
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/usr/bin/id", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/usr/bin/id", NULL, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Ausführung und Ergebnis:**
 ```bash
 bash-4.2$ $ ./c
 uid=99(nobody) gid=99(nobody) euid=1000(frank) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Analyse:**
 
-**Analysis:**
+* `ruid` bleibt bei 99, aber `euid` wird auf 1000 gesetzt, entsprechend der Wirkung von `setuid`.
 
-* `ruid` remains 99, but euid is set to 1000, in line with setuid's effect.
-
-**C Code Example 2 (Calling Bash):**
-
+**C-Code-Beispiel 2 (Aufruf von Bash):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/bin/bash", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/bin/bash", NULL, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Ausführung und Ergebnis:**
 ```bash
 bash-4.2$ $ ./d
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Analyse:**
 
-**Analysis:**
+* Obwohl `euid` durch `setuid` auf 1000 gesetzt wird, setzt `bash` `euid` auf `ruid` (99) zurück, da `-p` fehlt.
 
-* Although `euid` is set to 1000 by `setuid`, `bash` resets euid to `ruid` (99) due to the absence of `-p`.
-
-**C Code Example 3 (Using bash -p):**
-
+**C Code Beispiel 3 (Verwendung von bash -p):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    char *const paramList[10] = {"/bin/bash", "-p", NULL};
-    setuid(1000);
-    execve(paramList[0], paramList, NULL);
-    return 0;
+char *const paramList[10] = {"/bin/bash", "-p", NULL};
+setuid(1000);
+execve(paramList[0], paramList, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Ausführung und Ergebnis:**
 ```bash
 bash-4.2$ $ ./e
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) euid=100
 ```
-
-## References
+## Referenzen
 * [https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail](https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks repo](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
 
 </details>

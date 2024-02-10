@@ -2,45 +2,44 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) **bei oder folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) **und** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **GitHub-Repositories senden.**
 
 </details>
 
-## Basic Information
+## Grundlegende Informationen
 
-AppArmor is a **kernel enhancement designed to restrict the resources available to programs through per-program profiles**, effectively implementing Mandatory Access Control (MAC) by tying access control attributes directly to programs instead of users. This system operates by **loading profiles into the kernel**, usually during boot, and these profiles dictate what resources a program can access, such as network connections, raw socket access, and file permissions.
+AppArmor ist eine **Kernel-Erweiterung, die die Ressourcen, die Programmen zur Verfügung stehen, durch programmbezogene Profile einschränkt** und damit eine Mandatory Access Control (MAC) implementiert, indem sie Zugriffskontrollattribute direkt an Programme bindet, anstatt an Benutzer. Dieses System funktioniert, indem Profile in den Kernel geladen werden, normalerweise beim Booten, und diese Profile bestimmen, auf welche Ressourcen ein Programm zugreifen kann, wie z.B. Netzwerkverbindungen, Zugriff auf Raw Sockets und Dateiberechtigungen.
 
-There are two operational modes for AppArmor profiles:
+Es gibt zwei Betriebsmodi für AppArmor-Profile:
 
-- **Enforcement Mode**: This mode actively enforces the policies defined within the profile, blocking actions that violate these policies and logging any attempts to breach them through systems like syslog or auditd.
-- **Complain Mode**: Unlike enforcement mode, complain mode does not block actions that go against the profile's policies. Instead, it logs these attempts as policy violations without enforcing restrictions.
+- **Durchsetzungsmodus**: In diesem Modus werden die in dem Profil definierten Richtlinien aktiv durchgesetzt. Aktionen, die gegen diese Richtlinien verstoßen, werden blockiert und alle Versuche, diese zu umgehen, werden über Systeme wie syslog oder auditd protokolliert.
+- **Beschwerdemodus**: Im Gegensatz zum Durchsetzungsmodus blockiert der Beschwerdemodus keine Aktionen, die gegen die Richtlinien des Profils verstoßen. Stattdessen werden diese Versuche als Verstoß gegen die Richtlinien protokolliert, ohne Einschränkungen durchzusetzen.
 
-### Components of AppArmor
+### Komponenten von AppArmor
 
-- **Kernel Module**: Responsible for the enforcement of policies.
-- **Policies**: Specify the rules and restrictions for program behavior and resource access.
-- **Parser**: Loads policies into the kernel for enforcement or reporting.
-- **Utilities**: These are user-mode programs that provide an interface for interacting with and managing AppArmor.
+- **Kernelmodul**: Verantwortlich für die Durchsetzung von Richtlinien.
+- **Richtlinien**: Spezifizieren die Regeln und Einschränkungen für das Verhalten von Programmen und den Zugriff auf Ressourcen.
+- **Parser**: Lädt Richtlinien in den Kernel zur Durchsetzung oder Berichterstattung.
+- **Dienstprogramme**: Dies sind benutzermodus-Programme, die eine Schnittstelle zur Interaktion mit und Verwaltung von AppArmor bereitstellen.
 
-### Profiles path
+### Profile-Pfad
 
-Apparmor profiles are usually saved in _**/etc/apparmor.d/**_\
-With `sudo aa-status` you will be able to list the binaries that are restricted by some profile. If you can change the char "/" for a dot of the path of each listed binary and you will obtain the name of the apparmor profile inside the mentioned folder.
+AppArmor-Profile werden normalerweise in _**/etc/apparmor.d/**_ gespeichert.\
+Mit `sudo aa-status` können Sie die Binärdateien auflisten, die durch ein Profil eingeschränkt sind. Wenn Sie den Schrägstrich "/" durch einen Punkt im Pfad jeder aufgelisteten Binärdatei ersetzen, erhalten Sie den Namen des AppArmor-Profils im genannten Ordner.
 
-For example, a **apparmor** profile for _/usr/bin/man_ will be located in _/etc/apparmor.d/usr.bin.man_
+Zum Beispiel befindet sich ein **AppArmor**-Profil für _/usr/bin/man_ in _/etc/apparmor.d/usr.bin.man_
 
-### Commands
-
+### Befehle
 ```bash
-aa-status     #check the current status 
+aa-status     #check the current status
 aa-enforce    #set profile to enforce mode (from disable or complain)
 aa-complain   #set profile to complain mode (from diable or enforcement)
 apparmor_parser #to load/reload an altered policy
@@ -48,48 +47,42 @@ aa-genprof    #generate a new profile
 aa-logprof    #used to change the policy when the binary/program is changed
 aa-mergeprof  #used to merge the policies
 ```
+## Erstellen eines Profils
 
-## Creating a profile
-
-* In order to indicate the affected executable, **absolute paths and wildcards** are allowed (for file globbing) for specifying files.
-* To indicate the access the binary will have over **files** the following **access controls** can be used:
-  * **r** (read)
-  * **w** (write)
-  * **m** (memory map as executable)
-  * **k** (file locking)
-  * **l** (creation hard links)
-  * **ix** (to execute another program with the new program inheriting policy)
-  * **Px** (execute under another profile, after cleaning the environment)
-  * **Cx** (execute under a child profile, after cleaning the environment)
-  * **Ux** (execute unconfined, after cleaning the environment)
-* **Variables** can be defined in the profiles and can be manipulated from outside the profile. For example: @{PROC} and @{HOME} (add #include \<tunables/global> to the profile file)
-* **Deny rules are supported to override allow rules**.
+* Um das betroffene ausführbare Programm anzugeben, sind **absolute Pfade und Platzhalter** (für Dateiglobbing) erlaubt, um Dateien zu spezifizieren.
+* Um den Zugriff des Binärprogramms auf **Dateien** anzugeben, können folgende **Zugriffskontrollen** verwendet werden:
+* **r** (lesen)
+* **w** (schreiben)
+* **m** (als ausführbar in den Speicher abbilden)
+* **k** (Dateisperrung)
+* **l** (Erstellen von Hardlinks)
+* **ix** (ein anderes Programm mit dem neuen Programm ausführen, das die Richtlinie erbt)
+* **Px** (unter einem anderen Profil ausführen, nachdem die Umgebung bereinigt wurde)
+* **Cx** (unter einem Kindprofil ausführen, nachdem die Umgebung bereinigt wurde)
+* **Ux** (unbeschränkt ausführen, nachdem die Umgebung bereinigt wurde)
+* **Variablen** können in den Profilen definiert und von außerhalb des Profils manipuliert werden. Zum Beispiel: @{PROC} und @{HOME} (fügen Sie #include \<tunables/global> zur Profildatei hinzu)
+* **Deny-Regeln werden unterstützt, um Allow-Regeln zu überschreiben**.
 
 ### aa-genprof
 
-To easily start creating a profile apparmor can help you. It's possible to make **apparmor inspect the actions performed by a binary and then let you decide which actions you want to allow or deny**.\
-You just need to run:
-
+Um das Erstellen eines Profils zu erleichtern, kann Ihnen AppArmor helfen. Es ist möglich, **AppArmor die Aktionen, die von einem Binärprogramm ausgeführt werden, überprüfen zu lassen und dann zu entscheiden, welche Aktionen Sie erlauben oder ablehnen möchten**.\
+Sie müssen nur Folgendes ausführen:
 ```bash
 sudo aa-genprof /path/to/binary
 ```
-
-Then, in a different console perform all the actions that the binary will usually perform:
-
+Dann führen Sie in einer anderen Konsole alle Aktionen aus, die das Binärprogramm normalerweise ausführt:
 ```bash
 /path/to/binary -a dosomething
 ```
-
-Then, in the first console press "**s**" and then in the recorded actions indicate if you want to ignore, allow, or whatever. When you have finished press "**f**" and the new profile will be created in _/etc/apparmor.d/path.to.binary_
+Dann drücken Sie in der ersten Konsole "**s**" und geben Sie dann die aufgezeichneten Aktionen an, ob Sie sie ignorieren, erlauben oder was auch immer möchten. Wenn Sie fertig sind, drücken Sie "**f**" und das neue Profil wird in _/etc/apparmor.d/path.to.binary_ erstellt.
 
 {% hint style="info" %}
-Using the arrow keys you can select what you want to allow/deny/whatever
+Mit den Pfeiltasten können Sie auswählen, was Sie erlauben/ablehnen/machen möchten.
 {% endhint %}
 
 ### aa-easyprof
 
-You can also create a template of an apparmor profile of a binary with:
-
+Sie können auch eine Vorlage für ein AppArmor-Profil einer Binärdatei erstellen mit:
 ```bash
 sudo aa-easyprof /path/to/binary
 # vim:syntax=apparmor
@@ -103,42 +96,36 @@ sudo aa-easyprof /path/to/binary
 # No template variables specified
 
 "/path/to/binary" {
-  #include <abstractions/base>
+#include <abstractions/base>
 
-  # No abstractions specified
+# No abstractions specified
 
-  # No policy groups specified
+# No policy groups specified
 
-  # No read paths specified
+# No read paths specified
 
-  # No write paths specified
+# No write paths specified
 }
 ```
-
 {% hint style="info" %}
-Note that by default in a created profile nothing is allowed, so everything is denied. You will need to add lines like `/etc/passwd r,` to allow the binary read `/etc/passwd` for example.
+Beachten Sie, dass standardmäßig in einem erstellten Profil nichts erlaubt ist, daher wird alles abgelehnt. Sie müssen Zeilen wie `/etc/passwd r,` hinzufügen, um beispielsweise das Lesen der Binärdatei `/etc/passwd` zu ermöglichen.
 {% endhint %}
 
-You can then **enforce** the new profile with
-
+Sie können dann das neue Profil **erzwingen** mit
 ```bash
 sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
+### Ändern eines Profils aus Protokollen
 
-### Modifying a profile from logs
-
-The following tool will read the logs and ask the user if he wants to permit some of the detected forbidden actions:
-
+Das folgende Tool liest die Protokolle und fragt den Benutzer, ob er einige der erkannten verbotenen Aktionen erlauben möchte:
 ```bash
 sudo aa-logprof
 ```
-
 {% hint style="info" %}
-Using the arrow keys you can select what you want to allow/deny/whatever
+Mit den Pfeiltasten können Sie auswählen, was Sie erlauben/ablehnen/whatever möchten.
 {% endhint %}
 
-### Managing a Profile
-
+### Profil verwalten
 ```bash
 #Main profile management commands
 apparmor_parser -a /etc/apparmor.d/profile.name #Load a new profile in enforce mode
@@ -146,18 +133,14 @@ apparmor_parser -C /etc/apparmor.d/profile.name #Load a new profile in complain 
 apparmor_parser -r /etc/apparmor.d/profile.name #Replace existing profile
 apparmor_parser -R /etc/apparmor.d/profile.name #Remove profile
 ```
+## Protokolle
 
-## Logs
-
-Example of **AUDIT** and **DENIED** logs from _/var/log/audit/audit.log_ of the executable **`service_bin`**:
-
+Beispiel für **AUDIT**- und **DENIED**-Protokolle aus _/var/log/audit/audit.log_ der ausführbaren Datei **`service_bin`**:
 ```bash
 type=AVC msg=audit(1610061880.392:286): apparmor="AUDIT" operation="getattr" profile="/bin/rcat" name="/dev/pts/1" pid=954 comm="service_bin" requested_mask="r" fsuid=1000 ouid=1000
 type=AVC msg=audit(1610061880.392:287): apparmor="DENIED" operation="open" profile="/bin/rcat" name="/etc/hosts" pid=954 comm="service_bin" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
 ```
-
-You can also get this information using:
-
+Sie können diese Informationen auch mit folgendem Befehl abrufen:
 ```bash
 sudo aa-notify -s 1 -v
 Profile: /bin/service_bin
@@ -175,127 +158,105 @@ Logfile: /var/log/audit/audit.log
 AppArmor denials: 2 (since Wed Jan  6 23:51:08 2021)
 For more information, please see: https://wiki.ubuntu.com/DebuggingApparmor
 ```
-
 ## Apparmor in Docker
 
-Note how the profile **docker-profile** of docker is loaded by default:
-
+Beachten Sie, wie das Profil **docker-profile** von Docker standardmäßig geladen wird:
 ```bash
 sudo aa-status
 apparmor module is loaded.
 50 profiles are loaded.
 13 profiles are in enforce mode.
-   /sbin/dhclient
-   /usr/bin/lxc-start
-   /usr/lib/NetworkManager/nm-dhcp-client.action
-   /usr/lib/NetworkManager/nm-dhcp-helper
-   /usr/lib/chromium-browser/chromium-browser//browser_java
-   /usr/lib/chromium-browser/chromium-browser//browser_openjdk
-   /usr/lib/chromium-browser/chromium-browser//sanitized_helper
-   /usr/lib/connman/scripts/dhclient-script
-   docker-default
+/sbin/dhclient
+/usr/bin/lxc-start
+/usr/lib/NetworkManager/nm-dhcp-client.action
+/usr/lib/NetworkManager/nm-dhcp-helper
+/usr/lib/chromium-browser/chromium-browser//browser_java
+/usr/lib/chromium-browser/chromium-browser//browser_openjdk
+/usr/lib/chromium-browser/chromium-browser//sanitized_helper
+/usr/lib/connman/scripts/dhclient-script
+docker-default
 ```
+Standardmäßig wird das **Apparmor docker-default-Profil** von [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor) generiert.
 
-By default **Apparmor docker-default profile** is generated from [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
+**Zusammenfassung des docker-default-Profils**:
 
-**docker-default profile Summary**:
+* **Zugriff** auf alle **Netzwerke**
+* Es sind **keine Berechtigungen** definiert (Einige Berechtigungen werden jedoch durch das Einbinden grundlegender Basisregeln wie #include \<abstractions/base> gewährt)
+* Das **Schreiben** in beliebige **/proc**-Dateien ist **nicht erlaubt**
+* Andere **Unterverzeichnisse**/**Dateien** von /**proc** und /**sys** haben keinen Lese-/Schreib-/Sperr-/Verknüpfungs-/Ausführungszugriff
+* **Mounten** ist **nicht erlaubt**
+* **Ptrace** kann nur auf einen Prozess ausgeführt werden, der durch dasselbe Apparmor-Profil eingeschränkt ist
 
-* **Access** to all **networking**
-* **No capability** is defined (However, some capabilities will come from including basic base rules i.e. #include \<abstractions/base> )
-* **Writing** to any **/proc** file is **not allowed**
-* Other **subdirectories**/**files** of /**proc** and /**sys** are **denied** read/write/lock/link/execute access
-* **Mount** is **not allowed**
-* **Ptrace** can only be run on a process that is confined by **same apparmor profile**
-
-Once you **run a docker container** you should see the following output:
-
+Sobald Sie einen Docker-Container ausführen, sollten Sie die folgende Ausgabe sehen:
 ```bash
 1 processes are in enforce mode.
-   docker-default (825)
+docker-default (825)
 ```
-
-Note that **apparmor will even block capabilities privileges** granted to the container by default. For example, it will be able to **block permission to write inside /proc even if the SYS\_ADMIN capability is granted** because by default docker apparmor profile denies this access:
-
+Beachten Sie, dass **AppArmor standardmäßig sogar die Berechtigungen für Fähigkeiten blockiert**, die dem Container gewährt werden. Zum Beispiel kann es **die Berechtigung zum Schreiben in /proc blockieren, selbst wenn die SYS\_ADMIN-Fähigkeit gewährt wurde**, da das Docker-AppArmor-Profil standardmäßig diesen Zugriff verweigert:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
 sh: 1: cannot create /proc/stat: Permission denied
 ```
-
-You need to **disable apparmor** to bypass its restrictions:
-
+Sie müssen **AppArmor deaktivieren**, um seine Beschränkungen zu umgehen:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu /bin/bash
 ```
+Beachten Sie, dass standardmäßig **AppArmor** auch das **Mounten von Ordnern** von innen im Container verbietet, selbst mit der SYS\_ADMIN-Fähigkeit.
 
-Note that by default **AppArmor** will also **forbid the container to mount** folders from the inside even with SYS\_ADMIN capability.
+Beachten Sie, dass Sie **Fähigkeiten** zum Docker-Container **hinzufügen/entfernen** können (dies wird immer noch durch Schutzmethoden wie **AppArmor** und **Seccomp** eingeschränkt):
 
-Note that you can **add/remove** **capabilities** to the docker container (this will be still restricted by protection methods like **AppArmor** and **Seccomp**):
-
-* `--cap-add=SYS_ADMIN` give `SYS_ADMIN` cap
-* `--cap-add=ALL` give all caps
-* `--cap-drop=ALL --cap-add=SYS_PTRACE` drop all caps and only give `SYS_PTRACE`
+* `--cap-add=SYS_ADMIN` gibt die Fähigkeit `SYS_ADMIN`
+* `--cap-add=ALL` gibt alle Fähigkeiten
+* `--cap-drop=ALL --cap-add=SYS_PTRACE` entfernt alle Fähigkeiten und gibt nur `SYS_PTRACE`
 
 {% hint style="info" %}
-Usually, when you **find** that you have a **privileged capability** available **inside** a **docker** container **but** some part of the **exploit isn't working**, this will be because docker **apparmor will be preventing it**.
+Normalerweise, wenn Sie feststellen, dass Sie eine **privilegierte Fähigkeit** innerhalb eines **Docker-Containers haben**, aber ein Teil des **Exploits nicht funktioniert**, liegt dies daran, dass Docker **AppArmor dies verhindert**.
 {% endhint %}
 
-### Example
+### Beispiel
 
-(Example from [**here**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/))
+(Beispiel von [**hier**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/))
 
-To illustrate AppArmor functionality, I created a new Docker profile “mydocker” with the following line added:
-
+Um die Funktionalität von AppArmor zu veranschaulichen, habe ich ein neues Docker-Profil "mydocker" erstellt und die folgende Zeile hinzugefügt:
 ```
 deny /etc/* w,   # deny write for all files directly in /etc (not in a subdir)
 ```
-
-To activate the profile, we need to do the following:
-
+Um das Profil zu aktivieren, müssen wir Folgendes tun:
 ```
 sudo apparmor_parser -r -W mydocker
 ```
-
-To list the profiles, we can do the following command. The command below is listing my new AppArmor profile.
-
+Um die Profile aufzulisten, können wir den folgenden Befehl verwenden. Der unten stehende Befehl listet mein neues AppArmor-Profil auf.
 ```
 $ sudo apparmor_status  | grep mydocker
-   mydocker
+mydocker
 ```
-
-As shown below, we get error when trying to change “/etc/” since AppArmor profile is preventing write access to “/etc”.
-
+Wie unten gezeigt, erhalten wir einen Fehler, wenn wir versuchen, "/etc/" zu ändern, da das AppArmor-Profil den Schreibzugriff auf "/etc" verhindert.
 ```
 $ docker run --rm -it --security-opt apparmor:mydocker -v ~/haproxy:/localhost busybox chmod 400 /etc/hostname
 chmod: /etc/hostname: Permission denied
 ```
-
 ### AppArmor Docker Bypass1
 
-You can find which **apparmor profile is running a container** using:
-
+Sie können herausfinden, welches **AppArmor-Profil einen Container ausführt**, indem Sie Folgendes verwenden:
 ```bash
 docker inspect 9d622d73a614 | grep lowpriv
-        "AppArmorProfile": "lowpriv",
-                "apparmor=lowpriv"
+"AppArmorProfile": "lowpriv",
+"apparmor=lowpriv"
 ```
-
-Then, you can run the following line to **find the exact profile being used**:
-
+Dann können Sie die folgende Zeile ausführen, um das genaue Profil zu finden, das verwendet wird:
 ```bash
 find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 ```
+Im seltsamen Fall können Sie das AppArmor-Docker-Profil **ändern und neu laden**. Sie könnten die Beschränkungen entfernen und sie "umgehen".
 
-In the weird case you can **modify the apparmor docker profile and reload it.** You could remove the restrictions and "bypass" them.
+### AppArmor Docker Umgehung2
 
-### AppArmor Docker Bypass2
+**AppArmor basiert auf Pfaden**, das bedeutet, dass selbst wenn es Dateien innerhalb eines Verzeichnisses wie **`/proc`** schützt, wenn Sie **konfigurieren können, wie der Container ausgeführt wird**, könnten Sie das proc-Verzeichnis des Hosts in **`/host/proc`** einbinden und es **wird nicht mehr von AppArmor geschützt**.
 
-**AppArmor is path based**, this means that even if it might be **protecting** files inside a directory like **`/proc`** if you can **configure how the container is going to be run**, you could **mount** the proc directory of the host inside **`/host/proc`** and it **won't be protected by AppArmor anymore**.
+### AppArmor Shebang Umgehung
 
-### AppArmor Shebang Bypass
-
-In [**this bug**](https://bugs.launchpad.net/apparmor/+bug/1911431) you can see an example of how **even if you are preventing perl to be run with certain resources**, if you just create a a shell script **specifying** in the first line **`#!/usr/bin/perl`** and you **execute the file directly**, you will be able to execute whatever you want. E.g.:
-
+In [**diesem Fehler**](https://bugs.launchpad.net/apparmor/+bug/1911431) können Sie ein Beispiel dafür sehen, wie **selbst wenn Sie verhindern, dass Perl mit bestimmten Ressourcen ausgeführt wird**, wenn Sie einfach ein Shell-Skript erstellen und in der ersten Zeile **`#!/usr/bin/perl`** angeben und die Datei direkt ausführen, können Sie alles ausführen, was Sie wollen. Zum Beispiel:
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);
@@ -305,17 +266,16 @@ exec "/bin/sh"' > /tmp/test.pl
 chmod +x /tmp/test.pl
 /tmp/test.pl
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

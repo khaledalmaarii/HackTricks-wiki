@@ -1,74 +1,74 @@
-# macOS Bundles
+# macOS-Bundles
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
-## Basic Information
+## Grundlegende Informationen
 
-Bundles in macOS serve as containers for a variety of resources including applications, libraries, and other necessary files, making them appear as single objects in Finder, such as the familiar `*.app` files. The most commonly encountered bundle is the `.app` bundle, though other types like `.framework`, `.systemextension`, and `.kext` are also prevalent.
+Bundles in macOS dienen als Container für verschiedene Ressourcen, einschließlich Anwendungen, Bibliotheken und anderen erforderlichen Dateien, sodass sie in Finder als einzelne Objekte angezeigt werden, wie z. B. die vertrauten `*.app`-Dateien. Das am häufigsten verwendete Bundle ist das `.app`-Bundle, aber auch andere Typen wie `.framework`, `.systemextension` und `.kext` sind weit verbreitet.
 
-### Essential Components of a Bundle
+### Wesentliche Komponenten eines Bundles
 
-Within a bundle, particularly within the `<application>.app/Contents/` directory, a variety of important resources are housed:
+Innerhalb eines Bundles, insbesondere im Verzeichnis `<Anwendung>.app/Contents/`, befinden sich verschiedene wichtige Ressourcen:
 
-- **_CodeSignature**: This directory stores code-signing details vital for verifying the integrity of the application. You can inspect the code-signing information using commands like:
-  %%%bash
-  openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64
-  %%%
-- **MacOS**: Contains the executable binary of the application that runs upon user interaction.
-- **Resources**: A repository for the application's user interface components including images, documents, and interface descriptions (nib/xib files).
-- **Info.plist**: Acts as the application's main configuration file, crucial for the system to recognize and interact with the application appropriately.
+- **_CodeSignature**: In diesem Verzeichnis werden Code-Signaturdetails gespeichert, die für die Überprüfung der Integrität der Anwendung wichtig sind. Sie können die Code-Signaturinformationen mit Befehlen wie folgt überprüfen:
+%%%bash
+openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64
+%%%
+- **MacOS**: Enthält die ausführbare Binärdatei der Anwendung, die bei der Benutzerinteraktion ausgeführt wird.
+- **Resources**: Ein Repository für die Benutzeroberflächenkomponenten der Anwendung, einschließlich Bilder, Dokumente und Schnittstellenbeschreibungen (nib/xib-Dateien).
+- **Info.plist**: Dient als Hauptkonfigurationsdatei der Anwendung und ist für das System entscheidend, um die Anwendung entsprechend zu erkennen und mit ihr zu interagieren.
 
-#### Important Keys in Info.plist
+#### Wichtige Schlüssel in Info.plist
 
-The `Info.plist` file is a cornerstone for application configuration, containing keys such as:
+Die Datei `Info.plist` ist ein Eckpfeiler für die Anwendungskonfiguration und enthält Schlüssel wie:
 
-- **CFBundleExecutable**: Specifies the name of the main executable file located in the `Contents/MacOS` directory.
-- **CFBundleIdentifier**: Provides a global identifier for the application, used extensively by macOS for application management.
-- **LSMinimumSystemVersion**: Indicates the minimum version of macOS required for the application to run.
+- **CFBundleExecutable**: Gibt den Namen der Hauptausführungsdatei an, die sich im Verzeichnis `Contents/MacOS` befindet.
+- **CFBundleIdentifier**: Bietet eine globale Kennung für die Anwendung, die von macOS umfangreich für die Anwendungsverwaltung verwendet wird.
+- **LSMinimumSystemVersion**: Gibt die Mindestversion von macOS an, die für die Ausführung der Anwendung erforderlich ist.
 
-### Exploring Bundles
+### Erkunden von Bundles
 
-To explore the contents of a bundle, such as `Safari.app`, the following command can be used:
+Um den Inhalt eines Bundles wie `Safari.app` zu erkunden, kann der folgende Befehl verwendet werden:
 %%%bash
 ls -lR /Applications/Safari.app/Contents
 %%%
 
-This exploration reveals directories like `_CodeSignature`, `MacOS`, `Resources`, and files like `Info.plist`, each serving a unique purpose from securing the application to defining its user interface and operational parameters.
+Diese Erkundung zeigt Verzeichnisse wie `_CodeSignature`, `MacOS`, `Resources` und Dateien wie `Info.plist`, von denen jeder eine einzigartige Funktion von der Sicherung der Anwendung bis zur Definition ihrer Benutzeroberfläche und Betriebsparameter erfüllt.
 
-#### Additional Bundle Directories
+#### Zusätzliche Bundle-Verzeichnisse
 
-Beyond the common directories, bundles may also include:
+Neben den gängigen Verzeichnissen können Bundles auch Folgendes enthalten:
 
-- **Frameworks**: Contains bundled frameworks used by the application.
-- **PlugIns**: A directory for plug-ins and extensions that enhance the application's capabilities.
-- **XPCServices**: Holds XPC services used by the application for out-of-process communication.
+- **Frameworks**: Enthält gebündelte Frameworks, die von der Anwendung verwendet werden.
+- **PlugIns**: Ein Verzeichnis für Plug-Ins und Erweiterungen, die die Fähigkeiten der Anwendung erweitern.
+- **XPCServices**: Enthält von der Anwendung für die Kommunikation außerhalb des Prozesses verwendete XPC-Dienste.
 
-This structure ensures that all necessary components are encapsulated within the bundle, facilitating a modular and secure application environment.
+Diese Struktur gewährleistet, dass alle erforderlichen Komponenten im Bundle eingeschlossen sind und eine modulare und sichere Anwendungsumgebung ermöglichen.
 
-For more detailed information on `Info.plist` keys and their meanings, the Apple developer documentation provides extensive resources: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
+Für weitere detaillierte Informationen zu `Info.plist`-Schlüsseln und deren Bedeutung bietet die Apple-Entwicklerdokumentation umfangreiche Ressourcen: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

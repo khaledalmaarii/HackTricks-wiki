@@ -1,107 +1,105 @@
-# macOS System Extensions
+# macOS Systemerweiterungen
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
-## System Extensions / Endpoint Security Framework
+## Systemerweiterungen / Endpoint Security Framework
 
-Unlike Kernel Extensions, **System Extensions run in user space** instead of kernel space, reducing the risk of a system crash due to extension malfunction.
+Im Gegensatz zu Kernelerweiterungen werden **Systemerweiterungen im Benutzerraum** anstelle des Kernelraums ausgeführt, wodurch das Risiko eines Systemabsturzes aufgrund einer Erweiterungsfehlfunktion verringert wird.
 
 <figure><img src="../../../.gitbook/assets/image (1) (3) (1) (1).png" alt="https://knight.sc/images/system-extension-internals-1.png"><figcaption></figcaption></figure>
 
-There are three types of system extensions: **DriverKit** Extensions, **Network** Extensions, and **Endpoint Security** Extensions.
+Es gibt drei Arten von Systemerweiterungen: **DriverKit**-Erweiterungen, **Network**-Erweiterungen und **Endpoint Security**-Erweiterungen.
 
-### **DriverKit Extensions**
+### **DriverKit-Erweiterungen**
 
-DriverKit is a replacement for kernel extensions that **provide hardware support**. It allows device drivers (like USB, Serial, NIC, and HID drivers) to run in user space rather than kernel space. The DriverKit framework includes **user space versions of certain I/O Kit classes**, and the kernel forwards normal I/O Kit events to user space, offering a safer environment for these drivers to run.
+DriverKit ist ein Ersatz für Kernelerweiterungen, die **Hardwareunterstützung bieten**. Es ermöglicht Gerätetreibern (wie USB-, Seriell-, NIC- und HID-Treibern), im Benutzerraum anstelle des Kernelraums ausgeführt zu werden. Das DriverKit-Framework enthält **Benutzerraumversionen bestimmter I/O Kit-Klassen**, und der Kernel leitet normale I/O Kit-Ereignisse an den Benutzerraum weiter, um eine sicherere Umgebung für diese Treiber zu bieten.
 
-### **Network Extensions**
+### **Network-Erweiterungen**
 
-Network Extensions provide the ability to customize network behaviors. There are several types of Network Extensions:
+Network-Erweiterungen bieten die Möglichkeit, Netzwerkverhalten anzupassen. Es gibt verschiedene Arten von Network-Erweiterungen:
 
-* **App Proxy**: This is used for creating a VPN client that implements a flow-oriented, custom VPN protocol. This means it handles network traffic based on connections (or flows) rather than individual packets.
-* **Packet Tunnel**: This is used for creating a VPN client that implements a packet-oriented, custom VPN protocol. This means it handles network traffic based on individual packets.
-* **Filter Data**: This is used for filtering network "flows". It can monitor or modify network data at the flow level.
-* **Filter Packet**: This is used for filtering individual network packets. It can monitor or modify network data at the packet level.
-* **DNS Proxy**: This is used for creating a custom DNS provider. It can be used to monitor or modify DNS requests and responses.
+* **App-Proxy**: Dies wird verwendet, um einen VPN-Client zu erstellen, der ein flussorientiertes, benutzerdefiniertes VPN-Protokoll implementiert. Dies bedeutet, dass er Netzwerkverkehr basierend auf Verbindungen (oder Flows) und nicht auf einzelnen Paketen verarbeitet.
+* **Packet Tunnel**: Dies wird verwendet, um einen VPN-Client zu erstellen, der ein paketorientiertes, benutzerdefiniertes VPN-Protokoll implementiert. Dies bedeutet, dass er Netzwerkverkehr basierend auf einzelnen Paketen verarbeitet.
+* **Filterdaten**: Dies wird verwendet, um Netzwerk "Flows" zu filtern. Es kann Netzwerkdaten auf Flussebene überwachen oder ändern.
+* **Filterpaket**: Dies wird verwendet, um einzelne Netzwerkpakete zu filtern. Es kann Netzwerkdaten auf Paketebene überwachen oder ändern.
+* **DNS-Proxy**: Dies wird verwendet, um einen benutzerdefinierten DNS-Anbieter zu erstellen. Es kann verwendet werden, um DNS-Anfragen und -Antworten zu überwachen oder zu ändern.
 
 ## Endpoint Security Framework
 
-Endpoint Security is a framework provided by Apple in macOS that provides a set of APIs for system security. It's intended for use by **security vendors and developers to build products that can monitor and control system activity** to identify and protect against malicious activity.
+Endpoint Security ist ein von Apple in macOS bereitgestelltes Framework, das eine Reihe von APIs für die Systemsicherheit bietet. Es ist für die Verwendung durch **Sicherheitsanbieter und Entwickler gedacht, um Produkte zu erstellen, die Systemaktivitäten überwachen und steuern** können, um bösartige Aktivitäten zu erkennen und zu schützen.
 
-This framework provides a **collection of APIs to monitor and control system activity**, such as process executions, file system events, network and kernel events.
+Dieses Framework bietet eine **Sammlung von APIs zur Überwachung und Steuerung von Systemaktivitäten**, wie z.B. Prozessausführungen, Dateisystemereignissen, Netzwerk- und Kernelereignissen.
 
-The core of this framework is implemented in the kernel, as a Kernel Extension (KEXT) located at **`/System/Library/Extensions/EndpointSecurity.kext`**. This KEXT is made up of several key components:
+Der Kern dieses Frameworks ist als Kernelerweiterung (KEXT) in der Kernelerweiterung (KEXT) implementiert und befindet sich unter **`/System/Library/Extensions/EndpointSecurity.kext`**. Diese KEXT besteht aus mehreren wichtigen Komponenten:
 
-* **EndpointSecurityDriver**: This acts as the "entry point" for the kernel extension. It's the main point of interaction between the OS and the Endpoint Security framework.
-* **EndpointSecurityEventManager**: This component is responsible for implementing kernel hooks. Kernel hooks allow the framework to monitor system events by intercepting system calls.
-* **EndpointSecurityClientManager**: This manages the communication with user space clients, keeping track of which clients are connected and need to receive event notifications.
-* **EndpointSecurityMessageManager**: This sends messages and event notifications to user space clients.
+* **EndpointSecurityDriver**: Dies fungiert als "Einstiegspunkt" für die Kernelerweiterung. Es ist der Hauptpunkt der Interaktion zwischen dem Betriebssystem und dem Endpoint Security Framework.
+* **EndpointSecurityEventManager**: Diese Komponente ist für die Implementierung von Kernel-Hooks verantwortlich. Kernel-Hooks ermöglichen es dem Framework, Systemereignisse zu überwachen, indem sie Systemaufrufe abfangen.
+* **EndpointSecurityClientManager**: Dies verwaltet die Kommunikation mit Benutzerraum-Clients und verfolgt, welche Clients verbunden sind und Ereignisbenachrichtigungen erhalten müssen.
+* **EndpointSecurityMessageManager**: Dies sendet Nachrichten und Ereignisbenachrichtigungen an Benutzerraum-Clients.
 
-The events that the Endpoint Security framework can monitor are categorized into:
+Die Ereignisse, die das Endpoint Security Framework überwachen kann, sind in folgende Kategorien unterteilt:
 
-* File events
-* Process events
-* Socket events
-* Kernel events (such as loading/unloading a kernel extension or opening an I/O Kit device)
+* Dateiereignisse
+* Prozessereignisse
+* Socketereignisse
+* Kernelereignisse (wie das Laden/Entladen einer Kernelerweiterung oder das Öffnen eines I/O Kit-Geräts)
 
-### Endpoint Security Framework Architecture
+### Architektur des Endpoint Security Frameworks
 
 <figure><img src="../../../.gitbook/assets/image (3) (8).png" alt="https://www.youtube.com/watch?v=jaVkpM1UqOs"><figcaption></figcaption></figure>
 
-**User-space communication** with the Endpoint Security framework happens through the IOUserClient class. Two different subclasses are used, depending on the type of caller:
+Die **Kommunikation im Benutzerraum** mit dem Endpoint Security Framework erfolgt über die Klasse IOUserClient. Es werden zwei verschiedene Unterklassen verwendet, abhängig vom Typ des Aufrufers:
 
-* **EndpointSecurityDriverClient**: This requires the `com.apple.private.endpoint-security.manager` entitlement, which is only held by the system process `endpointsecurityd`.
-* **EndpointSecurityExternalClient**: This requires the `com.apple.developer.endpoint-security.client` entitlement. This would typically be used by third-party security software that needs to interact with the Endpoint Security framework.
+* **EndpointSecurityDriverClient**: Dies erfordert die Berechtigung `com.apple.private.endpoint-security.manager`, die nur vom Systemprozess `endpointsecurityd` gehalten wird.
+* **EndpointSecurityExternalClient**: Dies erfordert die Berechtigung `com.apple.developer.endpoint-security.client`. Dies wird in der Regel von Sicherheitssoftware von Drittanbietern verwendet, die mit dem Endpoint Security Framework interagieren muss.
 
-The Endpoint Security Extensions:**`libEndpointSecurity.dylib`** is the C library that system extensions use to communicate with the kernel. This library uses the I/O Kit (`IOKit`) to communicate with the Endpoint Security KEXT.
+Die Endpoint Security-Erweiterungen:**`libEndpointSecurity.dylib`** ist die C-Bibliothek, die von Systemerweiterungen verwendet wird, um mit dem Kernel zu kommunizieren. Diese Bibliothek verwendet das I/O Kit (`IOKit`), um mit der Endpoint Security KEXT zu kommunizieren.
 
-**`endpointsecurityd`** is a key system daemon involved in managing and launching endpoint security system extensions, particularly during the early boot process. **Only system extensions** marked with **`NSEndpointSecurityEarlyBoot`** in their `Info.plist` file receive this early boot treatment.
+**`endpointsecurityd`** ist ein wichtiger Systemdämon, der an der Verwaltung und dem Starten von Endpoint Security-Systemerweiterungen beteiligt ist, insbesondere während des frühen Bootvorgangs. **Nur Systemerweiterungen**, die in ihrer `Info.plist`-Datei mit **`NSEndpointSecurityEarlyBoot`** markiert sind, erhalten diese frühe Bootbehandlung.
 
-Another system daemon, **`sysextd`**, **validates system extensions** and moves them into the proper system locations. It then asks the relevant daemon to load the extension. The **`SystemExtensions.framework`** is responsible for activating and deactivating system extensions.
+Ein weiterer Systemdämon, **`sysextd`**, **validiert Systemerweiterungen** und verschiebt sie an die richtigen Systempositionen. Anschließend fordert er den entsprechenden Dämon auf, die Erweiterung zu laden. Das **`SystemExtensions.framework`** ist für das Aktivieren und Deaktivieren von Systemerweiterungen verantwortlich.
 
-## Bypassing ESF
+## Umgehung von ESF
 
-ESF is used by security tools that will try to detect a red teamer, so any information about how this could be avoided sounds interesting.
+ESF wird von Sicherheitstools verwendet, die versuchen, einen Red Teamer zu erkennen. Daher klingt jede Information darüber, wie dies vermieden werden kann, interessant.
 
 ### CVE-2021-30965
 
-The thing is that the security application needs to have **Full Disk Access permissions**. So if an attacker could remove that, he could prevent the software from running:
-
+Die Sache ist, dass die Sicherheitsanwendung **Vollzugriff auf die Festplatte** haben muss. Wenn ein Angreifer dies entfernen könnte, könnte er verhindern, dass die Software ausgeführt wird:
 ```bash
 tccutil reset All
 ```
+Für **weitere Informationen** zu diesem Umgehungstrick und verwandten Tricks schauen Sie sich den Vortrag [#OBTS v5.0: "The Achilles Heel of EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI) an.
 
-For **more information** about this bypass and related ones check the talk [#OBTS v5.0: "The Achilles Heel of EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
+Am Ende wurde dies behoben, indem der Sicherheits-App, die von **`tccd`** verwaltet wird, die neue Berechtigung **`kTCCServiceEndpointSecurityClient`** zugewiesen wurde. Dadurch werden die Berechtigungen der App von `tccutil` nicht gelöscht und sie kann ausgeführt werden.
 
-At the end this was fixed by giving the new permission **`kTCCServiceEndpointSecurityClient`** to the security app managed by **`tccd`** so `tccutil` won't clear its permissions preventing it from running.
-
-## References
+## Referenzen
 
 * [**OBTS v3.0: "Endpoint Security & Insecurity" - Scott Knight**](https://www.youtube.com/watch?v=jaVkpM1UqOs)
 * [**https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html**](https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie Pull Requests an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

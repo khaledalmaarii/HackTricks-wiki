@@ -2,97 +2,88 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie das Hacken von AWS von Null auf Heldenniveau mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
-## Garage Doors
+## Garagentore
 
-Garage door openers typically operate at frequencies in the 300-190 MHz range, with the most common frequencies being 300 MHz, 310 MHz, 315 MHz, and 390 MHz. This frequency range is commonly used for garage door openers because it is less crowded than other frequency bands and is less likely to experience interference from other devices.
+Garagentoröffner arbeiten in der Regel im Frequenzbereich von 300-190 MHz, wobei die häufigsten Frequenzen 300 MHz, 310 MHz, 315 MHz und 390 MHz sind. Dieser Frequenzbereich wird häufig für Garagentoröffner verwendet, da er weniger überfüllt ist als andere Frequenzbänder und weniger wahrscheinlich von anderen Geräten gestört wird.
 
-## Car Doors
+## Autotüren
 
-Most car key fobs operate on either **315 MHz or 433 MHz**. These are both radio frequencies, and they are used in a variety of different applications. The main difference between the two frequencies is that 433 MHz has a longer range than 315 MHz. This means that 433 MHz is better for applications that require a longer range, such as remote keyless entry.\
-In Europe 433.92MHz is commonly used and in U.S. and Japan it's the 315MHz.
+Die meisten Autoschlüssel-Fernbedienungen arbeiten entweder mit **315 MHz oder 433 MHz**. Dies sind beide Funkfrequenzen und werden in verschiedenen Anwendungen verwendet. Der Hauptunterschied zwischen den beiden Frequenzen besteht darin, dass 433 MHz eine größere Reichweite als 315 MHz hat. Dies bedeutet, dass 433 MHz besser für Anwendungen geeignet ist, die eine größere Reichweite erfordern, wie z.B. die Fernbedienung für schlüsselloses Öffnen.\
+In Europa wird häufig 433,92 MHz verwendet, während es in den USA und Japan 315 MHz ist.
 
-## **Brute-force Attack**
+## **Brute-Force-Angriff**
 
 <figure><img src="../../.gitbook/assets/image (4) (3) (2).png" alt=""><figcaption></figcaption></figure>
 
-If instead of sending each code 5 times (sent like this to make sure the receiver gets it) so just send it once, the time is reduced to 6mins:
+Wenn Sie anstelle des Sendens jedes Codes 5 Mal (um sicherzustellen, dass der Empfänger ihn erhält) ihn nur einmal senden, wird die Zeit auf 6 Minuten reduziert:
 
 <figure><img src="../../.gitbook/assets/image (1) (1) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
-and if you **remove the 2 ms waiting** period between signals you can **reduce the time to 3minutes.**
+Und wenn Sie **die 2 ms Wartezeit** zwischen den Signalen entfernen, können Sie die Zeit auf 3 Minuten reduzieren.
 
-Moreover, by using the De Bruijn Sequence (a way to reduce the number of bits needed to send all the potential binary numbers to burteforce) this **time is reduced just to 8 seconds**:
+Darüber hinaus wird durch die Verwendung der De-Bruijn-Sequenz (eine Möglichkeit, die Anzahl der benötigten Bits zum Senden aller potenziellen Binärzahlen für den Brute-Force-Angriff zu reduzieren) diese **Zeit auf nur 8 Sekunden reduziert**:
 
 <figure><img src="../../.gitbook/assets/image (5) (2) (3).png" alt=""><figcaption></figcaption></figure>
 
-Example of this attack was implemented in [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)
+Ein Beispiel für diesen Angriff wurde in [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame) implementiert.
 
-Requiring **a preamble will avoid the De Bruijn Sequence** optimization and **rolling codes will prevent this attack** (supposing the code is long enough to not be bruteforceable).
+Das **Verwenden einer Präambel verhindert die De-Bruijn-Sequenz**-Optimierung und **Rolling Codes verhindern diesen Angriff** (vorausgesetzt, der Code ist lang genug, um nicht durch Brute-Force geknackt zu werden).
 
-## Sub-GHz Attack
+## Sub-GHz-Angriff
 
-To attack these signals with Flipper Zero check:
+Um diese Signale mit Flipper Zero anzugreifen, überprüfen Sie:
 
 {% content-ref url="flipper-zero/fz-sub-ghz.md" %}
 [fz-sub-ghz.md](flipper-zero/fz-sub-ghz.md)
 {% endcontent-ref %}
 
-## Rolling Codes Protection
+## Rolling-Code-Schutz
 
-Automatic garage door openers typically use a wireless remote control to open and close the garage door. The remote control **sends a radio frequency (RF) signal** to the garage door opener, which activates the motor to open or close the door.
+Automatische Garagentoröffner verwenden in der Regel eine drahtlose Fernbedienung, um das Garagentor zu öffnen und zu schließen. Die Fernbedienung **sendet ein Funksignal (RF-Signal)** an den Garagentoröffner, der den Motor aktiviert, um das Tor zu öffnen oder zu schließen.
 
-It is possible for someone to use a device known as a code grabber to intercept the RF signal and record it for later use. This is known as a **replay attack**. To prevent this type of attack, many modern garage door openers use a more secure encryption method known as a **rolling code** system.
+Es ist möglich, dass jemand ein Gerät namens Codegrabber verwendet, um das RF-Signal abzufangen und für späteren Gebrauch aufzuzeichnen. Dies wird als **Replay-Angriff** bezeichnet. Um diese Art von Angriff zu verhindern, verwenden viele moderne Garagentoröffner eine sicherere Verschlüsselungsmethode, die als **Rolling-Code-System** bekannt ist.
 
-The **RF signal is typically transmitted using a rolling code**, which means that the code changes with each use. This makes it **difficult** for someone to **intercept** the signal and **use** it to gain **unauthorised** access to the garage.
+Das **RF-Signal wird in der Regel mit einem Rolling-Code übertragen**, was bedeutet, dass der Code bei jeder Verwendung geändert wird. Dies macht es **schwierig** für jemanden, das Signal abzufangen und es zu verwenden, um **unbefugten Zugriff** auf die Garage zu erlangen.
 
-In a rolling code system, the remote control and the garage door opener have a **shared algorithm** that **generates a new code** every time the remote is used. The garage door opener will only respond to the **correct code**, making it much more difficult for someone to gain unauthorised access to the garage just by capturing a code.
+In einem Rolling-Code-System haben die Fernbedienung und der Garagentoröffner einen **gemeinsamen Algorithmus**, der jedes Mal, wenn die Fernbedienung verwendet wird, einen neuen Code generiert. Der Garagentoröffner reagiert nur auf den **richtigen Code**, was es viel schwieriger macht, durch Erfassen eines Codes unbefugten Zugriff auf die Garage zu erlangen.
 
-### **Missing Link Attack**
+### **Missing Link-Angriff**
 
-Basically, you listen for the button and **capture the signal whilst the remote is out of range** of the device (say the car or garage). You then move to the device and **use the captured code to open it**.
+Im Wesentlichen hören Sie auf den Knopf und **zeichnen das Signal auf, während die Fernbedienung außerhalb der Reichweite** des Geräts ist (z.B. das Auto oder die Garage). Dann gehen Sie zum Gerät und **verwenden den aufgezeichneten Code, um es zu öffnen**.
 
-### Full Link Jamming Attack
+### Full Link Jamming-Angriff
 
-An attacker could **jam the signal near the vehicle or receive**r so the **receiver cannot actually ‘hear’ the code**, and once that is happening you can simply **capture and replay** the code when you have stopped jamming.
+Ein Angreifer könnte das Signal in der Nähe des Fahrzeugs oder des Empfängers **stören**, sodass der **Empfänger den Code nicht tatsächlich "hört"**, und sobald dies geschieht, können Sie einfach den Code **aufzeichnen und wiederholen**, wenn Sie aufgehört haben zu stören.
 
-The victim at some point will use the **keys to lock the car**, but then the attack will have **recorded enough "close door" codes** that hopefully could be resent to open the door (a **change of frequency might be needed** as there are cars that use the same codes to open and close but listens for both commands in different frequencies).
-
-{% hint style="warning" %}
-**Jamming works**, but it's noticeable as if the **person locking the car simply tests the doors** to ensure they are locked they would notice the car unlocked. Additionally if they were aware of such attacks they could even listen to the fact that the doors never made the lock **sound** or the cars **lights** never flashed when they pressed the ‘lock’ button.
-{% endhint %}
-
-### **Code Grabbing Attack ( aka ‘RollJam’ )**
-
-This is a more **stealth Jamming technique**. The attacker will jam the signal, so when the victim tries to lock the door it won't work, but the attacker will **record this code**. Then, the victim will **try to lock the car again** pressing the button and the car will **record this second code**.\
-Instantly after this the **attacker can send the first code** and the **car will lock** (victim will think the second press closed it). Then, the attacker will be able to **send the second stolen code to open** the car (supposing that a **"close car" code can also be used to open it**). A change of frequency might be needed (as there are cars that use the same codes to open and close but listens for both commands in different frequencies).
-
-The attacker can **jam the car receiver and not his receiver** because if the car receiver is listening in for example a 1MHz broadband, the attacker won't **jam** the exact frequency used by the remote but **a close one in that spectrum** while the **attackers receiver will be listening in a smaller range** where he can listen the remote signal **without the jam signal**.
+Das Opfer wird irgendwann die **Tasten verwenden, um das Auto zu verriegeln**, aber dann wird der Angriff genügend "Tür schließen"-Codes aufgezeichnet haben, die hoffentlich erneut gesendet werden können, um die Tür zu öffnen (eine **Änderung der Frequenz könnte erforderlich sein**, da es Autos gibt, die dieselben Codes zum Öffnen und Schließen verwenden, aber auf verschiedene Befehle in unterschiedlichen Frequenzen hören).
 
 {% hint style="warning" %}
-Other implementations seen in specifications show that the **rolling code is a portion** of the total code sent. Ie the code sent is a **24 bit key** where the first **12 are the rolling code**, the **second 8 are the command** (such as lock or unlock) and the last 4 is the **checksum**. Vehicles implementing this type are also naturally susceptible as the attacker merely needs to replace the rolling code segment to be able to **use any rolling code on both frequencies**.
+**Jamming funktioniert**, aber es fällt auf, da wenn die **Person, die das Auto verriegelt, einfach die Türen testet**, um sicherzustellen, dass sie verriegelt sind, würde sie bemerken, dass das Auto nicht verriegelt ist. Außerdem könnten sie, wenn sie sich solcher Angriffe bewusst wären, sogar darauf achten, dass die Türen keinen Verriegelungs-**Klang** erzeugen oder die **Lichter** des Autos nicht aufleuchten, wenn sie die "Verriegeln"-Taste drücken.
 {% endhint %}
 
-{% hint style="danger" %}
-Note that if the victim sends a third code while the attacker is sending the first one, the first and second code will be invalidated.
-{% endhint %}
+### **Codegrabbing-Angriff (auch "RollJam" genannt)**
 
-### Alarm Sounding Jamming Attack
+Dies ist eine raffiniertere Jamming-Technik. Der Angreifer stört das Signal, sodass das Opfer versucht, die Tür zu verriegeln, aber es nicht funktioniert, aber der Angreifer wird diesen Code **aufzeichnen**. Dann wird das Opfer versuchen, das Auto erneut zu verriegeln, indem es die Taste drückt, und das Auto wird diesen zweiten Code **aufzeichnen**.\
+Sofort danach kann der Angreifer den ersten Code **senden** und das Auto wird sich **verriegeln** (das Opfer wird denken, dass der zweite Druck es geschlossen hat). Dann wird der Angreifer in der Lage sein, den zweiten gestohlenen Code zu **senden**, um das Auto zu öffnen (vorausgesetzt, dass ein **"Auto schließen"-Code auch zum Öffnen verwendet werden kann**). Eine Änderung der Frequenz könnte erforderlich sein (da es Autos gibt, die dieselben Codes zum Öffnen und Schließen verwenden, aber auf verschiedene Befehle in unterschiedlichen Frequenzen hören).
 
-Testing against an aftermarket rolling code system installed on a car, **sending the same code twice** immediately **activated the alarm** and immobiliser providing a unique **denial of service** opportunity. Ironically the means of **disabling the alarm** and immobiliser was to **press** the **remote**, providing an attacker with the ability to **continually perform DoS attack**. Or mix this attack with the **previous one to obtain more codes** as the victim would like to stop the attack asap.
+Der Angreifer kann den Empfänger des Autos stören und nicht seinen eigenen Empfänger, da der Empfänger des Autos beispielsweise in einem 1 MHz breiten Frequenzbereich lauscht. Der Angre
+### Alarm auslösende Jamming-Attacke
 
-## References
+Bei einem Test gegen ein Nachrüst-Rolling-Code-System, das in einem Auto installiert war, wurde festgestellt, dass das **gleiche Code zweimal senden** sofort den Alarm und die Wegfahrsperre **aktiviert** und somit eine einzigartige **Denial-of-Service**-Möglichkeit bietet. Ironischerweise war es möglich, den Alarm und die Wegfahrsperre zu **deaktivieren**, indem man die **Fernbedienung drückt**, was einem Angreifer die Möglichkeit gibt, **kontinuierlich DoS-Angriffe** durchzuführen. Oder man kann diesen Angriff mit dem **vorherigen kombinieren, um mehr Codes zu erhalten**, da das Opfer den Angriff so schnell wie möglich stoppen möchte.
+
+## Referenzen
 
 * [https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/](https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/)
 * [https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/](https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/)
@@ -101,14 +92,14 @@ Testing against an aftermarket rolling code system installed on a car, **sending
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie Pull Requests an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
