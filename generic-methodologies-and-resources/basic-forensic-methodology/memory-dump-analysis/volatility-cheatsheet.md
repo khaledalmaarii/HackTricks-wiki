@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -23,22 +23,18 @@ Other ways to support HackTricks:
 {% embed url="https://www.rootedcon.com/" %}
 
 If you want something **fast and crazy** that will launch several Volatility plugins on parallel you can use: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
-
 ```bash
 python autoVolatility.py -f MEMFILE -d OUT_DIRECTORY -e /home/user/tools/volatility/vol.py # It will use the most important plugins (could use a lot of space depending on the size of the memory)
 ```
-
-## Installation
+## qo'vam
 
 ### volatility3
-
 ```bash
 git clone https://github.com/volatilityfoundation/volatility3.git
 cd volatility3
 python3 setup.py install
 python3 vol.py —h
 ```
-
 ### volatility2
 
 {% tabs %}
@@ -46,8 +42,6 @@ python3 vol.py —h
 ```
 Download the executable from https://www.volatilityfoundation.org/26
 ```
-{% endtab %}
-
 {% tab title="Method 2" %}
 ```bash
 git clone https://github.com/volatilityfoundation/volatility.git
@@ -61,13 +55,13 @@ python setup.py install
 
 Access the official doc in [Volatility command reference](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)
 
-### A note on “list” vs. “scan” plugins
+### A note on "list" vs. "scan" plugins
 
-Volatility has two main approaches to plugins, which are sometimes reflected in their names. “list” plugins will try to navigate through Windows Kernel structures to retrieve information like processes (locate and walk the linked list of `_EPROCESS` structures in memory), OS handles (locating and listing the handle table, dereferencing any pointers found, etc). They more or less behave like the Windows API would if requested to, for example, list processes.
+Volatility has two main approaches to plugins, which are sometimes reflected in their names. "list" plugins will try to navigate through Windows Kernel structures to retrieve information like processes (locate and walk the linked list of `_EPROCESS` structures in memory), OS handles (locating and listing the handle table, dereferencing any pointers found, etc). They more or less behave like the Windows API would if requested to, for example, list processes.
 
-That makes “list” plugins pretty fast, but just as vulnerable as the Windows API to manipulation by malware. For instance, if malware uses DKOM to unlink a process from the `_EPROCESS` linked list, it won’t show up in the Task Manager and neither will it in the pslist.
+That makes "list" plugins pretty fast, but just as vulnerable as the Windows API to manipulation by malware. For instance, if malware uses DKOM to unlink a process from the `_EPROCESS` linked list, it won't show up in the Task Manager and neither will it in the pslist.
 
-“scan” plugins, on the other hand, will take an approach similar to carving the memory for things that might make sense when dereferenced as specific structures. `psscan` for instance will read the memory and try to make`_EPROCESS` objects out of it (it uses pool-tag scanning, which is searching for 4-byte strings that indicate the presence of a structure of interest). The advantage is that it can dig up processes that have exited, and even if malware tampers with the `_EPROCESS` linked list, the plugin will still find the structure lying around in memory (since it still needs to exist for the process to run). The downfall is that “scan” plugins are a bit slower than “list” plugins, and can sometimes yield false positives (a process that exited too long ago and had parts of its structure overwritten by other operations).
+"scan" plugins, on the other hand, will take an approach similar to carving the memory for things that might make sense when dereferenced as specific structures. `psscan` for instance will read the memory and try to make`_EPROCESS` objects out of it (it uses pool-tag scanning, which is searching for 4-byte strings that indicate the presence of a structure of interest). The advantage is that it can dig up processes that have exited, and even if malware tampers with the `_EPROCESS` linked list, the plugin will still find the structure lying around in memory (since it still needs to exist for the process to run). The downfall is that "scan" plugins are a bit slower than "list" plugins, and can sometimes yield false positives (a process that exited too long ago and had parts of its structure overwritten by other operations).
 
 From: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
@@ -87,13 +81,10 @@ Symbol table packs for the various operating systems are available for **downloa
 #### External Profile
 
 You can get the list of supported profiles doing:
-
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
-
-If you want to use a **new profile you have downloaded** (for example a linux one) you need to create somewhere the following folder structure: _plugins/overlays/linux_ and put inside this folder the zip file containing the profile. Then, get the number of the profiles using:
-
+**ghItlh** **new profile** **download** **vItlhutlh** (for example a linux one) **cha'logh** **'ej** **ghItlh** **folder structure** **vItlhutlh**: _plugins/overlays/linux_ **'ej** **zip file** **vItlhutlh** **profile** **vItlhutlh**. **vaj** **number** **profiles** **ghItlhutlh** **vItlhutlh**:
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -105,28 +96,339 @@ LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 - A Profile for Linux CentOS7_3.10
 VistaSP0x64                                   - A Profile for Windows Vista SP0 x64
 VistaSP0x86                                   - A Profile for Windows Vista SP0 x86
 ```
+**tlhIngan Hol:**
 
-You can **download Linux and Mac profiles** from [https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles)
+[https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles) **profiles** **Linux** **Mac** **download** **jatlh**.
 
-In the previous chunk you can see that the profile is called `LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64`, and you can use it to execute something like:
-
+**LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64** **profile** **ghItlh** **chu'** **'e'** **vItlhutlh** **'e'** **vaj** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhutlh** **'e'** **ghItlh** **'e'** **vItlhut
 ```bash
 ./vol -f file.dmp --plugins=. --profile=LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 linux_netscan
 ```
+#### Qapla' Profile
 
-#### Discover Profile
+---
 
+#### **Volatility Commands**
+
+| Command | Description |
+|---------|-------------|
+| `imageinfo` | Displays information about the memory image |
+| `kdbgscan` | Scans for the presence of a kernel debugger tag |
+| `pslist` | Lists all running processes |
+| `pstree` | Displays the process tree |
+| `psscan` | Scans for processes |
+| `dlllist` | Lists loaded DLLs for each process |
+| `handles` | Lists open handles for each process |
+| `cmdline` | Displays the command line arguments for each process |
+| `filescan` | Scans for file objects |
+| `svcscan` | Scans for services |
+| `connscan` | Scans for network connections |
+| `sockets` | Lists open sockets |
+| `modules` | Lists loaded kernel modules |
+| `modscan` | Scans for kernel modules |
+| `ssdt` | Displays the System Service Descriptor Table (SSDT) |
+| `gdt` | Displays the Global Descriptor Table (GDT) |
+| `idt` | Displays the Interrupt Descriptor Table (IDT) |
+| `callbacks` | Lists registered callbacks |
+| `driverscan` | Scans for drivers |
+| `devicetree` | Displays the device tree |
+| `hivelist` | Lists the registry hives |
+| `hivedump` | Dumps a registry hive |
+| `hashdump` | Dumps password hashes |
+| `userassist` | Lists UserAssist information |
+| `mftparser` | Parses the Master File Table (MFT) |
+| `shellbags` | Lists shellbag information |
+| `iehistory` | Lists Internet Explorer history |
+| `cmdscan` | Scans for command prompt history |
+| `privs` | Lists process privileges |
+| `getsids` | Lists Security Identifiers (SIDs) |
+| `envars` | Lists environment variables |
+| `printkey` | Prints a registry key |
+| `dumpregistry` | Dumps the entire registry |
+| `dumpfiles` | Dumps files from the file system |
+| `dumpcerts` | Dumps certificates |
+| `dumpregistry` | Dumps the entire registry |
+| `dumpfiles` | Dumps files from the file system |
+| `dumpcerts` | Dumps certificates |
+
+---
+
+#### **Volatility Plugins**
+
+| Plugin | Description |
+|--------|-------------|
+| `psxview` | Displays hidden processes |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind` | Finds hidden and injected code |
+| `malfind
 ```
 volatility imageinfo -f file.dmp
 volatility kdbgscan -f file.dmp
 ```
-
 #### **Differences between imageinfo and kdbgscan**
 
 [**From here**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): As opposed to imageinfo which simply provides profile suggestions, **kdbgscan** is designed to positively identify the correct profile and the correct KDBG address (if there happen to be multiple). This plugin scans for the KDBGHeader signatures linked to Volatility profiles and applies sanity checks to reduce false positives. The verbosity of the output and the number of sanity checks that can be performed depends on whether Volatility can find a DTB, so if you already know the correct profile (or if you have a profile suggestion from imageinfo), then make sure you use it from .
 
 Always take a look at the **number of processes that kdbgscan has found**. Sometimes imageinfo and kdbgscan can find **more than one** suitable **profile** but only the **valid one will have some process related** (This is because to extract processes the correct KDBG address is needed)
-
 ```bash
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
@@ -138,18 +440,15 @@ PsLoadedModuleList            : 0xfffff8000119aae0 (116 modules)
 PsActiveProcessHead           : 0xfffff800011947f0 (0 processes)
 PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
-
 #### KDBG
 
-The **kernel debugger block**, referred to as **KDBG** by Volatility, is crucial for forensic tasks performed by Volatility and various debuggers. Identified as `KdDebuggerDataBlock` and of the type `_KDDEBUGGER_DATA64`, it contains essential references like `PsActiveProcessHead`. This specific reference points to the head of the process list, enabling the listing of all processes, which is fundamental for thorough memory analysis.
+**KDBG**, yI'el Volatility, **kernel debugger block** jatlh. Volatility je debuggers vaj forensic tasks vaj. `KdDebuggerDataBlock` vaj `_KDDEBUGGER_DATA64` type vaj, 'oH references 'e' vay' `PsActiveProcessHead` vaj. references vaj, 'oH reference vay' vaj head vaj process list, vaj listing vaj vay' vaj processes, vaj, 'oH vaj fundamental vaj thorough memory analysis. 
 
 ## OS Information
-
 ```bash
 #vol3 has a plugin to give OS information (note that imageinfo from vol2 will give you OS info)
 ./vol.py -f file.dmp windows.info.Info
 ```
-
 The plugin `banners.Banners` can be used in **vol3 to try to find linux banners** in the dump.
 
 ## Hashes/Passwords
@@ -163,8 +462,6 @@ Extract SAM hashes, [domain cached credentials](../../../windows-hardening/steal
 ./vol.py -f file.dmp windows.cachedump.Cachedump #Grab domain cache hashes inside the registry
 ./vol.py -f file.dmp windows.lsadump.Lsadump #Grab lsa secrets
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 hashdump -f file.dmp #Grab common windows hashes (SAM+SYSTEM)
@@ -178,12 +475,12 @@ volatility --profile=Win7SP1x86_23418 lsadump -f file.dmp #Grab lsa secrets
 
 The memory dump of a process will **extract everything** of the current status of the process. The **procdump** module will only **extract** the **code**.
 
+## qawHaq
+
+qawHaq vItlhutlh **process** vItlhutlh **current status** vItlhutlh **everything** **extract**. **procdump** module vItlhutlh **code** vItlhutlh **extract**.
 ```
 volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
-
-​
-
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
 ​​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
@@ -204,8 +501,6 @@ python3 vol.py -f file.dmp windows.pstree.PsTree # Get processes tree (not hidde
 python3 vol.py -f file.dmp windows.pslist.PsList # Get process list (EPROCESS)
 python3 vol.py -f file.dmp windows.psscan.PsScan # Get hidden process list(malware)
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=PROFILE pstree -f file.dmp # Get process tree (not hidden)
@@ -213,18 +508,32 @@ volatility --profile=PROFILE pslist -f file.dmp # Get process list (EPROCESS)
 volatility --profile=PROFILE psscan -f file.dmp # Get hidden process list(malware)
 volatility --profile=PROFILE psxview -f file.dmp # Get hidden process list
 ```
+{% tabs %}
+{% tab title="vol3" %}
+
+### Dump proc
+
 {% endtab %}
 {% endtabs %}
 
 ### Dump proc
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="vol3" %}Dump proc
+
+{% endtab %}
+{% endtabs %}
+
+### Dump proc
+
+{% tabs %}
+{% tab title="vol3" %}Dump proc
+
+{% endtab %}
+{% endtabs %}
 ```bash
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f file.dmp
@@ -241,8 +550,6 @@ Anything suspicious was executed?
 ```bash
 python3 vol.py -f file.dmp windows.cmdline.CmdLine #Display process command-line arguments
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=PROFILE cmdline -f file.dmp #Display process command-line arguments
@@ -251,24 +558,19 @@ volatility --profile=PROFILE consoles -f file.dmp #command history by scanning f
 {% endtab %}
 {% endtabs %}
 
-Commands executed in `cmd.exe` are managed by **`conhost.exe`** (or `csrss.exe` on systems before Windows 7). This means that if **`cmd.exe`** is terminated by an attacker before a memory dump is obtained, it's still possible to recover the session's command history from the memory of **`conhost.exe`**. To do this, if unusual activity is detected within the console's modules, the memory of the associated **`conhost.exe`** process should be dumped. Then, by searching for **strings** within this dump, command lines used in the session can potentially be extracted.
+**`cmd.exe`**-Daq **`conhost.exe`** (be'Hom **Windows 7**-Daq) **`cmd.exe`**-Daq **`conhost.exe`**-Daq **memory dump**-Daq **`cmd.exe`**-Daq **memory dump**-Daq **`conhost.exe`**-Daq **memory**-Daq **command history**-Daq **`conhost.exe`**-Daq **memory**-Daq **command history**-Daq **strings**-Daq **command lines**-Daq **session**-Daq **extract**-Daq
 
-### Environment
+### **Environment**
 
-Get the env variables of each running process. There could be some interesting values.
-
-{% tabs %}
-{% tab title="vol3" %}
+**env variables**-Daq **running process**-mey **env variables**-Daq **values**-Daq
 ```bash
 python3 vol.py -f file.dmp windows.envars.Envars [--pid <pid>] #Display process environment variables
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=PROFILE envars -f file.dmp [--pid <pid>] #Display process environment variables
 
-volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of process. runlevel var means the runlevel where the proc is initated 
+volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of process. runlevel var means the runlevel where the proc is initated
 ```
 {% endtab %}
 {% endtabs %}
@@ -286,8 +588,6 @@ python3 vol.py -f file.dmp windows.privileges.Privs [--pid <pid>]
 #Get all processes with interesting privileges
 python3 vol.py -f file.dmp windows.privileges.Privs | grep "SeImpersonatePrivilege\|SeAssignPrimaryPrivilege\|SeTcbPrivilege\|SeBackupPrivilege\|SeRestorePrivilege\|SeCreateTokenPrivilege\|SeLoadDriverPrivilege\|SeTakeOwnershipPrivilege\|SeDebugPrivilege"
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 #Get enabled privileges of some processes
@@ -295,22 +595,20 @@ volatility --profile=Win7SP1x86_23418 privs --pid=3152 -f file.dmp | grep Enable
 #Get all processes with interesting privileges
 volatility --profile=Win7SP1x86_23418 privs -f file.dmp | grep "SeImpersonatePrivilege\|SeAssignPrimaryPrivilege\|SeTcbPrivilege\|SeBackupPrivilege\|SeRestorePrivilege\|SeCreateTokenPrivilege\|SeLoadDriverPrivilege\|SeTakeOwnershipPrivilege\|SeDebugPrivilege"
 ```
-{% endtab %}
-{% endtabs %}
+{% tabs %}
+{% tab title="vol3" %}
 
 ### SIDs
 
 Check each SSID owned by a process.\
 It could be interesting to list the processes using a privileges SID (and the processes using some service SID).
 
-{% tabs %}
-{% tab title="vol3" %}
+{% endtab %}
+{% endtabs %}
 ```bash
 ./vol.py -f file.dmp windows.getsids.GetSIDs [--pid <pid>] #Get SIDs of processes
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 getsids -f file.dmp #Get the SID owned by each process
@@ -324,29 +622,1061 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of
 Useful to know to which other files, keys, threads, processes... a **process has a handle** for (has opened)
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="vol3" %}### qo'noS
+
+ghaH **process has a handle** for (has opened) to Qap, QaD, threads, processes... je.
 ```bash
 vol.py -f file.dmp windows.handles.Handles [--pid <pid>]
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 ```
-{% endtab %}
-{% endtabs %}
-
+{% tabs %}
+{% tab title="vol3" %}
 ### DLLs
 
 {% tabs %}
 {% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
+{% tab title="vol3" %}
+### DLLs
+
+{% tabs %}
 ```bash
 ./vol.py -f file.dmp windows.dlllist.DllList [--pid <pid>] #List dlls used by each
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory process
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 dlllist --pid=3152 -f file.dmp #Get dlls of a proc
@@ -355,9 +1685,9 @@ volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dm
 {% endtab %}
 {% endtabs %}
 
-### Strings per processes
+### Processes per strings
 
-Volatility allows us to check which process a string belongs to.
+Volatility also allows us to check which strings belong to a specific process.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -365,8 +1695,6 @@ Volatility allows us to check which process a string belongs to.
 strings file.dmp > /tmp/strings.txt
 ./vol.py -f /tmp/file.dmp windows.strings.Strings --strings-file /tmp/strings.txt
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 strings file.dmp > /tmp/strings.txt
@@ -386,8 +1714,6 @@ It also allows to search for strings inside a process using the yarascan module:
 ./vol.py -f file.dmp windows.vadyarascan.VadYaraScan --yara-rules "https://" --pid 3692 3840 3976 3312 3084 2784
 ./vol.py -f file.dmp yarascan.YaraScan --yara-rules "https://"
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3312,3084,2784
@@ -397,15 +1723,10 @@ volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3
 
 ### UserAssist
 
-**Windows** keeps track of programs you run using a feature in the registry called **UserAssist keys**. These keys record how many times each program is executed and when it was last run.
-
-{% tabs %}
-{% tab title="vol3" %}
+**Windows** jatlh programs 'ej yo' using a feature in the registry called **UserAssist keys**. These keys record how many times each program is executed and when it was last run.
 ```bash
 ./vol.py -f file.dmp windows.registry.userassist.UserAssist
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
@@ -429,8 +1750,6 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 ./vol.py -f file.dmp windows.svcscan.SvcScan #List services
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 #Get services and binary path
@@ -449,13 +1768,11 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
 ./vol.py -f file.dmp windows.netscan.NetScan
 #For network info of linux use volatility2
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 netscan -f file.dmp
 volatility --profile=Win7SP1x86_23418 connections -f file.dmp#XP and 2003 only
-volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections 
+volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections
 volatility --profile=Win7SP1x86_23418 sockscan -f file.dmp#Open sockets
 volatility --profile=Win7SP1x86_23418 sockets -f file.dmp#Scanner for tcp socket objects
 
@@ -479,25 +1796,1161 @@ volatility --profile=SomeLinux -f file.dmp linux_route_cache
 ./vol.py -f file.dmp windows.registry.hivelist.HiveList #List roots
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey #List roots and get initial subkeys
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp hivelist #List roots
 volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get initial subkeys
 ```
-{% endtab %}
-{% endtabs %}
+{% tabs %}
+{% tab title="vol3" %}
 
 ### Get a value
 
 {% tabs %}
 {% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Get a value
+
+{% tabs %}
+{% tab title="vol3
 ```bash
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey --key "Software\Microsoft\Windows NT\CurrentVersion"
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 printkey -K "Software\Microsoft\Windows NT\CurrentVersion" -f file.dmp
@@ -507,15 +2960,13 @@ volatility -f file.dmp --profile=Win7SP1x86 printkey -o 0x9670e9d0 -K 'Software\
 {% endtab %}
 {% endtabs %}
 
-### Dump
-
+### Qa'Haq
 ```bash
 #Dump a hive
 volatility --profile=Win7SP1x86_23418 hivedump -o 0x9aad6148 -f file.dmp #Offset extracted by hivelist
 #Dump all hives
 volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```
-
 ## Filesystem
 
 ### Mount
@@ -525,8 +2976,6 @@ volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```bash
 #See vol2
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=SomeLinux -f file.dmp linux_mount
@@ -543,8 +2992,6 @@ volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the en
 ./vol.py -f file.dmp windows.filescan.FileScan #Scan for files inside the dump
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --physaddr <0xAAAAA> #Offset from previous command
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 filescan -f file.dmp #Scan for files inside the dump
@@ -565,8 +3012,6 @@ volatility --profile=SomeLinux -f file.dmp linux_find_file -i 0xINODENUMBER -O /
 ```bash
 # I couldn't find any plugin to extract this information in volatility3
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
@@ -574,24 +3019,27 @@ volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 {% endtab %}
 {% endtabs %}
 
-The **NTFS file system** uses a critical component known as the _master file table_ (MFT). This table includes at least one entry for every file on a volume, covering the MFT itself too. Vital details about each file, such as **size, timestamps, permissions, and actual data**, are encapsulated within the MFT entries or in areas external to the MFT but referenced by these entries. More details can be found in the [official documentation](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
-
-### SSL Keys/Certs
-
-{% tabs %}
-{% tab title="vol3" %}
+**NTFS file system**-eS _master file table_ (MFT) jImejDaq vItlhutlh. vaj MFT entries, vaj MFT jImejDaq vItlhutlh. **size, timestamps, permissions, and actual data**-meyDaq vItlhutlh, MFT entries vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj vItlhutlh vaj
 ```bash
 #vol3 allows to search for certificates inside the registry
 ./vol.py -f file.dmp windows.registry.certificates.Certificates
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 #vol2 allos you to search and dump certificates from memory
 #Interesting options for this modules are: --pid, --name, --ssl
 volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ```
+{% tabs %}
+{% tab title="vol3" %}
+
+### Malware
+
+{% tabs %}
+{% tab title="vol3" %}
+
+### Malware
+
 {% endtab %}
 {% endtabs %}
 
@@ -612,8 +3060,6 @@ volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ./vol.py -f file.dmp linux.check_modules.Check_modules #Compares module list to sysfs info, if available
 ./vol.py -f file.dmp linux.tty_check.tty_check #Checks tty devices for hooks
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp malfind [-D /tmp] #Find hidden and injected code [dump each suspicious section]
@@ -649,8 +3095,6 @@ python malware_yara_rules.py
 #All
 ./vol.py -f file.dmp yarascan.YaraScan --yara-file /tmp/malware_rules.yar
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
@@ -672,11 +3116,9 @@ If you want to use external plugins make sure that the folders related to the pl
 ```bash
 ./vol.py --plugin-dirs "/tmp/plugins/" [...]
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
- volatilitye --plugins="/tmp/plugins/" [...]
+volatilitye --plugins="/tmp/plugins/" [...]
 ```
 {% endtab %}
 {% endtabs %}
@@ -684,11 +3126,9 @@ If you want to use external plugins make sure that the folders related to the pl
 #### Autoruns
 
 Download it from [https://github.com/tomchop/volatility-autoruns](https://github.com/tomchop/volatility-autoruns)
-
 ```
- volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp autoruns
+volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp autoruns
 ```
-
 ### Mutexes
 
 {% tabs %}
@@ -696,8 +3136,6 @@ Download it from [https://github.com/tomchop/volatility-autoruns](https://github
 ```
 ./vol.py -f file.dmp windows.mutantscan.MutantScan
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 mutantscan -f file.dmp
@@ -713,8 +3151,6 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 ```bash
 ./vol.py -f file.dmp windows.symlinkscan.SymlinkScan
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
@@ -722,17 +3158,12 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 {% endtab %}
 {% endtabs %}
 
-### Bash
+### Klingon
 
-It's possible to **read from memory the bash history.** You could also dump the _.bash\_history_ file, but it was disabled you will be glad you can use this volatility module
-
-{% tabs %}
-{% tab title="vol3" %}
+**bash history**-wI'vamDaq **memory**-lI'wI'pu' **ghItlh**. _.bash\_history_ file 'e' vItlhutlh, 'ach vItlhutlhvol 'e' vItlhutlhvol module volatility vItlhutlh.
 ```
 ./vol.py -f file.dmp linux.bash.Bash
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
@@ -747,8 +3178,6 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
 ```bash
 ./vol.py -f file.dmp timeLiner.TimeLiner
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```
 volatility --profile=Win7SP1x86_23418 -f timeliner
@@ -763,8 +3192,6 @@ volatility --profile=Win7SP1x86_23418 -f timeliner
 ```
 ./vol.py -f file.dmp windows.driverscan.DriverScan
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
@@ -773,40 +3200,70 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
 {% endtabs %}
 
 ### Get clipboard
-
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 clipboard -f file.dmp
 ```
-
 ### Get IE history
 
+### IE tarI'wI' pagh
+
+```
+volatility -f memory_dump.vmem --profile=Win7SP1x64 iehistory
+```
+
+```
+volatility -f memory_dump.vmem --profile=Win7SP1x64 iehistory --output=html --output-file=iehistory.html
+```
+
+```
+volatility -f memory_dump.vmem --profile=Win7SP1x64 iehistory --output=csv --output-file=iehistory.csv
+```
+
+### IE tarI'wI' pagh
+
+```
+volatility -f memory_dump.vmem --profile=Win7SP1x64 iehistory
+```
+
+```
+volatility -f memory_dump.vmem --profile=Win7SP1x64 iehistory --output=html --output-file=iehistory.html
+```
+
+```
+volatility -f memory_dump.vmem --profile=Win7SP1x64 iehistory --output=csv --output-file=iehistory.csv
+```
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 iehistory -f file.dmp
 ```
-
 ### Get notepad text
 
+#### tlhIngan Hol Translation:
+
+### notepad tetlh
+
+#### HTML Translation:
+
+### notepad tetlh
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 notepad -f file.dmp
 ```
-
 ### Screenshot
 
+![Screenshot](/path/to/screenshot.png)
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```
-
 ### Master Boot Record (MBR)
 
+### Master Boot Record (MBR)
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-
-The **Master Boot Record (MBR)** plays a crucial role in managing the logical partitions of a storage medium, which are structured with different [file systems](https://en.wikipedia.org/wiki/File_system). It not only holds partition layout information but also contains executable code acting as a boot loader. This boot loader either directly initiates the OS's second-stage loading process (see [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage_boot_loader)) or works in harmony with the [volume boot record](https://en.wikipedia.org/wiki/Volume_boot_record) (VBR) of each partition. For in-depth knowledge, refer to the [MBR Wikipedia page](https://en.wikipedia.org/wiki/Master_boot_record).
+**Master Boot Record (MBR)** plays a crucial role in managing the logical partitions of a storage medium, which are structured with different [file systems](https://en.wikipedia.org/wiki/File_system). It not only holds partition layout information but also contains executable code acting as a boot loader. This boot loader either directly initiates the OS's second-stage loading process (see [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage_boot_loader)) or works in harmony with the [volume boot record](https://en.wikipedia.org/wiki/Volume_boot_record) (VBR) of each partition. For in-depth knowledge, refer to the [MBR Wikipedia page](https://en.wikipedia.org/wiki/Master_boot_record).
 
 ## References
 * [https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/](https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/)

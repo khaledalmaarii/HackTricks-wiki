@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -78,7 +78,6 @@ Other ways to support HackTricks:
 * [ ] Can you **write in any folder inside PATH**?
 * [ ] Is there any known service binary that **tries to load any non-existant DLL**?
 * [ ] Can you **write** in any **binaries folder**?
-
 ### [Network](windows-local-privilege-escalation/#network)
 
 * [ ] Enumerate the network (shares, interfaces, routes, neighbours, ...)

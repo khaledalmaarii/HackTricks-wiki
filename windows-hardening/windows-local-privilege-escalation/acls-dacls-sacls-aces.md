@@ -3,7 +3,7 @@
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) vItlhutlh 'ej **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -24,9 +24,9 @@ Other ways to support HackTricks:
 
 ## **Access Control List (ACL)**
 
-An Access Control List (ACL) consists of an ordered set of Access Control Entries (ACEs) that dictate the protections for an object and its properties. In essence, an ACL defines which actions by which security principals (users or groups) are permitted or denied on a given object.
+ghItlhvam Access Control List (ACL) consists of an ordered set of Access Control Entries (ACEs) that dictate the protections for an object and its properties. In essence, an ACL defines which actions by which security principals (users or groups) are permitted or denied on a given object.
 
-There are two types of ACLs:
+Duj lo'laHbe'chugh ACLmey:
 
 - **Discretionary Access Control List (DACL):** Specifies which users and groups have or do not have access to an object.
 - **System Access Control List (SACL):** Governs the auditing of access attempts to an object.
@@ -36,7 +36,7 @@ The process of accessing a file involves the system checking the object's securi
 ### **Key Components**
 
 - **DACL:** Contains ACEs that grant or deny access permissions to users and groups for an object. It's essentially the main ACL that dictates access rights.
-  
+
 - **SACL:** Used for auditing access to objects, where ACEs define the types of access to be logged in the Security Event Log. This can be invaluable for detecting unauthorized access attempts or troubleshooting access issues.
 
 ### **System Interaction with ACLs**
@@ -76,7 +76,7 @@ Access determination is conducted by sequentially examining each ACE until:
 
 ### Order of ACEs
 
-The way **ACEs** (rules that say who can or cannot access something) are put in a list called **DACL** is very important. This is because once the system gives or denies access based on these rules, it stops looking at the rest. 
+The way **ACEs** (rules that say who can or cannot access something) are put in a list called **DACL** is very important. This is because once the system gives or denies access based on these rules, it stops looking at the rest.
 
 There is a best way to organize these ACEs, and it is called **"canonical order."** This method helps make sure everything works smoothly and fairly. Here is how it goes for systems like **Windows 2000** and **Windows Server 2003**:
 
@@ -99,108 +99,26 @@ So, this **"canonical order"** is all about making sure the access rules are cle
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) vItlhutlh 'ej **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
 ### GUI Example
 
 **[Example from here](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)**
 
-This is the classic security tab of a folder showing the ACL, DACL and ACEs:
+**QaQ** vItlhutlhla' **ghItlh** pagh **Advanced button** vItlhutlh:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/classicsectab.jpg](../../.gitbook/assets/classicsectab.jpg)
 
-If we click the **Advanced button** we will get more options like inheritance:
-
-![http://secureidentity.se/wp-content/uploads/2014/04/aceinheritance.jpg](../../.gitbook/assets/aceinheritance.jpg)
-
-And if you add or edit a Security Principal:
+'ej **Security Principal** chelwI' vItlhutlh:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/editseprincipalpointers1.jpg](../../.gitbook/assets/editseprincipalpointers1.jpg)
 
-And last we have the SACL in the Auditing tab:
+'ej **SACL** Auditing pagh:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/audit-tab.jpg](../../.gitbook/assets/audit-tab.jpg)
 
-### Explaining Access Control in a Simplified Manner
+### Access Control jatlh
 
-When managing access to resources, like a folder, we use lists and rules known as Access Control Lists (ACLs) and Access Control Entries (ACEs). These define who can or cannot access certain data.
-
-#### Denying Access to a Specific Group
-
-Imagine you have a folder named Cost, and you want everyone to access it except for a marketing team. By setting up the rules correctly, we can ensure that the marketing team is explicitly denied access before allowing everyone else. This is done by placing the rule to deny access to the marketing team before the rule that allows access to everyone. 
-
-#### Allowing Access to a Specific Member of a Denied Group
-
-Let's say Bob, the marketing director, needs access to the Cost folder, even though the marketing team generally shouldn't have access. We can add a specific rule (ACE) for Bob that grants him access, and place it before the rule that denies access to the marketing team. This way, Bob gets access despite the general restriction on his team.
-
-#### Understanding Access Control Entries
-
-ACEs are the individual rules in an ACL. They identify users or groups, specify what access is allowed or denied, and determine how these rules apply to sub-items (inheritance). There are two main types of ACEs:
-
-- **Generic ACEs**: These apply broadly, affecting either all types of objects or distinguishing only between containers (like folders) and non-containers (like files). For example, a rule that allows users to see the contents of a folder but not to access the files within it.
-
-- **Object-Specific ACEs**: These provide more precise control, allowing rules to be set for specific types of objects or even individual properties within an object. For instance, in a directory of users, a rule might allow a user to update their phone number but not their login hours.
-
-Each ACE contains important information like who the rule applies to (using a Security Identifier or SID), what the rule allows or denies (using an access mask), and how it's inherited by other objects.
-
-#### Key Differences Between ACE Types
-
-- **Generic ACEs** are suitable for simple access control scenarios, where the same rule applies to all aspects of an object or to all objects within a container.
-
-- **Object-Specific ACEs** are used for more complex scenarios, especially in environments like Active Directory, where you might need to control access to specific properties of an object differently.
-
-In summary, ACLs and ACEs help define precise access controls, ensuring that only the right individuals or groups have access to sensitive information or resources, with the ability to tailor access rights down to the level of individual properties or object types.
-
-### Access Control Entry Layout
-
-| ACE Field   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Type        | Flag that indicates the type of ACE. Windows 2000 and Windows Server 2003 support six types of ACE: Three generic ACE types that are attached to all securable objects. Three object-specific ACE types that can occur for Active Directory objects.                                                                                                                                                                                                                                                            |
-| Flags       | Set of bit flags that control inheritance and auditing.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Size        | Number of bytes of memory that are allocated for the ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Access mask | 32-bit value whose bits correspond to access rights for the object. Bits can be set either on or off, but the setting's meaning depends on the ACE type. For example, if the bit that corresponds to the right to read permissions is turned on, and the ACE type is Deny, the ACE denies the right to read the object's permissions. If the same bit is set on but the ACE type is Allow, the ACE grants the right to read the object's permissions. More details of the Access mask appear in the next table. |
-| SID         | Identifies a user or group whose access is controlled or monitored by this ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-
-### Access Mask Layout
-
-| Bit (Range) | Meaning                            | Description/Example                       |
-| ----------- | ---------------------------------- | ----------------------------------------- |
-| 0 - 15      | Object Specific Access Rights      | Read data, Execute, Append data           |
-| 16 - 22     | Standard Access Rights             | Delete, Write ACL, Write Owner            |
-| 23          | Can access security ACL            |                                           |
-| 24 - 27     | Reserved                           |                                           |
-| 28          | Generic ALL (Read, Write, Execute) | Everything below                          |
-| 29          | Generic Execute                    | All things necessary to execute a program |
-| 30          | Generic Write                      | All things necessary to write to a file   |
-| 31          | Generic Read                       | All things necessary to read a file       |
-
-## References
-
-* [https://www.ntfs.com/ntfs-permissions-acl-use.htm](https://www.ntfs.com/ntfs-permissions-acl-use.htm)
-* [https://secureidentity.se/acl-dacl-sacl-and-the-ace/](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
-* [https://www.coopware.in2.info/_ntfsacl_ht.htm](https://www.coopware.in2.info/_ntfsacl_ht.htm)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+ghItlh resources, 'ej folder, jatlhmeH lists 'ej rules, 'ej Access Control Lists (ACLs) 'ej Access Control Entries (ACEs) jatlh. cha'logh vItlhutlh vay' Data vay' vItlhutlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatlhmeH jatl

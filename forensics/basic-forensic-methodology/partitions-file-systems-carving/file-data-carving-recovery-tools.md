@@ -1,8 +1,6 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks AWS Red Team Expert</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -35,42 +33,42 @@ The most common tool used in forensics to extract files from images is [**Autops
 **Binwalk** is a tool for analyzing binary files to find embedded content. It's installable via `apt` and its source is on [GitHub](https://github.com/ReFirmLabs/binwalk).
 
 **Useful commands**:
-
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
 binwalk -e file #Displays and extracts some files from the given file
 binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
-
 ## Foremost
 
-Another common tool to find hidden files is **foremost**. You can find the configuration file of foremost in `/etc/foremost.conf`. If you just want to search for some specific files uncomment them. If you don't uncomment anything foremost will search for its default configured file types.
-
+**Foremost** jatlhlaHbe'chugh vItlhutlh. **Foremost** DaH jatlhlaHbe'chugh vItlhutlh `/etc/foremost.conf` DaH. vaj vItlhutlh 'ejatlhlaHbe'chugh vItlhutlh vItlhutlh. vaj vItlhutlh 'ejatlhlaHbe'chugh vItlhutlh vItlhutlh.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
 #Discovered files will appear inside the folder "output"
 ```
-
 ## **Scalpel**
 
-**Scalpel** is another tool that can be used to find and extract **files embedded in a file**. In this case, you will need to uncomment from the configuration file (_/etc/scalpel/scalpel.conf_) the file types you want it to extract.
-
+**Scalpel** vItlhutlh is another tool that can be used to find and extract **files embedded in a file**. In this case, you will need to uncomment from the configuration file (_/etc/scalpel/scalpel.conf_) the file types you want it to extract.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
 ```
-
 ## Bulk Extractor
 
 This tool comes inside kali but you can find it here: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
 This tool can scan an image and will **extract pcaps** inside it, **network information (URLs, domains, IPs, MACs, mails)** and more **files**. You only have to do:
 
+## Bulk Extractor
+
+vaj tlhIngan Hol vItlhutlh: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+
+vaj tlhIngan Hol vItlhutlh vItlhutlh scan 'ej **pcaps** vItlhutlh, **network information (URLs, domains, IPs, MACs, mails)** 'ej **files** vItlhutlh. bIquv, bIjatlh:
 ```
 bulk_extractor memory.img -o out_folder
 ```
+**tlhIngan Hol**:
 
 Navigate through **all the information** that the tool has gathered (passwords?), **analyse** the **packets** (read[ **Pcaps analysis**](../pcap-inspection/)), search for **weird domains** (domains related to **malware** or **non-existent**).
 
@@ -132,5 +130,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

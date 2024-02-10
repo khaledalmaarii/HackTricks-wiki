@@ -52,35 +52,33 @@ Obtaining firmware can be approached through various means, each with its own le
 ## Analyzing the firmware
 
 Now that you **have the firmware**, you need to extract information about it to know how to treat it. Different tools you can use for that:
-
 ```bash
-file <bin>  
-strings -n8 <bin> 
+file <bin>
+strings -n8 <bin>
 strings -tx <bin> #print offsets in hex
-hexdump -C -n 512 <bin> > hexdump.out  
+hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
+**ghItlhvam**: 
+vaj vItlhutlh **tools** Hoch **entropy** 'e' vItlhutlh **image** vItlhutlh 'e' **binwalk -E <bin>'**. vaj, **entropy** Hoch, 'ach vItlhutlh, 'ach vItlhutlh (qatlh compressed) vItlhutlh.
 
-If you don't find much with those tools check the **entropy** of the image with `binwalk -E <bin>`, if low entropy, then it's not likely to be encrypted. If high entropy, Its likely encrypted (or compressed in some way).
-
-Moreover, you can use these tools to extract **files embedded inside the firmware**:
+**vaj**, vItlhutlh **files embedded** vItlhutlh **firmware** vaj vItlhutlh **tools** Hoch vItlhutlh:
 
 {% content-ref url="../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-Or [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) to inspect the file.
+'ej [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) vItlhutlh **file**.
 
-### Getting the Filesystem
+### **Filesystem** vItlhutlh
 
-With the previous commented tools like `binwalk -ev <bin>` you should have been able to **extract the filesystem**.\
-Binwalk usually extracts it inside a **folder named as the filesystem type**, which usually is one of the following: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
+vaj **tools** Hoch vItlhutlh **binwalk -ev <bin>'** vItlhutlh **filesystem**.\
+Binwalk usually vItlhutlh **folder** Hoch **filesystem type** vItlhutlh, 'ej Hoch vItlhutlh: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
 
-#### Manual Filesystem Extraction
+#### **Manual Filesystem Extraction**
 
-Sometimes, binwalk will **not have the magic byte of the filesystem in its signatures**. In these cases, use binwalk to **find the offset of the filesystem and carve the compressed filesystem** from the binary and **manually extract** the filesystem according to its type using the steps below.
-
+vaj, binwalk vItlhutlh **magic byte** vItlhutlh **filesystem** vaj **signatures**. vaj, binwalk vItlhutlh **offset** vItlhutlh **filesystem** 'ej vItlhutlh **compressed filesystem** vaj binary 'ej vItlhutlh **filesystem** according vItlhutlh **type** Hoch vItlhutlh **steps**.
 ```
 $ binwalk DIR850L_REVB.bin
 
@@ -92,11 +90,9 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-
-Run the following **dd command** carving the Squashfs filesystem.
-
+**dd command**-'e' vItlhutlh 'Squashfs' filesystem carving vItlhutlh.
 ```
-$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs 
+$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536+0 records in
 
@@ -104,68 +100,51 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536 bytes (8.3 MB, 7.9 MiB) copied, 12.5777 s, 657 kB/s
 ```
-
-Alternatively, the following command could also be run.
+Alternativ, 'oH vItlhutlh.
 
 `$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
-* For squashfs (used in the example above)
+* squashfs (DaH jatlh)
 
 `$ unsquashfs dir.squashfs`
 
-Files will be in "`squashfs-root`" directory afterwards.
+puS "squashfs-root" qachDaq.
 
 * CPIO archive files
 
 `$ cpio -ivd --no-absolute-filenames -F <bin>`
 
-* For jffs2 filesystems
+* jffs2 filesystems
 
 `$ jefferson rootfsfile.jffs2`
 
-* For ubifs filesystems with NAND flash
+* ubifs filesystems with NAND flash
 
 `$ ubireader_extract_images -u UBI -s <start_offset> <bin>`
 
 `$ ubidump.py <bin>`
 
 
-## Analyzing Firmware
+## Firmware jop
 
-Once the firmware is obtained, it's essential to dissect it for understanding its structure and potential vulnerabilities. This process involves utilizing various tools to analyze and extract valuable data from the firmware image.
-
-### Initial Analysis Tools
-
-A set of commands is provided for initial inspection of the binary file (referred to as `<bin>`). These commands help in identifying file types, extracting strings, analyzing binary data, and understanding the partition and filesystem details:
-
+Firmware jop, vItlhutlh, 'e' vItlhutlh'e'. 'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhut
 ```bash
-file <bin>  
-strings -n8 <bin> 
+file <bin>
+strings -n8 <bin>
 strings -tx <bin> #prints offsets in hexadecimal
-hexdump -C -n 512 <bin> > hexdump.out  
+hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head #useful for finding signatures in the header
 fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
 ```
-
-To assess the encryption status of the image, the **entropy** is checked with `binwalk -E <bin>`. Low entropy suggests a lack of encryption, while high entropy indicates possible encryption or compression.
-
-For extracting **embedded files**, tools and resources like the **file-data-carving-recovery-tools** documentation and **binvis.io** for file inspection are recommended.
-
-### Extracting the Filesystem
-
-Using `binwalk -ev <bin>`, one can usually extract the filesystem, often into a directory named after the filesystem type (e.g., squashfs, ubifs). However, when **binwalk** fails to recognize the filesystem type due to missing magic bytes, manual extraction is necessary. This involves using `binwalk` to locate the filesystem's offset, followed by the `dd` command to carve out the filesystem:
-
+### ᓴᒪᔪᑦ ᐊᖃᓴᐅᔭᖅᑕᐅᔪᖅ ᐊᖃᓴᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕᐅᔪᖅᑕ
 ```bash
 $ binwalk DIR850L_REVB.bin
 
-$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs 
+$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 ```
-
-Afterwards, depending on the filesystem type (e.g., squashfs, cpio, jffs2, ubifs), different commands are used to manually extract the contents.
-
 ### Filesystem Analysis
 
-With the filesystem extracted, the search for security flaws begins. Attention is paid to insecure network daemons, hardcoded credentials, API endpoints, update server functionalities, uncompiled code, startup scripts, and compiled binaries for offline analysis.
+**Filesystem Analysis**:
 
 **Key locations** and **items** to inspect include:
 
@@ -196,20 +175,14 @@ For examining single programs, identifying the program's endianness and CPU arch
 #### Example with MIPS Architecture
 
 To emulate a MIPS architecture binary, one can use the command:
-
 ```bash
 file ./squashfs-root/bin/busybox
 ```
-
-And to install the necessary emulation tools:
-
+ghItlh 'ej vItlhutlh 'e' vItlhutlh.
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
-
-For MIPS (big-endian), `qemu-mips` is used, and for little-endian binaries, `qemu-mipsel` would be the choice.
-
-#### ARM Architecture Emulation
+### ARM Architecture Emulation
 
 For ARM binaries, the process is similar, with the `qemu-arm` emulator being utilized for emulation.
 
@@ -243,17 +216,17 @@ Operating systems like [AttifyOS](https://github.com/adi0x90/attifyos) and [Embe
 To practice discovering vulnerabilities in firmware, use the following vulnerable firmware projects as a starting point.
 
 * OWASP IoTGoat
-  * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
+* [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
 * The Damn Vulnerable Router Firmware Project
-  * [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
+* [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
 * Damn Vulnerable ARM Router (DVAR)
-  * [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
+* [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
 * ARM-X
-  * [https://github.com/therealsaumil/armx#downloads](https://github.com/therealsaumil/armx#downloads)
+* [https://github.com/therealsaumil/armx#downloads](https://github.com/therealsaumil/armx#downloads)
 * Azeria Labs VM 2.0
-  * [https://azeria-labs.com/lab-vm-2-0/](https://azeria-labs.com/lab-vm-2-0/)
+* [https://azeria-labs.com/lab-vm-2-0/](https://azeria-labs.com/lab-vm-2-0/)
 * Damn Vulnerable IoT Device (DVID)
-  * [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
+* [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
 
 ## References
 

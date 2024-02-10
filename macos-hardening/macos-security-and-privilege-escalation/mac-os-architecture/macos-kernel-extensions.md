@@ -35,11 +35,11 @@ Obviously, this is so powerful that it is **complicated to load a kernel extensi
 In Catalina it was like this: It is interesting to note that the **verification** process occurs in **userland**. However, only applications with the **`com.apple.private.security.kext-management`** grant can **request the kernel to load an extension**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
 1. **`kextutil`** cli **starts** the **verification** process for loading an extension
-   * It will talk to **`kextd`** by sending using a **Mach service**.
+* It will talk to **`kextd`** by sending using a **Mach service**.
 2. **`kextd`** will check several things, such as the **signature**
-   * It will talk to **`syspolicyd`** to **check** if the extension can be **loaded**.
+* It will talk to **`syspolicyd`** to **check** if the extension can be **loaded**.
 3. **`syspolicyd`** will **prompt** the **user** if the extension has not been previously loaded.
-   * **`syspolicyd`** will report the result to **`kextd`**
+* **`syspolicyd`** will report the result to **`kextd`**
 4. **`kextd`** will finally be able to **tell the kernel to load** the extension
 
 If **`kextd`** is not available, **`kextutil`** can perform the same checks.

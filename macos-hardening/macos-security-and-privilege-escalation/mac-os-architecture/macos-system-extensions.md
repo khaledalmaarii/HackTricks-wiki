@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks AWS Red Team Expert</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -78,14 +78,12 @@ ESF is used by security tools that will try to detect a red teamer, so any infor
 ### CVE-2021-30965
 
 The thing is that the security application needs to have **Full Disk Access permissions**. So if an attacker could remove that, he could prevent the software from running:
-
 ```bash
 tccutil reset All
 ```
+**QaStaHvIS** **chep** **bI'reS** **'ej** **related** **bI'reS** **check** **talk** [#OBTS v5.0: "The Achilles Heel of EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
 
-For **more information** about this bypass and related ones check the talk [#OBTS v5.0: "The Achilles Heel of EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
-
-At the end this was fixed by giving the new permission **`kTCCServiceEndpointSecurityClient`** to the security app managed by **`tccd`** so `tccutil` won't clear its permissions preventing it from running.
+**DaH** **bI'reS** **fixed** **'ej** **permission** **new** **`kTCCServiceEndpointSecurityClient`** **security** **app** **managed** **`tccd`** **so** `tccutil` **won't** **clear** **permissions** **preventing** **running**.
 
 ## References
 

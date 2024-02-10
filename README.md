@@ -5,7 +5,7 @@
 _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Welcome to the wiki where you will find each hacking trick/technique/whatever I have learnt from CTFs, real life apps, reading researches, and news.**
+**Qapla'! Qa'vamDI' wiki vItlhutlh Hoch hacking trick/technique/whatever jatlh CTFs, real life apps, reading researches, je news.**
 {% endhint %}
 
 To get started follow this page where you will find the **typical flow** that **you should follow when pentesting** one or more **machines:**
@@ -24,7 +24,7 @@ _Your company could be here._
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) is a great cybersecurity company whose slogan is **HACK THE UNHACKABLE**. They perform their own research and develop their own hacking tools to **offer several valuable cybersecurity services** like pentesting, Red teams and training.
+[**STM Cyber**](https://www.stmcyber.com) is a great cybersecurity company whose slogan is **HACK THE UNHACKABLE**. They perform their own research and develop their own hacking tools to **offer several valuable cybersecurity services** like pentesting, Red teams je training.
 
 You can check their **blog** in [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
@@ -34,7 +34,7 @@ You can check their **blog** in [**https://blog.stmcyber.com**](https://blog.stm
 
 <figure><img src=".gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com) is the most relevant cybersecurity event in **Spain** je one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology je cybersecurity professionals in every discipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -42,9 +42,9 @@ You can check their **blog** in [**https://blog.stmcyber.com**](https://blog.stm
 
 <figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** is the **Europe's #1** ethical hacking and **bug bounty platform.**
+**Intigriti** is the **Europe's #1** ethical hacking je **bug bounty platform.**
 
-**Bug bounty tip**: **sign up** for **Intigriti**, a premium **bug bounty platform created by hackers, for hackers**! Join us at [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) today, and start earning bounties up to **$100,000**!
+**Bug bounty tip**: **sign up** for **Intigriti**, a premium **bug bounty platform created by hackers, for hackers**! Join us at [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) today, je start earning bounties up to **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -53,7 +53,7 @@ You can check their **blog** in [**https://blog.stmcyber.com**](https://blog.stm
 <figure><img src=".gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build je **automate workflows** powered by the world's **most advanced** community tools.
 
 Get Access Today:
 
@@ -65,11 +65,11 @@ Get Access Today:
 
 Stay a step ahead in the cybersecurity game.
 
-[**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) makes vulnerability management easy. Keep track of your attack surface, see where your company is vulnerable, and prioritize issues that leave your systems most exposed so you can focus on what matters most.
+[**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) makes vulnerability management easy. Keep track of your attack surface, see where your company is vulnerable, je prioritize issues that leave your systems most exposed so you can focus on what matters most.
 
-Run thousands of checks with a single platform that covers your entire tech stack from internal infrastructure to web apps, APIs and cloud systems. Integrate seamlessly with [AWS, GCP, Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) and streamline DevOps so your team can implement fixes faster.
+Run thousands of checks with a single platform that covers your entire tech stack from internal infrastructure to web apps, APIs je cloud systems. Integrate seamlessly with [AWS, GCP, Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) je streamline DevOps so your team can implement fixes faster.
 
-Intruder never rests. Round-the-clock protection monitors your systems 24/7. Want to learn more? Visit their site and take it for a spin with [**a free trial**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
+Intruder never rests. Round-the-clock protection monitors your systems 24/7. Want to learn more? Visit their site je take it for a spin with [**a free trial**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -77,18 +77,18 @@ Intruder never rests. Round-the-clock protection monitors your systems 24/7. Wan
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers je bug bounty hunters!
 
 **Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+Engage with content that delves into the thrill je challenges of hacking
 
 **Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+Keep up-to-date with fast-paced hacking world through real-time news je insights
 
 **Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+Stay informed with the newest bug bounties launching je crucial platform updates
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) je start collaborating with top hackers today!
 
 ***
 
@@ -96,7 +96,7 @@ Stay informed with the newest bug bounties launching and crucial platform update
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Instantly available setup for vulnerability assessment & penetration testing**. Run a full pentest from anywhere with 20+ tools & features that go from recon to reporting. We don't replace pentesters - we develop custom tools, detection & exploitation modules to give them back some time to dig deeper, pop shells, and have fun.
+**Instantly available setup for vulnerability assessment & penetration testing**. Run a full pentest from anywhere with 20+ tools & features that go from recon to reporting. We don't replace pentesters - we develop custom tools, detection & exploitation modules to give them back some time to dig deeper, pop shells, je have fun.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -106,14 +106,13 @@ Stay informed with the newest bug bounties launching and crucial platform update
 
 [**WebSec**](https://websec.nl) is a professional cybersecurity company based in **Amsterdam** which helps **protecting** businesses **all over the world** against the latest cybersecurity threats by providing **offensive-security services** with a **modern** approach.
 
-WebSec is an **all-in-one security company** which means they do it all; Pentesting, **Security** Audits, Awareness Trainings, Phishing Campagnes, Code Review, Exploit Development, Security Experts Outsourcing and much more.
+WebSec is an **all-in-one security company** which means they do it all; Pentesting, **Security** Audits, Awareness Trainings, Phishing Campagnes, Code Review, Exploit Development, Security Experts Outsourcing je much more.
 
-Another cool thing about WebSec is that unlike the industry average WebSec is **very confident in their skills**, to such an extent that they **guarantee the best quality results**, it states on their website "**If we can't hack it, You don't pay it!**". For more info take a look at their [**website**](https://websec.nl/en/) and [**blog**](https://websec.nl/blog/)!
+Another cool thing about WebSec is that unlike the industry average WebSec is **very confident in their skills**, to such an extent that they **guarantee the best quality results**, it states on their website "**If we can't hack it, You don't pay it!**". For more info take a look at their [**website**](https://websec.nl/en/) je [**blog**](https://websec.nl/blog/)!
 
 In addition to the above WebSec is also a **committed supporter of HackTricks.**
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
-
 ## License & Disclaimer
 
 **Check them in:**

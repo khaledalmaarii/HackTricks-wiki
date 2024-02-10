@@ -28,7 +28,7 @@ Other ways to support HackTricks:
 
 ### **Access Time Tracking**
 - By default, the last access time tracking is turned off (**`NtfsDisableLastAccessUpdate=1`**). To enable it, use:
-  `fsutil behavior set disablelastaccess 0`
+`fsutil behavior set disablelastaccess 0`
 
 ### Windows Versions and Service Packs
 - The **Windows version** indicates the edition (e.g., Home, Pro) and its release (e.g., Windows 10, Windows 11), while **Service Packs** are updates that include fixes and, sometimes, new features.

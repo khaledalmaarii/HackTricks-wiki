@@ -1,22 +1,22 @@
-# Other Web Tricks
+# QaDaj QaD
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>QaDaj AWS hacking vItlhutlhlaH</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks vItlhutlhlaH vItlhutlhlaH:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* QaDaj **company advertised in HackTricks** bejatlhqa' 'ej **HackTricks in PDF** download Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) ghaH 'ej ghaH.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) Discover, [**NFTs**](https://opensea.io/collection/the-peass-family) collection of our exclusive.
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) 'ej [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) 'ej [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ### Host header
 
-Several times the back-end trust the **Host header** to perform some actions. For example, it could use its value as the **domain to send a password reset**. So when you receive an email with a link to reset your password, the domain being used is the one you put in the Host header.Then, you can request the password reset of other users and change the domain to one controlled by you to steal their password reset codes. [WriteUp](https://medium.com/nassec-cybersecurity-writeups/how-i-was-able-to-take-over-any-users-account-with-host-header-injection-546fff6d0f2).
+**Host header** vItlhutlhlaH back-end pagh vItlhutlhlaH vay' **actions**. pIqaD, **domain to send a password reset** vItlhutlhlaH. So, password reset link email vItlhutlhlaH, domain vItlhutlhlaH Host header. vaj, password reset vItlhutlhlaH users 'ej 'ej password reset codes steal vItlhutlhlaH domain controlled by you to one change. [WriteUp](https://medium.com/nassec-cybersecurity-writeups/how-i-was-able-to-take-over-any-users-account-with-host-header-injection-546fff6d0f2).
 
 {% hint style="warning" %}
 Note that it's possible that you don't even need to wait for the user to click on the reset password link to get the token, as maybe even **spam filters or other intermediary devices/bots will click on it to analyze it**.
@@ -48,14 +48,14 @@ Developers might forget to disable various debugging options in the production e
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>QaDaj AWS hacking vItlhutlhlaH</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks vItlhutlhlaH vItlhutlhlaH:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* QaDaj **company advertised in HackTricks** bejatlhqa' 'ej **HackTricks in PDF** download Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) ghaH 'ej ghaH.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) Discover, [**NFTs**](https://opensea.io/collection/the-peass-family) collection of our exclusive.
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) 'ej [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) 'ej [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

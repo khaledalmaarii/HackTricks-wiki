@@ -3,7 +3,7 @@
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) **ghItlh** **automate workflows** **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -27,14 +27,11 @@ Other ways to support HackTricks:
 ### Basic Information
 
 First of all, it's recommended to have some **USB** with **good known binaries and libraries on it** (you can just get ubuntu and copy the folders _/bin_, _/sbin_, _/lib,_ and _/lib64_), then mount the USB, and modify the env variables to use those binaries:
-
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
 ```
-
-Once you have configured the system to use good and known binaries you can start **extracting some basic information**:
-
+**DaH jImej** vItlhutlh **yIlo'** **SuvwI'** **ghItlh** **'ej** **Dochmey** **jatlh** **ghItlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh** **'ej** **vItlhutlh** **'e'** **vItlhutlh
 ```bash
 date #Date and time (Clock may be skewed, Might be at a different timezone)
 uname -a #OS info
@@ -52,7 +49,6 @@ cat /etc/passwd #Unexpected data?
 cat /etc/shadow #Unexpected data?
 find /directory -type f -mtime -1 -print #Find modified files during the last minute in the directory
 ```
-
 #### Suspicious information
 
 While obtaining the basic information you should check for weird things like:
@@ -72,17 +68,15 @@ Remember that you **cannot install LiME or any other thing** in the victim machi
 
 So, if you have an identical version of Ubuntu you can use `apt-get install lime-forensics-dkms`\
 In other cases, you need to download [**LiME**](https://github.com/504ensicsLabs/LiME) from github and compile it with correct kernel headers. To **obtain the exact kernel headers** of the victim machine, you can just **copy the directory** `/lib/modules/<kernel version>` to your machine, and then **compile** LiME using them:
-
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
 ```
-
 LiME supports 3 **formats**:
 
 * Raw (every segment concatenated together)
 * Padded (same as raw, but with zeroes in right bits)
-* Lime (recommended format with metadata
+* Lime (recommended format with metadata)
 
 LiME can also be used to **send the dump via network** instead of storing it on the system using something like: `path=tcp:4444`
 
@@ -96,7 +90,6 @@ There are **2 ways** of shutting down the system, a **normal shutdown** and a **
 #### Taking an image of the disk
 
 It's important to note that **before connecting your computer to anything related to the case**, you need to be sure that it's going to be **mounted as read only** to avoid modifying any information.
-
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -105,35 +98,37 @@ dd if=<subject device> of=<image file> bs=512
 dcfldd if=<subject device> of=<image file> bs=512 hash=<algorithm> hashwindow=<chunk size> hashlog=<hash file>
 dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/media/usb/pc.hashes
 ```
-
 ### Disk Image pre-analysis
 
 Imaging a disk image with no more data.
 
+### Disk Image pre-analysis
+
+Imaging a disk image with no more data.
 ```bash
 #Find out if it's a disk image using "file" command
-file disk.img 
+file disk.img
 disk.img: Linux rev 1.0 ext4 filesystem data, UUID=59e7a736-9c90-4fab-ae35-1d6a28e5de27 (extents) (64bit) (large files) (huge files)
 
 #Check which type of disk image it's
-img_stat -t evidence.img 
+img_stat -t evidence.img
 raw
 #You can list supported types with
 img_stat -i list
 Supported image format types:
-        raw (Single or split raw file (dd))
-        aff (Advanced Forensic Format)
-        afd (AFF Multiple File)
-        afm (AFF with external metadata)
-        afflib (All AFFLIB image formats (including beta ones))
-        ewf (Expert Witness Format (EnCase))
+raw (Single or split raw file (dd))
+aff (Advanced Forensic Format)
+afd (AFF Multiple File)
+afm (AFF with external metadata)
+afflib (All AFFLIB image formats (including beta ones))
+ewf (Expert Witness Format (EnCase))
 
 #Data of the image
-fsstat -i raw -f ext4 disk.img 
+fsstat -i raw -f ext4 disk.img
 FILE SYSTEM INFORMATION
 --------------------------------------------
 File System Type: Ext4
-Volume Name: 
+Volume Name:
 Volume ID: 162850f203fd75afab4f1e4736a7e776
 
 Last Written at: 2020-02-06 06:22:48 (UTC)
@@ -162,42 +157,40 @@ r/r 16: secret.txt
 icat -i raw -f ext4 disk.img 16
 ThisisTheMasterSecret
 ```
-
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) vIleghlaHchugh **automate workflows** powered by the world's **most advanced** community tools.\
+Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Search for known Malware
+## Malware patlh
 
-### Modified System Files
+### tIq System Files
 
-Linux offers tools for ensuring the integrity of system components, crucial for spotting potentially problematic files. 
+Linux tools vItlhutlh integrity of system components, potentially problematic files vItlhutlh.
 
-- **RedHat-based systems**: Use `rpm -Va` for a comprehensive check.
-- **Debian-based systems**: `dpkg --verify` for initial verification, followed by `debsums | grep -v "OK$"` (after installing `debsums` with `apt-get install debsums`) to identify any issues.
+- **RedHat-based systems**: `rpm -Va` vItlhutlh.
+- **Debian-based systems**: `dpkg --verify` vItlhutlh, `debsums | grep -v "OK$"` (install `debsums` with `apt-get install debsums`) vItlhutlh.
 
 ### Malware/Rootkit Detectors
 
-Read the following page to learn about tools that can be useful to find malware:
+Malware patlh tools vItlhutlh:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
 {% endcontent-ref %}
 
-## Search installed programs
+## patlh installed programs
 
-To effectively search for installed programs on both Debian and RedHat systems, consider leveraging system logs and databases alongside manual checks in common directories. 
+Debian je RedHat systems patlh installed programs vItlhutlh, system logs je databases vItlhutlh, common directories manual checks vItlhutlh.
 
-- For Debian, inspect **_`/var/lib/dpkg/status`_** and **_`/var/log/dpkg.log`_** to fetch details about package installations, using `grep` to filter for specific information. 
+- Debian, **_`/var/lib/dpkg/status`_** je **_`/var/log/dpkg.log`_** vItlhutlh, `grep` vItlhutlh.
 
-- RedHat users can query the RPM database with `rpm -qa --root=/mntpath/var/lib/rpm` to list installed packages. 
+- RedHat users, `rpm -qa --root=/mntpath/var/lib/rpm` vItlhutlh.
 
-To uncover software installed manually or outside of these package managers, explore directories like **_`/usr/local`_**, **_`/opt`_**, **_`/usr/sbin`_**, **_`/usr/bin`_**, **_`/bin`_**, and **_`/sbin`_**. Combine directory listings with system-specific commands to identify executables not associated with known packages, enhancing your search for all installed programs.
-
+Software installed manually je package managers vItlhutlh, **_`/usr/local`_**, **_`/opt`_**, **_`/usr/sbin`_**, **_`/usr/bin`_**, **_`/bin`_**, je **_`/sbin`_** directories vItlhutlh. Directory listings je system-specific commands vItlhutlh, executables not associated with known packages vItlhutlh.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -213,30 +206,37 @@ find /sbin/ –exec rpm -qf {} \; | grep "is not"
 # Find exacuable files
 find / -type f -executable | grep <something>
 ```
-
-
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) vIghoSmoH **automate workflows** powered by the world's **most advanced** community tools.\
+Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Recover Deleted Running Binaries
 
-Imagina a process taht was executed from /tmp/exec and deleted. It's possible to extract it
-
+/tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec vItlhutlhlaHbe'chugh /tmp/exec
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
 dd if=mem bs=1 skip=08048000 count=1000 of=/tmp/exec2 #Recorver it
 ```
+### Inspect Autostart locations
 
-## Inspect Autostart locations
+#### Scheduled Tasks
 
-### Scheduled Tasks
+Klingon Translation:
 
+### qawHaq QaDmey
+
+#### QaDmey Daq yIlo' law' HochDIch
+
+HTML Translation:
+
+<h3>qawHaq QaDmey</h3>
+
+<h4>QaDmey Daq yIlo' law' HochDIch</h4>
 ```bash
 cat /var/spool/cron/crontabs/*  \
 /var/spool/cron/atjobs \
@@ -250,10 +250,9 @@ cat /var/spool/cron/crontabs/*  \
 #MacOS
 ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Library/LaunchAgents/
 ```
-
 ### Services
 
-Paths where a malware could be isntalled as a service:
+Paths where a malware could be installed as a service:
 
 - **/etc/inittab**: Calls initialization scripts like rc.sysinit, directing further to startup scripts.
 - **/etc/rc.d/** and **/etc/rc.boot/**: Contain scripts for service startup, the latter being found in older Linux versions.
@@ -288,7 +287,7 @@ Linux systems track user activities and system events through various log files.
 
 - **/var/log/syslog** (Debian) or **/var/log/messages** (RedHat): Capture system-wide messages and activities.
 - **/var/log/auth.log** (Debian) or **/var/log/secure** (RedHat): Record authentication attempts, successful and failed logins.
-  - Use `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` to filter relevant authentication events.
+- Use `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` to filter relevant authentication events.
 - **/var/log/boot.log**: Contains system startup messages.
 - **/var/log/maillog** or **/var/log/mail.log**: Logs email server activities, useful for tracking email-related services.
 - **/var/log/kern.log**: Stores kernel messages, including errors and warnings.
@@ -316,14 +315,14 @@ Linux system logs and audit subsystems may be disabled or deleted in an intrusio
 
 Moreover, the `last -Faiwx` command provides a list of user logins. Check it for unknown or unexpected logins.
 
-Check files that can grant extra rprivileges:
+Check files that can grant extra privileges:
 
 - Review `/etc/sudoers` for unanticipated user privileges that may have been granted.
 - Review `/etc/sudoers.d/` for unanticipated user privileges that may have been granted.
 - Examine `/etc/groups` to identify any unusual group memberships or permissions.
 - Examine `/etc/passwd` to identify any unusual group memberships or permissions.
 
-Some apps alse generates its own logs:
+Some apps also generate their own logs:
 
 - **SSH**: Examine _~/.ssh/authorized_keys_ and _~/.ssh/known_hosts_ for unauthorized remote connections.
 - **Gnome Desktop**: Look into _~/.recently-used.xbel_ for recently accessed files via Gnome applications.
@@ -342,14 +341,21 @@ Some apps alse generates its own logs:
 It is interesting to **know all the USBs that have been used** and it will be more useful if you have an authorized list of USBs to find "violation events" (the use of USBs that aren't inside that list).
 
 ### Installation
-
 ```bash
 pip3 install usbrip
 usbrip ids download #Download USB ID database
 ```
+### MughwI'pu' 
 
-### Examples
+#### Example 1: Disk Image Analysis
 
+##### English:
+
+To perform disk image analysis, you can use tools like Autopsy or The Sleuth Kit. These tools allow you to examine the contents of a disk image and extract valuable information such as deleted files, file metadata, and file system artifacts. 
+
+##### Klingon:
+
+Disk Image Analysis vItlhutlh. Autopsy je The Sleuth Kit vItlhutlh tools vaj vItlhutlh. vItlhutlh tools vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlh
 ```bash
 usbrip events history #Get USB history of your curent linux machine
 usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR user
@@ -357,7 +363,6 @@ usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR
 usbrip ids download #Downlaod database
 usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
-
 More examples and info inside the github: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
 
@@ -390,56 +395,79 @@ To counter these anti-forensic methods, it's essential to:
 - **Investigate unexpected scripts** in the system's $PATH, which might include shell or PHP scripts used by attackers.
 - **Examine `/dev` for atypical files**, as it traditionally contains special files, but may house malware-related files.
 - **Search for hidden files or directories** with names like ".. " (dot dot space) or "..^G" (dot dot control-G), which could conceal malicious content.
-- **Identify setuid root files** using the command: 
-  ```find / -user root -perm -04000 -print```
-  This finds files with elevated permissions, which could be abused by attackers.
+- **Identify setuid root files** using the command:
+```find / -user root -perm -04000 -print```
+This finds files with elevated permissions, which could be abused by attackers.
 - **Review deletion timestamps** in inode tables to spot mass file deletions, possibly indicating the presence of rootkits or trojans.
 - **Inspect consecutive inodes** for nearby malicious files after identifying one, as they may have been placed together.
 - **Check common binary directories** (_/bin_, _/sbin_) for recently modified files, as these could be altered by malware.
-
 ```bash
-# List recent files in a directory: 
+# List recent files in a directory:
 ls -laR --sort=time /bin```
 
-# Sort files in a directory by inode: 
+# Sort files in a directory by inode:
 ls -lai /bin | sort -n```
 ```
-
 {% hint style="info" %}
-Note that an **attacker** can **modify** the **time** to make **files appear** **legitimate**, but he **cannot** modify the **inode**. If you find that a **file** indicates that it was created and modified at the **same time** as the rest of the files in the same folder, but the **inode** is **unexpectedly bigger**, then the **timestamps of that file were modified**.
+Qapla'! **QaSpu'** **ghItlh** **vItlhutlh** **ghItlh** **legitimate** **files appear** **modify** **attacker** **cannot**. **file** **find** **time** **same** **modified** **created** **indicates** **file** **inode** **bigger** **unexpectedly**, **timestamps of that file were modified**.
 {% endhint %}
 
-## Compare files of different filesystem versions
+## **Compare files of different filesystem versions**
 
-### Filesystem Version Comparison Summary
+### **Filesystem Version Comparison Summary**
 
-To compare filesystem versions and pinpoint changes, we use simplified `git diff` commands:
+**filesystem versions** **compare** **changes** **pinpoint**, **simplified** `git diff` **commands** **use**:
 
-- **To find new files**, compare two directories:
+- **new files find**, **compare** **directories**:
+
+```plaintext
+diff -r dir1 dir2
+```
+
+- **To find deleted files**, compare two directories:
+
+```plaintext
+diff -r dir2 dir1
+```
+
+- **To find modified files**, compare two directories:
+
+```plaintext
+diff -r dir1 dir2 | grep -v "Only in dir1" | grep -v "Only in dir2"
+```
+
+- **To find renamed files**, compare two directories:
+
+```plaintext
+diff -r dir1 dir2 | grep "Only in dir1" | grep -v "Only in dir2"
+```
+
+- **To find moved files**, compare two directories:
+
+```plaintext
+diff -r dir1 dir2 | grep "Only in dir2" | grep -v "Only in dir1"
+```
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
-
-- **For modified content**, list changes while ignoring specific lines:
+- **ghItlhvam content**, qarDaq 'ejwI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI'pu'wI
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
-
-- **To detect deleted files**:
+- **ghItlhvamDaq lo'laHbe'chugh**:
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-
 - **Filter options** (`--diff-filter`) help narrow down to specific changes like added (`A`), deleted (`D`), or modified (`M`) files.
-  - `A`: Added files
-  - `C`: Copied files
-  - `D`: Deleted files
-  - `M`: Modified files
-  - `R`: Renamed files
-  - `T`: Type changes (e.g., file to symlink)
-  - `U`: Unmerged files
-  - `X`: Unknown files
-  - `B`: Broken files
+- `A`: Added files
+- `C`: Copied files
+- `D`: Deleted files
+- `M`: Modified files
+- `R`: Renamed files
+- `T`: Type changes (e.g., file to symlink)
+- `U`: Unmerged files
+- `X`: Unknown files
+- `B`: Broken files
 
 ## References
 

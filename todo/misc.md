@@ -1,5 +1,3 @@
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -34,22 +32,19 @@ An empty UDP packet is sent to a specific port. If the UDP port is open, no repl
 
 
 UDP port scanning is often unreliable, as firewalls and routers may drop ICMP\
- packets. This can lead to false positives in your scan, and you will regularly see\
- UDP port scans showing all UDP ports open on a scanned machine.\
- o Most port scanners do not scan all available ports, and usually have a preset list\
- of “interesting ports” that are scanned.
+packets. This can lead to false positives in your scan, and you will regularly see\
+UDP port scans showing all UDP ports open on a scanned machine.\
+o Most port scanners do not scan all available ports, and usually have a preset list\
+of “interesting ports” that are scanned.
 
 # CTF - Tricks
 
 In **Windows** use **Winzip** to search for files.\
 **Alternate data Streams**: _dir /r | find ":$DATA"_\
-
-
 ```
 binwalk --dd=".*" <file> #Extract everything
 binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and continue extracing (depth of 10000)
 ```
-
 ## Crypto
 
 **featherduster**\
@@ -89,5 +84,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

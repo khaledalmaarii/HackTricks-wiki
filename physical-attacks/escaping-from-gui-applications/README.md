@@ -1,8 +1,6 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -53,10 +51,10 @@ _bash, sh, zsh..._ More here: [https://gtfobins.github.io/](https://gtfobins.git
 * **Other protocols**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **Symbolic links**
 * **Shortcuts**: CTRL+N (open new session), CTRL+R (Execute Commands), CTRL+SHIFT+ESC (Task Manager),  Windows+E (open explorer), CTRL-B, CTRL-I (Favourites), CTRL-H (History), CTRL-L, CTRL-O (File/Open Dialog), CTRL-P (Print Dialog), CTRL-S (Save As)
-  * Hidden Administrative menu: CTRL-ALT-F8, CTRL-ESC-F9
+* Hidden Administrative menu: CTRL-ALT-F8, CTRL-ESC-F9
 * **Shell URIs**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
 * **UNC paths**: Paths to connect to shared folders. You should try to connect to the C$ of the local machine ("\\\127.0.0.1\c$\Windows\System32")
-  * **More UNC paths:**
+* **More UNC paths:**
 
 | UNC                       | UNC            | UNC                  |
 | ------------------------- | -------------- | -------------------- |
@@ -112,7 +110,6 @@ Registry editor: [https://sourceforge.net/projects/uberregedit/](https://sourcef
 * CTRL+N – Internet Explorer – New Page
 * CTRL+O – Open File
 * CTRL+S – Save CTRL+N – New RDP / Citrix
-
 ## Swipes
 
 * Swipe from the left side to the right to see all open Windows, minimizing the KIOSK app and accessing the whole OS directly;
@@ -163,7 +160,7 @@ Backup iKat versions:
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\
 
-Create a common dialog using JavaScript and access file explorer: `document.write('<input/type=file>')`  
+Create a common dialog using JavaScript and access file explorer: `document.write('<input/type=file>')`
 Source: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
 
 # iPad
@@ -175,7 +172,7 @@ Source: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811
 * Swipe one way or another with four or five fingers: In order to change to the next/last App
 
 * Pinch the screen with five fingers / Touch Home button / Swipe up with 1 finger from the bottom of the screen in a quick motion to the up: To access Home
- 
+
 * Swipe one finger from the bottom of the screen just 1-2 inches (slow): The dock will appear
 
 * Swipe down from the top of the display with 1 finger: To view your notifications
@@ -252,7 +249,6 @@ These shortcuts are for the visual settings and sound settings, depending on the
 | ⌘⇧⇥ (Command-Shift-Tab)                            | Switch to the previous app                              |
 | ⌘⇥ (Command-Tab)                                   | Switch back to the original app                         |
 | ←+→, then Option + ← or Option+→                   | Navigate through Dock                                   |
-
 ### Safari shortcuts
 
 | Shortcut                | Action                                           |
@@ -302,5 +298,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

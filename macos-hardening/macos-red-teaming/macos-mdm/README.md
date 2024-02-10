@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -67,9 +67,9 @@ It's crucial to note that the ease of enrollment provided by DEP, while benefici
 ### DEP
 
 * **3 APIs**: 1 for resellers, 1 for MDM vendors, 1 for device identity (undocumented):
-  * The so-called [DEP "cloud service" API](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). This is used by MDM servers to associate DEP profiles with specific devices.
-  * The [DEP API used by Apple Authorized Resellers](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) to enroll devices, check enrollment status, and check transaction status.
-  * The undocumented private DEP API. This is used by Apple Devices to request their DEP profile. On macOS, the `cloudconfigurationd` binary is responsible for communicating over this API.
+* The so-called [DEP "cloud service" API](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). This is used by MDM servers to associate DEP profiles with specific devices.
+* The [DEP API used by Apple Authorized Resellers](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) to enroll devices, check enrollment status, and check transaction status.
+* The undocumented private DEP API. This is used by Apple Devices to request their DEP profile. On macOS, the `cloudconfigurationd` binary is responsible for communicating over this API.
 * More modern and **JSON** based (vs. plist)
 * Apple grants an **OAuth token** to the MDM vendor
 
@@ -79,9 +79,9 @@ It's crucial to note that the ease of enrollment provided by DEP, while benefici
 * sync device records from Apple to the MDM server
 * sync “DEP profiles” to Apple from the MDM server (delivered by Apple to the device later on)
 * A DEP “profile” contains:
-  * MDM vendor server URL
-  * Additional trusted certificates for server URL (optional pinning)
-  * Extra settings (e.g. which screens to skip in Setup Assistant)
+* MDM vendor server URL
+* Additional trusted certificates for server URL (optional pinning)
+* Extra settings (e.g. which screens to skip in Setup Assistant)
 
 ## Serial Number
 
@@ -104,10 +104,9 @@ Apple devices manufactured after 2010 generally have **12-character alphanumeric
 ![](<../../../.gitbook/assets/image (564).png>)
 
 The file `/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/PrivateFrameworks/ConfigurationProfiles.framework/ConfigurationProfiles.tbd` exports functions that can be considered **high-level "steps"** of the enrolment process.
-
 ### Step 4: DEP check-in - Getting the Activation Record
 
-This part of the process occurs when a **user boots a Mac for the first time** (or after a complete wipe)
+**user boots a Mac for the first time** (or after a complete wipe)
 
 ![](<../../../.gitbook/assets/image (568).png>)
 
@@ -118,21 +117,21 @@ or when executing `sudo profiles show -type enrollment`
 * Begins as soon as the device is connected to Internet
 * Driven by **`CPFetchActivationRecord`**
 * Implemented by **`cloudconfigurationd`** via XPC. The **"Setup Assistant**" (when the device is firstly booted) or the **`profiles`** command will **contact this daemon** to retrieve the activation record.
-  * LaunchDaemon (always runs as root)
+* LaunchDaemon (always runs as root)
 
 It follows a few steps to get the Activation Record performed by **`MCTeslaConfigurationFetcher`**. This process uses an encryption called **Absinthe**
 
 1. Retrieve **certificate**
-   1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
+1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
 2. **Initialize** state from certificate (**`NACInit`**)
-   1. Uses various device-specific data (i.e. **Serial Number via `IOKit`**)
+1. Uses various device-specific data (i.e. **Serial Number via `IOKit`**)
 3. Retrieve **session key**
-   1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
+1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
 4. Establish the session (**`NACKeyEstablishment`**)
 5. Make the request
-   1. POST to [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) sending the data `{ "action": "RequestProfileConfiguration", "sn": "" }`
-   2. The JSON payload is encrypted using Absinthe (**`NACSign`**)
-   3. All requests over HTTPs, built-in root certificates are used
+1. POST to [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) sending the data `{ "action": "RequestProfileConfiguration", "sn": "" }`
+2. The JSON payload is encrypted using Absinthe (**`NACSign`**)
+3. All requests over HTTPs, built-in root certificates are used
 
 ![](<../../../.gitbook/assets/image (566).png>)
 
@@ -147,14 +146,14 @@ The response is a JSON dictionary with some important data like:
 
 * Request sent to **url provided in DEP profile**.
 * **Anchor certificates** are used to **evaluate trust** if provided.
-  * Reminder: the **anchor\_certs** property of the DEP profile
+* Reminder: the **anchor\_certs** property of the DEP profile
 * **Request is a simple .plist** with device identification
-  * Examples: **UDID, OS version**.
+* Examples: **UDID, OS version**.
 * CMS-signed, DER-encoded
 * Signed using the **device identity certificate (from APNS)**
 * **Certificate chain** includes expired **Apple iPhone Device CA**
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
+![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
 
 ### Step 6: Profile Installation
 
@@ -162,13 +161,13 @@ The response is a JSON dictionary with some important data like:
 * This step begins automatically (if in **setup assistant**)
 * Driven by **`CPInstallActivationProfile`**
 * Implemented by mdmclient over XPC
-  * LaunchDaemon (as root) or LaunchAgent (as user), depending on context
+* LaunchDaemon (as root) or LaunchAgent (as user), depending on context
 * Configuration profiles have multiple payloads to install
 * Framework has a plugin-based architecture for installing profiles
 * Each payload type is associated with a plugin
-  * Can be XPC (in framework) or classic Cocoa (in ManagedClient.app)
+* Can be XPC (in framework) or classic Cocoa (in ManagedClient.app)
 * Example:
-  * Certificate Payloads use CertificateService.xpc
+* Certificate Payloads use CertificateService.xpc
 
 Typically, **activation profile** provided by an MDM vendor will **include the following payloads**:
 
@@ -178,18 +177,18 @@ Typically, **activation profile** provided by an MDM vendor will **include the f
 * Installing the MDM payload equivalent to **MDM check-in in the documentation**
 * Payload **contains key properties**:
 *
-  * MDM Check-In URL (**`CheckInURL`**)
-  * MDM Command Polling URL (**`ServerURL`**) + APNs topic to trigger it
+* MDM Check-In URL (**`CheckInURL`**)
+* MDM Command Polling URL (**`ServerURL`**) + APNs topic to trigger it
 * To install MDM payload, request is sent to **`CheckInURL`**
 * Implemented in **`mdmclient`**
 * MDM payload can depend on other payloads
 * Allows **requests to be pinned to specific certificates**:
-  * Property: **`CheckInURLPinningCertificateUUIDs`**
-  * Property: **`ServerURLPinningCertificateUUIDs`**
-  * Delivered via PEM payload
+* Property: **`CheckInURLPinningCertificateUUIDs`**
+* Property: **`ServerURLPinningCertificateUUIDs`**
+* Delivered via PEM payload
 * Allows device to be attributed with an identity certificate:
-  * Property: IdentityCertificateUUID
-  * Delivered via SCEP payload
+* Property: IdentityCertificateUUID
+* Delivered via SCEP payload
 
 ### **Step 7: Listening for MDM commands**
 
@@ -197,8 +196,8 @@ Typically, **activation profile** provided by an MDM vendor will **include the f
 * Upon receipt, handled by **`mdmclient`**
 * To poll for MDM commands, request is sent to ServerURL
 * Makes use of previously installed MDM payload:
-  * **`ServerURLPinningCertificateUUIDs`** for pinning request
-  * **`IdentityCertificateUUID`** for TLS client certificate
+* **`ServerURLPinningCertificateUUIDs`** for pinning request
+* **`IdentityCertificateUUID`** for TLS client certificate
 
 ## Attacks
 

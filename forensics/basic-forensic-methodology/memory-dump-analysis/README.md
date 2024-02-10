@@ -1,72 +1,69 @@
-# Memory dump analysis
+# qo'wI' 'oH
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>DaH jImej</strong></a><strong>! HackTricks</strong> 'e' vItlhutlh</summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **cybersecurity company** 'oH? **HackTricks** vItlhutlh **company** advertise **chavmoH**? 'ej **PEASS latest version** **download** 'ej **HackTricks PDF** **access** vItlhutlh? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **qaStaHvIS**!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **Discover**, **exclusive NFTs** [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **collection**
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) **Get**
+* **Join** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) **telegram group** [**follow**] **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Share** hacking tricks **hacktricks repo** 'ej [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud) **submit** PRs.
 
 </details>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) **Spain** 'e' **relevant cybersecurity event** 'ej **Europe** 'e' **important**. **technical knowledge promoting mission** 'e' **congress** 'e' **technology** 'ej **cybersecurity professionals** 'e' **boiling meeting point**.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## Start
 
-Start **searching** for **malware** inside the pcap. Use the **tools** mentioned in [**Malware Analysis**](../malware-analysis.md).
+**pcap** 'e' **malware** **search** **Start**. [**Malware Analysis**](../malware-analysis.md) **mentioned tools** **Use**.
 
 ## [Volatility](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)
 
-**Volatility is the main open-source framework for memory dump analysis**. This Python tool analyzes dumps from external sources or VMware VMs, identifying data like processes and passwords based on the dump's OS profile. It's extensible with plugins, making it highly versatile for forensic investigations.
+**Volatility** **main open-source framework** 'e' **memory dump analysis**. **Python tool** 'e' **external sources** 'ej **VMware VMs** **analyze** 'ej **processes** 'ej **passwords** **identify** 'e' **dump's OS profile**. **plugins** 'e' **extensible**, **forensic investigations** **versatile** 'e'.
 
-**[Find here a cheatsheet](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)**
-
+**[cheatsheet** **Find here**](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)**
 
 ## Mini dump crash report
 
-When the dump is small (just some KB, maybe a few MB) then it's probably a mini dump crash report and not a memory dump.
+**dump** **small** (just some KB, maybe a few MB) **probably mini dump crash report** 'ej **memory dump** 'oH.
 
 ![](<../../../.gitbook/assets/image (216).png>)
 
-If you have Visual Studio installed, you can open this file and bind some basic information like process name, architecture, exception info and modules being executed:
+**Visual Studio** **installed** 'oH, **file** **open** 'ej **basic information** **bind** 'ej **process name**, **architecture**, **exception info** 'ej **modules being executed**:
 
 ![](<../../../.gitbook/assets/image (217).png>)
 
-You can also load the exception and see the decompiled instructions
+**exception** **load** 'ej **decompiled instructions** **see**
 
 ![](<../../../.gitbook/assets/image (219).png>)
 
 ![](<../../../.gitbook/assets/image (218) (1).png>)
 
-Anyway, Visual Studio isn't the best tool to perform an analysis of the depth of the dump.
+**Visual Studio** **best tool** **dump depth analysis** **perform**.
 
-You should **open** it using **IDA** or **Radare** to inspection it in **depth**.
-
-
+**IDA** 'ej **Radare** **open** **should** **inspection** 'e' **depth**.
 
 ​
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) **Spain** 'e' **relevant cybersecurity event** 'ej **Europe** 'e' **important**. **technical knowledge promoting mission** 'e' **congress** 'e' **technology** 'ej **cybersecurity professionals** 'e' **boiling meeting point**.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>DaH jImej</strong></a><strong>! HackTricks</strong> 'e' vItlhutlh</summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **cybersecurity company** 'oH? **HackTricks** vItlhutlh **company** advertise **chavmoH**? 'ej **PEASS latest version** **download** 'ej **HackTricks PDF** **access** vItlhutlh? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **qaStaHvIS**!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **Discover**, **exclusive NFTs** [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **collection**
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) **Get**
+* **Join** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) **telegram group** [**follow**] **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Share** hacking tricks **hacktricks repo** 'ej [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud) **submit** PRs.
 
 </details>

@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -87,12 +87,10 @@ Then you can use the tool [**DataProtectionDecryptor**](https://nirsoft.net/util
 If everything goes as expected, the tool will indicate the **primary key** that you need to **use to recover the original one**. To recover the original one, just use this [cyber\_chef receipt](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) putting the primary key as the "passphrase" inside the receipt.
 
 The resulting hex is the final key used to encrypt the databases which can be decrypted with:
-
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
-
-The **`config.dbx`** database contains:
+**`config.dbx`** database contains:
 
 * **Email**: The email of the user
 * **usernamedisplayname**: The name of the user
@@ -100,7 +98,7 @@ The **`config.dbx`** database contains:
 * **Host\_id: Hash** used to authenticate to the cloud. This can only be revoked from the web.
 * **Root\_ns**: User identifier
 
-The **`filecache.db`** database contains information about all the files and folders synchronized with Dropbox. The table `File_journal` is the one with more useful information:
+**`filecache.db`** database contains information about all the files and folders synchronized with Dropbox. The table `File_journal` is the one with more useful information:
 
 * **Server\_path**: Path where the file is located inside the server (this path is preceded by the `host_id` of the client).
 * **local\_sjid**: Version of the file

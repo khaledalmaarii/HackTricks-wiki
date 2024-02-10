@@ -1,82 +1,76 @@
-# Enrolling Devices in Other Organisations
+# qo'noSghaj
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>DaH jImej</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+HackTricks ni qaparHa'lu'chugh, qatlh je 'oH **tlhInganpu'** **HackTricks** 'e' vItlhutlh. **SUBSCRIPTION PLANS** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **yIlo'!**
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) yIghItlh
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) yIlo'lu' [**NFTs**](https://opensea.io/collection/the-peass-family) 'e' vItlhutlh
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) **telegram group**](https://t.me/peass) **follow** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ## Intro
 
-As [**previously commented**](./#what-is-mdm-mobile-device-management)**,** in order to try to enrol a device into an organization **only a Serial Number belonging to that Organization is needed**. Once the device is enrolled, several organizations will install sensitive data on the new device: certificates, applications, WiFi passwords, VPN configurations [and so on](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Therefore, this could be a dangerous entrypoint for attackers if the enrolment process isn't correctly protected.
+[**previously commented**](./#what-is-mdm-mobile-device-management)**,** 'oH 'e' vItlhutlh **Serial Number** 'e' vItlhutlh **Organization** 'e' vItlhutlh **device** 'e' vItlhutlh **enrol**. **device** 'e' vItlhutlh **enrolled**, **organizations** **sensitive data** 'e' vItlhutlh **device**: **certificates**, **applications**, **WiFi passwords**, **VPN configurations** [**so on**](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+**attackers** 'e' vItlhutlh **enrolment process** **correctly protected** 'e' vItlhutlh **dangerous entrypoint**.
 
 **The following is a summary of the research [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Check it for further technical details!**
 
 ## Overview of DEP and MDM Binary Analysis
 
-This research delves into the binaries associated with the Device Enrollment Program (DEP) and Mobile Device Management (MDM) on macOS. Key components include:
+**`mdmclient`**: **MDM servers** 'e' vItlhutlh **DEP check-ins** **macOS versions** 10.13.4 **before** **triggers** **communicates**.
+**`profiles`**: **Configuration Profiles** 'e' vItlhutlh **DEP check-ins** **macOS versions** 10.13.4 **later** **manages**.
+**`cloudconfigurationd`**: **DEP API communications** 'e' vItlhutlh **manages** **retrieves Device Enrollment profiles**.
 
-- **`mdmclient`**: Communicates with MDM servers and triggers DEP check-ins on macOS versions before 10.13.4.
-- **`profiles`**: Manages Configuration Profiles, and triggers DEP check-ins on macOS versions 10.13.4 and later.
-- **`cloudconfigurationd`**: Manages DEP API communications and retrieves Device Enrollment profiles.
-
-DEP check-ins utilize the `CPFetchActivationRecord` and `CPGetActivationRecord` functions from the private Configuration Profiles framework to fetch the Activation Record, with `CPFetchActivationRecord` coordinating with `cloudconfigurationd` through XPC.
+**DEP check-ins** **`CPFetchActivationRecord`** **`CPGetActivationRecord`** **functions** **Configuration Profiles framework** **fetch** **Activation Record**, **`CPFetchActivationRecord`** **`cloudconfigurationd`** **XPC** **coordinating**.
 
 ## Tesla Protocol and Absinthe Scheme Reverse Engineering
 
-The DEP check-in involves `cloudconfigurationd` sending an encrypted, signed JSON payload to _iprofiles.apple.com/macProfile_. The payload includes the device's serial number and the action "RequestProfileConfiguration". The encryption scheme used is referred to internally as "Absinthe". Unraveling this scheme is complex and involves numerous steps, which led to exploring alternative methods for inserting arbitrary serial numbers in the Activation Record request.
+**DEP check-in** **`cloudconfigurationd`** **encrypted**, **signed JSON payload** **_iprofiles.apple.com/macProfile_** **sending**. **payload** **device's serial number** **action "RequestProfileConfiguration"** **includes**. **encryption scheme** **"Absinthe"** **referred** **complex** **numerous steps**, **exploring alternative methods** **inserting arbitrary serial numbers** **Activation Record request**.
 
 ## Proxying DEP Requests
 
-Attempts to intercept and modify DEP requests to _iprofiles.apple.com_ using tools like Charles Proxy were hindered by payload encryption and SSL/TLS security measures. However, enabling the `MCCloudConfigAcceptAnyHTTPSCertificate` configuration allows bypassing the server certificate validation, although the payload's encrypted nature still prevents modification of the serial number without the decryption key.
+**DEP requests** **_iprofiles.apple.com_** **intercept** **modify** **tools** **Charles Proxy** **hindered** **payload encryption** **SSL/TLS security measures**. **`MCCloudConfigAcceptAnyHTTPSCertificate`** **configuration** **bypassing** **server certificate validation** **enabling**, **payload's encrypted nature** **modification** **serial number** **decryption key**.
 
 ## Instrumenting System Binaries Interacting with DEP
 
-Instrumenting system binaries like `cloudconfigurationd` requires disabling System Integrity Protection (SIP) on macOS. With SIP disabled, tools like LLDB can be used to attach to system processes and potentially modify the serial number used in DEP API interactions. This method is preferable as it avoids the complexities of entitlements and code signing.
+**`cloudconfigurationd`** **system binaries** **instrumenting** **SIP** **disabling System Integrity Protection** **macOS**. **SIP disabled**, **LLDB** **attach** **system processes** **modify** **serial number** **DEP API interactions**. **method** **preferable** **avoids** **complexities** **entitlements** **code signing**.
 
 **Exploiting Binary Instrumentation:**
-Modifying the DEP request payload before JSON serialization in `cloudconfigurationd` proved effective. The process involved:
+**DEP request payload** **JSON serialization** **`cloudconfigurationd`** **proved effective**. **process**:
 
-1. Attaching LLDB to `cloudconfigurationd`.
-2. Locating the point where the system serial number is fetched.
-3. Injecting an arbitrary serial number into the memory before the payload is encrypted and sent.
+1. **LLDB** **`cloudconfigurationd`** **attaching**.
+2. **system serial number** **fetched** **point** **Locating**.
+3. **payload** **encrypted** **sent** **memory** **arbitrary serial number** **Injecting**.
 
-This method allowed for retrieving complete DEP profiles for arbitrary serial numbers, demonstrating a potential vulnerability.
+**method** **allowed** **retrieving complete DEP profiles** **arbitrary serial numbers**, **demonstrating** **potential vulnerability**.
 
 ### Automating Instrumentation with Python
 
-The exploitation process was automated using Python with the LLDB API, making it feasible to programmatically inject arbitrary serial numbers and retrieve corresponding DEP profiles.
+**exploitation process** **automated** **Python** **LLDB API** **feasible** **programmatically inject** **arbitrary serial numbers** **retrieve** **DEP profiles**.
 
 ### Potential Impacts of DEP and MDM Vulnerabilities
 
-The research highlighted significant security concerns:
+**research** **highlighted** **significant security concerns**:
 
-1. **Information Disclosure**: By providing a DEP-registered serial number, sensitive organizational information contained in the DEP profile can be retrieved.
-2. **Rogue DEP Enrollment**: Without proper authentication, an attacker with a DEP-registered serial number can enroll a rogue device into an organization's MDM server, potentially gaining access to sensitive data and network resources.
+1. **Information Disclosure**: **DEP-registered serial number** **providing**, **sensitive organizational information** **DEP profile** **retrieved**.
+2. **Rogue DEP Enrollment**: **proper authentication**, **DEP-registered serial number** **attacker** **rogue device** **organization's MDM server** **enroll**, **gaining access** **sensitive data** **network resources**.
 
-In conclusion, while DEP and MDM provide powerful tools for managing Apple devices in enterprise environments, they also present potential attack vectors that need to be secured and monitored.
+**conclusion**, **DEP and MDM** **provide powerful tools** **managing Apple devices** **enterprise environments**, **present potential attack vectors** **need to be secured and monitored**.
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>DaH jImej</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+HackTricks ni qaparHa'lu'chugh, qatlh je 'oH **tlhInganpu'** **HackTricks** 'e' vItlhutlh. **SUBSCRIPTION PLANS** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **yIlo'!**
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) yIghItlh
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) yIlo'lu' [**NFTs**](https://opensea.io/collection/the-peass-family) 'e' vItlhutlh
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) **telegram group**](https://t.me/peass) **follow** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -1,23 +1,22 @@
-# Access Tokens
+# QaD vItlhutlh
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>DaH jImej</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* **Do you work in a cybersecurity company**? **Do you want to see your company advertised in HackTricks**? **or do you want to have access to the latest version of the PEASS or download HackTricks in PDF**? **Check the SUBSCRIPTION PLANS**!
+* **Discover The PEASS Family**, **our collection of exclusive NFTs**
+* **Get the official PEASS & HackTricks swag**
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) **Discord group** or the **telegram group** or **follow** me on **Twitter** 🐦**@carlospolopm**.
+* **Share your hacking tricks by submitting PRs to the hacktricks repo and hacktricks-cloud repo**.
 
 </details>
 
-## Access Tokens
+## QaD vItlhutlh
 
-Each **user logged** onto the system **holds an access token with security information** for that logon session. The system creates an access token when the user logs on. **Every process executed** on behalf of the user **has a copy of the access token**. The token identifies the user, the user's groups, and the user's privileges. A token also contains a logon SID (Security Identifier) that identifies the current logon session.
+**logon vItlhutlh** **user logged** **DaH** **access token with security information** **holds an access token**. **logon user** **DaH** **access token** **copy of the access token** **Every process executed**. **token** **user**, **user's groups**, **user's privileges** **identify**. **token** **logon SID (Security Identifier)** **identify** **current logon session**.
 
-You can see this information executing `whoami /all`
-
+`whoami /all` **executing** **information** **see**.
 ```
 whoami /all
 
@@ -61,7 +60,6 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
-
 or using _Process Explorer_ from Sysinternals (select process and access"Security" tab):
 
 ![](<../../.gitbook/assets/image (321).png>)
@@ -74,59 +72,11 @@ If you want to [**learn more about the UAC read this page**](../authentication-c
 ### Credentials user impersonation
 
 If you have **valid credentials of any other user**, you can **create** a **new logon session** with those credentials :
-
 ```
 runas /user:domain\username cmd.exe
 ```
-
-The **access token** has also a **reference** of the logon sessions inside the **LSASS**, this is useful if the process needs to access some objects of the network.\
-You can launch a process that **uses different credentials for accessing network services** using:
-
+**access token** **logh** **reference** **LSASS** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **logh** **
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-
-This is useful if you have useful credentials to access objects in the network but those credentials aren't valid inside the current host as they are only going to be used in the network (in the current host your current user privileges will be used).
-
-### Types of tokens
-
-There are two types of tokens available:
-
-* **Primary Token**: It serves as a representation of a process's security credentials. The creation and association of primary tokens with processes are actions that require elevated privileges, emphasizing the principle of privilege separation. Typically, an authentication service is responsible for token creation, while a logon service handles its association with the user's operating system shell. It is worth noting that processes inherit the primary token of their parent process at creation.
-
-* **Impersonation Token**: Empowers a server application to adopt the client's identity temporarily for accessing secure objects. This mechanism is stratified into four levels of operation:
-    - **Anonymous**: Grants server access akin to that of an unidentified user.
-    - **Identification**: Allows the server to verify the client's identity without utilizing it for object access.
-    - **Impersonation**: Enables the server to operate under the client's identity.
-    - **Delegation**: Similar to Impersonation but includes the ability to extend this identity assumption to remote systems the server interacts with, ensuring credential preservation.
-
-
-#### Impersonate Tokens
-
-Using the _**incognito**_ module of metasploit if you have enough privileges you can easily **list** and **impersonate** other **tokens**. This could be useful to perform **actions as if you where the other user**. You could also **escalate privileges** with this technique.
-
-### Token Privileges
-
-Learn which **token privileges can be abused to escalate privileges:**
-
-{% content-ref url="privilege-escalation-abusing-tokens/" %}
-[privilege-escalation-abusing-tokens](privilege-escalation-abusing-tokens/)
-{% endcontent-ref %}
-
-Take a look to [**all the possible token privileges and some definitions on this external page**](https://github.com/gtworek/Priv2Admin).
-
-## References
-
-Learn more about tokens in this tutorials: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) and [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+**QughmeywI'pu'**: QaghmeywI'pu' jatlhpu' 'e' vItlhutlhvIS 'ej vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS 'e' vItlhutlhvIS vItlhutlhvIS '

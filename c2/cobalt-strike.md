@@ -4,16 +4,16 @@
 
 ### C2 Listeners
 
-`Cobalt Strike -> Listeners -> Add/Edit` then you can select where to listen, which kind of beacon to use (http, dns, smb...) and more.
+`Cobalt Strike -> Listeners -> Add/Edit` qar'a' vItlhutlh, beacon lo'laHbe' (http, dns, smb...) je.
 
 ### Peer2Peer Listeners
 
-The beacons of these listeners don't need to talk to the C2 directly, they can communicate to it through other beacons.
+beacons 'e' vItlhutlhbe' C2 directly, 'oH C2 vItlhutlhbe' communicate to it through beacons.
 
-`Cobalt Strike -> Listeners -> Add/Edit` then you need to select the TCP or SMB beacons
+`Cobalt Strike -> Listeners -> Add/Edit` qar'a' vItlhutlh, TCP or SMB beacons vItlhutlhbe' vItlhutlh.
 
-* The **TCP beacon will set a listener in the port selected**. To connect to a TCP beacon use the command `connect <ip> <port>` from another beacon
-* The **smb beacon will listen in a pipename with the selected name**. To connect to a SMB beacon you need to use the command `link [target] [pipe]`.
+* **TCP beacon vItlhutlhbe' port selected**. TCP beacon connect to use the command `connect <ip> <port>` from another beacon
+* **smb beacon vItlhutlhbe' pipename with the selected name**. SMB beacon connect to use the command `link [target] [pipe]`.
 
 ### Generate & Host payloads
 
@@ -21,18 +21,18 @@ The beacons of these listeners don't need to talk to the C2 directly, they can c
 
 `Attacks -> Packages ->`&#x20;
 
-* **`HTMLApplication`** for HTA files
-* **`MS Office Macro`** for an office document with a macro
-* **`Windows Executable`** for a .exe, .dll orr service .exe
-* **`Windows Executable (S)`** for a **stageless** .exe, .dll or service .exe (better stageless than staged, less IoCs)
+* **`HTMLApplication`** HTA files
+* **`MS Office Macro`** office document with a macro
+* **`Windows Executable`** .exe, .dll orr service .exe
+* **`Windows Executable (S)`** **stageless** .exe, .dll or service .exe (better stageless than staged, less IoCs)
 
 #### Generate & Host payloads
 
-`Attacks -> Web Drive-by -> Scripted Web Delivery (S)` This will generate a script/executable to download the beacon from cobalt strike in formats such as: bitsadmin, exe, powershell and python
+`Attacks -> Web Drive-by -> Scripted Web Delivery (S)` script/executable to download the beacon from cobalt strike in formats such as: bitsadmin, exe, powershell and python
 
 #### Host Payloads
 
-If you already has the file you want to host in a web sever just go to `Attacks -> Web Drive-by -> Host File` and select the file to host and web server config.
+web sever vItlhutlhbe' file you want to host in a web sever just go to `Attacks -> Web Drive-by -> Host File` and select the file to host and web server config.
 
 ### Beacon Options
 
@@ -185,33 +185,17 @@ Usually in `/opt/cobaltstrike/artifact-kit` you can find the code and pre-compil
 Using [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) with the generated backdoor (or just with the compiled template) you can find what is making defender trigger. It's usually a string. Therefore you can just modify the code that is generating the backdoor so that string doesn't appear in the final binary.
 
 After modifying the code just run `./build.sh` from the same directory and copy the `dist-pipe/` folder into the Windows client in `C:\Tools\cobaltstrike\ArtifactKit`.
-
 ```
 pscp -r root@kali:/opt/cobaltstrike/artifact-kit/dist-pipe .
 ```
-
-Don't forget to load the aggressive script `dist-pipe\artifact.cna` to indicate Cobalt Strike to use the resources from disk that we want and not the ones loaded.
-
-### Resource Kit
-
-The ResourceKit folder contains the templates for Cobalt Strike's script-based payloads including PowerShell, VBA and HTA.
-
-Using [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) with the templates you can find what is defender (AMSI in this case) not liking and modify it:
-
+jIyajbe' 'ej 'ejyajbe' 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhutlh 'ej vItlhutlh 'e' vItlhut
 ```
 .\ThreatCheck.exe -e AMSI -f .\cobaltstrike\ResourceKit\template.x64.ps1
 ```
+**Translation:**
 
-Modifying the detected lines one can generate a template that won't be caught.
-
-Don't forget to load the aggressive script `ResourceKit\resources.cna` to indicate Cobalt Strike to luse the resources from disk that we want and not the ones loaded.
-
-
-
-
-
-
-
+```
+### ᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳᐸᐳ
 ```bash
 cd C:\Tools\neo4j\bin
 neo4j.bat console
@@ -233,3 +217,4 @@ pscp -r root@kali:/opt/cobaltstrike/artifact-kit/dist-pipe .
 
 
 ```
+

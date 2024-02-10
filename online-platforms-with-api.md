@@ -1,5 +1,3 @@
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -25,8 +23,8 @@ Check if the IP address is related to a bot that register accounts. It can also 
 
 # [Hunter](https://hunter.io/)
 
-Find and verify emails.  
-Some free API requests free, for more you need to pay.  
+Find and verify emails.
+Some free API requests free, for more you need to pay.
 Commercial?
 
 # [AlientVault](https://otx.alienvault.com/api)
@@ -35,18 +33,18 @@ Find Malicious activities related to IPs and Domains. Free.
 
 # [Clearbit](https://dashboard.clearbit.com/)
 
-Find related personal data to a email \(profiles on other platforms\), domain \(basic company info ,mails and people working\) and companies \(get company info from mail\).  
-You need to pay to access all the possibilities.  
+Find related personal data to a email \(profiles on other platforms\), domain \(basic company info ,mails and people working\) and companies \(get company info from mail\).
+You need to pay to access all the possibilities.
 Commercial?
 
 # [BuiltWith](https://builtwith.com/)
 
-Technologies used by webs. Expensive...  
+Technologies used by webs. Expensive...
 Commercial?
 
 # [Fraudguard](https://fraudguard.io/)
 
-Check if a host \(domain or IP\) is related with suspicious/malicious activities. Have some free API access.  
+Check if a host \(domain or IP\) is related with suspicious/malicious activities. Have some free API access.
 Commercial?
 
 # [FortiGuard](https://fortiguard.com/)
@@ -67,7 +65,7 @@ Obtains basic info from an IP address. You can test up to 100K/month.
 
 # [securitytrails](https://securitytrails.com/app/account)
 
-This platform give information about domains and IP addresses like domains inside an IP or inside a domain server, domains owned by an email \(find related domains\), IP history of domains \(find the host behind CloudFlare\), all domains using a nameserver....  
+This platform give information about domains and IP addresses like domains inside an IP or inside a domain server, domains owned by an email \(find related domains\), IP history of domains \(find the host behind CloudFlare\), all domains using a nameserver....
 You have some free access.
 
 # [fullcontact](https://www.fullcontact.com/)
@@ -104,7 +102,7 @@ Find open S3 buckets searching by keyword.
 
 # [Dehashed](https://www.dehashed.com/data)
 
-Find leaked credentials of emails and even domains  
+Find leaked credentials of emails and even domains
 Commercial?
 
 # [psbdmp](https://psbdmp.ws/)
@@ -148,5 +146,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

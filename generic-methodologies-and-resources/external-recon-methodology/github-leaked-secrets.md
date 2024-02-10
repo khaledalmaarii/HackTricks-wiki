@@ -40,7 +40,6 @@ Now that we have built the list of assets of our scope it's time to search for s
 * [https://github.com/obheda12/GitDorker](https://github.com/obheda12/GitDorker)
 
 ### **Dorks**
-
 ```bash
 ".mlab.com password"
 "access_key"
@@ -322,7 +321,6 @@ GCP SECRET
 AWS SECRET
 "private" extension:pgp
 ```
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>

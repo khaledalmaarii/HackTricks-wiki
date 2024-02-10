@@ -1,51 +1,50 @@
-# macOS Files, Folders, Binaries & Memory
+# macOS tlhutlh, qach, Binaries & Memory
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>ghItlh (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks qorwagh:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* QaghmoHwI' 'ej 'ej **HackTricks PDF** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **ghItlh** 'e' vItlhutlh!
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) ghaH 'ej **pe'vIl** [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **ghItlh** [**NFTs**](https://opensea.io/collection/the-peass-family) **ghItlh**
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) **telegram group**](https://t.me/peass) **follow** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ## File hierarchy layout
 
-* **/Applications**: The installed apps should be here. All the users will be able to access them.
+* **/Applications**: QaghmoHwI' 'e' vItlhutlh. bIngDaq users vItlhutlh.
 * **/bin**: Command line binaries
-* **/cores**: If exists, it's used to store core dumps
-* **/dev**: Everything is treated as a file so you may see hardware devices stored here.
-* **/etc**: Configuration files
-* **/Library**: A lot of subdirectories and files related to preferences, caches and logs can be found here. A Library folder exists in root and on each user's directory.
-* **/private**: Undocumented but a lot of the mentioned folders are symbolic links to the private directory.
-* **/sbin**: Essential system binaries (related to administration)
-* **/System**: File fo making OS X run. You should find mostly only Apple specific files here (not third party).
-* **/tmp**: Files are deleted after 3 days (it's a soft link to /private/tmp)
-* **/Users**: Home directory for users.
-* **/usr**: Config and system binaries
+* **/cores**: DaH jImej, 'oH vItlhutlh core dumps
+* **/dev**: DaH jImej, 'oH vItlhutlh hardware devices vItlhutlh.
+* **/etc**: vItlhutlh Configuration files
+* **/Library**: preferences, caches 'ej logs vItlhutlh subdirectories 'ej files vItlhutlh. Library vItlhutlh root 'ej user's directory.
+* **/private**: vItlhutlh, 'ach vItlhutlh mentioned folders symbolic links vItlhutlh.
+* **/sbin**: vItlhutlh Essential system binaries (administration vItlhutlh)
+* **/System**: File fo making OS X run. mostly Apple vItlhutlh files vItlhutlh (third party vItlhutlh).
+* **/tmp**: Files 3 jajmey delete (soft link /private/tmp)
+* **/Users**: Home directory users.
+* **/usr**: Config 'ej system binaries
 * **/var**: Log files
-* **/Volumes**: The mounted drives will apear here.
-* **/.vol**: Running `stat a.txt` you obtain something like `16777223 7545753 -rw-r--r-- 1 username wheel ...` where the first number is the id number of the volume where the file exists and the second one is the inode number. You can access the content of this file through /.vol/ with that information running `cat /.vol/16777223/7545753`
+* **/Volumes**: mounted drives vItlhutlh appear.
+* **/.vol**: `stat a.txt` running `16777223 7545753 -rw-r--r-- 1 username wheel ...` something like 'e' vItlhutlh file exists 'ej 'e' vItlhutlh inode number. 'e' vItlhutlh content access /.vol/ running `cat /.vol/16777223/7545753`
 
 ### Applications Folders
 
-* **System applications** are located under `/System/Applications`
-* **Installed** applications are usually installed in `/Applications` or in `~/Applications`
-* **Application data** can be found in `/Library/Application Support` for the applications running as root and `~/Library/Application Support` for applications running as the user.
-* Third-party applications **daemons** that **need to run as root** as usually located in `/Library/PrivilegedHelperTools/`
-* **Sandboxed** apps are mapped into the `~/Library/Containers` folder. Each app has a folder named according to the application’s bundle ID (`com.apple.Safari`).
-* The **kernel** is located in `/System/Library/Kernels/kernel`
-* **Apple's kernel extensions** are located in `/System/Library/Extensions`
-* **Third-party kernel extensions** are stored in `/Library/Extensions`
+* **System applications** `/System/Applications` vItlhutlh
+* **Installed** applications `/Applications` `~/Applications` vItlhutlh
+* **Application data** `/Library/Application Support` root vItlhutlh applications running 'ej `~/Library/Application Support` applications running user.
+* **Third-party applications** **daemons** **run as root** `/Library/PrivilegedHelperTools/` vItlhutlh
+* **Sandboxed** apps `~/Library/Containers` vItlhutlh mapped. app folder named application's bundle ID (`com.apple.Safari`).
+* **kernel** `/System/Library/Kernels/kernel` vItlhutlh
+* **Apple's kernel extensions** `/System/Library/Extensions` vItlhutlh
+* **Third-party kernel extensions** `/Library/Extensions` vItlhutlh
 
 ### Files with Sensitive Information
 
-MacOS stores information such as passwords in several places:
+MacOS passwords vItlhutlh information stored places:
 
 {% content-ref url="macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-sensitive-locations.md)
@@ -59,26 +58,26 @@ MacOS stores information such as passwords in several places:
 
 ## OS X Specific Extensions
 
-* **`.dmg`**: Apple Disk Image files are very frequent for installers.
-* **`.kext`**: It must follow a specific structure and it's the OS X version of a driver. (it's a bundle)
+* **`.dmg`**: Apple Disk Image files vItlhutlh installers.
+* **`.kext`**: It must follow a specific structure 'ej OS X version driver. (bundle vItlhutlh)
 * **`.plist`**: Also known as property list stores information in XML or binary format.
-  * Can be XML or binary. Binary ones can be read with:
-    * `defaults read config.plist`
-    * `/usr/libexec/PlistBuddy -c print config.plsit`
-    * `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
-    * `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
-    * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
-* **`.app`**: Apple applications that follows directory structure (It's a bundle).
-* **`.dylib`**: Dynamic libraries (like Windows DLL files)
-* **`.pkg`**: Are the same as xar (eXtensible Archive format). The installer command can be use to install the contents of these files.
-* **`.DS_Store`**: This file is on each directory, it saves the attributes and customisations of the directory.
-* **`.Spotlight-V100`**: This folder appears on the root directory of every volume on the system.
-* **`.metadata_never_index`**: If this file is at the root of a volume Spotlight won't index that volume.
-* **`.noindex`**: Files and folder with this extension won't be indexed by Spotlight.
+* Can be XML or binary. Binary ones can be read with:
+* `defaults read config.plist`
+* `/usr/libexec/PlistBuddy -c print config.plsit`
+* `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
+* `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
+* `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
+* **`.app`**: Apple applications follows directory structure (bundle vItlhutlh).
+* **`.dylib`**: Dynamic libraries (Windows DLL files 'ej)
+* **`.pkg`**: xar (eXtensible Archive format) vItlhutlh. installer command can be use to install contents files.
+* **`.DS_Store`**: This file directory, attributes customisations vItlhutlh saves.
+* **`.Spotlight-V100`**: This folder root directory volume system.
+* **`.metadata_never_index`**: If file root volume Spotlight won't index volume.
+* **`.noindex`**: Files folder extension Spotlight won't indexed.
 
 ### macOS Bundles
 
-A bundle is a **directory** which **looks like an object in Finder** (a Bundle example are `*.app` files).
+Bundle **directory** **looks like an object in Finder** (Bundle example `*.app` files).
 
 {% content-ref url="macos-bundles.md" %}
 [macos-bundles.md](macos-bundles.md)
@@ -86,11 +85,11 @@ A bundle is a **directory** which **looks like an object in Finder** (a Bundle e
 
 ## Dyld Shared Cache
 
-On macOS (and iOS) all system shared libraries, like frameworks and dylibs, are **combined into a single file**, called the **dyld shared cache**. This improved performance, since code can be loaded faster.
+macOS (iOS) system shared libraries, frameworks dylibs, **combined into single file**, dyld shared cache. This improved performance, code loaded faster.
 
-Similar to the dyld shared cache, the kernel and the kernel extensions are also compiled into a kernel cache, which is loaded at boot time.
+Similar dyld shared cache, kernel kernel extensions compiled kernel cache, loaded boot time.
 
-In order to extract the libraries from the single file dylib shared cache it was possible to use the binary  [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) which might not be working nowadays but you can also use [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
+libraries single file dylib shared cache extract possible binary [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) working nowadays [**dyldextractor**](https://github.com/arandomdev/dyldextractor) use:
 
 {% code overflow="wrap" %}
 ```bash
@@ -104,63 +103,66 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 ```
 {% endcode %}
 
-In older versions you might be able to find the **shared cache** in **`/System/Library/dyld/`**.
+**`/System/Library/dyld/`** **ghItlhvam** **`shared cache`** **tlhIngan Hol** **`/System/Library/dyld/`** **ghItlhvam** **leghlaHbe'**.
 
-In iOS you can find them in **`/System/Library/Caches/com.apple.dyld/`**.
+**iOS** **ghItlhvam** **`/System/Library/Caches/com.apple.dyld/`** **ghItlhvam** **leghlaHbe'**.
 
 {% hint style="success" %}
-Note that even if `dyld_shared_cache_util` tool doesn't work, you can pass the **shared dyld binary to Hopper** and Hopper will be able to identify all the libraries and let you **select which one** you want to investigate:
+**ghItlhvam** `dyld_shared_cache_util` **Qap** **tlhIngan Hol** **Hopper** **ghItlhvam** **leghlaHbe'** **libraries** **'ej** **vetlh** **'e'** **investigate** **'ej** **select** **'ej** **'e'** **want**:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Special File Permissions
+## **Special File Permissions**
 
-### Folder permissions
+### **Folder permissions**
 
-In a **folder**, **read** allows to **list it**, **write** allows to **delete** and **write** files on it, and **execute** allows to **traverse** the directory. So, for example, a user with **read permission over a file** inside a directory where he **doesn't have execute** permission **won't be able to read** the file.
-
-### Flag modifiers
-
-There are some flags that could be set in the files that will make file behave differently. You can **check the flags** of the files inside a directory with `ls -lO /path/directory`
-
-* **`uchg`**: Known as **uchange** flag will **prevent any action** changing or deleting the **file**. To set it do: `chflags uchg file.txt`
-  * The root user could **remove the flag** and modify the file
-* **`restricted`**: This flag makes the file be **protected by SIP** (you cannot add this flag to a file).
-* **`Sticky bit`**: If a directory with sticky bit, **only** the **directories owner or root can remane or delete** files. Typically this is set on the /tmp directory to prevent ordinary users from deleting or moving other users’ files.
-
-### **File ACLs**
-
-File **ACLs** contain **ACE** (Access Control Entries) where more **granular permissions** can be assigned to different users.
-
-It's possible to grant a **directory** these permissions: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
-Ans to a **file**: `read`, `write`, `append`, `execute`.
-
-When the file contains ACLs you will **find a "+" when listing the permissions like in**:
-
+**'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
 ```
+**ghItlh** *file* **ACLs** *vItlhutlh* **'e'**:
 
-You can **read the ACLs** of the file with:
+```bash
+ls -le file
+```
 
+The output will show the file's ACLs, including the permissions for different users and groups.
 ```bash
 ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
- 0: group:everyone deny delete
+0: group:everyone deny delete
+```
+**bIQtIn** **ACLs** **jImej** **ghItlh** **vetlh** **(vaj vItlhutlh):**
+
+```bash
+find / -type f -exec ls -le {} \; 2>/dev/null
 ```
 
-You can find **all the files with ACLs** with (this is veeery slow):
+**ghItlh** **vetlh** **(vaj vItlhutlh):**
 
+```bash
+find / -type f -exec ls -le {} \; 2>/dev/null
+```
+
+**bIQtIn** **ACLs** **jImej** **ghItlh** **vetlh** **(vaj vItlhutlh):**
+
+```bash
+find / -type f -exec ls -le {} \; 2>/dev/null
+```
+
+**ghItlh** **vetlh** **(vaj vItlhutlh):**
+
+```bash
+find / -type f -exec ls -le {} \; 2>/dev/null
+```
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
-
 ### Resource Forks | macOS ADS
 
-This is a way to obtain **Alternate Data Streams in MacOS** machines. You can save content inside an extended attribute called **com.apple.ResourceFork** inside a file by saving it in **file/..namedfork/rsrc**.
-
+**Alternate Data Streams** jup 'oH **macOS** machin'e'. **com.apple.ResourceFork** jup **extended attribute** jatlh **file/..namedfork/rsrc** jatlh **file** vItlhutlh.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -171,10 +173,7 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-
-You can **find all the files containing this extended attribute** with:
-
-{% code overflow="wrap" %}
+**ghItlhvam** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tlhIngan** **Dochvam** **vItlhutlh** **tl
 ```bash
 find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; printf "\n"}' | xargs -I {} xattr -lv {} | grep "com.apple.ResourceFork"
 ```

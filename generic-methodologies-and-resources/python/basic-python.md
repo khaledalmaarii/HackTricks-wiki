@@ -74,25 +74,23 @@ Another one\
 """
 
 **Loops**
-
 ```
 if a:
-    #somethig
+#somethig
 elif b:
-    #something
+#something
 else:
-    #something
+#something
 
 while(a):
-    #comething
+#comething
 
 for i in range(0,100):
-    #something from 0 to 99
+#something from 0 to 99
 
 for letter in "hola":
-    #something with a letter in "hola"
+#something with a letter in "hola"
 ```
-
 ### Tuples
 
 t1 = (1,'2,'three')\
@@ -149,102 +147,92 @@ myset.symmetric\_difference\_update(myset2) #myset = Elements that are not in bo
 ### Classes
 
 The method in \_\_It\_\_ will be the one used by sort to compare if an object of this class is bigger than other
-
 ```python
 class Person(name):
-	def __init__(self,name):
-		self.name= name
-		self.lastName = name.split(‘ ‘)[-1]
-		self.birthday = None
- 	def __It__(self, other):
-		if self.lastName == other.lastName:
-			return self.name < other.name
-		return self.lastName < other.lastName #Return True if the lastname is smaller
+def __init__(self,name):
+self.name= name
+self.lastName = name.split(‘ ‘)[-1]
+self.birthday = None
+def __It__(self, other):
+if self.lastName == other.lastName:
+return self.name < other.name
+return self.lastName < other.lastName #Return True if the lastname is smaller
 
-	def setBirthday(self, month, day. year):
-		self.birthday = date tame.date(year,month,day)
-	def getAge(self):
-		return (date time.date.today() - self.birthday).days
+def setBirthday(self, month, day. year):
+self.birthday = date tame.date(year,month,day)
+def getAge(self):
+return (date time.date.today() - self.birthday).days
 
 
 class MITPerson(Person):
-	nextIdNum = 0	# Attribute of the Class
-	def __init__(self, name):
-		Person.__init__(self,name)
-		self.idNum = MITPerson.nextIdNum  —> Accedemos al atributo de la clase
-		MITPerson.nextIdNum += 1 #Attribute of the class +1
+nextIdNum = 0	# Attribute of the Class
+def __init__(self, name):
+Person.__init__(self,name)
+self.idNum = MITPerson.nextIdNum  —> Accedemos al atributo de la clase
+MITPerson.nextIdNum += 1 #Attribute of the class +1
 
-	def __it__(self, other):
-		return self.idNum < other.idNum
+def __it__(self, other):
+return self.idNum < other.idNum
 ```
-
 ### map, zip, filter, lambda, sorted and one-liners
 
-**Map** is like: \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
+**Map** jatlh: \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
 m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, True, False, False, True, False, False, True]
 
-**zip** stops when the shorter of foo or bar stops:
-
+**zip** qatlh foo or bar stops, qatlh shorter:
 ```
 for f, b in zip(foo, bar):
-    print(f, b)
+print(f, b)
 ```
-
-**Lambda** is used to define a function\
-(lambda x,y: x+y)(5,3) = 8 --> Use lambda as simple **function**\
-**sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> Use lambda to sort a list\
-m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> Use lambda to filter\
+**Lambda** vItlhutlh.\
+(lambda x,y: x+y)(5,3) = 8 --> lambda vItlhutlh **function**\
+**sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> lambda vItlhutlh list joq\
+m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> lambda vItlhutlh filter\
 **reduce** (lambda x,y: x\*y, \[1,2,3,4]) = 24
-
 ```
 def make_adder(n):
-	return lambda x: x+n
+return lambda x: x+n
 plus3 = make_adder(3)
 plus3(4) = 7 # 3 + 4 = 7
 
 class Car:
-	crash = lambda self: print('Boom!')
+crash = lambda self: print('Boom!')
 my_car = Car(); my_car.crash() = 'Boom!'
 ```
-
 mult1 = \[x for x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
 
-### Exceptions
-
+### qarDaSbej
 ```
-def divide(x,y):	
-	try:
-		result = x/y
-	except ZeroDivisionError, e:
-		print “division by zero!” + str(e)
-	except TypeError:
-		divide(int(x),int(y))
-	else:
-		print “result i”, result
-	finally
-		print “executing finally clause in any case”
+def divide(x,y):
+try:
+result = x/y
+except ZeroDivisionError, e:
+print “division by zero!” + str(e)
+except TypeError:
+divide(int(x),int(y))
+else:
+print “result i”, result
+finally
+print “executing finally clause in any case”
 ```
-
 ### Assert()
 
-If the condition is false the string will be printed in the screen
+**assert()**
 
+**assert()** jImejDaq 'e' vItlhutlh. jImejDaq 'e' vItlhutlh, 'e' vItlhutlh qaStaHvIS nIvbogh qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaHvIS qaStaH
 ```
 def avg(grades, weights):
-	assert not len(grades) == 0, 'no grades data'
-	assert len(grades) == 'wrong number grades'
+assert not len(grades) == 0, 'no grades data'
+assert len(grades) == 'wrong number grades'
 ```
+### qo'wI'pu', yield
 
-### Generators, yield
-
-A generator, instead of returning something, it "yields" something. When you access it, it will "return" the first value generated, then, you can access it again and it will return the next value generated. So, all the values are not generated at the same time and a lot of memory could be saved using this instead of a list with all the values.
-
+ghItlh, qarDaSqa' 'e' vItlhutlh. vaj 'oH vItlhutlh, 'oH "yield" vItlhutlh. vaj vItlhutlh'e', 'oH vItlhutlh'e' vItlhutlh. vaj, vItlhutlh vItlhutlh'e', 'oH vItlhutlh vItlhutlh'e' vItlhutlh. So, bIruch, vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e' vItlhutlh'e'
 ```
 def myGen(n):
-	yield n
-	yield n + 1
+yield n
+yield n + 1
 ```
-
 g = myGen(6) --> 6\
 next(g) --> 7\
 next(g) --> Error
@@ -299,36 +287,32 @@ print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1',
 ### Decorators
 
 Decorator that size the time that a function needs to be executed (from [here](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
-
 ```python
 from functools import wraps
 import time
 def timeme(func):
-  @wraps(func)
-  def wrapper(*args, **kwargs):
-    print("Let's call our decorated function")
-    start = time.time()
-    result = func(*args, **kwargs)
-    print('Execution time: {} seconds'.format(time.time() - start))
-    return result
-  return wrapper
+@wraps(func)
+def wrapper(*args, **kwargs):
+print("Let's call our decorated function")
+start = time.time()
+result = func(*args, **kwargs)
+print('Execution time: {} seconds'.format(time.time() - start))
+return result
+return wrapper
 
 @timeme
 def decorated_func():
-  print("Decorated func!")
+print("Decorated func!")
 ```
-
-If you run it, you will see something like the following:
-
+qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, vaj 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS, 'ej vItlhutlhlaHbe'chugh, qaStaHvIS
 ```
 Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>qaStaHvIS AWS hacking vItlhutlh</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 

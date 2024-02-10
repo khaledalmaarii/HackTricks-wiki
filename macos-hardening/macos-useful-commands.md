@@ -21,7 +21,6 @@ Other ways to support HackTricks:
 * **SwiftBelt**: [https://github.com/cedowens/SwiftBelt](https://github.com/cedowens/SwiftBelt)
 
 ### Specific MacOS Commands
-
 ```bash
 #System info
 date
@@ -123,25 +122,301 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist (enable ssh)
 sudo launchctl unload /System/Library/LaunchDaemons/ssh.plist (disable ssh)
 #Start apache
 sudo apachectl (start|status|restart|stop)
- ##Web folder: /Library/WebServer/Documents/
+##Web folder: /Library/WebServer/Documents/
 #Remove DNS cache
 dscacheutil -flushcache
 sudo killall -HUP mDNSResponder
 ```
+### QaD Installed Software & Services
 
-### Installed Software & Services
-
-Check for **suspicious** applications installed and **privileges** over the.installed resources:
-
+**QaD** **vItlhutlh** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **QaD** **Qa
 ```
 system_profiler SPApplicationsDataType #Installed Apps
 system_profiler SPFrameworksDataType #Instaled framework
 lsappinfo list #Installed Apps
 launchtl list #Services
 ```
-
 ### User Processes
 
+#### List all running processes
+
+To list all running processes on macOS, you can use the `ps` command with the `-ef` option:
+
+```bash
+ps -ef
+```
+
+#### Filter processes by user
+
+To filter the list of processes by a specific user, you can use the `ps` command with the `-u` option followed by the username:
+
+```bash
+ps -u username
+```
+
+#### Kill a process
+
+To kill a specific process, you can use the `kill` command followed by the process ID (PID):
+
+```bash
+kill PID
+```
+
+#### Kill all processes by a user
+
+To kill all processes owned by a specific user, you can use the `pkill` command followed by the username:
+
+```bash
+pkill -u username
+```
+
+#### Monitor process activity
+
+To monitor the activity of a specific process in real-time, you can use the `top` command followed by the `-pid` option and the process ID (PID):
+
+```bash
+top -pid PID
+```
+
+#### Check process open files
+
+To check the files opened by a specific process, you can use the `lsof` command followed by the `-p` option and the process ID (PID):
+
+```bash
+lsof -p PID
+```
+
+#### Check process network connections
+
+To check the network connections established by a specific process, you can use the `lsof` command followed by the `-i` option and the process ID (PID):
+
+```bash
+lsof -i -p PID
+```
+
+#### Check process environment variables
+
+To check the environment variables of a specific process, you can use the `ps` command with the `-e` option followed by the process ID (PID):
+
+```bash
+ps -e -o pid,command | grep PID
+```
+
+#### Check process threads
+
+To check the threads of a specific process, you can use the `ps` command with the `-eL` option followed by the process ID (PID):
+
+```bash
+ps -eL | grep PID
+```
+
+#### Check process memory usage
+
+To check the memory usage of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `rss` field:
+
+```bash
+ps -o rss= -p PID
+```
+
+#### Check process CPU usage
+
+To check the CPU usage of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `%cpu` field:
+
+```bash
+ps -o %cpu= -p PID
+```
+
+#### Check process disk usage
+
+To check the disk usage of a specific process, you can use the `du` command followed by the `-sh` option and the path to the process:
+
+```bash
+du -sh /path/to/process
+```
+
+#### Check process file descriptors
+
+To check the file descriptors of a specific process, you can use the `lsof` command followed by the `-p` option and the process ID (PID):
+
+```bash
+lsof -p PID | wc -l
+```
+
+#### Check process parent
+
+To check the parent process of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `ppid` field:
+
+```bash
+ps -o ppid= -p PID
+```
+
+#### Check process children
+
+To check the child processes of a specific process, you can use the `pgrep` command followed by the `-P` option and the process ID (PID):
+
+```bash
+pgrep -P PID
+```
+
+#### Check process executable path
+
+To check the executable path of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `comm` field:
+
+```bash
+ps -o comm= -p PID
+```
+
+#### Check process start time
+
+To check the start time of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `lstart` field:
+
+```bash
+ps -o lstart= -p PID
+```
+
+#### Check process user
+
+To check the user of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `user` field:
+
+```bash
+ps -o user= -p PID
+```
+
+#### Check process group
+
+To check the group of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `group` field:
+
+```bash
+ps -o group= -p PID
+```
+
+#### Check process status
+
+To check the status of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `stat` field:
+
+```bash
+ps -o stat= -p PID
+```
+
+#### Check process command line
+
+To check the command line of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `command` field:
+
+```bash
+ps -o command= -p PID
+```
+
+#### Check process environment variables
+
+To check the environment variables of a specific process, you can use the `ps` command with the `-e` option followed by the process ID (PID):
+
+```bash
+ps -e -o pid,command | grep PID
+```
+
+#### Check process threads
+
+To check the threads of a specific process, you can use the `ps` command with the `-eL` option followed by the process ID (PID):
+
+```bash
+ps -eL | grep PID
+```
+
+#### Check process memory usage
+
+To check the memory usage of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `rss` field:
+
+```bash
+ps -o rss= -p PID
+```
+
+#### Check process CPU usage
+
+To check the CPU usage of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `%cpu` field:
+
+```bash
+ps -o %cpu= -p PID
+```
+
+#### Check process disk usage
+
+To check the disk usage of a specific process, you can use the `du` command followed by the `-sh` option and the path to the process:
+
+```bash
+du -sh /path/to/process
+```
+
+#### Check process file descriptors
+
+To check the file descriptors of a specific process, you can use the `lsof` command followed by the `-p` option and the process ID (PID):
+
+```bash
+lsof -p PID | wc -l
+```
+
+#### Check process parent
+
+To check the parent process of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `ppid` field:
+
+```bash
+ps -o ppid= -p PID
+```
+
+#### Check process children
+
+To check the child processes of a specific process, you can use the `pgrep` command followed by the `-P` option and the process ID (PID):
+
+```bash
+pgrep -P PID
+```
+
+#### Check process executable path
+
+To check the executable path of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `comm` field:
+
+```bash
+ps -o comm= -p PID
+```
+
+#### Check process start time
+
+To check the start time of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `lstart` field:
+
+```bash
+ps -o lstart= -p PID
+```
+
+#### Check process user
+
+To check the user of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `user` field:
+
+```bash
+ps -o user= -p PID
+```
+
+#### Check process group
+
+To check the group of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `group` field:
+
+```bash
+ps -o group= -p PID
+```
+
+#### Check process status
+
+To check the status of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `stat` field:
+
+```bash
+ps -o stat= -p PID
+```
+
+#### Check process command line
+
+To check the command line of a specific process, you can use the `ps` command with the `-o` option followed by the process ID (PID) and the `command` field:
+
+```bash
+ps -o command= -p PID
+```
 ```bash
 # will print all the running services under that particular user domain.
 launchctl print gui/<users UID>
@@ -152,10 +427,9 @@ launchctl print system
 # will print detailed information about the specific launch agent. And if it’s not running or you’ve mistyped, you will get some output with a non-zero exit code: Could not find service “com.company.launchagent.label” in domain for login
 launchctl print gui/<user's UID>/com.company.launchagent.label
 ```
+### Qap'a' lo'laHbe'
 
-### Create a user
-
-Without prompts
+lo'laHbe' prompts
 
 <figure><img src="../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 

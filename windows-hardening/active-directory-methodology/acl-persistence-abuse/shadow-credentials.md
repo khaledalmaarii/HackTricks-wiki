@@ -1,68 +1,54 @@
-# Shadow Credentials
+# qarDaS Qapla'!
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>DaH jImej</strong></a><strong>! AWS hacking jImej</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* <strong>DaH jImej</strong> <a href="https://github.com/sponsors/carlospolop">HackTricks</a> <strong>ghItlhutlh</strong> <strong>cybersecurity company</strong> <strong>tlhIngan</strong> <strong>advertised</strong> <strong>company</strong> <strong>latest version</strong> <strong>PEASS</strong> <strong>HackTricks</strong> <strong>PDF</strong> <strong>download</strong> <strong>cha'logh</strong> <strong>?</strong> [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) <strong>qaStaHvIS</strong> <strong>!</strong>
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) <strong>ghItlhutlh</strong> <strong>NFTs</strong> <strong>collection</strong> <strong>exclusive</strong> <strong>qaStaHvIS</strong> <strong>!</strong>
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) <strong>ghItlhutlh</strong>
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) <strong>join</strong> <strong>**telegram group**</strong> <strong>follow</strong> <strong>Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* <strong>hacking tricks</strong> <strong>hacktricks repo</strong> <strong>hacktricks-cloud repo</strong> <strong>PRs</strong> <strong>submitting</strong> <strong>Share</strong> <strong>!</strong>
 
 </details>
 
 ## Intro <a href="#3f17" id="3f17"></a>
 
-**Check the original post for [all the information about this technique](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab).**
-
-As **summary**: if you can write to the **msDS-KeyCredentialLink** property of a user/computer, you can retrieve the **NT hash of that object**.
-
-In the post, a method is outlined for setting up **public-private key authentication credentials** to acquire a unique **Service Ticket** that includes the target's NTLM hash. This process involves the encrypted NTLM_SUPPLEMENTAL_CREDENTIAL within the Privilege Attribute Certificate (PAC), which can be decrypted.
+**[all the information about this technique](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab)** <strong>original post</strong> <strong>Check</strong> <strong>summary</strong> <strong>As</strong> <strong>object</strong> <strong>NT hash</strong> <strong>retrieve</strong> <strong>can</strong> <strong>you</strong> <strong>property</strong> <strong>msDS-KeyCredentialLink</strong> <strong>write</strong> <strong>if</strong> <strong>post</strong> <strong>outlined</strong> <strong>method</strong> <strong>Service Ticket</strong> <strong>unique</strong> <strong>acquire</strong> <strong>authentication credentials</strong> <strong>public-private key</strong> <strong>setting</strong> <strong>for</strong> <strong>up</strong> <strong>process</strong> <strong>This</strong> <strong>decrypted</strong> <strong>be</strong> <strong>can</strong> <strong>which</strong> <strong>PAC</strong> <strong>Certificate</strong> <strong>Attribute</strong> <strong>Privilege</strong> <strong>within</strong> <strong>NTLM_SUPPLEMENTAL_CREDENTIAL</strong> <strong>encrypted</strong> <strong>involves</strong>.
 
 ### Requirements
 
-To apply this technique, certain conditions must be met:
-- A minimum of one Windows Server 2016 Domain Controller is needed.
-- The Domain Controller must have a server authentication digital certificate installed.
-- The Active Directory must be at the Windows Server 2016 Functional Level.
-- An account with delegated rights to modify the msDS-KeyCredentialLink attribute of the target object is required.
+This technique <strong>apply</strong> <strong>to</strong> <strong>met</strong> <strong>must</strong> <strong>conditions</strong> <strong>certain</strong>:
+- <strong>Controller</strong> <strong>Domain</strong> <strong>Server</strong> <strong>Windows</strong> <strong>one</strong> <strong>of</strong> <strong>minimum</strong> <strong>A</strong> <strong>is</strong> <strong>needed</strong>.
+- <strong>installed</strong> <strong>certificate</strong> <strong>digital</strong> <strong>authentication</strong> <strong>server</strong> <strong>have</strong> <strong>must</strong> <strong>Controller</strong> <strong>Domain</strong> <strong>The</strong>.
+- <strong>Level</strong> <strong>Functional</strong> <strong>2016</strong> <strong>Server</strong> <strong>Windows</strong> <strong>the</strong> <strong>be</strong> <strong>must</strong> <strong>Directory</strong> <strong>Active</strong> <strong>The</strong>.
+- <strong>object</strong> <strong>target</strong> <strong>the</strong> <strong>attribute</strong> <strong>msDS-KeyCredentialLink</strong> <strong>modify</strong> <strong>to</strong> <strong>rights</strong> <strong>delegated</strong> <strong>with</strong> <strong>account</strong> <strong>An</strong> <strong>is</strong> <strong>required</strong>.
 
 ## Abuse
 
-The abuse of Key Trust for computer objects encompasses steps beyond obtaining a Ticket Granting Ticket (TGT) and the NTLM hash. The options include:
-1. Creating an **RC4 silver ticket** to act as privileged users on the intended host.
-2. Using the TGT with **S4U2Self** for impersonation of **privileged users**, necessitating alterations to the Service Ticket to add a service class to the service name.
+objects computer for Trust Key of abuse The options include:
+1. **privileged users** on the intended host **as** to **ticket silver RC4** an **Creating**.
+2. **users privileged** of **impersonation** for **S4U2Self** with **TGT** the **Using**, name service the to class service a add to Ticket Service the alterations necessitating.
 
-A significant advantage of Key Trust abuse is its limitation to the attacker-generated private key, avoiding delegation to potentially vulnerable accounts and not requiring the creation of a computer account, which could be challenging to remove.
+abuse Trust Key of advantage significant A remove to challenging be could account computer a of creation the not and accounts vulnerable potentially to delegation avoiding key private attacker-generated the to limitation its is abuse Trust Key of advantage significant A.
 
 ## Tools
 
 ### [**Whisker**](https://github.com/eladshamir/Whisker)
 
-It's based on DSInternals providing a C# interface for this attack. Whisker and its Python counterpart, **pyWhisker**, enable manipulation of the `msDS-KeyCredentialLink` attribute to gain control over Active Directory accounts. These tools support various operations like adding, listing, removing, and clearing key credentials from the target object.
-
-**Whisker** functions include:
-- **Add**: Generates a key pair and adds a key credential.
-- **List**: Displays all key credential entries.
-- **Remove**: Deletes a specified key credential.
-- **Clear**: Erases all key credentials, potentially disrupting legitimate WHfB usage.
-
+attack this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C# a providing DSInternals on based It's attack. this for interface C#
 ```shell
 Whisker.exe add /target:computername$ /domain:constoso.local /dc:dc1.contoso.local /path:C:\path\to\file.pfx /password:P@ssword1
 ```
+### [pyWhisker](https://github.com/ShutdownRepo/pywhisker)
 
-### [pyWhisker](https://github.com/ShutdownRepo/pywhisker) 
-
-It extends Whisker functionality to **UNIX-based systems**, leveraging Impacket and PyDSInternals for comprehensive exploitation capabilities, including listing, adding, and removing KeyCredentials, as well as importing and exporting them in JSON format.
-
+**UNIX-based systems** jup, QapImpacket je PyDSInternals vItlhutlhlaH, **Whisker** chenmoHmeH, **KeyCredentials** chenmoHmeH, **JSON** format vItlhutlhlaH, **listing**, **adding**, **removing**, **importing** je **exporting** chenmoHmeH.
 ```shell
 python3 pywhisker.py -d "domain.local" -u "user1" -p "complexpassword" --target "user2" --action "list"
 ```
-
 ### [ShadowSpray](https://github.com/Dec0ne/ShadowSpray/)
 
-ShadowSpray aims to **exploit GenericWrite/GenericAll permissions that wide user groups may have over domain objects** to apply ShadowCredentials broadly. It entails logging into the domain, verifying the domain's functional level, enumerating domain objects, and attempting to add KeyCredentials for TGT acquisition and NT hash revelation. Cleanup options and recursive exploitation tactics enhance its utility.
+ShadowSpray **exploit GenericWrite/GenericAll permissions that wide user groups may have over domain objects** to apply ShadowCredentials broadly. It entails logging into the domain, verifying the domain's functional level, enumerating domain objects, and attempting to add KeyCredentials for TGT acquisition and NT hash revelation. Cleanup options and recursive exploitation tactics enhance its utility.
 
 
 ## References

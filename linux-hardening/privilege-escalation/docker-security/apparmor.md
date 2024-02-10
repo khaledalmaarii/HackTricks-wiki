@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -38,9 +38,8 @@ With `sudo aa-status` you will be able to list the binaries that are restricted 
 For example, a **apparmor** profile for _/usr/bin/man_ will be located in _/etc/apparmor.d/usr.bin.man_
 
 ### Commands
-
 ```bash
-aa-status     #check the current status 
+aa-status     #check the current status
 aa-enforce    #set profile to enforce mode (from disable or complain)
 aa-complain   #set profile to complain mode (from diable or enforcement)
 apparmor_parser #to load/reload an altered policy
@@ -48,48 +47,25 @@ aa-genprof    #generate a new profile
 aa-logprof    #used to change the policy when the binary/program is changed
 aa-mergeprof  #used to merge the policies
 ```
+## tlhegh
 
-## Creating a profile
-
-* In order to indicate the affected executable, **absolute paths and wildcards** are allowed (for file globbing) for specifying files.
-* To indicate the access the binary will have over **files** the following **access controls** can be used:
-  * **r** (read)
-  * **w** (write)
-  * **m** (memory map as executable)
-  * **k** (file locking)
-  * **l** (creation hard links)
-  * **ix** (to execute another program with the new program inheriting policy)
-  * **Px** (execute under another profile, after cleaning the environment)
-  * **Cx** (execute under a child profile, after cleaning the environment)
-  * **Ux** (execute unconfined, after cleaning the environment)
-* **Variables** can be defined in the profiles and can be manipulated from outside the profile. For example: @{PROC} and @{HOME} (add #include \<tunables/global> to the profile file)
-* **Deny rules are supported to override allow rules**.
-
-### aa-genprof
-
-To easily start creating a profile apparmor can help you. It's possible to make **apparmor inspect the actions performed by a binary and then let you decide which actions you want to allow or deny**.\
-You just need to run:
-
+* **tlheghmey** (absolute paths and wildcards) **ghaH** **ghItlh** (file globbing) **ghaH** **tlheghmey** **ghaH** **ghItlh** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **ghaH** **gha
 ```bash
 sudo aa-genprof /path/to/binary
 ```
-
-Then, in a different console perform all the actions that the binary will usually perform:
-
+DaH, vItlhutlh. vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh v
 ```bash
 /path/to/binary -a dosomething
 ```
-
-Then, in the first console press "**s**" and then in the recorded actions indicate if you want to ignore, allow, or whatever. When you have finished press "**f**" and the new profile will be created in _/etc/apparmor.d/path.to.binary_
+DaH, cha'logh vItlhutlh "**s**" 'ej vItlhutlh recorded actions vItlhutlh 'e' vItlhutlh, 'ej vItlhutlh "**f**" 'ej _/etc/apparmor.d/path.to.binary_ created profile new will be. 
 
 {% hint style="info" %}
-Using the arrow keys you can select what you want to allow/deny/whatever
+arrow keys vItlhutlh allow/deny/whatever vItlhutlh 'e' vItlhutlh
 {% endhint %}
 
 ### aa-easyprof
 
 You can also create a template of an apparmor profile of a binary with:
-
 ```bash
 sudo aa-easyprof /path/to/binary
 # vim:syntax=apparmor
@@ -103,42 +79,33 @@ sudo aa-easyprof /path/to/binary
 # No template variables specified
 
 "/path/to/binary" {
-  #include <abstractions/base>
+#include <abstractions/base>
 
-  # No abstractions specified
+# No abstractions specified
 
-  # No policy groups specified
+# No policy groups specified
 
-  # No read paths specified
+# No read paths specified
 
-  # No write paths specified
+# No write paths specified
 }
 ```
-
 {% hint style="info" %}
-Note that by default in a created profile nothing is allowed, so everything is denied. You will need to add lines like `/etc/passwd r,` to allow the binary read `/etc/passwd` for example.
+ghItlhvam, 'e' vItlhutlh. 'e' vItlhutlh, 'ej 'e' vItlhutlh. 'e' vItlhutlh, `/etc/passwd r,` vItlhutlh `/etc/passwd` binary read.
 {% endhint %}
 
-You can then **enforce** the new profile with
-
+ghItlhvam, **ghItlh** vItlhutlh.
 ```bash
 sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
+### logs vItlhutlh
 
-### Modifying a profile from logs
-
-The following tool will read the logs and ask the user if he wants to permit some of the detected forbidden actions:
-
+logmey tool vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhut
 ```bash
 sudo aa-logprof
 ```
-
 {% hint style="info" %}
-Using the arrow keys you can select what you want to allow/deny/whatever
-{% endhint %}
-
-### Managing a Profile
-
+Qa'vIn 'ej qeylIS qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS 'ej qeylIS
 ```bash
 #Main profile management commands
 apparmor_parser -a /etc/apparmor.d/profile.name #Load a new profile in enforce mode
@@ -146,18 +113,1043 @@ apparmor_parser -C /etc/apparmor.d/profile.name #Load a new profile in complain 
 apparmor_parser -r /etc/apparmor.d/profile.name #Replace existing profile
 apparmor_parser -R /etc/apparmor.d/profile.name #Remove profile
 ```
-
 ## Logs
 
 Example of **AUDIT** and **DENIED** logs from _/var/log/audit/audit.log_ of the executable **`service_bin`**:
 
+```
+## Logs
+
+Example of **AUDIT** and **DENIED** logs from _/var/log/audit/audit.log_ of the executable **`service_bin`**:
+```
 ```bash
 type=AVC msg=audit(1610061880.392:286): apparmor="AUDIT" operation="getattr" profile="/bin/rcat" name="/dev/pts/1" pid=954 comm="service_bin" requested_mask="r" fsuid=1000 ouid=1000
 type=AVC msg=audit(1610061880.392:287): apparmor="DENIED" operation="open" profile="/bin/rcat" name="/etc/hosts" pid=954 comm="service_bin" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
 ```
+bI'vam vItlhutlh.:
 
-You can also get this information using:
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
 
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id> | grep "AppArmorProfile"
+```
+
+DaH jImej:
+
+```
+docker inspect <container_id
 ```bash
 sudo aa-notify -s 1 -v
 Profile: /bin/service_bin
@@ -175,27 +1167,24 @@ Logfile: /var/log/audit/audit.log
 AppArmor denials: 2 (since Wed Jan  6 23:51:08 2021)
 For more information, please see: https://wiki.ubuntu.com/DebuggingApparmor
 ```
-
 ## Apparmor in Docker
 
-Note how the profile **docker-profile** of docker is loaded by default:
-
+**docker-profile**-n profile **docker**-Daq yIlo'laHbe'chugh:
 ```bash
 sudo aa-status
 apparmor module is loaded.
 50 profiles are loaded.
 13 profiles are in enforce mode.
-   /sbin/dhclient
-   /usr/bin/lxc-start
-   /usr/lib/NetworkManager/nm-dhcp-client.action
-   /usr/lib/NetworkManager/nm-dhcp-helper
-   /usr/lib/chromium-browser/chromium-browser//browser_java
-   /usr/lib/chromium-browser/chromium-browser//browser_openjdk
-   /usr/lib/chromium-browser/chromium-browser//sanitized_helper
-   /usr/lib/connman/scripts/dhclient-script
-   docker-default
+/sbin/dhclient
+/usr/bin/lxc-start
+/usr/lib/NetworkManager/nm-dhcp-client.action
+/usr/lib/NetworkManager/nm-dhcp-helper
+/usr/lib/chromium-browser/chromium-browser//browser_java
+/usr/lib/chromium-browser/chromium-browser//browser_openjdk
+/usr/lib/chromium-browser/chromium-browser//sanitized_helper
+/usr/lib/connman/scripts/dhclient-script
+docker-default
 ```
-
 By default **Apparmor docker-default profile** is generated from [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
 
 **docker-default profile Summary**:
@@ -208,94 +1197,95 @@ By default **Apparmor docker-default profile** is generated from [https://github
 * **Ptrace** can only be run on a process that is confined by **same apparmor profile**
 
 Once you **run a docker container** you should see the following output:
-
 ```bash
 1 processes are in enforce mode.
-   docker-default (825)
+docker-default (825)
 ```
-
-Note that **apparmor will even block capabilities privileges** granted to the container by default. For example, it will be able to **block permission to write inside /proc even if the SYS\_ADMIN capability is granted** because by default docker apparmor profile denies this access:
-
+**apparmor vItlhutlh** **container**-Daq **capabilities privileges** **block**. **jatlh**, **SYS\_ADMIN capability** **ghaH** **/proc** **ghItlh** **write permission** **block** **Docker apparmor profile** **ghItlh** **access** **deny** **vItlhutlh**.
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
 sh: 1: cannot create /proc/stat: Permission denied
 ```
-
-You need to **disable apparmor** to bypass its restrictions:
-
+**apparmor** jatlh **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qaybta'** **qayb
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu /bin/bash
 ```
+Qapla'! **AppArmor** jatlhlaH **container** qachDaq **mount** **forbid** **default** **SYS\_ADMIN capability** vaj.
 
-Note that by default **AppArmor** will also **forbid the container to mount** folders from the inside even with SYS\_ADMIN capability.
+Qapla'! **capabilities** **add/remove** **Docker container** (ghaH **AppArmor** **Seccomp** protection methods **restricted**):
 
-Note that you can **add/remove** **capabilities** to the docker container (this will be still restricted by protection methods like **AppArmor** and **Seccomp**):
-
-* `--cap-add=SYS_ADMIN` give `SYS_ADMIN` cap
-* `--cap-add=ALL` give all caps
-* `--cap-drop=ALL --cap-add=SYS_PTRACE` drop all caps and only give `SYS_PTRACE`
+* `--cap-add=SYS_ADMIN` **SYS_ADMIN** cap **ghoD**
+* `--cap-add=ALL` **all caps** **ghoD**
+* `--cap-drop=ALL --cap-add=SYS_PTRACE` **all caps** **drop** **SYS_PTRACE** **ghoD**
 
 {% hint style="info" %}
-Usually, when you **find** that you have a **privileged capability** available **inside** a **docker** container **but** some part of the **exploit isn't working**, this will be because docker **apparmor will be preventing it**.
+**usually**, **find** **privileged capability** **available** **inside** **docker** container **but** **exploit isn't working**, **docker apparmor** **preventing**.
 {% endhint %}
 
 ### Example
 
 (Example from [**here**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/))
 
-To illustrate AppArmor functionality, I created a new Docker profile “mydocker” with the following line added:
-
+**AppArmor** functionality **illustrate** **Example** **created** **Docker profile** "mydocker" **following line** **added**:
 ```
 deny /etc/* w,   # deny write for all files directly in /etc (not in a subdir)
 ```
-
 To activate the profile, we need to do the following:
 
 ```
+1. Open the terminal and navigate to the directory where the AppArmor profile is located.
+2. Use the `apparmor_parser` command to load the profile into the kernel. For example:
+   ```
+   sudo apparmor_parser -r -W /path/to/profile
+   ```
+   Replace `/path/to/profile` with the actual path to the profile file.
+3. Verify that the profile is loaded by running the `apparmor_status` command. You should see the profile listed under the "profiles" section.
+4. Restart the Docker daemon to apply the changes:
+   ```
+   sudo systemctl restart docker
+   ```
+   Note: This step is necessary for the changes to take effect.
+5. Test the profile by running the Docker container that is associated with the profile. If the profile is properly configured, it should enforce the specified restrictions and prevent any unauthorized actions.
+```
+```
 sudo apparmor_parser -r -W mydocker
 ```
-
 To list the profiles, we can do the following command. The command below is listing my new AppArmor profile.
 
 ```
-$ sudo apparmor_status  | grep mydocker
-   mydocker
+$ sudo apparmor_status
 ```
 
-As shown below, we get error when trying to change “/etc/” since AppArmor profile is preventing write access to “/etc”.
-
+The output should include the name of the profile you created.
+```
+$ sudo apparmor_status  | grep mydocker
+mydocker
+```
+**AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor** **AppArmor**
 ```
 $ docker run --rm -it --security-opt apparmor:mydocker -v ~/haproxy:/localhost busybox chmod 400 /etc/hostname
 chmod: /etc/hostname: Permission denied
 ```
-
 ### AppArmor Docker Bypass1
 
-You can find which **apparmor profile is running a container** using:
-
+**apparmor profile jImej** **container** **running** **vetlh** **apparmor profile** **Docker** **bIyajbe'** **jImej** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile** **running** **container** **vetlh** **ghItlh** **Docker** **bIyajbe'** **apparmor profile**
 ```bash
 docker inspect 9d622d73a614 | grep lowpriv
-        "AppArmorProfile": "lowpriv",
-                "apparmor=lowpriv"
+"AppArmorProfile": "lowpriv",
+"apparmor=lowpriv"
 ```
-
-Then, you can run the following line to **find the exact profile being used**:
-
+**DaH, bIquvmoH** **ghItlh** **profile** **ghaH** **Dajatlh** **DIvI'** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DIvI'** **ghaH** **Dajatlh** **DI
 ```bash
 find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 ```
-
-In the weird case you can **modify the apparmor docker profile and reload it.** You could remove the restrictions and "bypass" them.
-
 ### AppArmor Docker Bypass2
 
-**AppArmor is path based**, this means that even if it might be **protecting** files inside a directory like **`/proc`** if you can **configure how the container is going to be run**, you could **mount** the proc directory of the host inside **`/host/proc`** and it **won't be protected by AppArmor anymore**.
+**AppArmor jup path based**, jup means that even if it might be **protecting** files inside a directory like **`/proc`** if you can **configure how the container is going to be run**, you could **mount** the proc directory of the host inside **`/host/proc`** and it **won't be protected by AppArmor anymore**.
 
 ### AppArmor Shebang Bypass
 
 In [**this bug**](https://bugs.launchpad.net/apparmor/+bug/1911431) you can see an example of how **even if you are preventing perl to be run with certain resources**, if you just create a a shell script **specifying** in the first line **`#!/usr/bin/perl`** and you **execute the file directly**, you will be able to execute whatever you want. E.g.:
-
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);
@@ -305,7 +1295,6 @@ exec "/bin/sh"' > /tmp/test.pl
 chmod +x /tmp/test.pl
 /tmp/test.pl
 ```
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>

@@ -1,8 +1,6 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -119,49 +117,48 @@ Whenever a folder is opened from an NTFS volume on a Windows NT server, the syst
 2. Browse to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
 3. Look for `NtfsDisableLastAccessUpdate`. If it doesn’t exist, add this DWORD and set its value to 1, which will disable the process.
 4. Close the Registry Editor, and reboot the server.
-
 ## Delete USB History
 
-All the **USB Device Entries** are stored in Windows Registry Under the **USBSTOR** registry key that contains sub keys which are created whenever you plug a USB Device into your PC or Laptop. You can find this key here H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deleting this** you will delete the USB history.\
-You may also use the tool [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) to be sure you have deleted them (and to delete them).
+**USB Device Entries** are stored in the Windows Registry under the **USBSTOR** registry key. This key contains subkeys that are created when a USB Device is plugged into a PC or Laptop. The key can be found at H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. Deleting this key will delete the USB history.\
+You can also use the tool [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) to ensure that the entries are deleted (and to delete them).
 
-Another file that saves information about the USBs is the file `setupapi.dev.log` inside `C:\Windows\INF`. This should also be deleted.
+Another file that saves information about USBs is the file `setupapi.dev.log` located in `C:\Windows\INF`. This file should also be deleted.
 
 ## Disable Shadow Copies
 
-**List** shadow copies with `vssadmin list shadowstorage`\
-**Delete** them running `vssadmin delete shadow`
+To **list** shadow copies, use `vssadmin list shadowstorage`.\
+To **delete** them, run `vssadmin delete shadow`.
 
-You can also delete them via GUI following the steps proposed in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
+You can also delete them using the GUI by following the steps provided in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html).
 
-To disable shadow copies [steps from here](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+To disable shadow copies, follow the steps outlined in [this link](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
 1. Open the Services program by typing "services" into the text search box after clicking the Windows start button.
-2. From the list, find "Volume Shadow Copy", select it, and then access Properties by right-clicking.
-3. Choose Disabled from the "Startup type" drop-down menu, and then confirm the change by clicking Apply and OK.
+2. Find "Volume Shadow Copy" from the list, select it, and access Properties by right-clicking.
+3. Choose "Disabled" from the "Startup type" drop-down menu, and confirm the change by clicking Apply and OK.
 
-It's also possible to modify the configuration of which files are going to be copied in the shadow copy in the registry `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
+It is also possible to modify the configuration of which files are copied in the shadow copy by editing the registry key `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`.
 
 ## Overwrite deleted files
 
-* You can use a **Windows tool**: `cipher /w:C` This will indicate cipher to remove any data from the available unused disk space inside the C drive.
-* You can also use tools like [**Eraser**](https://eraser.heidi.ie)
+* You can use a **Windows tool**: `cipher /w:C`. This command instructs cipher to remove any data from the available unused disk space on the C drive.
+* You can also use tools like [**Eraser**](https://eraser.heidi.ie).
 
 ## Delete Windows event logs
 
-* Windows + R --> eventvwr.msc --> Expand "Windows Logs" --> Right click each category and select "Clear Log"
-* `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
-* `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
+* Windows + R --> eventvwr.msc --> Expand "Windows Logs" --> Right-click each category and select "Clear Log".
+* `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`.
+* `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`.
 
 ## Disable Windows event logs
 
-* `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Inside the services section disable the service "Windows Event Log"
-* `WEvtUtil.exec clear-log` or `WEvtUtil.exe cl`
+* `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`.
+* Disable the "Windows Event Log" service in the services section.
+* `WEvtUtil.exec clear-log` or `WEvtUtil.exe cl`.
 
 ## Disable $UsnJrnl
 
-* `fsutil usn deletejournal /d c:`
+* `fsutil usn deletejournal /d c:`.
 
 
 <details>
@@ -177,5 +174,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

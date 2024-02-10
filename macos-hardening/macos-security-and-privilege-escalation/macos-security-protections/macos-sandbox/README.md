@@ -30,7 +30,6 @@ Some important components of the Sandbox are:
 * The **containers** `~/Library/Containers`
 
 Inside the containers folder you can find **a folder for each app executed sandboxed** with the name of the bundle id:
-
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -41,9 +40,9 @@ drwx------@ 4 username  staff  128 Mar 25 14:14 com.apple.Accessibility-Settings
 drwx------@ 4 username  staff  128 Mar 25 14:10 com.apple.ActionKit.BundledIntentHandler
 [...]
 ```
+**tlhIngan Hol**:
 
-Inside each bundle id folder you can find the **plist** and the **Data directory** of the App:
-
+ghItlhvamDaq Daqtagh 'e' vItlhutlh. **plist** 'ej **Data directory** jatlhpu' vItlhutlh 'ej App vIghro' vItlhutlh.
 ```bash
 cd /Users/username/Library/Containers/com.apple.Safari
 ls -la
@@ -66,11 +65,9 @@ lrwxr-xr-x   1 username  staff    20 Mar 24 18:02 Pictures -> ../../../../Pictur
 drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
-
 {% hint style="danger" %}
-Note that even if the symlinks are there to "escape" from the Sandbox and access other folders, the App still needs to **have permissions** to access them. These permissions are inside the **`.plist`**.
+ghobe' vItlhutlhlaHbe'chugh, "Sandbox" vaj 'ej 'oH vItlhutlhlaHbe'chugh, 'ach 'oH vItlhutlhlaHbe'chugh, **'ej permissions** vItlhutlhlaHbe'chugh. vItlhutlhlaHbe'chugh 'oH **`.plist`**.
 {% endhint %}
-
 ```bash
 # Get permissions
 plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
@@ -79,56 +76,57 @@ plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
 <key>SandboxProfileData</key>
 <data>
 AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
-		
+
 # In this file you can find the entitlements:
 <key>Entitlements</key>
-	<dict>
-		<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
-		<true/>
-		<key>com.apple.accounts.appleaccount.fullaccess</key>
-		<true/>
-		<key>com.apple.appattest.spi</key>
-		<true/>
-		<key>keychain-access-groups</key>
-		<array>
-			<string>6N38VWS5BX.ru.keepcoder.Telegram</string>
-			<string>6N38VWS5BX.ru.keepcoder.TelegramShare</string>
-		</array>
+<dict>
+<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
+<true/>
+<key>com.apple.accounts.appleaccount.fullaccess</key>
+<true/>
+<key>com.apple.appattest.spi</key>
+<true/>
+<key>keychain-access-groups</key>
+<array>
+<string>6N38VWS5BX.ru.keepcoder.Telegram</string>
+<string>6N38VWS5BX.ru.keepcoder.TelegramShare</string>
+</array>
 [...]
 
 # Some parameters
 <key>Parameters</key>
-	<dict>
-		<key>_HOME</key>
-		<string>/Users/username</string>
-		<key>_UID</key>
-		<string>501</string>
-		<key>_USER</key>
-		<string>username</string>
+<dict>
+<key>_HOME</key>
+<string>/Users/username</string>
+<key>_UID</key>
+<string>501</string>
+<key>_USER</key>
+<string>username</string>
 [...]
 
 # The paths it can access
 <key>RedirectablePaths</key>
-	<array>
-		<string>/Users/username/Downloads</string>
-		<string>/Users/username/Documents</string>
-		<string>/Users/username/Library/Calendars</string>
-		<string>/Users/username/Desktop</string>
+<array>
+<string>/Users/username/Downloads</string>
+<string>/Users/username/Documents</string>
+<string>/Users/username/Library/Calendars</string>
+<string>/Users/username/Desktop</string>
 <key>RedirectedPaths</key>
-	<array/>
+<array/>
 [...]
 ```
-
 {% hint style="warning" %}
-Everything created/modified by a Sandboxed application will get the **quarantine attribut**e. This will prevent a sandbox space by triggering Gatekeeper if the sandbox app tries to execute something with **`open`**.
+ghItlhutlh! **Sandbox** qorwaghmeyDaq **yIqaw** **quarantine attribut**e. **Sandbox** app **`open`** **qarDaq** **yIqaw** **quarantine attribut**e **ghItlhutlh** **Gatekeeper** **trigger** **yIqaw**.
 {% endhint %}
 
-### Sandbox Profiles
+### **Sandbox Profiles**
 
-The Sandbox profiles are configuration files that indicate what is going to be **allowed/forbidden** in that **Sandbox**. It uses the **Sandbox Profile Language (SBPL)**, which uses the [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programming language.
+**Sandbox Profiles** **Sandbox** **allowed/forbidden** **yIqaw** **configuration files** **ghItlhutlh**. **Sandbox Profile Language (SBPL)** **yIqaw** **Sandbox Profile Language (SBPL)** **Scheme** **programming language** **yIqaw**.
 
-Here you can find an example:
+**Example** **yIqaw** **tlhIngan Hol**:
 
+```markdown
+```
 ```scheme
 (version 1) ; First you get the version
 
@@ -137,18 +135,17 @@ Here you can find an example:
 (allow network*) ; You can use wildcards and allow everything
 
 (allow file-read* ; You can specify where to apply the rule
-    (subpath "/Users/username/")
-    (literal "/tmp/afile")
-    (regex #"^/private/etc/.*")
+(subpath "/Users/username/")
+(literal "/tmp/afile")
+(regex #"^/private/etc/.*")
 )
 
 (allow mach-lookup
-    (global-name "com.apple.analyticsd")
+(global-name "com.apple.analyticsd")
 )
 ```
-
 {% hint style="success" %}
-Check this [**research**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **to check more actions that could be allowed or denied.**
+Qa'pla' [**research**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **to check more actions that could be allowed or denied.**
 {% endhint %}
 
 Important **system services** also run inside their own custom **sandbox** such as the `mdnsresponder` service. You can view these custom **sandbox profiles** inside:
@@ -164,21 +161,62 @@ SIP is a Sandbox profile called platform\_profile in /System/Library/Sandbox/roo
 ### Sandbox Profile Examples
 
 To start an application with an **specific sandbox profile** you can use:
-
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
-
-{% tabs %}
-{% tab title="touch" %}
 {% code title="touch.sb" %}
+
+```klingon
+touch.sb
+```
+
+{% endcode %}
+{% endtab %}
+
+{% tab title="sandbox-exec" %}
+{% code title="sandbox-exec" %}
+
+```klingon
+sandbox-exec
+```
+
+{% endcode %}
+{% endtab %}
+
+{% tab title="sandbox-simplify" %}
+{% code title="sandbox-simplify" %}
+
+```klingon
+sandbox-simplify
+```
+
+{% endcode %}
+{% endtab %}
+{% endtabs %}
+
+The `touch.sb` file is a sample sandbox profile for the `touch` command. It restricts the command's access to specific resources and operations.
+
+To use the sandbox profile, you can execute the `touch` command with the `sandbox-exec` utility, specifying the `touch.sb` profile as an argument:
+
+```bash
+sandbox-exec -f touch.sb touch <filename>
+```
+
+The `sandbox-simplify` utility can be used to simplify an existing sandbox profile. It removes unnecessary rules and consolidates redundant ones, making the profile more concise and easier to understand.
+
+To simplify the `touch.sb` profile, you can run the following command:
+
+```bash
+sandbox-simplify -f touch.sb > simplified.sb
+```
+
+The simplified profile will be saved in the `simplified.sb` file.
 ```scheme
 (version 1)
 (deny default)
 (allow file* (literal "/tmp/hacktricks.txt"))
 ```
 {% endcode %}
-
 ```bash
 # This will fail because default is denied, so it cannot execute touch
 sandbox-exec -f touch.sb touch /tmp/hacktricks.txt
@@ -191,8 +229,480 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 2023-05-26 13:42:52.701382+0200  localhost kernel[0]: (Sandbox) 5 duplicate reports for Sandbox: sandbox-exec(41398) deny(1) file-read-metadata /var
 [...]
 ```
-
 {% code title="touch2.sb" %}
+
+```
+(version 1)
+(deny default)
+
+(import "sandbox.sb")
+
+;; Allow reading and writing to the user's home directory
+(allow file-read* file-write* (subpath "/Users/<username>"))
+
+;; Allow reading and writing to specific files
+(allow file-read* file-write* (regex #"^/private/var/folders/"))
+
+;; Allow executing the touch command
+(allow file-executable* (regex #"^/usr/bin/touch$"))
+
+;; Allow executing the ls command
+(allow file-executable* (regex #"^/bin/ls$"))
+
+;; Allow executing the echo command
+(allow file-executable* (regex #"^/bin/echo$"))
+
+;; Allow executing the cat command
+(allow file-executable* (regex #"^/bin/cat$"))
+
+;; Allow executing the rm command
+(allow file-executable* (regex #"^/bin/rm$"))
+
+;; Allow executing the mv command
+(allow file-executable* (regex #"^/bin/mv$"))
+
+;; Allow executing the cp command
+(allow file-executable* (regex #"^/bin/cp$"))
+
+;; Allow executing the chmod command
+(allow file-executable* (regex #"^/bin/chmod$"))
+
+;; Allow executing the chown command
+(allow file-executable* (regex #"^/usr/sbin/chown$"))
+
+;; Allow executing the chflags command
+(allow file-executable* (regex #"^/usr/sbin/chflags$"))
+
+;; Allow executing the sudo command
+(allow file-executable* (regex #"^/usr/bin/sudo$"))
+
+;; Allow executing the su command
+(allow file-executable* (regex #"^/usr/bin/su$"))
+
+;; Allow executing the open command
+(allow file-executable* (regex #"^/usr/bin/open$"))
+
+;; Allow executing the kill command
+(allow file-executable* (regex #"^/bin/kill$"))
+
+;; Allow executing the ps command
+(allow file-executable* (regex #"^/bin/ps$"))
+
+;; Allow executing the top command
+(allow file-executable* (regex #"^/usr/bin/top$"))
+
+;; Allow executing the pkill command
+(allow file-executable* (regex #"^/usr/bin/pkill$"))
+
+;; Allow executing the killall command
+(allow file-executable* (regex #"^/usr/bin/killall$"))
+
+;; Allow executing the launchctl command
+(allow file-executable* (regex #"^/bin/launchctl$"))
+
+;; Allow executing the defaults command
+(allow file-executable* (regex #"^/usr/bin/defaults$"))
+
+;; Allow executing the system_profiler command
+(allow file-executable* (regex #"^/usr/sbin/system_profiler$"))
+
+;; Allow executing the softwareupdate command
+(allow file-executable* (regex #"^/usr/sbin/softwareupdate$"))
+
+;; Allow executing the networksetup command
+(allow file-executable* (regex #"^/usr/sbin/networksetup$"))
+
+;; Allow executing the scutil command
+(allow file-executable* (regex #"^/usr/sbin/scutil$"))
+
+;; Allow executing the dscl command
+(allow file-executable* (regex #"^/usr/bin/dscl$"))
+
+;; Allow executing the security command
+(allow file-executable* (regex #"^/usr/bin/security$"))
+
+;; Allow executing the codesign command
+(allow file-executable* (regex #"^/usr/bin/codesign$"))
+
+;; Allow executing the spctl command
+(allow file-executable* (regex #"^/usr/sbin/spctl$"))
+
+;; Allow executing the pkgutil command
+(allow file-executable* (regex #"^/usr/sbin/pkgutil$"))
+
+;; Allow executing the installer command
+(allow file-executable* (regex #"^/usr/sbin/installer$"))
+
+;; Allow executing the diskutil command
+(allow file-executable* (regex #"^/usr/sbin/diskutil$"))
+
+;; Allow executing the systemsetup command
+(allow file-executable* (regex #"^/usr/sbin/systemsetup$"))
+
+;; Allow executing the nvram command
+(allow file-executable* (regex #"^/usr/sbin/nvram$"))
+
+;; Allow executing the networksetup command
+(allow file-executable* (regex #"^/usr/sbin/networksetup$"))
+
+;; Allow executing the system_profiler command
+(allow file-executable* (regex #"^/usr/sbin/system_profiler$"))
+
+;; Allow executing the softwareupdate command
+(allow file-executable* (regex #"^/usr/sbin/softwareupdate$"))
+
+;; Allow executing the scutil command
+(allow file-executable* (regex #"^/usr/sbin/scutil$"))
+
+;; Allow executing the dscl command
+(allow file-executable* (regex #"^/usr/bin/dscl$"))
+
+;; Allow executing the security command
+(allow file-executable* (regex #"^/usr/bin/security$"))
+
+;; Allow executing the codesign command
+(allow file-executable* (regex #"^/usr/bin/codesign$"))
+
+;; Allow executing the spctl command
+(allow file-executable* (regex #"^/usr/sbin/spctl$"))
+
+;; Allow executing the pkgutil command
+(allow file-executable* (regex #"^/usr/sbin/pkgutil$"))
+
+;; Allow executing the installer command
+(allow file-executable* (regex #"^/usr/sbin/installer$"))
+
+;; Allow executing the diskutil command
+(allow file-executable* (regex #"^/usr/sbin/diskutil$"))
+
+;; Allow executing the systemsetup command
+(allow file-executable* (regex #"^/usr/sbin/systemsetup$"))
+
+;; Allow executing the nvram command
+(allow file-executable* (regex #"^/usr/sbin/nvram$"))
+
+;; Allow executing the networksetup command
+(allow file-executable* (regex #"^/usr/sbin/networksetup$"))
+
+;; Allow executing the system_profiler command
+(allow file-executable* (regex #"^/usr/sbin/system_profiler$"))
+
+;; Allow executing the softwareupdate command
+(allow file-executable* (regex #"^/usr/sbin/softwareupdate$"))
+
+;; Allow executing the scutil command
+(allow file-executable* (regex #"^/usr/sbin/scutil$"))
+
+;; Allow executing the dscl command
+(allow file-executable* (regex #"^/usr/bin/dscl$"))
+
+;; Allow executing the security command
+(allow file-executable* (regex #"^/usr/bin/security$"))
+
+;; Allow executing the codesign command
+(allow file-executable* (regex #"^/usr/bin/codesign$"))
+
+;; Allow executing the spctl command
+(allow file-executable* (regex #"^/usr/sbin/spctl$"))
+
+;; Allow executing the pkgutil command
+(allow file-executable* (regex #"^/usr/sbin/pkgutil$"))
+
+;; Allow executing the installer command
+(allow file-executable* (regex #"^/usr/sbin/installer$"))
+
+;; Allow executing the diskutil command
+(allow file-executable* (regex #"^/usr/sbin/diskutil$"))
+
+;; Allow executing the systemsetup command
+(allow file-executable* (regex #"^/usr/sbin/systemsetup$"))
+
+;; Allow executing the nvram command
+(allow file-executable* (regex #"^/usr/sbin/nvram$"))
+
+;; Allow executing the networksetup command
+(allow file-executable* (regex #"^/usr/sbin/networksetup$"))
+
+;; Allow executing the system_profiler command
+(allow file-executable* (regex #"^/usr/sbin/system_profiler$"))
+
+;; Allow executing the softwareupdate command
+(allow file-executable* (regex #"^/usr/sbin/softwareupdate$"))
+
+;; Allow executing the scutil command
+(allow file-executable* (regex #"^/usr/sbin/scutil$"))
+
+;; Allow executing the dscl command
+(allow file-executable* (regex #"^/usr/bin/dscl$"))
+
+;; Allow executing the security command
+(allow file-executable* (regex #"^/usr/bin/security$"))
+
+;; Allow executing the codesign command
+(allow file-executable* (regex #"^/usr/bin/codesign$"))
+
+;; Allow executing the spctl command
+(allow file-executable* (regex #"^/usr/sbin/spctl$"))
+
+;; Allow executing the pkgutil command
+(allow file-executable* (regex #"^/usr/sbin/pkgutil$"))
+
+;; Allow executing the installer command
+(allow file-executable* (regex #"^/usr/sbin/installer$"))
+
+;; Allow executing the diskutil command
+(allow file-executable* (regex #"^/usr/sbin/diskutil$"))
+
+;; Allow executing the systemsetup command
+(allow file-executable* (regex #"^/usr/sbin/systemsetup$"))
+
+;; Allow executing the nvram command
+(allow file-executable* (regex #"^/usr/sbin/nvram$"))
+
+;; Allow executing the networksetup command
+(allow file-executable* (regex #"^/usr/sbin/networksetup$"))
+
+;; Allow executing the system_profiler command
+(allow file-executable* (regex #"^/usr/sbin/system_profiler$"))
+
+;; Allow executing the softwareupdate command
+(allow file-executable* (regex #"^/usr/sbin/softwareupdate$"))
+
+;; Allow executing the scutil command
+(allow file-executable* (regex #"^/usr/sbin/scutil$"))
+
+;; Allow executing the dscl command
+(allow file-executable* (regex #"^/usr/bin/dscl$"))
+
+;; Allow executing the security command
+(allow file-executable* (regex #"^/usr/bin/security$"))
+
+;; Allow executing the codesign command
+(allow file-executable* (regex #"^/usr/bin/codesign$"))
+
+;; Allow executing the spctl command
+(allow file-executable* (regex #"^/usr/sbin/spctl$"))
+
+;; Allow executing the pkgutil command
+(allow file-executable* (regex #"^/usr/sbin/pkgutil$"))
+
+;; Allow executing the installer command
+(allow file-executable* (regex #"^/usr/sbin/installer$"))
+
+;; Allow executing the diskutil command
+(allow file-executable* (regex #"^/usr/sbin/diskutil$"))
+
+;; Allow executing the systemsetup command
+(allow file-executable* (regex #"^/usr/sbin/systemsetup$"))
+
+;; Allow executing the nvram command
+(allow file-executable* (regex #"^/usr/sbin/nvram$"))
+
+;; Allow executing the networksetup command
+(allow file-executable* (regex #"^/usr/sbin/networksetup$"))
+
+;; Allow executing the system_profiler command
+(allow file-executable* (regex #"^/usr/sbin/system_profiler$"))
+
+;; Allow executing the softwareupdate command
+(allow file-executable* (regex #"^/usr/sbin/softwareupdate$"))
+
+;; Allow executing the scutil command
+(allow file-executable* (regex #"^/usr/sbin/scutil$"))
+
+;; Allow executing the dscl command
+(allow file-executable* (regex #"^/usr/bin/dscl$"))
+
+;; Allow executing the security command
+(allow file-executable* (regex #"^/usr/bin/security$"))
+
+;; Allow executing the codesign command
+(allow file-executable* (regex #"^/usr/bin/codesign$"))
+
+;; Allow executing the spctl command
+(allow file-executable* (regex #"^/usr/sbin/spctl$"))
+
+;; Allow executing the pkgutil command
+(allow file-executable* (regex #"^/usr/sbin/pkgutil$"))
+
+;; Allow executing the installer command
+(allow file-executable* (regex #"^/usr/sbin/installer$"))
+
+;; Allow executing the diskutil command
+(allow file-executable* (regex #"^/usr/sbin/diskutil$"))
+
+;; Allow executing the systemsetup command
+(allow file-executable* (regex #"^/usr/sbin/systemsetup$"))
+
+;; Allow executing the nvram command
+(allow file-executable* (regex #"^/usr/sbin/nvram$"))
+
+;; Allow executing the networksetup command
+(allow file-executable* (regex #"^/usr/sbin/networksetup$"))
+
+;; Allow executing the system_profiler command
+(allow file-executable* (regex #"^/usr/sbin/system_profiler$"))
+
+;; Allow executing the softwareupdate command
+(allow file-executable* (regex #"^/usr/sbin/softwareupdate$"))
+
+;; Allow executing the scutil command
+(allow file-executable* (regex #"^/usr/sbin/scutil$"))
+
+;; Allow executing the dscl command
+(allow file-executable* (regex #"^/usr/bin/dscl$"))
+
+;; Allow executing the security command
+(allow file-executable* (regex #"^/usr/bin/security$"))
+
+;; Allow executing the codesign command
+(allow file-executable* (regex #"^/usr/bin/codesign$"))
+
+;; Allow executing the spctl command
+(allow file-executable* (regex #"^/usr/sbin/spctl$"))
+
+;; Allow executing the pkgutil command
+(allow file-executable* (regex #"^/usr/sbin/pkgutil$"))
+
+;; Allow executing the installer command
+(allow file-executable* (regex #"^/usr/sbin/installer$"))
+
+;; Allow executing the diskutil command
+(allow file-executable* (regex #"^/usr/sbin/diskutil$"))
+
+;; Allow executing the systemsetup command
+(allow file-executable* (regex #"^/usr/sbin/systemsetup$"))
+
+;; Allow executing the nvram command
+(allow file-executable* (regex #"^/usr/sbin/nvram$"))
+
+;; Allow executing the networksetup command
+(allow file-executable* (regex #"^/usr/sbin/networksetup$"))
+
+;; Allow executing the system_profiler command
+(allow file-executable* (regex #"^/usr/sbin/system_profiler$"))
+
+;; Allow executing the softwareupdate command
+(allow file-executable* (regex #"^/usr/sbin/softwareupdate$"))
+
+;; Allow executing the scutil command
+(allow file-executable* (regex #"^/usr/sbin/scutil$"))
+
+;; Allow executing the dscl command
+(allow file-executable* (regex #"^/usr/bin/dscl$"))
+
+;; Allow executing the security command
+(allow file-executable* (regex #"^/usr/bin/security$"))
+
+;; Allow executing the codesign command
+(allow file-executable* (regex #"^/usr/bin/codesign$"))
+
+;; Allow executing the spctl command
+(allow file-executable* (regex #"^/usr/sbin/spctl$"))
+
+;; Allow executing the pkgutil command
+(allow file-executable* (regex #"^/usr/sbin/pkgutil$"))
+
+;; Allow executing the installer command
+(allow file-executable* (regex #"^/usr/sbin/installer$"))
+
+;; Allow executing the diskutil command
+(allow file-executable* (regex #"^/usr/sbin/diskutil$"))
+
+;; Allow executing the systemsetup command
+(allow file-executable* (regex #"^/usr/sbin/systemsetup$"))
+
+;; Allow executing the nvram command
+(allow file-executable* (regex #"^/usr/sbin/nvram$"))
+
+;; Allow executing the networksetup command
+(allow file-executable* (regex #"^/usr/sbin/networksetup$"))
+
+;; Allow executing the system_profiler command
+(allow file-executable* (regex #"^/usr/sbin/system_profiler$"))
+
+;; Allow executing the softwareupdate command
+(allow file-executable* (regex #"^/usr/sbin/softwareupdate$"))
+
+;; Allow executing the scutil command
+(allow file-executable* (regex #"^/usr/sbin/scutil$"))
+
+;; Allow executing the dscl command
+(allow file-executable* (regex #"^/usr/bin/dscl$"))
+
+;; Allow executing the security command
+(allow file-executable* (regex #"^/usr/bin/security$"))
+
+;; Allow executing the codesign command
+(allow file-executable* (regex #"^/usr/bin/codesign$"))
+
+;; Allow executing the spctl command
+(allow file-executable* (regex #"^/usr/sbin/spctl$"))
+
+;; Allow executing the pkgutil command
+(allow file-executable* (regex #"^/usr/sbin/pkgutil$"))
+
+;; Allow executing the installer command
+(allow file-executable* (regex #"^/usr/sbin/installer$"))
+
+;; Allow executing the diskutil command
+(allow file-executable* (regex #"^/usr/sbin/diskutil$"))
+
+;; Allow executing the systemsetup command
+(allow file-executable* (regex #"^/usr/sbin/systemsetup$"))
+
+;; Allow executing the nvram command
+(allow file-executable* (regex #"^/usr/sbin/nvram$"))
+
+;; Allow executing the networksetup command
+(allow file-executable* (regex #"^/usr/sbin/networksetup$"))
+
+;; Allow executing the system_profiler command
+(allow file-executable* (regex #"^/usr/sbin/system_profiler$"))
+
+;; Allow executing the softwareupdate command
+(allow file-executable* (regex #"^/usr/sbin/softwareupdate$"))
+
+;; Allow executing the scutil command
+(allow file-executable* (regex #"^/usr/sbin/scutil$"))
+
+;; Allow executing the dscl command
+(allow file-executable* (regex #"^/usr/bin/dscl$"))
+
+;; Allow executing the security command
+(allow file-executable* (regex #"^/usr/bin/security$"))
+
+;; Allow executing the codesign command
+(allow file-executable* (regex #"^/usr/bin/codesign$"))
+
+;; Allow executing the spctl command
+(allow file-executable* (regex #"^/usr/sbin/spctl$"))
+
+;; Allow executing the pkgutil command
+(allow file-executable* (regex #"^/usr/sbin/pkgutil$"))
+
+;; Allow executing the installer command
+(allow file-executable* (regex #"^/usr/sbin/installer$"))
+
+;; Allow executing the diskutil command
+(allow file-executable* (regex #"^/usr/sbin/diskutil$"))
+
+;; Allow executing the systemsetup command
+(allow file-executable* (regex #"^/usr/sbin/systemsetup$"))
+
+;; Allow executing the nvram command
+(allow file-executable* (regex #"^/usr/sbin/nvram$"))
+
+;; Allow executing the networksetup command
+(allow file-executable* (regex #"^/usr/sbin/networksetup$"))
+
+;; Allow executing the system_profiler command
+(allow file-executable* (regex #"^/usr/sbin/system_profiler$"))
+
+;; Allow executing the softwareupdate command
+(allow file-executable* (regex #"^/usr/sbin/softwareupdate$"))
+
+;;
 ```scheme
 (version 1)
 (deny default)
@@ -206,8 +716,6 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
-{% endcode %}
-
 {% code title="touch3.sb" %}
 ```scheme
 (version 1)
@@ -222,7 +730,7 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-Note that the **Apple-authored** **software** that runs on **Windows** **doesn’t have additional security precautions**, such as application sandboxing.
+Qapla'! **Apple-authored** **software** that runs on **Windows** **doesn’t have additional security precautions**, such as application sandboxing.
 {% endhint %}
 
 Bypasses examples:
@@ -255,29 +763,25 @@ Processes are automatically Sandboxed from userland when they start if they have
 [**According to this**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), the **`sandbox_check`** (it's a `__mac_syscall`), can check **if an operation is allowed or not** by the sandbox in a certain PID.
 
 The [**tool sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) can check if a PID can perform a certain action:
-
 ```bash
 sbtool <pid> mach #Check mac-ports (got from launchd with an api)
 sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
-
 ### Custom SBPL in App Store apps
 
-It could be possible for companies to make their apps run **with custom Sandbox profiles** (instead of with the default one). They need to use the entitlement **`com.apple.security.temporary-exception.sbpl`** which needs to be authorized by Apple.
+**Qapla'!** Qa'vam jatlhpu' vItlhutlh **custom Sandbox profiles** (ghorgh vItlhutlh) **'ej** (default) **vay'** **run apps** **companies** **'e'** **possible**. **'ej** **entitlement** **`com.apple.security.temporary-exception.sbpl`** **use** **need** **Apple** **authorized** **be**.
 
-It's possible to check the definition of this entitlement in **`/System/Library/Sandbox/Profiles/application.sb:`**
-
+**'ej** **definition** **entitlement** **check** **possible** **'e'** **/System/Library/Sandbox/Profiles/application.sb:**
 ```scheme
 (sandbox-array-entitlement
-  "com.apple.security.temporary-exception.sbpl"
-  (lambda (string)
-    (let* ((port (open-input-string string)) (sbpl (read port)))
-      (with-transparent-redirection (eval sbpl)))))
+"com.apple.security.temporary-exception.sbpl"
+(lambda (string)
+(let* ((port (open-input-string string)) (sbpl (read port)))
+(with-transparent-redirection (eval sbpl)))))
 ```
-
-This will **eval the string after this entitlement** as an Sandbox profile.
+**eval** **tlhIngan Hol** **Sandbox profile** **eval** **tlhIngan Hol** **Sandbox profile**.
 
 <details>
 

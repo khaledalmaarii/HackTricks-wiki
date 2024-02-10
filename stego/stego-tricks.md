@@ -31,30 +31,34 @@ binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
 binwalk --dd ".*" file # Extracts all data
 ```
-
 ### **Foremost**
-Recovers files based on their headers and footers, useful for png images. Installed via `apt` with its source on [GitHub](https://github.com/korczis/foremost).
+**Foremost** png images jImejDaq png images laH 'e' vItlhutlh. **apt** Daq 'e' vItlhutlh, **GitHub** [source](https://github.com/korczis/foremost) vItlhutlh.
 ```bash
 foremost -i file # Extracts data
 ```
-
 ### **Exiftool**
 Helps to view file metadata, available [here](https://www.sno.phy.queensu.ca/~phil/exiftool/).
+
+### **Exiftool**
+ghItlh file metadata qar vItlhutlh [here](https://www.sno.phy.queensu.ca/~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
-
 ### **Exiv2**
 Similar to exiftool, for metadata viewing. Installable via `apt`, source on [GitHub](https://github.com/Exiv2/exiv2), and has an [official website](http://www.exiv2.org/).
+
+### **Exiv2**
+exiftool jatlh metadata viewing vaj. `apt` through Installable, [GitHub](https://github.com/Exiv2/exiv2) source, 'ej [official website](http://www.exiv2.org/) vaj.
 ```bash
 exiv2 file # Shows the metadata
 ```
-
 ### **File**
-Identify the type of file you're dealing with.
+**QawHaq**
+QawHaq vItlhutlh.
 
 ### **Strings**
-Extracts readable strings from files, using various encoding settings to filter the output.
+**nIvbogh**
+nIvbogh vItlhutlh, vaj vItlhutlhbe'ngan encoding settings vItlhutlhbe'ngan output filter.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -66,51 +70,25 @@ strings -e b -n 6 file # 16bit strings (big-endian)
 strings -e L -n 6 file # 32bit strings (little-endian)
 strings -e B -n 6 file # 32bit strings (big-endian)
 ```
-
-### **Comparison (cmp)**
-Useful for comparing a modified file with its original version found online.
+### **Qa'meH (cmp)**
+Qa'meH vItlhutlhlaHchugh vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh 'e' vItlhutlhlaHchugh '
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
+## **tlheghvam vItlhutlh**
 
-## **Extracting Hidden Data in Text**
-
-### **Hidden Data in Spaces**
-Invisible characters in seemingly empty spaces may hide information. To extract this data, visit [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
-
-
-
-***
-
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-***
-
-## **Extracting Data from Images**
-
-### **Identifying Image Details with GraphicMagick**
-
-[GraphicMagick](https://imagemagick.org/script/download.php) serves to determine image file types and identify potential corruption. Execute the command below to inspect an image:
-
+### **vItlhutlh vIghojmoH**
+vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlh
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-
-To attempt repair on a damaged image, adding a metadata comment might help:
-
+To'wI' jatlhqa' 'e' chenmoH, metadata comment chenmoH vItlhutlh:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
+### **Steghide Data Concealment**
 
-### **Steghide for Data Concealment**
-
-Steghide facilitates hiding data within `JPEG, BMP, WAV, and AU` files, capable of embedding and extracting encrypted data. Installation is straightforward using `apt`, and its [source code is available on GitHub](https://github.com/StefanoDeVuono/steghide).
+Steghide jol facilitates hiding data within `JPEG, BMP, WAV, and AU` files, capable of embedding and extracting encrypted data. Installation is straightforward using `apt`, and its [source code is available on GitHub](https://github.com/StefanoDeVuono/steghide).
 
 **Commands:**
 - `steghide info file` reveals if a file contains hidden data.
@@ -120,11 +98,9 @@ For web-based extraction, visit [this website](https://futureboy.us/stegano/deci
 
 **Bruteforce Attack with Stegcracker:**
 - To attempt password cracking on Steghide, use [stegcracker](https://github.com/Paradoxis/StegCracker.git) as follows:
-
 ```bash
 stegcracker <file> [<wordlist>]
 ```
-
 ### **zsteg for PNG and BMP Files**
 
 zsteg specializes in uncovering hidden data in PNG and BMP files. Installation is done via `gem install zsteg`, with its [source on GitHub](https://github.com/zed-0xff/zsteg).
@@ -154,15 +130,13 @@ Stegpy allows embedding information into image and audio files, supporting forma
 ### **Pngcheck for PNG File Analysis**
 
 To analyze PNG files or to validate their authenticity, use:
-
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
 ```
+### **Qa'vIn QaD jatlhlaHbe'chugh QaD 'ej QaD jatlhlaHbe'chugh**
 
-### **Additional Tools for Image Analysis**
-
-For further exploration, consider visiting:
+QaD jatlhlaHbe'chugh, vItlhutlh:
 
 - [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 - [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -170,30 +144,28 @@ For further exploration, consider visiting:
 - [OpenStego](https://www.openstego.com/)
 - [DIIT](https://diit.sourceforge.net/)
 
-## **Extracting Data from Audios**
+## **QaD jatlhlaHbe'chugh Data ngeH Audios**
 
-**Audio steganography** offers a unique method to conceal information within sound files. Different tools are utilized for embedding or retrieving hidden content.
+**Audio steganography** vItlhutlh method unique to conceal information within sound files. QaD jatlhlaHbe'chugh tools different utilized embedding retrieval hidden content.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
-Steghide is a versatile tool designed for hiding data in JPEG, BMP, WAV, and AU files. Detailed instructions are provided in the [stego tricks documentation](stego-tricks.md#steghide).
+Steghide vItlhutlh tool versatile designed hiding data JPEG, BMP, WAV, 'ej AU files. Detailed instructions provided [stego tricks documentation](stego-tricks.md#steghide).
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
-This tool is compatible with a variety of formats including PNG, BMP, GIF, WebP, and WAV. For more information, refer to [Stegpy's section](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
+QaD jatlhlaHbe'chugh tool compatible variety formats including PNG, BMP, GIF, WebP, 'ej WAV. QaD jatlhlaHbe'chugh [Stegpy's section](stego-tricks.md#stegpy-png-bmp-gif-webp-wav) vItlhutlh information.
 
 ### **ffmpeg**
-ffmpeg is crucial for assessing the integrity of audio files, highlighting detailed information and pinpointing any discrepancies.
+ffmpeg crucial assessing integrity audio files, highlighting detailed information pinpointing discrepancies.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
-
 ### **WavSteg (WAV)**
-WavSteg excels in concealing and extracting data within WAV files using the least significant bit strategy. It is accessible on [GitHub](https://github.com/ragibson/Steganography#WavSteg). Commands include:
+WavSteg jol excels in concealing and extracting data within WAV files using the least significant bit strategy. It is accessible on [GitHub](https://github.com/ragibson/Steganography#WavSteg). Commands include:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
 python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
-
 ### **Deepsound**
 Deepsound allows for the encryption and detection of information within sound files using AES-256. It can be downloaded from [the official page](http://jpinsoft.net/deepsound/download.aspx).
 

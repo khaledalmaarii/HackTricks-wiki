@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -70,12 +70,12 @@ This file basically contains the URL:
 plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 
 [...]
-	<key>is_virtual_machine</key>
-	<false/>
-	<key>jss_url</key>
-	<string>https://halbornasd.jamfcloud.com/</string>
-	<key>last_management_framework_change_id</key>
-	<integer>4</integer>
+<key>is_virtual_machine</key>
+<false/>
+<key>jss_url</key>
+<string>https://halbornasd.jamfcloud.com/</string>
+<key>last_management_framework_change_id</key>
+<integer>4</integer>
 [...]
 ```
 {% endcode %}
@@ -93,26 +93,26 @@ sudo jamf policy -id 0
 
 #### JAMF Impersonation
 
-In order to **impersonate the communication** between a device and JMF you need:
+**QaH Impersonation** **communication** **between** **device** **JMF** **need**:
 
-* The **UUID** of the device: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
-* The **JAMF keychain** from: `/Library/Application\ Support/Jamf/JAMF.keychain` which contains the device certificate
+* **UUID** **device**: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
+* **JAMF keychain** **from**: `/Library/Application\ Support/Jamf/JAMF.keychain` **contains** **device certificate**
 
-With this information, **create a VM** with the **stolen** Hardware **UUID** and with **SIP disabled**, drop the **JAMF keychain,** **hook** the Jamf **agent** and steal its information.
+**information**, **create** **VM** **stolen** **Hardware** **UUID** **SIP disabled**, **drop** **JAMF keychain,** **hook** **Jamf** **agent** **steal** **information**.
 
 #### Secrets stealing
 
 <figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-You could also monitor the location `/Library/Application Support/Jamf/tmp/` for the **custom scripts** admins might want to execute via Jamf as they are **placed here, executed and removed**. These scripts **might contain credentials**.
+**could** **monitor** **location** `/Library/Application Support/Jamf/tmp/` **custom scripts** **admins** **want** **execute** **Jamf** **placed here, executed and removed**. **scripts** **might contain credentials**.
 
-However, **credentials** might be passed tho these scripts as **parameters**, so you would need to monitor `ps aux | grep -i jamf` (without even being root).
+**However**, **credentials** **might** **passed** **scripts** **parameters**, **would** **need** **monitor** `ps aux | grep -i jamf` (without even being root).
 
-The script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) can listen for new files being added and new process arguments.
+**script** [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) **listen** **new files** **added** **new process arguments**.
 
 ### macOS Remote Access
 
-And also about **MacOS** "special" **network** **protocols**:
+**And** **MacOS** "special" **network** **protocols**:
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -120,7 +120,7 @@ And also about **MacOS** "special" **network** **protocols**:
 
 ## Active Directory
 
-In some occasions you will find that the **MacOS computer is connected to an AD**. In this scenario you should try to **enumerate** the active directory as you are use to it. Find some **help** in the following pages:
+**occasions** **find** **MacOS computer** **connected** **AD**. **scenario** **try** **enumerate** **active directory** **use** **it**. **Find** **help** **following pages**:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -134,24 +134,20 @@ In some occasions you will find that the **MacOS computer is connected to an AD*
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Some **local MacOS tool** that may also help you is `dscl`:
-
+**local MacOS tool** **may** **help** **dscl**:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
+### qo'noS Information
 
-Also there are some tools prepared for MacOS to automatically enumerate the AD and play with kerberos:
-
-* [**Machound**](https://github.com/XMCyber/MacHound): MacHound is an extension to the Bloodhound audting tool allowing collecting and ingesting of Active Directory relationships on MacOS hosts.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost is an Objective-C project designed to interact with the Heimdal krb5 APIs on macOS. The goal of the project is to enable better security testing around Kerberos on macOS devices using native APIs without requiring any other framework or packages on the target.
+* [**Machound**](https://github.com/XMCyber/MacHound): MacHound Hoch 'ej Bloodhound audting tool extension 'oH collecting 'ej ingesting of Active Directory relationships on MacOS hosts.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost Hoch Objective-C project designed to interact with the Heimdal krb5 APIs on macOS. The goal of the project is to enable better security testing around Kerberos on macOS devices using native APIs without requiring any other framework or packages on the target.
 * [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript for Automation (JXA) tool to do Active Directory enumeration.
 
 ### Domain Information
-
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
-
 ### Users
 
 The three types of MacOS users are:
@@ -168,7 +164,6 @@ In addition to using the HasSession and AdminTo edges, **MacHound adds three new
 * **CanSSH** - entity allowed to SSH to host
 * **CanVNC** - entity allowed to VNC to host
 * **CanAE** - entity allowed to execute AppleEvent scripts on host
-
 ```bash
 #User enumeration
 dscl . ls /Users
@@ -190,7 +185,6 @@ dscl "/Active Directory/TEST/All Domains" read "/Groups/[groupname]"
 #Domain Information
 dsconfigad -show
 ```
-
 More info in [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
 
 ## Accessing the Keychain

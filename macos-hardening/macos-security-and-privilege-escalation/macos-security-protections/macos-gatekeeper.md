@@ -16,7 +16,7 @@
 
 ## Gatekeeper
 
-**Gatekeeper** is a security feature developed for Mac operating systems, designed to ensure that users **run only trusted software** on their systems. It functions by **validating software** that a user downloads and attempts to open from **sources outside the App Store**, such as an app, a plug-in, or an installer package.
+**Gatekeeper** jIHDaq lo'laHbe'chugh Mac operating systems, designed to ensure that users **run only trusted software** on their systems. It functions by **validating software** that a user downloads and attempts to open from **sources outside the App Store**, such as an app, a plug-in, or an installer package.
 
 The key mechanism of Gatekeeper lies in its **verification** process. It checks if the downloaded software is **signed by a recognized developer**, ensuring the software's authenticity. Further, it ascertains whether the software is **notarised by Apple**, confirming that it is devoid of known malicious content and has not been tampered with after notarisation.
 
@@ -39,7 +39,6 @@ Starting from macOS Catalina, **Gatekeeper also checks whether the application h
 #### Check Signatures
 
 When checking some **malware sample** you should always **check the signature** of the binary as the **developer** that signed it may be already **related** with **malware.**
-
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -56,7 +55,6 @@ spctl --assess --verbose /Applications/Safari.app
 # Sign a binary
 codesign -s <cert-name-keychain> toolsdemo
 ```
-
 ### Notarization
 
 Apple's notarization process serves as an additional safeguard to protect users from potentially harmful software. It involves the **developer submitting their application for examination** by **Apple's Notary Service**, which should not be confused with App Review. This service is an **automated system** that scrutinizes the submitted software for the presence of **malicious content** and any potential issues with code-signing.
@@ -72,20 +70,23 @@ GateKeeper is both, **several security components** that prevent untrusted apps 
 It's possible to see the **status** of GateKeeper with:
 
 ```bash
+command
+```
+
+The output will show the current status of GateKeeper, indicating whether it is enabled or disabled.
+```bash
 # Check the status
 spctl --status
 ```
-
 {% hint style="danger" %}
-Note that GateKeeper signature checks are performed only to **files with the Quarantine attribute**, not to every file.
+Qapla'! Qa'vam GateKeeper signature checks vItlhutlh **Quarantine attribute** lo'laHbe'ghach, 'ej vItlhutlh file.
 {% endhint %}
 
-GateKeeper will check if according to the **preferences & the signature** a binary can be executed:
+GateKeeper vItlhutlh **preferences & signature** jImej vItlhutlh binary cha'logh:
 
 <figure><img src="../../../.gitbook/assets/image (678).png" alt=""><figcaption></figcaption></figure>
 
-The database that keeps this configuration ins located in **`/var/db/SystemPolicy`**. You can check this database as root with:
-
+vItlhutlh database vItlhutlh configuration 'e' vItlhutlh **`/var/db/SystemPolicy`**. vItlhutlh database vItlhutlh root vItlhutlh:
 ```bash
 # Open database
 sqlite3 /var/db/SystemPolicy
@@ -99,12 +100,10 @@ anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] exists
 anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists and (certificate leaf[field.1.2.840.113635.100.6.1.14] or certificate leaf[field.1.2.840.113635.100.6.1.13]) and notarized|1|0|Notarized Developer ID
 [...]
 ```
+Qapla'! QaStaHvIS 'App Store' laH je 'Developer ID' laH je, 'App Store' 'ej 'Developer ID' vItlhutlh. 'ej 'oH previous imaged vItlhutlh 'ej **App Store 'ej Developer ID** vItlhutlh.\
+vaj 'ej 'App Store' vItlhutlh, "**Notarized Developer ID" rules** vItlhutlh.
 
-Note how the first rule ended in "**App Store**" and the second one in "**Developer ID**" and that in the previous imaged it was **enabled to execute apps from the App Store and identified developers**.\
-If you **modify** that setting to App Store, the "**Notarized Developer ID" rules will disappear**.
-
-There are also thousands of rules of **type GKE**:
-
+**GKE** type rules 'op. 'ej SaD 'op.
 ```bash
 SELECT requirement,allow,disabled,label from authority where label = 'GKE' limit 5;
 cdhash H"b40281d347dc574ae0850682f0fd1173aa2d0a39"|1|0|GKE
@@ -113,17 +112,16 @@ cdhash H"4317047eefac8125ce4d44cab0eb7b1dff29d19a"|1|0|GKE
 cdhash H"0a71962e7a32f0c2b41ddb1fb8403f3420e1d861"|1|0|GKE
 cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
 ```
-
-These are hashes that come from **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** and **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**
+**`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** and **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`** are hashes. 
 
 Or you could list the previous info with:
-
 ```bash
 sudo spctl --list
 ```
-
 The options **`--master-disable`** and **`--global-disable`** of **`spctl`** will completely **disable** these signature checks:
 
+**`spctl`**-nIy --master-disable
+**`spctl`**-nIy --global-disable
 ```bash
 # Disable GateKeeper
 spctl --global-disable
@@ -133,22 +131,26 @@ spctl --master-disable
 spctl --global-enable
 spctl --master-enable
 ```
-
-When completely enabled, a new option will appear:
+DaH jImej:
 
 <figure><img src="../../../.gitbook/assets/image (679).png" alt=""><figcaption></figcaption></figure>
 
-It's possible to **check if an App will be allowed by GateKeeper** with:
-
+**GateKeeper** jatlhlaHbe'chugh **App** **qaStaHvIS **yIlo'laH** **'e'**.
 ```bash
 spctl --assess -v /Applications/App.app
 ```
+**Klingon Translation:**
 
-It's possible to add new rules in GateKeeper to allow the execution of certain apps with:
+**'Iv Hoch GateKeeper vItlhutlhlaHbe'chugh, vaj vItlhutlhlaHbe'chugh vay' apps vIleghlaHbe'chugh.**
 
+```markdown
+**Klingon Translation:**
+
+**'Iv Hoch GateKeeper vItlhutlhlaHbe'chugh, vaj vItlhutlhlaHbe'chugh vay' apps vIleghlaHbe'chugh.**
+```
 ```bash
 # Check if allowed - nop
-spctl --assess -v /Applications/App.app          
+spctl --assess -v /Applications/App.app
 /Applications/App.app: rejected
 source=no usable signature
 
@@ -157,32 +159,28 @@ sudo spctl --add --label "whitelist" /Applications/App.app
 sudo spctl --enable --label "whitelist"
 
 # Check again - yep
-spctl --assess -v /Applications/App.app            
+spctl --assess -v /Applications/App.app
 /Applications/App.app: accepted
 ```
-
 ### Quarantine Files
 
-Upon **downloading** an application or file, specific macOS **applications** such as web browsers or email clients **attach an extended file attribute**, commonly known as the "**quarantine flag**," to the downloaded file. This attribute acts as a security measure to **mark the file** as coming from an untrusted source (the internet), and potentially carrying risks. However, not all applications attach this attribute, for instance, common BitTorrent client software usually bypasses this process.
+**QaStaHvIS** **application** pagh **download** vItlhutlh, macOS **applications** Daq **attach** **extended file attribute**, **quarantine flag** jatlh, **downloaded file**. **attribute** **security measure** **mark** file **untrusted source** (internet), **potentially carrying risks**. **applications** attach **attribute**, BitTorrent client software **bypasses** process.
 
-**The presence of a quarantine flag signals macOS's Gatekeeper security feature when a user attempts to execute the file**.
-
-In the case where the **quarantine flag is not present** (as with files downloaded via some BitTorrent clients), Gatekeeper's **checks may not be performed**. Thus, users should exercise caution when opening files downloaded from less secure or unknown sources.
+**quarantine flag** **presence** (BitTorrent clients downloaded files), Gatekeeper's **checks** **may not be performed**. **users** **exercise caution** opening files downloaded **less secure** unknown sources.
 
 {% hint style="info" %}
-**Checking** the **validity** of code signatures is a **resource-intensive** process that includes generating cryptographic **hashes** of the code and all its bundled resources. Furthermore, checking certificate validity involves doing an **online check** to Apple's servers to see if it has been revoked after it was issued. For these reasons, a full code signature and notarization check is **impractical to run every time an app is launched**.
+**validity** **code signatures** **checking** **resource-intensive** process, **cryptographic hashes** code **bundled resources** **generate**. **certificate validity** **checking** **online check** Apple's servers **revoked** issued. **reasons**, code signature **notarization check** **impractical** **run every time app launched**.
 
-Therefore, these checks are **only run when executing apps with the quarantined attribute.**
+**checks** **run** **executing apps quarantined attribute**.
 {% endhint %}
 
 {% hint style="warning" %}
-This attribute must be **set by the application creating/downloading** the file.
+**attribute** **set application creating/downloading** file.
 
-However, files that are sandboxed will have this attribute set to every file they create. And non sandboxed apps can set it themselves, or specify the [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) key in the **Info.plist** which will make the system set the `com.apple.quarantine` extended attribute on the files created,
+**sandboxed files** **attribute** **set** file **create**. **non sandboxed apps** **set** themselves, **specify** [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) **key** **Info.plist** **system set** `com.apple.quarantine` **extended attribute** files created,
 {% endhint %}
 
-It's possible to **check it's status and enable/disable** (root required) with:
-
+**check** **status enable/disable** (root required) with:
 ```bash
 spctl --status
 assessments enabled
@@ -191,17 +189,15 @@ spctl --enable
 spctl --disable
 #You can also allow nee identifies to execute code using the binary "spctl"
 ```
-
-You can also **find if a file has the quarantine extended attribute** with:
-
+**jIyajbe'chugh** **ghItlh** **quarantine extended attribute** **file** **vItlhutlh** **jImej** **ghaH** **Daq.**
 ```bash
 xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
+**value** of the **extended** **attributes** and find out the app that wrote the quarantine attr with:
 
-Check the **value** of the **extended** **attributes** and find out the app that wrote the quarantine attr with:
-
+**value** of the **extended** **attributes** and find out the app that wrote the quarantine attr with:
 ```bash
 xattr -l portada.png
 com.apple.macl:
@@ -217,22 +213,20 @@ com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
 # Brave -- App
 # F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
 ```
-
-Actually a process "could set quarantine flags to the files it creates" (i tried to apply the USER\_APPROVED flag in a created file but it won't apply it):
+Qapla'! "QaStaHvIS" (jatlh USER_APPROVED flag created file vItlhutlh) "quarantine flags" vItlhutlh:
 
 <details>
 
 <summary>Source Code apply quarantine flags</summary>
-
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 
 enum qtn_flags {
-    QTN_FLAG_DOWNLOAD = 0x0001,
-    QTN_FLAG_SANDBOX = 0x0002,
-    QTN_FLAG_HARD = 0x0004,
-    QTN_FLAG_USER_APPROVED = 0x0040,
+QTN_FLAG_DOWNLOAD = 0x0001,
+QTN_FLAG_SANDBOX = 0x0002,
+QTN_FLAG_HARD = 0x0004,
+QTN_FLAG_USER_APPROVED = 0x0040,
 };
 
 #define qtn_proc_alloc _qtn_proc_alloc
@@ -268,41 +262,36 @@ int qtn_proc_set_identifier(qtn_proc_t qp, const char* bundleid);
 
 int main() {
 
-  qtn_proc_t qp = qtn_proc_alloc();
-  qtn_proc_set_identifier(qp, "xyz.hacktricks.qa");
-  qtn_proc_set_flags(qp, QTN_FLAG_DOWNLOAD | QTN_FLAG_USER_APPROVED);
-  qtn_proc_apply_to_self(qp);
-  qtn_proc_free(qp);
+qtn_proc_t qp = qtn_proc_alloc();
+qtn_proc_set_identifier(qp, "xyz.hacktricks.qa");
+qtn_proc_set_flags(qp, QTN_FLAG_DOWNLOAD | QTN_FLAG_USER_APPROVED);
+qtn_proc_apply_to_self(qp);
+qtn_proc_free(qp);
 
-  FILE *fp;
-  fp = fopen("thisisquarantined.txt", "w+");
-  fprintf(fp, "Hello Quarantine\n");
-  fclose(fp);
+FILE *fp;
+fp = fopen("thisisquarantined.txt", "w+");
+fprintf(fp, "Hello Quarantine\n");
+fclose(fp);
 
-  return 0;
-  
+return 0;
+
 }
 ```
-
 </details>
 
 And **remove** that attribute with:
-
 ```bash
 xattr -d com.apple.quarantine portada.png
 #You can also remove this attribute from every file with
 find . -iname '*' -print0 | xargs -0 xattr -d com.apple.quarantine
 ```
-
-And find all the quarantined files with:
+ghItlh 'ej DaH jatlh:
 
 {% code overflow="wrap" %}
 ```bash
 find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; printf "\n"}' | xargs -I {} xattr -lv {} | grep "com.apple.quarantine"
 ```
 {% endcode %}
-
-Quarantine information is also stored in a central database managed by LaunchServices in **`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**.
 
 #### **Quarantine.kext**
 
@@ -324,79 +313,47 @@ system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistC
 ```
 {% endcode %}
 
-XProtect is located on. SIP protected location at **/Library/Apple/System/Library/CoreServices/XProtect.bundle** and inside the bundle you can find information XProtect uses:
+XProtect jIHDaq **/Library/Apple/System/Library/CoreServices/XProtect.bundle** Daq yIqIm. XProtect jIHDaq vItlhutlh:
 
-* **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: Allows code with those cdhashes to use legacy entitlements.
-* **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: List of plugins and extensions that are disallowed to load via BundleID and TeamID or indicating a minimum version.
-* **`XProtect.bundle/Contents/Resources/XProtect.yara`**: Yara rules to detect malware.
-* **`XProtect.bundle/Contents/Resources/gk.db`**: SQLite3 database with hashes of blocked applications and TeamIDs.
+* **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: code vItlhutlh legacy entitlements vIlegh.
+* **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: plugins je extensions vItlhutlh vIlegh via BundleID je TeamID je vItlhutlh vItlhutlh.
+* **`XProtect.bundle/Contents/Resources/XProtect.yara`**: malware vItlhutlh yara rules.
+* **`XProtect.bundle/Contents/Resources/gk.db`**: blocked applications je TeamIDs hashes SQLite3 database.
 
-Note that there is another App in **`/Library/Apple/System/Library/CoreServices/XProtect.app`** related to XProtect that isn't involved with the Gatekeeper process.
+**`/Library/Apple/System/Library/CoreServices/XProtect.app`** Daq XProtect vItlhutlh App vItlhutlh Daq Gatekeeper process.
 
-### Not Gatekeeper
+### Gatekeeper
 
 {% hint style="danger" %}
-Note that Gatekeeper **isn't executed every time** you execute an application, just _**AppleMobileFileIntegrity**_ (AMFI) will only **verify executable code signatures** when you execute an app that has been already executed and verified by Gatekeeper.
+Gatekeeper **vItlhutlh** application vItlhutlh vItlhutlh, _**AppleMobileFileIntegrity**_ (AMFI) vItlhutlh **executable code signatures** vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh.
 {% endhint %}
 
-Therefore, previously it was possible to execute an app to cache it with Gatekeeper, then **modify not executables files of the application** (like Electron asar or NIB files) and if no other protections were in place, the application was **executed** with the **malicious** additions.
-
-However, now this is not possible because macOS **prevents modifying files** inside applications bundles. So, if you try the [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md) attack, you will find that it's not longer possible to abuse it because after executing the app to cache it with Gatekeeper, you won't be able to modify the bundle. And if you change for example the name of the Contents directory to NotCon (as indicated in the exploit), and then execute the main binary of the app to cache it with Gatekeeper, it will trigger an error and won't execute.
-
-## Gatekeeper Bypasses
-
-Any way to bypass Gatekeeper (manage to make the user download something and execute it when Gatekeeper should disallow it) is considered a vulnerability in macOS. These are some CVEs assigned to techniques that allowed to bypass Gatekeeper in the past:
-
-### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
-
-It was observed that if the **Archive Utility** is used for extraction, files with **paths exceeding 886 characters** do not receive the com.apple.quarantine extended attribute. This situation inadvertently allows those files to **circumvent Gatekeeper's** security checks.
-
-Check the [**original report**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810) for more information.
-
-### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
-
-When an application is created with **Automator**, the information about what it needs to execute is inside `application.app/Contents/document.wflow` not in the executable. The executable is just a generic Automator binary called **Automator Application Stub**.
-
-Therefore, you could make `application.app/Contents/MacOS/Automator\ Application\ Stub` **point with a symbolic link to another Automator Application Stub inside the system** and it will execute what is inside `document.wflow` (you script) **without triggering Gatekeeper** because the actual executable doesn't have the quarantine xattr.&#x20;
-
-Example os expected location: `/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
-
-Check the [**original report**](https://ronmasas.com/posts/bypass-macos-gatekeeper) for more information.
-
-### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
-
-In this bypass a zip file was created with an application starting to compress from `application.app/Contents` instead of `application.app`.  Therefore, the **quarantine attr** was applied to all the **files from `application.app/Contents`** but **not to `application.app`**, which is was Gatekeeper was checking, so Gatekeeper was bypassed because when `application.app` was triggered it **didn't have the quarantine attribute.**
-
+So, vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh v
 ```bash
 zip -r test.app/Contents test.zip
 ```
-
 Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) for more information.
 
 ### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
 Even if the components are different the exploitation of this vulnerability is very similar to the previous one. In this case with will generate an Apple Archive from **`application.app/Contents`** so **`application.app` won't get the quarantine attr** when decompressed by **Archive Utility**.
-
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
-
 Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/) for more information.
 
 ### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
 
 The ACL **`writeextattr`** can be used to prevent anyone from writing an attribute in a file:
-
 ```bash
 touch /tmp/no-attr
 chmod +a "everyone deny writeextattr" /tmp/no-attr
 xattr -w attrname vale /tmp/no-attr
 xattr: [Errno 13] Permission denied: '/tmp/no-attr'
 ```
+DaH jImej **AppleDouble** file format vItlhutlh 'e' vItlhutlh.
 
-Moreover, **AppleDouble** file format copies a file including its ACEs.
-
-In the [**source code**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) it's possible to see that the ACL text representation stored inside the xattr called **`com.apple.acl.text`**  is going to be set as ACL in the decompressed file. So, if you compressed an application into a zip file with **AppleDouble** file format with an ACL that prevents other xattrs to be written to it... the quarantine xattr wasn't set into de application:
+[**source code**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) vItlhutlh 'e' vItlhutlh 'e' **`com.apple.acl.text`** xattr vItlhutlh 'e' ACL text representation vItlhutlh 'e' vItlhutlh 'e' decompressed file vItlhutlh 'e'. So, 'ej vaj compressed application zip file **AppleDouble** file format vItlhutlh 'e' ACL vItlhutlh 'e' vItlhutlh 'e' xattr vItlhutlh 'e' vItlhutlh 'e'... quarantine xattr vItlhutlh 'e' application vItlhutlh 'e' vItlhutlh 'e':
 
 {% code overflow="wrap" %}
 ```bash
@@ -407,26 +364,22 @@ python3 -m http.server
 ```
 {% endcode %}
 
-Check the [**original report**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) for more information.
+[**QIn**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) [**report**] [**'e'**] [**ghItlhvam**] [**vItlhutlh**].
 
-Note that this could also be be exploited with AppleArchives:
-
+[**'ej**] [**AppleArchives**] [**vItlhutlh**] [**'e'**] [**ghItlhvam**] [**vItlhutlh**].
 ```bash
 mkdir app
 touch app/test
 chmod +a "everyone deny write,writeattr,writeextattr" app/test
 aa archive -d app -o test.aar
 ```
-
 ### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
 
-It was discovered that **Google Chrome wasn't setting the quarantine attribute** to downloaded files because of some macOS internal problems.
+**Google Chrome** **jatlhlaHbe'** **quarantine attribute** **ghItlh** **macOS** **vItlhutlh**.
 
 ### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
 
-AppleDouble file formats store the attributes of a file in a separate file starting by `._`, this helps to copy dile attributes **across macOS machines**. However, it was noticed that after decompressing an AppleDouble file, the file starting with `._` **wasn't given the quarantine attribute**.
-
-{% code overflow="wrap" %}
+**AppleDouble** **file format** **attributes** **Separate file** **'._'** **began** **file** **macOS** **machines** **copy** **helps**. **However**, **AppleDouble file** **decompress** **after**, **'._'** **quarantine attribute** **ghItlh** **bIjatlhlaHbe'**.
 ```bash
 mkdir test
 echo a > test/a
@@ -436,11 +389,10 @@ aa archive -d test/ -o test.aar
 
 # If you downloaded the resulting test.aar and decompress it, the file test/._a won't have a quarantitne attribute
 ```
-{% endcode %}
+{% code %}
 
-Being able to create a file that won't have the quarantine attribute set, it was **possible to bypass Gatekeeper.** The trick was to **create a DMG file application** using the AppleDouble name convention (start it with `._`) and create a **visible file as a sym link to this hidden** file without the quarantine attribute.\
-When the **dmg file is executed**, as it doesn't have a quarantine attribute it'll **bypass Gatekeeper**.
-
+**Gatekeeper**'u **bypass** qilish uchun **karantin atributiga ega bo'lmaydigan fayl yaratish** mumkin edi. Ustunlik shundaki, **AppleDouble nom konvensiyasi**dan foydalanib **DMG fayl dasturini yaratish** va **bu yashirin faylga karantin atributiga ega bo'lmagan ko'rinadigan faylni** ko'rsatuvchi faylni yaratishdan iborat edi.\
+**DMG fayli** ishga tushirilganda, u karantin atributiga ega bo'lmaganligi sababli **Gatekeeper'ni o'tkazadi**.
 ```bash
 # Create an app bundle with the backdoor an call it app.app
 
@@ -448,7 +400,7 @@ echo "[+] creating disk image with app"
 hdiutil create -srcfolder app.app app.dmg
 
 echo "[+] creating directory and files"
-mkdir 
+mkdir
 mkdir -p s/app
 cp app.dmg s/app/._app.dmg
 ln -s ._app.dmg s/app/app.dmg
@@ -456,7 +408,6 @@ ln -s ._app.dmg s/app/app.dmg
 echo "[+] compressing files"
 aa archive -d s/ -o app.aar
 ```
-
 ### Prevent Quarantine xattr
 
 In an ".app" bundle if the quarantine xattr is not added to it, when executing it **Gatekeeper won't be triggered**.

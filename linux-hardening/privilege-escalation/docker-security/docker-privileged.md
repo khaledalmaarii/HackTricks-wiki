@@ -67,16 +67,9 @@ mount  | grep '(ro'
 {% endtab %}
 {% endtabs %}
 
-### Masking over kernel file systems
+### tlhIngan Hol
 
-The **/proc** file system is selectively writable but for security, certain parts are shielded from write and read access by overlaying them with **tmpfs**, ensuring container processes can't access sensitive areas.
-
-{% hint style="info" %}
-**tmpfs** is a file system that stores all the files in virtual memory. tmpfs doesn't create any files on your hard drive. So if you unmount a tmpfs file system, all the files residing in it are lost for ever.
-{% endhint %}
-
-{% tabs %}
-{% tab title="Inside default container" %}
+**/proc** file system vItlhutlhlaHbe'chugh, 'ach qaStaHvIS, 'oH vItlhutlhlaHbe'chugh **tmpfs** vItlhutlhlaHbe'chugh, container processes vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -104,6 +97,15 @@ Container engines launch the containers with a **limited number of capabilities*
 
 {% tabs %}
 {% tab title="Inside default container" %}
+### Linux capabilities
+
+Container engines launch the containers with a **limited number of capabilities** to control what goes on inside of the container by default. **Privileged** ones have **all** the **capabilities** accesible. To learn about capabilities read:
+
+{% content-ref url="../linux-capabilities.md" %}
+[linux-capabilities.md](../linux-capabilities.md)
+{% endcontent-ref %}
+{% endtab %}
+{% endtabs %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -125,10 +127,6 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 ```
 {% endtab %}
 {% endtabs %}
-
-You can manipulate the capabilities available to a container without running in `--privileged` mode by using the `--cap-add` and `--cap-drop` flags.
-
-### Seccomp
 
 **Seccomp** is useful to **limit** the **syscalls** a container can call. A default seccomp profile is enabled by default when running docker containers, but in privileged mode it is disabled. Learn more about Seccomp here:
 
@@ -155,27 +153,23 @@ Seccomp_filters:	0
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-
-Also, note that when Docker (or other CRIs) are used in a **Kubernetes** cluster, the **seccomp filter is disabled by default**
+DaH jImej (be'pu') **Kubernetes** clusterDaq Docker (yIlo' QaH) (be'pu') **seccomp filter** **DaH jImej** **disabled**.
 
 ### AppArmor
 
-**AppArmor** is a kernel enhancement to confine **containers** to a **limited** set of **resources** with **per-program profiles**. When you run with the `--privileged` flag, this protection is disabled.
+**AppArmor** **containers** **limited** **resources** **per-program profiles** **confine** **kernel enhancement**. **--privileged** flag yIlo' run, **protection** **disabled**.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
-
 ### SELinux
 
 Running a container with the `--privileged` flag disables **SELinux labels**, causing it to inherit the label of the container engine, typically `unconfined`, granting full access similar to the container engine. In rootless mode, it uses `container_runtime_t`, while in root mode, `spc_t` is applied.
@@ -183,26 +177,21 @@ Running a container with the `--privileged` flag disables **SELinux labels**, ca
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
-
-## What Doesn't Affect
+## vItlhutlh
 
 ### Namespaces
 
-Namespaces are **NOT affected** by the `--privileged` flag. Even though they don't have the security constraints enabled, they **do not see all of the processes on the system or the host network, for example**. Users can disable individual namespaces by using the **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** container engines flags.
-
-{% tabs %}
-{% tab title="Inside default privileged container" %}
+Namespaces **ghItlh** **--privileged** qutlh. vaj **ghItlh** **ghItlh** **security constraints** enabled, **ghItlh** **ghItlh** **processes** **system** **host network** **ghItlh** **ghItlh**. Users **--pid=host**, **--net=host**, **--ipc=host**, **--uts=host** container engines flags **ghItlh** **namespaces** **disable**.
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
 PID   USER     TIME  COMMAND
-    1 root      0:00 sh
-   18 root      0:00 ps -ef
+1 root      0:00 sh
+18 root      0:00 ps -ef
 ```
 {% endtab %}
 
@@ -211,9 +200,9 @@ PID   USER     TIME  COMMAND
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef
 PID   USER     TIME  COMMAND
-    1 root      0:03 /sbin/init
-    2 root      0:00 [kthreadd]
-    3 root      0:00 [rcu_gp]ount | grep /proc.*tmpfs
+1 root      0:03 /sbin/init
+2 root      0:00 [kthreadd]
+3 root      0:00 [rcu_gp]ount | grep /proc.*tmpfs
 [...]
 ```
 {% endtab %}

@@ -1,8 +1,6 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks AWS Red Team Expert</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -52,40 +50,43 @@ If you detect this behaviour, you can **decrypt the encrypted data** and even **
 ## How to exploit
 
 You could use [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) to exploit this kind of vulnerability or just do
-
 ```
 sudo apt-get install padbuster
 ```
+DaH jImej 'ej cookie vItlhutlh vulnerable 'e' vItlhutlh. vaj 'oH: 
 
-In order to test if the cookie of a site is vulnerable you could try:
+```plaintext
+1. Intercept the request containing the cookie using a proxy tool like Burp Suite.
+2. Modify the cookie by removing the padding or changing its value.
+3. Forward the modified request to the server and observe the response.
+4. If the server returns a different response or an error message indicating invalid padding, it is likely that the site is vulnerable to a padding oracle attack.
+```
 
+This technique allows you to determine if a site is susceptible to a padding oracle attack by manipulating the cookie and analyzing the server's response.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA=="
 ```
-
 **Encoding 0** means that **base64** is used (but others are available, check the help menu).
 
 You could also **abuse this vulnerability to encrypt new data. For example, imagine that the content of the cookie is "**_**user=MyUsername**_**", then you may change it to "\_user=administrator\_" and escalate privileges inside the application. You could also do it using `paduster`specifying the -plaintext** parameter:
 
+**Encoding 0** **base64** **'oH** **(ghItlhv, **'ej **'oH **vItlhutlh **'e' vItlhutlh **, **'ej **'oH **vItlhutlh **'e' vItlhutlh **'e' **-** **paduster** **-plaintext** **parameter:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-
-If the site is vulnerable `padbuster`will automatically try to find when the padding error occurs, but you can also indicating the error message it using the **-error** parameter.
-
+**ghItlh** padbuster **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error** parameter **-vIqtaHvIS** **padbuster** **-error
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
+## ghItlh
 
-## The theory
-
-In **summary**, you can start decrypting the encrypted data by guessing the correct values that can be used to create all the **different paddings**. Then, the padding oracle attack will start decrypting bytes from the end to the start by guessing which will be the correct value that **creates a padding of 1, 2, 3, etc**.
+**tlhIngan Hol** vItlhutlhlaHchugh, **encrypted data** vItlhutlhlaHchugh **correct values** vItlhutlhlaHchugh **different paddings** vItlhutlhlaHchugh **guessing** vItlhutlhlaHchugh **decrypt** vItlhutlhlaHchugh **start** vItlhutlhlaHchugh **padding oracle attack** vItlhutlhlaHchugh **decrypting bytes** vItlhutlhlaHchugh **end** vItlhutlhlaHchugh **start** vItlhutlhlaHchugh **guessing** vItlhutlhlaHchugh **correct value** vItlhutlhlaHchugh **creates a padding of 1, 2, 3, etc** vItlhutlhlaHchugh.
 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 
-Imagine you have some encrypted text that occupies **2 blocks** formed by the bytes from **E0 to E15**.\
-In order to **decrypt** the **last** **block** (**E8** to **E15**), the whole block passes through the "block cipher decryption" generating the **intermediary bytes I0 to I15**.\
-Finally, each intermediary byte is **XORed** with the previous encrypted bytes (E0 to E7). So:
+**encrypted text** vItlhutlhlaHchugh **2 blocks** vItlhutlhlaHchugh **bytes** vItlhutlhlaHchugh **E0 to E15** vItlhutlhlaHchugh.\
+**decrypt** vItlhutlhlaHchugh **last** **block** vItlhutlhlaHchugh **E8** vItlhutlhlaHchugh **E15**, **whole block** vItlhutlhlaHchugh **"block cipher decryption"** vItlhutlhlaHchugh **intermediary bytes I0 to I15** vItlhutlhlaHchugh.\
+**intermediary byte** vItlhutlhlaHchugh **XORed** vItlhutlhlaHchugh **previous encrypted bytes** vItlhutlhlaHchugh **E0 to E7**. So:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
 * `C14 = I14 ^ E6`
@@ -93,26 +94,26 @@ Finally, each intermediary byte is **XORed** with the previous encrypted bytes (
 * `C12 = I12 ^ E4`
 * ...
 
-Now, It's possible to **modify `E7` until `C15` is `0x01`**, which will also be a correct padding. So, in this case: `\x01 = I15 ^ E'7`
+vItlhutlhlaHchugh, **modify `E7`** vItlhutlhlaHchugh **C15** vItlhutlhlaHchugh `0x01` vItlhutlhlaHchugh, **correct padding** vItlhutlhlaHchugh. vItlhutlhlaHchugh: `\x01 = I15 ^ E'7`
 
-So, finding E'7, it's **possible to calculate I15**: `I15 = 0x01 ^ E'7`
+vItlhutlhlaHchugh **E'7** vItlhutlhlaHchugh **find**, **calculate I15**: `I15 = 0x01 ^ E'7`
 
-Which allow us to **calculate C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
+vItlhutlhlaHchugh **calculate C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-Knowing **C15**, now it's possible to **calculate C14**, but this time brute-forcing the padding `\x02\x02`.
+**C15** vItlhutlhlaHchugh, **calculate C14** vItlhutlhlaHchugh, **brute-forcing** vItlhutlhlaHchugh **padding** `\x02\x02`.
 
-This BF is as complex as the previous one as it's possible to calculate the the `E''15` whose value is 0x02: `E''7 = \x02 ^ I15` so it's just needed to find the **`E'14`** that generates a **`C14` equals to `0x02`**.\
-Then, do the same steps to decrypt C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
+**BF** vItlhutlhlaHchugh **complex** vItlhutlhlaHchugh **previous one** vItlhutlhlaHchugh **calculate the the `E''15`** vItlhutlhlaHchugh **value** `0x02`: `E''7 = \x02 ^ I15`, **find** **`E'14`** vItlhutlhlaHchugh **`C14` equals to `0x02`**.\
+vItlhutlhlaHchugh, **steps** vItlhutlhlaHchugh **decrypt C14**: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
-**Follow this chain until you decrypt the whole encrypted text.**
+**Follow** vItlhutlhlaHchugh **chain** vItlhutlhlaHchugh **decrypt** vItlhutlhlaHchugh **whole encrypted text**.
 
 ## Detection of the vulnerability
 
-Register and account and log in with this account .\
-If you **log in many times** and always get the **same cookie**, there is probably **something** **wrong** in the application. The **cookie sent back should be unique** each time you log in. If the cookie is **always** the **same**, it will probably always be valid and there **won't be anyway to invalidate i**t.
+**Register** vItlhutlhlaHchugh **account** vItlhutlhlaHchugh **log in** vItlhutlhlaHchugh **account** .\
+**log in many times** vItlhutlhlaHchugh **same cookie** vItlhutlhlaHchugh, **something** vItlhutlhlaHchugh **wrong** vItlhutlhlaHchugh **application**. **cookie sent back** vItlhutlhlaHchugh **unique** vItlhutlhlaHchugh **time** **log in**. **cookie** vItlhutlhlaHchugh **always** vItlhutlhlaHchugh **same**, **probably** vItlhutlhlaHchugh **always** vItlhutlhlaHchugh **valid** vItlhutlhlaHchugh **way to invalidate i**t.
 
-Now, if you try to **modify** the **cookie**, you can see that you get an **error** from the application.\
-But if you BF the padding (using padbuster for example) you manage to get another cookie valid for a different user. This scenario is highly probably vulnerable to padbuster.
+vItlhutlhlaHchugh, **modify** vItlhutlhlaHchugh **cookie**, **error** vItlhutlhlaHchugh **application**.\
+vItlhutlhlaHchugh **BF** vItlhutlhlaHchugh **padding** (padbuster vItlhutlhlaHchugh), **manage** vItlhutlhlaHchugh **cookie** vItlhutlhlaHchugh **valid** vItlhutlhlaHchugh **different user**. **scenario** vItlhutlhlaHchugh **highly probably vulnerable to padbuster**.
 
 ## References
 
@@ -132,5 +133,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

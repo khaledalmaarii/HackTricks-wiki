@@ -34,11 +34,47 @@ The Docker engine can be accessed either locally via a Unix socket or remotely u
 
 The Docker engine, by default, listens on the Unix socket at `unix:///var/run/docker.sock`. On Ubuntu systems, Docker's startup options are defined in `/etc/default/docker`. To enable remote access to the Docker API and client, expose the Docker daemon over an HTTP socket by adding the following settings:
 
+---
+
+# Docker Security
+
+<details>
+
+<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Other ways to support HackTricks:
+
+* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
+
+{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+## **Basic Docker Engine Security**
+
+The **Docker engine** employs the Linux kernel's **Namespaces** and **Cgroups** to isolate containers, offering a basic layer of security. Additional protection is provided through **Capabilities dropping**, **Seccomp**, and **SELinux/AppArmor**, enhancing container isolation. An **auth plugin** can further restrict user actions.
+
+![Docker Security](https://sreeninet.files.wordpress.com/2016/03/dockersec1.png)
+
+### Secure Access to Docker Engine
+
+The Docker engine can be accessed either locally via a Unix socket or remotely using HTTP. For remote access, it's essential to employ HTTPS and **TLS** to ensure confidentiality, integrity, and authentication.
+
+The Docker engine, by default, listens on the Unix socket at `unix:///var/run/docker.sock`. On Ubuntu systems, Docker's startup options are defined in `/etc/default/docker`. To enable remote access to the Docker API and client, expose the Docker daemon over an HTTP socket by adding the following settings:
 ```bash
 DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H tcp://192.168.56.101:2376"
 sudo service docker restart
 ```
-
 However, exposing the Docker daemon over HTTP is not recommended due to security concerns. It's advisable to secure connections using HTTPS. There are two main approaches to securing the connection:
 1. The client verifies the server's identity.
 2. Both the client and server mutually authenticate each other's identity.
@@ -62,7 +98,6 @@ For more [**information read this**](https://docs.docker.com/engine/scan/).
 * **`docker scan`**
 
 The **`docker scan`** command allows you to scan existing Docker images using the image name or ID. For example, run the following command to scan the hello-world image:
-
 ```bash
 docker scan hello-world
 
@@ -78,25 +113,18 @@ Licenses:          enabled
 
 Note that we do not currently have vulnerability data for your image.
 ```
-
 * [**`trivy`**](https://github.com/aquasecurity/trivy)
-
 ```bash
 trivy -q -f json <ontainer_name>:<tag>
 ```
-
 * [**`snyk`**](https://docs.snyk.io/snyk-cli/getting-started-with-the-cli)
-
 ```bash
 snyk container test <image> --json-file-output=<output file> --severity-threshold=high
 ```
-
 * [**`clair-scanner`**](https://github.com/arminc/clair-scanner)
-
 ```bash
 clair-scanner -w example-alpine.yaml --ip YOUR_LOCAL_IP alpine:3.5
 ```
-
 ### Docker Image Signing
 
 Docker image signing ensures the security and integrity of images used in containers. Here's a condensed explanation:
@@ -109,19 +137,20 @@ Docker image signing ensures the security and integrity of images used in contai
 
 To back up your private keys, use the command:
 
+```
+docker trust key backup
+```
 ```bash
 tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 ```
-
-When switching Docker hosts, it's necessary to move the root and repository keys to maintain operations.
-
+Docker hosts jImejDaq 'e'elDI'pu' 'ej repository keys jImejDaq 'e'elDI'pu' 'e' vItlhutlh. 
 
 ***
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) vItlhutlh 'ej **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -159,52 +188,33 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 
 **Seccomp**
 
-It's enabled by default in Docker. It helps to **limit even more the syscalls** that the process can call.\
-The **default Docker Seccomp profile** can be found in [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)
+Docker jenbogh Seccomp. QaStaHvIS syscalls process call.\
+Docker Seccomp profile [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) Daq yIqaw.
 
 **AppArmor**
 
-Docker has a template that you can activate: [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
-
-This will allow to reduce capabilities, syscalls, access to files and folders...
+Docker template [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor) Daq yIqaw.
 
 </details>
 
 ### Namespaces
 
-**Namespaces** are a feature of the Linux kernel that **partitions kernel resources** such that one set of **processes** **sees** one set of **resources** while **another** set of **processes** sees a **different** set of resources. The feature works by having the same namespace for a set of resources and processes, but those namespaces refer to distinct resources. Resources may exist in multiple spaces.
-
-Docker makes use of the following Linux kernel Namespaces to achieve Container isolation:
-
-* pid namespace
-* mount namespace
-* network namespace
-* ipc namespace
-* UTS namespace
-
-For **more information about the namespaces** check the following page:
-
-{% content-ref url="namespaces/" %}
-[namespaces](namespaces/)
-{% endcontent-ref %}
-
-### cgroups
-
-Linux kernel feature **cgroups** provides capability to **restrict resources like cpu, memory, io, network bandwidth among** a set of processes. Docker allows to create Containers using cgroup feature which allows for resource control for the specific Container.\
-Following is a Container created with user space memory limited to 500m, kernel memory limited to 50m, cpu share to 512, blkioweight to 400. CPU share is a ratio that controls Container’s CPU usage. It has a default value of 1024 and range between 0 and 1024. If three Containers have the same CPU share of 1024, each Container can take upto 33% of CPU in case of CPU resource contention. blkio-weight is a ratio that controls Container’s IO. It has a default value of 500 and range between 10 and 1000.
-
+**Namespaces** Linux kernel feature 'ej partitions kernel resources. 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej 'oH 'ej 'ej
 ```
 docker run -it -m 500M --kernel-memory 50M --cpu-shares 512 --blkio-weight 400 --name ubuntu1 ubuntu bash
 ```
-
 To get the cgroup of a container you can do:
 
+```
+docker inspect --format='{{.State.Pid}}' <container_id>
+```
+
+This will return the process ID (PID) of the container.
 ```bash
 docker run -dt --rm denial sleep 1234 #Run a large sleep inside a Debian container
 ps -ef | grep 1234 #Get info about the sleep process
 ls -l /proc/<PID>/ns #Get the Group and the namespaces (some may be uniq to the hosts and some may be shred with it)
 ```
-
 For more information check:
 
 {% content-ref url="cgroups.md" %}
@@ -269,7 +279,6 @@ These contexts help ensure that only legitimate requests from authenticated user
 If you are not properly limiting the resources a container can use, a compromised container could DoS the host where it's running.
 
 * CPU DoS
-
 ```bash
 # stress-ng
 sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 5m
@@ -277,18 +286,41 @@ sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 
 # While loop
 docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :; done'
 ```
+# *Bandwidth DoS*
 
-* Bandwidth DoS
+## Description
 
+A Bandwidth Denial of Service (DoS) attack is a type of attack that aims to consume the available bandwidth of a network or a specific target, rendering it inaccessible to legitimate users. This type of attack can be highly disruptive and can effectively bring down a network or a specific service.
+
+## How it Works
+
+In a Bandwidth DoS attack, the attacker floods the target network or service with a large volume of traffic, overwhelming its capacity to handle the incoming requests. This can be achieved by sending a high number of requests or by exploiting vulnerabilities in network protocols or applications.
+
+The attack can be launched from a single source or from multiple sources, making it difficult to trace the origin of the attack. The attacker may use botnets or compromised devices to amplify the attack and increase its impact.
+
+## Impact
+
+The impact of a Bandwidth DoS attack can be severe. By consuming all available bandwidth, the attack can effectively render a network or service inaccessible to legitimate users. This can result in financial losses, reputational damage, and disruption of critical services.
+
+## Mitigation
+
+To mitigate the risk of a Bandwidth DoS attack, it is important to implement proper network security measures. This can include:
+
+- Implementing traffic filtering and rate limiting mechanisms to detect and block malicious traffic.
+- Monitoring network traffic for anomalies and suspicious patterns.
+- Regularly updating and patching network devices and applications to address vulnerabilities.
+- Implementing network segmentation to limit the impact of an attack.
+- Deploying intrusion detection and prevention systems to detect and block malicious activity.
+
+By implementing these measures, organizations can reduce the risk of a Bandwidth DoS attack and ensure the availability and integrity of their network and services.
 ```bash
 nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
 ```
+## QaStaHvIS Docker Flags
 
-## Interesting Docker Flags
+### --privileged Qa'
 
-### --privileged flag
-
-In the following page you can learn **what does the `--privileged` flag imply**:
+**'--privileged' flag** **nuqneH** **jImej** **'e' vItlhutlh**:
 
 {% content-ref url="docker-privileged.md" %}
 [docker-privileged.md](docker-privileged.md)
@@ -298,16 +330,37 @@ In the following page you can learn **what does the `--privileged` flag imply**:
 
 #### no-new-privileges
 
-If you are running a container where an attacker manages to get access as a low privilege user. If you have a **miss-configured suid binary**, the attacker may abuse it and **escalate privileges inside** the container. Which, may allow him to escape from it.
-
-Running the container with the **`no-new-privileges`** option enabled will **prevent this kind of privilege escalation**.
-
+**container Hoch** **low privilege user** **ghaH** **ghItlh** **'e'** **Suid binary** **vItlhutlh** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'
 ```
 docker run -it --security-opt=no-new-privileges:true nonewpriv
 ```
+#### lo'laHbe' 
 
-#### Other
+Docker is a popular containerization platform that allows you to run applications in isolated environments called containers. While Docker provides many security features out of the box, it is still important to harden your Docker environment to prevent unauthorized access and potential privilege escalation.
 
+Here are some best practices for securing your Docker environment:
+
+1. **Use Official Images**: Always use official Docker images from trusted sources. These images are regularly updated and maintained, reducing the risk of vulnerabilities.
+
+2. **Update Regularly**: Keep your Docker installation and images up to date with the latest security patches. This helps protect against known vulnerabilities.
+
+3. **Enable Content Trust**: Enable Docker Content Trust to ensure the integrity and authenticity of your images. This prevents the use of tampered or malicious images.
+
+4. **Limit Privileges**: Avoid running containers with root privileges. Instead, use non-root users with restricted permissions whenever possible.
+
+5. **Isolate Containers**: Use Docker's network and storage isolation features to prevent containers from accessing sensitive resources or data.
+
+6. **Secure Docker Daemon**: Restrict access to the Docker daemon by using strong authentication mechanisms, such as TLS certificates or token-based authentication.
+
+7. **Monitor Container Activity**: Regularly monitor container activity and log files for any suspicious behavior or unauthorized access attempts.
+
+8. **Implement Network Segmentation**: Use network segmentation to isolate Docker containers from other critical systems and services.
+
+9. **Implement Resource Limits**: Set resource limits for containers to prevent resource exhaustion attacks and ensure fair resource allocation.
+
+10. **Regularly Audit and Remove Unused Images**: Regularly audit your Docker environment for unused or unnecessary images and containers. Remove them to reduce the attack surface.
+
+By following these best practices, you can enhance the security of your Docker environment and minimize the risk of privilege escalation or unauthorized access.
 ```bash
 #You can manually add/drop capabilities with
 --cap-add
@@ -322,8 +375,7 @@ docker run -it --security-opt=no-new-privileges:true nonewpriv
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
-
-For more **`--security-opt`** options check: [https://docs.docker.com/engine/reference/run/#security-configuration](https://docs.docker.com/engine/reference/run/#security-configuration)
+**`--security-opt`** options check: [https://docs.docker.com/engine/reference/run/#security-configuration](https://docs.docker.com/engine/reference/run/#security-configuration)
 
 ## Other Security Considerations
 
@@ -342,62 +394,68 @@ To leverage BuildKit, it can be activated in three ways:
 3. By enabling it by default in the Docker configuration: `{ "features": { "buildkit": true } }`, followed by a Docker restart.
 
 BuildKit allows for the use of build-time secrets with the `--secret` option, ensuring these secrets are not included in the image build cache or the final image, using a command like:
-
 ```bash
 docker build --secret my_key=my_value ,src=path/to/my_secret_file .
 ```
-
 For secrets needed in a running container, **Docker Compose and Kubernetes** offer robust solutions. Docker Compose utilizes a `secrets` key in the service definition for specifying secret files, as shown in a `docker-compose.yml` example:
 
+---
+
+**Klingon Translation:**
+
+DaH jImejDaq containers vItlhutlh **Docker Compose je Kubernetes** Hoch. Docker Compose, `secrets` key vIlo'laHbe'chugh service definition vItlhutlh secret files jatlh, 'ej 'ejay' `docker-compose.yml` example:
+
+---
 ```yaml
 version: "3.7"
 services:
-  my_service:
-    image: centos:7
-    entrypoint: "cat /run/secrets/my_secret"
-    secrets:
-      - my_secret
+my_service:
+image: centos:7
+entrypoint: "cat /run/secrets/my_secret"
 secrets:
-  my_secret:
-    file: ./my_secret_file.txt
+- my_secret
+secrets:
+my_secret:
+file: ./my_secret_file.txt
 ```
+**tlhIngan Hol:**
 
-This configuration allows for the use of secrets when starting services with Docker Compose.
+**Docker Compose** jatlhlaHbe'chugh **secrets** lo'laHbe'chugh **services** jatlhlaHbe'.
 
-In Kubernetes environments, secrets are natively supported and can be further managed with tools like [Helm-Secrets](https://github.com/futuresimple/helm-secrets). Kubernetes' Role Based Access Controls (RBAC) enhances secret management security, similar to Docker Enterprise.
+Kubernetes qay'be'wI'pu' **secrets** native vItlhutlh. [Helm-Secrets](https://github.com/futuresimple/helm-secrets) vItlhutlhlaHbe'chugh **tools** vItlhutlhlaHbe'. Kubernetes' Role Based Access Controls (RBAC) **secret management security** vItlhutlhlaHbe'chugh, Docker Enterprise vItlhutlhlaHbe'.
 
 ### gVisor
 
-**gVisor** is an application kernel, written in Go, that implements a substantial portion of the Linux system surface. It includes an [Open Container Initiative (OCI)](https://www.opencontainers.org) runtime called `runsc` that provides an **isolation boundary between the application and the host kernel**. The `runsc` runtime integrates with Docker and Kubernetes, making it simple to run sandboxed containers.
+**gVisor** Go vItlhutlhlaHbe'chugh **application kernel** vItlhutlhlaHbe'. **Linux system surface** vItlhutlhlaHbe'. **Open Container Initiative (OCI)** runtime **runsc** vItlhutlhlaHbe' **isolation boundary** **application** 'ej **host kernel** vItlhutlhlaHbe'. **runsc** runtime Docker 'ej Kubernetes vItlhutlhlaHbe' **sandboxed containers** vItlhutlhlaHbe'.
 
 {% embed url="https://github.com/google/gvisor" %}
 
 ### Kata Containers
 
-**Kata Containers** is an open source community working to build a secure container runtime with lightweight virtual machines that feel and perform like containers, but provide **stronger workload isolation using hardware virtualization** technology as a second layer of defense.
+**Kata Containers** **open source community** vItlhutlhlaHbe'chugh **secure container runtime** vItlhutlhlaHbe'. **lightweight virtual machines** vItlhutlhlaHbe'chugh **stronger workload isolation** vItlhutlhlaHbe'chugh **hardware virtualization** technology vItlhutlhlaHbe'chugh **second layer of defense** vItlhutlhlaHbe'.
 
 {% embed url="https://katacontainers.io/" %}
 
 ### Summary Tips
 
-* **Do not use the `--privileged` flag or mount a** [**Docker socket inside the container**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**.** The docker socket allows for spawning containers, so it is an easy way to take full control of the host, for example, by running another container with the `--privileged` flag.
-* Do **not run as root inside the container. Use a** [**different user**](https://docs.docker.com/develop/develop-images/dockerfile\_best-practices/#user) **and** [**user namespaces**](https://docs.docker.com/engine/security/userns-remap/)**.** The root in the container is the same as on host unless remapped with user namespaces. It is only lightly restricted by, primarily, Linux namespaces, capabilities, and cgroups.
-* [**Drop all capabilities**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`) and enable only those that are required** (`--cap-add=...`). Many of workloads don’t need any capabilities and adding them increases the scope of a potential attack.
-* [**Use the “no-new-privileges” security option**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) to prevent processes from gaining more privileges, for example through suid binaries.
-* [**Limit resources available to the container**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**.** Resource limits can protect the machine from denial of service attacks.
-* **Adjust** [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(or SELinux)** profiles to restrict the actions and syscalls available for the container to the minimum required.
-* **Use** [**official docker images**](https://docs.docker.com/docker-hub/official\_images/) **and require signatures** or build your own based on them. Don’t inherit or use [backdoored](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/) images. Also store root keys, passphrase in a safe place. Docker has plans to manage keys with UCP.
-* **Regularly** **rebuild** your images to **apply security patches to the host an images.**
-* Manage your **secrets wisely** so it's difficult to the attacker to access them.
-* If you **exposes the docker daemon use HTTPS** with client & server authentication.
-* In your Dockerfile, **favor COPY instead of ADD**. ADD automatically extracts zipped files and can copy files from URLs. COPY doesn’t have these capabilities. Whenever possible, avoid using ADD so you aren’t susceptible to attacks through remote URLs and Zip files.
-* Have **separate containers for each micro-s**ervice
-* **Don’t put ssh** inside container, “docker exec” can be used to ssh to Container.
-* Have **smaller** container **images**
+* **--privileged** flag **Docker socket** **mount** **Do not use**. Docker socket vItlhutlhlaHbe'chugh containers **spawn** vItlhutlhlaHbe', 'ej **host** **full control** **take** **easy way** vItlhutlhlaHbe', **another container** **--privileged** flag vItlhutlhlaHbe'.
+* **root** **container** **run** **Do not**. **Different user** 'ej **user namespaces** vItlhutlhlaHbe'. root container vItlhutlhlaHbe'chugh host vItlhutlhlaHbe' **same** **remapped** user namespaces vItlhutlhlaHbe'. Linux namespaces, capabilities, 'ej cgroups vItlhutlhlaHbe'chugh **lightly restricted**.
+* **Drop all capabilities** **(--cap-drop=all)** **enable** **required**. **workloads** **capabilities** vItlhutlhlaHbe'chugh **need** **adding** **increase** **potential attack**.
+* **no-new-privileges** **security option** **Use** **prevent** **processes** **gaining** **privileges**. **suid binaries** vItlhutlhlaHbe'chugh **example** **through** **attacks**.
+* **Limit resources** **container** **available**. Resource limits vItlhutlhlaHbe'chugh **machine** **denial of service attacks**.
+* **seccomp**, **AppArmor** (or SELinux) profiles vItlhutlhlaHbe'chugh **restrict** **actions** **syscalls** **container** **minimum required**.
+* **official docker images** **Use** **require signatures** **build** **based**. **backdoored** images vItlhutlhlaHbe'chugh **inherit** **use**. root keys, passphrase vItlhutlhlaHbe'chugh **safe place**. Docker vItlhutlhlaHbe'chugh **manage keys** UCP.
+* **Regularly rebuild** **images** **apply security patches** **host an images**.
+* **secrets wisely** **Manage** **difficult** **attacker** **access**.
+* **exposes** **docker daemon** **HTTPS** **client & server authentication**.
+* Dockerfile vItlhutlhlaHbe'chugh **COPY** **ADD** **favor**. ADD vItlhutlhlaHbe'chugh **automatically extracts** **zipped files** 'ej **copy files** **URLs**. COPY vItlhutlhlaHbe'chugh **capabilities**. ADD vItlhutlhlaHbe'chugh **susceptible** **attacks** **remote URLs** **Zip files**.
+* **separate containers** **micro-services**
+* **Don't put ssh** **container**, "docker exec" vItlhutlhlaHbe'chugh **ssh** **Container**.
+* **smaller** **container images**
 
 ## Docker Breakout / Privilege Escalation
 
-If you are **inside a docker container** or you have access to a user in the **docker group**, you could try to **escape and escalate privileges**:
+**Docker container** vItlhutlhlaHbe'chugh **inside** **access** **docker group user** vItlhutlhlaHbe'chugh **escape** 'ej **escalate privileges** **try**:
 
 {% content-ref url="docker-breakout-privilege-escalation/" %}
 [docker-breakout-privilege-escalation](docker-breakout-privilege-escalation/)
@@ -405,7 +463,7 @@ If you are **inside a docker container** or you have access to a user in the **d
 
 ## Docker Authentication Plugin Bypass
 
-If you have access to the docker socket or have access to a user in the **docker group but your actions are being limited by a docker auth plugin**, check if you can **bypass it:**
+**docker socket** **access** **docker group user** vItlhutlhlaHbe'chugh **docker auth plugin** **actions** **limited** **check** **bypass** **can**:
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
@@ -413,8 +471,8 @@ If you have access to the docker socket or have access to a user in the **docker
 
 ## Hardening Docker
 
-* The tool [**docker-bench-security**](https://github.com/docker/docker-bench-security) is a script that checks for dozens of common best-practices around deploying Docker containers in production. The tests are all automated, and are based on the [CIS Docker Benchmark v1.3.1](https://www.cisecurity.org/benchmark/docker/).\
-  You need to run the tool from the host running docker or from a container with enough privileges. Find out **how to run it in the README:** [**https://github.com/docker/docker-bench-security**](https://github.com/docker/docker-bench-security).
+* **docker-bench-security** **tool** vItlhutlhlaHbe'chugh **dozens of common best-practices** **deploying Docker containers** **production**. Tests vItlhutlhlaHbe'chugh **automated**, 'ej **CIS Docker Benchmark v1.3.1** vItlhutlhlaHbe'chugh **based**.\
+**README** **run** **tool** **host running docker** **container** **enough privileges** **Find out** [**https://github.com/docker/docker-bench-security**](https://github.com/docker/docker-bench-security).
 
 ## References
 
@@ -429,27 +487,11 @@ If you have access to the docker socket or have access to a user in the **docker
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 * [https://docs.docker.com/engine/extend/plugins_authorization](https://docs.docker.com/engine/extend/plugins_authorization)
-* [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
-* [https://resources.experfy.com/bigdata-cloud/top-20-docker-security-tips/](https://resources.experfy.com/bigdata-cloud/top-20-docker-security-tips/)
+* [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker
+**HackTricks**'a yIbuS:
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* **HackTricks** **yIghItlhvam** 'ej **HackTricks PDF** **ghItlhvam** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **chaw'}'a'**.
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) **ghItlhvam**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **ghItlhvam** **NFTs** [**opensea.io**](https://opensea.io/collection/the-peass-family) **ghItlhvam**
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) **joq** **telegram group**](https://t.me/peass) **'ej** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **HackTricks** **'ej** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github repos** **ghItlhvam** **Hacking tricks** **ghItlhvam** **submit** **PRs** **ghItlhvam**.

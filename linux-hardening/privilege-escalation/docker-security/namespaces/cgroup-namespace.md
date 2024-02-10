@@ -37,49 +37,45 @@ For more information about CGroups check:
 ### Create different Namespaces
 
 #### CLI
-
 ```bash
 sudo unshare -C [--mount-proc] /bin/bash
 ```
-
-By mounting a new instance of the `/proc` filesystem if you use the param `--mount-proc`, you ensure that the new mount namespace has an **accurate and isolated view of the process information specific to that namespace**.
+**QawHaq**: `/proc` filesystem jImejDaq `--mount-proc` param vItlhutlh, vaj **ghItlhvam je vItlhutlh vay' process vItlhutlhDaq jImejDaq vay' process vItlhutlhDaq vay' jImejDaq** vItlhutlh.
 
 <details>
 
-<summary>Error: bash: fork: Cannot allocate memory</summary>
+<summary>Qagh: bash: fork: Cannot allocate memory</summary>
 
-When `unshare` is executed without the `-f` option, an error is encountered due to the way Linux handles new PID (Process ID) namespaces. The key details and the solution are outlined below:
-
-1. **Problem Explanation**:
-    - The Linux kernel allows a process to create new namespaces using the `unshare` system call. However, the process that initiates the creation of a new PID namespace (referred to as the "unshare" process) does not enter the new namespace; only its child processes do.
-    - Running `%unshare -p /bin/bash%` starts `/bin/bash` in the same process as `unshare`. Consequently, `/bin/bash` and its child processes are in the original PID namespace.
-    - The first child process of `/bin/bash` in the new namespace becomes PID 1. When this process exits, it triggers the cleanup of the namespace if there are no other processes, as PID 1 has the special role of adopting orphan processes. The Linux kernel will then disable PID allocation in that namespace.
-
-2. **Consequence**:
-    - The exit of PID 1 in a new namespace leads to the cleaning of the `PIDNS_HASH_ADDING` flag. This results in the `alloc_pid` function failing to allocate a new PID when creating a new process, producing the "Cannot allocate memory" error.
-
-3. **Solution**:
-    - The issue can be resolved by using the `-f` option with `unshare`. This option makes `unshare` fork a new process after creating the new PID namespace.
-    - Executing `%unshare -fp /bin/bash%` ensures that the `unshare` command itself becomes PID 1 in the new namespace. `/bin/bash` and its child processes are then safely contained within this new namespace, preventing the premature exit of PID 1 and allowing normal PID allocation.
-
-By ensuring that `unshare` runs with the `-f` flag, the new PID namespace is correctly maintained, allowing `/bin/bash` and its sub-processes to operate without encountering the memory allocation error.
-
-</details>
-
-#### Docker
-
+`unshare` `-f` option vItlhutlhDaq, Linux vItlhutlhDaq vay' PID (Process ID) jImejDaq vItlhutlhDaqDaq vItlhutlhDaqDaq vItlhutlhDaqDaq vItlhutlhDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaqDaq
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-
 ### &#x20;Check which namespace is your process in
 
+### &#x20;qaStaHvIS namespace vItlhutlh
+
+To check which namespace your process is in, you can use the `lsns` command. This command lists all the namespaces on the system along with their associated processes.
+
+```bash
+lsns
+```
+
+The output will display the namespace ID, type, and the number of processes associated with each namespace. Look for the process ID (PID) of your process in the output to determine which namespace it belongs to.
+
+If you want to filter the output to only show the namespaces associated with your process, you can use the `ps` command along with the `--pid` option.
+
+```bash
+ps --pid <PID> -o ns
+```
+
+Replace `<PID>` with the process ID of your process. The output will show the namespaces associated with that process.
+
+By checking the namespace of your process, you can gain a better understanding of the isolation and security boundaries in place.
 ```bash
 ls -l /proc/self/ns/cgroup
 lrwxrwxrwx 1 root root 0 Apr  4 21:19 /proc/self/ns/cgroup -> 'cgroup:[4026531835]'
 ```
-
-### Find all CGroup namespaces
+### bIyIntaHvIS CGroup namespaces
 
 {% code overflow="wrap" %}
 ```bash
@@ -89,13 +85,65 @@ sudo find /proc -maxdepth 3 -type l -name cgroup -exec ls -l  {} \; 2>/dev/null 
 ```
 {% endcode %}
 
-### Enter inside an CGroup namespace
+### Qa'chuq CGroup namespace
 
+{% code-tabs %}
+{% code-tabs-item title="C" %}
+```c
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sched.h>
+
+#define STACK_SIZE (1024 * 1024)
+
+static char child_stack[STACK_SIZE];
+
+static int child_func(void *arg) {
+    printf("### Inside the child namespace ###\n");
+    system("ls /");
+
+    return 0;
+}
+
+int main() {
+    printf("### Before creating the child namespace ###\n");
+    system("ls /");
+
+    pid_t child_pid = clone(child_func, child_stack + STACK_SIZE, CLONE_NEWCGROUP | SIGCHLD, NULL);
+    if (child_pid == -1) {
+        perror("clone");
+        return 1;
+    }
+
+    printf("### After creating the child namespace ###\n");
+
+    if (waitpid(child_pid, NULL, 0) == -1) {
+        perror("waitpid");
+        return 1;
+    }
+
+    return 0;
+}
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+The above C program demonstrates how to enter inside a CGroup namespace. It creates a child process using the `clone()` system call with the `CLONE_NEWCGROUP` flag, which creates a new CGroup namespace for the child process. The child process then executes a command (`ls /`) inside its own namespace.
+
+To compile and run the program, save it to a file (e.g., `cgroup_namespace.c`) and use the following commands:
+
+```bash
+gcc -o cgroup_namespace cgroup_namespace.c
+./cgroup_namespace
+```
+
+When running the program, you will see the output before and after creating the child namespace. The command executed inside the child namespace (`ls /`) will only show the root directory (`/`) contents within that namespace, isolating it from the parent namespace.
 ```bash
 nsenter -C TARGET_PID --pid /bin/bash
 ```
-
-Also, you can only **enter in another process namespace if you are root**. And you **cannot** **enter** in other namespace **without a descriptor** pointing to it (like `/proc/self/ns/cgroup`).
+**ghItlh** **enter** **ghItlh** **process namespace** **vaj** **root** **'e'**. **'ej** **ghItlh** **enter** **'ej** **namespace** **ghItlh** **descriptor** **'e'** **pointing** **(like `/proc/self/ns/cgroup`)**.
 
 ## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)

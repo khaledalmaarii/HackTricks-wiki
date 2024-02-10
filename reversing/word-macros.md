@@ -1,5 +1,3 @@
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -17,14 +15,14 @@ Other ways to support HackTricks:
 
 ## Junk Code
 
-It's very common to find **junk code that is never used** to make the reversing of the macro more difficult.\
-For example, in the following image you can see that and If that is never going to be true is used to execute some junk and useless code.
+**junk code** qetlh **common** vItlhutlh **reversing** macro **difficult** vItlhutlh.\
+**Example**, **image** vItlhutlh **If** true **never** vItlhutlh **junk** **useless** code **execute** vItlhutlh.
 
 ![](<../.gitbook/assets/image (373).png>)
 
 ## Macro Forms
 
-Using the **GetObject** function it's possible to obtain data from forms of the macro. This can be used to difficult the analysis. The following is a photo of a macro form used to **hide data inside text boxes** (a text box can be hiding other text boxes):
+**GetObject** function **possible** data **forms** macro **obtain**. **Difficult** analysis **use**. **Photo** macro form **hide** data **inside** text boxes **(text box** **hide** text boxes):
 
 ![](<../.gitbook/assets/image (374).png>)
 
@@ -42,5 +40,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

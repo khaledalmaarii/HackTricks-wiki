@@ -25,7 +25,6 @@ In addition to the new hierarchical organization, cgroups version 2 also introdu
 Overall, cgroups **version 2 offers more features and better performance** than version 1, but the latter may still be used in certain scenarios where compatibility with older systems is a concern.
 
 You can list the v1 and v2 cgroups for any process by looking at its cgroup file in /proc/\<pid>. You can start by looking at your shell’s cgroups with this command:
-
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -40,7 +39,6 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
-
 The output structure is as follows:
 
 - **Numbers 2–12**: cgroups v1, with each line representing a different cgroup. Controllers for these are specified adjacent to the number.
@@ -69,30 +67,24 @@ The indication of **max** in a value suggests the absence of a specific limit fo
 ### Manipulating and Creating cgroups
 
 Processes are assigned to cgroups by **writing their Process ID (PID) to the `cgroup.procs` file**. This requires root privileges. For instance, to add a process:
-
 ```bash
 echo [pid] > cgroup.procs
 ```
-
-Similarly, **modifying cgroup attributes, like setting a PID limit**, is done by writing the desired value to the relevant file. To set a maximum of 3,000 PIDs for a cgroup:
-
+**cgroup** attributes, **PID limit** jatlh **modify** qar'a' **setting**, **relevant file** vItlhutlh. **cgroup** laH 3,000 PIDs **maximum** set:
 ```bash
 echo 3000 > pids.max
 ```
+**Qa'vIn cgroups** involves making a new subdirectory within the cgroup hierarchy, which prompts the kernel to automatically generate necessary interface files. Though cgroups without active processes can be removed with `rmdir`, be aware of certain constraints:
 
-**Creating new cgroups** involves making a new subdirectory within the cgroup hierarchy, which prompts the kernel to automatically generate necessary interface files. Though cgroups without active processes can be removed with `rmdir`, be aware of certain constraints:
-
-- **Processes can only be placed in leaf cgroups** (i.e., the most nested ones in a hierarchy). 
+- **Processes can only be placed in leaf cgroups** (i.e., the most nested ones in a hierarchy).
 - **A cgroup cannot possess a controller absent in its parent**.
 - **Controllers for child cgroups must be explicitly declared** in the `cgroup.subtree_control` file. For example, to enable CPU and PID controllers in a child cgroup:
-
 ```bash
 echo "+cpu +pids" > cgroup.subtree_control
 ```
+**root cgroup** jImejDaq pagh rules, process placement directly jImej. vaj processes systemd management Hoch. 
 
-The **root cgroup** is an exception to these rules, allowing direct process placement. This can be used to remove processes from systemd management.
-
-**Monitoring CPU usage** within a cgroup is possible through the `cpu.stat` file, displaying total CPU time consumed, helpful for tracking usage across a service's subprocesses:
+**Monitoring CPU usage** cgroup vItlhutlh `cpu.stat` file, total CPU time consumed jImej, service's subprocesses usage tracking helpful:
 
 <figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>CPU usage statistics as shown in the cpu.stat file</figcaption></figure>
 

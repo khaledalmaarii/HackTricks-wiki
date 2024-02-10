@@ -1,5 +1,3 @@
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -23,8 +21,8 @@ Imagine a server which is **signing** some **data** by **appending** a **secret*
 * **The clear text data**
 * **The algorithm (and it's vulnerable to this attack)**
 * **The padding is known**
-  * Usually a default one is used, so if the other 3 requirements are met, this also is
-  * The padding vary depending on the length of the secret+data, that's why the length of the secret is needed
+* Usually a default one is used, so if the other 3 requirements are met, this also is
+* The padding vary depending on the length of the secret+data, that's why the length of the secret is needed
 
 Then, it's possible for an **attacker** to **append** **data** and **generate** a valid **signature** for the **previos data + appended data**.
 
@@ -62,5 +60,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

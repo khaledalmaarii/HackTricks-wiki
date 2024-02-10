@@ -1,8 +1,6 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>qaStaHvIS AWS hacking vaj zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -18,55 +16,61 @@ Other ways to support HackTricks:
 Some things that could be useful to debug/deobfuscate a malicious VBS file:
 
 ## echo
-
 ```bash
 Wscript.Echo "Like this?"
 ```
+## Comments
 
-## Commnets
+### tlhIngan Hol
 
+## Qapla'! Qapla'!
+
+### tlhIngan Hol
+
+## Qapla'! Qapla'!
 ```bash
 ' this is a comment
 ```
-
 ## Test
-
 ```bash
 cscript.exe file.vbs
 ```
-
 ## Write data to a file
 
+## tlhIngan Hol translation:
+
+## Datuv vItlhutlh
+
+## HTML translation:
+
+## <h2>Datuv vItlhutlh</h2>
 ```js
 Function writeBinary(strBinary, strPath)
 
-    Dim oFSO: Set oFSO = CreateObject("Scripting.FileSystemObject")
+Dim oFSO: Set oFSO = CreateObject("Scripting.FileSystemObject")
 
-    ' below lines purpose: checks that write access is possible!
-    Dim oTxtStream
+' below lines purpose: checks that write access is possible!
+Dim oTxtStream
 
-    On Error Resume Next
-    Set oTxtStream = oFSO.createTextFile(strPath)
+On Error Resume Next
+Set oTxtStream = oFSO.createTextFile(strPath)
 
-    If Err.number <> 0 Then MsgBox(Err.message) : Exit Function
-    On Error GoTo 0
+If Err.number <> 0 Then MsgBox(Err.message) : Exit Function
+On Error GoTo 0
 
-    Set oTxtStream = Nothing
-    ' end check of write access
+Set oTxtStream = Nothing
+' end check of write access
 
-    With oFSO.createTextFile(strPath)
-        .Write(strBinary)
-        .Close
-    End With
+With oFSO.createTextFile(strPath)
+.Write(strBinary)
+.Close
+End With
 
 End Function
 ```
-
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>qaStaHvIS AWS hacking vItlhutlh</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -77,5 +81,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

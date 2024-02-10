@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -27,7 +27,6 @@ A **diamond ticket** is made by **modifying the fields of a legitimate TGT that 
 
 * TGS-REQs will have a preceding AS-REQ.
 * The TGT was issued by a DC which means it will have all the correct details from the domain's Kerberos policy.  Even though these can be accurately forged in a golden ticket, it's more complex and open to mistakes.
-
 ```bash
 # Get user RID
 powershell Get-DomainUser -Identity <username> -Properties objectsid
@@ -38,10 +37,8 @@ powershell Get-DomainUser -Identity <username> -Properties objectsid
 # /ticketuser is the username of the principal to impersonate.
 # /ticketuserid is the domain RID of that principal.
 # /groups are the desired group RIDs (512 being Domain Admins).
-# /krbkey is the krbtgt AES256 hash. 
+# /krbkey is the krbtgt AES256 hash.
 ```
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>

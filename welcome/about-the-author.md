@@ -12,7 +12,7 @@
 
 </details>
 
-### Hello!!
+### Qapla'!!
 
 First of all, it's needed to indicate that all **credits of techniques on reasearch from other sites belongs to the original authors** (there are references in the pages). Kudos to every research that shares knowledge to improme the security of the internet.
 

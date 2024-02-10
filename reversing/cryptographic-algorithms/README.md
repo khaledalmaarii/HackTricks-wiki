@@ -4,7 +4,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -100,7 +100,7 @@ It's composed of 3 main parts:
 ### **Characteristics**
 
 * Use of **substitution boxes and lookup tables**
-  * It's possible to **distinguish AES thanks to the use of specific lookup table values** (constants). _Note that the **constant** can be **stored** in the binary **or created**_ _**dynamically**._
+* It's possible to **distinguish AES thanks to the use of specific lookup table values** (constants). _Note that the **constant** can be **stored** in the binary **or created**_ _**dynamically**._
 * The **encryption key** must be **divisible** by **16** (usually 32B) and usually an **IV** of 16B is used.
 
 ### SBox constants
@@ -126,7 +126,6 @@ As it was mentioned before, this code can be visualized inside any decompiler as
 ![](<../../.gitbook/assets/image (382).png>)
 
 Therefore, it's possible to identify this algorithm checking the **magic number** and the **initial XORs**, seeing a **very long function** and **comparing** some **instructions** of the long function **with an implementation** (like the shift left by 7 and the rotate left by 22).
-
 ## RSA **(Asymmetric Crypt)**
 
 ### Characteristics

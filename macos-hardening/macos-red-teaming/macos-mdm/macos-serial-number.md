@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>qa'vIn AWS hacking vItlhutlh</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **HackTricks vItlhutlh** pe'vIl **company advertised** 'ej **HackTricks PDF download** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **qaStaHvIS**.
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) **ghItlh**.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **ghItlh** [**NFTs**](https://opensea.io/collection/the-peass-family) **ghItlh**.
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) **join** 'ej [**telegram group**](https://t.me/peass) **join** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Hacking tricks** **submit PRs** [**HackTricks**](https://github.com/carlospolop/hacktricks) 'ej [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github repos** **Share**.
 
 </details>
 
@@ -19,26 +19,26 @@ Other ways to support HackTricks:
 
 Apple devices post-2010 have serial numbers consisting of **12 alphanumeric characters**, each segment conveying specific information:
 
-- **First 3 Characters**: Indicate the **manufacturing location**.
-- **Characters 4 & 5**: Denote the **year and week of manufacture**.
-- **Characters 6 to 8**: Serve as a **unique identifier** for each device.
-- **Last 4 Characters**: Specify the **model number**.
+- **First 3 Characters**: **manufacturing location** **Indicate**.
+- **Characters 4 & 5**: **year and week of manufacture** **Denote**.
+- **Characters 6 to 8**: **unique identifier** **Serve**.
+- **Last 4 Characters**: **model number** **Specify**.
 
 For instance, the serial number **C02L13ECF8J2** follows this structure.
 
 ### **Manufacturing Locations (First 3 Characters)**
 Certain codes represent specific factories:
-- **FC, F, XA/XB/QP/G8**: Various locations in the USA.
-- **RN**: Mexico.
-- **CK**: Cork, Ireland.
-- **VM**: Foxconn, Czech Republic.
-- **SG/E**: Singapore.
-- **MB**: Malaysia.
-- **PT/CY**: Korea.
-- **EE/QT/UV**: Taiwan.
-- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**: Different locations in China.
-- **C0, C3, C7**: Specific cities in China.
-- **RM**: Refurbished devices.
+- **FC, F, XA/XB/QP/G8**: **Various locations in the USA**.
+- **RN**: **Mexico**.
+- **CK**: **Cork, Ireland**.
+- **VM**: **Foxconn, Czech Republic**.
+- **SG/E**: **Singapore**.
+- **MB**: **Malaysia**.
+- **PT/CY**: **Korea**.
+- **EE/QT/UV**: **Taiwan**.
+- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**: **Different locations in China**.
+- **C0, C3, C7**: **Specific cities in China**.
+- **RM**: **Refurbished devices**.
 
 ### **Year of Manufacturing (4th Character)**
 This character varies from 'C' (representing the first half of 2010) to 'Z' (second half of 2019), with different letters indicating different half-year periods.
@@ -58,14 +58,14 @@ These digits identify the specific model of the device.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>qa'vIn AWS hacking vItlhutlh</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **HackTricks vItlhutlh** pe'vIl **company advertised** 'ej **HackTricks PDF download** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) **qaStaHvIS**.
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) **ghItlh**.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **ghItlh** [**NFTs**](https://opensea.io/collection/the-peass-family) **ghItlh**.
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) **join** 'ej [**telegram group**](https://t.me/peass) **join** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Hacking tricks** **submit PRs** [**HackTricks**](https://github.com/carlospolop/hacktricks) 'ej [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github repos** **Share**.
 
 </details>

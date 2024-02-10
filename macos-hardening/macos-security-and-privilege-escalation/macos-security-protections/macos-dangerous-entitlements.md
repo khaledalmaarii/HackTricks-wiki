@@ -88,25 +88,23 @@ TODO: In [**this report**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-U
 ### `keychain-access-groups`
 
 This entitlement list **keychain** groups the application has access to:
-
 ```xml
 <key>keychain-access-groups</key>
 <array>
-        <string>ichat</string>
-        <string>apple</string>
-        <string>appleaccount</string>
-        <string>InternetAccounts</string>
-        <string>IMCore</string>
+<string>ichat</string>
+<string>apple</string>
+<string>appleaccount</string>
+<string>InternetAccounts</string>
+<string>IMCore</string>
 </array>
 ```
-
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
-Gives **Full Disk Access** permissions, one of the TCC highest permissions you can have.
+**Qa'vIn Disk Access** permissions, TCC vItlhutlh 'ej vItlhutlh permissions.
 
 ### **`kTCCServiceAppleEvents`**
 
-Allows the app to send events to other applications that are commonly used for **automating tasks**. Controlling other apps, it can abuse the permissions granted to these other apps.
+app 'ej **automating tasks** commonly used for 'ej 'oH applications to send events. 'oH applications, 'oH permissions granted to these applications, it can abuse.
 
 Like making them ask the user for its password:
 
@@ -116,17 +114,15 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 ```
 {% endcode %}
 
-Or making them perform **arbitrary actions**.
-
-### **`kTCCServiceEndpointSecurityClient`**
+**`kTCCServiceEndpointSecurityClient`**
 
 Allows, among other permissions, to **write the users TCC database**.
 
-### **`kTCCServiceSystemPolicySysAdminFiles`**
+**`kTCCServiceSystemPolicySysAdminFiles`**
 
 Allows to **change** the **`NFSHomeDirectory`** attribute of a user that changes his home folder path and therefore allows to **bypass TCC**.
 
-### **`kTCCServiceSystemPolicyAppBundles`**
+**`kTCCServiceSystemPolicyAppBundles`**
 
 Allow to modify files inside apps bundle (inside app.app), which is **disallowed by default**.
 
@@ -134,17 +130,17 @@ Allow to modify files inside apps bundle (inside app.app), which is **disallowed
 
 It's possible to check who has this access in _System Settings_ > _Privacy & Security_ > _App Management._
 
-### `kTCCServiceAccessibility`
+**`kTCCServiceAccessibility`**
 
 The process will be able to **abuse the macOS accessibility features**, Which means that for example he will be able to press keystrokes. SO he could request access to control an app like Finder and approve the dialog with this permission.
 
 ## Medium
 
-### `com.apple.security.cs.allow-jit`
+**`com.apple.security.cs.allow-jit`**
 
 This entitlement allows to **create memory that is writable and executable** by passing the `MAP_JIT` flag to the `mmap()` system function. Check [**this for more info**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
-### `com.apple.security.cs.allow-unsigned-executable-memory`
+**`com.apple.security.cs.allow-unsigned-executable-memory`**
 
 This entitlement allows to **override or patch C code**, use the long-deprecated **`NSCreateObjectFileImageFromMemory`** (which is fundamentally insecure), or use the **DVDPlayback** framework. Check [**this for more info**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
@@ -152,7 +148,7 @@ This entitlement allows to **override or patch C code**, use the long-deprecated
 Including this entitlement exposes your app to common vulnerabilities in memory-unsafe code languages. Carefully consider whether your app needs this exception.
 {% endhint %}
 
-### `com.apple.security.cs.disable-executable-page-protection`
+**`com.apple.security.cs.disable-executable-page-protection`**
 
 This entitlement allows to **modify sections of its own executable files** on disk to forcefully exit. Check [**this for more info**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
@@ -160,27 +156,23 @@ This entitlement allows to **modify sections of its own executable files** on di
 The Disable Executable Memory Protection Entitlement is an extreme entitlement that removes a fundamental security protection from your app, making it possible for an attacker to rewrite your app’s executable code without detection. Prefer narrower entitlements if possible.
 {% endhint %}
 
-### `com.apple.security.cs.allow-relative-library-loads`
+**`com.apple.security.cs.allow-relative-library-loads`**
 
 TODO
 
-### `com.apple.private.nullfs_allow`
+**`com.apple.private.nullfs_allow`**
 
 This entitlement allows to mount a nullfs file system (forbidden by default). Tool: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
 
-### `kTCCServiceAll`
+**`kTCCServiceAll`**
 
 According to this blogpost, this TCC permission usually found in the form:
-
 ```
 [Key] com.apple.private.tcc.allow-prompting
-	[Value]
-		[Array]
-			[String] kTCCServiceAll
+[Value]
+[Array]
+[String] kTCCServiceAll
 ```
-
-Allow the process to **ask for all the TCC permissions**.
-
 ### **`kTCCServicePostEvent`**
 
 <details>

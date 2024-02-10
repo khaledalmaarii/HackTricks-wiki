@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!</strong></a> <strong>qaStaHvIS</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -38,94 +38,87 @@ In Objetive-C there are different functions to send a block to be executed in pa
 These functions expect these parameters: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
 This is the **struct of a Block**:
-
 ```c
 struct Block {
-   void *isa; // NSConcreteStackBlock,...
-   int flags;
-   int reserved;
-   void *invoke;
-   struct BlockDescriptor *descriptor;
-   // captured variables go here
+void *isa; // NSConcreteStackBlock,...
+int flags;
+int reserved;
+void *invoke;
+struct BlockDescriptor *descriptor;
+// captured variables go here
 };
 ```
-
-And this is an example to use **parallelism** with **`dispatch_async`**:
-
+ghItlh parallelism **`dispatch_async`** **example** vItlhutlh:
 ```objectivec
 #import <Foundation/Foundation.h>
 
 // Define a block
 void (^backgroundTask)(void) = ^{
-    // Code to be executed in the background
-    for (int i = 0; i < 10; i++) {
-        NSLog(@"Background task %d", i);
-        sleep(1);  // Simulate a long-running task
-    }
+// Code to be executed in the background
+for (int i = 0; i < 10; i++) {
+NSLog(@"Background task %d", i);
+sleep(1);  // Simulate a long-running task
+}
 };
 
 int main(int argc, const char * argv[]) {
-    @autoreleasepool {
-        // Create a dispatch queue
-        dispatch_queue_t backgroundQueue = dispatch_queue_create("com.example.backgroundQueue", NULL);
-        
-        // Submit the block to the queue for asynchronous execution
-        dispatch_async(backgroundQueue, backgroundTask);
-        
-        // Continue with other work on the main queue or thread
-        for (int i = 0; i < 10; i++) {
-            NSLog(@"Main task %d", i);
-            sleep(1);  // Simulate a long-running task
-        }
-    }
-    return 0;
+@autoreleasepool {
+// Create a dispatch queue
+dispatch_queue_t backgroundQueue = dispatch_queue_create("com.example.backgroundQueue", NULL);
+
+// Submit the block to the queue for asynchronous execution
+dispatch_async(backgroundQueue, backgroundTask);
+
+// Continue with other work on the main queue or thread
+for (int i = 0; i < 10; i++) {
+NSLog(@"Main task %d", i);
+sleep(1);  // Simulate a long-running task
+}
+}
+return 0;
 }
 ```
-
 ## Swift
 
-**`libswiftDispatch`** is a library that provides **Swift bindings** to the Grand Central Dispatch (GCD) framework which is originally written in C.\
-The **`libswiftDispatch`** library wraps the C GCD APIs in a more Swift-friendly interface, making it easier and more intuitive for Swift developers to work with GCD.
+**`libswiftDispatch`** jenpu'wI' 'ej **Grand Central Dispatch (GCD)** framework vItlhutlh C vItlhutlh.\
+**`libswiftDispatch`** jenpu'wI' C GCD APIs vItlhutlh, 'ej 'oH vItlhutlh Swift-friendly interface, vItlhutlh vItlhutlh 'ej vItlhutlh Swift developers to work with GCD.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
 * **`let onceToken = DispatchOnce(); onceToken.perform { ... }`**
 * **`async await`**
-  * **`var (data, response) = await URLSession.shared.data(from: URL(string: "https://api.example.com/getData"))`**
+* **`var (data, response) = await URLSession.shared.data(from: URL(string: "https://api.example.com/getData"))`**
 
 **Code example**:
-
 ```swift
 import Foundation
 
 // Define a closure (the Swift equivalent of a block)
 let backgroundTask: () -> Void = {
-    for i in 0..<10 {
-        print("Background task \(i)")
-        sleep(1)  // Simulate a long-running task
-    }
+for i in 0..<10 {
+print("Background task \(i)")
+sleep(1)  // Simulate a long-running task
+}
 }
 
 // Entry point
 autoreleasepool {
-    // Create a dispatch queue
-    let backgroundQueue = DispatchQueue(label: "com.example.backgroundQueue")
-    
-    // Submit the closure to the queue for asynchronous execution
-    backgroundQueue.async(execute: backgroundTask)
-    
-    // Continue with other work on the main queue
-    for i in 0..<10 {
-        print("Main task \(i)")
-        sleep(1)  // Simulate a long-running task
-    }
+// Create a dispatch queue
+let backgroundQueue = DispatchQueue(label: "com.example.backgroundQueue")
+
+// Submit the closure to the queue for asynchronous execution
+backgroundQueue.async(execute: backgroundTask)
+
+// Continue with other work on the main queue
+for i in 0..<10 {
+print("Main task \(i)")
+sleep(1)  // Simulate a long-running task
+}
 }
 ```
-
 ## Frida
 
 The following Frida script can be used to **hook into several `dispatch`** functions and extract the queue name, the backtrace and the block: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
-
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -138,12 +131,11 @@ Backtrace:
 0x19e3a57fc UIKitCore!+[UIGraphicsRenderer _destroyCGContext:withRenderer:]
 [...]
 ```
-
 ## Ghidra
 
-Currently Ghidra doesn't understand neither the ObjectiveC **`dispatch_block_t`** structure, neither the **`swift_dispatch_block`** one.
+**Ghidra** vItlhutlh **ObjectiveC** **`dispatch_block_t`** **ghItlh** **`swift_dispatch_block`** **ghItlh**.
 
-So if you want it to understand them, you could just **declare them**:
+**cha'logh** **ghItlh** **'oH** **ghItlh** **'oH** **ghItlh**:
 
 <figure><img src="../../.gitbook/assets/image (688).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -151,19 +143,19 @@ So if you want it to understand them, you could just **declare them**:
 
 <figure><img src="../../.gitbook/assets/image (691).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Then, find a place in the code where they are **used**:
+**'oH** **ghItlh** **'oH** **'e'** **'oH** **'oH** **'e'** **'oH** **'oH** **'e'**:
 
 {% hint style="success" %}
-Note all of references made to "block" to understand how you could figure out that the struct is being used.
+**"block"** **ghItlh** **'oH** **ghItlh** **'oH** **'oH** **'e'** **'oH** **'oH** **'e'** **'oH** **'oH** **'e'**.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (692).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Right click on the variable -> Retype Variable and select in this case **`swift_dispatch_block`**:
+**'oH** **ghItlh** **'oH** **'oH** -> **Retype Variable** **'ej** **'oH** **'oH** **`swift_dispatch_block`** **ghItlh**:
 
 <figure><img src="../../.gitbook/assets/image (693).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Ghidra will automatically rewrite everything:
+**Ghidra** **'oH** **ghItlh** **'oH** **'oH**:
 
 <figure><img src="../../.gitbook/assets/image (694).png" alt="" width="563"><figcaption></figcaption></figure>
 

@@ -1,4 +1,4 @@
-# macOS Sensitive Locations
+# macOS Sensory Locations
 
 <details>
 
@@ -39,8 +39,7 @@ sudo bash -c 'for i in $(find /var/db/dslocal/nodes/Default/users -type f -regex
 
 ### Keychain Dump
 
-Note that when using the security binary to **dump the passwords decrypted**, several prompts will ask the user to allow this operation.
-
+Qapla'! qaStaHvIS security binary vItlhutlh **passwords decrypted** vItlhutlh, chenmoH prompts vItlhutlh user to allow this operation.
 ```bash
 #security
 secuirty dump-trust-settings [-s] [-d] #List certificates
@@ -49,7 +48,6 @@ security list-smartcards #List smartcards
 security dump-keychain | grep -A 5 "keychain" | grep -v "version" #List keychains entries
 security dump-keychain -d #Dump all the info, included secrets (the user will be asked for his password, even if root)
 ```
-
 ### [Keychaindump](https://github.com/juuso/keychaindump)
 
 {% hint style="danger" %}
@@ -61,21 +59,20 @@ Based on this comment [juuso/keychaindump#10 (comment)](https://github.com/juuso
 A tool named **keychaindump** has been developed to extract passwords from macOS keychains, but it faces limitations on newer macOS versions like Big Sur, as indicated in a [discussion](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). The use of **keychaindump** requires the attacker to gain access and escalate privileges to **root**. The tool exploits the fact that the keychain is unlocked by default upon user login for convenience, allowing applications to access it without requiring the user's password repeatedly. However, if a user opts to lock their keychain after each use, **keychaindump** becomes ineffective.
 
 **Keychaindump** operates by targeting a specific process called **securityd**, described by Apple as a daemon for authorization and cryptographic operations, crucial for accessing the keychain. The extraction process involves identifying a **Master Key** derived from the user's login password. This key is essential for reading the keychain file. To locate the **Master Key**, **keychaindump** scans the memory heap of **securityd** using the `vmmap` command, looking for potential keys within areas flagged as `MALLOC_TINY`. The following command is used to inspect these memory locations:
-
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-
 After identifying potential master keys, **keychaindump** searches through the heaps for a specific pattern (`0x0000000000000018`) that indicates a candidate for the master key. Further steps, including deobfuscation, are required to utilize this key, as outlined in **keychaindump**'s source code. Analysts focusing on this area should note that the crucial data for decrypting the keychain is stored within the memory of the **securityd** process. An example command to run **keychaindump** is:
 
+```
+keychaindump jImej
+```
 ```bash
 sudo ./keychaindump
 ```
-
-
 ### chainbreaker
 
-[**Chainbreaker**](https://github.com/n0fate/chainbreaker) can be used to extract the following types of information from an OSX keychain in a forensically sound manner:
+[**Chainbreaker**](https://github.com/n0fate/chainbreaker) jup 'ej vItlhutlh vItlhutlh types of information from an OSX keychain in a forensically sound manner:
 
 * Hashed Keychain password, suitable for cracking with [hashcat](https://hashcat.net/hashcat/) or [John the Ripper](https://www.openwall.com/john/)
 * Internet Passwords
@@ -91,14 +88,19 @@ Given the keychain unlock password, a master key obtained using [volafox](https:
 Without one of these methods of unlocking the Keychain, Chainbreaker will display all other available information.
 
 #### **Dump keychain keys**
-
 ```bash
 #Dump all keys of the keychain (without the passwords)
 python2.7 chainbreaker.py --dump-all /Library/Keychains/System.keychain
 ```
-
 #### **Dump keychain keys (with passwords) with SystemKey**
 
+##### **tlhIngan Hol translation:**
+
+#### **SystemKey-vaD keychain key (passwordmeyDaq) jImej**
+
+##### **HTML translation:**
+
+<h4>**SystemKey-vaD keychain key (passwordmeyDaq) jImej**</h4>
 ```bash
 # First, get the keychain decryption key
 # To get this decryption key you need to be root and SIP must be disabled
@@ -106,9 +108,11 @@ hexdump -s 8 -n 24 -e '1/1 "%.2x"' /var/db/SystemKey && echo
 ## Use the previous key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-
 #### **Dump keychain keys (with passwords) cracking the hash**
 
+#### **Qa'vIn keychain keys (ghorgh password) cracking the hash**
+
+---
 ```bash
 # Get the keychain hash
 python2.7 chainbreaker.py --dump-keychain-password-hash /Library/Keychains/System.keychain
@@ -117,11 +121,9 @@ hashcat.exe -m 23100 --keep-guessing hashes.txt dictionary.txt
 # Use the key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
+#### **Qa'vamwI' QaD jatlhqa' (ghaH passwordmey) jatlhqa'**
 
-#### **Dump keychain keys (with passwords) with memory dump**
-
-[Follow these steps](..#dumping-memory-with-osxpmem) to perform a **memory dump**
-
+[QaD jatlhqa' 'ejwI'vam](..#dumping-memory-with-osxpmem) **QaD jatlhqa'** vItlhutlh.
 ```bash
 #Use volafox (https://github.com/n0fate/volafox) to extract possible keychain passwords
 # Unformtunately volafox isn't working with the latest versions of MacOS
@@ -130,27 +132,29 @@ python vol.py -i ~/Desktop/show/macosxml.mem -o keychaindump
 #Try to extract the passwords using the extracted keychain passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-
 #### **Dump keychain keys (with passwords) using users password**
 
 If you know the users password you can use it to **dump and decrypt keychains that belong to the user**.
 
+#### **tlhIngan Hol translation:**
+
+#### **Qap keychain keys (ghaH passwords) lo'wI' 'e' yIlo'laH**
+
+lo'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'wI'
 ```bash
 #Prompt to ask for the password
 python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library/Keychains/login.keychain-db
 ```
-
 ### kcpassword
 
-The **kcpassword** file is a file that holds the **user’s login password**, but only if the system owner has **enabled automatic login**. Therefore, the user will be automatically logged in without being asked for a password (which isn't very secure).
+**kcpassword** file is a file that holds the **user's login password**. If the system owner has **enabled automatic login**, the user will be logged in automatically without being prompted for a password (which is not very secure).
 
-The password is stored in the file **`/etc/kcpassword`** xored with the key **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. If the users password is longer than the key, the key will be reused.\
-This makes the password pretty easy to recover, for example using scripts like [**this one**](https://gist.github.com/opshope/32f65875d45215c3677d).
+The password is stored in the file **`/etc/kcpassword`** and is XORed with the key **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. If the user's password is longer than the key, the key will be reused.\
+This makes the password relatively easy to recover, for example using scripts like [**this one**](https://gist.github.com/opshope/32f65875d45215c3677d).
 
 ## Interesting Information in Databases
 
 ### Messages
-
 ```bash
 sqlite3 $HOME/Library/Messages/chat.db .tables
 sqlite3 $HOME/Library/Messages/chat.db 'select * from message'
@@ -158,7 +162,6 @@ sqlite3 $HOME/Library/Messages/chat.db 'select * from attachment'
 sqlite3 $HOME/Library/Messages/chat.db 'select * from deleted_messages'
 sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 ```
-
 ### Notifications
 
 You can find the Notifications data in `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
@@ -166,15 +169,20 @@ You can find the Notifications data in `$(getconf DARWIN_USER_DIR)/com.apple.not
 Most of the interesting information is going to be in **blob**. So you will need to **extract** that content and **transform** it to **human** **readable** or use **`strings`**. To access it you can do:
 
 {% code overflow="wrap" %}
+### Notifications
+
+Notifications data can be found in `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
+
+Most of the interesting information is stored in **blob** format. To access it, you will need to **extract** the content and **convert** it into a **human-readable** format or use **`strings`**. To access the data, follow these steps:
+
+```bash
 ```bash
 cd $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/
 strings $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/db2/db | grep -i -A4 slack
 ```
-{% endcode %}
+### QaH
 
-### Notes
-
-The users **notes** can be found in `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite`
+**QaH** users can be found in `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite`
 
 {% code overflow="wrap" %}
 ```bash

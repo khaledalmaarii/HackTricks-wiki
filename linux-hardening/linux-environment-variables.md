@@ -20,31 +20,56 @@ The global variables **will be** inherited by **child processes**.
 
 You can create a global variable for your current session doing:
 
+<details>
+
+<summary><strong>qaStaHvIS AWS hacking lo'laHbe'chugh</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Other ways to support HackTricks:
+
+* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+
+## Global variables
+
+The global variables **will be** inherited by **child processes**.
+
+You can create a global variable for your current session doing:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
-
-This variable will be accessible by your current sessions and its child processes.
-
-You can **remove** a variable doing:
-
+**ghItlh** variable **qar** **ghItlh** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlhutlh** **'e'** **vItlh
 ```bash
 unset MYGLOBAL
 ```
-
 ## Local variables
 
-The **local variables** can only be **accessed** by the **current shell/script**.
+**Local variables** can only be **accessed** by the **current shell/script**.
 
+---
+
+## qo'noS variables
+
+**qo'noS variables** jatlh **accessed** by the **current shell/script**.
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
+## QaStaHvIS lo'wI'vam
 
-## List current variables
+To list the current environment variables in Linux, you can use the following command:
 
+```bash
+printenv
+```
+
+This command will display a list of all the environment variables currently set on your system.
 ```bash
 set
 env
@@ -52,70 +77,39 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
-
-## Common variables
+## Qa'Ho' variables
 
 From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – the display used by **X**. This variable is usually set to **:0.0**, which means the first display on the current computer.
-* **EDITOR** – the user’s preferred text editor.
-* **HISTFILESIZE** – the maximum number of lines contained in the history file.
-* **HISTSIZE** – Number of lines added to the history file when the user finish his session
-* **HOME** – your home directory.
-* **HOSTNAME** – the hostname of the computer.
-* **LANG** – your current language.
-* **MAIL** – the location of the user’s mail spool. Usually **/var/spool/mail/USER**.
-* **MANPATH** – the list of directories to search for manual pages.
-* **OSTYPE** – the type of operating system.
-* **PS1** – the default prompt in bash.
-* **PATH** – stores the path of all the directories which holds binary files you want to execute just by specifying the name of the file and not by relative or absolute path.
-* **PWD** – the current working directory.
-* **SHELL** – the path to the current command shell (for example, **/bin/bash**).
-* **TERM** – the current terminal type (for example, **xterm**).
-* **TZ** – your time zone.
-* **USER** – your current username.
-
-## Interesting variables for hacking
-
-### **HISTFILESIZE**
-
-Change the **value of this variable to 0**, so when you **end your session** the **history file** (\~/.bash\_history) **will be deleted**.
-
+* **DISPLAY** – **X**-Daq lo'laH. **:0.0**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq **DaH**-Daq
 ```bash
 export HISTFILESIZE=0
 ```
-
 ### **HISTSIZE**
 
-Change the **value of this variable to 0**, so when you **end your session** any command will be added to the **history file** (\~/.bash\_history).
-
+**0** **ghItlh** **value** **vetlh**, **vaj** **tlhIngan Hol** **end** **tlhIngan Hol** **session** **command** **legh** **history file** (\~/.bash\_history) **ghItlh** **legh**.
 ```bash
 export HISTSIZE=0
 ```
-
 ### http\_proxy & https\_proxy
 
-The processes will use the **proxy** declared here to connect to internet through **http or https**.
-
+**proxy**-n vItlhutlh **http or https**-Daq internetDaq **connect**-pu' **processes**-pu' **use**-vam.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
-
 ### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-The processes will trust the certificates indicated in **these env variables**.
-
+**'ejmeHmeH** **env variables** **vItlhutlh** certificates **'e'** **trust** **'e'** **processes**.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
 ```
-
 ### PS1
 
-Change how your prompt looks.
+QapHa' pagh DaH jImej.
 
-[**This is an example**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
+[**ghItlh Example**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
 Root:
 
@@ -125,24 +119,24 @@ Regular user:
 
 ![](<../.gitbook/assets/image (88).png>)
 
-One, two and three backgrounded jobs:
+wa', cha'logh, wej background jobs:
 
 ![](<../.gitbook/assets/image (89).png>)
 
-One background job, one stopped and last command didn't finish correctly:
+wa' background job, wa' stopped, 'ej DaH jImej vItlhutlh:
 
 ![](<../.gitbook/assets/image (90).png>)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>qaStaHvIS AWS hacking</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks vItlhutlh:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* qaStaHvIS **company advertised in HackTricks** 'ej **download HackTricks in PDF** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) laH!
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) ghaH **Get**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) vItlhutlh, maqtagh [**NFTs**](https://opensea.io/collection/the-peass-family) jImej
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) 'ej [**telegram group**](https://t.me/peass) 'ej **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) 'ej [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

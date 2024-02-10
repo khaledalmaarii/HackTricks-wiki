@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks AWS Red Team Expert</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -102,7 +102,6 @@ Note that executables compiled with **`pyinstaller`** won't use these environmen
 {% hint style="danger" %}
 Overall I couldn't find a way to make python execute arbitrary code abusing environment variables.\
 However, most of the people install pyhton using **Hombrew**, which will install pyhton in a **writable location** for the default admin user. You can hijack it with something like:
-
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -112,26 +111,23 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
-
-Even **root** will run this code when running python.
-{% endhint %}
+**root** jImejDaq python Daq chel code Hoch. {% endhint %}
 
 ## Detection
 
 ### Shield
 
-[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) is an open source application that can **detect and block process injection** actions:
+[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) vItlhutlh **process injection** qetlh:
 
-* Using **Environmental Variables**: It will monitor the presence of any of the following environmental variables: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** and **`ELECTRON_RUN_AS_NODE`**
-* Using **`task_for_pid`** calls: To find when one process wants to get the **task port of another** which allows to inject code in the process.
-* **Electron apps params**: Someone can use **`--inspect`**, **`--inspect-brk`** and **`--remote-debugging-port`** command line argument to start an Electron app in debugging mode, and thus inject code to it.
-* Using **symlinks** or **hardlinks**: Typically the most common abuse is to **place a link with our user privileges**, and **point it to a higher privilege** location. The detection is very simple for both hardlink and symlinks. If the process creating the link has a **different privilege level** than the target file, we create an **alert**. Unfortunately in the case of symlinks blocking is not possible, as we don’t have information about the destination of the link prior creation. This is a limitation of Apple’s EndpointSecuriy framework.
+* **Environmental Variables** vItlhutlh: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** je **`ELECTRON_RUN_AS_NODE`** environmental variables vItlhutlh. **`task_for_pid`** calls vItlhutlh: **task port** **process injection** code inject qetlh.
+* **Electron apps params**: **`--inspect`**, **`--inspect-brk`** je **`--remote-debugging-port`** command line argument vItlhutlh Electron app debugging mode vItlhutlh je inject code qetlh.
+* **symlinks** je **hardlinks** vItlhutlh: **link** **user privileges** vItlhutlh **higher privilege** location vItlhutlh abuse. hardlink je symlinks vItlhutlh vItlhutlh. link vItlhutlh **process** **privilege level** **target file** vItlhutlh, **alert** vItlhutlh. symlinks blocking vItlhutlh, Apple’s EndpointSecuriy framework vItlhutlh limitation.
 
 ### Calls made by other processes
 
-In [**this blog post**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) you can find how it's possible to use the function **`task_name_for_pid`** to get information about other **processes injecting code in a process** and then getting information about that other process.
+[**This blog post**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) vItlhutlh **`task_name_for_pid`** function vItlhutlh **processes injecting code** **process** information vItlhutlh.
 
-Note that to call that function you need to be **the same uid** as the one running the process or **root** (and it returns info about the process, not a way to inject code).
+**function** vItlhutlh **same uid** **process** **root** (je code inject vItlhutlh) **info** vItlhutlh.
 
 ## References
 

@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -51,21 +51,17 @@ You can find some Wireshark tricks in:
 [**Xplico** ](https://github.com/xplico/xplico)_(only linux)_ can **analyze** a **pcap** and extract information from it. For example, from a pcap file Xplico, extracts each email (POP, IMAP, and SMTP protocols), all HTTP contents, each VoIP call (SIP), FTP, TFTP, and so on.
 
 **Install**
-
 ```bash
 sudo bash -c 'echo "deb http://repo.xplico.org/ $(lsb_release -s -c) main" /etc/apt/sources.list'
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 791C25CE
 sudo apt-get update
 sudo apt-get install xplico
 ```
-
-**Run**
-
+**Qap**
 ```
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
-
 Access to _**127.0.0.1:9876**_ with credentials _**xplico:xplico**_
 
 Then create a **new case**, create a **new session** inside the case and **upload the pcap** file.
@@ -90,19 +86,15 @@ This is another useful tool that **analyses the packets** and sorts the informat
 * File Carving
 
 ### Capinfos
-
 ```
 capinfos capture.pcap
 ```
-
 ### Ngrep
 
-If you are **looking** for **something** inside the pcap you can use **ngrep**. Here is an example using the main filters:
-
+**ngrep** **vItlhutlh** **pcap** **vaj** **ghaH** **ngrep**. **ngrep** **vaj** **example** **ghaH** **main filters** **using**.
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
-
 ### Carving
 
 Using common carving techniques can be useful to extract files and information from the pcap:
@@ -126,33 +118,44 @@ You can use tools like [https://github.com/lgandx/PCredz](https://github.com/lga
 ### Suricata
 
 **Install and setup**
-
 ```
 apt-get install suricata
 apt-get install oinkmaster
 echo "url = http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz" >> /etc/oinkmaster.conf
 oinkmaster -C /etc/oinkmaster.conf -o /etc/suricata/rules
 ```
+**Qap pcap**
 
-**Check pcap**
+To inspect a pcap file, you can use tools like Wireshark or tcpdump. These tools allow you to analyze network traffic captured in the pcap file.
 
+Here are some steps you can follow to check a pcap file:
+
+1. Open the pcap file in Wireshark or tcpdump.
+2. Analyze the captured packets to understand the network traffic.
+3. Look for any suspicious or abnormal behavior in the packets.
+4. Filter the packets based on specific criteria, such as source or destination IP address, protocol, or port number.
+5. Use the built-in features of the tool to extract relevant information from the packets, such as HTTP requests, DNS queries, or email conversations.
+6. Follow the network flow to identify the source and destination of the traffic.
+7. Look for any signs of malicious activity, such as unusual network connections, unauthorized access attempts, or data exfiltration.
+8. Take note of any findings or evidence that may be relevant to your investigation.
+
+By carefully inspecting the pcap file, you can gain valuable insights into the network traffic and identify any potential security issues or breaches.
 ```
 suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
-
 ### YaraPcap
 
-[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) is a tool that
+[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) jup 'oH tool vItlhutlh
 
-* Reads a PCAP File and Extracts Http Streams.
-* gzip deflates any compressed streams
-* Scans every file with yara
-* Writes a report.txt
-* Optionally saves matching files to a Dir
+* PCAP File vItlhutlh Http Streams.
+* gzip deflates vItlhutlh compressed streams
+* yara vItlhutlh file Scan
+* report.txt vItlhutlh vItlhutlh
+* matching files vItlhutlh Dir vItlhutlh
 
 ### Malware Analysis
 
-Check if you can find any fingerprint of a known malware:
+known malware fingerprint vItlhutlh 'oH 'oH:
 
 {% content-ref url="../malware-analysis.md" %}
 [malware-analysis.md](../malware-analysis.md)
@@ -160,12 +163,9 @@ Check if you can find any fingerprint of a known malware:
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html) is a passive, open-source network traffic analyzer. Many operators use Zeek as a Network Security Monitor (NSM) to support investigations of suspicious or malicious activity. Zeek also supports a wide range of traffic analysis tasks beyond the security domain, including performance measurement and troubleshooting.
+> [Zeek](https://docs.zeek.org/en/master/about.html) passive, open-source network traffic analyzer. Many operators Zeek Network Security Monitor (NSM) support investigations suspicious malicious activity. Zeek supports wide range traffic analysis tasks security domain, performance measurement troubleshooting.
 
-Basically, logs created by `zeek` aren't **pcaps**. Therefore you will need to use **other tools** to analyse the logs where the **information** about the pcaps are.
-
-### Connections Info
-
+Basically, logs created `zeek` aren't **pcaps**. Therefore logs **information** pcaps analysis **other tools** vItlhutlh.
 ```bash
 #Get info about longest connections (add "grep udp" to see only udp traffic)
 #The longest connection might be of malware (constant reverse shell?)
@@ -215,9 +215,21 @@ Score,Source IP,Destination IP,Connections,Avg Bytes,Intvl Range,Size Range,Top 
 1,10.55.100.111,165.227.216.194,20054,92,29,52,1,52,7774,20053,0,0,0,0
 0.838,10.55.200.10,205.251.194.64,210,69,29398,4,300,70,109,205,0,0,0,0
 ```
-
 ### DNS info
 
+DNS (Domain Name System) is a fundamental component of the internet that translates domain names into IP addresses. It allows users to access websites and other online resources using easy-to-remember domain names instead of complex IP addresses.
+
+When conducting a forensic analysis of network traffic captured in a PCAP file, inspecting DNS information can provide valuable insights. Here are some key details to look for:
+
+- **DNS Queries**: These are requests made by a client to resolve a domain name into an IP address. They typically include the domain name being queried and the type of record being requested (e.g., A, AAAA, MX, NS).
+
+- **DNS Responses**: These are the replies from DNS servers to the client's queries. They contain the resolved IP address or other relevant information, such as the time-to-live (TTL) value.
+
+- **DNS Resource Records**: These are the individual entries in a DNS response that provide specific information about a domain. Common types include A records (IPv4 address), AAAA records (IPv6 address), MX records (mail server), and NS records (name server).
+
+By analyzing DNS information in a PCAP file, you can gain insights into the communication patterns, identify potential malicious activities (e.g., domain generation algorithms, command and control servers), and uncover valuable information for further investigation.
+
+Remember to consider the context and cross-reference DNS information with other network artifacts to get a comprehensive understanding of the network traffic and potential security incidents.
 ```bash
 #Get info about each DNS request performed
 cat dns.log | zeek-cut -c id.orig_h query qtype_name answers
@@ -234,8 +246,7 @@ cat dns.log | zeek-cut qtype_name | sort | uniq -c | sort -nr
 #See top DNS domain requested with rita
 rita show-exploded-dns -H --limit 10 zeek_logs
 ```
-
-## Other pcap analysis tricks
+## vItlhutlh
 
 {% content-ref url="dnscat-exfiltration.md" %}
 [dnscat-exfiltration.md](dnscat-exfiltration.md)
@@ -253,7 +264,7 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) vItlhutlh **Spain** DaH **Europe** Daq yIqIm. **technical knowledge promote** vItlhutlh, 'ej 'oH congress 'e' vItlhutlh 'e' vItlhutlh 'e' technology 'ej cybersecurity professionals Hoch 'ej Hoch.
 
 {% embed url="https://www.rootedcon.com/" %}
 

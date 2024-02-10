@@ -16,21 +16,21 @@ Other ways to support HackTricks:
 
 ## XNU Kernel
 
-The **core of macOS is XNU**, which stands for "X is Not Unix". This kernel is fundamentally composed of the **Mach microkerne**l (to be discussed later), **and** elements from Berkeley Software Distribution (**BSD**). XNU also provides a platform for **kernel drivers via a system called the I/O Kit**. The XNU kernel is part of the Darwin open source project, which means **its source code is freely accessible**.
+**macOS** jup XNU **core**, 'ej "X is Not Unix" jatlh. vItlhutlh kernel **Mach microkernel** (qaStaHvIS), **'ej** Berkeley Software Distribution (**BSD**) 'e' vItlhutlh. XNU 'ej **kernel drivers** 'e' vItlhutlh **I/O Kit** jatlh. XNU kernel **Darwin** open source project 'e' vItlhutlh, 'ej **source code** vItlhutlh **freely accessible**.
 
-From a perspective of a security researcher or a Unix developer, **macOS** can feel quite **similar** to a **FreeBSD** system with an elegant GUI and a host of custom applications. Most applications developed for BSD will compile and run on macOS without needing modifications, as the command-line tools familiar to Unix users are all present in macOS. However, because the XNU kernel incorporates Mach, there are some significant differences between a traditional Unix-like system and macOS, and these differences might cause potential issues or provide unique advantages.
+**macOS** security researcher 'ej Unix developer perspective, **macOS** **FreeBSD** system **similar** jatlh **elegant GUI** 'ej **custom applications**. BSD vItlhutlh **applications** developed **macOS** **compile** 'ej **run** **modifications**, **command-line tools** familiar **Unix users** vItlhutlh **macOS**. 'ach, XNU kernel incorporates Mach, **traditional Unix-like system** 'ej macOS **difference** **potential issues** 'ej **unique advantages**.
 
 Open source version of XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
 
 ### Mach
 
-Mach is a **microkernel** designed to be **UNIX-compatible**. One of its key design principles was to **minimize** the amount of **code** running in the **kernel** space and instead allow many typical kernel functions, such as file system, networking, and I/O, to **run as user-level tasks**.
+Mach **microkernel** vItlhutlh **UNIX-compatible**. Mach **key design principles** 'oH minimize **code** running **kernel** space 'ej **allow** many **typical kernel functions**, such **file system**, **networking**, 'ej **I/O**, **run user-level tasks**.
 
-In XNU, Mach is **responsible for many of the critical low-level operations** a kernel typically handles, such as processor scheduling, multitasking, and virtual memory management.
+XNU, Mach vItlhutlh **responsible** many **critical low-level operations** kernel typically handles, such **processor scheduling**, **multitasking**, 'ej **virtual memory management**.
 
 ### BSD
 
-The XNU **kernel** also **incorporates** a significant amount of code derived from the **FreeBSD** project. This code **runs as part of the kernel along with Mach**, in the same address space. However, the FreeBSD code within XNU may differ substantially from the original FreeBSD code because modifications were required to ensure its compatibility with Mach. FreeBSD contributes to many kernel operations including:
+XNU **kernel** vItlhutlh **incorporates** significant amount code derived **FreeBSD** project. 'ej code **run** **kernel** along Mach, **same address space**. 'ach, FreeBSD code within XNU **differ** substantially **original FreeBSD code** modifications required **compatibility** Mach. FreeBSD contributes many kernel operations including:
 
 * Process management
 * Signal handling
@@ -39,13 +39,13 @@ The XNU **kernel** also **incorporates** a significant amount of code derived fr
 * TCP/IP stack and sockets
 * Firewall and packet filtering
 
-Understanding the interaction between BSD and Mach can be complex, due to their different conceptual frameworks. For instance, BSD uses processes as its fundamental executing unit, while Mach operates based on threads. This discrepancy is reconciled in XNU by **associating each BSD process with a Mach task** that contains exactly one Mach thread. When BSD's fork() system call is used, the BSD code within the kernel uses Mach functions to create a task and a thread structure.
+BSD 'ej Mach interaction **complex**, due **different conceptual frameworks**. 'ach, XNU **associate** BSD process **Mach task** contains **one Mach thread**. BSD's fork() system call used, BSD code within kernel **Mach functions** create task 'ej thread structure.
 
-Moreover, **Mach and BSD each maintain different security models**: **Mach's** security model is based on **port rights**, whereas BSD's security model operates based on **process ownership**. Disparities between these two models have occasionally resulted in local privilege-escalation vulnerabilities. Apart from typical system calls, there are also **Mach traps that allow user-space programs to interact with the kernel**. These different elements together form the multifaceted, hybrid architecture of the macOS kernel.
+**Mach** 'ej **BSD** vItlhutlh **different security models**: Mach's security model **port rights** based, whereas BSD's security model operates based **process ownership**. Disparities between models occasionally resulted **local privilege-escalation vulnerabilities**. 'ach, typical system calls, **Mach traps** allow user-space programs **interact** kernel. 'ej elements together form multifaceted, hybrid architecture macOS kernel.
 
 ### I/O Kit - Drivers
 
-The I/O Kit is an open-source, object-oriented **device-driver framework** in the XNU kernel, handles **dynamically loaded device drivers**. It allows modular code to be added to the kernel on-the-fly, supporting diverse hardware.
+I/O Kit vItlhutlh **open-source**, **object-oriented device-driver framework** XNU kernel, handles **dynamically loaded device drivers**. 'oH modular code **added** kernel on-the-fly, supporting diverse hardware.
 
 {% content-ref url="macos-iokit.md" %}
 [macos-iokit.md](macos-iokit.md)
@@ -59,29 +59,28 @@ The I/O Kit is an open-source, object-oriented **device-driver framework** in th
 
 ### Kernelcache
 
-The **kernelcache** is a **pre-compiled and pre-linked version of the XNU kernel**, along with essential device **drivers** and **kernel extensions**. It's stored in a **compressed** format and gets decompressed into memory during the boot-up process. The kernelcache facilitates a **faster boot time** by having a ready-to-run version of the kernel and crucial drivers available, reducing the time and resources that would otherwise be spent on dynamically loading and linking these components at boot time.
+Kernelcache vItlhutlh **pre-compiled** 'ej **pre-linked version** XNU kernel, along **essential device drivers** 'ej **kernel extensions**. 'oH stored **compressed** format 'ej gets decompressed memory during boot-up process. Kernelcache facilitates **faster boot time** having ready-to-run version kernel 'ej crucial drivers available, reducing time 'ej resources spent dynamically loading 'ej linking components boot time.
 
-In iOS it's located in **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** in macOS you can find it with **`find / -name kernelcache 2>/dev/null`**
+iOS **located** **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** macOS **find** **`find / -name kernelcache 2>/dev/null`**
 
 #### IMG4
 
-The IMG4 file format is a container format used by Apple in its iOS and macOS devices for securely **storing and verifying firmware** components (like **kernelcache**). The IMG4 format includes a header and several tags which encapsulate different pieces of data including the actual payload (like a kernel or bootloader), a signature, and a set of manifest properties. The format supports cryptographic verification, allowing the device to confirm the authenticity and integrity of the firmware component before executing it.
+IMG4 file format vItlhutlh **container format** used Apple iOS 'ej macOS devices securely **storing 'ej verifying firmware** components (like **kernelcache**). IMG4 format includes header 'ej several tags encapsulate different pieces data including actual payload (like kernel 'ej bootloader), signature, 'ej set manifest properties. Format supports cryptographic verification, allowing device confirm authenticity 'ej integrity firmware component executing it.
 
-It's usually composed of the following components:
+Usually composed following components:
 
-* **Payload (IM4P)**:
-  * Often compressed (LZFSE4, LZSS, …)
-  * Optionally encrypted
-* **Manifest (IM4M)**:
-  * Contains Signature
-  * Additional Key/Value dictionary
-* **Restore Info (IM4R)**:
-  * Also known as APNonce
-  * Prevents replaying of some updates
-  * OPTIONAL: Usually this isn't found
+* Payload (IM4P):
+* Often compressed (LZFSE4, LZSS, ...)
+* Optionally encrypted
+* Manifest (IM4M):
+* Contains Signature
+* Additional Key/Value dictionary
+* Restore Info (IM4R):
+* Also known APNonce
+* Prevents replaying updates
+* OPTIONAL: Usually this isn't found
 
 Decompress the Kernelcache:
-
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -89,7 +88,6 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
-
 #### Kernelcache Symbols
 
 Sometime Apple releases **kernelcache** with **symbols**. You can download some firmwares with symbols by following links on [https://theapplewiki.com](https://theapplewiki.com/).
@@ -110,15 +108,20 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
-
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+**`nm -a kernelcache.release.iphone14.e | wc -l`**  **tlhIngan Hol:**
+**`nm -a kernelcache.release.iphone14.e | wc -l`**  **tlhIngan Hol:**
 
-You can check the extracted kernelcache for symbols with:  **`nm -a kernelcache.release.iphone14.e | wc -l`**
+**'kernelcache.release.iphone14.e'** **tlhIngan Hol:**
+**'kernelcache.release.iphone14.e'** **tlhIngan Hol:**
 
-With this we can now **extract all the extensions** or the **one you are insterested in:**
+**'extract all the extensions'** **tlhIngan Hol:**
+**'extract all the extensions'** **tlhIngan Hol:**
 
+**'one you are interested in'** **tlhIngan Hol:**
+**'one you are interested in'** **tlhIngan Hol:**
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -131,10 +134,9 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
-
 ## macOS Kernel Extensions
 
-macOS is **super restrictive to load Kernel Extensions** (.kext) because of the high privileges that code will run with. Actually, by default is virtually impossible (unless a bypass is found).
+macOS **tlhIngan Hol** **QaQ** **Kernel Extensions** (.kext) **ghaH** **super restrictive** **vaj** **load** **QaQ** **Kernel Extensions** **(vaj)** **high privileges** **code** **run** **with**. **Actually**, **default** **virtually impossible** (unless **bypass** **found**).
 
 {% content-ref url="macos-kernel-extensions.md" %}
 [macos-kernel-extensions.md](macos-kernel-extensions.md)
@@ -142,7 +144,7 @@ macOS is **super restrictive to load Kernel Extensions** (.kext) because of the 
 
 ### macOS System Extensions
 
-Instead of using Kernel Extensions macOS created the System Extensions, which offers in user level APIs to interact with the kernel. This way, developers can avoid to use kernel extensions.
+**Kernel Extensions** **vaj** **macOS** **created** **System Extensions**, **vaj** **offers** **user level APIs** **interact** **kernel**. **This way**, **developers** **avoid** **use** **kernel extensions**.
 
 {% content-ref url="macos-system-extensions.md" %}
 [macos-system-extensions.md](macos-system-extensions.md)

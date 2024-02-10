@@ -66,7 +66,6 @@ When an **application creates an entry in the keychain**, the rules are slightly
 ## Accessing the Keychain
 
 ### `security`
-
 ```bash
 # Dump all metadata and decrypted secrets (a lot of pop-ups)
 security dump-keychain -a -d
@@ -77,58 +76,54 @@ security find-generic-password -a "Slack" -g
 # Change the specified entrys PartitionID entry
 security set-generic-password-parition-list -s "test service" -a "test acount" -S
 ```
-
 ### APIs
 
 {% hint style="success" %}
-The **keychain enumeration and dumping** of secrets that **won't generate a prompt** can be done with the tool [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+**LockSmith** (https://github.com/its-a-feature/LockSmith) **ghItlh** **keychain enumeration and dumping** **won't generate a prompt** **secrets** **'ej** **vItlhutlh**.
 {% endhint %}
 
-List and get **info** about each keychain entry:
+**keychain entry** **info** **list** **'ej** **jImej**:
 
-* The API **`SecItemCopyMatching`** gives info about each entry and there are some attributes you can set when using it:
-  * **`kSecReturnData`**: If true, it will try to decrypt the data (set to false to avoid potential pop-ups)
-  * **`kSecReturnRef`**: Get also reference to keychain item (set to true in case later you see you can decrypt without pop-up)
-  * **`kSecReturnAttributes`**: Get metadata about entries
-  * **`kSecMatchLimit`**: How many results to return
-  * **`kSecClass`**: What kind of keychain entry
+* **`SecItemCopyMatching`** **API** **entry** **info** **ghItlh** **attributes** **vItlhutlh**:
+* **`kSecReturnData`**: **true** **ghItlh** **data** **decrypt** **jatlh** (potential pop-ups **chIm** **false** **set**)
+* **`kSecReturnRef`**: **keychain item** **reference** **ghItlh** **jImej** **(pop-up** **chIm** **decrypt** **jatlh** **jatlh** **true** **set**)
+* **`kSecReturnAttributes`**: **entries** **metadata** **ghItlh** **jImej**
+* **`kSecMatchLimit`**: **results** **jImej**
+* **`kSecClass`**: **keychain entry** **kind**
 
-Get **ACLs** of each entry:
+**entry ACLs** **jImej** **'ej** **jImej**:
 
-* With the API **`SecAccessCopyACLList`** you can get the **ACL for the keychain item**, and it will return a list of ACLs (like `ACLAuhtorizationExportClear` and the others previously mentioned)  where each list has:
-  * Description
-  * **Trusted Application List**. This could be:
-    * An app: /Applications/Slack.app
-    * A binary: /usr/libexec/airportd
-    * A group: group://AirPort
+* **`SecAccessCopyACLList`** **API** **keychain item** **ACL** **ghItlh** **list** **jImej** **(ACLAuhtorizationExportClear** **'ej** **ghItlh** **list**) **'ej** **list** **jImej** **jImej**:
+* **Description**
+* **Trusted Application List**: **app**: /Applications/Slack.app, **binary**: /usr/libexec/airportd, **group**: group://AirPort
 
-Export the data:
+**data** **export**:
 
-* The API **`SecKeychainItemCopyContent`** gets the plaintext
-* The API  **`SecItemExport`** exports the keys and certificates but might have to set passwords to export the content encrypted
+* **`SecKeychainItemCopyContent`** **API** **plaintext** **ghItlh**
+* **`SecItemExport`** **API** **keys** **certificates** **export** **jImej** **content** **encrypted** **ghItlh** **passwords** **set** **jImej**
 
-And these are the **requirements** to be able to **export a secret without a prompt**:
+**requirements** **export** **secret** **prompt** **chIm**:
 
-* If **1+ trusted** apps listed:
-  * Need the appropriate **authorizations** (**`Nil`**, or be **part** of the allowed list of apps in the authorization to access the secret info)
-  * Need code signature to match **PartitionID**
-  * Need code signature to match that of one **trusted app** (or be a member of the right KeychainAccessGroup)
-* If **all applications trusted**:
-  * Need the appropriate **authorizations**
-  * Need code signature to match **PartitionID**
-    * If **no PartitionID**, then this isn't needed
+* **1+ trusted** **apps** **listed**:
+* **appropriate authorizations** **chIm** (**`Nil`**, **allowed** **list** **apps** **authorization** **access** **secret info** **part** **be**)
+* **code signature** **PartitionID** **match** **chIm**
+* **code signature** **trusted app** **match** **chIm** **(right KeychainAccessGroup** **member** **be**)
+* **all applications trusted** **chIm**:
+* **appropriate authorizations** **chIm**
+* **code signature** **PartitionID** **match** **chIm**
+* **PartitionID** **chIm**, **chIm** **needed**
 
 {% hint style="danger" %}
-Therefore, if there is **1 application listed**, you need to **inject code in that application**.
+**1 application listed** **chIm**, **code** **inject** **application** **chIm** **need**.
 
-If **apple** is indicated in the **partitionID**, you could access it with **`osascript`** so anything that is trusting all applications with apple in the partitionID. **`Python`** could also be used for this.
+**apple** **PartitionID** **chIm**, **`osascript`** **access** **chIm** **apple** **partitionID** **trust** **applications** **anything**. **`Python`** **chIm** **be**.
 {% endhint %}
 
-### Two additional attributes
+### **Two additional attributes**
 
-* **Invisible**: It's a boolean flag to **hide** the entry from the **UI** Keychain app
-* **General**: It's to store **metadata** (so it's NOT ENCRYPTED)
-  * Microsoft was storing in plain text all the refresh tokens to access sensitive endpoint.
+* **Invisible**: **entry** **UI** **Keychain app** **hide** **boolean flag**
+* **General**: **metadata** **store** **chIm** (NOT ENCRYPTED)
+* **Microsoft** **refresh tokens** **access** **sensitive endpoint** **plain text** **store**.
 
 ## References
 

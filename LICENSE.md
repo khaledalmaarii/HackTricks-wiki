@@ -1,5 +1,3 @@
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -65,128 +63,123 @@ j. __Share__ means to provide material to the public by any means or process tha
 k. __Sui Generis Database Rights__ means rights other than copyright resulting from Directive 96/9/EC of the European Parliament and of the Council of 11 March 1996 on the legal protection of databases, as amended and/or succeeded, as well as other essentially equivalent rights anywhere in the world.
 
 l. __You__ means the individual or entity exercising the Licensed Rights under this Public License. Your has a corresponding meaning.
-
 ## Section 2 – Scope.
 
-a. ___License grant.___
+a. ___QaDwI'.___
 
- 1. Subject to the terms and conditions of this Public License, the Licensor hereby grants You a worldwide, royalty-free, non-sublicensable, non-exclusive, irrevocable license to exercise the Licensed Rights in the Licensed Material to:
+1. ___QaDwI'___, ___Public License___ je ___terms and conditions___, ___Licensor___ ___You___ ___worldwide___, ___royalty-free___, ___non-sublicensable___, ___non-exclusive___, ___irrevocable license___ ___Licensed Rights___ ___Licensed Material___ ___exercise___:
 
-  A. reproduce and Share the Licensed Material, in whole or in part, for NonCommercial purposes only; and
+A. ___reproduce and Share___ ___Licensed Material___, ___whole or in part___, ___NonCommercial purposes___; ___and___
 
-  B. produce, reproduce, and Share Adapted Material for NonCommercial purposes only.
+B. ___produce, reproduce, and Share___ ___Adapted Material___ ___NonCommercial purposes___.
 
- 2. __Exceptions and Limitations.__ For the avoidance of doubt, where Exceptions and Limitations apply to Your use, this Public License does not apply, and You do not need to comply with its terms and conditions.
-     
- 3. __Term.__ The term of this Public License is specified in Section 6(a).
+2. ___Exceptions and Limitations.___ ___Exceptions and Limitations___ ___Your use___, ___Public License___ ___apply___, ___Public License___ ___apply___, ___You___ ___need to comply___ ___terms and conditions___.
 
- 4. __Media and formats; technical modifications allowed.__ The Licensor authorizes You to exercise the Licensed Rights in all media and formats whether now known or hereafter created, and to make technical modifications necessary to do so. The Licensor waives and/or agrees not to assert any right or authority to forbid You from making technical modifications necessary to exercise the Licensed Rights, including technical modifications necessary to circumvent Effective Technological Measures. For purposes of this Public License, simply making modifications authorized by this Section 2(a)(4) never produces Adapted Material.
-    
- 5. __Downstream recipients.__
+3. ___Term.___ ___Public License___ ___term___ ___specified___ ___Section 6(a)___.
 
-  A. __Offer from the Licensor – Licensed Material.__ Every recipient of the Licensed Material automatically receives an offer from the Licensor to exercise the Licensed Rights under the terms and conditions of this Public License.
+4. ___Media and formats; technical modifications allowed.___ ___Licensor___ ___exercise___ ___Licensed Rights___ ___media and formats___ ___now known___ ___hereafter created___, ___technical modifications___ ___necessary___ ___Licensor___ ___waives___ ___assert___ ___right___ ___authority___ ___forbid___ ___technical modifications___ ___necessary___ ___exercise___ ___Licensed Rights___, ___including technical modifications___ ___necessary___ ___circumvent Effective Technological Measures___. ___Public License___, ___simply making modifications authorized___ ___Section 2(a)(4)___ ___never produces Adapted Material___.
 
-  B. __No downstream restrictions.__ You may not offer or impose any additional or different terms or conditions on, or apply any Effective Technological Measures to, the Licensed Material if doing so restricts exercise of the Licensed Rights by any recipient of the Licensed Material.
+5. ___Downstream recipients.___
 
- 6. __No endorsement.__ Nothing in this Public License constitutes or may be construed as permission to assert or imply that You are, or that Your use of the Licensed Material is, connected with, or sponsored, endorsed, or granted official status by, the Licensor or others designated to receive attribution as provided in Section 3(a)(1)(A)(i).
-    
+A. ___Offer from the Licensor – Licensed Material.___ ___recipient___ ___Licensed Material___ ___automatically receives___ ___offer___ ___Licensor___ ___exercise___ ___Licensed Rights___ ___terms and conditions___ ___Public License___.
+
+B. ___No downstream restrictions.___ ___You___ ___offer___ ___impose___ ___additional___ ___different terms___ ___conditions___, ___apply___ ___Effective Technological Measures___, ___Licensed Material___ ___restricts exercise___ ___Licensed Rights___ ___recipient___ ___Licensed Material___.
+
+6. ___No endorsement.___ ___Nothing___ ___Public License___ ___constitutes___ ___may be construed___ ___permission___ ___assert___ ___imply___ ___You___, ___Your use___ ___Licensed Material___, ___connected with___, ___sponsored___, ___endorsed___, ___granted official status___, ___Licensor___ ___others designated___ ___receive attribution___ ___provided___ ___Section 3(a)(1)(A)(i)___.
+
 b. ___Other rights.___
 
- 1. Moral rights, such as the right of integrity, are not licensed under this Public License, nor are publicity, privacy, and/or other similar personality rights; however, to the extent possible, the Licensor waives and/or agrees not to assert any such rights held by the Licensor to the limited extent necessary to allow You to exercise the Licensed Rights, but not otherwise.
+1. ___Moral rights___, ___right of integrity___, ___licensed___ ___Public License___, ___publicity___, ___privacy___, ___and/or other similar personality rights___; ___however___, ___extent possible___, ___Licensor___ ___waives___ ___assert___ ___rights___ ___held___ ___Licensor___ ___limited extent necessary___ ___allow You___ ___exercise___ ___Licensed Rights___, ___otherwise___.
 
- 2. Patent and trademark rights are not licensed under this Public License.
+2. ___Patent and trademark rights___ ___licensed___ ___Public License___.
 
- 3. To the extent possible, the Licensor waives any right to collect royalties from You for the exercise of the Licensed Rights, whether directly or through a collecting society under any voluntary or waivable statutory or compulsory licensing scheme. In all other cases the Licensor expressly reserves any right to collect such royalties, including when the Licensed Material is used other than for NonCommercial purposes.
-    
+3. ___extent possible___, ___Licensor___ ___waives___ ___right___ ___collect royalties___ ___You___ ___exercise___ ___Licensed Rights___, ___directly___ ___collecting society___ ___voluntary___ ___waivable statutory___ ___compulsory licensing scheme___. ___cases___ ___Licensor___ ___expressly reserves___ ___right___ ___collect___ ___royalties___, ___Licensed Material___ ___used___ ___NonCommercial purposes___.
+
 ## Section 3 – License Conditions.
 
-Your exercise of the Licensed Rights is expressly made subject to the following conditions.
+___Your exercise___ ___Licensed Rights___ ___expressly made subject___ ___following conditions___.
 
 a. ___Attribution.___
 
- 1. If You Share the Licensed Material (including in modified form), You must:
+1. ___If You Share___ ___Licensed Material___ (___including in modified form___), ___You___:
 
-  A. retain the following if it is supplied by the Licensor with the Licensed Material:
+A. ___retain___ ___following___ ___supplied___ ___Licensor___ ___Licensed Material___:
 
-   i. identification of the creator(s) of the Licensed Material and any others designated to receive attribution, in any reasonable manner requested by the Licensor (including by pseudonym if designated);
+i. ___identification___ ___creator(s)___ ___Licensed Material___ ___others designated___ ___receive attribution___, ___reasonable manner requested___ ___Licensor___ (___including by pseudonym___ ___designated___);
 
-   ii. a copyright notice;
+ii. ___copyright notice___;
 
-   iii. a notice that refers to this Public License;
+iii. ___notice___ ___refers___ ___Public License___;
 
-   iv. a notice that refers to the disclaimer of warranties;
+iv. ___notice___ ___refers___ ___disclaimer of warranties___;
 
-   v. a URI or hyperlink to the Licensed Material to the extent reasonably practicable;
+v. ___URI or hyperlink___ ___Licensed Material___ ___extent reasonably practicable___;
 
-  B. indicate if You modified the Licensed Material and retain an indication of any previous modifications; and
+B. ___indicate___ ___You modified___ ___Licensed Material___ ___retain___ ___indication___ ___previous modifications___; ___and___
 
-  C. indicate the Licensed Material is licensed under this Public License, and include the text of, or the URI or hyperlink to, this Public License.
+C. ___indicate___ ___Licensed Material___ ___licensed___ ___Public License___, ___include___ ___text___, ___URI or hyperlink___, ___Public License___.
 
- 2. You may satisfy the conditions in Section 3(a)(1) in any reasonable manner based on the medium, means, and context in which You Share the Licensed Material. For example, it may be reasonable to satisfy the conditions by providing a URI or hyperlink to a resource that includes the required information.
+2. ___You___ ___satisfy___ ___conditions___ ___Section 3(a)(1)___ ___reasonable manner___ ___medium, means, and context___ ___You Share___ ___Licensed Material___. ___example___, ___reasonable___ ___satisfy___ ___conditions___ ___providing___ ___URI or hyperlink___ ___resource___ ___includes___ ___required information___.
 
- 3. If requested by the Licensor, You must remove any of the information required by Section 3(a)(1)(A) to the extent reasonably practicable.
+3. ___If requested___ ___Licensor___, ___You___ ___remove___ ___information___ ___required___ ___Section 3(a)(1)(A)___ ___extent reasonably practicable___.
 
- 4. If You Share Adapted Material You produce, the Adapter's License You apply must not prevent recipients of the Adapted Material from complying with this Public License.
+4. ___If You Share___ ___Adapted Material___ ___produce___, ___Adapter's License___ ___apply___ ___prevent recipients___ ___Adapted Material___ ___comply___ ___Public License___.
 
 ## Section 4 – Sui Generis Database Rights.
 
-Where the Licensed Rights include Sui Generis Database Rights that apply to Your use of the Licensed Material:
+___Licensed Rights___ ___Sui Generis Database Rights___ ___apply___ ___Your use___ ___Licensed Material___:
 
-a. for the avoidance of doubt, Section 2(a)(1) grants You the right to extract, reuse, reproduce, and Share all or a substantial portion of the contents of the database for NonCommercial purposes only;
+a. ___avoidance of doubt___, ___Section 2(a)(1)___ ___grants You___ ___right___ ___extract, reuse, reproduce, and Share___ ___substantial portion___ ___contents___ ___database___ ___NonCommercial purposes___;
 
-b. if You include all or a substantial portion of the database contents in a database in which You have Sui Generis Database Rights, then the database in which You have Sui Generis Database Rights (but not its individual contents) is Adapted Material; and
+b. ___You___ ___include___ ___substantial portion___ ___database contents___ ___database___ ___Sui Generis Database Rights___, ___database___ ___Sui Generis Database Rights___ (___not its individual contents___) ___Adapted Material___; ___and___
 
-c. You must comply with the conditions in Section 3(a) if You Share all or a substantial portion of the contents of the database.
+c. ___You___ ___comply___ ___conditions___ ___Section 3(a)___ ___You Share___ ___substantial portion___ ___contents___ ___database___.
 
-For the avoidance of doubt, this Section 4 supplements and does not replace Your obligations under this Public License where the Licensed Rights include other Copyright and Similar Rights.
+___avoidance of doubt___, ___Section 4___ ___supplements___ ___replace___ ___Your obligations___ ___Public License___ ___Licensed Rights___ ___include___ ___Copyright and Similar Rights___.
 
 ## Section 5 – Disclaimer of Warranties and Limitation of Liability.
 
-a. __Unless otherwise separately undertaken by the Licensor, to the extent possible, the Licensor offers the Licensed Material as-is and as-available, and makes no representations or warranties of any kind concerning the Licensed Material, whether express, implied, statutory, or other. This includes, without limitation, warranties of title, merchantability, fitness for a particular purpose, non-infringement, absence of latent or other defects, accuracy, or the presence or absence of errors, whether or not known or discoverable. Where disclaimers of warranties are not allowed in full or in part, this disclaimer may not apply to You.__
+a. ___Unless otherwise separately undertaken___ ___Licensor___, ___extent possible___, ___Licensor___ ___offers___ ___Licensed Material___ ___as-is and as-available___, ___makes no representations or warranties___ ___kind___ ___Licensed Material___, ___express, implied, statutory___, ___other___. ___includes___, ___without limitation___, ___warranties___ ___title___, ___merchantability___, ___fitness for a particular purpose___, ___non-infringement___, ___absence of latent or other defects___, ___accuracy___, ___presence or absence___ ___errors___, ___known___ ___discoverable___. ___disclaimers___ ___warranties___ ___allowed___ ___full or in part___, ___disclaimer___ ___may not apply___ ___You___.
 
-b. __To the extent possible, in no event will the Licensor be liable to You on any legal theory (including, without limitation, negligence) or otherwise for any direct, special, indirect, incidental, consequential, punitive, exemplary, or other losses, costs, expenses, or damages arising out of this Public License or use of the Licensed Material, even if the Licensor has been advised of the possibility of such losses, costs, expenses, or damages. Where a limitation of liability is not allowed in full or in part, this limitation may not apply to You.__
+b. ___extent possible___, ___no event___ ___Licensor___ ___liable___ ___You___ ___legal theory___ (___including, without limitation___, ___negligence___) ___otherwise___ ___direct, special, indirect, incidental, consequential, punitive, exemplary___, ___other losses___, ___costs, expenses, or damages___ ___Public License___ ___use___ ___Licensed Material___, ___Licensor___ ___advised___ ___possibility___ ___losses, costs, expenses, or damages___. ___limitation of liability___ ___allowed___ ___full or in part___, ___limitation___ ___may not apply___ ___You___.
 
-c. The disclaimer of warranties and limitation of liability provided above shall be interpreted in a manner that, to the extent possible, most closely approximates an absolute disclaimer and waiver of all liability.
+c. ___disclaimer___ ___warranties___ ___limitation of liability___ ___provided above___ ___interpreted___ ___manner___, ___extent possible___, ___most closely approximates___ ___absolute disclaimer___ ___waiver___ ___all liability___.
 
 ## Section 6 – Term and Termination.
 
-a. This Public License applies for the term of the Copyright and Similar Rights licensed here. However, if You fail to comply with this Public License, then Your rights under this Public License terminate automatically.
+a. ___Public License___ ___applies___ ___term___ ___Copyright and Similar Rights___ ___licensed___ ___here___. ___You___ ___fail to comply___ ___Public License___, ___Your rights___ ___Public License___ ___terminate automatically___.
 
-b. Where Your right to use the Licensed Material has terminated under Section 6(a), it reinstates:
+b. ___Your right___ ___use___ ___Licensed Material___ ___terminated___ ___Section 6(a)___, ___reinstates___:
 
- 1. automatically as of the date the violation is cured, provided it is cured within 30 days of Your discovery of the violation; or
+1. ___automatically___ ___date___ ___violation___ ___cured___, ___provided___ ___cured___ ___30 days___ ___Your discovery___ ___violation___; ___or___
 
- 2. upon express reinstatement by the Licensor.
+2. ___express reinstatement___ ___Licensor___.
 
- For the avoidance of doubt, this Section 6(b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License.
+___avoidance of doubt___, ___Section 6(b)___ ___affect___ ___right___ ___Licensor___ ___may have___ ___seek remedies___ ___Your violations___ ___Public License___.
 
-c. For the avoidance of doubt, the Licensor may also offer the Licensed Material under separate terms or conditions or stop distributing the Licensed Material at any time; however, doing so will not terminate this Public License.
+c. ___avoidance of doubt___, ___Licensor___ ___offer___ ___Licensed Material___ ___separate terms___ ___conditions___ ___stop distributing___ ___Licensed Material___ ___any time___; ___however___, ___doing so___ ___terminate___ ___Public License___.
 
-d. Sections 1, 5, 6, 7, and 8 survive termination of this Public License.
-
+d. ___Sections 1, 5, 6, 7, and 8___ ___survive termination___ ___Public License___.
 ## Section 7 – Other Terms and Conditions.
 
-a. The Licensor shall not be bound by any additional or different terms or conditions communicated by You unless expressly agreed.
+a. **Licensor** jatlhbe'chugh **You**-pu' jatlhbe'chugh **additional** je **different** tayqeq **terms** je **conditions**-pu' **bound** vItlhutlh.
 
-b. Any arrangements, understandings, or agreements regarding the Licensed Material not stated herein are separate from and independent of the terms and conditions of this Public License.
+b. **Licensed Material**-pu' **arrangements**, **understandings**, je **agreements**-pu' **stated**-pu' **separate** je **independent** **terms** je **conditions**-pu' **Public License**-pu' **not**-pu' **related**.
 
 ## Section 8 – Interpretation.
 
-a. For the avoidance of doubt, this Public License does not, and shall not be interpreted to, reduce, limit, restrict, or impose conditions on any use of the Licensed Material that could lawfully be made without permission under this Public License.
+a. **Avoidance**-pu' **doubt**-pu', **Public License**-pu' **not**-pu' **reduce**, **limit**, **restrict**, je **impose conditions**-pu' **Licensed Material**-pu' **use**-pu' **lawfully** **made**-pu' **permission**-pu' **Public License**-pu' **without**-pu'.
 
-b. To the extent possible, if any provision of this Public License is deemed unenforceable, it shall be automatically reformed to the minimum extent necessary to make it enforceable. If the provision cannot be reformed, it shall be severed from this Public License without affecting the enforceability of the remaining terms and conditions.
+b. **Possible**-pu', **Public License**-pu' **provision**-pu' **unenforceable** **deemed**, **automatically reformed**-pu' **minimum extent necessary** **make**-pu' **enforceable**. **Provision**-pu' **reformed** **possible**, **severed**-pu' **Public License**-pu' **remaining terms** je **conditions**-pu' **enforceability**-pu' **affecting**.
 
-c. No term or condition of this Public License will be waived and no failure to comply consented to unless expressly agreed to by the Licensor.
+c. **Term** je **condition**-pu' **Public License**-pu' **waived**-pu' je **failure** **comply consented**-pu' **not**-pu' **expressly agreed**-pu'.
 
-d. Nothing in this Public License constitutes or may be interpreted as a limitation upon, or waiver of, any privileges and immunities that apply to the Licensor or You, including from the legal processes of any jurisdiction or authority.
-
+d. **Nothing**-pu' **Public License**-pu' **constitutes** je **interpreted**-pu' **limitation upon**, je **waiver**-pu' **privileges** je **immunities**-pu' **apply**-pu' **Licensor** je **You**-pu', **including**-pu' **legal processes**-pu' **jurisdiction** je **authority**-pu'.
 ```
-Creative Commons is not a party to its public licenses. Notwithstanding, Creative Commons may elect to apply one of its public licenses to material it publishes and in those instances will be considered the “Licensor.” Except for the limited purpose of indicating that material is shared under a Creative Commons public license or as otherwise permitted by the Creative Commons policies published at [creativecommons.org/policies](http://creativecommons.org/policies), Creative Commons does not authorize the use of the trademark “Creative Commons” or any other trademark or logo of Creative Commons without its prior written consent including, without limitation, in connection with any unauthorized modifications to any of its public licenses or any other arrangements, understandings, or agreements concerning use of licensed material. For the avoidance of doubt, this paragraph does not form part of the public licenses. 
+Creative Commons is not a party to its public licenses. Notwithstanding, Creative Commons may elect to apply one of its public licenses to material it publishes and in those instances will be considered the “Licensor.” Except for the limited purpose of indicating that material is shared under a Creative Commons public license or as otherwise permitted by the Creative Commons policies published at [creativecommons.org/policies](http://creativecommons.org/policies), Creative Commons does not authorize the use of the trademark “Creative Commons” or any other trademark or logo of Creative Commons without its prior written consent including, without limitation, in connection with any unauthorized modifications to any of its public licenses or any other arrangements, understandings, or agreements concerning use of licensed material. For the avoidance of doubt, this paragraph does not form part of the public licenses.
 
 Creative Commons may be contacted at [creativecommons.org](http://creativecommons.org/).
 ```
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -200,5 +193,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

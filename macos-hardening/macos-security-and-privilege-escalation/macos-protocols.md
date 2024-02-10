@@ -25,7 +25,6 @@ You can enable/disable these services in `System Settings` --> `Sharing`
 * **AppleEvent**, known as “Remote Apple Event” (tcp:3031)
 
 Check if any is enabled running:
-
 ```bash
 rmMgmt=$(netstat -na | grep LISTEN | grep tcp46 | grep "*.3283" | wc -l);
 scrShrng=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.5900" | wc -l);
@@ -35,7 +34,6 @@ rAE=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.3031" | wc -l);
 bmM=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.4488" | wc -l);
 printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharing: %s\nFile Sharing: %s\nRemote Login: %s\nRemote Mgmt: %s\nRemote Apple Events: %s\nBack to My Mac: %s\n\n" "$scrShrng" "$flShrng" "$rLgn" "$rmMgmt" "$rAE" "$bmM";
 ```
-
 ### Pentesting ARD
 
 Apple Remote Desktop (ARD) is an enhanced version of [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) tailored for macOS, offering additional features. A notable vulnerability in ARD is its authentication method for the control screen password, which only uses the first 8 characters of the password, making it prone to [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) with tools like Hydra or [GoRedShell](https://github.com/ahhh/GoRedShell/), as there are no default rate limits.
@@ -44,16 +42,15 @@ Vulnerable instances can be identified using **nmap**'s `vnc-info` script. Servi
 
 To enable ARD for various administrative tasks like privilege escalation, GUI access, or user monitoring, use the following command:
 
+```
+<code>
+```
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
-
-ARD provides versatile control levels, including observation, shared control, and full control, with sessions persisting even after user password changes. It allows sending Unix commands directly, executing them as root for administrative users. Task scheduling and Remote Spotlight search are notable features, facilitating remote, low-impact searches for sensitive files across multiple machines.
-
-
 ## Bonjour Protocol
 
-Bonjour, an Apple-designed technology, allows **devices on the same network to detect each other's offered services**. Known also as Rendezvous, **Zero Configuration**, or Zeroconf, it enables a device to join a TCP/IP network, **automatically choose an IP address**, and broadcast its services to other network devices.
+Bonjour, ngeD Apple, **ghItlh** **devices on the same network to detect each other's offered services**. Known also as Rendezvous, **Zero Configuration**, or Zeroconf, it enables a device to join a TCP/IP network, **automatically choose an IP address**, and broadcast its services to other network devices.
 
 Zero Configuration Networking, provided by Bonjour, ensures that devices can:
 * **Automatically obtain an IP Address** even in the absence of a DHCP server.
@@ -77,59 +74,54 @@ To search for SSH services on the network, the following command is used:
 ```bash
 dns-sd -B _ssh._tcp
 ```
+**ghItlh** **command** **vItlhutlh** _ssh._tcp **services** **browsing** **initiates** **command** **This** **details** **outputs** **name** **instance** **type** **service** **domain** **interface** **flags** **timestamp**.
 
-This command initiates browsing for _ssh._tcp services and outputs details such as timestamp, flags, interface, domain, service type, and instance name.
+### **HTTP** **Service** **an** **Advertising**
 
-### Advertising an HTTP Service
-
-To advertise an HTTP service, you can use:
-
+**HTTP** **an** **advertise** **To**, **use** **can** **service**.
 ```bash
 dns-sd -R "Index" _http._tcp . 80 path=/index.html
 ```
+**Translation (Klingon):**
 
-This command registers an HTTP service named "Index" on port 80 with a path of `/index.html`.
+```
+Qapvam HTTP service "Index" yInID 80 port vaj path `/index.html` DaH jImej.
 
-To then search for HTTP services on the network:
-
+vaj HTTP service DeSDu' network DaH search:
+```
 ```bash
 dns-sd -B _http._tcp
 ```
+QaStaHvIS, cha'loghDaq Daqawlu'chugh, 'ej Daqawlu'chughDI' Daqawlu'chughDI' qonwI'pu' 'e' yIqaw. Daqawlu'chughDI' qonwI'pu' 'e' vItlhutlh.
 
-When a service starts, it announces its availability to all devices on the subnet by multicasting its presence. Devices interested in these services don't need to send requests but simply listen for these announcements.
+**Discovery - DNS-SD Browser** app, Apple App StoreDaq jImej, lo'laHbe'lu'chughDI' qonwI'pu' 'e' vItlhutlh.
 
-For a more user-friendly interface, the **Discovery - DNS-SD Browser** app available on the Apple App Store can visualize the services offered on your local network.
-
-Alternatively, custom scripts can be written to browse and discover services using the `python-zeroconf` library. The [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) script demonstrates creating a service browser for `_http._tcp.local.` services, printing added or removed services:
-
+Qapbe'lu'chughDI' qonwI'pu' 'e' vItlhutlh, 'ej 'oH python-zeroconf libraryDaq Qapbe'lu'chughDI' qonwI'pu' 'e' vItlhutlh. [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) script, `_http._tcp.local.` qonwI'pu' 'e' vItlhutlh, qonwI'pu' jImejDaq 'oH, qonwI'pu' jImejDaq vItlhutlh.
 ```python
 from zeroconf import ServiceBrowser, Zeroconf
 
 class MyListener:
 
-    def remove_service(self, zeroconf, type, name):
-        print("Service %s removed" % (name,))
+def remove_service(self, zeroconf, type, name):
+print("Service %s removed" % (name,))
 
-    def add_service(self, zeroconf, type, name):
-        info = zeroconf.get_service_info(type, name)
-        print("Service %s added, service info: %s" % (name, info))
+def add_service(self, zeroconf, type, name):
+info = zeroconf.get_service_info(type, name)
+print("Service %s added, service info: %s" % (name, info))
 
 zeroconf = Zeroconf()
 listener = MyListener()
 browser = ServiceBrowser(zeroconf, "_http._tcp.local.", listener)
 try:
-    input("Press enter to exit...\n\n")
+input("Press enter to exit...\n\n")
 finally:
-    zeroconf.close()
+zeroconf.close()
 ```
-
-### Disabling Bonjour
-If there are concerns about security or other reasons to disable Bonjour, it can be turned off using the following command:
-
+### Bonjour jatlh
+Qap concerns security pagh vaj reasons disable Bonjour, 'ej 'ej command lo'laHbe' 'e' vItlhutlh:
 ```bash
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
 ```
-
 ## References
 
 * [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)

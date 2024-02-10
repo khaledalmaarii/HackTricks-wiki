@@ -32,49 +32,38 @@ Mount namespaces are particularly useful in containerization, where each contain
 ### Create different Namespaces
 
 #### CLI
-
 ```bash
 sudo unshare -m [--mount-proc] /bin/bash
 ```
-
-By mounting a new instance of the `/proc` filesystem if you use the param `--mount-proc`, you ensure that the new mount namespace has an **accurate and isolated view of the process information specific to that namespace**.
+**QIb** `/proc` filesystem jImejDaq `--mount-proc` param vIleghlaH, **ghItlhvam je** namespace vItlhutlhlaHvIS **ghItlhvam je** process vItlhutlhlaHvIS **ghItlhvam je** jImejDaq vItlhutlhlaHvIS **ghItlhvam je** accurate 'ej **ghItlhvam je** jImejDaq vItlhutlhlaHvIS **ghItlhvam je** process vItlhutlhlaHvIS **ghItlhvam je** namespace vItlhutlhlaHvIS.
 
 <details>
 
 <summary>Error: bash: fork: Cannot allocate memory</summary>
 
-When `unshare` is executed without the `-f` option, an error is encountered due to the way Linux handles new PID (Process ID) namespaces. The key details and the solution are outlined below:
+`unshare` `-f` option vIleghlaHghach, Linux jImejDaq vItlhutlhlaHvIS **ghItlhvam je** PID (Process ID) namespace vItlhutlhlaHvIS. **ghItlhvam je** jImejDaq 'ej **ghItlhvam je** jImejDaq vItlhutlhlaHvIS **ghItlhvam je** jImejDaq vItlhutlhlaHvIS **ghItlhvam je** PID namespace vItlhutlhlaHvIS.
 
-1. **Problem Explanation**:
-    - The Linux kernel allows a process to create new namespaces using the `unshare` system call. However, the process that initiates the creation of a new PID namespace (referred to as the "unshare" process) does not enter the new namespace; only its child processes do.
-    - Running `%unshare -p /bin/bash%` starts `/bin/bash` in the same process as `unshare`. Consequently, `/bin/bash` and its child processes are in the original PID namespace.
-    - The first child process of `/bin/bash` in the new namespace becomes PID 1. When this process exits, it triggers the cleanup of the namespace if there are no other processes, as PID 1 has the special role of adopting orphan processes. The Linux kernel will then disable PID allocation in that namespace.
-
-2. **Consequence**:
-    - The exit of PID 1 in a new namespace leads to the cleaning of the `PIDNS_HASH_ADDING` flag. This results in the `alloc_pid` function failing to allocate a new PID when creating a new process, producing the "Cannot allocate memory" error.
-
-3. **Solution**:
-    - The issue can be resolved by using the `-f` option with `unshare`. This option makes `unshare` fork a new process after creating the new PID namespace.
-    - Executing `%unshare -fp /bin/bash%` ensures that the `unshare` command itself becomes PID 1 in the new namespace. `/bin/bash` and its child processes are then safely contained within this new namespace, preventing the premature exit of PID 1 and allowing normal PID allocation.
-
-By ensuring that `unshare` runs with the `-f` flag, the new PID namespace is correctly maintained, allowing `/bin/bash` and its sub-processes to operate without encountering the memory allocation error.
-
-</details>
-
-#### Docker
-
+1. **QaH Explanation**:
+- Linux jImejDaq vItlhutlhlaHvIS `unshare` system call vIleghlaH, jImejDaq vItlhutlhlaHvIS **ghItlhvam je** namespace vItlhutlhlaHvIS. 'ach, jImejDaq vItlhutlhlaHvIS namespace vItlhutlhlaHvIS **ghItlhvam je** process vItlhutlhlaHvIS; 'ej **ghItlhvam je** child process vItlhutlhlaHvIS.
+- `%unshare -p /bin/bash%` vIleghlaHghach `/bin/bash` jImejDaq vItlhutlhlaHvIS `unshare` jImejDaq vItlhutlhlaHvIS. vaj 'ach, `/bin/bash` 'ej **ghItlhvam je** child process vItlhutlhlaHvIS **ghItlhvam je** original PID namespace vItlhutlhlaHvIS.
+- jImejDaq vItlhutlhlaHvIS namespace vItlhutlhlaHvIS **ghItlhvam je** child process vItlhutlhlaHvIS PID 1 vItlhutlhlaHvIS. vaj, jImejDaq vItlhutlhlaHvIS process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **ghItlhvam je** 'ej **ghItlhvam je** process vItlhutlhlaHvIS, PID 1 vItlhutlhlaHvIS **
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-
 ### &#x20;Check which namespace is your process in
 
+#### English Translation
+
+### &#x20;QaStaHvIS namespace vItlhutlh
+
+#### Klingon Translation
+
+### &#x20;QaStaHvIS namespace vItlhutlh
 ```bash
 ls -l /proc/self/ns/mnt
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/mnt -> 'mnt:[4026531841]'
 ```
-
-### Find all Mount namespaces
+### Qapvam namespace 'ej
 
 {% code overflow="wrap" %}
 ```bash
@@ -84,18 +73,63 @@ sudo find /proc -maxdepth 3 -type l -name mnt -exec ls -l  {} \; 2>/dev/null | g
 ```
 {% endcode %}
 
-### Enter inside a Mount namespace
+### Qa'vam vItlhutlh
 
+{% code-tabs %}
+{% code-tabs-item title="C++" %}
+```cpp
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <sched.h>
+#include <unistd.h>
+#include <sys/mount.h>
+
+#define STACK_SIZE (1024 * 1024)
+
+static char child_stack[STACK_SIZE];
+
+int child_function(void *arg) {
+    printf("### Inside the child namespace ###\n");
+    system("ls /"); // Run any command inside the child namespace
+    return 0;
+}
+
+int main() {
+    printf("### Before creating the child namespace ###\n");
+    int child_pid = clone(child_function, child_stack + STACK_SIZE, CLONE_NEWNS | SIGCHLD, NULL);
+    if (child_pid == -1) {
+        perror("clone");
+        return 1;
+    }
+    printf("### After creating the child namespace ###\n");
+    sleep(1); // Wait for the child process to finish
+    return 0;
+}
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+To enter inside a mount namespace, we can use the `clone()` system call with the `CLONE_NEWNS` flag. This will create a new child process with its own mount namespace. The `SIGCHLD` flag is used to automatically reap the child process after it exits.
+
+In the example code above, we define a `child_function()` that will be executed inside the child namespace. We print a message to indicate that we are inside the child namespace and then run any command using the `system()` function.
+
+To run the code, compile it using `gcc` and execute the resulting binary:
+
+```bash
+gcc -o mount_namespace mount_namespace.c
+./mount_namespace
+```
+
+You will see the output of the command executed inside the child namespace.
 ```bash
 nsenter -m TARGET_PID --pid /bin/bash
 ```
+**qaStaHvIS** **root** **ghItlh** **namespace** **process** **bIquv**. **'ej** **'oH** **namespace** **'e'** **ghItlh** **descriptor** **bIquv** **(vaj** `/proc/self/ns/mnt` **laH**).
 
-Also, you can only **enter in another process namespace if you are root**. And you **cannot** **enter** in other namespace **without a descriptor** pointing to it (like `/proc/self/ns/mnt`).
+**vItlhutlh** **mounts** **jatlh** **namespace** **Dochmey** **qay'** **ghItlh** **information** **Sop** **'e'** **ghItlh** **accessible** **bIquv**.
 
-Because new mounts are only accessible within the namespace it's possible that a namespace contains sensitive information that can only be accessible from it.
-
-### Mount something
-
+### **Something** **Mount**
 ```bash
 # Generate new mount ns
 unshare -m /bin/bash
@@ -109,7 +143,6 @@ ls /tmp/mount_ns_example/test # Exists
 mount | grep tmpfs # Cannot see "tmpfs on /tmp/mount_ns_example"
 ls /tmp/mount_ns_example/test # Doesn't exist
 ```
-
 ## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 

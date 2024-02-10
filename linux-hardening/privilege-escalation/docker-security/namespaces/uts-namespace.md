@@ -29,49 +29,51 @@ A UTS (UNIX Time-Sharing System) namespace is a Linux kernel feature that provid
 ### Create different Namespaces
 
 #### CLI
-
 ```bash
 sudo unshare -u [--mount-proc] /bin/bash
 ```
-
-By mounting a new instance of the `/proc` filesystem if you use the param `--mount-proc`, you ensure that the new mount namespace has an **accurate and isolated view of the process information specific to that namespace**.
+**QIb**: `/proc` filesystem jImejDaq `--mount-proc` param jImejDaq, **namespace** vItlhutlh **process information** vItlhutlh **accurate and isolated view** jImejDaq **ensure**.
 
 <details>
 
 <summary>Error: bash: fork: Cannot allocate memory</summary>
 
-When `unshare` is executed without the `-f` option, an error is encountered due to the way Linux handles new PID (Process ID) namespaces. The key details and the solution are outlined below:
+`unshare` `-f` option vItlhutlh, Linux **new PID (Process ID) namespaces** vItlhutlh **way** vItlhutlh **error** vItlhutlh:
 
 1. **Problem Explanation**:
-    - The Linux kernel allows a process to create new namespaces using the `unshare` system call. However, the process that initiates the creation of a new PID namespace (referred to as the "unshare" process) does not enter the new namespace; only its child processes do.
-    - Running `%unshare -p /bin/bash%` starts `/bin/bash` in the same process as `unshare`. Consequently, `/bin/bash` and its child processes are in the original PID namespace.
-    - The first child process of `/bin/bash` in the new namespace becomes PID 1. When this process exits, it triggers the cleanup of the namespace if there are no other processes, as PID 1 has the special role of adopting orphan processes. The Linux kernel will then disable PID allocation in that namespace.
+- Linux kernel **process** vItlhutlh `unshare` **new namespaces** vItlhutlh **creation** vItlhutlh **allow**. However, **process** vItlhutlh **new PID namespace** vItlhutlh **enter**; **child processes** vItlhutlh.
+- `%unshare -p /bin/bash%` **run** `/bin/bash` **process** `unshare` **process** vItlhutlh **start**. Consequently, `/bin/bash` **child processes** vItlhutlh **original PID namespace** vItlhutlh.
+- `/bin/bash` **new namespace** **first child process** PID 1 vItlhutlh. **process** vItlhutlh **exit**, **namespace** vItlhutlh **cleanup** vItlhutlh **trigger** vItlhutlh **no other processes** vItlhutlh, PID 1 **orphan processes** vItlhutlh **adopt** vItlhutlh **special role** vItlhutlh. Linux kernel vItlhutlh **PID allocation** vItlhutlh **disable** vItlhutlh **namespace** vItlhutlh.
 
 2. **Consequence**:
-    - The exit of PID 1 in a new namespace leads to the cleaning of the `PIDNS_HASH_ADDING` flag. This results in the `alloc_pid` function failing to allocate a new PID when creating a new process, producing the "Cannot allocate memory" error.
+- **new namespace** PID 1 **exit**, `PIDNS_HASH_ADDING` **flag** vItlhutlh **cleaning** vItlhutlh. `alloc_pid` **function** vItlhutlh **new PID** vItlhutlh **allocate** vItlhutlh **new process** vItlhutlh **create**, "Cannot allocate memory" **error** vItlhutlh.
 
 3. **Solution**:
-    - The issue can be resolved by using the `-f` option with `unshare`. This option makes `unshare` fork a new process after creating the new PID namespace.
-    - Executing `%unshare -fp /bin/bash%` ensures that the `unshare` command itself becomes PID 1 in the new namespace. `/bin/bash` and its child processes are then safely contained within this new namespace, preventing the premature exit of PID 1 and allowing normal PID allocation.
+- `-f` **option** vItlhutlh `unshare` **use** vItlhutlh **issue** vItlhutlh **resolve**. `unshare` **new PID namespace** vItlhutlh **create** vItlhutlh **after** **fork** vItlhutlh **new process** vItlhutlh.
+- `%unshare -fp /bin/bash%` **execute**, `unshare` **command** PID 1 **new namespace** vItlhutlh. `/bin/bash` **child processes** vItlhutlh **safely contained** vItlhutlh **new namespace**, PID 1 **premature exit** vItlhutlh **prevent** vItlhutlh **normal PID allocation** vItlhutlh.
 
-By ensuring that `unshare` runs with the `-f` flag, the new PID namespace is correctly maintained, allowing `/bin/bash` and its sub-processes to operate without encountering the memory allocation error.
+`unshare` **run** `-f` **flag** vItlhutlh, **new PID namespace** vItlhutlh **correctly maintained**, `/bin/bash` **sub-processes** vItlhutlh **operate** vItlhutlh **memory allocation error** vItlhutlh **encounter**.
 
 </details>
 
 #### Docker
-
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-
 ### &#x20;Check which namespace is your process in
 
+#### English Translation:
+
+### &#x20;QaStaHvIS namespace vItlhutlh
+
+#### Klingon Translation:
+
+### &#x20;QaStaHvIS namespace vItlhutlh
 ```bash
 ls -l /proc/self/ns/uts
 lrwxrwxrwx 1 root root 0 Apr  4 20:49 /proc/self/ns/uts -> 'uts:[4026531838]'
 ```
-
-### Find all UTS namespaces
+### Qapvam UTS namespaces
 
 {% code overflow="wrap" %}
 ```bash
@@ -79,23 +81,777 @@ sudo find /proc -maxdepth 3 -type l -name uts -exec readlink {} \; 2>/dev/null |
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name uts -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
+{% code %}
+
+### Qa'chu' 'ej UTS namespace
+
 {% endcode %}
-
-### Enter inside an UTS namespace
-
 ```bash
 nsenter -u TARGET_PID --pid /bin/bash
 ```
-
-Also, you can only **enter in another process namespace if you are root**. And you **cannot** **enter** in other namespace **without a descriptor** pointing to it (like `/proc/self/ns/uts`).
-
 ### Change hostname
 
+### qo' vItlhutlh
+
+The hostname of a system can be changed by modifying the UTS (Unix Time-Sharing) namespace. This namespace is responsible for providing a unique identifier for the system's hostname.
+
+To change the hostname, you need to perform the following steps:
+
+1. Obtain root privileges.
+2. Obtain a descriptor pointing to the UTS namespace you want to modify. This can be done by accessing the `/proc/self/ns/uts` file.
+3. Use the `sethostname()` system call to change the hostname within the UTS namespace.
+
+Keep in mind that you can only enter another process namespace if you are root, and you cannot enter another namespace without a descriptor pointing to it (like `/proc/self/ns/uts`).
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo' vItlhutlh
+
+### qo'
 ```bash
 unshare -u /bin/bash
 hostname newhostname # Hostname won't be changed inside the host UTS ns
 ```
-
 ## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 

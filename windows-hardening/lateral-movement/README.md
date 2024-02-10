@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!</strong></a> <strong>qaStaHvIS AWS hacking jatlhlaHbe'chugh</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* <strong>qaStaHvIS cybersecurity company</strong> 'oH? <strong>HackTricks</strong> 'e' vItlhutlh <strong>company</strong> advertise <strong>chay' HackTricks</strong> vItlhutlh? 'ej <strong>PEASS latest version</strong> download <strong>HackTricks PDF</strong> vItlhutlh? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) <strong>qaStaHvIS</strong>!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) 'e' vItlhutlh [**NFTs**](https://opensea.io/collection/the-peass-family) 'e' vItlhutlh
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) vItlhutlh
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) 'ej [**telegram group**](https://t.me/peass) 'ej **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **hacktricks repo** 'ej [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **PRs** submit **hacking tricks** share **qaStaHvIS**.
 
 </details>
 
@@ -26,12 +26,12 @@ There are different different ways to execute commands in external systems, here
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!qaStaHvIS AWS hacking jatlhlaHbe'chugh</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* <strong>qaStaHvIS cybersecurity company</strong> 'oH? <strong>HackTricks</strong> 'e' vItlhutlh <strong>company</strong> advertise <strong>chay' HackTricks</strong> vItlhutlh? 'ej <strong>PEASS latest version</strong> download <strong>HackTricks PDF</strong> vItlhutlh? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) <strong>qaStaHvIS</strong>!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) 'e' vItlhutlh [**NFTs**](https://opensea.io/collection/the-peass-family) 'e' vItlhutlh
+* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) vItlhutlh
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) 'ej [**telegram group**](https://t.me/peass) 'ej **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **hacktricks repo** 'ej [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **PRs** submit **hacking tricks** share **qaStaHvIS**.
 
 </details>

@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -121,14 +121,13 @@ Stay informed with the newest bug bounties launching and crucial platform update
 * [ ] Can you [**read or modify sudoers files**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
 * [ ] Can you [**modify /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d)?
 * [ ] [**OpenBSD DOAS**](privilege-escalation/#doas) command
-
 ### [Capabilities](privilege-escalation/#capabilities)
 
-* [ ] Has any binary any **unexpected capability**?
+* [ ] **Qapla'** **unexpected capability**?
 
 ### [ACLs](privilege-escalation/#acls)
 
-* [ ] Has any file any **unexpected ACL**?
+* [ ] **Qapla'** **unexpected ACL**?
 
 ### [Open Shell sessions](privilege-escalation/#open-shell-sessions)
 
@@ -142,30 +141,30 @@ Stay informed with the newest bug bounties launching and crucial platform update
 
 ### [Interesting Files](privilege-escalation/#interesting-files)
 
-* [ ] **Profile files** - Read sensitive data? Write to privesc?
-* [ ] **passwd/shadow files** - Read sensitive data? Write to privesc?
+* [ ] **Profile files** - **Qapla'** sensitive data? **Qapla'** to privesc?
+* [ ] **passwd/shadow files** - **Qapla'** sensitive data? **Qapla'** to privesc?
 * [ ] **Check commonly interesting folders** for sensitive data
-* [ ] **Weird Location/Owned files,** you may have access to or alter executable files
+* [ ] **Weird Location/Owned files,** **Qapla'** access to or alter executable files
 * [ ] **Modified** in last mins
 * [ ] **Sqlite DB files**
 * [ ] **Hidden files**
 * [ ] **Script/Binaries in PATH**
 * [ ] **Web files** (passwords?)
 * [ ] **Backups**?
-* [ ] **Known files that contains passwords**: Use **Linpeas** and **LaZagne**
+* [ ] **Known files that contains passwords**: **Qapla'** **Linpeas** and **LaZagne**
 * [ ] **Generic search**
 
 ### [**Writable Files**](privilege-escalation/#writable-files)
 
 * [ ] **Modify python library** to execute arbitrary commands?
-* [ ] Can you **modify log files**? **Logtotten** exploit
-* [ ] Can you **modify /etc/sysconfig/network-scripts/**? Centos/Redhat exploit
-* [ ] Can you [**write in ini, int.d, systemd or rc.d files**](privilege-escalation/#init-init-d-systemd-and-rc-d)?
+* [ ] **Qapla'** **modify log files**? **Logtotten** exploit
+* [ ] **Qapla'** **modify /etc/sysconfig/network-scripts/**? Centos/Redhat exploit
+* [ ] **Qapla'** [**write in ini, int.d, systemd or rc.d files**](privilege-escalation/#init-init-d-systemd-and-rc-d)?
 
 ### [**Other tricks**](privilege-escalation/#other-tricks)
 
-* [ ] Can you [**abuse NFS to escalate privileges**](privilege-escalation/#nfs-privilege-escalation)?
-* [ ] Do you need to [**escape from a restrictive shell**](privilege-escalation/#escaping-from-restricted-shells)?
+* [ ] **Qapla'** [**abuse NFS to escalate privileges**](privilege-escalation/#nfs-privilege-escalation)?
+* [ ] **Qapla'** to [**escape from a restrictive shell**](privilege-escalation/#escaping-from-restricted-shells)?
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 

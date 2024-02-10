@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks</strong></a><strong>!</strong></summary>
 
 * Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
@@ -23,7 +23,6 @@ In iptables, lists of rules known as chains are processed sequentially. Among th
 - **Output Chain**: Dedicated to the regulation of outgoing connections.
 
 These chains ensure the orderly processing of network traffic, allowing for the specification of detailed rules governing the flow of data into, through, and out of a system.
-
 ```bash
 # Delete all rules
 iptables -F
@@ -60,11 +59,122 @@ iptables-save > /etc/sysconfig/iptables
 ip6tables-save > /etc/sysconfig/ip6tables
 iptables-restore < /etc/sysconfig/iptables
 ```
-
 ## Suricata
 
-### Install & Config
+### QaD & Qap
 
+#### QaD
+
+`Suricata` is a free and open-source network intrusion detection system (NIDS) that is capable of inspecting network traffic in real-time. It can detect and alert on various types of malicious activities, such as network scans, malware infections, and suspicious network behavior.
+
+#### Qap
+
+To install `Suricata`, follow these steps:
+
+1. Update the package manager:
+   ```
+   sudo apt update
+   ```
+
+2. Install `Suricata`:
+   ```
+   sudo apt install suricata
+   ```
+
+3. Configure `Suricata` by editing the configuration file located at `/etc/suricata/suricata.yaml`. You can customize various settings, such as network interfaces to monitor, rulesets to use, and logging options.
+
+4. Start `Suricata`:
+   ```
+   sudo suricata -c /etc/suricata/suricata.yaml -i <interface>
+   ```
+   Replace `<interface>` with the name of the network interface you want `Suricata` to monitor.
+
+5. Verify that `Suricata` is running:
+   ```
+   sudo suricata --list-runmodes
+   ```
+   You should see the output `default` if `Suricata` is running successfully.
+
+### Rule Management
+
+#### Rule Syntax
+
+`Suricata` uses a rule-based language called `Emerging Threats Pro` (ETPro) to define the behavior it should detect. The syntax of a rule is as follows:
+
+```
+alert [action] [protocol] [source IP] [source port] [direction] [destination IP] [destination port] ([options])
+```
+
+- `action`: The action to take when the rule matches. Common actions include `alert`, `log`, and `drop`.
+- `protocol`: The network protocol to match, such as `tcp`, `udp`, or `icmp`.
+- `source IP` and `destination IP`: The source and destination IP addresses to match.
+- `source port` and `destination port`: The source and destination port numbers to match.
+- `direction`: The direction of the network traffic to match, such as `->` for outgoing traffic or `<-` for incoming traffic.
+- `options`: Additional options to customize the rule's behavior, such as matching specific payloads or patterns.
+
+#### Rule Management
+
+To manage rules in `Suricata`, follow these steps:
+
+1. Locate the rules directory:
+   ```
+   cd /etc/suricata/rules
+   ```
+
+2. Add or modify rules by editing the rule files in this directory. You can create new rule files or modify existing ones using a text editor.
+
+3. Reload the rules:
+   ```
+   sudo suricata-update enable-source et/open
+   sudo suricata-update update-sources
+   sudo suricata-update
+   ```
+
+4. Restart `Suricata` to apply the updated rules:
+   ```
+   sudo systemctl restart suricata
+   ```
+
+### Log Analysis
+
+`Suricata` generates log files that contain information about detected events and network traffic. These log files can be analyzed to gain insights into potential security threats.
+
+To analyze `Suricata` log files, you can use tools such as `Elasticsearch`, `Logstash`, and `Kibana` (ELK stack) or `Splunk`. These tools provide powerful search and visualization capabilities for log analysis.
+
+### Iptables Integration
+
+`Suricata` can be integrated with `iptables` to block malicious traffic based on the detected events. This integration allows `Suricata` to act as an intrusion prevention system (IPS).
+
+To integrate `Suricata` with `iptables`, follow these steps:
+
+1. Install `iptables`:
+   ```
+   sudo apt install iptables
+   ```
+
+2. Configure `iptables` rules to redirect traffic to `Suricata`:
+   ```
+   sudo iptables -A INPUT -j NFQUEUE --queue-num 0
+   sudo iptables -A OUTPUT -j NFQUEUE --queue-num 0
+   ```
+
+3. Start `Suricata` with the `--af-packet` option to capture traffic from the network interface:
+   ```
+   sudo suricata -c /etc/suricata/suricata.yaml --af-packet=<interface>
+   ```
+   Replace `<interface>` with the name of the network interface you want `Suricata` to monitor.
+
+4. Configure `Suricata` to block malicious traffic by adding the following line to the `suricata.yaml` file:
+   ```
+   iptables-block: yes
+   ```
+
+5. Restart `Suricata` to apply the configuration changes:
+   ```
+   sudo systemctl restart suricata
+   ```
+
+Now, `Suricata` will block malicious traffic by adding `iptables` rules to drop or reject the corresponding packets.
 ```bash
 # Install details from: https://suricata.readthedocs.io/en/suricata-6.0.0/install.html#install-binary-packages
 # Ubuntu
@@ -74,7 +184,7 @@ apt-get install suricata
 
 # Debian
 echo "deb http://http.debian.net/debian buster-backports main" > \
-    /etc/apt/sources.list.d/backports.list
+/etc/apt/sources.list.d/backports.list
 apt-get update
 apt-get install suricata -t buster-backports
 
@@ -90,11 +200,11 @@ suricata-update
 ## To use the dowloaded rules update the following line in /etc/suricata/suricata.yaml
 default-rule-path: /var/lib/suricata/rules
 rule-files:
-  - suricata.rules
+- suricata.rules
 
 # Run
 ## Add rules in /etc/suricata/rules/suricata.rules
-systemctl suricata start 
+systemctl suricata start
 suricata -c /etc/suricata/suricata.yaml -i eth0
 
 
@@ -102,7 +212,7 @@ suricata -c /etc/suricata/suricata.yaml -i eth0
 suricatasc -c ruleset-reload-nonblocking
 ## or set the follogin in /etc/suricata/suricata.yaml
 detect-engine:
-  - rule-reload: true
+- rule-reload: true
 
 # Validate suricata config
 suricata -T -c /etc/suricata/suricata.yaml -v
@@ -111,8 +221,8 @@ suricata -T -c /etc/suricata/suricata.yaml -v
 ## Config drop to generate alerts
 ## Search for the following lines in /etc/suricata/suricata.yaml and remove comments:
 - drop:
-    alerts: yes
-    flows: all 
+alerts: yes
+flows: all
 
 ## Forward all packages to the queue where suricata can act as IPS
 iptables -I INPUT -j NFQUEUE
@@ -130,76 +240,68 @@ Type=simple
 
 systemctl daemon-reload
 ```
+### tlhIngan Hol
 
-### Rules Definitions
+[latlh ghItlh:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) ngeD 'oH 'e' vItlhutlh:
 
-[From the docs:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) A rule/signature consists of the following:
-
-* The **action**, determines what happens when the signature matches.
-* The **header**, defines the protocol, IP addresses, ports and direction of the rule.
-* The **rule options**, define the specifics of the rule.
-
+* **qap**, 'oH vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vItlhutlh vIt
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
 ```
+#### **Qapmey**
 
-#### **Valid actions are**
-
-* alert - generate an alert
-* pass - stop further inspection of the packet
-* **drop** - drop packet and generate alert
-* **reject** - send RST/ICMP unreachable error to the sender of the matching packet.
-* rejectsrc - same as just _reject_
-* rejectdst - send RST/ICMP error packet to the receiver of the matching packet.
-* rejectboth - send RST/ICMP error packets to both sides of the conversation.
+* **qawHaq** - qawHaq 'ej ghItlh
+* **QaH** - qawHaq 'ej ghItlh
+* **QaH** - qawHaq 'ej ghItlh
+* **QaH** - qawHaq 'ej ghItlh
+* **QaH** - qawHaq 'ej ghItlh
+* **QaH** - qawHaq 'ej ghItlh
+* **QaH** - qawHaq 'ej ghItlh
 
 #### **Protocols**
 
-* tcp (for tcp-traffic)
+* tcp (tcp-traffic)
 * udp
 * icmp
-* ip (ip stands for ‘all’ or ‘any’)
+* ip (ip stands for 'all' or 'any')
 * _layer7 protocols_: http, ftp, tls, smb, dns, ssh... (more in the [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Source and Destination Addresses
+#### Source 'ej Destination Addresses
 
-It supports IP ranges, negations and a list of addresses:
+vItlhutlh IP ranges, negations 'ej list addresses:
 
 | Example                        | Meaning                                  |
 | ------------------------------ | ---------------------------------------- |
-| ! 1.1.1.1                      | Every IP address but 1.1.1.1             |
-| !\[1.1.1.1, 1.1.1.2]           | Every IP address but 1.1.1.1 and 1.1.1.2 |
-| $HOME\_NET                     | Your setting of HOME\_NET in yaml        |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET and not HOME\_NET          |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 except for 10.0.0.5          |
+| ! 1.1.1.1                      | 1.1.1.1 Hoch 'ej Hoch Hoch                |
+| !\[1.1.1.1, 1.1.1.2]           | 1.1.1.1 Hoch 'ej Hoch Hoch                |
+| $HOME\_NET                     | yaml HOME\_NET vItlhutlh                  |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET 'ej Hoch Hoch               |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 Hoch 10.0.0.5 Hoch            |
 
-#### Source and Destination Ports
+#### Source 'ej Destination Ports
 
-It supports port ranges, negations and lists of ports
+vItlhutlh port ranges, negations 'ej list ports
 
 | Example         | Meaning                                |
 | --------------- | -------------------------------------- |
-| any             | any address                            |
-| \[80, 81, 82]   | port 80, 81 and 82                     |
-| \[80: 82]       | Range from 80 till 82                  |
-| \[1024: ]       | From 1024 till the highest port-number |
-| !80             | Every port but 80                      |
-| \[80:100,!99]   | Range from 80 till 100 but 99 excluded |
-| \[1:80,!\[2,4]] | Range from 1-80, except ports 2 and 4  |
+| any             | Hoch Hoch                              |
+| \[80, 81, 82]   | 80, 81 'ej 82 Hoch                     |
+| \[80: 82]       | 80 Hoch 82                             |
+| \[1024: ]       | 1024 Hoch Hoch port-number              |
+| !80             | 80 Hoch Hoch                           |
+| \[80:100,!99]   | 80 Hoch 100 Hoch Hoch 99 Hoch           |
+| \[1:80,!\[2,4]] | 1-80 Hoch, Hoch 2 'ej 4 Hoch            |
 
 #### Direction
 
-It's possible to indicate the direction of the communication rule being applied:
-
+qawHaq qawHaq rule communication qaptaHvIS jImej:
 ```
 source -> destination
 source <> destination  (both directions)
 ```
+#### tlhIngan Hol
 
-#### Keywords
-
-There are **hundreds of options** available in Suricata to search for the **specific packet** you are looking for, here it will be mentioned if something interesting is found. Check the [**documentation** ](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)for more!
-
+**Suricata** vItlhutlh **qetlh** packet **vItlhutlh** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **qawHaq** **q
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -240,15 +342,14 @@ drop tcp any any -> any any (msg:"regex"; pcre:"/CTF\{[\w]{3}/i"; sid:10001;)
 ## Drop by port
 drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>qaStaHvIS AWS hacking vItlh</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Do you work in a** **cybersecurity company**? **Do you want to see your** **company advertised in HackTricks**? **or do you want to have access to the** **latest version of the PEASS or download HackTricks in PDF**? **Check the** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* **Discover** [**The PEASS Family**](https://opensea.io/collection/the-peass-family), **our collection of exclusive** [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Get the** [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) **Discord group**](https://discord.gg/hRep4RUj7f) **or the** [**telegram group**](https://t.me/peass) **or** **follow** **me on** **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)**.**
 
 </details>

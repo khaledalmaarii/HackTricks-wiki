@@ -1,8 +1,6 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>!HackTricks AWS Red Team Expert</strong></a><strong>!</strong></summary>
 
 Other ways to support HackTricks:
 
@@ -20,7 +18,7 @@ Other ways to support HackTricks:
 - **Smart Contracts** are defined as programs that execute on a blockchain when certain conditions are met, automating agreement executions without intermediaries.
 - **Decentralized Applications (dApps)** build upon smart contracts, featuring a user-friendly front-end and a transparent, auditable back-end.
 - **Tokens & Coins** differentiate where coins serve as digital money, while tokens represent value or ownership in specific contexts.
-  - **Utility Tokens** grant access to services, and **Security Tokens** signify asset ownership.
+- **Utility Tokens** grant access to services, and **Security Tokens** signify asset ownership.
 - **DeFi** stands for Decentralized Finance, offering financial services without central authorities.
 - **DEX** and **DAOs** refer to Decentralized Exchange Platforms and Decentralized Autonomous Organizations, respectively.
 
@@ -84,14 +82,10 @@ Transactions can be visualized as graphs, revealing potential connections betwee
 This heuristic is based on analyzing transactions with multiple inputs and outputs to guess which output is the change returning to the sender.
 
 ### Example
-
 ```bash
 2 btc --> 4 btc
 3 btc     1 btc
 ```
-
-If adding more inputs makes the change output larger than any single input, it can confuse the heuristic.
-
 ## **Forced Address Reuse**
 
 Attackers may send small amounts to previously used addresses, hoping the recipient combines these with other inputs in future transactions, thereby linking addresses together.
@@ -138,55 +132,54 @@ For more information, visit [CoinJoin](https://coinjoin.io/en). For a similar se
 ## PayJoin
 
 A variant of CoinJoin, **PayJoin** (or P2EP), disguises the transaction among two parties (e.g., a customer and a merchant) as a regular transaction, without the distinctive equal outputs characteristic of CoinJoin. This makes it extremely hard to detect and could invalidate the common-input-ownership heuristic used by transaction surveillance entities.
-
 ```plaintext
 2 btc --> 3 btc
 5 btc     4 btc
 ```
+**tlhIngan Hol:**
 
-Transactions like the above could be PayJoin, enhancing privacy while remaining indistinguishable from standard bitcoin transactions.
+**vItlhutlh:** yIqaw PayJoin, vItlhutlh privacy vItlhutlh je vItlhutlh bitcoin transactions.
 
-**The utilization of PayJoin could significantly disrupt traditional surveillance methods**, making it a promising development in the pursuit of transactional privacy.
+**PayJoin vItlhutlh** vItlhutlh je vItlhutlh traditional surveillance methods, vItlhutlh je vItlhutlh promising development vItlhutlh transactional privacy.
 
-
-# Best Practices for Privacy in Cryptocurrencies
+# **Cryptocurrencies vItlhutlh Best Practices for Privacy**
 
 ## **Wallet Synchronization Techniques**
 
-To maintain privacy and security, synchronizing wallets with the blockchain is crucial. Two methods stand out:
+vItlhutlh je vItlhutlh privacy je vItlhutlh security, vItlhutlh je vItlhutlh synchronizing wallets je vItlhutlh blockchain. vItlhutlh je vItlhutlh methods:
 
-- **Full node**: By downloading the entire blockchain, a full node ensures maximum privacy. All transactions ever made are stored locally, making it impossible for adversaries to identify which transactions or addresses the user is interested in.
-- **Client-side block filtering**: This method involves creating filters for every block in the blockchain, allowing wallets to identify relevant transactions without exposing specific interests to network observers. Lightweight wallets download these filters, only fetching full blocks when a match with the user's addresses is found.
+- **Full node**: vItlhutlh je vItlhutlh blockchain vItlhutlh, vItlhutlh je vItlhutlh maximum privacy. vItlhutlh je vItlhutlh transactions vItlhutlh stored locally, vItlhutlh je vItlhutlh impossible je vItlhutlh adversaries je vItlhutlh transactions je vItlhutlh addresses je vItlhutlh user je vItlhutlh interested.
+- **Client-side block filtering**: vItlhutlh je vItlhutlh creating filters vItlhutlh je vItlhutlh block vItlhutlh blockchain, vItlhutlh je vItlhutlh wallets je vItlhutlh relevant transactions je vItlhutlh exposing specific interests je vItlhutlh network observers. Lightweight wallets vItlhutlh download filters, vItlhutlh fetching full blocks je vItlhutlh match je vItlhutlh user's addresses je vItlhutlh found.
 
-## **Utilizing Tor for Anonymity**
+## **Tor je vItlhutlh Utilizing je Anonymity**
 
-Given that Bitcoin operates on a peer-to-peer network, using Tor is recommended to mask your IP address, enhancing privacy when interacting with the network.
+Bitcoin vItlhutlh je vItlhutlh peer-to-peer network, vItlhutlh je vItlhutlh Tor je vItlhutlh recommended je vItlhutlh IP address, vItlhutlh je vItlhutlh privacy je vItlhutlh interacting je vItlhutlh network.
 
 ## **Preventing Address Reuse**
 
-To safeguard privacy, it's vital to use a new address for every transaction. Reusing addresses can compromise privacy by linking transactions to the same entity. Modern wallets discourage address reuse through their design.
+vItlhutlh je vItlhutlh privacy, vItlhutlh je vItlhutlh vital je vItlhutlh new address je vItlhutlh transaction. vItlhutlh je vItlhutlh address reuse vItlhutlh compromise privacy je vItlhutlh linking transactions je vItlhutlh entity. Modern wallets vItlhutlh discourage address reuse je vItlhutlh design.
 
-## **Strategies for Transaction Privacy**
+## **Strategies je vItlhutlh Transaction Privacy**
 
-- **Multiple transactions**: Splitting a payment into several transactions can obscure the transaction amount, thwarting privacy attacks.
-- **Change avoidance**: Opting for transactions that don't require change outputs enhances privacy by disrupting change detection methods.
-- **Multiple change outputs**: If avoiding change isn't feasible, generating multiple change outputs can still improve privacy.
+- **Multiple transactions**: vItlhutlh je vItlhutlh splitting payment je vItlhutlh several transactions vItlhutlh obscure transaction amount, vItlhutlh je vItlhutlh privacy attacks.
+- **Change avoidance**: vItlhutlh je vItlhutlh transactions vItlhutlh je vItlhutlh require change outputs vItlhutlh je vItlhutlh privacy je vItlhutlh disrupting change detection methods.
+- **Multiple change outputs**: vItlhutlh je vItlhutlh avoiding change vItlhutlh feasible, vItlhutlh je vItlhutlh multiple change outputs vItlhutlh je vItlhutlh improve privacy.
 
-# **Monero: A Beacon of Anonymity**
+# **Monero: vItlhutlh Beacon je Anonymity**
 
-Monero addresses the need for absolute anonymity in digital transactions, setting a high standard for privacy.
+Monero vItlhutlh je vItlhutlh need je vItlhutlh absolute anonymity je vItlhutlh digital transactions, vItlhutlh je vItlhutlh high standard je vItlhutlh privacy.
 
-# **Ethereum: Gas and Transactions**
+# **Ethereum: Gas je vItlhutlh Transactions**
 
 ## **Understanding Gas**
 
-Gas measures the computational effort needed to execute operations on Ethereum, priced in **gwei**. For example, a transaction costing 2,310,000 gwei (or 0.00231 ETH) involves a gas limit and a base fee, with a tip to incentivize miners. Users can set a max fee to ensure they don't overpay, with the excess refunded.
+Gas vItlhutlh je vItlhutlh computational effort je vItlhutlh execute operations je vItlhutlh Ethereum, vItlhutlh je vItlhutlh **gwei**. vItlhutlh je vItlhutlh transaction costing 2,310,000 gwei (je 0.00231 ETH) vItlhutlh je vItlhutlh gas limit je vItlhutlh base fee, vItlhutlh je vItlhutlh tip je vItlhutlh incentivize miners. Users vItlhutlh set max fee je vItlhutlh they don't overpay, vItlhutlh je vItlhutlh excess refunded.
 
 ## **Executing Transactions**
 
-Transactions in Ethereum involve a sender and a recipient, which can be either user or smart contract addresses. They require a fee and must be mined. Essential information in a transaction includes the recipient, sender's signature, value, optional data, gas limit, and fees. Notably, the sender's address is deduced from the signature, eliminating the need for it in the transaction data.
+Transactions je vItlhutlh Ethereum vItlhutlh je vItlhutlh sender je vItlhutlh recipient, vItlhutlh je vItlhutlh user je vItlhutlh smart contract addresses. vItlhutlh je vItlhutlh fee vItlhutlh je vItlhutlh must be mined. Essential information je vItlhutlh transaction vItlhutlh je vItlhutlh recipient, sender's signature, value, optional data, gas limit, vItlhutlh fees. Notably, vItlhutlh je vItlhutlh sender's address vItlhutlh deduced je vItlhutlh signature, vItlhutlh je vItlhutlh need vItlhutlh je vItlhutlh transaction data.
 
-These practices and mechanisms are foundational for anyone looking to engage with cryptocurrencies while prioritizing privacy and security.
+vItlhutlh je vItlhutlh practices je vItlhutlh mechanisms vItlhutlh foundational je vItlhutlh anyone looking je vItlhutlh engage je vItlhutlh cryptocurrencies je vItlhutlh prioritizing privacy je vItlhutlh security.
 
 
 ## References
@@ -212,5 +205,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

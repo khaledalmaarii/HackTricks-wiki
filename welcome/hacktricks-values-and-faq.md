@@ -1,4 +1,4 @@
-# HackTricks Values & FAQ
+# HackTricks QaD & FAQ
 
 <details>
 
@@ -14,20 +14,20 @@ Other ways to support HackTricks:
 
 </details>
 
-## HackTricks Values
+## HackTricks QaD
 
 {% hint style="success" %}
 These are the **values of the HackTricks Project**:
 
 * Give **FREE** access to **EDUCATIONAL hacking** resources to **ALL** Internet.
-  * Hacking is about learning, and learning should be as free as possible.
-  * The purpose of this book is to serve as a comprehensive **educational resource**.
+* Hacking is about learning, and learning should be as free as possible.
+* The purpose of this book is to serve as a comprehensive **educational resource**.
 * **STORE** awesome **hacking** techniques that the community publishes giving the **ORIGINAL** **AUTHORS** all the **credits**.
-  * **We don't want the credit from other people**, we just want to store cool tricks for everyone.
-  * We also write **our own researches** in HackTricks.
-  * In several cases we will just write **in HackTricks a summary of the important parts** of the technique and will **encourage the lector to visit the original post** for more details.
+* **We don't want the credit from other people**, we just want to store cool tricks for everyone.
+* We also write **our own researches** in HackTricks.
+* In several cases we will just write **in HackTricks a summary of the important parts** of the technique and will **encourage the lector to visit the original post** for more details.
 * **ORGANIZE** all the hacking techniques in the book so it's **MORE ACCESSIBLE**
-  * The HackTricks team has dedicated thousands of hours for free **only to organize the content** so people can **learn faster**
+* The HackTricks team has dedicated thousands of hours for free **only to organize the content** so people can **learn faster**
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/hack tricks gif.gif" alt="" width="375"><figcaption></figcaption></figure>
@@ -65,55 +65,53 @@ Yes, you can, but **don't forget to mention the specific link(s)** where the con
 
 As long as the link **of** the page(s) were you took the information from appears it's enough.\
 If you need a bibtex you can use something like:
-
 ```latex
 @misc{hacktricks-bibtexing,
-  author = {"HackTricks Team" or the Authors name of the specific page/trick},
-  title = {Title of the Specific Page},
-  year = {Year of Last Update (check it at the end of the page)},
-  url = {\url{https://book.hacktricks.xyz/specific-page}},
+author = {"HackTricks Team" or the Authors name of the specific page/trick},
+title = {Title of the Specific Page},
+year = {Year of Last Update (check it at the end of the page)},
+url = {\url{https://book.hacktricks.xyz/specific-page}},
 }
 ```
+{% hint style="warning" %}
+* **Qapla'! jImej HackTricks vItlhutlh?**
+{% endhint %}
+
+**jImej jImej**. 'ach **pagh benefit** 'oH **pagh** DaH **content** **ghItlh** **publicly available** **HackTricks** **books** **official** **FREE**.
+
+vaj 'oH 'ej **chImej** 'oH, **fork** 'oH **Github** 'ej **download** 'oH, **FREE** **already**.
 
 {% hint style="warning" %}
-* **Can I copy all HackTricks in my blog?**
+* **Qapla'! Do'Ha' sponsors? HackTricks books commercial purposes?**
 {% endhint %}
 
-**I would rather not**. Thats **not going to benefit anyone** as all the **content is already publicly available** in the official HackTricks books for free.
+**HackTricks** **value** **'oH** **FREE** **hacking educational resources** **ALL** **world**. HackTricks team **dedicated thousands hours** **content** **FREE**.
 
-If you fear that it will disappear, just fork it in Github or download it, as I said it's already free.
+vaj HackTricks books **commercial purposes** **'oH** **COMPLETELY WRONG**.
 
-{% hint style="warning" %}
-* **Why do you have sponsors? Are HackTricks books for commercial purposes?**
-{% endhint %}
+Sponsors **'ej** **content** **FREE** **appreciating** **work** **community** **offer** **people** **donate** HackTricks via [**Github sponsors**](https://github.com/sponsors/carlospolop), **relevant cybersecurity companies** **sponsor** HackTricks **ads** **book** **ads** **placed** **visible** **doesn't disturb learning** **process** **someone** **focus** **content**.
 
-The first **HackTricks** **value** is to offer **FREE** hacking educational resources to **ALL** the world. The HackTricks team has **dedicated thousands of hours** to offer this content, again, for **FREE**.
-
-If you think HackTricks books are made for **commercial purposes** you are **COMPLETELY WRONG**.
-
-We have sponsors because, even if all the content is FREE, we want to **offer the community the possibility of appreciating our work** if they want to. Therefore, we offer people the option to donate to HackTricks via [**Github sponsors**](https://github.com/sponsors/carlospolop), and **relevant cybersecurity companies** to sponsor HackTricks and to **have some ads** in the book being the **ads** always placed in places where make them **visible** but **doesn't disturb the learning** process if someone focus in the content.
-
-You won't find HackTricks filled with annoying ads like other blogs with much less content than HackTricks, because HackTricks is not made for commercial purposes.
+HackTricks filled **annoying ads** **blogs** **content** **HackTricks**, HackTricks **commercial purposes**.
 
 {% hint style="danger" %}
-* **What should I do if some HackTricks page is based on my blog post but it isn't referenced?**
+* **Qapla'! Qapla'! HackTricks page based blog post referenced?**
 {% endhint %}
 
-**We are very sorry. This shouldn't have happened**. Please, let us know via Github issues, Twitter, Discord... the link of the HackTricks page with the content and the link of your blog and **we will check it and add it ASAP**.
+**jImej sorry**. **Happened** **shouldn't**. **Please**, **let** **us** **know** **Github issues**, **Twitter**, **Discord**... **link** **HackTricks page** **content** **link** **blog** **we** **check** **add** **ASAP**.
 
 {% hint style="danger" %}
-* **What should I do if there is content from my blog in HackTricks and I don't want it there?**
+* **Qapla'! Qapla'! content blog HackTricks 'e' vItlhutlh?**
 {% endhint %}
 
-In any case know that HackTricks in this case would be improving your **SEO** and **encouraging** people to **check your page** (people has mentioned us that since some page of them is in HackTricks they receive more visits). If you still want the content of your blog to be removed from HackTricks let us know.
+**'ach** HackTricks **vItlhutlh** **SEO** **'ej** **encouraging** **people** **check** **page** (people **mentioned** **page** **HackTricks** **receive** **visits**). 'ach **content** **blog** **HackTricks** **vItlhutlh** **let** **us** **know**.
 
-Note that asking this we will definitely **remove every link to your blog**, and any content based on it.
+**Note** **asking** **definitely** **remove** **link** **blog**, **content** **based**.
 
 {% hint style="danger" %}
-* **What should I do if I find copy-pasted content in HackTricks?**
+* **Qapla'! Qapla'! copy-pasted content HackTricks?**
 {% endhint %}
 
-**Unfortunatelly this practice might have happened in the beginning of the project when this page was just the notes of a pentester**. We always try to **give the original authors all the credits**. If you find a page with copy-pasted content (even with the original source referenced), let us know and we will either **remove it**, **leave the link**, or **rewrite it**.
+**Unfortunatelly** **practice** **happened** **beginning** **project** **page** **notes** **pentester**. **always** **give** **original authors** **credits**. **page** **copy-pasted content** (even **original source referenced**), **let** **us** **know** **either** **remove** **leave** **link**, **rewrite**.
 
 ## LICENSE&#x20;
 
@@ -122,8 +120,8 @@ Copyright © All rights reserved unless otherwise specified.
 #### License Summary:
 
 * Attribution: You are free to:
-  * Share — copy and redistribute the material in any medium or format.
-  * Adapt — remix, transform, and build upon the material.
+* Share — copy and redistribute the material in any medium or format.
+* Adapt — remix, transform, and build upon the material.
 
 #### Additional Terms:
 

