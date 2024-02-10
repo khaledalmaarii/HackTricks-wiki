@@ -1,63 +1,60 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong> ile sıfırdan kahramana kadar AWS hackleme öğrenin!</summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamını görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
 
 </details>
 
 
-# Basic Information
+# Temel Bilgiler
 
-UART is a serial protocol, which means it transfers data between components one bit at a time. In contrast, parallel communication protocols transmit data simultaneously through multiple channels. Common serial protocols include RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express, and USB.
+UART, verileri bileşenler arasında tek bir bit olarak aktaran bir seri protokoldür. Buna karşılık, paralel iletişim protokolleri verileri aynı anda birden fazla kanaldan iletişir. Yaygın seri protokoller arasında RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express ve USB bulunur.
 
-Generally, the line is held high (at a logical 1 value) while UART is in the idle state. Then, to signal the start of a data transfer, the transmitter sends a start bit to the receiver, during which the signal is held low (at a logical 0 value). Next, the transmitter sends five to eight data bits containing the actual message, followed by an optional parity bit and one or two stop bits (with a logical 1 value), depending on the configuration. The parity bit, used for error checking, is rarely seen in practice. The stop bit (or bits) signify the end of transmission.
+Genel olarak, UART boşta iken hat yüksek seviyede (mantıksal 1 değerinde) tutulur. Ardından, veri iletiminin başlangıcını bildirmek için verici, sinyalin düşük seviyede (mantıksal 0 değerinde) tutulduğu bir başlangıç biti gönderir. Daha sonra, verici, gerçek mesajı içeren beş ila sekiz veri biti, isteğe bağlı bir teklik biti ve yapılandırmaya bağlı olarak bir veya iki durdurma biti (mantıksal 1 değerinde) gönderir. Hata kontrolü için kullanılan teklik biti, pratikte nadiren görülür. Durdurma biti (veya bitleri), iletimin sonunu belirtir.
 
-We call the most common configuration 8N1: eight data bits, no parity, and one stop bit. For example, if we wanted to send the character C, or 0x43 in ASCII, in an 8N1 UART configuration, we would send the following bits: 0 (the start bit); 0, 1, 0, 0, 0, 0, 1, 1 (the value of 0x43 in binary), and 0 (the stop bit).
+En yaygın yapılandırmaya 8N1 denir: sekiz veri biti, teklik yok ve bir durdurma biti. Örneğin, 8N1 UART yapılandırmasında karakter C'yi veya ASCII'de 0x43'ü göndermek istesek, aşağıdaki bitleri göndeririz: 0 (başlangıç biti); 0, 1, 0, 0, 0, 0, 1, 1 (2'lik tabanda 0x43 değeri) ve 0 (durma biti).
 
 ![](<../../.gitbook/assets/image (648) (1) (1) (1) (1).png>)
 
-Hardware tools to communicate with UART:
+UART ile iletişim kurmak için donanım araçları:
 
-* USB-to-serial adapter
-* Adapters with the CP2102 or PL2303 chips
-* Multipurpose tool such as: Bus Pirate, the Adafruit FT232H, the Shikra, or the Attify Badge
+* USB-seri adaptör
+* CP2102 veya PL2303 çipli adaptörler
+* Bus Pirate, Adafruit FT232H, Shikra veya Attify Badge gibi çok amaçlı araçlar gibi
 
-## Identifying UART Ports
+## UART Portlarını Tanımlama
 
-UART has 4 ports: **TX**(Transmit), **RX**(Receive), **Vcc**(Voltage), and **GND**(Ground). You might be able to find 4 ports with the **`TX`** and **`RX`** letters **written** in the PCB. But if there is no indication, you might need to try to find them yourself using a **multimeter** or a **logic analyzer**.
+UART'ın 4 portu vardır: **TX** (Gönder), **RX** (Al), **Vcc** (Gerilim) ve **GND** (Toprak). PCB üzerinde **TX** ve **RX** harflerinin **yazılı olduğu** 4 port bulabilirsiniz. Ancak işaret yoksa, bir **multimetre** veya bir **mantık analizörü** kullanarak kendiniz bulmanız gerekebilir.
 
-With a **multimeter** and the device powered off:
+Cihaz kapalıyken bir multimetre ve:
 
-* To identify the **GND** pin use the **Continuity Test** mode, place the back lead into ground and test with the red one until you hear a sound from the multimeter. Several GND pins can be found the PCB, so you might have found or not the one belonging to UART.
-* To identify the **VCC port**, set the **DC voltage mode** and set it up to 20 V of voltage. Black probe on ground and red probe on the pin. Power on the device. If the multimeter measures a constant voltage of either 3.3 V or 5 V, you’ve found the Vcc pin. If you get other voltages, retry with other ports.
-* To identify the **TX** **port**, **DC voltage mode** up to 20 V of voltage, black probe on ground, and red probe on the pin, and power on the device. If you find the voltage fluctuates for a few seconds and then stabilizes at the Vcc value, you’ve most likely found the TX port. This is because when powering on, it sends some debug data.
-* The **RX port** would be the closest one to the other 3, it has the lowest voltage fluctuation and lowest overall value of all the UART pins.
+* **Süreklilik Testi** modunu kullanarak **GND** pimini tanımlamak için, arka ucu toprağa yerleştirin ve kırmızı ucu multimetreden bir ses duyana kadar test edin. PCB'de birkaç GND pimi bulunabilir, bu yüzden UART'a ait olanı bulmuş olabilirsiniz veya olmayabilirsiniz.
+* **VCC portunu** tanımlamak için **DC gerilim modunu** ayarlayın ve 20 V gerilime kadar ayarlayın. Siyah probu toprağa ve kırmızı probu pine yerleştirin. Cihazı açın. Multimetre sürekli 3.3 V veya 5 V gerilim ölçerse, Vcc pimini buldunuz demektir. Başka gerilimler alırsanız, diğer portlarla tekrar deneyin.
+* **TX portunu** tanımlamak için **DC gerilim modunu** 20 V gerilime kadar ayarlayın, siyah probu toprağa ve kırmızı probu pine yerleştirin ve cihazı açın. Gerilimin birkaç saniye boyunca dalgalanıp daha sonra Vcc değerinde sabitlendiğini bulursanız, muhtemelen TX portunu buldunuz demektir. Bu, açılırken bazı hata ayıklama verileri gönderdiği için olur.
+* **RX portu**, diğer 3 porta en yakın olanı olacaktır, en düşük gerilim dalgalanması ve tüm UART pinlerinin en düşük genel değeri vardır.
 
-You can confuse the TX and RX ports and nothing would happen, but if you confuses the GND and the VCC port you might fry the circuit.
+TX ve RX portlarını karıştırabilirsiniz ve hiçbir şey olmaz, ancak GND ve VCC portlarını karıştırırsanız devreyi yakabilirsiniz.
 
-With a logic analyzer:
+Mantık analizörü ile:
 
-## Identifying the UART Baud Rate
+## UART Baud Hızını Tanımlama
 
-The easiest way to identify the correct baud rate is to look at the **TX pin’s output and try to read the data**. If the data you receive isn’t readable, switch to the next possible baud rate until the data becomes readable. You can use a USB-to-serial adapter or a multipurpose device like Bus Pirate to do this, paired with a helper script, such as [baudrate.py](https://github.com/devttys0/baudrate/). The most common baud rates are 9600, 38400, 19200, 57600, and 115200.
+Doğru baud hızını tanımlamanın en kolay yolu, **TX piminin çıkışını incelemek ve veriyi okumaya çalışmaktır**. Alınan veri okunamazsa, veri okunabilir hale gelene kadar bir sonraki olası baud hızına geçin. Bunun için bir USB-seri adaptörü veya Bus Pirate gibi çok amaçlı bir cihaz kullanabilir ve [baudrate.py](https://github.com/devttys0/baudrate/) gibi bir yardımcı betikle eşleştirebilirsiniz. En yaygın baud hızları 9600, 38400, 19200, 57600 ve 115200'dür.
 
 {% hint style="danger" %}
-It's important to note that in this protocol you need to connect the TX of one device to the RX of the other!
+Bu protokolde, bir cihazın TX'sini diğerinin RX'ine bağlamanız gerektiğini unutmamak önemlidir!
 {% endhint %}
 
 # Bus Pirate
 
-In this scenario we are going to sniff the UART communication of the Arduino that is sending all the prints of the program to the Serial Monitor.
-
+Bu senaryoda, Arduino'nun tüm program yazılarını Seri Monitöre gönderen UART iletişimini izleyeceğiz.
 ```bash
 # Check the modes
 UART>m
@@ -77,39 +74,39 @@ x. exit(without change)
 # Select UART
 (1)>3
 Set serial port speed: (bps)
- 1. 300
- 2. 1200
- 3. 2400
- 4. 4800
- 5. 9600
- 6. 19200
- 7. 38400
- 8. 57600
- 9. 115200
+1. 300
+2. 1200
+3. 2400
+4. 4800
+5. 9600
+6. 19200
+7. 38400
+8. 57600
+9. 115200
 10. BRG raw value
 
 # Select the speed the communication is occurring on (you BF all this until you find readable things)
 # Or you could later use the macro (4) to try to find the speed
 (1)>5
 Data bits and parity:
- 1. 8, NONE *default
- 2. 8, EVEN
- 3. 8, ODD
- 4. 9, NONE
- 
- # From now on pulse enter for default
+1. 8, NONE *default
+2. 8, EVEN
+3. 8, ODD
+4. 9, NONE
+
+# From now on pulse enter for default
 (1)>
 Stop bits:
- 1. 1 *default
- 2. 2
+1. 1 *default
+2. 2
 (1)>
 Receive polarity:
- 1. Idle 1 *default
- 2. Idle 0
+1. Idle 1 *default
+2. Idle 0
 (1)>
 Select output type:
- 1. Open drain (H=Hi-Z, L=GND)
- 2. Normal (H=3.3V, L=GND)
+1. Open drain (H=Hi-Z, L=GND)
+2. Normal (H=3.3V, L=GND)
 
 (1)>
 Clutch disengaged!!!
@@ -129,20 +126,16 @@ Escritura inicial completada:
 AAA Hi Dreg! AAA
 waiting a few secs to repeat....
 ```
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
 
 </details>
-
-

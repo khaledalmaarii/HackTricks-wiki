@@ -1,196 +1,180 @@
-# macOS Thread Injection via Task port
+# macOS Görev Portu Aracılığıyla İş Parçacığı Enjeksiyonu
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.
 
 </details>
 
-## Code
+## Kod
 
 * [https://github.com/bazad/threadexec](https://github.com/bazad/threadexec)
 * [https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36](https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36)
 
 
-## 1. Thread Hijacking
+## 1. İş Parçacığı Kaçırma
 
-Initially, the **`task_threads()`** function is invoked on the task port to obtain a thread list from the remote task. A thread is selected for hijacking. This approach diverges from conventional code injection methods as creating a new remote thread is prohibited due to the new mitigation blocking `thread_create_running()`.
+İlk olarak, uzak görevden bir iş parçacığı listesi elde etmek için **`task_threads()`** işlevi çağrılır. Bir iş parçacığı kaçırma için bir iş parçacığı seçilir. Bu yaklaşım, `thread_create_running()`'i engelleyen yeni önlem nedeniyle yeni bir uzak iş parçacığı oluşturmanın yasak olduğu geleneksel kod enjeksiyon yöntemlerinden farklılık gösterir.
 
-To control the thread, **`thread_suspend()`** is called, halting its execution.
+İş parçacığı kontrol etmek için **`thread_suspend()`** çağrılır ve iş parçacığının yürütmesi durdurulur.
 
-The only operations permitted on the remote thread involve **stopping** and **starting** it, **retrieving** and **modifying** its register values. Remote function calls are initiated by setting registers `x0` to `x7` to the **arguments**, configuring **`pc`** to target the desired function, and activating the thread. Ensuring the thread does not crash after the return necessitates detection of the return.
+Uzak iş parçacığı üzerinde izin verilen tek işlemler, iş parçacığını **durdurmak** ve **başlatmak**, kayıt değerlerini **alıp değiştirmek** içindir. Uzak işlev çağrıları, kayıtları `x0` ile `x7` arasındaki **argümanlar** olarak ayarlayarak, **`pc`**'yi hedeflenen işlevi hedeflemek üzere yapılandırarak ve iş parçacığını etkinleştirerek başlatılır. İş parçacığının dönüşten sonra çökmemesini sağlamak için dönüşün tespit edilmesi gerekmektedir.
 
-One strategy involves **registering an exception handler** for the remote thread using `thread_set_exception_ports()`, setting the `lr` register to an invalid address before the function call. This triggers an exception post-function execution, sending a message to the exception port, enabling state inspection of the thread to recover the return value. Alternatively, as adopted from Ian Beer’s triple\_fetch exploit, `lr` is set to loop infinitely. The thread's registers are then continuously monitored until **`pc` points to that instruction**.
+Bir strateji, iş parçacığı için **bir istisna işleyici kaydetmek** için `thread_set_exception_ports()` kullanarak uzak iş parçacığı için bir istisna işleyici kaydetmektir. Bu, işlev çağrısından önce `lr` kaydını geçersiz bir adres olarak ayarlar. Bu, işlev yürütmesinden sonra bir istisna tetikler ve bir mesajı istisna bağlantı noktasına gönderir, iş parçacığının durumu incelenerek dönüş değeri kurtarılır. Alternatif olarak, Ian Beer'ın triple\_fetch saldırısından benimsenen bir yöntemde, `lr` sonsuz bir döngüye ayarlanır. Ardından iş parçacığının kayıtları sürekli olarak izlenir ve **`pc`'nin o talimatı işaret ettiği** kontrol edilir.
 
-## 2. Mach ports for communication
+## 2. İletişim için Mach bağlantı noktaları
 
-The subsequent phase involves establishing Mach ports to facilitate communication with the remote thread. These ports are instrumental in transferring arbitrary send and receive rights between tasks.
+Sonraki aşama, uzak iş parçacığıyla iletişimi kolaylaştırmak için Mach bağlantı noktaları oluşturmaktır. Bu bağlantı noktaları, görevler arasında keyfi gönderme ve alma haklarının aktarılmasında önemli rol oynar.
 
-For bidirectional communication, two Mach receive rights are created: one in the local and the other in the remote task. Subsequently, a send right for each port is transferred to the counterpart task, enabling message exchange.
+İki yönlü iletişim için, biri yerel ve diğeri uzak görevde olmak üzere iki Mach alma hakkı oluşturulur. Ardından, her bağlantı noktası için bir gönderme hakkı karşıt göreve aktarılır, mesaj alışverişi yapılmasını sağlar.
 
-Focusing on the local port, the receive right is held by the local task. The port is created with `mach_port_allocate()`. The challenge lies in transferring a send right to this port into the remote task.
+Yerel bağlantı noktasına odaklanılarak, alma hakkı yerel görev tarafından tutulur. Bağlantı noktası `mach_port_allocate()` ile oluşturulur. Zorluk, bu bağlantı noktasına bir gönderme hakkını uzak göreve aktarmaktadır.
 
-A strategy involves leveraging `thread_set_special_port()` to place a send right to the local port in the remote thread’s `THREAD_KERNEL_PORT`. Then, the remote thread is instructed to call `mach_thread_self()` to retrieve the send right.
+Bir strateji, `thread_set_special_port()`'u kullanarak yerel bağlantı noktasına bir gönderme hakkını uzak iş parçacığının `THREAD_KERNEL_PORT`'una yerleştirmektir. Ardından, uzak iş parçacığına `mach_thread_self()` çağrısı yapması talimatı verilir ve gönderme hakkını alması sağlanır.
 
-For the remote port, the process is essentially reversed. The remote thread is directed to generate a Mach port via `mach_reply_port()` (as `mach_port_allocate()` is unsuitable due to its return mechanism). Upon port creation, `mach_port_insert_right()` is invoked in the remote thread to establish a send right. This right is then stashed in the kernel using `thread_set_special_port()`. Back in the local task, `thread_get_special_port()` is used on the remote thread to acquire a send right to the newly allocated Mach port in the remote task.
+Uzak bağlantı noktası için işlem temelde tersine çevrilir. Uzak iş parçacığına, `mach_port_allocate()`'in dönüş mekanizması nedeniyle uygun olmadığı için `mach_reply_port()` kullanarak bir Mach bağlantı noktası oluşturması talimatı verilir. Bağlantı noktası oluşturulduktan sonra, uzak iş parçacığında `mach_port_insert_right()` çağrılır ve bir gönderme hakkı oluşturulur. Bu hak daha sonra `thread_set_special_port()` kullanılarak çekirdeğe saklanır. Yerel görevde, uzak iş parçacığı üzerinde `thread_get_special_port()` kullanılarak, uzak görevde yeni oluşturulan Mach bağlantı noktasına bir gönderme hakkı elde edilir.
 
-Completion of these steps results in the establishment of Mach ports, laying the groundwork for bidirectional communication.
+Bu adımların tamamlanması, Mach bağlantı noktalarının kurulmasını sağlar ve iki yönlü iletişim için temel oluşturur.
 
-## 3. Basic Memory Read/Write Primitives
+## 3. Temel Bellek Okuma/Yazma İşlemleri
 
-In this section, the focus is on utilizing the execute primitive to establish basic memory read and write primitives. These initial steps are crucial for gaining more control over the remote process, though the primitives at this stage won't serve many purposes. Soon, they will be upgraded to more advanced versions.
+Bu bölümde, temel bellek okuma ve yazma işlemlerini sağlamak için yürütme ilkelinin kullanılmasına odaklanılır. Bu ilk adımlar, uzak işlem üzerinde daha fazla kontrol sağlamak için önemlidir, ancak bu aşamadaki ilkel işlemler pek çok amaç için hizmet etmeyecektir. Yakında, bunlar daha gelişmiş sürümlere yükseltilecektir.
 
-### Memory Reading and Writing Using Execute Primitive
+### Yürütme İlkelini Kullanarak Bellek Okuma ve Yazma
 
-The goal is to perform memory reading and writing using specific functions. For reading memory, functions resembling the following structure are used:
-
+Bellek okuma işlemi için, aşağıdaki yapıya benzeyen işlevler kullanılır:
 ```c
 uint64_t read_func(uint64_t *address) {
-    return *address;
+return *address;
 }
 ```
-
-And for writing to memory, functions similar to this structure are used:
-
+Ve belleğe yazmak için, bu yapıya benzer işlevler kullanılır:
 ```c
 void write_func(uint64_t *address, uint64_t value) {
-    *address = value;
+*address = value;
 }
 ```
-
-These functions correspond to the given assembly instructions:
-
+Bu işlevler, verilen derleme talimatlarına karşılık gelir:
 ```
 _read_func:
-    ldr x0, [x0]
-    ret
+ldr x0, [x0]
+ret
 _write_func:
-    str x1, [x0]
-    ret
+str x1, [x0]
+ret
 ```
+### Uygun Fonksiyonları Belirleme
 
-### Identifying Suitable Functions
+Ortak kütüphanelerin taranması, bu işlemler için uygun adayları ortaya çıkardı:
 
-A scan of common libraries revealed appropriate candidates for these operations:
-
-1. **Reading Memory:**
-   The `property_getName()` function from the [Objective-C runtime library](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) is identified as a suitable function for reading memory. The function is outlined below:
-
+1. **Bellek Okuma:**
+[Objective-C çalışma zamanı kütüphanesinden](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) `property_getName()` fonksiyonu, bellek okuma için uygun bir fonksiyon olarak belirlenmiştir. Aşağıda fonksiyonun taslağı bulunmaktadır:
 ```c
 const char *property_getName(objc_property_t prop) {
-      return prop->name;
+return prop->name;
 }
 ```
-   
-   This function effectively acts like the `read_func` by returning the first field of `objc_property_t`.
+Bu işlev, `read_func` gibi davranarak `objc_property_t`'nin ilk alanını döndürerek etkili bir şekilde çalışır.
 
-2. **Writing Memory:**
-   Finding a pre-built function for writing memory is more challenging. However, the `_xpc_int64_set_value()` function from libxpc is a suitable candidate with the following disassembly:
-
+2. **Belleğe Yazma:**
+Belleğe yazma için önceden oluşturulmuş bir işlev bulmak daha zorlu olabilir. Bununla birlikte, libxpc'deki `_xpc_int64_set_value()` işlevi aşağıdaki derlemesiyle uygun bir adaydır:
 ```c
 __xpc_int64_set_value:
-    str x1, [x0, #0x18]
-    ret
+str x1, [x0, #0x18]
+ret
 ```
-
-
-To perform a 64-bit write at a specific address, the remote call is structured as:
-
+Belirli bir adreste 64 bitlik bir yazma işlemi gerçekleştirmek için, uzaktan çağrı aşağıdaki gibi yapılandırılır:
 ```c
 _xpc_int64_set_value(address - 0x18, value)
 ```
+Bu temel yapılar oluşturulduktan sonra, uzak işlemi kontrol etmek için önemli bir adım olan paylaşılan belleğin oluşturulması için sahne hazırlanır.
 
-With these primitives established, the stage is set for creating shared memory, marking a significant progression in controlling the remote process.
+## 4. Paylaşılan Bellek Kurulumu
 
-## 4. Shared Memory Setup
+Amaç, yerel ve uzak görevler arasında paylaşılan bellek oluşturmaktır. Bu, veri transferini basitleştirir ve çoklu argümanlara sahip işlevlerin çağrılmasını kolaylaştırır. Yaklaşım, `libxpc` ve onun `OS_xpc_shmem` nesne türünü kullanmayı içerir. Bu nesne türü, Mach bellek girişlerine dayanır.
 
-The objective is to establish shared memory between local and remote tasks, simplifying data transfer and facilitating the calling of functions with multiple arguments. The approach involves leveraging `libxpc` and its `OS_xpc_shmem` object type, which is built upon Mach memory entries.
+### İşlem Genel Bakışı:
 
-### Process Overview:
+1. **Bellek Tahsisi**:
+- Paylaşım için belleği `mach_vm_allocate()` kullanarak tahsis edin.
+- Ayrılan bellek bölgesi için bir `OS_xpc_shmem` nesnesi oluşturmak için `xpc_shmem_create()` kullanın. Bu işlev, Mach bellek girişinin oluşturulmasını yönetecek ve Mach gönderme hakkını `OS_xpc_shmem` nesnesinin `0x18` ofsetinde depolayacaktır.
 
-1. **Memory Allocation**:
-   - Allocate the memory for sharing using `mach_vm_allocate()`.
-   - Use `xpc_shmem_create()` to create an `OS_xpc_shmem` object for the allocated memory region. This function will manage the creation of the Mach memory entry and store the Mach send right at offset `0x18` of the `OS_xpc_shmem` object.
+2. **Uzak İşlemde Paylaşılan Bellek Oluşturma**:
+- Uzak işlemde `OS_xpc_shmem` nesnesi için bellek tahsis edin ve bunu uzaktan `malloc()` çağrısıyla yapın.
+- Yerel `OS_xpc_shmem` nesnesinin içeriğini uzak işleme kopyalayın. Ancak, bu ilk kopyada `0x18` ofsetinde yanlış Mach bellek girişi adları olacaktır.
 
-2. **Creating Shared Memory in Remote Process**:
-   - Allocate memory for the `OS_xpc_shmem` object in the remote process with a remote call to `malloc()`.
-   - Copy the contents of the local `OS_xpc_shmem` object to the remote process. However, this initial copy will have incorrect Mach memory entry names at offset `0x18`.
+3. **Mach Bellek Girişini Düzeltme**:
+- Uzak göreve Mach bellek girişi için bir gönderme hakkı eklemek için `thread_set_special_port()` yöntemini kullanın.
+- Uzak bellek girişinin adıyla `0x18` ofsetindeki Mach bellek girişi alanını düzeltmek için üzerine yazın.
 
-3. **Correcting the Mach Memory Entry**:
-   - Utilize the `thread_set_special_port()` method to insert a send right for the Mach memory entry into the remote task.
-   - Correct the Mach memory entry field at offset `0x18` by overwriting it with the remote memory entry's name.
+4. **Paylaşılan Bellek Kurulumunu Tamamlama**:
+- Uzaktaki `OS_xpc_shmem` nesnesini doğrulayın.
+- Uzaktan `xpc_shmem_remote()` çağrısıyla paylaşılan bellek eşlemesini oluşturun.
 
-4. **Finalizing Shared Memory Setup**:
-   - Validate the remote `OS_xpc_shmem` object.
-   - Establish the shared memory mapping with a remote call to `xpc_shmem_remote()`.
+Bu adımları takip ederek, yerel ve uzak görevler arasında paylaşılan bellek verimli bir şekilde kurulacak ve basit veri transferleri ve çoklu argüman gerektiren işlevlerin yürütülmesi mümkün olacaktır.
 
-By following these steps, shared memory between the local and remote tasks will be efficiently set up, allowing for straightforward data transfers and the execution of functions requiring multiple arguments.
+## Ek Kod Parçacıkları
 
-## Additional Code Snippets
-
-For memory allocation and shared memory object creation:
+Bellek tahsisi ve paylaşılan bellek nesnesi oluşturmak için:
 ```c
 mach_vm_allocate();
 xpc_shmem_create();
 ```
-
-For creating and correcting the shared memory object in the remote process:
-
+Uzak işlemde paylaşılan bellek nesnesi oluşturmak ve düzeltmek için:
 ```c
 malloc(); // for allocating memory remotely
 thread_set_special_port(); // for inserting send right
 ```
+Mach bağlantı noktalarının ve bellek giriş adlarının ayrıntılarını doğru bir şekilde ele alarak paylaşılan belleğin düzgün çalışmasını sağlamak önemlidir.
 
-Remember to handle the details of Mach ports and memory entry names correctly to ensure that the shared memory setup functions properly.
 
+## 5. Tam Kontrol Elde Etme
 
-## 5. Achieving Full Control
+Paylaşılan belleği başarıyla kurduktan ve keyfi yürütme yeteneklerini elde ettikten sonra, hedef süreç üzerinde tam kontrol elde etmiş oluruz. Bu kontrolü sağlayan temel işlevler şunlardır:
 
-Upon successfully establishing shared memory and gaining arbitrary execution capabilities, we have essentially gained full control over the target process. The key functionalities enabling this control are:
+1. **Keyfi Bellek İşlemleri**:
+- Paylaşılan bölgeden veri kopyalamak için `memcpy()` işlevini çağırarak keyfi bellek okumaları gerçekleştirin.
+- Paylaşılan bölgeye veri aktarmak için `memcpy()` kullanarak keyfi bellek yazmaları gerçekleştirin.
 
-1. **Arbitrary Memory Operations**:
-   - Perform arbitrary memory reads by invoking `memcpy()` to copy data from the shared region.
-   - Execute arbitrary memory writes by using `memcpy()` to transfer data to the shared region.
+2. **Birden Fazla Argümanı Olan Fonksiyon Çağrılarını Yönetme**:
+- 8'den fazla argüman gerektiren fonksiyonlar için, ek argümanları çağırma kuralına uygun olarak yığına yerleştirin.
 
-2. **Handling Function Calls with Multiple Arguments**:
-   - For functions requiring more than 8 arguments, arrange the additional arguments on the stack in compliance with the calling convention.
+3. **Mach Bağlantı Noktası Aktarımı**:
+- Daha önceden kurulan bağlantı noktaları aracılığıyla Mach mesajları ile Mach bağlantı noktalarını görevler arasında aktarın.
 
-3. **Mach Port Transfer**:
-   - Transfer Mach ports between tasks through Mach messages via previously established ports.
+4. **Dosya Tanımlayıcı Aktarımı**:
+- Ian Beer tarafından `triple_fetch`te vurgulanan bir teknik olan dosya tanımlayıcılarını işlemler arasında aktarın.
 
-4. **File Descriptor Transfer**:
-   - Transfer file descriptors between processes using fileports, a technique highlighted by Ian Beer in `triple_fetch`.
+Bu kapsamlı kontrol, hedef süreçle etkileşim için ayrıntılı bir uygulama ve kullanıcı dostu bir API sağlayan [threadexec](https://github.com/bazad/threadexec) kütüphanesinde yer almaktadır.
 
-This comprehensive control is encapsulated within the [threadexec](https://github.com/bazad/threadexec) library, providing a detailed implementation and a user-friendly API for interaction with the victim process.
+## Önemli Düşünceler:
 
-## Important Considerations:
+- Sistem kararlılığını ve veri bütünlüğünü korumak için bellek okuma/yazma işlemleri için `memcpy()` işlevini doğru bir şekilde kullanın.
+- Mach bağlantı noktalarını veya dosya tanımlayıcılarını aktarırken, sızıntıları veya istenmeyen erişimleri önlemek için uygun protokollere uyun ve kaynakları sorumlu bir şekilde yönetin.
 
-- Ensure proper use of `memcpy()` for memory read/write operations to maintain system stability and data integrity.
-- When transferring Mach ports or file descriptors, follow proper protocols and handle resources responsibly to prevent leaks or unintended access.
+Bu yönergeleri takip ederek ve `threadexec` kütüphanesini kullanarak, hedef süreç üzerinde tam kontrol sağlayarak süreçleri ayrıntılı bir şekilde yönetebilir ve etkileşimde bulunabilirsiniz.
 
-By adhering to these guidelines and utilizing the `threadexec` library, one can efficiently manage and interact with processes at a granular level, achieving full control over the target process.
-
-## References
+## Referanslar
 * [https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/](https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklam vermek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live).
+* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
 
 </details>

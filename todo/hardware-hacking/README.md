@@ -1,16 +1,14 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamını görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
@@ -19,64 +17,47 @@ Other ways to support HackTricks:
 
 # JTAG
 
-JTAG allows to perform a boundary scan. The boundary scan analyzes certain circuitry, including embedded boundary-scan cells and registers for each pin.
+JTAG, bir sınıra tarama yapmanıza olanak sağlar. Sınıra tarama, her bir pim için gömülü sınıra tarama hücrelerini ve kayıtlarını içeren belirli devreleri analiz eder.
 
-The JTAG standard defines **specific commands for conducting boundary scans**, including the following:
+JTAG standardı, aşağıdakiler de dahil olmak üzere **sınıra tarama yapmak için belirli komutlar** tanımlar:
 
-* **BYPASS** allows you to test a specific chip without the overhead of passing through other chips.
-* **SAMPLE/PRELOAD** takes a sample of the data entering and leaving the device when it’s in its normal functioning mode.
-* **EXTEST** sets and reads pin states.
+* **BYPASS**, diğer yongalardan geçmekle uğraşmadan belirli bir yonga üzerinde test yapmanıza olanak sağlar.
+* **SAMPLE/PRELOAD**, cihaz normal çalışma modundayken giren ve çıkan verilerin bir örneğini alır.
+* **EXTEST**, pin durumlarını ayarlar ve okur.
 
-It can also support other commands such as:
+Ayrıca şunlar gibi diğer komutları da destekleyebilir:
 
-* **IDCODE** for identifying a device
-* **INTEST** for the internal testing of the device
+* Bir cihazı tanımlamak için **IDCODE**
+* Cihazın iç testi için **INTEST**
 
-You might come across these instructions when you use a tool like the JTAGulator.
+JTAGulator gibi bir araç kullandığınızda bu talimatlarla karşılaşabilirsiniz.
 
-## The Test Access Port
+## Test Erişim Bağlantı Noktası
 
-Boundary scans include tests of the four-wire **Test Access Port (TAP)**, a general-purpose port that provides **access to the JTAG test support** functions built into a component. TAP uses the following five signals:
+Sınıra taramalar, bileşene yerleştirilmiş olan **Test Erişim Bağlantı Noktası (TAP)**'nın dört telli testlerini içerir. TAP, bir bileşende bulunan JTAG test desteği işlevlerine **erişim sağlayan genel amaçlı bir bağlantı noktasıdır**. TAP, aşağıdaki beş sinyali kullanır:
 
-* Test clock input (**TCK**) The TCK is the **clock** that defines how often the TAP controller will take a single action (in other words, jump to the next state in the state machine).
-* Test mode select (**TMS**) input TMS controls the **finite state machine**. On each beat of the clock, the device’s JTAG TAP controller checks the voltage on the TMS pin. If the voltage is below a certain threshold, the signal is considered low and interpreted as 0, whereas if the voltage is above a certain threshold, the signal is considered high and interpreted as 1.
-* Test data input (**TDI**) TDI is the pin that sends **data into the chip through the scan cells**. Each vendor is responsible for defining the communication protocol over this pin, because JTAG doesn’t define this.
-* Test data output (**TDO**) TDO is the pin that sends **data out of the chip**.
-* Test reset (**TRST**) input The optional TRST resets the finite state machine **to a known good state**. Alternatively, if the TMS is held at 1 for five consecutive clock cycles, it invokes a reset, the same way the TRST pin would, which is why TRST is optional.
+* Test saat girişi (**TCK**) TCK, TAP denetleyicisinin tek bir eylem yapacağı sıklığı (yani, durum makinesinde bir sonraki duruma geçme) tanımlayan **saattir**.
+* Test modu seçimi (**TMS**) girişi TMS, **sonlu durum makinesini** kontrol eder. Her saat vuruşunda, cihazın JTAG TAP denetleyicisi, TMS pimindeki gerilimi kontrol eder. Gerilim belirli bir eşik değerinin altındaysa, sinyal düşük olarak kabul edilir ve 0 olarak yorumlanır, eğer gerilim belirli bir eşik değerinin üzerindeyse, sinyal yüksek olarak kabul edilir ve 1 olarak yorumlanır.
+* Test veri girişi (**TDI**) TDI, tarama hücreleri aracılığıyla çipe **veri gönderen pindir**. JTAG bunu tanımlamadığı için, her bir satıcı bu pim üzerinden iletişim protokolünü tanımlamaktan sorumludur.
+* Test veri çıkışı (**TDO**) TDO, çipten **veri gönderen pindir**.
+* Test sıfırlama (**TRST**) girişi İsteğe bağlı TRST, sonlu durum makinesini **bilinen iyi bir duruma sıfırlar**. Alternatif olarak, TMS 1 olarak beş ardışık saat döngüsü boyunca tutulursa, TRST piniyle aynı şekilde bir sıfırlama çağırır, bu yüzden TRST isteğe bağlıdır.
 
-Sometimes you will be able to find those pins marked in the PCB. In other occasions you might need to **find them**.
+Bazen bu pinlerin PCB üzerinde işaretlendiğini bulabilirsiniz. Diğer durumlarda **bulmanız** gerekebilir.
 
-## Identifying JTAG pins
+## JTAG pinlerini tanımlama
 
-The fastest but most expensive way to detect JTAG ports is by using the **JTAGulator**, a device created specifically for this purpose (although it can **also detect UART pinouts**).
+JTAG bağlantı noktalarını tespit etmenin en hızlı ama en pahalı yolu, bu amaçla özel olarak oluşturulmuş bir cihaz olan **JTAGulator**'ü kullanmaktır (aynı zamanda **UART pinoutlarını da tespit edebilir**).
 
-It has **24 channels** you can connect to the boards pins. Then it performs a **BF attack** of all the possible combinations sending **IDCODE** and **BYPASS** boundary scan commands. If it receives a response, it displays the channel corresponding to each JTAG signal
+24 kanala sahip olduğu için, JTAGulator'ü kartın pinlerine bağlayabilirsiniz. Ardından, tüm olası kombinasyonları göndererek **IDCODE** ve **BYPASS** sınıra tarama komutlarını **BF saldırısı** gerçekleştirir. Bir yanıt alırsa, her JTAG sinyali için ilgili kanalı görüntüler.
 
-A cheaper but much slower way of identifying JTAG pinouts is by using the [**JTAGenum**](https://github.com/cyphunk/JTAGenum/)  loaded on an Arduino-compatible microcontroller.
+JTAG pinoutlarını tanımlamanın daha ucuz ama çok daha yavaş bir yolu, bir Arduino uyumlu mikrodenetleyiciye yüklenmiş olan [**JTAGenum**](https://github.com/cyphunk/JTAGenum/) kullanmaktır.
 
-Using **JTAGenum**, you’d first **define the pins of the probing** device that you’ll use for the enumeration.You’d have to reference the device’s pinout diagram, and then connect these pins with the test points on your target device.
+**JTAGenum** kullanarak, öncelikle tespit için kullanacağınız probun pinlerini **tanımlarsınız**. Hedef cihazınızdaki test noktalarını, cihazın pinout diyagramına başvurarak bu pinlerle bağlantı kurmanız gerekecektir.
 
-A **third way** to identify JTAG pins is by **inspecting the PCB** for one of the pinouts. In some cases, PCBs might conveniently provide the **Tag-Connect interface**, which is a clear indication that the board has a JTAG connector, too. You can see what that interface looks like at [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/). Additionally, inspecting the **datasheets of the chipsets on the PCB** might reveal pinout diagrams that point to JTAG interfaces.
+JTAG pinlerini tanımlamanın **üçüncü bir yolu**, PCB'yi bir pinout için **incelemek**tir. Bazı durumlarda, PCB'ler uygun bir şekilde **Tag-Connect arabirimini** sağlayabilir, bu da kartın bir JTAG konektörüne sahip olduğunun açık bir göstergesidir. Bu arabirimin nasıl göründüğünü [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/) adresinde görebilirsiniz. Ayrıca, PCB üzerindeki yonga setlerinin **veri sayfalarını inceleyerek** JTAG arabirimlerine işaret eden pinout diyagramlarını bulabilirsiniz.
 
 # SDW
 
-SWD is an ARM-specific protocol designed for debugging.
+SWD, hata ayıklama için tasarlanmış ARM özel bir protokoldür.
 
-The SWD interface requires **two pins**: a bidirectional **SWDIO** signal, which is the equivalent of JTAG’s **TDI and TDO pins and a clock**, and **SWCLK**, which is the equivalent of **TCK** in JTAG. Many devices support the **Serial Wire or JTAG Debug Port (SWJ-DP)**, a combined JTAG and SWD interface that enables you to connect either a SWD or JTAG probe to the target.
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-
+SWD arabirimi, **iki pin** gerektirir: çift yönlü bir **SWDIO** sinyali, JTAG'ın **TDI ve TDO pinlerine** eşdeğer olan ve bir saat olan **SWCLK**, ve JTAG'daki **TCK**'ya eşdeğer olan **SWCLK**. Birçok cihaz, SWD veya JTAG probunu hedefe bağlamanıza olanak sağlayan birleşik bir JTAG ve SWD arabirimi olan **Serial Wire veya JTAG Debug Port (SWJ-DP)**'yi destekler.

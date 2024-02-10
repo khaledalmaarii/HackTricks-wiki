@@ -1,104 +1,100 @@
-# macOS Launch/Environment Constraints & Trust Cache
+# macOS Başlatma/Çevre Kısıtlamaları ve Güven Önbelleği
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong> ile sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin<strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT koleksiyonumuz**](https://opensea.io/collection/the-peass-family)
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking hilelerinizi** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile göndererek paylaşın**
 *
 * .
 
 </details>
 
-## Basic Information
+## Temel Bilgiler
 
-Launch constraints in macOS were introduced to enhance security by **regulating how, who, and from where a process can be initiated**. Initiated in macOS Ventura, they provide a framework that categorizes **each system binary into distinct constraint categories**, which are defined within the **trust cache**, a list containing system binaries and their respective hashes​. These constraints extend to every executable binary within the system, entailing a set of **rules** delineating the requirements for **launching a particular binary**. The rules encompass self constraints that a binary must satisfy, parent constraints required to be met by its parent process, and responsible constraints to be adhered to by other relevant entities​.
+macOS'ta başlatma kısıtlamaları, bir işlemin **nasıl, kim tarafından ve nereden başlatılabileceğini düzenleyerek** güvenliği artırmak için tanıtılmıştır. macOS Ventura'da başlatılan bu kısıtlamalar, **her sistem ikili dosyasını farklı kısıtlama kategorilerine** ayıran bir çerçeve sağlar. Bu kısıtlamalar, sistemdeki her yürütülebilir ikili dosyayı kapsar ve bir **belirli bir ikili dosyanın başlatılması için gereksinimleri belirleyen bir dizi kuralı** içerir. Kurallar, bir ikili dosyanın karşılaması gereken kendi kısıtlamaları, ebeveyn sürecinin karşılaması gereken ebeveyn kısıtlamaları ve diğer ilgili varlıkların uyması gereken sorumlu kısıtlamaları içerir.
 
-The mechanism extends to third-party apps through **Environment Constraints**, beginning from macOS Sonoma, allowing developers to protect their apps by specifying a **set of keys and values for environment constraints.**
+Bu mekanizma, macOS Sonoma'dan itibaren üçüncü taraf uygulamalara **Çevre Kısıtlamaları** aracılığıyla da genişletilir ve geliştiricilere uygulamalarını korumak için bir dizi anahtar ve değer belirtme imkanı sağlar.
 
-You define **launch environment and library constraints** in constraint dictionaries that you either save in **`launchd` property list files**, or in **separate property list** files that you use in code signing.
+Başlatma çevresi ve kitaplık kısıtlamalarını, **`launchd` özellik listesi dosyalarında** veya kod imzalama için kullandığınız **ayrı özellik listesi** dosyalarında kaydedebileceğiniz kısıtlama sözlüklerinde tanımlarsınız.
 
-There are 4 types of constraints:
+4 tür kısıtlama vardır:
 
-* **Self Constraints**: Constrains applied to the **running** binary.
-* **Parent Process**: Constraints applied to the **parent of the process** (for example **`launchd`** running a XP service)
-* **Responsible Constraints**: Constraints applied to the **process calling the service** in a XPC communication
-* **Library load constraints**: Use library load constraints to selectively describe code that can be loaded
+* **Kendi Kısıtlamaları**: Çalışan ikili dosyaya uygulanan kısıtlamalar.
+* **Ebeveyn Süreç Kısıtlamaları**: İşlemin ebeveyn sürecine uygulanan kısıtlamalar (örneğin **`launchd`** bir XP hizmeti çalıştırıyor).
+* **Sorumlu Kısıtlamalar**: XPC iletişiminde hizmeti çağıran sürece uygulanan kısıtlamalar.
+* **Kitaplık yükleme kısıtlamaları**: Yüklenebilecek kodu seçici olarak tanımlamak için kitaplık yükleme kısıtlamalarını kullanın.
 
-So when a process tries to launch another process — by calling `execve(_:_:_:)` or `posix_spawn(_:_:_:_:_:_:)` — the operating system checks that the **executable** file **satisfies** its **own self constraint**. It also checks that the **parent** **process’s** executable **satisfies** the executable’s **parent constraint**, and that the **responsible** **process’s** executable **satisfies the executable’s responsible process constrain**t. If any of these launch constraints aren’t satisfied, the operating system doesn’t run the program.
+Bir işlem başka bir işlemi başlatmaya çalıştığında - `execve(_:_:_:)` veya `posix_spawn(_:_:_:_:_:_:)` çağrısı yaparak - işletim sistemi, **yürütülebilir** dosyanın **kendi kısıtlamasını karşıladığını** kontrol eder. Ayrıca, **ebeveyn sürecin** yürütülebilir dosyanın **ebeveyn kısıtlamasını karşıladığını** ve **sorumlu sürecin** yürütülebilir dosyanın **sorumlu süreç kısıtlamasını karşıladığını** kontrol eder. Bu başlatma kısıtlamalarından herhangi biri karşılanmazsa, işletim sistemi programı çalıştırmaz.
 
-If when loading a library any part of the **library constraint isn’t true**, your process **doesn’t load** the library.
+Bir kitaplık yüklerken kitaplık kısıtlamasının **herhangi bir bölümü doğru değilse**, işleminiz kitaplığı **yüklemiyor**.
 
-## LC Categories
+## LC Kategorileri
 
-A LC as composed by **facts** and **logical operations** (and, or..) that combines facts.
+Bir LC, **gerçekler** ve **mantıksal işlemler** (ve, veya..) içeren bir yapıdır.
 
-The[ **facts that a LC can use are documented**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). For example:
+[**Bir LC'nin kullanabileceği gerçekler belgelenmiştir**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Örneğin:
 
-* is-init-proc: A Boolean value that indicates whether the executable must be the operating system’s initialization process (`launchd`).
-* is-sip-protected: A Boolean value that indicates whether the executable must be a file protected by System Integrity Protection (SIP).
-* `on-authorized-authapfs-volume:` A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
-* `on-authorized-authapfs-volume`: A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
-  * Cryptexes volume
-* `on-system-volume:`A Boolean value that indicates whether the operating system loaded the executable from the currently-booted system volume.
-  * Inside /System...
+* is-init-proc: İkili dosyanın işletim sisteminin başlatma işlemi (`launchd`) olması gerekip gerekmediğini belirten bir Boolean değeri.
+* is-sip-protected: İkili dosyanın System Integrity Protection (SIP) tarafından korunan bir dosya olup olmadığını belirten bir Boolean değeri.
+* `on-authorized-authapfs-volume:` İşletim sisteminin, yetkilendirilmiş, doğrulanmış bir APFS biriminden yürütülebilir dosyayı yükleyip yüklemediğini belirten bir Boolean değeri.
+* `on-authorized-authapfs-volume`: İşletim sisteminin, yetkilendirilmiş, doğrulanmış bir APFS biriminden yürütülebilir dosyayı yükleyip yüklemediğini belirten bir Boolean değeri.
+* Cryptexes birimi
+* `on-system-volume:` İşletim sisteminin, şu anda başlatılan sistem biriminden yürütülebilir dosyayı yükleyip yüklemediğini belirten bir Boolean değeri.
+* /System içinde...
 * ...
 
-When an Apple binary is signed it **assigns it to a LC category** inside the **trust cache**.
+Bir Apple ikili dosyası imzalandığında, onu bir LC kategorisine **görevlendirir** ve **güven önbelleği** içinde yer alır.
 
-* **iOS 16 LC categories** were [**reversed and documented in here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
-* Current **LC categories (macOS 14** - Somona) have been reversed and their [**descriptions can be found here**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
+* **iOS 16 LC kategorileri** [**burada tersine çevrilmiş ve belgelenmiştir**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
+* Mevcut **LC kategorileri (macOS 14** - Somona) tersine çevrilmiş ve [**açıklamaları burada bulunabilir**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
 
-For example Category 1 is:
-
+Örneğin Kategori 1:
 ```
 Category 1:
-        Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
-        Parent Constraint: is-init-proc
+Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
+Parent Constraint: is-init-proc
 ```
-
-* `(on-authorized-authapfs-volume || on-system-volume)`: Must be in System or Cryptexes volume.
-* `launch-type == 1`: Must be a system service (plist in LaunchDaemons).
-* `validation-category == 1`: An operating system executable.
+* `(on-authorized-authapfs-volume || on-system-volume)`: Sistem veya Cryptexes biriminde olmalıdır.
+* `launch-type == 1`: Sistem hizmeti olmalıdır (LaunchDaemons'ta plist olarak).
+* `validation-category == 1`: İşletim sistemi yürütülebilir dosyası.
 * `is-init-proc`: Launchd
 
-### Reversing LC Categories
+### LC Kategorilerini Tersine Çevirme
 
-You have more information [**about it in here**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), but basically, They are defined in **AMFI (AppleMobileFileIntegrity)**, so you need to download the Kernel Development Kit to get the **KEXT**. The symbols starting with **`kConstraintCategory`** are the **interesting** ones. Extracting them you will get a DER (ASN.1) encoded stream that you will need to decode with [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) or the python-asn1 library and its `dump.py` script, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) which will give you a more understandable string.
+Daha fazla bilgi için [**burada**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints) bulabilirsiniz, ancak temel olarak, bunlar **AMFI (AppleMobileFileIntegrity)** içinde tanımlanır, bu nedenle **KEXT**'i almak için Kernel Development Kit'i indirmeniz gerekmektedir. **`kConstraintCategory`** ile başlayan semboller ilginç olanlardır. Bunları çıkararak, DER (ASN.1) kodlu bir akış elde edersiniz ve bunu [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) veya python-asn1 kütüphanesi ve `dump.py` betiği olan [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) ile çözmeniz gerekecektir, bu size daha anlaşılabilir bir dize verecektir.
 
-## Environment Constraints
+## Ortam Kısıtlamaları
 
-These are the Launch Constraints set configured in **third party applications**. The developer can select the **facts** and **logical operands to use** in his application to restrict the access to itself.
+Bunlar, **üçüncü taraf uygulamalarında** yapılandırılan Başlatma Kısıtlamalarıdır. Geliştirici, uygulamasının erişimini kısıtlamak için kullanılacak **gerçekleri** ve **mantıksal operandları** seçebilir.
 
-It's possible to enumerate the Environment Constraints of an application with:
-
+Bir uygulamanın Ortam Kısıtlamalarını şu şekilde sıralayabilirsiniz:
 ```bash
 codesign -d -vvvv app.app
 ```
+## Güven Önbelleği
 
-## Trust Caches
-
-In **macOS** there are a few trust caches:
+**macOS**'ta birkaç güven önbelleği bulunur:
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
 * **`/System/Library/Security/OSLaunchPolicyData`**
 
-And in iOS it looks like it's in **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
+Ve iOS'ta ise **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`** olarak görünmektedir.
 
 {% hint style="warning" %}
-On macOS running on Apple Silicon devices, if an Apple signed binary is not in the trust cache, AMFI will refuse to load it.
+Apple Silicon cihazlarda çalışan macOS'ta, bir Apple imzalı ikili dosya güven önbelleğinde bulunmuyorsa, AMFI yüklemeyi reddedecektir.
 {% endhint %}
 
-### Enumerating Trust Caches
+### Güven Önbelleklerini Sıralama
 
-The previous trust cache files are in format **IMG4** and **IM4P**, being IM4P the payload section of a IMG4 format.
+Önceki güven önbelleği dosyaları **IMG4** ve **IM4P** formatındadır, IM4P IMG4 formatının yük bölümüdür.
 
-You can use [**pyimg4**](https://github.com/m1stadev/PyIMG4) to extract the payload of databases:
+Veritabanlarının yükünü çıkarmak için [**pyimg4**](https://github.com/m1stadev/PyIMG4) kullanabilirsiniz:
 
 {% code overflow="wrap" %}
 ```bash
@@ -118,10 +114,9 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(Another option could be to use the tool [**img4tool**](https://github.com/tihmstar/img4tool), which will run even in M1 even if the release is old and for x86\_64 if you install it in the proper locations).
+(Başka bir seçenek, [**img4tool**](https://github.com/tihmstar/img4tool) adlı aracı kullanmaktır, bu araç eski bir sürüm olsa bile M1'de çalışacak ve doğru konumlara yüklerseniz x86\_64 için çalışacaktır).
 
-Now you can use the tool [**trustcache**](https://github.com/CRKatri/trustcache) to get the information in a readable format:
-
+Şimdi, bilgileri okunabilir bir formatta almak için [**trustcache**](https://github.com/CRKatri/trustcache) adlı aracı kullanabilirsiniz:
 ```bash
 # Install
 wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
@@ -145,46 +140,42 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
-
-The trust cache follows the following structure, so The **LC category is the 4th column**
-
+Güven önbelleği aşağıdaki yapıyı takip eder, bu yüzden **LC kategorisi 4. sütundadır**.
 ```c
 struct trust_cache_entry2 {
-	uint8_t cdhash[CS_CDHASH_LEN];
-	uint8_t hash_type;
-	uint8_t flags;
-	uint8_t constraintCategory;
-	uint8_t reserved0;
+uint8_t cdhash[CS_CDHASH_LEN];
+uint8_t hash_type;
+uint8_t flags;
+uint8_t constraintCategory;
+uint8_t reserved0;
 } __attribute__((__packed__));
 ```
+Aşağıdaki betik gibi bir betik kullanabilirsiniz: [**bu betik**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) verileri çıkarmak için.
 
-Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
+Bu verilerden, **`0` başlatma kısıtlamaları değerine sahip** Uygulamaları kontrol edebilirsiniz, bunlar kısıtlanmayan uygulamalardır ([**buraya bakın**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) her bir değer için ne olduğu için).
 
-From that data you can check the Apps with a **launch constraints value of `0`** , which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
+## Saldırı Önlemleri
 
-## Attack Mitigations
+Başlatma Kısıtlamaları, birçok eski saldırıyı önlemek için kullanılmıştır, **işlemi beklenmedik koşullarda çalıştırmamayı sağlayarak:** Örneğin, beklenmedik konumlardan veya beklenmeyen bir üst işlem tarafından çağrılmamış olmasını sağlar (sadece launchd tarafından başlatılması gerekiyorsa).
 
-Launch Constrains would have mitigated several old attacks by **making sure that the process won't be executed in unexpected conditions:** For example from unexpected locations or being invoked by an unexpected parent process (if only launchd should be launching it)
+Ayrıca, Başlatma Kısıtlamaları aynı zamanda **sürüm düşürme saldırılarını da önler**.
 
-Moreover, Launch Constraints also **mitigates downgrade attacks.**
+Ancak, yaygın XPC kötüye kullanımlarını, Electron kod enjeksiyonlarını veya kitaplık doğrulaması olmadan dylib enjeksiyonlarını (kitaplıkları yükleyebilen takım kimlikleri bilinmediği sürece) **önlemezler**.
 
-However, they **don't mitigate common XPC** abuses, **Electron** code injections or **dylib injections** without library validation (unless the team IDs that can load libraries are known).
+### XPC Daemon Koruması
 
-### XPC Daemon Protection
+Sonoma sürümünde, dikkate değer bir nokta, daemon XPC hizmetinin **sorumluluk yapılandırması**dır. XPC hizmeti, bağlanan istemcinin sorumlu olması yerine kendisi için sorumludur. Bu, geri bildirim raporu FB13206884'te belgelenmiştir. Bu yapılandırma hatalı gibi görünebilir, çünkü XPC hizmetiyle belirli etkileşimlere izin verir:
 
-In the Sonoma release, a notable point is the daemon XPC service's **responsibility configuration**. The XPC service is accountable for itself, as opposed to the connecting client being responsible. This is documented in the feedback report FB13206884. This setup might seem flawed, as it allows certain interactions with the XPC service:
+- **XPC Hizmetini Başlatma**: Bir hata olarak kabul edilirse, bu yapılandırma saldırgan kod aracılığıyla XPC hizmetini başlatmaya izin vermez.
+- **Etkin Bir Hizmete Bağlanma**: XPC hizmeti zaten çalışıyorsa (muhtemelen orijinal uygulama tarafından etkinleştirilmiş olabilir), buna bağlanmanın engelleri yoktur.
 
-- **Launching the XPC Service**: If assumed to be a bug, this setup does not permit initiating the XPC service through attacker code.
-- **Connecting to an Active Service**: If the XPC service is already running (possibly activated by its original application), there are no barriers to connecting to it.
+XPC hizmetine kısıtlamalar uygulamak, **potansiyel saldırılar için pencereyi daraltarak** faydalı olabilir, ancak temel endişeyi ele almaz. XPC hizmetinin güvenliğini sağlamak için, bağlanan istemcinin etkili bir şekilde doğrulanması gerekmektedir. Bu, hizmetin güvenliğini sağlamak için tek yöntemdir. Ayrıca, bahsi geçen sorumluluk yapılandırmasının şu anda işlevsel olduğunu ve amaçlanan tasarımla uyumlu olmayabileceğini belirtmek önemlidir.
 
-While implementing constraints on the XPC service might be beneficial by **narrowing the window for potential attacks**, it doesn't address the primary concern. Ensuring the security of the XPC service fundamentally requires **validating the connecting client effectively**. This remains the sole method to fortify the service's security. Also, it's worth noting that the mentioned responsibility configuration is currently operational, which might not align with the intended design.
+### Electron Koruması
 
+Uygulamanın **LaunchService tarafından açılması gerektiği** (ebeveyn kısıtlamalarında). Bu, **`open`** kullanılarak (çevre değişkenleri ayarlanabilir) veya **Launch Services API** kullanılarak (çevre değişkenleri belirtilebilir) başarılabilmektedir.
 
-### Electron Protection
-
-Even if it's required that the application has to be **opened by LaunchService** (in the parents constraints). This can be achieved using **`open`** (which can set env variables) or using the **Launch Services API** (where env variables can be indicated).
-
-## References
+## Referanslar
 
 * [https://youtu.be/f1HA5QhLQ7Y?t=24146](https://youtu.be/f1HA5QhLQ7Y?t=24146)
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
@@ -193,13 +184,13 @@ Even if it's required that the application has to be **opened by LaunchService**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'ler**](https://opensea.io/collection/the-peass-family)
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u** takip edin.
+* **Hacking hilelerinizi** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile PR göndererek paylaşın**
 *
 * .
 

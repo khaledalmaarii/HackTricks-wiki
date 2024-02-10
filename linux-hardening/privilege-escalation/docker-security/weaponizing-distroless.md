@@ -1,56 +1,42 @@
-# Weaponizing Distroless
+# Distroless'u Silahlandırma
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-## What is Distroless
+## Distroless Nedir
 
-A distroless container is a type of container that **contains only the necessary dependencies to run a specific application**, without any additional software or tools that are not required. These containers are designed to be as **lightweight** and **secure** as possible, and they aim to **minimize the attack surface** by removing any unnecessary components.
+Distroless bir konteyner türüdür ve **belirli bir uygulamayı çalıştırmak için gerekli olan bağımlılıkları içerir**, gereksiz yazılım veya araçlar olmadan. Bu konteynerler, **mümkün olduğunca hafif** ve **güvenli** olacak şekilde tasarlanmıştır ve gereksiz bileşenleri kaldırarak **saldırı yüzeyini en aza indirmeyi** amaçlar.
 
-Distroless containers are often used in **production environments where security and reliability are paramount**.
+Distroless konteynerler genellikle **güvenlik ve güvenilirlik açısından önemli olan üretim ortamlarında** kullanılır.
 
-Some **examples** of **distroless containers** are:
+Bazı **distroless konteyner** örnekleri şunlardır:
 
-* Provided by **Google**: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
-* Provided by **Chainguard**: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
+* **Google tarafından sağlanan**: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
+* **Chainguard tarafından sağlanan**: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
 
-## Weaponizing Distroless
+## Distroless'u Silahlandırma
 
-The goal of weaponize a distroless container is to be able to **execute arbitrary binaries and payloads even with the limitations** implied by **distroless** (lack of common binaries in the system) and also protections commonly found in containers such as **read-only** or **no-execute** in `/dev/shm`.
+Distroless konteyneri silahlandırmanın amacı, **distroless'un** (sistemde yaygın olan ortak ikili dosyaların eksikliği gibi) **sınırlamaları** tarafından ima edilen **sınırlamalarla bile keyfi ikili dosyaları ve yükleri yürütebilmektir** ve ayrıca `/dev/shm` içindeki **salt okunur** veya **yürütülemez** gibi konteynerlerde yaygın olarak bulunan korumaları da içerir.
 
-### Through memory
+### Bellek Aracılığıyla
 
-Coming at some point of 2023...
+2023'ün bir noktasında gelecek...
 
-### Via Existing binaries
+### Varolan ikili dosyalar aracılığıyla
 
 #### openssl
 
-****[**In this post,**](https://www.form3.tech/engineering/content/exploiting-distroless-images) it is explained that the binary **`openssl`** is frequently found in these containers, potentially because it's **needed** by the software that is going to be running inside the container.
+Bu [**gönderide**](https://www.form3.tech/engineering/content/exploiting-distroless-images) belirtildiği gibi, **`openssl`** ikili dosyası bu konteynerlerde sık ​​sık bulunur, muhtemelen konteyner içinde çalışacak yazılım tarafından **gereklidir**.
 
-Abusing the **`openssl`** binary is possible to **execute arbitrary stuff**.
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+**`openssl`** ikili dosyasının kötüye kullanılmasıyla keyfi işler **yürütülebilir**.

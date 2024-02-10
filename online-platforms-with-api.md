@@ -1,152 +1,146 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz**, [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter'da** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı takip edin**
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
 
 # [ProjectHoneypot](https://www.projecthoneypot.org/)
 
-You can ask if an IP is related to suspicious/malicious activities. Completely free.
+Bir IP'nin şüpheli/zararlı faaliyetlerle ilişkili olup olmadığını sorabilirsiniz. Tamamen ücretsiz.
 
 # [**BotScout**](http://botscout.com/api.htm)
 
-Check if the IP address is related to a bot that register accounts. It can also check usernames and emails. Initially free.
+IP adresinin hesap kaydeden bir botla ilişkili olup olmadığını kontrol eder. Ayrıca kullanıcı adlarını ve e-postaları kontrol edebilir. Başlangıçta ücretsiz.
 
 # [Hunter](https://hunter.io/)
 
-Find and verify emails.  
-Some free API requests free, for more you need to pay.  
-Commercial?
+E-postaları bulup doğrulayın.
+Bazı ücretsiz API istekleri mevcut, daha fazlası için ödeme yapmanız gerekiyor.
+Ticari mi?
 
 # [AlientVault](https://otx.alienvault.com/api)
 
-Find Malicious activities related to IPs and Domains. Free.
+IP'ler ve Alan Adları ile İlişkili Zararlı Faaliyetleri Bulun. Ücretsiz.
 
 # [Clearbit](https://dashboard.clearbit.com/)
 
-Find related personal data to a email \(profiles on other platforms\), domain \(basic company info ,mails and people working\) and companies \(get company info from mail\).  
-You need to pay to access all the possibilities.  
-Commercial?
+Bir e-postaya ilişkin kişisel verileri bulun \(diğer platformlardaki profiller\), alan adı \(temel şirket bilgileri, e-postalar ve çalışanlar\) ve şirketler \(e-postadan şirket bilgilerini alın\).
+Tüm olanaklara erişmek için ödeme yapmanız gerekiyor.
+Ticari mi?
 
 # [BuiltWith](https://builtwith.com/)
 
-Technologies used by webs. Expensive...  
-Commercial?
+Web sitelerinde kullanılan teknolojiler. Pahalı...
+Ticari mi?
 
 # [Fraudguard](https://fraudguard.io/)
 
-Check if a host \(domain or IP\) is related with suspicious/malicious activities. Have some free API access.  
-Commercial?
+Bir ana bilgisayarın \(alan adı veya IP\) şüpheli/zararlı faaliyetlerle ilişkili olup olmadığını kontrol edin. Bazı ücretsiz API erişimi mevcut.
+Ticari mi?
 
 # [FortiGuard](https://fortiguard.com/)
 
-Check if a host \(domain or IP\) is related with suspicious/malicious activities. Have some free API access.
+Bir ana bilgisayarın \(alan adı veya IP\) şüpheli/zararlı faaliyetlerle ilişkili olup olmadığını kontrol edin. Bazı ücretsiz API erişimi mevcut.
 
 # [SpamCop](https://www.spamcop.net/)
 
-Indicates if host is related to spam activity. Have some free API access.
+Ana bilgisayarın spam faaliyetiyle ilişkili olup olmadığını belirtir. Bazı ücretsiz API erişimi mevcut.
 
 # [mywot](https://www.mywot.com/)
 
-Based on opinions and other metrics get if a domain is related with suspicious/malicious information.
+Görüşlere ve diğer metriklere dayanarak bir alan adının şüpheli/zararlı bilgilerle ilişkili olup olmadığını belirleyin.
 
 # [ipinfo](https://ipinfo.io/)
 
-Obtains basic info from an IP address. You can test up to 100K/month.
+Bir IP adresinden temel bilgileri alın. Aylık olarak 100K'ya kadar test yapabilirsiniz.
 
 # [securitytrails](https://securitytrails.com/app/account)
 
-This platform give information about domains and IP addresses like domains inside an IP or inside a domain server, domains owned by an email \(find related domains\), IP history of domains \(find the host behind CloudFlare\), all domains using a nameserver....  
-You have some free access.
+Bu platform, alan adları ve IP adresleri hakkında bilgi verir, örneğin bir IP içindeki alan adları veya bir alan adı sunucusu içindeki alan adları, bir e-postaya ait olan alan adları \(ilgili alan adlarını bulun\), alan adlarının IP geçmişi \(CloudFlare'nin arkasındaki ana bilgisayarı bulun\), bir isim sunucusu kullanan tüm alan adları....
+Bazı ücretsiz erişimleriniz var.
 
 # [fullcontact](https://www.fullcontact.com/)
 
-Allows to search by email, domain or company name and retrieve "personal" information related. It can also verify emails. There is some free access.
+E-posta, alan adı veya şirket adıyla arama yapmanıza ve ilişkili "kişisel" bilgileri almanıza olanak tanır. Ayrıca e-postaları doğrulayabilir. Bazı ücretsiz erişimler mevcut.
 
 # [RiskIQ](https://www.spiderfoot.net/documentation/)
 
-A lot of information from domains and IPs even in the free/community version.
+Ücretsiz/topluluk sürümünde bile alan adları ve IP'lerle ilgili birçok bilgi.
 
 # [\_IntelligenceX](https://intelx.io/)
 
-Search Domains, IPs and emails and get info from dumps. Have some free access.
+Alan adlarını, IP'leri ve e-postaları arayın ve sızıntılardan bilgi alın. Bazı ücretsiz erişimler mevcut.
 
 # [IBM X-Force Exchange](https://exchange.xforce.ibmcloud.com/)
 
-Search by IP and gather information related to suspicions activities. There is some free access.
+IP'ye göre arama yapın ve şüpheli faaliyetlerle ilgili bilgileri toplayın. Bazı ücretsiz erişimler mevcut.
 
 # [Greynoise](https://viz.greynoise.io/)
 
-Search by IP or IP range and get information about IPs scanning the Internet. 15 days free access.
+IP veya IP aralığıyla arama yapın ve İnternet'i tarama yapan IP'ler hakkında bilgi edinin. 15 gün ücretsiz erişim.
 
 # [Shodan](https://www.shodan.io/)
 
-Get scan information of an IP address. Have some free api access.
+Bir IP adresinin tarama bilgilerini alın. Bazı ücretsiz API erişimi mevcut.
 
 # [Censys](https://censys.io/)
 
-Very similar to shodan
+Shodan'a çok benzer
 
 # [buckets.grayhatwarfare.com](https://buckets.grayhatwarfare.com/)
 
-Find open S3 buckets searching by keyword.
+Anahtar kelimeyle arama yaparak açık S3 kovalarını bulun.
 
 # [Dehashed](https://www.dehashed.com/data)
 
-Find leaked credentials of emails and even domains  
-Commercial?
+E-postaların ve hatta alan adlarının sızdırılan kimlik bilgilerini bulun
+Ticari mi?
 
 # [psbdmp](https://psbdmp.ws/)
 
-Search pastebins where a email appeared. Commercial?
+Bir e-postanın geçmişte hangi yapıştırmalarda göründüğünü arayın. Ticari mi?
 
 # [emailrep.io](https://emailrep.io/key)
 
-Get reputation of a mail. Commercial?
+Bir e-postanın itibarını alın. Ticari mi?
 
 # [ghostproject](https://ghostproject.fr/)
 
-Get passwords from leaked emails. Commercial?
+Sızdırılan e-postalardan şifreleri alın. Ticari mi?
 
 # [Binaryedge](https://www.binaryedge.io/)
 
-Obtain interesting info from IPs
+IP'lerden ilginç bilgiler edinin
 
 # [haveibeenpwned](https://haveibeenpwned.com/)
 
-Search by domain and email and get if it was pwned and passwords. Commercial?
+Alan adı ve e-posta ile arama yapın ve sızdırıldıysa ve şifreleri alın. Ticari mi?
 
-[https://dnsdumpster.com/](https://dnsdumpster.com/)\(in a commercial tool?\)
+[https://dnsdumpster.com/](https://dnsdumpster.com/)\(ticari bir araçta mı?\)
 
-[https://www.netcraft.com/](https://www.netcraft.com/) \(in a commercial tool?\)
+[https://www.netcraft.com/](https://www.netcraft.com/) \(ticari bir araçta mı?\)
 
-[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) \(in a commercial tool?\)
+[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) \(ticari bir araçta mı?\)
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-
+* Şirketinizi HackTricks'te **reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz**, [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter'da** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı takip edin**
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks

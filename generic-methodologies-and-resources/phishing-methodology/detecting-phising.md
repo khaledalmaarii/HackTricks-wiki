@@ -1,95 +1,90 @@
-# Detecting Phising
+# Phishing Tespit Etme
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklam vermek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **pull request göndererek** paylaşın.
 
 </details>
 
-## Introduction
+## Giriş
 
-To detect a phishing attempt it's important to **understand the phishing techniques that are being used nowadays**. On the parent page of this post, you can find this information, so if you aren't aware of which techniques are being used today I recommend you to go to the parent page and read at least that section.
+Bir phishing girişimini tespit etmek için günümüzde kullanılan phishing tekniklerini anlamak önemlidir. Bu yazının ana sayfasında bu bilgileri bulabilirsiniz, bu yüzden günümüzde hangi tekniklerin kullanıldığını bilmiyorsanız, ana sayfaya gidip en azından o bölümü okumanızı öneririm.
 
-This post is based on the idea that the **attackers will try to somehow mimic or use the victim's domain name**. If your domain is called `example.com` and you are phished using a completely different domain name for some reason like `youwonthelottery.com`, these techniques aren't going to uncover it.
+Bu yazı, **saldırganların kurbanın alan adını taklit etmeye veya kullanmaya çalışacaklarını** varsayan bir fikre dayanmaktadır. Örneğin, alan adınız `ornek.com` ise ve `kazandınız.com` gibi tamamen farklı bir alan adı kullanarak phishing saldırısına uğrarsanız, bu teknikler bunu ortaya çıkarmayacaktır.
 
-## Domain name variations
+## Alan adı varyasyonları
 
-It's kind of **easy** to **uncover** those **phishing** attempts that will use a **similar domain** name inside the email.\
-It's enough to **generate a list of the most probable phishing names** that an attacker may use and **check** if it's **registered** or just check if there is any **IP** using it.
+E-posta içinde benzer bir alan adı kullanan phishing girişimlerini ortaya çıkarmak oldukça **kolaydır**. Bir saldırganın kullanabileceği en olası phishing isimlerinin bir listesini oluşturmak ve bunun kayıtlı olup olmadığını veya kullanılan herhangi bir **IP** olup olmadığını **kontrol etmek** yeterlidir.
 
-### Finding suspicious domains
+### Şüpheli alan adlarını bulma
 
-For this purpose, you can use any of the following tools. Note that these tolls will also perform DNS requests automatically to check if the domain has any IP assigned to it:
+Bu amaçla, aşağıdaki araçlardan herhangi birini kullanabilirsiniz. Bu araçlar, alan adının herhangi bir IP'ye atanıp atanılmadığını kontrol etmek için otomatik olarak DNS istekleri de gerçekleştirecektir:
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
 ### Bitflipping
 
-**You can find a short the explanation of this technique in the parent page. Or read the original research in [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)**
+Bu teknik hakkında kısa bir açıklamayı ana sayfada bulabilirsiniz. Veya orijinal araştırmayı [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/) adresinde okuyabilirsiniz.
 
+Örneğin, microsoft.com alan adında 1 bitlik bir değişiklik yaparak _windnws.com._ haline getirebilirsiniz. **Saldırganlar, kurbanla ilgili mümkün olduğunca çok sayıda bit-flipping alan adı kaydedebilir ve meşru kullanıcıları altyapılarına yönlendirebilirler**.
 
-For example, a 1 bit modification in the domain microsoft.com can transform it into _windnws.com._\
-**Attackers may register as many bit-flipping domains as possible related to the victim to redirect legitimate users to their infrastructure**.
+**Tüm olası bit-flipping alan adları da izlenmelidir.**
 
+### Temel kontroller
 
-**All possible bit-flipping domain names should be also monitored.**
+Potansiyel şüpheli alan adlarının bir listesine sahip olduktan sonra, bunları (özellikle HTTP ve HTTPS bağlantı noktalarını) **kontrol etmelisiniz** ve kurbanın alan adına benzer bir giriş formu kullanıp kullanmadığını görmek için.\
+Ayrıca, 3333 numaralı bağlantı noktasının açık olup olmadığını ve `gophish` örneğini çalıştırıp çalıştırmadığını kontrol etmek de ilginç olabilir.\
+Ayrıca, keşfedilen her şüpheli alan adının **ne kadar eski olduğunu bilmek de önemlidir**, ne kadar yeni ise o kadar risklidir.\
+HTTP ve/veya HTTPS şüpheli web sayfasının ekran görüntülerini alarak şüpheli olup olmadığını görebilir ve bu durumda daha ayrıntılı bir inceleme yapmak için sayfaya erişebilirsiniz.
 
-### Basic checks
+### Gelişmiş kontroller
 
-Once you have a list of potential suspicious domain names you should **check** them (mainly the ports HTTP and HTTPS) to **see if they are using some login form similar** to someone of the victim's domain.\
-You could also check port 3333 to see if it's open and running an instance of `gophish`.\
-It's also interesting to know **how old each discovered suspicions domain is**, the younger it's the riskier it is.\
-You can also get **screenshots** of the HTTP and/or HTTPS suspicious web page to see if it's suspicious and in that case **access it to take a deeper look**.
+Daha ileri gitmek isterseniz, ara sıra (her gün mü? sadece birkaç saniye/dakika sürer) **bu şüpheli alan adlarına göz kulak olmanızı ve daha fazlasını aramanızı öneririm**. Ayrıca, ilgili IP'lerin açık **bağlantı noktalarını kontrol edin** ve **`gophish` veya benzer araçların örneklerini arayın** (evet, saldırganlar da hatalar yapar) ve şüpheli alan adlarının ve alt alan adlarının HTTP ve HTTPS web sayfalarını izleyin, kurbanın web sayfalarından herhangi bir giriş formu kopyalayıp kopyalamadıklarını görmek için.\
+Bunu **otomatikleştirmek** için, kurbanın alan adlarının giriş formlarının bir listesine sahip olmanızı, şüpheli web sayfalarını tarayarak her şüpheli alan adının içinde bulunan her giriş formunu kurbanın alan adının her giriş formuyla `ssdeep` gibi bir şeyle karşılaştırmanızı öneririm.\
+Şüpheli alan adlarının giriş formlarını bulduysanız, **gereksiz kimlik bilgileri göndermeyi deneyebilir** ve **sizi kurbanın alan adına yönlendirip yönlendirmediğini kontrol edebilirsiniz**.
 
-### Advanced checks
+## Anahtar kelimeleri kullanan alan adları
 
-If you want to go one step further I would recommend you to **monitor those suspicious domains and search for more** once in a while (every day? it only takes a few seconds/minutes). You should also **check** the open **ports** of the related IPs and **search for instances of `gophish` or similar tools** (yes, attackers also make mistakes) and **monitor the HTTP and HTTPS web pages of the suspicious domains and subdomains** to see if they have copied any login form from the victim's web pages.\
-In order to **automate this** I would recommend having a list of login forms of the victim's domains, spider the suspicious web pages and comparing each login form found inside the suspicious domains with each login form of the victim's domain using something like `ssdeep`.\
-If you have located the login forms of the suspicious domains, you can try to **send junk credentials** and **check if it's redirecting you to the victim's domain**.
+Ana sayfa ayrıca, kurbanın alan adını daha büyük bir alan adının içine koyma gibi bir alan adı varyasyon tekniğinden bahseder (örneğin paypal.com için paypal-financial.com).
 
-## Domain names using keywords
+### Sertifika Şeffaflığı
 
-The parent page also mentions a domain name variation technique that consists of putting the **victim's domain name inside a bigger domain** (e.g. paypal-financial.com for paypal.com).
+Önceki "Brute-Force" yaklaşımını kullanmak mümkün olmasa da, sertifika şeffaflığı sayesinde bu tür phishing girişimlerini ortaya çıkarmak da mümkündür. Bir CA tarafından bir sertifika yayımlandığında, ayrıntılar halka açık hale gelir. Bu, sertifika şeffaflığını okuyarak veya hatta izleyerek, bir alan adının adı içinde bir anahtar kelime kullanan alan adlarını bulmanın **mümkün olduğu anlamına gelir**. Örneğin, bir saldırgan [https://paypal-financial.com](https://paypal-financial.com) için bir sertifika oluşturursa, sertifikayı görerek "paypal" anahtar kelimesini bulmak ve şüpheli bir e-posta kullanıldığını bilmek mümkündür.
 
-### Certificate Transparency
-
-It's not possible to take the previous "Brute-Force" approach but it's actually **possible to uncover such phishing attempts** also thanks to certificate transparency. Every time a certificate is emitted by a CA, the details are made public. This means that by reading the certificate transparency or even monitoring it, it's **possible to find domains that are using a keyword inside its name** For example, if an attacker generates a certificate of [https://paypal-financial.com](https://paypal-financial.com), seeing the certificate it's possible to find the keyword "paypal" and know that suspicious email is being used.
-
-The post [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) suggests that you can use Censys to search for certificates affecting a specific keyword and filter by date (only "new" certificates) and by the CA issuer "Let's Encrypt":
+[https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) adresindeki yazı, belirli bir anahtar kelimeyi etkileyen sertifikaları aramak ve tarih (yalnızca "yeni" sertifikalar) ve CA yayıncısı "Let's Encrypt" tarafından filtrelemek için Censys'i kullanabileceğinizi önermektedir:
 
 ![https://0xpatrik.com/content/images/2018/07/cert_listing.png](<../../.gitbook/assets/image (390).png>)
 
-However, you can do "the same" using the free web [**crt.sh**](https://crt.sh). You can **search for the keyword** and the **filter** the results **by date and CA** if you wish.
+Ancak, aynı şeyi ücretsiz web [**crt.sh**](https://crt.sh) kullanarak da yapabilirsiniz. **Anahtar kelimeyi arayabilir** ve sonuçları **tarih ve CA** ile **filtreleyebilirsiniz** isterseniz.
 
 ![](<../../.gitbook/assets/image (391).png>)
 
-Using this last option you can even use the field Matching Identities to see if any identity from the real domain matches any of the suspicious domains (note that a suspicious domain can be a false positive).
+Bu son seçenek kullanılarak, gerçek alan adının herhangi bir kimliğinin şüpheli alan adlarından herhangi biriyle eşleşip eşleşmediğini görmek için Eşleşen Kimlikler alanını kullanabilirsiniz (bir şüpheli alan adı yanlış pozitif olabilir).
 
-**Another alternative** is the fantastic project called [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream provides a real-time stream of newly generated certificates which you can use to detect specified keywords in (near) real-time. In fact, there is a project called [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) that does just that.
+**Başka bir alternatif** ise
+### **Yeni alan adları**
 
-### **New domains**
-
-**One last alternative** is to gather a list of **newly registered domains** for some TLDs ([Whoxy](https://www.whoxy.com/newly-registered-domains/) provides such service) and **check the keywords in these domains**. However, long domains usually use one or more subdomains, therefore the keyword won't appear inside the FLD and you won't be able to find the phishing subdomain.
+**Son bir alternatif**, bazı TLD'ler için bir **yeni kaydedilen alan adları listesi toplamak** ve bu alan adlarında **anahtar kelimeleri kontrol etmek**. Bununla birlikte, uzun alan adları genellikle bir veya daha fazla alt alan adı kullanır, bu nedenle anahtar kelime FLD içinde görünmeyecektir ve dolayısıyla phishing alt alan adını bulamayacaksınız.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin**.
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
 
 </details>

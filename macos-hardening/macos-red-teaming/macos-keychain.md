@@ -1,72 +1,71 @@
-# macOS Keychain
+# macOS Anahtar Zinciri
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramanla öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* Hacking hilelerinizi göndererek HackTricks ve HackTricks Cloud github depolarına **PR göndererek** hilelerinizi paylaşın.
 
 </details>
 
-## Main Keychains
+## Ana Anahtar Zincirleri
 
-* The **User Keychain** (`~/Library/Keychains/login.keycahin-db`), which is used to store **user-specific credentials** like application passwords, internet passwords, user-generated certificates, network passwords, and user-generated public/private keys.
-* The **System Keychain** (`/Library/Keychains/System.keychain`), which stores **system-wide credentials** such as WiFi passwords, system root certificates, system private keys, and system application passwords.
+* **Kullanıcı Anahtar Zinciri** (`~/Library/Keychains/login.keycahin-db`), uygulama şifreleri, internet şifreleri, kullanıcı tarafından oluşturulan sertifikalar, ağ şifreleri ve kullanıcı tarafından oluşturulan genel/özel anahtarlar gibi **kullanıcıya özgü kimlik bilgilerini** saklamak için kullanılır.
+* **Sistem Anahtar Zinciri** (`/Library/Keychains/System.keychain`), WiFi şifreleri, sistem kök sertifikaları, sistem özel anahtarları ve sistem uygulama şifreleri gibi **sistem genelindeki kimlik bilgilerini** saklar.
 
-### Password Keychain Access
+### Şifre Anahtar Zinciri Erişimi
 
-These files, while they do not have inherent protection and can be **downloaded**, are encrypted and require the **user's plaintext password to be decrypted**. A tool like [**Chainbreaker**](https://github.com/n0fate/chainbreaker) could be used for decryption.
+Bu dosyalar, **doğal korumaya sahip olmasalar da indirilebilir** ve **kullanıcının düz metin şifresinin şifresini çözmek** için şifrelenmiştir. Şifre çözme için [**Chainbreaker**](https://github.com/n0fate/chainbreaker) gibi bir araç kullanılabilir.
 
-## Keychain Entries Protections
+## Anahtar Zinciri Girişleri Koruma
 
-### ACLs
+### ACL'ler
 
-Each entry in the keychain is governed by **Access Control Lists (ACLs)** which dictate who can perform various actions on the keychain entry, including:
+Anahtar zincirindeki her giriş, anahtar zinciri girişi üzerinde çeşitli işlemleri gerçekleştirebilecek kişileri belirleyen **Erişim Kontrol Listeleri (ACL'ler)** tarafından yönetilir. Bu işlemler şunları içerebilir:
 
-* **ACLAuhtorizationExportClear**: Allows the holder to get the clear text of the secret.
-* **ACLAuhtorizationExportWrapped**: Allows the holder to get the clear text encrypted with another provided password.
-* **ACLAuhtorizationAny**: Allows the holder to perform any action.
+* **ACLAuhtorizationExportClear**: Sahibin sırrın açık metnini almasına izin verir.
+* **ACLAuhtorizationExportWrapped**: Sahibin başka bir sağlanan şifreyle şifrelenmiş açık metni almasına izin verir.
+* **ACLAuhtorizationAny**: Sahibin herhangi bir işlemi gerçekleştirmesine izin verir.
 
-The ACLs are further accompanied by a **list of trusted applications** that can perform these actions without prompting. This could be:
+ACL'ler, bu işlemleri sormadan gerçekleştirebilen **güvenilir uygulamaların bir listesiyle** birlikte gelir. Bu şunları içerebilir:
 
-* &#x20;**N`il`** (no authorization required, **everyone is trusted**)
-* An **empty** list (**nobody** is trusted)
-* **List** of specific **applications**.
+* &#x20;**N`il`** (yetkilendirme gerektirilmez, **herkes güvenilir**)
+* **Boş** bir liste (**hiç kimse güvenilir değil**)
+* Belirli **uygulamaların listesi**.
 
-Also the entry might contain the key **`ACLAuthorizationPartitionID`,** which is use to identify the **teamid, apple,** and **cdhash.**
+Ayrıca giriş, **`ACLAuthorizationPartitionID`** anahtarını içerebilir, bu da **teamid, apple** ve **cdhash'yi** tanımlamak için kullanılır.
 
-* If the **teamid** is specified, then in order to **access the entry** value **withuot** a **prompt** the used application must have the **same teamid**.
-* If the **apple** is specified, then the app needs to be **signed** by **Apple**.
-* If the **cdhash** is indicated, then **app** must have the specific **cdhash**.
+* Eğer **teamid** belirtilmişse, giriş değerine **sorma olmadan** erişmek için kullanılan uygulamanın **aynı teamid'ye** sahip olması gerekir.
+* Eğer **apple** belirtilmişse, uygulama **Apple** tarafından **imzalanmış** olmalıdır.
+* Eğer **cdhash** belirtilmişse, uygulama belirli bir **cdhash'e** sahip olmalıdır.
 
-### Creating a Keychain Entry
+### Bir Anahtar Zinciri Girişi Oluşturma
 
-When a **new** **entry** is created using **`Keychain Access.app`**, the following rules apply:
+**`Keychain Access.app`** kullanılarak **yeni bir giriş oluşturulduğunda**, aşağıdaki kurallar geçerlidir:
 
-* All apps can encrypt.
-* **No apps** can export/decrypt (without prompting the user).
-* All apps can see the integrity check.
-* No apps can change ACLs.
-* The **partitionID** is set to **`apple`**.
+* Tüm uygulamalar şifreleyebilir.
+* **Hiçbir uygulama** ihracat/şifre çözme yapamaz (kullanıcıya sormadan).
+* Tüm uygulamalar bütünlük kontrolünü görebilir.
+* Hiçbir uygulama ACL'leri değiştiremez.
+* **PartitionID** **`apple`** olarak ayarlanır.
 
-When an **application creates an entry in the keychain**, the rules are slightly different:
+Bir **uygulama anahtar zincirine bir giriş oluşturduğunda**, kurallar biraz farklıdır:
 
-* All apps can encrypt.
-* Only the **creating application** (or any other apps explicitly added) can export/decrypt (without prompting the user).
-* All apps can see the integrity check.
-* No apps can change the ACLs.
-* The **partitionID** is set to **`teamid:[teamID here]`**.
+* Tüm uygulamalar şifreleyebilir.
+* Yalnızca **oluşturan uygulama** (veya başka uygulamalar da eklenmişse) ihracat/şifre çözme yapabilir (kullanıcıya sormadan).
+* Tüm uygulamalar bütünlük kontrolünü görebilir.
+* Hiçbir uygulama ACL'leri değiştiremez.
+* **PartitionID** **`teamid:[buraya takım kimliği]`** olarak ayarlanır.
 
-## Accessing the Keychain
+## Anahtar Zincirine Erişim
 
 ### `security`
-
 ```bash
 # Dump all metadata and decrypted secrets (a lot of pop-ups)
 security dump-keychain -a -d
@@ -77,73 +76,71 @@ security find-generic-password -a "Slack" -g
 # Change the specified entrys PartitionID entry
 security set-generic-password-parition-list -s "test service" -a "test acount" -S
 ```
-
-### APIs
+### API'ler
 
 {% hint style="success" %}
-The **keychain enumeration and dumping** of secrets that **won't generate a prompt** can be done with the tool [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+**Anahtar zinciri numaralandırma ve sızıntı oluşturmayan** sırların dökümü, [**LockSmith**](https://github.com/its-a-feature/LockSmith) adlı araçla yapılabilir.
 {% endhint %}
 
-List and get **info** about each keychain entry:
+Her anahtar zinciri girişi hakkında **bilgi** alın ve listelenin:
 
-* The API **`SecItemCopyMatching`** gives info about each entry and there are some attributes you can set when using it:
-  * **`kSecReturnData`**: If true, it will try to decrypt the data (set to false to avoid potential pop-ups)
-  * **`kSecReturnRef`**: Get also reference to keychain item (set to true in case later you see you can decrypt without pop-up)
-  * **`kSecReturnAttributes`**: Get metadata about entries
-  * **`kSecMatchLimit`**: How many results to return
-  * **`kSecClass`**: What kind of keychain entry
+* **`SecItemCopyMatching`** API'si her giriş hakkında bilgi verir ve kullanırken ayarlayabileceğiniz bazı özellikler vardır:
+* **`kSecReturnData`**: Eğer doğruysa, verileri şifrelemeye çalışır (potansiyel açılır pencereleri önlemek için false olarak ayarlayın)
+* **`kSecReturnRef`**: Anahtar zinciri öğesine referansı da alın (sonradan açılır pencereler olmadan şifrelemeyi yapabiliyorsanız true olarak ayarlayın)
+* **`kSecReturnAttributes`**: Girişler hakkında meta verileri alın
+* **`kSecMatchLimit`**: Kaç sonuç döndürüleceği
+* **`kSecClass`**: Hangi tür anahtar zinciri girişi
 
-Get **ACLs** of each entry:
+Her girişin **ACL'lerini** alın:
 
-* With the API **`SecAccessCopyACLList`** you can get the **ACL for the keychain item**, and it will return a list of ACLs (like `ACLAuhtorizationExportClear` and the others previously mentioned)  where each list has:
-  * Description
-  * **Trusted Application List**. This could be:
-    * An app: /Applications/Slack.app
-    * A binary: /usr/libexec/airportd
-    * A group: group://AirPort
+* **`SecAccessCopyACLList`** API'siyle anahtar zinciri öğesinin **ACL'sini** alabilir ve her bir liste şunları içerir:
+* Açıklama
+* **Güvenilir Uygulama Listesi**. Bu bir uygulama olabilir: /Applications/Slack.app
+* Bir ikili dosya olabilir: /usr/libexec/airportd
+* Bir grup olabilir: group://AirPort
 
-Export the data:
+Veriyi dışa aktarın:
 
-* The API **`SecKeychainItemCopyContent`** gets the plaintext
-* The API  **`SecItemExport`** exports the keys and certificates but might have to set passwords to export the content encrypted
+* **`SecKeychainItemCopyContent`** API'si düz metni alır
+* **`SecItemExport`** API'si anahtarları ve sertifikaları dışa aktarır, ancak içeriği şifreli olarak dışa aktarmak için şifreleri ayarlamak gerekebilir
 
-And these are the **requirements** to be able to **export a secret without a prompt**:
+Ve sızıntı oluşturmadan bir sırrı dışa aktarabilmek için **gereksinimler** şunlardır:
 
-* If **1+ trusted** apps listed:
-  * Need the appropriate **authorizations** (**`Nil`**, or be **part** of the allowed list of apps in the authorization to access the secret info)
-  * Need code signature to match **PartitionID**
-  * Need code signature to match that of one **trusted app** (or be a member of the right KeychainAccessGroup)
-* If **all applications trusted**:
-  * Need the appropriate **authorizations**
-  * Need code signature to match **PartitionID**
-    * If **no PartitionID**, then this isn't needed
+* Eğer **1 veya daha fazla güvenilir** uygulama listelenmişse:
+* Uygun **yetkilendirmelere** ihtiyaç vardır (**`Nil`**, veya sırra erişim yetkisi için yetkilendirme izin verilen uygulama listesinin bir parçası olmak)
+* Kod imzasının **PartitionID** ile eşleşmesi gerekmektedir
+* Kod imzasının **güvenilir bir uygulama** ile eşleşmesi gerekmektedir (veya doğru KeychainAccessGroup üyesi olmak)
+* Eğer **tüm uygulamalar güvenilir** ise:
+* Uygun **yetkilendirmelere** ihtiyaç vardır
+* Kod imzasının **PartitionID** ile eşleşmesi gerekmektedir
+* Eğer **PartitionID** yoksa, bu gerekli değildir
 
 {% hint style="danger" %}
-Therefore, if there is **1 application listed**, you need to **inject code in that application**.
+Bu nedenle, eğer **1 uygulama listelenmişse**, o uygulamaya **kod enjekte etmeniz gerekmektedir**.
 
-If **apple** is indicated in the **partitionID**, you could access it with **`osascript`** so anything that is trusting all applications with apple in the partitionID. **`Python`** could also be used for this.
+Eğer **partitionID**'de **apple** belirtilmişse, **`osascript`** ile erişebilirsiniz, böylece partitionID'sinde apple olan tüm uygulamalara güvenen herhangi bir şey. Bunun için **`Python`** da kullanılabilir.
 {% endhint %}
 
-### Two additional attributes
+### İki ek özellik
 
-* **Invisible**: It's a boolean flag to **hide** the entry from the **UI** Keychain app
-* **General**: It's to store **metadata** (so it's NOT ENCRYPTED)
-  * Microsoft was storing in plain text all the refresh tokens to access sensitive endpoint.
+* **Görünmez**: Bu, girişi **UI** Anahtar Zinciri uygulamasından **gizlemek** için bir boolean bayrağıdır.
+* **Genel**: Bu, **meta verileri** depolamak için kullanılır (bu nedenle ŞİFRELENMEZ)
+* Microsoft, hassas uç noktalara erişmek için tüm yenileme belirteçlerini düz metinde depoluyordu.
 
-## References
+## Referanslar
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **tanıtmak** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da** takip edin.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
 
 </details>

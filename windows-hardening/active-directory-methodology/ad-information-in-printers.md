@@ -1,82 +1,72 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek**.
 
 </details>
 
 
-There are several blogs in the Internet which **highlight the dangers of leaving printers configured with LDAP with default/weak** logon credentials.\
-This is because an attacker could **trick the printer to authenticate against a rouge LDAP server** (typically a `nc -vv -l -p 444` is enough) and to capture the printer **credentials on clear-text**.
+İnternette, LDAP ile yapılandırılmış yazıcıların varsayılan/zayıf giriş kimlik bilgileriyle bırakılmasının tehlikelerini vurgulayan birkaç blog bulunmaktadır.\
+Bu, bir saldırganın yazıcıyı, genellikle bir `nc -vv -l -p 444` yeterli olan sahte bir LDAP sunucusuna kimlik doğrulaması yapmaya ve yazıcıdaki kimlik bilgilerini açık metin olarak yakalamaya kandırabileceği anlamına gelir.
 
-Also, several printers will contains **logs with usernames** or could even be able to **download all usernames** from the Domain Controller.
+Ayrıca, birçok yazıcı **kullanıcı adlarıyla günlükler içerebilir** veya etki alanı denetleyicisinden **tüm kullanıcı adlarını indirebilir**.
 
-All this **sensitive information** and the common **lack of security** makes printers very interesting for attackers.
+Tüm bu **hassas bilgiler** ve yaygın **güvenlik eksikliği**, saldırganlar için yazıcıları çok ilginç hale getirir.
 
-Some blogs about the topic:
+Konuyla ilgili bazı bloglar:
 
 * [https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/](https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/)
 * [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 
-## Printer Configuration
-- **Location**: The LDAP server list is found at: `Network > LDAP Setting > Setting Up LDAP`.
-- **Behavior**: The interface allows LDAP server modifications without re-entering credentials, aiming for user convenience but posing security risks.
-- **Exploit**: The exploit involves redirecting the LDAP server address to a controlled machine and leveraging the "Test Connection" feature to capture credentials.
+## Yazıcı Yapılandırması
+- **Konum**: LDAP sunucu listesi şurada bulunur: `Ağ > LDAP Ayarı > LDAP Kurulumu`.
+- **Davranış**: Arayüz, kimlik bilgilerini yeniden girmeden LDAP sunucusu değişikliklerine izin verir, bu da kullanıcı kolaylığı hedeflerken güvenlik riskleri oluşturur.
+- **Sömürü**: Sömürü, LDAP sunucusu adresini kontrol edilen bir makineye yönlendirmeyi ve kimlik bilgilerini yakalamak için "Bağlantıyı Test Et" özelliğini kullanmayı içerir.
 
-## Capturing Credentials
+## Kimlik Bilgilerini Yakalama
 
-**For more detailed steps, refer to the original [source](https://grimhacker.com/2018/03/09/just-a-printer/).**
+**Daha ayrıntılı adımlar için, orijinal [kaynağa](https://grimhacker.com/2018/03/09/just-a-printer/) bakın.**
 
-### Method 1: Netcat Listener
-A simple netcat listener might suffice:
-
+### Yöntem 1: Netcat Dinleyici
+Basit bir netcat dinleyicisi yeterli olabilir:
 ```bash
 sudo nc -k -v -l -p 386
 ```
+### Yöntem 2: Slapd ile Tam LDAP Sunucusu
+Daha güvenilir bir yaklaşım, yazıcının kimlik bilgisi bağlama girişiminden önce bir null bağlama ve sorgu gerçekleştirmesi nedeniyle tam bir LDAP sunucusu kurmaktır.
 
-However, this method's success varies.
-
-### Method 2: Full LDAP Server with Slapd
-A more reliable approach involves setting up a full LDAP server because the printer performs a null bind followed by a query before attempting credential binding.
-
-1. **LDAP Server Setup**: The guide follows steps from [this source](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
-2. **Key Steps**:
-    - Install OpenLDAP.
-    - Configure admin password.
-    - Import basic schemas.
-    - Set domain name on LDAP DB.
-    - Configure LDAP TLS.
-3. **LDAP Service Execution**: Once set up, the LDAP service can be run using:
-
+1. **LDAP Sunucusu Kurulumu**: Kılavuz, [bu kaynaktaki](https://www.server-world.info/en/note?os=Fedora_26&p=openldap) adımları takip eder.
+2. **Ana Adımlar**:
+- OpenLDAP'ı kurun.
+- Yönetici şifresini yapılandırın.
+- Temel şemaları içe aktarın.
+- LDAP DB üzerinde etki alanı adını ayarlayın.
+- LDAP TLS'yi yapılandırın.
+3. **LDAP Hizmeti Yürütme**: Kurulum tamamlandıktan sonra, LDAP hizmeti aşağıdaki komutla çalıştırılabilir:
 ```bash
 slapd -d 2
 ```
-
-## References
+## Referanslar
 * [https://grimhacker.com/2018/03/09/just-a-printer/](https://grimhacker.com/2018/03/09/just-a-printer/)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud github depolarına PR göndererek paylaşın**.
 
 </details>
-
-

@@ -1,106 +1,82 @@
-# Infrared
+# Kızılötesi
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-## How the Infrared Works <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
+## Kızılötesi Nasıl Çalışır <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
 
-**Infrared light is invisible to humans**. IR wavelength is from **0.7 to 1000 microns**. Household remotes use an IR signal for data transmission and operate in the wavelength range of 0.75..1.4 microns. A microcontroller in the remote makes an infrared LED blink with a specific frequency, turning the digital signal into an IR signal.
+**Kızılötesi ışık insanlar tarafından görülemez**. Kızılötesi dalga boyu **0.7 ila 1000 mikron** arasındadır. Ev uzaktan kumandaları, veri iletimi için bir kızılötesi sinyal kullanır ve genellikle 0.75..1.4 mikron dalga boyu aralığında çalışır. Uzaktan kumandadaki bir mikrodenetleyici, belirli bir frekansta kızılötesi bir LED'i yanıp sönerek dijital sinyali kızılötesi bir sinyale dönüştürür.
 
-To receive IR signals a **photoreceiver** is used. It **converts IR light into voltage pulses**, which are already **digital signals**. Usually, there is a **dark light filter inside the receiver**, which lets **only the desired wavelength through** and cuts out noise.
+Kızılötesi sinyalleri almak için bir **fotoreceiver** kullanılır. Bu, kızılötesi ışığı voltaj darbelerine dönüştürür, ki bunlar zaten **dijital sinyallerdir**. Genellikle, alıcının içinde **yalnızca istenen dalga boyunu geçiren ve gürültüyü kesen bir karanlık ışık filtresi** bulunur.
 
-### Variety of IR Protocols <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
+### Çeşitli Kızılötesi Protokoller <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
 
-IR protocols differ in 3 factors:
+Kızılötesi protokoller 3 faktörde farklılık gösterir:
 
-* bit encoding
-* data structure
-* carrier frequency — often in range 36..38 kHz
+* bit kodlaması
+* veri yapısı
+* taşıyıcı frekans - genellikle 36..38 kHz aralığında
 
-#### Bit encoding ways <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
+#### Bit Kodlama Yöntemleri <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
 
-**1. Pulse Distance Encoding**
+**1. Pulse Distance Kodlama**
 
-Bits are encoded by modulating the duration of the space between pulses. The width of the pulse itself is constant.
+Bitler, darbeler arasındaki boşluğun süresini modüle ederek kodlanır. Darbenin kendisi sabit genişliğe sahiptir.
 
 <figure><img src="../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
 
-**2. Pulse Width Encoding**
+**2. Pulse Width Kodlama**
 
-Bits are encoded by modulation of the pulse width. The width of space after pulse burst is constant.
+Bitler, darbe genişliğinin modülasyonuyla kodlanır. Darbe patlamasından sonra boşluk genişliği sabittir.
 
 <figure><img src="../../.gitbook/assets/image (29) (1).png" alt=""><figcaption></figcaption></figure>
 
-**3. Phase Encoding**
+**3. Phase Kodlama**
 
-It is also known as Manchester encoding. The logical value is defined by the polarity of the transition between pulse burst and space. "Space to pulse burst" denotes logic "0", "pulse burst to space" denotes logic "1".
+Bu aynı zamanda Manchester kodlaması olarak da bilinir. Mantıksal değer, darbe patlaması ile boşluk arasındaki geçişin polaritesi tarafından belirlenir. "Boşluktan darbe patlamasına" mantık "0" olarak adlandırılır, "darbe patlamasından boşluğa" mantık "1" olarak adlandırılır.
 
 <figure><img src="../../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
 
-**4. Combination of previous ones and other exotics**
+**4. Öncekilerin ve diğer egzotiklerin kombinasyonu**
 
 {% hint style="info" %}
-There are IR protocols that are **trying to become universal** for several types of devices. The most famous ones are RC5 and NEC. Unfortunately, the most famous **does not mean the most common**. In my environment, I met just two NEC remotes and no RC5 ones.
+Bazı kızılötesi protokoller, birden fazla cihaz türü için **evrensel olmaya çalışır**. En ünlü olanları RC5 ve NEC'dir. Ne yazık ki, en ünlü olan **en yaygın olan anlamına gelmez**. Benim çevremde, sadece iki NEC uzaktan kumanda ve hiç RC5 uzaktan kumanda ile karşılaştım.
 
-Manufacturers love to use their own unique IR protocols, even within the same range of devices (for example, TV-boxes). Therefore, remotes from different companies and sometimes from different models from the same company, are unable to work with other devices of the same type.
+Üreticiler, hatta aynı cihaz serisinde (örneğin, TV kutuları) farklı şirketlerden ve bazen aynı şirketin farklı modellerinden farklı kızılötesi protokoller kullanmayı severler. Bu nedenle, farklı şirketlerden ve bazen aynı şirketin farklı modellerinden gelen uzaktan kumandalar, aynı türdeki diğer cihazlarla çalışamaz.
 {% endhint %}
 
-### Exploring an IR signal
+### Bir Kızılötesi Sinyali Keşfetmek
 
-The most reliable way to see how the remote IR signal looks like is to use an oscilloscope. It does not demodulate or invert the received signal, it is just displayed "as is". This is useful for testing and debugging. I will show the expected signal on the example of the NEC IR protocol.
+Uzaktan kumandanın kızılötesi sinyalinin nasıl göründüğünü en güvenilir şekilde görmek için osiloskopa başvurulur. Alınan sinyali demodüle etmez veya tersine çevirmez, sadece "olduğu gibi" görüntüler. Bu, test etmek ve hata ayıklamak için kullanışlıdır. NEC kızılötesi protokolü örneğinde beklenen sinyali göstereceğim.
 
 <figure><img src="../../.gitbook/assets/image (18) (2).png" alt=""><figcaption></figcaption></figure>
 
-Usually, there is a preamble at the beginning of an encoded packet. This allows the receiver to determine the level of gain and background. There are also protocols without preamble, for example, Sharp.
+Genellikle, kodlanmış bir paketin başında bir önsöz bulunur. Bu, alıcının kazanç ve arka plan seviyesini belirlemesine olanak tanır. Ayrıca, Sharp gibi önsöz olmadan da protokoller vardır.
 
-Then data is transmitted. The structure, preamble, and bit encoding method are determined by the specific protocol.
+Ardından veri iletilir. Yapı, önsöz ve bit kodlama yöntemi, belirli protokol tarafından belirlenir.
 
-**NEC IR protocol** contains a short command and a repeat code, which is sent while the button is pressed. Both the command and the repeat code have the same preamble at the beginning.
+**NEC kızılötesi protokolü**, basılan düğmeyle birlikte gönderilen kısa bir komut ve tekrar kodu içerir. Komut ve tekrar kodu, başlangıçta aynı önsöze sahiptir.
 
-NEC **command**, in addition to the preamble, consists of an address byte and a command-number byte, by which the device understands what needs to be performed. Address and command-number bytes are duplicated with inverse values, to check the integrity of the transmission. There is an additional stop bit at the end of the command.
+NEC **komutu**, önsözün yanı sıra, cihazın ne yapılması gerektiğini anlamasını sağlayan bir adres baytı ve bir komut numarası baytından oluşur. Adres ve komut numarası baytları, iletimin bütünlüğünü kontrol etmek için ters değerlerle çoğaltılır. Komutun sonunda ek bir durdurma biti bulunur.
 
-The **repeat code** has a "1" after the preamble, which is a stop bit.
+**Tekrar kodu**, önsözden sonra bir "1" içerir, bu da bir durdurma bitidir.
 
-For **logic "0" and "1"** NEC uses Pulse Distance Encoding: first, a pulse burst is transmitted after which there is a pause, its length sets the value of the bit.
+NEC, **mantık "0" ve "1"** için Pulse Distance Kodlama kullanır: önce bir darbe patlaması iletilir, ardından bir duraklama vardır ve bu duraklamanın uzunluğu bitin değerini belirler.
 
-### Air Conditioners
+### Klima Cihazları
 
-Unlike other remotes, **air conditioners do not transmit just the code of the pressed button**. They also **transmit all the information** when a button is pressed to assure that the **air conditioned machine and the remote are synchronised**.\
-This will avoid that a machine set as 20ºC is increased to 21ºC with one remote, and then when another remote, which still has the temperature as 20ºC, is used to increase more the temperature, it will "increase" it to 21ºC (and not to 22ºC thinking it's in 21ºC).
+Diğer uzaktan kumandaların aksine, **klima cihazları sadece basılan düğmenin kodunu iletmekle kalmaz**. Aynı zamanda, bir düğme basıldığında **klima cihazıyla uzaktan kumandanın senkronize olduğunu sağlamak için tüm bilgileri ileterler**.\
+Bu, bir makinenin 20ºC olarak ayarlandığı bir uzaktan kumanda ile artırıldığında, hala sıcaklığı 20ºC olan başka bir uzaktan kumanda kullanılarak sıcaklığın daha da artırılmasının 21ºC'ye "artırılmasını" önler (ve 21ºC'de olduğunu düşünerek 22ºC'ye değil).
 
-### Attacks
-
-You can attack Infrared with Flipper Zero:
-
-{% content-ref url="flipper-zero/fz-infrared.md" %}
-[fz-infrared.md](flipper-zero/fz-infrared.md)
-{% endcontent-ref %}
-
-## References
-
-* [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+### Saldırılar

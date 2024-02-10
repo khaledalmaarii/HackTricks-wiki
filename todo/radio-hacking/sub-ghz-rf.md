@@ -2,97 +2,87 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerinizi sıfırdan kahraman seviyesine yükseltin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-## Garage Doors
+## Garaj Kapıları
 
-Garage door openers typically operate at frequencies in the 300-190 MHz range, with the most common frequencies being 300 MHz, 310 MHz, 315 MHz, and 390 MHz. This frequency range is commonly used for garage door openers because it is less crowded than other frequency bands and is less likely to experience interference from other devices.
+Garaj kapı açıcıları genellikle 300-190 MHz aralığında çalışır, en yaygın frekanslar ise 300 MHz, 310 MHz, 315 MHz ve 390 MHz'dir. Bu frekans aralığı, diğer frekans bantlarından daha az kalabalık olduğu ve diğer cihazlardan gelen müdahaleye daha az maruz kaldığı için garaj kapı açıcıları için yaygın olarak kullanılır.
 
-## Car Doors
+## Araba Kapıları
 
-Most car key fobs operate on either **315 MHz or 433 MHz**. These are both radio frequencies, and they are used in a variety of different applications. The main difference between the two frequencies is that 433 MHz has a longer range than 315 MHz. This means that 433 MHz is better for applications that require a longer range, such as remote keyless entry.\
-In Europe 433.92MHz is commonly used and in U.S. and Japan it's the 315MHz.
+Çoğu araba anahtarları genellikle **315 MHz veya 433 MHz** üzerinde çalışır. Bunlar her ikisi de radyo frekanslarıdır ve çeşitli farklı uygulamalarda kullanılır. İki frekans arasındaki temel fark, 433 MHz'in 315 MHz'den daha uzun menzile sahip olmasıdır. Bu, uzun menzil gerektiren uygulamalar için 433 MHz'in daha iyi olduğu anlamına gelir, örneğin uzaktan kumandalı giriş.
 
-## **Brute-force Attack**
+Avrupa'da genellikle 433.92MHz kullanılırken, ABD ve Japonya'da 315MHz kullanılır.
+
+## **Brute-force Saldırısı**
 
 <figure><img src="../../.gitbook/assets/image (4) (3) (2).png" alt=""><figcaption></figcaption></figure>
 
-If instead of sending each code 5 times (sent like this to make sure the receiver gets it) so just send it once, the time is reduced to 6mins:
+Eğer her kodu 5 kez göndermek yerine (alıcının almasını sağlamak için böyle gönderilir) sadece bir kez gönderirseniz, süre 6 dakikaya düşer:
 
 <figure><img src="../../.gitbook/assets/image (1) (1) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
-and if you **remove the 2 ms waiting** period between signals you can **reduce the time to 3minutes.**
+Ve sinyaller arasındaki 2 ms bekleme süresini kaldırırsanız, süreyi 3 dakikaya kadar düşürebilirsiniz.
 
-Moreover, by using the De Bruijn Sequence (a way to reduce the number of bits needed to send all the potential binary numbers to burteforce) this **time is reduced just to 8 seconds**:
+Ayrıca, De Bruijn Dizisi'ni kullanarak (tüm potansiyel ikili sayıları göndermek için gereken bit sayısını azaltan bir yöntem) bu süre sadece 8 saniyeye düşer:
 
 <figure><img src="../../.gitbook/assets/image (5) (2) (3).png" alt=""><figcaption></figcaption></figure>
 
-Example of this attack was implemented in [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)
+Bu saldırının bir örneği [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame) adresinde uygulanmıştır.
 
-Requiring **a preamble will avoid the De Bruijn Sequence** optimization and **rolling codes will prevent this attack** (supposing the code is long enough to not be bruteforceable).
+**Önambul gerekliliği**, De Bruijn Dizisi optimizasyonunu önler ve **gezici kodlar bu saldırıyı engeller** (kodun kaba kuvvetle çözülemeyecek kadar uzun olduğunu varsayarsak).
 
-## Sub-GHz Attack
+## Sub-GHz Saldırısı
 
-To attack these signals with Flipper Zero check:
+Flipper Zero ile bu sinyallere saldırmak için kontrol edin:
 
 {% content-ref url="flipper-zero/fz-sub-ghz.md" %}
 [fz-sub-ghz.md](flipper-zero/fz-sub-ghz.md)
 {% endcontent-ref %}
 
-## Rolling Codes Protection
+## Gezici Kodlar Koruması
 
-Automatic garage door openers typically use a wireless remote control to open and close the garage door. The remote control **sends a radio frequency (RF) signal** to the garage door opener, which activates the motor to open or close the door.
+Otomatik garaj kapı açıcıları genellikle kablosuz bir uzaktan kumanda kullanarak garaj kapısını açıp kapatır. Uzaktan kumanda, garaj kapısını açmak veya kapatmak için bir radyo frekansı (RF) sinyali gönderir.
 
-It is possible for someone to use a device known as a code grabber to intercept the RF signal and record it for later use. This is known as a **replay attack**. To prevent this type of attack, many modern garage door openers use a more secure encryption method known as a **rolling code** system.
+Birisi, RF sinyalini yakalamak ve daha sonra kullanmak için bir cihaz olan bir kod yakalayıcı kullanarak RF sinyalini engelleyebilir ve kaydedebilir. Buna bir **tekrar saldırısı** denir. Bu tür bir saldırıyı önlemek için, birçok modern garaj kapı açıcısı daha güvenli bir şifreleme yöntemi olan bir **gezici kod** sistemini kullanır.
 
-The **RF signal is typically transmitted using a rolling code**, which means that the code changes with each use. This makes it **difficult** for someone to **intercept** the signal and **use** it to gain **unauthorised** access to the garage.
+RF sinyali genellikle her kullanımda değişen bir **gezici kod** kullanılarak iletilir. Bu, kodun yakalanması ve garaja yetkisiz erişim sağlamak için kullanılması **zorlaştırır**.
 
-In a rolling code system, the remote control and the garage door opener have a **shared algorithm** that **generates a new code** every time the remote is used. The garage door opener will only respond to the **correct code**, making it much more difficult for someone to gain unauthorised access to the garage just by capturing a code.
+Gezici kod sisteminde, uzaktan kumanda ve garaj kapı açıcısı, her uzaktan kumanda kullanıldığında yeni bir kod üreten bir **paylaşılan algoritma**ya sahiptir. Garaj kapı açıcısı, yalnızca **doğru kod**a yanıt verecektir, bu da bir kodun yakalanarak garaja yetkisiz erişim sağlamayı çok daha zor hale getirir.
 
-### **Missing Link Attack**
+### **Eksik Bağlantı Saldırısı**
 
-Basically, you listen for the button and **capture the signal whilst the remote is out of range** of the device (say the car or garage). You then move to the device and **use the captured code to open it**.
+Temel olarak, düğmeyi dinlersiniz ve uzaktan kumanda cihazının (örneğin araba veya garaj) menzilinin dışında olduğu sırada sinyali **yakalarsınız**. Ardından cihaza geçersiniz ve yakalanan kodu kullanarak onu **açarsınız**.
 
-### Full Link Jamming Attack
+### Tam Bağlantı Engellemesi Saldırısı
 
-An attacker could **jam the signal near the vehicle or receive**r so the **receiver cannot actually ‘hear’ the code**, and once that is happening you can simply **capture and replay** the code when you have stopped jamming.
+Bir saldırgan, araç veya alıcıya **yakın bir yerde sinyali engelleyebilir**, böylece **alıcı kodu 'duyamaz'** ve bunu yaptıktan sonra sadece sinyali **yakalayıp tekrar oynatabilir**.
 
-The victim at some point will use the **keys to lock the car**, but then the attack will have **recorded enough "close door" codes** that hopefully could be resent to open the door (a **change of frequency might be needed** as there are cars that use the same codes to open and close but listens for both commands in different frequencies).
-
-{% hint style="warning" %}
-**Jamming works**, but it's noticeable as if the **person locking the car simply tests the doors** to ensure they are locked they would notice the car unlocked. Additionally if they were aware of such attacks they could even listen to the fact that the doors never made the lock **sound** or the cars **lights** never flashed when they pressed the ‘lock’ button.
-{% endhint %}
-
-### **Code Grabbing Attack ( aka ‘RollJam’ )**
-
-This is a more **stealth Jamming technique**. The attacker will jam the signal, so when the victim tries to lock the door it won't work, but the attacker will **record this code**. Then, the victim will **try to lock the car again** pressing the button and the car will **record this second code**.\
-Instantly after this the **attacker can send the first code** and the **car will lock** (victim will think the second press closed it). Then, the attacker will be able to **send the second stolen code to open** the car (supposing that a **"close car" code can also be used to open it**). A change of frequency might be needed (as there are cars that use the same codes to open and close but listens for both commands in different frequencies).
-
-The attacker can **jam the car receiver and not his receiver** because if the car receiver is listening in for example a 1MHz broadband, the attacker won't **jam** the exact frequency used by the remote but **a close one in that spectrum** while the **attackers receiver will be listening in a smaller range** where he can listen the remote signal **without the jam signal**.
+Kurban bir noktada **arabayı kilitlemek için tuşları kullanacak**, ancak saldırı **"kapıyı kapat" kodlarını kaydedecek** kadar kaydedecektir (farklı frekanslarda her iki komutu da dinleyen araçlar olduğundan **frekans değişikliği gerekebilir**).
 
 {% hint style="warning" %}
-Other implementations seen in specifications show that the **rolling code is a portion** of the total code sent. Ie the code sent is a **24 bit key** where the first **12 are the rolling code**, the **second 8 are the command** (such as lock or unlock) and the last 4 is the **checksum**. Vehicles implementing this type are also naturally susceptible as the attacker merely needs to replace the rolling code segment to be able to **use any rolling code on both frequencies**.
+**Engelleme işe yarar**, ancak **arabayı kilitleyen kişi** sadece kapıların kilitlendiğinden emin olmak için kapıları **test ederse** arabanın kilidinin açık olduğunu fark eder. Ayrıca, böyle saldırılardan haberdar olan kişiler, kapıların kilit **sesini** yapmadığını veya arabanın **ışıklarının** 'kilit' düğmesine bastıklarında yanıp sönmediğini bile dinleyebilirler.
 {% endhint %}
 
-{% hint style="danger" %}
-Note that if the victim sends a third code while the attacker is sending the first one, the first and second code will be invalidated.
-{% endhint %}
+### **Kod Yakalama Saldırısı (aka 'RollJam')**
 
-### Alarm Sounding Jamming Attack
+Bu daha **gizli bir Engelleme tekniğidir**. Saldırgan sinyali engeller, böylece kurban kapıyı kilitlemeye çalıştığında işe yaramaz, ancak saldırgan bu kodu **kaydeder**. Ardından, kurban aracı tekrar kilitlemeye çalışırken düğmeye basar ve araç bu ikinci kodu **kaydeder**.\
+Hemen ardından, saldırgan **ilk kodu gönderebilir** ve araç **kilitlenir** (kurban ikinci basışın bunu kapattığını düşünecektir). Ardından, sald
+### Alarm Sounding Jamming Saldırısı
 
-Testing against an aftermarket rolling code system installed on a car, **sending the same code twice** immediately **activated the alarm** and immobiliser providing a unique **denial of service** opportunity. Ironically the means of **disabling the alarm** and immobiliser was to **press** the **remote**, providing an attacker with the ability to **continually perform DoS attack**. Or mix this attack with the **previous one to obtain more codes** as the victim would like to stop the attack asap.
+Bir araca takılan satış sonrası bir dönen kod sistemi üzerinde test yaparken, **aynı kodu iki kez göndermek**, hemen **alarmı aktive etti** ve immobilizerı devre dışı bıraktı, benzersiz bir **hizmet reddi** fırsatı sağladı. İlginç bir şekilde, alarmı ve immobilizerı **devre dışı bırakmanın** yolu, **uzaktan kumandayı basmaktı**, bu da saldırganın sürekli olarak DoS saldırısı gerçekleştirme yeteneğini sağladı. Veya bu saldırıyı **öncekiyle birleştirerek daha fazla kod elde etmek** için kullanabilirsiniz, çünkü kurban saldırıyı en kısa sürede durdurmak isteyecektir.
 
-## References
+## Referanslar
 
 * [https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/](https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/)
 * [https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/](https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/)
@@ -101,14 +91,14 @@ Testing against an aftermarket rolling code system installed on a car, **sending
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
 
 </details>

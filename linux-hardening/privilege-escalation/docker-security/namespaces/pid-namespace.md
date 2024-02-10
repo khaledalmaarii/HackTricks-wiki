@@ -1,82 +1,92 @@
-# PID Namespace
+# PID Ad Alanı
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramanla öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-## Basic Information
+## Temel Bilgiler
 
-The PID (Process IDentifier) namespace is a feature in the Linux kernel that provides process isolation by enabling a group of processes to have their own set of unique PIDs, separate from the PIDs in other namespaces. This is particularly useful in containerization, where process isolation is essential for security and resource management.
+PID (Process IDentifier) ad alanı, Linux çekirdeğinde bir özelliktir ve diğer ad alanlarındaki PID'lerden bağımsız olarak bir grup işlemin kendi benzersiz PID kümesine sahip olmasını sağlayarak işlem izolasyonu sağlar. Bu, özellikle güvenlik ve kaynak yönetimi için işlem izolasyonunun önemli olduğu konteynerleştirme durumlarında kullanışlıdır.
 
-When a new PID namespace is created, the first process in that namespace is assigned PID 1. This process becomes the "init" process of the new namespace and is responsible for managing other processes within the namespace. Each subsequent process created within the namespace will have a unique PID within that namespace, and these PIDs will be independent of PIDs in other namespaces.
+Yeni bir PID ad alanı oluşturulduğunda, bu ad alanındaki ilk işleme PID 1 atanır. Bu işlem, yeni ad alanının "init" işlemi olur ve ad alanı içindeki diğer işlemleri yönetmekten sorumludur. Ad alanı içinde oluşturulan her bir sonraki işlem, bu ad alanı içinde benzersiz bir PID'ye sahip olacak ve bu PID'ler diğer ad alanlarındaki PID'lerden bağımsız olacaktır.
 
-From the perspective of a process within a PID namespace, it can only see other processes in the same namespace. It is not aware of processes in other namespaces, and it cannot interact with them using traditional process management tools (e.g., `kill`, `wait`, etc.). This provides a level of isolation that helps prevent processes from interfering with one another.
+Bir PID ad alanı içindeki bir işlem açısından, yalnızca aynı ad alanındaki diğer işlemleri görebilir. Diğer ad alanlarındaki işlemlerden haberdar değildir ve geleneksel işlem yönetimi araçlarını (örneğin, `kill`, `wait`, vb.) kullanarak bunlarla etkileşime geçemez. Bu, işlemlerin birbirleriyle etkileşimini engelleyen bir izolasyon seviyesi sağlar.
 
-### How it works:
+### Nasıl Çalışır:
 
-1. When a new process is created (e.g., by using the `clone()` system call), the process can be assigned to a new or existing PID namespace. **If a new namespace is created, the process becomes the "init" process of that namespace**.
-2. The **kernel** maintains a **mapping between the PIDs in the new namespace and the corresponding PIDs** in the parent namespace (i.e., the namespace from which the new namespace was created). This mapping **allows the kernel to translate PIDs when necessary**, such as when sending signals between processes in different namespaces.
-3. **Processes within a PID namespace can only see and interact with other processes in the same namespace**. They are not aware of processes in other namespaces, and their PIDs are unique within their namespace.
-4. When a **PID namespace is destroyed** (e.g., when the "init" process of the namespace exits), **all processes within that namespace are terminated**. This ensures that all resources associated with the namespace are properly cleaned up.
+1. Yeni bir işlem oluşturulduğunda (örneğin, `clone()` sistem çağrısı kullanılarak), işlem yeni veya mevcut bir PID ad alanına atanabilir. **Yeni bir ad alanı oluşturulursa, işlem bu ad alanının "init" işlemi olur**.
+2. **Çekirdek**, yeni ad alanındaki PID'ler ile ebeveyn ad alanındaki karşılık gelen PID'ler arasında bir **eşleme tutar** (yani, yeni ad alanının oluşturulduğu ad alan). Bu eşleme, PID'leri gerektiğinde çevirmek için çekirdeğe olanak sağlar, örneğin farklı ad alanlarındaki işlemler arasında sinyal gönderirken.
+3. **PID ad alanı içindeki işlemler yalnızca aynı ad alanındaki diğer işlemleri görebilir ve bunlarla etkileşime geçebilir**. Diğer ad alanlarındaki işlemlerden haberdar değillerdir ve PID'leri kendi ad alanları içinde benzersizdir.
+4. Bir **PID ad alanı yok edildiğinde** (örneğin, ad alanının "init" işlemi çıkış yaptığında), **o ad alanı içindeki tüm işlemler sonlandırılır**. Bu, ad alanıyla ilişkili tüm kaynakların düzgün bir şekilde temizlendiğini sağlar.
 
 ## Lab:
 
-### Create different Namespaces
+### Farklı Ad Alanları Oluşturma
 
 #### CLI
-
 ```bash
 sudo unshare -pf --mount-proc /bin/bash
 ```
-
 <details>
 
-<summary>Error: bash: fork: Cannot allocate memory</summary>
+<summary>Hata: bash: fork: Bellek tahsis edilemiyor</summary>
 
-When `unshare` is executed without the `-f` option, an error is encountered due to the way Linux handles new PID (Process ID) namespaces. The key details and the solution are outlined below:
+`unshare` komutu `-f` seçeneği olmadan çalıştırıldığında, Linux'un yeni PID (Process ID) namespace'leri nasıl işlediği nedeniyle bir hata oluşur. Ana detaylar ve çözüm aşağıda belirtilmiştir:
 
-1. **Problem Explanation**:
-    - The Linux kernel allows a process to create new namespaces using the `unshare` system call. However, the process that initiates the creation of a new PID namespace (referred to as the "unshare" process) does not enter the new namespace; only its child processes do.
-    - Running `%unshare -p /bin/bash%` starts `/bin/bash` in the same process as `unshare`. Consequently, `/bin/bash` and its child processes are in the original PID namespace.
-    - The first child process of `/bin/bash` in the new namespace becomes PID 1. When this process exits, it triggers the cleanup of the namespace if there are no other processes, as PID 1 has the special role of adopting orphan processes. The Linux kernel will then disable PID allocation in that namespace.
+1. **Sorun Açıklaması**:
+- Linux çekirdeği, bir işlemin `unshare` sistem çağrısını kullanarak yeni namespace'ler oluşturmasına izin verir. Ancak, yeni bir PID namespace'inin oluşturulmasını başlatan işlem (unshare işlemi olarak adlandırılır) yeni namespace'e girmemektedir; sadece çocuk işlemleri girmektedir.
+- `%unshare -p /bin/bash%` komutu, `/bin/bash`'i `unshare` ile aynı işlemde başlatır. Sonuç olarak, `/bin/bash` ve çocuk işlemleri orijinal PID namespace'inde bulunur.
+- Yeni namespace'deki `/bin/bash`'in ilk çocuk işlemi PID 1 olur. Bu işlem çıkış yaptığında, eğer başka işlem yoksa, namespace'in temizlenmesini tetikler. Çünkü PID 1 yetim işlemleri sahiplenme özel rolüne sahiptir. Linux çekirdeği, o namespace'de PID tahsisini devre dışı bırakır.
 
-2. **Consequence**:
-    - The exit of PID 1 in a new namespace leads to the cleaning of the `PIDNS_HASH_ADDING` flag. This results in the `alloc_pid` function failing to allocate a new PID when creating a new process, producing the "Cannot allocate memory" error.
+2. **Sonuç**:
+- Yeni bir namespace'deki PID 1'in çıkışı, `PIDNS_HASH_ADDING` bayrağının temizlenmesine neden olur. Bu, yeni bir işlem oluştururken `alloc_pid` fonksiyonunun yeni bir PID tahsis edememesine ve "Bellek tahsis edilemiyor" hatasının oluşmasına yol açar.
 
-3. **Solution**:
-    - The issue can be resolved by using the `-f` option with `unshare`. This option makes `unshare` fork a new process after creating the new PID namespace.
-    - Executing `%unshare -fp /bin/bash%` ensures that the `unshare` command itself becomes PID 1 in the new namespace. `/bin/bash` and its child processes are then safely contained within this new namespace, preventing the premature exit of PID 1 and allowing normal PID allocation.
+3. **Çözüm**:
+- Sorun, `unshare` komutunu `-f` seçeneğiyle kullanarak çözülebilir. Bu seçenek, `unshare`'in yeni bir PID namespace oluşturduktan sonra yeni bir işlem çatallamasını sağlar.
+- `%unshare -fp /bin/bash%` komutunu çalıştırmak, `unshare` komutunun kendisinin yeni namespace'de PID 1 olmasını sağlar. `/bin/bash` ve çocuk işlemleri bu yeni namespace içinde güvenli bir şekilde yer alır, PID 1'in erken çıkışını engeller ve normal PID tahsisine izin verir.
 
-By ensuring that `unshare` runs with the `-f` flag, the new PID namespace is correctly maintained, allowing `/bin/bash` and its sub-processes to operate without encountering the memory allocation error.
+`unshare` komutunun `-f` bayrağıyla çalıştığından emin olarak, yeni PID namespace'inin doğru bir şekilde korunduğundan ve `/bin/bash` ve alt işlemlerinin bellek tahsis hatasıyla karşılaşmadan çalışmasına izin verilir.
 
 </details>
 
-By mounting a new instance of the `/proc` filesystem if you use the param `--mount-proc`, you ensure that the new mount namespace has an **accurate and isolated view of the process information specific to that namespace**.
+`--mount-proc` parametresini kullanarak `/proc` dosya sisteminin yeni bir örneğini bağladığınızda, yeni mount namespace'inin **o namespace'e özgü işlem bilgilerinin doğru ve izole bir görünümünü** sağlamış olursunuz.
 
 #### Docker
-
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
+### &#x20;Hangi ad alanında olduğunuzu kontrol edin
 
-### &#x20;Check which namespace are your process in
+Bir sürecin hangi ad alanında olduğunu kontrol etmek için aşağıdaki komutu kullanabilirsiniz:
 
+```bash
+ls -l /proc/<PID>/ns
+```
+
+Burada `<PID>`, ad alanını kontrol etmek istediğiniz sürecin kimlik numarasını temsil eder. Bu komutu çalıştırdığınızda, sürecin PID ad alanı hakkında bilgi içeren bir dizi sembolik bağlantı göreceksiniz.
+
+Örneğin, PID'si 123 olan bir sürecin ad alanlarını kontrol etmek için aşağıdaki komutu kullanabilirsiniz:
+
+```bash
+ls -l /proc/123/ns
+```
+
+Bu komutu çalıştırdığınızda, sürecin PID ad alanı hakkında bilgi içeren sembolik bağlantıları göreceksiniz.
 ```bash
 ls -l /proc/self/ns/pid
 lrwxrwxrwx 1 root root 0 Apr  3 18:45 /proc/self/ns/pid -> 'pid:[4026532412]'
 ```
-
-### Find all PID namespaces
+### Tüm PID ad alanlarını bulun
 
 {% code overflow="wrap" %}
 ```bash
@@ -84,31 +94,29 @@ sudo find /proc -maxdepth 3 -type l -name pid -exec readlink {} \; 2>/dev/null |
 ```
 {% endcode %}
 
-Note that the root use from the initial (default) PID namespace can see all the processes, even the ones in new PID names paces, thats why we can see all the PID namespaces.
+Not: İlk (varsayılan) PID ad alanından kök kullanıcısı, yeni PID ad alanlarındaki süreçleri bile görebilir, bu yüzden tüm PID ad alanlarını görebiliriz.
 
-### Enter inside a PID namespace
-
+### Bir PID ad alanına giriş yapma
 ```bash
 nsenter -t TARGET_PID --pid /bin/bash
 ```
+PID ad alanına varsayılan ad alanından girdiğinizde, hala tüm işlemleri görebilirsiniz. Ve PID ad alanındaki işlem, PID ad alanındaki yeni bash'i görebilir.
 
-When you enter inside a PID namespace from the default namespace, you will still be able to see all the processes. And the process from that PID ns will be able to see the new bash on the PID ns.
+Ayrıca, **yalnızca kök kullanıcıysanız başka bir işlem PID ad alanına girebilirsiniz**. Ve **/proc/self/ns/pid** gibi ona işaret eden bir tanımlayıcı olmadan **başka bir ad alana giremezsiniz**.
 
-Also, you can only **enter in another process PID namespace if you are root**. And you **cannot** **enter** in other namespace **without a descriptor** pointing to it (like `/proc/self/ns/pid`)
-
-## References
+## Referanslar
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>

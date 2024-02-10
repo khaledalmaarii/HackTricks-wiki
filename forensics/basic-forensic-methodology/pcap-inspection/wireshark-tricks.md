@@ -1,183 +1,181 @@
-# Wireshark tricks
+# Wireshark hileleri
 
-## Wireshark tricks
+## Wireshark hileleri
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı takip edin.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>
 
-## Improve your Wireshark skills
+## Wireshark becerilerinizi geliştirin
 
-### Tutorials
+### Öğreticiler
 
-The following tutorials are amazing to learn some cool basic tricks:
+Aşağıdaki öğreticiler, bazı harika temel hileler öğrenmek için mükemmeldir:
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/](https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/](https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/)
 
-### Analysed Information
+### Analiz Edilen Bilgiler
 
-**Expert Information**
+**Uzman Bilgisi**
 
-Clicking on _**Analyze** --> **Expert Information**_ you will have an **overview** of what is happening in the packets **analyzed**:
+_Analyze_ --> _Expert Information_ üzerine tıklayarak, **analiz edilen** paketlerde neler olduğuna dair bir **genel bakış** elde edebilirsiniz:
 
 ![](<../../../.gitbook/assets/image (570).png>)
 
-**Resolved Addresses**
+**Çözümlenen Adresler**
 
-Under _**Statistics --> Resolved Addresses**_ you can find several **information** that was "**resolved**" by wireshark like port/transport to protocol, MAC to the manufacturer, etc. It is interesting to know what is implicated in the communication.
+_Statistics_ --> _Resolved Addresses_ altında, wireshark tarafından "**çözümlenen**" birkaç **bilgi** bulabilirsiniz. Bu, iletişimde neyin etkilendiğini bilmek açısından ilginçtir.
 
 ![](<../../../.gitbook/assets/image (571).png>)
 
-**Protocol Hierarchy**
+**Protokol Hiyerarşisi**
 
-Under _**Statistics --> Protocol Hierarchy**_ you can find the **protocols** **involved** in the communication and data about them.
+_Statistics_ --> _Protocol Hierarchy_ altında, iletişimde yer alan **protokoller** ve bunlar hakkında veriler bulabilirsiniz.
 
 ![](<../../../.gitbook/assets/image (572).png>)
 
-**Conversations**
+**Konuşmalar**
 
-Under _**Statistics --> Conversations**_ you can find a **summary of the conversations** in the communication and data about them.
+_Statistics_ --> _Conversations_ altında, iletişimdeki **konuşmaların özetini** ve bunlar hakkında verileri bulabilirsiniz.
 
 ![](<../../../.gitbook/assets/image (573).png>)
 
-**Endpoints**
+**Uç Noktalar**
 
-Under _**Statistics --> Endpoints**_ you can find a **summary of the endpoints** in the communication and data about each of them.
+_Statistics_ --> _Endpoints_ altında, iletişimdeki **uç noktaların özetini** ve her biri hakkında verileri bulabilirsiniz.
 
 ![](<../../../.gitbook/assets/image (575).png>)
 
-**DNS info**
+**DNS bilgisi**
 
-Under _**Statistics --> DNS**_ you can find statistics about the DNS request captured.
+_Statistics_ --> _DNS_ altında, yakalanan DNS istekleri hakkında istatistikler bulabilirsiniz.
 
 ![](<../../../.gitbook/assets/image (577).png>)
 
-**I/O Graph**
+**I/O Grafik**
 
-Under _**Statistics --> I/O Graph**_ you can find a **graph of the communication.**
+_Statistics_ --> _I/O Graph_ altında, iletişimin bir **grafiksel gösterimini** bulabilirsiniz.
 
 ![](<../../../.gitbook/assets/image (574).png>)
 
-### Filters
+### Filtreler
 
-Here you can find wireshark filter depending on the protocol: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
-Other interesting filters:
+Burada, protokole bağlı olarak wireshark filtrelerini bulabilirsiniz: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Diğer ilginç filtreler:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-  * HTTP and initial HTTPS traffic
+* HTTP ve başlangıç HTTPS trafiği
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-  * HTTP and initial HTTPS traffic + TCP SYN
+* HTTP ve başlangıç HTTPS trafiği + TCP SYN
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-  * HTTP and initial HTTPS traffic + TCP SYN + DNS requests
+* HTTP ve başlangıç HTTPS trafiği + TCP SYN + DNS istekleri
 
-### Search
+### Arama
 
-If you want to **search** for **content** inside the **packets** of the sessions press _CTRL+f_. You can add new layers to the main information bar (No., Time, Source, etc.) by pressing the right button and then the edit column.
+Oturumların paketlerindeki **içeriği aramak** isterseniz _CTRL+f_ tuşuna basın. Ana bilgi çubuğuna yeni katmanlar ekleyebilirsiniz (No., Zaman, Kaynak, vb.) sağ tıklayarak ve ardından sütun düzenleme seçeneğini seçerek.
 
-### Free pcap labs
+### Ücretsiz pcap laboratuvarları
 
-**Practice with the free challenges of: [https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
+**Ücretsiz zorluklarla pratik yapın: [https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
 
-## Identifying Domains
+## Alanları Tanımlama
 
-You can add a column that shows the Host HTTP header:
+HTTP başlığı Host'u gösteren bir sütun ekleyebilirsiniz:
 
 ![](<../../../.gitbook/assets/image (403).png>)
 
-And a column that add the Server name from an initiating HTTPS connection (**ssl.handshake.type == 1**):
+Ve başlatan bir HTTPS bağlantısından Sunucu adını ekleyen bir sütun:
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
-## Identifying local hostnames
+## Yerel ana bilgisayar adlarını tanımlama
 
-### From DHCP
+### DHCP'den
 
-In current Wireshark instead of `bootp` you need to search for `DHCP`
+Mevcut Wireshark'ta `bootp` yerine `DHCP` aramanız gerekmektedir.
 
 ![](<../../../.gitbook/assets/image (404).png>)
 
-### From NBNS
+### NBNS'den
 
 ![](<../../../.gitbook/assets/image (405).png>)
 
-## Decrypting TLS
+## TLS'nin Şifresini Çözme
 
-### Decrypting https traffic with server private key
+### Sunucu özel anahtarıyla https trafiğini çözme
 
-_edit>preference>protocol>ssl>_
+_düzenle>tercih>protokol>ssl>_
 
 ![](<../../../.gitbook/assets/image (98).png>)
 
-Press _Edit_ and add all the data of the server and the private key (_IP, Port, Protocol, Key file and password_)
+_Düzenle_ düğmesine basın ve sunucu ve özel anahtarın tüm verilerini (_IP, Port, Protokol, Anahtar dosyası ve parola_) ekleyin.
 
-### Decrypting https traffic with symmetric session keys
+### Simetrik oturum anahtarlarıyla https trafiğini çözme
 
-Both Firefox and Chrome have the capability to log TLS session keys, which can be used with Wireshark to decrypt TLS traffic. This allows for in-depth analysis of secure communications. More details on how to perform this decryption can be found in a guide at [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Firefox ve Chrome, TLS oturum anahtarlarını kaydetme yeteneğine sahiptir, bu anahtarlar Wireshark ile birlikte kullanılarak TLS trafiği çözülebilir. Bu, güvenli iletişimin detaylı analizine olanak sağlar. Bu şifrelemeyi nasıl gerçekleştireceğinizle ilgili daha fazla bilgiye [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/) rehberinde bulabilirsiniz.
 
-To detect this search inside the environment for to variable `SSLKEYLOGFILE`
+Bunu tespit etmek için ortam içinde `SSLKEYLOGFILE` değişkenini arayın.
 
-A file of shared keys will look like this:
+Paylaşılan anahtarlar dosyası şuna benzer olacaktır:
 
 ![](<../../../.gitbook/assets/image (99).png>)
 
-To import this in wireshark go to \_edit > preference > protocol > ssl > and import it in (Pre)-Master-Secret log filename:
+Bu dosyayı Wireshark'a içe aktarmak için \_düzenle > tercih > protokol > ssl > ve (Pre)-Master-Secret log dosya adına içe aktarın:
 
 ![](<../../../.gitbook/assets/image (100).png>)
 
-## ADB communication
+## ADB iletişimi
 
-Extract an APK from an ADB communication where the APK was sent:
-
+APK'nın gönderildiği bir ADB iletişiminden APK çıkarın:
 ```python
 from scapy.all import *
 
 pcap = rdpcap("final2.pcapng")
 
 def rm_data(data):
-    splitted = data.split(b"DATA")
-    if len(splitted) == 1:
-        return data
-    else:
-        return splitted[0]+splitted[1][4:]
+splitted = data.split(b"DATA")
+if len(splitted) == 1:
+return data
+else:
+return splitted[0]+splitted[1][4:]
 
 all_bytes = b""
 for pkt in pcap:
-    if Raw in pkt:
-        a = pkt[Raw]
-        if b"WRTE" == bytes(a)[:4]:
-            all_bytes += rm_data(bytes(a)[24:])
-        else:
-            all_bytes += rm_data(bytes(a))
+if Raw in pkt:
+a = pkt[Raw]
+if b"WRTE" == bytes(a)[:4]:
+all_bytes += rm_data(bytes(a)[24:])
+else:
+all_bytes += rm_data(bytes(a))
 print(all_bytes)
 
 f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>

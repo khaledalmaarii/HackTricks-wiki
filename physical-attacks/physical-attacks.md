@@ -1,81 +1,67 @@
-# Physical Attacks
+# Fiziksel Saldırılar
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamını görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-## BIOS Password Recovery and System Security
+## BIOS Parola Kurtarma ve Sistem Güvenliği
 
-**Resetting the BIOS** can be achieved in several ways. Most motherboards include a **battery** that, when removed for around **30 minutes**, will reset the BIOS settings, including the password. Alternatively, a **jumper on the motherboard** can be adjusted to reset these settings by connecting specific pins.
+**BIOS'un sıfırlanması**, birkaç farklı şekilde gerçekleştirilebilir. Çoğu anakart, BIOS ayarlarını, parolayı da dahil olmak üzere, sıfırlayacak olan bir **pil** içerir. Pil, yaklaşık **30 dakika** çıkarıldığında BIOS ayarlarını sıfırlar. Alternatif olarak, anakart üzerindeki bir **jumper**, belirli pinleri birleştirerek bu ayarları sıfırlamak için ayarlanabilir.
 
-For situations where hardware adjustments are not possible or practical, **software tools** offer a solution. Running a system from a **Live CD/USB** with distributions like **Kali Linux** provides access to tools like **_killCmos_** and **_CmosPWD_**, which can assist in BIOS password recovery.
+Donanım ayarlamalarının mümkün veya pratik olmadığı durumlarda, **yazılım araçları** bir çözüm sunar. **Kali Linux** gibi dağıtımlarla bir **Canlı CD/USB** üzerinden sistem çalıştırarak, BIOS parola kurtarmada yardımcı olabilecek **_killCmos_** ve **_CmosPWD_** gibi araçlara erişim sağlanabilir.
 
-In cases where the BIOS password is unknown, entering it incorrectly **three times** will typically result in an error code. This code can be used on websites like [https://bios-pw.org](https://bios-pw.org) to potentially retrieve a usable password.
+BIOS parolasının bilinmediği durumlarda, yanlış girilmesi durumunda genellikle bir hata kodu ortaya çıkar. Bu kod, [https://bios-pw.org](https://bios-pw.org) gibi web sitelerinde kullanılarak kullanılabilir bir parola elde edilebilir.
 
-### UEFI Security
+### UEFI Güvenliği
 
-For modern systems using **UEFI** instead of traditional BIOS, the tool **chipsec** can be utilized to analyze and modify UEFI settings, including the disabling of **Secure Boot**. This can be accomplished with the following command:
+Geleneksel BIOS yerine **UEFI** kullanan modern sistemler için, **chipsec** aracı, UEFI ayarlarını analiz etmek ve değiştirmek için kullanılabilir. Bu, aşağıdaki komutla gerçekleştirilebilir:
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
-### RAM Analysis and Cold Boot Attacks
+### RAM Analizi ve Soğuk Başlatma Saldırıları
 
-RAM retains data briefly after power is cut, usually for **1 to 2 minutes**. This persistence can be extended to **10 minutes** by applying cold substances, such as liquid nitrogen. During this extended period, a **memory dump** can be created using tools like **dd.exe** and **volatility** for analysis.
+RAM, güç kesildikten sonra verileri kısa bir süre tutar, genellikle **1 ila 2 dakika** boyunca. Bu süre, sıvı nitrojen gibi soğuk maddeler uygulanarak **10 dakikaya** kadar uzatılabilir. Bu uzatılmış süre boyunca, **dd.exe** ve **volatility** gibi araçlar kullanılarak bir **bellek dökümü** oluşturulabilir ve analiz edilebilir.
 
-### Direct Memory Access (DMA) Attacks
+### Doğrudan Bellek Erişimi (DMA) Saldırıları
 
-**INCEPTION** is a tool designed for **physical memory manipulation** through DMA, compatible with interfaces like **FireWire** and **Thunderbolt**. It allows for bypassing login procedures by patching memory to accept any password. However, it's ineffective against **Windows 10** systems.
+**INCEPTION**, DMA aracılığıyla fiziksel bellek manipülasyonu için tasarlanmış bir araçtır ve **FireWire** ve **Thunderbolt** gibi arabirimlerle uyumludur. Bu araç, belleği herhangi bir parolayı kabul edecek şekilde yamalayarak giriş prosedürlerini atlamayı sağlar. Ancak, **Windows 10** sistemlere karşı etkisizdir.
 
-### Live CD/USB for System Access
+### Sistem Erişimi İçin Canlı CD/USB
 
-Changing system binaries like **_sethc.exe_** or **_Utilman.exe_** with a copy of **_cmd.exe_** can provide a command prompt with system privileges. Tools such as **chntpw** can be used to edit the **SAM** file of a Windows installation, allowing password changes.
+**_sethc.exe_** veya **_Utilman.exe_** gibi sistem ikili dosyalarını **_cmd.exe_** bir kopyasıyla değiştirmek, sistem ayrıcalıklarıyla bir komut istemi sağlayabilir. **chntpw** gibi araçlar, bir Windows kurulumunun **SAM** dosyasını düzenlemek için kullanılabilir ve parola değişikliklerine izin verir.
 
-**Kon-Boot** is a tool that facilitates logging into Windows systems without knowing the password by temporarily modifying the Windows kernel or UEFI. More information can be found at [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
+**Kon-Boot**, Windows sistemlere mevcut parolayı bilmeden giriş yapmayı kolaylaştıran bir araçtır. Daha fazla bilgi için [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/) adresine bakabilirsiniz.
 
-### Handling Windows Security Features
+### Windows Güvenlik Özelliklerinin İşlenmesi
 
-#### Boot and Recovery Shortcuts
+#### Başlatma ve Kurtarma Kısayolları
 
-- **Supr**: Access BIOS settings.
-- **F8**: Enter Recovery mode.
-- Pressing **Shift** after the Windows banner can bypass autologon.
+- **Supr**: BIOS ayarlarına erişim.
+- **F8**: Kurtarma moduna giriş.
+- Windows logosu sonrasında **Shift** tuşuna basarak otomatik oturum açmayı atlayabilirsiniz.
 
-#### BAD USB Devices
+#### Kötü USB Aygıtları
 
-Devices like **Rubber Ducky** and **Teensyduino** serve as platforms for creating **bad USB** devices, capable of executing predefined payloads when connected to a target computer.
+**Rubber Ducky** ve **Teensyduino** gibi aygıtlar, hedef bir bilgisayara bağlandığında önceden tanımlanmış yükleri yürütebilen **kötü USB** aygıtları oluşturmak için platform olarak kullanılır.
 
 #### Volume Shadow Copy
 
-Administrator privileges allow for the creation of copies of sensitive files, including the **SAM** file, through PowerShell.
+Yönetici ayrıcalıkları, PowerShell aracılığıyla **SAM** dosyası dahil hassas dosyaların kopyalarının oluşturulmasına izin verir.
 
-### Bypassing BitLocker Encryption
+### BitLocker Şifresini Atlatma
 
-BitLocker encryption can potentially be bypassed if the **recovery password** is found within a memory dump file (**MEMORY.DMP**). Tools like **Elcomsoft Forensic Disk Decryptor** or **Passware Kit Forensic** can be utilized for this purpose.
+BitLocker şifrelemesi, bir bellek döküm dosyası (**MEMORY.DMP**) içinde **kurtarma şifresi** bulunursa atlatılabilir. Bu amaçla, **Elcomsoft Forensic Disk Decryptor** veya **Passware Kit Forensic** gibi araçlar kullanılabilir.
 
-### Social Engineering for Recovery Key Addition
+### Kurtarma Anahtarı Eklemek İçin Sosyal Mühendislik
 
-A new BitLocker recovery key can be added through social engineering tactics, convincing a user to execute a command that adds a new recovery key composed of zeros, thereby simplifying the decryption process.
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Sosyal mühendislik taktikleriyle yeni bir BitLocker kurtarma anahtarı eklemek mümkündür. Bir kullanıcıyı, şifreleme sürecini basitleştirmek için sıfırlardan oluşan yeni bir kurtarma anahtarı ekleyen bir komutu çalıştırmaya ikna etmek bu işlemi sağlar.

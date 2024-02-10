@@ -2,27 +2,27 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu keşfedin.
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter**'da takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Hacking hilelerinizi [hacktricks repo'ya](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo'ya](https://github.com/carlospolop/hacktricks-cloud) PR göndererek paylaşın**.
 
 </details>
 
-A linux machine can also be present inside an Active Directory environment.
+Bir Linux makinesi aynı zamanda bir Active Directory ortamında bulunabilir.
 
-A linux machine in an AD might be **storing different CCACHE tickets inside files. This tickets can be used and abused as any other kerberos ticket**. In order to read this tickets you will need to be the user owner of the ticket or **root** inside the machine.
+Bir AD içindeki bir Linux makinesi, **farklı CCACHE biletlerini dosyalarda depolayabilir. Bu biletler, diğer kerberos biletleri gibi kullanılabilir ve kötüye kullanılabilir**. Bu biletleri okumak için, biletin kullanıcı sahibi veya **makinedeki root** olmanız gerekmektedir.
 
-## Enumeration
+## Sorgulama
 
-### AD enumeration from linux
+### Linux üzerinden AD sorgulama
 
-If you have access over an AD in linux (or bash in Windows) you can try [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) to enumerate the AD.
+Linux'ta bir AD'ye erişiminiz varsa (veya Windows'ta bash), AD'yi sorgulamak için [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) kullanabilirsiniz.
 
-You can also check the following page to learn **other ways to enumerate AD from linux**:
+Linux üzerinden AD'yi sorgulamanın **diğer yollarını öğrenmek için** aşağıdaki sayfayı kontrol edebilirsiniz:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -30,28 +30,27 @@ You can also check the following page to learn **other ways to enumerate AD from
 
 ### FreeIPA
 
-FreeIPA is an open-source **alternative** to Microsoft Windows **Active Directory**, mainly for **Unix** environments. It combines a complete **LDAP directory** with an MIT **Kerberos** Key Distribution Center for management akin to Active Directory. Utilizing the Dogtag **Certificate System** for CA & RA certificate management, it supports **multi-factor** authentication, including smartcards. SSSD is integrated for Unix authentication processes. Learn more about it in:
+FreeIPA, öncelikle **Unix** ortamları için Microsoft Windows **Active Directory**'ye bir açık kaynaklı **alternatif**tir. Active Directory'ye benzer şekilde yönetim için bir MIT **Kerberos** Anahtar Dağıtım Merkezi ile birleşik bir **LDAP dizini** içerir. CA ve RA sertifika yönetimi için Dogtag **Sertifika Sistemi**'ni kullanarak **çok faktörlü** kimlik doğrulama, akıllı kartlar da dahil olmak üzere destekler. Unix kimlik doğrulama süreçleri için SSSD entegredir. Daha fazlasını öğrenmek için:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
 {% endcontent-ref %}
 
-## Playing with tickets
+## Biletlerle Oynamak
 
-### Pass The Ticket
+### Bileti Geçir
 
-In this page you are going to find different places were you could **find kerberos tickets inside a linux host**, in the following page you can learn how to transform this CCache tickets formats to Kirbi (the format you need to use in Windows) and also how to perform a PTT attack:
+Bu sayfada, bir Linux ana bilgisayarında **kerberos biletlerini bulabileceğiniz farklı yerleri** bulacaksınız, aşağıdaki sayfada bu CCache bilet formatlarını Kirbi'ye (Windows'ta kullanmanız gereken format) dönüştürmeyi ve ayrıca bir PTT saldırısı gerçekleştirmeyi nasıl yapacağınızı öğrenebilirsiniz:
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/pass-the-ticket.md" %}
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
 {% endcontent-ref %}
 
-### CCACHE ticket reuse from /tmp
+### /tmp'den CCACHE bilet yeniden kullanımı
 
-CCACHE files are binary formats for **storing Kerberos credentials** are typically stored with 600 permissions in `/tmp`. These files can be identified by their **name format, `krb5cc_%{uid}`,** correlating to the user's UID. For authentication ticket verification, the **environment variable `KRB5CCNAME`** should be set to the path of the desired ticket file, enabling its reuse.
+CCACHE dosyaları, Kerberos kimlik bilgilerini **saklamak için kullanılan ikili formatlardır** ve genellikle `/tmp` dizininde 600 izinleriyle saklanır. Bu dosyalar, kullanıcının UID'sine karşılık gelen **`krb5cc_%{uid}`** ad biçimine sahiptir. Kimlik doğrulama biletinin doğrulanması için, **`KRB5CCNAME`** ortam değişkeni, istenen bilet dosyasının yoluna ayarlanmalı ve yeniden kullanımını etkinleştirmelidir.
 
-List the current ticket used for authentication with `env | grep KRB5CCNAME`. The format is portable and the ticket can be **reused by setting the environment variable** with `export KRB5CCNAME=/tmp/ticket.ccache`. Kerberos ticket name format is `krb5cc_%{uid}` where uid is the user UID.
-
+Geçerli kimlik doğrulama için kullanılan biletin listesini `env | grep KRB5CCNAME` komutuyla alabilirsiniz. Format taşınabilir ve bilet, `export KRB5CCNAME=/tmp/ticket.ccache` komutuyla ortam değişkeni ayarlanarak **yeniden kullanılabilir**. Kerberos bilet adı formatı `krb5cc_%{uid}` şeklindedir, burada uid kullanıcı UID'sidir.
 ```bash
 # Find tickets
 ls /tmp/ | grep krb5cc
@@ -60,87 +59,72 @@ krb5cc_1000
 # Prepare to use it
 export KRB5CCNAME=/tmp/krb5cc_1000
 ```
+### Anahtar halkasından CCACHE biletinin yeniden kullanımı
 
-### CCACHE ticket reuse from keyring
+**Bir işlemin belleğinde depolanan Kerberos biletleri**, özellikle makinenin ptrace koruması devre dışı bırakıldığında (`/proc/sys/kernel/yama/ptrace_scope`), çıkarılabilir. Bu amaçla kullanışlı bir araç, [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey) adresinde bulunur ve oturumlara enjekte ederek biletleri `/tmp` dizinine döker.
 
-**Kerberos tickets stored in a process's memory can be extracted**, particularly when the machine's ptrace protection is disabled (`/proc/sys/kernel/yama/ptrace_scope`). A useful tool for this purpose is found at [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), which facilitates the extraction by injecting into sessions and dumping tickets into `/tmp`.
-
-To configure and use this tool, the steps below are followed:
-
+Bu aracı yapılandırmak ve kullanmak için aşağıdaki adımlar izlenir:
 ```bash
 git clone https://github.com/TarlogicSecurity/tickey
 cd tickey/tickey
 make CONF=Release
 /tmp/tickey -i
 ```
+Bu işlem, çeşitli oturumlara enjekte etmeyi deneyecek ve başarılı olduğunu, çıkarılan biletleri `/tmp` dizininde `__krb_UID.ccache` adlandırma kuralıyla saklayarak belirtecektir.
 
-This procedure will attempt to inject into various sessions, indicating success by storing extracted tickets in `/tmp` with a naming convention of `__krb_UID.ccache`. 
 
+### SSSD KCM'den CCACHE bilet yeniden kullanımı
 
-### CCACHE ticket reuse from SSSD KCM
+SSSD, veritabanının `/var/lib/sss/secrets/secrets.ldb` yolunda bir kopyasını tutar. Karşılık gelen anahtar, varsayılan olarak yalnızca **root** izinlerine sahipseniz okunabilir olarak saklanır ve `/var/lib/sss/secrets/.secrets.mkey` yolunda gizli bir dosya olarak depolanır.
 
-SSSD maintains a copy of the database at the path `/var/lib/sss/secrets/secrets.ldb`. The corresponding key is stored as a hidden file at the path `/var/lib/sss/secrets/.secrets.mkey`. By default, the key is only readable if you have **root** permissions.
-
-Invoking \*\*`SSSDKCMExtractor` \*\* with the --database and --key parameters will parse the database and **decrypt the secrets**.
-
+`SSSDKCMExtractor`'ı --database ve --key parametreleriyle çağırmak, veritabanını ayrıştıracak ve **şifreleri çözecektir**.
 ```bash
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
 ```
+**Kimlik bilgisi önbelleği Kerberos blogu**, Mimikatz/Rubeus'a iletilmek üzere kullanılabilir bir Kerberos CCache dosyasına dönüştürülebilir.
 
-The **credential cache Kerberos blob can be converted into a usable Kerberos CCache** file that can be passed to Mimikatz/Rubeus.
-
-### CCACHE ticket reuse from keytab
-
+### Anahtar tablosundan CCACHE biletinin yeniden kullanımı
 ```bash
 git clone https://github.com/its-a-feature/KeytabParser
 python KeytabParser.py /etc/krb5.keytab
 klist -k /etc/krb5.keytab
 ```
+### /etc/krb5.keytab dosyasından hesapları çıkarın
 
-### Extract accounts from /etc/krb5.keytab
+Kök ayrıcalıklarıyla çalışan hizmetler için önemli olan hizmet hesabı anahtarları, güvenli bir şekilde **`/etc/krb5.keytab`** dosyalarında saklanır. Bu anahtarlar, hizmetler için şifreler gibi sıkı bir gizlilik gerektirir.
 
-Service account keys, essential for services operating with root privileges, are securely stored in **`/etc/krb5.keytab`** files. These keys, akin to passwords for services, demand strict confidentiality.
-
-To inspect the keytab file's contents, **`klist`** can be employed. The tool is designed to display key details, including the **NT Hash** for user authentication, particularly when the key type is identified as 23.
-
+Keytab dosyasının içeriğini incelemek için **`klist`** kullanılabilir. Bu araç, anahtar ayrıntılarını, özellikle anahtar türü 23 olarak tanımlandığında kullanıcı kimlik doğrulaması için **NT Hash**'i görüntülemek için tasarlanmıştır.
 ```bash
 klist.exe -t -K -e -k FILE:C:/Path/to/your/krb5.keytab
 # Output includes service principal details and the NT Hash
 ```
-
-For Linux users, **`KeyTabExtract`** offers functionality to extract the RC4 HMAC hash, which can be leveraged for NTLM hash reuse.
-
+Linux kullanıcıları için, **`KeyTabExtract`** işlevselliği sunar ve NTLM hash yeniden kullanımı için kullanılabilecek RC4 HMAC hash'inin çıkarılmasını sağlar.
 ```bash
-python3 keytabextract.py krb5.keytab 
+python3 keytabextract.py krb5.keytab
 # Expected output varies based on hash availability
 ```
-
-On macOS, **`bifrost`** serves as a tool for keytab file analysis.
-
+macOS üzerinde, **`bifrost`** anahtar tablosu dosyası analizi için bir araç olarak hizmet verir.
 ```bash
 ./bifrost -action dump -source keytab -path /path/to/your/file
 ```
-
-Utilizing the extracted account and hash information, connections to servers can be established using tools like **`crackmapexec`**.
-
+Çıkarılan hesap ve hash bilgileri kullanılarak, **`crackmapexec`** gibi araçlar kullanılarak sunuculara bağlantılar kurulabilir.
 ```bash
 crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDOMAIN"
 ```
-
-## References
+## Referanslar
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 * [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#linux-active-directory](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#linux-active-directory)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını yapmak** veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuz olan özel [**NFT'lerimizi**](https://opensea.io/collection/the-peass-family) keşfedin.
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
 
 </details>

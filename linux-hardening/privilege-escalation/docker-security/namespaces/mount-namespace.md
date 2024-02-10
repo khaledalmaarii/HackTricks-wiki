@@ -2,79 +2,81 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramanla öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u** takip edin.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>
 
-## Basic Information
+## Temel Bilgiler
 
-A mount namespace is a Linux kernel feature that provides isolation of the file system mount points seen by a group of processes. Each mount namespace has its own set of file system mount points, and **changes to the mount points in one namespace do not affect other namespaces**. This means that processes running in different mount namespaces can have different views of the file system hierarchy.
+Bir mount namespace, bir grup işlem tarafından görülen dosya sistemi bağlama noktalarının izolasyonunu sağlayan bir Linux çekirdek özelliğidir. Her mount namespace'in kendi dosya sistemi bağlama noktaları kümesi vardır ve **bir namespace içindeki bağlama noktalarına yapılan değişiklikler diğer namespace'leri etkilemez**. Bu, farklı mount namespace'lerde çalışan işlemlerin dosya sistemi hiyerarşisinin farklı görüntülerine sahip olabileceği anlamına gelir.
 
-Mount namespaces are particularly useful in containerization, where each container should have its own file system and configuration, isolated from other containers and the host system.
+Mount namespace'ler, her bir konteynerin diğer konteynerlerden ve ana sistemden izole edilmiş kendi dosya sistemi ve yapılandırmasına sahip olması gereken konteynerleştirme gibi durumlarda özellikle kullanışlıdır.
 
-### How it works:
+### Nasıl Çalışır:
 
-1. When a new mount namespace is created, it is initialized with a **copy of the mount points from its parent namespace**. This means that, at creation, the new namespace shares the same view of the file system as its parent. However, any subsequent changes to the mount points within the namespace will not affect the parent or other namespaces.
-2. When a process modifies a mount point within its namespace, such as mounting or unmounting a file system, the **change is local to that namespace** and does not affect other namespaces. This allows each namespace to have its own independent file system hierarchy.
-3. Processes can move between namespaces using the `setns()` system call, or create new namespaces using the `unshare()` or `clone()` system calls with the `CLONE_NEWNS` flag. When a process moves to a new namespace or creates one, it will start using the mount points associated with that namespace.
-4. **File descriptors and inodes are shared across namespaces**, meaning that if a process in one namespace has an open file descriptor pointing to a file, it can **pass that file descriptor** to a process in another namespace, and **both processes will access the same file**. However, the file's path may not be the same in both namespaces due to differences in mount points.
+1. Yeni bir mount namespace oluşturulduğunda, **ebeveyn namespace'inin bağlama noktalarının bir kopyası ile başlatılır**. Bu, oluşturulduğunda yeni namespace'in ebeveyniyle aynı dosya sistemi görüntüsünü paylaştığı anlamına gelir. Bununla birlikte, namespace içindeki bağlama noktalarına yapılan herhangi bir sonraki değişiklik, ebeveyni veya diğer namespace'leri etkilemeyecektir.
+2. Bir işlem, kendi namespace'i içinde bir bağlama noktasını değiştirdiğinde, örneğin bir dosya sistemi bağlama veya çıkarma yaptığında, **değişiklik yalnızca o namespace'e özgüdür** ve diğer namespace'leri etkilemez. Bu, her bir namespace'in kendi bağımsız dosya sistemi hiyerarşisine sahip olmasını sağlar.
+3. İşlemler, `setns()` sistem çağrısını kullanarak namespace'ler arasında hareket edebilir veya `unshare()` veya `clone()` sistem çağrılarını `CLONE_NEWNS` bayrağıyla kullanarak yeni namespace'ler oluşturabilir. Bir işlem yeni bir namespace'e geçer veya bir tane oluşturursa, o namespace ile ilişkilendirilen bağlama noktalarını kullanmaya başlar.
+4. **Dosya tanımlayıcıları ve inode'lar namespace'ler arasında paylaşılır**, bu da bir namespace'deki bir işlemin bir dosyaya işaret eden açık bir dosya tanımlayıcısına sahip olduğu durumda, bu dosya tanımlayıcısını başka bir namespace'deki bir işleme **geçirebileceği** ve **her iki işlemin aynı dosyaya erişeceği** anlamına gelir. Bununla birlikte, dosyanın yolu bağlama noktalarındaki farklılıklar nedeniyle her iki namespace'de aynı olmayabilir. 
 
 ## Lab:
 
-### Create different Namespaces
+### Farklı Namespace'ler Oluşturma
 
 #### CLI
-
 ```bash
 sudo unshare -m [--mount-proc] /bin/bash
 ```
-
-By mounting a new instance of the `/proc` filesystem if you use the param `--mount-proc`, you ensure that the new mount namespace has an **accurate and isolated view of the process information specific to that namespace**.
+`--mount-proc` parametresini kullanarak `/proc` dosya sisteminin yeni bir örneğini bağladığınızda, yeni bağlama alanının **o ad alanına özgü işlem bilgilerinin doğru ve izole bir görünümünü** sağlarsınız.
 
 <details>
 
-<summary>Error: bash: fork: Cannot allocate memory</summary>
+<summary>Hata: bash: fork: Bellek tahsis edilemedi</summary>
 
-When `unshare` is executed without the `-f` option, an error is encountered due to the way Linux handles new PID (Process ID) namespaces. The key details and the solution are outlined below:
+`unshare` komutu `-f` seçeneği olmadan çalıştırıldığında, Linux'un yeni PID (Process ID) ad alanlarını nasıl işlediği nedeniyle bir hata oluşur. Ana ayrıntılar ve çözüm aşağıda belirtilmiştir:
 
-1. **Problem Explanation**:
-    - The Linux kernel allows a process to create new namespaces using the `unshare` system call. However, the process that initiates the creation of a new PID namespace (referred to as the "unshare" process) does not enter the new namespace; only its child processes do.
-    - Running `%unshare -p /bin/bash%` starts `/bin/bash` in the same process as `unshare`. Consequently, `/bin/bash` and its child processes are in the original PID namespace.
-    - The first child process of `/bin/bash` in the new namespace becomes PID 1. When this process exits, it triggers the cleanup of the namespace if there are no other processes, as PID 1 has the special role of adopting orphan processes. The Linux kernel will then disable PID allocation in that namespace.
+1. **Sorun Açıklaması**:
+- Linux çekirdeği, bir işlemin `unshare` sistem çağrısını kullanarak yeni ad alanları oluşturmasına izin verir. Ancak, yeni bir PID ad alanının oluşturulmasını başlatan işlem (unshare işlemi olarak adlandırılır) yeni ad alanına girmez; sadece çocuk işlemleri girer.
+- `%unshare -p /bin/bash%` komutunu çalıştırmak, `/bin/bash`'i `unshare` ile aynı işlemde başlatır. Sonuç olarak, `/bin/bash` ve çocuk işlemleri orijinal PID ad alanında bulunur.
+- Yeni ad alanındaki `/bin/bash`'in ilk çocuk işlemi PID 1 olur. Bu işlem çıkış yaptığında, eğer başka işlem yoksa ad alanının temizlenmesini tetikler, çünkü PID 1 yetim işlemleri benimseme özel rolüne sahiptir. Linux çekirdeği daha sonra o ad alanında PID tahsisini devre dışı bırakır.
 
-2. **Consequence**:
-    - The exit of PID 1 in a new namespace leads to the cleaning of the `PIDNS_HASH_ADDING` flag. This results in the `alloc_pid` function failing to allocate a new PID when creating a new process, producing the "Cannot allocate memory" error.
+2. **Sonuç**:
+- Yeni bir ad alanındaki PID 1'in çıkışı, `PIDNS_HASH_ADDING` bayrağının temizlenmesine neden olur. Bu, yeni bir işlem oluştururken `alloc_pid` işlevinin yeni bir PID tahsis edememesine ve "Bellek tahsis edilemedi" hatasının oluşmasına yol açar.
 
-3. **Solution**:
-    - The issue can be resolved by using the `-f` option with `unshare`. This option makes `unshare` fork a new process after creating the new PID namespace.
-    - Executing `%unshare -fp /bin/bash%` ensures that the `unshare` command itself becomes PID 1 in the new namespace. `/bin/bash` and its child processes are then safely contained within this new namespace, preventing the premature exit of PID 1 and allowing normal PID allocation.
+3. **Çözüm**:
+- Sorun, `unshare` ile `-f` seçeneğini kullanarak çözülebilir. Bu seçenek, yeni PID ad alanı oluşturduktan sonra `unshare`'in yeni bir işlem çatallamasını sağlar.
+- `%unshare -fp /bin/bash%` komutunu çalıştırmak, `unshare` komutunun kendisinin yeni ad alanında PID 1 haline gelmesini sağlar. `/bin/bash` ve çocuk işlemleri bu yeni ad alanında güvenli bir şekilde yer alır, PID 1'in erken çıkışını önler ve normal PID tahsisine izin verir.
 
-By ensuring that `unshare` runs with the `-f` flag, the new PID namespace is correctly maintained, allowing `/bin/bash` and its sub-processes to operate without encountering the memory allocation error.
+`unshare` komutunun `-f` bayrağıyla çalıştığından emin olarak, yeni PID ad alanı doğru bir şekilde korunur ve `/bin/bash` ve alt işlemleri bellek tahsis hatasıyla karşılaşmadan çalışabilir.
 
 </details>
 
 #### Docker
-
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
+### &#x20;Hangi ad alanında olduğunuzu kontrol edin
 
-### &#x20;Check which namespace is your process in
+Bir işlemin hangi ad alanında olduğunu kontrol etmek için aşağıdaki komutu kullanabilirsiniz:
 
+```bash
+ls -l /proc/$$/ns
+```
+
+Bu komut, işlem kimliği (`$$`) ile `/proc` dizinindeki `ns` alt dizinindeki sembolik bağlantıları listeler. Her sembolik bağlantı, işlemin hangi ad alanında olduğunu gösterir.
 ```bash
 ls -l /proc/self/ns/mnt
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/mnt -> 'mnt:[4026531841]'
 ```
-
-### Find all Mount namespaces
+### Tüm Mount ad alanlarını bulun
 
 {% code overflow="wrap" %}
 ```bash
@@ -82,20 +84,19 @@ sudo find /proc -maxdepth 3 -type l -name mnt -exec readlink {} \; 2>/dev/null |
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name mnt -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
+{% code %}
+
+### Bir Mount ad alanına giriş yapın
+
 {% endcode %}
-
-### Enter inside a Mount namespace
-
 ```bash
 nsenter -m TARGET_PID --pid /bin/bash
 ```
+Ayrıca, yalnızca root kullanıcısıysanız **başka bir işlem ad alanına girebilirsiniz**. Ve **bir tanımlayıcıya** (örneğin `/proc/self/ns/mnt`) işaret eden olmadan **başka bir ad alanına giremezsiniz**.
 
-Also, you can only **enter in another process namespace if you are root**. And you **cannot** **enter** in other namespace **without a descriptor** pointing to it (like `/proc/self/ns/mnt`).
+Yeni bağlantılar yalnızca ad alanı içinde erişilebilir olduğundan, bir ad alanının hassas bilgiler içermesi mümkündür ve bu bilgilere yalnızca ad alanından erişilebilir.
 
-Because new mounts are only accessible within the namespace it's possible that a namespace contains sensitive information that can only be accessible from it.
-
-### Mount something
-
+### Bir şeyi bağla
 ```bash
 # Generate new mount ns
 unshare -m /bin/bash
@@ -109,21 +110,20 @@ ls /tmp/mount_ns_example/test # Exists
 mount | grep tmpfs # Cannot see "tmpfs on /tmp/mount_ns_example"
 ls /tmp/mount_ns_example/test # Doesn't exist
 ```
-
-## References
+## Referanslar
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** isterseniz [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
 
 </details>

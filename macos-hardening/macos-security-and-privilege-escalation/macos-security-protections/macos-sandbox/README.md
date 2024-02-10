@@ -2,35 +2,34 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
 
 </details>
 
-## Basic Information
+## Temel Bilgiler
 
-MacOS Sandbox (initially called Seatbelt) **limits applications** running inside the sandbox to the **allowed actions specified in the Sandbox profile** the app is running with. This helps to ensure that **the application will be accessing only expected resources**.
+MacOS Sandbox (başlangıçta Seatbelt olarak adlandırılır) **kum havuzu içinde çalışan uygulamaları** Sandbox profilinde belirtilen **izin verilen eylemlerle sınırlar**. Bu, **uygulamanın yalnızca beklenen kaynaklara erişeceğini** sağlamaya yardımcı olur.
 
-Any app with the **entitlement** **`com.apple.security.app-sandbox`** will be executed inside the sandbox. **Apple binaries** are usually executed inside a Sandbox and in order to publish inside the **App Store**, **this entitlement is mandatory**. So most applications will be executed inside the sandbox.
+**`com.apple.security.app-sandbox`** yetkisi olan herhangi bir uygulama Sandbox içinde çalıştırılır. **Apple ikili dosyaları** genellikle bir Sandbox içinde çalıştırılır ve **App Store'da yayınlamak için bu yetki zorunludur**. Bu nedenle, çoğu uygulama Sandbox içinde çalıştırılır.
 
-In order to control what a process can or cannot do the **Sandbox has hooks** in all **syscalls** across the kernel. **Depending** on the **entitlements** of the app the Sandbox will **allow** certain actions.
+Bir işlemin ne yapabileceğini veya yapamayacağını kontrol etmek için **Sandbox, çekirdek üzerindeki tüm sistem çağrılarında kancalar** bulundurur. Uygulamanın yetkilerine bağlı olarak Sandbox belirli eylemlere izin verecektir.
 
-Some important components of the Sandbox are:
+Sandbox'ın bazı önemli bileşenleri şunlardır:
 
-* The **kernel extension** `/System/Library/Extensions/Sandbox.kext`
-* The **private framework** `/System/Library/PrivateFrameworks/AppSandbox.framework`
-* A **daemon** running in userland `/usr/libexec/sandboxd`
-* The **containers** `~/Library/Containers`
+* **Çekirdek uzantısı** `/System/Library/Extensions/Sandbox.kext`
+* **Özel çerçeve** `/System/Library/PrivateFrameworks/AppSandbox.framework`
+* Kullanıcı alanında çalışan bir **daemon** `/usr/libexec/sandboxd`
+* **Konteynerler** `~/Library/Containers`
 
-Inside the containers folder you can find **a folder for each app executed sandboxed** with the name of the bundle id:
-
+Konteynerler klasörü içinde, her biri sandbox içinde çalıştırılan uygulama için **bundle kimliğiyle adlandırılmış bir klasör** bulabilirsiniz:
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -41,9 +40,7 @@ drwx------@ 4 username  staff  128 Mar 25 14:14 com.apple.Accessibility-Settings
 drwx------@ 4 username  staff  128 Mar 25 14:10 com.apple.ActionKit.BundledIntentHandler
 [...]
 ```
-
-Inside each bundle id folder you can find the **plist** and the **Data directory** of the App:
-
+Her bir bundle id klasörü içinde, Uygulamanın **plist** ve **Veri dizini** bulunur:
 ```bash
 cd /Users/username/Library/Containers/com.apple.Safari
 ls -la
@@ -66,11 +63,9 @@ lrwxr-xr-x   1 username  staff    20 Mar 24 18:02 Pictures -> ../../../../Pictur
 drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
-
 {% hint style="danger" %}
-Note that even if the symlinks are there to "escape" from the Sandbox and access other folders, the App still needs to **have permissions** to access them. These permissions are inside the **`.plist`**.
+Unutmayın ki, sembolik bağlantılar Sandbox'tan "kaçmak" ve diğer klasörlere erişmek için olsa bile, Uygulamanın hala bunlara erişmek için **izinlere** sahip olması gerekmektedir. Bu izinler **`.plist`** içinde bulunur.
 {% endhint %}
-
 ```bash
 # Get permissions
 plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
@@ -79,56 +74,54 @@ plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
 <key>SandboxProfileData</key>
 <data>
 AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
-		
+
 # In this file you can find the entitlements:
 <key>Entitlements</key>
-	<dict>
-		<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
-		<true/>
-		<key>com.apple.accounts.appleaccount.fullaccess</key>
-		<true/>
-		<key>com.apple.appattest.spi</key>
-		<true/>
-		<key>keychain-access-groups</key>
-		<array>
-			<string>6N38VWS5BX.ru.keepcoder.Telegram</string>
-			<string>6N38VWS5BX.ru.keepcoder.TelegramShare</string>
-		</array>
+<dict>
+<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
+<true/>
+<key>com.apple.accounts.appleaccount.fullaccess</key>
+<true/>
+<key>com.apple.appattest.spi</key>
+<true/>
+<key>keychain-access-groups</key>
+<array>
+<string>6N38VWS5BX.ru.keepcoder.Telegram</string>
+<string>6N38VWS5BX.ru.keepcoder.TelegramShare</string>
+</array>
 [...]
 
 # Some parameters
 <key>Parameters</key>
-	<dict>
-		<key>_HOME</key>
-		<string>/Users/username</string>
-		<key>_UID</key>
-		<string>501</string>
-		<key>_USER</key>
-		<string>username</string>
+<dict>
+<key>_HOME</key>
+<string>/Users/username</string>
+<key>_UID</key>
+<string>501</string>
+<key>_USER</key>
+<string>username</string>
 [...]
 
 # The paths it can access
 <key>RedirectablePaths</key>
-	<array>
-		<string>/Users/username/Downloads</string>
-		<string>/Users/username/Documents</string>
-		<string>/Users/username/Library/Calendars</string>
-		<string>/Users/username/Desktop</string>
+<array>
+<string>/Users/username/Downloads</string>
+<string>/Users/username/Documents</string>
+<string>/Users/username/Library/Calendars</string>
+<string>/Users/username/Desktop</string>
 <key>RedirectedPaths</key>
-	<array/>
+<array/>
 [...]
 ```
-
 {% hint style="warning" %}
-Everything created/modified by a Sandboxed application will get the **quarantine attribut**e. This will prevent a sandbox space by triggering Gatekeeper if the sandbox app tries to execute something with **`open`**.
+Sandbox uygulaması tarafından oluşturulan/değiştirilen her şey **karantina özelliği**ne sahip olacaktır. Bu, sandbox uygulamasının **`open`** ile bir şeyi çalıştırmaya çalıştığında Gatekeeper'ı tetikleyerek bir sandbox alanını önleyecektir.
 {% endhint %}
 
-### Sandbox Profiles
+### Sandbox Profilleri
 
-The Sandbox profiles are configuration files that indicate what is going to be **allowed/forbidden** in that **Sandbox**. It uses the **Sandbox Profile Language (SBPL)**, which uses the [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programming language.
+Sandbox profilleri, o **Sandbox** içinde neyin **izinli/yasaklı** olduğunu belirten yapılandırma dosyalarıdır. Bu, **Sandbox Profil Dili (SBPL)** kullanır ve [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programlama dilini kullanır.
 
-Here you can find an example:
-
+İşte bir örnek bulabilirsiniz:
 ```scheme
 (version 1) ; First you get the version
 
@@ -137,40 +130,35 @@ Here you can find an example:
 (allow network*) ; You can use wildcards and allow everything
 
 (allow file-read* ; You can specify where to apply the rule
-    (subpath "/Users/username/")
-    (literal "/tmp/afile")
-    (regex #"^/private/etc/.*")
+(subpath "/Users/username/")
+(literal "/tmp/afile")
+(regex #"^/private/etc/.*")
 )
 
 (allow mach-lookup
-    (global-name "com.apple.analyticsd")
+(global-name "com.apple.analyticsd")
 )
 ```
-
 {% hint style="success" %}
-Check this [**research**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **to check more actions that could be allowed or denied.**
+Daha fazla izin verilen veya reddedilen eylemi kontrol etmek için bu [**araştırmayı**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) kontrol edin.
 {% endhint %}
 
-Important **system services** also run inside their own custom **sandbox** such as the `mdnsresponder` service. You can view these custom **sandbox profiles** inside:
+Önemli **sistem hizmetleri** de kendi özel **sandbox**'larında çalışır, örneğin `mdnsresponder` hizmeti. Bu özel **sandbox profillerini** şurada görebilirsiniz:
 
 * **`/usr/share/sandbox`**
-* **`/System/Library/Sandbox/Profiles`**&#x20;
-* Other sandbox profiles can be checked in [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
+* **`/System/Library/Sandbox/Profiles`**
+* Diğer sandbox profilleri [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles) adresinde kontrol edilebilir.
 
-**App Store** apps use the **profile** **`/System/Library/Sandbox/Profiles/application.sb`**. You can check in this profile how entitlements such as **`com.apple.security.network.server`** allows a process to use the network.
+**App Store** uygulamaları **`/System/Library/Sandbox/Profiles/application.sb`** profili kullanır. Bu profilde, **`com.apple.security.network.server`** gibi yetkilendirmelerin bir işlemin ağı kullanmasına izin verdiğini kontrol edebilirsiniz.
 
-SIP is a Sandbox profile called platform\_profile in /System/Library/Sandbox/rootless.conf
+SIP, /System/Library/Sandbox/rootless.conf dosyasında platform\_profile adlı bir Sandbox profili olarak adlandırılır.
 
-### Sandbox Profile Examples
+### Sandbox Profili Örnekleri
 
-To start an application with an **specific sandbox profile** you can use:
-
+Bir uygulamayı **belirli bir sandbox profiliyle** başlatmak için şunu kullanabilirsiniz:
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
-
-{% tabs %}
-{% tab title="touch" %}
 {% code title="touch.sb" %}
 ```scheme
 (version 1)
@@ -178,7 +166,6 @@ sandbox-exec -f example.sb /Path/To/The/Application
 (allow file* (literal "/tmp/hacktricks.txt"))
 ```
 {% endcode %}
-
 ```bash
 # This will fail because default is denied, so it cannot execute touch
 sandbox-exec -f touch.sb touch /tmp/hacktricks.txt
@@ -191,7 +178,6 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 2023-05-26 13:42:52.701382+0200  localhost kernel[0]: (Sandbox) 5 duplicate reports for Sandbox: sandbox-exec(41398) deny(1) file-read-metadata /var
 [...]
 ```
-
 {% code title="touch2.sb" %}
 ```scheme
 (version 1)
@@ -206,8 +192,6 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
-{% endcode %}
-
 {% code title="touch3.sb" %}
 ```scheme
 (version 1)
@@ -222,73 +206,69 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-Note that the **Apple-authored** **software** that runs on **Windows** **doesn’t have additional security precautions**, such as application sandboxing.
+Not edin ki **Windows** üzerinde çalışan **Apple tarafından yazılan yazılımların ek güvenlik önlemleri** gibi uygulama sandboxlama gibi ek güvenlik önlemleri yoktur.
 {% endhint %}
 
-Bypasses examples:
+Bypass örnekleri:
 
 * [https://lapcatsoftware.com/articles/sandbox-escape.html](https://lapcatsoftware.com/articles/sandbox-escape.html)
-* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (they are able to write files outside the sandbox whose name starts with `~$`).
+* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (sandbox dışında `~$` ile başlayan dosyalar yazabiliyorlar).
 
-### MacOS Sandbox Profiles
+### MacOS Sandbox Profilleri
 
-macOS stores system sandbox profiles in two locations: **/usr/share/sandbox/** and **/System/Library/Sandbox/Profiles**.
+macOS, sistem sandbox profillerini iki konumda saklar: **/usr/share/sandbox/** ve **/System/Library/Sandbox/Profiles**.
 
-And if a third-party application carry the _**com.apple.security.app-sandbox**_ entitlement, the system applies the **/System/Library/Sandbox/Profiles/application.sb** profile to that process.
+Ve eğer üçüncü taraf bir uygulama _**com.apple.security.app-sandbox**_ yetkisine sahipse, sistem o işlem için **/System/Library/Sandbox/Profiles/application.sb** profilini uygular.
 
-### **iOS Sandbox Profile**
+### **iOS Sandbox Profili**
 
-The default profile is called **container** and we don't have the SBPL text representation. In memory, this sandbox is represented as Allow/Deny binary tree for each permissions from the sandbox.
+Varsayılan profil **container** olarak adlandırılır ve SBPL metin temsilini kullanmıyoruz. Bellekte, bu sandbox her izin için Allow/Deny ikili ağacı olarak temsil edilir.
 
-### Debug & Bypass Sandbox
+### Hata Ayıklama ve Sandbox'ı Atlatma
 
-On macOS, unlike iOS where processes are sandboxed from the start by the kernel, **processes must opt-in to the sandbox themselves**. This means on macOS, a process is not restricted by the sandbox until it actively decides to enter it.
+macOS'ta, iOS'tan farklı olarak, işlemler çekirdek tarafından baştan itibaren sandbox'a alınmaz, **işlemler kendilerini sandbox'a dahil etmek için aktif olarak seçmelidir**. Bu, macOS'ta bir işlemin sandbox tarafından kısıtlanmadığı anlamına gelir, ta ki aktif olarak içine girmeye karar verene kadar.
 
-Processes are automatically Sandboxed from userland when they start if they have the entitlement: `com.apple.security.app-sandbox`. For a detailed explanation of this process check:
+İşlemler, `com.apple.security.app-sandbox` yetkisine sahipse, kullanıcı alanından başladıklarında otomatik olarak sandbox'a alınır. Bu işlem hakkında ayrıntılı bir açıklama için şuna bakın:
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
 {% endcontent-ref %}
 
-### **Check PID Privileges**
+### **PID Yetkilerini Kontrol Etme**
 
-[**According to this**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), the **`sandbox_check`** (it's a `__mac_syscall`), can check **if an operation is allowed or not** by the sandbox in a certain PID.
+[**Buna göre**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), **`sandbox_check`** (bir `__mac_syscall`), belirli bir PID'deki sandbox tarafından bir işlemin izin verilip verilmediğini kontrol edebilir.
 
-The [**tool sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) can check if a PID can perform a certain action:
-
+[**sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) aracı, bir PID'nin belirli bir eylemi gerçekleştirebilip gerçekleştiremeyeceğini kontrol edebilir.
 ```bash
 sbtool <pid> mach #Check mac-ports (got from launchd with an api)
 sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
+### App Store uygulamalarında özel SBPL
 
-### Custom SBPL in App Store apps
+Şirketlerin uygulamalarını varsayılan yerine **özel Sandbox profilleriyle** çalıştırması mümkün olabilir. Bunun için Apple tarafından yetkilendirilmesi gereken **`com.apple.security.temporary-exception.sbpl`** yetkisi kullanılması gerekmektedir.
 
-It could be possible for companies to make their apps run **with custom Sandbox profiles** (instead of with the default one). They need to use the entitlement **`com.apple.security.temporary-exception.sbpl`** which needs to be authorized by Apple.
-
-It's possible to check the definition of this entitlement in **`/System/Library/Sandbox/Profiles/application.sb:`**
-
+Bu yetkinliğin tanımını **`/System/Library/Sandbox/Profiles/application.sb:`** dosyasında kontrol etmek mümkündür.
 ```scheme
 (sandbox-array-entitlement
-  "com.apple.security.temporary-exception.sbpl"
-  (lambda (string)
-    (let* ((port (open-input-string string)) (sbpl (read port)))
-      (with-transparent-redirection (eval sbpl)))))
+"com.apple.security.temporary-exception.sbpl"
+(lambda (string)
+(let* ((port (open-input-string string)) (sbpl (read port)))
+(with-transparent-redirection (eval sbpl)))))
 ```
-
-This will **eval the string after this entitlement** as an Sandbox profile.
+Bu, bu yetkiye sahip bir dizeyi Sandbox profili olarak değerlendirecektir.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimizden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
 
 </details>

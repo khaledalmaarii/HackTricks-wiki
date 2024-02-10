@@ -2,30 +2,29 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramanla öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimizden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
 
 </details>
 
-## Context
+## Bağlam
 
-In Linux in order to run a program it must exist as a file, it must be accessible in some way through the file system hierarchy (this is just how `execve()` works). This file may reside on disk or in ram (tmpfs, memfd) but you need a filepath. This has made very easy to control what is run on a Linux system, it makes easy to detect threats and attacker's tools or to prevent them from trying to execute anything of theirs at all (_e. g._ not allowing unprivileged users to place executable files anywhere).
+Linux'ta bir programı çalıştırmak için, dosya olarak var olmalı ve dosya sistemi hiyerarşisi üzerinden bir şekilde erişilebilir olmalıdır (bu sadece `execve()` işlevinin çalışma şeklidir). Bu dosya diskte veya ram'de (tmpfs, memfd) bulunabilir, ancak bir dosya yolu gereklidir. Bu, Linux sistemde çalıştırılan şeyi kontrol etmeyi çok kolay hale getirir, tehditleri ve saldırgan araçlarını tespit etmeyi veya onların hiçbir şeyini çalıştırmalarına izin vermemeyi kolaylaştırır (_örneğin_, ayrıcalığı olmayan kullanıcıların yürütülebilir dosyaları herhangi bir yere yerleştirmelerine izin vermemek).
 
-But this technique is here to change all of this. If you can not start the process you want... **then you hijack one already existing**.
+Ancak bu teknik, tüm bunları değiştirmek için burada. İstediğiniz süreci başlatamazsanız... **zaten var olan bir süreci ele geçirirsiniz**.
 
-This technique allows you to **bypass common protection techniques such as read-only, noexec, file-name whitelisting, hash whitelisting...**
+Bu teknik, **salt okunur, noexec, dosya adı beyaz listeleme, hash beyaz listeleme gibi yaygın koruma tekniklerini atlamak** için kullanılabilir.
 
-## Dependencies
+## Bağımlılıklar
 
-The final script depends on the following tools to work, they need to be accessible in the system you are attacking (by default you will find all of them everywhere):
-
+Son komut dosyasının çalışması için aşağıdaki araçlara bağımlılığı vardır, saldırdığınız sistemde erişilebilir olmaları gerekmektedir (varsayılan olarak hepsini her yerde bulabilirsiniz):
 ```
 dd
 bash | zsh | ash (busybox)
@@ -39,80 +38,73 @@ wc
 tr
 base64
 ```
+## Teknik
 
-## The technique
+Bir sürecin belleğini keyfi olarak değiştirebiliyorsanız, onu ele geçirebilirsiniz. Bu, zaten var olan bir süreci ele geçirmek ve başka bir programla değiştirmek için kullanılabilir. Bunun için ya `ptrace()` sistem çağrısını kullanarak (sistemde syscalls çalıştırma yeteneğine veya gdb'nin sistemde bulunmasına ihtiyaç duyar) veya daha ilginç olanı, `/proc/$pid/mem` dosyasına yazarak başarabiliriz.
 
-If you are able to modify arbitrarily the memory of a process then you can take over it. This can be used to hijack an already existing process and replace it with another program. We can achieve this either by using the `ptrace()` syscall (which requires you to have the ability to execute syscalls or to have gdb available on the system) or, more interestingly, writing to `/proc/$pid/mem`.
+`/proc/$pid/mem` dosyası, bir sürecin tüm adres alanının (_örn. x86-64'te `0x0000000000000000` ile `0x7ffffffffffff000` arasında_) birbirine eşleştirilmesidir. Bu, bir ofset `x` ile bu dosyadan okuma veya yazma, sanal adres `x`'teki içeriği okuma veya değiştirmeyle aynıdır.
 
-The file `/proc/$pid/mem` is a one-to-one mapping of the entire address space of a process (_e. g._ from `0x0000000000000000` to `0x7ffffffffffff000` in x86-64). This means that reading from or writing to this file at an offset `x` is the same as reading from or modifying the contents at the virtual address `x`.
+Şimdi, üstesinden gelmemiz gereken dört temel sorunumuz var:
 
-Now, we have four basic problems to face:
-
-* In general, only root and the program owner of the file may modify it.
+* Genel olarak, yalnızca kök ve dosyanın program sahibi tarafından değiştirilebilir.
 * ASLR.
-* If we try to read or write to an address not mapped in the address space of the program we will get an I/O error.
+* Programın adres alanında eşlenmemiş bir adrese okuma veya yazma denememiz durumunda bir G/Ç hatası alırız.
 
-This problems have solutions that, although they are not perfect, are good:
+Bu sorunların, mükemmel olmasa da iyi çözümleri vardır:
 
-* Most shell interpreters allow the creation of file descriptors that will then be inherited by child processes. We can create a fd pointing to the `mem` file of the sell with write permissions... so child processes that use that fd will be able to modify the shell's memory.
-* ASLR isn't even a problem, we can check the shell's `maps` file or any other from the procfs in order to gain information about the address space of the process.
-* So we need to `lseek()` over the file. From the shell this cannot be done unless using the infamous `dd`.
+* Çoğu kabuk yorumlayıcısı, ardından çocuk süreçler tarafından devralınacak dosya tanımlayıcılarının oluşturulmasına izin verir. Yazma izinleriyle kabuğun `mem` dosyasına işaret eden bir fd oluşturabiliriz... böylece bu fd'yi kullanan çocuk süreçler, kabuğun belleğini değiştirebilecektir.
+* ASLR bile bir sorun değil, programın adres alanı hakkında bilgi edinmek için kabuğun `maps` dosyasını veya procfs'ten başka bir dosyayı kontrol edebiliriz.
+* Bu yüzden dosya üzerinde `lseek()` yapmamız gerekiyor. Kabuktan bu yapılamaz, ancak kötü şöhretli `dd` kullanılarak yapılabilir.
 
-### In more detail
+### Daha detaylı olarak
 
-The steps are relatively easy and do not require any kind of expertise to understand them:
+Adımlar oldukça kolaydır ve bunları anlamak için herhangi bir uzmanlık gerektirmez:
 
-* Parse the binary we want to run and the loader to find out what mappings they need. Then craft a "shell"code that will perform, broadly speaking, the same steps that the kernel does upon each call to `execve()`:
-  * Create said mappings.
-  * Read the binaries into them.
-  * Set up permissions.
-  * Finally initialize the stack with the arguments for the program and place the auxiliary vector (needed by the loader).
-  * Jump into the loader and let it do the rest (load libraries needed by the program).
-* Obtain from the `syscall` file the address to which the process will return after the syscall it is executing.
-* Overwrite that place, which will be executable, with our shellcode (through `mem` we can modify unwritable pages).
-* Pass the program we want to run to the stdin of the process (will be `read()` by said "shell"code).
-* At this point it is up to the loader to load the necessary libraries for our program and jump into it.
+* Çalıştırmak istediğimiz ikili ve yükleyiciyi analiz edin ve hangi eşlemelere ihtiyaç duyduklarını bulun. Ardından, her bir `execve()` çağrısında çekirdeğin yaptığı adımların genel olarak aynısını gerçekleştirecek bir "shell" kodu oluşturun:
+* Söz konusu eşlemeleri oluşturun.
+* İkili dosyaları bunlara okuyun.
+* İzinleri ayarlayın.
+* Son olarak, programın argümanları için yığını başlatın ve yükleyici tarafından gereken yardımcı vektörü yerleştirin.
+* Yükleyiciye atlayın ve gerisini ona bırakın (program tarafından gereken kütüphaneleri yükleyin).
+* İşlem tarafından gerçekleştirilen sistem çağrısından sonra döneceği adresi `syscall` dosyasından alın.
+* Bu, yazılabilir olmayan sayfaları `mem` aracılığıyla değiştirebileceğimiz bir yer olan, yürütülebilir olan yere kendi shell kodumuzu üzerine yazın.
+* Çalıştırmak istediğimiz programı sürecin stdin'ine geçirin (söz konusu "shell" kodu tarafından `read()` edilecektir).
+* Bu noktada, programımız için gerekli kütüphaneleri yüklemek ve ona atlamak yükleyiciye bağlıdır.
 
-**Check out the tool in** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
+**Araç için** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec) **adresine bakın**
 
 ## EverythingExec
 
-There are several alternatives to `dd`, one of which, `tail`, is currently the default program used to `lseek()` through the `mem` file (which was the sole purpose for using `dd`). Said alternatives are:
-
+`dd`'ye alternatif olarak birkaç seçenek vardır, bunlardan biri olan `tail`, `mem` dosyası üzerinde `lseek()` yapmak için şu anda varsayılan olarak kullanılan programdır (`dd` kullanmanın tek amacı buydu). Söz konusu alternatifler şunlardır:
 ```bash
 tail
 hexdump
 cmp
 xxd
 ```
-
-Setting the variable `SEEKER` you may change the seeker used, _e. g._:
-
+Değişken `SEEKER`'ı ayarlayarak kullanılan arayıcıyı değiştirebilirsiniz, örneğin:
 ```bash
 SEEKER=cmp bash ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-
-If you find another valid seeker not implemented in the script you may still use it setting the `SEEKER_ARGS` variable:
-
+Eğer betikte uygulanmamış başka geçerli bir arayıcı bulursanız, `SEEKER_ARGS` değişkenini ayarlayarak hala kullanabilirsiniz:
 ```bash
 SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
+Engelleyin bunu, EDR'lar.
 
-Block this, EDRs.
-
-## References
+## Referanslar
 * [https://github.com/arget13/DDexec](https://github.com/arget13/DDexec)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramanla öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud github depolarına PR göndererek paylaşın**.
 
 </details>

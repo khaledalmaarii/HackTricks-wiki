@@ -1,154 +1,130 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzdaki özel [**NFT'ler**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
 
-The exposure of `/proc` and `/sys` without proper namespace isolation introduces significant security risks, including attack surface enlargement and information disclosure. These directories contain sensitive files that, if misconfigured or accessed by an unauthorized user, can lead to container escape, host modification, or provide information aiding further attacks. For instance, incorrectly mounting `-v /proc:/host/proc` can bypass AppArmor protection due to its path-based nature, leaving `/host/proc` unprotected.
+Doğru namespace izolasyonu olmadan `/proc` ve `/sys` dizinlerinin açığa çıkarılması, saldırı yüzeyini genişletme ve bilgi sızdırma gibi önemli güvenlik risklerine neden olur. Bu dizinler, yanlış yapılandırılmış veya yetkisiz bir kullanıcı tarafından erişildiğinde, konteyner kaçışına, ana bilgisayarın değiştirilmesine veya daha fazla saldırıya yardımcı olacak bilgilerin sağlanmasına yol açabilir. Örneğin, `-v /proc:/host/proc` yanlış bir şekilde bağlandığında, yol tabanlı doğası nedeniyle AppArmor korumasını atlayabilir ve `/host/proc` korumasız bırakabilir.
 
-**You can find further details of each potential vuln in [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts).**
+**Her potansiyel zafiyetin daha fazla ayrıntısını [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts) adresinde bulabilirsiniz.**
 
-# procfs Vulnerabilities
+# procfs Zafiyetleri
 
 ## `/proc/sys`
-This directory permits access to modify kernel variables, usually via `sysctl(2)`, and contains several subdirectories of concern:
+Bu dizin, genellikle `sysctl(2)` aracılığıyla çekirdek değişkenlerini değiştirmeye izin verir ve endişe kaynağı olan birkaç alt dizin içerir:
 
-### **`/proc/sys/kernel/core_pattern`**  
-   - Described in [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-   - Allows defining a program to execute on core-file generation with the first 128 bytes as arguments. This can lead to code execution if the file begins with a pipe `|`.
-   - **Testing and Exploitation Example**:
-     ```bash
-     [ -w /proc/sys/kernel/core_pattern ] && echo Yes # Test write access
-     cd /proc/sys/kernel
-     echo "|$overlay/shell.sh" > core_pattern # Set custom handler
-     sleep 5 && ./crash & # Trigger handler
-     ```
+### **`/proc/sys/kernel/core_pattern`**
+- [core(5)](https://man7.org/linux/man-pages/man5/core.5.html) adresinde açıklanmıştır.
+- İlk 128 baytı argüman olarak kullanan bir programın çekirdek dosyası oluşturulduğunda yürütülmesine izin verir. Bu, dosyanın bir boru `|` ile başlaması durumunda kod yürütülmesine yol açabilir.
+- **Test Etme ve Sömürme Örneği**:
+```bash
+[ -w /proc/sys/kernel/core_pattern ] && echo Evet # Yazma erişimini test et
+cd /proc/sys/kernel
+echo "|$overlay/shell.sh" > core_pattern # Özel işleyiciyi ayarla
+sleep 5 && ./crash & # İşleyiciyi tetikle
+```
 
 ### **`/proc/sys/kernel/modprobe`**
-   - Detailed in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-   - Contains the path to the kernel module loader, invoked for loading kernel modules.
-   - **Checking Access Example**:
-     ```bash
-     ls -l $(cat /proc/sys/kernel/modprobe) # Check access to modprobe
-     ```
+- [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresinde detaylı olarak açıklanmıştır.
+- Çekirdek modül yükleyicisinin yolunu içerir.
+- **Erişimi Kontrol Etme Örneği**:
+```bash
+ls -l $(cat /proc/sys/kernel/modprobe) # modprobe erişimini kontrol et
+```
 
 ### **`/proc/sys/vm/panic_on_oom`**
-   - Referenced in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-   - A global flag that controls whether the kernel panics or invokes the OOM killer when an OOM condition occurs.
+- [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresinde referans gösterilmiştir.
+- Bir OOM durumu meydana geldiğinde çekirdeğin panik yapmasını veya OOM öldürücüyü çağırmasını kontrol eden bir global bayrak.
 
 ### **`/proc/sys/fs`**
-   - As per [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), contains options and information about the file system.
-   - Write access can enable various denial-of-service attacks against the host.
+- [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresinde belirtildiği gibi, dosya sistemi hakkında seçenekler ve bilgiler içerir.
+- Yazma erişimi, ana bilgisayara karşı çeşitli hizmet reddi saldırılarını etkinleştirebilir.
 
 ### **`/proc/sys/fs/binfmt_misc`**
-   - Allows registering interpreters for non-native binary formats based on their magic number.
-   - Can lead to privilege escalation or root shell access if `/proc/sys/fs/binfmt_misc/register` is writable.
-   - Relevant exploit and explanation:
-     - [Poor man's rootkit via binfmt_misc](https://github.com/toffan/binfmt_misc)
-     - In-depth tutorial: [Video link](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
+- Sihirli sayılarına dayalı olmayan ikili biçimler için yorumlayıcıları kaydetmeye olanak tanır.
+- `/proc/sys/fs/binfmt_misc/register` yazılabilirse, ayrıcalık yükseltmesine veya kök kabuğu erişimine yol açabilir.
+- İlgili saldırı ve açıklama:
+- [binfmt_misc aracılığıyla yoksul adamın kök kiti](https://github.com/toffan/binfmt_misc)
+- Detaylı öğretici: [Video bağlantısı](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
-## Others in `/proc`
+## Diğerleri `/proc` içinde
 
 ### **`/proc/config.gz`**
-   - May reveal the kernel configuration if `CONFIG_IKCONFIG_PROC` is enabled.
-   - Useful for attackers to identify vulnerabilities in the running kernel.
+- `CONFIG_IKCONFIG_PROC` etkinleştirilmişse, çekirdek yapılandırmasını ortaya çıkarabilir.
+- Çalışan çekirdekteki zafiyetleri belirlemek için saldırganlar için faydalıdır.
 
 ### **`/proc/sysrq-trigger`**
-   - Allows invoking Sysrq commands, potentially causing immediate system reboots or other critical actions.
-   - **Rebooting Host Example**:
-     ```bash
-     echo b > /proc/sysrq-trigger # Reboots the host
-     ```
+- Sysrq komutlarını çağırmaya izin verir, potansiyel olarak anında sistem yeniden başlatmalar veya diğer kritik eylemler yapabilir.
+- **Ana Bilgisayarı Yeniden Başlatma Örneği**:
+```bash
+echo b > /proc/sysrq-trigger # Ana bilgisayarı yeniden başlatır
+```
 
 ### **`/proc/kmsg`**
-   - Exposes kernel ring buffer messages.
-   - Can aid in kernel exploits, address leaks, and provide sensitive system information.
+- Çekirdek halka tamponu mesajlarını açığa çıkarır.
+- Çekirdek saldırılarına, adres sızıntılarına ve hassas sistem bilgilerine yardımcı olabilir.
 
 ### **`/proc/kallsyms`**
-   - Lists kernel exported symbols and their addresses.
-   - Essential for kernel exploit development, especially for overcoming KASLR.
-   - Address information is restricted with `kptr_restrict` set to `1` or `2`.
-   - Details in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+- Çekirdek dışa aktarılan sembolleri ve adreslerini listeler.
+- Özellikle KASLR'yi aşmak için çekirdek saldırı geliştirme için temel öneme sahiptir.
+- Adres bilgisi, `kptr_restrict` `1` veya `2` olarak ayarlandığında kısıtlanır.
+- Detaylar [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresinde bulunur.
 
 ### **`/proc/[pid]/mem`**
-   - Interfaces with the kernel memory device `/dev/mem`.
-   - Historically vulnerable to privilege escalation attacks.
-   - More on [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+- Çekirdek bellek cihazı `/dev/mem` ile etkileşim sağlar.
+- Tarihsel olarak ayrıcalık yükseltme saldırılarına karşı savunmasızdır.
+- Daha fazlası için [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresine bakın.
 
 ### **`/proc/kcore`**
-   - Represents the system's physical memory in ELF core format.
-   - Reading can leak host system and other containers' memory contents.
-   - Large file size can lead to reading issues or software crashes.
-   - Detailed usage in [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
+- Sistemin ELF çekirdek biçimindeki fiziksel belleğini temsil eder.
+- Okuma, ana bilgisayar sistemi ve diğer konteynerlerin bellek içeriğini sızdırabilir.
+- Büyük dosya boyutu okuma sorunlarına veya yazılım çökmelerine neden olabilir.
+- Ayrıntılı kullanım [2019'da /proc/kcore Dökme](https://schlafwandler.github.io/posts/dumping-/proc/kcore/) adresinde bulunur.
 
 ### **`/proc/kmem`**
-   - Alternate interface for `/dev/kmem`, representing kernel virtual memory.
-   - Allows reading and writing, hence direct modification of kernel memory.
+- Çekirdek sanal belleğini temsil eden `/dev/kmem` için alternatif bir arayüz.
+- Okuma ve yazma izin verir, bu nedenle çekirdek belleğini doğrudan değiştirme imkanı sağlar.
 
 ### **`/proc/mem`**
-   - Alternate interface for `/dev/mem`, representing physical memory.
-   - Allows reading and writing, modification of all memory requires resolving virtual to physical addresses.
+- Fiziksel belleği temsil eden `/dev/mem` için alternatif bir arayüz.
+- Okuma ve yazma izin verir, tüm belleğin değiştirilmesi sanal adresleri fiziksel adreslere çözme gerektirir.
 
 ### **`/proc/sched_debug`**
-   - Returns process scheduling information, bypassing PID namespace protections.
-   - Exposes process names, IDs, and cgroup identifiers.
+- PID ad alanı korumalarını atlayarak işlem planlama bilgilerini döndürür.
+- İşlem adlarını, kimliklerini ve cgroup tanımlayıcılarını açığa çıkarır.
 
 ### **`/proc/[pid]/mountinfo`**
-   - Provides information about mount points in the process's mount namespace.
-   - Exposes the location of the container `rootfs` or image.
-
-## `/sys` Vulnerabilities
-
-### **`/sys/kernel/uevent_helper`**
-   - Used for handling kernel device `uevents`.
-   - Writing to `/sys/kernel/uevent_helper` can execute arbitrary scripts upon `uevent` triggers.
-   - **Example for Exploitation**:
-     %%%bash
-     # Creates a payload
-     echo "#!/bin/sh" > /evil-helper
-     echo "ps > /output" >> /evil-helper
-     chmod +x /evil-helper
-     # Finds host path from OverlayFS mount for container
-     host_path=$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)
-     # Sets uevent_helper to malicious helper
-     echo "$host_path/evil-helper" > /sys/kernel/uevent_helper
-     # Triggers a uevent
-     echo change > /sys/class/mem/null/uevent
-     # Reads the output
-     cat /output
-     %%%
-
+- İşlemin bağlama ad alanındaki bağlama noktaları hakkında bilgi sağlar.
+- Kontey
 ### **`/sys/class/thermal`**
-   - Controls temperature settings, potentially causing DoS attacks or physical damage.
+- Sıcaklık ayarlarını kontrol eder, potansiyel olarak DoS saldırılarına veya fiziksel hasara neden olabilir.
 
 ### **`/sys/kernel/vmcoreinfo`**
-   - Leaks kernel addresses, potentially compromising KASLR.
+- Kernel adreslerini sızdırır, KASLR'yi tehlikeye atabilir.
 
 ### **`/sys/kernel/security`**
-   - Houses `securityfs` interface, allowing configuration of Linux Security Modules like AppArmor.
-   - Access might enable a container to disable its MAC system.
+- AppArmor gibi Linux Güvenlik Modülleri'nin yapılandırılmasına izin veren `securityfs` arayüzünü barındırır.
+- Erişim, bir konteynerin MAC sistemini devre dışı bırakmasına olanak tanıyabilir.
 
-### **`/sys/firmware/efi/vars` and `/sys/firmware/efi/efivars`**
-   - Exposes interfaces for interacting with EFI variables in NVRAM.
-   - Misconfiguration or exploitation can lead to bricked laptops or unbootable host machines.
+### **`/sys/firmware/efi/vars` ve `/sys/firmware/efi/efivars`**
+- NVRAM'daki EFI değişkenleriyle etkileşim için arayüzler sunar.
+- Yanlış yapılandırma veya kötüye kullanım, kullanılamaz hale getirilmiş dizüstü bilgisayarlar veya başlatılamayan ana bilgisayar makinelerine yol açabilir.
 
 ### **`/sys/kernel/debug`**
-   - `debugfs` offers a "no rules" debugging interface to the kernel.
-   - History of security issues due to its unrestricted nature.
+- `debugfs`, çekirdeğe yönelik "kurallar olmadan" hata ayıklama arayüzü sunar.
+- Sınırlamasız doğası nedeniyle güvenlik sorunları geçmişi vardır.
 
 
-## References
+## Referanslar
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
@@ -156,16 +132,14 @@ This directory permits access to modify kernel variables, usually via `sysctl(2)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>
-
-

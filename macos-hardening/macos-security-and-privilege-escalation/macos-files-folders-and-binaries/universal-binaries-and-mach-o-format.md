@@ -1,326 +1,310 @@
-# macOS Universal binaries & Mach-O Format
+# macOS Evrensel ikili dosyaları ve Mach-O Formatı
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hackleme öğrenin<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklam vermek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzdaki özel [**NFT'leri**](https://opensea.io/collection/the-peass-family) keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-## Basic Information
+## Temel Bilgiler
 
-Mac OS binaries usually are compiled as **universal binaries**. A **universal binary** can **support multiple architectures in the same file**.
+Mac OS ikili dosyaları genellikle **evrensel ikili dosyalar** olarak derlenir. Bir **evrensel ikili dosya**, aynı dosyada **çoklu mimarileri destekleyebilir**.
 
-These binaries follows the **Mach-O structure** which is basically compased of:
+Bu ikili dosyalar, temel olarak şu şekilde oluşan **Mach-O yapısını** takip eder:
 
-* Header
-* Load Commands
-* Data
+* Başlık
+* Yükleme Komutları
+* Veri
 
 ![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (559).png>)
 
-## Fat Header
+## Yağ Başlık
 
-Search for the file with: `mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
+Dosyayı şu komutla arayın: `mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
 
 <pre class="language-c"><code class="lang-c"><strong>#define FAT_MAGIC	0xcafebabe
 </strong><strong>#define FAT_CIGAM	0xbebafeca	/* NXSwapLong(FAT_MAGIC) */
 </strong>
 struct fat_header {
 <strong>	uint32_t	magic;		/* FAT_MAGIC or FAT_MAGIC_64 */
-</strong><strong>	uint32_t	nfat_arch;	/* number of structs that follow */
+</strong><strong>	uint32_t	nfat_arch;	/* takip eden yapıların sayısı */
 </strong>};
 
 struct fat_arch {
-	cpu_type_t	cputype;	/* cpu specifier (int) */
-	cpu_subtype_t	cpusubtype;	/* machine specifier (int) */
-	uint32_t	offset;		/* file offset to this object file */
-	uint32_t	size;		/* size of this object file */
-	uint32_t	align;		/* alignment as a power of 2 */
+cpu_type_t	cputype;	/* cpu belirleyici (int) */
+cpu_subtype_t	cpusubtype;	/* makine belirleyici (int) */
+uint32_t	offset;		/* bu nesne dosyasına göre dosya ofseti */
+uint32_t	size;		/* bu nesne dosyasının boyutu */
+uint32_t	align;		/* 2'nin üssü olarak hizalama */
 };
 </code></pre>
 
-The header has the **magic** bytes followed by the **number** of **archs** the file **contains** (`nfat_arch`) and each arch will have a `fat_arch` struct.
+Başlık, **sihirli** baytları ve dosyanın içerdiği **mimari sayısını** (`nfat_arch`) takip eden her bir mimarinin bir `fat_arch` yapısına sahip olduğu bilgileri içerir.
 
-Check it with:
+Bunu şu şekilde kontrol edin:
 
 <pre class="language-shell-session"><code class="lang-shell-session">% file /bin/ls
-/bin/ls: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
-/bin/ls (for architecture x86_64):	Mach-O 64-bit executable x86_64
-/bin/ls (for architecture arm64e):	Mach-O 64-bit executable arm64e
+/bin/ls: 2 mimariye sahip Mach-O evrensel ikili dosya: [x86_64:Mach-O 64-bit çalıştırılabilir x86_64] [arm64e:Mach-O 64-bit çalıştırılabilir arm64e]
+/bin/ls (mimari x86_64 için):	Mach-O 64-bit çalıştırılabilir x86_64
+/bin/ls (mimari arm64e için):	Mach-O 64-bit çalıştırılabilir arm64e
 
 % otool -f -v /bin/ls
-Fat headers
+Yağ başlıklar
 fat_magic FAT_MAGIC
 <strong>nfat_arch 2
-</strong><strong>architecture x86_64
+</strong><strong>mimari x86_64
 </strong>    cputype CPU_TYPE_X86_64
-    cpusubtype CPU_SUBTYPE_X86_64_ALL
-    capabilities 0x0
+cpusubtype CPU_SUBTYPE_X86_64_ALL
+capabilities 0x0
 <strong>    offset 16384
 </strong><strong>    size 72896
 </strong>    align 2^14 (16384)
-<strong>architecture arm64e
+<strong>mimari arm64e
 </strong>    cputype CPU_TYPE_ARM64
-    cpusubtype CPU_SUBTYPE_ARM64E
-    capabilities PTR_AUTH_VERSION USERSPACE 0
+cpusubtype CPU_SUBTYPE_ARM64E
+capabilities PTR_AUTH_VERSION USERSPACE 0
 <strong>    offset 98304
 </strong><strong>    size 88816
 </strong>    align 2^14 (16384)
 </code></pre>
 
-or using the [Mach-O View](https://sourceforge.net/projects/machoview/) tool:
+veya [Mach-O View](https://sourceforge.net/projects/machoview/) aracını kullanarak:
 
 <figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-As you may be thinking usually a universal binary compiled for 2 architectures **doubles the size** of one compiled for just 1 arch.
+Genellikle 2 mimari için derlenen evrensel bir ikili dosya, yalnızca 1 mimari için derlenene göre **boyutunu ikiye katlar**.
 
-## **Mach-O Header**
+## **Mach-O Başlık**
 
-The header contains basic information about the file, such as magic bytes to identify it as a Mach-O file and information about the target architecture. You can find it in: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
-
+Başlık, dosyanın sihirli baytlarını ve hedef mimari hakkında bilgiler gibi dosya hakkında temel bilgiler içerir. Başlığı şurada bulabilirsiniz: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
 struct mach_header {
-	uint32_t	magic;		/* mach magic number identifier */
-	cpu_type_t	cputype;	/* cpu specifier (e.g. I386) */
-	cpu_subtype_t	cpusubtype;	/* machine specifier */
-	uint32_t	filetype;	/* type of file (usage and alignment for the file) */
-	uint32_t	ncmds;		/* number of load commands */
-	uint32_t	sizeofcmds;	/* the size of all the load commands */
-	uint32_t	flags;		/* flags */
+uint32_t	magic;		/* mach magic number identifier */
+cpu_type_t	cputype;	/* cpu specifier (e.g. I386) */
+cpu_subtype_t	cpusubtype;	/* machine specifier */
+uint32_t	filetype;	/* type of file (usage and alignment for the file) */
+uint32_t	ncmds;		/* number of load commands */
+uint32_t	sizeofcmds;	/* the size of all the load commands */
+uint32_t	flags;		/* flags */
 };
 
 #define MH_MAGIC_64 0xfeedfacf /* the 64-bit mach magic number */
 #define MH_CIGAM_64 0xcffaedfe /* NXSwapInt(MH_MAGIC_64) */
 struct mach_header_64 {
-	uint32_t	magic;		/* mach magic number identifier */
-	int32_t		cputype;	/* cpu specifier */
-	int32_t		cpusubtype;	/* machine specifier */
-	uint32_t	filetype;	/* type of file */
-	uint32_t	ncmds;		/* number of load commands */
-	uint32_t	sizeofcmds;	/* the size of all the load commands */
-	uint32_t	flags;		/* flags */
-	uint32_t	reserved;	/* reserved */
+uint32_t	magic;		/* mach magic number identifier */
+int32_t		cputype;	/* cpu specifier */
+int32_t		cpusubtype;	/* machine specifier */
+uint32_t	filetype;	/* type of file */
+uint32_t	ncmds;		/* number of load commands */
+uint32_t	sizeofcmds;	/* the size of all the load commands */
+uint32_t	flags;		/* flags */
+uint32_t	reserved;	/* reserved */
 };
 ```
+**Dosya türleri**:
 
-**Filetypes**:
-
-* MH\_EXECUTE (0x2): Standard Mach-O executable
-* MH\_DYLIB (0x6): A Mach-O dynamic linked library (i.e. .dylib)
-* MH\_BUNDLE (0x8): A Mach-O bundle (i.e. .bundle)
-
+* MH\_EXECUTE (0x2): Standart Mach-O yürütülebilir dosyası
+* MH\_DYLIB (0x6): Bir Mach-O dinamik bağlantılı kütüphane (yani .dylib)
+* MH\_BUNDLE (0x8): Bir Mach-O paketi (yani .bundle)
 ```bash
 # Checking the mac header of a binary
 otool -arch arm64e -hv /bin/ls
 Mach header
-      magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags
+magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags
 MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DYLDLINK TWOLEVEL PIE
 ```
-
-Or using [Mach-O View](https://sourceforge.net/projects/machoview/):
+Veya [Mach-O View](https://sourceforge.net/projects/machoview/) kullanarak:
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-## **Mach-O Load commands**
+## **Mach-O Yükleme komutları**
 
-The **file's layout in memory** is specified here, detailing the **symbol table's location**, the context of the main thread at execution start, and the required **shared libraries**. Instructions are provided to the dynamic loader **(dyld)** on the binary's loading process into memory.
+Bellekteki **dosyanın düzeni** burada belirtilir, **sembol tablosunun konumu**, yürütme başlangıcında ana iş parçacığının bağlamı ve gereken **paylaşılan kütüphaneler** ayrıntılı olarak açıklanır. Talimatlar, binary'nin belleğe yükleme süreci hakkında dinamik yükleyici **(dyld)**'ye sağlanır.
 
-The uses the **load\_command** structure, defined in the mentioned **`loader.h`**:
-
+Kullanılan yapı, bahsedilen **`loader.h`** içinde tanımlanan **load\_command** yapısıdır:
 ```objectivec
 struct load_command {
-        uint32_t cmd;           /* type of load command */
-        uint32_t cmdsize;       /* total size of command in bytes */
+uint32_t cmd;           /* type of load command */
+uint32_t cmdsize;       /* total size of command in bytes */
 };
 ```
-
-There are about **50 different types of load commands** that the system handles differently. The most common ones are: `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB`, and `LC_CODE_SIGNATURE`.
+Sistem farklı şekillerde işlenen yaklaşık **50 farklı yükleme komutu** bulunmaktadır. En yaygın olanlar şunlardır: `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB` ve `LC_CODE_SIGNATURE`.
 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Basically, this type of Load Command define **how to load the \_\_TEXT** (executable code) **and \_\_DATA** (data for the process) **segments** according to the **offsets indicated in the Data section** when the binary is executed.
+Temel olarak, bu tür Yükleme Komutu, ikili dosya çalıştırıldığında **Veri bölümünde belirtilen ofsetlere göre \_\_TEXT** (yürütülebilir kod) **ve \_\_DATA** (işlem için veri) **segmentlerinin nasıl yükleneceğini** tanımlar.
 {% endhint %}
 
-These commands **define segments** that are **mapped** into the **virtual memory space** of a process when it is executed.
+Bu komutlar, bir işlem çalıştırıldığında **sanal bellek alanına eşlenen segmentleri** tanımlar.
 
-There are **different types** of segments, such as the **\_\_TEXT** segment, which holds the executable code of a program, and the **\_\_DATA** segment, which contains data used by the process. These **segments are located in the data section** of the Mach-O file.
+\_\_TEXT segmenti, bir programın yürütülebilir kodunu içeren ve işlem tarafından kullanılan verileri içeren \_\_DATA segmenti gibi **farklı türlerde segmentler** bulunmaktadır. Bu segmentler, Mach-O dosyasının veri bölümünde bulunur.
 
-**Each segment** can be further **divided** into multiple **sections**. The **load command structure** contains **information** about **these sections** within the respective segment.
+**Her segment**, daha fazla **bölüme** ayrılabilir. **Yükleme komutu yapısı**, ilgili segment içindeki **bu bölümlerle ilgili bilgileri** içerir.
 
-In the header first you find the **segment header**:
+Başlıkta önce **segment başlığı** bulunur:
 
-<pre class="language-c"><code class="lang-c">struct segment_command_64 { /* for 64-bit architectures */
-	uint32_t	cmd;		/* LC_SEGMENT_64 */
-	uint32_t	cmdsize;	/* includes sizeof section_64 structs */
-	char		segname[16];	/* segment name */
-	uint64_t	vmaddr;		/* memory address of this segment */
-	uint64_t	vmsize;		/* memory size of this segment */
-	uint64_t	fileoff;	/* file offset of this segment */
-	uint64_t	filesize;	/* amount to map from the file */
-	int32_t		maxprot;	/* maximum VM protection */
-	int32_t		initprot;	/* initial VM protection */
-<strong>	uint32_t	nsects;		/* number of sections in segment */
-</strong>	uint32_t	flags;		/* flags */
+<pre class="language-c"><code class="lang-c">struct segment_command_64 { /* 64 bit mimariler için */
+uint32_t	cmd;		/* LC_SEGMENT_64 */
+uint32_t	cmdsize;	/* section_64 yapılarının sizeof'ını içerir */
+char		segname[16];	/* segment adı */
+uint64_t	vmaddr;		/* bu segmentin bellek adresi */
+uint64_t	vmsize;		/* bu segmentin bellek boyutu */
+uint64_t	fileoff;	/* bu segmentin dosya ofseti */
+uint64_t	filesize;	/* dosyadan eşlenecek miktar */
+int32_t		maxprot;	/* maksimum VM koruması */
+int32_t		initprot;	/* başlangıç VM koruması */
+<strong>	uint32_t	nsects;		/* segmentteki bölüm sayısı */
+</strong>	uint32_t	flags;		/* bayraklar */
 };
 </code></pre>
 
-Example of segment header:
+Segment başlığı örneği:
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-This header defines the **number of sections whose headers appear after** it:
-
+Bu başlık, **ardından görünen bölüm başlıklarının sayısını** tanımlar:
 ```c
 struct section_64 { /* for 64-bit architectures */
-	char		sectname[16];	/* name of this section */
-	char		segname[16];	/* segment this section goes in */
-	uint64_t	addr;		/* memory address of this section */
-	uint64_t	size;		/* size in bytes of this section */
-	uint32_t	offset;		/* file offset of this section */
-	uint32_t	align;		/* section alignment (power of 2) */
-	uint32_t	reloff;		/* file offset of relocation entries */
-	uint32_t	nreloc;		/* number of relocation entries */
-	uint32_t	flags;		/* flags (section type and attributes)*/
-	uint32_t	reserved1;	/* reserved (for offset or index) */
-	uint32_t	reserved2;	/* reserved (for count or sizeof) */
-	uint32_t	reserved3;	/* reserved */
+char		sectname[16];	/* name of this section */
+char		segname[16];	/* segment this section goes in */
+uint64_t	addr;		/* memory address of this section */
+uint64_t	size;		/* size in bytes of this section */
+uint32_t	offset;		/* file offset of this section */
+uint32_t	align;		/* section alignment (power of 2) */
+uint32_t	reloff;		/* file offset of relocation entries */
+uint32_t	nreloc;		/* number of relocation entries */
+uint32_t	flags;		/* flags (section type and attributes)*/
+uint32_t	reserved1;	/* reserved (for offset or index) */
+uint32_t	reserved2;	/* reserved (for count or sizeof) */
+uint32_t	reserved3;	/* reserved */
 };
 ```
-
-Example of **section header**:
+**Bölüm başlığı** örneği:
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
-If you **add** the **section offset** (0x37DC) + the **offset** where the **arch starts**, in this case `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
+Eğer **bölüm ofsetini** (0x37DC) + **mimarinin başladığı ofseti** (bu durumda `0x18000`) **eklerseniz**, `0x37DC + 0x18000 = 0x1B7DC` olur.
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-It's also possible to get **headers information** from the **command line** with:
-
+Ayrıca **komut satırından** **başlık bilgilerini** almak da mümkündür:
 ```bash
 otool -lv /bin/ls
 ```
+Bu komut tarafından yüklenen yaygın bölümler:
 
-Common segments loaded by this cmd:
-
-* **`__PAGEZERO`:** It instructs the kernel to **map** the **address zero** so it **cannot be read from, written to, or executed**. The maxprot and minprot variables in the structure are set to zero to indicate there are **no read-write-execute rights on this page**.
-  * This allocation is important to **mitigate NULL pointer dereference vulnerabilities**.
-* **`__TEXT`**: Contains **executable** **code** with **read** and **execute** permissions (no writable)**.** Common sections of this segment:
-  * `__text`: Compiled binary code
-  * `__const`: Constant data
-  * `__cstring`: String constants
-  * `__stubs` and `__stubs_helper`: Involved during the dynamic library loading process
-* **`__DATA`**: Contains data that is **readable** and **writable** (no executable)**.**
-  * `__data`: Global variables (that have been initialized)
-  * `__bss`: Static variables (that have not been initialized)
-  * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc): Information used by the Objective-C runtime
-* **`__LINKEDIT`**: Contains information for the linker (dyld) such as, "symbol, string, and relocation table entries."
-* **`__OBJC`**: Contains information used by the Objective-C runtime. Though this information might also be found in the \_\_DATA segment, within various in \_\_objc\_\* sections.
+* **`__PAGEZERO`:** Bu, çekirdeğe **adres sıfırı**nı **okunamaz, yazılamaz veya yürütülemez** olarak **haritalamak** için talimat verir. Yapıdaki maxprot ve minprot değişkenleri sıfıra ayarlanır, bu da bu sayfada **okuma-yazma-yürütme haklarının olmadığını** gösterir.
+* Bu tahsis, **NULL işaretçi başvurusu açıklarını hafifletmek** için önemlidir.
+* **`__TEXT`**: **Okunabilir** ve **yürütülebilir** (yazılabilir değil) **yürütülebilir** **kod** içerir. Bu segmentin yaygın bölümleri:
+* `__text`: Derlenmiş ikili kod
+* `__const`: Sabit veriler
+* `__cstring`: Dize sabitleri
+* `__stubs` ve `__stubs_helper`: Dinamik kitaplık yükleme sürecinde yer alır
+* **`__DATA`**: **Okunabilir** ve **yazılabilir** (yürütülemez) veriler içerir.
+* `__data`: Başlatılmış global değişkenler
+* `__bss`: Başlatılmamış statik değişkenler
+* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, vb.): Objective-C çalışma zamanı tarafından kullanılan bilgiler
+* **`__LINKEDIT`**: "sembol, dize ve yerleştirme tablosu girişleri" gibi, bağlayıcı (dyld) için bilgiler içerir.
+* **`__OBJC`**: Objective-C çalışma zamanı tarafından kullanılan bilgiler içerir. Bu bilgiler aynı zamanda \_\_DATA segmentinde de bulunabilir, çeşitli \_\_objc\_\* bölümlerinde bulunur.
 
 ### **`LC_MAIN`**
 
-Contains the entrypoint in the **entryoff attribute.** At load time, **dyld** simply **adds** this value to the (in-memory) **base of the binary**, then **jumps** to this instruction to start execution of the binary’s code.
+**entryoff** özniteliğinde giriş noktasını içerir. Yükleme zamanında, **dyld** bu değeri (hafızada) **ikilinin tabanına ekler**, ardından bu talimata atlayarak ikilinin kodunun yürütmesini başlatır.
 
 ### **LC\_CODE\_SIGNATURE**
 
-Contains information about the **code signature of the Macho-O file**. It only contains an **offset** that **points** to the **signature blob**. This is typically at the very end of the file.\
-However, you can find some information about this section in [**this blog post**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) and this [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
+Macho-O dosyasının **kod imzası hakkında bilgi** içerir. Yalnızca **imza bloğuna işaret eden bir ofset** içerir. Bu genellikle dosyanın sonunda bulunur.\
+Ancak, bu bölüm hakkında bazı bilgilere [**bu blog yazısında**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) ve bu [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4) ulaşabilirsiniz.
 
 ### **LC\_LOAD\_DYLINKER**
 
-Contains the **path to the dynamic linker executable** that maps shared libraries into the process address space. The **value is always set to `/usr/lib/dyld`**. It’s important to note that in macOS, dylib mapping happens in **user mode**, not in kernel mode.
+Paylaşılan kitaplıkları işlem adres alanına eşleyen dinamik bağlayıcı yürütülebilirinin **yolunu içerir**. **Değer her zaman `/usr/lib/dyld` olarak ayarlanır**. Önemli bir nokta olarak, macOS'ta dylib eşlemesi **çekirdek modunda değil, kullanıcı modunda** gerçekleşir.
 
 ### **`LC_LOAD_DYLIB`**
 
-This load command describes a **dynamic** **library** dependency which **instructs** the **loader** (dyld) to **load and link said library**. There is a LC\_LOAD\_DYLIB load command **for each library** that the Mach-O binary requires.
+Bu yükleme komutu, Mach-O ikilisinin gerektirdiği **dinamik kitaplık bağımlılığını tanımlar** ve **yükleyiciyi** (dyld) **bu kitaplığı yüklemesi ve bağlaması için yönlendirir**. Mach-O ikilisinin gerektirdiği her kitaplık için bir LC\_LOAD\_DYLIB yükleme komutu vardır.
 
-* This load command is a structure of type **`dylib_command`** (which contains a struct dylib, describing the actual dependent dynamic library):
-
+* Bu yükleme komutu, gerçek bağımlı dinamik kitaplığı tanımlayan bir struct dylib içeren **`dylib_command`** türünde bir yapıdır:
 ```objectivec
 struct dylib_command {
-        uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
-        uint32_t        cmdsize;        /* includes pathname string */
-        struct dylib    dylib;          /* the library identification */ 
+uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
+uint32_t        cmdsize;        /* includes pathname string */
+struct dylib    dylib;          /* the library identification */
 };
 
 struct dylib {
-    union lc_str  name;                 /* library's path name */
-    uint32_t timestamp;                 /* library's build time stamp */
-    uint32_t current_version;           /* library's current version number */
-    uint32_t compatibility_version;     /* library's compatibility vers number*/
+union lc_str  name;                 /* library's path name */
+uint32_t timestamp;                 /* library's build time stamp */
+uint32_t current_version;           /* library's current version number */
+uint32_t compatibility_version;     /* library's compatibility vers number*/
 };
 ```
-
 ![](<../../../.gitbook/assets/image (558).png>)
 
-You could also get this info from the cli with:
-
+Bu bilgiyi ayrıca komut satırından da alabilirsiniz:
 ```bash
 otool -L /bin/ls
 /bin/ls:
-	/usr/lib/libutil.dylib (compatibility version 1.0.0, current version 1.0.0)
-	/usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
-	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
+/usr/lib/libutil.dylib (compatibility version 1.0.0, current version 1.0.0)
+/usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
+/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
 ```
+Potansiyel kötü amaçlı yazılım ile ilişkili bazı kütüphaneler şunlardır:
 
-Some potential malware related libraries are:
-
-* **DiskArbitration**: Monitoring USB drives
-* **AVFoundation:** Capture audio and video
-* **CoreWLAN**: Wifi scans.
+* **DiskArbitration**: USB sürücülerini izleme
+* **AVFoundation:** Ses ve video yakalama
+* **CoreWLAN**: Wifi taramaları.
 
 {% hint style="info" %}
-A Mach-O binary can contain one or **more** **constructors**, that will be **executed** **before** the address specified in **LC\_MAIN**.\
-The offsets of any constructors are held in the **\_\_mod\_init\_func** section of the **\_\_DATA\_CONST** segment.
+Bir Mach-O ikili dosyası, **LC\_MAIN**'de belirtilen adresten **önce** **çalıştırılacak** bir veya **daha fazla yapıcı** içerebilir.\
+Herhangi bir yapıcının ofsetleri, **\_\_DATA\_CONST** segmentinin **\_\_mod\_init\_func** bölümünde tutulur.
 {% endhint %}
 
-## **Mach-O Data**
+## **Mach-O Verileri**
 
-At the core of the file lies the data region, which is composed of several segments as defined in the load-commands region. **A variety of data sections can be housed within each segment**, with each section **holding code or data** specific to a type.
+Dosyanın çekirdeğinde, yük komutları bölgesinde tanımlandığı gibi birkaç segmentten oluşan veri bölgesi bulunur. **Her segmentte birçok veri bölümü barındırılabilir**, her bölüm ise bir türe özgü kod veya veri içerir.
 
 {% hint style="success" %}
-The data is basically the part containing all the **information** that is loaded by the load commands **LC\_SEGMENTS\_64**
+Veri, temel olarak yük komutları **LC\_SEGMENTS\_64** tarafından yüklenen tüm **bilgileri** içeren kısımdır.
 {% endhint %}
 
 ![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055_02_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
 
-This includes:
+Bu şunları içerir:
 
-* **Function table:** Which holds information about the program functions.
-* **Symbol table**: Which contains information about the external function used by the binary
-* It could also contain internal function, variable names as well and more.
+* **Fonksiyon tablosu:** Program fonksiyonları hakkında bilgi içerir.
+* **Sembol tablosu**: İkili tarafından kullanılan harici fonksiyonlar hakkında bilgi içerir
+* Ayrıca dahili fonksiyon, değişken adları ve daha fazlasını içerebilir.
 
-To check it you could use the [**Mach-O View**](https://sourceforge.net/projects/machoview/) tool:
+Bunu kontrol etmek için [**Mach-O View**](https://sourceforge.net/projects/machoview/) aracını kullanabilirsiniz:
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-Or from the cli:
-
+Veya komut satırından:
 ```bash
 size -m /bin/ls
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>

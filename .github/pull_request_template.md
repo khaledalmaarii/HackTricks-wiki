@@ -1,4 +1,4 @@
-## Attribution
-We value your knowledge and encourage you to share content. Please ensure that you only upload content that you own or have explicit permission to use from the original author. Your respect for intellectual property rights fosters a trustworthy and legal sharing environment for everyone.
+## Atıf
+Bilginizi değerli buluyoruz ve içeriği paylaşmanızı teşvik ediyoruz. Lütfen yalnızca sahip olduğunuz veya orijinal yazarın açık iznine sahip olduğunuz içeriği yüklediğinizden emin olun. Fikri mülkiyet haklarına saygı göstermeniz, herkes için güvenilir ve yasal bir paylaşım ortamı oluşturur.
 
-Thank you for contributing to HackTricks!
+HackTricks'e katkıda bulunduğunuz için teşekkür ederiz!

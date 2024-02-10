@@ -1,32 +1,32 @@
-# macOS Security Protections
+# macOS Güvenlik Korumaları
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>
 
 ## Gatekeeper
 
-Gatekeeper is usually used to refer to the combination of **Quarantine + Gatekeeper + XProtect**, 3 macOS security modules that will try to **prevent users from executing potentially malicious software downloaded**.
+Gatekeeper genellikle **Karantina + Gatekeeper + XProtect** kombinasyonunu ifade etmek için kullanılır. Bu 3 macOS güvenlik modülü, **kullanıcıların potansiyel olarak zararlı yazılımları çalıştırmasını engellemeye çalışır**.
 
-More information in:
+Daha fazla bilgi için:
 
 {% content-ref url="macos-gatekeeper.md" %}
 [macos-gatekeeper.md](macos-gatekeeper.md)
 {% endcontent-ref %}
 
-## Processes Limitants
+## İşlem Sınırlayıcıları
 
-### SIP - System Integrity Protection
+### SIP - Sistem Bütünlük Koruması
 
 {% content-ref url="macos-sip.md" %}
 [macos-sip.md](macos-sip.md)
@@ -34,103 +34,94 @@ More information in:
 
 ### Sandbox
 
-MacOS Sandbox **limits applications** running inside the sandbox to the **allowed actions specified in the Sandbox profile** the app is running with. This helps to ensure that **the application will be accessing only expected resources**.
+MacOS Sandbox, sandbox içinde çalışan uygulamaları, uygulamanın çalıştığı Sandbox profilinde belirtilen **izin verilen eylemlerle sınırlar**. Bu, uygulamanın **yalnızca beklenen kaynaklara erişeceğini** sağlamaya yardımcı olur.
 
 {% content-ref url="macos-sandbox/" %}
 [macos-sandbox](macos-sandbox/)
 {% endcontent-ref %}
 
-### TCC - **Transparency, Consent, and Control**
+### TCC - **Şeffaflık, Onay ve Kontrol**
 
-**TCC (Transparency, Consent, and Control)** is a security framework. It's designed to **manage the permissions** of applications, specifically by regulating their access to sensitive features. This includes elements like **location services, contacts, photos, microphone, camera, accessibility, and full disk access**. TCC ensures that apps can only access these features after obtaining explicit user consent, thereby bolstering privacy and control over personal data.
+**TCC (Şeffaflık, Onay ve Kontrol)** bir güvenlik çerçevesidir. Uygulamaların **izinlerini yönetmek** için tasarlanmıştır, özellikle hassas özelliklere erişimlerini düzenleyerek. Bu, **konum hizmetleri, kişiler, fotoğraflar, mikrofon, kamera, erişilebilirlik ve tam disk erişimi** gibi unsurları içerir. TCC, uygulamaların bu özelliklere yalnızca açıkça kullanıcı onayı aldıktan sonra erişebilmesini sağlayarak, gizlilik ve kişisel veriler üzerinde kontrolü güçlendirir.
 
 {% content-ref url="macos-tcc/" %}
 [macos-tcc](macos-tcc/)
 {% endcontent-ref %}
 
-### Launch/Environment Constraints & Trust Cache
+### Başlatma/Çevre Kısıtlamaları ve Güven Önbelleği
 
-Launch constraints in macOS are a security feature to **regulate process initiation** by defining **who can launch** a process, **how**, and **from where**. Introduced in macOS Ventura, they categorize system binaries into constraint categories within a **trust cache**. Every executable binary has set **rules** for its **launch**, including **self**, **parent**, and **responsible** constraints. Extended to third-party apps as **Environment** Constraints in macOS Sonoma, these features help mitigate potential system exploitations by governing process launching conditions.
+MacOS'ta başlatma kısıtlamaları, bir işlemi başlatanın **kimin**, **nasıl** ve **nereden** başlatabileceğini tanımlayarak işlem başlatmayı düzenleyen bir güvenlik özelliğidir. macOS Ventura'da tanıtılan bir **güven önbelleği** içinde sistem ikili dosyalarını kısıtlama kategorilerine ayırır. Her yürütülebilir ikili dosya, **kendisi**, **ebeveyni** ve **sorumlu** kısıtlamaları için belirli **kurallara** sahiptir. macOS Sonoma'da üçüncü taraf uygulamalara **Çevre** Kısıtlamaları olarak genişletilen bu özellikler, işlem başlatma koşullarını düzenleyerek potansiyel sistem açıklarını azaltmaya yardımcı olur.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
 {% endcontent-ref %}
 
-## MRT - Malware Removal Tool
+## MRT - Zararlı Yazılım Kaldırma Aracı
 
-The Malware Removal Tool (MRT) is another part of macOS's security infrastructure. As the name suggests, MRT's main function is to **remove known malware from infected systems**.
+Zararlı Yazılım Kaldırma Aracı (MRT), macOS'ın güvenlik altyapısının bir parçasıdır. Adından da anlaşılacağı gibi, MRT'nin temel işlevi, enfekte sistemlerden **bilinen zararlı yazılımları kaldırmaktır**.
 
-Once malware is detected on a Mac (either by XProtect or by some other means), MRT can be used to automatically **remove the malware**. MRT operates silently in the background and typically runs whenever the system is updated or when a new malware definition is downloaded (it looks like the rules MRT has to detect malware are inside the binary).
+Bir Mac'te zararlı yazılım tespit edildiğinde (XProtect veya başka bir yöntemle), MRT, zararlı yazılımı otomatik olarak **kaldırmak için kullanılabilir**. MRT sessizce arka planda çalışır ve genellikle sistem güncellendiğinde veya yeni bir zararlı yazılım tanımı indirildiğinde çalışır (zararlı yazılımı tespit etmek için MRT'nin kurallarının içinde olduğu gibi görünüyor).
 
-While both XProtect and MRT are part of macOS's security measures, they perform different functions:
+XProtect ve MRT, macOS'ın güvenlik önlemlerinin bir parçası olsa da, farklı işlevlere sahiptir:
 
-* **XProtect** is a preventative tool. It **checks files as they're downloaded** (via certain applications), and if it detects any known types of malware, it **prevents the file from opening**, thereby preventing the malware from infecting your system in the first place.
-* **MRT**, on the other hand, is a **reactive tool**. It operates after malware has been detected on a system, with the goal of removing the offending software to clean up the system.
+* **XProtect**, önleyici bir araçtır. İndirilen dosyaları (belirli uygulamalar aracılığıyla) **kontrol eder** ve bilinen herhangi bir zararlı yazılım türünü tespit ederse, dosyanın **açılmasını engeller**, böylece zararlı yazılımın sisteminize bulaşmasını önler.
+* Öte yandan, **MRT**, tepkisel bir araçtır. Zararlı yazılım bir sisteme tespit edildikten sonra, hedef yazılımı temizlemek için çalışır.
 
-The MRT application is located in **`/Library/Apple/System/Library/CoreServices/MRT.app`**
+MRT uygulaması **`/Library/Apple/System/Library/CoreServices/MRT.app`** konumundadır.
 
-## Background Tasks Management
+## Arka Plan Görevleri Yönetimi
 
-**macOS** now **alerts** every time a tool uses a well known **technique to persist code execution** (such as Login Items, Daemons...), so the user knows better **which software is persisting**.
+**macOS**, artık bir aracın kod yürütmesini kalıcı hale getirmek için bilinen bir **teknik kullandığında her zaman uyarı verir** (örneğin, Giriş Öğeleri, Daemon'lar...), böylece kullanıcı **hangi yazılımın kalıcı olduğunu daha iyi bilir**.
 
 <figure><img src="../../../.gitbook/assets/image (711).png" alt=""><figcaption></figcaption></figure>
 
-This runs with a **daemon** located in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` and the **agent** in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
+Bu, `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` konumunda bir **daemon** ve `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app` konumunda bir **ajan** ile çalışır.
 
-The way **`backgroundtaskmanagementd`** knows something is installed in a persistent folder is by **getting the FSEvents** and creating some **handlers** for those.
+**`backgroundtaskmanagementd`**'nin bir kalıcı klasöre bir şeyin yüklendiğini bilmesinin yolu, **FSEvents**'leri alması ve bunlar için bazı **işleyiciler** oluşturmasıdır.
 
-Moreover, there is a plist file that contains **well known applications** that frequently persists maintained by apple located in: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
-
+Ayrıca, Apple tarafından sık sık kalıcı olan **bilinen uygulamaları** içeren bir plist dosyası bulunur: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
 ```json
 [...]
 "us.zoom.ZoomDaemon" => {
-    "AssociatedBundleIdentifiers" => [
-      0 => "us.zoom.xos"
-    ]
-    "Attribution" => "Zoom"
-    "Program" => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
-    "ProgramArguments" => [
-      0 => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
-    ]
-    "TeamIdentifier" => "BJ4HAAB9B3"
-  }
+"AssociatedBundleIdentifiers" => [
+0 => "us.zoom.xos"
+]
+"Attribution" => "Zoom"
+"Program" => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
+"ProgramArguments" => [
+0 => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
+]
+"TeamIdentifier" => "BJ4HAAB9B3"
+}
 [...]
 ```
+### Numaralandırma
 
-### Enumeration
-
-It's possible to **enumerate all** the configured background items running the Apple cli tool:
-
+Apple cli aracını kullanarak yapılandırılmış tüm arka plan öğelerini **numaralandırmak mümkündür**:
 ```bash
 # The tool will always ask for the users password
 sfltool dumpbtm
 ```
-
-Moreover, it's also possible to list this information with [**DumpBTM**](https://github.com/objective-see/DumpBTM).
-
+Ayrıca, bu bilgileri [**DumpBTM**](https://github.com/objective-see/DumpBTM) ile de listeleyebilirsiniz.
 ```bash
 # You need to grant the Terminal Full Disk Access for this to work
 chmod +x dumpBTM
 xattr -rc dumpBTM # Remove quarantine attr
 ./dumpBTM
 ```
+Bu bilgi **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** dosyasında saklanmaktadır ve Terminal FDA'ya ihtiyaç duyar.
 
-This information is being stored in **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** and the Terminal needs FDA.
+### BTM ile Oynamak
 
-### Messing with BTM
+Yeni bir kalıcılık bulunduğunda **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`** türünde bir olay meydana gelir. Bu nedenle, bu olayın gönderilmesini veya ajanın kullanıcıyı uyarılmasını **engelleyen** herhangi bir yol, bir saldırganın BTM'yi _**atlamasına**_ yardımcı olacaktır.
 
-When a new persistence is found an event of type **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. So, any way to **prevent** this **event** from being sent or the **agent from alerting** the user will help an attacker to _**bypass**_ BTM.
-
-* **Reseting the database**: Running the following command will reset the database (should rebuild it from the ground), however, for some reason, after running this, **no new persistence will be alerted until the system is rebooted**.
-  * **root** is required.
-
+* **Veritabanını sıfırlama**: Aşağıdaki komutu çalıştırmak veritabanını sıfırlayacak (temelden yeniden oluşturmalıdır), ancak bir şekilde, bu komutu çalıştırdıktan sonra **sistem yeniden başlatılana kadar yeni bir kalıcılık uyarılmayacaktır**.
+* **root** yetkisi gereklidir.
 ```bash
 # Reset the database
 sfltool resettbtm
 ```
-
-* **Stop the Agent**: It's possible to send a stop signal to the agent so it **won't be alerting the user** when new detections are found.
-
+* **Ajanı Durdurun**: Yeni tespitler bulunduğunda kullanıcıya uyarı göndermeyecek şekilde ajanı durdurmak mümkündür.
 ```bash
 # Get PID
 pgrep BackgroundTaskManagementAgent
@@ -143,10 +134,9 @@ kill -SIGSTOP 1011
 ps -o state 1011
 T
 ```
+* **Hata**: **Kalıcılığı oluşturan işlem hemen ardından hızlı bir şekilde sona ererse**, arka plan süreci onun hakkında bilgi almaya çalışacak, başarısız olacak ve yeni bir şeyin kalıcı olduğunu gösteren olayı gönderemeyecektir.
 
-* **Bug**: If the **process that created the persistence exists fast right after it**, the daemon will try to **get information** about it, **fail**, and **won't be able to send the event** indicating that a new thing is persisting.
-
-References and **more information about BTM**:
+BTM hakkında daha fazla bilgi ve referanslar:
 
 * [https://youtu.be/9hjUmT031tc?t=26481](https://youtu.be/9hjUmT031tc?t=26481)
 * [https://www.patreon.com/posts/new-developer-77420730?l=fr](https://www.patreon.com/posts/new-developer-77420730?l=fr)
@@ -154,14 +144,14 @@ References and **more information about BTM**:
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşün</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile öğrenin</strong>!</summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimizi**](https://opensea.io/collection/the-peass-family) görün
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u takip edin.
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
 
 </details>

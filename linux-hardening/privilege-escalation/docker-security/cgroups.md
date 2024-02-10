@@ -2,30 +2,29 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan ileri seviyeye öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
 
 </details>
 
-## Basic Information
+## Temel Bilgiler
 
-**Linux Control Groups**, or **cgroups**, are a feature of the Linux kernel that allows the allocation, limitation, and prioritization of system resources like CPU, memory, and disk I/O among process groups. They offer a mechanism for **managing and isolating the resource usage** of process collections, beneficial for purposes such as resource limitation, workload isolation, and resource prioritization among different process groups.
+**Linux Kontrol Grupları** veya **cgroups**, Linux çekirdeğinin bir özelliğidir ve CPU, bellek ve disk G/Ç gibi sistem kaynaklarının tahsisini, sınırlamasını ve önceliklendirmesini sağlar. **İşlem gruplarının kaynak kullanımını yönetme ve izolasyon** amacıyla faydalı olan bir mekanizma sunar.
 
-There are **two versions of cgroups**: version 1 and version 2. Both can be used concurrently on a system. The primary distinction is that **cgroups version 2** introduces a **hierarchical, tree-like structure**, enabling more nuanced and detailed resource distribution among process groups. Additionally, version 2 brings various enhancements, including:
+**Cgroups'ın iki versiyonu** bulunmaktadır: versiyon 1 ve versiyon 2. Her ikisi de aynı anda bir sistemde kullanılabilir. Temel fark, **cgroups versiyon 2'nin**, işlem grupları arasında daha ayrıntılı ve ayrıntılı kaynak dağılımı sağlayan **hiyerarşik, ağaç benzeri bir yapı** getirmesidir. Ayrıca, versiyon 2, yeni kaynak denetleyicileri desteği, eski uygulamalar için daha iyi destek ve geliştirilmiş performans dahil olmak üzere çeşitli iyileştirmeler getirir.
 
-In addition to the new hierarchical organization, cgroups version 2 also introduced **several other changes and improvements**, such as support for **new resource controllers**, better support for legacy applications, and improved performance.
+Yeni hiyerarşik düzenin yanı sıra, cgroups versiyon 2, yeni kaynak denetleyicileri desteği, eski uygulamalar için daha iyi destek ve geliştirilmiş performans gibi **birçok diğer değişiklik ve iyileştirmeyi** de tanıttı.
 
-Overall, cgroups **version 2 offers more features and better performance** than version 1, but the latter may still be used in certain scenarios where compatibility with older systems is a concern.
+Genel olarak, cgroups **versiyon 2, versiyon 1'den daha fazla özellik ve daha iyi performans** sunar, ancak eski sistemlerle uyumluluk endişesi olduğu durumlarda hala versiyon 1 kullanılabilir.
 
-You can list the v1 and v2 cgroups for any process by looking at its cgroup file in /proc/\<pid>. You can start by looking at your shell’s cgroups with this command:
-
+Herhangi bir işlem için v1 ve v2 cgroups'ları /proc/\<pid> dizinindeki cgroup dosyasına bakarak listeleyebilirsiniz. Bu komutla kabuğunuzun cgroups'larını kontrol etmeye başlayabilirsiniz:
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -40,75 +39,67 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
+Çıktı yapısı aşağıdaki gibidir:
 
-The output structure is as follows:
+- **2-12 Numaraları**: Her bir satır farklı bir cgroup'ı temsil eden cgroups v1'i belirtir. Bu cgroup'lar için denetleyiciler yanında belirtilir.
+- **1 Numarası**: Ayrıca cgroups v1'i temsil eder, ancak yalnızca yönetim amaçlıdır (örneğin, systemd tarafından ayarlanır) ve bir denetleyiciye sahip değildir.
+- **0 Numarası**: cgroups v2'yi temsil eder. Denetleyiciler listelenmez ve bu satır yalnızca cgroups v2 çalıştıran sistemlerde bulunur.
+- **İsimler hiyerarşiktir**, dosya yollarını andırır ve farklı cgroup'lar arasındaki yapı ve ilişkiyi gösterir.
+- **/user.slice veya /system.slice gibi isimler**, cgroup'ların kategorizasyonunu belirtir, user.slice genellikle systemd tarafından yönetilen oturumlar için ve system.slice sistem hizmetleri için kullanılır.
 
-- **Numbers 2–12**: cgroups v1, with each line representing a different cgroup. Controllers for these are specified adjacent to the number.
-- **Number 1**: Also cgroups v1, but solely for management purposes (set by, e.g., systemd), and lacks a controller.
-- **Number 0**: Represents cgroups v2. No controllers are listed, and this line is exclusive on systems only running cgroups v2.
-- The **names are hierarchical**, resembling file paths, indicating the structure and relationship between different cgroups.
-- **Names like /user.slice or /system.slice** specify the categorization of cgroups, with user.slice typically for login sessions managed by systemd and system.slice for system services.
+### Cgroup'ları Görüntüleme
 
-### Viewing cgroups
+Dosya sistemi genellikle çeşitli **cgroup'lara** erişmek için kullanılır ve geleneksel olarak çekirdek etkileşimleri için kullanılan Unix sistem çağrı arayüzünden ayrılır. Bir kabuğun cgroup yapılandırmasını incelemek için, kabuğun cgroup'ını ortaya koyan **/proc/self/cgroup** dosyasına bakılmalıdır. Ardından, **/sys/fs/cgroup** (veya **`/sys/fs/cgroup/unified`**) dizinine giderek, cgroup'ın adını paylaşan bir dizin bulunabilir ve cgroup ile ilgili çeşitli ayarları ve kaynak kullanımı bilgilerini gözlemleyebilirsiniz.
 
-The filesystem is typically utilized for accessing **cgroups**, diverging from the Unix system call interface traditionally used for kernel interactions. To investigate a shell's cgroup configuration, one should examine the **/proc/self/cgroup** file, which reveals the shell's cgroup. Then, by navigating to the **/sys/fs/cgroup** (or **`/sys/fs/cgroup/unified`**) directory and locating a directory that shares the cgroup's name, one can observe various settings and resource usage information pertinent to the cgroup.
+![Cgroup Dosya Sistemi](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
 
-![Cgroup Filesystem](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
-
-The key interface files for cgroups are prefixed with **cgroup**. The **cgroup.procs** file, which can be viewed with standard commands like cat, lists the processes within the cgroup. Another file, **cgroup.threads**, includes thread information.
+Cgroup'lar için ana arayüz dosyaları **cgroup** ile başlar. **cgroup.procs** dosyası, cat gibi standart komutlarla görüntülenebilen, cgroup içindeki işlemleri listeler. Başka bir dosya olan **cgroup.threads**, thread bilgilerini içerir.
 
 ![Cgroup Procs](../../../.gitbook/assets/image%20(1)%20(1)%20(5).png)
 
-Cgroups managing shells typically encompass two controllers that regulate memory usage and process count. To interact with a controller, files bearing the controller's prefix should be consulted. For instance, **pids.current** would be referenced to ascertain the count of threads in the cgroup.
+Kabukları yöneten cgroup'lar genellikle bellek kullanımını ve işlem sayısını düzenleyen iki denetleyici içerir. Bir denetleyiciyle etkileşimde bulunmak için, denetleyicinin ön ekini taşıyan dosyalara bakılmalıdır. Örneğin, cgroup içindeki thread sayısını belirlemek için **pids.current** başvurulur.
 
-![Cgroup Memory](../../../.gitbook/assets/image%20(3)%20(5).png)
+![Cgroup Bellek](../../../.gitbook/assets/image%20(3)%20(5).png)
 
-The indication of **max** in a value suggests the absence of a specific limit for the cgroup. However, due to the hierarchical nature of cgroups, limits might be imposed by a cgroup at a lower level in the directory hierarchy.
+Bir değerde **max** belirtimi, cgroup için belirli bir sınırlamanın olmadığını gösterir. Bununla birlikte, cgroup'ların hiyerarşik yapısı nedeniyle sınırlamalar, dizin hiyerarşisinde daha düşük bir seviyede bulunan bir cgroup tarafından uygulanabilir.
 
+### Cgroup'ları Manipüle Etme ve Oluşturma
 
-### Manipulating and Creating cgroups
-
-Processes are assigned to cgroups by **writing their Process ID (PID) to the `cgroup.procs` file**. This requires root privileges. For instance, to add a process:
-
+İşlemler, **Process ID (PID)**'lerini `cgroup.procs` dosyasına yazarak cgroup'lara atanır. Bunun için kök yetkilerine ihtiyaç vardır. Örneğin, bir işlem eklemek için:
 ```bash
 echo [pid] > cgroup.procs
 ```
-
-Similarly, **modifying cgroup attributes, like setting a PID limit**, is done by writing the desired value to the relevant file. To set a maximum of 3,000 PIDs for a cgroup:
-
+Benzer şekilde, **PID sınırlaması gibi cgroup özelliklerini değiştirmek**, ilgili dosyaya istenen değeri yazarak yapılır. Bir cgroup için maksimum 3.000 PID ayarlamak için:
 ```bash
 echo 3000 > pids.max
 ```
+**Yeni cgroups oluşturma**, cgroup hiyerarşisi içinde yeni bir alt dizin oluşturmayı içerir, bu da çekirdeğin gerekli arayüz dosyalarını otomatik olarak oluşturmasını sağlar. İşlemi olmayan cgroups `rmdir` ile kaldırılabilir, ancak bazı kısıtlamalara dikkat edilmelidir:
 
-**Creating new cgroups** involves making a new subdirectory within the cgroup hierarchy, which prompts the kernel to automatically generate necessary interface files. Though cgroups without active processes can be removed with `rmdir`, be aware of certain constraints:
-
-- **Processes can only be placed in leaf cgroups** (i.e., the most nested ones in a hierarchy). 
-- **A cgroup cannot possess a controller absent in its parent**.
-- **Controllers for child cgroups must be explicitly declared** in the `cgroup.subtree_control` file. For example, to enable CPU and PID controllers in a child cgroup:
-
+- **İşlemler yalnızca yaprak cgroups içine yerleştirilebilir** (yani, hiyerarşinin en içteki olanları).
+- **Bir cgroup, ebeveyninde bulunmayan bir denetleyiciye sahip olamaz**.
+- **Çocuk cgroups için denetleyiciler** `cgroup.subtree_control` dosyasında açıkça belirtilmelidir. Örneğin, bir çocuk cgroup'ta CPU ve PID denetleyicilerini etkinleştirmek için:
 ```bash
 echo "+cpu +pids" > cgroup.subtree_control
 ```
+**Kök cgroup**, bu kurallardan muaf olan ve doğrudan işlem yerleştirme izni veren bir istisnadır. Bu, süreçleri systemd yönetiminden kaldırmak için kullanılabilir.
 
-The **root cgroup** is an exception to these rules, allowing direct process placement. This can be used to remove processes from systemd management.
+Bir cgroup içindeki **CPU kullanımını izlemek**, `cpu.stat` dosyası aracılığıyla mümkündür. Bu dosya, bir hizmetin alt süreçleri arasındaki kullanımı takip etmek için yararlı olan toplam CPU süresini gösterir:
 
-**Monitoring CPU usage** within a cgroup is possible through the `cpu.stat` file, displaying total CPU time consumed, helpful for tracking usage across a service's subprocesses:
+<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>cpu.stat dosyasında gösterilen CPU kullanım istatistikleri</figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>CPU usage statistics as shown in the cpu.stat file</figcaption></figure>
-
-## References
-* **Book: How Linux Works, 3rd Edition: What Every Superuser Should Know By Brian Ward**
+## Referanslar
+* **Kitap: How Linux Works, 3. Baskı: Her Süper Kullanıcının Bilmesi Gerekenler, Brian Ward**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hackleme öğrenin<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live).
+* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
 
 </details>

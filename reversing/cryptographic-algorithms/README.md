@@ -1,210 +1,188 @@
-# Cryptographic/Compression Algorithms
+# Kriptografik/Sıkıştırma Algoritmaları
 
-## Cryptographic/Compression Algorithms
+## Kriptografik/Sıkıştırma Algoritmaları
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonuna göz atın
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>
 
-## Identifying Algorithms
+## Algoritmaları Tanımlama
 
-If you ends in a code **using shift rights and lefts, xors and several arithmetic operations** it's highly possible that it's the implementation of a **cryptographic algorithm**. Here it's going to be showed some ways to **identify the algorithm that it's used without needing to reverse each step**.
+Eğer bir kodda **shift right ve left, xor ve çeşitli aritmetik işlemler** kullanılıyorsa, büyük olasılıkla bir **kriptografik algoritmanın** uygulamasıdır. Burada, her adımı tersine çevirmeden kullanılan algoritmayı **tanımlamanın yolları** gösterilecektir.
 
-### API functions
+### API fonksiyonları
 
 **CryptDeriveKey**
 
-If this function is used, you can find which **algorithm is being used** checking the value of the second parameter:
+Bu fonksiyon kullanılıyorsa, ikinci parametrenin değerini kontrol ederek **hangi algoritmanın kullanıldığını** bulabilirsiniz:
 
 ![](<../../.gitbook/assets/image (375) (1) (1) (1) (1).png>)
 
-Check here the table of possible algorithms and their assigned values: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Mümkün olan algoritmaların tablosunu ve atanan değerlerini buradan kontrol edin: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 **RtlCompressBuffer/RtlDecompressBuffer**
 
-Compresses and decompresses a given buffer of data.
+Verilen bir veri tamponunu sıkıştırır ve açar.
 
 **CryptAcquireContext**
 
-From [the docs](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): The **CryptAcquireContext** function is used to acquire a handle to a particular key container within a particular cryptographic service provider (CSP). **This returned handle is used in calls to CryptoAPI** functions that use the selected CSP.
+[Belgelerden](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta) alıntı: **CryptAcquireContext** fonksiyonu, belirli bir kriptografik hizmet sağlayıcısı (CSP) içinde belirli bir anahtar konteynerine bir tanıtıcı edinmek için kullanılır. **Bu döndürülen tanıtıcı, seçilen CSP'yi kullanan CryptoAPI** fonksiyonlarına yapılan çağrılarda kullanılır.
 
 **CryptCreateHash**
 
-Initiates the hashing of a stream of data. If this function is used, you can find which **algorithm is being used** checking the value of the second parameter:
+Bir veri akışının karma işlemini başlatır. Bu fonksiyon kullanılıyorsa, ikinci parametrenin değerini kontrol ederek **hangi algoritmanın kullanıldığını** bulabilirsiniz:
 
 ![](<../../.gitbook/assets/image (376).png>)
 
-\
-Check here the table of possible algorithms and their assigned values: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Mümkün olan algoritmaların tablosunu ve atanan değerlerini buradan kontrol edin: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
-### Code constants
+### Kod sabitleri
 
-Sometimes it's really easy to identify an algorithm thanks to the fact that it needs to use a special and unique value.
+Bazı durumlarda, bir algoritmayı tanımak gerçekten kolay olabilir çünkü özel ve benzersiz bir değer kullanması gerekmektedir.
 
 ![](<../../.gitbook/assets/image (370).png>)
 
-If you search for the first constant in Google this is what you get:
+İlk sabit için Google'da arama yaptığınızda aşağıdaki sonucu elde edersiniz:
 
 ![](<../../.gitbook/assets/image (371).png>)
 
-Therefore, you can assume that the decompiled function is a **sha256 calculator.**\
-You can search any of the other constants and you will obtain (probably) the same result.
+Bu nedenle, dekompilasyon işlevinin bir **sha256 hesaplayıcısı** olduğunu varsayabilirsiniz. Diğer sabitlerden herhangi birini araştırırsanız (muhtemelen) aynı sonucu elde edersiniz.
 
-### data info
+### veri bilgisi
 
-If the code doesn't have any significant constant it may be **loading information from the .data section**.\
-You can access that data, **group the first dword** and search for it in google as we have done in the section before:
+Eğer kodda anlamlı bir sabit yoksa, muhtemelen bilgileri **.data bölümünden yüklüyor** demektir. Bu verilere erişebilir, **ilk dört kelimeyi gruplayabilir** ve yukarıdaki bölümde yaptığımız gibi Google'da arayabilirsiniz:
 
 ![](<../../.gitbook/assets/image (372).png>)
 
-In this case, if you look for **0xA56363C6** you can find that it's related to the **tables of the AES algorithm**.
+Bu durumda, **0xA56363C6** için arama yaptığınızda, bu, **AES algoritmasının tablolarıyla ilgili olduğunu** bulabilirsiniz.
 
-## RC4 **(Symmetric Crypt)**
+## RC4 **(Simetrik Şifreleme)**
 
-### Characteristics
+### Özellikler
 
-It's composed of 3 main parts:
+3 ana bölümden oluşur:
 
-* **Initialization stage/**: Creates a **table of values from 0x00 to 0xFF** (256bytes in total, 0x100). This table is commonly call **Substitution Box** (or SBox).
-* **Scrambling stage**: Will **loop through the table** crated before (loop of 0x100 iterations, again) creating modifying each value with **semi-random** bytes. In order to create this semi-random bytes, the RC4 **key is used**. RC4 **keys** can be **between 1 and 256 bytes in length**, however it is usually recommended that it is above 5 bytes. Commonly, RC4 keys are 16 bytes in length.
-* **XOR stage**: Finally, the plain-text or cyphertext is **XORed with the values created before**. The function to encrypt and decrypt is the same. For this, a **loop through the created 256 bytes** will be performed as many times as necessary. This is usually recognized in a decompiled code with a **%256 (mod 256)**.
+* **Başlatma aşaması/**: 0x00 ila 0xFF (toplamda 256 bayt, 0x100) arasındaki değerlerden bir **tablo oluşturur**. Bu tablo genellikle **Yerine Geçme Kutusu** (veya SBox) olarak adlandırılır.
+* **Karıştırma aşaması**: Önceden oluşturulan tabloyu (tekrar 0x100 döngüsüyle) dolaşacak ve her değeri **yarı rastgele** baytlarla değiştirecektir. Bu yarı rastgele baytları oluşturmak için RC4 **anahtarını kullanır**. RC4 anahtarları genellikle 1 ila 256 bayt uzunluğunda olabilir, ancak genellikle 5 bayttan daha uzun olması önerilir. Genellikle, RC4 anahtarları 16 bayt uzunluğundadır.
+* **XOR aşaması**: Son olarak, düz metin veya şifreli metin, önceden oluşturulan değerlerle **XORlanır**. Şifreleme ve şifre çözme işlevi aynıdır. Bunun için, oluşturulan 256 bayt üzerindeki döngü, gerektiği kadar çok kez gerçekleştirilir. Bu genellikle bir dekompilasyon kodunda **%256 (mod 256)** ile tanınır.
 
 {% hint style="info" %}
-**In order to identify a RC4 in a disassembly/decompiled code you can check for 2 loops of size 0x100 (with the use of a key) and then a XOR of the input data with the 256 values created before in the 2 loops probably using a %256 (mod 256)**
+**Bir değişim/dekompilasyon kodunda RC4'ü tanımlamak için, bir anahtarın kullanıldığı 2 adet 0x100 boyutunda döngüyü ve ardından giriş verilerinin 2 döngüde önceden oluşturulan 256 değerle XOR işlemini kontrol edebilirsiniz (muhtemelen %256 (mod 256) kullanılarak).**
 {% endhint %}
 
-### **Initialization stage/Substitution Box:** (Note the number 256 used as counter and how a 0 is written in each place of the 256 chars)
+### **Başlatma aşaması/Yerine Geçme Kutusu:** (256 kullanılan sayıya ve 256 karakterin her bir yerine 0'ın yazıldığına dikkat edin)
 
 ![](<../../.gitbook/assets/image (377).png>)
 
-### **Scrambling Stage:**
+### **Karıştırma Aşaması:**
 
 ![](<../../.gitbook/assets/image (378).png>)
 
-### **XOR Stage:**
+### **XOR Aşaması:**
 
 ![](<../../.gitbook/assets/image (379).png>)
 
-## **AES (Symmetric Crypt)**
+## **AES (Simetrik Şifreleme)**
 
-### **Characteristics**
+### **Özellikler**
 
-* Use of **substitution boxes and lookup tables**
-  * It's possible to **distinguish AES thanks to the use of specific lookup table values** (constants). _Note that the **constant** can be **stored** in the binary **or created**_ _**dynamically**._
-* The **encryption key** must be **divisible** by **16** (usually 32B) and usually an **IV** of 16B is used.
+* **Yerine Geçme Kutuları ve arama tabloları** kullanımı
+* **Belirli arama tablosu değerlerinin** (sabitlerin) kullanımı sayesinde AES'yi ayırt etmek mümkündür. _Not olarak, **sabit** ikili **olarak depolanabilir** veya _**dinamik olarak**_ _**oluşturulabilir**._
+* **Şifreleme anahtarı**, 16'ya **bölünebilir** olmalıdır (genellikle 32B) ve genellikle 16B'lik bir **IV** kullanılır.
 
-### SBox constants
+### SBox sabitleri
 
 ![](<../../.gitbook/assets/image (380).png>)
 
-## Serpent **(Symmetric Crypt)**
+## Serpent **(Simetrik Şifrele
+## RSA **(Asimetrik Şifreleme)**
 
-### Characteristics
+### Özellikler
 
-* It's rare to find some malware using it but there are examples (Ursnif)
-* Simple to determine if an algorithm is Serpent or not based on it's length (extremely long function)
+* Simetrik algoritmalardan daha karmaşıktır.
+* Sabitler yoktur! (özel uygulamaları belirlemek zordur)
+* RSA'ya dair ipuçları göstermekte başarısız olan KANAL (bir kripto analizörü) sabitlere dayanır.
 
-### Identifying
-
-In the following image notice how the constant **0x9E3779B9** is used (note that this constant is also used by other crypto algorithms like **TEA** -Tiny Encryption Algorithm).\
-Also note the **size of the loop** (**132**) and the **number of XOR operations** in the **disassembly** instructions and in the **code** example:
-
-![](<../../.gitbook/assets/image (381).png>)
-
-As it was mentioned before, this code can be visualized inside any decompiler as a **very long function** as there **aren't jumps** inside of it. The decompiled code can look like the following:
-
-![](<../../.gitbook/assets/image (382).png>)
-
-Therefore, it's possible to identify this algorithm checking the **magic number** and the **initial XORs**, seeing a **very long function** and **comparing** some **instructions** of the long function **with an implementation** (like the shift left by 7 and the rotate left by 22).
-
-## RSA **(Asymmetric Crypt)**
-
-### Characteristics
-
-* More complex than symmetric algorithms
-* There are no constants! (custom implementation are difficult to determine)
-* KANAL (a crypto analyzer) fails to show hints on RSA ad it relies on constants.
-
-### Identifying by comparisons
+### Karşılaştırmalarla Tanımlama
 
 ![](<../../.gitbook/assets/image (383).png>)
 
-* In line 11 (left) there is a `+7) >> 3` which is the same as in line 35 (right): `+7) / 8`
-* Line 12 (left) is checking if `modulus_len < 0x040` and in line 36 (right) it's checking if `inputLen+11 > modulusLen`
+* Sol tarafta 11. satırda `+7) >> 3` sağ tarafta 35. satırda `+7) / 8` ile aynıdır.
+* Sol tarafta 12. satır `modulus_len < 0x040` kontrol ederken sağ tarafta 36. satır `inputLen+11 > modulusLen` kontrol eder.
 
 ## MD5 & SHA (hash)
 
-### Characteristics
+### Özellikler
 
-* 3 functions: Init, Update, Final
-* Similar initialize functions
+* Init, Update, Final olmak üzere 3 fonksiyon vardır.
+* Benzer başlatma fonksiyonları vardır.
 
-### Identify
+### Tanımlama
 
 **Init**
 
-You can identify both of them checking the constants. Note that the sha\_init has 1 constant that MD5 doesn't have:
+Her ikisini de sabitlere bakarak tanımlayabilirsiniz. MD5'in sahip olmadığı bir sabit olan sha\_init'e dikkat edin:
 
 ![](<../../.gitbook/assets/image (385).png>)
 
-**MD5 Transform**
+**MD5 Dönüşümü**
 
-Note the use of more constants
+Daha fazla sabit kullanımına dikkat edin:
 
 ![](<../../.gitbook/assets/image (253) (1) (1) (1).png>)
 
 ## CRC (hash)
 
-* Smaller and more efficient as it's function is to find accidental changes in data
-* Uses lookup tables (so you can identify constants)
+* Verilerdeki kazara değişiklikleri bulmak için işlevi olduğu için daha küçük ve daha verimlidir.
+* Sabitleri tanımlamak için arama tabloları kullanır.
 
-### Identify
+### Tanımlama
 
-Check **lookup table constants**:
+**Arama tablosu sabitlerini kontrol edin**:
 
 ![](<../../.gitbook/assets/image (387).png>)
 
-A CRC hash algorithm looks like:
+Bir CRC karma algoritması şuna benzer:
 
 ![](<../../.gitbook/assets/image (386).png>)
 
-## APLib (Compression)
+## APLib (Sıkıştırma)
 
-### Characteristics
+### Özellikler
 
-* Not recognizable constants
-* You can try to write the algorithm in python and search for similar things online
+* Tanınabilir sabitler yoktur.
+* Algoritmayı Python'da yazmayı deneyebilir ve benzer şeyleri çevrimiçi arayabilirsiniz.
 
-### Identify
+### Tanımlama
 
-The graph is quiet large:
+Grafik oldukça büyüktür:
 
 ![](<../../.gitbook/assets/image (207) (2) (1).png>)
 
-Check **3 comparisons to recognise it**:
+**Tanımak için 3 karşılaştırma kontrol edin**:
 
 ![](<../../.gitbook/assets/image (384).png>)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklam vermek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live).
+* Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
 
 </details>

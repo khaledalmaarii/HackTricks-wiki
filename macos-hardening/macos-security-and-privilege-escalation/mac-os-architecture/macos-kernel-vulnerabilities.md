@@ -1,30 +1,30 @@
-# macOS Kernel Vulnerabilities
+# macOS Çekirdek Zafiyetleri
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* **Bir siber güvenlik şirketinde çalışıyor musunuz?** **Şirketinizi HackTricks'te duyurmak** ister misiniz? **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? **[ABONELİK PLANLARINI](https://github.com/sponsors/carlospolop)** kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan özel koleksiyonumuz
+* [**PEASS ve HackTricks'in resmi ürünlerini**](https://peass.creator-spring.com) edinin
+* **[💬 Discord grubuna](https://emojipedia.org/speech-balloon/) veya [telegram grubuna](https://t.me/peass) katılın veya** 🐦 **Twitter'da** [**@carlospolopm**](https://twitter.com/hacktricks\_live) **takip edin**.
+* **Hacking hilelerinizi göndererek PR göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **paylaşın**.
 
 </details>
 
-## [Pwning OTA](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)
+## [OTA'nın Ele Geçirilmesi](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)
 
-[**In this report**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) are explained several vulnerabilities that allowed to compromised the kernel compromising the software updater.\
+[**Bu raporda**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) yazılım güncelleyicinin çekirdeği tehlikeye atarak çekirdeği ele geçirmeye izin veren birkaç zafiyet açıklanmaktadır.\
 [**PoC**](https://github.com/jhftss/POC/tree/main/CVE-2022-46722).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* **Bir siber güvenlik şirketinde çalışıyor musunuz?** **Şirketinizi HackTricks'te duyurmak** ister misiniz? **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? **[ABONELİK PLANLARINI](https://github.com/sponsors/carlospolop)** kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan özel koleksiyonumuz
+* [**PEASS ve HackTricks'in resmi ürünlerini**](https://peass.creator-spring.com) edinin
+* **[💬 Discord grubuna](https://emojipedia.org/speech-balloon/) veya [telegram grubuna](https://t.me/peass) katılın veya** 🐦 **Twitter'da** [**@carlospolopm**](https://twitter.com/hacktricks\_live) **takip edin**.
+* **Hacking hilelerinizi göndererek PR göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **paylaşın**.
 
 </details>

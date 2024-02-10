@@ -1,117 +1,105 @@
-# Windows Credentials Protections
+# Windows Kimlik Bilgileri Korumaları
 
-## Credentials Protections
+## Kimlik Bilgileri Korumaları
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
 ## WDigest
 
-The [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868(v=ws.10).aspx?f=255&MSPPError=-2147217396) protocol, introduced with Windows XP, is designed for authentication via the HTTP Protocol and is **enabled by default on Windows XP through Windows 8.0 and Windows Server 2003 to Windows Server 2012**. This default setting results in **plain-text password storage in LSASS** (Local Security Authority Subsystem Service). An attacker can use Mimikatz to **extract these credentials** by executing:
-
+[WDigest](https://technet.microsoft.com/pt-pt/library/cc778868(v=ws.10).aspx?f=255&MSPPError=-2147217396) protokolü, Windows XP ile birlikte tanıtılmış olup, HTTP Protokolü aracılığıyla kimlik doğrulama için tasarlanmıştır ve **Windows XP'den Windows 8.0 ve Windows Server 2003'ten Windows Server 2012'ye kadar varsayılan olarak etkindir**. Bu varsayılan ayar, LSASS'te (Yerel Güvenlik Yetkilendirme Alt Sistemi Hizmeti) **düz metin parola depolamasına** neden olur. Bir saldırgan, Mimikatz'ı kullanarak bu kimlik bilgilerini çıkarabilir. Bunun için şu komutu çalıştırabilir:
 ```bash
 sekurlsa::wdigest
 ```
-
-To **toggle this feature off or on**, the _**UseLogonCredential**_ and _**Negotiate**_ registry keys within _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ must be set to "1". If these keys are **absent or set to "0"**, WDigest is **disabled**:
-
+Bu özelliği açmak veya kapatmak için, _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ içindeki _**UseLogonCredential**_ ve _**Negotiate**_ kayıt defteri anahtarları "1" olarak ayarlanmalıdır. Bu anahtarlar **mevcut değil veya "0" olarak ayarlanmışsa**, WDigest devre dışı bırakılmıştır:
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential
 ```
+## LSA Koruma
 
-
-## LSA Protection
-
-Starting with **Windows 8.1**, Microsoft enhanced the security of LSA to **block unauthorized memory reads or code injections by untrusted processes**. This enhancement hinders the typical functioning of commands like `mimikatz.exe sekurlsa:logonpasswords`. To **enable this enhanced protection**, the _**RunAsPPL**_ value in _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ should be adjusted to 1:
-
-
+**Windows 8.1** ile başlayarak, Microsoft LSA'nın güvenliğini **güvenilmeyen işlemler tarafından yetkisiz bellek okumalarını veya kod enjeksiyonlarını engellemek** için geliştirdi. Bu geliştirme, `mimikatz.exe sekurlsa:logonpasswords` gibi komutların tipik işleyişini engeller. Bu gelişmiş korumayı **etkinleştirmek** için, _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ içindeki _**RunAsPPL**_ değeri 1 olarak ayarlanmalıdır:
 ```
 reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL
 ```
+### Atlatma
 
-### Bypass
-
-It is possible to bypass this protection using Mimikatz driver mimidrv.sys:
+Bu korumayı atlamak mümkündür, Mimikatz sürücüsü mimidrv.sys kullanılarak:
 
 ![](../../.gitbook/assets/mimidrv.png)
 
-## Credential Guard
+## Kimlik Bilgisi Koruma
 
-**Credential Guard**, a feature exclusive to **Windows 10 (Enterprise and Education editions)**, enhances the security of machine credentials using **Virtual Secure Mode (VSM)** and **Virtualization Based Security (VBS)**. It leverages CPU virtualization extensions to isolate key processes within a protected memory space, away from the main operating system's reach. This isolation ensures that even the kernel cannot access the memory in VSM, effectively safeguarding credentials from attacks like **pass-the-hash**. The **Local Security Authority (LSA)** operates within this secure environment as a trustlet, while the **LSASS** process in the main OS acts merely as a communicator with the VSM's LSA.
+**Kimlik Bilgisi Koruma**, yalnızca **Windows 10 (Enterprise ve Education sürümleri)** için özel bir özelliktir ve **Sanal Güvenli Mod (VSM)** ve **Sanallaştırma Temelli Güvenlik (VBS)** kullanarak makine kimlik bilgilerinin güvenliğini artırır. CPU sanallaştırma uzantılarını kullanarak, önemli işlemleri ana işletim sisteminin erişiminden uzakta korunan bir bellek alanında izole eder. Bu izolasyon, çekirdeğin bile VSM belleğine erişememesini sağlar ve böylece **hash geçirme** gibi saldırılardan kimlik bilgilerini etkili bir şekilde korur. **Yerel Güvenlik Yetkilisi (LSA)**, güvenli bir ortam olarak bu izole ortamda çalışırken, ana işletim sistemindeki **LSASS** süreci yalnızca VSM'nin LSA'sıyla iletişim kurar.
 
-By default, **Credential Guard** is not active and requires manual activation within an organization. It's critical for enhancing security against tools like **Mimikatz**, which are hindered in their ability to extract credentials. However, vulnerabilities can still be exploited through the addition of custom **Security Support Providers (SSP)** to capture credentials in clear text during login attempts.
+Varsayılan olarak, **Kimlik Bilgisi Koruma** etkin değildir ve bir kuruluş içinde manuel olarak etkinleştirilmesi gerekmektedir. Bu, **Mimikatz** gibi araçlara karşı güvenliği artırmak için kritiktir, çünkü bu araçlar kimlik bilgilerini çıkarmada engellenir. Bununla birlikte, özel **Güvenlik Destek Sağlayıcıları (SSP)** eklenerek kimlik bilgilerinin giriş denemeleri sırasında açık metin olarak ele geçirilmesi yoluyla hala güvenlik açıkları sömürülebilir.
 
-To verify **Credential Guard**'s activation status, the registry key **_LsaCfgFlags_** under **_HKLM\System\CurrentControlSet\Control\LSA_** can be inspected. A value of "**1**" indicates activation with **UEFI lock**, "**2**" without lock, and "**0**" denotes it is not enabled. This registry check, while a strong indicator, is not the sole step for enabling Credential Guard. Detailed guidance and a PowerShell script for enabling this feature are available online.
-
+**Kimlik Bilgisi Koruma**'nın etkinleştirme durumunu doğrulamak için **_HKLM\System\CurrentControlSet\Control\LSA_** altında bulunan **_LsaCfgFlags_** kaydı kontrol edilebilir. "**1**" değeri, **UEFI kilidi** ile etkinleştirildiğini, "**2**" değeri kilitsiz etkinleştirildiğini ve "**0**" değeri etkin olmadığını gösterir. Bu kayıt kontrolü, güçlü bir gösterge olsa da, Kimlik Bilgisi Koruma'yı etkinleştirmek için tek adım değildir. Bu özelliği etkinleştirmek için ayrıntılı talimatlar ve bir PowerShell komut dosyası çevrimiçi olarak mevcuttur.
 ```powershell
 reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 ```
+Windows 10'da **Credential Guard**'ı etkinleştirmek ve uyumlu sistemlerde **Windows 11 Enterprise ve Education (sürüm 22H2)** için otomatik etkinleştirmeyi sağlamak için [Microsoft belgelerine](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage) başvurun.
 
-For a comprehensive understanding and instructions on enabling **Credential Guard** in Windows 10 and its automatic activation in compatible systems of **Windows 11 Enterprise and Education (version 22H2)**, visit [Microsoft's documentation](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
-
-Further details on implementing custom SSPs for credential capture are provided in [this guide](../active-directory-methodology/custom-ssp.md).
+Özel SSP'lerin kimlik bilgisi yakalama için uygulanmasıyla ilgili ayrıntılı bilgiler [bu kılavuzda](../active-directory-methodology/custom-ssp.md) sunulmaktadır.
 
 
-## RDP RestrictedAdmin Mode
+## RDP RestrictedAdmin Modu
 
-**Windows 8.1 and Windows Server 2012 R2** introduced several new security features, including the **_Restricted Admin mode for RDP_**. This mode was designed to enhance security by mitigating the risks associated with **[pass the hash](https://blog.ahasayen.com/pass-the-hash/)** attacks.
+**Windows 8.1 ve Windows Server 2012 R2**, **_RDP için Restricted Admin modunu_** içeren bir dizi yeni güvenlik özelliği tanıttı. Bu mod, **[hash geçirme](https://blog.ahasayen.com/pass-the-hash/)** saldırılarıyla ilişkili riskleri azaltarak güvenliği artırmak için tasarlanmıştır.
 
-Traditionally, when connecting to a remote computer via RDP, your credentials are stored on the target machine. This poses a significant security risk, especially when using accounts with elevated privileges. However, with the introduction of **_Restricted Admin mode_**, this risk is substantially reduced.
+Geleneksel olarak, RDP aracılığıyla uzak bir bilgisayara bağlandığınızda kimlik bilgileriniz hedef makinede depolanır. Bu, özellikle yükseltilmiş ayrıcalıklara sahip hesapları kullanırken önemli bir güvenlik riski oluşturur. Ancak, **_Restricted Admin modu_**'nun tanıtılmasıyla bu risk önemli ölçüde azaltılmıştır.
 
-When initiating an RDP connection using the command **mstsc.exe /RestrictedAdmin**, authentication to the remote computer is performed without storing your credentials on it. This approach ensures that, in the event of a malware infection or if a malicious user gains access to the remote server, your credentials are not compromised, as they are not stored on the server.
+**mstsc.exe /RestrictedAdmin** komutunu kullanarak bir RDP bağlantısı başlattığınızda, uzak bilgisayara kimlik doğrulaması depolanmadan gerçekleştirilir. Bu yaklaşım, kötü amaçlı yazılım enfeksiyonu durumunda veya kötü niyetli bir kullanıcının uzak sunucuya erişim sağlaması durumunda kimlik bilgilerinizin sunucuda depolanmadığı için tehlikeye düşmediğini sağlar.
 
-It's important to note that in **Restricted Admin mode**, attempts to access network resources from the RDP session will not use your personal credentials; instead, the **machine's identity** is used.
+Önemli bir nokta olarak, **Restricted Admin modunda**, RDP oturumundan ağ kaynaklarına erişim girişimleri kişisel kimlik bilgilerinizi kullanmayacak; bunun yerine **makinenin kimliği** kullanılacaktır.
 
-This feature marks a significant step forward in securing remote desktop connections and protecting sensitive information from being exposed in case of a security breach.
+Bu özellik, uzak masaüstü bağlantılarını güvence altına almak ve güvenlik ihlali durumunda hassas bilgilerin ortaya çıkmasını engellemek için önemli bir adımdır.
 
 ![](../../.gitbook/assets/ram.png)
 
-For more detailed information on visit [this resource](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
+Daha detaylı bilgi için [bu kaynağa](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/) başvurun.
 
 
-## Cached Credentials
+## Önbelleğe Alınmış Kimlik Bilgileri
 
-Windows secures **domain credentials** through the **Local Security Authority (LSA)**, supporting logon processes with security protocols like **Kerberos** and **NTLM**. A key feature of Windows is its capability to cache the **last ten domain logins** to ensure users can still access their computers even if the **domain controller is offline**—a boon for laptop users often away from their company's network.
+Windows, **yerel güvenlik otoritesi (LSA)** aracılığıyla **etki alanı kimlik bilgilerini** güvence altına alır ve **Kerberos** ve **NTLM** gibi güvenlik protokolleriyle oturum açma işlemlerini destekler. Windows'un bir özelliği, kullanıcıların şirket ağlarından uzakta sık sık bulunan dizüstü bilgisayar kullanıcıları için bile **etki alanı denetleyicisi çevrimdışı olduğunda bile** son on etki alanı oturum açmasını önbelleğe alabilmesidir.
 
-The number of cached logins is adjustable via a specific **registry key or group policy**. To view or change this setting, the following command is utilized:
-
+Önbelleğe alınan oturum açmalarının sayısı belirli bir **kayıt defteri anahtarı veya grup ilkesi** aracılığıyla ayarlanabilir. Bu ayarı görüntülemek veya değiştirmek için aşağıdaki komut kullanılır:
 ```bash
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLOGON" /v CACHEDLOGONSCOUNT
 ```
+Bu önbelleğe alınmış kimlik bilgilerine erişim sıkı bir şekilde kontrol edilir ve yalnızca **SYSTEM** hesabının bunları görüntülemek için gerekli izinlere sahip olması sağlanır. Bu bilgilere erişmek isteyen yöneticiler, bunu SYSTEM kullanıcı yetkileriyle yapmalıdır. Kimlik bilgileri şurada saklanır: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
 
-Access to these cached credentials is tightly controlled, with only the **SYSTEM** account having the necessary permissions to view them. Administrators needing to access this information must do so with SYSTEM user privileges. The credentials are stored at: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
+**Mimikatz**, `lsadump::cache` komutunu kullanarak bu önbelleğe alınmış kimlik bilgilerini çıkarmak için kullanılabilir.
 
-**Mimikatz** can be employed to extract these cached credentials using the command `lsadump::cache`.
-
-For further details, the original [source](http://juggernaut.wikidot.com/cached-credentials) provides comprehensive information.
+Daha fazla ayrıntı için, orijinal [kaynak](http://juggernaut.wikidot.com/cached-credentials) kapsamlı bilgi sağlar.
 
 
-## Protected Users
+## Korunan Kullanıcılar
 
-Membership in the **Protected Users group** introduces several security enhancements for users, ensuring higher levels of protection against credential theft and misuse:
+**Korunan Kullanıcılar grubuna** üyelik, kimlik bilgilerinin çalınması ve kötüye kullanılmasına karşı daha yüksek düzeyde koruma sağlayan birkaç güvenlik geliştirmesini beraberinde getirir:
 
-- **Credential Delegation (CredSSP)**: Even if the Group Policy setting for **Allow delegating default credentials** is enabled, plain text credentials of Protected Users will not be cached.
-- **Windows Digest**: Starting from **Windows 8.1 and Windows Server 2012 R2**, the system will not cache plain text credentials of Protected Users, regardless of the Windows Digest status.
-- **NTLM**: The system will not cache Protected Users' plain text credentials or NT one-way functions (NTOWF).
-- **Kerberos**: For Protected Users, Kerberos authentication will not generate **DES** or **RC4 keys**, nor will it cache plain text credentials or long-term keys beyond the initial Ticket-Granting Ticket (TGT) acquisition.
-- **Offline Sign-In**: Protected Users will not have a cached verifier created at sign-in or unlock, meaning offline sign-in is not supported for these accounts.
+- **Kimlik Bilgilerinin Delege Edilmesi (CredSSP)**: **Varsayılan kimlik bilgilerinin delege edilmesine izin ver** Grup İlkesi ayarı etkin olsa bile, Korunan Kullanıcıların düz metin kimlik bilgileri önbelleğe alınmaz.
+- **Windows Digest**: **Windows 8.1 ve Windows Server 2012 R2**'den itibaren, sistem Korunan Kullanıcıların düz metin kimlik bilgilerini, Windows Digest durumuna bakılmaksızın önbelleğe almaz.
+- **NTLM**: Sistem, Korunan Kullanıcıların düz metin kimlik bilgilerini veya NT tek yönlü işlevlerini (NTOWF) önbelleğe almaz.
+- **Kerberos**: Korunan Kullanıcılar için Kerberos kimlik doğrulaması, **DES** veya **RC4 anahtarları** üretmez ve düz metin kimlik bilgilerini veya uzun vadeli anahtarları başlangıç Bilet-Veren Bilet (TGT) edinme aşamasından öteye önbelleğe almaz.
+- **Çevrimdışı Oturum Açma**: Korunan Kullanıcılar, oturum açma veya kilidi açma sırasında önbelleğe alınmış bir doğrulayıcı oluşturmayacaklarından, çevrimdışı oturum açma bu hesaplar için desteklenmez.
 
-These protections are activated the moment a user, who is a member of the **Protected Users group**, signs into the device. This ensures that critical security measures are in place to safeguard against various methods of credential compromise.
+Bu korumalar, **Korunan Kullanıcılar grubu** üyesi olan bir kullanıcının cihaza oturum açtığı anda etkinleştirilir. Bu, kimlik bilgilerinin çeşitli yöntemlerle tehlikeye atılmasına karşı kritik güvenlik önlemlerinin yerinde olduğunu sağlar.
 
-For more detailed information, consult the official [documentation](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group).
+Daha ayrıntılı bilgi için, resmi [belgelendirmeyi](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group) inceleyin.
 
-**Table from** [**the docs**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
+**Tablo** [**belgelerden**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)** alınmıştır.**
 
 | Windows Server 2003 RTM | Windows Server 2003 SP1+ | <p>Windows Server 2012,<br>Windows Server 2008 R2,<br>Windows Server 2008</p> | Windows Server 2016          |
 | ----------------------- | ------------------------ | ----------------------------------------------------------------------------- | ---------------------------- |
@@ -134,14 +122,14 @@ For more detailed information, consult the official [documentation](https://docs
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı yapmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimizi**](https://opensea.io/collection/the-peass-family) görün
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** katkıda bulunun.
 
 </details>

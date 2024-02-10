@@ -1,37 +1,35 @@
-# Python Internal Read Gadgets
+# Python İçsel Okuma Araçları
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'i **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-## Basic Information
+## Temel Bilgiler
 
-Different vulnerabilities such as [**Python Format Strings**](bypass-python-sandboxes/#python-format-string) or [**Class Pollution**](class-pollution-pythons-prototype-pollution.md) might allow you to **read python internal data but won't allow you to execute code**. Therefore, a pentester will need to make the most of these read permissions to **obtain sensitive privileges and escalate the vulnerability**.
+[**Python Format Dizeleri**](bypass-python-sandboxes/#python-format-string) veya [**Sınıf Kirliliği**](class-pollution-pythons-prototype-pollution.md) gibi farklı zayıflıklar, **python içsel verilerini okumanıza izin verebilir, ancak kodu yürütmenize izin vermeyebilir**. Bu nedenle, bir pentester, bu okuma izinlerinden **duyarlı ayrıcalıklar elde etmek ve zayıflığı yükseltmek** için en iyi şekilde yararlanmalıdır.
 
-### Flask - Read secret key
+### Flask - Gizli anahtarı okuma
 
-The main page of a Flask application will probably have the **`app`** global object where this **secret is configured**.
-
+Bir Flask uygulamasının ana sayfasında, bu **gizli anahtarın yapılandırıldığı** **`app`** global nesnesi olabilir.
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
+Bu durumda, [Python kum havuzlarını atlatma sayfasından](bypass-python-sandboxes/) herhangi bir araç kullanarak bu nesneye erişmek mümkündür.
 
-In this case it's possible to access this object just using any gadget to **access global objects** from the [**Bypass Python sandboxes page**](bypass-python-sandboxes/).
+**Zafiyet başka bir Python dosyasında ise**, ana dosyaya ulaşmak için dosyaları gezinmek için bir araca ihtiyacınız vardır. Bu şekilde Flask gizli anahtarını değiştirerek [bu anahtarı bilerek](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign) ayrıcalıkları yükseltebilirsiniz.
 
-In the case where **the vulnerability is in a different python file**, you need a gadget to traverse files to get to the main one to **access the global object `app.secret_key`** to change the Flask secret key and be able to [**escalate privileges** knowing this key](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
-
-A payload like this one [from this writeup](https://ctftime.org/writeup/36082):
+Bu yazıdan bir örnek yük:
 
 {% code overflow="wrap" %}
 ```python
@@ -39,33 +37,31 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Use this payload to **change `app.secret_key`** (the name in your app might be different) to be able to sign new and more privileges flask cookies.
+Bu payload'ı kullanarak `app.secret_key`'i (uygulamanızdaki adı farklı olabilir) değiştirerek yeni ve daha fazla yetkiye sahip flask çerezlerini imzalayabilirsiniz.
 
-### Werkzeug - machine\_id and node uuid
+### Werkzeug - machine\_id ve node uuid
 
-[**Using these payload from this writeup**](https://vozec.fr/writeups/tweedle-dum-dee/) you will be able to access the **machine\_id** and the **uuid** node, which are the **main secrets** you need to [**generate the Werkzeug pin**](../../network-services-pentesting/pentesting-web/werkzeug.md) you can use to access the python console in `/console` if the **debug mode is enabled:**
-
+[**Bu yazıdan bu payload'ı kullanarak**](https://vozec.fr/writeups/tweedle-dum-dee/) **machine\_id** ve **uuid** düğümüne erişebilirsiniz, bunlar [**Werkzeug pinini oluşturmak için**](../../network-services-pentesting/pentesting-web/werkzeug.md) ihtiyaç duyduğunuz **ana sırlardır**. Eğer **hata ayıklama modu etkinse**, `/console` içinde python konsoluna erişmek için kullanabileceğiniz Werkzeug pinini oluşturabilirsiniz:
 ```python
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug]._machine_id}
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug].uuid._node}
 ```
-
 {% hint style="warning" %}
-Note that you can get the **servers local path to the `app.py`** generating some **error** in the web page which will **give you the path**.
+Dikkat, `app.py` dosyasının **sunucunun yerel yolunu** alabilirsiniz, web sayfasında bir **hata** oluşturarak yolunuzu **elde edebilirsiniz**.
 {% endhint %}
 
-If the vulnerability is in a different python file, check the previous Flask trick to access the objects from the main python file.
+Eğer zafiyet başka bir python dosyasında ise, ana python dosyasından nesnelere erişmek için önceki Flask hilesine bakın.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
 
 </details>

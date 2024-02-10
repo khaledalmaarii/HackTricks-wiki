@@ -2,210 +2,193 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme hakkında sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>
 
-**To learn about macOS MDMs check:**
+**macOS MDM hakkında bilgi edinmek için:**
 
 * [https://www.youtube.com/watch?v=ku8jZe-MHUU](https://www.youtube.com/watch?v=ku8jZe-MHUU)
 * [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe)
 
-## Basics
+## Temel Bilgiler
 
-### **MDM (Mobile Device Management) Overview**
-[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile_device_management) (MDM) is utilized for overseeing various end-user devices like smartphones, laptops, and tablets. Particularly for Apple's platforms (iOS, macOS, tvOS), it involves a set of specialized features, APIs, and practices. The operation of MDM hinges on a compatible MDM server, which is either commercially available or open-source, and must support the [MDM Protocol](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Key points include:
+### **MDM (Mobil Cihaz Yönetimi) Genel Bakışı**
+[Mobil Cihaz Yönetimi](https://en.wikipedia.org/wiki/Mobile_device_management) (MDM), akıllı telefonlar, dizüstü bilgisayarlar ve tabletler gibi çeşitli son kullanıcı cihazlarının yönetimi için kullanılır. Özellikle Apple platformları (iOS, macOS, tvOS) için, özel özellikler, API'ler ve uygulamalar içerir. MDM'nin işleyişi, ticari olarak temin edilebilen veya açık kaynaklı olan uyumlu bir MDM sunucusuna dayanır ve [MDM Protokolü](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf)'nü desteklemelidir. Ana noktalar şunları içerir:
 
-- Centralized control over devices.
-- Dependence on an MDM server that adheres to the MDM protocol.
-- Capability of the MDM server to dispatch various commands to devices, for instance, remote data erasure or configuration installation.
+- Cihazlar üzerinde merkezi kontrol.
+- MDM protokolüne uyumlu bir MDM sunucusuna bağımlılık.
+- MDM sunucusunun, uzaktan veri silme veya yapılandırma yükleme gibi çeşitli komutları cihazlara iletebilme yeteneği.
 
-### **Basics of DEP (Device Enrollment Program)**
-The [Device Enrollment Program](https://www.apple.com/business/site/docs/DEP_Guide.pdf) (DEP) offered by Apple streamlines the integration of Mobile Device Management (MDM) by facilitating zero-touch configuration for iOS, macOS, and tvOS devices. DEP automates the enrollment process, allowing devices to be operational right out of the box, with minimal user or administrative intervention. Essential aspects include:
+### **DEP (Cihaz Kayıt Programı) Temelleri**
+Apple tarafından sunulan [Cihaz Kayıt Programı](https://www.apple.com/business/site/docs/DEP_Guide.pdf) (DEP), iOS, macOS ve tvOS cihazları için sıfır dokunuşlu yapılandırmayı kolaylaştırarak Mobil Cihaz Yönetimi (MDM) entegrasyonunu basitleştirir. DEP, cihazların kutudan çıkar çıkmaz, kullanıcı veya yönetici müdahalesiyle minimum düzeyde, operasyonel hale gelmesini otomatikleştirir. Temel noktalar şunları içerir:
 
-- Enables devices to autonomously register with a pre-defined MDM server upon initial activation.
-- Primarily beneficial for brand-new devices, but also applicable for devices undergoing reconfiguration.
-- Facilitates a straightforward setup, making devices ready for organizational use swiftly.
+- Cihazların ilk etkinleştirme sırasında önceden tanımlanmış bir MDM sunucusuna otomatik olarak kaydolmasını sağlar.
+- Öncelikle yeni cihazlar için faydalıdır, ancak yeniden yapılandırma sürecinde olan cihazlar için de uygulanabilir.
+- Cihazların hızlı bir şekilde kuruluma hazır hale gelmesini sağlayan basit bir kurulumu kolaylaştırır.
 
-### **Security Consideration**
-It's crucial to note that the ease of enrollment provided by DEP, while beneficial, can also pose security risks. If protective measures are not adequately enforced for MDM enrollment, attackers might exploit this streamlined process to register their device on the organization's MDM server, masquerading as a corporate device.
+### **Güvenlik Düşünceleri**
+DEP tarafından sağlanan kayıt kolaylığının, faydalı olmasının yanı sıra güvenlik riskleri de oluşturabileceği önemlidir. MDM kaydı için yeterli koruyucu önlemler uygulanmazsa, saldırganlar bu kolaylaştırılmış süreci kullanarak kuruluşun MDM sunucusuna kurumsal bir cihaz gibi kaydolabilirler.
 
 {% hint style="danger" %}
-**Security Alert**: Simplified DEP enrollment could potentially allow unauthorized device registration on the organization's MDM server if proper safeguards are not in place.
+**Güvenlik Uyarısı**: Basitleştirilmiş DEP kaydı, uygun koruma önlemleri alınmadığında yetkisiz cihaz kaydına izin verebilir.
 {% endhint %}
 
-### Basics What is SCEP (Simple Certificate Enrolment Protocol)?
+### Temel Bilgiler SCEP (Basit Sertifika Kaydı Protokolü) Nedir?
 
-* A relatively old protocol, created before TLS and HTTPS were widespread.
-* Gives clients a standardized way of sending a **Certificate Signing Request** (CSR) for the purpose of being granted a certificate. The client will ask the server to give him a signed certificate.
+* Nispeten eski bir protokol, TLS ve HTTPS yaygınlaşmadan önce oluşturulmuştur.
+* İstemcilere bir **Sertifika İmzalama İsteği** (CSR) göndermek için standartlaştırılmış bir yol sağlar. İstemci, sunucudan kendisine imzalı bir sertifika vermesini ister.
 
-### What are Configuration Profiles (aka mobileconfigs)?
+### Yapılandırma Profilleri (aka mobileconfigs) Nedir?
 
-* Apple’s official way of **setting/enforcing system configuration.**
-* File format that can contain multiple payloads.
-* Based on property lists (the XML kind).
-* “can be signed and encrypted to validate their origin, ensure their integrity, and protect their contents.” Basics — Page 70, iOS Security Guide, January 2018.
+* Apple'ın resmi **sistem yapılandırmasını belirleme/zorlama** yoludur.
+* Birden çok yük taşıyabilen dosya formatı.
+* Özellik listelerine (XML türündeki) dayanır.
+* "kökenlerini doğrulamak, bütünlüklerini sağlamak ve içeriklerini korumak için imzalanabilir ve şifrelenebilir." Temel — Sayfa 70, iOS Güvenlik Kılavuzu, Ocak 2018.
 
-## Protocols
+## Protokoller
 
 ### MDM
 
-* Combination of APNs (**Apple server**s) + RESTful API (**MDM** **vendor** servers)
-* **Communication** occurs between a **device** and a server associated with a **device** **management** **product**
-* **Commands** delivered from the MDM to the device in **plist-encoded dictionaries**
-* All over **HTTPS**. MDM servers can be (and are usually) pinned.
-* Apple grants the MDM vendor an **APNs certificate** for authentication
+* APNs (**Apple sunucuları**) + RESTful API (**MDM** **satıcı** sunucuları) kombinasyonu
+* İletişim, bir **cihaz** ve bir **cihaz yönetimi** **ürününe** bağlı bir sunucu arasında gerçekleşir
+* **Komutlar**, MDM'den cihaza **plist kodlu sözlükler** şeklinde iletilir
+* Tümüyle **HTTPS** üzerinden. MDM sunucuları genellikle sabitlenir.
+* Apple, MDM satıcısına kimlik doğrulaması için bir **APNs sertifikası** verir
 
 ### DEP
 
-* **3 APIs**: 1 for resellers, 1 for MDM vendors, 1 for device identity (undocumented):
-  * The so-called [DEP "cloud service" API](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). This is used by MDM servers to associate DEP profiles with specific devices.
-  * The [DEP API used by Apple Authorized Resellers](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) to enroll devices, check enrollment status, and check transaction status.
-  * The undocumented private DEP API. This is used by Apple Devices to request their DEP profile. On macOS, the `cloudconfigurationd` binary is responsible for communicating over this API.
-* More modern and **JSON** based (vs. plist)
-* Apple grants an **OAuth token** to the MDM vendor
+* **3 API**: bayiler için 1, MDM satıcıları için 1, cihaz kimliği için 1 (belgelenmemiş):
+* Sözde [DEP "bulut hizmeti" API'si](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Bu, MDM sunucularının DEP profillerini belirli cihazlarla ilişkilendirmek için kullandığı API'dir.
+* [Apple Yetkili Bayileri tarafından kullanılan DEP API'si](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html), cihazları kaydetmek, kayıt durumunu kontrol etmek ve işlem durumunu kontrol etmek için kullanılır.
+* Belgelenmemiş özel DEP API'si. Bu, Apple Cihazlarının DEP profillerini istemek için kullanılır. macOS'ta, `cloudconfigurationd` ikili dosyası bu API üzerinden iletişim kurar.
+* Daha modern ve **JSON** tabanlı (plist'e karşı)
+* Apple, MDM satıcısına bir **OAuth belirteci** verir
 
-**DEP "cloud service" API**
+**DEP "bulut hizmeti" API'si**
 
 * RESTful
-* sync device records from Apple to the MDM server
-* sync “DEP profiles” to Apple from the MDM server (delivered by Apple to the device later on)
-* A DEP “profile” contains:
-  * MDM vendor server URL
-  * Additional trusted certificates for server URL (optional pinning)
-  * Extra settings (e.g. which screens to skip in Setup Assistant)
+* Apple'dan MDM sunucusuna cihaz kayıtlarını senkronize eder
+* Apple'dan daha sonra cihaza teslim edilen DEP profillerini senkronize eder
+* Bir DEP "profil"i şunları içerir:
+* MDM satıcı sunucusu URL'si
+* Sunucu URL'si için ek güvenilir sertifikalar (isteğe bağlı sabitleme)
+* Ek ayarlar (örneğin, Kurulum Yardımcısı'nda hangi ekranların atlanacağı)
 
-## Serial Number
+## Seri Numarası
 
-Apple devices manufactured after 2010 generally have **12-character alphanumeric** serial numbers, with the **first three digits representing the manufacturing location**, the following **two** indicating the **year** and **week** of manufacture, the next **three** digits providing a **unique** **identifier**, and the **last** **four** digits representing the **model number**.
+2010'dan sonra üretilen Apple cihazlarının genellikle **12 karakterli alfasayısal** seri numaraları vardır. İlk üç rakam üretim yeri, takip eden iki rakam üretim yılı ve haftasını, bir sonraki üç rakam benzersiz bir tanımlayıcıyı ve son dört rakam model numarasını temsil eder.
 
-{% content-ref url="macos-serial-number.md" %}
-[macos-serial-number.md](macos-serial-number.md)
-{% endcontent-ref %}
+{% content-ref url
+### Adım 4: DEP kontrolü - Etkinleştirme Kaydını Alma
 
-## Steps for enrolment and management
-
-1. Device record creation (Reseller, Apple): The record for the new device is created
-2. Device record assignment (Customer): The device is assigned to a MDM server
-3. Device record sync (MDM vendor): MDM sync the device records and push the DEP profiles to Apple
-4. DEP check-in (Device): Device gets his DEP profile
-5. Profile retrieval (Device)
-6. Profile installation (Device) a. incl. MDM, SCEP and root CA payloads
-7. MDM command issuance (Device)
-
-![](<../../../.gitbook/assets/image (564).png>)
-
-The file `/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/PrivateFrameworks/ConfigurationProfiles.framework/ConfigurationProfiles.tbd` exports functions that can be considered **high-level "steps"** of the enrolment process.
-
-### Step 4: DEP check-in - Getting the Activation Record
-
-This part of the process occurs when a **user boots a Mac for the first time** (or after a complete wipe)
+Bu sürecin bir parçası, bir kullanıcının bir Mac'i ilk kez başlattığında (veya tam bir silme işleminden sonra) gerçekleşir.
 
 ![](<../../../.gitbook/assets/image (568).png>)
 
-or when executing `sudo profiles show -type enrollment`
+veya `sudo profiles show -type enrollment` komutunu çalıştırdığında
 
-* Determine **whether device is DEP enabled**
-* Activation Record is the internal name for **DEP “profile”**
-* Begins as soon as the device is connected to Internet
-* Driven by **`CPFetchActivationRecord`**
-* Implemented by **`cloudconfigurationd`** via XPC. The **"Setup Assistant**" (when the device is firstly booted) or the **`profiles`** command will **contact this daemon** to retrieve the activation record.
-  * LaunchDaemon (always runs as root)
+* Cihazın DEP özellikli olup olmadığını belirleme
+* Etkinleştirme Kaydı, DEP "profilinin" iç ismidir
+* Cihazın İnternet'e bağlandığı anda başlar
+* **`CPFetchActivationRecord`** tarafından yönlendirilir
+* **`cloudconfigurationd`** tarafından XPC aracılığıyla uygulanır. Cihaz ilk kez başlatıldığında "Kurulum Yardımcısı" veya `profiles` komutu, etkinleştirme kaydını almak için bu hizmete başvurur.
+* LaunchDaemon (her zaman root olarak çalışır)
 
-It follows a few steps to get the Activation Record performed by **`MCTeslaConfigurationFetcher`**. This process uses an encryption called **Absinthe**
+**`MCTeslaConfigurationFetcher`** tarafından gerçekleştirilen Etkinleştirme Kaydını almak için birkaç adım izlenir. Bu işlem **Absinthe** adı verilen bir şifreleme kullanır.
 
-1. Retrieve **certificate**
-   1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
-2. **Initialize** state from certificate (**`NACInit`**)
-   1. Uses various device-specific data (i.e. **Serial Number via `IOKit`**)
-3. Retrieve **session key**
-   1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
-4. Establish the session (**`NACKeyEstablishment`**)
-5. Make the request
-   1. POST to [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) sending the data `{ "action": "RequestProfileConfiguration", "sn": "" }`
-   2. The JSON payload is encrypted using Absinthe (**`NACSign`**)
-   3. All requests over HTTPs, built-in root certificates are used
+1. **Sertifika** alınır
+1. [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer) adresine GET isteği gönderilir
+2. Sertifikadan durum başlatılır (**`NACInit`**)
+1. Çeşitli cihaz özel verileri kullanılır (örneğin **`IOKit`** üzerinden Seri Numarası)
+3. **Oturum anahtarı** alınır
+1. [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session) adresine POST isteği gönderilir
+4. Oturum kurulur (**`NACKeyEstablishment`**)
+5. İstek yapılır
+1. Veri `{ "action": "RequestProfileConfiguration", "sn": "" }` şeklinde [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) adresine POST isteği gönderilir
+2. JSON verisi Absinthe kullanılarak şifrelenir (**`NACSign`**)
+3. Tüm istekler HTTPS üzerinden yapılır ve yerleşik kök sertifikalar kullanılır
 
 ![](<../../../.gitbook/assets/image (566).png>)
 
-The response is a JSON dictionary with some important data like:
+Yanıt, aşağıdaki gibi bazı önemli veriler içeren bir JSON sözlüğüdür:
 
-* **url**: URL of the MDM vendor host for the activation profile
-* **anchor-certs**: Array of DER certificates used as trusted anchors
+* **url**: Etkinleştirme profili için MDM satıcısı ana bilgisayarının URL'si
+* **anchor-certs**: Güvenilir kök sertifikalarının DER biçimindeki dizisi
 
-### **Step 5: Profile Retrieval**
+### **Adım 5: Profil Alma**
 
 ![](<../../../.gitbook/assets/image (567).png>)
 
-* Request sent to **url provided in DEP profile**.
-* **Anchor certificates** are used to **evaluate trust** if provided.
-  * Reminder: the **anchor\_certs** property of the DEP profile
-* **Request is a simple .plist** with device identification
-  * Examples: **UDID, OS version**.
-* CMS-signed, DER-encoded
-* Signed using the **device identity certificate (from APNS)**
-* **Certificate chain** includes expired **Apple iPhone Device CA**
+* DEP profili tarafından sağlanan **url'ye istek gönderilir**.
+* Eğer sağlanmışsa, **anchor sertifikaları** güveni değerlendirmek için kullanılır.
+* Hatırlatma: DEP profili'nin **anchor\_certs** özelliği
+* İstek, cihaz kimlik bilgileriyle birlikte basit bir .plist dosyasıdır
+* Örnekler: **UDID, işletim sistemi sürümü**.
+* CMS ile imzalanmış, DER kodlanmış
+* Cihaz kimlik sertifikası (APNS'den) kullanılarak imzalanmıştır
+* **Sertifika zinciri**, süresi dolmuş **Apple iPhone Device CA** içerir
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
+![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
 
-### Step 6: Profile Installation
+### Adım 6: Profil Kurulumu
 
-* Once retrieved, **profile is stored on the system**
-* This step begins automatically (if in **setup assistant**)
-* Driven by **`CPInstallActivationProfile`**
-* Implemented by mdmclient over XPC
-  * LaunchDaemon (as root) or LaunchAgent (as user), depending on context
-* Configuration profiles have multiple payloads to install
-* Framework has a plugin-based architecture for installing profiles
-* Each payload type is associated with a plugin
-  * Can be XPC (in framework) or classic Cocoa (in ManagedClient.app)
-* Example:
-  * Certificate Payloads use CertificateService.xpc
+* Alındıktan sonra, **profil sistemde depolanır**
+* Bu adım otomatik olarak başlar (eğer **kurulum yardımcısı** içindeyse)
+* **`CPInstallActivationProfile`** tarafından yönlendirilir
+* mdmclient tarafından XPC üzerinden uygulanır
+* LaunchDaemon (root olarak) veya LaunchAgent (kullanıcı olarak), bağlama bağlı olarak
+* Yapılandırma profillerinin kurulumu için birden fazla yük vardır
+* Profil kurulumu için eklenti tabanlı bir mimariye sahiptir
+* Her yük türü bir eklentiyle ilişkilendirilir
+* XPC (çerçevede) veya klasik Cocoa (ManagedClient.app içinde) olabilir
+* Örnek:
+* Sertifika Yükleri, CertificateService.xpc kullanır
 
-Typically, **activation profile** provided by an MDM vendor will **include the following payloads**:
+Genellikle, bir MDM satıcısı tarafından sağlanan **etkinleştirme profili** aşağıdaki yükleri içerir:
 
-* `com.apple.mdm`: to **enroll** the device in MDM
-* `com.apple.security.scep`: to securely provide a **client certificate** to the device.
-* `com.apple.security.pem`: to **install trusted CA certificates** to the device’s System Keychain.
-* Installing the MDM payload equivalent to **MDM check-in in the documentation**
-* Payload **contains key properties**:
+* `com.apple.mdm`: Cihazı MDM'e **kaydetmek** için
+* `com.apple.security.scep`: Cihaza güvenli bir **istemci sertifikası** sağlamak için
+* `com.apple.security.pem`: Cihazın Sistem Anahtar Zincirine **güvenilir CA sertifikaları kurmak** için
+* MDM yükünün belgelerdeki MDM check-in'e **eşdeğer olduğu** şeklinde kurulumu
+* Yük, aşağıdaki ana özellikleri içerir:
 *
-  * MDM Check-In URL (**`CheckInURL`**)
-  * MDM Command Polling URL (**`ServerURL`**) + APNs topic to trigger it
-* To install MDM payload, request is sent to **`CheckInURL`**
-* Implemented in **`mdmclient`**
-* MDM payload can depend on other payloads
-* Allows **requests to be pinned to specific certificates**:
-  * Property: **`CheckInURLPinningCertificateUUIDs`**
-  * Property: **`ServerURLPinningCertificateUUIDs`**
-  * Delivered via PEM payload
-* Allows device to be attributed with an identity certificate:
-  * Property: IdentityCertificateUUID
-  * Delivered via SCEP payload
+* MDM Check-In URL'si (**`CheckInURL`**)
+* MDM Komut Anketleme URL'si (**`ServerURL`**) + tetiklemek için APNs konusu
+* MDM yükünü kurmak için istek **`CheckInURL`** adresine gönderilir
+* **`mdmclient`** tarafından uygulanır
+* MDM yükü diğer yüklerden bağımlı olabilir
+* İsteklerin belirli sertifikalara **sabitlenmesine izin verir**:
+* Özellik: **`CheckInURLPinningCertificateUUIDs`**
+* Özellik: **`ServerURLPinningCertificateUUIDs`**
+* PEM yükü ile teslim edilir
+* Cihazın bir kimlik sertifikasıyla ilişkilendirilmesine izin verir:
+* Özellik: IdentityCertificateUUID
+* SCEP yükü ile teslim edilir
 
-### **Step 7: Listening for MDM commands**
+### **Adım 7: MDM komutlarını dinleme**
 
-* After MDM check-in is complete, vendor can **issue push notifications using APNs**
-* Upon receipt, handled by **`mdmclient`**
-* To poll for MDM commands, request is sent to ServerURL
-* Makes use of previously installed MDM payload:
-  * **`ServerURLPinningCertificateUUIDs`** for pinning request
-  * **`IdentityCertificateUUID`** for TLS client certificate
+MDM check-in tamamlandıktan sonra, satıcı APNs kullanarak **bildirimler gönderebilir**
+Alındığında, **`mdmclient`** tarafından işlenir
+MDM komutlarını sorgulamak için istek **ServerURL** adresine gönderilir
+Daha önceden kurulan MDM yükü kullanılır:
+İstek için **`ServerURLPinningCertificateUUIDs`** sabitleme için
+TLS istemci sertifikası için **`IdentityCertificateUUID`** kullanılır
 
-## Attacks
+## Saldırılar
 
-### Enrolling Devices in Other Organisations
+### Başka Kuruluşlara Cihaz Kaydetme
 
-As previously commented, in order to try to enrol a device into an organization **only a Serial Number belonging to that Organization is needed**. Once the device is enrolled, several organizations will install sensitive data on the new device: certificates, applications, WiFi passwords, VPN configurations [and so on](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Therefore, this could be a dangerous entrypoint for attackers if the enrolment process isn't correctly protected:
+Daha önce belirtildiği gibi, bir cihazı bir kuruluşa kaydetmek için **yalnızca o Kuruluşa ait bir Seri Numarası gereklidir**. Cihaz kaydedildikten sonra, birçok kuruluş yeni cihaza hassas veriler yükleyecektir: sertifikalar, uygulamalar, WiFi şifreleri, VPN yapılandırmaları [ve benzeri](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Bu nedenle, kayıt süreci doğru şekilde korunmazsa, bu saldırganlar için tehlikeli bir giriş noktası olabilir:
 
 {% content-ref url="enrolling-devices-in-other-organisations.md" %}
 [enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
@@ -214,14 +197,8 @@ Therefore, this could be a dangerous entrypoint for attackers if the enrolment p
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* Şirketinizi HackTricks't

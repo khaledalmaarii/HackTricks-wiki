@@ -1,16 +1,14 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
@@ -21,8 +19,7 @@ Other ways to support HackTricks:
 
 # Bus Pirate
 
-To test a Bus Pirate is working, connect +5V with VPU and 3.3V with ADC and access the bus pirate (Using Tera Term for example) and use the command `~`:
-
+Bir Bus Pirate'in çalışıp çalışmadığını test etmek için, +5V'yi VPU ile ve 3.3V'yi ADC ile bağlayın ve bus pirate'e erişin (Örneğin Tera Term kullanarak) ve `~` komutunu kullanın:
 ```bash
 # Use command
 HiZ>~
@@ -61,20 +58,18 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
+Yukarıdaki komut satırında görüldüğü gibi, 0 hata bulunduğu belirtiliyor. Bu, satın aldıktan sonra veya bir firmware'i flaşladıktan sonra çalıştığını bilmek için çok faydalıdır.
 
-As you can see in the previous command line it said that it found 0 errors. This is very useful to know it's working after buying it or after flashing a firmware.
-
-To connect with the bus pirate you can follow the docs:
+Bus pirate ile bağlantı kurmak için belgelere bakabilirsiniz:
 
 ![](<../../.gitbook/assets/image (307) (2).png>)
 
-In this case I'm going to connect to an EPROM: ATMEL901 24C256 PU27:
+Bu durumda, bir EPROM'a (ATMEL901 24C256 PU27) bağlanacağım:
 
 ![](<../../.gitbook/assets/image (465) (2) (1).png>)
 
-To talk with bus pirate I used Tera Term connected to the pirate bus COM port with a Setup --> Serial Port --> Speed of 115200.\
-In the following communication you can find how to prepare the bus pirate to talk I2C and how to write and read from the memory (Comments appear using "#", don't expect that part in the communication):
-
+Bus pirate ile iletişim kurmak için Tera Term'i kullanarak pirate bus COM portuna bağlandım ve Setup --> Serial Port --> Speed bölümünde 115200 hızını seçtim.\
+Aşağıdaki iletişimde, bus pirate'ı I2C ile konuşmaya hazırlamanın ve bellekten yazıp okumanın nasıl yapılacağını bulabilirsiniz (Yorumlar "#" kullanılarak belirtilir, bu kısmı iletişimde beklemeyin):
 ```bash
 # Check communication with buspirate
 i
@@ -111,16 +106,16 @@ x. exit(without change)
 # Select I2C
 (1)>4
 I2C mode:
- 1. Software
- 2. Hardware
+1. Software
+2. Hardware
 
 # Select Software mode
 (1)>1
 Set speed:
- 1. ~5kHz
- 2. ~50kHz
- 3. ~100kHz
- 4. ~240kHz
+1. ~5kHz
+2. ~50kHz
+3. ~100kHz
+4. ~240kHz
 
 # Select communication spped
 (1)> 2
@@ -135,10 +130,10 @@ Clutch engaged!!!
 
 # Get macros
 I2C>(0)
- 0.Macro menu
- 1.7bit address search
- 2.I2C sniffer
- 
+0.Macro menu
+1.7bit address search
+2.I2C sniffer
+
 #Get addresses of slaves connected
 I2C>(1)
 Searching I2C address space. Found devices at:
@@ -173,13 +168,11 @@ WRITE: 0xA1 ACK
 READ: 0x42  ACK 0x42  ACK 0x42  ACK 0x20  ACK 0x48  ACK 0x69  ACK 0x20  ACK 0x44  ACK 0x72  ACK 0x65  ACK 0x67  ACK 0x21  ACK 0x20  ACK 0x41  ACK 0x41  ACK 0x41  ACK 0x00  ACK 0xFF  ACK 0xFF  ACK 0xFF
 NACK
 ```
-
 ## Sniffer
 
-In this scenario we are going to sniff the I2C communication between the arduino and the previous EPROM, you just need to communicate both devices and then connect the bus pirate to the SCL, SDA and GND pins:
+Bu senaryoda, Arduino ve önceki EPROM arasındaki I2C iletişimini izleyeceğiz, sadece her iki cihazı da iletişim kurmanız ve ardından bus pirate'i SCL, SDA ve GND pinlerine bağlamanız gerekmektedir:
 
 ![](<../../.gitbook/assets/image (201) (2) (1).png>)
-
 ```bash
 I2C>m
 1. HiZ
@@ -197,15 +190,15 @@ x. exit(without change)
 
 (1)>4
 I2C mode:
- 1. Software
- 2. Hardware
+1. Software
+2. Hardware
 
 (1)>1
 Set speed:
- 1. ~5kHz
- 2. ~50kHz
- 3. ~100kHz
- 4. ~240kHz
+1. ~5kHz
+2. ~50kHz
+3. ~100kHz
+4. ~240kHz
 
 (1)>1
 Clutch disengaged!!!
@@ -225,20 +218,16 @@ Sniffer
 Any key to exit
 [0xA0+0x00+0x69+0x41+0x41+0x41+0x20+0x48+0x69+0x20+0x44+0x72+0x65+0x67+0x21+0x20+0x41+0x41+0x41+0x00+]
 ```
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
 
 </details>
-
-

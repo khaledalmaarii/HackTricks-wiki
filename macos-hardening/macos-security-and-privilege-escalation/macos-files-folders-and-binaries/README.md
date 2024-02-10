@@ -1,96 +1,96 @@
-# macOS Files, Folders, Binaries & Memory
+# macOS Dosyaları, Klasörleri, İkili Dosyalar ve Bellek
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong>!</summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-## File hierarchy layout
+## Dosya hiyerarşisi düzeni
 
-* **/Applications**: The installed apps should be here. All the users will be able to access them.
-* **/bin**: Command line binaries
-* **/cores**: If exists, it's used to store core dumps
-* **/dev**: Everything is treated as a file so you may see hardware devices stored here.
-* **/etc**: Configuration files
-* **/Library**: A lot of subdirectories and files related to preferences, caches and logs can be found here. A Library folder exists in root and on each user's directory.
-* **/private**: Undocumented but a lot of the mentioned folders are symbolic links to the private directory.
-* **/sbin**: Essential system binaries (related to administration)
-* **/System**: File fo making OS X run. You should find mostly only Apple specific files here (not third party).
-* **/tmp**: Files are deleted after 3 days (it's a soft link to /private/tmp)
-* **/Users**: Home directory for users.
-* **/usr**: Config and system binaries
-* **/var**: Log files
-* **/Volumes**: The mounted drives will apear here.
-* **/.vol**: Running `stat a.txt` you obtain something like `16777223 7545753 -rw-r--r-- 1 username wheel ...` where the first number is the id number of the volume where the file exists and the second one is the inode number. You can access the content of this file through /.vol/ with that information running `cat /.vol/16777223/7545753`
+* **/Applications**: Yüklenen uygulamalar burada olmalıdır. Tüm kullanıcılar bunlara erişebilir.
+* **/bin**: Komut satırı ikili dosyaları
+* **/cores**: Var ise, çekirdek dökümlerini depolamak için kullanılır
+* **/dev**: Her şey bir dosya olarak işlendiği için burada donanım cihazları bulunabilir.
+* **/etc**: Yapılandırma dosyaları
+* **/Library**: Tercihler, önbellekler ve günlüklerle ilgili birçok alt dizin ve dosya burada bulunabilir. Kök dizinde ve her kullanıcının dizininde bir Kütüphane klasörü bulunur.
+* **/private**: Belgelenmemiş, ancak bahsedilen birçok klasör özel dizine sembolik bağlantılardır.
+* **/sbin**: Temel sistem ikili dosyaları (yönetimle ilgili)
+* **/System**: OS X'in çalışmasını sağlayan dosya. Burada genellikle yalnızca Apple'a özgü dosyalar bulunur (üçüncü taraf değil).
+* **/tmp**: Dosyalar 3 gün sonra silinir (bu, /private/tmp'ye bir sembolik bağlantıdır)
+* **/Users**: Kullanıcıların ev dizini.
+* **/usr**: Yapılandırma ve sistem ikili dosyaları
+* **/var**: Günlük dosyaları
+* **/Volumes**: Bağlanan sürücüler burada görünecektir.
+* **/.vol**: `stat a.txt` komutunu çalıştırarak `16777223 7545753 -rw-r--r-- 1 kullanıcıadı wheel ...` gibi bir şey elde edersiniz, burada ilk sayı dosyanın bulunduğu birim numarası ve ikinci sayı inode numarasıdır. Bu dosyanın içeriğine /.vol/ ile o bilgiyi kullanarak erişebilirsiniz `cat /.vol/16777223/7545753`
 
-### Applications Folders
+### Uygulama Klasörleri
 
-* **System applications** are located under `/System/Applications`
-* **Installed** applications are usually installed in `/Applications` or in `~/Applications`
-* **Application data** can be found in `/Library/Application Support` for the applications running as root and `~/Library/Application Support` for applications running as the user.
-* Third-party applications **daemons** that **need to run as root** as usually located in `/Library/PrivilegedHelperTools/`
-* **Sandboxed** apps are mapped into the `~/Library/Containers` folder. Each app has a folder named according to the application’s bundle ID (`com.apple.Safari`).
-* The **kernel** is located in `/System/Library/Kernels/kernel`
-* **Apple's kernel extensions** are located in `/System/Library/Extensions`
-* **Third-party kernel extensions** are stored in `/Library/Extensions`
+* **Sistem uygulamaları** `/System/Applications` altında bulunur
+* **Yüklenen** uygulamalar genellikle `/Applications` veya `~/Applications` içinde yüklenir
+* **Uygulama verileri**, kök olarak çalışan uygulamalar için `/Library/Application Support` içinde ve kullanıcı olarak çalışan uygulamalar için `~/Library/Application Support` içinde bulunabilir.
+* **Root olarak çalışması gereken** üçüncü taraf uygulama **daemonları** genellikle `/Library/PrivilegedHelperTools/` içinde bulunur
+* **Kumlanmış** uygulamalar `~/Library/Containers` klasörüne eşlenir. Her uygulamanın, uygulamanın paket kimliğine (`com.apple.Safari`) göre adlandırılmış bir klasörü vardır.
+* **Çekirdek** `/System/Library/Kernels/kernel` içinde bulunur
+* **Apple'ın çekirdek uzantıları** `/System/Library/Extensions` içinde bulunur
+* **Üçüncü taraf çekirdek uzantıları** `/Library/Extensions` içinde saklanır
 
-### Files with Sensitive Information
+### Hassas Bilgiler İçeren Dosyalar
 
-MacOS stores information such as passwords in several places:
+MacOS, şifreler gibi bilgileri çeşitli yerlerde saklar:
 
 {% content-ref url="macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-sensitive-locations.md)
 {% endcontent-ref %}
 
-### Vulnerable pkg installers
+### Zafiyetli pkg Yükleyicileri
 
 {% content-ref url="macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-installers-abuse.md)
 {% endcontent-ref %}
 
-## OS X Specific Extensions
+## OS X Özel Uzantıları
 
-* **`.dmg`**: Apple Disk Image files are very frequent for installers.
-* **`.kext`**: It must follow a specific structure and it's the OS X version of a driver. (it's a bundle)
-* **`.plist`**: Also known as property list stores information in XML or binary format.
-  * Can be XML or binary. Binary ones can be read with:
-    * `defaults read config.plist`
-    * `/usr/libexec/PlistBuddy -c print config.plsit`
-    * `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
-    * `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
-    * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
-* **`.app`**: Apple applications that follows directory structure (It's a bundle).
-* **`.dylib`**: Dynamic libraries (like Windows DLL files)
-* **`.pkg`**: Are the same as xar (eXtensible Archive format). The installer command can be use to install the contents of these files.
-* **`.DS_Store`**: This file is on each directory, it saves the attributes and customisations of the directory.
-* **`.Spotlight-V100`**: This folder appears on the root directory of every volume on the system.
-* **`.metadata_never_index`**: If this file is at the root of a volume Spotlight won't index that volume.
-* **`.noindex`**: Files and folder with this extension won't be indexed by Spotlight.
+* **`.dmg`**: Apple Disk Görüntü dosyaları, yükleyiciler için çok yaygındır.
+* **`.kext`**: Belirli bir yapıyı takip etmelidir ve bir sürücünün OS X sürümüdür. (bir paket)
+* **`.plist`**: Ayrıca özellik listesi olarak da bilinen bilgileri XML veya ikili biçimde depolar.
+* XML veya ikili olabilir. İkili olanlar şunlarla okunabilir:
+* `defaults read config.plist`
+* `/usr/libexec/PlistBuddy -c print config.plsit`
+* `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
+* `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
+* `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
+* **`.app`**: Dizin yapısını takip eden Apple uygulamaları (Bir paket).
+* **`.dylib`**: Dinamik kitaplıklar (Windows DLL dosyaları gibi)
+* **`.pkg`**: xar (eXtensible Archive format) ile aynıdır. İçeriğini yüklemek için installer komutu kullanılabilir.
+* **`.DS_Store`**: Bu dosya her dizinde bulunur, dizinin özniteliklerini ve özelleştirmelerini kaydeder.
+* **`.Spotlight-V100`**: Bu klasör, sistemdeki her bir birimin kök dizininde görünür.
+* **`.metadata_never_index`**: Bu dosya bir birimin kökünde bulunuyorsa Spotlight o birimi dizine eklemeyecektir.
+* **`.noindex`**: Bu uzantıya sahip dosya ve klasörler Spotlight tarafından dizine eklenmeyecektir.
 
-### macOS Bundles
+### macOS Paketleri
 
-A bundle is a **directory** which **looks like an object in Finder** (a Bundle example are `*.app` files).
+Bir paket, Finder'da bir nesne gibi görünen bir **dizindir** (Bir paket örneği `*.app` dosyalarıdır).
 
 {% content-ref url="macos-bundles.md" %}
 [macos-bundles.md](macos-bundles.md)
 {% endcontent-ref %}
 
-## Dyld Shared Cache
+## Dyld Paylaşılan Önbelleği
 
-On macOS (and iOS) all system shared libraries, like frameworks and dylibs, are **combined into a single file**, called the **dyld shared cache**. This improved performance, since code can be loaded faster.
+MacOS'ta (ve iOS'ta) tüm sistem paylaşılan kitaplıklar, çerçeveler ve dylib'ler gibi, **tek bir dosyada**, dyld paylaşılan önbelleğine adı verilen bir dosyada birleştirilir. Bu, kodun daha hızlı yüklenmesini sağlar.
 
-Similar to the dyld shared cache, the kernel and the kernel extensions are also compiled into a kernel cache, which is loaded at boot time.
+Dyld paylaşılan önbellek gibi, çekirdek ve çekirdek uzantıları da önyüklendiği bir çekirdek önbelleğine derlenir ve önyükleme sırasında yüklenir.
 
-In order to extract the libraries from the single file dylib shared cache it was possible to use the binary  [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) which might not be working nowadays but you can also use [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
+Tek dosyadan dylib paylaşılan önbellekten kitaplıkları çıkarmak için eskiden kullanılan [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) adlı ikili dosya günümüzde çalışmayabilir, ancak [**dyldextractor**](https://github.com/arandomdev/dyldextractor) kullanabilirsiniz:
 
 {% code overflow="wrap" %}
 ```bash
@@ -104,63 +104,56 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 ```
 {% endcode %}
 
-In older versions you might be able to find the **shared cache** in **`/System/Library/dyld/`**.
+Eski sürümlerde **paylaşılan önbelleği** **`/System/Library/dyld/`** içinde bulabilirsiniz.
 
-In iOS you can find them in **`/System/Library/Caches/com.apple.dyld/`**.
+iOS'te bunları **`/System/Library/Caches/com.apple.dyld/`** içinde bulabilirsiniz.
 
 {% hint style="success" %}
-Note that even if `dyld_shared_cache_util` tool doesn't work, you can pass the **shared dyld binary to Hopper** and Hopper will be able to identify all the libraries and let you **select which one** you want to investigate:
+`dyld_shared_cache_util` aracı çalışmasa bile, **paylaşılan dyld ikilisini Hopper'a** geçirebilir ve Hopper tüm kütüphaneleri tanımlayabilir ve **hangisini** incelemek istediğinizi **seçmenize** izin verecektir:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Special File Permissions
+## Özel Dosya İzinleri
 
-### Folder permissions
+### Klasör izinleri
 
-In a **folder**, **read** allows to **list it**, **write** allows to **delete** and **write** files on it, and **execute** allows to **traverse** the directory. So, for example, a user with **read permission over a file** inside a directory where he **doesn't have execute** permission **won't be able to read** the file.
+Bir **klasörde**, **okuma** onu **listelemenize**, **yazma** onun üzerindeki dosyaları **silmenize** ve **yazmanıza**, **yürütme** ise dizini **gezinmenize** izin verir. Örneğin, bir kullanıcının **okuma izni** olduğu bir dizinde, **yürütme izni olmadığı** bir dosyayı **okuyamaz**.
 
-### Flag modifiers
+### Bayrak değiştiricileri
 
-There are some flags that could be set in the files that will make file behave differently. You can **check the flags** of the files inside a directory with `ls -lO /path/directory`
+Dosyalara ayarlanabilecek bazı bayraklar vardır ve bu bayraklar dosyanın farklı davranmasını sağlar. Bir dizindeki dosyaların bayraklarını `ls -lO /path/directory` komutuyla kontrol edebilirsiniz.
 
-* **`uchg`**: Known as **uchange** flag will **prevent any action** changing or deleting the **file**. To set it do: `chflags uchg file.txt`
-  * The root user could **remove the flag** and modify the file
-* **`restricted`**: This flag makes the file be **protected by SIP** (you cannot add this flag to a file).
-* **`Sticky bit`**: If a directory with sticky bit, **only** the **directories owner or root can remane or delete** files. Typically this is set on the /tmp directory to prevent ordinary users from deleting or moving other users’ files.
+* **`uchg`**: **uchange** bayrağı olarak bilinen bu bayrak, **dosyanın değiştirilmesini veya silinmesini engeller**. Bayrağı ayarlamak için: `chflags uchg file.txt`
+* Kök kullanıcı bayrağı **kaldırabilir** ve dosyayı değiştirebilir.
+* **`restricted`**: Bu bayrak, dosyanın **SIP tarafından korunmasını** sağlar (bu bayrağı bir dosyaya ekleyemezsiniz).
+* **`Sticky bit`**: Sticky bit'e sahip bir dizinde, **yalnızca** dizinin **sahibi veya kök** dosyaları **yeniden adlandırabilir veya silebilir**. Genellikle bu, /tmp dizininde, normal kullanıcıların diğer kullanıcıların dosyalarını silmesini veya taşımasını engellemek için ayarlanır.
 
-### **File ACLs**
+### **Dosya ACL'leri**
 
-File **ACLs** contain **ACE** (Access Control Entries) where more **granular permissions** can be assigned to different users.
+Dosya **ACL'leri**, farklı kullanıcılara daha **ayrıntılı izinler** atayabileceğiniz **ACE** (Erişim Kontrol Girişleri) içerir.
 
-It's possible to grant a **directory** these permissions: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
-Ans to a **file**: `read`, `write`, `append`, `execute`.
+Bir **dizine** bu izinleri verebilirsiniz: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
+Ve bir **dosyaya**: `read`, `write`, `append`, `execute`.
 
-When the file contains ACLs you will **find a "+" when listing the permissions like in**:
-
+Dosya ACL'leri içeren bir dosyada, izinleri **listelerken** "+" işaretini **bulacaksınız** gibi:
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
 ```
-
-You can **read the ACLs** of the file with:
-
+Dosyanın ACL'lerini aşağıdaki komutla **okuyabilirsiniz**:
 ```bash
 ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
- 0: group:everyone deny delete
+0: group:everyone deny delete
 ```
-
-You can find **all the files with ACLs** with (this is veeery slow):
-
+Aşağıdaki komutla **ACL'ye sahip tüm dosyaları** bulabilirsiniz (bu işlem çok yavaş olabilir):
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
+### Kaynak Çatalları | macOS ADS
 
-### Resource Forks | macOS ADS
-
-This is a way to obtain **Alternate Data Streams in MacOS** machines. You can save content inside an extended attribute called **com.apple.ResourceFork** inside a file by saving it in **file/..namedfork/rsrc**.
-
+Bu, MacOS makinelerinde **Alternatif Veri Akışları** elde etmek için bir yöntemdir. Bir dosyanın içine **com.apple.ResourceFork** adlı bir genişletilmiş öznitelik içinde içerik kaydederek, içeriği **file/..namedfork/rsrc** içinde kaydedebilirsiniz.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -171,8 +164,7 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-
-You can **find all the files containing this extended attribute** with:
+Bu genişletilmiş niteliği içeren tüm dosyaları şu şekilde bulabilirsiniz:
 
 {% code overflow="wrap" %}
 ```bash
@@ -180,50 +172,50 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 ```
 {% endcode %}
 
-## **Universal binaries &** Mach-o Format
+## **Evrensel ikili dosyalar ve** Mach-o Formatı
 
-Mac OS binaries usually are compiled as **universal binaries**. A **universal binary** can **support multiple architectures in the same file**.
+Mac OS ikili dosyaları genellikle **evrensel ikili dosyalar** olarak derlenir. Bir **evrensel ikili dosya**, aynı dosyada **çoklu mimarileri destekleyebilir**.
 
 {% content-ref url="universal-binaries-and-mach-o-format.md" %}
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
 {% endcontent-ref %}
 
-## macOS memory dumping
+## macOS bellek dökme
 
 {% content-ref url="macos-memory-dumping.md" %}
 [macos-memory-dumping.md](macos-memory-dumping.md)
 {% endcontent-ref %}
 
-## Risk Category Files Mac OS
+## Mac OS Risk Kategorisi Dosyaları
 
-The directory `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` is where information about the **risk associated with different file extensions is stored**. This directory categorizes files into various risk levels, influencing how Safari handles these files upon download. The categories are as follows:
+`/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` dizini, **farklı dosya uzantılarıyla ilişkili risk bilgilerinin depolandığı** yerdir. Bu dizin dosyaları çeşitli risk seviyelerine göre kategorize eder ve Safari'nin bu dosyaları indirme işleminden sonra nasıl işleyeceğini etkiler. Kategoriler şunlardır:
 
-- **LSRiskCategorySafe**: Files in this category are considered **completely safe**. Safari will automatically open these files after they are downloaded.
-- **LSRiskCategoryNeutral**: These files come with no warnings and are **not automatically opened** by Safari.
-- **LSRiskCategoryUnsafeExecutable**: Files under this category **trigger a warning** indicating that the file is an application. This serves as a security measure to alert the user.
-- **LSRiskCategoryMayContainUnsafeExecutable**: This category is for files, such as archives, that might contain an executable. Safari will **trigger a warning** unless it can verify that all contents are safe or neutral.
+- **LSRiskCategorySafe**: Bu kategorideki dosyalar **tamamen güvenli** olarak kabul edilir. Safari, bu dosyaları otomatik olarak indirildikten sonra açar.
+- **LSRiskCategoryNeutral**: Bu dosyalar herhangi bir uyarı içermez ve Safari tarafından **otomatik olarak açılmaz**.
+- **LSRiskCategoryUnsafeExecutable**: Bu kategoriye ait dosyalar, dosyanın bir uygulama olduğunu belirten bir uyarı **tetikler**. Bu, kullanıcıyı uyarmak için bir güvenlik önlemi olarak hizmet verir.
+- **LSRiskCategoryMayContainUnsafeExecutable**: Bu kategori, arşivler gibi bir yürütülebilir içerebilecek dosyalar için kullanılır. Safari, tüm içeriğin güvenli veya tarafsız olduğunu doğrulayamazsa, bir uyarı **tetikler**.
 
-## Log files
+## Günlük dosyaları
 
-* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Contains information about downloaded files, like the URL from where they were downloaded.
-* **`/var/log/system.log`**: Main log of OSX systems. com.apple.syslogd.plist is responsible for the execution of syslogging (you can check if it's disabled looking for "com.apple.syslogd" in `launchctl list`.
-* **`/private/var/log/asl/*.asl`**: These are the Apple System Logs which may contain interesting information.
-* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Stores recently accessed files and applications through "Finder".
-* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Stores items to launch upon system startup
-* **`$HOME/Library/Logs/DiskUtility.log`**: Log file for thee DiskUtility App (info about drives, including USBs)
-* **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Data about wireless access points.
-* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: List of daemons deactivated.
+* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: İndirilen dosyalar hakkında, indirildikleri URL gibi bilgileri içerir.
+* **`/var/log/system.log`**: OSX sistemlerinin ana günlüğüdür. syslogging'in yürütülmesinden sorumlu olan com.apple.syslogd.plist'tir (devre dışı bırakılıp bırakılmadığını kontrol etmek için `launchctl list` içinde "com.apple.syslogd" arayabilirsiniz).
+* **`/private/var/log/asl/*.asl`**: Bu, ilginç bilgiler içerebilecek Apple Sistem Günlükleridir.
+* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: "Finder" aracılığıyla son zamanlarda erişilen dosyaları ve uygulamaları depolar.
+* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Sistem başlatıldığında başlatılacak öğeleri depolar.
+* **`$HOME/Library/Logs/DiskUtility.log`**: DiskUtility Uygulaması için günlük dosyası (USB dahil sürücüler hakkında bilgi)
+* **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Kablosuz erişim noktaları hakkında veri.
+* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Devre dışı bırakılan daemonların listesi.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **tanıtmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'ler**](https://opensea.io/collection/the-peass-family) içerir
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
 
 </details>

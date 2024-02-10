@@ -1,31 +1,28 @@
-# Docker Forensics
+# Docker Forensiği
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan ileri seviyeye öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi **HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı **takip edin**.
+* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
 
 </details>
 
-## Container modification
+## Konteyner değişikliği
 
-There are suspicions that some docker container was compromised:
-
+Bir docker konteynerinin bazı şekilde tehlikeye atıldığından şüpheleniliyor:
 ```bash
 docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-
-You can easily **find the modifications done to this container with regards to the image** with:
-
+Bu konteynerde yapılan değişiklikleri görmeniz için şunları yapabilirsiniz:
 ```bash
 docker diff wordpress
 C /var
@@ -39,70 +36,52 @@ A /var/lib/mysql/mysql/time_zone_leap_second.MYI
 A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
-
-In the previous command **C** means **Changed** and **A,** **Added**.\
-If you find that some interesting file like `/etc/shadow` was modified you can download it from the container to check for malicious activity with:
-
+Önceki komutta **C** **Değiştirildi** ve **A,** **Eklendi** anlamına gelir.\
+Eğer `/etc/shadow` gibi ilginç bir dosyanın değiştirildiğini tespit ederseniz, kötü amaçlı faaliyetleri kontrol etmek için bu dosyayı konteynırdan indirebilirsiniz:
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
-
-You can also **compare it with the original one** running a new container and extracting the file from it:
-
+Ayrıca, yeni bir konteyner çalıştırarak ve içinden dosyayı çıkararak orijinaliyle **karşılaştırabilirsiniz**:
 ```bash
 docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
 diff original_shadow shadow
 ```
-
-If you find that **some suspicious file was added** you can access the container and check it:
-
+Eğer **şüpheli bir dosya eklenmişse** konteynere erişebilir ve kontrol edebilirsiniz:
 ```bash
 docker exec -it wordpress bash
 ```
+## Görüntü değişiklikleri
 
-## Images modifications
-
-When you are given an exported docker image (probably in `.tar` format) you can use [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) to **extract a summary of the modifications**:
-
+Bir dışa aktarılmış docker görüntüsü (muhtemelen `.tar` formatında) verildiğinde, [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) kullanarak **değişikliklerin bir özetini çıkarmak** için aşağıdaki adımları izleyebilirsiniz:
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
 container-diff analyze -t history image.tar
 container-diff analyze -t metadata image.tar
 ```
-
-Then, you can **decompress** the image and **access the blobs** to search for suspicious files you may have found in the changes history:
-
+Ardından, görüntüyü **sıkıştırılmış** hâlden çıkarabilir ve şüpheli dosyaları aramak için **bloklara erişebilirsiniz**. Bu dosyaları değişiklik geçmişinde bulmuş olabilirsiniz:
 ```bash
 tar -xf image.tar
 ```
+### Temel Analiz
 
-### Basic Analysis
-
-You can get **basic information** from the image running:
-
+Çalışan görüntüden **temel bilgiler** alabilirsiniz:
 ```bash
-docker inspect <image> 
+docker inspect <image>
 ```
-
-You can also get a summary **history of changes** with:
-
+Ayrıca, bir özet **değişiklik geçmişi** alabilirsiniz:
 ```bash
 docker history --no-trunc <image>
 ```
-
-You can also generate a **dockerfile from an image** with:
-
+Ayrıca bir görüntüden bir **dockerfile oluşturabilirsiniz**:
 ```bash
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm alpine/dfimage"
 dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
 ```
-
 ### Dive
 
-In order to find added/modified files in docker images you can also use the [**dive**](https://github.com/wagoodman/dive) (download it from [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) utility:
-
+Docker görüntülerinde eklenen/değiştirilen dosyaları bulmak için [**dive**](https://github.com/wagoodman/dive) (indirin: [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) aracını da kullanabilirsiniz:
 ```bash
 #First you need to load the image in your docker repo
 sudo docker load < image.tar                                                                                                                                                                                                         1 ⨯
@@ -111,33 +90,30 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
+Bu, farklı docker görüntülerinin farklı bloblarında gezinmenizi sağlar ve hangi dosyaların değiştirildiğini/eklendiğini kontrol edebilirsiniz. **Kırmızı** eklenen anlamına gelir ve **sarı** değiştirilen anlamına gelir. Diğer görünüme geçmek için **tab** tuşunu kullanın ve klasörleri daraltmak/açmak için **boşluk** tuşunu kullanın.
 
-This allows you to **navigate through the different blobs of docker images** and check which files were modified/added. **Red** means added and **yellow** means modified. Use **tab** to move to the other view and **space** to collapse/open folders.
-
-With die you won't be able to access the content of the different stages of the image. To do so you will need to **decompress each layer and access it**.\
-You can decompress all the layers from an image from the directory where the image was decompressed executing:
-
+Die ile görüntünün farklı aşamalarının içeriğine erişemezsiniz. Bunun için her katmanı açmanız ve erişmeniz gerekecektir.\
+Görüntünün tüm katmanlarını açmak için görüntünün açıldığı dizinde aşağıdaki komutu çalıştırın:
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
 ```
+## Bellekten Kimlik Bilgileri
 
-## Credentials from memory
+Docker konteynerini bir ana bilgisayar içinde çalıştırdığınızda, ana bilgisayardan sadece `ps -ef` komutunu çalıştırarak konteynerde çalışan işlemleri görebilirsiniz.
 
-Note that when you run a docker container inside a host **you can see the processes running on the container from the host** just running `ps -ef`
-
-Therefore (as root) you can **dump the memory of the processes** from the host and search for **credentials** just [**like in the following example**](../../linux-hardening/privilege-escalation/#process-memory).
+Bu nedenle (root olarak), ana bilgisayardan işlemlerin belleğini **dökerek** ve [**aşağıdaki örnekte olduğu gibi**](../../linux-hardening/privilege-escalation/#process-memory) **kimlik bilgilerini arayabilirsiniz**.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'i öğrenin</strong>!</summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı **takip edin**.
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
 
 </details>

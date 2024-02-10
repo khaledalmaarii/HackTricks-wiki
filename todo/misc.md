@@ -1,93 +1,86 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzdaki özel [**NFT'leri**](https://opensea.io/collection/the-peass-family) keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
 
-In a ping response TTL:\
+Ping yanıtında TTL:\
 127 = Windows\
 254 = Cisco\
 Lo demás,algunlinux
 
 $1$- md5\
-$2$or $2a$ - Blowfish\
+$2$ veya $2a$ - Blowfish\
 $5$- sha256\
 $6$- sha512
 
-If you do not know what is behind a service, try to make and HTTP GET request.
+Bir hizmetin arkasında ne olduğunu bilmiyorsanız, bir HTTP GET isteği yapmayı deneyin.
 
-**UDP Scans**\
+**UDP Taramaları**\
 nc -nv -u -z -w 1 \<IP> 160-16
 
-An empty UDP packet is sent to a specific port. If the UDP port is open, no reply is sent back from the target machine. If the UDP port is closed, an ICMP port unreachable packet should be sent back from the target machine.\
+Belirli bir porta boş bir UDP paketi gönderilir. Eğer UDP portu açıksa, hedef makineden yanıt gönderilmez. Eğer UDP portu kapalıysa, hedef makineden bir ICMP port ulaşılamaz paketi gönderilir.\
 
 
-UDP port scanning is often unreliable, as firewalls and routers may drop ICMP\
- packets. This can lead to false positives in your scan, and you will regularly see\
- UDP port scans showing all UDP ports open on a scanned machine.\
- o Most port scanners do not scan all available ports, and usually have a preset list\
- of “interesting ports” that are scanned.
+UDP port taraması genellikle güvenilmezdir, çünkü güvenlik duvarları ve yönlendiriciler ICMP\
+paketlerini düşürebilir. Bu, taramanızda yanlış pozitif sonuçlar almanıza ve düzenli olarak\
+taranan bir makinede tüm UDP portlarının açık olduğunu gösteren UDP port taramaları görmeye devam etmenize neden olabilir.\
+o Çoğu port tarama aracı tüm mevcut portları taramaz ve genellikle tarama için önceden belirlenmiş bir liste\
+"ilginç portlar" vardır.
 
-# CTF - Tricks
+# CTF - Hileler
 
-In **Windows** use **Winzip** to search for files.\
-**Alternate data Streams**: _dir /r | find ":$DATA"_\
-
-
+**Windows**'da dosya aramak için **Winzip** kullanın.\
+**Alternatif veri Akışları**: _dir /r | find ":$DATA"_\
 ```
 binwalk --dd=".*" <file> #Extract everything
 binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and continue extracing (depth of 10000)
 ```
-
-## Crypto
+## Kripto
 
 **featherduster**\
 
 
-**Basae64**(6—>8) —> 0...9, a...z, A…Z,+,/\
+**Base64**(6—>8) —> 0...9, a...z, A…Z,+,/\
 **Base32**(5 —>8) —> A…Z, 2…7\
 **Base85** (Ascii85, 7—>8) —> 0...9, a...z, A...Z, ., -, :, +, =, ^, !, /, \*, ?, &, <, >, (, ), \[, ], {, }, @, %, $, #\
-**Uuencode** --> Start with "_begin \<mode> \<filename>_" and weird chars\
-**Xxencoding** --> Start with "_begin \<mode> \<filename>_" and B64\
+**Uuencode** --> "_begin \<mode> \<filename>_" ile başlar ve garip karakterler içerir\
+**Xxencoding** --> "_begin \<mode> \<filename>_" ile başlar ve B64 içerir\
 \
-**Vigenere** (frequency analysis) —> [https://www.guballa.de/vigenere-solver](https://www.guballa.de/vigenere-solver)\
-**Scytale** (offset of characters) —> [https://www.dcode.fr/scytale-cipher](https://www.dcode.fr/scytale-cipher)
+**Vigenere** (frekans analizi) —> [https://www.guballa.de/vigenere-solver](https://www.guballa.de/vigenere-solver)\
+**Scytale** (karakterlerin ofseti) —> [https://www.dcode.fr/scytale-cipher](https://www.dcode.fr/scytale-cipher)
 
 **25x25 = QR**
 
 factordb.com\
 rsatool
 
-Snow --> Hide messages using spaces and tabs
+Snow --> Mesajları boşluklar ve sekme karakterleri kullanarak gizleme
 
-# Characters
+# Karakterler
 
-%E2%80%AE => RTL Character (writes payloads backwards)
+%E2%80%AE => Sağdan sola yazılan RTL karakteri (payload'ları ters yazma)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek için** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) **kontrol edin**!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) **edinin**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) **koleksiyonumuzu keşfedin**, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) **katılın** veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) **ve** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github reposuna PR göndererek paylaşın**.
 
 </details>
-
-

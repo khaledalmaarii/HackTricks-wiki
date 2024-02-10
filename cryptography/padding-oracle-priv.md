@@ -1,91 +1,81 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin**.
+* Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
 
 </details>
 
 
-# CBC - Cipher Block Chaining
+# CBC - Şifre Blok Zinciri
 
-In CBC mode the **previous encrypted block is used as IV** to XOR with the next block:
+CBC modunda, **önceki şifrelenmiş blok bir IV** olarak kullanılır ve bir sonraki blokla XOR işlemi yapılır:
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
-To decrypt CBC the **opposite** **operations** are done:
+CBC'yi şifrelemek için **ters** **işlemler** yapılır:
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
-Notice how it's needed to use an **encryption** **key** and an **IV**.
+Dikkat edilmesi gereken nokta, bir **şifreleme anahtarı** ve bir **IV** kullanılmasıdır.
 
-# Message Padding
+# Mesaj Dolgusu
 
-As the encryption is performed in **fixed** **size** **blocks**, **padding** is usually needed in the **last** **block** to complete its length.\
-Usually **PKCS7** is used, which generates a padding **repeating** the **number** of **bytes** **needed** to **complete** the block. For example, if the last block is missing 3 bytes, the padding will be `\x03\x03\x03`.
+Şifreleme **sabit** **boyutlu bloklar** halinde gerçekleştirildiği için, genellikle **son** **bloğu tamamlamak** için **dolguya** ihtiyaç duyulur.\
+Genellikle **PKCS7** kullanılır ve bloğu tamamlamak için gereken **bayt sayısını tekrarlayan bir dolgu** oluşturur. Örneğin, son blokta eksik olan 3 bayt ise dolgu `\x03\x03\x03` olacaktır.
 
-Let's look at more examples with a **2 blocks of length 8bytes**:
+**8 baytlık 2 blok** ile daha fazla örneğe bakalım:
 
-| byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
+| bayt #0 | bayt #1 | bayt #2 | bayt #3 | bayt #4 | bayt #5 | bayt #6 | bayt #7 | bayt #0  | bayt #1  | bayt #2  | bayt #3  | bayt #4  | bayt #5  | bayt #6  | bayt #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | 4        | 5        | 6        | **0x02** | **0x02** |
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | 4        | 5        | **0x03** | **0x03** | **0x03** |
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | **0x05** | **0x05** | **0x05** | **0x05** | **0x05** |
 | P       | A       | S       | S       | W       | O       | R       | D       | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** |
 
-Note how in the last example the **last block was full so another one was generated only with padding**.
+Son örnekte **son blok dolu olduğu için sadece dolguyla başka bir blok oluşturuldu**.
 
-# Padding Oracle
+# Dolgu Oracle
 
-When an application decrypts encrypted data, it will first decrypt the data; then it will remove the padding. During the cleanup of the padding, if an **invalid padding triggers a detectable behaviour**, you have a **padding oracle vulnerability**. The detectable behaviour can be an **error**, a **lack of results**, or a **slower response**.
+Bir uygulama şifrelenmiş verileri çözerken, önce verileri çözer; ardından dolguyu kaldırır. Dolgu temizliği sırasında, **geçersiz bir dolgu algılanabilir bir davranışı tetiklerse**, bir **dolgu oracle zafiyeti** vardır. Algılanabilir davranış bir **hata**, **sonuç eksikliği** veya **daha yavaş bir yanıt** olabilir.
 
-If you detect this behaviour, you can **decrypt the encrypted data** and even **encrypt any cleartext**.
+Bu davranışı tespit ederseniz, **şifrelenmiş verileri çözebilir** ve hatta **herhangi bir açık metni şifreleyebilirsiniz**.
 
-## How to exploit
+## Nasıl sömürülür
 
-You could use [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) to exploit this kind of vulnerability or just do
-
+Bu tür bir zafiyeti sömürmek için [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) kullanabilir veya sadece şunları yapabilirsiniz
 ```
 sudo apt-get install padbuster
 ```
-
-In order to test if the cookie of a site is vulnerable you could try:
-
+Bir sitenin çerezinin savunmasız olup olmadığını test etmek için şunları deneyebilirsiniz:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA=="
 ```
+**Kodlama 0**, **base64** kullanıldığı anlamına gelir (ancak diğerleri de mevcuttur, yardım menüsünü kontrol edin).
 
-**Encoding 0** means that **base64** is used (but others are available, check the help menu).
-
-You could also **abuse this vulnerability to encrypt new data. For example, imagine that the content of the cookie is "**_**user=MyUsername**_**", then you may change it to "\_user=administrator\_" and escalate privileges inside the application. You could also do it using `paduster`specifying the -plaintext** parameter:
-
+Ayrıca, bu zafiyeti yeni verileri şifrelemek için **kötüye kullanabilirsiniz**. Örneğin, çerezin içeriği "**_**user=MyUsername**_**" ise, bunu "\_user=administrator\_" olarak değiştirebilir ve uygulama içinde ayrıcalıkları yükseltebilirsiniz. Aynı işlemi `-plaintext` parametresini belirterek `paduster` kullanarak da yapabilirsiniz:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-
-If the site is vulnerable `padbuster`will automatically try to find when the padding error occurs, but you can also indicating the error message it using the **-error** parameter.
-
+Eğer site savunmasızsa, `padbuster` otomatik olarak hata oluştuğunda bunu bulmaya çalışacaktır, ancak hata mesajını da **-error** parametresini kullanarak belirtebilirsiniz.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
+## Teori
 
-## The theory
-
-In **summary**, you can start decrypting the encrypted data by guessing the correct values that can be used to create all the **different paddings**. Then, the padding oracle attack will start decrypting bytes from the end to the start by guessing which will be the correct value that **creates a padding of 1, 2, 3, etc**.
+**Özet olarak**, farklı dolguları oluşturmak için kullanılabilecek doğru değerleri tahmin ederek şifrelenmiş verilerin şifresini çözmeye başlayabilirsiniz. Ardından, dolgu orak saldırısı, doğru değeri tahmin ederek 1, 2, 3 vb. bir dolgu oluşturan doğru değeri tahmin ederek, sona doğru baytları şifrelemeye başlar.
 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 
-Imagine you have some encrypted text that occupies **2 blocks** formed by the bytes from **E0 to E15**.\
-In order to **decrypt** the **last** **block** (**E8** to **E15**), the whole block passes through the "block cipher decryption" generating the **intermediary bytes I0 to I15**.\
-Finally, each intermediary byte is **XORed** with the previous encrypted bytes (E0 to E7). So:
+E0 ile E15 arasındaki baytlardan oluşan **2 blok** şeklinde olan bazı şifrelenmiş metinlere sahip olduğunuzu hayal edin.\
+**Son** **bloğu** (**E8** ile **E15**) **şifrelemek** için, tüm blok "blok şifre çözme" işleminden geçer ve ara baytlar I0 ile I15 oluşturur.\
+Son olarak, her ara bayt önceki şifrelenmiş baytlarla (E0 ile E7) **XOR** edilir. Yani:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
 * `C14 = I14 ^ E6`
@@ -93,44 +83,42 @@ Finally, each intermediary byte is **XORed** with the previous encrypted bytes (
 * `C12 = I12 ^ E4`
 * ...
 
-Now, It's possible to **modify `E7` until `C15` is `0x01`**, which will also be a correct padding. So, in this case: `\x01 = I15 ^ E'7`
+Şimdi, `C15` `0x01` olduğunda `E7` değiştirilebilir, bu da doğru bir dolgu olacaktır. Bu durumda: `\x01 = I15 ^ E'7`
 
-So, finding E'7, it's **possible to calculate I15**: `I15 = 0x01 ^ E'7`
+Bu nedenle, E'7 bulunarak I15 hesaplanabilir: `I15 = 0x01 ^ E'7`
 
-Which allow us to **calculate C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
+Bu bize C15'i hesaplama olanağı sağlar: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-Knowing **C15**, now it's possible to **calculate C14**, but this time brute-forcing the padding `\x02\x02`.
+C15'i bildikten sonra, bu sefer `\x02\x02` dolgusunu brute-force yaparak C14'ü hesaplamak mümkündür.
 
-This BF is as complex as the previous one as it's possible to calculate the the `E''15` whose value is 0x02: `E''7 = \x02 ^ I15` so it's just needed to find the **`E'14`** that generates a **`C14` equals to `0x02`**.\
-Then, do the same steps to decrypt C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
+Bu brute-force, öncekine benzer karmaşıklığa sahiptir çünkü 0x02 değerine sahip olan E''15'i hesaplamak mümkündür: `E''7 = \x02 ^ I15`, bu yüzden sadece C14'ü 0x02'ye eşit olan E'14'ü bulmak gerekmektedir.\
+Sonra, şifrelemeyi çözmek için aynı adımları C14 için yapın: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
-**Follow this chain until you decrypt the whole encrypted text.**
+**Tüm şifreli metni çözmek için bu zinciri takip edin.**
 
-## Detection of the vulnerability
+## Zafiyetin Tespiti
 
-Register and account and log in with this account .\
-If you **log in many times** and always get the **same cookie**, there is probably **something** **wrong** in the application. The **cookie sent back should be unique** each time you log in. If the cookie is **always** the **same**, it will probably always be valid and there **won't be anyway to invalidate i**t.
+Bir hesap kaydedin ve bu hesapla oturum açın.\
+Eğer birçok kez oturum açarsanız ve her seferinde **aynı çerez** alırsanız, uygulamada muhtemelen **bir şeyler yanlış**. Her oturum açtığınızda çerezin **benzersiz olması** gerekir. Eğer çerez **her zaman** **aynı** ise, muhtemelen her zaman geçerli olacak ve **geçersiz kılmanın bir yolu olmayacak**.
 
-Now, if you try to **modify** the **cookie**, you can see that you get an **error** from the application.\
-But if you BF the padding (using padbuster for example) you manage to get another cookie valid for a different user. This scenario is highly probably vulnerable to padbuster.
+Şimdi, çerezi **değiştirmeye** çalışırsanız, uygulamadan bir **hata** aldığınızı görebilirsiniz.\
+Ancak, padbuster gibi bir araç kullanarak dolgu değerini brute-force yaparsanız, farklı bir kullanıcı için geçerli olan başka bir çerez elde edebilirsiniz. Bu senaryo, padbuster için büyük olasılıkla savunmasızdır.
 
-## References
+## Referanslar
 
 * [https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation](https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı yapmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin.**
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github reposuna **PR göndererek paylaşın**.
 
 </details>
-
-

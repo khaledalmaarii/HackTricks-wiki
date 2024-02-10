@@ -1,181 +1,163 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklam vermek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonu
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
 
-# Timestamps
+# Zaman Damgaları
 
-An attacker may be interested in **changing the timestamps of files** to avoid being detected.\
-It's possible to find the timestamps inside the MFT in attributes `$STANDARD_INFORMATION` __ and __ `$FILE_NAME`.
+Bir saldırgan, tespit edilmekten kaçınmak için **dosyaların zaman damgalarını değiştirmek** isteyebilir.\
+Zaman damgaları, MFT içindeki `$STANDARD_INFORMATION` __ ve __ `$FILE_NAME` özniteliklerinde bulunabilir.
 
-Both attributes have 4 timestamps: **Modification**, **access**, **creation**, and **MFT registry modification** (MACE or MACB).
+Her iki öznitelik de 4 zaman damgasına sahiptir: **Değiştirme**, **erişim**, **oluşturma** ve **MFT kayıt değiştirme** (MACE veya MACB).
 
-**Windows explorer** and other tools show the information from **`$STANDARD_INFORMATION`**.
+**Windows Gezgini** ve diğer araçlar, bilgileri **`$STANDARD_INFORMATION`**'dan gösterir.
 
-## TimeStomp - Anti-forensic Tool
+## TimeStomp - Anti-forensik Aracı
 
-This tool **modifies** the timestamp information inside **`$STANDARD_INFORMATION`** **but** **not** the information inside **`$FILE_NAME`**. Therefore, it's possible to **identify** **suspicious** **activity**.
+Bu araç, **`$STANDARD_INFORMATION`** içindeki zaman damgası bilgisini **değiştirir** **ancak** **`$FILE_NAME`** içindeki bilgiyi **değiştirmez**. Bu nedenle, **şüpheli** **aktiviteyi** **belirlemek mümkündür**.
 
 ## Usnjrnl
 
-The **USN Journal** (Update Sequence Number Journal) is a feature of the NTFS (Windows NT file system) that keeps track of volume changes. The [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) tool allows for the examination of these changes.
+**USN Günlüğü** (Güncelleme Sıra Numarası Günlüğü), NTFS (Windows NT dosya sistemi) özelliğidir ve hacim değişikliklerini takip eder. [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) aracı, bu değişikliklerin incelenmesine olanak tanır.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-The previous image is the **output** shown by the **tool** where it can be observed that some **changes were performed** to the file.
+Önceki görüntü, araç tarafından gösterilen **çıktıdır** ve dosyaya bazı **değişikliklerin yapıldığı** görülebilir.
 
 ## $LogFile
 
-**All metadata changes to a file system are logged** in a process known as [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). The logged metadata is kept in a file named `**$LogFile**`, located in the root directory of an NTFS file system. Tools such as [LogFileParser](https://github.com/jschicht/LogFileParser) can be used to parse this file and identify changes.
+Bir dosya sistemindeki **tüm meta veri değişiklikleri**, [ön yazma günlüğü](https://en.wikipedia.org/wiki/Write-ahead_logging) olarak bilinen bir süreçte kaydedilir. Kaydedilen meta veriler, NTFS dosya sisteminin kök dizininde bulunan `**$LogFile**` adlı bir dosyada tutulur. [LogFileParser](https://github.com/jschicht/LogFileParser) gibi araçlar, bu dosyayı ayrıştırmak ve değişiklikleri belirlemek için kullanılabilir.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Again, in the output of the tool it's possible to see that **some changes were performed**.
+Yine, aracın çıktısında **bazı değişikliklerin yapıldığı** görülebilir.
 
-Using the same tool it's possible to identify to **which time the timestamps were modified**:
+Aynı araç kullanılarak **zaman damgalarının hangi zamana değiştirildiği** belirlenebilir:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
-* CTIME: File's creation time
-* ATIME: File's modification time
-* MTIME: File's MFT registry modification
-* RTIME: File's access time
+* CTIME: Dosyanın oluşturma zamanı
+* ATIME: Dosyanın değiştirme zamanı
+* MTIME: Dosyanın MFT kayıt değiştirme zamanı
+* RTIME: Dosyanın erişim zamanı
 
-## `$STANDARD_INFORMATION` and `$FILE_NAME` comparison
+## `$STANDARD_INFORMATION` ve `$FILE_NAME` karşılaştırması
 
-Another way to identify suspicious modified files would be to compare the time on both attributes looking for **mismatches**.
+Şüpheli değiştirilmiş dosyaları belirlemenin başka bir yolu, her iki öznitelikteki zamanı karşılaştırmak ve **uyumsuzlukları** aramaktır.
 
-## Nanoseconds
+## Nanosaniyeler
 
-**NTFS** timestamps have a **precision** of **100 nanoseconds**. Then, finding files with timestamps like 2010-10-10 10:10:**00.000:0000 is very suspicious**.
+**NTFS** zaman damgalarının **100 nanosaniye** hassasiyeti vardır. Bu nedenle, 2010-10-10 10:10:**00.000:0000 gibi zaman damgalarına sahip dosyalar çok şüphelidir**.
 
-## SetMace - Anti-forensic Tool
+## SetMace - Anti-forensik Aracı
 
-This tool can modify both attributes `$STARNDAR_INFORMATION` and `$FILE_NAME`. However, from Windows Vista, it's necessary for a live OS to modify this information.
+Bu araç, `$STARNDAR_INFORMATION` ve `$FILE_NAME` özniteliklerini değiştirebilir. Ancak, Windows Vista'dan itibaren bu bilginin değiştirilmesi için bir canlı işletim sistemi gereklidir.
 
-# Data Hiding
+# Veri Gizleme
 
-NFTS uses a cluster and the minimum information size. That means that if a file occupies uses and cluster and a half, the **reminding half is never going to be used** until the file is deleted. Then, it's possible to **hide data in this slack space**.
+NFTS, bir küme ve minimum bilgi boyutu kullanır. Bu, bir dosyanın yarım küme kullanması durumunda **kalan yarımın hiçbir zaman kullanılmayacağı** anlamına gelir. Bu nedenle, bu "gizli" alanın içine veri **gizlemek mümkündür**.
 
-There are tools like slacker that allow hiding data in this "hidden" space. However, an analysis of the `$logfile` and `$usnjrnl` can show that some data was added:
+Bu "gizli" alanlarda veri gizlemeye izin veren slacker gibi araçlar vardır. Bununla birlikte, `$logfile` ve `$usnjrnl` analizi, bazı verilerin eklendiğini gösterebilir:
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-Then, it's possible to retrieve the slack space using tools like FTK Imager. Note that this kind of tool can save the content obfuscated or even encrypted.
+Bu durumda, FTK Imager gibi araçlar kullanılarak gizli alan kurtarılabilir. Bu tür bir araç, içeriği şifreli veya hatta şifrelenmiş olarak kaydedebilir.
 
 # UsbKill
 
-This is a tool that will **turn off the computer if any change in the USB** ports is detected.\
-A way to discover this would be to inspect the running processes and **review each python script running**.
+Bu, USB bağlantı noktalarında herhangi bir değişiklik algılandığında bilgisayarı **kapatır** bir araçtır.\
+Bunu keşfetmenin bir yolu, çalışan işlemleri incelemek ve **çalışan her python betimini gözden geçirmek** olacaktır.
 
-# Live Linux Distributions
+# Canlı Linux Dağıtımları
 
-These distros are **executed inside the RAM** memory. The only way to detect them is **in case the NTFS file-system is mounted with write permissions**. If it's mounted just with read permissions it won't be possible to detect the intrusion.
+Bu dağıtımlar, **RAM bellek içinde çalıştırılır**. Bunların tespit edilebilmesinin tek yolu, NTFS dosya sisteminin yazma izinleriyle bağlanması durumunda mümkün olacaktır. Salt okunur izinlerle bağlanıldığında, sızma tespit edilemez.
 
-# Secure Deletion
+# Güvenli Silme
 
 [https://github.com/Claudio-C/awesome-data-sanitization](https://github.com/Claudio-C/awesome-data-sanitization)
 
-# Windows Configuration
+# Windows Yapılandırması
 
-It's possible to disable several windows logging methods to make the forensics investigation much harder.
+Forensik incelemeyi zorlaştırmak için çeşitli Windows günlükleme yöntemlerini devre dışı bırakmak mümkündür.
 
-## Disable Timestamps - UserAssist
+## Zaman Damgalarını Devre Dışı Bırakma - UserAssist
 
-This is a registry key that maintains dates and hours when each executable was run by the user.
+Bu, her bir yürütülebilir dosyanın kullanıcı tarafından çalıştırıldığı tarih ve saatleri tutan bir kayıt defteri anahtarıdır.
 
-Disabling UserAssist requires two steps:
+UserAssist'in devre dışı bırakılması için iki adım gereklidir:
 
-1. Set two registry keys, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` and `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, both to zero in order to signal that we want UserAssist disabled.
-2. Clear your registry subtrees that look like `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
+1. `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` ve `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled` adlı iki kayıt defteri anahtarı sıfıra ayarlanmalıdır. Böylece UserAssist'in devre dışı bırakılmasını istediğimizi belirtiriz.
+2. `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>` gibi görünen kayıt defteri alt ağaçlarını temizleyin.
 
-## Disable Timestamps - Prefetch
+## Zaman Damgalarını Devre Dışı Bırakma - Prefetch
 
-This will save information about the applications executed with the goal of improving the performance of the Windows system. However, this can also be useful for forensics practices.
+Bu, Windows sisteminin performansını iyileştirmek amacıyla yürütülen uygulamalar hakkında bilgi saklar. Ancak, bu aynı zamanda forensik uygulamalar için de kullanışlı olabilir.
 
-* Execute `regedit`
-* Select the file path `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* Right-click on both `EnablePrefetcher` and `EnableSuperfetch`
-* Select Modify on each of these to change the value from 1 (or 3) to 0
-* Restart
+* `regedit`'i çalıştırın
+* `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters` dosya yolunu seçin
+* Hem `EnablePrefetcher` hem de `EnableSuperfetch` üzer
+## USB Geçmişini Silme
 
-## Disable Timestamps - Last Access Time
+Tüm **USB Aygıt Girişleri**, USB cihazını bilgisayarınıza veya dizüstü bilgisayarınıza takmanız durumunda oluşturulan alt anahtarları içeren **USBSTOR** kaydı altında Windows Kayıt Defteri'nde saklanır. Bu anahtarı burada bulabilirsiniz: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Bunu silerek** USB geçmişini silebilirsiniz.\
+Ayrıca, USB'ler hakkında bilgi saklayan dosya `C:\Windows\INF` içindeki `setupapi.dev.log` dosyası da silinmelidir.
 
-Whenever a folder is opened from an NTFS volume on a Windows NT server, the system takes the time to **update a timestamp field on each listed folder**, called the last access time. On a heavily used NTFS volume, this can affect performance.
+## Gölge Kopyalarını Devre Dışı Bırakma
 
-1. Open the Registry Editor (Regedit.exe).
-2. Browse to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Look for `NtfsDisableLastAccessUpdate`. If it doesn’t exist, add this DWORD and set its value to 1, which will disable the process.
-4. Close the Registry Editor, and reboot the server.
+Gölge kopyalarını `vssadmin list shadowstorage` komutuyla **listele**.\
+Onları silmek için `vssadmin delete shadow` komutunu çalıştırın.
 
-## Delete USB History
+Ayrıca, [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html) adresinde önerilen adımları takip ederek GUI üzerinden de silebilirsiniz.
 
-All the **USB Device Entries** are stored in Windows Registry Under the **USBSTOR** registry key that contains sub keys which are created whenever you plug a USB Device into your PC or Laptop. You can find this key here H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deleting this** you will delete the USB history.\
-You may also use the tool [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) to be sure you have deleted them (and to delete them).
+Gölge kopyalarını devre dışı bırakmak için [buradan adımları](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows) izleyin:
 
-Another file that saves information about the USBs is the file `setupapi.dev.log` inside `C:\Windows\INF`. This should also be deleted.
+1. Başlat düğmesine tıkladıktan sonra metin arama kutusuna "services" yazarak Hizmetler programını açın.
+2. Listeden "Volume Shadow Copy" bulun, seçin ve ardından sağ tıklayarak Özelliklere erişin.
+3. "Başlangıç türü" açılır menüsünden "Devre Dışı" seçin ve değişikliği uygulamak için Uygula ve Tamam'a tıklayın.
 
-## Disable Shadow Copies
+Gölge kopyasında hangi dosyaların kopyalanacağının yapılandırmasını da kayıt defterinde `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot` bölümünde değiştirmek mümkündür.
 
-**List** shadow copies with `vssadmin list shadowstorage`\
-**Delete** them running `vssadmin delete shadow`
+## Silinen Dosyaları Üzerine Yazma
 
-You can also delete them via GUI following the steps proposed in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
+* Bir **Windows aracı** olan `cipher /w:C` komutunu kullanabilirsiniz. Bu, C sürücüsündeki kullanılmayan disk alanından tüm verileri silmek için cipher'a talimat verir.
+* [**Eraser**](https://eraser.heidi.ie) gibi araçları da kullanabilirsiniz.
 
-To disable shadow copies [steps from here](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+## Windows Olay Günlüklerini Silme
 
-1. Open the Services program by typing "services" into the text search box after clicking the Windows start button.
-2. From the list, find "Volume Shadow Copy", select it, and then access Properties by right-clicking.
-3. Choose Disabled from the "Startup type" drop-down menu, and then confirm the change by clicking Apply and OK.
-
-It's also possible to modify the configuration of which files are going to be copied in the shadow copy in the registry `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
-
-## Overwrite deleted files
-
-* You can use a **Windows tool**: `cipher /w:C` This will indicate cipher to remove any data from the available unused disk space inside the C drive.
-* You can also use tools like [**Eraser**](https://eraser.heidi.ie)
-
-## Delete Windows event logs
-
-* Windows + R --> eventvwr.msc --> Expand "Windows Logs" --> Right click each category and select "Clear Log"
+* Windows + R --> eventvwr.msc --> "Windows Günlükleri"ni genişletin --> Her kategoriye sağ tıklayın ve "Günlüğü Temizle" seçeneğini seçin.
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
-## Disable Windows event logs
+## Windows Olay Günlüklerini Devre Dışı Bırakma
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Inside the services section disable the service "Windows Event Log"
-* `WEvtUtil.exec clear-log` or `WEvtUtil.exe cl`
+* Hizmetler bölümünde "Windows Event Log" hizmetini devre dışı bırakın.
+* `WEvtUtil.exec clear-log` veya `WEvtUtil.exe cl` komutunu kullanın.
 
-## Disable $UsnJrnl
+## $UsnJrnl'yi Devre Dışı Bırakma
 
 * `fsutil usn deletejournal /d c:`
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hackleme öğrenin!</summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı yapmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da** takip edin.
+* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek katkıda bulunun.
 
 </details>
-
-

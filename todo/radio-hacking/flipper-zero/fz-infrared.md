@@ -1,60 +1,60 @@
-# FZ - Infrared
+# FZ - Kızılötesi
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* Özel [**NFT'lerimizden oluşan PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter'da** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile göndererek paylaşın**.
 
 </details>
 
-## Intro <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+## Giriş <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
 
-For more info about how Infrared works check:
+Kızılötesi'nin nasıl çalıştığı hakkında daha fazla bilgi için:
 
 {% content-ref url="../infrared.md" %}
 [infrared.md](../infrared.md)
 {% endcontent-ref %}
 
-## IR Signal Receiver in Flipper Zero <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+## Flipper Zero'da Kızılötesi Sinyal Alıcısı <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
 
-Flipper uses a digital IR signal receiver TSOP, which **allows intercepting signals from IR remotes**. There are some **smartphones** like Xiaomi, which also have an IR port, but keep in mind that **most of them can only transmit** signals and are **unable to receive** them.
+Flipper, IR uzaktan kumandaların sinyallerini **intercept etmeyi** sağlayan bir dijital IR sinyal alıcısı TSOP kullanır. Xiaomi gibi bazı **akıllı telefonlar** da bir IR bağlantı noktasına sahip olabilir, ancak **çoğu sadece sinyal gönderebilir** ve **alıcı olamaz**.
 
-The Flipper infrared **receiver is quite sensitive**. You can even **catch the signal** while remaining **somewhere in between** the remote and the TV. Pointing the remote directly at Flipper's IR port is unnecessary. This comes in handy when someone is switching channels while standing near the TV, and both you and Flipper are some distance away.
+Flipper'ın kızılötesi alıcısı oldukça **duyarlıdır**. TV'nin uzaktan kumandası ve Flipper arasında **bir yerde dururken bile sinyali yakalayabilirsiniz**. Uzaktan kumandayı doğrudan Flipper'ın IR bağlantı noktasına yönlendirmek gereksizdir. Bu, biri TV'nin yanında kanalları değiştirirken, hem siz hem de Flipper biraz uzakta olduğunuzda işe yarar.
 
-As the **decoding of the infrared** signal happens on the **software** side, Flipper Zero potentially supports the **reception and transmission of any IR remote codes**. In the case of **unknown** protocols which could not be recognized - it **records and plays back** the raw signal exactly as received.
+Kızılötesi sinyalin çözümlenmesi **yazılım** tarafında gerçekleştiği için, Flipper Zero potansiyel olarak herhangi bir IR uzaktan kumanda kodunu **alabilme ve iletebilme** özelliğine sahiptir. **Tanınmayan** protokollerin tanınamadığı durumlarda, alınan sinyal **kaydedilir ve tam olarak o şekilde tekrar oynatılır**.
 
-## Actions
+## İşlemler
 
-### Universal Remotes
+### Evrensel Uzaktan Kumandalar
 
-Flipper Zero can be used as a **universal remote to control any TV, air conditioner, or media center**. In this mode, Flipper **bruteforces** all **known codes** of all supported manufacturers **according to the dictionary from the SD card**. You don't need to choose a particular remote to turn of a restaurant TV.
+Flipper Zero, herhangi bir TV, klima veya medya merkezini kontrol etmek için bir **evrensel uzaktan kumanda** olarak kullanılabilir. Bu modda, Flipper, SD karttaki sözlüğe göre **tüm desteklenen üreticilerin bilinen kodlarını** **brute-force** yapar. Bir restoran TV'sini kapatmak için belirli bir uzaktan kumandayı seçmenize gerek yoktur.
 
-It is enough to press the power button in the Universal Remote mode, and Flipper will **sequentially send "Power Off"** commands of all the TVs it knows: Sony, Samsung, Panasonic... and so on. When the TV receives its signal, it will react and turn off.
+Evrensel Uzaktan Kumanda modunda güç düğmesine basmak yeterlidir ve Flipper, bildiği tüm TV'lerin "Kapat" komutlarını sırayla gönderir: Sony, Samsung, Panasonic... ve böyle devam eder. TV sinyali alır almaz tepki verecek ve kapanacaktır.
 
-Such brute-force takes time. The larger the dictionary, the longer it will take to finish. It is impossible to find out which signal exactly the TV recognized since there is no feedback from the TV.
+Bu tür brute-force işlemi zaman alır. Sözlük ne kadar büyükse, bitirmek için o kadar uzun sürecek. TV'nin hangi sinyali tam olarak tanıdığını öğrenmek imkansızdır çünkü TV'den geri bildirim yoktur.
 
-### Learn New Remote
+### Yeni Uzaktan Kumanda Öğrenme
 
-It's possible to **capture an infrared signal** with Flipper Zero. If it **finds the signal in the database** Flipper will automatically **know which device this is** and will let you interact with it.\
-If it doesn't, Flipper can **store** the **signal** and will allow you to **replay it**.
+Flipper Zero ile bir kızılötesi sinyal **yakalanabilir**. Eğer Flipper, sinyali **veritabanında bulursa**, Flipper otomatik olarak **bu cihazın ne olduğunu bilecek** ve sizinle etkileşim kurmanıza izin verecektir.\
+Bulamazsa, Flipper sinyali **kaydedebilir** ve size **tekrar oynatma** imkanı sağlar.
 
-## References
+## Referanslar
 
 * [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* Özel [**NFT'lerimizden oluşan PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter'da** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile göndererek paylaşın**.
 
 </details>

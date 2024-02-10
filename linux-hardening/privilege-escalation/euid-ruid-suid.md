@@ -2,86 +2,109 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin<strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını yapmak** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuz olan özel [**NFT'lerimizi**](https://opensea.io/collection/the-peass-family) keşfedin
+* [**Resmi PEASS & HackTricks ürünlerine**](https://peass.creator-spring.com) sahip olun
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi [hacktricks repo'ya](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo'ya](https://github.com/carlospolop/hacktricks-cloud) PR göndererek paylaşın**.
 
 </details>
 
-### User Identification Variables
+### Kullanıcı Kimlik Değişkenleri
 
-- **`ruid`**: The **real user ID** denotes the user who initiated the process.
-- **`euid`**: Known as the **effective user ID**, it represents the user identity utilized by the system to ascertain process privileges. Generally, `euid` mirrors `ruid`, barring instances like a SetUID binary execution, where `euid` assumes the file owner's identity, thus granting specific operational permissions.
-- **`suid`**: This **saved user ID** is pivotal when a high-privilege process (typically running as root) needs to temporarily relinquish its privileges to perform certain tasks, only to later reclaim its initial elevated status.
+- **`ruid`**: **Gerçek kullanıcı kimliği** işlemi başlatan kullanıcıyı belirtir.
+- **`euid`**: **Etkili kullanıcı kimliği** olarak bilinen, sistem tarafından işlem ayrıcalıklarını belirlemek için kullanılan kullanıcı kimliğini temsil eder. Genellikle, `euid` SetUID ikili yürütmesi gibi durumlar dışında, `euid` dosya sahibinin kimliğini alır ve belirli işletimsel izinler sağlar.
+- **`suid`**: Bu **kaydedilmiş kullanıcı kimliği**, geçici olarak ayrıcalıklarını bırakması gereken yüksek ayrıcalıklı bir işlem (genellikle root olarak çalışan) için önemlidir, ancak daha sonra başlangıçta yükseltilmiş durumunu geri alır.
 
-#### Important Note
-A process not operating under root can only modify its `euid` to match the current `ruid`, `euid`, or `suid`.
+#### Önemli Not
+Kök altında çalışmayan bir işlem, yalnızca `euid`'yi mevcut `ruid`, `euid` veya `suid` ile eşleştirebilir.
 
-### Understanding set*uid Functions
+### set*uid Fonksiyonlarının Anlaşılması
 
-- **`setuid`**: Contrary to initial assumptions, `setuid` primarily modifies `euid` rather than `ruid`. Specifically, for privileged processes, it aligns `ruid`, `euid`, and `suid` with the specified user, often root, effectively solidifying these IDs due to the overriding `suid`. Detailed insights can be found in the [setuid man page](https://man7.org/linux/man-pages/man2/setuid.2.html).
-- **`setreuid`** and **`setresuid`**: These functions allow for the nuanced adjustment of `ruid`, `euid`, and `suid`. However, their capabilities are contingent on the process's privilege level. For non-root processes, modifications are restricted to the current values of `ruid`, `euid`, and `suid`. In contrast, root processes or those with `CAP_SETUID` capability can assign arbitrary values to these IDs. More information can be gleaned from the [setresuid man page](https://man7.org/linux/man-pages/man2/setresuid.2.html) and the [setreuid man page](https://man7.org/linux/man-pages/man2/setreuid.2.html).
+- **`setuid`**: İlk varsayımların aksine, `setuid` öncelikle `ruid`'yi değiştirir, `euid`'yi değil. Özellikle ayrıcalıklı işlemler için, belirtilen kullanıcıyla (`root` gibi) `ruid`, `euid` ve `suid`'yi hizalar, bu nedenle bu kimlikleri geçersiz kılarak etkinleştirir. Ayrıntılı bilgilere [setuid man sayfasında](https://man7.org/linux/man-pages/man2/setuid.2.html) ulaşılabilir.
+- **`setreuid`** ve **`setresuid`**: Bu fonksiyonlar, `ruid`, `euid` ve `suid`'yi ince ayar yapmanıza olanak tanır. Ancak, yetki düzeyine bağlı olarak yetenekleri sınırlıdır. Kök olmayan işlemler için değişiklikler, `ruid`, `euid` ve `suid`'nin mevcut değerleriyle sınırlıdır. Buna karşılık, kök işlemleri veya `CAP_SETUID` yeteneğine sahip olanlar bu kimliklere keyfi değerler atayabilir. Daha fazla bilgi, [setresuid man sayfasında](https://man7.org/linux/man-pages/man2/setresuid.2.html) ve [setreuid man sayfasında](https://man7.org/linux/man-pages/man2/setreuid.2.html) bulunabilir.
 
-These functionalities are designed not as a security mechanism but to facilitate the intended operational flow, such as when a program adopts another user's identity by altering its effective user ID.
+Bu işlevler, bir güvenlik mekanizması olarak değil, bir programın etkin kullanıcı kimliğini değiştirerek başka bir kullanıcının kimliğini benimsemesini kolaylaştırmak için tasarlanmıştır.
 
-Notably, while `setuid` might be a common go-to for privilege elevation to root (since it aligns all IDs to root), differentiating between these functions is crucial for understanding and manipulating user ID behaviors in varying scenarios.
+Özellikle, `setuid`, kök ayrıcalığına yükseltme için yaygın bir seçenek olabilir (çünkü tüm kimlikleri köke hizalar), ancak bu işlevler arasındaki farkı ayırt etmek, farklı senaryolarda kullanıcı kimliği davranışlarını anlamak ve manipüle etmek için önemlidir.
 
-### Program Execution Mechanisms in Linux
+### Linux'ta Program Yürütme Mekanizmaları
 
-#### **`execve` System Call**
-- **Functionality**: `execve` initiates a program, determined by the first argument. It takes two array arguments, `argv` for arguments and `envp` for the environment.
-- **Behavior**: It retains the memory space of the caller but refreshes the stack, heap, and data segments. The program's code is replaced by the new program.
-- **User ID Preservation**:
-  - `ruid`, `euid`, and supplementary group IDs remain unaltered.
-  - `euid` might have nuanced changes if the new program has the SetUID bit set.
-  - `suid` gets updated from `euid` post-execution.
-- **Documentation**: Detailed information can be found on the [`execve` man page](https://man7.org/linux/man-pages/man2/execve.2.html).
+#### **`execve` Sistem Çağrısı**
+- **İşlevsellik**: `execve`, ilk argüman tarafından belirlenen bir programı başlatır. İki dizi argüman alır, argümanlar için `argv` ve çevre için `envp`.
+- **Davranış**: Çağıranın bellek alanını korur, ancak yığın, heap ve veri segmentlerini yeniler. Programın kodu, yeni program tarafından değiştirilir.
+- **Kullanıcı Kimliği Koruma**:
+- `ruid`, `euid` ve ek grup kimlikleri değiştirilmez.
+- Yeni programın SetUID bitine sahip olması durumunda, `euid`'de ince değişiklikler olabilir.
+- `suid`, yürütmeden sonra `euid`'den güncellenir.
+- **Belgeleme**: Ayrıntılı bilgilere [`execve` man sayfasında](https://man7.org/linux/man-pages/man2/execve.2.html) ulaşılabilir.
 
-#### **`system` Function**
-- **Functionality**: Unlike `execve`, `system` creates a child process using `fork` and executes a command within that child process using `execl`.
-- **Command Execution**: Executes the command via `sh` with `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
-- **Behavior**: As `execl` is a form of `execve`, it operates similarly but in the context of a new child process.
-- **Documentation**: Further insights can be obtained from the [`system` man page](https://man7.org/linux/man-pages/man3/system.3.html).
+#### **`system` İşlevi**
+- **İşlevsellik**: `execve`'den farklı olarak, `system` bir çocuk işlem oluşturur ve bu çocuk işlemde `fork` kullanarak bir komutu yürütür.
+- **Komut Yürütme**: Komutu `sh` ile `execl("/bin/sh", "sh", "-c", komut, (char *) NULL);` kullanarak yürütür.
+- **Davranış**: `execl`, `execve`'nin bir formu olduğu için benzer şekilde çalışır, ancak yeni bir çocuk işlem bağlamında çalışır.
+- **Belgeleme**: Daha fazla bilgi [`system` man sayfasında](https://man7.org/linux/man-pages/man3/system.3.html) bulunabilir.
 
-#### **Behavior of `bash` and `sh` with SUID**
+#### **SUID ile `bash` ve `sh` Davranışı**
 - **`bash`**:
-  - Has a `-p` option influencing how `euid` and `ruid` are treated.
-  - Without `-p`, `bash` sets `euid` to `ruid` if they initially differ.
-  - With `-p`, the initial `euid` is preserved.
-  - More details can be found on the [`bash` man page](https://linux.die.net/man/1/bash).
+- `euid` ve `ruid`'nin nasıl işlendiğini etkileyen `-p` seçeneğine sahiptir.
+- `-p` olmadan, `bash`, başlangıçta farklılarsa `euid`'yi `ruid`'ye ayarlar.
+- `-p` ile, başlangıçtaki `euid` korunur.
+- Daha fazla ayrıntı [`bash` man sayfasında](https://linux.die.net/man/1/bash) bulunabilir.
 - **`sh`**:
-  - Does not possess a mechanism similar to `-p` in `bash`.
-  - The behavior concerning user IDs is not explicitly mentioned, except under the `-i` option, emphasizing the preservation of `euid` and `ruid` equality.
-  - Additional information is available on the [`sh` man page](https://man7.org/linux/man-pages/man1/sh.1p.html).
+- `bash`'deki `-p` ile benzer bir mekanizmaya sahip değildir.
+- Kullanıcı kimlikleriyle ilgili davranış açıkça belirtilmemiştir, `-i` seçeneği altında `euid` ve `ruid`'nin eşitliğinin korunmasına vurgu yapılır.
+- Ek bilgiler [`sh` man sayfasında](https://man7.org/linux/man-pages/man1/sh.1p.html) bulunabilir.
 
-These mechanisms, distinct in their operation, offer a versatile range of options for executing and transitioning between programs, with specific nuances in how user IDs are managed and preserved.
+Bu işlemler, işleyişlerinde farklılık gösteren, programların yürütülmesi ve geçiş yapılması için çeşitli seçenekler sunan ve kullanıcı kimliklerinin nasıl yönetildiği ve korunduğu konusunda belirli nüanslara sahip olan mekanizmalardır.
 
-### Testing User ID Behaviors in Executions
+### Yürütme Sırasında Kullanıcı Kimliği Davranışlarını Test Etme
 
-Examples taken from https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, check it for further information
+Daha fazla bilgi için https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail adresinden alınan örnekleri kontrol edin
 
-#### Case 1: Using `setuid` with `system`
+#### Durum 1: `setuid` ile `system` kullanımı
 
-**Objective**: Understanding the effect of `setuid` in combination with `system` and `bash` as `sh`.
+**Amaç**: `setuid`'in `system` ve `bash` olarak `sh` ile birlikte kullanımının etkisini anlamak.
 
-**C Code**:
+**C Kodu**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    system("id");
-    return 0;
+setuid(1000);
+system("id");
+return 0;
 }
 ```
+**Derleme ve İzinler:**
 
-**Compilation and Permissions:**
+
+When a program is compiled, it is assigned certain permissions based on the user who compiled it. These permissions determine the level of access the program has to system resources. There are three types of permissions that can be assigned to a program: the effective user ID (euid), the real user ID (ruid), and the saved user ID (suid).
+
+
+Bir program derlendiğinde, derleyen kullanıcıya bağlı olarak belirli izinler atanır. Bu izinler, programın sistem kaynaklarına erişim düzeyini belirler. Bir programa atanan üç tür izin vardır: etkili kullanıcı kimliği (euid), gerçek kullanıcı kimliği (ruid) ve kaydedilmiş kullanıcı kimliği (suid).
+
+
+The euid is the user ID that the program will use when accessing system resources. It is set to the ruid by default, but it can be changed using the setuid() system call. This allows a program to temporarily elevate its privileges to perform certain tasks that require higher permissions.
+
+
+Euid, programın sistem kaynaklarına erişirken kullanacağı kullanıcı kimliğidir. Varsayılan olarak ruid'ye ayarlanır, ancak setuid() sistem çağrısı kullanılarak değiştirilebilir. Bu, bir programın geçici olarak ayrıcalıklarını yükseltmesine ve daha yüksek izinlere ihtiyaç duyan belirli görevleri gerçekleştirmesine olanak tanır.
+
+
+The ruid is the user ID of the user who executed the program. It remains constant throughout the execution of the program and is used for permission checks.
+
+
+Ruid, programı çalıştıran kullanıcının kullanıcı kimliğidir. Programın yürütülmesi boyunca sabit kalır ve izin kontrolleri için kullanılır.
+
+
+The suid is the user ID that the program will use when it is executed with elevated privileges. It is set to the euid by default, but it can be changed using the setuid() system call. This allows a program to permanently elevate its privileges, even when executed by a different user.
+
+
+Suid, programın yükseltilmiş ayrıcalıklarla çalıştırıldığında kullanacağı kullanıcı kimliğidir. Varsayılan olarak euid'ye ayarlanır, ancak setuid() sistem çağrısı kullanılarak değiştirilebilir. Bu, bir programın ayrıcalıklarını kalıcı olarak yükseltmesine olanak tanır, hatta farklı bir kullanıcı tarafından çalıştırıldığında bile.
 ```bash
 oxdf@hacky$ gcc a.c -o /mnt/nfsshare/a;
 oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
@@ -91,133 +114,140 @@ oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
 bash-4.2$ $ ./a
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Analiz:**
 
-**Analysis:**
+* `ruid` ve `euid` başlangıçta sırasıyla 99 (nobody) ve 1000 (frank) olarak başlar.
+* `setuid` her ikisini de 1000'e ayarlar.
+* `system`, sh'den bash'e olan sembolik bağlantı nedeniyle `/bin/bash -c id` komutunu çalıştırır.
+* `-p` olmadan `bash`, `euid`'yi `ruid` ile eşleştirmek için ayarlar ve sonuç olarak her ikisi de 99 (nobody) olur.
 
-* `ruid` and `euid` start as 99 (nobody) and 1000 (frank) respectively.
-* `setuid` aligns both to 1000.
-* `system` executes `/bin/bash -c id` due to the symlink from sh to bash.
-* `bash`, without `-p`, adjusts `euid` to match `ruid`, resulting in both being 99 (nobody).
+#### Durum 2: setreuid ile system Kullanımı
 
-#### Case 2: Using setreuid with system
-
-**C Code**:
+**C Kodu**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setreuid(1000, 1000);
-    system("id");
-    return 0;
+setreuid(1000, 1000);
+system("id");
+return 0;
 }
 ```
+**Derleme ve İzinler:**
 
-**Compilation and Permissions:**
+
+When a program is compiled, it is assigned certain permissions based on the user who compiled it. These permissions determine the level of access the program has to system resources. There are three types of permissions that can be assigned to a program: the effective user ID (euid), the real user ID (ruid), and the saved user ID (suid).
+
+
+Bir program derlendiğinde, derleyen kullanıcıya bağlı olarak belirli izinler atanır. Bu izinler, programın sistem kaynaklarına erişim düzeyini belirler. Bir programa atanan üç tür izin vardır: etkili kullanıcı kimliği (euid), gerçek kullanıcı kimliği (ruid) ve kaydedilmiş kullanıcı kimliği (suid).
+
+
+The euid is the user ID that the program will use when accessing system resources. It is set to the ruid by default, but it can be changed using the setuid() system call. This allows a program to temporarily elevate its privileges to perform certain tasks that require higher permissions.
+
+
+Euid, programın sistem kaynaklarına erişirken kullanacağı kullanıcı kimliğidir. Varsayılan olarak ruid olarak ayarlanır, ancak setuid() sistem çağrısı kullanılarak değiştirilebilir. Bu, bir programın geçici olarak ayrıcalıklarını yükseltmesine ve daha yüksek izinlere ihtiyaç duyan belirli görevleri gerçekleştirmesine olanak tanır.
+
+
+The ruid is the user ID of the user who executed the program. It remains constant throughout the execution of the program and is used for permission checks.
+
+
+Ruid, programı çalıştıran kullanıcının kullanıcı kimliğidir. Programın yürütülmesi boyunca sabit kalır ve izin kontrolleri için kullanılır.
+
+
+The suid is the user ID that the program will use when it is executed with elevated privileges. It is set to the euid by default, but it can also be changed using the setuid() system call. This allows a program to permanently run with elevated privileges, even if it is executed by a user with lower permissions.
+
+
+Suid, programın yükseltilmiş ayrıcalıklarla çalıştırıldığında kullanacağı kullanıcı kimliğidir. Varsayılan olarak euid olarak ayarlanır, ancak setuid() sistem çağrısı kullanılarak da değiştirilebilir. Bu, bir programın, daha düşük izinlere sahip bir kullanıcı tarafından çalıştırılsa bile kalıcı olarak yükseltilmiş ayrıcalıklarla çalışmasına olanak tanır.
 ```bash
 oxdf@hacky$ gcc b.c -o /mnt/nfsshare/b; chmod 4755 /mnt/nfsshare/b
 ```
-
-**Execution and Result:**
-
+**Yürütme ve Sonuç:**
 ```bash
 bash-4.2$ $ ./b
 uid=1000(frank) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Analiz:**
 
-**Analysis:**
+* `setreuid`, ruid ve euid'yi 1000 olarak ayarlar.
+* `system`, eşitlikleri nedeniyle kullanıcı kimliklerini koruyan bash'i çağırır ve etkili bir şekilde frank olarak çalışır.
 
-* `setreuid` sets both ruid and euid to 1000.
-* `system` invokes bash, which maintains the user IDs due to their equality, effectively operating as frank.
-
-#### Case 3: Using setuid with execve
-Objective: Exploring the interaction between setuid and execve.
-
+#### Durum 3: execve ile setuid kullanma
+Amaç: setuid ve execve arasındaki etkileşimi keşfetmek.
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/usr/bin/id", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/usr/bin/id", NULL, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Yürütme ve Sonuç:**
 ```bash
 bash-4.2$ $ ./c
 uid=99(nobody) gid=99(nobody) euid=1000(frank) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Analiz:**
 
-**Analysis:**
+* `ruid` 99 olarak kalırken, euid 1000 olarak ayarlanır, setuid'in etkisiyle uyumludur.
 
-* `ruid` remains 99, but euid is set to 1000, in line with setuid's effect.
-
-**C Code Example 2 (Calling Bash):**
-
+**C Kodu Örneği 2 (Bash Çağırma):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/bin/bash", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/bin/bash", NULL, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Yürütme ve Sonuç:**
 ```bash
 bash-4.2$ $ ./d
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Analiz:**
 
-**Analysis:**
+* `euid` 1000'e `setuid` tarafından ayarlanmasına rağmen, `-p` olmaması nedeniyle `bash`, `ruid` (99) olarak `euid`'yi sıfırlar.
 
-* Although `euid` is set to 1000 by `setuid`, `bash` resets euid to `ruid` (99) due to the absence of `-p`.
-
-**C Code Example 3 (Using bash -p):**
-
+**C Kodu Örneği 3 (bash -p Kullanarak):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    char *const paramList[10] = {"/bin/bash", "-p", NULL};
-    setuid(1000);
-    execve(paramList[0], paramList, NULL);
-    return 0;
+char *const paramList[10] = {"/bin/bash", "-p", NULL};
+setuid(1000);
+execve(paramList[0], paramList, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Yürütme ve Sonuç:**
 ```bash
 bash-4.2$ $ ./e
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) euid=100
 ```
-
-## References
+## Referanslar
 * [https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail](https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamınızı görmek ister misiniz**? veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz**? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin.
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter'da** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi [hacktricks repo'ya](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo'ya](https://github.com/carlospolop/hacktricks-cloud) PR göndererek paylaşın**.
 
 </details>

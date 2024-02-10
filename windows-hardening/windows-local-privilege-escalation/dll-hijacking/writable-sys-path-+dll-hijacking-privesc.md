@@ -1,109 +1,106 @@
-# Writable Sys Path +Dll Hijacking Privesc
+# Yazılabilir Sys Yolu + Dll Hijacking Privilege Escalation
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramanlık seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'ler**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
 
 </details>
 
-## Introduction
+## Giriş
 
-If you found that you can **write in a System Path folder** (note that this won't work if you can write in a User Path folder) it's possible that you could **escalate privileges** in the system.
+Eğer **bir Sistem Yolu klasörüne yazabileceğinizi** tespit ettiyseniz (unutmayın, bir Kullanıcı Yolu klasörüne yazabiliyorsanız bu çalışmayacaktır), bu durumda sisteminizde **privilege escalation (ayrıcalık yükseltme)** yapabilirsiniz.
 
-In order to do that you can abuse a **Dll Hijacking** where you are going to **hijack a library being loaded** by a service or process with **more privileges** than yours, and because that service is loading a Dll that probably doesn't even exist in the entire system, it's going to try to load it from the System Path where you can write.
+Bunu yapmak için, **Daha fazla ayrıcalığa sahip bir hizmet veya işlem tarafından yüklenen bir kütüphaneyi ele geçireceksiniz** ve çünkü bu hizmet, muhtemelen sistemde hiç var olmayan bir Dll'yi yüklemeye çalışacak, bu Dll'yi yazabileceğiniz Sistem Yolu'ndan yüklemeye çalışacak.
 
-For more info about **what is Dll Hijackig** check:
+**Dll Hijacking** hakkında daha fazla bilgi için:
 
 {% content-ref url="../dll-hijacking.md" %}
 [dll-hijacking.md](../dll-hijacking.md)
 {% endcontent-ref %}
 
-## Privesc with Dll Hijacking
+## Dll Hijacking ile Privilege Escalation
 
-### Finding a missing Dll
+### Eksik bir Dll bulma
 
-The first thing you need is to **identify a process** running with **more privileges** than you that is trying to **load a Dll from the System Path** you can write in.
+İlk yapmanız gereken, **sizden daha fazla ayrıcalığa sahip bir işlem** tarafından **Sistem Yolu'ndan bir Dll yüklemeye çalışan bir işlemi** tespit etmektir.
 
-The problem in this cases is that probably thoses processes are already running. To find which Dlls are lacking the services you need to launch procmon as soon as possible (before processes are loaded). So, to find lacking .dlls do:
+Bu durumdaki sorun, bu işlemlerin muhtemelen zaten çalışıyor olmasıdır. İhtiyaç duyduğunuz hizmetlerin eksik olan Dll'lerini bulmak için, işlemler yüklenmeden önce mümkün olan en kısa sürede procmon'u başlatmanız gerekmektedir. Bu nedenle, eksik .dll'leri bulmak için şunları yapın:
 
-* **Create** the folder `C:\privesc_hijacking` and add the path `C:\privesc_hijacking` to **System Path env variable**. You can do this **manually** or with **PS**:
-
+* `C:\privesc_hijacking` klasörünü **oluşturun** ve **Sistem Yolu** çevresel değişkenine `C:\privesc_hijacking` yolunu **ekleyin**. Bunları **manuel olarak** yapabilirsiniz veya **PS** ile yapabilirsiniz:
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
 
 # Create the folder if it does not exist
 if (!(Test-Path $folderPath -PathType Container)) {
-    New-Item -ItemType Directory -Path $folderPath | Out-Null
+New-Item -ItemType Directory -Path $folderPath | Out-Null
 }
 
 # Set the folder path in the System environment variable PATH
 $envPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 if ($envPath -notlike "*$folderPath*") {
-    $newPath = "$envPath;$folderPath"
-    [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
+$newPath = "$envPath;$folderPath"
+[Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
-
-* Launch **`procmon`** and go to **`Options`** --> **`Enable boot logging`** and press **`OK`** in the prompt.
-* Then, **reboot**. When the computer is restarted **`procmon`** will start **recording** events asap.
-* Once **Windows** is **started execute `procmon`** again, it'll tell you that it has been running and will **ask you if you want to store** the events in a file. Say **yes** and **store the events in a file**.
-* **After** the **file** is **generated**, **close** the opened **`procmon`** window and **open the events file**.
-* Add these **filters** and you will find all the Dlls that some **proccess tried to load** from the writable System Path folder:
+* **`procmon`**'u başlatın ve **`Options`** --> **`Enable boot logging`** seçeneğine gidin ve açılan pencerede **`OK`** düğmesine basın.
+* Ardından, **sistemi yeniden başlatın**. Bilgisayar yeniden başlatıldığında **`procmon`** olayları kaydetmeye başlayacaktır.
+* **Windows** başladığında **`procmon`**'ı tekrar çalıştırın, çalıştığını ve olayları bir dosyada saklamak isteyip istemediğinizi soracaktır. **Evet** deyin ve olayları bir dosyada **saklayın**.
+* **Dosya** oluşturulduktan **sonra**, açık olan **`procmon`** penceresini kapatın ve olaylar dosyasını açın.
+* Aşağıdaki **filtreleri ekleyin** ve yazılabilir Sistem Yolu klasöründen yüklenmeye çalışılan tüm DLL'leri bulacaksınız:
 
 <figure><img src="../../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
-### Missed Dlls
+### Eksik DLL'ler
 
-Running this in a free **virtual (vmware) Windows 11 machine** I got these results:
+Bu komutu ücretsiz bir **sanal (vmware) Windows 11 makinesinde** çalıştırdığımda şu sonuçları elde ettim:
 
 <figure><img src="../../../.gitbook/assets/image (253).png" alt=""><figcaption></figcaption></figure>
 
-In this case the .exe are useless so ignore them, the missed DLLs where from:
+Bu durumda .exe dosyaları işe yaramaz, onları görmezden gelin, eksik DLL'ler şunlardan kaynaklanmaktadır:
 
-| Service                         | Dll                | CMD line                                                             |
+| Hizmet                         | DLL                | CMD satırı                                                          |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
-| Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
-| Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
+| Görev Zamanlayıcısı (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
+| Tanılama İlkesi Hizmeti (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
-After finding this, I found this interesting blog post that also explains how to [**abuse WptsExtensions.dll for privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Which is what we **are going to do now**.
+Bunu bulduktan sonra, bu ilginç blog yazısını buldum, ayrıca [**WptsExtensions.dll'yi ayrıcalık yükseltmek için nasıl kötüye kullanabileceğinizi**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll) açıklıyor. Şimdi **bunu yapacağız**.
 
-### Exploitation
+### Sömürü
 
-So, to **escalate privileges** we are going to hijack the library **WptsExtensions.dll**. Having the **path** and the **name** we just need to **generate the malicious dll**.
+Bu nedenle, ayrıcalıkları yükseltmek için **WptsExtensions.dll** kütüphanesini ele geçireceğiz. **Yolu** ve **adı** olan kötü amaçlı dll'yi sadece **oluşturmanız gerekiyor**.
 
-You can [**try to use any of these examples**](../dll-hijacking.md#creating-and-compiling-dlls). You could run payloads such as: get a rev shell, add a user, execute a beacon...
+[**Bu örneklerden herhangi birini denemeyi deneyebilirsiniz**](../dll-hijacking.md#creating-and-compiling-dlls). Rev shell alabilir, bir kullanıcı ekleyebilir, bir işaretçi çalıştırabilirsiniz...
 
 {% hint style="warning" %}
-Note that **not all the service are run** with **`NT AUTHORITY\SYSTEM`** some are also run with **`NT AUTHORITY\LOCAL SERVICE`** which has **less privileges** and you **won't be able to create a new user** abuse its permissions.\
-However, that user has the **`seImpersonate`** privilege, so you can use the[ **potato suite to escalate privileges**](../roguepotato-and-printspoofer.md). So, in this case a rev shell is a better option that trying to create a user.
+Dikkat edin, **tüm hizmetler** **`NT AUTHORITY\SYSTEM`** ile çalıştırılmaz, bazıları aynı zamanda **`NT AUTHORITY\LOCAL SERVICE`** ile çalıştırılır ve bu daha az ayrıcalığa sahiptir ve **yeni bir kullanıcı oluşturamazsınız**. Bununla birlikte, bu kullanıcının **`seImpersonate`** ayrıcalığı vardır, bu nedenle [**potato suite'yi ayrıcalıkları yükseltmek için kullanabilirsiniz**](../roguepotato-and-printspoofer.md). Bu durumda, bir rev shell oluşturmak, bir kullanıcı oluşturmaya çalışmaktan daha iyi bir seçenektir.
 {% endhint %}
 
-At the moment of writing the **Task Scheduler** service is run with **Nt AUTHORITY\SYSTEM**.
+Bu yazıyı yazdığım sırada **Görev Zamanlayıcısı** hizmeti **Nt AUTHORITY\SYSTEM** ile çalıştırılıyor.
 
-Having **generated the malicious Dll** (_in my case I used x64 rev shell and I got a shell back but defender killed it because it was from msfvenom_), save it in the writable System Path with the name **WptsExtensions.dll** and **restart** the computer (or restart the service or do whatever it takes to rerun the affected service/program).
+Kötü amaçlı DLL'yi **oluşturduktan sonra** (_benim durumumda x64 rev shell kullandım ve msfvenom'dan geldiği için defender tarafından öldürüldü_), onu yazılabilir Sistem Yolu'na **WptsExtensions.dll** adıyla kaydedin ve bilgisayarı yeniden başlatın (veya hizmeti yeniden başlatın veya etkilenen hizmeti/programı yeniden çalıştırmak için gerekeni yapın).
 
-When the service is re-started, the **dll should be loaded and executed** (you can **reuse** the **procmon** trick to check if the **library was loaded as expected**).
+Hizmet yeniden başlatıldığında, **dll yüklenecek ve çalıştırılacak**tır (kütüphanenin beklenildiği gibi yüklendiğini kontrol etmek için **procmon** hilesini yeniden kullanabilirsiniz).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **tanıtmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>

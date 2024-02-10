@@ -1,16 +1,16 @@
-# Volatility - CheatSheet
+# Volatility - Hile Sayfası
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** isterseniz, [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimizden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
@@ -18,37 +18,47 @@ Other ways to support HackTricks:
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+​​[**RootedCON**](https://www.rootedcon.com/), **İspanya**'daki en önemli siber güvenlik etkinliği ve **Avrupa**'daki en önemli etkinliklerden biridir. **Teknik bilginin yayılmasını amaçlayan** bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-If you want something **fast and crazy** that will launch several Volatility plugins on parallel you can use: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
-
+Eğer **hızlı ve çılgınca** bir şey istiyorsanız, birkaç Volatility eklentisini paralel olarak çalıştıracak olan şunu kullanabilirsiniz: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
 ```bash
 python autoVolatility.py -f MEMFILE -d OUT_DIRECTORY -e /home/user/tools/volatility/vol.py # It will use the most important plugins (could use a lot of space depending on the size of the memory)
 ```
-
-## Installation
+## Kurulum
 
 ### volatility3
-
 ```bash
 git clone https://github.com/volatilityfoundation/volatility3.git
 cd volatility3
 python3 setup.py install
 python3 vol.py —h
 ```
+#### Yöntem 1: Volatility2
 
-### volatility2
+Volatility2, bir bellek görüntüsü analiz aracıdır. Aşağıda, Volatility2'nin bazı temel komutlarını ve kullanımlarını bulabilirsiniz:
 
-{% tabs %}
-{% tab title="Method1" %}
+- **imageinfo**: Bellek görüntüsü hakkında genel bilgileri almak için kullanılır.
+- **pslist**: Bellekte çalışan işlemleri listeler.
+- **pstree**: İşlem ağacını gösterir.
+- **dlllist**: İşlem tarafından yüklenen DLL'leri listeler.
+- **handles**: İşlem tarafından kullanılan açık tutulan dosya ve kaynakları listeler.
+- **filescan**: Bellekteki dosyaları taramak için kullanılır.
+- **malfind**: Potansiyel kötü amaçlı yazılım işaretlerini tespit etmek için kullanılır.
+- **cmdscan**: Bellekteki komut istemlerini taramak için kullanılır.
+- **netscan**: Ağ bağlantılarını taramak için kullanılır.
+- **connections**: Ağ bağlantılarını listeler.
+- **dumpfiles**: Bellekteki dosyaları çıkarmak için kullanılır.
+- **memdump**: Bellek görüntüsünü çıkarmak için kullanılır.
+
+Volatility2'nin daha fazla komutu ve kullanımı hakkında daha fazla bilgi için, lütfen Volatility2 belgelerine başvurun.
+{% endtab %}
+{% endtabs %}
 ```
 Download the executable from https://www.volatilityfoundation.org/26
 ```
-{% endtab %}
-
-{% tab title="Method 2" %}
+{% tab title="Yöntem 2" %}
 ```bash
 git clone https://github.com/volatilityfoundation/volatility.git
 cd volatility
@@ -57,26 +67,26 @@ python setup.py install
 {% endtab %}
 {% endtabs %}
 
-## Volatility Commands
+## Volatility Komutları
 
-Access the official doc in [Volatility command reference](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan)
+Resmi belgelere [Volatility komut referansı](https://github.com/volatilityfoundation/volatility/wiki/Command-Reference#kdbgscan) üzerinden erişebilirsiniz.
 
-### A note on “list” vs. “scan” plugins
+### "list" ve "scan" eklentileri hakkında bir not
 
-Volatility has two main approaches to plugins, which are sometimes reflected in their names. “list” plugins will try to navigate through Windows Kernel structures to retrieve information like processes (locate and walk the linked list of `_EPROCESS` structures in memory), OS handles (locating and listing the handle table, dereferencing any pointers found, etc). They more or less behave like the Windows API would if requested to, for example, list processes.
+Volatility'nin iki ana eklenti yaklaşımı vardır ve bazen isimlerinde yansıtılır. "list" eklentileri, Windows Kernel yapıları aracılığıyla işlemler gibi bilgileri almak için gezinmeye çalışır (bellekteki `_EPROCESS` yapılarının bağlantılı listesini bulma ve takip etme), işletim sistemi kollarını (kolları bulma ve listeleme, bulunan herhangi bir işaretçiyi çözme vb.). Onlar, örneğin, işlemleri listelemek istendiğinde Windows API'nin yapacağı gibi davranır.
 
-That makes “list” plugins pretty fast, but just as vulnerable as the Windows API to manipulation by malware. For instance, if malware uses DKOM to unlink a process from the `_EPROCESS` linked list, it won’t show up in the Task Manager and neither will it in the pslist.
+Bu, "list" eklentilerini oldukça hızlı yapar, ancak kötü amaçlı yazılımlar tarafından Windows API'sine benzer şekilde manipüle edilebilir hale getirir. Örneğin, kötü amaçlı yazılım, bir işlemi `_EPROCESS` bağlantılı listesinden ayırmak için DKOM kullanıyorsa, bu işlem Görev Yöneticisinde görünmeyecek ve pslist'te de görünmeyecektir.
 
-“scan” plugins, on the other hand, will take an approach similar to carving the memory for things that might make sense when dereferenced as specific structures. `psscan` for instance will read the memory and try to make`_EPROCESS` objects out of it (it uses pool-tag scanning, which is searching for 4-byte strings that indicate the presence of a structure of interest). The advantage is that it can dig up processes that have exited, and even if malware tampers with the `_EPROCESS` linked list, the plugin will still find the structure lying around in memory (since it still needs to exist for the process to run). The downfall is that “scan” plugins are a bit slower than “list” plugins, and can sometimes yield false positives (a process that exited too long ago and had parts of its structure overwritten by other operations).
+Öte yandan, "scan" eklentileri, bellekte belirli yapılar olarak çözümlendiğinde anlam ifade edebilecek şeyleri aramak için belleği kesmek gibi bir yaklaşım benimser. Örneğin, `psscan`, belleği okur ve ondan `_EPROCESS` nesneleri yapmaya çalışır (ilgi duyulan bir yapının varlığını gösteren 4 baytlık dizeleri arayan havuz etiketi taraması kullanır). Avantajı, çıkmış olan işlemleri ortaya çıkarabilmesi ve kötü amaçlı yazılımın `_EPROCESS` bağlantılı listeyi değiştirse bile, eklenti hala bellekteki yapının etrafta durduğunu bulacaktır (çünkü işlemin çalışması için hala var olması gerekmektedir). Dezavantajı ise "scan" eklentilerinin "list" eklentilerinden biraz daha yavaş olması ve bazen yanlış pozitif sonuçlar verebilmesidir (çok uzun süre önce çıkmış bir işlem ve yapısının diğer işlemler tarafından üzerine yazılması).
 
-From: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
+Kaynak: [http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/](http://tomchop.me/2016/11/21/tutorial-volatility-plugins-malware-analysis/)
 
-## OS Profiles
+## İşletim Sistemi Profilleri
 
 ### Volatility3
 
-As explained inside the readme you need to put the **symbol table of the OS** you want to support inside _volatility3/volatility/symbols_.\
-Symbol table packs for the various operating systems are available for **download** at:
+Readme içinde açıklandığı gibi, desteklemek istediğiniz **işletim sisteminin sembol tablosunu** _volatility3/volatility/symbols_ klasörüne koymalısınız.\
+Çeşitli işletim sistemleri için sembol tablo paketleri **indirilebilir** durumdadır:
 
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip)
 * [https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip](https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip)
@@ -84,16 +94,13 @@ Symbol table packs for the various operating systems are available for **downloa
 
 ### Volatility2
 
-#### External Profile
+#### Harici Profil
 
-You can get the list of supported profiles doing:
-
+Desteklenen profil listesini almak için aşağıdaki komutu kullanabilirsiniz:
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
-
-If you want to use a **new profile you have downloaded** (for example a linux one) you need to create somewhere the following folder structure: _plugins/overlays/linux_ and put inside this folder the zip file containing the profile. Then, get the number of the profiles using:
-
+Eğer **indirdiğiniz yeni bir profil** kullanmak istiyorsanız (örneğin bir linux profil), aşağıdaki klasör yapısını oluşturmanız gerekmektedir: _plugins/overlays/linux_. Ardından, bu klasörün içine profilin bulunduğu zip dosyasını yerleştirin. Sonra, aşağıdaki komutu kullanarak profil sayısını alın:
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -105,28 +112,28 @@ LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 - A Profile for Linux CentOS7_3.10
 VistaSP0x64                                   - A Profile for Windows Vista SP0 x64
 VistaSP0x86                                   - A Profile for Windows Vista SP0 x86
 ```
+Linux ve Mac profillerini [https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles) adresinden indirebilirsiniz.
 
-You can **download Linux and Mac profiles** from [https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles)
-
-In the previous chunk you can see that the profile is called `LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64`, and you can use it to execute something like:
-
+Önceki bölümde profilin adının `LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64` olduğunu görebilirsiniz ve bunu aşağıdaki gibi kullanabilirsiniz:
 ```bash
 ./vol -f file.dmp --plugins=. --profile=LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 linux_netscan
 ```
+#### Profil Keşfi
 
-#### Discover Profile
+```plaintext
+volatility -f <memory_dump> imageinfo
+```
 
+Bu komut, bellek dökümü dosyasının özelliklerini keşfetmek için kullanılır.
 ```
 volatility imageinfo -f file.dmp
 volatility kdbgscan -f file.dmp
 ```
+#### **imageinfo ve kdbgscan arasındaki farklar**
 
-#### **Differences between imageinfo and kdbgscan**
+[**Buradan**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/) alıntılanmıştır: Imageinfo'nun sadece profil önerileri sağladığına karşılık, **kdbgscan**, doğru profili ve doğru KDBG adresini (birden fazla varsa) pozitif olarak tanımlamak için tasarlanmıştır. Bu eklenti, Volatility profillerine bağlı KDBGHeader imzalarını tarar ve yanlış pozitifleri azaltmak için sağlamlık kontrolleri uygular. Çıktının ayrıntısı ve yapılabilen sağlamlık kontrollerinin sayısı, Volatility'nin bir DTB bulup bulamadığına bağlıdır, bu nedenle doğru profili zaten biliyorsanız (veya imageinfo'dan bir profil önerisi varsa), onu kullanmaktan emin olun.
 
-[**From here**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): As opposed to imageinfo which simply provides profile suggestions, **kdbgscan** is designed to positively identify the correct profile and the correct KDBG address (if there happen to be multiple). This plugin scans for the KDBGHeader signatures linked to Volatility profiles and applies sanity checks to reduce false positives. The verbosity of the output and the number of sanity checks that can be performed depends on whether Volatility can find a DTB, so if you already know the correct profile (or if you have a profile suggestion from imageinfo), then make sure you use it from .
-
-Always take a look at the **number of processes that kdbgscan has found**. Sometimes imageinfo and kdbgscan can find **more than one** suitable **profile** but only the **valid one will have some process related** (This is because to extract processes the correct KDBG address is needed)
-
+Her zaman **kdbgscan'ın bulduğu işlem sayısına** bakın. Bazen imageinfo ve kdbgscan, birden fazla uygun profil bulabilir, ancak sadece **geçerli olanın bazı işlemle ilgili bilgilere** sahip olacağını unutmayın (Bu, işlemleri çıkarmak için doğru KDBG adresinin gerekliliğinden kaynaklanır).
 ```bash
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
@@ -138,23 +145,20 @@ PsLoadedModuleList            : 0xfffff8000119aae0 (116 modules)
 PsActiveProcessHead           : 0xfffff800011947f0 (0 processes)
 PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
-
 #### KDBG
 
-The **kernel debugger block**, referred to as **KDBG** by Volatility, is crucial for forensic tasks performed by Volatility and various debuggers. Identified as `KdDebuggerDataBlock` and of the type `_KDDEBUGGER_DATA64`, it contains essential references like `PsActiveProcessHead`. This specific reference points to the head of the process list, enabling the listing of all processes, which is fundamental for thorough memory analysis.
+**Kernel hata ayıklama bloğu** veya Volatility tarafından **KDBG** olarak adlandırılan, Volatility ve çeşitli hata ayıklama araçları tarafından gerçekleştirilen adli görevler için önemlidir. `_KDDEBUGGER_DATA64` türünde olan ve `KdDebuggerDataBlock` olarak tanımlanan bu blok, `PsActiveProcessHead` gibi temel referansları içerir. Bu özel referans, işlem listesinin başını işaret eder ve kapsamlı bellek analizi için temel bir adım olan tüm işlemlerin listelenmesini sağlar.
 
-## OS Information
-
+## İşletim Sistemi Bilgileri
 ```bash
 #vol3 has a plugin to give OS information (note that imageinfo from vol2 will give you OS info)
 ./vol.py -f file.dmp windows.info.Info
 ```
+`banners.Banners` eklentisi, dökümanda Linux banner'larını bulmak için **vol3** içinde kullanılabilir.
 
-The plugin `banners.Banners` can be used in **vol3 to try to find linux banners** in the dump.
+## Hash'ler/Parolalar
 
-## Hashes/Passwords
-
-Extract SAM hashes, [domain cached credentials](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) and [lsa secrets](../../../windows-hardening/authentication-credentials-uac-and-efs.md#lsa-secrets).
+SAM hash'lerini, [önbelleğe alınmış kimlik bilgilerini](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) ve [lsa sırlarını](../../../windows-hardening/authentication-credentials-uac-and-efs.md#lsa-secrets) çıkarın.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -163,8 +167,6 @@ Extract SAM hashes, [domain cached credentials](../../../windows-hardening/steal
 ./vol.py -f file.dmp windows.cachedump.Cachedump #Grab domain cache hashes inside the registry
 ./vol.py -f file.dmp windows.lsadump.Lsadump #Grab lsa secrets
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 hashdump -f file.dmp #Grab common windows hashes (SAM+SYSTEM)
@@ -174,28 +176,24 @@ volatility --profile=Win7SP1x86_23418 lsadump -f file.dmp #Grab lsa secrets
 {% endtab %}
 {% endtabs %}
 
-## Memory Dump
+## Bellek Dökümü
 
-The memory dump of a process will **extract everything** of the current status of the process. The **procdump** module will only **extract** the **code**.
-
+Bir işlemin bellek dökümü, işlemin mevcut durumunun **her şeyini çıkarır**. **procdump** modülü sadece **kodu çıkarır**.
 ```
 volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
-
-​
-
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) İspanya'daki en önemli siber güvenlik etkinliklerinden biridir ve Avrupa'da da en önemlilerden biridir. Teknik bilginin yayılmasını amaçlayan bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Processes
+## İşlemler
 
-### List processes
+### İşlemleri Listele
 
-Try to find **suspicious** processes (by name) or **unexpected** child **processes** (for example a cmd.exe as a child of iexplorer.exe).\
-It could be interesting to **compare** the result of pslist with the one of psscan to identify hidden processes.
+**Şüpheli** işlemleri (isimleriyle) veya **beklenmedik** alt **işlemleri** (örneğin iexplorer.exe'nin bir çocuğu olarak cmd.exe) bulmaya çalışın.\
+Gizli işlemleri belirlemek için pslist'in sonucunu psscan'in sonucuyla karşılaştırmak ilginç olabilir.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -204,8 +202,6 @@ python3 vol.py -f file.dmp windows.pstree.PsTree # Get processes tree (not hidde
 python3 vol.py -f file.dmp windows.pslist.PsList # Get process list (EPROCESS)
 python3 vol.py -f file.dmp windows.psscan.PsScan # Get hidden process list(malware)
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=PROFILE pstree -f file.dmp # Get process tree (not hidden)
@@ -220,11 +216,28 @@ volatility --profile=PROFILE psxview -f file.dmp # Get hidden process list
 
 {% tabs %}
 {% tab title="vol3" %}
+
+Bu komut, belirli bir sürecin bellek görüntüsünü almanıza olanak tanır. Aşağıdaki parametreleri kullanabilirsiniz:
+
+- `-p, --pid=<pid>`: Sürecin kimlik numarasını belirtir.
+- `-D, --dump-dir=<directory>`: Bellek görüntüsünün kaydedileceği dizini belirtir.
+- `--name=<name>`: Sürecin adını belirtir.
+- `--offset=<offset>`: Sürecin bellek görüntüsünün başlangıç ofsetini belirtir.
+- `--length=<length>`: Sürecin bellek görüntüsünün uzunluğunu belirtir.
+
+Örnek kullanım:
+
+```bash
+volatility -f memory_dump.mem --profile=Win7SP1x64 dumpfiles -Q 0x0000000001e4e060 -D dump_dir/
+```
+
+Bu komut, `memory_dump.mem` adlı bellek görüntüsünden `0x0000000001e4e060` ofsetindeki sürecin bellek görüntüsünü `dump_dir/` dizinine kaydeder.
+
+{% endtab %}
+{% endtabs %}
 ```bash
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f file.dmp
@@ -232,17 +245,12 @@ volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f fil
 {% endtab %}
 {% endtabs %}
 
-### Command line
+### Komut satırı
 
-Anything suspicious was executed?
-
-{% tabs %}
-{% tab title="vol3" %}
+Şüpheli bir şeyler çalıştırıldı mı?
 ```bash
 python3 vol.py -f file.dmp windows.cmdline.CmdLine #Display process command-line arguments
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=PROFILE cmdline -f file.dmp #Display process command-line arguments
@@ -251,32 +259,24 @@ volatility --profile=PROFILE consoles -f file.dmp #command history by scanning f
 {% endtab %}
 {% endtabs %}
 
-Commands executed in `cmd.exe` are managed by **`conhost.exe`** (or `csrss.exe` on systems before Windows 7). This means that if **`cmd.exe`** is terminated by an attacker before a memory dump is obtained, it's still possible to recover the session's command history from the memory of **`conhost.exe`**. To do this, if unusual activity is detected within the console's modules, the memory of the associated **`conhost.exe`** process should be dumped. Then, by searching for **strings** within this dump, command lines used in the session can potentially be extracted.
+`cmd.exe`'de çalıştırılan komutlar **`conhost.exe`** tarafından yönetilir (veya Windows 7'den önceki sistemlerde `csrss.exe` tarafından yönetilir). Bu, bir bellek dökümü elde edilmeden önce saldırgan tarafından **`cmd.exe`** sonlandırılırsa, oturumun komut geçmişinin hala **`conhost.exe`** belleğinden kurtarılabilir olduğu anlamına gelir. Bunun için, konsol modüllerindeki olağandışı aktivite tespit edilirse, ilişkili **`conhost.exe`** işleminin belleği dökülmelidir. Ardından, bu döküm içinde **dizeleri** arayarak, oturumda kullanılan komut satırları potansiyel olarak çıkarılabilir.
 
-### Environment
+### Ortam
 
-Get the env variables of each running process. There could be some interesting values.
-
-{% tabs %}
-{% tab title="vol3" %}
+Her çalışan işlemin ortam değişkenlerini alın. İlginç değerler olabilir.
 ```bash
 python3 vol.py -f file.dmp windows.envars.Envars [--pid <pid>] #Display process environment variables
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=PROFILE envars -f file.dmp [--pid <pid>] #Display process environment variables
 
-volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of process. runlevel var means the runlevel where the proc is initated 
+volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of process. runlevel var means the runlevel where the proc is initated
 ```
-{% endtab %}
-{% endtabs %}
+### Token ayrıcalıkları
 
-### Token privileges
-
-Check for privileges tokens in unexpected services.\
-It could be interesting to list the processes using some privileged token.
+Beklenmeyen hizmetlerde ayrıcalıklı tokenları kontrol edin.\
+Bazı ayrıcalıklı tokenları kullanan işlemleri listelemek ilginç olabilir.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -286,8 +286,6 @@ python3 vol.py -f file.dmp windows.privileges.Privs [--pid <pid>]
 #Get all processes with interesting privileges
 python3 vol.py -f file.dmp windows.privileges.Privs | grep "SeImpersonatePrivilege\|SeAssignPrimaryPrivilege\|SeTcbPrivilege\|SeBackupPrivilege\|SeRestorePrivilege\|SeCreateTokenPrivilege\|SeLoadDriverPrivilege\|SeTakeOwnershipPrivilege\|SeDebugPrivilege"
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 #Get enabled privileges of some processes
@@ -300,17 +298,12 @@ volatility --profile=Win7SP1x86_23418 privs -f file.dmp | grep "SeImpersonatePri
 
 ### SIDs
 
-Check each SSID owned by a process.\
-It could be interesting to list the processes using a privileges SID (and the processes using some service SID).
-
-{% tabs %}
-{% tab title="vol3" %}
+Her bir işlem tarafından sahip olunan SSID'leri kontrol edin.\
+Bir ayrıcalık SSID'sini kullanan işlemleri (ve bazı hizmet SSID'sini kullanan işlemleri) listelemek ilginç olabilir.
 ```bash
 ./vol.py -f file.dmp windows.getsids.GetSIDs [--pid <pid>] #Get SIDs of processes
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 getsids -f file.dmp #Get the SID owned by each process
@@ -319,17 +312,15 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of
 {% endtab %}
 {% endtabs %}
 
-### Handles
+### Tutamaçlar
 
-Useful to know to which other files, keys, threads, processes... a **process has a handle** for (has opened)
+Bir işlemin hangi diğer dosyalara, anahtarlara, iş parçacıklarına, işlemlere... bir **tutamağı olduğunu** (açılmış olduğunu) bilmek için kullanışlıdır.
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 vol.py -f file.dmp windows.handles.Handles [--pid <pid>]
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
@@ -337,7 +328,7 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 {% endtab %}
 {% endtabs %}
 
-### DLLs
+### DLL'ler
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -345,8 +336,6 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 ./vol.py -f file.dmp windows.dlllist.DllList [--pid <pid>] #List dlls used by each
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory process
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 dlllist --pid=3152 -f file.dmp #Get dlls of a proc
@@ -355,9 +344,9 @@ volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dm
 {% endtab %}
 {% endtabs %}
 
-### Strings per processes
+### Süreçlere Göre Dizeler
 
-Volatility allows us to check which process a string belongs to.
+Volatility, bir dizenin hangi sürece ait olduğunu kontrol etmemizi sağlar.
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -365,8 +354,6 @@ Volatility allows us to check which process a string belongs to.
 strings file.dmp > /tmp/strings.txt
 ./vol.py -f /tmp/file.dmp windows.strings.Strings --strings-file /tmp/strings.txt
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 strings file.dmp > /tmp/strings.txt
@@ -378,7 +365,7 @@ strings 3532.dmp > strings_file
 {% endtab %}
 {% endtabs %}
 
-It also allows to search for strings inside a process using the yarascan module:
+Ayrıca, yarascan modülünü kullanarak bir işlem içinde dize araması yapmanıza da olanak sağlar:
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -386,8 +373,6 @@ It also allows to search for strings inside a process using the yarascan module:
 ./vol.py -f file.dmp windows.vadyarascan.VadYaraScan --yara-rules "https://" --pid 3692 3840 3976 3312 3084 2784
 ./vol.py -f file.dmp yarascan.YaraScan --yara-rules "https://"
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3312,3084,2784
@@ -397,15 +382,10 @@ volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3
 
 ### UserAssist
 
-**Windows** keeps track of programs you run using a feature in the registry called **UserAssist keys**. These keys record how many times each program is executed and when it was last run.
-
-{% tabs %}
-{% tab title="vol3" %}
+**Windows**, **UserAssist** anahtarları adı verilen bir kayıt defteri özelliğini kullanarak çalıştırdığınız programları takip eder. Bu anahtarlar, her programın kaç kez çalıştırıldığını ve en son ne zaman çalıştırıldığını kaydeder.
 ```bash
 ./vol.py -f file.dmp windows.registry.userassist.UserAssist
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
@@ -417,11 +397,11 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+​​​​[**RootedCON**](https://www.rootedcon.com/) İspanya'daki en önemli siber güvenlik etkinliklerinden biridir ve Avrupa'da da en önemlilerden biridir. Teknik bilginin yayılmasını amaçlayan bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Services
+## Hizmetler
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -429,8 +409,6 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 ./vol.py -f file.dmp windows.svcscan.SvcScan #List services
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 #Get services and binary path
@@ -438,10 +416,7 @@ volatility --profile=Win7SP1x86_23418 svcscan -f file.dmp
 #Get name of the services and SID (slow)
 volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
 ```
-{% endtab %}
-{% endtabs %}
-
-## Network
+## Ağ
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -449,13 +424,11 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
 ./vol.py -f file.dmp windows.netscan.NetScan
 #For network info of linux use volatility2
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 netscan -f file.dmp
 volatility --profile=Win7SP1x86_23418 connections -f file.dmp#XP and 2003 only
-volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections 
+volatility --profile=Win7SP1x86_23418 connscan -f file.dmp#TCP connections
 volatility --profile=Win7SP1x86_23418 sockscan -f file.dmp#Open sockets
 volatility --profile=Win7SP1x86_23418 sockets -f file.dmp#Scanner for tcp socket objects
 
@@ -469,9 +442,9 @@ volatility --profile=SomeLinux -f file.dmp linux_route_cache
 {% endtab %}
 {% endtabs %}
 
-## Registry hive
+## Kayıt defteri hive
 
-### Print available hives
+### Mevcut hiveleri yazdır
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -479,8 +452,6 @@ volatility --profile=SomeLinux -f file.dmp linux_route_cache
 ./vol.py -f file.dmp windows.registry.hivelist.HiveList #List roots
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey #List roots and get initial subkeys
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp hivelist #List roots
@@ -489,44 +460,51 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get i
 {% endtab %}
 {% endtabs %}
 
-### Get a value
+### Bir değer al
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey --key "Software\Microsoft\Windows NT\CurrentVersion"
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 printkey -K "Software\Microsoft\Windows NT\CurrentVersion" -f file.dmp
 # Get Run binaries registry value
 volatility -f file.dmp --profile=Win7SP1x86 printkey -o 0x9670e9d0 -K 'Software\Microsoft\Windows\CurrentVersion\Run'
 ```
+{% tabs %}
+{% tab title="Komut" %}
+```bash
+volatility -f <memory_dump> imageinfo
+```
+{% endtab %}
+
+{% tab title="Açıklama" %}
+Bu komut, bellek dökümü dosyasının bilgilerini görüntüler. Bu bilgiler, bellek dökümünün hangi işletim sistemi ve mimariye ait olduğunu belirlemek için kullanılabilir.
+{% endtab %}
+
+{% tab title="Örnek" %}
+```bash
+volatility -f memdump.raw imageinfo
+```
 {% endtab %}
 {% endtabs %}
-
-### Dump
-
 ```bash
 #Dump a hive
 volatility --profile=Win7SP1x86_23418 hivedump -o 0x9aad6148 -f file.dmp #Offset extracted by hivelist
 #Dump all hives
 volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```
+## Dosya Sistemi
 
-## Filesystem
-
-### Mount
+### Bağlama
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 #See vol2
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=SomeLinux -f file.dmp linux_mount
@@ -535,7 +513,7 @@ volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the en
 {% endtab %}
 {% endtabs %}
 
-### Scan/dump
+### Tarama/dump
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -543,8 +521,6 @@ volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the en
 ./vol.py -f file.dmp windows.filescan.FileScan #Scan for files inside the dump
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --physaddr <0xAAAAA> #Offset from previous command
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 filescan -f file.dmp #Scan for files inside the dump
@@ -558,15 +534,13 @@ volatility --profile=SomeLinux -f file.dmp linux_find_file -i 0xINODENUMBER -O /
 {% endtab %}
 {% endtabs %}
 
-### Master File Table
+### Ana Dosya Tablosu
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 # I couldn't find any plugin to extract this information in volatility3
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
@@ -574,28 +548,20 @@ volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 {% endtab %}
 {% endtabs %}
 
-The **NTFS file system** uses a critical component known as the _master file table_ (MFT). This table includes at least one entry for every file on a volume, covering the MFT itself too. Vital details about each file, such as **size, timestamps, permissions, and actual data**, are encapsulated within the MFT entries or in areas external to the MFT but referenced by these entries. More details can be found in the [official documentation](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
+**NTFS dosya sistemi**, _ana dosya tablosu_ (MFT) olarak bilinen kritik bir bileşen kullanır. Bu tablo, bir birimdeki her dosya için en az bir giriş içerir ve MFT'nin kendisini de kapsar. Her dosya hakkında önemli ayrıntılar, **boyut, zaman damgaları, izinler ve gerçek veriler** gibi, MFT girişlerinin içinde veya bu girişler tarafından referans alınan MFT dışındaki alanlarda kapsüllenmiştir. Daha fazla ayrıntı [resmi belgelerde](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table) bulunabilir.
 
-### SSL Keys/Certs
-
-{% tabs %}
-{% tab title="vol3" %}
+### SSL Anahtarları/Sertifikaları
 ```bash
 #vol3 allows to search for certificates inside the registry
 ./vol.py -f file.dmp windows.registry.certificates.Certificates
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 #vol2 allos you to search and dump certificates from memory
 #Interesting options for this modules are: --pid, --name, --ssl
 volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ```
-{% endtab %}
-{% endtabs %}
-
-## Malware
+## Zararlı Yazılım
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -612,8 +578,6 @@ volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ./vol.py -f file.dmp linux.check_modules.Check_modules #Compares module list to sysfs info, if available
 ./vol.py -f file.dmp linux.tty_check.tty_check #Checks tty devices for hooks
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp malfind [-D /tmp] #Find hidden and injected code [dump each suspicious section]
@@ -633,13 +597,10 @@ volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
 {% endtab %}
 {% endtabs %}
 
-### Scanning with yara
+### Yara ile tarama
 
-Use this script to download and merge all the yara malware rules from github: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
-Create the _**rules**_ directory and execute it. This will create a file called _**malware\_rules.yar**_ which contains all the yara rules for malware.
-
-{% tabs %}
-{% tab title="vol3" %}
+Bu betiği kullanarak github'dan tüm yara kötü amaçlı yazılım kurallarını indirin ve birleştirin: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
+_**rules**_ dizinini oluşturun ve betiği çalıştırın. Bu, kötü amaçlı yazılım için tüm yara kurallarını içeren _**malware\_rules.yar**_ adlı bir dosya oluşturacaktır.
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
 mkdir rules
@@ -649,8 +610,6 @@ python malware_yara_rules.py
 #All
 ./vol.py -f file.dmp yarascan.YaraScan --yara-file /tmp/malware_rules.yar
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
@@ -663,41 +622,32 @@ volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp |
 
 ## MISC
 
-### External plugins
+### Harici eklentiler
 
-If you want to use external plugins make sure that the folders related to the plugins are the first parameter used.
-
-{% tabs %}
-{% tab title="vol3" %}
+Harici eklentileri kullanmak istiyorsanız, eklentilere ilişkin klasörlerin ilk parametre olarak kullanıldığından emin olun.
 ```bash
 ./vol.py --plugin-dirs "/tmp/plugins/" [...]
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
- volatilitye --plugins="/tmp/plugins/" [...]
+volatilitye --plugins="/tmp/plugins/" [...]
 ```
 {% endtab %}
 {% endtabs %}
 
 #### Autoruns
 
-Download it from [https://github.com/tomchop/volatility-autoruns](https://github.com/tomchop/volatility-autoruns)
-
+İndirin: [https://github.com/tomchop/volatility-autoruns](https://github.com/tomchop/volatility-autoruns)
 ```
- volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp autoruns
+volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp autoruns
 ```
-
-### Mutexes
+### Mutexler
 
 {% tabs %}
 {% tab title="vol3" %}
 ```
 ./vol.py -f file.dmp windows.mutantscan.MutantScan
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 mutantscan -f file.dmp
@@ -706,15 +656,13 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 {% endtab %}
 {% endtabs %}
 
-### Symlinks
+### Sembolik Bağlantılar
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.symlinkscan.SymlinkScan
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
@@ -724,15 +672,13 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 
 ### Bash
 
-It's possible to **read from memory the bash history.** You could also dump the _.bash\_history_ file, but it was disabled you will be glad you can use this volatility module
+Bellekten bash geçmişini okumak mümkündür. _.bash\_history_ dosyasını da dökümleyebilirsiniz, ancak devre dışı bırakıldıysa bu volatility modülünü kullanabileceğiniz için memnun olacaksınız.
 
 {% tabs %}
 {% tab title="vol3" %}
 ```
 ./vol.py -f file.dmp linux.bash.Bash
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
@@ -740,15 +686,13 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
 {% endtab %}
 {% endtabs %}
 
-### TimeLine
+### Zaman Çizelgesi
 
 {% tabs %}
 {% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp timeLiner.TimeLiner
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```
 volatility --profile=Win7SP1x86_23418 -f timeliner
@@ -756,15 +700,13 @@ volatility --profile=Win7SP1x86_23418 -f timeliner
 {% endtab %}
 {% endtabs %}
 
-### Drivers
+### Sürücüler
 
 {% tabs %}
 {% tab title="vol3" %}
 ```
 ./vol.py -f file.dmp windows.driverscan.DriverScan
 ```
-{% endtab %}
-
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
@@ -772,43 +714,49 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
 {% endtab %}
 {% endtabs %}
 
-### Get clipboard
-
+### Pano al
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 clipboard -f file.dmp
 ```
+### IE geçmişini al
 
-### Get IE history
+```bash
+volatility -f <memory_dump> --profile=<profile> iehistory
+```
 
+Bu komut, bir bellek dökümü dosyasından Internet Explorer (IE) tarayıcısının geçmişini almanıza olanak sağlar. `<memory_dump>` yerine bellek dökümü dosyasının yolunu ve `<profile>` yerine kullanılan profilin adını belirtmelisiniz.
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 iehistory -f file.dmp
 ```
+### Not Defteri Metnini Al
 
-### Get notepad text
+```bash
+volatility -f memory_dump.vmem --profile=PROFILE notepad
+```
 
+Bu komut, bir bellek döküm dosyasından not defteri metnini almak için kullanılır. `memory_dump.vmem` bellek döküm dosyasının adını ve `PROFILE` ise analiz edilecek profilin adını temsil eder.
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 notepad -f file.dmp
 ```
-
-### Screenshot
-
+### Ekran Görüntüsü
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```
+### Ana Önyükleme Kaydı (MBR)
 
-### Master Boot Record (MBR)
+The Master Boot Record (MBR) is the first sector of a storage device (such as a hard disk) that contains the boot loader and partition table. It plays a crucial role in the boot process of a computer.
 
+Ana Önyükleme Kaydı (MBR), önyükleme yükleyicisini ve bölüm tablosunu içeren bir depolama cihazının (örneğin bir sabit disk) ilk sektörüdür. Bilgisayarın önyükleme sürecinde önemli bir rol oynar.
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
+**Ana Önyükleme Kaydı (MBR)**, bir depolama ortamının mantıksal bölümlerini yönetmede önemli bir rol oynar. Bu bölümler farklı [dosya sistemleri](https://en.wikipedia.org/wiki/File_system) ile yapılandırılmıştır. MBR, sadece bölüm düzeni bilgilerini tutmaz, aynı zamanda önyükleme yükleyicisi olarak görev yapan yürütülebilir kodu da içerir. Bu önyükleme yükleyicisi, ya işletim sisteminin ikinci aşama yükleme sürecini doğrudan başlatır (bkz. [ikinci aşama önyükleme yükleyicisi](https://en.wikipedia.org/wiki/Second-stage_boot_loader)) ya da her bölümün [hacim önyükleme kaydı](https://en.wikipedia.org/wiki/Volume_boot_record) (VBR) ile uyum içinde çalışır. Detaylı bilgi için [MBR Wikipedia sayfasına](https://en.wikipedia.org/wiki/Master_boot_record) başvurun.
 
-The **Master Boot Record (MBR)** plays a crucial role in managing the logical partitions of a storage medium, which are structured with different [file systems](https://en.wikipedia.org/wiki/File_system). It not only holds partition layout information but also contains executable code acting as a boot loader. This boot loader either directly initiates the OS's second-stage loading process (see [second-stage boot loader](https://en.wikipedia.org/wiki/Second-stage_boot_loader)) or works in harmony with the [volume boot record](https://en.wikipedia.org/wiki/Volume_boot_record) (VBR) of each partition. For in-depth knowledge, refer to the [MBR Wikipedia page](https://en.wikipedia.org/wiki/Master_boot_record).
-
-## References
+## Referanslar
 * [https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/](https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/)
 * [https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html](https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html)
 * [https://or10nlabs.tech/cgi-sys/suspendedpage.cgi](https://or10nlabs.tech/cgi-sys/suspendedpage.cgi)
@@ -818,20 +766,20 @@ The **Master Boot Record (MBR)** plays a crucial role in managing the logical pa
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/), **İspanya**'daki en ilgili siber güvenlik etkinliği ve **Avrupa**'nın en önemli etkinliklerinden biridir. Teknik bilginin yayılmasını amaçlayan bu kongre, her disiplindeki teknoloji ve siber güvenlik profesyonelleri için kaynayan bir buluşma noktasıdır.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklam vermek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin.**
+* Hacking hilelerinizi göndererek HackTricks ve HackTricks Cloud github depolarına katkıda bulunun.
 
 </details>

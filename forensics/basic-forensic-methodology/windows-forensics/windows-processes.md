@@ -1,147 +1,117 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>ile öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'i **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
 
 ## smss.exe
 
-**Session Manager**.\
-Session 0 starts **csrss.exe** and **wininit.exe** (**OS** **services**) while Session 1 starts **csrss.exe** and **winlogon.exe** (**User** **session**). However, you should see **only one process** of that **binary** without children in the processes tree.
+**Oturum Yöneticisi**.\
+Oturum 0, **csrss.exe** ve **wininit.exe** (**İşletim Sistemi** **hizmetleri**)'yi başlatırken, Oturum 1, **csrss.exe** ve **winlogon.exe** (**Kullanıcı** **oturumu**)'yu başlatır. Bununla birlikte, işlem ağacında **yalnızca bir tane** bu **ikili**nin çocuksuz bir işlemi olduğunu görmelisiniz.
 
-Also, sessions apart from 0 and 1 may mean that RDP sessions are occurring.
+Ayrıca, 0 ve 1'den farklı oturumlar, RDP oturumlarının gerçekleştiği anlamına gelebilir.
 
 
 ## csrss.exe
 
-**Client/Server Run Subsystem Process**.\
-It manages **processes** and **threads**, makes the **Windows** **API** available for other processes and also **maps drive letters**, create **temp files**, and handles the **shutdown** **process**.
+**İstemci/Sunucu Çalışma Alt Sistemi İşlemi**.\
+**İşlemleri** ve **iş parçacıklarını** yönetir, diğer işlemler için **Windows** **API**'yi kullanılabilir hale getirir ve ayrıca **sürücü harflerini eşler**, **geçici dosyalar** oluşturur ve **kapanma işlemini** yönetir.
 
-There is one **running in Session 0 and another one in Session 1** (so **2 processes** in the processes tree). Another one is created **per new Session**.
+Oturum 0'da bir tane **çalışırken, Oturum 1'de bir tane daha** vardır (bu nedenle işlem ağacında **2 işlem** bulunur). Yeni bir Oturum başına başka bir tane oluşturulur.
 
 
 ## winlogon.exe
 
-**Windows Logon Process**.\
-It's responsible for user **logon**/**logoffs**. It launches **logonui.exe** to ask for username and password and then calls **lsass.exe** to verify them.
+**Windows Oturum Açma İşlemi**.\
+Kullanıcı **oturum açma**/**oturum kapatma** işlemlerinden sorumludur. Kullanıcı adı ve parola sormak için **logonui.exe**'yi başlatır ve ardından bunları doğrulamak için **lsass.exe**'yi çağırır.
 
-Then it launches **userinit.exe** which is specified in **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** with key **Userinit**.
+Ardından, **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`**'da **Userinit** anahtarıyla belirtilen **userinit.exe**'yi başlatır.
 
-Mover over, the previous registry should have **explorer.exe** in the **Shell key** or it might be abused as a **malware persistence method**.
+Ayrıca, önceki kayıt defterinde **Shell anahtarında explorer.exe** olmalı veya kötü amaçlı yazılım kalıcılık yöntemi olarak istismar edilebilir.
 
 
 ## wininit.exe
 
-**Windows Initialization Process**. \
-It launches **services.exe**, **lsass.exe**, and **lsm.exe** in Session 0. There should only be 1 process.
+**Windows Başlatma İşlemi**. \
+Oturum 0'da **services.exe**, **lsass.exe** ve **lsm.exe**'yi başlatır. Yalnızca 1 işlem olmalıdır.
 
 
 ## userinit.exe
 
-**Userinit Logon Application**.\
-Loads the **ntduser.dat in HKCU** and initialises the **user** **environment** and runs **logon** **scripts** and **GPO**.
+**Userinit Oturum Açma Uygulaması**.\
+**ntuser.dat'ı HKCU'da** yükler ve **kullanıcı** **ortamını** başlatır, **oturum açma** **betiklerini** ve **GPO'ları** çalıştırır.
 
-It launches **explorer.exe**.
+**explorer.exe**'yi başlatır.
 
 
 ## lsm.exe
 
-**Local Session Manager**.\
-It works with smss.exe to manipulate user sessions: Logon/logoff, shell start, lock/unlock desktop, etc.
+**Yerel Oturum Yöneticisi**.\
+smss.exe ile birlikte kullanıcı oturumlarını manipüle etmek için çalışır: Oturum açma/oturum kapatma, kabuk başlatma, masaüstünü kilitleme/açma vb.
 
-After W7 lsm.exe was transformed into a service (lsm.dll).
+W7'den sonra lsm.exe bir hizmete (lsm.dll) dönüştürüldü.
 
-There should only be 1 process in W7 and from them a service running the DLL.
+W7'de yalnızca 1 işlem olmalı ve bunlardan biri DLL çalıştıran bir hizmeti çalıştıran bir hizmet olmalıdır.
 
 
 ## services.exe
 
-**Service Control Manager**.\
-It **loads** **services** configured as **auto-start** and **drivers**.
+**Hizmet Denetim Yöneticisi**.\
+**Otomatik başlatılan hizmetleri** ve **sürücüleri** yükler.
 
-It's the parent process of **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** and many more.
+**svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** ve daha birçok işlemin ana işlemidir.
 
-Services are defined in `HKLM\SYSTEM\CurrentControlSet\Services` and this process maintains a DB in memory of service info that can be queried by sc.exe.
+Hizmetler `HKLM\SYSTEM\CurrentControlSet\Services` içinde tanımlanır ve bu işlem, sc.exe tarafından sorgulanabilen hizmet bilgilerinin bellekteki bir veritabanını korur.
 
-Note how **some** **services** are going to be running in a **process of their own** and others are going to be **sharing a svchost.exe process**.
+Dikkat edin, **bazı** **hizmetler** kendi **işlemlerinde çalışacak** ve diğerleri **svchost.exe işlemiyle paylaşacak**.
 
-There should only be 1 process.
+Yalnızca 1 işlem olmalıdır.
 
 
 ## lsass.exe
 
-**Local Security Authority Subsystem**.\
-It's responsible for the user **authentication** and create the **security** **tokens**. It uses authentication packages located in `HKLM\System\CurrentControlSet\Control\Lsa`.
+**Yerel Güvenlik Yetkilendirme Alt Sistemi**.\
+Kullanıcı **kimlik doğrulama**sından ve **güvenlik** **jetonlarının** oluşturulmasından sorumludur. Kimlik doğrulama paketleri `HKLM\System\CurrentControlSet\Control\Lsa` konumunda bulunur.
 
-It writes to the **Security** **event** **log** and there should only be 1 process.
+**Güvenlik** **etkinlik** **günlüğüne** yazılır ve yalnızca 1 işlem olmalıdır.
 
-Keep in mind that this process is highly attacked to dump passwords.
+Bu işlemin parolaları çalmak için yoğun bir şekilde saldırıya uğradığını unutmayın.
 
 
 ## svchost.exe
 
-**Generic Service Host Process**.\
-It hosts multiple DLL services in one shared process.
+**Genel Hizmet Ana İşlemi**.\
+Birleşik bir işlemde birden çok DLL hizmetini barındırır.
 
-Usually, you will find that **svchost.exe** is launched with the `-k` flag. This will launch a query to the registry **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** where there will be a key with the argument mentioned in -k that will contain the services to launch in the same process.
+Genellikle **svchost.exe**'nin `-k` bayrağıyla başlatıldığını göreceksiniz. Bu, aynı işlemde başlatılacak hizmetleri içeren `-k` ile belirtilen bir anahtarın bulunacağı **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** kaydına bir sorgu başlatacaktır.
 
-For example: `-k UnistackSvcGroup` will launch: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
+Örneğin: `-k UnistackSvcGroup` şunları başlatacaktır: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
 
-If the **flag `-s`** is also used with an argument, then svchost is asked to **only launch the specified service** in this argument.
+**-s** bayrağı da bir argümanla birlikte kullanılıyorsa, svchost'un yalnızca bu argümandaki belirtilen hizmeti başlatması istenir.
 
-There will be several processes of `svchost.exe`. If any of them is **not using the `-k` flag**, then that's very suspicious. If you find that **services.exe is not the parent**, that's also very suspicious.
+Birkaç `svchost.exe` işlemi olacaktır. Bunlardan herhangi biri **`-k` bayrağı kullanmıyorsa**, bu çok şüphelidir. **services.exe'nin ebeveyn olmadığını** bulursanız, bu da çok şüphelidir.
 
 
 ## taskhost.exe
 
-This process act as a host for processes running from DLLs. It also loads the services that are running from DLLs.
+Bu işlem, DLL'lerden çalışan işlemler için bir ana bilgisayar görevi görür. Ayrıca DLL'lerden çalışan hizmetleri yükler.
 
-In W8 this is called taskhostex.exe and in W10 taskhostw.exe.
+W8'de bu taskhostex.exe olarak adlandırılır ve W10'da taskhostw.exe olarak adlandırılır.
 
 
 ## explorer.exe
 
-This is the process responsible for the **user's desktop** and launching files via file extensions.
+Bu, kullanıcının masaüstünden sorumlu olan işlemdir ve dosya uzantıları aracılığıyla dosyaları başlatır.
 
-**Only 1** process should be spawned **per logged on user.**
+**Giriş yapan her kullanıcı başına yalnızca 1** işlem oluşturulmalıdır.
 
-This is run from **userinit.exe** which should be terminated, so **no parent** should appear for this process.
-
-
-# Catching Malicious Processes
-
-* Is it running from the expected path? (No Windows binaries run from temp location)
-* Is it communicating with weird IPs?
-* Check digital signatures (Microsoft artifacts should be signed)
-* Is it spelled correctly?
-* Is running under the expected SID?
-* Is the parent process the expected one (if any)?
-* Are the children processes the expecting ones? (no cmd.exe, wscript.exe, powershell.exe..?)
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-
+Bu, sonlandırılması gereken **userinit.exe** tarafından çalıştırılır, bu nedenle bu işlem için **ebeveyn görünmemel

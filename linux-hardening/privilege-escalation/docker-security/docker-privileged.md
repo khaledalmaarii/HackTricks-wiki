@@ -2,35 +2,33 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
 
 </details>
 
-## What Affects
+## Etkileyenler
 
-When you run a container as privileged these are the protections you are disabling:
+Bir ayrıcalıklı konteyner çalıştırdığınızda devre dışı bıraktığınız korumalar şunlardır:
 
-### Mount /dev
+### /dev'i bağlama
 
-In a privileged container, all the **devices can be accessed in `/dev/`**. Therefore you can **escape** by **mounting** the disk of the host.
+Ayrıcalıklı bir konteynerde, **tüm cihazlara `/dev/` üzerinden erişilebilir**. Bu nedenle, ana bilgisayarın diski **bağlayarak** kaçabilirsiniz.
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="Varsayılan konteyner içinde" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
 console  fd       mqueue   ptmx     random   stderr   stdout   urandom
 core     full     null     pts      shm      stdin    tty      zero
 ```
-{% endtab %}
-
-{% tab title="Inside Privileged Container" %}
+{% tab title="Ayrıcalıklı Konteyner İçinde" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ls /dev
@@ -43,12 +41,9 @@ cpu              nbd0             pts              stdout           tty27       
 {% endtab %}
 {% endtabs %}
 
-### Read-only kernel file systems
+### Salt Okunur Çekirdek Dosya Sistemleri
 
-Kernel file systems provide a mechanism for a process to modify the behavior of the kernel. However, when it comes to container processes, we want to prevent them from making any changes to the kernel. Therefore, we mount kernel file systems as **read-only** within the container, ensuring that the container processes cannot modify the kernel.
-
-{% tabs %}
-{% tab title="Inside default container" %}
+Çekirdek dosya sistemleri, bir işlemin çekirdeğin davranışını değiştirmesini sağlayan bir mekanizma sağlar. Bununla birlikte, konteyner işlemleri için, çekirdeğe herhangi bir değişiklik yapmalarını önlemek istiyoruz. Bu nedenle, konteyner içindeki çekirdek dosya sistemlerini **salt okunur** olarak bağlarız, böylece konteyner işlemleri çekirdeği değiştiremez.
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -57,9 +52,7 @@ cpuset on /sys/fs/cgroup/cpuset type cgroup (ro,nosuid,nodev,noexec,relatime,cpu
 cpu on /sys/fs/cgroup/cpu type cgroup (ro,nosuid,nodev,noexec,relatime,cpu)
 cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,cpuacct)
 ```
-{% endtab %}
-
-{% tab title="Inside Privileged Container" %}
+{% tab title="Ayrıcalıklı Konteyner İçinde" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
@@ -67,16 +60,16 @@ mount  | grep '(ro'
 {% endtab %}
 {% endtabs %}
 
-### Masking over kernel file systems
+### Çekirdek dosya sistemlerinin üzerine maskeleme
 
-The **/proc** file system is selectively writable but for security, certain parts are shielded from write and read access by overlaying them with **tmpfs**, ensuring container processes can't access sensitive areas.
+**/proc** dosya sistemi seçici olarak yazılabilir olmasına rağmen, güvenlik için belirli bölümler **tmpfs** ile üzerlerine örtülerek yazma ve okuma erişiminden korunur, böylece konteyner işlemleri hassas alanlara erişemez.
 
 {% hint style="info" %}
-**tmpfs** is a file system that stores all the files in virtual memory. tmpfs doesn't create any files on your hard drive. So if you unmount a tmpfs file system, all the files residing in it are lost for ever.
+**tmpfs**, tüm dosyaları sanal bellekte depolayan bir dosya sistemidir. tmpfs, sabit diskinizde herhangi bir dosya oluşturmaz. Bu nedenle, bir tmpfs dosya sistemini ayrıldığınızda, içinde bulunan tüm dosyalar sonsuza dek kaybolur.
 {% endhint %}
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="Varsayılan konteyner içinde" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -84,9 +77,7 @@ tmpfs on /proc/acpi type tmpfs (ro,relatime)
 tmpfs on /proc/kcore type tmpfs (rw,nosuid,size=65536k,mode=755)
 tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
-{% endtab %}
-
-{% tab title="Inside Privileged Container" %}
+{% tab title="Ayrıcalıklı Konteyner İçinde" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -94,16 +85,16 @@ mount  | grep /proc.*tmpfs
 {% endtab %}
 {% endtabs %}
 
-### Linux capabilities
+### Linux yetenekleri
 
-Container engines launch the containers with a **limited number of capabilities** to control what goes on inside of the container by default. **Privileged** ones have **all** the **capabilities** accesible. To learn about capabilities read:
+Konteyner motorları, konteynerleri varsayılan olarak içeride ne olduğunu kontrol etmek için sınırlı sayıda yetenekle başlatır. Ayrıcalıklı olanlar **tüm yeteneklere** erişebilir. Yetenekler hakkında bilgi edinmek için okuyun:
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="Varsayılan konteyner içinde" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -112,9 +103,7 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 [...]
 ```
-{% endtab %}
-
-{% tab title="Inside Privileged Container" %}
+{% tab title="Ayrıcalıklı Konteyner İçinde" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 apk add -U libcap; capsh --print
@@ -126,27 +115,41 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 {% endtab %}
 {% endtabs %}
 
-You can manipulate the capabilities available to a container without running in `--privileged` mode by using the `--cap-add` and `--cap-drop` flags.
+`--cap-add` allows you to add specific capabilities to a container, while `--cap-drop` allows you to drop specific capabilities. Here are some commonly used capabilities:
 
-### Seccomp
+- `SYS_ADMIN`: Allows various system administration tasks.
+- `SYS_PTRACE`: Allows tracing and debugging of processes.
+- `NET_ADMIN`: Allows network administration tasks.
+- `SYS_MODULE`: Allows loading and unloading kernel modules.
+- `SYS_RAWIO`: Allows direct access to raw I/O ports.
 
-**Seccomp** is useful to **limit** the **syscalls** a container can call. A default seccomp profile is enabled by default when running docker containers, but in privileged mode it is disabled. Learn more about Seccomp here:
+To add or drop capabilities, use the following syntax:
 
-{% content-ref url="seccomp.md" %}
-[seccomp.md](seccomp.md)
-{% endcontent-ref %}
+```bash
+docker run --cap-add=<capability> <image>
+docker run --cap-drop=<capability> <image>
+```
 
-{% tabs %}
-{% tab title="Inside default container" %}
+For example, to add the `SYS_ADMIN` capability to a container:
+
+```bash
+docker run --cap-add=SYS_ADMIN <image>
+```
+
+To drop the `SYS_PTRACE` capability from a container:
+
+```bash
+docker run --cap-drop=SYS_PTRACE <image>
+```
+
+By manipulating the capabilities of a container, you can fine-tune its permissions and restrict its access to certain system resources. This can help improve the security of your Docker environment.
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
 Seccomp:	2
 Seccomp_filters:	1
 ```
-{% endtab %}
-
-{% tab title="Inside Privileged Container" %}
+{% tab title="Ayrıcalıklı Konteyner İçinde" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
@@ -155,86 +158,80 @@ Seccomp_filters:	0
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-
-Also, note that when Docker (or other CRIs) are used in a **Kubernetes** cluster, the **seccomp filter is disabled by default**
+Ayrıca, Docker (veya diğer CRIs) bir Kubernetes kümesinde kullanıldığında, seccomp filtresi varsayılan olarak devre dışı bırakılır.
 
 ### AppArmor
 
-**AppArmor** is a kernel enhancement to confine **containers** to a **limited** set of **resources** with **per-program profiles**. When you run with the `--privileged` flag, this protection is disabled.
+**AppArmor**, konteynerleri **sınırlı** bir dizi **kaynak** ile **program bazlı profiller** ile sınırlayan bir çekirdek geliştirmesidir. `--privileged` bayrağıyla çalıştırdığınızda, bu koruma devre dışı bırakılır.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
-
 ### SELinux
 
-Running a container with the `--privileged` flag disables **SELinux labels**, causing it to inherit the label of the container engine, typically `unconfined`, granting full access similar to the container engine. In rootless mode, it uses `container_runtime_t`, while in root mode, `spc_t` is applied.
+`--privileged` bayrağıyla bir konteyner çalıştırmak, **SELinux etiketlerini devre dışı bırakır** ve genellikle `unconfined` olan konteyner motorunun etiketini devralarak tam erişim sağlar. Köksüz modda `container_runtime_t` kullanılırken, kök modunda `spc_t` uygulanır.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
+## Hangi Durumları Etkilemez
 
-## What Doesn't Affect
+### Ad alanları (Namespaces)
 
-### Namespaces
-
-Namespaces are **NOT affected** by the `--privileged` flag. Even though they don't have the security constraints enabled, they **do not see all of the processes on the system or the host network, for example**. Users can disable individual namespaces by using the **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** container engines flags.
+Ad alanları, `--privileged` bayrağından etkilenmez. Güvenlik kısıtlamaları etkin olmasa da, örneğin sistemdeki veya ana ağda bulunan tüm işlemleri göremezler. Kullanıcılar, ad alanlarını devre dışı bırakmak için **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** konteyner motoru bayraklarını kullanabilirler.
 
 {% tabs %}
-{% tab title="Inside default privileged container" %}
+{% tab title="Varsayılan ayrıcalıklı konteyner içinde" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
 PID   USER     TIME  COMMAND
-    1 root      0:00 sh
-   18 root      0:00 ps -ef
+1 root      0:00 sh
+18 root      0:00 ps -ef
 ```
 {% endtab %}
 
-{% tab title="Inside --pid=host Container" %}
+{% tab title="İçinde --pid=host Konteyner" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef
 PID   USER     TIME  COMMAND
-    1 root      0:03 /sbin/init
-    2 root      0:00 [kthreadd]
-    3 root      0:00 [rcu_gp]ount | grep /proc.*tmpfs
+1 root      0:03 /sbin/init
+2 root      0:00 [kthreadd]
+3 root      0:00 [rcu_gp]ount | grep /proc.*tmpfs
 [...]
 ```
 {% endtab %}
 {% endtabs %}
 
-### User namespace
+### Kullanıcı ad alanı
 
-**By default, container engines don't utilize user namespaces, except for rootless containers**, which require them for file system mounting and using multiple UIDs. User namespaces, integral for rootless containers, cannot be disabled and significantly enhance security by restricting privileges.
+**Varsayılan olarak, konteyner motorları, kök olmayan konteynerler için dosya sistemi bağlama ve birden fazla UID kullanma gerektiren durumlar dışında kullanıcı ad alanlarını kullanmaz**. Kök olmayan konteynerler için gerekli olan kullanıcı ad alanları, devre dışı bırakılamaz ve ayrıcalıkları kısıtlayarak güvenliği önemli ölçüde artırır.
 
-## References
+## Referanslar
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Bir siber güvenlik şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamını yapmak** ister misiniz? veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzdaki özel [**NFT'leri**](https://opensea.io/collection/the-peass-family) keşfedin
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* **[💬](https://emojipedia.org/speech-balloon/) Discord grubuna** katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
 
 </details>

@@ -1,107 +1,105 @@
-# macOS System Extensions
+# macOS Sistem Uzantıları
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimizden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-## System Extensions / Endpoint Security Framework
+## Sistem Uzantıları / Uç Nokta Güvenlik Çerçevesi
 
-Unlike Kernel Extensions, **System Extensions run in user space** instead of kernel space, reducing the risk of a system crash due to extension malfunction.
+Kernel Uzantılarının aksine, **Sistem Uzantıları kernel alanı yerine kullanıcı alanında çalışır**, uzantı arızası nedeniyle sistem çökmesi riskini azaltır.
 
 <figure><img src="../../../.gitbook/assets/image (1) (3) (1) (1).png" alt="https://knight.sc/images/system-extension-internals-1.png"><figcaption></figcaption></figure>
 
-There are three types of system extensions: **DriverKit** Extensions, **Network** Extensions, and **Endpoint Security** Extensions.
+Üç tür sistem uzantısı vardır: **DriverKit** Uzantıları, **Network** Uzantıları ve **Endpoint Security** Uzantıları.
 
-### **DriverKit Extensions**
+### **DriverKit Uzantıları**
 
-DriverKit is a replacement for kernel extensions that **provide hardware support**. It allows device drivers (like USB, Serial, NIC, and HID drivers) to run in user space rather than kernel space. The DriverKit framework includes **user space versions of certain I/O Kit classes**, and the kernel forwards normal I/O Kit events to user space, offering a safer environment for these drivers to run.
+DriverKit, **donanım desteği sağlayan** kernel uzantılarının yerine geçen bir sistemdir. USB, Seri, NIC ve HID sürücüleri gibi cihaz sürücülerinin kernel alanı yerine kullanıcı alanında çalışmasına izin verir. DriverKit çerçevesi, belirli I/O Kit sınıflarının kullanıcı alanı sürümlerini içerir ve kernel, normal I/O Kit olaylarını kullanıcı alanına yönlendirerek bu sürücülerin çalışması için daha güvenli bir ortam sunar.
 
-### **Network Extensions**
+### **Network Uzantıları**
 
-Network Extensions provide the ability to customize network behaviors. There are several types of Network Extensions:
+Network Uzantıları, ağ davranışlarını özelleştirmek için yetenek sağlar. Birkaç tür Network Uzantısı vardır:
 
-* **App Proxy**: This is used for creating a VPN client that implements a flow-oriented, custom VPN protocol. This means it handles network traffic based on connections (or flows) rather than individual packets.
-* **Packet Tunnel**: This is used for creating a VPN client that implements a packet-oriented, custom VPN protocol. This means it handles network traffic based on individual packets.
-* **Filter Data**: This is used for filtering network "flows". It can monitor or modify network data at the flow level.
-* **Filter Packet**: This is used for filtering individual network packets. It can monitor or modify network data at the packet level.
-* **DNS Proxy**: This is used for creating a custom DNS provider. It can be used to monitor or modify DNS requests and responses.
+* **App Proxy**: Bu, bağlantılara (veya akışlara) dayalı olarak ağ trafiğini işleyen, özel bir VPN protokolü uygulayan bir VPN istemcisi oluşturmak için kullanılır.
+* **Packet Tunnel**: Bu, bireysel paketlere dayalı olarak ağ trafiğini işleyen, özel bir VPN protokolü uygulayan bir VPN istemcisi oluşturmak için kullanılır.
+* **Filter Data**: Bu, ağ "akışlarını" filtrelemek için kullanılır. Ağ verilerini akış düzeyinde izleyebilir veya değiştirebilir.
+* **Filter Packet**: Bu, bireysel ağ paketlerini filtrelemek için kullanılır. Ağ verilerini paket düzeyinde izleyebilir veya değiştirebilir.
+* **DNS Proxy**: Bu, özel bir DNS sağlayıcı oluşturmak için kullanılır. DNS isteklerini ve yanıtlarını izlemek veya değiştirmek için kullanılabilir.
 
-## Endpoint Security Framework
+## Uç Nokta Güvenlik Çerçevesi
 
-Endpoint Security is a framework provided by Apple in macOS that provides a set of APIs for system security. It's intended for use by **security vendors and developers to build products that can monitor and control system activity** to identify and protect against malicious activity.
+Endpoint Security, Apple'ın macOS'ta sağladığı bir çerçevedir ve sistem güvenliği için bir dizi API sağlar. **Kötü amaçlı etkinlikleri tespit etmek ve korumak için sistem etkinliğini izlemek ve kontrol etmek için güvenlik sağlayıcıları ve geliştiriciler tarafından kullanılması amaçlanmıştır**.
 
-This framework provides a **collection of APIs to monitor and control system activity**, such as process executions, file system events, network and kernel events.
+Bu çerçeve, işlem yürütmeleri, dosya sistemi olayları, ağ ve kernel olayları gibi sistem etkinliklerini izlemek ve kontrol etmek için bir dizi API sağlar.
 
-The core of this framework is implemented in the kernel, as a Kernel Extension (KEXT) located at **`/System/Library/Extensions/EndpointSecurity.kext`**. This KEXT is made up of several key components:
+Bu çerçevenin çekirdeği, bir Kernel Uzantısı (KEXT) olarak uygulanır ve **`/System/Library/Extensions/EndpointSecurity.kext`** konumunda bulunur. Bu KEXT, birkaç temel bileşenden oluşur:
 
-* **EndpointSecurityDriver**: This acts as the "entry point" for the kernel extension. It's the main point of interaction between the OS and the Endpoint Security framework.
-* **EndpointSecurityEventManager**: This component is responsible for implementing kernel hooks. Kernel hooks allow the framework to monitor system events by intercepting system calls.
-* **EndpointSecurityClientManager**: This manages the communication with user space clients, keeping track of which clients are connected and need to receive event notifications.
-* **EndpointSecurityMessageManager**: This sends messages and event notifications to user space clients.
+* **EndpointSecurityDriver**: Bu, çekirdek uzantısının "giriş noktası" olarak hareket eder. İşletim sistemi ile Endpoint Security çerçevesi arasındaki ana etkileşim noktasıdır.
+* **EndpointSecurityEventManager**: Bu bileşen, çekirdek kancalarını uygulamaktan sorumludur. Çekirdek kancaları, sistem çağrılarını engelleyerek çerçevenin sistem olaylarını izlemesine olanak tanır.
+* **EndpointSecurityClientManager**: Bu, kullanıcı alanı istemcileriyle iletişimi yönetir, hangi istemcilerin bağlı olduğunu ve olay bildirimleri alması gerektiğini takip eder.
+* **EndpointSecurityMessageManager**: Bu, kullanıcı alanı istemcilerine mesajlar ve olay bildirimleri gönderir.
 
-The events that the Endpoint Security framework can monitor are categorized into:
+Endpoint Security çerçevesinin izleyebileceği olaylar şunlara ayrılır:
 
-* File events
-* Process events
-* Socket events
-* Kernel events (such as loading/unloading a kernel extension or opening an I/O Kit device)
+* Dosya olayları
+* İşlem olayları
+* Soket olayları
+* Kernel olayları (bir kernel uzantısının yüklenmesi/boşaltılması veya bir I/O Kit cihazının açılması gibi)
 
-### Endpoint Security Framework Architecture
+### Uç Nokta Güvenlik Çerçevesi Mimarisi
 
 <figure><img src="../../../.gitbook/assets/image (3) (8).png" alt="https://www.youtube.com/watch?v=jaVkpM1UqOs"><figcaption></figcaption></figure>
 
-**User-space communication** with the Endpoint Security framework happens through the IOUserClient class. Two different subclasses are used, depending on the type of caller:
+Endpoint Security çerçevesiyle **kullanıcı alanı iletişimi**, IOUserClient sınıfı aracılığıyla gerçekleşir. Arayanın türüne bağlı olarak iki farklı alt sınıf kullanılır:
 
-* **EndpointSecurityDriverClient**: This requires the `com.apple.private.endpoint-security.manager` entitlement, which is only held by the system process `endpointsecurityd`.
-* **EndpointSecurityExternalClient**: This requires the `com.apple.developer.endpoint-security.client` entitlement. This would typically be used by third-party security software that needs to interact with the Endpoint Security framework.
+* **EndpointSecurityDriverClient**: Bu, yalnızca sistem süreci `endpointsecurityd` tarafından tutulan `com.apple.private.endpoint-security.manager` yetkisine sahiptir.
+* **EndpointSecurityExternalClient**: Bu, `com.apple.developer.endpoint-security.client` yetkisine ihtiyaç duyar. Bu genellikle Endpoint Security çerçevesiyle etkileşimde bulunması gereken üçüncü taraf güvenlik yazılımı tarafından kullanılır.
 
-The Endpoint Security Extensions:**`libEndpointSecurity.dylib`** is the C library that system extensions use to communicate with the kernel. This library uses the I/O Kit (`IOKit`) to communicate with the Endpoint Security KEXT.
+Endpoint Security Uzantıları:**`libEndpointSecurity.dylib`**, sistem uzantılarının çekirdek ile iletişim kurmak için kullandığı C kütüphanesidir. Bu kütüphane, Endpoint Security KEXT ile iletişim kurmak için I/O Kit (`IOKit`) kullanır.
 
-**`endpointsecurityd`** is a key system daemon involved in managing and launching endpoint security system extensions, particularly during the early boot process. **Only system extensions** marked with **`NSEndpointSecurityEarlyBoot`** in their `Info.plist` file receive this early boot treatment.
+**`endpointsecurityd`**, uç nokta güvenlik sistem uzantılarını yöneten ve başlatan önemli bir sistem hizmetidir, özellikle erken başlatma sürecinde. Bu erken başlatma işlemi, `Info.plist` dosyasında **`NSEndpointSecurityEarlyBoot`** olarak işaretlenen **yalnızca sistem uzantıları** tarafından alınır.
 
-Another system daemon, **`sysextd`**, **validates system extensions** and moves them into the proper system locations. It then asks the relevant daemon to load the extension. The **`SystemExtensions.framework`** is responsible for activating and deactivating system extensions.
+Başka bir sistem hizmeti olan **`sysextd`**, sistem uzantılarını doğrular ve uygun sistem konumlarına taşır. Ardından, ilgili hizmete uzantının yüklenmesini ister. **`SystemExtensions.framework`**, sistem uzantılarını etkinleştirme ve devre dışı bırakma işlemlerinden sorumludur.
 
-## Bypassing ESF
+## ESF'nin Atlanması
 
-ESF is used by security tools that will try to detect a red teamer, so any information about how this could be avoided sounds interesting.
+ESF, bir kırmızı takım üyesini tespit etmeye çalışacak güvenlik araçları tarafından kullanılır, bu yüzden bunun nasıl atlatılabileceğiyle ilgili herhangi bir bilgi ilgi çekicidir.
 
 ### CVE-2021-30965
 
-The thing is that the security application needs to have **Full Disk Access permissions**. So if an attacker could remove that, he could prevent the software from running:
-
+Mesele, güvenlik uygulamasının **Tam Disk Erişimi izinlerine** sahip olması gerektiğidir. Bu nedenle, bir saldırgan bunu kaldırabilirse, yazılımın çalışmasını engelleyebilir:
 ```bash
 tccutil reset All
 ```
+Bu bypass ve ilgili olanlar hakkında **daha fazla bilgi** için [#OBTS v5.0: "EndpointSecurity' nin Achilles Topuğu" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI) adlı sunumu kontrol edin.
 
-For **more information** about this bypass and related ones check the talk [#OBTS v5.0: "The Achilles Heel of EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
+Sonunda, bu sorun, **`tccd`** tarafından yönetilen güvenlik uygulamasına yeni izin **`kTCCServiceEndpointSecurityClient`** verilerek çözüldü, böylece `tccutil` izinlerini temizlemedi ve çalışmasını engellemedi.
 
-At the end this was fixed by giving the new permission **`kTCCServiceEndpointSecurityClient`** to the security app managed by **`tccd`** so `tccutil` won't clear its permissions preventing it from running.
-
-## References
+## Referanslar
 
 * [**OBTS v3.0: "Endpoint Security & Insecurity" - Scott Knight**](https://www.youtube.com/watch?v=jaVkpM1UqOs)
 * [**https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html**](https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github reposuna PR göndererek paylaşın.
 
 </details>

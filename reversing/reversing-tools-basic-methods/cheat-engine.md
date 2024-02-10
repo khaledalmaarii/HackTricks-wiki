@@ -1,192 +1,187 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman seviyesine kadar AWS hacklemeyi öğrenin<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'ler**](https://opensea.io/collection/the-peass-family) içerir
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **pull request** göndererek paylaşın.
 
 </details>
 
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) is a useful program to find where important values are saved inside the memory of a running game and change them.\
-When you download and run it, you are **presented** with a **tutorial** of how to use the tool. If you want to learn how to use the tool it's highly recommended to complete it.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php), çalışan bir oyunun belleğinde önemli değerlerin nerede saklandığını bulmanıza ve değiştirmenize yardımcı olan kullanışlı bir programdır.\
+İndirip çalıştırdığınızda, aracın nasıl kullanılacağına dair bir öğreticiyle karşılaşırsınız. Aracı nasıl kullanacağınızı öğrenmek istiyorsanız, tamamlamanız şiddetle tavsiye edilir.
 
-# What are you searching?
+# Ne arıyorsunuz?
 
 ![](<../../.gitbook/assets/image (580).png>)
 
-This tool is very useful to find **where some value** (usually a number) **is stored in the memory** of a program.\
-**Usually numbers** are stored in **4bytes** form, but you could also find them in **double** or **float** formats, or you may want to look for something **different from a number**. For that reason you need to be sure you **select** what you want to **search for**:
+Bu araç, bir programın belleğinde **bazı değerlerin** (genellikle bir sayı) **nerede saklandığını** bulmak için çok kullanışlıdır.\
+**Genellikle sayılar**, **4 bayt** şeklinde saklanır, ancak **double** veya **float** formatlarında da bulabilirsiniz veya bir sayıdan **farklı bir şey aramak** isteyebilirsiniz. Bu nedenle, ne aramak istediğinizi **seçtiğinizden** emin olmanız gerekir:
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-Also you can indicate **different** types of **searches**:
+Ayrıca **farklı** türde **aramaları** belirtebilirsiniz:
 
 ![](<../../.gitbook/assets/image (582).png>)
 
-You can also check the box to **stop the game while scanning the memory**:
+Ayrıca, belleği tarama sırasında **oyunu durdurmak için** kutuyu işaretleyebilirsiniz:
 
 ![](<../../.gitbook/assets/image (584).png>)
 
-## Hotkeys
+## Kısayol Tuşları
 
-In _**Edit --> Settings --> Hotkeys**_ you can set different **hotkeys** for different purposes like **stopping** the **game** (which is quiet useful if at some point you want to scan the memory). Other options are available:
+_Edit --> Ayarlar --> Kısayol Tuşları_ bölümünde, **oyunu durdurma** gibi farklı amaçlar için farklı **kısayol tuşları** ayarlayabilirsiniz (belleği taramak istediğiniz bir noktada oldukça kullanışlıdır). Diğer seçenekler de mevcuttur:
 
 ![](<../../.gitbook/assets/image (583).png>)
 
-# Modifying the value
+# Değeri Değiştirme
 
-Once you **found** where is the **value** you are **looking for** (more about this in the following steps) you can **modify it** double clicking it, then double clicking its value:
+Aranan değeri bulduktan sonra (bu konuda daha fazlası aşağıdaki adımlarda), değeri çift tıklayarak değiştirebilirsiniz, ardından değerin üzerine çift tıklayarak değeri değiştirebilirsiniz:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
-And finally **marking the check** to get the modification done in the memory:
+Ve son olarak, değişikliğin bellekte yapılmasını sağlamak için onay işaretini işaretleyin:
 
 ![](<../../.gitbook/assets/image (586).png>)
 
-The **change** to the **memory** will be immediately **applied** (note that until the game doesn't use this value again the value **won't be updated in the game**).
+Bellekteki **değişiklik** hemen **uygulanır** (oyun bu değeri tekrar kullanana kadar değer **oyunda güncellenmez**).
 
-# Searching the value
+# Değeri Arama
 
-So, we are going to suppose that there is an important value (like the life of your user) that you want to improve, and you are looking for this value in the memory)
+Öyleyse, kullanıcınızın hayatı gibi önemli bir değeri iyileştirmek istediğinizi ve bu değeri bellekte aradığınızı varsayalım)
 
-## Through a known change
+## Bilinen bir değişiklikle
 
-Supposing you are looking for the value 100, you **perform a scan** searching for that value and you find a lot of coincidences:
+Değerin 100 olduğunu varsayalım, bu değeri aramak için bir tarama yaparsınız ve birçok eşleşme bulursunuz:
 
 ![](<../../.gitbook/assets/image (587).png>)
 
-Then, you do something so that **value changes**, and you **stop** the game and **perform** a **next scan**:
+Sonra, değeri değiştirmek için bir şey yaparsınız ve oyunu durdurup bir sonraki taramayı yaparsınız:
 
 ![](<../../.gitbook/assets/image (588).png>)
 
-Cheat Engine will search for the **values** that **went from 100 to the new value**. Congrats, you **found** the **address** of the value you were looking for, you can now modify it.\
-_If you still have several values, do something to modify again that value, and perform another "next scan" to filter the addresses._
+Cheat Engine, **100'den yeni değere geçen değerleri** arayacaktır. Tebrikler, aradığınız değerin adresini buldunuz, şimdi onu değiştirebilirsiniz.\
+_Eğer hala birkaç değeriniz varsa, o değeri tekrar değiştirmek için bir şey yapın ve adresleri filtrelemek için başka bir "sonraki tarama" yapın._
 
-## Unknown Value, known change
+## Bilinmeyen Değer, bilinen değişiklik
 
-In the scenario you **don't know the value** but you know **how to make it change** (and even the value of the change) you can look for your number.
+Değeri **bilmediğiniz** ancak **nasıl değişeceğini** bildiğiniz bir senaryoda (ve hatta değişikliğin değerini de) sayınızı arayabilirsiniz.
 
-So, start by performing a scan of type "**Unknown initial value**":
+Bu nedenle, "**Bilinmeyen başlangıç değeri**" türünde bir tarama yapmaya başlayın:
 
 ![](<../../.gitbook/assets/image (589).png>)
 
-Then, make the value change, indicate **how** the **value** **changed** (in my case it was decreased by 1) and perform a **next scan**:
+Ardından, değeri değiştirin, **değerin nasıl değiştiğini** belirtin (benim durumumda 1 azaldı) ve bir **sonraki tarama** yapın:
 
 ![](<../../.gitbook/assets/image (590).png>)
 
-You will be presented **all the values that were modified in the selected way**:
+Seçilen şekilde değiştirilen **tüm değerler** size sunulacaktır:
 
 ![](<../../.gitbook/assets/image (591).png>)
 
-Once you have found your value, you can modify it.
+Değerinizi bulduktan sonra, onu değiştirebilirsiniz.
 
-Note that there are a **lot of possible changes** and you can do these **steps as much as you want** to filter the results:
+Unutmayın, birçok olası değişiklik vardır ve sonuçları filtrelemek için bu adımları istediğiniz kadar yapabilirsiniz:
 
 ![](<../../.gitbook/assets/image (592).png>)
 
-## Random Memory Address - Finding the code
+## Rastgele Bellek Adresi - Kodu Bulma
 
-Until know we learnt how to find an address storing a value, but it's highly probably that in **different executions of the game that address is in different places of the memory**. So lets find out how to always find that address.
+Şimdiye kadar bir değeri depolayan bir adresi nasıl bulacağımızı öğrendik, ancak **oyunun farklı çalıştırmalarında bu adresin belleğin farklı yerlerinde olması oldukça olasıdır**. Bu nedenle, her zaman o adresi nasıl bulacağımızı bulalım.
 
-Using some of the mentioned tricks, find the address where your current game is storing the important value. Then (stopping the game if you whish) do a **right click** on the found **address** and select "**Find out what accesses this address**" or "**Find out what writes to this address**":
+Bahsedilen hilelerden bazılarını kullanarak, mevcut oyununuzun önemli değeri depoladığı adresi bulun. Ardından (istediğinizde oyunu durdurarak) bulunan adrese **sağ tıklayın** ve "**Bu adresi kim kullanıyor**" veya "**Bu adrese yazanları bul**" seçeneğini seçin:
 
 ![](<../../.gitbook/assets/image (593).png>)
 
-The **first option** is useful to know which **parts** of the **code** are **using** this **address** (which is useful for more things like **knowing where you can modify the code** of the game).\
-The **second option** is more **specific**, and will be more helpful in this case as we are interested in knowing **from where this value is being written**.
+**İlk seçenek**, bu **adresi kullanan kod parçalarını** (oyunun kodunu değiştirebileceğiniz gibi başka şeyler için de kullanışlıdır) **bilmek** için kullanışlıdır.\
+**İkinci seçenek**, daha **spesifik** ve bu durumda daha yardımcı olacaktır çünkü **bu değerin nereden yazıldığını** bilmek istiyoruz.
 
-Once you have selected one of those options, the **debugger** will be **attached** to the program and a new **empty window** will appear. Now, **play** the **game** and **modify** that **value** (without restarting the game). The **window** should be **filled** with the **addresses** that are **modifying** the **value**:
+Bu seçeneklerden birini seçtikten sonra, **hata ayıklayıcı** program **programa bağlanacak** ve yeni bir **boş pencere** görünecektir. Şimdi, **oyunu oynayın** ve **değeri değiştirin** (oyunu yeniden başlatmadan). **Pencere**, **değeri değiştiren adresleri** ile doldurulmalıdır:
 
 ![](<../../.gitbook/assets/image (594).png>)
 
-Now that you found the address it's modifying the value you can **modify the code at your pleasure** (Cheat Engine allows you to modify it for NOPs real quick):
+Değeri değiştiren adresi bulduğunuzda, kodu **istediğiniz gibi değiştirebilirsiniz** (Cheat Engine, bunu hızlı bir şekilde NOP'larla değiştirmenize olanak tanır):
 
 ![](<../../.gitbook/assets/image (595).png>)
 
-So, you can now modify it so the code won't affect your number, or will always affect in a positive way.
+Artık kodu, sayınızı etkilemeyecek şekilde değiştirebilir veya her zaman olumlu bir şekilde etkileyecek şekilde değiştirebilirsiniz.
+## Rastgele Bellek Adresi - İşaretçiyi Bulma
 
-## Random Memory Address - Finding the pointer
-
-Following the previous steps, find where the value you are interested is. Then, using "**Find out what writes to this address**" find out which address writes this value and double click on it to get the disassembly view:
+Önceki adımları takip ederek, ilgilendiğiniz değerin nerede olduğunu bulun. Ardından, "**Bu adrese yazan şeyi bulun**" kullanarak bu değeri yazan adresi bulun ve üzerine çift tıklayarak ayrıştırma görünümünü alın:
 
 ![](<../../.gitbook/assets/image (596).png>)
 
-Then, perform a new scan **searching for the hex value between "\[]"** (the value of $edx in this case):
+Ardından, yeni bir tarama yaparak "\[\]" arasındaki onaltılık değeri arayın (bu durumda $edx'in değeri):
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-(_If several appear you usually need the smallest address one_)\
-Now, we have f**ound the pointer that will be modifying the value we are interested in**.
+(Eğer birkaç tane çıkarsa genellikle en küçük adres olanı gereklidir)\
+Şimdi, ilgilendiğimiz değeri değiştirecek olan **işaretçiyi bulduk**.
 
-Click on "**Add Address Manually**":
+"**Adresi El ile Ekle**" üzerine tıklayın:
 
 ![](<../../.gitbook/assets/image (598).png>)
 
-Now, click on the "Pointer" check box and add the found address in the text box (in this scenario, the found address in the previous image was "Tutorial-i386.exe"+2426B0):
+Şimdi, "İşaretçi" onay kutusuna tıklayın ve bulunan adresi metin kutusuna ekleyin (bu senaryoda, önceki görüntüde bulunan adres "Tutorial-i386.exe"+2426B0 idi):
 
 ![](<../../.gitbook/assets/image (599).png>)
 
-(Note how the first "Address" is automatically populated from the pointer address you introduce)
+(İşaretçi adresini girdiğinizde ilk "Adres" otomatik olarak doldurulur)
 
-Click OK and a new pointer will be created:
+Tamam'a tıklayın ve yeni bir işaretçi oluşturulacaktır:
 
 ![](<../../.gitbook/assets/image (600).png>)
 
-Now, every time you modifies that value you are **modifying the important value even if the memory address where the value is is different.**
+Artık o değeri değiştirdiğinizde, **değerin bulunduğu bellek adresi farklı olsa bile önemli değeri değiştiriyorsunuz**.
 
-## Code Injection
+## Kod Enjeksiyonu
 
-Code injection is a technique where you inject a piece of code into the target process, and then reroute the execution of code to go through your own written code (like giving you points instead of resting them).
+Kod enjeksiyonu, hedef sürece bir kod parçası enjekte ettiğiniz ve ardından kodun yürütülmesini kendi yazdığınız kod üzerinden yönlendirdiğiniz bir tekniktir (örneğin, puanları azaltmak yerine puan vermek gibi).
 
-So, imagine you have found the address that is subtracting 1 to the life of your player:
+Öyleyse, oyuncunuzun yaşamını 1 azaltan adresi bulduğunuzu hayal edin:
 
 ![](<../../.gitbook/assets/image (601).png>)
 
-Click on Show disassembler to get the **disassemble code**.\
-Then, click **CTRL+a** to invoke the Auto assemble window and select _**Template --> Code Injection**_
+Ayrıştırıcıyı göstermek için Show disassembler üzerine tıklayın.\
+Ardından, Auto assemble penceresini çağırmak için **CTRL+a** tuşlarına basın ve _**Template --> Code Injection**_ seçeneğini seçin.
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Fill the **address of the instruction you want to modify** (this is usually autofilled):
+Değiştirmek istediğiniz talimatın adresini doldurun (bu genellikle otomatik olarak doldurulur):
 
 ![](<../../.gitbook/assets/image (603).png>)
 
-A template will be generated:
+Bir şablon oluşturulacaktır:
 
 ![](<../../.gitbook/assets/image (604).png>)
 
-So, insert your new assembly code in the "**newmem**" section and remove the original code from the "**originalcode**" if you don't want it to be executed**.** In this example the injected code will add 2 points instead of substracting 1:
+Bu durumda, yeni montaj kodunu "**newmem**" bölümüne ekleyin ve orijinal kodu "**originalcode**" bölümünden kaldırın, eğer yürütülmesini istemiyorsanız. Bu örnekte, enjekte edilen kod 1 yerine 2 puan ekleyecektir:
 
 ![](<../../.gitbook/assets/image (605).png>)
 
-**Click on execute and so on and your code should be injected in the program changing the behaviour of the functionality!**
+**Execute üzerine tıklayın ve böylece kodunuz programda enjekte edilerek işlevin davranışı değişmelidir!**
 
-# **References**
+# **Referanslar**
 
-* **Cheat Engine tutorial, complete it to learn how to start with Cheat Engine**
+* **Cheat Engine öğretici, Cheat Engine ile başlamayı öğrenmek için tamamlayın**
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme hakkında sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklam vermek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live).
+* Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.
 
 </details>
-
-

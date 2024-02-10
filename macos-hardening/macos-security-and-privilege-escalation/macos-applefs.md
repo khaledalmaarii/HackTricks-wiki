@@ -2,43 +2,40 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan ileri seviyeye öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'a katılın!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** katkıda bulunun.
 
 </details>
 
-## Apple Propietary File System (APFS)
+## Apple Özel Dosya Sistemi (APFS)
 
-**Apple File System (APFS)** is a modern file system designed to supersede the Hierarchical File System Plus (HFS+). Its development was driven by the need for **improved performance, security, and efficiency**.
+**Apple Dosya Sistemi (APFS)**, Hiyerarşik Dosya Sistemi Plus (HFS+) yerine geçmek üzere tasarlanmış modern bir dosya sistemidir. Geliştirilmesi, **daha iyi performans, güvenlik ve verimlilik** ihtiyacıyla gerçekleştirilmiştir.
 
-Some notable features of APFS include:
+APFS'nin bazı dikkate değer özellikleri şunlardır:
 
-1. **Space Sharing**: APFS allows multiple volumes to **share the same underlying free storage** on a single physical device. This enables more efficient space utilization as the volumes can dynamically grow and shrink without the need for manual resizing or repartitioning.
-   1. This means, compared with traditional partitions in file disks, **that in APFS different partitions (volumes) shares all the disk space**, while a regular partition usually had a fixed size.
-2. **Snapshots**: APFS supports **creating snapshots**, which are **read-only**, point-in-time instances of the file system. Snapshots enable efficient backups and easy system rollbacks, as they consume minimal additional storage and can be quickly created or reverted.
-3. **Clones**: APFS can **create file or directory clones that share the same storage** as the original until either the clone or the original file is modified. This feature provides an efficient way to create copies of files or directories without duplicating the storage space.
-4. **Encryption**: APFS **natively supports full-disk encryption** as well as per-file and per-directory encryption, enhancing data security across different use cases.
-5. **Crash Protection**: APFS uses a **copy-on-write metadata scheme that ensures file system consistency** even in cases of sudden power loss or system crashes, reducing the risk of data corruption.
+1. **Alan Paylaşımı**: APFS, birden fazla birimin **aynı fiziksel cihaz üzerindeki boş depolama alanını paylaşmasına** olanak tanır. Bu, birimlerin manuel yeniden boyutlandırma veya yeniden bölümlendirme gerektirmeden dinamik olarak büyüyüp küçülmesine olanak sağlayarak daha verimli alan kullanımını sağlar.
+1. Bu, dosya disklerindeki geleneksel bölümlerle karşılaştırıldığında, **APFS'de farklı bölümlerin (birimlerin) tüm disk alanını paylaştığı** anlamına gelir, oysa normal bir bölüm genellikle sabit bir boyuta sahiptir.
+2. **Anlık Görüntüler**: APFS, dosya sisteminin **salt okunur, zaman içindeki anlık örneklerini oluşturmayı** destekler. Anlık görüntüler, minimal ek depolama tüketimiyle verimli yedeklemeler ve kolay sistem geri dönüşleri sağlar ve hızlı bir şekilde oluşturulabilir veya geri alınabilir.
+3. **Klonlar**: APFS, **aynı depolama alanını paylaşan dosya veya dizin klonları oluşturabilir**. Bu özellik, depolama alanını kopyalamadan dosya veya dizin kopyaları oluşturmanın verimli bir yolunu sağlar.
+4. **Şifreleme**: APFS, veri güvenliğini artıran **tam disk şifrelemesini** ve dosya veya dizin bazında şifrelemeyi doğal olarak destekler.
+5. **Çökme Koruması**: APFS, dosya sistemi tutarlılığını sağlayan **kopyala-yaz metadata şemasını** kullanır, böylece ani güç kaybı veya sistem çökmeleri durumunda bile veri bozulma riskini azaltır.
 
-Overall, APFS offers a more modern, flexible, and efficient file system for Apple devices, with a focus on improved performance, reliability, and security.
-
+Genel olarak, APFS, Apple cihazları için daha modern, esnek ve verimli bir dosya sistemi sunar ve performans, güvenilirlik ve güvenlik konularına odaklanır.
 ```bash
 diskutil list # Get overview of the APFS volumes
 ```
-
 ## Firmlinks
 
-The `Data` volume is mounted in **`/System/Volumes/Data`** (you can check this with `diskutil apfs list`).
+`Data` birimi **`/System/Volumes/Data`** konumuna bağlanır (bunu `diskutil apfs list` komutuyla kontrol edebilirsiniz).
 
-The list of firmlinks can be found in the **`/usr/share/firmlinks`** file.
-
+Firmlink'lerin listesi **`/usr/share/firmlinks`** dosyasında bulunabilir.
 ```bash
 cat /usr/share/firmlinks
 /AppleInternal	AppleInternal
@@ -46,19 +43,4 @@ cat /usr/share/firmlinks
 /Library	Library
 [...]
 ```
-
-On the **left**, there is the directory path on the **System volume**, and on the **right**, the directory path where it maps on the **Data volume**. So, `/library` --> `/system/Volumes/data/library`
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+**Sol tarafta**, **Sistem birimindeki** dizin yolunu ve **sağ tarafta**, **Veri birimindeki** eşleştiği dizin yolunu görebilirsiniz. Yani, `/library` --> `/system/Volumes/data/library`

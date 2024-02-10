@@ -1,16 +1,14 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
@@ -20,7 +18,7 @@ Other ways to support HackTricks:
 * [https://github.com/yarox24/attack\_monitor](https://github.com/yarox24/attack\_monitor)
 * [https://capsule8.com/blog/dont-get-kicked-out-a-tale-of-rootkits-and-other-backdoors/](https://capsule8.com/blog/dont-get-kicked-out-a-tale-of-rootkits-and-other-backdoors/)
 * [https://github.com/ION28/BLUESPAWN](https://github.com/ION28/BLUESPAWN)
-* [https://github.com/PaperMtn/lil-pwny](https://github.com/PaperMtn/lil-pwny) : Check disclosed accounts
+* [https://github.com/PaperMtn/lil-pwny](https://github.com/PaperMtn/lil-pwny) : Açığa çıkarılan hesapları kontrol et
 * [https://github.com/rabobank-cdc/DeTTECT](https://github.com/rabobank-cdc/DeTTECT)
 
 # OSINT
@@ -42,7 +40,7 @@ Other ways to support HackTricks:
 * [https://builtwith.com/](https://builtwith.com)
 * [https://www.spiderfoot.net/](https://www.spiderfoot.net)
 * [https://github.com/zricethezav/gitleaks](https://github.com/zricethezav/gitleaks)
-* [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/sys/tools/subdomainfinder/) : 8 Subdomain finder tools, sublist3r, amass and more
+* [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/sys/tools/subdomainfinder/) : 8 Alt alan bulma aracı, sublist3r, amass ve daha fazlası
 
 # **WEB**
 
@@ -51,98 +49,85 @@ Other ways to support HackTricks:
 * [https://github.com/hahwul/XSpear](https://github.com/hahwul/XSpear)
 * [https://github.com/BitTheByte/Monitorizer/](https://github.com/BitTheByte/Monitorizer/)
 * [https://github.com/spinkham/skipfish](https://github.com/spinkham/skipfish)
-* [https://github.com/blark/aiodnsbrute](https://github.com/blark/aiodnsbrute) : Brute force domain names asynchronously
-* [https://crt.sh/?q=%.yahoo.com](https://crt.sh/?q=%.yahoo.com) : Subdomain bruteforce
-* [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe): Check if web servers in a domain are accessible
-* [https://github.com/aboul3la/Sublist3r](https://github.com/aboul3la/Sublist3r) : Subdomain discovery
-* [https://github.com/gwen001/github-search/blob/master/github-subdomains.py](https://github.com/gwen001/github-search/blob/master/github-subdomains.py) : Subdomain discovery in github
-* [https://github.com/robertdavidgraham/masscan](https://github.com/robertdavidgraham/masscan) : Fast port scanning
-* [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : Subdomains and URLs from JS files in a web
-* [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : Web files dictionary
-* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : BurpExtension to avoid dozens  repeater tabs
-* [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : Obtain assets
+* [https://github.com/blark/aiodnsbrute](https://github.com/blark/aiodnsbrute) : Alan adlarını asenkron olarak brute force et
+* [https://crt.sh/?q=%.yahoo.com](https://crt.sh/?q=%.yahoo.com) : Alt alan brute force
+* [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe): Bir alan içindeki web sunucularının erişilebilir olup olmadığını kontrol et
+* [https://github.com/aboul3la/Sublist3r](https://github.com/aboul3la/Sublist3r) : Alt alan keşfi
+* [https://github.com/gwen001/github-search/blob/master/github-subdomains.py](https://github.com/gwen001/github-search/blob/master/github-subdomains.py) : Github'da alt alan keşfi
+* [https://github.com/robertdavidgraham/masscan](https://github.com/robertdavidgraham/masscan) : Hızlı port taraması
+* [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : Bir webdeki alt alanlar ve URL'ler JS dosyalarından
+* [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : Web dosyaları sözlüğü
+* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : Düzeltici sekmeleri önlemek için BurpExtension
+* [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : Varlıkları elde et
 * [https://github.com/izo30/google-dorker](https://github.com/izo30/google-dorker) : Google dorks
-* [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Web BugBounty checklist
-* [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Check a list of domain against Open Redirection
-* [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Burp plugin, offline analysis to discover domains, subdomains and IPs
-* [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): List of different tools
-* [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : BurpSuite Plugingto find vulns (SQLi, XSS, SSTI)
-* [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Chrome extension for tracking post-messages functions
-* [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : Automatic authentication tests (remove cookies and try to send the request)
-* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross is a Reconstruction, Scanner, and a tool for penetration / BugBounty testing. This tool was built to test (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI) vulnerabilities
-
+* [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Web BugBounty kontrol listesi
+* [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Open Redirection'a karşı bir alan listesini kontrol et
+* [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Burp eklentisi, alanları, alt alanları ve IP'leri keşfetmek için çevrimdışı analiz
+* [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): Farklı araçların listesi
+* [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : Zafiyetleri bulmak için BurpSuite Eklentisi (SQLi, XSS, SSTI)
+* [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : post-messages fonksiyonlarını takip etmek için Chrome eklentisi
+* [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : Otomatik kimlik doğrulama testleri (çerezleri kaldırır ve isteği göndermeye çalışır)
+* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross, Rekonstrüksiyon, Tarama ve bir araçtır. Penetrasyon / BugBounty testi için yapıldı. Bu araç, (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI) zafiyetlerini test etmek için yapıldı
 # Windows
 
-* [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : Lateral movements
+* [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : Yanal hareketler
 * [https://freddiebarrsmith.com/trix/trix.html](https://freddiebarrsmith.com/trix/trix.html) : LOL bins
-* [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Persistence
-* [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Windows Process Injection techniques
-* [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Red Team scripts
-* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : find security-related misconfigurations in Active Directory Group Policy.
+* [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Kalıcılık
+* [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Windows İşlem Enjeksiyon teknikleri
+* [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Kırmızı Takım betikleri
+* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : Active Directory Grup Politikası'ndaki güvenlikle ilgili yapılandırmaları bulun.
 * [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Securestring obfuscation
-* [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Parent PID Spoofing
-* [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Encrypt Powershell payloads
-* [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : Stealth C2
-* [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Series of logs about Windows Internals
-* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : Track who open a document
-* [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Active Directory Cheat Sheet
+* [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Ebeveyn PID Sahteciliği
+* [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Powershell yüklerini şifrele
+* [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : Gizli C2
+* [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Windows İç Yapıları hakkında bir dizi günlük
+* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : Belgeyi kimin açtığını takip et
+* [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Active Directory Hile Sayfası
 
 # Firmware
 
-Tools q veo q pueden molar para analizar firmares (automaticas):
+Firmware analizi için iyi olabilecek araçlar (otomatik):
 
 * [https://github.com/craigz28/firmwalker](https://github.com/craigz28/firmwalker)
 * [https://github.com/fkie-cad/FACT\_core](https://github.com/fkie-cad/FACT\_core)
 * [https://gitlab.com/bytesweep/bytesweep-go](https://gitlab.com/bytesweep/bytesweep-go)
 
-Post-crema:
+Sonrasında:
 
 * [https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html](https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html)
 * [https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html](https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html)
 
-Como extraer firmware si no lo encontramos online: [https://www.youtube.com/watch?v=Kxvpbu9STU4](https://www.youtube.com/watch?v=Kxvpbu9STU4)
+Firmware'i çevrimiçi bulamazsak nasıl çıkarırız: [https://www.youtube.com/watch?v=Kxvpbu9STU4](https://www.youtube.com/watch?v=Kxvpbu9STU4)
 
-Aqui un firware con vulnerabilidades para analizar: [https://github.com/scriptingxss/IoTGoat](https://github.com/scriptingxss/IoTGoat)
+Analiz için zafiyetli bir firmware: [https://github.com/scriptingxss/IoTGoat](https://github.com/scriptingxss/IoTGoat)
 
-y por aqui la metodologia owasp para analizar firmware: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
+ve firmware analizi için OWASP metodolojisi: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
 
-Firmware emulation: FIRMADYNE (https://github.com/firmadyne/firmadyne/) is a platform for automating the emulation and dynamic analysis of Linux-based firmware.
+Firmware emülasyonu: FIRMADYNE (https://github.com/firmadyne/firmadyne/), Linux tabanlı firmware'lerin emülasyonunu ve dinamik analizini otomatikleştirmek için bir platformdur.
 
-# OTHER
+# DİĞER
 
 * [https://twitter.com/HackAndDo/status/1202695084543791117](https://twitter.com/HackAndDo/status/1202695084543791117)
 * [https://github.com/weev3/LKWA](https://github.com/weev3/LKWA)
 * [https://h0mbre.github.io/Learn-C-By-Creating-A-Rootkit/](https://h0mbre.github.io/Learn-C-By-Creating-A-Rootkit/)
 * [https://github.com/skelsec/jackdaw](https://github.com/skelsec/jackdaw)
-* [https://github.com/CoatiSoftware/Sourcetrail](https://github.com/CoatiSoftware/Sourcetrail) : Static code analysis
+* [https://github.com/CoatiSoftware/Sourcetrail](https://github.com/CoatiSoftware/Sourcetrail) : Statik kod analizi
 * [https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html](https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html) : Bluetooth LE CTF
-* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : SSH tarpit that slowly sends an endless banner.
-* AWS and Cloud tools: [https://github.com/toniblyx/my-arsenal-of-aws-security-tools](https://github.com/toniblyx/my-arsenal-of-aws-security-tools)
-* IFS (Interplanetary File System) for phising: [https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
-* IP rotation services: [https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
+* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : Sonsuz bir banner gönderen SSH tarpiti.
+* AWS ve Bulut araçları: [https://github.com/toniblyx/my-arsenal-of-aws-security-tools](https://github.com/toniblyx/my-arsenal-of-aws-security-tools)
+* Phishing için IFS (Interplanetary File System): [https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
+* IP dönüşüm hizmetleri: [https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
 * Linux rootkit: [https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
-* [https://theia-ide.org/](https://theia-ide.org) : Online IDE
-* [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : Resources for starting on BugBounties
-* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : IOS pentesting tools
-* [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : Keywords
-* [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : Hacking IoT (Wifi, BLE, SSDP, MDNS)
-* [https://github.com/rackerlabs/scantron](https://github.com/rackerlabs/scantron) : automating scanning
-* [https://github.com/doyensec/awesome-electronjs-hacking](https://github.com/doyensec/awesome-electronjs-hacking) : This list aims to cover Electron.js security related topics.
-* [https://github.com/serain/bbrecon](https://github.com/serain/bbrecon) : Info about BB programs
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [https://theia-ide.org/](https://theia-ide.org) : Çevrimiçi IDE
+* [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : BugBounties'e başlamak için kaynaklar
+* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : IOS pentesting araçları
+* [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : Anahtar kelimeler
+* [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : IoT hackleme (Wifi, BLE, SSDP, MDNS)
+* [https://github.com/rackerlabs/scantron](https://github.com/rackerlabs/scantron) : taramayı otomatikleştirme
+* [https://github.com/doyensec/awesome-electronjs-hacking](https://github.com/doyensec/awesome-electronjs-hacking) : Bu liste, Electron.js ile ilgili güvenlik konularını kapsamayı amaçlamaktadır.
+* [https://github.com/serain/bbrecon](https://github.com/serain/bbrecon
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
 
 </details>
-
-

@@ -1,195 +1,187 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
 
-## Basic Concepts
+## Temel Kavramlar
 
-- **Smart Contracts** are defined as programs that execute on a blockchain when certain conditions are met, automating agreement executions without intermediaries.
-- **Decentralized Applications (dApps)** build upon smart contracts, featuring a user-friendly front-end and a transparent, auditable back-end.
-- **Tokens & Coins** differentiate where coins serve as digital money, while tokens represent value or ownership in specific contexts.
-  - **Utility Tokens** grant access to services, and **Security Tokens** signify asset ownership.
-- **DeFi** stands for Decentralized Finance, offering financial services without central authorities.
-- **DEX** and **DAOs** refer to Decentralized Exchange Platforms and Decentralized Autonomous Organizations, respectively.
+- **Akıllı Sözleşmeler**, belirli koşullar sağlandığında blok zincirinde çalışan programlar olarak tanımlanır ve aracı olmadan anlaşma yürütme işlemlerini otomatikleştirir.
+- **Merkezi Olmayan Uygulamalar (dApps)**, akıllı sözleşmelere dayanan, kullanıcı dostu bir ön uç ve şeffaf, denetlenebilir bir arka uç içeren uygulamalardır.
+- **Tokenlar ve Coinler**, coinlerin dijital para olarak hizmet verirken, tokenların belirli bağlamlarda değer veya sahiplik temsil ettiği farklılık gösterir.
+- **Fayda Tokenları**, hizmetlere erişim sağlarken, **Güvenlik Tokenları** varlık sahipliğini belirtir.
+- **DeFi**, merkezi otoritelere ihtiyaç duymadan finansal hizmetler sunan Decentralized Finance'ı ifade eder.
+- **DEX** ve **DAO'lar**, sırasıyla Merkezi Olmayan Borsa Platformları ve Merkezi Olmayan Otonom Organizasyonlar anlamına gelir.
 
-## Consensus Mechanisms
+## Uzlaşma Mekanizmaları
 
-Consensus mechanisms ensure secure and agreed transaction validations on the blockchain:
-- **Proof of Work (PoW)** relies on computational power for transaction verification.
-- **Proof of Stake (PoS)** demands validators to hold a certain amount of tokens, reducing energy consumption compared to PoW.
+Uzlaşma mekanizmaları, blok zincirinde güvenli ve kabul edilen işlem doğrulamalarını sağlar:
+- **Proof of Work (PoW)**, işlem doğrulaması için hesaplama gücüne dayanır.
+- **Proof of Stake (PoS)**, doğrulayıcıların belirli miktarda token tutmasını gerektirir ve PoW'a kıyasla enerji tüketimini azaltır.
 
-## Bitcoin Essentials
+## Bitcoin Temelleri
 
-### Transactions
+### İşlemler
 
-Bitcoin transactions involve transferring funds between addresses. Transactions are validated through digital signatures, ensuring only the owner of the private key can initiate transfers.
+Bitcoin işlemleri, adresler arasında fon transferini içerir. İşlemler dijital imzalar aracılığıyla doğrulanır ve yalnızca özel anahtar sahibi transferleri başlatabilir.
 
-#### Key Components:
+#### Ana Bileşenler:
 
-- **Multisignature Transactions** require multiple signatures to authorize a transaction.
-- Transactions consist of **inputs** (source of funds), **outputs** (destination), **fees** (paid to miners), and **scripts** (transaction rules).
+- **Çoklu İmza İşlemleri**, bir işlemi yetkilendirmek için birden fazla imza gerektirir.
+- İşlemler, **girişler** (fon kaynağı), **çıkışlar** (hedef), **ücretler** (madencilere ödenir) ve **scriptler** (işlem kuralları)den oluşur.
 
-### Lightning Network
+### Lightning Ağı
 
-Aims to enhance Bitcoin's scalability by allowing multiple transactions within a channel, only broadcasting the final state to the blockchain.
+Birden fazla işlemi bir kanal içinde gerçekleştirerek Bitcoin'in ölçeklenebilirliğini artırmayı amaçlar ve yalnızca son durumu blok zincirine yayınlar.
 
-## Bitcoin Privacy Concerns
+## Bitcoin Gizlilik Endişeleri
 
-Privacy attacks, such as **Common Input Ownership** and **UTXO Change Address Detection**, exploit transaction patterns. Strategies like **Mixers** and **CoinJoin** improve anonymity by obscuring transaction links between users.
+**Ortak Giriş Sahipliği** ve **UTXO Değişim Adresi Tespiti** gibi gizlilik saldırıları, işlem desenlerini sömürür. **Karıştırıcılar** ve **CoinJoin** gibi stratejiler, kullanıcılar arasındaki işlem bağlantılarını belirsizleştirerek anonimliği artırır.
 
-## Acquiring Bitcoins Anonymously
+## Anonim Olarak Bitcoin Edinme
 
-Methods include cash trades, mining, and using mixers. **CoinJoin** mixes multiple transactions to complicate traceability, while **PayJoin** disguises CoinJoins as regular transactions for heightened privacy.
+Yöntemler arasında nakit işlemler, madencilik ve karıştırıcı kullanımı bulunur. **CoinJoin**, izlenebilirliği karmaşıklaştırmak için birden fazla işlemi karıştırırken, **PayJoin**, gizlilik düzeyini artırmak için CoinJoin'leri normal işlemler gibi gösterir.
 
 
-# Bitcoin Privacy Atacks
+# Bitcoin Gizlilik Saldırıları
 
-# Summary of Bitcoin Privacy Attacks
+# Bitcoin Gizlilik Saldırılarının Özeti
 
-In the world of Bitcoin, the privacy of transactions and the anonymity of users are often subjects of concern. Here's a simplified overview of several common methods through which attackers can compromise Bitcoin privacy.
+Bitcoin dünyasında, işlemlerin gizliliği ve kullanıcıların anonimliği genellikle endişe konularıdır. İşte saldırganların Bitcoin gizliliğini tehlikeye atabileceği birkaç yaygın yöntemin basitleştirilmiş bir genel bakışı.
 
-## **Common Input Ownership Assumption**
+## **Ortak Giriş Sahipliği Varsayımı**
 
-It is generally rare for inputs from different users to be combined in a single transaction due to the complexity involved. Thus, **two input addresses in the same transaction are often assumed to belong to the same owner**.
+Farklı kullanıcılara ait girişlerin tek bir işlemde birleştirilmesi genellikle karmaşık olduğu için nadirdir. Bu nedenle, **aynı işlemdeki iki giriş adresinin genellikle aynı sahibe ait olduğu varsayılır**.
 
-## **UTXO Change Address Detection**
+## **UTXO Değişim Adresi Tespiti**
 
-A UTXO, or **Unspent Transaction Output**, must be entirely spent in a transaction. If only a part of it is sent to another address, the remainder goes to a new change address. Observers can assume this new address belongs to the sender, compromising privacy.
+Bir UTXO veya **Harcanmamış İşlem Çıktısı**, bir işlemde tamamen harcanmalıdır. Eğer sadece bir kısmı başka bir adrese gönderilirse, geri kalanı yeni bir değişim adresine gider. Gözlemciler, bu yeni adresin gönderene ait olduğunu varsayabilir ve gizliliği tehlikeye atabilir.
 
-### Example
-To mitigate this, mixing services or using multiple addresses can help obscure ownership.
+### Örnek
+Bu durumu hafifletmek için karıştırma hizmetleri veya birden fazla adres kullanmak, sahipliği belirsizleştirmeye yardımcı olabilir.
 
-## **Social Networks & Forums Exposure**
+## **Sosyal Ağlar ve Forumlarla İlgili Bilgilerin Ortaya Çıkması**
 
-Users sometimes share their Bitcoin addresses online, making it **easy to link the address to its owner**.
+Kullanıcılar bazen Bitcoin adreslerini çevrimiçi paylaşır, bu da adresi sahibiyle ilişkilendirmeyi **kolaylaştırır**.
 
-## **Transaction Graph Analysis**
+## **İşlem Grafiği Analizi**
 
-Transactions can be visualized as graphs, revealing potential connections between users based on the flow of funds.
+İşlemler grafikler halinde görselleştirilebilir ve fon akışına dayanarak kullanıcılar arasında potansiyel bağlantıları ortaya çıkarabilir.
 
-## **Unnecessary Input Heuristic (Optimal Change Heuristic)**
+## **Gereksiz Giriş Heuristiği (Optimal Değişim Heuristiği)**
 
-This heuristic is based on analyzing transactions with multiple inputs and outputs to guess which output is the change returning to the sender.
+Bu heuristik, birden fazla giriş ve çıkışa sahip işlemleri analiz ederek değişimi gönderene dönen çıktının hangisi olduğunu tahmin etmeye dayanır.
 
-### Example
-
+### Örnek
 ```bash
 2 btc --> 4 btc
 3 btc     1 btc
 ```
+## **Zorunlu Adres Kullanımı**
 
-If adding more inputs makes the change output larger than any single input, it can confuse the heuristic.
+Saldırganlar, daha önce kullanılan adreslere küçük miktarlarda gönderim yapabilir ve umut ederler ki alıcı, bu miktarları gelecekteki işlemlerde diğer girdilerle birleştirerek adresleri birbirine bağlar.
 
-## **Forced Address Reuse**
+### Doğru Cüzdan Davranışı
+Bu gizlilik sızıntısını önlemek için cüzdanlar, zaten kullanılmış boş adreslere gelen paraları kullanmamalıdır.
 
-Attackers may send small amounts to previously used addresses, hoping the recipient combines these with other inputs in future transactions, thereby linking addresses together.
+## **Diğer Blockchain Analiz Teknikleri**
 
-### Correct Wallet Behavior
-Wallets should avoid using coins received on already used, empty addresses to prevent this privacy leak.
+- **Tam Ödeme Miktarları:** Değişiklik olmadan gerçekleşen işlemler, muhtemelen aynı kullanıcıya ait iki adres arasında gerçekleşir.
+- **Yuvarlak Sayılar:** Bir işlemdeki yuvarlak bir sayı, bir ödeme olduğunu gösterir ve yuvarlanmayan çıktı muhtemelen değişikliktir.
+- **Cüzdan Parmak İzi:** Farklı cüzdanlar benzersiz işlem oluşturma desenlerine sahiptir, bu da analistlerin kullanılan yazılımı ve potansiyel olarak değişiklik adresini belirlemelerine olanak sağlar.
+- **Miktar ve Zaman Korelasyonları:** İşlem zamanlarını veya miktarlarını açıklamak, işlemlerin izlenebilir olmasına neden olabilir.
 
-## **Other Blockchain Analysis Techniques**
+## **Trafik Analizi**
 
-- **Exact Payment Amounts:** Transactions without change are likely between two addresses owned by the same user.
-- **Round Numbers:** A round number in a transaction suggests it's a payment, with the non-round output likely being the change.
-- **Wallet Fingerprinting:** Different wallets have unique transaction creation patterns, allowing analysts to identify the software used and potentially the change address.
-- **Amount & Timing Correlations:** Disclosing transaction times or amounts can make transactions traceable.
+Ağ trafiğini izleyerek saldırganlar, kullanıcı gizliliğini tehlikeye atarak işlemleri veya blokları IP adresleriyle ilişkilendirebilirler. Bu özellikle bir kuruluşun birçok Bitcoin düğümü işletmesi durumunda geçerlidir, çünkü bu durumda işlemleri izleme yetenekleri artar.
 
-## **Traffic Analysis**
-
-By monitoring network traffic, attackers can potentially link transactions or blocks to IP addresses, compromising user privacy. This is especially true if an entity operates many Bitcoin nodes, enhancing their ability to monitor transactions.
-
-## More
-For a comprehensive list of privacy attacks and defenses, visit [Bitcoin Privacy on Bitcoin Wiki](https://en.bitcoin.it/wiki/Privacy).
+## Daha Fazlası
+Gizlilik saldırıları ve savunmaları için kapsamlı bir liste için [Bitcoin Wiki'deki Bitcoin Gizliliği](https://en.bitcoin.it/wiki/Privacy) sayfasını ziyaret edin.
 
 
-# Anonymous Bitcoin Transactions
+# Anonim Bitcoin İşlemleri
 
-## Ways to Get Bitcoins Anonymously
+## Bitcoins'i Anonim Olarak Nasıl Elde Edilir
 
-- **Cash Transactions**: Acquiring bitcoin through cash.
-- **Cash Alternatives**: Purchasing gift cards and exchanging them online for bitcoin.
-- **Mining**: The most private method to earn bitcoins is through mining, especially when done alone because mining pools may know the miner's IP address. [Mining Pools Information](https://en.bitcoin.it/wiki/Pooled_mining)
-- **Theft**: Theoretically, stealing bitcoin could be another method to acquire it anonymously, although it's illegal and not recommended.
+- **Nakit İşlemler**: Nakit aracılığıyla bitcoin edinme.
+- **Nakit Alternatifleri**: Hediye kartları satın almak ve bunları çevrimiçi olarak bitcoin'e dönüştürmek.
+- **Madencilik**: Bitcoin kazanmanın en gizli yöntemi madencilik yapmaktır, özellikle yalnız yapıldığında, çünkü madencilik havuzları madencinin IP adresini bilebilir. [Madencilik Havuzları Bilgisi](https://en.bitcoin.it/wiki/Pooled_mining)
+- **Hırsızlık**: Teorik olarak, bitcoin çalmak başka bir yöntem olabilir, ancak bu yasa dışıdır ve önerilmez.
 
-## Mixing Services
+## Karıştırma Hizmetleri
 
-By using a mixing service, a user can **send bitcoins** and receive **different bitcoins in return**, which makes tracing the original owner difficult. Yet, this requires trust in the service not to keep logs and to actually return the bitcoins. Alternative mixing options include Bitcoin casinos.
+Bir karıştırma hizmeti kullanarak bir kullanıcı, **bitcoin gönderebilir** ve **farklı bitcoinler alabilir**, bu da orijinal sahibini izlemeyi zorlaştırır. Bununla birlikte, bu, hizmetin günlükleri tutmamasına ve gerçekten bitcoinleri geri vermesine güven gerektirir. Alternatif karıştırma seçenekleri arasında Bitcoin casinoları bulunur.
 
 ## CoinJoin
 
-**CoinJoin** merges multiple transactions from different users into one, complicating the process for anyone trying to match inputs with outputs. Despite its effectiveness, transactions with unique input and output sizes can still potentially be traced.
+**CoinJoin**, farklı kullanıcıların birden fazla işlemini birleştirerek girişleri çıktılarla eşleştirmeye çalışan herhangi bir kişinin işlemi karmaşıklaştırır. Etkili olmasına rağmen, benzersiz giriş ve çıkış boyutlarına sahip işlemler hala izlenebilir olabilir.
 
-Example transactions that may have used CoinJoin include `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` and `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`.
+CoinJoin kullanılmış olabilecek örnek işlemler şunları içerir: `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` ve `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`.
 
-For more information, visit [CoinJoin](https://coinjoin.io/en). For a similar service on Ethereum, check out [Tornado Cash](https://tornado.cash), which anonymizes transactions with funds from miners.
+Daha fazla bilgi için [CoinJoin](https://coinjoin.io/en) sayfasını ziyaret edin. Ethereum için benzer bir hizmet için [Tornado Cash](https://tornado.cash) adresine göz atın, bu hizmet madencilerin fonlarıyla işlemleri anonimleştirir.
 
 ## PayJoin
 
-A variant of CoinJoin, **PayJoin** (or P2EP), disguises the transaction among two parties (e.g., a customer and a merchant) as a regular transaction, without the distinctive equal outputs characteristic of CoinJoin. This makes it extremely hard to detect and could invalidate the common-input-ownership heuristic used by transaction surveillance entities.
-
+CoinJoin'in bir türevi olan **PayJoin** (veya P2EP), iki taraf arasındaki (örneğin, bir müşteri ve bir satıcı) işlemi, CoinJoin'in karakteristik eşit çıktıları olmadan normal bir işlem gibi gizler. Bu, tespit etmesi son derece zorlaştırır ve işlem gözetim kuruluşları tarafından kullanılan ortak-giriş-sahipliği heuristiğini geçersiz kılabilir.
 ```plaintext
 2 btc --> 3 btc
 5 btc     4 btc
 ```
+Yukarıdaki gibi işlemler PayJoin olabilir ve standart bitcoin işlemlerinden ayırt edilemeyerek gizliliği artırabilir.
 
-Transactions like the above could be PayJoin, enhancing privacy while remaining indistinguishable from standard bitcoin transactions.
-
-**The utilization of PayJoin could significantly disrupt traditional surveillance methods**, making it a promising development in the pursuit of transactional privacy.
-
-
-# Best Practices for Privacy in Cryptocurrencies
-
-## **Wallet Synchronization Techniques**
-
-To maintain privacy and security, synchronizing wallets with the blockchain is crucial. Two methods stand out:
-
-- **Full node**: By downloading the entire blockchain, a full node ensures maximum privacy. All transactions ever made are stored locally, making it impossible for adversaries to identify which transactions or addresses the user is interested in.
-- **Client-side block filtering**: This method involves creating filters for every block in the blockchain, allowing wallets to identify relevant transactions without exposing specific interests to network observers. Lightweight wallets download these filters, only fetching full blocks when a match with the user's addresses is found.
-
-## **Utilizing Tor for Anonymity**
-
-Given that Bitcoin operates on a peer-to-peer network, using Tor is recommended to mask your IP address, enhancing privacy when interacting with the network.
-
-## **Preventing Address Reuse**
-
-To safeguard privacy, it's vital to use a new address for every transaction. Reusing addresses can compromise privacy by linking transactions to the same entity. Modern wallets discourage address reuse through their design.
-
-## **Strategies for Transaction Privacy**
-
-- **Multiple transactions**: Splitting a payment into several transactions can obscure the transaction amount, thwarting privacy attacks.
-- **Change avoidance**: Opting for transactions that don't require change outputs enhances privacy by disrupting change detection methods.
-- **Multiple change outputs**: If avoiding change isn't feasible, generating multiple change outputs can still improve privacy.
-
-# **Monero: A Beacon of Anonymity**
-
-Monero addresses the need for absolute anonymity in digital transactions, setting a high standard for privacy.
-
-# **Ethereum: Gas and Transactions**
-
-## **Understanding Gas**
-
-Gas measures the computational effort needed to execute operations on Ethereum, priced in **gwei**. For example, a transaction costing 2,310,000 gwei (or 0.00231 ETH) involves a gas limit and a base fee, with a tip to incentivize miners. Users can set a max fee to ensure they don't overpay, with the excess refunded.
-
-## **Executing Transactions**
-
-Transactions in Ethereum involve a sender and a recipient, which can be either user or smart contract addresses. They require a fee and must be mined. Essential information in a transaction includes the recipient, sender's signature, value, optional data, gas limit, and fees. Notably, the sender's address is deduced from the signature, eliminating the need for it in the transaction data.
-
-These practices and mechanisms are foundational for anyone looking to engage with cryptocurrencies while prioritizing privacy and security.
+**PayJoin kullanımı, geleneksel gözetim yöntemlerini önemli ölçüde bozabilir**, bu da işlem gizliliği arayışında umut verici bir gelişme olarak kabul edilir.
 
 
-## References
+# Kripto Paralarda Gizlilik için En İyi Uygulamalar
+
+## **Cüzdan Senkronizasyon Teknikleri**
+
+Gizliliği ve güvenliği korumak için cüzdanları blok zinciriyle senkronize etmek önemlidir. İki yöntem öne çıkar:
+
+- **Tam düğüm**: Tüm blok zincirini indirerek tam bir düğüm, maksimum gizlilik sağlar. Yapılan tüm işlemler yerel olarak depolanır, bu da saldırganların kullanıcının hangi işlemlerle veya adreslerle ilgilendiğini belirlemesini imkansız hale getirir.
+- **İstemci tarafı blok filtreleme**: Bu yöntem, blok zincirinde her blok için filtreler oluşturmayı içerir, böylece cüzdanlar kullanıcının ilgili işlemleri belirleyebilir ve özel ilgi alanlarını ağ gözlemcilerine açıklamadan. Hafif cüzdanlar bu filtreleri indirir, kullanıcının adresleriyle eşleşme bulunduğunda yalnızca tam blokları alır.
+
+## **Anonimlik için Tor Kullanımı**
+
+Bitcoin'in eşler arası bir ağ üzerinde çalıştığı göz önüne alındığında, ağla etkileşimde bulunurken IP adresinizi gizlemek için Tor kullanmanız önerilir, gizliliği artırır.
+
+## **Adres Tekrarını Önleme**
+
+Gizliliği korumak için her işlem için yeni bir adres kullanmak önemlidir. Adres tekrarı, işlemleri aynı varlıkla ilişkilendirerek gizliliği tehlikeye atabilir. Modern cüzdanlar, tasarımlarıyla adres tekrarını teşvik etmez.
+
+## **İşlem Gizliliği Stratejileri**
+
+- **Birden fazla işlem**: Bir ödemeyi birkaç işleme bölmek, işlem miktarını belirsizleştirerek gizlilik saldırılarını engelleyebilir.
+- **Değişiklikten kaçınma**: Değişiklik çıktıları gerektirmeyen işlemleri tercih etmek, değişiklik tespit yöntemlerini bozarak gizliliği artırır.
+- **Birden fazla değişiklik çıktısı**: Değişiklikten kaçınmak mümkün olmadığında, birden fazla değişiklik çıktısı oluşturmak yine de gizliliği artırır.
+
+# **Monero: Anonimliğin Işığı**
+
+Monero, dijital işlemlerde mutlak anonimliğe ihtiyacı karşılar ve gizlilik için yüksek bir standart belirler.
+
+# **Ethereum: Gas ve İşlemler**
+
+## **Gas'ı Anlama**
+
+Gas, Ethereum'da işlemleri gerçekleştirmek için gereken hesaplama çabasını **gwei** cinsinden ölçer. Örneğin, 2.310.000 gwei (veya 0.00231 ETH) maliyeti olan bir işlem, bir gaz limiti ve bir temel ücret içerir ve madencileri teşvik etmek için bir bahşiş içerir. Kullanıcılar, fazla ödeme yapmamak için maksimum ücreti belirleyebilir ve fazlası iade edilir.
+
+## **İşlemleri Gerçekleştirme**
+
+Ethereum'daki işlemler gönderen ve alıcı olmak üzere iki tarafı içerir, bu adresler kullanıcı veya akıllı sözleşme adresleri olabilir. İşlemler bir ücret gerektirir ve madencilik yapılmalıdır. Bir işlemdeki temel bilgiler alıcı, gönderenin imzası, değer, isteğe bağlı veriler, gaz limiti ve ücretleri içerir. Özellikle, gönderenin adresi imzadan türetilir, bu da işlem verilerinde adresin gereksiz olmasını sağlar.
+
+Bu uygulamalar ve mekanizmalar, gizlilik ve güvenliği önceliklendiren herkesin kripto paralarla etkileşime girmek istemesi için temel oluşturur.
+
+
+## Referanslar
 
 * [https://en.wikipedia.org/wiki/Proof\_of\_stake](https://en.wikipedia.org/wiki/Proof\_of\_stake)
 * [https://www.mycryptopedia.com/public-key-private-key-explained/](https://www.mycryptopedia.com/public-key-private-key-explained/)
@@ -201,16 +193,14 @@ These practices and mechanisms are foundational for anyone looking to engage wit
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklam vermek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live).
+* Hacking hilelerinizi paylaşmak için PR göndererek [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
-
-

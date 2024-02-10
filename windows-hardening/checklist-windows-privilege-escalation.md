@@ -1,137 +1,135 @@
-# Checklist - Local Windows Privilege Escalation
+# Kontrol Listesi - Yerel Windows Yetki Yükseltme
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramanlık seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
-### **Best tool to look for Windows local privilege escalation vectors:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Windows yerel yetki yükseltme vektörlerini aramak için en iyi araç:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
-### [System Info](windows-local-privilege-escalation/#system-info)
+### [Sistem Bilgisi](windows-local-privilege-escalation/#system-info)
 
-* [ ] Obtain [**System information**](windows-local-privilege-escalation/#system-info)
-* [ ] Search for **kernel** [**exploits using scripts**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Use **Google to search** for kernel **exploits**
-* [ ] Use **searchsploit to search** for kernel **exploits**
-* [ ] Interesting info in [**env vars**](windows-local-privilege-escalation/#environment)?
-* [ ] Passwords in [**PowerShell history**](windows-local-privilege-escalation/#powershell-history)?
-* [ ] Interesting info in [**Internet settings**](windows-local-privilege-escalation/#internet-settings)?
-* [ ] [**Drives**](windows-local-privilege-escalation/#drives)?
-* [ ] [**WSUS exploit**](windows-local-privilege-escalation/#wsus)?
+* [ ] [**Sistem bilgisi**](windows-local-privilege-escalation/#system-info) elde edin
+* [ ] Betikleri kullanarak **çekirdek** [**saldırılarını araştırın**](windows-local-privilege-escalation/#version-exploits)
+* [ ] Çekirdek saldırılarını aramak için **Google'ı kullanın**
+* [ ] Çekirdek saldırılarını aramak için **searchsploit'i kullanın**
+* [ ] [**Ortam değişkenlerinde**](windows-local-privilege-escalation/#environment) ilginç bilgiler var mı?
+* [ ] [**PowerShell geçmişinde**](windows-local-privilege-escalation/#powershell-history) şifreler var mı?
+* [ ] [**İnternet ayarlarında**](windows-local-privilege-escalation/#internet-settings) ilginç bilgiler var mı?
+* [ ] [**Sürücüler**](windows-local-privilege-escalation/#drives)?
+* [ ] [**WSUS saldırısı**](windows-local-privilege-escalation/#wsus)?
 * [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
-### [Logging/AV enumeration](windows-local-privilege-escalation/#enumeration)
+### [Günlük/Koruma yazılımı taraması](windows-local-privilege-escalation/#enumeration)
 
-* [ ] Check [**Audit** ](windows-local-privilege-escalation/#audit-settings)and [**WEF** ](windows-local-privilege-escalation/#wef)settings
-* [ ] Check [**LAPS**](windows-local-privilege-escalation/#laps)
-* [ ] Check if [**WDigest** ](windows-local-privilege-escalation/#wdigest)is active
-* [ ] [**LSA Protection**](windows-local-privilege-escalation/#lsa-protection)?
-* [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
-* [ ] [**Cached Credentials**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Check if any [**AV**](windows-av-bypass)
-* [ ] [**AppLocker Policy**](authentication-credentials-uac-and-efs#applocker-policy)?
+* [ ] [**Denetim**](windows-local-privilege-escalation/#audit-settings) ve [**WEF**](windows-local-privilege-escalation/#wef) ayarlarını kontrol edin
+* [ ] [**LAPS**](windows-local-privilege-escalation/#laps) kontrol edin
+* [ ] [**WDigest**](windows-local-privilege-escalation/#wdigest) etkin mi?
+* [ ] [**LSA Koruma**](windows-local-privilege-escalation/#lsa-protection)?
+* [ ] [**Kimlik Bilgileri Koruma**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
+* [ ] [**Önbelleğe Alınmış Kimlik Bilgileri**](windows-local-privilege-escalation/#cached-credentials)?
+* [ ] Herhangi bir [**AV**](windows-av-bypass) var mı?
+* [ ] [**AppLocker Politikası**](authentication-credentials-uac-and-efs#applocker-policy)?
 * [ ] [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
-* [ ] [**User Privileges**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Check [**current** user **privileges**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Are you [**member of any privileged group**](windows-local-privilege-escalation/#privileged-groups)?
-* [ ] Check if you have [any of these tokens enabled](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [ ] [**Users Sessions**](windows-local-privilege-escalation/#logged-users-sessions)?
-* [ ] Check[ **users homes**](windows-local-privilege-escalation/#home-folders) (access?)
-* [ ] Check [**Password Policy**](windows-local-privilege-escalation/#password-policy)
-* [ ] What is[ **inside the Clipboard**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] [**Kullanıcı Yetkileri**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] [**Geçerli** kullanıcının **yetkilerini** kontrol edin](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Herhangi bir **özel yetkiye sahip** bir **gruba üye** misiniz? (windows-local-privilege-escalation/#privileged-groups)?
+* [ ] **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** yetkilerinden herhangi birine sahip misiniz? (windows-local-privilege-escalation/#token-manipulation)
+* [**Kullanıcı Oturumları**](windows-local-privilege-escalation/#logged-users-sessions)?
+* [ ] [**Kullanıcıların ev dizinlerini**](windows-local-privilege-escalation/#home-folders) kontrol edin (erişim?)
+* [ ] [**Parola Politikası**](windows-local-privilege-escalation/#password-policy) nedir?
+* [ ] [**Pano içeriği**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard) nedir?
 
-### [Network](windows-local-privilege-escalation/#network)
+### [Ağ](windows-local-privilege-escalation/#network)
 
-* [ ] Check **current** [**network** **information**](windows-local-privilege-escalation/#network)
-* [ ] Check **hidden local services** restricted to the outside
+* [ ] **Geçerli** [**ağ bilgilerini**](windows-local-privilege-escalation/#network) kontrol edin
+* [ ] Dışa kısıtlı **gizli yerel hizmetleri** kontrol edin
 
-### [Running Processes](windows-local-privilege-escalation/#running-processes)
+### [Çalışan İşlemler](windows-local-privilege-escalation/#running-processes)
 
-* [ ] Processes binaries [**file and folders permissions**](windows-local-privilege-escalation/#file-and-folder-permissions)
-* [ ] [**Memory Password mining**](windows-local-privilege-escalation/#memory-password-mining)
-* [ ] [**Insecure GUI apps**](windows-local-privilege-escalation/#insecure-gui-apps)
+* [ ] İşlem ikili dosyalarının [**dosya ve klasör izinlerini**](windows-local-privilege-escalation/#file-and-folder-permissions) kontrol edin
+* [ ] [**Bellek Parolası çalma**](windows-local-privilege-escalation/#memory-password-mining)
+* [ ] [**Güvensiz GUI uygulamaları**](windows-local-privilege-escalation/#insecure-gui-apps)
 
-### [Services](windows-local-privilege-escalation/#services)
+### [Hizmetler](windows-local-privilege-escalation/#services)
 
-* [ ] [Can you **modify any service**?](windows-local-privilege-escalation#permissions)
-* [ ] [Can you **modify** the **binary** that is **executed** by any **service**?](windows-local-privilege-escalation/#modify-service-binary-path)
-* [ ] [Can you **modify** the **registry** of any **service**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* [ ] [Can you take advantage of any **unquoted service** binary **path**?](windows-local-privilege-escalation/#unquoted-service-paths)
+* [ ] Herhangi bir hizmeti **değiştirebilir misiniz**? (windows-local-privilege-escalation#permissions)
+* [ ] Herhangi bir hizmetin **çalıştırdığı ikili dosyayı değiştirebilir misiniz**? (windows-local-privilege-escalation/#modify-service-binary-path)
+* [ ] Herhangi bir hizmetin **kayıt defterini değiştirebilir misiniz**? (windows-local-privilege-escalation/#services-registry-modify-permissions)
+* [ ] Herhangi bir **düzgün yazılmamış hizmet** ikili **yolu**ndan yararlanabilir misiniz? (windows-local-privilege-escalation/#unquoted-service-paths)
 
-### [**Applications**](windows-local-privilege-escalation/#applications)
+### [**Uygulamalar**](windows-local-privilege-escalation/#applications)
 
-* [ ] **Write** [**permissions on installed applications**](windows-local-privilege-escalation/#write-permissions)
-* [ ] [**Startup Applications**](windows-local-privilege-escalation/#run-at-startup)
-* [ ] **Vulnerable** [**Drivers**](windows-local-privilege-escalation/#drivers)
+* [ ] **Yüklü uygulamaların** [**yazma izinlerini**](windows-local-privilege-escalation/#write-permissions) kontrol edin
+* [ ] [**Başlangıç Uygulamaları**](windows-local-privilege-escalation/#run-at-startup)
+* [ ] **Zararlı** [**Sürücüler**](windows-local-privilege-escalation/#drivers)
 
-### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
+### [DLL Kaçırma](windows-local-privilege-escalation/#path-dll-hijacking)
 
-* [ ] Can you **write in any folder inside PATH**?
-* [ ] Is there any known service binary that **tries to load any non-existant DLL**?
-* [ ] Can you **write** in any **binaries folder**?
+* [ ] PATH içindeki herhangi bir klasöre **yazabilir misiniz**?
+* [ ] Bilinen bir hizmet ikilisi, **var olmayan bir DLL** yüklemeye çalışır mı?
+* [ ] Herhangi bir **ikili klasörüne yazabilir misiniz**?
+### [Ağ](windows-local-privilege-escalation/#network)
 
-### [Network](windows-local-privilege-escalation/#network)
+* [ ] Ağı sırala (paylaşımlar, arayüzler, rotalar, komşular, ...)
+* [ ] Localhost'ta (127.0.0.1) dinleyen ağ servislerine özel bir bakış atın
 
-* [ ] Enumerate the network (shares, interfaces, routes, neighbours, ...)
-* [ ] Take a special look at network services listening on localhost (127.0.0.1)
+### [Windows Kimlik Bilgileri](windows-local-privilege-escalation/#windows-credentials)
 
-### [Windows Credentials](windows-local-privilege-escalation/#windows-credentials)
+* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)kimlik bilgileri
+* [ ] Kullanabileceğiniz [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) kimlik bilgileri?
+* [ ] İlginç [**DPAPI kimlik bilgileri**](windows-local-privilege-escalation/#dpapi)?
+* [ ] Kaydedilen [**Wifi ağlarının**](windows-local-privilege-escalation/#wifi) şifreleri?
+* [ ] Kaydedilen [**RDP Bağlantılarında**](windows-local-privilege-escalation/#saved-rdp-connections) ilginç bilgiler?
+* [ ] [**Son çalıştırılan komutlarda**](windows-local-privilege-escalation/#recently-run-commands) şifreler?
+* [ ] [**Uzak Masaüstü Kimlik Bilgileri Yöneticisi**](windows-local-privilege-escalation/#remote-desktop-credential-manager) şifreleri?
+* [ ] [**AppCmd.exe** mevcut mu](windows-local-privilege-escalation/#appcmd-exe)? Kimlik bilgileri?
+* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Yan Yükleme?
 
-* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)credentials
-* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) credentials that you could use?
-* [ ] Interesting [**DPAPI credentials**](windows-local-privilege-escalation/#dpapi)?
-* [ ] Passwords of saved [**Wifi networks**](windows-local-privilege-escalation/#wifi)?
-* [ ] Interesting info in [**saved RDP Connections**](windows-local-privilege-escalation/#saved-rdp-connections)?
-* [ ] Passwords in [**recently run commands**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager) passwords?
-* [ ] [**AppCmd.exe** exists](windows-local-privilege-escalation/#appcmd-exe)? Credentials?
-* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Side Loading?
+### [Dosyalar ve Kayıt Defteri (Kimlik Bilgileri)](windows-local-privilege-escalation/#files-and-registry-credentials)
 
-### [Files and Registry (Credentials)](windows-local-privilege-escalation/#files-and-registry-credentials)
+* [ ] **Putty:** [**Kimlik Bilgileri**](windows-local-privilege-escalation/#putty-creds) **ve** [**SSH anahtarları**](windows-local-privilege-escalation/#putty-ssh-host-keys)
+* [ ] Kayıt defterindeki [**SSH anahtarları**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
+* [ ] [**Otomatik yapılandırma dosyalarında**](windows-local-privilege-escalation/#unattended-files) şifreler?
+* [ ] Herhangi bir [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) yedekleme?
+* [ ] [**Bulut kimlik bilgileri**](windows-local-privilege-escalation/#cloud-credentials)?
+* [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) dosyası?
+* [ ] [**Önbelleğe alınmış GPP Şifresi**](windows-local-privilege-escalation/#cached-gpp-pasword)?
+* [ ] [**IIS Web yapılandırma dosyasında**](windows-local-privilege-escalation/#iis-web-config) şifre?
+* [ ] [**Web günlüklerinde**](windows-local-privilege-escalation/#logs) ilginç bilgiler?
+* [ ] Kullanıcıdan [**kimlik bilgilerini istemek**](windows-local-privilege-escalation/#ask-for-credentials) istiyor musunuz?
+* [ ] Çöp Kutusu içindeki [**dosyalar**](windows-local-privilege-escalation/#credentials-in-the-recyclebin) ilginç mi?
+* [ ] Kimlik bilgileri içeren diğer [**kayıt defterleri**](windows-local-privilege-escalation/#inside-the-registry)?
+* [ ] Tarayıcı verileri içinde (veritabanları, geçmiş, yer imleri, ...) [**Genel şifre araması**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry)?
+* [ ] Şifreleri otomatik olarak aramak için [**Araçlar**](windows-local-privilege-escalation/#tools-that-search-for-passwords)?
 
-* [ ] **Putty:** [**Creds**](windows-local-privilege-escalation/#putty-creds) **and** [**SSH host keys**](windows-local-privilege-escalation/#putty-ssh-host-keys)
-* [ ] [**SSH keys in registry**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
-* [ ] Passwords in [**unattended files**](windows-local-privilege-escalation/#unattended-files)?
-* [ ] Any [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) backup?
-* [ ] [**Cloud credentials**](windows-local-privilege-escalation/#cloud-credentials)?
-* [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) file?
-* [ ] [**Cached GPP Password**](windows-local-privilege-escalation/#cached-gpp-pasword)?
-* [ ] Password in [**IIS Web config file**](windows-local-privilege-escalation/#iis-web-config)?
-* [ ] Interesting info in [**web** **logs**](windows-local-privilege-escalation/#logs)?
-* [ ] Do you want to [**ask for credentials**](windows-local-privilege-escalation/#ask-for-credentials) to the user?
-* [ ] Interesting [**files inside the Recycle Bin**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
-* [ ] Other [**registry containing credentials**](windows-local-privilege-escalation/#inside-the-registry)?
-* [ ] Inside [**Browser data**](windows-local-privilege-escalation/#browsers-history) (dbs, history, bookmarks, ...)?
-* [ ] [**Generic password search**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in files and registry
-* [ ] [**Tools**](windows-local-privilege-escalation/#tools-that-search-for-passwords) to automatically search for passwords
+### [Sızdırılan İşlemler](windows-local-privilege-escalation/#leaked-handlers)
 
-### [Leaked Handlers](windows-local-privilege-escalation/#leaked-handlers)
+* [ ] Yönetici tarafından çalıştırılan bir işlemin işleyicisine erişiminiz var mı?
 
-* [ ] Have you access to any handler of a process run by administrator?
+### [Pipe İstemci Taklit Etme](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
-### [Pipe Client Impersonation](windows-local-privilege-escalation/#named-pipe-client-impersonation)
-
-* [ ] Check if you can abuse it
+* [ ] Kötüye kullanabilir misiniz?
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** katkıda bulunun.
 
 </details>

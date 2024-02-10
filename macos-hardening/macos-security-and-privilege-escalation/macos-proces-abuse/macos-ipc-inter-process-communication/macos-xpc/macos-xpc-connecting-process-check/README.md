@@ -1,73 +1,73 @@
-# macOS XPC Connecting Process Check
+# macOS XPC Bağlantı Süreci Kontrolü
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına **PR göndererek** paylaşın.
 
 </details>
 
-## XPC Connecting Process Check
+## XPC Bağlantı Süreci Kontrolü
 
-When a connection is stablished to an XPC service, the server will check if the connection is allowed. These are the checks it would usually perform:
+Bir XPC hizmetine bağlantı kurulduğunda, sunucu bağlantının izin verilip verilmediğini kontrol eder. Genellikle şu kontrolleri yapar:
 
-1. Check if the connecting **process is signed with an Apple-signed** certificate (only given out by Apple).
-   * If this **isn't verified**, an attacker could create a **fake certificate** to match any other check.
-2. Check if the connecting process is signed with the **organization’s certificate**, (team ID verification).
-   * If this **isn't verified**, **any developer certificate** from Apple can be used for signing, and connect to the service.
-3. Check if the connecting process **contains a proper bundle ID**.
-   * If this **isn't verified**, any tool **signed by the same org** could be used to interact with the XPC service.
-4. (4 or 5) Check if the connecting process has a **proper software version number**.
-   * If this **isn't verified,** an old, insecure clients, vulnerable to process injection could be used to connect to the XPC service even with the other checks in place.
-5. (4 or 5) Check if the connecting process has hardened runtime without dangerous entitlements (like the ones that allows to load arbitrary libraries or use DYLD env vars)
-   1. If this **isn't verified,** the client might be **vulnerable to code injection**
-6. Check if the connecting process has an **entitlement** that allows it to connect to the service. This is applicable for Apple binaries.
-7. The **verification** must be **based** on the connecting **client’s audit token** **instead** of its process ID (**PID**) since the former prevents **PID reuse attacks**.
-   * Developers **rarely use the audit token** API call since it’s **private**, so Apple could **change** at any time. Additionally, private API usage is not allowed in Mac App Store apps.
-     * If the method **`processIdentifier`** is used, it might be vulnerable
-     * **`xpc_dictionary_get_audit_token`** should be used instead of **`xpc_connection_get_audit_token`**, as the latest could also be [vulnerable in certain situations](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
+1. Bağlanan **işlem Apple tarafından imzalanmış** bir sertifika ile mi imzalanmış (yalnızca Apple tarafından verilen)?
+* Bu **doğrulanmazsa**, saldırgan herhangi bir diğer kontrolle eşleşecek bir **sahte sertifika** oluşturabilir.
+2. Bağlanan işlem **kuruluşun sertifikası** ile mi imzalanmış (takım kimliği doğrulaması)?
+* Bu **doğrulanmazsa**, Apple'dan herhangi bir geliştirici sertifikası, hizmete bağlanmak için kullanılabilir.
+3. Bağlanan işlemde **uygun bir paket kimliği** bulunuyor mu?
+* Bu **doğrulanmazsa**, aynı kuruluş tarafından imzalanmış herhangi bir araç, XPC hizmetiyle etkileşimde bulunmak için kullanılabilir.
+4. (4 veya 5) Bağlanan işlemin **uygun bir yazılım sürüm numarası** var mı?
+* Bu **doğrulanmazsa**, diğer kontroller yerinde olsa bile, eski, güvenlik açıklarına sahip istemciler, işlem enjeksiyonuna karşı savunmasız bir şekilde XPC hizmetine bağlanmak için kullanılabilir.
+5. (4 veya 5) Bağlanan işlemin tehlikeli yetkilendirmelere sahip olmayan sertleştirilmiş çalışma zamanı olup olmadığı kontrol edilir (örneğin, keyfi kitaplıkları yüklemeye veya DYLD ortam değişkenlerini kullanmaya izin verenler).
+1. Bu **doğrulanmazsa**, istemci **kod enjeksiyonuna karşı savunmasız** olabilir.
+6. Bağlanan işlemin, hizmete bağlanmasına izin veren bir **yetkilendirme**ye sahip olup olmadığı kontrol edilir. Bu, Apple ikili dosyaları için geçerlidir.
+7. **Doğrulama**, bağlanan **istemcinin denetim belirteci**ne dayanmalıdır, **işlem kimliği (PID)** yerine. Çünkü ilkini kullanmak, **PID yeniden kullanım saldırılarına** karşı korur.
+* Geliştiriciler nadiren denetim belirteci API çağını kullanır çünkü bu **özel** bir çağrıdır, bu yüzden Apple herhangi bir zamanda **değiştirebilir**. Ayrıca, özel API kullanımı Mac App Store uygulamalarında izin verilmez.
+* **`processIdentifier`** yöntemi kullanılıyorsa, savunmasız olabilir
+* En son [belirli durumlarda savunmasız olabilen](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/) **`xpc_connection_get_audit_token`** yerine **`xpc_dictionary_get_audit_token`** kullanılmalıdır.
 
-### Communication Attacks
+### İletişim Saldırıları
 
-For more information about the PID reuse attack check:
+PID yeniden kullanım saldırısı hakkında daha fazla bilgi için kontrol edin:
 
 {% content-ref url="macos-pid-reuse.md" %}
 [macos-pid-reuse.md](macos-pid-reuse.md)
 {% endcontent-ref %}
 
-For more information **`xpc_connection_get_audit_token`** attack check:
+**`xpc_connection_get_audit_token`** saldırısı hakkında daha fazla bilgi için kontrol edin:
 
 {% content-ref url="macos-xpc_connection_get_audit_token-attack.md" %}
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
 {% endcontent-ref %}
 
-### Trustcache - Downgrade Attacks Prevention
+### Trustcache - Düşürme Saldırılarına Karşı Önlem
 
-Trustcache is a defensive method introduced in Apple Silicon machines that stores a database of CDHSAH of Apple binaries so only allowed non modified binaries can be executed. Which prevent the execution of downgrade versions.
+Trustcache, Apple Silicon makinelerinde tanıtılan bir savunma yöntemidir ve yalnızca değiştirilmemiş izin verilen ikili dosyaların çalıştırılmasına izin veren bir CDHSAH veritabanını depolar. Bu, düşürme sürümlerinin yürütülmesini engeller.
 
-### Code Examples
+### Kod Örnekleri
 
-The server will implement this **verification** in a function called **`shouldAcceptNewConnection`**.
+Sunucu, bu **doğrulamayı** **`shouldAcceptNewConnection`** adlı bir işlevde uygular.
 
 {% code overflow="wrap" %}
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection {
-    //Check connection
-    return YES;
+//Check connection
+return YES;
 }
 ```
 {% endcode %}
 
-The object NSXPCConnection has a **private** property **`auditToken`** (the one that should be used but could change) and a the **public** property **`processIdentifier`** (the one that shouldn't be used).
+NSXPCConnection nesnesinin **özel** bir **`auditToken`** özelliği (kullanılması gereken ancak değişebilecek olan) ve **genel** bir **`processIdentifier`** özelliği (kullanılmaması gereken) bulunmaktadır.
 
-The connecting process could be verified with something like:
+Bağlantı kurulan işlem şu şekilde doğrulanabilir:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -91,7 +91,7 @@ SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(requirementString)
 ```
 {% endcode %}
 
-If a developer doesn't want to check the version of the client, he could check that the client is not vulnerable to process injection at least:
+Eğer bir geliştirici istemci sürümünü kontrol etmek istemiyorsa, en azından istemcinin işlem enjeksiyonuna karşı savunmasız olmadığını kontrol edebilir:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -99,27 +99,27 @@ If a developer doesn't want to check the version of the client, he could check t
 CFDictionaryRef csInfo = NULL;
 SecCodeCopySigningInformation(code, kSecCSDynamicInformation, &csInfo);
 uint32_t csFlags = [((__bridge NSDictionary *)csInfo)[(__bridge NSString *)kSecCodeInfoStatus] intValue];
-const uint32_t cs_hard = 0x100;        // don't load invalid page. 
+const uint32_t cs_hard = 0x100;        // don't load invalid page.
 const uint32_t cs_kill = 0x200;        // Kill process if page is invalid
 const uint32_t cs_restrict = 0x800;    // Prevent debugging
 const uint32_t cs_require_lv = 0x2000; // Library Validation
 const uint32_t cs_runtime = 0x10000;   // hardened runtime
 if ((csFlags & (cs_hard | cs_require_lv)) {
-    return Yes; // Accept connection
+return Yes; // Accept connection
 }
 ```
 {% endcode %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
 
 </details>

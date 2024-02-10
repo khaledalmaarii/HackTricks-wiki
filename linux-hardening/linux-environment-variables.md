@@ -1,50 +1,51 @@
-# Linux Environment Variables
+# Linux Ortam Değişkenleri
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı **takip edin**.
+* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
 
 </details>
 
-## Global variables
+## Global değişkenler
 
-The global variables **will be** inherited by **child processes**.
+Global değişkenler **alt süreçler** tarafından **miras alınır**.
 
-You can create a global variable for your current session doing:
-
+Mevcut oturumunuz için bir global değişken oluşturabilirsiniz:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
+Bu değişken mevcut oturumunuz ve onun alt süreçleri tarafından erişilebilir olacak.
 
-This variable will be accessible by your current sessions and its child processes.
-
-You can **remove** a variable doing:
-
+Bir değişkeni **kaldırmak** için şunu yapabilirsiniz:
 ```bash
 unset MYGLOBAL
 ```
+## Yerel değişkenler
 
-## Local variables
-
-The **local variables** can only be **accessed** by the **current shell/script**.
-
+**Yerel değişkenler**, yalnızca **geçerli kabuk/yazılım** tarafından **erişilebilir**.
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
+## Mevcut değişkenleri listele
 
-## List current variables
+To list the current environment variables in Linux, you can use the following command:
 
+```bash
+printenv
+```
+
+This command will display a list of all the environment variables currently set in your Linux system.
 ```bash
 set
 env
@@ -52,97 +53,88 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
+## Ortak değişkenler
 
-## Common variables
+Kaynak: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
+* **DISPLAY** - **X** tarafından kullanılan ekran. Bu değişken genellikle mevcut bilgisayardaki ilk ekran olan **:0.0** olarak ayarlanır.
+* **EDITOR** - kullanıcının tercih ettiği metin düzenleyici.
+* **HISTFILESIZE** - geçmiş dosyasında bulunan satır sayısının maksimum değeri.
+* **HISTSIZE** - Kullanıcı oturumunu bitirdiğinde geçmiş dosyasına eklenen satır sayısı.
+* **HOME** - ev dizininiz.
+* **HOSTNAME** - bilgisayarın ana bilgisayarı.
+* **LANG** - mevcut diliniz.
+* **MAIL** - kullanıcının posta spool'unun konumu. Genellikle **/var/spool/mail/USER**.
+* **MANPATH** - man sayfalarını aramak için kullanılan dizinlerin listesi.
+* **OSTYPE** - işletim sistemi türü.
+* **PS1** - bash'teki varsayılan komut istemi.
+* **PATH** - yürütmek istediğiniz ikili dosyaların bulunduğu tüm dizinlerin yolu. Dosyanın adını belirtmek için göreli veya mutlak yol kullanmadan yürütmek istediğiniz ikili dosyaların bulunduğu tüm dizinlerin yolu.
+* **PWD** - mevcut çalışma dizini.
+* **SHELL** - geçerli komut kabuğunun yolu (örneğin, **/bin/bash**).
+* **TERM** - mevcut terminal türü (örneğin, **xterm**).
+* **TZ** - zaman diliminiz.
+* **USER** - mevcut kullanıcı adınız.
 
-* **DISPLAY** – the display used by **X**. This variable is usually set to **:0.0**, which means the first display on the current computer.
-* **EDITOR** – the user’s preferred text editor.
-* **HISTFILESIZE** – the maximum number of lines contained in the history file.
-* **HISTSIZE** – Number of lines added to the history file when the user finish his session
-* **HOME** – your home directory.
-* **HOSTNAME** – the hostname of the computer.
-* **LANG** – your current language.
-* **MAIL** – the location of the user’s mail spool. Usually **/var/spool/mail/USER**.
-* **MANPATH** – the list of directories to search for manual pages.
-* **OSTYPE** – the type of operating system.
-* **PS1** – the default prompt in bash.
-* **PATH** – stores the path of all the directories which holds binary files you want to execute just by specifying the name of the file and not by relative or absolute path.
-* **PWD** – the current working directory.
-* **SHELL** – the path to the current command shell (for example, **/bin/bash**).
-* **TERM** – the current terminal type (for example, **xterm**).
-* **TZ** – your time zone.
-* **USER** – your current username.
-
-## Interesting variables for hacking
+## Sızma testi için ilginç değişkenler
 
 ### **HISTFILESIZE**
 
-Change the **value of this variable to 0**, so when you **end your session** the **history file** (\~/.bash\_history) **will be deleted**.
-
+Bu değişkenin **değerini 0** olarak değiştirin, böylece **oturumunuzu sonlandırdığınızda** geçmiş dosyası (\~/.bash\_history) **silinir**.
 ```bash
 export HISTFILESIZE=0
 ```
-
 ### **HISTSIZE**
 
-Change the **value of this variable to 0**, so when you **end your session** any command will be added to the **history file** (\~/.bash\_history).
-
+Bu değişkenin değerini 0 olarak değiştirin, böylece **oturumunuzu sonlandırdığınızda** herhangi bir komut **geçmiş dosyasına** (\~/.bash\_history) eklenmeyecektir.
 ```bash
 export HISTSIZE=0
 ```
-
 ### http\_proxy & https\_proxy
 
-The processes will use the **proxy** declared here to connect to internet through **http or https**.
-
+İşlemler, internete bağlanmak için burada belirtilen **proxy**'yi kullanacak. Bu proxy, **http veya https** üzerinden bağlantı kurmak için kullanılır.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
-
 ### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-The processes will trust the certificates indicated in **these env variables**.
-
+Bu ortam değişkenlerinde belirtilen sertifikaları işlemler güvenecektir.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
 ```
-
 ### PS1
 
-Change how your prompt looks.
+Prompt görünümünü nasıl değiştireceğinizi öğrenin.
 
-[**This is an example**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
+[**Bu bir örnektir**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
 Root:
 
 ![](<../.gitbook/assets/image (87).png>)
 
-Regular user:
+Normal kullanıcı:
 
 ![](<../.gitbook/assets/image (88).png>)
 
-One, two and three backgrounded jobs:
+Bir, iki ve üç arka planda çalışan iş:
 
 ![](<../.gitbook/assets/image (89).png>)
 
-One background job, one stopped and last command didn't finish correctly:
+Bir arka planda çalışan iş, bir durdurulan iş ve son komut doğru şekilde tamamlanmadı:
 
 ![](<../.gitbook/assets/image (90).png>)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
 
 </details>

@@ -1,45 +1,38 @@
-# macOS Security & Privilege Escalation
+# macOS Güvenliği ve Ayrıcalık Yükseltme
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin</summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* **Deneyimli hackerlar ve ödül avcılarıyla iletişim kurmak için** [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın!
 
-</details>
+**Hacking İçgörüleri**\
+Hacking'in heyecanını ve zorluklarını ele alan içeriklerle etkileşime geçin
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+**Gerçek Zamanlı Hack Haberleri**\
+Hızlı tempolu hacking dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+**En Son Duyurular**\
+Yeni ödül avları ve önemli platform güncellemeleri hakkında bilgi edinin
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Bize katılın** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ve bugün en iyi hackerlarla işbirliği yapmaya başlayın!
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+## Temel MacOS
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+MacOS hakkında bilgi sahibi değilseniz, MacOS'un temellerini öğrenmeye başlamalısınız:
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
-
-## Basic MacOS
-
-If you are not familiar with macOS, you should start learning the basics of macOS:
-
-* Special macOS **files & permissions:**
+* Özel macOS **dosyaları ve izinleri:**
 
 {% content-ref url="macos-files-folders-and-binaries/" %}
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
 {% endcontent-ref %}
 
-* Common macOS **users**
+* Ortak macOS **kullanıcıları**
 
 {% content-ref url="macos-users.md" %}
 [macos-users.md](macos-users.md)
@@ -51,56 +44,56 @@ If you are not familiar with macOS, you should start learning the basics of macO
 [macos-applefs.md](macos-applefs.md)
 {% endcontent-ref %}
 
-* The **architecture** of the k**ernel**
+* **Çekirdek**nin **mimari**si
 
 {% content-ref url="mac-os-architecture/" %}
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Common macOS n**etwork services & protocols**
+* Ortak macOS **ağ hizmetleri ve protokolleri**
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
-* **Opensource** macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
-  * To download a `tar.gz` change a URL such as [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) to [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
+* **Açık kaynaklı** macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
+* Bir `tar.gz` indirmek için, [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) gibi bir URL'yi [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz) şeklinde değiştirin
 
 ### MacOS MDM
 
-In companies **macOS** systems are highly probably going to be **managed with a MDM**. Therefore, from the perspective of an attacker is interesting to know **how that works**:
+Şirketlerde **macOS** sistemleri genellikle bir MDM ile yönetilir. Bu nedenle, bir saldırganın **bunun nasıl çalıştığını** bilmesi ilginç olabilir:
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
 {% endcontent-ref %}
 
-### MacOS - Inspecting, Debugging and Fuzzing
+### MacOS - İnceleme, Hata Ayıklama ve Fuzzing
 
 {% content-ref url="macos-apps-inspecting-debugging-and-fuzzing/" %}
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
 {% endcontent-ref %}
 
-## MacOS Security Protections
+## MacOS Güvenlik Korumaları
 
 {% content-ref url="macos-security-protections/" %}
 [macos-security-protections](macos-security-protections/)
 {% endcontent-ref %}
 
-## Attack Surface
+## Saldırı Yüzeyi
 
-### File Permissions
+### Dosya İzinleri
 
-If a **process running as root writes** a file that can be controlled by a user, the user could abuse this to **escalate privileges**.\
-This could occur in the following situations:
+Eğer **root olarak çalışan bir işlem**, bir kullanıcının kontrol edebileceği bir dosyaya yazarsa, kullanıcı bu durumu **ayrıcalıkları yükseltmek** için kullanabilir.\
+Bu durumlar aşağıdaki durumlarda meydana gelebilir:
 
-* File used was already created by a user (owned by the user)
-* File used is writable by the user because of a group
-* File used is inside a directory owned by the user (the user could create the file)
-* File used is inside a directory owned by root but user has write access over it because of a group (the user could create the file)
+* Kullanıcı tarafından zaten oluşturulmuş olan dosya (kullanıcıya ait)
+* Kullanıcıya bir grup tarafından yazılabilir hale getirilen dosya
+* Kullanıcının sahip olduğu bir dizin içinde kullanılan dosya (kullanıcı dosyayı oluşturabilir)
+* Kullanıcının yazma erişimine sahip olduğu bir dizin içinde yer alan dosya (kullanıcı dosyayı oluşturabilir)
 
-Being able to **create a file** that is going to be **used by root**, allows a user to **take advantage of its content** or even create **symlinks/hardlinks** to point it to another place.
+**Root tarafından kullanılacak bir dosya** oluşturabilmek, bir kullanıcının içeriğinden **yararlanmasına** veya hatta onu başka bir yere yönlendirmek için **sembolik bağlantılar/sabit bağlantılar** oluşturmasına olanak tanır.
 
-For this kind of vulnerabilities don't forget to **check vulnerable `.pkg` installers**:
+Bu tür zafiyetler için **savunmasız `.pkg` yükleyicilerini** kontrol etmeyi unutmayın:
 
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
@@ -108,35 +101,34 @@ For this kind of vulnerabilities don't forget to **check vulnerable `.pkg` insta
 
 
 
-### File Extension & URL scheme app handlers
+### Dosya Uzantısı ve URL şeması uygulama yöneticileri
 
-Weird apps registered by file extensions could be abused and different applications can be register to open specific protocols
+Dosya uzantıları tarafından kaydedilen garip uygulamalar kötüye kullanılabilir ve farklı uygulamalar belirli protokolleri açmak için kaydedilebilir
 
 {% content-ref url="macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## macOS TCC / SIP Privilege Escalation
+## macOS TCC / SIP Ayrıcalık Yükseltme
 
-In macOS **applications and binaries can have permissions** to access folders or settings that make them more privileged than others.
+MacOS'ta **uygulamaların ve ikili dosyaların** diğerlerinden daha ayrıcalıklı olmalarını sağlayan klasörlere veya ayarlara erişim izinleri olabilir.
 
-Therefore, an attacker that wants to successfully compromise a macOS machine will need to **escalate its TCC privileges** (or even **bypass SIP**, depending on his needs).
+Bu nedenle, bir macOS makinesini başarılı bir şekilde ele geçirmek isteyen bir saldırganın, TCC ayrıcalıklarını **yükseltmesi** (veya ihtiyacına bağlı olarak **SIP'yi atlaması**) gerekecektir.
 
-These privileges are usually given in the form of **entitlements** the application is signed with, or the application might requested some accesses and after the **user approving them** they can be found in the **TCC databases**. Another way a process can obtain these privileges is by being a **child of a process** with those **privileges** as they are usually **inherited**.
+Bu ayrıcalıklar genellikle uygulamanın imzalandığı **yetkilendirmeler** veya uygulamanın bazı erişimleri talep etmesi ve **kullanıcının bunları onayladıktan sonra** TCC veritabanlarında bulunabilmesi şeklinde verilir. Bir işlem, bu ayrıcalıkları genellikle **miras** aldığı için, bu ayrıcalıklara sahip bir sürecin **çocuğu** olarak bu ayrıcalıkları elde edebilir.
 
-Follow these links to find different was to [**escalate privileges in TCC**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), to [**bypass TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) and how in the past [**SIP has been bypassed**](macos-security-protections/macos-sip.md#sip-bypasses).
+Aşağıdaki bağlantıları takip ederek [**TCC'de ayrıcalıkları yükseltmek**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), [**TCC'yi atlamak**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) ve geçmişte [**SIP'in nasıl atlatıldığı**](macos-security-protections/macos-sip.md#sip-bypasses) hakkında farklı yöntemlere ulaşabilirsiniz.
 
-## macOS Traditional Privilege Escalation
+## macOS Geleneksel Ayrıcalık Yükseltme
 
-Of course from a red teams perspective you should be also interested in escalating to root. Check the following post for some hints:
+Tabii ki, bir kırmızı takımın perspektifinden root ayrıcalıklarına yükseltme konusunda da ilgilenmelisiniz. İpuçları için aşağıdaki gönderiyi kontrol edin:
 
 {% content-ref url="macos-privilege-escalation.md" %}
 [macos-privilege-escalation.md](macos-privilege-escalation.md)
 {% endcontent-ref %}
+## Referanslar
 
-## References
-
-* [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
+* [**OS X Olay Yanıtı: Betikleme ve Analiz**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**https://github.com/NicolasGrimonpont/Cheatsheet**](https://github.com/NicolasGrimonpont/Cheatsheet)
 * [**https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ**](https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ)
@@ -144,29 +136,29 @@ Of course from a red teams perspective you should be also interested in escalati
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Deneyimli hackerlar ve ödül avcıları ile iletişim kurmak için [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Hacking İçgörüleri**\
+Hacking'in heyecanına ve zorluklarına dalmış içeriklerle etkileşim kurun
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Gerçek Zamanlı Hack Haberleri**\
+Hızlı tempolu hacking dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**En Son Duyurular**\
+Yeni ödül avları başlatma ve önemli platform güncellemeleri hakkında bilgi edinin
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Bize** [**Discord**](https://discord.com/invite/N3FrSbmwdy) **katılın ve bugün en iyi hackerlarla işbirliği yapmaya başlayın!**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerimizden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
 
 </details>

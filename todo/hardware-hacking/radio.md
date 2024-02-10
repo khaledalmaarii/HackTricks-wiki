@@ -1,223 +1,200 @@
-# Radio
+# Radyo
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>
 
 ## SigDigger
 
-[**SigDigger** ](https://github.com/BatchDrake/SigDigger)is a free digital signal analyzer for GNU/Linux and macOS, designed to extract information of unknown radio signals. It supports a variety of SDR devices through SoapySDR, and allows adjustable demodulation of FSK, PSK and ASK signals, decode analog video, analyze bursty signals and listen to analog voice channels (all in real time).
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger), bilinmeyen radyo sinyallerinin bilgilerini çıkarmak için tasarlanmış ücretsiz bir dijital sinyal analizörüdür ve GNU/Linux ve macOS için kullanılabilir. SoapySDR aracılığıyla çeşitli SDR cihazlarını destekler ve FSK, PSK ve ASK sinyallerinin ayarlanabilir demodülasyonunu, analog videoyu çözümlemeyi, patlayıcı sinyalleri analiz etmeyi ve analog ses kanallarını dinlemeyi (hepsi gerçek zamanlı olarak) sağlar.
 
-### Basic Config
+### Temel Yapılandırma
 
-After installing there are a few things that you could consider configuring.\
-In settings (the second tab button) you can select the **SDR device** or **select a file** to read and which frequency to syntonise and the Sample rate (recommended to up to 2.56Msps if your PC support it)\\
+Kurulumdan sonra yapılandırmanızı düşünebileceğiniz birkaç şey vardır.\
+Ayarlar (ikinci sekme düğmesi) bölümünde **SDR cihazını seçebilir** veya **okumak için bir dosya seçebilirsiniz** ve hangi frekansa ayarlanacağını ve Örnekleme hızını (PC'niz bunu destekliyorsa 2.56Msps'ye kadar önerilir) seçebilirsiniz.\\
 
 ![](<../../.gitbook/assets/image (655) (1).png>)
 
-In the GUI behaviour it's recommended to enable a few things if your PC support it:
+GUI davranışında, PC'niz bunu destekliyorsa birkaç şeyi etkinleştirmeniz önerilir:
 
 ![](<../../.gitbook/assets/image (465) (2).png>)
 
 {% hint style="info" %}
-If you realise that your PC is not capturing things try to disable OpenGL and lowering the sample rate.
+PC'nizin şeyleri yakalamadığını fark ederseniz, OpenGL'yi devre dışı bırakmayı ve örnekleme hızını düşürmeyi deneyin.
 {% endhint %}
 
-### Uses
+### Kullanımlar
 
-* Just to **capture some time of a signal and analyze it** just maintain the button "Push to capture" as long as you need.
+* Sadece bir sinyalin **bir süresini yakalamak ve analiz etmek** için "Yakalamak için basın" düğmesini istediğiniz süre boyunca basılı tutun.
 
 ![](<../../.gitbook/assets/image (631).png>)
 
-* The **Tuner** of SigDigger helps to **capture better signals** (but it can also degrade them). Ideally start with 0 and keep **making it bigger until** you find the **noise** introduce is **bigger** than the **improvement of the signal** you need).
+* SigDigger'ın **Tuner**'ı, sinyalleri daha iyi yakalamaya yardımcı olur (ancak aynı zamanda onları bozabilir). İdeal olarak, 0 ile başlayın ve ihtiyacınız olan sinyalin iyileştirmesinden daha büyük olan gürültüyü bulana kadar **daha büyük hale getirin**.
 
 ![](<../../.gitbook/assets/image (658).png>)
 
-### Synchronize with radio channel
+### Radyo kanalıyla senkronize etme
 
-With [**SigDigger** ](https://github.com/BatchDrake/SigDigger)synchronize with the channel you want to hear, configure "Baseband audio preview" option, configure the bandwith to get all the info being sent and then set the Tuner to the level before the noise is really starting to increase:
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger) ile duymak istediğiniz kanalla senkronize olmak için "Baseband ses önizlemesi" seçeneğini yapılandırın, gönderilen tüm bilgileri almak için bant genişliğini yapılandırın ve ardından Gürültü gerçekten artmaya başlamadan önce Tuner'ı ayarlayın:
 
 ![](<../../.gitbook/assets/image (389).png>)
 
-## Interesting tricks
+## İlginç hileler
 
-* When a device is sending bursts of information, usually the **first part is going to be a preamble** so you **don't** need to **worry** if you **don't find information** in there **or if there are some errors** there.
-* In frames of information you usually should **find different frames well aligned between them**:
+* Bir cihaz bilgi patlamaları gönderdiğinde, genellikle **ilk kısım bir önsöz olacak**, bu yüzden orada bilgi bulamazsanız veya hatalar varsa endişelenmenize gerek yok.
+* Bilgi çerçevelerinde genellikle **birbirleriyle iyi hizalanmış farklı çerçeveler bulmanız gerekir**:
 
 ![](<../../.gitbook/assets/image (660) (1).png>)
 
 ![](<../../.gitbook/assets/image (652) (1) (1).png>)
 
-* **After recovering the bits you might need to process them someway**. For example, in Manchester codification a up+down will be a 1 or 0 and a down+up will be the other one. So pairs of 1s and 0s (ups and downs) will be a real 1 or a real 0.
-* Even if a signal is using Manchester codification (it's impossible to find more than two 0s or 1s in a row), you might **find several 1s or 0s together in the preamble**!
+* **Bitleri kurtardıktan sonra onları bir şekilde işlemeniz gerekebilir**. Örneğin, Manchester kodlamada yukarı+aşağı bir 1 veya 0 olacak ve aşağı+yukarı diğeri olacak. Yani, 1'ler ve 0'lar (yukarılar ve aşağılar) çiftleri gerçek bir 1 veya gerçek bir 0 olacaktır.
+* Bir sinyal Manchester kodlaması kullanıyor olsa bile (ardışık olarak iki tane 0 veya 1 bulmak imkansızdır), önsözde **bir araya gelen birkaç 1 veya 0 bulabilirsiniz**!
 
-### Uncovering modulation type with IQ
+### IQ ile modülasyon türünü ortaya çıkarma
 
-There are 3 ways to store information in signals: Modulating the **amplitude**, **frequency** or **phase**.\
-If you are checking a signal there are different ways to try to figure out what is being used to store information (fin more ways below) but a good one is to check the IQ graph.
+Sinyallerde bilgiyi depolamanın 3 yolu vardır: **Amplitüdü**, **frekansı** veya **fazı** modüle etmek.\
+Bir sinyali kontrol ediyorsanız, bilgiyi depolamak için neyin kullanıldığını anlamaya çalışmanın farklı yolları vardır (daha fazla yol aşağıda), ancak iyi bir yol IQ grafiğini kontrol etmektir.
 
 ![](<../../.gitbook/assets/image (630).png>)
 
-* **Detecting AM**: If in the IQ graph appears for example **2 circles** (probably one in 0 and other in a different amplitude), it could means that this is an AM signal. This is because in the IQ graph the distance between the 0 and the circle is the amplitude of the signal, so it's easy to visualize different amplitudes being used.
-* **Detecting PM**: Like in the previous image, if you find small circles not related between them it probably means that a phase modulation is used. This is because in the IQ graph, the angle between the point and the 0,0 is the phase of the signal, so that means that 4 different phases are used.
-  * Note that if the information is hidden in the fact that a phase is changed and not in the phase itself, you won't see different phases clearly differentiated.
-* **Detecting FM**: IQ doesn't have a field to identify frequencies (distance to centre is amplitude and angle is phase).\
-  Therefore, to identify FM, you should **only see basically a circle** in this graph.\
-  Moreover, a different frequency is "represented" by the IQ graph by a **speed acceleration across the circle** (so in SysDigger selecting the signal the IQ graph is populated, if you find an acceleration or change of direction in the created circle it could mean that this is FM):
+* **AM Algılama**: IQ grafiğinde örneğin **2 daire** görünüyorsa (muhtemelen biri 0'da ve diğeri farklı bir amplitüde), bu bir AM sinyali olabilir. Bu, IQ grafiğinde 0 ile daire arasındaki mesafenin sinyalin amplitüdü olduğu için farklı amplitüdlerin kullanıldığını görselleştirmek kolaydır.
+* **PM Algılama**: Önceki resimde olduğu gibi, birbirleriyle ilgisi olmayan küçük daireler bulursanız, muhtemelen bir faz modülasyonu kullanılıyor demektir. Bu, IQ grafiğinde nokta ile 0,0 arasındaki açının sinyalin fazı olduğu anlamına gelir, bu da 4 farklı fazın kullanıldığı anlamına gelir.
+* Bilgi, bir fazın kendisi değil, bir fazın değiştiği gerçeğine gizlenmişse, farklı fazları net bir şekilde ayırt edemezsiniz.
+* **FM Algılama**: IQ'da frekansları tanımlamak için bir alan yoktur (merkeze olan mesafe amplitüd ve açı fazdır).\
+Bu nedenle, FM'yi tanımlamak için bu grafikte **temelde sadece bir daire** görmelisiniz.\
+Ayrıca, farklı bir frekans, oluşturulan dairede bir **hız ivmesi ile "temsil" edilir** (bu nedenle SysDigger'da sinyali seçerken IQ grafiği oluşturulur, oluşturulan dairede bir ivme veya yönelim değişikliği bulursanız, bu FM olabilir):
 
-## AM Example
+## AM Örneği
 
 {% file src="../../.gitbook/assets/sigdigger_20220308_165547Z_2560000_433500000_float32_iq.raw" %}
 
-### Uncovering AM
+### AM'i Ortaya Çıkarma
 
-#### Checking the envelope
+#### Zarfı kontrol etme
 
-Checking AM info with [**SigDigger** ](https://github.com/BatchDrake/SigDigger)and just looking at the **envelop** you can see different clear amplitude levels. The used signal is sending pulses with information in AM, this is how one pulse looks like:
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger) ile AM bilgisini kontrol etmek ve sadece **zarfa** bakarak farklı net amplitüd seviyeleri görebilir
+#### IQ ile
 
-![](<../../.gitbook/assets/image (636).png>)
-
-And this is how part of the symbol looks like with the waveform:
-
-![](<../../.gitbook/assets/image (650) (1).png>)
-
-#### Checking the Histogram
-
-You can **select the whole signal** where information is located, select **Amplitude** mode and **Selection** and click on **Histogram.** You can observer that 2 clear levels are only found
-
-![](<../../.gitbook/assets/image (647) (1) (1).png>)
-
-For example, if you select Frequency instead of Amplitude in this AM signal you find just 1 frequency (no way information modulated in frequency is just using 1 freq).
-
-![](<../../.gitbook/assets/image (637) (1) (1).png>)
-
-If you find a lot of frequencies potentially this won't be a FM, probably the signal frequency was just modified because of the channel.
-
-#### With IQ
-
-In this example you can see how there is a **big circle** but also **a lot of points in the centre.**
+Bu örnekte, **büyük bir daire** olduğunu ve aynı zamanda **merkezde birçok nokta** olduğunu görebilirsiniz.
 
 ![](<../../.gitbook/assets/image (640).png>)
 
-### Get Symbol Rate
+### Sembol Oranını Al
 
-#### With one symbol
+#### Bir sembolle
 
-Select the smallest symbol you can find (so you are sure it's just 1) and check the "Selection freq". I this case it would be 1.013kHz (so 1kHz).
+Bulabileceğiniz en küçük sembolü seçin (böylece sadece 1 olduğundan emin olun) ve "Seçim frekansını" kontrol edin. Bu durumda 1.013 kHz (yani 1 kHz) olacaktır.
 
 ![](<../../.gitbook/assets/image (638) (1).png>)
 
-#### With a group of symbols
+#### Bir sembol grubuyla
 
-You can also indicate the number of symbols you are going to select and SigDigger will calculate the frequency of 1 symbol (the more symbols selected the better probably). In this scenario I selected 10 symbols and the "Selection freq" is 1.004 Khz:
+Ayrıca seçeceğiniz sembol sayısını belirtebilir ve SigDigger, 1 sembolün frekansını hesaplar (seçilen sembol sayısı ne kadar fazla olursa o kadar iyi olur). Bu senaryoda 10 sembol seçtim ve "Seçim frekansı" 1.004 Khz'dir:
 
 ![](<../../.gitbook/assets/image (635).png>)
 
-### Get Bits
+### Bitleri Al
 
-Having found this is an **AM modulated** signal and the **symbol rate** (and knowing that in this case something up means 1 and something down means 0), it's very easy to **obtain the bits** encoded in the signal. So, select the signal with info and configure the sampling and decision and press sample (check that **Amplitude** is selected, the discovered **Symbol rate** is configured and the **Gadner clock recovery** is selected):
+Bu sinyalin **AM modülasyonlu** olduğunu ve **sembol oranını** bulduktan sonra (ve bu durumda yukarı bir şeyin 1 ve aşağı bir şeyin 0 anlamına geldiğini bilerek), sinyalde kodlanmış olan bitleri elde etmek çok kolaydır. Bu nedenle, sinyali bilgiyle seçin ve örnekleme ve karar verme işlemini yapılandırın ve örnekleme düğmesine basın (kontrol edin ki **Amplitude** seçili, keşfedilen **Sembol oranı** yapılandırılmış ve **Gadner saat geri kazanımı** seçili):
 
 ![](<../../.gitbook/assets/image (642) (1).png>)
 
-* **Sync to selection intervals** means that if you previously selected intervals to find the symbol rate, that symbol rate will be used.
-* **Manual** means that the indicated symbol rate is going to be used
-* In **Fixed interval selection** you indicate the number of intervals that should be selected and it calculates the symbol rate from it
-* **Gadner clock recovery** is usually the best option, but you still need to indicate some approximate symbol rate.
+* **Seçim aralıklarına senkronize et** önceden sembol oranını bulmak için aralıkları seçtiyseniz, o sembol oranı kullanılacaktır.
+* **Manuel** sembol oranının kullanılacağı anlamına gelir
+* **Sabit aralık seçimi**'nde seçilecek aralık sayısını belirtir ve sembol oranını ondan hesaplar
+* **Gadner saat geri kazanımı** genellikle en iyi seçenektir, ancak yaklaşık sembol oranını belirtmeniz gerekmektedir.
 
-Pressing sample this appears:
+Örnekleme düğmesine bastığınızda aşağıdaki gibi bir görüntü belirir:
 
 ![](<../../.gitbook/assets/image (659).png>)
 
-Now, to make SigDigger understand **where is the range** of the level carrying information you need to click on the **lower level** and maintain clicked until the biggest level:
+Şimdi, SigDigger'ın bilginin taşındığı seviye aralığını anlamasını sağlamak için **daha düşük seviyeye** tıklayın ve en büyük seviyeye kadar tıklamaya devam edin:
 
 ![](<../../.gitbook/assets/image (662) (1) (1) (1).png>)
 
-If there would have been for example **4 different levels of amplitude**, you should have need to configure the **Bits per symbol to 2** and select from the smallest to the biggest.
+Örneğin **4 farklı amplitüd seviyesi** olsaydı, **Sembol başına bit**'i 2 olarak yapılandırmanız ve en küçükten en büyüğe doğru seçmeniz gerekecekti.
 
-Finally **increasing** the **Zoom** and **changing the Row size** you can see the bits (and you can select all and copy to get all the bits):
+Son olarak, **Yakınlaştırma**'yı **artırarak** ve **Satır boyutunu değiştirerek** bitleri görebilirsiniz (ve tümünü seçip kopyalayarak tüm bitleri alabilirsiniz):
 
 ![](<../../.gitbook/assets/image (649) (1).png>)
 
-If the signal has more than 1 bit per symbol (for example 2), SigDigger has **no way to know which symbol is** 00, 01, 10, 11, so it will use different **grey scales** the represent each (and if you copy the bits it will use **numbers from 0 to 3**, you will need to treat them).
+Eğer sinyal sembol başına 1'den fazla bit içeriyorsa (örneğin 2), SigDigger'ın hangi sembolün 00, 01, 10, 11 olduğunu bilmesi **mümkün değildir**, bu nedenle her birini temsil etmek için farklı **gri tonları** kullanır (ve bitleri kopyalarsanız 0'dan 3'e kadar **sayılar kullanır**, bunları işlemeniz gerekecektir).
 
-Also, use **codifications** such as **Manchester**, and **up+down** can be **1 or 0** and an down+up can be a 1 or 0. In those cases you need to **treat the obtained ups (1) and downs (0)** to substitute the pairs of 01 or 10 as 0s or 1s.
+Ayrıca, **Manchester** gibi **kodlamaları** kullanabilirsiniz ve **yukarı+aşağı** 1 veya 0 olabilir ve aşağı+yukarı 1 veya 0 olabilir. Bu durumlarda, elde edilen yukarıları (1) ve aşağıları (0) 01 veya 10 çiftlerini 0 veya 1 olarak değiştirmeniz gerekmektedir.
 
-## FM Example
+## FM Örneği
 
 {% file src="../../.gitbook/assets/sigdigger_20220308_170858Z_2560000_433500000_float32_iq.raw" %}
 
-### Uncovering FM
+### FM'nin Ortaya Çıkarılması
 
-#### Checking the frequencies and waveform
+#### Frekansları ve dalga formunu kontrol etme
 
-Signal example sending information modulated in FM:
+Bilgi modülasyonlu sinyal örneği gönderen sinyal:
 
 ![](<../../.gitbook/assets/image (661) (1).png>)
 
-In the previous image you can observe pretty good that **2 frequencies are used** but if you **observe** the **waveform** you might n**ot be able to identify correctly the 2 different frequencies**:
+Önceki görüntüde **2 farklı frekansın kullanıldığını** görebilirsiniz, ancak **dalga formunu** gözlemlediğinizde **2 farklı frekansı doğru bir şekilde tanımlayamayabilirsiniz**:
 
 ![](<../../.gitbook/assets/image (653).png>)
 
-This is because I capture the signal in booth frequencies, therefore one is approximately the other in negative:
+Bu, sinyali her iki frekansta da yakaladığım için biri diğerine yaklaşık olarak negatif olan durumdur:
 
 ![](<../../.gitbook/assets/image (656).png>)
 
-If the synchronized frequency is **closer to one frequency than to the other** you can easily see the 2 different frequencies:
+Senkronize frekans, **diğer frekansa göre daha yakınsa**, 2 farklı frekansı kolayca görebilirsiniz:
 
 ![](<../../.gitbook/assets/image (648) (1) (1) (1).png>)
 
 ![](<../../.gitbook/assets/image (634).png>)
 
-#### Checking the histogram
+#### Histogramı kontrol etme
 
-Checking the frequency histogram of the signal with information you can easily see 2 different signals:
+Bilgi içeren sinyalin frekans histogramını kontrol ettiğinizde kolayca 2 farklı sinyal görebilirsiniz:
 
 ![](<../../.gitbook/assets/image (657).png>)
 
-In this case if you check the **Amplitude histogram** you will find **only one amplitude**, so it **cannot be AM** (if you find a lot of amplitudes it might be because the signal has been losing power along the channel):
+Bu durumda **Amplitüd histogramını** kontrol ederseniz, **yalnızca bir amplitüd** bulursunuz, bu yüzden **AM olamaz** (eğer birçok amplitüd bulursanız, sinyalin kanal boyunca güç kaybettiği anlamına gelebilir):
 
 ![](<../../.gitbook/assets/image (646).png>)
 
-And this is would be phase histogram (which makes very clear the signal is not modulated in phase):
+Ve bu, faz histogramı olacaktır (bu, sinyalin fazda modüle edilmediğini çok net bir şekilde gösterir):
 
 ![](<../../.gitbook/assets/image (201) (2).png>)
 
-#### With IQ
+#### IQ ile
 
-IQ doesn't have a field to identify frequencies (distance to centre is amplitude and angle is phase).\
-Therefore, to identify FM, you should **only see basically a circle** in this graph.\
-Moreover, a different frequency is "represented" by the IQ graph by a **speed acceleration across the circle** (so in SysDigger selecting the signal the IQ graph is populated, if you find an acceleration or change of direction in the created circle it could mean that this is FM):
+IQ'nun frekansları tanımlamak için bir alanı yoktur (merkeze olan mesafe amplitüd ve açı fazdır). Bu nedenle, FM'yi tanımlamak için bu grafikte **temel olarak sadece bir daire** görmelisiniz. Ayrıca, farklı bir frekans, IQ grafiğinde bir **hız ivmesiyle temsil edilir** (bu nedenle SysDigger'da sinyali seçtiğinizde IQ grafiği oluşturulurken bir ivme veya yönlendirme değişikliği bulursanız, bu FM olabilir):
 
 ![](<../../.gitbook/assets/image (643) (1).png>)
 
-### Get Symbol Rate
+### Sembol Oranını Al
 
-You can use the **same technique as the one used in the AM example** to get the symbol rate once you have found the frequencies carrying symbols.
+Frekans taşıyan semboller bulduktan sonra, sembol oranını elde etmek için **AM örneğinde kullanılan aynı teknik**i kullanabilirsiniz.
 
-### Get Bits
+### Bitleri Al
 
-You can use the **same technique as the one used in the AM example** to get the bits once you have **found the signal is modulated in frequency** and the **symbol rate**.
+Sinyalin frekans modülasyonlu olduğunu ve sembol oranını bulduktan sonra, bitleri elde etmek için **AM örneğinde kullanılan aynı teknik**i kullanabilirsiniz.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* Şirketinizi HackTricks'te **reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live).
+* Hacking hilelerinizi [**HackTricks**](https://github.com/carlosp

@@ -1,52 +1,49 @@
-# macOS .Net Applications Injection
+# macOS .Net Uygulamaları Enjeksiyonu
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramana dönüştürmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks'i desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>
 
-**This is a summary of the post [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/). Check it for further details!**
+**Bu, [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/) adresindeki yazının özeti. Daha fazla ayrıntı için kontrol edin!**
 
-## .NET Core Debugging <a href="#net-core-debugging" id="net-core-debugging"></a>
+## .NET Core Hata Ayıklama <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-### **Establishing a Debugging Session** <a href="#net-core-debugging" id="net-core-debugging"></a>
+### **Bir Hata Ayıklama Oturumu Kurma** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-The handling of communication between debugger and debuggee in .NET is managed by [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). This component sets up two named pipes per .NET process as seen in [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), which are initiated via [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). These pipes are suffixed with **`-in`** and **`-out`**.
+.NET'te hata ayıklama aracı ve hata ayıklanan arasındaki iletişim [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp) tarafından yönetilir. Bu bileşen, her .NET işlemi için [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127) adresinde görüldüğü gibi iki adet isimlendirilmiş pipe kurar. Bu borular **`-in`** ve **`-out`** ile sonlandırılır.
 
-By visiting the user's **`$TMPDIR`**, one can find debugging FIFOs available for debugging .Net applications.
+Kullanıcının **`$TMPDIR`**'sini ziyaret ederek, .Net uygulamalarını hata ayıklamak için kullanılabilen hata ayıklama FIFO'larını bulabilirsiniz.
 
-[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) is responsible for managing communication from a debugger. To initiate a new debugging session, a debugger must send a message via the `out` pipe starting with a `MessageHeader` struct, detailed in the .NET source code:
-
+[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259), bir hata ayıklama aracından gelen iletişimi yönetmekten sorumludur. Yeni bir hata ayıklama oturumu başlatmak için, bir hata ayıklama aracı, .NET kaynak kodunda detayları verilen `MessageHeader` yapısını içeren bir mesajı `out` boruya göndermelidir:
 ```c
 struct MessageHeader {
-    MessageType   m_eType;        // Message type
-    DWORD         m_cbDataBlock;  // Size of following data block (can be zero)
-    DWORD         m_dwId;         // Message ID from sender
-    DWORD         m_dwReplyId;    // Reply-to Message ID
-    DWORD         m_dwLastSeenId; // Last seen Message ID by sender
-    DWORD         m_dwReserved;   // Reserved for future (initialize to zero)
-        union {
-            struct {
-                DWORD         m_dwMajorVersion;   // Requested/accepted protocol version
-                DWORD         m_dwMinorVersion;
-            } VersionInfo;
-          ...
-        } TypeSpecificData;
-    BYTE          m_sMustBeZero[8];
+MessageType   m_eType;        // Message type
+DWORD         m_cbDataBlock;  // Size of following data block (can be zero)
+DWORD         m_dwId;         // Message ID from sender
+DWORD         m_dwReplyId;    // Reply-to Message ID
+DWORD         m_dwLastSeenId; // Last seen Message ID by sender
+DWORD         m_dwReserved;   // Reserved for future (initialize to zero)
+union {
+struct {
+DWORD         m_dwMajorVersion;   // Requested/accepted protocol version
+DWORD         m_dwMinorVersion;
+} VersionInfo;
+...
+} TypeSpecificData;
+BYTE          m_sMustBeZero[8];
 }
 ```
-
-To request a new session, this struct is populated as follows, setting the message type to `MT_SessionRequest` and the protocol version to the current version:
-
+Yeni bir oturum isteği yapmak için, bu yapı aşağıdaki gibi doldurulur, mesaj türü `MT_SessionRequest` olarak ve protokol sürümü mevcut sürüm olarak ayarlanır:
 ```c
 static const DWORD kCurrentMajorVersion = 2;
 static const DWORD kCurrentMinorVersion = 0;
@@ -57,24 +54,18 @@ sSendHeader.TypeSpecificData.VersionInfo.m_dwMajorVersion = kCurrentMajorVersion
 sSendHeader.TypeSpecificData.VersionInfo.m_dwMinorVersion = kCurrentMinorVersion;
 sSendHeader.m_cbDataBlock = sizeof(SessionRequestData);
 ```
-
-This header is then sent over to the target using the `write` syscall, followed by the `sessionRequestData` struct containing a GUID for the session:
-
+Bu başlık daha sonra `write` sistem çağrısı kullanılarak hedefe gönderilir ve ardından oturum için bir GUID içeren `sessionRequestData` yapısı gönderilir:
 ```c
 write(wr, &sSendHeader, sizeof(MessageHeader));
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
 write(wr, &sDataBlock, sizeof(SessionRequestData));
 ```
-
-A read operation on the `out` pipe confirms the success or failure of the debugging session establishment:
-
+`out` boru üzerinde yapılan bir okuma işlemi, hata ayıklama oturumunun başarılı olup olmadığını doğrular.
 ```c
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
-
-## Reading Memory
-Once a debugging session is established, memory can be read using the [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896) message type. The function readMemory is detailed, performing the necessary steps to send a read request and retrieve the response:
-
+## Bellek Okuma
+Bir hata ayıklama oturumu oluşturulduğunda, bellek [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896) mesaj türünü kullanarak okunabilir. readMemory işlevi, bir okuma isteği göndermek ve yanıtı almak için gerekli adımları ayrıntılı olarak gerçekleştirir:
 ```c
 bool readMemory(void *addr, int len, unsigned char **output) {
 // Allocation and initialization
@@ -86,13 +77,11 @@ bool readMemory(void *addr, int len, unsigned char **output) {
 return true;
 }
 ```
+Tam kanıt (POC) [burada](https://gist.github.com/xpn/95eefc14918998853f6e0ab48d9f7b0b) bulunmaktadır.
 
-The complete proof of concept (POC) is available [here](https://gist.github.com/xpn/95eefc14918998853f6e0ab48d9f7b0b).
+## Belleğe Yazma
 
-## Writing Memory
-
-Similarly, memory can be written using the `writeMemory` function. The process involves setting the message type to `MT_WriteMemory`, specifying the address and length of the data, and then sending the data:
-
+Benzer şekilde, belleğe yazma işlemi `writeMemory` fonksiyonu kullanılarak gerçekleştirilir. İşlem, mesaj türünün `MT_WriteMemory` olarak ayarlanması, verinin adresi ve uzunluğunun belirtilmesi ve ardından verinin gönderilmesini içerir:
 ```c
 bool writeMemory(void *addr, int len, unsigned char *input) {
 // Increment IDs, set message type, and specify memory location
@@ -104,40 +93,37 @@ bool writeMemory(void *addr, int len, unsigned char *input) {
 return true;
 }
 ```
+İlgili POC [burada](https://gist.github.com/xpn/7c3040a7398808747e158a25745380a5) bulunabilir.
 
-The associated POC is available [here](https://gist.github.com/xpn/7c3040a7398808747e158a25745380a5).
+## .NET Core Kodu Yürütme <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-## .NET Core Code Execution <a href="#net-core-code-execution" id="net-core-code-execution"></a>
-
-To execute code, one needs to identify a memory region with rwx permissions, which can be done using vmmap -pages:
-
+Kod yürütmek için, rwx izinlerine sahip bir bellek bölgesi belirlemek gerekmektedir. Bu, vmmap -pages kullanılarak yapılabilir:
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
+Bir işlev işaretçisini üzerine yazmak için bir yer bulmak gereklidir ve .NET Core'da bunu yapmanın bir yolu **Dynamic Function Table (DFT)**'ye hedef alarak yapmaktır. Bu tablo, JIT derleme yardımcı işlevleri için çalışma zamanı tarafından kullanılan [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h) dosyasında detaylı olarak açıklanmıştır.
 
-Locating a place to overwrite a function pointer is necessary, and in .NET Core, this can be done by targeting the **Dynamic Function Table (DFT)**. This table, detailed in [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h), is used by the runtime for JIT compilation helper functions.
+x64 sistemler için, `libcorclr.dll` içindeki `_hlpDynamicFuncTable` sembolüne bir referans bulmak için imza avı kullanılabilir.
 
-For x64 systems, signature hunting can be used to find a reference to the symbol `_hlpDynamicFuncTable` in `libcorclr.dll`.
+`MT_GetDCB` hata ayıklama işlevi, `m_helperRemoteStartAddr` adlı bir yardımcı işlevin adresi de dahil olmak üzere yararlı bilgiler sağlar. Bu adres, DFT'nin konumunu ve bir işlev işaretçisini kabuk kodunun adresiyle üzerine yazmak için kullanılır.
 
-The `MT_GetDCB` debugger function provides useful information, including the address of a helper function, `m_helperRemoteStartAddr`, indicating the location of `libcorclr.dll` in the process memory. This address is then used to start a search for the DFT and overwrite a function pointer with the shellcode's address.
+PowerShell'e enjeksiyon için tam POC kodu [buradan](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6) erişilebilir.
 
-The full POC code for injection into PowerShell is accessible [here](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
-
-## References
+## Referanslar
 
 * [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin!</summary>
 
-Other ways to support HackTricks:
+HackTricks'ı desteklemenin diğer yolları:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Şirketinizi HackTricks'te **reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
+* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live).
+* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
 
 </details>
