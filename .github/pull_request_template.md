@@ -1,4 +1,4 @@
-## Attribution
-We value your knowledge and encourage you to share content. Please ensure that you only upload content that you own or have explicit permission to use from the original author. Your respect for intellectual property rights fosters a trustworthy and legal sharing environment for everyone.
+## 소유권
+우리는 여러분의 지식을 소중히 여기며, 콘텐츠를 공유할 것을 권장합니다. 원작자의 명시적인 허가를 받거나 소유한 콘텐츠만 업로드하도록 해주세요. 지적 재산권에 대한 존중은 모두에게 신뢰할 수 있고 법적인 공유 환경을 조성합니다.
 
-Thank you for contributing to HackTricks!
+HackTricks에 기여해 주셔서 감사합니다!

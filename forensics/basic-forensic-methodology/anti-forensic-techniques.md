@@ -1,181 +1,169 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>에서 <strong>AWS 해킹을 처음부터 전문가까지 배워보세요</strong>!</summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>
 
 
-# Timestamps
+# 타임스탬프
 
-An attacker may be interested in **changing the timestamps of files** to avoid being detected.\
-It's possible to find the timestamps inside the MFT in attributes `$STANDARD_INFORMATION` __ and __ `$FILE_NAME`.
+공격자는 탐지를 피하기 위해 파일의 타임스탬프를 변경하는 것에 관심이 있을 수 있습니다.\
+MFT 내부의 속성 `$STANDARD_INFORMATION` __ 및 __ `$FILE_NAME`에서 타임스탬프를 찾을 수 있습니다.
 
-Both attributes have 4 timestamps: **Modification**, **access**, **creation**, and **MFT registry modification** (MACE or MACB).
+두 속성은 **수정**, **액세스**, **생성** 및 **MFT 레지스트리 수정** (MACE 또는 MACB)에 대한 4개의 타임스탬프를 가지고 있습니다.
 
-**Windows explorer** and other tools show the information from **`$STANDARD_INFORMATION`**.
+**Windows 탐색기** 및 기타 도구는 **`$STANDARD_INFORMATION`**에서 정보를 표시합니다.
 
-## TimeStomp - Anti-forensic Tool
+## TimeStomp - 안티 포렌식 도구
 
-This tool **modifies** the timestamp information inside **`$STANDARD_INFORMATION`** **but** **not** the information inside **`$FILE_NAME`**. Therefore, it's possible to **identify** **suspicious** **activity**.
+이 도구는 **`$STANDARD_INFORMATION`** 내부의 타임스탬프 정보를 **수정**하지만 **`$FILE_NAME`** 내부의 정보는 **수정하지 않습니다**. 따라서 **수상한 활동을 식별**할 수 있습니다.
 
 ## Usnjrnl
 
-The **USN Journal** (Update Sequence Number Journal) is a feature of the NTFS (Windows NT file system) that keeps track of volume changes. The [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) tool allows for the examination of these changes.
+**USN Journal** (Update Sequence Number Journal)은 NTFS (Windows NT 파일 시스템)의 기능으로 볼륨 변경 내용을 추적합니다. [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) 도구를 사용하여 이러한 변경 사항을 검사할 수 있습니다.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-The previous image is the **output** shown by the **tool** where it can be observed that some **changes were performed** to the file.
+이전 이미지는 도구에서 표시된 **출력**입니다. 여기서 파일에 일부 **변경 사항이 수행**되었음을 확인할 수 있습니다.
 
 ## $LogFile
 
-**All metadata changes to a file system are logged** in a process known as [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). The logged metadata is kept in a file named `**$LogFile**`, located in the root directory of an NTFS file system. Tools such as [LogFileParser](https://github.com/jschicht/LogFileParser) can be used to parse this file and identify changes.
+파일 시스템의 **모든 메타데이터 변경 사항은 로그에 기록**됩니다. 이 로그된 메타데이터는 NTFS 파일 시스템의 루트 디렉토리에 위치한 `**$LogFile**`라는 파일에 유지됩니다. [LogFileParser](https://github.com/jschicht/LogFileParser)와 같은 도구를 사용하여 이 파일을 구문 분석하고 변경 사항을 식별할 수 있습니다.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Again, in the output of the tool it's possible to see that **some changes were performed**.
+도구의 출력에서 다시 **일부 변경 사항이 수행**되었음을 볼 수 있습니다.
 
-Using the same tool it's possible to identify to **which time the timestamps were modified**:
+동일한 도구를 사용하여 **타임스탬프가 수정된 시간**을 식별할 수 있습니다:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
-* CTIME: File's creation time
-* ATIME: File's modification time
-* MTIME: File's MFT registry modification
-* RTIME: File's access time
+* CTIME: 파일의 생성 시간
+* ATIME: 파일의 수정 시간
+* MTIME: 파일의 MFT 레지스트리 수정
+* RTIME: 파일의 액세스 시간
 
-## `$STANDARD_INFORMATION` and `$FILE_NAME` comparison
+## `$STANDARD_INFORMATION` 및 `$FILE_NAME` 비교
 
-Another way to identify suspicious modified files would be to compare the time on both attributes looking for **mismatches**.
+수상한 수정된 파일을 식별하는 또 다른 방법은 두 속성의 시간을 비교하여 **불일치**를 찾는 것입니다.
 
-## Nanoseconds
+## 나노초
 
-**NTFS** timestamps have a **precision** of **100 nanoseconds**. Then, finding files with timestamps like 2010-10-10 10:10:**00.000:0000 is very suspicious**.
+**NTFS** 타임스탬프는 **100 나노초의 정밀도**를 가지고 있습니다. 따라서 2010-10-10 10:10:**00.000:0000과 같은 타임스탬프를 가진 파일은 매우 수상합니다**.
 
-## SetMace - Anti-forensic Tool
+## SetMace - 안티 포렌식 도구
 
-This tool can modify both attributes `$STARNDAR_INFORMATION` and `$FILE_NAME`. However, from Windows Vista, it's necessary for a live OS to modify this information.
+이 도구는 `$STARNDAR_INFORMATION` 및 `$FILE_NAME` 두 속성을 모두 수정할 수 있습니다. 그러나 Windows Vista부터는 이 정보를 수정하기 위해 라이브 OS가 필요합니다.
 
-# Data Hiding
+# 데이터 숨김
 
-NFTS uses a cluster and the minimum information size. That means that if a file occupies uses and cluster and a half, the **reminding half is never going to be used** until the file is deleted. Then, it's possible to **hide data in this slack space**.
+NFTS는 클러스터와 최소 정보 크기를 사용합니다. 즉, 파일이 클러스터와 반 개를 사용하는 경우 **남은 반 개는 파일이 삭제될 때까지 사용되지 않습니다**. 따라서 이 "숨겨진" 공간에 데이터를 **숨길 수 있습니다**.
 
-There are tools like slacker that allow hiding data in this "hidden" space. However, an analysis of the `$logfile` and `$usnjrnl` can show that some data was added:
+슬래커와 같은 도구를 사용하여 이 "숨겨진" 공간에 데이터를 숨길 수 있습니다. 그러나 `$logfile` 및 `$usnjrnl`의 분석을 통해 일부 데이터가 추가되었음을 확인할 수 있습니다:
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-Then, it's possible to retrieve the slack space using tools like FTK Imager. Note that this kind of tool can save the content obfuscated or even encrypted.
+그런 다음 FTK Imager와 같은 도구를 사용하여 슬랙 공간을 검색할 수 있습니다. 이러한 도구는 콘텐츠를 난독화하거나 암호화하여 저장할 수 있습니다.
 
 # UsbKill
 
-This is a tool that will **turn off the computer if any change in the USB** ports is detected.\
-A way to discover this would be to inspect the running processes and **review each python script running**.
+이 도구는 USB 포트에 변경 사항이 감지되면 컴퓨터를 **종료**합니다.\
+이를 발견하기 위해 실행 중인 프로세스를 검사하고 **실행 중인 각 Python 스크립트를 검토**하는 방법이 있습니다.
 
-# Live Linux Distributions
+# 라이브 Linux 배포판
 
-These distros are **executed inside the RAM** memory. The only way to detect them is **in case the NTFS file-system is mounted with write permissions**. If it's mounted just with read permissions it won't be possible to detect the intrusion.
+이러한 배포판은 **RAM 메모리 내에서 실행**됩니다. NTFS 파일 시스템이 쓰기 권한으로 마운트되었는지 여부에 따라 감지할 수 있습니다. 읽기 권한으로만 마운트되었다면 침입을 감지할 수 없습니다.
 
-# Secure Deletion
+# 안전한 삭제
 
 [https://github.com/Claudio-C/awesome-data-sanitization](https://github.com/Claudio-C/awesome-data-sanitization)
 
-# Windows Configuration
+# Windows 구성
 
-It's possible to disable several windows logging methods to make the forensics investigation much harder.
+포렌식 조사를 훨씬 어렵게 만들기 위해 여러 Windows 로깅 방법을 비활성화할 수 있습니다.
 
-## Disable Timestamps - UserAssist
+## 타임스탬프 비활성화 - UserAssist
 
-This is a registry key that maintains dates and hours when each executable was run by the user.
+이는 사용자가 각 실행 파일을 실행한 날짜와 시간을 유지하는 레지스트리 키입니다.
 
-Disabling UserAssist requires two steps:
+UserAssist를 비활성화하려면 두 단계를 거쳐야 합니다:
 
-1. Set two registry keys, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` and `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, both to zero in order to signal that we want UserAssist disabled.
-2. Clear your registry subtrees that look like `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
+1. `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` 및 `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled` 두 개의 레지스트리 키를 0으로 설정하여 UserAssist를 비활성화하려는 것을 나타냅니다.
+2. `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`와 같은 레지스트리 하위 트리를 지웁니다.
 
-## Disable Timestamps - Prefetch
+## 타임스탬프 비활성화 - Prefetch
 
-This will save information about the applications executed with the goal of improving the performance of the Windows system. However, this can also be useful for forensics practices.
+이는 Windows 시스템의 성능을 향상시키기 위해 실행된 응용 프로그램에 대한 정보를 저장합니다. 그러나 이는 포렌식 작업에도 유용할 수 있습니다.
 
-* Execute `regedit`
-* Select the file path `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* Right-click on both `EnablePrefetcher` and `EnableSuperfetch`
-* Select Modify on each of these to change the value from 1 (or 3) to 0
-* Restart
+* `regedit`를 실행합니다.
+* 파일 경로 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`를 선택합니다.
+* `EnablePrefetcher` 및 `EnableSuperfetch`를 마우스 오른쪽 버튼으로 클릭합니다.
+* 각각의 수정을 선택하여 값을 1 (또는 3)에서 0으로 변경합니다.
+* 재부팅합니다.
 
-## Disable Timestamps - Last Access Time
+## 타임스탬프 비활성화 - 마지막 액세스 시간
 
-Whenever a folder is opened from an NTFS volume on a Windows NT server, the system takes the time to **update a timestamp field on each listed folder**, called the last access time. On a heavily used NTFS volume, this can affect performance.
+Windows NT 서버의 NTFS 볼륨에서
+## USB 기록 삭제
 
-1. Open the Registry Editor (Regedit.exe).
-2. Browse to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Look for `NtfsDisableLastAccessUpdate`. If it doesn’t exist, add this DWORD and set its value to 1, which will disable the process.
-4. Close the Registry Editor, and reboot the server.
+**USB 장치 항목**은 PC나 노트북에 USB 장치를 연결할 때마다 생성되는 하위 키를 포함하는 **USBSTOR** 레지스트리 키 아래에 저장됩니다. 이 키는 H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`에서 찾을 수 있습니다. **이를 삭제**하면 USB 기록이 삭제됩니다.\
+또한 `C:\Windows\INF` 폴더 내의 `setupapi.dev.log` 파일도 삭제해야 합니다.
 
-## Delete USB History
+## 그림자 복사 비활성화
 
-All the **USB Device Entries** are stored in Windows Registry Under the **USBSTOR** registry key that contains sub keys which are created whenever you plug a USB Device into your PC or Laptop. You can find this key here H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deleting this** you will delete the USB history.\
-You may also use the tool [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) to be sure you have deleted them (and to delete them).
+`vssadmin list shadowstorage` 명령으로 **그림자 복사본**을 나열합니다.\
+`vssadmin delete shadow` 명령으로 그림자 복사본을 삭제합니다.
 
-Another file that saves information about the USBs is the file `setupapi.dev.log` inside `C:\Windows\INF`. This should also be deleted.
+또한 [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)에서 제안하는 단계를 따라 GUI를 통해 삭제할 수도 있습니다.
 
-## Disable Shadow Copies
+그림자 복사본을 비활성화하려면 [여기의 단계](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows)를 따릅니다:
 
-**List** shadow copies with `vssadmin list shadowstorage`\
-**Delete** them running `vssadmin delete shadow`
+1. 시작 버튼을 클릭한 후 텍스트 검색 상자에 "services"를 입력하여 서비스 프로그램을 엽니다.
+2. 목록에서 "Volume Shadow Copy"를 찾아 선택한 다음 마우스 오른쪽 버튼을 클릭하여 속성에 액세스합니다.
+3. "시작 유형" 드롭다운 메뉴에서 "비활성화"를 선택한 후, 변경 사항을 적용하고 확인을 클릭하여 변경을 확인합니다.
 
-You can also delete them via GUI following the steps proposed in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
+그림자 복사본에서 복사할 파일의 구성도 레지스트리 `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`에서 수정할 수 있습니다.
 
-To disable shadow copies [steps from here](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+## 삭제된 파일 덮어쓰기
 
-1. Open the Services program by typing "services" into the text search box after clicking the Windows start button.
-2. From the list, find "Volume Shadow Copy", select it, and then access Properties by right-clicking.
-3. Choose Disabled from the "Startup type" drop-down menu, and then confirm the change by clicking Apply and OK.
+* **Windows 도구**인 `cipher /w:C`를 사용할 수 있습니다. 이는 cipher에게 C 드라이브의 사용 가능한 미사용 디스크 공간에서 데이터를 제거하도록 지시합니다.
+* [**Eraser**](https://eraser.heidi.ie)와 같은 도구도 사용할 수 있습니다.
 
-It's also possible to modify the configuration of which files are going to be copied in the shadow copy in the registry `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
+## Windows 이벤트 로그 삭제
 
-## Overwrite deleted files
-
-* You can use a **Windows tool**: `cipher /w:C` This will indicate cipher to remove any data from the available unused disk space inside the C drive.
-* You can also use tools like [**Eraser**](https://eraser.heidi.ie)
-
-## Delete Windows event logs
-
-* Windows + R --> eventvwr.msc --> Expand "Windows Logs" --> Right click each category and select "Clear Log"
+* Windows + R --> eventvwr.msc --> "Windows Logs" 확장 --> 각 범주를 마우스 오른쪽 버튼으로 클릭하고 "로그 지우기"를 선택합니다.
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
-## Disable Windows event logs
+## Windows 이벤트 로그 비활성화
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Inside the services section disable the service "Windows Event Log"
-* `WEvtUtil.exec clear-log` or `WEvtUtil.exe cl`
+* 서비스 섹션 내에서 "Windows Event Log" 서비스를 비활성화합니다.
+* `WEvtUtil.exec clear-log` 또는 `WEvtUtil.exe cl`
 
-## Disable $UsnJrnl
+## $UsnJrnl 비활성화
 
 * `fsutil usn deletejournal /d c:`
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>로부터 제로에서 영웅까지 AWS 해킹 배우기<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* HackTricks에서 **회사 광고를 보거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 상품**](https://peass.creator-spring.com)을 구매하세요.
+* 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family)인 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **Twitter**에서 **@hacktricks_live**를 팔로우하세요.
+* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 여러분의 해킹 기법을 공유하세요.
 
 </details>
-
-

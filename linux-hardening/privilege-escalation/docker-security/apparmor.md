@@ -2,45 +2,44 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>에서 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
 
-## Basic Information
+## 기본 정보
 
-AppArmor is a **kernel enhancement designed to restrict the resources available to programs through per-program profiles**, effectively implementing Mandatory Access Control (MAC) by tying access control attributes directly to programs instead of users. This system operates by **loading profiles into the kernel**, usually during boot, and these profiles dictate what resources a program can access, such as network connections, raw socket access, and file permissions.
+AppArmor는 **프로그램별 프로필을 통해 프로그램에 제공되는 리소스를 제한하는 커널 개선 기능**으로, 사용자가 아닌 프로그램에 직접 액세스 제어 속성을 연결하여 의무적 액세스 제어(MAC)를 구현하는 것을 목표로 합니다. 이 시스템은 주로 부팅 중에 프로필을 커널에 로드하며, 이 프로필은 프로그램이 액세스할 수 있는 리소스(네트워크 연결, raw 소켓 액세스, 파일 권한 등)를 지정합니다.
 
-There are two operational modes for AppArmor profiles:
+AppArmor 프로필에는 두 가지 운영 모드가 있습니다:
 
-- **Enforcement Mode**: This mode actively enforces the policies defined within the profile, blocking actions that violate these policies and logging any attempts to breach them through systems like syslog or auditd.
-- **Complain Mode**: Unlike enforcement mode, complain mode does not block actions that go against the profile's policies. Instead, it logs these attempts as policy violations without enforcing restrictions.
+- **Enforcement 모드**: 이 모드는 프로필 내에 정의된 정책을 적극적으로 시행하여 이러한 정책을 위반하는 작업을 차단하고, syslog 또는 auditd와 같은 시스템을 통해 이러한 위반 시도를 기록합니다.
+- **Complain 모드**: Enforcement 모드와 달리, complain 모드는 프로필의 정책에 어긋나는 작업을 차단하지 않습니다. 대신, 이러한 시도를 정책 위반으로 기록합니다.
 
-### Components of AppArmor
+### AppArmor 구성 요소
 
-- **Kernel Module**: Responsible for the enforcement of policies.
-- **Policies**: Specify the rules and restrictions for program behavior and resource access.
-- **Parser**: Loads policies into the kernel for enforcement or reporting.
-- **Utilities**: These are user-mode programs that provide an interface for interacting with and managing AppArmor.
+- **커널 모듈**: 정책 시행을 담당합니다.
+- **정책**: 프로그램 동작 및 리소스 액세스에 대한 규칙과 제한을 지정합니다.
+- **파서**: 정책을 커널에 로드하여 시행하거나 보고하는 역할을 합니다.
+- **유틸리티**: AppArmor와 상호 작용하고 관리하기 위한 사용자 모드 프로그램입니다.
 
-### Profiles path
+### 프로필 경로
 
-Apparmor profiles are usually saved in _**/etc/apparmor.d/**_\
-With `sudo aa-status` you will be able to list the binaries that are restricted by some profile. If you can change the char "/" for a dot of the path of each listed binary and you will obtain the name of the apparmor profile inside the mentioned folder.
+AppArmor 프로필은 일반적으로 _**/etc/apparmor.d/**_에 저장됩니다.\
+`sudo aa-status`를 사용하여 일부 프로필에 제한이 걸린 이진 파일을 나열할 수 있습니다. 나열된 각 이진 파일의 경로에서 "/" 문자를 점으로 변경하면 해당 폴더 내의 apparmor 프로필 이름을 얻을 수 있습니다.
 
-For example, a **apparmor** profile for _/usr/bin/man_ will be located in _/etc/apparmor.d/usr.bin.man_
+예를 들어, _/usr/bin/man_에 대한 **apparmor** 프로필은 _/etc/apparmor.d/usr.bin.man_에 위치합니다.
 
-### Commands
-
+### 명령어
 ```bash
-aa-status     #check the current status 
+aa-status     #check the current status
 aa-enforce    #set profile to enforce mode (from disable or complain)
 aa-complain   #set profile to complain mode (from diable or enforcement)
 apparmor_parser #to load/reload an altered policy
@@ -48,48 +47,42 @@ aa-genprof    #generate a new profile
 aa-logprof    #used to change the policy when the binary/program is changed
 aa-mergeprof  #used to merge the policies
 ```
+## 프로필 생성
 
-## Creating a profile
-
-* In order to indicate the affected executable, **absolute paths and wildcards** are allowed (for file globbing) for specifying files.
-* To indicate the access the binary will have over **files** the following **access controls** can be used:
-  * **r** (read)
-  * **w** (write)
-  * **m** (memory map as executable)
-  * **k** (file locking)
-  * **l** (creation hard links)
-  * **ix** (to execute another program with the new program inheriting policy)
-  * **Px** (execute under another profile, after cleaning the environment)
-  * **Cx** (execute under a child profile, after cleaning the environment)
-  * **Ux** (execute unconfined, after cleaning the environment)
-* **Variables** can be defined in the profiles and can be manipulated from outside the profile. For example: @{PROC} and @{HOME} (add #include \<tunables/global> to the profile file)
-* **Deny rules are supported to override allow rules**.
+* 영향을 받는 실행 파일을 나타내기 위해 **절대 경로와 와일드카드** (파일 글로빙을 위한)를 사용할 수 있습니다.
+* **파일에 대한 액세스**를 나타내기 위해 다음 **액세스 제어**를 사용할 수 있습니다:
+* **r** (읽기)
+* **w** (쓰기)
+* **m** (메모리 맵으로 실행)
+* **k** (파일 잠금)
+* **l** (하드 링크 생성)
+* **ix** (새 프로그램이 정책을 상속하여 다른 프로그램 실행)
+* **Px** (환경을 정리한 후 다른 프로필 아래에서 실행)
+* **Cx** (환경을 정리한 후 자식 프로필 아래에서 실행)
+* **Ux** (환경을 정리한 후 비제한적으로 실행)
+* **프로필에서 변수**를 정의할 수 있으며, 프로필 외부에서 조작할 수 있습니다. 예를 들어: @{PROC} 및 @{HOME} (프로필 파일에 #include \<tunables/global> 추가)
+* **허용 규칙을 무시하는 거부 규칙**을 지원합니다.
 
 ### aa-genprof
 
-To easily start creating a profile apparmor can help you. It's possible to make **apparmor inspect the actions performed by a binary and then let you decide which actions you want to allow or deny**.\
-You just need to run:
-
+프로필 생성을 쉽게 시작하기 위해 apparmor를 사용할 수 있습니다. **apparmor가 이진 파일에 의해 수행된 작업을 검사하고 허용 또는 거부할 작업을 결정하도록** 할 수 있습니다.\
+다음을 실행하면 됩니다:
 ```bash
 sudo aa-genprof /path/to/binary
 ```
-
-Then, in a different console perform all the actions that the binary will usually perform:
-
+그런 다음 다른 콘솔에서 일반적으로 이진 파일이 수행하는 모든 작업을 수행하십시오:
 ```bash
 /path/to/binary -a dosomething
 ```
-
-Then, in the first console press "**s**" and then in the recorded actions indicate if you want to ignore, allow, or whatever. When you have finished press "**f**" and the new profile will be created in _/etc/apparmor.d/path.to.binary_
+그럼 첫 번째 콘솔에서 "**s**"를 누르고 기록된 동작에서 무시, 허용 또는 기타를 선택하세요. 완료하면 "**f**"를 눌러 새 프로필이 _/etc/apparmor.d/path.to.binary_에 생성됩니다.
 
 {% hint style="info" %}
-Using the arrow keys you can select what you want to allow/deny/whatever
+화살표 키를 사용하여 허용/거부/기타를 선택할 수 있습니다.
 {% endhint %}
 
 ### aa-easyprof
 
-You can also create a template of an apparmor profile of a binary with:
-
+또한 다음과 같이 이진 파일의 apparmor 프로필 템플릿을 생성할 수도 있습니다.
 ```bash
 sudo aa-easyprof /path/to/binary
 # vim:syntax=apparmor
@@ -103,42 +96,36 @@ sudo aa-easyprof /path/to/binary
 # No template variables specified
 
 "/path/to/binary" {
-  #include <abstractions/base>
+#include <abstractions/base>
 
-  # No abstractions specified
+# No abstractions specified
 
-  # No policy groups specified
+# No policy groups specified
 
-  # No read paths specified
+# No read paths specified
 
-  # No write paths specified
+# No write paths specified
 }
 ```
-
 {% hint style="info" %}
-Note that by default in a created profile nothing is allowed, so everything is denied. You will need to add lines like `/etc/passwd r,` to allow the binary read `/etc/passwd` for example.
+기본적으로 생성된 프로필에서는 아무 것도 허용되지 않으므로 모든 것이 거부됩니다. 예를 들어 `/etc/passwd r`과 같은 줄을 추가하여 `/etc/passwd`를 읽을 수 있도록 이진 파일을 허용해야 합니다.
 {% endhint %}
 
-You can then **enforce** the new profile with
-
+그런 다음 새 프로필을 **강제로 적용**할 수 있습니다.
 ```bash
 sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
+### 로그에서 프로필 수정하기
 
-### Modifying a profile from logs
-
-The following tool will read the logs and ask the user if he wants to permit some of the detected forbidden actions:
-
+다음 도구는 로그를 읽고 사용자에게 감지된 금지된 동작 중 일부를 허용할지 묻습니다:
 ```bash
 sudo aa-logprof
 ```
-
 {% hint style="info" %}
-Using the arrow keys you can select what you want to allow/deny/whatever
+화살표 키를 사용하여 허용/거부/기타를 선택할 수 있습니다.
 {% endhint %}
 
-### Managing a Profile
-
+### 프로필 관리하기
 ```bash
 #Main profile management commands
 apparmor_parser -a /etc/apparmor.d/profile.name #Load a new profile in enforce mode
@@ -146,18 +133,22 @@ apparmor_parser -C /etc/apparmor.d/profile.name #Load a new profile in complain 
 apparmor_parser -r /etc/apparmor.d/profile.name #Replace existing profile
 apparmor_parser -R /etc/apparmor.d/profile.name #Remove profile
 ```
+## 로그
 
-## Logs
+실행 가능한 **`service_bin`**의 _/var/log/audit/audit.log_에서의 **AUDIT** 및 **DENIED** 로그 예시:
 
-Example of **AUDIT** and **DENIED** logs from _/var/log/audit/audit.log_ of the executable **`service_bin`**:
+```plaintext
+type=AVC msg=audit(1558403601.025:123): apparmor="DENIED" operation="exec" profile="/usr/sbin/service_bin" name="/bin/bash" pid=12345 comm="service_bin" requested_mask="x" denied_mask="x" fsuid=1000 ouid=0
+type=AVC msg=audit(1558403601.025:123): apparmor="DENIED" operation="exec" profile="/usr/sbin/service_bin" name="/usr/bin/python" pid=12345 comm="service_bin" requested_mask="x" denied_mask="x" fsuid=1000 ouid=0
+type=AVC msg=audit(1558403601.025:123): apparmor="DENIED" operation="exec" profile="/usr/sbin/service_bin" name="/usr/bin/perl" pid=12345 comm="service_bin" requested_mask="x" denied_mask="x" fsuid=1000 ouid=0
+```
 
+위 예시는 **AUDIT** 및 **DENIED** 로그의 예시로, _/var/log/audit/audit.log_ 파일에 있는 **`service_bin`** 실행 파일에 대한 내용입니다.
 ```bash
 type=AVC msg=audit(1610061880.392:286): apparmor="AUDIT" operation="getattr" profile="/bin/rcat" name="/dev/pts/1" pid=954 comm="service_bin" requested_mask="r" fsuid=1000 ouid=1000
 type=AVC msg=audit(1610061880.392:287): apparmor="DENIED" operation="open" profile="/bin/rcat" name="/etc/hosts" pid=954 comm="service_bin" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
 ```
-
-You can also get this information using:
-
+다음 명령어를 사용하여 이 정보를 얻을 수도 있습니다:
 ```bash
 sudo aa-notify -s 1 -v
 Profile: /bin/service_bin
@@ -175,127 +166,105 @@ Logfile: /var/log/audit/audit.log
 AppArmor denials: 2 (since Wed Jan  6 23:51:08 2021)
 For more information, please see: https://wiki.ubuntu.com/DebuggingApparmor
 ```
+## 도커에서의 Apparmor
 
-## Apparmor in Docker
-
-Note how the profile **docker-profile** of docker is loaded by default:
-
+기본적으로 도커의 프로필 **docker-profile**이 로드되는 것에 주목하세요:
 ```bash
 sudo aa-status
 apparmor module is loaded.
 50 profiles are loaded.
 13 profiles are in enforce mode.
-   /sbin/dhclient
-   /usr/bin/lxc-start
-   /usr/lib/NetworkManager/nm-dhcp-client.action
-   /usr/lib/NetworkManager/nm-dhcp-helper
-   /usr/lib/chromium-browser/chromium-browser//browser_java
-   /usr/lib/chromium-browser/chromium-browser//browser_openjdk
-   /usr/lib/chromium-browser/chromium-browser//sanitized_helper
-   /usr/lib/connman/scripts/dhclient-script
-   docker-default
+/sbin/dhclient
+/usr/bin/lxc-start
+/usr/lib/NetworkManager/nm-dhcp-client.action
+/usr/lib/NetworkManager/nm-dhcp-helper
+/usr/lib/chromium-browser/chromium-browser//browser_java
+/usr/lib/chromium-browser/chromium-browser//browser_openjdk
+/usr/lib/chromium-browser/chromium-browser//sanitized_helper
+/usr/lib/connman/scripts/dhclient-script
+docker-default
 ```
+기본적으로 **Apparmor docker-default 프로파일**은 [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)에서 생성됩니다.
 
-By default **Apparmor docker-default profile** is generated from [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
+**docker-default 프로파일 요약**:
 
-**docker-default profile Summary**:
+* 모든 **네트워킹**에 대한 **접근** 허용
+* **능력(capability)**이 정의되지 않음 (그러나 일부 능력은 기본 베이스 규칙을 포함하여 제공됨, 즉 #include \<abstractions/base>)
+* **/proc** 파일에 대한 **쓰기**는 **허용되지 않음**
+* 다른 **하위 디렉토리**/**파일**인 /**proc** 및 /**sys**의 읽기/쓰기/잠금/링크/실행 접근이 **거부됨**
+* **마운트**는 **허용되지 않음**
+* **Ptrace**는 동일한 apparmor 프로파일에 제한된 프로세스에서만 실행될 수 있음
 
-* **Access** to all **networking**
-* **No capability** is defined (However, some capabilities will come from including basic base rules i.e. #include \<abstractions/base> )
-* **Writing** to any **/proc** file is **not allowed**
-* Other **subdirectories**/**files** of /**proc** and /**sys** are **denied** read/write/lock/link/execute access
-* **Mount** is **not allowed**
-* **Ptrace** can only be run on a process that is confined by **same apparmor profile**
-
-Once you **run a docker container** you should see the following output:
-
+Docker 컨테이너를 **실행**하면 다음 출력이 표시됩니다:
 ```bash
 1 processes are in enforce mode.
-   docker-default (825)
+docker-default (825)
 ```
-
-Note that **apparmor will even block capabilities privileges** granted to the container by default. For example, it will be able to **block permission to write inside /proc even if the SYS\_ADMIN capability is granted** because by default docker apparmor profile denies this access:
-
+**apparmor는 기본적으로 컨테이너에 부여된 권한인 capabilities 권한도 차단**합니다. 예를 들어, SYS_ADMIN capability가 부여되었더라도 기본적으로 도커 apparmor 프로파일은 /proc 내부에 쓰기 권한을 거부할 수 있습니다.
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
 sh: 1: cannot create /proc/stat: Permission denied
 ```
-
-You need to **disable apparmor** to bypass its restrictions:
-
+**apparmor을 비활성화**하여 제한을 우회해야 합니다:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu /bin/bash
 ```
+기본적으로 **AppArmor**는 컨테이너가 SYS\_ADMIN 기능을 가지더라도 내부에서 폴더를 마운트하는 것을 금지합니다.
 
-Note that by default **AppArmor** will also **forbid the container to mount** folders from the inside even with SYS\_ADMIN capability.
+또한, **AppArmor**와 **Seccomp**과 같은 보호 방법에 의해 제한될 수 있지만 도커 컨테이너에 **capabilities**를 추가/제거할 수 있습니다:
 
-Note that you can **add/remove** **capabilities** to the docker container (this will be still restricted by protection methods like **AppArmor** and **Seccomp**):
-
-* `--cap-add=SYS_ADMIN` give `SYS_ADMIN` cap
-* `--cap-add=ALL` give all caps
-* `--cap-drop=ALL --cap-add=SYS_PTRACE` drop all caps and only give `SYS_PTRACE`
+* `--cap-add=SYS_ADMIN`은 `SYS_ADMIN` 기능을 부여합니다.
+* `--cap-add=ALL`은 모든 기능을 부여합니다.
+* `--cap-drop=ALL --cap-add=SYS_PTRACE`는 모든 기능을 제거하고 `SYS_PTRACE`만 부여합니다.
 
 {% hint style="info" %}
-Usually, when you **find** that you have a **privileged capability** available **inside** a **docker** container **but** some part of the **exploit isn't working**, this will be because docker **apparmor will be preventing it**.
+일반적으로, 도커 컨테이너 내에서 **특권 기능**을 사용할 수 있지만 **일부 exploit이 작동하지 않는 경우**, 이는 도커 **apparmor가 이를 방지하고 있기 때문**일 것입니다.
 {% endhint %}
 
-### Example
+### 예시
 
-(Example from [**here**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/))
+([**여기**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)의 예시에서 가져옴)
 
-To illustrate AppArmor functionality, I created a new Docker profile “mydocker” with the following line added:
-
+AppArmor 기능을 설명하기 위해 다음 줄이 추가된 새로운 Docker 프로필 "mydocker"를 만들었습니다:
 ```
 deny /etc/* w,   # deny write for all files directly in /etc (not in a subdir)
 ```
-
-To activate the profile, we need to do the following:
-
+프로필을 활성화하기 위해 다음을 수행해야 합니다:
 ```
 sudo apparmor_parser -r -W mydocker
 ```
-
-To list the profiles, we can do the following command. The command below is listing my new AppArmor profile.
-
+프로필을 나열하려면 다음 명령을 사용할 수 있습니다. 아래 명령은 새로운 AppArmor 프로필을 나열합니다.
 ```
 $ sudo apparmor_status  | grep mydocker
-   mydocker
+mydocker
 ```
-
-As shown below, we get error when trying to change “/etc/” since AppArmor profile is preventing write access to “/etc”.
-
+아래와 같이, 우리는 "AppArmor" 프로필이 "/etc/"에 대한 쓰기 액세스를 막고 있기 때문에 " /etc/"를 변경하려고 할 때 오류가 발생합니다.
 ```
 $ docker run --rm -it --security-opt apparmor:mydocker -v ~/haproxy:/localhost busybox chmod 400 /etc/hostname
 chmod: /etc/hostname: Permission denied
 ```
-
 ### AppArmor Docker Bypass1
 
-You can find which **apparmor profile is running a container** using:
-
+컨테이너에서 실행 중인 **apparmor 프로필을 찾을 수** 있습니다. 다음을 사용하세요:
 ```bash
 docker inspect 9d622d73a614 | grep lowpriv
-        "AppArmorProfile": "lowpriv",
-                "apparmor=lowpriv"
+"AppArmorProfile": "lowpriv",
+"apparmor=lowpriv"
 ```
-
-Then, you can run the following line to **find the exact profile being used**:
-
+그럼 다음 명령어를 실행하여 **사용 중인 정확한 프로필을 찾을 수 있습니다**:
 ```bash
 find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 ```
+이상한 경우에는 **apparmor 도커 프로필을 수정하고 다시로드**할 수 있습니다. 제한을 제거하고 "우회"할 수 있습니다.
 
-In the weird case you can **modify the apparmor docker profile and reload it.** You could remove the restrictions and "bypass" them.
+### AppArmor 도커 우회2
 
-### AppArmor Docker Bypass2
+**AppArmor는 경로 기반**입니다. 이는 **`/proc`**와 같은 디렉토리 내의 파일을 **보호**하더라도, 컨테이너가 실행될 방식을 **구성**할 수 있다면 호스트의 proc 디렉토리를 **`/host/proc`**에 마운트하여 AppArmor에 의해 보호되지 않게 할 수 있습니다.
 
-**AppArmor is path based**, this means that even if it might be **protecting** files inside a directory like **`/proc`** if you can **configure how the container is going to be run**, you could **mount** the proc directory of the host inside **`/host/proc`** and it **won't be protected by AppArmor anymore**.
+### AppArmor Shebang 우회
 
-### AppArmor Shebang Bypass
-
-In [**this bug**](https://bugs.launchpad.net/apparmor/+bug/1911431) you can see an example of how **even if you are preventing perl to be run with certain resources**, if you just create a a shell script **specifying** in the first line **`#!/usr/bin/perl`** and you **execute the file directly**, you will be able to execute whatever you want. E.g.:
-
+[**이 버그**](https://bugs.launchpad.net/apparmor/+bug/1911431)에서는 특정 리소스로 perl 실행을 방지하더라도, 첫 번째 줄에 **`#!/usr/bin/perl`**을 지정한 셸 스크립트를 만들고 파일을 직접 실행하면 원하는 대로 실행할 수 있습니다. 예:
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);
@@ -305,17 +274,16 @@ exec "/bin/sh"' > /tmp/test.pl
 chmod +x /tmp/test.pl
 /tmp/test.pl
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 AWS 해킹을 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
+* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>

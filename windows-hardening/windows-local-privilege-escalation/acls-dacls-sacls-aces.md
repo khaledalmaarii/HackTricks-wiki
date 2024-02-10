@@ -3,204 +3,145 @@
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 가장 고급스러운 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
+오늘 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로에서 영웅까지 AWS 해킹을 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를** **팔로우**하세요.
+* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
 
-## **Access Control List (ACL)**
+## **접근 제어 목록 (ACL)**
 
-An Access Control List (ACL) consists of an ordered set of Access Control Entries (ACEs) that dictate the protections for an object and its properties. In essence, an ACL defines which actions by which security principals (users or groups) are permitted or denied on a given object.
+접근 제어 목록 (ACL)은 객체와 해당 속성에 대한 보호를 지시하는 순서가 지정된 접근 제어 항목 (ACE)의 집합으로 구성됩니다. 본질적으로 ACL은 주어진 객체에서 어떤 보안 주체 (사용자 또는 그룹)에 의해 어떤 작업이 허용되거나 거부되는지를 정의합니다.
 
-There are two types of ACLs:
+두 가지 유형의 ACL이 있습니다:
 
-- **Discretionary Access Control List (DACL):** Specifies which users and groups have or do not have access to an object.
-- **System Access Control List (SACL):** Governs the auditing of access attempts to an object.
+- **Discretionary Access Control List (DACL):** 객체에 대한 액세스 권한을 가진 사용자 및 그룹을 지정합니다.
+- **System Access Control List (SACL):** 객체에 대한 액세스 시도의 감사를 관리합니다.
 
-The process of accessing a file involves the system checking the object's security descriptor against the user's access token to determine if access should be granted and the extent of that access, based on the ACEs.
+파일에 액세스하는 프로세스는 시스템이 객체의 보안 설명자를 사용자의 액세스 토큰과 비교하여 액세스가 허용되어야 하는지 및 해당 액세스의 범위를 결정하는 것을 포함합니다. 이는 ACE와 보안 주체의 SID를 비교하여 액세스 자격을 결정합니다.
 
-### **Key Components**
+### **주요 구성 요소**
 
-- **DACL:** Contains ACEs that grant or deny access permissions to users and groups for an object. It's essentially the main ACL that dictates access rights.
-  
-- **SACL:** Used for auditing access to objects, where ACEs define the types of access to be logged in the Security Event Log. This can be invaluable for detecting unauthorized access attempts or troubleshooting access issues.
+- **DACL:** 객체에 대한 사용자 및 그룹의 액세스 권한을 부여하거나 거부하는 ACE를 포함합니다. 이는 액세스 권한을 지시하는 주요 ACL입니다.
 
-### **System Interaction with ACLs**
+- **SACL:** 객체에 대한 액세스 감사를 위해 사용되며, ACE는 보안 이벤트 로그에 기록될 액세스 유형을 정의합니다. 이는 무단 액세스 시도를 감지하거나 액세스 문제를 해결하는 데 매우 유용합니다.
 
-Each user session is associated with an access token that contains security information relevant to that session, including user, group identities, and privileges. This token also includes a logon SID that uniquely identifies the session.
+### **ACL과 시스템 상호 작용**
 
-The Local Security Authority (LSASS) processes access requests to objects by examining the DACL for ACEs that match the security principal attempting access. Access is immediately granted if no relevant ACEs are found. Otherwise, LSASS compares the ACEs against the security principal's SID in the access token to determine access eligibility.
+각 사용자 세션은 해당 세션에 관련된 보안 정보 (사용자, 그룹 식별 및 권한)를 포함하는 액세스 토큰과 연결됩니다. 이 토큰에는 세션을 고유하게 식별하는 로그온 SID도 포함됩니다.
 
-### **Summarized Process**
+로컬 보안 권한자 (LSASS)는 액세스 요청을 처리하여 액세스를 시도하는 보안 주체와 일치하는 ACE를 DACL에서 검사함으로써 객체에 대한 액세스 요청을 처리합니다. 관련 ACE가 없는 경우 액세스가 즉시 허용됩니다. 그렇지 않은 경우, LSASS는 액세스 토큰의 보안 주체의 SID와 ACE를 비교하여 액세스 자격을 결정합니다.
 
-- **ACLs:** Define access permissions through DACLs and audit rules through SACLs.
-- **Access Token:** Contains user, group, and privilege information for a session.
-- **Access Decision:** Made by comparing DACL ACEs with the access token; SACLs are used for auditing.
+### **요약된 프로세스**
+
+- **ACL:** DACL을 통해 액세스 권한을 정의하고, SACL을 통해 감사 규칙을 정의합니다.
+- **액세스 토큰:** 세션에 대한 사용자, 그룹 및 권한 정보를 포함합니다.
+- **액세스 결정:** DACL ACE를 액세스 토큰과 비교하여 결정하며, 감사를 위해 SACL을 사용합니다.
 
 
 ### ACEs
 
-There arey **three main types of Access Control Entries (ACEs)**:
+**세 가지 주요 유형의 접근 제어 항목 (ACE)**이 있습니다:
 
-- **Access Denied ACE**: This ACE explicitly denies access to an object for specified users or groups (in a DACL).
-- **Access Allowed ACE**: This ACE explicitly grants access to an object for specified users or groups (in a DACL).
-- **System Audit ACE**: Positioned within a System Access Control List (SACL), this ACE is responsible for generating audit logs upon access attempts to an object by users or groups. It documents whether access was allowed or denied and the nature of the access.
+- **액세스 거부 ACE**: 이 ACE는 특정 사용자 또는 그룹에 대한 객체 액세스를 명시적으로 거부합니다 (DACL에서).
+- **액세스 허용 ACE**: 이 ACE는 특정 사용자 또는 그룹에 대한 객체 액세스를 명시적으로 허용합니다 (DACL에서).
+- **시스템 감사 ACE**: 시스템 액세스 제어 목록 (SACL) 내에 위치한 이 ACE는 사용자 또는 그룹에 의한 객체 액세스 시도에 대한 감사 로그를 생성합니다. 액세스가 허용되었는지 거부되었는지 및 액세스의 성격을 문서화합니다.
 
-Each ACE has **four critical components**:
+각 ACE에는 **네 가지 중요한 구성 요소**가 있습니다:
 
-1. The **Security Identifier (SID)** of the user or group (or their principal name in a graphical representation).
-2. A **flag** that identifies the ACE type (access denied, allowed, or system audit).
-3. **Inheritance flags** that determine if child objects can inherit the ACE from their parent.
-4. An **[access mask](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN)**, a 32-bit value specifying the object's granted rights.
+1. 사용자 또는 그룹의 **보안 식별자 (SID)** (또는 그래픽 표현에서의 주체 이름).
+2. ACE 유형 (액세스 거부, 허용 또는 시스템 감사)을 식별하는 **플래그**.
+3. 자식 객체가 부모로부터 ACE를 상속할지 여부를 결정하는 **상속 플래그**.
+4. 객체에 부여된 권한을 지정하는 **[액세스 마스크](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN)**로, 32비트 값입니다.
 
-Access determination is conducted by sequentially examining each ACE until:
+액세스 결정은 다음과 같이 각 ACE를 순차적으로 검사하여 수행됩니다:
 
-- An **Access-Denied ACE** explicitly denies the requested rights to a trustee identified in the access token.
-- **Access-Allowed ACE(s)** explicitly grant all requested rights to a trustee in the access token.
-- Upon checking all ACEs, if any requested right has **not been explicitly allowed**, access is implicitly **denied**.
-
-
-### Order of ACEs
-
-The way **ACEs** (rules that say who can or cannot access something) are put in a list called **DACL** is very important. This is because once the system gives or denies access based on these rules, it stops looking at the rest. 
-
-There is a best way to organize these ACEs, and it is called **"canonical order."** This method helps make sure everything works smoothly and fairly. Here is how it goes for systems like **Windows 2000** and **Windows Server 2003**:
-
-- First, put all the rules that are made **specifically for this item** before the ones that come from somewhere else, like a parent folder.
-- In those specific rules, put the ones that say **"no" (deny)** before the ones that say **"yes" (allow)**.
-- For the rules that come from somewhere else, start with the ones from the **closest source**, like the parent, and then go back from there. Again, put **"no"** before **"yes."**
-
-This setup helps in two big ways:
-
-* It makes sure that if there is a specific **"no,"** it is respected, no matter what other **"yes"** rules are there.
-* It lets the owner of an item have the **final say** on who gets in, before any rules from parent folders or further back come into play.
-
-By doing things this way, the owner of a file or folder can be very precise about who gets access, making sure the right people can get in and the wrong ones can't.
-
-![](https://www.ntfs.com/images/screenshots/ACEs.gif)
-
-So, this **"canonical order"** is all about making sure the access rules are clear and work well, putting specific rules first and organizing everything in a smart way.
+- **액세스 거부 ACE**가 액세스 토큰에서 신뢰자에게 요청된 권한을 명시적으로 거부합니다.
+- **액세스 허용 ACE**가 액세스 토큰의 신뢰자에게 모든 요청된 권한을 명시적으로 허용합니다.
+- 모든 ACE를 확인한 후에도 요청된 권한 중 **명시적으로 허용되지 않은** 권한이 있다면 액세스는 암묵적으로 **거부**됩니다.
 
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+### ACE의 순서
 
-\
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+**ACE** (누가 무엇에 액세스할 수 있는지 또는 할 수 없는지를 지정하는 규칙)가 **DACL**이라는 목록에 배치되는 방식
+### GUI 예시
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+**[여기에서 가져온 예시](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)**
 
-### GUI Example
-
-**[Example from here](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)**
-
-This is the classic security tab of a folder showing the ACL, DACL and ACEs:
+이것은 ACL, DACL 및 ACE를 보여주는 폴더의 클래식 보안 탭입니다:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/classicsectab.jpg](../../.gitbook/assets/classicsectab.jpg)
 
-If we click the **Advanced button** we will get more options like inheritance:
+**고급 버튼**을 클릭하면 상속과 같은 추가 옵션을 얻을 수 있습니다:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/aceinheritance.jpg](../../.gitbook/assets/aceinheritance.jpg)
 
-And if you add or edit a Security Principal:
+그리고 보안 주체를 추가하거나 편집하는 경우:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/editseprincipalpointers1.jpg](../../.gitbook/assets/editseprincipalpointers1.jpg)
 
-And last we have the SACL in the Auditing tab:
+마지막으로 감사 탭에서 SACL을 확인할 수 있습니다:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/audit-tab.jpg](../../.gitbook/assets/audit-tab.jpg)
 
-### Explaining Access Control in a Simplified Manner
+### 간단히 설명하는 접근 제어
 
-When managing access to resources, like a folder, we use lists and rules known as Access Control Lists (ACLs) and Access Control Entries (ACEs). These define who can or cannot access certain data.
+폴더와 같은 리소스에 대한 액세스를 관리할 때, 우리는 액세스 제어 목록 (ACL) 및 액세스 제어 항목 (ACE)이라고 하는 목록과 규칙을 사용합니다. 이들은 특정 데이터에 누가 액세스할 수 있는지 또는 할 수 없는지를 정의합니다.
 
-#### Denying Access to a Specific Group
+#### 특정 그룹에 대한 액세스 거부
 
-Imagine you have a folder named Cost, and you want everyone to access it except for a marketing team. By setting up the rules correctly, we can ensure that the marketing team is explicitly denied access before allowing everyone else. This is done by placing the rule to deny access to the marketing team before the rule that allows access to everyone. 
+Cost라는 폴더가 있다고 상상해보세요. 마케팅 팀을 제외한 모든 사람들이 액세스할 수 있도록 하려면 어떻게 해야 할까요? 올바른 규칙을 설정하여 마케팅 팀에 대한 액세스를 명시적으로 거부한 후 다른 모든 사람들에게 액세스를 허용함으로써 이를 보장할 수 있습니다. 이를 위해 마케팅 팀에 대한 액세스 거부 규칙을 모든 사람들에게 액세스를 허용하는 규칙보다 먼저 배치합니다.
 
-#### Allowing Access to a Specific Member of a Denied Group
+#### 거부된 그룹의 특정 구성원에 대한 액세스 허용
 
-Let's say Bob, the marketing director, needs access to the Cost folder, even though the marketing team generally shouldn't have access. We can add a specific rule (ACE) for Bob that grants him access, and place it before the rule that denies access to the marketing team. This way, Bob gets access despite the general restriction on his team.
+마케팅 팀이 일반적으로 액세스 권한을 갖지 않아야 하지만 마케팅 디렉터인 Bob은 Cost 폴더에 액세스해야 한다고 가정해 봅시다. 우리는 Bob을 위해 액세스를 허용하는 특정 규칙 (ACE)을 추가하고, 이를 마케팅 팀에 대한 액세스 거부 규칙보다 먼저 배치할 수 있습니다. 이렇게 하면 Bob은 팀의 일반적인 제한에도 불구하고 액세스를 얻을 수 있습니다.
 
-#### Understanding Access Control Entries
+#### 액세스 제어 항목 이해하기
 
-ACEs are the individual rules in an ACL. They identify users or groups, specify what access is allowed or denied, and determine how these rules apply to sub-items (inheritance). There are two main types of ACEs:
+ACE는 ACL 내의 개별 규칙입니다. 이들은 사용자 또는 그룹을 식별하고, 허용되거나 거부되는 액세스를 지정하며, 이러한 규칙이 하위 항목에 적용되는 방식 (상속)을 결정합니다. ACE에는 다음과 같은 두 가지 주요 유형이 있습니다:
 
-- **Generic ACEs**: These apply broadly, affecting either all types of objects or distinguishing only between containers (like folders) and non-containers (like files). For example, a rule that allows users to see the contents of a folder but not to access the files within it.
+- **일반 ACE**: 이들은 일반적으로 적용되며, 모든 유형의 개체에 영향을 미치거나 컨테이너 (폴더와 같은)와 비컨테이너 (파일과 같은)만을 구분합니다. 예를 들어, 사용자가 폴더의 내용을 볼 수 있지만 내부 파일에는 액세스할 수 없는 규칙입니다.
 
-- **Object-Specific ACEs**: These provide more precise control, allowing rules to be set for specific types of objects or even individual properties within an object. For instance, in a directory of users, a rule might allow a user to update their phone number but not their login hours.
+- **개체별 ACE**: 이들은 더 정확한 제어를 제공하며, 특정 유형의 개체 또는 개체 내의 개별 속성에 대한 규칙을 설정할 수 있습니다. 예를 들어, 사용자 디렉토리에서 사용자가 전화번호를 업데이트할 수 있지만 로그인 시간은 업데이트할 수 없는 규칙입니다.
 
-Each ACE contains important information like who the rule applies to (using a Security Identifier or SID), what the rule allows or denies (using an access mask), and how it's inherited by other objects.
+각 ACE에는 규칙이 적용되는 대상 (보안 식별자 또는 SID), 규칙이 허용되거나 거부되는 내용 (액세스 마스크) 및 다른 개체에 상속되는 방식과 같은 중요한 정보가 포함되어 있습니다.
 
-#### Key Differences Between ACE Types
+#### ACE 유형 간 주요 차이점
 
-- **Generic ACEs** are suitable for simple access control scenarios, where the same rule applies to all aspects of an object or to all objects within a container.
+- **일반 ACE**는 단순한 액세스 제어 시나리오에 적합하며, 동일한 규칙이 개체의 모든 측면 또는 컨테이너 내의 모든 개체에 적용되는 경우에 사용됩니다.
 
-- **Object-Specific ACEs** are used for more complex scenarios, especially in environments like Active Directory, where you might need to control access to specific properties of an object differently.
+- **개체별 ACE**는 더 복잡한 시나리오에서 사용되며, 특히 Active Directory와 같은 환경에서는 개체의 특정 속성에 대한 액세스를 다르게 제어해야 할 수 있습니다.
 
-In summary, ACLs and ACEs help define precise access controls, ensuring that only the right individuals or groups have access to sensitive information or resources, with the ability to tailor access rights down to the level of individual properties or object types.
+요약하면, ACL과 ACE는 정확한 액세스 제어를 정의하여 민감한 정보나 리소스에 대한 액세스를 가진 개인 또는 그룹에게만 허용하며, 액세스 권한을 개별 속성이나 개체 유형 수준까지 맞춤 설정할 수 있도록 도와줍니다.
 
-### Access Control Entry Layout
+### 액세스 제어 항목 레이아웃
 
-| ACE Field   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ACE 필드   | 설명                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Type        | Flag that indicates the type of ACE. Windows 2000 and Windows Server 2003 support six types of ACE: Three generic ACE types that are attached to all securable objects. Three object-specific ACE types that can occur for Active Directory objects.                                                                                                                                                                                                                                                            |
-| Flags       | Set of bit flags that control inheritance and auditing.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Size        | Number of bytes of memory that are allocated for the ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Access mask | 32-bit value whose bits correspond to access rights for the object. Bits can be set either on or off, but the setting's meaning depends on the ACE type. For example, if the bit that corresponds to the right to read permissions is turned on, and the ACE type is Deny, the ACE denies the right to read the object's permissions. If the same bit is set on but the ACE type is Allow, the ACE grants the right to read the object's permissions. More details of the Access mask appear in the next table. |
-| SID         | Identifies a user or group whose access is controlled or monitored by this ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 유형        | ACE의 유형을 나타내는 플래그입니다. Windows 2000 및 Windows Server 2003은 모든 보안 가능한 개체에 연결되는 세 가지 일반 ACE 유형과 Active Directory 개체에 발생할 수 있는 세 가지 개체별 ACE 유형을 지원합니다.                                                                                                                                                                                                                                                            |
+| 플래그       | 상속 및 감사를 제어하는 비트 플래그 세트입니다.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 크기        | ACE에 할당된 메모리의 바이트 수입니다.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 액세스 마스크 | 개체에 대한 액세스 권한에 해당하는 비트가 있는 32비트 값입니다. 비트는 켜거나 끌 수 있지만, 설정의 의미는 ACE 유형에 따라 다릅니다. 예를 들어, 읽기 권한에 해당하는 비트가 켜져 있고 ACE 유형이 거부인 경우, ACE는 개체의 권한을 읽을 수 없도록 거부합니다. 동일한 비트가 켜져 있지만 ACE 유형이 허용인 경우, ACE는 개체의 권한을 읽을 수 있도록 허용합니다. 액세스 마스크의 자세한 내용은 다음 표에서 확인할 수 있습니다. |
+| SID         | 이 ACE에 의해 제어되는 사용자 또는 그룹을 식별합니다.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
-### Access Mask Layout
+### 액세스 마스크 레이아웃
 
-| Bit (Range) | Meaning                            | Description/Example                       |
+| 비트 (범위) | 의미                            | 설명/예시                       |
 | ----------- | ---------------------------------- | ----------------------------------------- |
-| 0 - 15      | Object Specific Access Rights      | Read data, Execute, Append data           |
-| 16 - 22     | Standard Access Rights             | Delete, Write ACL, Write Owner            |
-| 23          | Can access security ACL            |                                           |
-| 24 - 27     | Reserved                           |                                           |
-| 28          | Generic ALL (Read, Write, Execute) | Everything below                          |
-| 29          | Generic Execute                    | All things necessary to execute a program |
-| 30          | Generic Write                      | All things necessary to write to a file   |
-| 31          | Generic Read                       | All things necessary to read a file       |
-
-## References
-
-* [https://www.ntfs.com/ntfs-permissions-acl-use.htm](https://www.ntfs.com/ntfs-permissions-acl-use.htm)
-* [https://secureidentity.se/acl-dacl-sacl-and-the-ace/](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
-* [https://www.coopware.in2.info/_ntfsacl_ht.htm](https://www.coopware.in2.info/_ntfsacl_ht.htm)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+| 0 - 15      | 개체별 액세스 권한      | 데이터 읽기, 실행, 데이터 추가           |
+| 16 - 22     | 표준 액세스 권한             | 삭제, ACL 쓰기, 소유자 쓰기            |
+| 23          | 보안 ACL에 액세스할 수 있는지 여부            |                                           |
+| 24 - 27     | 예약됨

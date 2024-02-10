@@ -1,31 +1,28 @@
-# Docker Forensics
+# 도커 포렌식
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로에서 영웅까지 AWS 해킹을 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+* **HackTricks**와 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하여 여러분의 해킹 기교를 공유하세요.
 
 </details>
 
-## Container modification
+## 컨테이너 수정
 
-There are suspicions that some docker container was compromised:
-
+어떤 도커 컨테이너가 침해당했을 가능성이 있습니다:
 ```bash
 docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-
-You can easily **find the modifications done to this container with regards to the image** with:
-
+이 컨테이너에 대한 이미지와 관련하여 수행된 수정 사항을 쉽게 찾을 수 있습니다. 다음과 같이 하면 됩니다:
 ```bash
 docker diff wordpress
 C /var
@@ -39,70 +36,52 @@ A /var/lib/mysql/mysql/time_zone_leap_second.MYI
 A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
-
-In the previous command **C** means **Changed** and **A,** **Added**.\
-If you find that some interesting file like `/etc/shadow` was modified you can download it from the container to check for malicious activity with:
-
+이전 명령어에서 **C**는 **변경됨(Changed)**을 의미하고, **A**는 **추가됨(Added)**을 의미합니다.\
+만약 `/etc/shadow`와 같은 흥미로운 파일이 수정되었다고 판단된다면, 악성 활동을 확인하기 위해 해당 컨테이너에서 다운로드할 수 있습니다:
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
-
-You can also **compare it with the original one** running a new container and extracting the file from it:
-
+새 컨테이너를 실행하고 파일을 추출하여 원본과 비교할 수도 있습니다:
 ```bash
 docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
 diff original_shadow shadow
 ```
-
-If you find that **some suspicious file was added** you can access the container and check it:
-
+만약 **의심스러운 파일이 추가**되었다는 것을 발견한다면, 컨테이너에 접근하여 확인할 수 있습니다:
 ```bash
 docker exec -it wordpress bash
 ```
+## 이미지 수정
 
-## Images modifications
-
-When you are given an exported docker image (probably in `.tar` format) you can use [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) to **extract a summary of the modifications**:
-
+당신에게 내보낸 도커 이미지 (아마도 `.tar` 형식일 것입니다)가 주어지면 [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases)를 사용하여 **수정 내용 요약을 추출**할 수 있습니다:
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
 container-diff analyze -t history image.tar
 container-diff analyze -t metadata image.tar
 ```
-
-Then, you can **decompress** the image and **access the blobs** to search for suspicious files you may have found in the changes history:
-
+그런 다음 이미지를 **압축 해제**하고 **블롭에 액세스**하여 변경 내역에서 발견한 수상한 파일을 검색할 수 있습니다:
 ```bash
 tar -xf image.tar
 ```
+### 기본 분석
 
-### Basic Analysis
-
-You can get **basic information** from the image running:
-
+이미지를 실행하여 **기본 정보**를 얻을 수 있습니다:
 ```bash
-docker inspect <image> 
+docker inspect <image>
 ```
-
-You can also get a summary **history of changes** with:
-
+다음과 같이 **변경 내역의 요약**을 얻을 수도 있습니다:
 ```bash
 docker history --no-trunc <image>
 ```
-
-You can also generate a **dockerfile from an image** with:
-
+이미지에서 **도커파일을 생성**할 수도 있습니다. 다음과 같이 하면 됩니다:
 ```bash
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm alpine/dfimage"
 dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
 ```
-
 ### Dive
 
-In order to find added/modified files in docker images you can also use the [**dive**](https://github.com/wagoodman/dive) (download it from [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) utility:
-
+도커 이미지에서 추가/수정된 파일을 찾기 위해 [**dive**](https://github.com/wagoodman/dive)도 사용할 수 있습니다. (다음 [**릴리스**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)에서 다운로드할 수 있습니다.) 유틸리티:
 ```bash
 #First you need to load the image in your docker repo
 sudo docker load < image.tar                                                                                                                                                                                                         1 ⨯
@@ -111,33 +90,30 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
+이를 통해 도커 이미지의 다른 덩어리를 탐색하고 수정/추가된 파일을 확인할 수 있습니다. **빨간색**은 추가된 것을 의미하고 **노란색**은 수정된 것을 의미합니다. **탭**을 사용하여 다른 뷰로 이동하고 **스페이스바**를 사용하여 폴더를 축소/확장할 수 있습니다.
 
-This allows you to **navigate through the different blobs of docker images** and check which files were modified/added. **Red** means added and **yellow** means modified. Use **tab** to move to the other view and **space** to collapse/open folders.
-
-With die you won't be able to access the content of the different stages of the image. To do so you will need to **decompress each layer and access it**.\
-You can decompress all the layers from an image from the directory where the image was decompressed executing:
-
+die를 사용하면 이미지의 다른 단계의 내용에 액세스할 수 없습니다. 이를 위해 각 레이어를 압축 해제하고 액세스해야 합니다.\
+이미지가 압축 해제된 디렉토리에서 모든 레이어를 압축 해제할 수 있습니다. 다음을 실행하세요.
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
 ```
+## 메모리에서 자격 증명 얻기
 
-## Credentials from memory
+참고로 호스트 내에서 도커 컨테이너를 실행할 때 **호스트에서 컨테이너에서 실행 중인 프로세스를 볼 수 있습니다**. `ps -ef`를 실행하면 됩니다.
 
-Note that when you run a docker container inside a host **you can see the processes running on the container from the host** just running `ps -ef`
-
-Therefore (as root) you can **dump the memory of the processes** from the host and search for **credentials** just [**like in the following example**](../../linux-hardening/privilege-escalation/#process-memory).
+따라서 (루트 권한으로) 호스트에서 **프로세스의 메모리를 덤프**하고 [**다음 예시처럼**](../../linux-hardening/privilege-escalation/#process-memory) **자격 증명을 검색**할 수 있습니다.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스왑**](https://peass.creator-spring.com)을 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**를** 팔로우하세요.
+* **HackTricks**와 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하여 여러분의 해킹 기법을 공유하세요.
 
 </details>

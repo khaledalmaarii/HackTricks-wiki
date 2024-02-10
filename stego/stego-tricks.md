@@ -1,60 +1,56 @@
-# Stego Tricks
+# 스테고 트릭
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+* **Hacking 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github 저장소에 제출**하세요.
 
 </details>
 
 <figure><img src="../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+가장 중요한 취약점을 찾아서 더 빠르게 수정하세요. Intruder는 공격 대상을 추적하고 적극적인 위협 스캔을 실행하여 API부터 웹 앱 및 클라우드 시스템까지 전체 기술 스택에서 문제를 찾습니다. [**무료로 시도해보세요**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) 오늘.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 ***
 
-## **Extracting Data from Files**
+## **파일에서 데이터 추출하기**
 
 ### **Binwalk**
-A tool for searching binary files for embedded hidden files and data. It's installed via `apt` and its source is available on [GitHub](https://github.com/ReFirmLabs/binwalk).
+임베디드된 숨겨진 파일과 데이터를 찾기 위한 이진 파일 검색 도구입니다. `apt`를 통해 설치되며 소스는 [GitHub](https://github.com/ReFirmLabs/binwalk)에서 사용할 수 있습니다.
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
 binwalk --dd ".*" file # Extracts all data
 ```
-
 ### **Foremost**
-Recovers files based on their headers and footers, useful for png images. Installed via `apt` with its source on [GitHub](https://github.com/korczis/foremost).
+헤더와 푸터를 기반으로 파일을 복구하여 png 이미지에 유용합니다. [GitHub](https://github.com/korczis/foremost)에서 소스를 사용하여 `apt`를 통해 설치됩니다.
 ```bash
 foremost -i file # Extracts data
 ```
-
 ### **Exiftool**
-Helps to view file metadata, available [here](https://www.sno.phy.queensu.ca/~phil/exiftool/).
+파일 메타데이터를 확인하는 데 도움이 되는 도구입니다. [여기](https://www.sno.phy.queensu.ca/~phil/exiftool/)에서 사용할 수 있습니다.
 ```bash
 exiftool file # Shows the metadata
 ```
-
 ### **Exiv2**
-Similar to exiftool, for metadata viewing. Installable via `apt`, source on [GitHub](https://github.com/Exiv2/exiv2), and has an [official website](http://www.exiv2.org/).
+exiftool과 유사한 메타데이터 뷰어입니다. `apt`를 통해 설치할 수 있으며, [GitHub](https://github.com/Exiv2/exiv2)에서 소스를 찾을 수 있으며, [공식 웹사이트](http://www.exiv2.org/)도 있습니다.
 ```bash
 exiv2 file # Shows the metadata
 ```
+### **파일**
+다루고 있는 파일의 유형을 식별합니다.
 
-### **File**
-Identify the type of file you're dealing with.
-
-### **Strings**
-Extracts readable strings from files, using various encoding settings to filter the output.
+### **문자열**
+파일에서 읽을 수 있는 문자열을 추출하며, 출력을 필터링하기 위해 다양한 인코딩 설정을 사용합니다.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -66,17 +62,15 @@ strings -e b -n 6 file # 16bit strings (big-endian)
 strings -e L -n 6 file # 32bit strings (little-endian)
 strings -e B -n 6 file # 32bit strings (big-endian)
 ```
-
-### **Comparison (cmp)**
-Useful for comparing a modified file with its original version found online.
+### **비교 (cmp)**
+수정된 파일을 온라인에서 찾은 원본 버전과 비교하는 데 유용합니다.
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
+## **텍스트에서 숨겨진 데이터 추출하기**
 
-## **Extracting Hidden Data in Text**
-
-### **Hidden Data in Spaces**
-Invisible characters in seemingly empty spaces may hide information. To extract this data, visit [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
+### **공백에 숨겨진 데이터**
+보이지 않는 문자들이 비어있는 공백에 숨겨져 있을 수 있습니다. 이 데이터를 추출하기 위해서는 [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)를 방문하세요.
 
 
 
@@ -85,84 +79,76 @@ Invisible characters in seemingly empty spaces may hide information. To extract 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 가장 **고급스러운** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 **자동화**할 수 있습니다.\
+오늘 바로 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ***
 
-## **Extracting Data from Images**
+## **이미지에서 데이터 추출하기**
 
-### **Identifying Image Details with GraphicMagick**
+### **GraphicMagick을 사용하여 이미지 세부 정보 식별하기**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) serves to determine image file types and identify potential corruption. Execute the command below to inspect an image:
-
+[GraphicMagick](https://imagemagick.org/script/download.php)은 이미지 파일 유형을 결정하고 잠재적인 손상을 식별하는 데 사용됩니다. 아래 명령을 실행하여 이미지를 검사하세요:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-
-To attempt repair on a damaged image, adding a metadata comment might help:
-
+손상된 이미지를 복구하려면 메타데이터 주석을 추가하는 것이 도움이 될 수 있습니다:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
+### **데이터 은닉을 위한 Steghide**
 
-### **Steghide for Data Concealment**
+Steghide는 `JPEG, BMP, WAV, AU` 파일에 데이터를 숨기는 기능을 제공하며, 암호화된 데이터를 포함하고 추출할 수 있습니다. 설치는 `apt`를 사용하여 간단하게 할 수 있으며, [GitHub에서 소스 코드를 사용할 수 있습니다](https://github.com/StefanoDeVuono/steghide).
 
-Steghide facilitates hiding data within `JPEG, BMP, WAV, and AU` files, capable of embedding and extracting encrypted data. Installation is straightforward using `apt`, and its [source code is available on GitHub](https://github.com/StefanoDeVuono/steghide).
+**명령어:**
+- `steghide info file`은 파일에 숨겨진 데이터가 있는지 확인합니다.
+- `steghide extract -sf file [--passphrase password]`은 숨겨진 데이터를 추출하며, 비밀번호는 선택 사항입니다.
 
-**Commands:**
-- `steghide info file` reveals if a file contains hidden data.
-- `steghide extract -sf file [--passphrase password]` extracts the hidden data, password optional.
+웹 기반 추출을 위해서는 [이 웹사이트](https://futureboy.us/stegano/decinput.html)를 방문하십시오.
 
-For web-based extraction, visit [this website](https://futureboy.us/stegano/decinput.html).
-
-**Bruteforce Attack with Stegcracker:**
-- To attempt password cracking on Steghide, use [stegcracker](https://github.com/Paradoxis/StegCracker.git) as follows:
-
+**Stegcracker를 사용한 무차별 대입 공격:**
+- Steghide에서 비밀번호 크래킹을 시도하려면 [stegcracker](https://github.com/Paradoxis/StegCracker.git)를 다음과 같이 사용하십시오:
 ```bash
 stegcracker <file> [<wordlist>]
 ```
+### **PNG 및 BMP 파일에 대한 zsteg**
 
-### **zsteg for PNG and BMP Files**
+zsteg는 PNG 및 BMP 파일에서 숨겨진 데이터를 찾는 데 특화되어 있습니다. 설치는 `gem install zsteg`를 통해 수행되며, [GitHub에서 소스](https://github.com/zed-0xff/zsteg)를 확인할 수 있습니다.
 
-zsteg specializes in uncovering hidden data in PNG and BMP files. Installation is done via `gem install zsteg`, with its [source on GitHub](https://github.com/zed-0xff/zsteg).
+**명령어:**
+- `zsteg -a 파일`은 파일에 모든 탐지 방법을 적용합니다.
+- `zsteg -E 파일`은 데이터 추출을 위한 페이로드를 지정합니다.
 
-**Commands:**
-- `zsteg -a file` applies all detection methods on a file.
-- `zsteg -E file` specifies a payload for data extraction.
+### **StegoVeritas 및 Stegsolve**
 
-### **StegoVeritas and Stegsolve**
+**stegoVeritas**는 메타데이터를 확인하고 이미지 변환을 수행하며, LSB 무차별 대입 등의 기능을 제공합니다. 모든 옵션을 확인하려면 `stegoveritas.py -h`를 사용하고, 모든 검사를 실행하려면 `stegoveritas.py stego.jpg`를 사용하세요.
 
-**stegoVeritas** checks metadata, performs image transformations, and applies LSB brute forcing among other features. Use `stegoveritas.py -h` for a full list of options and `stegoveritas.py stego.jpg` to execute all checks.
+**Stegsolve**는 다양한 색상 필터를 적용하여 이미지 내에 숨겨진 텍스트나 메시지를 확인할 수 있습니다. [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)에서 사용할 수 있습니다.
 
-**Stegsolve** applies various color filters to reveal hidden texts or messages within images. It's available on [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
+### **FFT를 사용한 숨겨진 콘텐츠 탐지**
 
-### **FFT for Hidden Content Detection**
+Fast Fourier Transform (FFT) 기술을 사용하면 이미지에서 숨겨진 콘텐츠를 확인할 수 있습니다. 유용한 자료는 다음과 같습니다:
 
-Fast Fourier Transform (FFT) techniques can unveil concealed content in images. Useful resources include:
-
-- [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
+- [EPFL 데모](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 - [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
-- [FFTStegPic on GitHub](https://github.com/0xcomposure/FFTStegPic)
+- [GitHub의 FFTStegPic](https://github.com/0xcomposure/FFTStegPic)
 
-### **Stegpy for Audio and Image Files**
+### **오디오 및 이미지 파일에 대한 Stegpy**
 
-Stegpy allows embedding information into image and audio files, supporting formats like PNG, BMP, GIF, WebP, and WAV. It's available on [GitHub](https://github.com/dhsdshdhk/stegpy).
+Stegpy를 사용하면 PNG, BMP, GIF, WebP 및 WAV와 같은 형식의 이미지 및 오디오 파일에 정보를 삽입할 수 있습니다. [GitHub](https://github.com/dhsdshdhk/stegpy)에서 사용할 수 있습니다.
 
-### **Pngcheck for PNG File Analysis**
+### **PNG 파일 분석을 위한 Pngcheck**
 
-To analyze PNG files or to validate their authenticity, use:
-
+PNG 파일을 분석하거나 그들의 신뢰성을 검증하려면 다음을 사용하세요:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
 ```
+### **이미지 분석을 위한 추가 도구**
 
-### **Additional Tools for Image Analysis**
-
-For further exploration, consider visiting:
+더 자세히 알아보기 위해 다음을 방문해보세요:
 
 - [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 - [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -170,77 +156,71 @@ For further exploration, consider visiting:
 - [OpenStego](https://www.openstego.com/)
 - [DIIT](https://diit.sourceforge.net/)
 
-## **Extracting Data from Audios**
+## **오디오에서 데이터 추출하기**
 
-**Audio steganography** offers a unique method to conceal information within sound files. Different tools are utilized for embedding or retrieving hidden content.
+**오디오 스테가노그래피**는 소리 파일 내에 정보를 숨기는 독특한 방법을 제공합니다. 다양한 도구를 사용하여 숨겨진 콘텐츠를 삽입하거나 검색할 수 있습니다.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
-Steghide is a versatile tool designed for hiding data in JPEG, BMP, WAV, and AU files. Detailed instructions are provided in the [stego tricks documentation](stego-tricks.md#steghide).
+Steghide는 JPEG, BMP, WAV, AU 파일에 데이터를 숨기기 위해 설계된 다재다능한 도구입니다. 자세한 지침은 [stego tricks documentation](stego-tricks.md#steghide)을 참조하세요.
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
-This tool is compatible with a variety of formats including PNG, BMP, GIF, WebP, and WAV. For more information, refer to [Stegpy's section](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
+이 도구는 PNG, BMP, GIF, WebP, WAV 등 다양한 형식과 호환됩니다. 자세한 정보는 [Stegpy's section](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)을 참조하세요.
 
 ### **ffmpeg**
-ffmpeg is crucial for assessing the integrity of audio files, highlighting detailed information and pinpointing any discrepancies.
+ffmpeg는 오디오 파일의 무결성을 평가하고 상세한 정보를 강조하며 어떠한 불일치도 찾아낼 수 있는 데 필수적입니다.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
-
 ### **WavSteg (WAV)**
-WavSteg excels in concealing and extracting data within WAV files using the least significant bit strategy. It is accessible on [GitHub](https://github.com/ragibson/Steganography#WavSteg). Commands include:
+WavSteg은 최하위 비트 전략을 사용하여 WAV 파일 내에 데이터를 숨기고 추출하는 데 능숙합니다. [GitHub](https://github.com/ragibson/Steganography#WavSteg)에서 사용할 수 있습니다. 명령어는 다음과 같습니다:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
 python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
-
 ### **Deepsound**
-Deepsound allows for the encryption and detection of information within sound files using AES-256. It can be downloaded from [the official page](http://jpinsoft.net/deepsound/download.aspx).
+Deepsound는 AES-256을 사용하여 소리 파일 내에 정보를 암호화하고 감지할 수 있게 해줍니다. [공식 페이지](http://jpinsoft.net/deepsound/download.aspx)에서 다운로드할 수 있습니다.
 
 ### **Sonic Visualizer**
-An invaluable tool for visual and analytical inspection of audio files, Sonic Visualizer can unveil hidden elements undetectable by other means. Visit the [official website](https://www.sonicvisualiser.org/) for more.
+오디오 파일의 시각적 및 분석적 검사에 귀중한 도구인 Sonic Visualizer는 다른 수단으로는 감지할 수 없는 숨겨진 요소를 드러낼 수 있습니다. 자세한 내용은 [공식 웹사이트](https://www.sonicvisualiser.org/)를 방문하세요.
 
 ### **DTMF Tones - Dial Tones**
-Detecting DTMF tones in audio files can be achieved through online tools such as [this DTMF detector](https://unframework.github.io/dtmf-detect/) and [DialABC](http://dialabc.com/sound/detect/index.html).
+오디오 파일에서 DTMF 톤을 감지하는 것은 [이 DTMF 감지기](https://unframework.github.io/dtmf-detect/)와 [DialABC](http://dialabc.com/sound/detect/index.html)와 같은 온라인 도구를 통해 가능합니다.
 
-## **Other Techniques**
+## **기타 기술**
 
 ### **Binary Length SQRT - QR Code**
-Binary data that squares to a whole number might represent a QR code. Use this snippet to check:
+제곱수가 되는 이진 데이터는 QR 코드를 나타낼 수 있습니다. 다음 스니펫을 사용하여 확인할 수 있습니다:
 ```python
 import math
 math.sqrt(2500) #50
 ```
-For binary to image conversion, check [dcode](https://www.dcode.fr/binary-image). To read QR codes, use [this online barcode reader](https://online-barcode-reader.inliteresearch.com/).
+이진 파일을 이미지로 변환하려면 [dcode](https://www.dcode.fr/binary-image)를 확인하세요. QR 코드를 읽으려면 [온라인 바코드 리더](https://online-barcode-reader.inliteresearch.com/)를 사용하세요.
 
-### **Braille Translation**
-For translating Braille, the [Branah Braille Translator](https://www.branah.com/braille-translator) is an excellent resource.
+### **브라일 변환**
+브라일을 번역하기 위해 [Branah Braille Translator](https://www.branah.com/braille-translator)는 훌륭한 도구입니다.
 
-
-
-
-
-## **References**
+## **참고 자료**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
 <figure><img src="../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+가장 중요한 취약점을 찾아서 빠르게 수정할 수 있도록 해주는 Intruder는 공격 표면을 추적하고 적극적인 위협 스캔을 실행하여 API부터 웹 앱 및 클라우드 시스템까지 전체 기술 스택에서 문제를 찾습니다. [**무료로 시도해보세요**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) 오늘.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>로부터 AWS 해킹을 처음부터 전문가까지 배워보세요</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를** 팔로우하세요.
+* **HackTricks**와 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하여 자신의 해킹 기법을 공유하세요.
 
 </details>

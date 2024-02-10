@@ -1,192 +1,187 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>로부터 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFT**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+* **HackTricks**와 **HackTricks Cloud** github 저장소에 **PR을 제출**하여 여러분의 해킹 기교를 공유하세요.
 
 </details>
 
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) is a useful program to find where important values are saved inside the memory of a running game and change them.\
-When you download and run it, you are **presented** with a **tutorial** of how to use the tool. If you want to learn how to use the tool it's highly recommended to complete it.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php)는 실행 중인 게임의 메모리 내에서 중요한 값이 저장된 위치를 찾고 변경하는 유용한 프로그램입니다.\
+다운로드하고 실행하면 도구 사용 방법에 대한 자습서가 제공됩니다. 도구 사용 방법을 배우려면 자습서를 완료하는 것이 매우 권장됩니다.
 
-# What are you searching?
+# 무엇을 찾고 있나요?
 
 ![](<../../.gitbook/assets/image (580).png>)
 
-This tool is very useful to find **where some value** (usually a number) **is stored in the memory** of a program.\
-**Usually numbers** are stored in **4bytes** form, but you could also find them in **double** or **float** formats, or you may want to look for something **different from a number**. For that reason you need to be sure you **select** what you want to **search for**:
+이 도구는 프로그램의 메모리에 어떤 값(일반적으로 숫자)이 저장되어 있는지 찾는 데 매우 유용합니다.\
+일반적으로 숫자는 4바이트 형식으로 저장되지만, 더블 또는 플로트 형식으로 찾을 수도 있으며, 숫자가 아닌 다른 것을 찾을 수도 있습니다. 이를 위해 찾고자 하는 대상을 선택해야 합니다:
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-Also you can indicate **different** types of **searches**:
+또한 다양한 유형의 검색을 지정할 수 있습니다:
 
 ![](<../../.gitbook/assets/image (582).png>)
 
-You can also check the box to **stop the game while scanning the memory**:
+메모리를 스캔하는 동안 게임을 중지하려면 상자를 선택할 수도 있습니다:
 
 ![](<../../.gitbook/assets/image (584).png>)
 
-## Hotkeys
+## 단축키
 
-In _**Edit --> Settings --> Hotkeys**_ you can set different **hotkeys** for different purposes like **stopping** the **game** (which is quiet useful if at some point you want to scan the memory). Other options are available:
+_**편집 --> 설정 --> 단축키**_에서 다른 목적에 대해 다른 **단축키**를 설정할 수 있습니다. 게임을 중지하는 것과 같은 다른 옵션도 사용할 수 있습니다:
 
 ![](<../../.gitbook/assets/image (583).png>)
 
-# Modifying the value
+# 값 수정하기
 
-Once you **found** where is the **value** you are **looking for** (more about this in the following steps) you can **modify it** double clicking it, then double clicking its value:
+찾고자 하는 값의 위치를 찾았다면(다음 단계에서 자세히 설명합니다) 해당 값을 두 번 클릭하여 수정할 수 있습니다:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
-And finally **marking the check** to get the modification done in the memory:
+그리고 메모리에서 수정을 완료하기 위해 확인란을 선택합니다:
 
 ![](<../../.gitbook/assets/image (586).png>)
 
-The **change** to the **memory** will be immediately **applied** (note that until the game doesn't use this value again the value **won't be updated in the game**).
+메모리의 변경 사항은 즉시 적용됩니다(게임이 이 값을 다시 사용하기 전까지는 값이 게임에서 업데이트되지 않음에 유의하세요).
 
-# Searching the value
+# 값 검색하기
 
-So, we are going to suppose that there is an important value (like the life of your user) that you want to improve, and you are looking for this value in the memory)
+따라서 사용자의 생명과 같은 중요한 값(개선하려는 값)이 있고 이 값을 메모리에서 찾고자 한다고 가정합니다)
 
-## Through a known change
+## 알려진 변경을 통해
 
-Supposing you are looking for the value 100, you **perform a scan** searching for that value and you find a lot of coincidences:
+값 100을 찾고자 한다고 가정하고 해당 값을 검색하여 많은 일치 항목을 찾았습니다:
 
 ![](<../../.gitbook/assets/image (587).png>)
 
-Then, you do something so that **value changes**, and you **stop** the game and **perform** a **next scan**:
+그런 다음 값이 변경되도록 무언가를 수행하고 게임을 중지하고 다음 스캔을 수행합니다:
 
 ![](<../../.gitbook/assets/image (588).png>)
 
-Cheat Engine will search for the **values** that **went from 100 to the new value**. Congrats, you **found** the **address** of the value you were looking for, you can now modify it.\
-_If you still have several values, do something to modify again that value, and perform another "next scan" to filter the addresses._
+Cheat Engine는 100에서 새 값으로 변경된 값들을 검색합니다. 축하합니다. 찾고자 하는 값의 주소를 찾았으므로 이제 값을 수정할 수 있습니다.\
+_여전히 여러 값이 있는 경우 해당 값을 다시 수정하기 위해 무언가를 수행하고 다른 "다음 스캔"을 수행하세요._
 
-## Unknown Value, known change
+## 알려지지 않은 값, 알려진 변경
 
-In the scenario you **don't know the value** but you know **how to make it change** (and even the value of the change) you can look for your number.
+값을 모르지만 값이 어떻게 변경되는지(변경 값도 알고 있는 경우) 알고 있다면 해당 숫자를 찾을 수 있습니다.
 
-So, start by performing a scan of type "**Unknown initial value**":
+따라서 "**알려지지 않은 초기 값**" 유형의 스캔을 수행하세요:
 
 ![](<../../.gitbook/assets/image (589).png>)
 
-Then, make the value change, indicate **how** the **value** **changed** (in my case it was decreased by 1) and perform a **next scan**:
+그런 다음 값이 변경되도록 하고 값이 어떻게 변경되었는지(제 경우에는 1 감소)를 나타내고 **다음 스캔**을 수행하세요:
 
 ![](<../../.gitbook/assets/image (590).png>)
 
-You will be presented **all the values that were modified in the selected way**:
+선택한 방식으로 수정된 모든 값이 표시됩니다:
 
 ![](<../../.gitbook/assets/image (591).png>)
 
-Once you have found your value, you can modify it.
+값을 찾은 후에는 해당 값을 수정할 수 있습니다.
 
-Note that there are a **lot of possible changes** and you can do these **steps as much as you want** to filter the results:
+수정할 수 있는 가능한 변경 사항이 많이 있으며 결과를 필터링하기 위해 이러한 단계를 원하는 만큼 수행할 수 있습니다:
 
 ![](<../../.gitbook/assets/image (592).png>)
 
-## Random Memory Address - Finding the code
+## 임의의 메모리 주소 - 코드 찾기
 
-Until know we learnt how to find an address storing a value, but it's highly probably that in **different executions of the game that address is in different places of the memory**. So lets find out how to always find that address.
+지금까지 값이 저장된 주소를 찾는 방법을 배웠지만, 게임의 다른 실행에서는 해당 주소가 메모리의 다른 위치에 있을 수 있습니다. 따라서 항상 해당 주소를 찾는 방법을 알아보겠습니다.
 
-Using some of the mentioned tricks, find the address where your current game is storing the important value. Then (stopping the game if you whish) do a **right click** on the found **address** and select "**Find out what accesses this address**" or "**Find out what writes to this address**":
+언급된 트릭 중 일부를 사용하여 현재 게임이 중요한 값을 저장하는 주소를 찾으세요. 그런 다음 (원하는 경우 게임을 중지하고) 찾은 주소에서 마우스 오른쪽 단추를 클릭하고 "**이 주소를 사용하는 부분 찾기**" 또는 "**이 주소에 쓰는 부분 찾기**"를 선택하세요:
 
 ![](<../../.gitbook/assets/image (593).png>)
 
-The **first option** is useful to know which **parts** of the **code** are **using** this **address** (which is useful for more things like **knowing where you can modify the code** of the game).\
-The **second option** is more **specific**, and will be more helpful in this case as we are interested in knowing **from where this value is being written**.
+**첫 번째 옵션**은 이 주소를 사용하는 **코드 부분**을 알려줍니다(게임의 코드를 수정하는 데 유용합니다).\
+**두 번째 옵션**은 더 **구체적**이며, 이 경우에는 **이 값이 쓰여지는 위치**를 알아내는 데 더 도움이 됩니다.
 
-Once you have selected one of those options, the **debugger** will be **attached** to the program and a new **empty window** will appear. Now, **play** the **game** and **modify** that **value** (without restarting the game). The **window** should be **filled** with the **addresses** that are **modifying** the **value**:
+이러한 옵션 중 하나를 선택한 후에는 **디버거**가 프로그램에 **연결**되고 새로운 **빈 창**이 나타납니다. 이제 **게임**을 **플레이**하고 **값**을 **수정**하세요(게임을 다시 시작하지 않고). **창**에는 **값을 수정하는 주소**가 **채워질** 것입니다:
 
 ![](<../../.gitbook/assets/image (594).png>)
 
-Now that you found the address it's modifying the value you can **modify the code at your pleasure** (Cheat Engine allows you to modify it for NOPs real quick):
+값을 수정하는 주소를 찾았으므로 코드를 원하는 대로 수정할 수 있습니다(Cheat Engine를 사용하면 NOPs를 신속하게 수정할 수 있습니다):
 
 ![](<../../.gitbook/assets/image (595).png>)
 
-So, you can now modify it so the code won't affect your number, or will always affect in a positive way.
+따라서 코드를 수정하여 숫자에 영향을 주지 않거나 항상 긍정적인 방식으로 영향을 주도록 수정할 수 있습니다.
+## 랜덤 메모리 주소 - 포인터 찾기
 
-## Random Memory Address - Finding the pointer
-
-Following the previous steps, find where the value you are interested is. Then, using "**Find out what writes to this address**" find out which address writes this value and double click on it to get the disassembly view:
+이전 단계를 따라 관심 있는 값이 있는 위치를 찾으세요. 그런 다음 "**이 주소에 쓰는 것을 찾아보세요**"를 사용하여 이 값을 쓰는 주소를 찾고, 이를 두 번 클릭하여 어셈블리 뷰를 얻으세요:
 
 ![](<../../.gitbook/assets/image (596).png>)
 
-Then, perform a new scan **searching for the hex value between "\[]"** (the value of $edx in this case):
+그런 다음, 새로운 스캔을 수행하여 "\[]" 사이의 16진수 값을 검색하세요 (이 경우 $edx의 값):
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-(_If several appear you usually need the smallest address one_)\
-Now, we have f**ound the pointer that will be modifying the value we are interested in**.
+(여러 개가 나타나면 일반적으로 가장 작은 주소를 사용합니다)\
+이제 우리는 **관심 있는 값을 수정할 포인터를 찾았습니다**.
 
-Click on "**Add Address Manually**":
+"**주소 수동 추가**"를 클릭하세요:
 
 ![](<../../.gitbook/assets/image (598).png>)
 
-Now, click on the "Pointer" check box and add the found address in the text box (in this scenario, the found address in the previous image was "Tutorial-i386.exe"+2426B0):
+이제 "Pointer" 확인란을 선택하고 이전 이미지에서 찾은 주소를 텍스트 상자에 추가하세요 (이 시나리오에서 이전 이미지에서 찾은 주소는 "Tutorial-i386.exe"+2426B0입니다):
 
 ![](<../../.gitbook/assets/image (599).png>)
 
-(Note how the first "Address" is automatically populated from the pointer address you introduce)
+(입력한 포인터 주소에서 첫 번째 "주소"가 자동으로 채워짐에 주목하세요)
 
-Click OK and a new pointer will be created:
+확인을 클릭하면 새로운 포인터가 생성됩니다:
 
 ![](<../../.gitbook/assets/image (600).png>)
 
-Now, every time you modifies that value you are **modifying the important value even if the memory address where the value is is different.**
+이제 해당 값을 수정할 때마다 메모리 주소가 다르더라도 **중요한 값을 수정하고 있습니다**.
 
-## Code Injection
+## 코드 주입
 
-Code injection is a technique where you inject a piece of code into the target process, and then reroute the execution of code to go through your own written code (like giving you points instead of resting them).
+코드 주입은 대상 프로세스에 코드 조각을 주입한 다음 코드 실행을 자체 작성한 코드를 통해 재경로 설정하는 기술입니다 (예: 점수를 얻는 대신 점수를 뺏는 것).
 
-So, imagine you have found the address that is subtracting 1 to the life of your player:
+따라서 플레이어의 생명을 1 감소시키는 주소를 찾았다고 가정해 보겠습니다:
 
 ![](<../../.gitbook/assets/image (601).png>)
 
-Click on Show disassembler to get the **disassemble code**.\
-Then, click **CTRL+a** to invoke the Auto assemble window and select _**Template --> Code Injection**_
+디스어셈블러 표시를 클릭하여 **디스어셈블 코드**를 얻으세요.\
+그런 다음, **CTRL+a**를 눌러 자동 어셈블 창을 호출하고 _**템플릿 --> 코드 주입**_을 선택하세요.
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Fill the **address of the instruction you want to modify** (this is usually autofilled):
+**수정하려는 명령문의 주소**를 입력하세요 (일반적으로 자동으로 채워집니다):
 
 ![](<../../.gitbook/assets/image (603).png>)
 
-A template will be generated:
+템플릿이 생성됩니다:
 
 ![](<../../.gitbook/assets/image (604).png>)
 
-So, insert your new assembly code in the "**newmem**" section and remove the original code from the "**originalcode**" if you don't want it to be executed**.** In this example the injected code will add 2 points instead of substracting 1:
+그런 다음, 새 어셈블리 코드를 "**newmem**" 섹션에 삽입하고 원래 코드를 "**originalcode**"에서 제거하세요. 이 예제에서 주입된 코드는 1을 빼는 대신 2 포인트를 추가합니다:
 
 ![](<../../.gitbook/assets/image (605).png>)
 
-**Click on execute and so on and your code should be injected in the program changing the behaviour of the functionality!**
+**실행을 클릭하고 계속 진행하면 코드가 프로그램에 주입되어 기능의 동작이 변경됩니다!**
 
-# **References**
+# **참고 자료**
 
-* **Cheat Engine tutorial, complete it to learn how to start with Cheat Engine**
+* **Cheat Engine 튜토리얼, Cheat Engine을 시작하는 방법을 배우려면 완료하세요**
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>로 AWS 해킹을 처음부터 전문가까지 배워보세요</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 구매하세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFT**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를** 팔로우하세요.
+* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 **자신의 해킹 기법을 공유**하세요.
 
 </details>
-
-

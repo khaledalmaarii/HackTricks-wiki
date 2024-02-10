@@ -2,30 +2,29 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>에서 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를** **팔로우**하세요.
+* **Hacking 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github 저장소에 제출**하세요.
 
 </details>
 
-## Basic Information
+## 기본 정보
 
-**Linux Control Groups**, or **cgroups**, are a feature of the Linux kernel that allows the allocation, limitation, and prioritization of system resources like CPU, memory, and disk I/O among process groups. They offer a mechanism for **managing and isolating the resource usage** of process collections, beneficial for purposes such as resource limitation, workload isolation, and resource prioritization among different process groups.
+**Linux Control Groups** 또는 **cgroups**는 Linux 커널의 기능으로, CPU, 메모리 및 디스크 I/O와 같은 시스템 리소스의 할당, 제한 및 우선 순위 설정을 가능하게 합니다. 이들은 프로세스 그룹 간의 **리소스 사용량을 관리하고 격리하는 메커니즘**을 제공하여 리소스 제한, 작업 부하 격리 및 다른 프로세스 그룹 간의 리소스 우선 순위 설정과 같은 목적에 유용합니다.
 
-There are **two versions of cgroups**: version 1 and version 2. Both can be used concurrently on a system. The primary distinction is that **cgroups version 2** introduces a **hierarchical, tree-like structure**, enabling more nuanced and detailed resource distribution among process groups. Additionally, version 2 brings various enhancements, including:
+**cgroups에는 두 가지 버전**이 있습니다: 버전 1과 버전 2. 이 두 가지는 시스템에서 동시에 사용할 수 있습니다. 주요한 차이점은 **cgroups 버전 2**가 **계층적인 트리 구조**를 도입하여 프로세스 그룹 간의 더 세밀하고 자세한 리소스 분배를 가능하게 한다는 것입니다. 또한 버전 2는 다음과 같은 다양한 개선 사항을 포함하여 여러 가지 개선 사항을 가져왔습니다:
 
-In addition to the new hierarchical organization, cgroups version 2 also introduced **several other changes and improvements**, such as support for **new resource controllers**, better support for legacy applications, and improved performance.
+새로운 계층 구조 외에도 cgroups 버전 2는 **다른 여러 변경 사항과 개선 사항**을 도입했습니다. 이에는 **새로운 리소스 컨트롤러 지원**, 레거시 애플리케이션에 대한 더 나은 지원 및 성능 향상이 포함됩니다.
 
-Overall, cgroups **version 2 offers more features and better performance** than version 1, but the latter may still be used in certain scenarios where compatibility with older systems is a concern.
+전반적으로 cgroups **버전 2는 버전 1보다 더 많은 기능과 더 나은 성능**을 제공하지만, 이전 시스템과의 호환성이 문제가 되는 경우에는 여전히 버전 1을 사용할 수 있습니다.
 
-You can list the v1 and v2 cgroups for any process by looking at its cgroup file in /proc/\<pid>. You can start by looking at your shell’s cgroups with this command:
-
+/proc/\<pid>의 cgroup 파일을 확인하여 어떤 프로세스의 v1 및 v2 cgroups를 나열할 수 있습니다. 다음 명령을 사용하여 셸의 cgroups를 확인할 수 있습니다:
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -40,75 +39,68 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
+출력 구조는 다음과 같습니다:
 
-The output structure is as follows:
+- **숫자 2-12**: 각 줄은 다른 cgroup을 나타내며, 이들에 대한 컨트롤러는 숫자 옆에 지정됩니다.
+- **숫자 1**: 또한 cgroups v1이지만, 관리 목적으로만 사용되며 (예: systemd에 의해 설정됨), 컨트롤러가 없습니다.
+- **숫자 0**: cgroups v2를 나타냅니다. 컨트롤러가 나열되지 않으며, 이 줄은 cgroups v2만 실행되는 시스템에서만 사용됩니다.
+- **이름은 계층적**으로 구성되어 있으며, 파일 경로와 유사하게 나열되어 다른 cgroup 간의 구조와 관계를 나타냅니다.
+- **/user.slice 또는 /system.slice와 같은 이름**은 cgroup의 분류를 지정하며, 일반적으로 user.slice는 systemd에 의해 관리되는 로그인 세션에 사용되고, system.slice는 시스템 서비스에 사용됩니다.
 
-- **Numbers 2–12**: cgroups v1, with each line representing a different cgroup. Controllers for these are specified adjacent to the number.
-- **Number 1**: Also cgroups v1, but solely for management purposes (set by, e.g., systemd), and lacks a controller.
-- **Number 0**: Represents cgroups v2. No controllers are listed, and this line is exclusive on systems only running cgroups v2.
-- The **names are hierarchical**, resembling file paths, indicating the structure and relationship between different cgroups.
-- **Names like /user.slice or /system.slice** specify the categorization of cgroups, with user.slice typically for login sessions managed by systemd and system.slice for system services.
+### cgroups 보기
 
-### Viewing cgroups
-
-The filesystem is typically utilized for accessing **cgroups**, diverging from the Unix system call interface traditionally used for kernel interactions. To investigate a shell's cgroup configuration, one should examine the **/proc/self/cgroup** file, which reveals the shell's cgroup. Then, by navigating to the **/sys/fs/cgroup** (or **`/sys/fs/cgroup/unified`**) directory and locating a directory that shares the cgroup's name, one can observe various settings and resource usage information pertinent to the cgroup.
+파일 시스템은 일반적으로 커널 상호작용에 전통적으로 사용되는 Unix 시스템 호출 인터페이스와 달리, **cgroups에 액세스하기 위해 사용**됩니다. 셸의 cgroup 구성을 조사하려면, **/proc/self/cgroup** 파일을 확인해야 합니다. 이 파일은 셸의 cgroup을 나타냅니다. 그런 다음, **/sys/fs/cgroup** (또는 **`/sys/fs/cgroup/unified`**) 디렉토리로 이동하여 cgroup의 이름을 공유하는 디렉토리를 찾으면, 해당 cgroup과 관련된 다양한 설정 및 리소스 사용 정보를 확인할 수 있습니다.
 
 ![Cgroup Filesystem](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
 
-The key interface files for cgroups are prefixed with **cgroup**. The **cgroup.procs** file, which can be viewed with standard commands like cat, lists the processes within the cgroup. Another file, **cgroup.threads**, includes thread information.
+cgroups의 주요 인터페이스 파일은 **cgroup**로 접두사가 붙습니다. 일반적인 cat과 같은 명령을 사용하여 볼 수 있는 **cgroup.procs** 파일은 cgroup 내의 프로세스를 나열합니다. 또 다른 파일인 **cgroup.threads**에는 스레드 정보가 포함되어 있습니다.
 
 ![Cgroup Procs](../../../.gitbook/assets/image%20(1)%20(1)%20(5).png)
 
-Cgroups managing shells typically encompass two controllers that regulate memory usage and process count. To interact with a controller, files bearing the controller's prefix should be consulted. For instance, **pids.current** would be referenced to ascertain the count of threads in the cgroup.
+셸을 관리하는 cgroups는 일반적으로 메모리 사용량과 프로세스 수를 조절하는 두 개의 컨트롤러를 포함합니다. 컨트롤러와 상호작용하기 위해서는 해당 컨트롤러의 접두사를 가진 파일을 참조해야 합니다. 예를 들어, **pids.current**는 cgroup 내의 스레드 수를 확인하기 위해 참조될 수 있습니다.
 
 ![Cgroup Memory](../../../.gitbook/assets/image%20(3)%20(5).png)
 
-The indication of **max** in a value suggests the absence of a specific limit for the cgroup. However, due to the hierarchical nature of cgroups, limits might be imposed by a cgroup at a lower level in the directory hierarchy.
+값에 **max**가 표시되면, 해당 cgroup에 특정 제한이 없음을 나타냅니다. 그러나 cgroups의 계층적 특성으로 인해, 제한은 디렉토리 계층 구조의 하위 수준에서 cgroup에 의해 부과될 수 있습니다.
 
 
-### Manipulating and Creating cgroups
+### cgroups 조작 및 생성
 
-Processes are assigned to cgroups by **writing their Process ID (PID) to the `cgroup.procs` file**. This requires root privileges. For instance, to add a process:
-
+프로세스는 **`cgroup.procs` 파일에 프로세스 ID (PID)를 작성함으로써** cgroups에 할당됩니다. 이 작업은 root 권한이 필요합니다. 예를 들어, 프로세스를 추가하려면:
 ```bash
 echo [pid] > cgroup.procs
 ```
-
-Similarly, **modifying cgroup attributes, like setting a PID limit**, is done by writing the desired value to the relevant file. To set a maximum of 3,000 PIDs for a cgroup:
-
+마찬가지로, **PID 제한 설정과 같은 cgroup 속성 수정**은 해당 파일에 원하는 값을 작성하여 수행됩니다. cgroup에 최대 3,000개의 PID를 설정하려면 다음과 같이 합니다:
 ```bash
 echo 3000 > pids.max
 ```
+**새로운 cgroups 생성**은 cgroup 계층 내에서 새로운 하위 디렉토리를 만드는 것을 의미하며, 이로 인해 커널은 필요한 인터페이스 파일을 자동으로 생성합니다. 프로세스가 없는 cgroups는 `rmdir`을 사용하여 제거할 수 있지만, 다음과 같은 제약 사항을 유의해야 합니다:
 
-**Creating new cgroups** involves making a new subdirectory within the cgroup hierarchy, which prompts the kernel to automatically generate necessary interface files. Though cgroups without active processes can be removed with `rmdir`, be aware of certain constraints:
-
-- **Processes can only be placed in leaf cgroups** (i.e., the most nested ones in a hierarchy). 
-- **A cgroup cannot possess a controller absent in its parent**.
-- **Controllers for child cgroups must be explicitly declared** in the `cgroup.subtree_control` file. For example, to enable CPU and PID controllers in a child cgroup:
-
+- **프로세스는 leaf cgroups에만 배치될 수 있습니다** (즉, 계층 구조에서 가장 중첩된 cgroup).
+- **cgroup은 부모에게 없는 컨트롤러를 가질 수 없습니다**.
+- **자식 cgroup의 컨트롤러는 명시적으로 `cgroup.subtree_control` 파일에 선언되어야 합니다**. 예를 들어, CPU와 PID 컨트롤러를 자식 cgroup에서 활성화하려면:
 ```bash
 echo "+cpu +pids" > cgroup.subtree_control
 ```
+**루트 cgroup**은 이러한 규칙에서 예외로, 직접적인 프로세스 배치를 허용합니다. 이를 통해 프로세스를 systemd 관리에서 제거하는 데 사용할 수 있습니다.
 
-The **root cgroup** is an exception to these rules, allowing direct process placement. This can be used to remove processes from systemd management.
+cgroup 내에서 **CPU 사용량 모니터링**은 `cpu.stat` 파일을 통해 가능하며, 총 CPU 사용 시간을 표시하여 서비스의 하위 프로세스 간 사용량을 추적하는 데 도움이 됩니다:
 
-**Monitoring CPU usage** within a cgroup is possible through the `cpu.stat` file, displaying total CPU time consumed, helpful for tracking usage across a service's subprocesses:
+<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>cpu.stat 파일에 표시된 CPU 사용량 통계</figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>CPU usage statistics as shown in the cpu.stat file</figcaption></figure>
-
-## References
-* **Book: How Linux Works, 3rd Edition: What Every Superuser Should Know By Brian Ward**
+## 참고 자료
+* **책: How Linux Works, 3rd Edition: What Every Superuser Should Know By Brian Ward**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로에서 영웅까지 AWS 해킹 배우기<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family)인 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 여러분의 해킹 기법을 공유하세요.
 
 </details>

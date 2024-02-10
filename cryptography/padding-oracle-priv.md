@@ -1,38 +1,36 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFT**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
 
 
 # CBC - Cipher Block Chaining
 
-In CBC mode the **previous encrypted block is used as IV** to XOR with the next block:
+CBC 모드에서는 **이전 암호화된 블록이 IV로 사용**되어 다음 블록과 XOR 연산을 수행합니다:
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
-To decrypt CBC the **opposite** **operations** are done:
+CBC를 복호화하려면 **반대로** **연산**을 수행합니다:
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
-Notice how it's needed to use an **encryption** **key** and an **IV**.
+암호화에는 **암호화 키**와 **IV**를 사용해야 함에 유의하세요.
 
-# Message Padding
+# 메시지 패딩
 
-As the encryption is performed in **fixed** **size** **blocks**, **padding** is usually needed in the **last** **block** to complete its length.\
-Usually **PKCS7** is used, which generates a padding **repeating** the **number** of **bytes** **needed** to **complete** the block. For example, if the last block is missing 3 bytes, the padding will be `\x03\x03\x03`.
+암호화는 **고정된 크기의 블록**으로 수행되므로, **마지막 블록**의 길이를 완성하기 위해 일반적으로 **패딩**이 필요합니다.\
+일반적으로는 **PKCS7**이 사용되며, 패딩은 블록을 **완성**하기 위해 필요한 **바이트 수**를 **반복**하여 생성됩니다. 예를 들어, 마지막 블록이 3바이트가 부족한 경우 패딩은 `\x03\x03\x03`이 됩니다.
 
-Let's look at more examples with a **2 blocks of length 8bytes**:
+**8바이트 길이의 2개 블록**을 가진 더 많은 예제를 살펴보겠습니다:
 
 | byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
@@ -41,51 +39,43 @@ Let's look at more examples with a **2 blocks of length 8bytes**:
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | **0x05** | **0x05** | **0x05** | **0x05** | **0x05** |
 | P       | A       | S       | S       | W       | O       | R       | D       | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** |
 
-Note how in the last example the **last block was full so another one was generated only with padding**.
+마지막 예제에서는 **마지막 블록이 가득 차 있어 패딩만 있는 블록이 추가로 생성**되었음을 알 수 있습니다.
 
-# Padding Oracle
+# 패딩 오라클
 
-When an application decrypts encrypted data, it will first decrypt the data; then it will remove the padding. During the cleanup of the padding, if an **invalid padding triggers a detectable behaviour**, you have a **padding oracle vulnerability**. The detectable behaviour can be an **error**, a **lack of results**, or a **slower response**.
+응용 프로그램이 암호화된 데이터를 복호화할 때, 먼저 데이터를 복호화한 다음 패딩을 제거합니다. 패딩을 정리하는 동안, **잘못된 패딩이 감지 가능한 동작을 트리거**하면 패딩 오라클 취약점이 있습니다. 감지 가능한 동작은 **오류**, **결과 부족** 또는 **응답 속도가 느려짐**일 수 있습니다.
 
-If you detect this behaviour, you can **decrypt the encrypted data** and even **encrypt any cleartext**.
+이러한 동작을 감지하면, 암호화된 데이터를 **복호화**하고 심지어 **임의의 평문을 암호화**할 수 있습니다.
 
-## How to exploit
+## 악용 방법
 
-You could use [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) to exploit this kind of vulnerability or just do
-
+[https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster)를 사용하여 이러한 유형의 취약점을 악용하거나, 단순히 다음을 수행할 수 있습니다.
 ```
 sudo apt-get install padbuster
 ```
-
-In order to test if the cookie of a site is vulnerable you could try:
-
+사이트의 쿠키가 취약한지 테스트하기 위해 다음을 시도할 수 있습니다:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA=="
 ```
+**인코딩 0**은 **base64**가 사용된다는 것을 의미합니다 (하지만 다른 것들도 사용 가능하니 도움말 메뉴를 확인하세요).
 
-**Encoding 0** means that **base64** is used (but others are available, check the help menu).
-
-You could also **abuse this vulnerability to encrypt new data. For example, imagine that the content of the cookie is "**_**user=MyUsername**_**", then you may change it to "\_user=administrator\_" and escalate privileges inside the application. You could also do it using `paduster`specifying the -plaintext** parameter:
-
+또한 이 취약점을 **새로운 데이터를 암호화하기 위해 악용**할 수도 있습니다. 예를 들어, 쿠키의 내용이 "\_user=MyUsername\_"인 경우, 이를 "\_user=administrator\_"로 변경하여 응용 프로그램 내에서 권한을 상승시킬 수 있습니다. 또한 `padbuster`를 사용하여 `-plaintext` 매개변수를 지정하여 이 작업을 수행할 수도 있습니다:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-
-If the site is vulnerable `padbuster`will automatically try to find when the padding error occurs, but you can also indicating the error message it using the **-error** parameter.
-
+만약 사이트가 취약하다면 `padbuster`는 자동으로 패딩 오류가 발생하는 시점을 찾으려고 시도할 것입니다. 그러나 **-error** 매개변수를 사용하여 오류 메시지를 지정할 수도 있습니다.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
+## 이론
 
-## The theory
-
-In **summary**, you can start decrypting the encrypted data by guessing the correct values that can be used to create all the **different paddings**. Then, the padding oracle attack will start decrypting bytes from the end to the start by guessing which will be the correct value that **creates a padding of 1, 2, 3, etc**.
+요약하자면, 모든 **다른 패딩**을 생성하는 데 사용될 수 있는 올바른 값을 추측하여 암호화된 데이터의 복호화를 시작할 수 있습니다. 그런 다음 패딩 오라클 공격은 1, 2, 3 등의 패딩을 생성하는 올바른 값을 추측하여 시작하여 끝에서 시작하여 바이트를 복호화합니다.
 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 
-Imagine you have some encrypted text that occupies **2 blocks** formed by the bytes from **E0 to E15**.\
-In order to **decrypt** the **last** **block** (**E8** to **E15**), the whole block passes through the "block cipher decryption" generating the **intermediary bytes I0 to I15**.\
-Finally, each intermediary byte is **XORed** with the previous encrypted bytes (E0 to E7). So:
+E0에서 E15까지의 바이트로 구성된 **2개의 블록**으로 이루어진 암호화된 텍스트가 있다고 상상해보십시오.\
+마지막 블록(E8에서 E15)을 **복호화**하기 위해 전체 블록은 "블록 암호 복호화"를 통해 중간 바이트 I0에서 I15을 생성합니다.\
+마지막으로, 각 중간 바이트는 이전의 암호화된 바이트(E0에서 E7)와 **XOR**됩니다. 그래서:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
 * `C14 = I14 ^ E6`
@@ -93,44 +83,42 @@ Finally, each intermediary byte is **XORed** with the previous encrypted bytes (
 * `C12 = I12 ^ E4`
 * ...
 
-Now, It's possible to **modify `E7` until `C15` is `0x01`**, which will also be a correct padding. So, in this case: `\x01 = I15 ^ E'7`
+이제 `C15`이 `0x01`이 될 때까지 `E7`을 수정할 수 있습니다. 이는 올바른 패딩이기도 합니다. 따라서 이 경우에는: `\x01 = I15 ^ E'7`
 
-So, finding E'7, it's **possible to calculate I15**: `I15 = 0x01 ^ E'7`
+따라서, `E'7`을 찾으면 **I15을 계산**할 수 있습니다: `I15 = 0x01 ^ E'7`
 
-Which allow us to **calculate C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
+이로써 **C15을 계산**할 수 있습니다: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-Knowing **C15**, now it's possible to **calculate C14**, but this time brute-forcing the padding `\x02\x02`.
+**C15**을 알게 되면, 이제 **C14를 계산**할 수 있지만, 이번에는 패딩 `\x02\x02`를 무차별 대입(brute-force)합니다.
 
-This BF is as complex as the previous one as it's possible to calculate the the `E''15` whose value is 0x02: `E''7 = \x02 ^ I15` so it's just needed to find the **`E'14`** that generates a **`C14` equals to `0x02`**.\
-Then, do the same steps to decrypt C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
+이 무차별 대입은 이전과 같이 복잡합니다. 0x02인 **`E''15`**를 계산할 수 있습니다: `E''7 = \x02 ^ I15` 그래서 **`C14`**가 **`0x02`**와 같은 **`E'14`**를 찾기만 하면 됩니다.\
+그런 다음, C14를 복호화하기 위해 동일한 단계를 수행합니다: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
-**Follow this chain until you decrypt the whole encrypted text.**
+**전체 암호화된 텍스트를 복호화**하기 위해 이러한 과정을 따르십시오.
 
-## Detection of the vulnerability
+## 취약점 탐지
 
-Register and account and log in with this account .\
-If you **log in many times** and always get the **same cookie**, there is probably **something** **wrong** in the application. The **cookie sent back should be unique** each time you log in. If the cookie is **always** the **same**, it will probably always be valid and there **won't be anyway to invalidate i**t.
+계정을 등록하고이 계정으로 로그인하십시오.\
+여러 번 로그인하고 항상 **동일한 쿠키**를 받으면 응용 프로그램에 문제가 있을 수 있습니다. 쿠키는 로그인할 때마다 **고유해야**합니다. 쿠키가 **항상** **동일**하면 항상 유효하고 **무효화할 수 있는 방법이 없을 것**입니다.
 
-Now, if you try to **modify** the **cookie**, you can see that you get an **error** from the application.\
-But if you BF the padding (using padbuster for example) you manage to get another cookie valid for a different user. This scenario is highly probably vulnerable to padbuster.
+이제 쿠키를 **수정**하려고하면 응용 프로그램에서 **오류**가 발생하는 것을 볼 수 있습니다.\
+그러나 패딩을 무차별 대입(padbuster를 사용하여 예를 들면)하면 다른 사용자에 대한 유효한 다른 쿠키를 얻을 수 있습니다. 이 시나리오는 padbuster에 취약할 가능성이 매우 높습니다.
 
-## References
+## 참고 자료
 
 * [https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation](https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 회사를 HackTricks에서 **광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
+* 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family)인 [**The PEASS Family**](https://opensea.io/collection/the-peass-family) 컬렉션을 발견하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**를** 팔로우하세요.
+* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 **자신의 해킹 기법을 공유**하세요.
 
 </details>
-
-

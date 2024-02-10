@@ -1,152 +1,152 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 구매하세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 탐색하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 여러분의 해킹 기법을 공유하세요.
 
 </details>
 
 
 # [ProjectHoneypot](https://www.projecthoneypot.org/)
 
-You can ask if an IP is related to suspicious/malicious activities. Completely free.
+의심스러운/악성 활동과 관련된 IP를 확인할 수 있습니다. 완전히 무료입니다.
 
 # [**BotScout**](http://botscout.com/api.htm)
 
-Check if the IP address is related to a bot that register accounts. It can also check usernames and emails. Initially free.
+IP 주소가 계정을 등록하는 봇과 관련이 있는지 확인할 수 있습니다. 또한 사용자 이름과 이메일을 확인할 수도 있습니다. 초기에는 무료입니다.
 
 # [Hunter](https://hunter.io/)
 
-Find and verify emails.  
-Some free API requests free, for more you need to pay.  
-Commercial?
+이메일을 찾고 확인할 수 있습니다.
+일부 무료 API 요청이 있으며, 더 많은 기능을 사용하려면 지불해야 합니다.
+상업적인가요?
 
 # [AlientVault](https://otx.alienvault.com/api)
 
-Find Malicious activities related to IPs and Domains. Free.
+IP와 도메인과 관련된 악성 활동을 찾을 수 있습니다. 무료입니다.
 
 # [Clearbit](https://dashboard.clearbit.com/)
 
-Find related personal data to a email \(profiles on other platforms\), domain \(basic company info ,mails and people working\) and companies \(get company info from mail\).  
-You need to pay to access all the possibilities.  
-Commercial?
+이메일(다른 플랫폼의 프로필), 도메인(기본 회사 정보, 메일 및 작업하는 사람들), 회사(메일로부터 회사 정보 가져오기)와 관련된 개인 데이터를 찾을 수 있습니다.
+모든 기능에 액세스하려면 지불해야 합니다.
+상업적인가요?
 
 # [BuiltWith](https://builtwith.com/)
 
-Technologies used by webs. Expensive...  
-Commercial?
+웹에서 사용되는 기술을 확인할 수 있습니다. 비싸요...
+상업적인가요?
 
 # [Fraudguard](https://fraudguard.io/)
 
-Check if a host \(domain or IP\) is related with suspicious/malicious activities. Have some free API access.  
-Commercial?
+호스트(도메인 또는 IP)가 의심스러운/악성 활동과 관련이 있는지 확인할 수 있습니다. 일부 무료 API 액세스가 있습니다.
+상업적인가요?
 
 # [FortiGuard](https://fortiguard.com/)
 
-Check if a host \(domain or IP\) is related with suspicious/malicious activities. Have some free API access.
+호스트(도메인 또는 IP)가 의심스러운/악성 활동과 관련이 있는지 확인할 수 있습니다. 일부 무료 API 액세스가 있습니다.
 
 # [SpamCop](https://www.spamcop.net/)
 
-Indicates if host is related to spam activity. Have some free API access.
+호스트가 스팸 활동과 관련이 있는지 여부를 나타냅니다. 일부 무료 API 액세스가 있습니다.
 
 # [mywot](https://www.mywot.com/)
 
-Based on opinions and other metrics get if a domain is related with suspicious/malicious information.
+의견과 기타 지표를 기반으로 도메인이 의심스러운/악성 정보와 관련이 있는지 확인합니다.
 
 # [ipinfo](https://ipinfo.io/)
 
-Obtains basic info from an IP address. You can test up to 100K/month.
+IP 주소에서 기본 정보를 얻을 수 있습니다. 월 최대 100,000회 테스트할 수 있습니다.
 
 # [securitytrails](https://securitytrails.com/app/account)
 
-This platform give information about domains and IP addresses like domains inside an IP or inside a domain server, domains owned by an email \(find related domains\), IP history of domains \(find the host behind CloudFlare\), all domains using a nameserver....  
-You have some free access.
+이 플랫폼은 도메인 및 IP 주소에 대한 정보를 제공합니다. IP 내부의 도메인이나 도메인 서버 내부의 도메인, 이메일 소유 도메인(관련 도메인 찾기), 도메인의 IP 기록(CloudFlare 뒤의 호스트 찾기), 특정 네임서버를 사용하는 모든 도메인 등...
+일부 무료 액세스가 있습니다.
 
 # [fullcontact](https://www.fullcontact.com/)
 
-Allows to search by email, domain or company name and retrieve "personal" information related. It can also verify emails. There is some free access.
+이메일, 도메인 또는 회사 이름으로 검색하고 관련된 "개인" 정보를 검색할 수 있습니다. 또한 이메일을 확인할 수도 있습니다. 일부 무료 액세스가 있습니다.
 
 # [RiskIQ](https://www.spiderfoot.net/documentation/)
 
-A lot of information from domains and IPs even in the free/community version.
+도메인 및 IP에 대한 많은 정보를 무료/커뮤니티 버전에서도 제공합니다.
 
 # [\_IntelligenceX](https://intelx.io/)
 
-Search Domains, IPs and emails and get info from dumps. Have some free access.
+도메인, IP 및 이메일을 검색하고 덤프에서 정보를 가져올 수 있습니다. 일부 무료 액세스가 있습니다.
 
 # [IBM X-Force Exchange](https://exchange.xforce.ibmcloud.com/)
 
-Search by IP and gather information related to suspicions activities. There is some free access.
+IP로 검색하고 의심스러운 활동과 관련된 정보를 수집할 수 있습니다. 일부 무료 액세스가 있습니다.
 
 # [Greynoise](https://viz.greynoise.io/)
 
-Search by IP or IP range and get information about IPs scanning the Internet. 15 days free access.
+IP 또는 IP 범위로 검색하고 인터넷을 스캔하는 IP에 대한 정보를 얻을 수 있습니다. 15일 동안 무료 액세스할 수 있습니다.
 
 # [Shodan](https://www.shodan.io/)
 
-Get scan information of an IP address. Have some free api access.
+IP 주소의 스캔 정보를 얻을 수 있습니다. 일부 무료 API 액세스가 있습니다.
 
 # [Censys](https://censys.io/)
 
-Very similar to shodan
+Shodan과 매우 유사합니다.
 
 # [buckets.grayhatwarfare.com](https://buckets.grayhatwarfare.com/)
 
-Find open S3 buckets searching by keyword.
+키워드로 검색하여 열린 S3 버킷을 찾을 수 있습니다.
 
 # [Dehashed](https://www.dehashed.com/data)
 
-Find leaked credentials of emails and even domains  
-Commercial?
+이메일 및 도메인의 유출된 자격 증명을 찾을 수 있습니다.
+상업적인가요?
 
 # [psbdmp](https://psbdmp.ws/)
 
-Search pastebins where a email appeared. Commercial?
+이메일이 나타난 곳의 pastebin을 검색할 수 있습니다.
+상업적인가요?
 
 # [emailrep.io](https://emailrep.io/key)
 
-Get reputation of a mail. Commercial?
+메일의 평판을 얻을 수 있습니다.
+상업적인가요?
 
 # [ghostproject](https://ghostproject.fr/)
 
-Get passwords from leaked emails. Commercial?
+유출된 이메일에서 비밀번호를 얻을 수 있습니다.
+상업적인가요?
 
 # [Binaryedge](https://www.binaryedge.io/)
 
-Obtain interesting info from IPs
+IP에서 흥미로운 정보를 얻을 수 있습니다.
 
 # [haveibeenpwned](https://haveibeenpwned.com/)
 
-Search by domain and email and get if it was pwned and passwords. Commercial?
+도메인 및 이메일로 검색하여 유출되었는지와 비밀번호를 확인할 수 있습니다.
+상업적인가요?
 
-[https://dnsdumpster.com/](https://dnsdumpster.com/)\(in a commercial tool?\)
+[https://dnsdumpster.com/](https://dnsdumpster.com/)\(상업용 도구인가요?\)
 
-[https://www.netcraft.com/](https://www.netcraft.com/) \(in a commercial tool?\)
+[https://www.netcraft.com/](https://www.netcraft.com/) \(상업용 도구인가요?\)
 
-[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) \(in a commercial tool?\)
+[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) \(상업용 도구인가요?\)
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-Other ways to support HackTricks:
+HackTricks를 지원하는 다른 방법:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 구매하세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 탐색하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 여러분의 해킹 기법을 공유하세요.
 
-</details>
-
-
+</details

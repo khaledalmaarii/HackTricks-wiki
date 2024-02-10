@@ -1,111 +1,77 @@
-# Threat Modeling
+# 위협 모델링
 
-## Threat Modeling
+## 위협 모델링
 
-Welcome to HackTricks' comprehensive guide on Threat Modeling! Embark on an exploration of this critical aspect of cybersecurity, where we identify, understand, and strategize against potential vulnerabilities in a system. This thread serves as a step-by-step guide packed with real-world examples, helpful software, and easy-to-understand explanations. Ideal for both novices and experienced practitioners looking to fortify their cybersecurity defenses.
+위협 모델링에 대한 HackTricks의 포괄적인 가이드에 오신 것을 환영합니다! 시스템의 잠재적인 취약점을 식별, 이해 및 대비하는 사이버 보안의 중요한 측면을 탐구해 보세요. 이 글은 실제 예제, 유용한 소프트웨어 및 쉽게 이해할 수 있는 설명으로 가득한 단계별 가이드로 제공됩니다. 보안 방어를 강화하려는 초보자와 경험있는 전문가 모두에게 이상적입니다.
 
-### Commonly Used Scenarios
+### 일반적으로 사용되는 시나리오
 
-1. **Software Development**: As part of the Secure Software Development Life Cycle (SSDLC), threat modeling helps in **identifying potential sources of vulnerabilities** in the early stages of development.
-2. **Penetration Testing**: The Penetration Testing Execution Standard (PTES) framework requires **threat modeling to understand the system's vulnerabilities** before carrying out the test.
+1. **소프트웨어 개발**: 안전한 소프트웨어 개발 수명주기(SSDLC)의 일환으로 위협 모델링은 개발 초기 단계에서 **잠재적인 취약점의 원천을 식별하는 데 도움**이 됩니다.
+2. **펜트스팅**: 펜트스팅 실행 표준(PTES) 프레임워크는 테스트를 수행하기 전에 시스템의 취약점을 이해하기 위해 **위협 모델링을 요구**합니다.
 
-### Threat Model in a Nutshell
+### 요약된 위협 모델
 
-A Threat Model is typically represented as a diagram, image, or some other form of visual illustration that depicts the planned architecture or existing build of an application. It bears resemblance to a **data flow diagram**, but the key distinction lies in its security-oriented design.
+위협 모델은 일반적으로 응용 프로그램의 계획된 아키텍처 또는 기존 빌드를 나타내는 다이어그램, 이미지 또는 다른 시각적 표현 형식으로 나타냅니다. 이는 **데이터 흐름 다이어그램**과 유사하지만, 보안 중심의 설계에 차이가 있습니다.
 
-Threat models often feature elements marked in red, symbolizing potential vulnerabilities, risks, or barriers. To streamline the process of risk identification, the CIA (Confidentiality, Integrity, Availability) triad is employed, forming the basis of many threat modeling methodologies, with STRIDE being one of the most common. However, the chosen methodology can vary depending on the specific context and requirements.
+위협 모델에는 잠재적인 취약점, 위험 또는 장애를 상징하는 빨간색으로 표시된 요소가 자주 포함됩니다. 위험 식별 프로세스를 간소화하기 위해 기밀성, 무결성, 가용성(CIA) 삼각형이 사용되며, STRIDE가 가장 일반적인 위협 모델링 방법론 중 하나입니다. 그러나 선택한 방법론은 특정 맥락과 요구 사항에 따라 다를 수 있습니다.
 
-### The CIA Triad
+### CIA 삼각형
 
-The CIA Triad is a widely recognized model in the field of information security, standing for Confidentiality, Integrity, and Availability. These three pillars form the foundation upon which many security measures and policies are built, including threat modeling methodologies.
+CIA 삼각형은 정보 보안 분야에서 널리 인정받는 모델로, 기밀성(Confidentiality), 무결성(Integrity) 및 가용성(Availability)을 나타냅니다. 이 세 가지 요소는 많은 보안 조치와 정책, 위협 모델링 방법론을 포함한 기반을 형성합니다.
 
-1. **Confidentiality**: Ensuring that the data or system is not accessed by unauthorized individuals. This is a central aspect of security, requiring appropriate access controls, encryption, and other measures to prevent data breaches.
-2. **Integrity**: The accuracy, consistency, and trustworthiness of the data over its lifecycle. This principle ensures that the data is not altered or tampered with by unauthorized parties. It often involves checksums, hashing, and other data verification methods.
-3. **Availability**: This ensures that data and services are accessible to authorized users when needed. This often involves redundancy, fault tolerance, and high-availability configurations to keep systems running even in the face of disruptions.
+1. **기밀성**: 데이터 또는 시스템이 무단으로 액세스되지 않도록 보장합니다. 이는 적절한 액세스 제어, 암호화 및 기타 조치를 통해 데이터 침해를 방지하기 위한 중요한 측면입니다.
+2. **무결성**: 데이터의 수명 주기 동안의 정확성, 일관성 및 신뢰성을 보장합니다. 이 원칙은 무단자에 의해 데이터가 변경되거나 조작되지 않도록 합니다. 이는 종종 체크섬, 해시 및 기타 데이터 확인 방법을 포함합니다.
+3. **가용성**: 데이터 및 서비스가 필요할 때 허가된 사용자에게 액세스 가능하도록 보장합니다. 이는 시스템이 중단되더라도 시스템이 계속 작동할 수 있도록 중복성, 장애 허용 및 고가용성 구성을 포함합니다.
 
-### Threat Modeling Methodlogies
+### 위협 모델링 방법론
 
-1. **STRIDE**: Developed by Microsoft, STRIDE is an acronym for **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, and Elevation of Privilege**. Each category represents a type of threat, and this methodology is commonly used in the design phase of a program or system to identify potential threats.
-2. **DREAD**: This is another methodology from Microsoft used for risk assessment of identified threats. DREAD stands for **Damage potential, Reproducibility, Exploitability, Affected users, and Discoverability**. Each of these factors is scored, and the result is used to prioritize identified threats.
-3. **PASTA** (Process for Attack Simulation and Threat Analysis): This is a seven-step, **risk-centric** methodology. It includes defining and identifying security objectives, creating a technical scope, application decomposition, threat analysis, vulnerability analysis, and risk/triage assessment.
-4. **Trike**: This is a risk-based methodology that focuses on defending assets. It starts from a **risk management** perspective and looks at threats and vulnerabilities in that context.
-5. **VAST** (Visual, Agile, and Simple Threat modeling): This approach aims to be more accessible and integrates into Agile development environments. It combines elements from the other methodologies and focuses on **visual representations of threats**.
-6. **OCTAVE** (Operationally Critical Threat, Asset, and Vulnerability Evaluation): Developed by the CERT Coordination Center, this framework is geared toward **organizational risk assessment rather than specific systems or software**.
+1. **STRIDE**: Microsoft에서 개발한 STRIDE는 **위장, 조작, 부인, 정보 노출, 서비스 거부 및 권한 상승**을 나타내는 머리글자입니다. 각 범주는 특정 유형의 위협을 나타내며, 이 방법론은 프로그램 또는 시스템의 설계 단계에서 잠재적인 위협을 식별하는 데 일반적으로 사용됩니다.
+2. **DREAD**: 이는 Microsoft의 또 다른 위협 식별을 위한 위험 평가 방법론입니다. DREAD는 **피해 정도, 재현성, 악용 가능성, 영향을 받는 사용자 및 발견 가능성**을 나타냅니다. 이러한 요소 각각에 점수를 매기고, 결과를 사용하여 식별된 위협을 우선 순위로 정합니다.
+3. **PASTA**(공격 시뮬레이션 및 위협 분석 프로세스): 이는 일곱 단계의 **위험 중심** 방법론입니다. 보안 목표 정의 및 식별, 기술적 범위 생성, 응용 프로그램 분해, 위협 분석, 취약성 분석 및 위험/선별 평가를 포함합니다.
+4. **Trike**: 이는 자산을 방어하는 데 초점을 맞춘 위험 중심 방법론입니다. **위험 관리** 관점에서 시작하여 해당 맥락에서 위협과 취약점을 살펴봅니다.
+5. **VAST**(시각적, 민첩 및 간단한 위협 모델링): 이 접근 방식은 더 접근 가능하도록 설계되었으며, Agile 개발 환경에 통합됩니다. 다른 방법론에서 요소를 결합하고 **위협의 시각적 표현에 초점**을 둡니다.
+6. **OCTAVE**(운영 중요 위협, 자산 및 취약성 평가): CERT Coordination Center에서 개발한 이 프레임워크는 특정 시스템이나 소프트웨어보다는 **조직적 위험 평가**를 위해 고안되었습니다.
 
-## Tools
+## 도구
 
-There are several tools and software solutions available that can **assist** with the creation and management of threat models. Here are a few you might consider.
+위협 모델의 작성 및 관리를 **지원**하는 여러 도구와 소프트웨어 솔루션이 있습니다. 다음은 고려할 수 있는 몇 가지 도구입니다.
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-An advance cross-platform and multi-feature GUI web spider/crawler for cyber security professionals. Spider Suite can be used for attack surface mapping and analysis.
+사이버 보안 전문가를 위한 고급 크로스 플랫폼 및 다기능 GUI 웹 스파이더/크롤러입니다. Spider Suite는 공격 표면 매핑 및 분석에 사용할 수 있습니다.
 
-**Usage**
+**사용법**
 
-1. Pick a URL and Crawl
+1. URL 선택 및 크롤링
 
 <figure><img src="../.gitbook/assets/threatmodel_spidersuite_1.png" alt=""><figcaption></figcaption></figure>
 
-2. View Graph
+2. 그래프 보기
 
 <figure><img src="../.gitbook/assets/threatmodel_spidersuite_2.png" alt=""><figcaption></figcaption></figure>
 
 ### [OWASP Threat Dragon](https://github.com/OWASP/threat-dragon/releases)
 
-An open-source project from OWASP, Threat Dragon is both a web and desktop application that includes system diagramming as well as a rule engine to auto-generate threats/mitigations.
+OWASP의 오픈 소스 프로젝트인 Threat Dragon은 시스템 다이어그램 작성 및 위협/완화 자동 생성을 위한 규칙 엔진을 포함한 웹 및 데스크톱 애플리케이션입니다.
 
-**Usage**
+**사용법**
 
-1. Create New Project
+1. 새 프로젝트 생성
 
 <figure><img src="../.gitbook/assets/create_new_project_1.jpg" alt=""><figcaption></figcaption></figure>
 
-Sometimes it could look like this:
+가끔 이렇게 보일 수도 있습니다:
 
 <figure><img src="../.gitbook/assets/1_threatmodel_create_project.jpg" alt=""><figcaption></figcaption></figure>
 
-2. Launch New Project
+2. 새 프로젝트 시작
 
 <figure><img src="../.gitbook/assets/launch_new_project_2.jpg" alt=""><figcaption></figcaption></figure>
 
-3. Save The New Project
+3. 새 프로젝트 저장
 
 <figure><img src="../.gitbook/assets/save_new_project.jpg" alt=""><figcaption></figcaption></figure>
 
-4. Create your model
+4. 모델 생성
 
-You can use tools like SpiderSuite Crawler to give you inspiration, a basic model would look something like this
-
-<figure><img src="../.gitbook/assets/0_basic_threat_model.jpg" alt=""><figcaption></figcaption></figure>
-
-Just a little bit of explanation about the entities:
-
-* Process (The entity itself such as Webserver or web functionality)
-* Actor (A Person such as a Website Visitor, User or Administrator)
-* Data Flow Line (Indicator of Interaction)
-* Trust Boundary (Different network segments or scopes.)
-* Store (Things where data are stored at such as Databases)
-
-5. Create a Threat (Step 1)
-
-First you have to pick the layer you wish to add a threat to
-
-<figure><img src="../.gitbook/assets/3_threatmodel_chose-threat-layer.jpg" alt=""><figcaption></figcaption></figure>
-
-Now you can create the threat
-
-<figure><img src="../.gitbook/assets/4_threatmodel_create-threat.jpg" alt=""><figcaption></figcaption></figure>
-
-Keep in mind that there is a difference between Actor Threats and Process Threats. If you would add a threat to an Actor then you will only be able to choose "Spoofing" and "Repudiation. However in our example we add threat to a Process entity so we will see this in the threat creation box:
-
-<figure><img src="../.gitbook/assets/2_threatmodel_type-option.jpg" alt=""><figcaption></figcaption></figure>
-
-6. Done
-
-Now your finished model should look something like this. And this is how you make a simple threat model with OWASP Threat Dragon.
-
-<figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
-
-### [Microsoft Threat Modeling Tool](https://aka.ms/threatmodelingtool)
-
-This is a free tool from Microsoft that helps in finding threats in the design phase of software projects. It uses the STRIDE methodology and is particularly suitable for those developing on Microsoft's stack.
+SpiderSuite Crawler와 같은 도구를 사용하여 영감을 얻을 수 있으며, 기본 모델은 다음과 같이 보
