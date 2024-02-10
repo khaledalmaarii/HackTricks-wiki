@@ -1,192 +1,187 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini da podržite HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju oglašenu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) is a useful program to find where important values are saved inside the memory of a running game and change them.\
-When you download and run it, you are **presented** with a **tutorial** of how to use the tool. If you want to learn how to use the tool it's highly recommended to complete it.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) je koristan program za pronalaženje mesta gde su važne vrednosti sačuvane u memoriji pokrenute igre i njihovo menjanje.\
+Kada ga preuzmete i pokrenete, bićete **upoznati** sa **tutorialom** o tome kako koristiti alat. Ako želite da naučite kako koristiti alat, preporučuje se da ga kompletno prođete.
 
-# What are you searching?
+# Šta tražite?
 
 ![](<../../.gitbook/assets/image (580).png>)
 
-This tool is very useful to find **where some value** (usually a number) **is stored in the memory** of a program.\
-**Usually numbers** are stored in **4bytes** form, but you could also find them in **double** or **float** formats, or you may want to look for something **different from a number**. For that reason you need to be sure you **select** what you want to **search for**:
+Ovaj alat je veoma koristan za pronalaženje mesta gde je **sačuvana neka vrednost** (obično broj) **u memoriji** programa.\
+**Obično brojevi** su sačuvani u **4 bajta** formatu, ali takođe ih možete pronaći u **double** ili **float** formatima, ili možda želite da tražite nešto **drugo od broja**. Iz tog razloga morate biti sigurni da **izaberete** šta želite **tražiti**:
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-Also you can indicate **different** types of **searches**:
+Takođe možete odabrati **različite** vrste **pretraga**:
 
 ![](<../../.gitbook/assets/image (582).png>)
 
-You can also check the box to **stop the game while scanning the memory**:
+Možete takođe označiti polje da **zaustavite igru dok skenirate memoriju**:
 
 ![](<../../.gitbook/assets/image (584).png>)
 
-## Hotkeys
+## Prečice
 
-In _**Edit --> Settings --> Hotkeys**_ you can set different **hotkeys** for different purposes like **stopping** the **game** (which is quiet useful if at some point you want to scan the memory). Other options are available:
+U _**Edit --> Settings --> Hotkeys**_ možete postaviti različite **prečice** za različite svrhe kao što je **zaustavljanje** **igre** (što je veoma korisno ako želite da skenirate memoriju u nekom trenutku). Druge opcije su takođe dostupne:
 
 ![](<../../.gitbook/assets/image (583).png>)
 
-# Modifying the value
+# Menjanje vrednosti
 
-Once you **found** where is the **value** you are **looking for** (more about this in the following steps) you can **modify it** double clicking it, then double clicking its value:
+Kada **pronađete** gde se nalazi **vrednost** koju **tražite** (više o tome u sledećim koracima), možete je **izmeniti** duplim klikom na nju, a zatim duplim klikom na njenu vrednost:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
-And finally **marking the check** to get the modification done in the memory:
+I na kraju, **označite polje** da biste izvršili izmenu u memoriji:
 
 ![](<../../.gitbook/assets/image (586).png>)
 
-The **change** to the **memory** will be immediately **applied** (note that until the game doesn't use this value again the value **won't be updated in the game**).
+Promena u memoriji će biti odmah **primenjena** (imajte na umu da dok igra ne koristi ponovo ovu vrednost, vrednost **neće biti ažurirana u igri**).
 
-# Searching the value
+# Pretraga vrednosti
 
-So, we are going to suppose that there is an important value (like the life of your user) that you want to improve, and you are looking for this value in the memory)
+Dakle, pretpostavićemo da postoji važna vrednost (kao što je život vašeg korisnika) koju želite poboljšati, i tražite tu vrednost u memoriji)
 
-## Through a known change
+## Kroz poznatu promenu
 
-Supposing you are looking for the value 100, you **perform a scan** searching for that value and you find a lot of coincidences:
+Pretpostavimo da tražite vrednost 100, **izvršite skeniranje** tražeći tu vrednost i pronađete mnogo podudaranja:
 
 ![](<../../.gitbook/assets/image (587).png>)
 
-Then, you do something so that **value changes**, and you **stop** the game and **perform** a **next scan**:
+Zatim, uradite nešto da se **vrednost promeni**, zaustavite igru i izvršite **sledeće skeniranje**:
 
 ![](<../../.gitbook/assets/image (588).png>)
 
-Cheat Engine will search for the **values** that **went from 100 to the new value**. Congrats, you **found** the **address** of the value you were looking for, you can now modify it.\
-_If you still have several values, do something to modify again that value, and perform another "next scan" to filter the addresses._
+Cheat Engine će tražiti **vrednosti** koje su **prešle sa 100 na novu vrednost**. Čestitamo, **pronašli** ste **adresu** vrednosti koju ste tražili, sada je možete izmeniti.\
+_Ako i dalje imate više vrednosti, uradite nešto da ponovo izmenite tu vrednost, i izvršite još jedno "sledeće skeniranje" da biste filtrirali adrese._
 
-## Unknown Value, known change
+## Nepoznata vrednost, poznata promena
 
-In the scenario you **don't know the value** but you know **how to make it change** (and even the value of the change) you can look for your number.
+U scenariju kada **ne znate vrednost**, ali znate **kako je promeniti** (čak i vrednost promene) možete tražiti svoj broj.
 
-So, start by performing a scan of type "**Unknown initial value**":
+Dakle, započnite sa izvršavanjem skeniranja tipa "**Nepoznata početna vrednost**":
 
 ![](<../../.gitbook/assets/image (589).png>)
 
-Then, make the value change, indicate **how** the **value** **changed** (in my case it was decreased by 1) and perform a **next scan**:
+Zatim, promenite vrednost, naznačite **kako** se **vrednost promenila** (u mom slučaju smanjena je za 1) i izvršite **sledeće skeniranje**:
 
 ![](<../../.gitbook/assets/image (590).png>)
 
-You will be presented **all the values that were modified in the selected way**:
+Biće vam prikazane **sve vrednosti koje su izmenjene na izabrani način**:
 
 ![](<../../.gitbook/assets/image (591).png>)
 
-Once you have found your value, you can modify it.
+Kada pronađete svoju vrednost, možete je izmeniti.
 
-Note that there are a **lot of possible changes** and you can do these **steps as much as you want** to filter the results:
+Imajte na umu da postoji **mnogo mogućih promena** i ove korake možete ponavljati **koliko god želite** da biste filtrirali rezultate:
 
 ![](<../../.gitbook/assets/image (592).png>)
 
-## Random Memory Address - Finding the code
+## Nasumična adresa memorije - Pronalaženje koda
 
-Until know we learnt how to find an address storing a value, but it's highly probably that in **different executions of the game that address is in different places of the memory**. So lets find out how to always find that address.
+Do sada smo naučili kako pronaći adresu koja čuva vrednost, ali veoma je verovatno da će u **različitim izvršavanjima igre ta adresa biti na različitim mestima u memoriji**. Zato saznajmo kako uvek pronaći tu adresu.
 
-Using some of the mentioned tricks, find the address where your current game is storing the important value. Then (stopping the game if you whish) do a **right click** on the found **address** and select "**Find out what accesses this address**" or "**Find out what writes to this address**":
+Koristeći neke od pomenutih trikova, pronađite adresu gde vaša trenutna igra čuva važnu vrednost. Zatim (zaustavite igru ako želite) uradite **desni klik** na pronađenu **adresu** i izaberite "**Find out what accesses this address**" ili "**Find out what writes to this address**":
 
 ![](<../../.gitbook/assets/image (593).png>)
 
-The **first option** is useful to know which **parts** of the **code** are **using** this **address** (which is useful for more things like **knowing where you can modify the code** of the game).\
-The **second option** is more **specific**, and will be more helpful in this case as we are interested in knowing **from where this value is being written**.
+**Prva opcija** je korisna da biste saznali koje **delovi** koda **koriste** ovu **adresu** (što je korisno za više stvari kao što je **znati gde možete izmeniti kod** igre).\
+**Druga opcija** je konkretnija i biće korisnija u ovom slučaju jer nas zanima **odakle se piše ova vrednost**.
 
-Once you have selected one of those options, the **debugger** will be **attached** to the program and a new **empty window** will appear. Now, **play** the **game** and **modify** that **value** (without restarting the game). The **window** should be **filled** with the **addresses** that are **modifying** the **value**:
+Kada ste odabrali jednu od tih opcija, **debugger** će biti **povezan** sa programom i pojaviće se nova **prazna prozor**. Sada, **pokrenite** igru i **izmenite** tu **vrednost** (bez ponovnog pokretanja igre). **Prozor** bi trebao biti **popunjen** adresama koje **menjaju** vrednost:
 
 ![](<../../.gitbook/assets/image (594).png>)
 
-Now that you found the address it's modifying the value you can **modify the code at your pleasure** (Cheat Engine allows you to modify it for NOPs real quick):
+Sada kada ste pronašli adresu koja menja vrednost, možete **izmeniti kod po svojoj želji** (Cheat Engine vam omogućava brzo menjanje u NOPs):
 
 ![](<../../.gitbook/assets/image (595).png>)
 
-So, you can now modify it so the code won't affect your number, or will always affect in a positive way.
+Sada je možete izmeniti tako da kod ne utiče na vaš broj, ili će uvek pozitivno uticati.
+## Nasumična adresa memorije - Pronalaženje pokazivača
 
-## Random Memory Address - Finding the pointer
-
-Following the previous steps, find where the value you are interested is. Then, using "**Find out what writes to this address**" find out which address writes this value and double click on it to get the disassembly view:
+Sledeći prethodne korake, pronađite gde se nalazi vrednost koja vas zanima. Zatim, koristeći "**Saznajte šta piše na ovoj adresi**" saznajte koja adresa upisuje ovu vrednost i dvaput kliknite na nju da biste dobili prikaz rastavljanja:
 
 ![](<../../.gitbook/assets/image (596).png>)
 
-Then, perform a new scan **searching for the hex value between "\[]"** (the value of $edx in this case):
+Zatim, izvršite novu pretragu **tražeći heksadecimalnu vrednost između "\[]"** (vrednost $edx u ovom slučaju):
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-(_If several appear you usually need the smallest address one_)\
-Now, we have f**ound the pointer that will be modifying the value we are interested in**.
+(Ukoliko se pojavi više njih, obično vam je potrebna ona sa najmanjom adresom)\
+Sada smo pronašli **pokazivač koji će menjati vrednost koja nas zanima**.
 
-Click on "**Add Address Manually**":
+Kliknite na "**Dodaj adresu ručno**":
 
 ![](<../../.gitbook/assets/image (598).png>)
 
-Now, click on the "Pointer" check box and add the found address in the text box (in this scenario, the found address in the previous image was "Tutorial-i386.exe"+2426B0):
+Sada, kliknite na polje za potvrdu "Pokazivač" i dodajte pronađenu adresu u tekstualno polje (u ovom scenariju, pronađena adresa na prethodnoj slici bila je "Tutorial-i386.exe"+2426B0):
 
 ![](<../../.gitbook/assets/image (599).png>)
 
-(Note how the first "Address" is automatically populated from the pointer address you introduce)
+(Primetite kako je prva "Adresa" automatski popunjena iz adrese pokazivača koju ste uneli)
 
-Click OK and a new pointer will be created:
+Kliknite na OK i biće kreiran novi pokazivač:
 
 ![](<../../.gitbook/assets/image (600).png>)
 
-Now, every time you modifies that value you are **modifying the important value even if the memory address where the value is is different.**
+Sada, svaki put kada promenite tu vrednost, **menjate važnu vrednost čak i ako je adresa memorije gde se vrednost nalazi drugačija**.
 
-## Code Injection
+## Ubacivanje koda
 
-Code injection is a technique where you inject a piece of code into the target process, and then reroute the execution of code to go through your own written code (like giving you points instead of resting them).
+Ubacivanje koda je tehnika u kojoj ubacujete deo koda u ciljni proces, a zatim preusmeravate izvršavanje koda da prolazi kroz vaš sopstveno napisani kod (kao da vam daje poene umesto da ih oduzima).
 
-So, imagine you have found the address that is subtracting 1 to the life of your player:
+Dakle, zamislite da ste pronašli adresu koja oduzima 1 od života vašeg igrača:
 
 ![](<../../.gitbook/assets/image (601).png>)
 
-Click on Show disassembler to get the **disassemble code**.\
-Then, click **CTRL+a** to invoke the Auto assemble window and select _**Template --> Code Injection**_
+Kliknite na "Prikaži rastavljač" da biste dobili **rastavljeni kod**.\
+Zatim, kliknite **CTRL+a** da biste otvorili prozor za automatsko sastavljanje i izaberite _**Šablon --> Ubacivanje koda**_
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Fill the **address of the instruction you want to modify** (this is usually autofilled):
+Popunite **adresu instrukcije koju želite da izmenite** (obično je automatski popunjena):
 
 ![](<../../.gitbook/assets/image (603).png>)
 
-A template will be generated:
+Biće generisan šablon:
 
 ![](<../../.gitbook/assets/image (604).png>)
 
-So, insert your new assembly code in the "**newmem**" section and remove the original code from the "**originalcode**" if you don't want it to be executed**.** In this example the injected code will add 2 points instead of substracting 1:
+Zatim, ubacite svoj novi sklopovski kod u odeljak "**newmem**" i uklonite originalni kod iz odeljka "**originalcode**" ako ne želite da se izvrši. U ovom primeru, ubačeni kod će dodati 2 poena umesto što će oduzeti 1:
 
 ![](<../../.gitbook/assets/image (605).png>)
 
-**Click on execute and so on and your code should be injected in the program changing the behaviour of the functionality!**
+**Kliknite na izvrši i tako dalje i vaš kod će biti ubačen u program, menjajući ponašanje funkcionalnosti!**
 
-# **References**
+# **Reference**
 
-* **Cheat Engine tutorial, complete it to learn how to start with Cheat Engine**
+* **Cheat Engine tutorijal, završite ga da biste naučili kako da počnete sa Cheat Engine-om**
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **oglašavanje vaše kompanije na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
-
-

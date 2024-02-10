@@ -1,80 +1,80 @@
-# Browser Artifacts
+# Artifakti pregledača
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** uz pomoć najnaprednijih alata zajednice na svetu.\
+Danas dobijte pristup:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Browsers Artifacts <a href="#id-3def" id="id-3def"></a>
+## Artifakti pregledača <a href="#id-3def" id="id-3def"></a>
 
-Browser artifacts include various types of data stored by web browsers, such as navigation history, bookmarks, and cache data. These artifacts are kept in specific folders within the operating system, differing in location and name across browsers, yet generally storing similar data types.
+Artifakti pregledača uključuju različite vrste podataka koje čuvaju veb pregledači, kao što su istorija navigacije, obeleživači i keš podaci. Ovi artifakti se čuvaju u određenim fasciklama unutar operativnog sistema, razlikujući se po lokaciji i imenu u različitim pregledačima, ali uglavnom čuvajući slične vrste podataka.
 
-Here's a summary of the most common browser artifacts:
+Evo sažetka najčešćih artifakata pregledača:
 
-- **Navigation History**: Tracks user visits to websites, useful for identifying visits to malicious sites.
-- **Autocomplete Data**: Suggestions based on frequent searches, offering insights when combined with navigation history.
-- **Bookmarks**: Sites saved by the user for quick access.
-- **Extensions and Add-ons**: Browser extensions or add-ons installed by the user.
-- **Cache**: Stores web content (e.g., images, JavaScript files) to improve website loading times, valuable for forensic analysis.
-- **Logins**: Stored login credentials.
-- **Favicons**: Icons associated with websites, appearing in tabs and bookmarks, useful for additional information on user visits.
-- **Browser Sessions**: Data related to open browser sessions.
-- **Downloads**: Records of files downloaded through the browser.
-- **Form Data**: Information entered in web forms, saved for future autofill suggestions.
-- **Thumbnails**: Preview images of websites.
-- **Custom Dictionary.txt**: Words added by the user to the browser's dictionary.
+- **Istorija navigacije**: Prati posete korisnika veb sajtovima, korisno za identifikaciju poseta zlonamernim sajtovima.
+- **Podaci za automatsko popunjavanje**: Predlozi na osnovu čestih pretraga, pružajući uvide kada se kombinuju sa istorijom navigacije.
+- **Obeleživači**: Sajtovi koje je korisnik sačuvao radi brzog pristupa.
+- **Proširenja i dodaci**: Proširenja pregledača ili dodaci instalirani od strane korisnika.
+- **Keš**: Čuva veb sadržaj (npr. slike, JavaScript fajlove) radi poboljšanja vremena učitavanja sajtova, vredno za forenzičku analizu.
+- **Prijave**: Sačuvani podaci za prijavljivanje.
+- **Favikoni**: Ikone povezane sa veb sajtovima, prikazuju se na karticama i obeleživačima, korisne za dodatne informacije o posetama korisnika.
+- **Sesije pregledača**: Podaci vezani za otvorene sesije pregledača.
+- **Preuzimanja**: Zapisi o fajlovima preuzetim putem pregledača.
+- **Podaci o obrascima**: Informacije unete u veb obrasce, sačuvane za buduće predloge automatskog popunjavanja.
+- **Sličice**: Prikazne slike veb sajtova.
+- **Custom Dictionary.txt**: Reči dodate od strane korisnika u rečnik pregledača.
 
 
 ## Firefox
 
-Firefox organizes user data within profiles, stored in specific locations based on the operating system:
+Firefox organizuje korisničke podatke unutar profila, koji se čuvaju na određenim lokacijama u zavisnosti od operativnog sistema:
 
 - **Linux**: `~/.mozilla/firefox/`
 - **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 - **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-A `profiles.ini` file within these directories lists the user profiles. Each profile's data is stored in a folder named in the `Path` variable within `profiles.ini`, located in the same directory as `profiles.ini` itself. If a profile's folder is missing, it may have been deleted.
+U direktorijumima se nalazi `profiles.ini` fajl koji sadrži profile korisnika. Podaci svakog profila se čuvaju u fascikli čije ime odgovara vrednosti `Path` promenljive unutar `profiles.ini`, a nalazi se u istom direktorijumu kao i sam `profiles.ini`. Ako fascikla profila nedostaje, možda je obrisana.
 
-Within each profile folder, you can find several important files:
+Unutar svake fascikle profila, možete pronaći nekoliko važnih fajlova:
 
-- **places.sqlite**: Stores history, bookmarks, and downloads. Tools like [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html) on Windows can access the history data.
-  - Use specific SQL queries to extract history and downloads information.
-- **bookmarkbackups**: Contains backups of bookmarks.
-- **formhistory.sqlite**: Stores web form data.
-- **handlers.json**: Manages protocol handlers.
-- **persdict.dat**: Custom dictionary words.
-- **addons.json** and **extensions.sqlite**: Information on installed add-ons and extensions.
-- **cookies.sqlite**: Cookie storage, with [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) available for inspection on Windows.
-- **cache2/entries** or **startupCache**: Cache data, accessible through tools like [MozillaCacheView](https://www.nirsoft.net/utils/mozilla_cache_viewer.html).
-- **favicons.sqlite**: Stores favicons.
-- **prefs.js**: User settings and preferences.
-- **downloads.sqlite**: Older downloads database, now integrated into places.sqlite.
-- **thumbnails**: Website thumbnails.
-- **logins.json**: Encrypted login information.
-- **key4.db** or **key3.db**: Stores encryption keys for securing sensitive information.
+- **places.sqlite**: Čuva istoriju, obeleživače i preuzimanja. Alati poput [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html) na Windows-u mogu pristupiti podacima istorije.
+- Koristite specifične SQL upite za izvlačenje informacija o istoriji i preuzimanjima.
+- **bookmarkbackups**: Sadrži rezervne kopije obeleživača.
+- **formhistory.sqlite**: Čuva podatke o veb obrascima.
+- **handlers.json**: Upravljači protokola.
+- **persdict.dat**: Reči prilagođenog rečnika.
+- **addons.json** i **extensions.sqlite**: Informacije o instaliranim dodacima i proširenjima.
+- **cookies.sqlite**: Skladište kolačića, sa [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) dostupnim za pregled na Windows-u.
+- **cache2/entries** ili **startupCache**: Keš podaci, dostupni putem alata poput [MozillaCacheView](https://www.nirsoft.net/utils/mozilla_cache_viewer.html).
+- **favicons.sqlite**: Čuva favikone.
+- **prefs.js**: Korisnička podešavanja i preferencije.
+- **downloads.sqlite**: Starija baza podataka preuzimanja, sada integrisana u places.sqlite.
+- **thumbnails**: Sličice veb sajtova.
+- **logins.json**: Šifrovani podaci za prijavljivanje.
+- **key4.db** ili **key3.db**: Čuva ključeve za šifrovanje osetljivih informacija.
 
-Additionally, checking the browser’s anti-phishing settings can be done by searching for `browser.safebrowsing` entries in `prefs.js`, indicating whether safe browsing features are enabled or disabled.
+Dodatno, proveru postavki protiv-fisinga pregledača možete izvršiti pretragom unosa `browser.safebrowsing` u `prefs.js`, što ukazuje da li su funkcije sigurnog pregledanja omogućene ili onemogućene.
 
 
-To try to decrypt the master password, you can use [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-With the following script and call you can specify a password file to brute force:
+Da biste pokušali dešifrovanje glavne lozinke, možete koristiti [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+Pomoću sledećeg skripta i poziva možete specificirati fajl sa lozinkom za brute force:
 
 {% code title="brute.sh" %}
 ```bash
@@ -83,8 +83,8 @@ With the following script and call you can specify a password file to brute forc
 #./brute.sh top-passwords.txt 2>/dev/null | grep -A2 -B2 "chrome:"
 passfile=$1
 while read pass; do
-  echo "Trying $pass"
-  echo "$pass" | python firefox_decrypt.py
+echo "Trying $pass"
+echo "$pass" | python firefox_decrypt.py
 done < $passfile
 ```
 {% endcode %}
@@ -93,113 +93,66 @@ done < $passfile
 
 ## Google Chrome
 
-Google Chrome stores user profiles in specific locations based on the operating system:
+Google Chrome čuva korisničke profile na određenim lokacijama zavisno od operativnog sistema:
 
 - **Linux**: `~/.config/google-chrome/`
 - **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
 - **MacOS**: `/Users/$USER/Library/Application Support/Google/Chrome/`
 
-Within these directories, most user data can be found in the **Default/** or **ChromeDefaultData/** folders. The following files hold significant data:
+U ovim direktorijumima, većina korisničkih podataka se može naći u fasciklama **Default/** ili **ChromeDefaultData/**. Sledeći fajlovi sadrže značajne podatke:
 
-- **History**: Contains URLs, downloads, and search keywords. On Windows, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome_history_view.html) can be used to read the history. The "Transition Type" column has various meanings, including user clicks on links, typed URLs, form submissions, and page reloads.
-- **Cookies**: Stores cookies. For inspection, [ChromeCookiesView](https://www.nirsoft.net/utils/chrome_cookies_view.html) is available.
-- **Cache**: Holds cached data. To inspect, Windows users can utilize [ChromeCacheView](https://www.nirsoft.net/utils/chrome_cache_view.html).
-- **Bookmarks**: User bookmarks.
-- **Web Data**: Contains form history.
-- **Favicons**: Stores website favicons.
-- **Login Data**: Includes login credentials like usernames and passwords.
-- **Current Session**/**Current Tabs**: Data about the current browsing session and open tabs.
-- **Last Session**/**Last Tabs**: Information about the sites active during the last session before Chrome was closed.
-- **Extensions**: Directories for browser extensions and addons.
-- **Thumbnails**: Stores website thumbnails.
-- **Preferences**: A file rich in information, including settings for plugins, extensions, pop-ups, notifications, and more.
-- **Browser’s built-in anti-phishing**: To check if anti-phishing and malware protection are enabled, run `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Look for `{"enabled: true,"}` in the output.
+- **History**: Sadrži URL-ove, preuzimanja i ključne reči pretrage. Na Windows-u, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome_history_view.html) se može koristiti za čitanje istorije. Kolona "Transition Type" ima različita značenja, uključujući korisničke klikove na linkove, unete URL-ove, podnesene forme i osvežavanje stranica.
+- **Cookies**: Čuva kolačiće. Za pregled, dostupan je [ChromeCookiesView](https://www.nirsoft.net/utils/chrome_cookies_view.html).
+- **Cache**: Čuva keširane podatke. Windows korisnici mogu koristiti [ChromeCacheView](https://www.nirsoft.net/utils/chrome_cache_view.html) za pregled.
+- **Bookmarks**: Korisnički obeleživači.
+- **Web Data**: Sadrži istoriju formi.
+- **Favicons**: Čuva favicon-e veb sajtova.
+- **Login Data**: Uključuje korisničke podatke za prijavljivanje kao što su korisnička imena i lozinke.
+- **Current Session**/**Current Tabs**: Podaci o trenutnoj sesiji pretraživanja i otvorenim karticama.
+- **Last Session**/**Last Tabs**: Informacije o sajtovima aktivnim tokom poslednje sesije pre nego što je Chrome zatvoren.
+- **Extensions**: Direktorijumi za proširenja i dodatke pregledača.
+- **Thumbnails**: Čuva sličice veb sajtova.
+- **Preferences**: Fajl bogat informacijama, uključujući podešavanja za dodatke, proširenja, iskačuće prozore, obaveštenja i još mnogo toga.
+- **Ugrađena anti-phishing zaštita pregledača**: Da biste proverili da li je anti-phishing i zaštita od malvera omogućena, pokrenite `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Potražite `{"enabled: true,"}` u izlazu.
 
 
-## **SQLite DB Data Recovery**
+## **Obnova podataka iz SQLite baze**
 
-As you can observe in the previous sections, both Chrome and Firefox use **SQLite** databases to store the data. It's possible to **recover deleted entries using the tool** [**sqlparse**](https://github.com/padfoot999/sqlparse) **or** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+Kao što možete primetiti u prethodnim odeljcima, i Chrome i Firefox koriste **SQLite** baze podataka za čuvanje podataka. Moguće je **obnoviti obrisane unose koristeći alat** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ili** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
 
 ## **Internet Explorer 11**
 
-Internet Explorer 11 manages its data and metadata across various locations, aiding in separating stored information and its corresponding details for easy access and management.
+Internet Explorer 11 upravlja svojim podacima i metapodacima na različitim lokacijama, olakšavajući razdvajanje čuvanih informacija i odgovarajućih detalja radi lakšeg pristupa i upravljanja.
 
-### Metadata Storage
-Metadata for Internet Explorer is stored in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (with VX being V01, V16, or V24). Accompanying this, the `V01.log` file might show modification time discrepancies with `WebcacheVX.data`, indicating a need for repair using `esentutl /r V01 /d`. This metadata, housed in an ESE database, can be recovered and inspected using tools like photorec and [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html), respectively. Within the **Containers** table, one can discern the specific tables or containers where each data segment is stored, including cache details for other Microsoft tools such as Skype.
+### Čuvanje metapodataka
+Metapodaci za Internet Explorer se čuvaju u `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (pri čemu je VX V01, V16 ili V24). Uz to, fajl `V01.log` može pokazivati neslaganja u vremenu izmene sa `WebcacheVX.data`, što ukazuje na potrebu za popravkom korišćenjem `esentutl /r V01 /d`. Ovi metapodaci, smešteni u ESE bazi podataka, mogu se obnoviti i pregledati pomoću alata kao što su photorec i [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html). U okviru tabele **Containers**, moguće je razlikovati specifične tabele ili kontejnere u kojima se čuva svaki segment podataka, uključujući detalje keša za druge Microsoft alate kao što je Skype.
 
-### Cache Inspection
-The [IECacheView](https://www.nirsoft.net/utils/ie_cache_viewer.html) tool allows for cache inspection, requiring the cache data extraction folder location. Metadata for cache includes filename, directory, access count, URL origin, and timestamps indicating cache creation, access, modification, and expiry times.
+### Pregled keša
+Alat [IECacheView](https://www.nirsoft.net/utils/ie_cache_viewer.html) omogućava pregled keša, uz zahtev za lokacijom fascikle za ekstrakciju podataka iz keša. Metapodaci za keš uključuju ime fajla, direktorijum, broj pristupa, URL poreklo i vremenske oznake koje ukazuju na vreme kreiranja, pristupa, izmene i isteka keša.
 
-### Cookies Management
-Cookies can be explored using [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), with metadata encompassing names, URLs, access counts, and various time-related details. Persistent cookies are stored in `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, with session cookies residing in memory.
+### Upravljanje kolačićima
+Kolačiće je moguće istražiti pomoću [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), pri čemu metapodaci obuhvataju imena, URL-ove, broj pristupa i razne detalje vezane za vreme. Trajni kolačići se čuvaju u `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, dok se sesijski kolačići čuvaju u memoriji.
 
-### Download Details
-Downloads metadata is accessible via [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html), with specific containers holding data like URL, file type, and download location. Physical files can be found under `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
+### Detalji preuzimanja
+Metapodaci o preuzimanjima su dostupni putem [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html), pri čemu specifični kontejneri sadrže podatke poput URL-a, tipa fajla i lokacije preuzimanja. Fizički fajlovi se mogu pronaći pod `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
-### Browsing History
-To review browsing history, [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html) can be used, requiring the location of extracted history files and configuration for Internet Explorer. Metadata here includes modification and access times, along with access counts. History files are located in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+### Istorija pretraživanja
+Za pregled istorije pretraživanja može se koristiti [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html), uz zahtev za lokacijom izdvojenih fajlova istorije i konfiguracijom za Internet Explorer. Metapodaci ovde uključuju vreme izmene i pristupa, zajedno sa brojem pristupa. Fajlovi istorije se nalaze u `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
-### Typed URLs
-Typed URLs and their usage timings are stored within the registry under `NTUSER.DAT` at `Software\Microsoft\InternetExplorer\TypedURLs` and `Software\Microsoft\InternetExplorer\TypedURLsTime`, tracking the last 50 URLs entered by the user and their last input times.
+### Uneti URL-ovi
+Uneti URL-ovi i vremena njihove upotrebe se čuvaju u registru pod `NTUSER.DAT` na lokaciji `Software\Microsoft\InternetExplorer\TypedURLs` i `Software\Microsoft\InternetExplorer\TypedURLsTime`, prateći poslednjih 50 URL-ova unetih od strane korisnika i njihova poslednja vremena unosa.
 
 
 ## Microsoft Edge
 
-Microsoft Edge stores user data in `%userprofile%\Appdata\Local\Packages`. The paths for various data types are:
+Microsoft Edge čuva korisničke podatke u `%userprofile%\Appdata\Local\Packages`. Putanje za različite vrste podataka su:
 
-- **Profile Path**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
-- **History, Cookies, and Downloads**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
-- **Settings, Bookmarks, and Reading List**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb`
-- **Cache**: `C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC#!XXX\MicrosoftEdge\Cache`
-- **Last Active Sessions**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active`
-
-## Safari
-
-Safari data is stored at `/Users/$User/Library/Safari`. Key files include:
-
-- **History.db**: Contains `history_visits` and `history_items` tables with URLs and visit timestamps. Use `sqlite3` to query.
-- **Downloads.plist**: Information about downloaded files.
-- **Bookmarks.plist**: Stores bookmarked URLs.
-- **TopSites.plist**: Most frequently visited sites.
-- **Extensions.plist**: List of Safari browser extensions. Use `plutil` or `pluginkit` to retrieve.
-- **UserNotificationPermissions.plist**: Domains permitted to push notifications. Use `plutil` to parse.
-- **LastSession.plist**: Tabs from the last session. Use `plutil` to parse.
-- **Browser’s built-in anti-phishing**: Check using `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. A response of 1 indicates the feature is active.
-
-## Opera
-
-Opera's data resides in `/Users/$USER/Library/Application Support/com.operasoftware.Opera` and shares Chrome's format for history and downloads.
-
-- **Browser’s built-in anti-phishing**: Verify by checking if `fraud_protection_enabled` in the Preferences file is set to `true` using `grep`.
-
-These paths and commands are crucial for accessing and understanding the browsing data stored by different web browsers.
-
-
-## References
-* [https://nasbench.medium.com/web-browsers-forensics-7e99940c579a](https://nasbench.medium.com/web-browsers-forensics-7e99940c579a)
-* [https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/](https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/)
-* [https://books.google.com/books?id=jfMqCgAAQBAJ&pg=PA128&lpg=PA128&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ&pg=PA128&lpg=PA128&dq=%22This+file)
-* **Book: OS X Incident Response: Scripting and Analysis By Jaron Bradley pag 123**
-
-
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+- **Putanja profila**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
+- **Istorija, kolačići i preuzimanja**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
+- **Podešavanja, obeleživači i lista za čitanje**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan
+* Nabavite [**zvanični PEASS & HackTricks suvenir**](https://peass.creator-spring.com)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

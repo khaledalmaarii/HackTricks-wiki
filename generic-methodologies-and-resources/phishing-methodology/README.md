@@ -1,57 +1,57 @@
-# Phishing Methodology
+# Metodologija za ribarenje (Phishing)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini da podržite HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Methodology
+## Metodologija
 
-1. Recon the victim
-   1. Select the **victim domain**.
-   2. Perform some basic web enumeration **searching for login portals** used by the victim and **decide** which one you will **impersonate**.
-   3. Use some **OSINT** to **find emails**.
-2. Prepare the environment
-   1. **Buy the domain** you are going to use for the phishing assessment
-   2. **Configure the email service** related records (SPF, DMARC, DKIM, rDNS)
-   3. Configure the VPS with **gophish**
-3. Prepare the campaign
-   1. Prepare the **email template**
-   2. Prepare the **web page** to steal the credentials
-4. Launch the campaign!
+1. Izviđanje žrtve
+1. Izaberite **domen žrtve**.
+2. Izvršite osnovnu web enumeraciju **tražeći login portale** koje koristi žrtva i **odlučite** koji ćete **prevariti**.
+3. Koristite neke **OSINT** metode da **pronađete email adrese**.
+2. Priprema okruženja
+1. **Kupite domen** koji ćete koristiti za ribarenje
+2. **Konfigurišite email servis** povezane zapise (SPF, DMARC, DKIM, rDNS)
+3. Konfigurišite VPS sa **gophish**-om
+3. Priprema kampanje
+1. Pripremite **šablon email-a**
+2. Pripremite **web stranicu** za krađu podataka za prijavu
+4. Pokrenite kampanju!
 
-## Generate similar domain names or buy a trusted domain
+## Generisanje sličnih domena ili kupovina pouzdanog domena
 
-### Domain Name Variation Techniques
+### Tehnike varijacije imena domena
 
-* **Keyword**: The domain name **contains** an important **keyword** of the original domain (e.g., zelster.com-management.com).
-* **hypened subdomain**: Change the **dot for a hyphen** of a subdomain (e.g., www-zelster.com).
-* **New TLD**: Same domain using a **new TLD** (e.g., zelster.org)
-* **Homoglyph**: It **replaces** a letter in the domain name with **letters that look similar** (e.g., zelfser.com).
-* **Transposition:** It **swaps two letters** within the domain name (e.g., zelster.com).
-* **Singularization/Pluralization**: Adds or removes “s” at the end of the domain name (e.g., zeltsers.com).
-* **Omission**: It **removes one** of the letters from the domain name (e.g., zelser.com).
-* **Repetition:** It **repeats one** of the letters in the domain name (e.g., zeltsser.com).
-* **Replacement**: Like homoglyph but less stealthy. It replaces one of the letters in the domain name, perhaps with a letter in proximity of the original letter on the keyboard (e.g, zektser.com).
-* **Subdomained**: Introduce a **dot** inside the domain name (e.g., ze.lster.com).
-* **Insertion**: It **inserts a letter** into the domain name (e.g., zerltser.com).
-* **Missing dot**: Append the TLD to the domain name. (e.g., zelstercom.com)
+* **Ključna reč**: Domen sadrži važnu **ključnu reč** originalnog domena (npr. zelster.com-management.com).
+* **Poddomen sa crticom**: Zamenite **tačku crticom** u poddomenu (npr. www-zelster.com).
+* **Novi TLD**: Ista domena koristeći **novi TLD** (npr. zelster.org)
+* **Homograft**: Zamenjuje slovo u imenu domena sa slovima koja izgledaju slično (npr. zelfser.com).
+* **Transpozicija**: Zamenjuje dva slova u imenu domena (npr. zelster.com).
+* **Jednina/Množina**: Dodaje ili uklanja "s" na kraju imena domena (npr. zeltsers.com).
+* **Izostavljanje**: Uklanja jedno slovo iz imena domena (npr. zelser.com).
+* **Ponavljanje**: Ponavlja jedno slovo u imenu domena (npr. zeltsser.com).
+* **Zamena**: Slično homograftu, ali manje prikriveno. Zamenjuje jedno slovo u imenu domena, možda slovom koje je blizu originalnog slova na tastaturi (npr. zektser.com).
+* **Poddomen**: Uvodi **tačku** unutar imena domena (npr. ze.lster.com).
+* **Umetanje**: Umeće slovo u ime domena (npr. zerltser.com).
+* **Nedostajuća tačka**: Dodaje TLD domenu (npr. zelstercom.com)
 
-**Automatic Tools**
+**Automatski alati**
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
-**Websites**
+**Veb stranice**
 
 * [https://dnstwist.it/](https://dnstwist.it)
 * [https://dnstwister.report/](https://dnstwister.report)
@@ -59,54 +59,51 @@ Other ways to support HackTricks:
 
 ### Bitflipping
 
-There is a **possibility that one of some bits stored or in communication might get automatically flipped** due to various factors like solar flares, cosmic rays, or hardware errors.
+Postoji **mogućnost da se jedan od nekih bitova koji se čuvaju ili komuniciraju automatski promeni** zbog različitih faktora kao što su solarni bljeskovi, kosmički zraci ili greške hardvera.
 
-When this concept is **applied to DNS requests**, it is possible that the **domain received by the DNS server** is not the same as the domain initially requested.
+Kada se ovaj koncept **primeni na DNS zahteve**, moguće je da **domen koji DNS server prima** nije isti kao domen koji je inicijalno zahtevan.
 
-For example, a single bit modification in the domain "windows.com" can change it to "windnws.com."
+Na primer, jedna promena bita u domenu "windows.com" može ga promeniti u "windnws.com".
 
-Attackers may **take advantage of this by registering multiple bit-flipping domains** that are similar to the victim's domain. Their intention is to redirect legitimate users to their own infrastructure.
+Napadači mogu **iskoristiti ovo tako što registruju više domena sa promenjenim bitovima** koji su slični domenu žrtve. Njihova namera je da preusmere legitimne korisnike na svoju infrastrukturu.
 
-For more information read [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
+Za više informacija pročitajte [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
-### Buy a trusted domain
+### Kupovina pouzdanog domena
 
-You can search in [https://www.expireddomains.net/](https://www.expireddomains.net) for a expired domain that you could use.\
-In order to make sure that the expired domain that you are going to buy **has already a good SEO** you could search how is it categorized in:
+Možete pretraživati [https://www.expireddomains.net/](https://www.expireddomains.net) za istekli domen koji biste mogli koristiti.\
+Da biste bili sigurni da istekli domen koji ćete kupiti **već ima dobar SEO**, možete proveriti kako je kategorizovan na:
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
 
-## Discovering Emails
+## Otkrivanje email adresa
 
-* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% free)
-* [https://phonebook.cz/](https://phonebook.cz) (100% free)
+* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% besplatno)
+* [https://phonebook.cz/](https://phonebook.cz) (100% besplatno)
 * [https://maildb.io/](https://maildb.io)
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-In order to **discover more** valid email addresses or **verify the ones** you have already discovered you can check if you can brute-force them smtp servers of the victim. [Learn how to verify/discover email address here](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
-Moreover, don't forget that if the users use **any web portal to access their mails**, you can check if it's vulnerable to **username brute force**, and exploit the vulnerability if possible.
+Da biste **otkrili više** validnih email adresa ili **proverili one** koje ste već otkrili, možete proveriti da li možete izvršiti brute-force napad na smtp servere žrtve. [Saznajte kako da proverite/otkrijete email adresu ovde](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
+Takođe, ne zaboravite da ako korisnici koriste **bilo koji web portal za pristup svojim email-ovima**, možete proveriti da li je ranjiv na **brute-force napad na korisnička imena**, i iskoristiti ranjivost ako je moguće.
 
-## Configuring GoPhish
+## Konfigurisanje GoPhish-a
 
-### Installation
+### Instalacija
 
-You can download it from [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
+Možete preuzeti sa [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
-Download and decompress it inside `/opt/gophish` and execute `/opt/gophish/gophish`\
-You will be given a password for the admin user in port 3333 in the output. Therefore, access that port and use those credentials to change the admin password. You may need to tunnel that port to local:
-
+Preuzmite i raspakujte ga unutar `/opt/gophish` i izvršite `/opt/gophish/gophish`\
+Biće vam dodeljena lozinka za admin korisnika na portu 3333 u izlazu. Stoga, pristupite tom portu i koristite te podatke za promenu lozinke admin korisnika. Možda ćete morati da usmerite taj port na lokalni:
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
+### Konfiguracija
 
-### Configuration
+**Konfiguracija TLS sertifikata**
 
-**TLS certificate configuration**
-
-Before this step you should have **already bought the domain** you are going to use and it must be **pointing** to the **IP of the VPS** where you are configuring **gophish**.
-
+Pre nego što pređete na ovaj korak, trebali biste **već kupiti domen** koji ćete koristiti i on mora biti **usmeren** na **IP adresu VPS-a** na kojem konfigurišete **gophish**.
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -122,67 +119,61 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
+**Konfiguracija e-pošte**
 
-**Mail configuration**
+Započnite instalaciju: `apt-get install postfix`
 
-Start installing: `apt-get install postfix`
-
-Then add the domain to the following files:
+Zatim dodajte domen u sledeće datoteke:
 
 * **/etc/postfix/virtual\_domains**
 * **/etc/postfix/transport**
 * **/etc/postfix/virtual\_regexp**
 
-**Change also the values of the following variables inside /etc/postfix/main.cf**
+**Takođe promenite vrednosti sledećih promenljivih unutar /etc/postfix/main.cf**
 
 `myhostname = <domain>`\
 `mydestination = $myhostname, <domain>, localhost.com, localhost`
 
-Finally modify the files **`/etc/hostname`** and **`/etc/mailname`** to your domain name and **restart your VPS.**
+Na kraju izmenite datoteke **`/etc/hostname`** i **`/etc/mailname`** na ime vašeg domena i **restartujte vaš VPS.**
 
-Now, create a **DNS A record** of `mail.<domain>` pointing to the **ip address** of the VPS and a **DNS MX** record pointing to `mail.<domain>`
+Sada kreirajte **DNS A zapis** za `mail.<domain>` koji pokazuje na **IP adresu** VPS-a i **DNS MX zapis** koji pokazuje na `mail.<domain>`
 
-Now lets test to send an email:
-
+Sada testirajmo slanje e-pošte:
 ```bash
 apt install mailutils
 echo "This is the body of the email" | mail -s "This is the subject line" test@email.com
 ```
+**Konfiguracija Gophish-a**
 
-**Gophish configuration**
-
-Stop the execution of gophish and lets configure it.\
-Modify `/opt/gophish/config.json` to the following (note the use of https):
-
+Zaustavite izvršavanje Gophish-a i konfigurišite ga.\
+Izmenite `/opt/gophish/config.json` na sledeći način (obratite pažnju na korišćenje https):
 ```bash
 {
-        "admin_server": {
-                "listen_url": "127.0.0.1:3333",
-                "use_tls": true,
-                "cert_path": "gophish_admin.crt",
-                "key_path": "gophish_admin.key"
-        },
-        "phish_server": {
-                "listen_url": "0.0.0.0:443",
-                "use_tls": true,
-                "cert_path": "/opt/gophish/ssl_keys/key.crt",
-                "key_path": "/opt/gophish/ssl_keys/key.pem"
-        },
-        "db_name": "sqlite3",
-        "db_path": "gophish.db",
-        "migrations_prefix": "db/db_",
-        "contact_address": "",
-        "logging": {
-                "filename": "",
-                "level": ""
-        }
+"admin_server": {
+"listen_url": "127.0.0.1:3333",
+"use_tls": true,
+"cert_path": "gophish_admin.crt",
+"key_path": "gophish_admin.key"
+},
+"phish_server": {
+"listen_url": "0.0.0.0:443",
+"use_tls": true,
+"cert_path": "/opt/gophish/ssl_keys/key.crt",
+"key_path": "/opt/gophish/ssl_keys/key.pem"
+},
+"db_name": "sqlite3",
+"db_path": "gophish.db",
+"migrations_prefix": "db/db_",
+"contact_address": "",
+"logging": {
+"filename": "",
+"level": ""
+}
 }
 ```
+**Konfigurisanje gophish servisa**
 
-**Configure gophish service**
-
-In order to create the gophish service so it can be started automatically and managed a service you can create the file `/etc/init.d/gophish` with the following content:
-
+Da biste kreirali gophish servis koji se može automatski pokretati i upravljati kao servis, možete kreirati datoteku `/etc/init.d/gophish` sa sledećim sadržajem:
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -203,35 +194,33 @@ logfile=/var/log/gophish/gophish.log
 errfile=/var/log/gophish/gophish.error
 
 start() {
-    echo 'Starting '${processName}'...'
-    cd ${appDirectory}
-    nohup ./$process >>$logfile 2>>$errfile &
-    sleep 1
+echo 'Starting '${processName}'...'
+cd ${appDirectory}
+nohup ./$process >>$logfile 2>>$errfile &
+sleep 1
 }
 
 stop() {
-    echo 'Stopping '${processName}'...'
-    pid=$(/bin/pidof ${process})
-    kill ${pid}
-    sleep 1 
+echo 'Stopping '${processName}'...'
+pid=$(/bin/pidof ${process})
+kill ${pid}
+sleep 1
 }
 
 status() {
-    pid=$(/bin/pidof ${process})
-    if [["$pid" != ""| "$pid" != "" ]]; then
-        echo ${processName}' is running...'
-    else
-        echo ${processName}' is not running...'
-    fi
+pid=$(/bin/pidof ${process})
+if [["$pid" != ""| "$pid" != "" ]]; then
+echo ${processName}' is running...'
+else
+echo ${processName}' is not running...'
+fi
 }
 
 case $1 in
-    start|stop|status) "$1" ;;
+start|stop|status) "$1" ;;
 esac
 ```
-
-Finish configuring the service and checking it doing:
-
+Završite konfiguraciju servisa i proverite je tako što ćete uraditi:
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -242,69 +231,60 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
+## Konfiguracija poštanskog servera i domena
 
-## Configuring mail server and domain
+### Sačekajte i budite legitimni
 
-### Wait & be legit
+Što je stariji domen, manja je verovatnoća da će biti uhvaćen kao spam. Zato biste trebali sačekati što je duže moguće (barem 1 nedelju) pre nego što započnete procenu phishinga. Takođe, ako postavite stranicu o reputacionom sektoru, reputacija koju ćete dobiti će biti bolja.
 
-The older a domain is the less probable it's going to be caught as spam. Then you should wait as much time as possible (at least 1week) before the phishing assessment. moreover, if you put a page about a reputational sector the reputation obtained will be better.
+Imajte na umu da čak i ako morate čekati nedelju dana, možete završiti konfiguraciju svega sada.
 
-Note that even if you have to wait a week you can finish configuring everything now.
+### Konfiguracija Reverse DNS (rDNS) zapisa
 
-### Configure Reverse DNS (rDNS) record
+Postavite rDNS (PTR) zapis koji rešava IP adresu VPS-a u ime domena.
 
-Set a rDNS (PTR) record that resolves the IP address of the VPS to the domain name.
+### SPF (Sender Policy Framework) zapis
 
-### Sender Policy Framework (SPF) Record
+**Morate konfigurisati SPF zapis za novi domen**. Ako ne znate šta je SPF zapis, [**pročitajte ovu stranicu**](../../network-services-pentesting/pentesting-smtp/#spf).
 
-You must **configure a SPF record for the new domain**. If you don't know what is a SPF record [**read this page**](../../network-services-pentesting/pentesting-smtp/#spf).
-
-You can use [https://www.spfwizard.net/](https://www.spfwizard.net) to generate your SPF policy (use the IP of the VPS machine)
+Možete koristiti [https://www.spfwizard.net/](https://www.spfwizard.net) da generišete svoju SPF politiku (koristite IP adresu VPS mašine)
 
 ![](<../../.gitbook/assets/image (388).png>)
 
-This is the content that must be set inside a TXT record inside the domain:
-
+Ovo je sadržaj koji treba postaviti unutar TXT zapisa u domenu:
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
+### DMARC zapis zasnovan na domenu za autentifikaciju, izveštavanje i usaglašenost (DMARC)
 
-### Domain-based Message Authentication, Reporting & Conformance (DMARC) Record
+Morate **konfigurisati DMARC zapis za novu domenu**. Ako ne znate šta je DMARC zapis, [**pročitajte ovu stranicu**](../../network-services-pentesting/pentesting-smtp/#dmarc).
 
-You must **configure a DMARC record for the new domain**. If you don't know what is a DMARC record [**read this page**](../../network-services-pentesting/pentesting-smtp/#dmarc).
-
-You have to create a new DNS TXT record pointing the hostname `_dmarc.<domain>` with the following content:
-
+Morate kreirati novi DNS TXT zapis koji upućuje na ime hosta `_dmarc.<domena>` sa sledećim sadržajem:
 ```bash
 v=DMARC1; p=none
 ```
-
 ### DomainKeys Identified Mail (DKIM)
 
-You must **configure a DKIM for the new domain**. If you don't know what is a DMARC record [**read this page**](../../network-services-pentesting/pentesting-smtp/#dkim).
+Morate **konfigurisati DKIM za novu domenu**. Ako ne znate šta je DMARC zapis, [**pročitajte ovu stranicu**](../../network-services-pentesting/pentesting-smtp/#dkim).
 
-This tutorial is based on: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
+Ovaj tutorijal se bazira na: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
 {% hint style="info" %}
-You need to concatenate both B64 values that the DKIM key generates:
-
+Potrebno je da spojite oba B64 vrednosti koje generiše DKIM ključ:
 ```
 v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqPtzYk81njjQCrChIcHzxOp8a1wjbsoNtka2X9QXCZs+iXkvw++QsWDtdYu3q0Ofnr0Yd/TmG/Y2bBGoEgeE+YTUG2aEgw8Xx42NLJq2D1pB2lRQPW4IxefROnXu5HfKSm7dyzML1gZ1U0pR5X4IZCH0wOPhIq326QjxJZm79E1nTh3xj" "Y9N/Dt3+fVnIbMupzXE216TdFuifKM6Tl6O/axNsbswMS1TH812euno8xRpsdXJzFlB9q3VbMkVWig4P538mHolGzudEBg563vv66U8D7uuzGYxYT4WS8NVm3QBMg0QKPWZaKp+bADLkOSB9J2nUpk4Aj9KB5swIDAQAB
 ```
 {% endhint %}
 
-### Test your email configuration score
+### Testirajte ocenu konfiguracije vaše e-pošte
 
-You can do that using [https://www.mail-tester.com/](https://www.mail-tester.com)\
-Just access the page and send an email to the address they give you:
-
+To možete uraditi koristeći [https://www.mail-tester.com/](https://www.mail-tester.com)\
+Jednostavno pristupite stranici i pošaljite e-poštu na adresu koju vam daju:
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-
-You can also **check your email configuration** sending an email to `check-auth@verifier.port25.com` and **reading the response** (for this you will need to **open** port **25** and see the response in the file _/var/mail/root_ if you send the email a as root).\
-Check that you pass all the tests:
-
+Možete takođe **proveriti konfiguraciju vaše e-pošte** slanjem e-pošte na `check-auth@verifier.port25.com` i **čitanjem odgovora** (za ovo će vam biti potrebno da **otvorite** port **25** i vidite odgovor u datoteci _/var/mail/root_ ako šaljete e-poštu kao root).\
+Proverite da prođete sve testove:
 ```bash
 ==========================================================
 Summary of Results
@@ -315,49 +295,45 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-
-You could also send **message to a Gmail under your control**, and check the **email’s headers** in your Gmail inbox, `dkim=pass` should be present in the `Authentication-Results` header field.
-
+Takođe možete poslati **poruku na Gmail koji je pod vašom kontrolom**, i proveriti **zaglavlja emaila** u svom Gmail inboxu, `dkim=pass` treba da bude prisutan u polju zaglavlja `Authentication-Results`.
 ```
 Authentication-Results: mx.google.com;
-       spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
-       dkim=pass header.i=@example.com;
+spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
+dkim=pass header.i=@example.com;
 ```
+### Uklanjanje sa Spamhouse crne liste
 
-### ​Removing from Spamhouse Blacklist
+Stranica [www.mail-tester.com](www.mail-tester.com) može vam pokazati da li je vaš domen blokiran od strane Spamhouse-a. Možete zatražiti uklanjanje vašeg domena/IP adrese na: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
-The page [www.mail-tester.com](www.mail-tester.com) can indicate you if you your domain is being blocked by spamhouse. You can request your domain/IP to be removed at: ​[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+### Uklanjanje sa Microsoft crne liste
 
-### Removing from Microsoft Blacklist
+Možete zatražiti uklanjanje vašeg domena/IP adrese na [https://sender.office.com/](https://sender.office.com).
 
-​​You can request your domain/IP to be removed at [https://sender.office.com/](https://sender.office.com).
+## Kreiranje i pokretanje GoPhish kampanje
 
-## Create & Launch GoPhish Campaign
+### Profil za slanje
 
-### Sending Profile
+* Postavite **ime za identifikaciju** profila pošiljaoca
+* Odlučite sa kojeg naloga ćete slati phishing emailove. Predlozi: _noreply, support, servicedesk, salesforce..._
+* Možete ostaviti prazno korisničko ime i lozinku, ali se pobrinite da proverite opciju Ignore Certificate Errors
 
-* Set some **name to identify** the sender profile
-* Decide from which account are you going to send the phishing emails. Suggestions: _noreply, support, servicedesk, salesforce..._
-* You can leave blank the username and password, but make sure to check the Ignore Certificate Errors
-
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
 
 {% hint style="info" %}
-It's recommended to use the "**Send Test Email**" functionality to test that everything is working.\
-I would recommend to **send the test emails to 10min mails addresses** in order to avoid getting blacklisted making tests.
+Preporučuje se korišćenje funkcionalnosti "**Send Test Email**" da biste proverili da li sve radi.\
+Preporučujem da **test emailove šaljete na adrese 10min mailova** kako biste izbegli da budete blokirani tokom testiranja.
 {% endhint %}
 
-### Email Template
+### Email šablon
 
-* Set some **name to identify** the template
-* Then write a **subject** (nothing estrange, just something you could expect to read in a regular email)
-* Make sure you have checked "**Add Tracking Image**"
-* Write the **email template** (you can use variables like in the following example):
-
+* Postavite **ime za identifikaciju** šablona
+* Zatim napišite **naslov** (ništa čudno, samo nešto što biste očekivali da pročitate u regularnom emailu)
+* Proverite da li je označena opcija "**Add Tracking Image**"
+* Napišite **email šablon** (možete koristiti promenljive kao u sledećem primeru):
 ```markup
 <html>
 <head>
-    <title></title>
+<title></title>
 </head>
 <body>
 <p class="MsoNormal"><span style="font-size:10.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:black">Dear {{.FirstName}} {{.LastName}},</span></p>
@@ -372,70 +348,69 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
+Napomena da biste **povećali kredibilitet e-pošte**, preporučuje se korišćenje nekog potpisa iz e-pošte klijenta. Predlozi:
 
-Note that **in order to increase the credibility of the email**, it's recommended to use some signature from an email from the client. Suggestions:
-
-* Send an email to a **non existent address** and check if the response has any signature.
-* Search for **public emails** like info@ex.com or press@ex.com or public@ex.com and send them an email and wait for the response.
-* Try to contact **some valid discovered** email and wait for the response
+* Pošaljite e-poštu na **ne postojeću adresu** i proverite da li odgovor ima neki potpis.
+* Potražite **javne e-adrese** poput info@ex.com ili press@ex.com ili public@ex.com i pošaljite im e-poštu i sačekajte odgovor.
+* Pokušajte da kontaktirate **neku validnu otkrivenu** e-adresu i sačekajte odgovor.
 
 ![](<../../.gitbook/assets/image (393).png>)
 
 {% hint style="info" %}
-The Email Template also allows to **attach files to send**. If you would also like to steal NTLM challenges using some specially crafted files/documents [read this page](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+Predložak e-pošte takođe omogućava **prilaganje datoteka za slanje**. Ako želite da ukradete NTLM izazove koristeći posebno napravljene datoteke/dokumente [pročitajte ovu stranicu](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
-### Landing Page
+### Stranica za sletanje
 
-* Write a **name**
-* **Write the HTML code** of the web page. Note that you can **import** web pages.
-* Mark **Capture Submitted Data** and **Capture Passwords**
-* Set a **redirection**
+* Napišite **ime**
+* **Napišite HTML kod** veb stranice. Imajte na umu da možete **uvoziti** veb stranice.
+* Označite **Capture Submitted Data** i **Capture Passwords**
+* Postavite **preusmeravanje**
 
 ![](<../../.gitbook/assets/image (394).png>)
 
 {% hint style="info" %}
-Usually you will need to modify the HTML code of the page and make some tests in local (maybe using some Apache server) **until you like the results.** Then, write that HTML code in the box.\
-Note that if you need to **use some static resources** for the HTML (maybe some CSS and JS pages) you can save them in _**/opt/gophish/static/endpoint**_ and then access them from _**/static/\<filename>**_
+Obično ćete morati da izmenite HTML kod stranice i izvršite neke testove lokalno (možda koristeći neki Apache server) **dok ne budete zadovoljni rezultatima**. Zatim, napišite taj HTML kod u okviru.\
+Imajte na umu da ako trebate **koristiti neke statičke resurse** za HTML (možda neke CSS i JS stranice) možete ih sačuvati u _**/opt/gophish/static/endpoint**_ a zatim im pristupiti putem _**/static/\<filename>**_
 {% endhint %}
 
 {% hint style="info" %}
-For the redirection you could **redirect the users to the legit main web page** of the victim, or redirect them to _/static/migration.html_ for example, put some **spinning wheel (**[**https://loading.io/**](https://loading.io)**) for 5 seconds and then indicate that the process was successful**.
+Za preusmeravanje možete **preusmeriti korisnike na legitimnu glavnu veb stranicu** žrtve, ili ih preusmeriti na _/static/migration.html_ na primer, staviti neki **okretajući točak** ([**https://loading.io/**](https://loading.io)) na 5 sekundi, a zatim naznačiti da je proces uspešan.
 {% endhint %}
 
-### Users & Groups
+### Korisnici i grupe
 
-* Set a name
-* **Import the data** (note that in order to use the template for the example you need the firstname, last name and email address of each user)
+* Postavite ime
+* **Uvezite podatke** (imajte na umu da za upotrebu predloška za primer trebate ime, prezime i e-adresu svakog korisnika)
 
 ![](<../../.gitbook/assets/image (395).png>)
 
-### Campaign
+### Kampanja
 
-Finally, create a campaign selecting a name, the email template, the landing page, the URL, the sending profile and the group. Note that the URL will be the link sent to the victims
+Na kraju, kreirajte kampanju odabirom imena, predloška e-pošte, stranice za sletanje, URL-a, profila slanja i grupe. Imajte na umu da će URL biti veza poslata žrtvama.
 
-Note that the **Sending Profile allow to send a test email to see how will the final phishing email looks like**:
+Imajte na umu da **Profil slanja omogućava slanje testne e-pošte da biste videli kako će izgledati konačna phishing e-pošta**:
 
 ![](<../../.gitbook/assets/image (396).png>)
 
 {% hint style="info" %}
-I would recommend to **send the test emails to 10min mails addresses** in order to avoid getting blacklisted making tests.
+Preporučio bih da **testne e-poruke pošaljete na adrese 10min mailova** kako biste izbegli da budete na crnoj listi tokom testiranja.
 {% endhint %}
 
-Once everything is ready, just launch the campaign!
+Kada je sve spremno, samo pokrenite kampanju!
 
-## Website Cloning
+## Kloniranje veb stranica
 
-If for any reason you want to clone the website check the following page:
+Ako iz nekog razloga želite klonirati veb stranicu, proverite sledeću stranicu:
 
 {% content-ref url="clone-a-website.md" %}
 [clone-a-website.md](clone-a-website.md)
 {% endcontent-ref %}
 
-## Backdoored Documents & Files
+## Dokumenti i datoteke sa zadnjim vratima
 
-In some phishing assessments (mainly for Red Teams) you will want to also **send files containing some kind of backdoor** (maybe a C2 or maybe just something that will trigger an authentication).\
-Check out the following page for some examples:
+U nekim phishing procenama (uglavnom za Crvene timove) želite takođe **poslati datoteke koje sadrže neku vrstu zadnjeg vrata** (možda C2 ili samo nešto što će pokrenuti autentifikaciju).\
+Pogledajte sledeću stranicu za neke primere:
 
 {% content-ref url="phishing-documents.md" %}
 [phishing-documents.md](phishing-documents.md)
@@ -443,56 +418,28 @@ Check out the following page for some examples:
 
 ## Phishing MFA
 
-### Via Proxy MitM
+### Putem Proxy MitM
 
-The previous attack is pretty clever as you are faking a real website and gathering the information set by the user. Unfortunately, if the user didn't put the correct password or if the application you faked is configured with 2FA, **this information won't allow you to impersonate the tricked user**.
+Prethodni napad je prilično pametan jer lažirate pravu veb stranicu i prikupljate informacije koje je korisnik uneo. Nažalost, ako korisnik nije uneo ispravnu lozinku ili ako je aplikacija koju ste lažirali konfigurisana sa 2FA, **ove informacije vam neće omogućiti da se predstavite kao prevareni korisnik**.
 
-This is where tools like [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) and [**muraena**](https://github.com/muraenateam/muraena) are useful. This tool will allow you to generate a MitM like attack. Basically, the attacks works in the following way:
+Ovde su korisni alati poput [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) i [**muraena**](https://github.com/muraenateam/muraena). Ovaj alat će vam omogućiti generisanje napada poput MitM-a. Osnovno, napad funkcioniše na sledeći način:
 
-1. You **impersonate the login** form of the real webpage.
-2. The user **send** his **credentials** to your fake page and the tool send those to the real webpage, **checking if the credentials work**.
-3. If the account is configured with **2FA**, the MitM page will ask for it and once the **user introduces** it the tool will send it to the real web page.
-4. Once the user is authenticated you (as attacker) will have **captured the credentials, the 2FA, the cookie and any information** of every interaction your while the tool is performing a MitM.
+1. **Predstavljate** obrazac za **prijava** prave veb stranice.
+2. Korisnik **šalje** svoje **poverljive podatke** na vašu lažnu stranicu, a alat ih šalje na pravu veb stranicu, **proveravajući da li podaci za prijavu rade**.
+3. Ako je nalog konfigurisan sa **2FA**, MitM stranica će to zatražiti, a kada **korisnik unese** 2FA, alat će ga poslati na pravu veb stranicu.
+4. Kada se korisnik autentifikuje, vi (kao napadač) ćete **pokupiti poverljive podatke, 2FA, kolačiće i sve informacije** o svakoj interakciji dok alat izvodi MitM.
 
-### Via VNC
+### Putem VNC-a
 
-What if instead of **sending the victim to a malicious page** with the same looks as the original one, you send him to a **VNC session with a browser connected to the real web page**? You will be able to see what he does, steal the password, the MFA used, the cookies...\
-You can do this with [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
+Šta ako umesto **slanja žrtve na zlonamernu stranicu** sa istim izgledom kao originalna stranica, pošaljete je na **VNC sesiju sa pregledačem povezanim sa pravom veb stranicom**? Bićete u mogućnosti da vidite šta radi, ukradete lozinku, korišćeni MFA, kolačiće...\
+To možete uraditi sa [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 
-## Detecting the detection
+## Otkrivanje otkrivanja
 
-Obviously one of the best ways to know if you have been busted is to **search your domain inside blacklists**. If it appears listed, somehow your domain was detected as suspicions.\
-One easy way to check if you domain appears in any blacklist is to use [https://malwareworld.com/](https://malwareworld.com)
+Očigledno, jedan od najboljih načina da saznate da li ste uhvaćeni je da **pretražite svoju domenu u crnim listama**. Ako se pojavi na listi, nekako je vaša domena otkrivena kao sumnjiva.\
+Jednostavan način da proverite da li se vaša domena pojavljuje na bilo kojoj crnoj listi je da koristite [https://malwareworld.com/](https://malwareworld.com)
 
-However, there are other ways to know if the victim is **actively looking for suspicions phishing activity in the wild** as explained in:
+Međutim, postoje i drugi načini da saznate da li je žrtva **aktivno u potrazi za sumnjivom phishing aktivnošću na internetu**, kako je objašnjeno u:
 
 {% content-ref url="detecting-phising.md" %}
-[detecting-phising.md](detecting-phising.md)
-{% endcontent-ref %}
-
-You can **buy a domain with a very similar name** to the victims domain **and/or generate a certificate** for a **subdomain** of a domain controlled by you **containing** the **keyword** of the victim's domain. If the **victim** perform any kind of **DNS or HTTP interaction** with them, you will know that **he is actively looking** for suspicious domains and you will need to be very stealth.
-
-### Evaluate the phishing
-
-Use [**Phishious** ](https://github.com/Rices/Phishious)to evaluate if your email is going to end in the spam folder or if it's going to be blocked or successful.
-
-## References
-
-* [https://zeltser.com/domain-name-variations-in-phishing/](https://zeltser.com/domain-name-variations-in-phishing/)
-* [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/)
-* [https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/](https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/)
-* [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+[detecting-ph

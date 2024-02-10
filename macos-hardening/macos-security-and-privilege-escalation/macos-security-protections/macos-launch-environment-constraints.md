@@ -1,104 +1,100 @@
-# macOS Launch/Environment Constraints & Trust Cache
+# macOS Ograničenja pokretanja / okruženja i keš poverenja
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite **vašu kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
 *
 * .
 
 </details>
 
-## Basic Information
+## Osnovne informacije
 
-Launch constraints in macOS were introduced to enhance security by **regulating how, who, and from where a process can be initiated**. Initiated in macOS Ventura, they provide a framework that categorizes **each system binary into distinct constraint categories**, which are defined within the **trust cache**, a list containing system binaries and their respective hashes​. These constraints extend to every executable binary within the system, entailing a set of **rules** delineating the requirements for **launching a particular binary**. The rules encompass self constraints that a binary must satisfy, parent constraints required to be met by its parent process, and responsible constraints to be adhered to by other relevant entities​.
+Ograničenja pokretanja u macOS-u su uvedena radi poboljšanja bezbednosti tako što **regulišu kako, ko i odakle se može pokrenuti proces**. Uvedena u macOS Ventura, pružaju okvir koji kategorizuje **svaki sistemski binarni fajl u odvojene kategorije ograničenja**, koje su definisane unutar **keša poverenja**, liste koja sadrži sistemski binarni fajl i njegov odgovarajući heš. Ova ograničenja se odnose na svaki izvršni binarni fajl u sistemu i obuhvataju skup **pravila** koja definišu zahteve za **pokretanje određenog binarnog fajla**. Pravila obuhvataju ograničenja koja binarni fajl mora zadovoljiti, ograničenja roditeljskog procesa koja moraju biti ispunjena od strane roditeljskog procesa, kao i ograničenja odgovornosti koja moraju biti poštovana od strane drugih relevantnih entiteta.
 
-The mechanism extends to third-party apps through **Environment Constraints**, beginning from macOS Sonoma, allowing developers to protect their apps by specifying a **set of keys and values for environment constraints.**
+Mehanizam se proširuje na aplikacije trećih strana putem **Ograničenja okruženja**, počevši od macOS Sonoma, omogućavajući programerima da zaštite svoje aplikacije specificiranjem **skupa ključeva i vrednosti za ograničenja okruženja**.
 
-You define **launch environment and library constraints** in constraint dictionaries that you either save in **`launchd` property list files**, or in **separate property list** files that you use in code signing.
+Definišete **ograničenja pokretanja okruženja i biblioteke** u rečnicima ograničenja koje čuvate u **`launchd` property list fajlovima**, ili u **posebnim property list fajlovima** koje koristite pri potpisivanju koda.
 
-There are 4 types of constraints:
+Postoje 4 vrste ograničenja:
 
-* **Self Constraints**: Constrains applied to the **running** binary.
-* **Parent Process**: Constraints applied to the **parent of the process** (for example **`launchd`** running a XP service)
-* **Responsible Constraints**: Constraints applied to the **process calling the service** in a XPC communication
-* **Library load constraints**: Use library load constraints to selectively describe code that can be loaded
+* **Ograničenja samog procesa**: Ograničenja primenjena na **pokrenuti** binarni fajl.
+* **Ograničenja roditeljskog procesa**: Ograničenja primenjena na **roditeljski proces** (na primer **`launchd`** koji pokreće XP servis).
+* **Ograničenja odgovornosti**: Ograničenja primenjena na **proces koji poziva servis** u XPC komunikaciji.
+* **Ograničenja učitavanja biblioteke**: Koristite ograničenja učitavanja biblioteke da biste selektivno opisali kod koji može biti učitan.
 
-So when a process tries to launch another process — by calling `execve(_:_:_:)` or `posix_spawn(_:_:_:_:_:_:)` — the operating system checks that the **executable** file **satisfies** its **own self constraint**. It also checks that the **parent** **process’s** executable **satisfies** the executable’s **parent constraint**, and that the **responsible** **process’s** executable **satisfies the executable’s responsible process constrain**t. If any of these launch constraints aren’t satisfied, the operating system doesn’t run the program.
+Dakle, kada proces pokuša da pokrene drugi proces - pozivajući `execve(_:_:_:)` ili `posix_spawn(_:_:_:_:_:_:)` - operativni sistem proverava da li **izvršni** fajl **zadovoljava** svoje **sopstveno ograničenje**. Takođe proverava da li **izvršni fajl roditeljskog procesa** zadovoljava ograničenje roditeljskog procesa izvršnog fajla, i da li **izvršni fajl odgovornog procesa** zadovoljava ograničenje odgovornog procesa izvršnog fajla. Ako neko od ovih ograničenja pokretanja nije ispunjeno, operativni sistem ne pokreće program.
 
-If when loading a library any part of the **library constraint isn’t true**, your process **doesn’t load** the library.
+Ako prilikom učitavanja biblioteke bilo koji deo **ograničenja biblioteke nije tačan**, vaš proces **neće učitati** biblioteku.
 
-## LC Categories
+## LC Kategorije
 
-A LC as composed by **facts** and **logical operations** (and, or..) that combines facts.
+LC se sastoji od **činjenica** i **logičkih operacija** (i, ili...) koje kombinuju činjenice.
 
-The[ **facts that a LC can use are documented**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). For example:
+[**Činjenice koje LC može koristiti su dokumentovane**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Na primer:
 
-* is-init-proc: A Boolean value that indicates whether the executable must be the operating system’s initialization process (`launchd`).
-* is-sip-protected: A Boolean value that indicates whether the executable must be a file protected by System Integrity Protection (SIP).
-* `on-authorized-authapfs-volume:` A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
-* `on-authorized-authapfs-volume`: A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
-  * Cryptexes volume
-* `on-system-volume:`A Boolean value that indicates whether the operating system loaded the executable from the currently-booted system volume.
-  * Inside /System...
+* is-init-proc: Boolean vrednost koja označava da li izvršni fajl mora biti inicijalni proces operativnog sistema (`launchd`).
+* is-sip-protected: Boolean vrednost koja označava da li izvršni fajl mora biti fajl zaštićen od strane System Integrity Protection (SIP).
+* `on-authorized-authapfs-volume:` Boolean vrednost koja označava da li je operativni sistem učitao izvršni fajl sa autorizovanog, autentifikovanog APFS volumena.
+* `on-authorized-authapfs-volume`: Boolean vrednost koja označava da li je operativni sistem učitao izvršni fajl sa autorizovanog, autentifikovanog APFS volumena.
+* Cryptexes volumen
+* `on-system-volume:` Boolean vrednost koja označava da li je operativni sistem učitao izvršni fajl sa trenutno podignutog sistemskog volumena.
+* Unutar /System...
 * ...
 
-When an Apple binary is signed it **assigns it to a LC category** inside the **trust cache**.
+Kada se Apple binarni fajl potpiše, **dodeljuje mu se LC kategorija** unutar **keša poverenja**.
 
-* **iOS 16 LC categories** were [**reversed and documented in here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
-* Current **LC categories (macOS 14** - Somona) have been reversed and their [**descriptions can be found here**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
+* **iOS 16 LC kategorija** su [**reverzirane i dokumentovane ovde**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
+* Trenutne **LC kategorije (macOS 14** - Somona) su reverzirane i njihovi [**opisi se mogu pronaći ovde**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
 
-For example Category 1 is:
-
+Na primer, Kategorija 1 je:
 ```
 Category 1:
-        Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
-        Parent Constraint: is-init-proc
+Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
+Parent Constraint: is-init-proc
 ```
-
-* `(on-authorized-authapfs-volume || on-system-volume)`: Must be in System or Cryptexes volume.
-* `launch-type == 1`: Must be a system service (plist in LaunchDaemons).
-* `validation-category == 1`: An operating system executable.
+* `(on-authorized-authapfs-volume || on-system-volume)`: Morate biti na System ili Cryptexes volumenu.
+* `launch-type == 1`: Morate biti sistemski servis (plist u LaunchDaemons).
+* `validation-category == 1`: Izvršna datoteka operativnog sistema.
 * `is-init-proc`: Launchd
 
-### Reversing LC Categories
+### Reversiranje LC kategorija
 
-You have more information [**about it in here**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), but basically, They are defined in **AMFI (AppleMobileFileIntegrity)**, so you need to download the Kernel Development Kit to get the **KEXT**. The symbols starting with **`kConstraintCategory`** are the **interesting** ones. Extracting them you will get a DER (ASN.1) encoded stream that you will need to decode with [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) or the python-asn1 library and its `dump.py` script, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) which will give you a more understandable string.
+Imate više informacija [**ovde**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), ali u osnovi, one su definisane u **AMFI (AppleMobileFileIntegrity)**, tako da morate preuzeti Kernel Development Kit da biste dobili **KEXT**. Simboli koji počinju sa **`kConstraintCategory`** su **interesantni**. Izdvajanjem njih dobijate DER (ASN.1) kodiran tok koji ćete morati dekodirati pomoću [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) ili python-asn1 biblioteke i njenog `dump.py` skripta, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) koji će vam dati razumljiviji string.
 
-## Environment Constraints
+## Ograničenja okruženja
 
-These are the Launch Constraints set configured in **third party applications**. The developer can select the **facts** and **logical operands to use** in his application to restrict the access to itself.
+Ovo su postavljena ograničenja okruženja konfigurisana u **aplikacijama trećih strana**. Razvijač može odabrati **činjenice** i **logičke operatore** koje će koristiti u svojoj aplikaciji kako bi ograničio pristup sebi.
 
-It's possible to enumerate the Environment Constraints of an application with:
-
+Moguće je nabrojati ograničenja okruženja aplikacije pomoću:
 ```bash
 codesign -d -vvvv app.app
 ```
-
 ## Trust Caches
 
-In **macOS** there are a few trust caches:
+U **macOS**-u postoje nekoliko kešova poverenja:
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
 * **`/System/Library/Security/OSLaunchPolicyData`**
 
-And in iOS it looks like it's in **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
+A na iOS-u izgleda da se nalazi u **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
 
 {% hint style="warning" %}
-On macOS running on Apple Silicon devices, if an Apple signed binary is not in the trust cache, AMFI will refuse to load it.
+Na macOS-u koji se izvršava na uređajima Apple Silicon, ako Apple potpisani binarni fajl nije u kešu poverenja, AMFI će odbiti da ga učita.
 {% endhint %}
 
-### Enumerating Trust Caches
+### Enumeracija kešova poverenja
 
-The previous trust cache files are in format **IMG4** and **IM4P**, being IM4P the payload section of a IMG4 format.
+Prethodni fajlovi keša poverenja su u formatu **IMG4** i **IM4P**, pri čemu je IM4P sekcija za prenos podataka u formatu IMG4.
 
-You can use [**pyimg4**](https://github.com/m1stadev/PyIMG4) to extract the payload of databases:
+Možete koristiti [**pyimg4**](https://github.com/m1stadev/PyIMG4) da izvučete prenos podataka iz baza:
 
 {% code overflow="wrap" %}
 ```bash
@@ -118,10 +114,9 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(Another option could be to use the tool [**img4tool**](https://github.com/tihmstar/img4tool), which will run even in M1 even if the release is old and for x86\_64 if you install it in the proper locations).
+(Druga opcija može biti korišćenje alata [**img4tool**](https://github.com/tihmstar/img4tool), koji će raditi čak i na M1 čipu, čak i ako je verzija starija i za x86\_64 ako ga instalirate na odgovarajućim lokacijama).
 
-Now you can use the tool [**trustcache**](https://github.com/CRKatri/trustcache) to get the information in a readable format:
-
+Sada možete koristiti alat [**trustcache**](https://github.com/CRKatri/trustcache) da biste dobili informacije u čitljivom formatu:
 ```bash
 # Install
 wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
@@ -145,46 +140,42 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
-
-The trust cache follows the following structure, so The **LC category is the 4th column**
-
+Keš poverenja prati sledeću strukturu, tako da je **LC kategorija četvrta kolona**.
 ```c
 struct trust_cache_entry2 {
-	uint8_t cdhash[CS_CDHASH_LEN];
-	uint8_t hash_type;
-	uint8_t flags;
-	uint8_t constraintCategory;
-	uint8_t reserved0;
+uint8_t cdhash[CS_CDHASH_LEN];
+uint8_t hash_type;
+uint8_t flags;
+uint8_t constraintCategory;
+uint8_t reserved0;
 } __attribute__((__packed__));
 ```
+Zatim, možete koristiti skriptu kao što je [**ova**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) da izvučete podatke.
 
-Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
+Iz tih podataka možete proveriti aplikacije sa **vrednošću ograničenja pokretanja `0`**, koje nisu ograničene ([**proverite ovde**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) za svaku vrednost).
 
-From that data you can check the Apps with a **launch constraints value of `0`** , which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
+## Mitigacije napada
 
-## Attack Mitigations
+Ograničenja pokretanja bi sprečila nekoliko starih napada tako što bi **osigurala da se proces ne izvršava u neočekivanim uslovima**: na primer, iz neočekivanih lokacija ili pozivanjem od strane neočekivanog roditeljskog procesa (ako samo launchd treba da ga pokrene).
 
-Launch Constrains would have mitigated several old attacks by **making sure that the process won't be executed in unexpected conditions:** For example from unexpected locations or being invoked by an unexpected parent process (if only launchd should be launching it)
+Osim toga, ograničenja pokretanja takođe **smanjuju rizik od napada degradacijom**.
 
-Moreover, Launch Constraints also **mitigates downgrade attacks.**
+Međutim, ona ne sprečavaju uobičajene zloupotrebe XPC-a, ubacivanje koda u Electron ili ubacivanje dylib biblioteka bez provere (osim ako su poznati ID-ovi timova koji mogu učitavati biblioteke).
 
-However, they **don't mitigate common XPC** abuses, **Electron** code injections or **dylib injections** without library validation (unless the team IDs that can load libraries are known).
+### Zaštita XPC demona
 
-### XPC Daemon Protection
+U Sonoma izdanju, značajan detalj je **konfiguracija odgovornosti** XPC servisa demona. XPC servis je odgovoran za sebe, za razliku od povezanog klijenta koji je odgovoran. Ovo je dokumentovano u izveštaju o povratnoj informaciji FB13206884. Ova postavka može delovati nedostatno, jer omogućava određene interakcije sa XPC servisom:
 
-In the Sonoma release, a notable point is the daemon XPC service's **responsibility configuration**. The XPC service is accountable for itself, as opposed to the connecting client being responsible. This is documented in the feedback report FB13206884. This setup might seem flawed, as it allows certain interactions with the XPC service:
+- **Pokretanje XPC servisa**: Ako se pretpostavi da je ovo greška, ova postavka ne dozvoljava pokretanje XPC servisa putem napadačkog koda.
+- **Povezivanje sa aktivnim servisom**: Ako je XPC servis već pokrenut (možda aktiviran od strane originalne aplikacije), nema prepreka za povezivanje sa njim.
 
-- **Launching the XPC Service**: If assumed to be a bug, this setup does not permit initiating the XPC service through attacker code.
-- **Connecting to an Active Service**: If the XPC service is already running (possibly activated by its original application), there are no barriers to connecting to it.
+Iako bi implementacija ograničenja na XPC servis mogla biti korisna tako što bi **smanjila mogućnost napada**, to ne rešava osnovnu brigu. Osiguravanje sigurnosti XPC servisa suštinski zahteva **efikasnu validaciju povezanog klijenta**. To ostaje jedini način za ojačavanje sigurnosti servisa. Takođe, treba napomenuti da pomenuta konfiguracija odgovornosti trenutno funkcioniše, što možda nije u skladu sa namerenim dizajnom.
 
-While implementing constraints on the XPC service might be beneficial by **narrowing the window for potential attacks**, it doesn't address the primary concern. Ensuring the security of the XPC service fundamentally requires **validating the connecting client effectively**. This remains the sole method to fortify the service's security. Also, it's worth noting that the mentioned responsibility configuration is currently operational, which might not align with the intended design.
+### Zaštita Electrona
 
+Čak i ako je potrebno da se aplikacija **otvori pomoću LaunchService-a** (u ograničenjima roditelja), to se može postići korišćenjem **`open`** (koji može postaviti okružne promenljive) ili korišćenjem **Launch Services API-ja** (gde se mogu naznačiti okružne promenljive).
 
-### Electron Protection
-
-Even if it's required that the application has to be **opened by LaunchService** (in the parents constraints). This can be achieved using **`open`** (which can set env variables) or using the **Launch Services API** (where env variables can be indicated).
-
-## References
+## Reference
 
 * [https://youtu.be/f1HA5QhLQ7Y?t=24146](https://youtu.be/f1HA5QhLQ7Y?t=24146)
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
@@ -193,13 +184,13 @@ Even if it's required that the application has to be **opened by LaunchService**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od početka do naprednog nivoa sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite da vidite **vašu kompaniju reklamiranu na HackTricks**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repo-u**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo-u**](https://github.com/carlospolop/hacktricks-cloud)
 *
 * .
 

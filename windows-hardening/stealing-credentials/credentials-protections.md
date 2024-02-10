@@ -1,117 +1,105 @@
-# Windows Credentials Protections
+# Windows Zaštita od pristupačnih podataka
 
-## Credentials Protections
+## Zaštita pristupačnih podataka
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 ## WDigest
 
-The [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868(v=ws.10).aspx?f=255&MSPPError=-2147217396) protocol, introduced with Windows XP, is designed for authentication via the HTTP Protocol and is **enabled by default on Windows XP through Windows 8.0 and Windows Server 2003 to Windows Server 2012**. This default setting results in **plain-text password storage in LSASS** (Local Security Authority Subsystem Service). An attacker can use Mimikatz to **extract these credentials** by executing:
-
+Protokol [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868(v=ws.10).aspx?f=255&MSPPError=-2147217396), koji je uveden sa Windows XP, dizajniran je za autentifikaciju putem HTTP protokola i **podrazumevano je omogućen na Windows XP-u do Windows 8.0 i Windows Server 2003 do Windows Server 2012**. Ova podrazumevana postavka rezultira **čuvanjem lozinki u tekstualnom formatu u LSASS-u** (Local Security Authority Subsystem Service). Napadač može koristiti alat Mimikatz da **izvuče ove pristupne podatke** izvršavanjem:
 ```bash
 sekurlsa::wdigest
 ```
-
-To **toggle this feature off or on**, the _**UseLogonCredential**_ and _**Negotiate**_ registry keys within _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ must be set to "1". If these keys are **absent or set to "0"**, WDigest is **disabled**:
-
+Da biste **uključili ili isključili ovu funkciju**, registarski ključevi _**UseLogonCredential**_ i _**Negotiate**_ unutar _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ moraju biti postavljeni na "1". Ako ovi ključevi su **odsutni ili postavljeni na "0"**, WDigest je **onemogućen**:
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential
 ```
+## LSA zaštita
 
-
-## LSA Protection
-
-Starting with **Windows 8.1**, Microsoft enhanced the security of LSA to **block unauthorized memory reads or code injections by untrusted processes**. This enhancement hinders the typical functioning of commands like `mimikatz.exe sekurlsa:logonpasswords`. To **enable this enhanced protection**, the _**RunAsPPL**_ value in _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ should be adjusted to 1:
-
-
+Počevši od **Windows 8.1**, Microsoft je poboljšao sigurnost LSA da **blokira neovlašćeno čitanje memorije ili ubacivanje koda od strane nepouzdanih procesa**. Ovo poboljšanje otežava tipično funkcionisanje komandi poput `mimikatz.exe sekurlsa:logonpasswords`. Da biste **omogućili ovu poboljšanu zaštitu**, vrednost _**RunAsPPL**_ u _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ treba da se podesi na 1:
 ```
 reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL
 ```
-
 ### Bypass
 
-It is possible to bypass this protection using Mimikatz driver mimidrv.sys:
+Moguće je zaobići ovu zaštitu koristeći Mimikatz drajver mimidrv.sys:
 
 ![](../../.gitbook/assets/mimidrv.png)
 
 ## Credential Guard
 
-**Credential Guard**, a feature exclusive to **Windows 10 (Enterprise and Education editions)**, enhances the security of machine credentials using **Virtual Secure Mode (VSM)** and **Virtualization Based Security (VBS)**. It leverages CPU virtualization extensions to isolate key processes within a protected memory space, away from the main operating system's reach. This isolation ensures that even the kernel cannot access the memory in VSM, effectively safeguarding credentials from attacks like **pass-the-hash**. The **Local Security Authority (LSA)** operates within this secure environment as a trustlet, while the **LSASS** process in the main OS acts merely as a communicator with the VSM's LSA.
+**Credential Guard**, funkcija ekskluzivna za **Windows 10 (Enterprise i Education izdanja)**, poboljšava sigurnost mašinskih akreditiva koristeći **Virtual Secure Mode (VSM)** i **Virtualization Based Security (VBS)**. Koristi proširenja virtualizacije CPU-a kako bi izolovala ključne procese unutar zaštićenog memorijskog prostora, izvan dosega glavnog operativnog sistema. Ova izolacija osigurava da čak ni kernel ne može pristupiti memoriji u VSM-u, efikasno štiteći akreditive od napada poput **pass-the-hash**. **Local Security Authority (LSA)** funkcioniše unutar ovog sigurnog okruženja kao trustlet, dok proces **LSASS** u glavnom OS-u deluje samo kao komunikator sa LSA-om VSM-a.
 
-By default, **Credential Guard** is not active and requires manual activation within an organization. It's critical for enhancing security against tools like **Mimikatz**, which are hindered in their ability to extract credentials. However, vulnerabilities can still be exploited through the addition of custom **Security Support Providers (SSP)** to capture credentials in clear text during login attempts.
+Po podrazumevanim podešavanjima, **Credential Guard** nije aktivan i zahteva ručno aktiviranje unutar organizacije. Kritično je za poboljšanje sigurnosti protiv alata poput **Mimikatz**, koji su ometeni u svojoj sposobnosti da izvuku akreditive. Međutim, ranjivosti se i dalje mogu iskoristiti dodavanjem prilagođenih **Security Support Provider (SSP)**-ova za hvatanje akreditiva u čistom tekstu tokom pokušaja prijavljivanja.
 
-To verify **Credential Guard**'s activation status, the registry key **_LsaCfgFlags_** under **_HKLM\System\CurrentControlSet\Control\LSA_** can be inspected. A value of "**1**" indicates activation with **UEFI lock**, "**2**" without lock, and "**0**" denotes it is not enabled. This registry check, while a strong indicator, is not the sole step for enabling Credential Guard. Detailed guidance and a PowerShell script for enabling this feature are available online.
-
+Da biste proverili status aktivacije **Credential Guard**-a, može se pregledati registarski ključ **_LsaCfgFlags_** pod **_HKLM\System\CurrentControlSet\Control\LSA_**. Vrednost "**1**" ukazuje na aktivaciju sa **UEFI zaključavanjem**, "**2**" bez zaključavanja, a "**0**" označava da nije omogućeno. Ova provera registra, iako snažan pokazatelj, nije jedini korak za omogućavanje Credential Guard-a. Detaljno uputstvo i PowerShell skripta za omogućavanje ove funkcije dostupni su na internetu.
 ```powershell
 reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 ```
+Za sveobuhvatno razumevanje i uputstva o omogućavanju **Credential Guard**-a u Windows 10 i njegovoj automatskoj aktivaciji u kompatibilnim sistemima **Windows 11 Enterprise i Education (verzija 22H2)**, posetite [Microsoft-ovu dokumentaciju](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
 
-For a comprehensive understanding and instructions on enabling **Credential Guard** in Windows 10 and its automatic activation in compatible systems of **Windows 11 Enterprise and Education (version 22H2)**, visit [Microsoft's documentation](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
-
-Further details on implementing custom SSPs for credential capture are provided in [this guide](../active-directory-methodology/custom-ssp.md).
+Dodatne detalje o implementaciji prilagođenih SSP-ova za hvatanje akreditacija možete pronaći u [ovom vodiču](../active-directory-methodology/custom-ssp.md).
 
 
-## RDP RestrictedAdmin Mode
+## RDP RestrictedAdmin režim
 
-**Windows 8.1 and Windows Server 2012 R2** introduced several new security features, including the **_Restricted Admin mode for RDP_**. This mode was designed to enhance security by mitigating the risks associated with **[pass the hash](https://blog.ahasayen.com/pass-the-hash/)** attacks.
+**Windows 8.1 i Windows Server 2012 R2** su uveli nekoliko novih sigurnosnih funkcija, uključujući **_Restricted Admin režim za RDP_**. Ovaj režim je dizajniran da poboljša sigurnost tako što umanjuje rizike povezane sa **[pass the hash](https://blog.ahasayen.com/pass-the-hash/)** napadima.
 
-Traditionally, when connecting to a remote computer via RDP, your credentials are stored on the target machine. This poses a significant security risk, especially when using accounts with elevated privileges. However, with the introduction of **_Restricted Admin mode_**, this risk is substantially reduced.
+Uobičajeno, kada se povežete sa udaljenim računarom putem RDP-a, vaše akreditacije se čuvaju na ciljnom računaru. Ovo predstavlja značajan sigurnosni rizik, posebno kada koristite naloge sa povišenim privilegijama. Međutim, sa uvođenjem **_Restricted Admin režima_**, ovaj rizik se značajno smanjuje.
 
-When initiating an RDP connection using the command **mstsc.exe /RestrictedAdmin**, authentication to the remote computer is performed without storing your credentials on it. This approach ensures that, in the event of a malware infection or if a malicious user gains access to the remote server, your credentials are not compromised, as they are not stored on the server.
+Kada pokrenete RDP konekciju koristeći komandu **mstsc.exe /RestrictedAdmin**, autentifikacija na udaljenom računaru se vrši bez čuvanja vaših akreditacija na njemu. Ovaj pristup osigurava da, u slučaju infekcije malverom ili ako zlonamerni korisnik dobije pristup udaljenom serveru, vaše akreditacije neće biti kompromitovane, jer se ne čuvaju na serveru.
 
-It's important to note that in **Restricted Admin mode**, attempts to access network resources from the RDP session will not use your personal credentials; instead, the **machine's identity** is used.
+Važno je napomenuti da u **Restricted Admin režimu**, pokušaji pristupa mrežnim resursima iz RDP sesije neće koristiti vaše lične akreditacije; umesto toga, koristi se **identitet mašine**.
 
-This feature marks a significant step forward in securing remote desktop connections and protecting sensitive information from being exposed in case of a security breach.
+Ova funkcionalnost predstavlja značajan korak napred u obezbeđivanju udaljenih desktop konekcija i zaštiti osetljivih informacija od izlaganja u slučaju bezbednosnog propusta.
 
 ![](../../.gitbook/assets/ram.png)
 
-For more detailed information on visit [this resource](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
+Za detaljnije informacije posetite [ovaj izvor](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
 
 
-## Cached Credentials
+## Keširane akreditacije
 
-Windows secures **domain credentials** through the **Local Security Authority (LSA)**, supporting logon processes with security protocols like **Kerberos** and **NTLM**. A key feature of Windows is its capability to cache the **last ten domain logins** to ensure users can still access their computers even if the **domain controller is offline**—a boon for laptop users often away from their company's network.
+Windows obezbeđuje **domenske akreditacije** putem **Local Security Authority (LSA)**, podržavajući procese prijavljivanja sa sigurnosnim protokolima kao što su **Kerberos** i **NTLM**. Ključna funkcionalnost Windows-a je mogućnost keširanja **poslednjih deset domenskih prijava** kako bi se osiguralo da korisnici i dalje mogu pristupiti svojim računarima čak i ako je **kontroler domena van mreže** - što je od koristi za korisnike laptopova koji su često van mreže svoje kompanije.
 
-The number of cached logins is adjustable via a specific **registry key or group policy**. To view or change this setting, the following command is utilized:
-
+Broj keširanih prijava se može podešavati putem određenog **registarskog ključa ili grupe politika**. Da biste videli ili promenili ovu postavku, koristi se sledeća komanda:
 ```bash
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLOGON" /v CACHEDLOGONSCOUNT
 ```
+Pristup ovim keširanim akreditacijama strogo je kontrolisan, pri čemu samo **SYSTEM** nalog ima potrebne dozvole da ih pregleda. Administratori koji trebaju pristupiti ovim informacijama moraju to učiniti sa privilegijama korisnika SYSTEM. Akreditacije se čuvaju na lokaciji: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
 
-Access to these cached credentials is tightly controlled, with only the **SYSTEM** account having the necessary permissions to view them. Administrators needing to access this information must do so with SYSTEM user privileges. The credentials are stored at: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
+**Mimikatz** se može koristiti za izvlačenje ovih keširanih akreditacija pomoću komande `lsadump::cache`.
 
-**Mimikatz** can be employed to extract these cached credentials using the command `lsadump::cache`.
-
-For further details, the original [source](http://juggernaut.wikidot.com/cached-credentials) provides comprehensive information.
+Za dalje detalje, originalni [izvor](http://juggernaut.wikidot.com/cached-credentials) pruža sveobuhvatne informacije.
 
 
-## Protected Users
+## Zaštićeni korisnici
 
-Membership in the **Protected Users group** introduces several security enhancements for users, ensuring higher levels of protection against credential theft and misuse:
+Članstvo u grupi **Zaštićeni korisnici** uvodi nekoliko sigurnosnih poboljšanja za korisnike, osiguravajući viši nivo zaštite od krađe i zloupotrebe akreditacija:
 
-- **Credential Delegation (CredSSP)**: Even if the Group Policy setting for **Allow delegating default credentials** is enabled, plain text credentials of Protected Users will not be cached.
-- **Windows Digest**: Starting from **Windows 8.1 and Windows Server 2012 R2**, the system will not cache plain text credentials of Protected Users, regardless of the Windows Digest status.
-- **NTLM**: The system will not cache Protected Users' plain text credentials or NT one-way functions (NTOWF).
-- **Kerberos**: For Protected Users, Kerberos authentication will not generate **DES** or **RC4 keys**, nor will it cache plain text credentials or long-term keys beyond the initial Ticket-Granting Ticket (TGT) acquisition.
-- **Offline Sign-In**: Protected Users will not have a cached verifier created at sign-in or unlock, meaning offline sign-in is not supported for these accounts.
+- **Delegiranje akreditacija (CredSSP)**: Čak i ako je postavka Grupe za politiku **Dozvoli delegiranje podrazumevanih akreditacija** omogućena, akreditacije zaštićenih korisnika neće biti keširane u obliku običnog teksta.
+- **Windows Digest**: Počevši od **Windows 8.1 i Windows Server 2012 R2**, sistem neće keširati akreditacije zaštićenih korisnika u obliku običnog teksta, bez obzira na status Windows Digest-a.
+- **NTLM**: Sistem neće keširati akreditacije zaštićenih korisnika u obliku običnog teksta ili NT jednosmernih funkcija (NTOWF).
+- **Kerberos**: Za zaštićene korisnike, Kerberos autentifikacija neće generisati **DES** ili **RC4 ključeve**, niti će keširati akreditacije u obliku običnog teksta ili dugoročne ključeve izvan početnog dobijanja Ticket-Granting Ticket (TGT).
+- **Offline prijava**: Za zaštićene korisnike neće biti kreiran keširani verifikator prilikom prijave ili otključavanja, što znači da offline prijava nije podržana za ove naloge.
 
-These protections are activated the moment a user, who is a member of the **Protected Users group**, signs into the device. This ensures that critical security measures are in place to safeguard against various methods of credential compromise.
+Ove zaštite se aktiviraju čim se korisnik, koji je član grupe **Zaštićeni korisnici**, prijavi na uređaj. Ovo osigurava da su kritične sigurnosne mere na snazi radi zaštite od različitih metoda kompromitacije akreditacija.
 
-For more detailed information, consult the official [documentation](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group).
+Za detaljnije informacije, pogledajte zvaničnu [dokumentaciju](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group).
 
-**Table from** [**the docs**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
+**Tabela iz** [**dokumentacije**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
 
 | Windows Server 2003 RTM | Windows Server 2003 SP1+ | <p>Windows Server 2012,<br>Windows Server 2008 R2,<br>Windows Server 2008</p> | Windows Server 2016          |
 | ----------------------- | ------------------------ | ----------------------------------------------------------------------------- | ---------------------------- |
@@ -134,14 +122,14 @@ For more detailed information, consult the official [documentation](https://docs
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju oglašenu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

@@ -1,106 +1,83 @@
-# Interesting Windows Registry Keys
+# Interesantni Windows registarski ključevi
 
-### Interesting Windows Registry Keys
+### Interesantni Windows registarski ključevi
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju oglašenu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 
-### **Windows Version and Owner Info**
-- Located at **`Software\Microsoft\Windows NT\CurrentVersion`**, you'll find the Windows version, Service Pack, installation time, and the registered owner's name in a straightforward manner.
+### **Windows verzija i informacije o vlasniku**
+- Na lokaciji **`Software\Microsoft\Windows NT\CurrentVersion`**, možete pronaći Windows verziju, Service Pack, vreme instalacije i ime registrovanog vlasnika na jednostavan način.
 
-### **Computer Name**
-- The hostname is found under **`System\ControlSet001\Control\ComputerName\ComputerName`**.
+### **Ime računara**
+- Hostname se nalazi pod **`System\ControlSet001\Control\ComputerName\ComputerName`**.
 
-### **Time Zone Setting**
-- The system's time zone is stored in **`System\ControlSet001\Control\TimeZoneInformation`**.
+### **Podešavanje vremenske zone**
+- Vremenska zona sistema se čuva u **`System\ControlSet001\Control\TimeZoneInformation`**.
 
-### **Access Time Tracking**
-- By default, the last access time tracking is turned off (**`NtfsDisableLastAccessUpdate=1`**). To enable it, use:
-  `fsutil behavior set disablelastaccess 0`
+### **Pracenje vremena pristupa**
+- Prema zadanim postavkama, praćenje vremena poslednjeg pristupa je isključeno (**`NtfsDisableLastAccessUpdate=1`**). Da biste ga omogućili, koristite:
+`fsutil behavior set disablelastaccess 0`
 
-### Windows Versions and Service Packs
-- The **Windows version** indicates the edition (e.g., Home, Pro) and its release (e.g., Windows 10, Windows 11), while **Service Packs** are updates that include fixes and, sometimes, new features.
+### Windows verzije i Service Pack-ovi
+- **Windows verzija** označava izdanje (npr. Home, Pro) i njegovo izdanje (npr. Windows 10, Windows 11), dok su **Service Pack-ovi** ažuriranja koja uključuju ispravke i ponekad nove funkcije.
 
-### Enabling Last Access Time
-- Enabling last access time tracking allows you to see when files were last opened, which can be critical for forensic analysis or system monitoring.
+### Omogućavanje praćenja vremena poslednjeg pristupa
+- Omogućavanje praćenja vremena poslednjeg pristupa omogućava vam da vidite kada su datoteke poslednji put otvorene, što može biti ključno za forenzičku analizu ili praćenje sistema.
 
-### Network Information Details
-- The registry holds extensive data on network configurations, including **types of networks (wireless, cable, 3G)** and **network categories (Public, Private/Home, Domain/Work)**, which are vital for understanding network security settings and permissions.
+### Detalji o mrežnim informacijama
+- Registar sadrži obimne podatke o mrežnim konfiguracijama, uključujući **vrste mreža (bežične, kablovske, 3G)** i **kategorije mreže (Javna, Privatna/Kućna, Domen/Posao)**, što je važno za razumevanje postavki mrežne sigurnosti i dozvola.
 
-### Client Side Caching (CSC)
-- **CSC** enhances offline file access by caching copies of shared files. Different **CSCFlags** settings control how and what files are cached, affecting performance and user experience, especially in environments with intermittent connectivity.
+### Klijentsko keširanje (CSC)
+- **CSC** poboljšava pristup datotekama van mreže keširanjem kopija deljenih datoteka. Različite postavke **CSCFlags** kontrolišu način i koje datoteke se keširaju, što utiče na performanse i korisničko iskustvo, posebno u okruženjima sa povremenom konekcijom.
 
-### AutoStart Programs
-- Programs listed in various `Run` and `RunOnce` registry keys are automatically launched at startup, affecting system boot time and potentially being points of interest for identifying malware or unwanted software.
+### Programi koji se automatski pokreću
+- Programi navedeni u različitim registarskim ključevima `Run` i `RunOnce` automatski se pokreću prilikom pokretanja sistema, utičući na vreme pokretanja sistema i potencijalno predstavljajući tačke interesa za identifikaciju malvera ili neželjenog softvera.
 
 ### Shellbags
-- **Shellbags** not only store preferences for folder views but also provide forensic evidence of folder access even if the folder no longer exists. They are invaluable for investigations, revealing user activity that isn't obvious through other means.
+- **Shellbags** ne samo da čuvaju postavke za prikaz fascikli, već pružaju i forenzičke dokaze o pristupu fasciklama čak i ako fascikla više ne postoji. Oni su neprocenjivi za istrage, otkrivajući korisničku aktivnost koja nije očigledna na druge načine.
 
-### USB Information and Forensics
-- The details stored in the registry about USB devices can help trace which devices were connected to a computer, potentially linking a device to sensitive file transfers or unauthorized access incidents.
+### Informacije i forenzika o USB uređajima
+- Detalji o USB uređajima koji se čuvaju u registru mogu pomoći u praćenju koji su uređaji bili povezani sa računarom, potencijalno povezujući uređaj sa prenosom osetljivih datoteka ili incidentima neovlašćenog pristupa.
 
-### Volume Serial Number
-- The **Volume Serial Number** can be crucial for tracking the specific instance of a file system, useful in forensic scenarios where file origin needs to be established across different devices.
+### Serijski broj zapremine
+- **Serijski broj zapremine** može biti ključan za praćenje specifične instance sistema datoteka, korisno u forenzičkim scenarijima gde je potrebno utvrditi poreklo datoteke na različitim uređajima.
 
-### **Shutdown Details**
-- Shutdown time and count (the latter only for XP) are kept in **`System\ControlSet001\Control\Windows`** and **`System\ControlSet001\Control\Watchdog\Display`**.
+### **Detalji o isključivanju**
+- Vreme isključivanja i broj isključivanja (samo za XP) čuvaju se u **`System\ControlSet001\Control\Windows`** i **`System\ControlSet001\Control\Watchdog\Display`**.
 
-### **Network Configuration**
-- For detailed network interface info, refer to **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
-- First and last network connection times, including VPN connections, are logged under various paths in **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
+### **Konfiguracija mreže**
+- Za detaljne informacije o mrežnom interfejsu, pogledajte **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
+- Prva i poslednja vremena povezivanja na mrežu, uključujući VPN veze, beleže se pod različitim putanjama u **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
 
-### **Shared Folders**
-- Shared folders and settings are under **`System\ControlSet001\Services\lanmanserver\Shares`**. The Client Side Caching (CSC) settings dictate offline file availability.
+### **Deljene fascikle**
+- Deljene fascikle i postavke nalaze se pod **`System\ControlSet001\Services\lanmanserver\Shares`**. Postavke klijentskog keširanja (CSC) određuju dostupnost datoteka van mreže.
 
-### **Programs that Start Automatically**
-- Paths like **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** and similar entries under `Software\Microsoft\Windows\CurrentVersion` detail programs set to run at startup.
+### **Programi koji se automatski pokreću**
+- Putanje poput **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** i slični unosi pod `Software\Microsoft\Windows\CurrentVersion` detaljno opisuju programe koji se pokreću prilikom pokretanja sistema.
 
-### **Searches and Typed Paths**
-- Explorer searches and typed paths are tracked in the registry under **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** for WordwheelQuery and TypedPaths, respectively.
+### **Pretrage i uneti putovi**
+- Pretrage i uneti putovi u Explorer-u se prate u registru pod **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** za WordwheelQuery i TypedPaths, redom.
 
-### **Recent Documents and Office Files**
-- Recent documents and Office files accessed are noted in `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` and specific Office version paths.
+### **Nedavni dokumenti i Office datoteke**
+- Nedavno korišćeni dokumenti i Office datoteke se beleže u `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` i specifičnim putanjama za verzije Office-a.
 
-### **Most Recently Used (MRU) Items**
-- MRU lists, indicating recent file paths and commands, are stored in various `ComDlg32` and `Explorer` subkeys under `NTUSER.DAT`.
+### **Najskorije korišćene (MRU) stavke**
+- Liste MRU, koje pokazuju nedavne putanje do datoteka i komande, čuvaju se u različitim podključevima `ComDlg32` i `Explorer` pod `NTUSER.DAT`.
 
-### **User Activity Tracking**
-- The User Assist feature logs detailed application usage stats, including run count and last run time, at **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**.
+### **Pracenje korisničke aktivnosti**
+- Funkcija User Assist beleži detaljne statistike o korišćenju aplikacija, uključujući broj pokretanja i vreme poslednjeg pokretanja, na lokaciji **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**.
 
-### **Shellbags Analysis**
-- Shellbags, revealing folder access details, are stored in `USRCLASS.DAT` and `NTUSER.DAT` under `Software\Microsoft\Windows\Shell`. Use **[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)** for analysis.
-
-### **USB Device History**
-- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`** and **`HKLM\SYSTEM\ControlSet001\Enum\USB`** contain rich details on connected USB devices, including manufacturer, product name, and connection timestamps.
-- The user associated with a specific USB device can be pinpointed by searching `NTUSER.DAT` hives for the device's **{GUID}**.
-- The last mounted device and its volume serial number can be traced through `System\MountedDevices` and `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`, respectively.
-
-This guide condenses the crucial paths and methods for accessing detailed system, network, and user activity information on Windows systems, aiming for clarity and usability.
-
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+### **Analiza Shellbags-a**
+- Shellbags, koji otkrivaju detalje o pristupu fasciklama

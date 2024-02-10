@@ -2,30 +2,29 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Context
+## Kontekst
 
-In Linux in order to run a program it must exist as a file, it must be accessible in some way through the file system hierarchy (this is just how `execve()` works). This file may reside on disk or in ram (tmpfs, memfd) but you need a filepath. This has made very easy to control what is run on a Linux system, it makes easy to detect threats and attacker's tools or to prevent them from trying to execute anything of theirs at all (_e. g._ not allowing unprivileged users to place executable files anywhere).
+U Linux-u, da bi se pokrenuo program, on mora postojati kao fajl, mora biti dostupan na neki način kroz hijerarhiju fajl sistema (ovo je samo kako `execve()` funkcija radi). Taj fajl može biti smešten na disku ili u ramu (tmpfs, memfd), ali vam je potreban putanja do fajla. Ovo je olakšalo kontrolu onoga što se pokreće na Linux sistemu, olakšava otkrivanje pretnji i alata napadača ili sprečavanje njihovog pokušaja izvršavanja bilo čega od njih (_npr._ ne dozvoljavajući neprivilegovanim korisnicima da postavljaju izvršne fajlove bilo gde).
 
-But this technique is here to change all of this. If you can not start the process you want... **then you hijack one already existing**.
+Ali ova tehnika menja sve to. Ako ne možete pokrenuti željeni proces... **onda preuzimate već postojeći**.
 
-This technique allows you to **bypass common protection techniques such as read-only, noexec, file-name whitelisting, hash whitelisting...**
+Ova tehnika vam omogućava da **zaobiđete uobičajene tehnike zaštite kao što su samo čitanje, zabrana izvršavanja, bela lista imena fajlova, bela lista heševa...**
 
-## Dependencies
+## Zavisnosti
 
-The final script depends on the following tools to work, they need to be accessible in the system you are attacking (by default you will find all of them everywhere):
-
+Konačni skript zavisi od sledećih alata da bi radio, oni moraju biti dostupni na sistemu koji napadate (podrazumevano ćete ih svuda pronaći):
 ```
 dd
 bash | zsh | ash (busybox)
@@ -39,80 +38,73 @@ wc
 tr
 base64
 ```
+## Tehnika
 
-## The technique
+Ako možete proizvoljno izmeniti memoriju procesa, možete ga preuzeti. Ovo se može koristiti za preuzimanje već postojećeg procesa i zamenjivanje drugim programom. To možemo postići ili korišćenjem `ptrace()` sistemskog poziva (koji zahteva mogućnost izvršavanja sistemskih poziva ili prisustvo gdb-a na sistemu) ili, što je interesantnije, pisanjem u `/proc/$pid/mem`.
 
-If you are able to modify arbitrarily the memory of a process then you can take over it. This can be used to hijack an already existing process and replace it with another program. We can achieve this either by using the `ptrace()` syscall (which requires you to have the ability to execute syscalls or to have gdb available on the system) or, more interestingly, writing to `/proc/$pid/mem`.
+Datoteka `/proc/$pid/mem` je jedan-na-jedan mapiranje celokupnog adresnog prostora procesa (_npr._ od `0x0000000000000000` do `0x7ffffffffffff000` u x86-64). To znači da čitanje ili pisanje u ovu datoteku na offsetu `x` isto je kao čitanje ili izmena sadržaja na virtuelnoj adresi `x`.
 
-The file `/proc/$pid/mem` is a one-to-one mapping of the entire address space of a process (_e. g._ from `0x0000000000000000` to `0x7ffffffffffff000` in x86-64). This means that reading from or writing to this file at an offset `x` is the same as reading from or modifying the contents at the virtual address `x`.
+Sada, imamo četiri osnovna problema sa kojima se suočavamo:
 
-Now, we have four basic problems to face:
-
-* In general, only root and the program owner of the file may modify it.
+* Opšte uzev, samo root i vlasnik programa mogu ga izmeniti.
 * ASLR.
-* If we try to read or write to an address not mapped in the address space of the program we will get an I/O error.
+* Ako pokušamo čitati ili pisati na adresu koja nije mapirana u adresnom prostoru programa, dobićemo I/O grešku.
 
-This problems have solutions that, although they are not perfect, are good:
+Ovi problemi imaju rešenja koja, iako nisu savršena, su dobra:
 
-* Most shell interpreters allow the creation of file descriptors that will then be inherited by child processes. We can create a fd pointing to the `mem` file of the sell with write permissions... so child processes that use that fd will be able to modify the shell's memory.
-* ASLR isn't even a problem, we can check the shell's `maps` file or any other from the procfs in order to gain information about the address space of the process.
-* So we need to `lseek()` over the file. From the shell this cannot be done unless using the infamous `dd`.
+* Većina shell interpretera omogućava kreiranje file deskriptora koji će biti nasleđeni od strane child procesa. Možemo kreirati fd koji pokazuje na `mem` datoteku školjke sa dozvolama za pisanje... tako da će child procesi koji koriste taj fd moći da izmene memoriju školjke.
+* ASLR čak nije ni problem, možemo proveriti `maps` datoteku školjke ili bilo koju drugu iz procfs-a kako bismo dobili informacije o adresnom prostoru procesa.
+* Dakle, moramo `lseek()` preko datoteke. Iz školjke to ne može biti urađeno osim korišćenjem zloglasnog `dd`.
 
-### In more detail
+### Detaljnije
 
-The steps are relatively easy and do not require any kind of expertise to understand them:
+Koraci su relativno jednostavni i ne zahtevaju nikakvo stručno znanje da biste ih razumeli:
 
-* Parse the binary we want to run and the loader to find out what mappings they need. Then craft a "shell"code that will perform, broadly speaking, the same steps that the kernel does upon each call to `execve()`:
-  * Create said mappings.
-  * Read the binaries into them.
-  * Set up permissions.
-  * Finally initialize the stack with the arguments for the program and place the auxiliary vector (needed by the loader).
-  * Jump into the loader and let it do the rest (load libraries needed by the program).
-* Obtain from the `syscall` file the address to which the process will return after the syscall it is executing.
-* Overwrite that place, which will be executable, with our shellcode (through `mem` we can modify unwritable pages).
-* Pass the program we want to run to the stdin of the process (will be `read()` by said "shell"code).
-* At this point it is up to the loader to load the necessary libraries for our program and jump into it.
+* Analizirajte binarni fajl koji želimo da pokrenemo i loader kako biste saznali koja mapiranja im je potrebno. Zatim kreirajte "shell" kod koji će izvršiti, općenito govoreći, iste korake koje kernel obavlja pri svakom pozivu `execve()`:
+* Kreirajte ta mapiranja.
+* Učitajte binarne fajlove u njih.
+* Podesite dozvole.
+* Na kraju, inicijalizujte stek sa argumentima za program i postavite pomoćni vektor (potreban od strane loadera).
+* Skočite u loader i pustite ga da obavi ostatak (učitavanje biblioteka potrebnih za program).
+* Dobijte iz fajla `syscall` adresu na koju će se proces vratiti nakon izvršavanja sistemskog poziva.
+* Prepišite to mesto, koje će biti izvršivo, sa našim shell kodom (preko `mem` možemo izmeniti stranice koje nisu za pisanje).
+* Prosledite program koji želite pokrenuti na stdin procesa (će biti `read()` od strane pomenutog "shell" koda).
+* U ovom trenutku je na loaderu da učita potrebne biblioteke za naš program i skoči u njega.
 
-**Check out the tool in** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
+**Pogledajte alat na** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
 
 ## EverythingExec
 
-There are several alternatives to `dd`, one of which, `tail`, is currently the default program used to `lseek()` through the `mem` file (which was the sole purpose for using `dd`). Said alternatives are:
-
+Postoji nekoliko alternativa za `dd`, od kojih je jedna, `tail`, trenutno podrazumevani program koji se koristi za `lseek()` kroz `mem` datoteku (što je bio jedini razlog za korišćenje `dd`). Pomenute alternative su:
 ```bash
 tail
 hexdump
 cmp
 xxd
 ```
-
-Setting the variable `SEEKER` you may change the seeker used, _e. g._:
-
+Postavljanjem promenljive `SEEKER` možete promeniti korišćeni seeker, npr.:
 ```bash
 SEEKER=cmp bash ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-
-If you find another valid seeker not implemented in the script you may still use it setting the `SEEKER_ARGS` variable:
-
+Ako pronađete još jedan važeći seeker koji nije implementiran u skriptu, i dalje ga možete koristiti postavljanjem promenljive `SEEKER_ARGS`:
 ```bash
 SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
+Blokiraj ovo, EDR-ovi.
 
-Block this, EDRs.
-
-## References
+## Reference
 * [https://github.com/arget13/DDexec](https://github.com/arget13/DDexec)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju oglašenu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

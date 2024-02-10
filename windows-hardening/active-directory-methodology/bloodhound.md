@@ -1,115 +1,107 @@
-# BloodHound & Other AD Enum Tools
+# BloodHound i ostali alati za enumeraciju AD-a
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Da li radite u **cybersecurity kompaniji**? Želite li da vidite **vašu kompaniju reklamiranu na HackTricks**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 ## AD Explorer
 
-[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) is from Sysinternal Suite:
+[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) je deo Sysinternal Suite:
 
-> An advanced Active Directory (AD) viewer and editor. You can use AD Explorer to navigate an AD database easily, define favourite locations, view object properties, and attributes without opening dialog boxes, edit permissions, view an object's schema, and execute sophisticated searches that you can save and re-execute.
+> Napredni pregledač i editor Active Directory (AD). Možete koristiti AD Explorer da biste lako navigirali kroz AD bazu podataka, definisali omiljene lokacije, pregledali osobine objekata i atribute bez otvaranja dijaloških okvira, menjali dozvole, pregledali šemu objekta i izvršavali složene pretrage koje možete sačuvati i ponovo izvršiti.
 
-### Snapshots
+### Snimci
 
-AD Explorer can create snapshots of an AD so you can check it offline.\
-It can be used to discover vulns offline, or to compare different states of the AD DB across the time.
+AD Explorer može kreirati snimke AD-a tako da ih možete proveriti offline.\
+Može se koristiti za otkrivanje ranjivosti offline, ili za poređenje različitih stanja AD baze podataka tokom vremena.
 
-You will be requires the username, password, and direction to connect (any AD user is required).
+Potrebno je korisničko ime, lozinka i pravac za povezivanje (potreban je bilo koji AD korisnik).
 
-To take a snapshot of AD, go to `File` --> `Create Snapshot` and enter a name for the snapshot.
+Da biste napravili snimak AD-a, idite na `File` --> `Create Snapshot` i unesite ime snimka.
 
 ## ADRecon
 
-[**ADRecon**](https://github.com/adrecon/ADRecon) is a tool which extracts and combines various artefacts out of an AD environment. The information can be presented in a **specially formatted** Microsoft Excel **report** that includes summary views with metrics to facilitate analysis and provide a holistic picture of the current state of the target AD environment.
-
+[**ADRecon**](https://github.com/adrecon/ADRecon) je alat koji izvlači i kombinuje razne artefakte iz AD okruženja. Informacije se mogu prikazati u **posebno formatiranom** Microsoft Excel **izveštaju** koji uključuje pregledne prikaze sa metrikama radi olakšane analize i pružanja celovite slike trenutnog stanja ciljnog AD okruženja.
 ```bash
 # Run it
 .\ADRecon.ps1
 ```
-
 ## BloodHound
 
-From [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
+Sa [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
 
-> BloodHound is a single page Javascript web application, built on top of [Linkurious](http://linkurio.us/), compiled with [Electron](http://electron.atom.io/), with a [Neo4j](https://neo4j.com/) database fed by a C# data collector.
+> BloodHound je jednostranična Javascript web aplikacija, izgrađena na vrhu [Linkurious](http://linkurio.us/), kompajlirana sa [Electron](http://electron.atom.io/), sa Neo4j bazom podataka koju napaja C# data kolektor.
 
-BloodHound uses graph theory to reveal the hidden and often unintended relationships within an Active Directory or Azure environment. Attackers can use BloodHound to easily identify highly complex attack paths that would otherwise be impossible to quickly identify. Defenders can use BloodHound to identify and eliminate those same attack paths. Both blue and red teams can use BloodHound to easily gain a deeper understanding of privilege relationships in an Active Directory or Azure environment.
+BloodHound koristi teoriju grafova da otkrije skrivene i često nenamerne veze unutar Active Directory ili Azure okruženja. Napadači mogu koristiti BloodHound da lako identifikuju visoko kompleksne putanje napada koje bi inače bilo nemoguće brzo identifikovati. Odbrambeni timovi mogu koristiti BloodHound da identifikuju i eliminišu iste te putanje napada. I plavi i crveni timovi mogu koristiti BloodHound da lako steknu dublje razumevanje privilegovanih veza u Active Directory ili Azure okruženju.
 
-So, [Bloodhound ](https://github.com/BloodHoundAD/BloodHound)is an amazing tool which can enumerate a domain automatically, save all the information, find possible privilege escalation paths and show all the information using graphs.
+Dakle, [Bloodhound](https://github.com/BloodHoundAD/BloodHound) je neverovatan alat koji može automatski nabrojati domen, sačuvati sve informacije, pronaći moguće putanje za eskalaciju privilegija i prikazati sve informacije koristeći grafove.
 
-Booldhound is composed of 2 main parts: **ingestors** and the **visualisation application**.
+Bloodhound se sastoji od 2 glavna dela: **ingestori** i **aplikacija za vizualizaciju**.
 
-The **ingestors** are used to **enumerate the domain and extract all the information** in a format that the visualisation application will understand.
+**Ingestori** se koriste za **nabrojavanje domena i izvlačenje svih informacija** u formatu koji će aplikacija za vizualizaciju razumeti.
 
-The **visualisation application uses neo4j** to show how all the information is related and to show different ways to escalate privileges in the domain.
+**Aplikacija za vizualizaciju koristi neo4j** da prikaže kako su sve informacije povezane i da prikaže različite načine za eskalaciju privilegija u domenu.
 
-### Installation
-After the creation of BloodHound CE, the entire project was updated for ease of use with Docker. The easiest way to get started is to use its pre-configured Docker Compose configuration.
+### Instalacija
+Nakon stvaranja BloodHound CE, ceo projekat je ažuriran radi lakšeg korišćenja sa Dockerom. Najlakši način za početak je korišćenje prekonfigurisane Docker Compose konfiguracije.
 
-1. Install Docker Compose. This should be included with the [Docker Desktop](https://www.docker.com/products/docker-desktop/) installation.
-2. Run:
+1. Instalirajte Docker Compose. Ovo bi trebalo da bude uključeno u instalaciju [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+2. Pokrenite:
 ```
 curl -L https://ghst.ly/getbhce | docker compose -f - up
 ```
-3. Locate the randomly generated password in the terminal output of Docker Compose.
-4. In a browser, navigate to http://localhost:8080/ui/login. Login with a username of admin and the randomly generated password from the logs.
+3. Pronađite nasumično generisanu lozinku u terminalnom izlazu Docker Compose-a.
+4. U pretraživaču, idite na http://localhost:8080/ui/login. Prijavite se sa korisničkim imenom admin i nasumično generisanom lozinkom iz logova.
 
-After this you will need to change the randomly generated password and you will have the new interface ready, from which you can directly download the ingestors.
+Nakon toga ćete morati da promenite nasumično generisanu lozinku i imaćete novi interfejs spreman, sa kojeg možete direktno preuzeti ingestore.
 
 ### SharpHound
 
-They have several options but if you want to run SharpHound from a PC joined to the domain, using your current user and extract all the information you can do:
-
+Imaju nekoliko opcija, ali ako želite da pokrenete SharpHound sa računara koji je pridružen domenu, koristeći trenutnog korisnika i izvučete sve informacije, možete uraditi sledeće:
 ```
 ./SharpHound.exe --CollectionMethods All
 Invoke-BloodHound -CollectionMethod All
 ```
+> Više informacija o **CollectionMethod** i petlji sesije možete pročitati [ovde](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained)
 
-> You can read more about **CollectionMethod** and loop session [here](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained)
-
-If you wish to execute SharpHound using different credentials you can create a CMD netonly session and run SharpHound from there:
-
+Ako želite da izvršite SharpHound koristeći različite akreditive, možete kreirati CMD netonly sesiju i pokrenuti SharpHound iz nje:
 ```
 runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ```
-
-[**Learn more about Bloodhound in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
+[**Saznajte više o Bloodhound-u na ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
 
 
 ## Group3r
 
-[**Group3r**](https://github.com/Group3r/Group3r) is a tool to find **vulnerabilities** in Active Directory associated **Group Policy**. \
-You need to **run group3r** from a host inside the domain using **any domain user**.
-
+[**Group3r**](https://github.com/Group3r/Group3r) je alat za pronalaženje **ranjivosti** u Active Directory-u povezanih sa **Group Policy**-jem. \
+Morate **pokrenuti group3r** sa računara unutar domena koristeći **bilo koji korisnički nalog domena**.
 ```bash
-group3r.exe -f <filepath-name.log> 
+group3r.exe -f <filepath-name.log>
 # -s sends results to stdin
 # -f send results to file
 ```
-
 ## PingCastle
 
-[**PingCastle**](https://www.pingcastle.com/documentation/) **evaluates the security posture of an AD environment** and provides a nice **report** with graphs.
+[**PingCastle**](https://www.pingcastle.com/documentation/) **procenjuje sigurnosni položaj AD okruženja** i pruža lep **izveštaj** sa grafikonima.
 
-To run it, can execute the binary `PingCastle.exe` and it will start an **interactive session** presenting a menu of options. The default option to use is **`healthcheck`** which will establish a baseline **overview** of the **domain**, and find **misconfigurations** and **vulnerabilities**.&#x20;
+Da biste ga pokrenuli, možete izvršiti binarnu datoteku `PingCastle.exe` i ona će pokrenuti **interaktivnu sesiju** koja prikazuje meni sa opcijama. Podrazumevana opcija za korišćenje je **`healthcheck`** koja će uspostaviti osnovni **pregled** domena i pronaći **pogrešne konfiguracije** i **ranjivosti**.&#x20;
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite **vašu kompaniju reklamiranu na HackTricks**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

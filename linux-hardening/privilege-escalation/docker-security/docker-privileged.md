@@ -2,26 +2,26 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Da li radite u **cybersecurity kompaniji**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## What Affects
+## Šta utiče
 
-When you run a container as privileged these are the protections you are disabling:
+Kada pokrenete kontejner sa privilegijama, onemogućavate sledeće zaštite:
 
-### Mount /dev
+### Montiranje /dev
 
-In a privileged container, all the **devices can be accessed in `/dev/`**. Therefore you can **escape** by **mounting** the disk of the host.
+U privilegovanom kontejneru, svi **uređaji mogu biti pristupljeni u `/dev/`**. Stoga možete **izbeći** tako što ćete **montirati** disk domaćina.
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="Unutar podrazumevanog kontejnera" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
@@ -30,7 +30,7 @@ core     full     null     pts      shm      stdin    tty      zero
 ```
 {% endtab %}
 
-{% tab title="Inside Privileged Container" %}
+{% tab title="Unutar privilegovanog kontejnera" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ls /dev
@@ -43,12 +43,9 @@ cpu              nbd0             pts              stdout           tty27       
 {% endtab %}
 {% endtabs %}
 
-### Read-only kernel file systems
+### Kernel fajl sistemi samo za čitanje
 
-Kernel file systems provide a mechanism for a process to modify the behavior of the kernel. However, when it comes to container processes, we want to prevent them from making any changes to the kernel. Therefore, we mount kernel file systems as **read-only** within the container, ensuring that the container processes cannot modify the kernel.
-
-{% tabs %}
-{% tab title="Inside default container" %}
+Kernel fajl sistemi pružaju mehanizam za proces da izmeni ponašanje kernela. Međutim, kada je reč o procesima kontejnera, želimo da sprečimo da izvrše bilo kakve promene na kernelu. Zato montiramo kernel fajl sisteme kao **samo za čitanje** unutar kontejnera, čime osiguravamo da procesi kontejnera ne mogu da menjaju kernel.
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -59,7 +56,7 @@ cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,c
 ```
 {% endtab %}
 
-{% tab title="Inside Privileged Container" %}
+{% tab title="Unutar privilegovanog kontejnera" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
@@ -67,16 +64,16 @@ mount  | grep '(ro'
 {% endtab %}
 {% endtabs %}
 
-### Masking over kernel file systems
+### Maskiranje preko kernel fajl sistema
 
-The **/proc** file system is selectively writable but for security, certain parts are shielded from write and read access by overlaying them with **tmpfs**, ensuring container processes can't access sensitive areas.
+Fajl sistem **/proc** je selektivno upisiv, ali iz bezbednosnih razloga, određeni delovi su zaštićeni od upisa i čitanja preko preklapanja sa **tmpfs**, čime se osigurava da procesi kontejnera ne mogu pristupiti osetljivim područjima.
 
 {% hint style="info" %}
-**tmpfs** is a file system that stores all the files in virtual memory. tmpfs doesn't create any files on your hard drive. So if you unmount a tmpfs file system, all the files residing in it are lost for ever.
+**tmpfs** je fajl sistem koji čuva sve fajlove u virtuelnoj memoriji. tmpfs ne kreira fajlove na tvrdom disku. Dakle, ako demontirate tmpfs fajl sistem, svi fajlovi koji se u njemu nalaze su zauvek izgubljeni.
 {% endhint %}
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="Unutar podrazumevanog kontejnera" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -86,7 +83,7 @@ tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
 {% endtab %}
 
-{% tab title="Inside Privileged Container" %}
+{% tab title="Unutar privilegovanog kontejnera" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -94,16 +91,16 @@ mount  | grep /proc.*tmpfs
 {% endtab %}
 {% endtabs %}
 
-### Linux capabilities
+### Linux sposobnosti
 
-Container engines launch the containers with a **limited number of capabilities** to control what goes on inside of the container by default. **Privileged** ones have **all** the **capabilities** accesible. To learn about capabilities read:
+Pokretači kontejnera pokreću kontejnere sa **ograničenim brojem sposobnosti** kako bi kontrolisali šta se dešava unutar kontejnera prema podrazumevanim postavkama. **Privilegovani** kontejneri imaju **sve** **sposobnosti** dostupne. Da biste saznali više o sposobnostima, pročitajte:
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="Unutar podrazumevanog kontejnera" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -114,7 +111,7 @@ Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setg
 ```
 {% endtab %}
 
-{% tab title="Inside Privileged Container" %}
+{% tab title="Unutar privilegovanog kontejnera" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 apk add -U libcap; capsh --print
@@ -126,18 +123,18 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 {% endtab %}
 {% endtabs %}
 
-You can manipulate the capabilities available to a container without running in `--privileged` mode by using the `--cap-add` and `--cap-drop` flags.
+Možete manipulisati sposobnostima dostupnim kontejneru bez pokretanja u `--privileged` režimu koristeći opcije `--cap-add` i `--cap-drop`.
 
 ### Seccomp
 
-**Seccomp** is useful to **limit** the **syscalls** a container can call. A default seccomp profile is enabled by default when running docker containers, but in privileged mode it is disabled. Learn more about Seccomp here:
+**Seccomp** je koristan za **ograničavanje** **sistemskih poziva** koje kontejner može izvršiti. Podrazumevani seccomp profil je omogućen podrazumevano prilikom pokretanja Docker kontejnera, ali je onemogućen u privilegovanom režimu. Saznajte više o Seccomp-u ovde:
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="Unutar podrazumevanog kontejnera" %}
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
@@ -146,7 +143,7 @@ Seccomp_filters:	1
 ```
 {% endtab %}
 
-{% tab title="Inside Privileged Container" %}
+{% tab title="Unutar privilegovanog kontejnera" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
@@ -155,86 +152,80 @@ Seccomp_filters:	0
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-
-Also, note that when Docker (or other CRIs) are used in a **Kubernetes** cluster, the **seccomp filter is disabled by default**
+Takođe, napomena da kada se Docker (ili drugi CRIs) koristi u **Kubernetes** klasteru, **seccomp filter je podrazumevano onemogućen**.
 
 ### AppArmor
 
-**AppArmor** is a kernel enhancement to confine **containers** to a **limited** set of **resources** with **per-program profiles**. When you run with the `--privileged` flag, this protection is disabled.
+**AppArmor** je unapređenje jezgra za ograničavanje **kontejnera** na **ograničen skup resursa** sa **profilima po programu**. Kada pokrenete sa `--privileged` zastavicom, ova zaštita je onemogućena.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
-
 ### SELinux
 
-Running a container with the `--privileged` flag disables **SELinux labels**, causing it to inherit the label of the container engine, typically `unconfined`, granting full access similar to the container engine. In rootless mode, it uses `container_runtime_t`, while in root mode, `spc_t` is applied.
+Pokretanje kontejnera sa `--privileged` zastavicom onemogućava **SELinux oznake**, što rezultira nasleđivanjem oznake kontejner motora, obično `unconfined`, što omogućava potpuni pristup sličan kontejner motoru. U režimu bez root prava, koristi se `container_runtime_t`, dok se u root režimu primenjuje `spc_t`.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
-
-## What Doesn't Affect
+## Šta ne utiče
 
 ### Namespaces
 
-Namespaces are **NOT affected** by the `--privileged` flag. Even though they don't have the security constraints enabled, they **do not see all of the processes on the system or the host network, for example**. Users can disable individual namespaces by using the **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** container engines flags.
+Namespaces **NISU pogođeni** `--privileged` zastavicom. Iako nemaju omogućene sigurnosne restrikcije, **ne vide sve procese na sistemu ili mrežu domaćina, na primer**. Korisnici mogu onemogućiti pojedinačne namespaces koristeći **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** zastavice kontejnerskog motora.
 
 {% tabs %}
-{% tab title="Inside default privileged container" %}
+{% tab title="Unutar podrazumevanog privilegovanog kontejnera" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
 PID   USER     TIME  COMMAND
-    1 root      0:00 sh
-   18 root      0:00 ps -ef
+1 root      0:00 sh
+18 root      0:00 ps -ef
 ```
 {% endtab %}
 
-{% tab title="Inside --pid=host Container" %}
+{% tab title="Unutar --pid=host Kontejnera" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef
 PID   USER     TIME  COMMAND
-    1 root      0:03 /sbin/init
-    2 root      0:00 [kthreadd]
-    3 root      0:00 [rcu_gp]ount | grep /proc.*tmpfs
+1 root      0:03 /sbin/init
+2 root      0:00 [kthreadd]
+3 root      0:00 [rcu_gp]ount | grep /proc.*tmpfs
 [...]
 ```
 {% endtab %}
 {% endtabs %}
 
-### User namespace
+### Простор имен корисника
 
-**By default, container engines don't utilize user namespaces, except for rootless containers**, which require them for file system mounting and using multiple UIDs. User namespaces, integral for rootless containers, cannot be disabled and significantly enhance security by restricting privileges.
+**По подразумеваном, контјенерски мотори не користе простор имена корисника, осим за контјенере без корена**, који их захтевају за монтирање фајл система и коришћење више УИД-ова. Простори имена корисника, који су неопходни за контјенере без корена, не могу бити онемогућени и значајно повећавају безбедност ограничавањем привилегија.
 
-## References
+## Референце
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Научите хаковање AWS-а од нуле до хероја са</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Да ли радите у **компанији за кибер безбедност**? Желите ли да видите **вашу компанију рекламирану на HackTricks**? Или желите да имате приступ **најновијој верзији PEASS или преузмете HackTricks у PDF-у**? Проверите [**ПЛАНОВЕ ПРЕТПЛАТЕ**](https://github.com/sponsors/carlospolop)!
+* Откријте [**The PEASS Family**](https://opensea.io/collection/the-peass-family), нашу колекцију ексклузивних [**NFT-ова**](https://opensea.io/collection/the-peass-family)
+* Набавите [**званични PEASS & HackTricks сувенир**](https://peass.creator-spring.com)
+* **Придружите се** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord групи**](https://discord.gg/hRep4RUj7f) или [**телеграм групи**](https://t.me/peass) или ме **пратите** на **Твитеру** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поделите своје хакерске трикове слањем PR-ова на [hacktricks репо](https://github.com/carlospolop/hacktricks) и [hacktricks-cloud репо](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

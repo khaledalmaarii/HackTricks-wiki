@@ -1,137 +1,136 @@
-# Checklist - Local Windows Privilege Escalation
+# Lista - Lokalno eskaliranje privilegija na Windowsu
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-### **Best tool to look for Windows local privilege escalation vectors:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Najbolji alat za pronalaženje vektora lokalnog eskaliranja privilegija na Windowsu:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
-### [System Info](windows-local-privilege-escalation/#system-info)
+### [Informacije o sistemu](windows-local-privilege-escalation/#system-info)
 
-* [ ] Obtain [**System information**](windows-local-privilege-escalation/#system-info)
-* [ ] Search for **kernel** [**exploits using scripts**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Use **Google to search** for kernel **exploits**
-* [ ] Use **searchsploit to search** for kernel **exploits**
-* [ ] Interesting info in [**env vars**](windows-local-privilege-escalation/#environment)?
-* [ ] Passwords in [**PowerShell history**](windows-local-privilege-escalation/#powershell-history)?
-* [ ] Interesting info in [**Internet settings**](windows-local-privilege-escalation/#internet-settings)?
-* [ ] [**Drives**](windows-local-privilege-escalation/#drives)?
-* [ ] [**WSUS exploit**](windows-local-privilege-escalation/#wsus)?
+* [ ] Dobiti [**informacije o sistemu**](windows-local-privilege-escalation/#system-info)
+* [ ] Pretražiti **kernel** [**eksploite koristeći skripte**](windows-local-privilege-escalation/#version-exploits)
+* [ ] Koristiti **Google pretragu** za pronalaženje kernel **eksploita**
+* [ ] Koristiti **searchsploit pretragu** za pronalaženje kernel **eksploita**
+* [ ] Interesantne informacije u [**env varijablama**](windows-local-privilege-escalation/#environment)?
+* [ ] Lozinke u [**PowerShell istoriji**](windows-local-privilege-escalation/#powershell-history)?
+* [ ] Interesantne informacije u [**Internet podešavanjima**](windows-local-privilege-escalation/#internet-settings)?
+* [ ] [**Diskovi**](windows-local-privilege-escalation/#drives)?
+* [ ] [**WSUS eksploit**](windows-local-privilege-escalation/#wsus)?
 * [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
-### [Logging/AV enumeration](windows-local-privilege-escalation/#enumeration)
+### [Enumeracija logovanja/AV-a](windows-local-privilege-escalation/#enumeration)
 
-* [ ] Check [**Audit** ](windows-local-privilege-escalation/#audit-settings)and [**WEF** ](windows-local-privilege-escalation/#wef)settings
-* [ ] Check [**LAPS**](windows-local-privilege-escalation/#laps)
-* [ ] Check if [**WDigest** ](windows-local-privilege-escalation/#wdigest)is active
+* [ ] Proveriti [**Audit** ](windows-local-privilege-escalation/#audit-settings)i [**WEF** ](windows-local-privilege-escalation/#wef)podešavanja
+* [ ] Proveriti [**LAPS**](windows-local-privilege-escalation/#laps)
+* [ ] Proveriti da li je [**WDigest** ](windows-local-privilege-escalation/#wdigest)aktivan
 * [ ] [**LSA Protection**](windows-local-privilege-escalation/#lsa-protection)?
 * [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
-* [ ] [**Cached Credentials**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Check if any [**AV**](windows-av-bypass)
+* [ ] [**Keširane lozinke**](windows-local-privilege-escalation/#cached-credentials)?
+* [ ] Proveriti da li postoji neki [**AV**](windows-av-bypass)
 * [ ] [**AppLocker Policy**](authentication-credentials-uac-and-efs#applocker-policy)?
 * [ ] [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
-* [ ] [**User Privileges**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Check [**current** user **privileges**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Are you [**member of any privileged group**](windows-local-privilege-escalation/#privileged-groups)?
-* [ ] Check if you have [any of these tokens enabled](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [ ] [**Users Sessions**](windows-local-privilege-escalation/#logged-users-sessions)?
-* [ ] Check[ **users homes**](windows-local-privilege-escalation/#home-folders) (access?)
-* [ ] Check [**Password Policy**](windows-local-privilege-escalation/#password-policy)
-* [ ] What is[ **inside the Clipboard**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] [**Korisničke privilegije**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Proveriti [**trenutne** korisničke **privilegije**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Da li ste [**član neke privilegovane grupe**](windows-local-privilege-escalation/#privileged-groups)?
+* [ ] Proveriti da li imate omogućene [neke od ovih tokena](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [ ] [**Korisničke sesije**](windows-local-privilege-escalation/#logged-users-sessions)?
+* [ ] Proveriti[ **korisničke foldere**](windows-local-privilege-escalation/#home-folders) (pristup?)
+* [ ] Proveriti [**Password Policy**](windows-local-privilege-escalation/#password-policy)
+* [ ] Šta se nalazi [**u Clipboard-u**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
-### [Network](windows-local-privilege-escalation/#network)
+### [Mreža](windows-local-privilege-escalation/#network)
 
-* [ ] Check **current** [**network** **information**](windows-local-privilege-escalation/#network)
-* [ ] Check **hidden local services** restricted to the outside
+* [ ] Proveriti **trenutne** [**informacije o mreži**](windows-local-privilege-escalation/#network)
+* [ ] Proveriti **skrivene lokalne servise** ograničene prema spolja
 
-### [Running Processes](windows-local-privilege-escalation/#running-processes)
+### [Pokrenuti procesi](windows-local-privilege-escalation/#running-processes)
 
-* [ ] Processes binaries [**file and folders permissions**](windows-local-privilege-escalation/#file-and-folder-permissions)
-* [ ] [**Memory Password mining**](windows-local-privilege-escalation/#memory-password-mining)
-* [ ] [**Insecure GUI apps**](windows-local-privilege-escalation/#insecure-gui-apps)
+* [ ] Dozvole fajlova i foldera za procese [**file and folders permissions**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* [ ] [**Izvlačenje lozinki iz memorije**](windows-local-privilege-escalation/#memory-password-mining)
+* [ ] [**Nesigurne GUI aplikacije**](windows-local-privilege-escalation/#insecure-gui-apps)
 
-### [Services](windows-local-privilege-escalation/#services)
+### [Servisi](windows-local-privilege-escalation/#services)
 
-* [ ] [Can you **modify any service**?](windows-local-privilege-escalation#permissions)
-* [ ] [Can you **modify** the **binary** that is **executed** by any **service**?](windows-local-privilege-escalation/#modify-service-binary-path)
-* [ ] [Can you **modify** the **registry** of any **service**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* [ ] [Can you take advantage of any **unquoted service** binary **path**?](windows-local-privilege-escalation/#unquoted-service-paths)
+* [ ] [Možete li **izmeniti neki servis**?](windows-local-privilege-escalation#permissions)
+* [ ] [Možete li **izmeniti** binarni **fajl** koji se **izvršava** od strane nekog **servisa**?](windows-local-privilege-escalation/#modify-service-binary-path)
+* [ ] [Možete li **izmeniti** registar nekog **servisa**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
+* [ ] [Možete li iskoristiti neki **servis sa neispravnim putem** do binarnog fajla?](windows-local-privilege-escalation/#unquoted-service-paths)
 
-### [**Applications**](windows-local-privilege-escalation/#applications)
+### [**Aplikacije**](windows-local-privilege-escalation/#applications)
 
-* [ ] **Write** [**permissions on installed applications**](windows-local-privilege-escalation/#write-permissions)
-* [ ] [**Startup Applications**](windows-local-privilege-escalation/#run-at-startup)
-* [ ] **Vulnerable** [**Drivers**](windows-local-privilege-escalation/#drivers)
+* [ ] **Dozvole za pisanje na instalirane aplikacije**](windows-local-privilege-escalation/#write-permissions)
+* [ ] [**Aplikacije koje se pokreću pri startovanju**](windows-local-privilege-escalation/#run-at-startup)
+* [ ] **Ranjivi** [**drajveri**](windows-local-privilege-escalation/#drivers)
 
 ### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
 
-* [ ] Can you **write in any folder inside PATH**?
-* [ ] Is there any known service binary that **tries to load any non-existant DLL**?
-* [ ] Can you **write** in any **binaries folder**?
+* [ ] Možete li **pisati u bilo koji folder unutar PATH-a**?
+* [ ] Da li postoji poznati servisni binarni fajl koji **pokušava da učita ne-postojeću DLL**?
+* [ ] Možete li **pisati** u bilo koji **binarni folder**?
+### [Mreža](windows-local-privilege-escalation/#mreža)
 
-### [Network](windows-local-privilege-escalation/#network)
+* [ ] Nabrojite mrežu (deljenje, interfejsi, rute, susedi, ...)
+* [ ] Posebno obratite pažnju na mrežne servise koji slušaju na lokalnom računaru (127.0.0.1)
 
-* [ ] Enumerate the network (shares, interfaces, routes, neighbours, ...)
-* [ ] Take a special look at network services listening on localhost (127.0.0.1)
+### [Windows akreditacije](windows-local-privilege-escalation/#windows-credentials)
 
-### [Windows Credentials](windows-local-privilege-escalation/#windows-credentials)
+* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)akreditacije
+* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) akreditacije koje biste mogli koristiti?
+* [ ] Interesantne [**DPAPI akreditacije**](windows-local-privilege-escalation/#dpapi)?
+* [ ] Lozinke sačuvanih [**Wifi mreža**](windows-local-privilege-escalation/#wifi)?
+* [ ] Interesantne informacije u [**sačuvanim RDP konekcijama**](windows-local-privilege-escalation/#saved-rdp-connections)?
+* [ ] Lozinke u [**nedavno pokrenutim komandama**](windows-local-privilege-escalation/#recently-run-commands)?
+* [ ] Lozinke iz [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager)?
+* [ ] [**AppCmd.exe** postoji](windows-local-privilege-escalation/#appcmd-exe)? Akreditacije?
+* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? Učitavanje DLL datoteka sa strane?
 
-* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)credentials
-* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) credentials that you could use?
-* [ ] Interesting [**DPAPI credentials**](windows-local-privilege-escalation/#dpapi)?
-* [ ] Passwords of saved [**Wifi networks**](windows-local-privilege-escalation/#wifi)?
-* [ ] Interesting info in [**saved RDP Connections**](windows-local-privilege-escalation/#saved-rdp-connections)?
-* [ ] Passwords in [**recently run commands**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager) passwords?
-* [ ] [**AppCmd.exe** exists](windows-local-privilege-escalation/#appcmd-exe)? Credentials?
-* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Side Loading?
+### [Datoteke i registar (akreditacije)](windows-local-privilege-escalation/#files-and-registry-credentials)
 
-### [Files and Registry (Credentials)](windows-local-privilege-escalation/#files-and-registry-credentials)
-
-* [ ] **Putty:** [**Creds**](windows-local-privilege-escalation/#putty-creds) **and** [**SSH host keys**](windows-local-privilege-escalation/#putty-ssh-host-keys)
-* [ ] [**SSH keys in registry**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
-* [ ] Passwords in [**unattended files**](windows-local-privilege-escalation/#unattended-files)?
-* [ ] Any [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) backup?
-* [ ] [**Cloud credentials**](windows-local-privilege-escalation/#cloud-credentials)?
-* [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) file?
+* [ ] **Putty:** [**Akreditacije**](windows-local-privilege-escalation/#putty-creds) **i** [**SSH host ključevi**](windows-local-privilege-escalation/#putty-ssh-host-keys)
+* [ ] [**SSH ključevi u registru**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
+* [ ] Lozinke u [**neprisutnim datotekama**](windows-local-privilege-escalation/#unattended-files)?
+* [ ] Bilo kakva **SAM & SYSTEM** rezerva?
+* [ ] [**Cloud akreditacije**](windows-local-privilege-escalation/#cloud-credentials)?
+* [ ] Datoteka [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml)?
 * [ ] [**Cached GPP Password**](windows-local-privilege-escalation/#cached-gpp-pasword)?
-* [ ] Password in [**IIS Web config file**](windows-local-privilege-escalation/#iis-web-config)?
-* [ ] Interesting info in [**web** **logs**](windows-local-privilege-escalation/#logs)?
-* [ ] Do you want to [**ask for credentials**](windows-local-privilege-escalation/#ask-for-credentials) to the user?
-* [ ] Interesting [**files inside the Recycle Bin**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
-* [ ] Other [**registry containing credentials**](windows-local-privilege-escalation/#inside-the-registry)?
-* [ ] Inside [**Browser data**](windows-local-privilege-escalation/#browsers-history) (dbs, history, bookmarks, ...)?
-* [ ] [**Generic password search**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in files and registry
-* [ ] [**Tools**](windows-local-privilege-escalation/#tools-that-search-for-passwords) to automatically search for passwords
+* [ ] Lozinka u [**IIS Web konfiguracionoj datoteci**](windows-local-privilege-escalation/#iis-web-config)?
+* [ ] Interesantne informacije u [**web** **logovima**](windows-local-privilege-escalation/#logs)?
+* [ ] Da li želite da [**zatražite akreditacije**](windows-local-privilege-escalation/#ask-for-credentials) od korisnika?
+* [ ] Interesantne [**datoteke u Recycle Binu**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
+* [ ] Ostali [**registri koji sadrže akreditacije**](windows-local-privilege-escalation/#inside-the-registry)?
+* [ ] Unutar [**Browser podataka**](windows-local-privilege-escalation/#browsers-history) (baze podataka, istorija, obeleživači, ...)?
+* [ ] [**Pretraga generičkih lozinki**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) u datotekama i registru
+* [ ] [**Alati**](windows-local-privilege-escalation/#tools-that-search-for-passwords) za automatsko pretraživanje lozinki
 
-### [Leaked Handlers](windows-local-privilege-escalation/#leaked-handlers)
+### [Procureni handleri](windows-local-privilege-escalation/#leaked-handlers)
 
-* [ ] Have you access to any handler of a process run by administrator?
+* [ ] Imate li pristup bilo kom handleru procesa pokrenutog od strane administratora?
 
-### [Pipe Client Impersonation](windows-local-privilege-escalation/#named-pipe-client-impersonation)
+### [Impersonacija klijenta imenovane cijevi](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
-* [ ] Check if you can abuse it
+* [ ] Proverite da li možete zloupotrebiti to
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Pogledajte [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

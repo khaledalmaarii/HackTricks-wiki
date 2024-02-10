@@ -1,111 +1,101 @@
-# Threat Modeling
+# Model pretnje
 
-## Threat Modeling
+## Model pretnje
 
-Welcome to HackTricks' comprehensive guide on Threat Modeling! Embark on an exploration of this critical aspect of cybersecurity, where we identify, understand, and strategize against potential vulnerabilities in a system. This thread serves as a step-by-step guide packed with real-world examples, helpful software, and easy-to-understand explanations. Ideal for both novices and experienced practitioners looking to fortify their cybersecurity defenses.
+Dobrodošli u sveobuhvatni vodič HackTricks-a o modeliranju pretnji! Krenite u istraživanje ovog ključnog aspekta kibernetičke sigurnosti, gde identifikujemo, razumemo i strategiziramo protiv potencijalnih ranjivosti u sistemu. Ova nit služi kao vodič korak po korak, pun stvarnih primera, korisnog softvera i lako razumljivih objašnjenja. Idealno za početnike i iskusne stručnjake koji žele ojačati svoju kibernetičku odbranu.
 
-### Commonly Used Scenarios
+### Često korišćeni scenariji
 
-1. **Software Development**: As part of the Secure Software Development Life Cycle (SSDLC), threat modeling helps in **identifying potential sources of vulnerabilities** in the early stages of development.
-2. **Penetration Testing**: The Penetration Testing Execution Standard (PTES) framework requires **threat modeling to understand the system's vulnerabilities** before carrying out the test.
+1. **Razvoj softvera**: Kao deo Secure Software Development Life Cycle (SSDLC), modeliranje pretnji pomaže u **identifikaciji potencijalnih izvora ranjivosti** u ranim fazama razvoja.
+2. **Pentestiranje**: Okvir Penetration Testing Execution Standard (PTES) zahteva **modeliranje pretnji kako bi se razumela ranjivost sistema** pre sprovođenja testa.
 
-### Threat Model in a Nutshell
+### Model pretnji ukratko
 
-A Threat Model is typically represented as a diagram, image, or some other form of visual illustration that depicts the planned architecture or existing build of an application. It bears resemblance to a **data flow diagram**, but the key distinction lies in its security-oriented design.
+Model pretnji se obično predstavlja kao dijagram, slika ili neka druga vrsta vizualne ilustracije koja prikazuje planiranu arhitekturu ili postojeću izgradnju aplikacije. Sličan je **dijagramu protoka podataka**, ali ključna razlika leži u njegovom dizajnu usmerenom na sigurnost.
 
-Threat models often feature elements marked in red, symbolizing potential vulnerabilities, risks, or barriers. To streamline the process of risk identification, the CIA (Confidentiality, Integrity, Availability) triad is employed, forming the basis of many threat modeling methodologies, with STRIDE being one of the most common. However, the chosen methodology can vary depending on the specific context and requirements.
+Modeli pretnji često sadrže elemente označene crvenom bojom, simbolizujući potencijalne ranjivosti, rizike ili prepreke. Da bi se olakšao proces identifikacije rizika, koristi se CIA (Poverljivost, Integritet, Dostupnost) trijad, koja je osnova mnogih metodologija modeliranja pretnji, pri čemu je STRIDE jedna od najčešćih. Međutim, izbor metodologije može varirati u zavisnosti od specifičnog konteksta i zahteva.
 
-### The CIA Triad
+### CIA trijad
 
-The CIA Triad is a widely recognized model in the field of information security, standing for Confidentiality, Integrity, and Availability. These three pillars form the foundation upon which many security measures and policies are built, including threat modeling methodologies.
+CIA trijad je široko priznat model u oblasti informacione sigurnosti, koji označava Poverljivost, Integritet i Dostupnost. Ova tri stuba čine osnovu mnogih sigurnosnih mera i politika, uključujući metodologije modeliranja pretnji.
 
-1. **Confidentiality**: Ensuring that the data or system is not accessed by unauthorized individuals. This is a central aspect of security, requiring appropriate access controls, encryption, and other measures to prevent data breaches.
-2. **Integrity**: The accuracy, consistency, and trustworthiness of the data over its lifecycle. This principle ensures that the data is not altered or tampered with by unauthorized parties. It often involves checksums, hashing, and other data verification methods.
-3. **Availability**: This ensures that data and services are accessible to authorized users when needed. This often involves redundancy, fault tolerance, and high-availability configurations to keep systems running even in the face of disruptions.
+1. **Poverljivost**: Osiguravanje da podaci ili sistem ne budu dostupni neovlašćenim osobama. Ovo je centralni aspekt sigurnosti, koji zahteva odgovarajuće kontrole pristupa, enkripciju i druge mere kako bi se sprečilo curenje podataka.
+2. **Integritet**: Tačnost, doslednost i pouzdanost podataka tokom njihovog životnog ciklusa. Ovaj princip osigurava da podaci ne budu izmenjeni ili manipulisani od strane neovlašćenih strana. Često uključuje kontrolne zbirke, heširanje i druge metode provere podataka.
+3. **Dostupnost**: Ovo osigurava da podaci i usluge budu dostupni ovlašćenim korisnicima kada su im potrebni. Često uključuje redundancu, toleranciju na greške i konfiguracije visoke dostupnosti kako bi se sistemi održavali čak i u slučaju prekida.
 
-### Threat Modeling Methodlogies
+### Metodologije modeliranja pretnji
 
-1. **STRIDE**: Developed by Microsoft, STRIDE is an acronym for **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, and Elevation of Privilege**. Each category represents a type of threat, and this methodology is commonly used in the design phase of a program or system to identify potential threats.
-2. **DREAD**: This is another methodology from Microsoft used for risk assessment of identified threats. DREAD stands for **Damage potential, Reproducibility, Exploitability, Affected users, and Discoverability**. Each of these factors is scored, and the result is used to prioritize identified threats.
-3. **PASTA** (Process for Attack Simulation and Threat Analysis): This is a seven-step, **risk-centric** methodology. It includes defining and identifying security objectives, creating a technical scope, application decomposition, threat analysis, vulnerability analysis, and risk/triage assessment.
-4. **Trike**: This is a risk-based methodology that focuses on defending assets. It starts from a **risk management** perspective and looks at threats and vulnerabilities in that context.
-5. **VAST** (Visual, Agile, and Simple Threat modeling): This approach aims to be more accessible and integrates into Agile development environments. It combines elements from the other methodologies and focuses on **visual representations of threats**.
-6. **OCTAVE** (Operationally Critical Threat, Asset, and Vulnerability Evaluation): Developed by the CERT Coordination Center, this framework is geared toward **organizational risk assessment rather than specific systems or software**.
+1. **STRIDE**: Razvijen od strane Microsoft-a, STRIDE je akronim za **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service i Elevation of Privilege**. Svaka kategorija predstavlja vrstu pretnje, a ova metodologija se često koristi u fazi dizajna programa ili sistema radi identifikacije potencijalnih pretnji.
+2. **DREAD**: Ovo je još jedna metodologija od Microsoft-a koja se koristi za procenu rizika identifikovanih pretnji. DREAD označava **Potencijal štete, Reproduktivnost, Iskorišćivost, Pogođeni korisnici i Otkrivanje**. Svaki od ovih faktora se ocenjuje, a rezultat se koristi za prioritetizaciju identifikovanih pretnji.
+3. **PASTA** (Process for Attack Simulation and Threat Analysis): Ovo je sedmostepena, **rizik-orientisana** metodologija. Uključuje definisanje i identifikaciju sigurnosnih ciljeva, kreiranje tehničkog opsega, dekompoziciju aplikacije, analizu pretnji, analizu ranjivosti i procenu rizika/triage.
+4. **Trike**: Ovo je metodologija zasnovana na riziku koja se fokusira na odbranu imovine. Polazi od **perspektive upravljanja rizikom** i posmatra pretnje i ranjivosti u tom kontekstu.
+5. **VAST** (Visual, Agile i Simple Threat modeling): Ovaj pristup ima za cilj da bude pristupačniji i integriše se u okruženja agilnog razvoja. Kombinuje elemente drugih metodologija i fokusira se na **vizualno prikazivanje pretnji**.
+6. **OCTAVE** (Operationally Critical Threat, Asset i Vulnerability Evaluation): Razvijen od strane CERT Coordination Center-a, ovaj okvir je usmeren na **procenu rizika organizacije, a ne specifičnih sistema ili softvera**.
 
-## Tools
+## Alati
 
-There are several tools and software solutions available that can **assist** with the creation and management of threat models. Here are a few you might consider.
+Postoji nekoliko alata i softverskih rešenja dostupnih koji mogu **pomoći** u kreiranju i upravljanju modelima pretnji. Evo nekoliko koje biste mogli razmotriti.
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-An advance cross-platform and multi-feature GUI web spider/crawler for cyber security professionals. Spider Suite can be used for attack surface mapping and analysis.
+Napredni prenosivi i višefunkcionalni GUI web spider/crawler za profesionalce u oblasti kibernetičke sigurnosti. Spider Suite se može koristiti za mapiranje i analizu površine napada.
 
-**Usage**
+**Upotreba**
 
-1. Pick a URL and Crawl
+1. Izaberite URL i izvršite pretragu
 
 <figure><img src="../.gitbook/assets/threatmodel_spidersuite_1.png" alt=""><figcaption></figcaption></figure>
 
-2. View Graph
+2. Prikaz grafa
 
 <figure><img src="../.gitbook/assets/threatmodel_spidersuite_2.png" alt=""><figcaption></figcaption></figure>
 
 ### [OWASP Threat Dragon](https://github.com/OWASP/threat-dragon/releases)
 
-An open-source project from OWASP, Threat Dragon is both a web and desktop application that includes system diagramming as well as a rule engine to auto-generate threats/mitigations.
+Projekat otvorenog koda OWASP-a, Threat Dragon je web i desktop aplikacija koja uključuje dijagram sistema, kao i pravila za automatsko generisanje pretnji/mitigacija.
 
-**Usage**
+**Upotreba**
 
-1. Create New Project
+1. Kreirajte novi projekat
 
 <figure><img src="../.gitbook/assets/create_new_project_1.jpg" alt=""><figcaption></figcaption></figure>
 
-Sometimes it could look like this:
+Ponekad može izgledati ovako:
 
 <figure><img src="../.gitbook/assets/1_threatmodel_create_project.jpg" alt=""><figcaption></figcaption></figure>
 
-2. Launch New Project
+2. Pokrenite novi projekat
 
 <figure><img src="../.gitbook/assets/launch_new_project_2.jpg" alt=""><figcaption></figcaption></figure>
 
-3. Save The New Project
+3. Sačuvajte novi projekat
 
 <figure><img src="../.gitbook/assets/save_new_project.jpg" alt=""><figcaption></figcaption></figure>
 
-4. Create your model
+4. Kreirajte svoj model
 
-You can use tools like SpiderSuite Crawler to give you inspiration, a basic model would look something like this
+Možete koristiti alate poput SpiderSuite Crawler-a da vam pruže inspiraciju, osnovni model bi izgledao nešto poput ovoga
 
 <figure><img src="../.gitbook/assets/0_basic_threat_model.jpg" alt=""><figcaption></figcaption></figure>
 
-Just a little bit of explanation about the entities:
+Samo malo objašnjenja o entitetima:
 
-* Process (The entity itself such as Webserver or web functionality)
-* Actor (A Person such as a Website Visitor, User or Administrator)
-* Data Flow Line (Indicator of Interaction)
-* Trust Boundary (Different network segments or scopes.)
-* Store (Things where data are stored at such as Databases)
+* Proces (Sam entitet kao što je Web server ili web funkcionalnost)
+* Akter (Osoba kao što je posetilac veb sajta, korisnik ili administrator)
+* Linija protoka podataka (Indikator interakcije)
+* Granica poverenja (Različiti mrežni segmenti ili opsezi.)
+* Skladište (Mesta gde se podaci čuvaju, kao što su baze podataka)
 
-5. Create a Threat (Step 1)
+5. Kreirajte pretnju (Korak 1)
 
-First you have to pick the layer you wish to add a threat to
+Prvo morate odabrati sloj na koji želite dodati pretnju
 
 <figure><img src="../.gitbook/assets/3_threatmodel_chose-threat-layer.jpg" alt=""><figcaption></figcaption></figure>
 
-Now you can create the threat
+Sada možete kreirati pretnju
 
 <figure><img src="../.gitbook/assets/4_threatmodel_create-threat.jpg" alt=""><figcaption></figcaption></figure>
 
-Keep in mind that there is a difference between Actor Threats and Process Threats. If you would add a threat to an Actor then you will only be able to choose "Spoofing" and "Repudiation. However in our example we add threat to a Process entity so we will see this in the threat creation box:
+Imajte na umu da postoji razlika između pretnji aktera i pretnji procesa. Ako biste dodali pretnju akteru, moći ćete izabrati samo "Spoofing" i "Repudiation". Međutim, u našem primeru dodajemo pretnju procesnom entitetu, pa ćemo videti ovo u okviru za kreiranje pretnje:
 
-<figure><img src="../.gitbook/assets/2_threatmodel_type-option.jpg" alt=""><figcaption></figcaption></figure>
-
-6. Done
-
-Now your finished model should look something like this. And this is how you make a simple threat model with OWASP Threat Dragon.
-
-<figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
-
-### [Microsoft Threat Modeling Tool](https://aka.ms/threatmodelingtool)
-
-This is a free tool from Microsoft that helps in finding threats in the design phase of software projects. It uses the STRIDE methodology and is particularly suitable for those developing on Microsoft's stack.
+<figure><img src="../.gitbook/assets/2_threatmodel_type-option.jpg"

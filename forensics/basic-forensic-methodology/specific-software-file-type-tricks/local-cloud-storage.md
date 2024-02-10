@@ -1,138 +1,136 @@
-# Local Cloud Storage
+# Lokalno skladištenje u oblaku
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** uz pomoć najnaprednijih alata zajednice na svetu.\
+Danas dobijte pristup:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## OneDrive
 
-In Windows, you can find the OneDrive folder in `\Users\<username>\AppData\Local\Microsoft\OneDrive`. And inside `logs\Personal` it's possible to find the file `SyncDiagnostics.log` which contains some interesting data regarding the synchronized files:
+Na Windows-u, OneDrive folder se može pronaći u `\Users\<korisničko_ime>\AppData\Local\Microsoft\OneDrive`. A unutar `logs\Personal` foldera moguće je pronaći datoteku `SyncDiagnostics.log` koja sadrži neke zanimljive podatke u vezi sa sinhronizovanim datotekama:
 
-* Size in bytes
-* Creation date
-* Modification date
-* Number of files in the cloud
-* Number of files in the folder
-* **CID**: Unique ID of the OneDrive user
-* Report generation time
-* Size of the HD of the OS
+* Veličina u bajtovima
+* Datum kreiranja
+* Datum modifikacije
+* Broj datoteka u oblaku
+* Broj datoteka u folderu
+* **CID**: Jedinstveni ID OneDrive korisnika
+* Vreme generisanja izveštaja
+* Veličina HD-a operativnog sistema
 
-Once you have found the CID it's recommended to **search files containing this ID**. You may be able to find files with the name: _**\<CID>.ini**_ and _**\<CID>.dat**_ that may contain interesting information like the names of files synchronized with OneDrive.
+Kada pronađete CID, preporučuje se **pretraga datoteka koje sadrže ovaj ID**. Moguće je pronaći datoteke sa imenom: _**\<CID>.ini**_ i _**\<CID>.dat**_ koje mogu sadržati zanimljive informacije poput imena datoteka sinhronizovanih sa OneDrive-om.
 
 ## Google Drive
 
-In Windows, you can find the main Google Drive folder in `\Users\<username>\AppData\Local\Google\Drive\user_default`\
-This folder contains a file called Sync\_log.log with information like the email address of the account, filenames, timestamps, MD5 hashes of the files, etc. Even deleted files appear in that log file with its corresponding MD5.
+Na Windows-u, glavni Google Drive folder se može pronaći u `\Users\<korisničko_ime>\AppData\Local\Google\Drive\user_default`\
+Ovaj folder sadrži datoteku nazvanu Sync\_log.log sa informacijama poput adrese e-pošte naloga, imena datoteka, vremenskih oznaka, MD5 heševa datoteka, itd. Čak i obrisane datoteke se pojavljuju u toj log datoteci sa odgovarajućim MD5 vrednostima.
 
-The file **`Cloud_graph\Cloud_graph.db`** is a sqlite database which contains the table **`cloud_graph_entry`**. In this table you can find the **name** of the **synchronized** **files**, modified time, size, and the MD5 checksum of the files.
+Datoteka **`Cloud_graph\Cloud_graph.db`** je sqlite baza podataka koja sadrži tabelu **`cloud_graph_entry`**. U ovoj tabeli možete pronaći **ime** **sinhronizovanih** **datoteka**, vreme izmene, veličinu i MD5 kontrolnu sumu datoteka.
 
-The table data of the database **`Sync_config.db`** contains the email address of the account, the path of the shared folders and the Google Drive version.
+Podaci tabele baze podataka **`Sync_config.db`** sadrže adresu e-pošte naloga, putanje deljenih foldera i verziju Google Drive-a.
 
 ## Dropbox
 
-Dropbox uses **SQLite databases** to manage the files. In this\
-You can find the databases in the folders:
+Dropbox koristi **SQLite baze podataka** za upravljanje datotekama. U ovim\
+Baze podataka se mogu pronaći u folderima:
 
-* `\Users\<username>\AppData\Local\Dropbox`
-* `\Users\<username>\AppData\Local\Dropbox\Instance1`
-* `\Users\<username>\AppData\Roaming\Dropbox`
+* `\Users\<korisničko_ime>\AppData\Local\Dropbox`
+* `\Users\<korisničko_ime>\AppData\Local\Dropbox\Instance1`
+* `\Users\<korisničko_ime>\AppData\Roaming\Dropbox`
 
-And the main databases are:
+A glavne baze podataka su:
 
 * Sigstore.dbx
 * Filecache.dbx
 * Deleted.dbx
 * Config.dbx
 
-The ".dbx" extension means that the **databases** are **encrypted**. Dropbox uses **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
+Ekstenzija ".dbx" znači da su **baze podataka** **šifrovane**. Dropbox koristi **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
 
-To understand better the encryption that Dropbox uses you can read [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
+Da biste bolje razumeli šifrovanje koje Dropbox koristi, možete pročitati [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
 
-However, the main information is:
+Međutim, glavne informacije su:
 
-* **Entropy**: d114a55212655f74bd772e37e64aee9b
-* **Salt**: 0D638C092E8B82FC452883F95F355B8E
-* **Algorithm**: PBKDF2
-* **Iterations**: 1066
+* **Entropija**: d114a55212655f74bd772e37e64aee9b
+* **So**: 0D638C092E8B82FC452883F95F355B8E
+* **Algoritam**: PBKDF2
+* **Iteracije**: 1066
 
-Apart from that information, to decrypt the databases you still need:
+Osim tih informacija, za dešifrovanje baza podataka vam je još uvek potrebno:
 
-* The **encrypted DPAPI key**: You can find it in the registry inside `NTUSER.DAT\Software\Dropbox\ks\client` (export this data as binary)
-* The **`SYSTEM`** and **`SECURITY`** hives
-* The **DPAPI master keys**: Which can be found in `\Users\<username>\AppData\Roaming\Microsoft\Protect`
-* The **username** and **password** of the Windows user
+* **Šifrovani DPAPI ključ**: Možete ga pronaći u registru unutar `NTUSER.DAT\Software\Dropbox\ks\client` (izvezite ove podatke kao binarne)
+* **`SYSTEM`** i **`SECURITY`** registarske ključeve
+* **DPAPI master ključeve**: Koje možete pronaći u `\Users\<korisničko_ime>\AppData\Roaming\Microsoft\Protect`
+* **Korisničko ime** i **lozinku** Windows korisnika
 
-Then you can use the tool [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
+Zatim možete koristiti alatku [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
 
 ![](<../../../.gitbook/assets/image (448).png>)
 
-If everything goes as expected, the tool will indicate the **primary key** that you need to **use to recover the original one**. To recover the original one, just use this [cyber\_chef receipt](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) putting the primary key as the "passphrase" inside the receipt.
+Ako sve ide kako se očekuje, alatka će pokazati **primarni ključ** koji vam je potreban da biste **obnovili originalni ključ**. Da biste obnovili originalni ključ, jednostavno koristite ovaj [cyber\_chef recept](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) stavljajući primarni ključ kao "passphrase" unutar recepta.
 
-The resulting hex is the final key used to encrypt the databases which can be decrypted with:
-
+Dobijeni heksadecimalni kod je konačni ključ koji se koristi za šifrovanje baza podataka koje se mogu dešifrovati sa:
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
+Baza podataka **`config.dbx`** sadrži:
 
-The **`config.dbx`** database contains:
+* **Email**: Email korisnika
+* **usernamedisplayname**: Ime korisnika
+* **dropbox\_path**: Putanja gde se nalazi Dropbox folder
+* **Host\_id: Hash**: Koristi se za autentifikaciju na oblaku. Može se povući samo sa veba.
+* **Root\_ns**: Identifikator korisnika
 
-* **Email**: The email of the user
-* **usernamedisplayname**: The name of the user
-* **dropbox\_path**: Path where the dropbox folder is located
-* **Host\_id: Hash** used to authenticate to the cloud. This can only be revoked from the web.
-* **Root\_ns**: User identifier
+Baza podataka **`filecache.db`** sadrži informacije o svim datotekama i fasciklama sinhronizovanim sa Dropbox-om. Tabela `File_journal` sadrži najkorisnije informacije:
 
-The **`filecache.db`** database contains information about all the files and folders synchronized with Dropbox. The table `File_journal` is the one with more useful information:
+* **Server\_path**: Putanja gde se datoteka nalazi na serveru (ova putanja je prethodena `host_id`-om klijenta).
+* **local\_sjid**: Verzija datoteke
+* **local\_mtime**: Datum izmene
+* **local\_ctime**: Datum kreiranja
 
-* **Server\_path**: Path where the file is located inside the server (this path is preceded by the `host_id` of the client).
-* **local\_sjid**: Version of the file
-* **local\_mtime**: Modification date
-* **local\_ctime**: Creation date
+Druge tabele u ovoj bazi podataka sadrže još interesantnih informacija:
 
-Other tables inside this database contain more interesting information:
-
-* **block\_cache**: hash of all the files and folders of Dropbox
-* **block\_ref**: Related the hash ID of the table `block_cache` with the file ID in the table `file_journal`
-* **mount\_table**: Share folders of dropbox
-* **deleted\_fields**: Dropbox deleted files
+* **block\_cache**: heš svih datoteka i fascikli Dropbox-a
+* **block\_ref**: Povezuje heš ID tabele `block_cache` sa ID-em datoteke u tabeli `file_journal`
+* **mount\_table**: Deljeni folderi Dropbox-a
+* **deleted\_fields**: Obrisane datoteke sa Dropbox-a
 * **date\_added**
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** uz pomoć najnaprednijih alata zajednice.\
+Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **oglašavanje vaše kompanije u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

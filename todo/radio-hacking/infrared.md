@@ -1,106 +1,96 @@
-# Infrared
+# Infracrveno
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## How the Infrared Works <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
+## Kako radi infracrveno <a href="#kako-radi-infracrveno-port" id="kako-radi-infracrveno-port"></a>
 
-**Infrared light is invisible to humans**. IR wavelength is from **0.7 to 1000 microns**. Household remotes use an IR signal for data transmission and operate in the wavelength range of 0.75..1.4 microns. A microcontroller in the remote makes an infrared LED blink with a specific frequency, turning the digital signal into an IR signal.
+**Infracrveno svetlo je nevidljivo ljudima**. Talasna dužina infracrvenog svetla je od **0,7 do 1000 mikrona**. Kućni daljinski upravljači koriste infracrveni signal za prenos podataka i rade u opsegu talasnih dužina od 0,75 do 1,4 mikrona. Mikrokontroler u daljinskom upravljaču čini da infracrveni LED treperi sa određenom frekvencijom, pretvarajući digitalni signal u infracrveni signal.
 
-To receive IR signals a **photoreceiver** is used. It **converts IR light into voltage pulses**, which are already **digital signals**. Usually, there is a **dark light filter inside the receiver**, which lets **only the desired wavelength through** and cuts out noise.
+Za prijem infracrvenih signala koristi se **fotoprijemnik**. On **pretvara infracrveno svetlo u naponske impulse**, koji su već **digitalni signali**. Obično, unutar prijemnika se nalazi **filter tamnog svetla**, koji propušta **samo željenu talasnu dužinu** i odbacuje šum.
 
-### Variety of IR Protocols <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
+### Različiti infracrveni protokoli <a href="#različiti-infracrveni-protokoli" id="različiti-infracrveni-protokoli"></a>
 
-IR protocols differ in 3 factors:
+Infracrveni protokoli se razlikuju u 3 faktora:
 
-* bit encoding
-* data structure
-* carrier frequency — often in range 36..38 kHz
+* kodiranje bitova
+* struktura podataka
+* nosačka frekvencija - često u opsegu od 36 do 38 kHz
 
-#### Bit encoding ways <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
+#### Načini kodiranja bitova <a href="#načini-kodiranja-bitova" id="načini-kodiranja-bitova"></a>
 
-**1. Pulse Distance Encoding**
+**1. Kodiranje udaljenosti impulsa**
 
-Bits are encoded by modulating the duration of the space between pulses. The width of the pulse itself is constant.
+Bitovi se kodiraju modulacijom trajanja prostora između impulsa. Širina samog impulsa je konstantna.
 
 <figure><img src="../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
 
-**2. Pulse Width Encoding**
+**2. Kodiranje širine impulsa**
 
-Bits are encoded by modulation of the pulse width. The width of space after pulse burst is constant.
+Bitovi se kodiraju modulacijom širine impulsa. Širina prostora nakon impulsa je konstantna.
 
 <figure><img src="../../.gitbook/assets/image (29) (1).png" alt=""><figcaption></figcaption></figure>
 
-**3. Phase Encoding**
+**3. Kodiranje faze**
 
-It is also known as Manchester encoding. The logical value is defined by the polarity of the transition between pulse burst and space. "Space to pulse burst" denotes logic "0", "pulse burst to space" denotes logic "1".
+Takođe je poznato kao Manchester kodiranje. Logička vrednost je definisana polaritetom tranzicije između impulsa i prostora. "Prostor do impulsa" označava logičku "0", "impuls do prostora" označava logičku "1".
 
 <figure><img src="../../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
 
-**4. Combination of previous ones and other exotics**
+**4. Kombinacija prethodnih i drugih egzotičnih**
 
 {% hint style="info" %}
-There are IR protocols that are **trying to become universal** for several types of devices. The most famous ones are RC5 and NEC. Unfortunately, the most famous **does not mean the most common**. In my environment, I met just two NEC remotes and no RC5 ones.
+Postoje infracrveni protokoli koji **pokušavaju postati univerzalni** za nekoliko vrsta uređaja. Najpoznatiji su RC5 i NEC. Nažalost, najpoznatiji **ne znači najčešći**. U mom okruženju sam se susreo samo sa dva NEC daljinska upravljača i nijednim RC5.
 
-Manufacturers love to use their own unique IR protocols, even within the same range of devices (for example, TV-boxes). Therefore, remotes from different companies and sometimes from different models from the same company, are unable to work with other devices of the same type.
+Proizvođači vole koristiti svoje jedinstvene infracrvene protokole, čak i unutar istog opsega uređaja (na primer, TV-bokseva). Zbog toga, daljinski upravljači različitih kompanija i ponekad različitih modela iste kompanije, nisu u mogućnosti da rade sa drugim uređajima iste vrste.
 {% endhint %}
 
-### Exploring an IR signal
+### Istraživanje infracrvenog signala
 
-The most reliable way to see how the remote IR signal looks like is to use an oscilloscope. It does not demodulate or invert the received signal, it is just displayed "as is". This is useful for testing and debugging. I will show the expected signal on the example of the NEC IR protocol.
+Najpouzdaniji način da vidite kako izgleda infracrveni signal daljinskog upravljača je korišćenje osciloskopa. On ne demoduliše ili invertuje primljeni signal, već ga prikazuje "kakav jeste". Ovo je korisno za testiranje i otklanjanje grešaka. Pokazaću očekivani signal na primeru NEC infracrvenog protokola.
 
 <figure><img src="../../.gitbook/assets/image (18) (2).png" alt=""><figcaption></figcaption></figure>
 
-Usually, there is a preamble at the beginning of an encoded packet. This allows the receiver to determine the level of gain and background. There are also protocols without preamble, for example, Sharp.
+Obično, na početku kodiranog paketa postoji preambula. To omogućava prijemniku da odredi nivo pojačanja i pozadine. Takođe postoje protokoli bez preambule, na primer, Sharp.
 
-Then data is transmitted. The structure, preamble, and bit encoding method are determined by the specific protocol.
+Zatim se prenose podaci. Struktura, preambula i način kodiranja bitova određeni su specifičnim protokolom.
 
-**NEC IR protocol** contains a short command and a repeat code, which is sent while the button is pressed. Both the command and the repeat code have the same preamble at the beginning.
+**NEC infracrveni protokol** sadrži kratku komandu i ponavljajući kod, koji se šalje dok je dugme pritisnuto. I komanda i ponavljajući kod imaju istu preambulu na početku.
 
-NEC **command**, in addition to the preamble, consists of an address byte and a command-number byte, by which the device understands what needs to be performed. Address and command-number bytes are duplicated with inverse values, to check the integrity of the transmission. There is an additional stop bit at the end of the command.
+NEC **komanda**, pored preambule, sastoji se od bajta adrese i bajta broja komande, preko kojih uređaj razume šta treba da se izvrši. Bajtovi adrese i broja komande su duplicirani sa inverznim vrednostima, kako bi se proverila celovitost prenosa. Na kraju komande postoji dodatni stop bit.
 
-The **repeat code** has a "1" after the preamble, which is a stop bit.
+**Ponavljajući kod** ima "1" nakon preambule, što je stop bit.
 
-For **logic "0" and "1"** NEC uses Pulse Distance Encoding: first, a pulse burst is transmitted after which there is a pause, its length sets the value of the bit.
+Za logičke vrednosti "0" i "1" NEC koristi kodiranje udaljenosti impulsa: prvo se prenosi impulz, nakon čega sledi pauza, čija dužina određuje vrednost bita.
 
-### Air Conditioners
+### Klima uređaji
 
-Unlike other remotes, **air conditioners do not transmit just the code of the pressed button**. They also **transmit all the information** when a button is pressed to assure that the **air conditioned machine and the remote are synchronised**.\
-This will avoid that a machine set as 20ºC is increased to 21ºC with one remote, and then when another remote, which still has the temperature as 20ºC, is used to increase more the temperature, it will "increase" it to 21ºC (and not to 22ºC thinking it's in 21ºC).
+Za razliku od drugih daljinskih upravljača, **klima uređaji ne prenose samo kod pritisnutog dugmeta**. Oni takođe **prenose sve informacije** kada se dugme pritisne kako bi se osiguralo da su **klima uređaj i daljinski upravljač sinhronizovani**.\
+Ovo će sprečiti da se mašina podešena na 20ºC poveća na 21ºC sa jednim daljinskim upravljačem, a zatim kada se drugi daljinski upravljač, koji još uvek ima temperaturu od 20ºC, koristi za dalje povećanje temperature, "poveća" na 21ºC (a ne na 22ºC misleći da je na 21ºC).
 
-### Attacks
+### Napadi
 
-You can attack Infrared with Flipper Zero:
+Možete napasti infracrveno pomoću Flipper Zero uređaja:
 
 {% content-ref url="flipper-zero/fz-infrared.md" %}
 [fz-infrared.md](flipper-zero/fz-infrared.md)
 {% endcontent-ref %}
 
-## References
+## Reference
 
 * [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href

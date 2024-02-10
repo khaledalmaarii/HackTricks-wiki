@@ -1,526 +1,492 @@
-# Windows Artifacts
+# Windows Artifakti
 
-## Windows Artifacts
+## Windows Artifakti
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Generic Windows Artifacts
+## Generički Windows Artifakti
 
-### Windows 10 Notifications
+### Windows 10 Obaveštenja
 
-In the path `\Users\<username>\AppData\Local\Microsoft\Windows\Notifications` you can find the database `appdb.dat` (before Windows anniversary) or `wpndatabase.db` (after Windows Anniversary).
+Na putanji `\Users\<korisničko_ime>\AppData\Local\Microsoft\Windows\Notifications` možete pronaći bazu podataka `appdb.dat` (pre Windows Anniversary) ili `wpndatabase.db` (posle Windows Anniversary).
 
-Inside this SQLite database, you can find the `Notification` table with all the notifications (in XML format) that may contain interesting data.
+Unutar ove SQLite baze podataka, možete pronaći tabelu `Notification` sa svim obaveštenjima (u XML formatu) koja mogu sadržati interesantne podatke.
 
-### Timeline
+### Vremenska linija
 
-Timeline is a Windows characteristic that provides **chronological history** of web pages visited, edited documents, and executed applications.
+Vremenska linija je karakteristika Windows-a koja pruža **hronološku istoriju** posećenih web stranica, izmenjenih dokumenata i izvršenih aplikacija.
 
-The database resides in the path `\Users\<username>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. This database can be opened with an SQLite tool or with the tool [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **which generates 2 files that can be opened with the tool** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md).
+Baza podataka se nalazi na putanji `\Users\<korisničko_ime>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. Ovu bazu podataka možete otvoriti sa alatom SQLite ili sa alatom [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **koji generiše 2 fajla koji se mogu otvoriti sa alatom** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md).
 
 ### ADS (Alternate Data Streams)
 
-Files downloaded may contain the **ADS Zone.Identifier** indicating **how** it was **downloaded** from the intranet, internet, etc. Some software (like browsers) usually put even **more** **information** like the **URL** from where the file was downloaded.
+Preuzeti fajlovi mogu sadržati **ADS Zone.Identifier** koji ukazuje **kako** je fajl **preuzet** sa intraneta, interneta, itd. Neki softveri (kao što su pretraživači) obično dodaju **još** **informacija** kao što je **URL** sa kog je fajl preuzet.
 
-## **File Backups**
+## **Rezervne kopije fajlova**
 
-### Recycle Bin
+### Korpa za smeće
 
-In Vista/Win7/Win8/Win10 the **Recycle Bin** can be found in the folder **`$Recycle.bin`** in the root of the drive (`C:\$Recycle.bin`).\
-When a file is deleted in this folder 2 specific files are created:
+U Vista/Win7/Win8/Win10 operativnim sistemima, **Korpa za smeće** se može pronaći u folderu **`$Recycle.bin`** u korenu diska (`C:\$Recycle.bin`).\
+Kada se fajl obriše u ovom folderu, kreiraju se 2 specifična fajla:
 
-* `$I{id}`: File information (date of when it was deleted}
-* `$R{id}`: Content of the file
+* `$I{id}`: Informacije o fajlu (datum kada je obrisan}
+* `$R{id}`: Sadržaj fajla
 
 ![](<../../../.gitbook/assets/image (486).png>)
 
-Having these files you can use the tool [**Rifiuti**](https://github.com/abelcheung/rifiuti2) to get the original address of the deleted files and the date it was deleted (use `rifiuti-vista.exe` for Vista – Win10).
-
+Koristeći ove fajlove, možete koristiti alat [**Rifiuti**](https://github.com/abelcheung/rifiuti2) da biste dobili originalnu adresu obrisanih fajlova i datum kada su obrisani (koristite `rifiuti-vista.exe` za Vista – Win10).
 ```
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
-
 ![](<../../../.gitbook/assets/image (495) (1) (1) (1).png>)
 
-### Volume Shadow Copies
+### Kopije senki volumena
 
-Shadow Copy is a technology included in Microsoft Windows that can create **backup copies** or snapshots of computer files or volumes, even when they are in use.
+Shadow Copy je tehnologija koja je uključena u Microsoft Windows i može kreirati **rezervne kopije** ili snimke fajlova ili volumena računara, čak i kada su u upotrebi.
 
-These backups are usually located in the `\System Volume Information` from the root of the file system and the name is composed of **UIDs** shown in the following image:
+Ove rezervne kopije se obično nalaze u `\System Volume Information` od korena fajl sistema, a ime je sastavljeno od **UID-ova** prikazanih na sledećoj slici:
 
 ![](<../../../.gitbook/assets/image (520).png>)
 
-Mounting the forensics image with the **ArsenalImageMounter**, the tool [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) can be used to inspect a shadow copy and even **extract the files** from the shadow copy backups.
+Montiranjem forenzičke slike sa **ArsenalImageMounter**-om, alatka [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) se može koristiti za pregledanje kopije senke i čak **izvlačenje fajlova** iz rezervnih kopija senke.
 
 ![](<../../../.gitbook/assets/image (521).png>)
 
-The registry entry `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` contains the files and keys **to not backup**:
+Unos registra `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` sadrži fajlove i ključeve **koji se neće rezervisati**:
 
 ![](<../../../.gitbook/assets/image (522).png>)
 
-The registry `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` also contains configuration information about the `Volume Shadow Copies`.
+Registar `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` takođe sadrži informacije o konfiguraciji `Volume Shadow Copies`.
 
-### Office AutoSaved Files
+### Office automatski sačuvani fajlovi
 
-You can find the office autosaved files in: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
+Office automatski sačuvava fajlove na sledećoj lokaciji: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
 
-## Shell Items
+## Shell stavke
 
-A shell item is an item that contains information about how to access another file.
+Shell stavka je stavka koja sadrži informacije o tome kako pristupiti drugom fajlu.
 
-### Recent Documents (LNK)
+### Nedavni dokumenti (LNK)
 
-Windows **automatically** **creates** these **shortcuts** when the user **open, uses or creates a file** in:
+Windows **automatski** **kreira** ove **prečice** kada korisnik **otvori, koristi ili kreira fajl** u:
 
 * Win7-Win10: `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
 * Office: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
-When a folder is created, a link to the folder, to the parent folder, and the grandparent folder is also created.
+Kada se kreira folder, takođe se kreira veza do foldera, roditeljskog foldera i pradedovskog foldera.
 
-These automatically created link files **contain information about the origin** like if it's a **file** **or** a **folder**, **MAC** **times** of that file, **volume information** of where is the file stored and **folder of the target file**. This information can be useful to recover those files in case they were removed.
+Ove automatski kreirane link fajlove **sadrže informacije o poreklu** kao da li je to **fajl** **ili** folder, **MAC** **vremena** tog fajla, **informacije o volumenu** gde je fajl smešten i **folder ciljnog fajla**. Ove informacije mogu biti korisne za oporavak tih fajlova u slučaju da su uklonjeni.
 
-Also, the **date created of the link** file is the first **time** the original file was **first** **used** and the **date** **modified** of the link file is the **last** **time** the origin file was used.
+Takođe, **datum kreiranja linka** fajla je prvo **vreme** kada je originalni fajl **prvi put** **korišćen**, a **datum** **izmene** link fajla je **poslednje** **vreme** kada je origin fajl korišćen.
 
-To inspect these files you can use [**LinkParser**](http://4discovery.com/our-tools/).
+Za pregledanje ovih fajlova možete koristiti [**LinkParser**](http://4discovery.com/our-tools/).
 
-In this tools you will find **2 sets** of timestamps:
+U ovoj alatki ćete naći **2 seta** vremenskih oznaka:
 
-* **First Set:**
-  1. FileModifiedDate
-  2. FileAccessDate
-  3. FileCreationDate
-* **Second Set:**
-  1. LinkModifiedDate
-  2. LinkAccessDate
-  3. LinkCreationDate.
+* **Prvi set:**
+1. FileModifiedDate
+2. FileAccessDate
+3. FileCreationDate
+* **Drugi set:**
+1. LinkModifiedDate
+2. LinkAccessDate
+3. LinkCreationDate.
 
-The first set of timestamp references the **timestamps of the file itself**. The second set references the **timestamps of the linked file**.
+Prvi set vremenskih oznaka se odnosi na **vremenske oznake samog fajla**. Drugi set se odnosi na **vremenske oznake povezanog fajla**.
 
-You can get the same information running the Windows CLI tool: [**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
-
+Možete dobiti iste informacije pokretanjem Windows CLI alatke: [**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
 ```
 LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ```
+U ovom slučaju, informacije će biti sačuvane unutar CSV datoteke.
 
-In this case, the information is going to be saved inside a CSV file.
+### Jumpliste
 
-### Jumplists
+Ovo su nedavne datoteke koje su označene po aplikacijama. To je lista **nedavnih datoteka koje je koristila aplikacija** kojoj možete pristupiti u svakoj aplikaciji. Mogu se **automatski kreirati ili biti prilagođene**.
 
-These are the recent files that are indicated per application. It's the list of **recent files used by an application** that you can access on each application. They can be created **automatically or be custom**.
+Automatski kreirane **jumpliste** se čuvaju u `C:\Users\{korisničko_ime}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. Jumpliste su nazvane prema formatu `{id}.autmaticDestinations-ms` gde je početni ID ID aplikacije.
 
-The **jumplists** created automatically are stored in `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. The jumplists are named following the format `{id}.autmaticDestinations-ms` where the initial ID is the ID of the application.
+Prilagođene jumpliste se čuvaju u `C:\Users\{korisničko_ime}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` i obično ih aplikacija kreira jer se nešto **važno** desilo sa datotekom (možda je označena kao omiljena).
 
-The custom jumplists are stored in `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` and they are created by the application usually because something **important** has happened with the file (maybe marked as favorite)
+Vreme kreiranja bilo koje jumpliste pokazuje **prvi put kada je datoteka pristupljena** i vreme izmene poslednji put.
 
-The **created time** of any jumplist indicates the **the first time the file was accessed** and the **modified time the last time**.
-
-You can inspect the jumplists using [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md).
+Jumpliste možete pregledati koristeći [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md).
 
 ![](<../../../.gitbook/assets/image (474).png>)
 
-(_Note that the timestamps provided by JumplistExplorer are related to the jumplist file itself_)
+(_Napomena: Vremenske oznake koje pruža JumplistExplorer odnose se na samu jumplist datoteku_)
 
 ### Shellbags
 
-[**Follow this link to learn what are the shellbags.**](interesting-windows-registry-keys.md#shellbags)
+[**Pratite ovaj link da biste saznali šta su shellbags.**](interesting-windows-registry-keys.md#shellbags)
 
-## Use of Windows USBs
+## Korišćenje Windows USB uređaja
 
-It's possible to identify that a USB device was used thanks to the creation of:
+Moguće je identifikovati da je USB uređaj korišćen zahvaljujući kreiranju:
 
 * Windows Recent Folder
 * Microsoft Office Recent Folder
-* Jumplists
+* Jumpliste
 
-Note that some LNK file instead of pointing to the original path, points to the WPDNSE folder:
+Imajte na umu da neki LNK fajl umesto da pokazuje na originalnu putanju, pokazuje na WPDNSE folder:
 
 ![](<../../../.gitbook/assets/image (476).png>)
 
-The files in the folder WPDNSE are a copy of the original ones, then won't survive a restart of the PC and the GUID is taken from a shellbag.
+Datoteke u folderu WPDNSE su kopija originalnih datoteka, pa neće preživeti restart računara, a GUID se uzima iz shellbaga.
 
-### Registry Information
+### Informacije iz registra
 
-[Check this page to learn](interesting-windows-registry-keys.md#usb-information) which registry keys contain interesting information about USB connected devices.
+[Proverite ovu stranicu da biste saznali](interesting-windows-registry-keys.md#usb-information) koje registarske ključeve sadrže zanimljive informacije o povezanim USB uređajima.
 
 ### setupapi
 
-Check the file `C:\Windows\inf\setupapi.dev.log` to get the timestamps about when the USB connection was produced (search for `Section start`).
+Proverite datoteku `C:\Windows\inf\setupapi.dev.log` da biste dobili vremenske oznake kada je USB veza uspostavljena (pretražite `Section start`).
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
 
 ### USB Detective
 
-[**USBDetective**](https://usbdetective.com) can be used to obtain information about the USB devices that have been connected to an image.
+[**USBDetective**](https://usbdetective.com) se može koristiti za dobijanje informacija o USB uređajima koji su bili povezani sa slikom.
 
 ![](<../../../.gitbook/assets/image (483).png>)
 
-### Plug and Play Cleanup
+### Čišćenje Plug and Play
 
-The scheduled task known as 'Plug and Play Cleanup' is primarily designed for the removal of outdated driver versions. Contrary to its specified purpose of retaining the latest driver package version, online sources suggest it also targets drivers that have been inactive for 30 days. Consequently, drivers for removable devices not connected in the past 30 days may be subject to deletion.
+Zakazani zadatak poznat kao 'Plug and Play Cleanup' je pretežno dizajniran za uklanjanje zastarelih verzija drajvera. Suprotno od navedene svrhe zadržavanja najnovije verzije paketa drajvera, online izvori sugerišu da takođe cilja drajvere koji su bili neaktivni tokom 30 dana. Kao rezultat toga, drajveri za prenosive uređaje koji nisu bili povezani u poslednjih 30 dana mogu biti podložni brisanju.
 
-The task is located at the following path:
+Zadatak se nalazi na sledećoj putanji:
 `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
 
-A screenshot depicting the task's content is provided:
+Prikazan je snimak ekrana sadržaja zadatka:
 ![](https://2.bp.blogspot.com/-wqYubtuR_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
-**Key Components and Settings of the Task:**
-- **pnpclean.dll**: This DLL is responsible for the actual cleanup process.
-- **UseUnifiedSchedulingEngine**: Set to `TRUE`, indicating the use of the generic task scheduling engine.
+**Ključni komponenti i podešavanja zadatka:**
+- **pnpclean.dll**: Ova DLL je odgovorna za sam proces čišćenja.
+- **UseUnifiedSchedulingEngine**: Postavljeno na `TRUE`, što ukazuje na korišćenje generičkog mehanizma zakazivanja zadataka.
 - **MaintenanceSettings**:
-  - **Period ('P1M')**: Directs the Task Scheduler to initiate the cleanup task monthly during regular Automatic maintenance.
-  - **Deadline ('P2M')**: Instructs the Task Scheduler, if the task fails for two consecutive months, to execute the task during emergency Automatic maintenance.
+- **Period ('P1M')**: Usmerava Task Scheduler da pokrene zadatak čišćenja mesečno tokom redovnog automatskog održavanja.
+- **Deadline ('P2M')**: Nalaže Task Scheduleru, ako zadatak ne uspe dva uzastopna meseca, da izvrši zadatak tokom hitnog automatskog održavanja.
 
-This configuration ensures regular maintenance and cleanup of drivers, with provisions for reattempting the task in case of consecutive failures.
+Ova konfiguracija obezbeđuje redovno održavanje i čišćenje drajvera, uz mogućnost ponovnog pokušaja izvršavanja zadatka u slučaju uzastopnih neuspeha.
 
-**For more information check:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
+**Za više informacija pogledajte:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
-## Emails
+## Emailovi
 
-Emails contain **2 interesting parts: The headers and the content** of the email. In the **headers** you can find information like:
+Emailovi sadrže **2 zanimljiva dela: zaglavlja i sadržaj** emaila. U **zaglavljima** možete pronaći informacije kao što su:
 
-* **Who** sent the emails (email address, IP, mail servers that have redirected the email)
-* **When** was the email sent
+* **Ko** je poslao email (adresa e-pošte, IP adresa, poštanski serveri koji su preusmerili email)
+* **Kada** je email poslat
 
-Also, inside the `References` and `In-Reply-To` headers you can find the ID of the messages:
+Takođe, u zaglavljima `References` i `In-Reply-To` možete pronaći ID poruka:
 
 ![](<../../../.gitbook/assets/image (484).png>)
 
-### Windows Mail App
+### Windows Mail aplikacija
 
-This application saves emails in HTML or text. You can find the emails inside subfolders inside `\Users\<username>\AppData\Local\Comms\Unistore\data\3\`. The emails are saved with the `.dat` extension.
+Ova aplikacija čuva emailove u HTML ili tekstualnom formatu. Emailovi se mogu pronaći unutar podfoldera unutar `\Users\<korisničko_ime>\AppData\Local\Comms\Unistore\data\3\`. Emailovi se čuvaju sa ekstenzijom `.dat`.
 
-The **metadata** of the emails and the **contacts** can be found inside the **EDB database**: `\Users\<username>\AppData\Local\Comms\UnistoreDB\store.vol`
+**Metapodaci** emailova i **kontakti** mogu se pronaći unutar **EDB baze podataka**: `\Users\<korisničko_ime>\AppData\Local\Comms\UnistoreDB\store.vol`
 
-**Change the extension** of the file from `.vol` to `.edb` and you can use the tool [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) to open it. Inside the `Message` table you can see the emails.
+**Promenite ekstenziju** datoteke iz `.vol` u `.edb` i možete koristiti alatku [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) da je otvorite. U tabeli `Message` možete videti emailove.
 
 ### Microsoft Outlook
 
-When Exchange servers or Outlook clients are used there are going to be some MAPI headers:
+Kada se koriste Exchange serveri ili Outlook klijenti, postojaće neka MAPI zaglavlja:
 
-* `Mapi-Client-Submit-Time`: Time of the system when the email was sent
-* `Mapi-Conversation-Index`: Number of children messages of the thread and timestamp of each message of the thread
-* `Mapi-Entry-ID`: Message identifier.
-* `Mappi-Message-Flags` and `Pr_last_Verb-Executed`: Information about the MAPI client (message read? no read? responded? redirected? out of the office?)
+* `Mapi-Client-Submit-Time`: Vreme sistema kada je email poslat
+* `Mapi-Conversation-Index`: Broj dečijih poruka u niti i vremenska oznaka svake poruke u niti
+* `Mapi-Entry-ID`: Identifikator poruke.
+* `Mappi-Message-Flags` i `Pr_last_Verb-Executed`: Informacije o MAPI klijentu (poruka pročitana? nepročitana? odgovorena? preusmerena? van kancelarije?)
 
-In the Microsoft Outlook client, all the sent/received messages, contacts data, and calendar data are stored in a PST file in:
+U Microsoft Outlook klijentu, sve poslate/primljene poruke, podaci o kontaktima i podaci o kalendaru se čuvaju u PST datoteci na sledećoj putanji:
 
 * `%USERPROFILE%\Local Settings\Application Data\Microsoft\Outlook` (WinXP)
 * `%USERPROFILE%\AppData\Local\Microsoft\Outlook`
 
-The registry path `HKEY_CURRENT_USER\Software\Microsoft\WindowsNT\CurrentVersion\Windows Messaging Subsystem\Profiles\Outlook` indicates the file that is being used.
+Putanja registra `HKEY_CURRENT_USER\Software\Microsoft\WindowsNT\CurrentVersion\Windows Messaging Subsystem\Profiles\Outlook` ukazuje na korišćenu datoteku.
 
-You can open the PST file using the tool [**Kernel PST Viewer**](https://www.nucleustechnologies.com/es/visor-de-pst.html).
+PST datoteku možete otvoriti koristeći alatku [**Kernel PST Viewer**](https://www.nucleustechnologies.com/es/visor-de-pst.html).
 
 ![](<../../../.gitbook/assets/image (485).png>)
+### Microsoft Outlook OST fajlovi
 
-### Microsoft Outlook OST Files
+**OST fajl** se generiše od strane Microsoft Outlook-a kada je konfigurisan sa **IMAP** ili **Exchange** serverom, čuvajući slične informacije kao PST fajl. Ovaj fajl je sinhronizovan sa serverom i čuva podatke za **poslednjih 12 meseci** do **maksimalne veličine od 50GB**, i nalazi se u istom direktorijumu kao i PST fajl. Za pregled OST fajla, može se koristiti [**Kernel OST viewer**](https://www.nucleustechnologies.com/ost-viewer.html).
 
-An **OST file** is generated by Microsoft Outlook when it's configured with **IMAP** or an **Exchange** server, storing similar information to a PST file. This file is synchronized with the server, retaining data for **the last 12 months** up to a **maximum size of 50GB**, and is located in the same directory as the PST file. To view an OST file, the [**Kernel OST viewer**](https://www.nucleustechnologies.com/ost-viewer.html) can be utilized.
+### Dobijanje priloga
 
-### Retrieving Attachments
+Izgubljeni prilozi mogu biti povraćeni sa:
 
-Lost attachments might be recoverable from:
+- Za **IE10**: `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
+- Za **IE11 i novije**: `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
 
-- For **IE10**: `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
-- For **IE11 and above**: `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
+### Thunderbird MBOX fajlovi
 
-### Thunderbird MBOX Files
+**Thunderbird** koristi **MBOX fajlove** za čuvanje podataka, smeštene na lokaciji `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`.
 
-**Thunderbird** utilizes **MBOX files** to store data, located at `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`.
+### Sličice slika
 
-### Image Thumbnails
+- **Windows XP i 8-8.1**: Pregledanje foldera sa sličicama generiše `thumbs.db` fajl koji čuva prikaze slika, čak i nakon brisanja.
+- **Windows 7/10**: `thumbs.db` se kreira prilikom pristupa preko mreže putem UNC putanje.
+- **Windows Vista i novije**: Sličice slika su centralizovane u `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` sa fajlovima nazvanim **thumbcache\_xxx.db**. Alati [**Thumbsviewer**](https://thumbsviewer.github.io) i [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) se koriste za pregledanje ovih fajlova.
 
-- **Windows XP and 8-8.1**: Accessing a folder with thumbnails generates a `thumbs.db` file storing image previews, even after deletion.
-- **Windows 7/10**: `thumbs.db` is created when accessed over a network via UNC path.
-- **Windows Vista and newer**: Thumbnail previews are centralized in `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` with files named **thumbcache\_xxx.db**. [**Thumbsviewer**](https://thumbsviewer.github.io) and [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) are tools for viewing these files.
+### Informacije iz Windows registra
 
-### Windows Registry Information
+Windows registar, koji čuva obimne podatke o aktivnostima sistema i korisnika, nalazi se u fajlovima:
 
-The Windows Registry, storing extensive system and user activity data, is contained within files in:
+- `%windir%\System32\Config` za različite `HKEY_LOCAL_MACHINE` podključeve.
+- `%UserProfile%{User}\NTUSER.DAT` za `HKEY_CURRENT_USER`.
+- Windows Vista i novije verzije čuvaju rezervne kopije `HKEY_LOCAL_MACHINE` registarskih fajlova u `%Windir%\System32\Config\RegBack\`.
+- Dodatno, informacije o izvršavanju programa se čuvaju u `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` od Windows Vista i Windows 2008 Server verzija nadalje.
 
-- `%windir%\System32\Config` for various `HKEY_LOCAL_MACHINE` subkeys.
-- `%UserProfile%{User}\NTUSER.DAT` for `HKEY_CURRENT_USER`.
-- Windows Vista and later versions back up `HKEY_LOCAL_MACHINE` registry files in `%Windir%\System32\Config\RegBack\`.
-- Additionally, program execution information is stored in `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` from Windows Vista and Windows 2008 Server onwards.
+### Alati
 
-### Tools
+Neki alati su korisni za analizu registarskih fajlova:
 
-Some tools are useful to analyze the registry files:
+* **Registry Editor**: Instaliran je u Windows-u. To je grafički interfejs za navigaciju kroz Windows registar trenutne sesije.
+* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md): Omogućava učitavanje registarskog fajla i navigaciju kroz njega pomoću grafičkog interfejsa. Takođe sadrži obeleživače koji ističu ključeve sa interesantnim informacijama.
+* [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Ima grafički interfejs koji omogućava navigaciju kroz učitani registar i takođe sadrži dodatke koji ističu interesantne informacije unutar učitanog registra.
+* [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html): Još jedna aplikacija sa grafičkim interfejsom koja je sposobna da izvuče važne informacije iz učitanog registra.
 
-* **Registry Editor**: It's installed in Windows. It's a GUI to navigate through the Windows registry of the current session.
-* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md): It allows you to load the registry file and navigate through them with a GUI. It also contains Bookmarks highlighting keys with interesting information.
-* [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Again, it has a GUI that allows to navigate through the loaded registry and also contains plugins that highlight interesting information inside the loaded registry.
-* [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html): Another GUI application capable of extracting the important information from the registry loaded.
+### Povraćaj obrisanih elemenata
 
-### Recovering Deleted Element
+Kada se ključ obriše, označava se kao takav, ali se neće ukloniti sve dok prostor koji zauzima ne bude potreban. Stoga, korišćenjem alata kao što je **Registry Explorer** moguće je povratiti ove obrisane ključeve.
 
-When a key is deleted it's marked as such, but until the space it's occupying is needed it won't be removed. Therefore, using tools like **Registry Explorer** it's possible to recover these deleted keys.
+### Vreme poslednje izmene
 
-### Last Write Time
-
-Each Key-Value contains a **timestamp** indicating the last time it was modified.
+Svaki ključ-vrednost sadrži **vremensku oznaku** koja pokazuje kada je poslednji put izmenjen.
 
 ### SAM
 
-The file/hive **SAM** contains the **users, groups and users passwords** hashes of the system.
+Fajl/hive **SAM** sadrži heševe **korisnika, grupa i lozinki korisnika** sistema.
 
-In `SAM\Domains\Account\Users` you can obtain the username, the RID, last login, last failed logon, login counter, password policy and when the account was created. To get the **hashes** you also **need** the file/hive **SYSTEM**.
+U `SAM\Domains\Account\Users` možete dobiti korisničko ime, RID, poslednju prijavu, poslednji neuspeli pokušaj prijave, brojač prijava, politiku lozinke i kada je nalog kreiran. Da biste dobili **heševe**, takođe **trebate** fajl/hive **SYSTEM**.
 
-### Interesting entries in the Windows Registry
+### Interesantni unosi u Windows registru
 
 {% content-ref url="interesting-windows-registry-keys.md" %}
 [interesting-windows-registry-keys.md](interesting-windows-registry-keys.md)
 {% endcontent-ref %}
 
-## Programs Executed
+## Izvršeni programi
 
-### Basic Windows Processes
+### Osnovni Windows procesi
 
-In [this post](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d) you can learn about the common Windows processes to detect suspicious behaviours.
+U [ovom postu](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d) možete saznati o uobičajenim Windows procesima kako biste otkrili sumnjive ponašanja.
 
-### Windows Recent APPs
+### Nedavni Windows programi
 
-Inside the registry `NTUSER.DAT` in the path `Software\Microsoft\Current Version\Search\RecentApps` you can subkeys with information about the **application executed**, **last time** it was executed, and **number of times** it was launched.
+Unutar registra `NTUSER.DAT` na putanji `Software\Microsoft\Current Version\Search\RecentApps` možete pronaći podključeve sa informacijama o **izvršenim aplikacijama**, **poslednjem vremenu** izvršavanja i **broju puta** koliko su pokrenute.
 
 ### BAM (Background Activity Moderator)
 
-You can open the `SYSTEM` file with a registry editor and inside the path `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` you can find the information about the **applications executed by each user** (note the `{SID}` in the path) and at **what time** they were executed (the time is inside the Data value of the registry).
+Možete otvoriti fajl `SYSTEM` sa registarskim editorom i unutar putanje `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` možete pronaći informacije o **aplikacijama izvršenim od strane svakog korisnika** (obratite pažnju na `{SID}` u putanji) i **vremenu** kada su izvršene (vreme se nalazi unutar vrednosti podataka registra).
 
 ### Windows Prefetch
 
-Prefetching is a technique that allows a computer to silently **fetch the necessary resources needed to display content** that a user **might access in the near future** so resources can be accessed quicker.
+Prefetching je tehnika koja omogućava računaru da tiho **preuzme neophodne resurse potrebne za prikaz sadržaja** kojem korisnik **može pristupiti u bliskoj budućnosti**, kako bi se resursi mogli brže pristupiti.
 
-Windows prefetch consists of creating **caches of the executed programs** to be able to load them faster. These caches as created as `.pf` files inside the path: `C:\Windows\Prefetch`. There is a limit of 128 files in XP/VISTA/WIN7 and 1024 files in Win8/Win10.
+Windows prefetch se sastoji od kreiranja **keševa izvršenih programa** kako bi se mogli brže učitati. Ovi keševi se kreiraju kao `.pf` fajlovi unutar putanje: `C:\Windows\Prefetch`. Postoji ograničenje od 128 fajlova u XP/VISTA/WIN7 i 1024 fajla u Win8/Win10.
 
-The file name is created as `{program_name}-{hash}.pf` (the hash is based on the path and arguments of the executable). In W10 these files are compressed. Do note that the sole presence of the file indicates that **the program was executed** at some point.
+Naziv fajla se kreira kao `{ime_programa}-{hash}.pf` (hash se bazira na putanji i argumentima izvršnog fajla). U W10 su ovi fajlovi kompresovani. Imajte na umu da samo prisustvo fajla ukazuje da je **program izvršen** u nekom trenutku.
 
-The file `C:\Windows\Prefetch\Layout.ini` contains the **names of the folders of the files that are prefetched**. This file contains **information about the number of the executions**, **dates** of the execution and **files** **open** by the program.
+Fajl `C:\Windows\Prefetch\Layout.ini` sadrži **nazive foldera fajlova koji su prefetch-ovani**. Ovaj fajl sadrži **informacije o broju izvršavanja**, **datumima** izvršavanja i **fajlovima** **otvorenim** od strane programa.
 
-To inspect these files you can use the tool [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd):
-
+Za pregledanje ovih fajlova možete koristiti alat [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd):
 ```bash
 .\PECmd.exe -d C:\Users\student\Desktop\Prefetch --html "C:\Users\student\Desktop\out_folder"
 ```
-
 ![](<../../../.gitbook/assets/image (487).png>)
 
 ### Superprefetch
 
-**Superprefetch** has the same goal as prefetch, **load programs faster** by predicting what is going to be loaded next. However, it doesn't substitute the prefetch service.\
-This service will generate database files in `C:\Windows\Prefetch\Ag*.db`.
+**Superprefetch** ima isti cilj kao i prefetch, **brže učitavanje programa** predviđanjem šta će se sledeće učitati. Međutim, ne zamenjuje prefetch servis.\
+Ovaj servis generiše bazu podataka u `C:\Windows\Prefetch\Ag*.db`.
 
-In these databases you can find the **name** of the **program**, **number** of **executions**, **files** **opened**, **volume** **accessed**, **complete** **path**, **timeframes** and **timestamps**.
+U ovim bazama podataka možete pronaći **ime** **programa**, **broj** **izvršavanja**, **otvorene** **datoteke**, **pristupane** **particije**, **kompletan** **putanja**, **vremenski okviri** i **vremenske oznake**.
 
-You can access this information using the tool [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/).
+Ove informacije možete pristupiti pomoću alata [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/).
 
 ### SRUM
 
-**System Resource Usage Monitor** (SRUM) **monitors** the **resources** **consumed** **by a process**. It appeared in W8 and it stores the data in an ESE database located in `C:\Windows\System32\sru\SRUDB.dat`.
+**System Resource Usage Monitor** (SRUM) **prati** **resurse** **koje proces koristi**. Pojavio se u W8 i podatke čuva u ESE bazi podataka smeštenoj u `C:\Windows\System32\sru\SRUDB.dat`.
 
-It gives the following information:
+Daje sledeće informacije:
 
-* AppID and Path
-* User that executed the process
-* Sent Bytes
-* Received Bytes
-* Network Interface
-* Connection duration
-* Process duration
+* AppID i putanja
+* Korisnik koji je izvršio proces
+* Poslati bajtovi
+* Primljeni bajtovi
+* Mrežni interfejs
+* Trajanje veze
+* Trajanje procesa
 
-This information is updated every 60 mins.
+Ove informacije se ažuriraju svakih 60 minuta.
 
-You can obtain the date from this file using the tool [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
-
+Možete dobiti podatke iz ovog fajla koristeći alat [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
 ```bash
 .\srum_dump.exe -i C:\Users\student\Desktop\SRUDB.dat -t SRUM_TEMPLATE.xlsx -o C:\Users\student\Desktop\srum
 ```
-
 ### AppCompatCache (ShimCache)
 
-The **AppCompatCache**, also known as **ShimCache**, forms a part of the **Application Compatibility Database** developed by **Microsoft** to tackle application compatibility issues. This system component records various pieces of file metadata, which include:
+**AppCompatCache**, poznat i kao **ShimCache**, čini deo **Baze podataka o kompatibilnosti aplikacija** koju je razvio **Microsoft** kako bi rešio probleme sa kompatibilnošću aplikacija. Ovaj sistemski komponent beleži različite metapodatke datoteka, koji uključuju:
 
-- Full path of the file
-- Size of the file
-- Last Modified time under **$Standard\_Information** (SI)
-- Last Updated time of the ShimCache
-- Process Execution Flag
+- Puni put do datoteke
+- Veličinu datoteke
+- Vreme poslednje izmene pod **$Standard\_Information** (SI)
+- Vreme poslednjeg ažuriranja ShimCache-a
+- Zastavicu izvršenja procesa
 
-Such data is stored within the registry at specific locations based on the version of the operating system:
+Takvi podaci se čuvaju u registru na određenim lokacijama, u zavisnosti od verzije operativnog sistema:
 
-- For XP, the data is stored under `SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache` with a capacity for 96 entries.
-- For Server 2003, as well as for Windows versions 2008, 2012, 2016, 7, 8, and 10, the storage path is `SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache`, accommodating 512 and 1024 entries, respectively.
+- Za XP, podaci se čuvaju pod `SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache` sa kapacitetom od 96 unosa.
+- Za Server 2003, kao i za verzije Windowsa 2008, 2012, 2016, 7, 8 i 10, putanja za čuvanje je `SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache`, sa kapacitetom od 512, odnosno 1024 unosa.
 
-To parse the stored information, the [**AppCompatCacheParser** tool](https://github.com/EricZimmerman/AppCompatCacheParser) is recommended for use.
+Za analizu čuvanih informacija preporučuje se korišćenje alata [**AppCompatCacheParser**](https://github.com/EricZimmerman/AppCompatCacheParser).
 
 ![](<../../../.gitbook/assets/image (488).png>)
 
 ### Amcache
 
-The **Amcache.hve** file is essentially a registry hive that logs details about applications that have been executed on a system. It is typically found at `C:\Windows\AppCompat\Programas\Amcache.hve`.
+Datoteka **Amcache.hve** je suštinski registarski hive koji beleži detalje o aplikacijama koje su izvršene na sistemu. Obično se nalazi na putanji `C:\Windows\AppCompat\Programas\Amcache.hve`.
 
-This file is notable for storing records of recently executed processes, including the paths to the executable files and their SHA1 hashes. This information is invaluable for tracking the activity of applications on a system.
+Ova datoteka je značajna jer čuva zapise o nedavno izvršenim procesima, uključujući putanje do izvršnih datoteka i njihove SHA1 heš vrednosti. Ove informacije su neprocenjive za praćenje aktivnosti aplikacija na sistemu.
 
-To extract and analyze the data from **Amcache.hve**, the [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser) tool can be used. The following command is an example of how to use AmcacheParser to parse the contents of the **Amcache.hve** file and output the results in CSV format:
-
+Za izdvajanje i analizu podataka iz **Amcache.hve** datoteke može se koristiti alat [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser). Sledeća komanda je primer kako koristiti AmcacheParser za analizu sadržaja datoteke **Amcache.hve** i izlaz rezultata u CSV formatu:
 ```bash
 AmcacheParser.exe -f C:\Users\genericUser\Desktop\Amcache.hve --csv C:\Users\genericUser\Desktop\outputFolder
 ```
+Među generisanim CSV datotekama, posebno je značajna datoteka `Amcache_Unassociated file entries` zbog bogatih informacija koje pruža o nepovezanim unosima datoteka.
 
-Among the generated CSV files, the `Amcache_Unassociated file entries` is particularly noteworthy due to the rich information it provides about unassociated file entries.
-
-The most interesting CVS file generated is the `Amcache_Unassociated file entries`.
+Najinteresantnija generisana CSV datoteka je `Amcache_Unassociated file entries`.
 
 ### RecentFileCache
 
-This artifact can only be found in W7 in `C:\Windows\AppCompat\Programs\RecentFileCache.bcf` and it contains information about the recent execution of some binaries.
+Ovaj artefakt se može pronaći samo u W7 u `C:\Windows\AppCompat\Programs\RecentFileCache.bcf` i sadrži informacije o nedavnom izvršavanju određenih binarnih datoteka.
 
-You can use the tool [**RecentFileCacheParse**](https://github.com/EricZimmerman/RecentFileCacheParser) to parse the file.
+Možete koristiti alat [**RecentFileCacheParse**](https://github.com/EricZimmerman/RecentFileCacheParser) za parsiranje datoteke.
 
-### Scheduled tasks
+### Zakazani zadaci
 
-You can extract them from `C:\Windows\Tasks` or `C:\Windows\System32\Tasks` and read them as XML.
+Možete ih izvući iz `C:\Windows\Tasks` ili `C:\Windows\System32\Tasks` i čitati ih kao XML.
 
-### Services
+### Servisi
 
-You can find them in the registry under `SYSTEM\ControlSet001\Services`. You can see what is going to be executed and when.
+Možete ih pronaći u registru pod `SYSTEM\ControlSet001\Services`. Možete videti šta će biti izvršeno i kada.
 
 ### **Windows Store**
 
-The installed applications can be found in `\ProgramData\Microsoft\Windows\AppRepository\`\
-This repository has a **log** with **each application installed** in the system inside the database **`StateRepository-Machine.srd`**.
+Instalirane aplikacije mogu se pronaći u `\ProgramData\Microsoft\Windows\AppRepository\`\
+Ovaj repozitorijum ima **log** sa **svakom instaliranom aplikacijom** u sistemu unutar baze podataka **`StateRepository-Machine.srd`**.
 
-Inside the Application table of this database, it's possible to find the columns: "Application ID", "PackageNumber", and "Display Name". These columns have information about pre-installed and installed applications and it can be found if some applications were uninstalled because the IDs of installed applications should be sequential.
+Unutar tabele Application ove baze podataka, mogu se pronaći kolone: "Application ID", "PackageNumber" i "Display Name". Ove kolone sadrže informacije o preinstaliranim i instaliranim aplikacijama, a može se utvrditi da li su neke aplikacije deinstalirane jer bi ID-jevi instaliranih aplikacija trebali biti uzastopni.
 
-It's also possible to **find installed application** inside the registry path: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
-And **uninstalled** **applications** in: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
+Takođe je moguće **pronaći instalirane aplikacije** unutar putanje registra: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
+I **deinstalirane aplikacije** u: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
 
-## Windows Events
+## Windows događaji
 
-Information that appears inside Windows events are:
+Informacije koje se pojavljuju unutar Windows događaja su:
 
-* What happened
-* Timestamp (UTC + 0)
-* Users involved
-* Hosts involved (hostname, IP)
-* Assets accessed (files, folder, printer, services)
+* Šta se desilo
+* Vremenska oznaka (UTC + 0)
+* Uključeni korisnici
+* Uključeni hostovi (ime računara, IP adresa)
+* Pristupani resursi (datoteke, folderi, štampači, servisi)
 
-The logs are located in `C:\Windows\System32\config` before Windows Vista and in `C:\Windows\System32\winevt\Logs` after Windows Vista. Before Windows Vista, the event logs were in binary format and after it, they are in **XML format** and use the **.evtx** extension.
+Logovi se nalaze u `C:\Windows\System32\config` pre Windows Viste i u `C:\Windows\System32\winevt\Logs` posle Windows Viste. Pre Windows Viste, logovi događaja su bili u binarnom formatu, a posle toga su u **XML formatu** i koriste **.evtx** ekstenziju.
 
-The location of the event files can be found in the SYSTEM registry in **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
+Lokacija datoteka događaja može se pronaći u registru sistema u **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
 
-They can be visualized from the Windows Event Viewer (**`eventvwr.msc`**) or with other tools like [**Event Log Explorer**](https://eventlogxp.com) **or** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**.**
+Mogu se vizualizovati putem Windows Event Viewer-a (**`eventvwr.msc`**) ili drugim alatima poput [**Event Log Explorer**](https://eventlogxp.com) **ili** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**.**
 
-## Understanding Windows Security Event Logging
+## Razumevanje beleženja događaja o bezbednosti u Windows-u
 
-Access events are recorded in the security configuration file located at `C:\Windows\System32\winevt\Security.evtx`. This file's size is adjustable, and when its capacity is reached, older events are overwritten. Recorded events include user logins and logoffs, user actions, and changes to security settings, as well as file, folder, and shared asset access.
+Pristupni događaji se beleže u konfiguracionoj datoteci bezbednosti koja se nalazi na lokaciji `C:\Windows\System32\winevt\Security.evtx`. Veličina ove datoteke je podesiva, a kada se dostigne kapacitet, stariji događaji se prepisuju. Beleženi događaji uključuju prijavljivanje i odjavljivanje korisnika, korisničke radnje i promene u postavkama bezbednosti, kao i pristupanje datotekama, folderima i deljenim resursima.
 
-### Key Event IDs for User Authentication:
+### Ključni ID-jevi događaja za autentifikaciju korisnika:
 
-- **EventID 4624**: Indicates a user successfully authenticated.
-- **EventID 4625**: Signals an authentication failure.
-- **EventIDs 4634/4647**: Represent user logoff events.
-- **EventID 4672**: Denotes login with administrative privileges.
+- **EventID 4624**: Ukazuje na uspešnu autentifikaciju korisnika.
+- **EventID 4625**: Označava neuspešnu autentifikaciju.
+- **EventID 4634/4647**: Predstavljaju događaje odjavljivanja korisnika.
+- **EventID 4672**: Označava prijavljivanje sa administratorskim privilegijama.
 
-#### Sub-types within EventID 4634/4647:
+#### Podtipovi unutar EventID 4634/4647:
 
-- **Interactive (2)**: Direct user login.
-- **Network (3)**: Access to shared folders.
-- **Batch (4)**: Execution of batch processes.
-- **Service (5)**: Service launches.
-- **Proxy (6)**: Proxy authentication.
-- **Unlock (7)**: Screen unlocked with a password.
-- **Network Cleartext (8)**: Clear text password transmission, often from IIS.
-- **New Credentials (9)**: Usage of different credentials for access.
-- **Remote Interactive (10)**: Remote desktop or terminal services login.
-- **Cache Interactive (11)**: Login with cached credentials without domain controller contact.
-- **Cache Remote Interactive (12)**: Remote login with cached credentials.
-- **Cached Unlock (13)**: Unlocking with cached credentials.
+- **Interactive (2)**: Direktno prijavljivanje korisnika.
+- **Network (3)**: Pristup deljenim fasciklama.
+- **Batch (4)**: Izvršavanje batch procesa.
+- **Service (5)**: Pokretanje servisa.
+- **Proxy (6)**: Proksi autentifikacija.
+- **Unlock (7)**: Otključavanje ekrana lozinkom.
+- **Network Cleartext (8)**: Prenos lozinke u čistom tekstu, često od strane IIS-a.
+- **New Credentials (9)**: Korišćenje drugih akreditiva za pristup.
+- **Remote Interactive (10)**: Prijavljivanje putem udaljenog radnog okruženja ili terminalnih usluga.
+- **Cache Interactive (11)**: Prijavljivanje sa keširanim akreditivima bez kontakta sa kontrolerom domena.
+- **Cache Remote Interactive (12)**: Udaljeno prijavljivanje sa keširanim akreditivima.
+- **Cached Unlock (13)**: Otključavanje sa keširanim akreditivima.
 
-#### Status and Sub Status Codes for EventID 4625:
+#### Statusni i podstatusni kodovi za EventID 4625:
 
-- **0xC0000064**: User name does not exist - Could indicate a username enumeration attack.
-- **0xC000006A**: Correct user name but wrong password - Possible password guessing or brute-force attempt.
-- **0xC0000234**: User account locked out - May follow a brute-force attack resulting in multiple failed logins.
-- **0xC0000072**: Account disabled - Unauthorized attempts to access disabled accounts.
-- **0xC000006F**: Logon outside allowed time - Indicates attempts to access outside of set login hours, a possible sign of unauthorized access.
-- **0xC0000070**: Violation of workstation restrictions - Could be an attempt to login from an unauthorized location.
-- **0xC0000193**: Account expiration - Access attempts with expired user accounts.
-- **0xC0000071**: Expired password - Login attempts with outdated passwords.
-- **0xC0000133**: Time sync issues - Large time discrepancies between client and server may be indicative of more sophisticated attacks like pass-the-ticket.
-- **0xC0000224**: Mandatory password change required - Frequent mandatory changes might suggest an attempt to destabilize account security.
-- **0xC0000225**: Indicates a system bug rather than a security issue.
-- **0xC000015b**: Denied logon type - Access attempt with unauthorized logon type, such as a user trying to execute a service logon.
+- **0xC0000064**: Korisničko ime ne postoji - Može ukazivati na napad enumeracije korisničkih imena.
+- **0xC000006A**: Ispravno korisničko ime, ali pogrešna lozinka - Mogući pokušaj nagađanja ili napad metodom isprobavanja svih mogućih kombinacija lozinki.
+- **0xC0000234**: Korisnički nalog zaključan - Može pratiti napad metodom isprobavanja svih mogućih kombinacija lozinki koji rezultira višestrukim neuspelim prijavljivanjima.
+- **0xC0000072**: Onemogućen nalog - Neovlašćeni pokušaji pristupa onemogućenim nalozima.
+- **0xC000006F**: Prijavljivanje van dozvoljenog vremena - Ukazuje na pokušaje pristupa van postavljenih vremenskih okvira za prijavljivanje, što može biti znak neovlašćenog pristupa.
+- **0xC0000070**: Kršenje ograničenja radne stanice - Može biti pokušaj prijavljivanja sa neovlašćene lokacije.
+- **0xC0000193**: Isteče vreme naloga - Pokušaji pristupa sa isteklim korisničkim nalozima.
+- **0xC0000071**: Istečena lozinka - Pokušaji prijavljivanja sa zastarelim lozinkama.
+- **0xC0000133**: Problemi sa sinhronizacijom vremena - Velike razlike u vremenu između klijenta i servera mogu ukazivati na sofisticiranije napade poput "pass-the-ticket".
+- **0xC0000224**: Obavezna promena lozinke - Česte obavezne promene mogu ukazivati na pokušaj narušavanja sigurnosti naloga.
+- **0xC0000225**: Ukazuje na grešku u sistemu, a ne na sigurnosni problem.
+- **0xC000015b**: Odbijen tip prijavljivanja - Pokušaj pristupa sa neovlašćenim tipom prijavljivanja, kao što je pokušaj korisnika da izvrši prijavljivanje servisa.
 
 #### EventID 4616:
-- **Time Change**: Modification of the system time, could obscure the timeline of events.
+- **Promena vremena**: Izmena sistemskog vremena, može otežati forenzičku analizu događaja.
 
-#### EventID 6005 and 6006:
-- **System Startup and Shutdown**: EventID 6005 indicates the system starting up, while EventID 6006 marks it shutting down.
+#### EventID 6005 i 6006:
+- **Pokretanje i gašenje sistema**: EventID 6005 označava pokretanje sistema, dok EventID 6006 označava gašenje sistema.
 
 #### EventID 1102:
-- **Log Deletion**: Security logs being cleared, which is often a red flag for covering up illicit activities.
+- **Brisanje logova**: Brisanje sigurnosnih logova, što često ukazuje na pokušaj prikrivanja nezakonitih aktivnosti.
 
-#### EventIDs for USB Device Tracking:
-- **20001 / 20003 / 10000**: USB device first connection.
-- **10100**: USB driver update.
-- **EventID 112**: Time of USB device insertion.
+#### EventID-ovi za praćenje USB uređaja:
+- **20001 / 20003 / 10000**: Prvo povezivanje USB uređaja.
+- **10100**: Ažuriranje drajvera USB uređaja.
+- **EventID 112**: Vreme umetanja USB uređaja.
 
-For practical examples on simulating these login types and credential dumping opportunities, refer to [Altered Security's detailed guide](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them).
+Za praktične primere simuliranja ovih vrsta prijavljivanja i prilika za izvlačenje akreditiva, pogledajte detaljan vodič [Altered Security](https://www.alteredsecurity
+#### Događaji o napajanju sistema
 
-Event details, including status and sub-status codes, provide further insights into event causes, particularly notable in Event ID 4625.
+EventID 6005 označava pokretanje sistema, dok EventID 6006 označava gašenje.
 
-### Recovering Windows Events
+#### Brisanje logova
 
-To enhance the chances of recovering deleted Windows Events, it's advisable to power down the suspect computer by directly unplugging it. **Bulk_extractor**, a recovery tool specifying the `.evtx` extension, is recommended for attempting to recover such events.
-
-### Identifying Common Attacks via Windows Events
-
-For a comprehensive guide on utilizing Windows Event IDs in identifying common cyber attacks, visit [Red Team Recipe](https://redteamrecipe.com/event-codes/).
-
-#### Brute Force Attacks
-
-Identifiable by multiple EventID 4625 records, followed by an EventID 4624 if the attack succeeds.
-
-#### Time Change
-
-Recorded by EventID 4616, changes to system time can complicate forensic analysis.
-
-#### USB Device Tracking
-
-Useful System EventIDs for USB device tracking include 20001/20003/10000 for initial use, 10100 for driver updates, and EventID 112 from DeviceSetupManager for insertion timestamps.
-
-#### System Power Events
-
-EventID 6005 indicates system startup, while EventID 6006 marks shutdown.
-
-#### Log Deletion
-
-Security EventID 1102 signals the deletion of logs, a critical event for forensic analysis.
+Security EventID 1102 signalizira brisanje logova, što je kritičan događaj za forenzičku analizu.
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju oglašenu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

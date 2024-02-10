@@ -1,4 +1,4 @@
-## Attribution
-We value your knowledge and encourage you to share content. Please ensure that you only upload content that you own or have explicit permission to use from the original author. Your respect for intellectual property rights fosters a trustworthy and legal sharing environment for everyone.
+## Pripisivanje
+Cenimo vaše znanje i ohrabrujemo vas da delite sadržaj. Molimo vas da se uverite da samo otpremate sadržaj koji je vaš ili za koji imate izričitu dozvolu od originalnog autora. Vaše poštovanje intelektualnih prava podstiče pouzdano i legalno okruženje za deljenje za sve.
 
-Thank you for contributing to HackTricks!
+Hvala vam što doprinosite HackTricks-u!

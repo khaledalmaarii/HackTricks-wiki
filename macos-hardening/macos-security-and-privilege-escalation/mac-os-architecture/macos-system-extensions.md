@@ -1,107 +1,105 @@
-# macOS System Extensions
+# macOS sistemski ekstenzije
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## System Extensions / Endpoint Security Framework
+## Sistemski ekstenzije / Endpoint Security okvir
 
-Unlike Kernel Extensions, **System Extensions run in user space** instead of kernel space, reducing the risk of a system crash due to extension malfunction.
+Za razliku od Kernel ekstenzija, **sistemski ekstenzije se izvršavaju u korisničkom prostoru** umesto u kernel prostoru, smanjujući rizik od pada sistema zbog neispravnosti ekstenzija.
 
 <figure><img src="../../../.gitbook/assets/image (1) (3) (1) (1).png" alt="https://knight.sc/images/system-extension-internals-1.png"><figcaption></figcaption></figure>
 
-There are three types of system extensions: **DriverKit** Extensions, **Network** Extensions, and **Endpoint Security** Extensions.
+Postoje tri vrste sistemskih ekstenzija: **DriverKit** ekstenzije, **Network** ekstenzije i **Endpoint Security** ekstenzije.
 
-### **DriverKit Extensions**
+### **DriverKit ekstenzije**
 
-DriverKit is a replacement for kernel extensions that **provide hardware support**. It allows device drivers (like USB, Serial, NIC, and HID drivers) to run in user space rather than kernel space. The DriverKit framework includes **user space versions of certain I/O Kit classes**, and the kernel forwards normal I/O Kit events to user space, offering a safer environment for these drivers to run.
+DriverKit je zamena za kernel ekstenzije koje **pružaju podršku za hardver**. Omogućava da drajveri uređaja (poput USB, serijskih, NIC i HID drajvera) rade u korisničkom prostoru umesto u kernel prostoru. DriverKit okvir uključuje **verzije određenih I/O Kit klasa u korisničkom prostoru**, a kernel prosleđuje normalne I/O Kit događaje u korisnički prostor, pružajući sigurnije okruženje za rad ovih drajvera.
 
-### **Network Extensions**
+### **Network ekstenzije**
 
-Network Extensions provide the ability to customize network behaviors. There are several types of Network Extensions:
+Network ekstenzije omogućavaju prilagođavanje mrežnih ponašanja. Postoji nekoliko vrsta Network ekstenzija:
 
-* **App Proxy**: This is used for creating a VPN client that implements a flow-oriented, custom VPN protocol. This means it handles network traffic based on connections (or flows) rather than individual packets.
-* **Packet Tunnel**: This is used for creating a VPN client that implements a packet-oriented, custom VPN protocol. This means it handles network traffic based on individual packets.
-* **Filter Data**: This is used for filtering network "flows". It can monitor or modify network data at the flow level.
-* **Filter Packet**: This is used for filtering individual network packets. It can monitor or modify network data at the packet level.
-* **DNS Proxy**: This is used for creating a custom DNS provider. It can be used to monitor or modify DNS requests and responses.
+* **App Proxy**: Koristi se za kreiranje VPN klijenta koji implementira protokol VPN-a usmeren na tokove (flows) umesto na pojedinačne pakete.
+* **Packet Tunnel**: Koristi se za kreiranje VPN klijenta koji implementira protokol VPN-a usmeren na pakete umesto na tokove.
+* **Filter Data**: Koristi se za filtriranje mrežnih "tokova". Može pratiti ili menjati mrežne podatke na nivou toka.
+* **Filter Packet**: Koristi se za filtriranje pojedinačnih mrežnih paketa. Može pratiti ili menjati mrežne podatke na nivou paketa.
+* **DNS Proxy**: Koristi se za kreiranje prilagođenog DNS provajdera. Može se koristiti za praćenje ili menjanje DNS zahteva i odgovora.
 
-## Endpoint Security Framework
+## Endpoint Security okvir
 
-Endpoint Security is a framework provided by Apple in macOS that provides a set of APIs for system security. It's intended for use by **security vendors and developers to build products that can monitor and control system activity** to identify and protect against malicious activity.
+Endpoint Security je okvir koji je Apple obezbedio u macOS-u i pruža skup API-ja za sistemsku bezbednost. Namijenjen je **bezbednosnim dobavljačima i programerima za izgradnju proizvoda koji mogu pratiti i kontrolisati aktivnosti sistema** kako bi identifikovali i zaštitili se od zlonamernih aktivnosti.
 
-This framework provides a **collection of APIs to monitor and control system activity**, such as process executions, file system events, network and kernel events.
+Ovaj okvir pruža **kolekciju API-ja za praćenje i kontrolu aktivnosti sistema**, kao što su izvršavanje procesa, događaji sistema datotečnog sistema, mreže i kernela.
 
-The core of this framework is implemented in the kernel, as a Kernel Extension (KEXT) located at **`/System/Library/Extensions/EndpointSecurity.kext`**. This KEXT is made up of several key components:
+Srž ovog okvira je implementirana u kernelu, kao Kernel ekstenzija (KEXT) smeštena na **`/System/Library/Extensions/EndpointSecurity.kext`**. Ova KEXT se sastoji od nekoliko ključnih komponenti:
 
-* **EndpointSecurityDriver**: This acts as the "entry point" for the kernel extension. It's the main point of interaction between the OS and the Endpoint Security framework.
-* **EndpointSecurityEventManager**: This component is responsible for implementing kernel hooks. Kernel hooks allow the framework to monitor system events by intercepting system calls.
-* **EndpointSecurityClientManager**: This manages the communication with user space clients, keeping track of which clients are connected and need to receive event notifications.
-* **EndpointSecurityMessageManager**: This sends messages and event notifications to user space clients.
+* **EndpointSecurityDriver**: Ovo deluje kao "ulazna tačka" za kernel ekstenziju. To je glavna tačka interakcije između OS-a i Endpoint Security okvira.
+* **EndpointSecurityEventManager**: Ova komponenta je odgovorna za implementaciju kernel kuka. Kernel kuke omogućavaju okviru da prati događaje sistema presretanjem sistemskih poziva.
+* **EndpointSecurityClientManager**: Ovo upravlja komunikacijom sa klijentima u korisničkom prostoru, prateći koji klijenti su povezani i trebaju primati obaveštenja o događajima.
+* **EndpointSecurityMessageManager**: Ovo šalje poruke i obaveštenja o događajima klijentima u korisničkom prostoru.
 
-The events that the Endpoint Security framework can monitor are categorized into:
+Događaji koje Endpoint Security okvir može pratiti su kategorisani u:
 
-* File events
-* Process events
-* Socket events
-* Kernel events (such as loading/unloading a kernel extension or opening an I/O Kit device)
+* Događaji datoteka
+* Događaji procesa
+* Događaji soketa
+* Događaji kernela (poput učitavanja/isključivanja kernel ekstenzije ili otvaranja I/O Kit uređaja)
 
-### Endpoint Security Framework Architecture
+### Arhitektura Endpoint Security okvira
 
 <figure><img src="../../../.gitbook/assets/image (3) (8).png" alt="https://www.youtube.com/watch?v=jaVkpM1UqOs"><figcaption></figcaption></figure>
 
-**User-space communication** with the Endpoint Security framework happens through the IOUserClient class. Two different subclasses are used, depending on the type of caller:
+**Komunikacija u korisničkom prostoru** sa Endpoint Security okvirom se odvija putem klase IOUserClient. Koriste se dve različite podklase, u zavisnosti od vrste pozivaoca:
 
-* **EndpointSecurityDriverClient**: This requires the `com.apple.private.endpoint-security.manager` entitlement, which is only held by the system process `endpointsecurityd`.
-* **EndpointSecurityExternalClient**: This requires the `com.apple.developer.endpoint-security.client` entitlement. This would typically be used by third-party security software that needs to interact with the Endpoint Security framework.
+* **EndpointSecurityDriverClient**: Ovo zahteva `com.apple.private.endpoint-security.manager` dozvolu, koju poseduje samo sistemski proces `endpointsecurityd`.
+* **EndpointSecurityExternalClient**: Ovo zahteva `com.apple.developer.endpoint-security.client` dozvolu. Ovo bi obično koristio sigurnosni softver treće strane koji treba da komunicira sa Endpoint Security okvirom.
 
-The Endpoint Security Extensions:**`libEndpointSecurity.dylib`** is the C library that system extensions use to communicate with the kernel. This library uses the I/O Kit (`IOKit`) to communicate with the Endpoint Security KEXT.
+Endpoint Security ekstenzije:**`libEndpointSecurity.dylib`** je C biblioteka koju sistemski ekstenzije koriste za komunikaciju sa kernelom. Ova biblioteka koristi I/O Kit (`IOKit`) za komunikaciju sa Endpoint Security KEXT-om.
 
-**`endpointsecurityd`** is a key system daemon involved in managing and launching endpoint security system extensions, particularly during the early boot process. **Only system extensions** marked with **`NSEndpointSecurityEarlyBoot`** in their `Info.plist` file receive this early boot treatment.
+**`endpointsecurityd`** je ključni sistemski daemon koji je uključen u upravljanje i pokretanje sistemskih ekstenzija za bezbednost, posebno tokom ranog procesa pokretanja. Samo sistemski ekstenzije označene sa **`NSEndpointSecurityEarlyBoot`** u svom `Info.plist` fajlu dobijaju ovaj tretman ranog pokretanja.
 
-Another system daemon, **`sysextd`**, **validates system extensions** and moves them into the proper system locations. It then asks the relevant daemon to load the extension. The **`SystemExtensions.framework`** is responsible for activating and deactivating system extensions.
+Još jedan sistemski daemon, **`sysextd`**, **validira sistemskie ekstenzije** i premješta ih na odgovarajuća sistemsko mesto. Zatim traži odgovarajućem daemonu da učita ekstenziju. **`SystemExtensions.framework`** je odgovoran za aktiviranje i deaktiviranje sistemskih ekstenzija.
 
-## Bypassing ESF
+## Zaobilaženje ESF
 
-ESF is used by security tools that will try to detect a red teamer, so any information about how this could be avoided sounds interesting.
+ESF se koristi od strane sigurnosnih alata koji će pokušati da otkriju red timera, pa je svaka informacija o tome kako se to može izbeći zanimljiva.
 
 ### CVE-2021-30965
 
-The thing is that the security application needs to have **Full Disk Access permissions**. So if an attacker could remove that, he could prevent the software from running:
-
+Stvar je u tome da sigurnosna aplikacija mora imati **dozvole za pun pristup disku**. Dakle, ako napadač može to ukloniti, može sprečiti pokretanje softvera:
 ```bash
 tccutil reset All
 ```
+Za **više informacija** o ovom zaobilazenju i srodnim, pogledajte predavanje [#OBTS v5.0: "Achillesova peta EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
 
-For **more information** about this bypass and related ones check the talk [#OBTS v5.0: "The Achilles Heel of EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
+Na kraju je ovo popravljeno davanjem nove dozvole **`kTCCServiceEndpointSecurityClient`** aplikaciji za sigurnost koju upravlja **`tccd`**, tako da `tccutil` neće brisati njene dozvole i sprečavaće je da se pokrene.
 
-At the end this was fixed by giving the new permission **`kTCCServiceEndpointSecurityClient`** to the security app managed by **`tccd`** so `tccutil` won't clear its permissions preventing it from running.
-
-## References
+## Reference
 
 * [**OBTS v3.0: "Endpoint Security & Insecurity" - Scott Knight**](https://www.youtube.com/watch?v=jaVkpM1UqOs)
 * [**https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html**](https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

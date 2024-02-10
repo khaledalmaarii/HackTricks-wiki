@@ -1,104 +1,94 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 
 # ECB
 
-(ECB) Electronic Code Book - symmetric encryption scheme which **replaces each block of the clear text** by the **block of ciphertext**. It is the **simplest** encryption scheme. The main idea is to **split** the clear text into **blocks of N bits** (depends on the size of the block of input data, encryption algorithm) and then to encrypt (decrypt) each block of clear text using the only key.
+(ECB) Electronic Code Book - simetrična šema enkripcije koja **zamenjuje svaki blok čistog teksta** blokom šifrovane poruke. To je **najjednostavnija** šema enkripcije. Glavna ideja je da se čisti tekst podeli na **blokove od N bita** (zavisi od veličine bloka ulaznih podataka, algoritma enkripcije) i zatim da se svaki blok čistog teksta enkriptuje (dekriptuje) koristeći samo ključ.
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/ECB_decryption.svg/601px-ECB_decryption.svg.png)
 
-Using ECB has multiple security implications:
+Korišćenje ECB ima više sigurnosnih implikacija:
 
-* **Blocks from encrypted message can be removed**
-* **Blocks from encrypted message can be moved around**
+* **Blokovi iz šifrovane poruke mogu biti uklonjeni**
+* **Blokovi iz šifrovane poruke mogu biti premesteni**
 
-# Detection of the vulnerability
+# Otkrivanje ranjivosti
 
-Imagine you login into an application several times and you **always get the same cookie**. This is because the cookie of the application is **`<username>|<password>`**.\
-Then, you generate to new users, both of them with the **same long password** and **almost** the **same** **username**.\
-You find out that the **blocks of 8B** where the **info of both users** is the same are **equals**. Then, you imagine that this might be because **ECB is being used**. 
+Zamislite da se prijavljujete na aplikaciju nekoliko puta i **uvek dobijate isti kolačić**. To je zato što je kolačić aplikacije **`<korisničko_ime>|<lozinka>`**.\
+Zatim, generišete dva nova korisnika, oba sa **istom dugom lozinkom** i **skoro** **istim** **korisničkim imenom**.\
+Otkrivate da su **blokovi od 8B** gde je **informacija o oba korisnika** ista **jednaki**. Tada pretpostavljate da se možda koristi **ECB**.
 
-Like in the following example. Observe how these** 2 decoded cookies** has several times the block **`\x23U\xE45K\xCB\x21\xC8`**
-
+Kao u sledećem primeru. Primetite kako ova **2 dekodirana kolačića** imaju nekoliko puta blok **`\x23U\xE45K\xCB\x21\xC8`**
 ```
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 ```
+Ovo je zato što su **korisničko ime i lozinka tih kolačića sadržavali više puta slovo "a"** (na primer). **Blokovi** koji su **različiti** su blokovi koji su sadržavali **barem 1 različit karakter** (možda razdelnik "|" ili neka neophodna razlika u korisničkom imenu).
 
-This is because the **username and password of those cookies contained several times the letter "a"** (for example). The **blocks** that are **different** are blocks that contained **at least 1 different character** (maybe the delimiter "|" or some necessary difference in the username).
+Sada napadač samo treba da otkrije da li je format `<korisničko ime><razdelnik><lozinka>` ili `<lozinka><razdelnik><korisničko ime>`. Da bi to uradio, može jednostavno **generisati nekoliko korisničkih imena** sa **sličnim i dugim korisničkim imenima i lozinkama** dok ne pronađe format i dužinu razdelnika:
 
-Now, the attacker just need to discover if the format is `<username><delimiter><password>` or `<password><delimiter><username>`. For doing that, he can just **generate several usernames **with s**imilar and long usernames and passwords until he find the format and the length of the delimiter:**
+| Dužina korisničkog imena: | Dužina lozinke: | Dužina korisničkog imena+lozinke: | Dužina kolačića (nakon dekodiranja): |
+| ------------------------ | --------------- | --------------------------------- | ----------------------------------- |
+| 2                        | 2               | 4                                 | 8                                   |
+| 3                        | 3               | 6                                 | 8                                   |
+| 3                        | 4               | 7                                 | 8                                   |
+| 4                        | 4               | 8                                 | 16                                  |
+| 7                        | 7               | 14                                | 16                                  |
 
-| Username length: | Password length: | Username+Password length: | Cookie's length (after decoding): |
-| ---------------- | ---------------- | ------------------------- | --------------------------------- |
-| 2                | 2                | 4                         | 8                                 |
-| 3                | 3                | 6                         | 8                                 |
-| 3                | 4                | 7                         | 8                                 |
-| 4                | 4                | 8                         | 16                                |
-| 7                | 7                | 14                        | 16                                |
+# Iskorišćavanje ranjivosti
 
-# Exploitation of the vulnerability
+## Uklanjanje celih blokova
 
-## Removing entire blocks
-
-Knowing the format of the cookie (`<username>|<password>`), in order to impersonate the username `admin` create a new user called `aaaaaaaaadmin` and get the cookie and decode it:
-
+Znajući format kolačića (`<korisničko ime>|<lozinka>`), kako biste se predstavili kao korisnik `admin`, kreirajte novog korisnika pod imenom `aaaaaaaaadmin` i dobijte kolačić i dekodirajte ga:
 ```
 \x23U\xE45K\xCB\x21\xC8\xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
-
-We can see the pattern `\x23U\xE45K\xCB\x21\xC8` created previously with the username that contained only `a`.\
-Then, you can remove the first block of 8B and you will et a valid cookie for the username `admin`:
-
+Možemo videti obrazac `\x23U\xE45K\xCB\x21\xC8` koji je prethodno kreiran sa korisničkim imenom koje je sadržalo samo `a`.\
+Zatim, možete ukloniti prvi blok od 8B i dobićete validan kolačić za korisničko ime `admin`:
 ```
 \xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
+## Померање блокова
 
-## Moving blocks
+У многим базама података је исто да претражујете `WHERE username='admin';` или `WHERE username='admin    ';` _(Обратите пажњу на додатне размаке)_
 
-In many databases it is the same to search for `WHERE username='admin';` or for `WHERE username='admin    ';` _(Note the extra spaces)_
+Дакле, још један начин да се представите као корисник `admin` би био:
 
-So, another way to impersonate the user `admin` would be to:
+* Генеришите корисничко име тако да је `len(<username>) + len(<delimiter) % len(block)`. Са величином блока од `8B` можете генерисати корисничко име под називом: `username       `, са разделником `|` делови `<username><delimiter>` ће генерисати 2 блока од 8B.
+* Затим, генеришите лозинку која ће попунити тачан број блокова који садрже корисничко име које желимо да се представимо и размаке, на пример: `admin   `
 
-* Generate a username that: `len(<username>) + len(<delimiter) % len(block)`. With a block size of `8B` you can generate username called: `username       `, with the delimiter `|` the chunk `<username><delimiter>` will generate 2 blocks of 8Bs.
-* Then, generate a password that will fill an exact number of blocks containing the username we want to impersonate and spaces, like: `admin   ` 
+Колачић овог корисника ће бити састављен од 3 блока: прва 2 блока су блокови корисничког имена + разделник, а трећи је блок лозинке (која се претвара у корисничко име): `username       |admin   `
 
-The cookie of this user is going to be composed by 3 blocks: the first 2 is the blocks of the username + delimiter and the third one of the password (which is faking the username): `username       |admin   `
+**Затим, само замените први блок са последњим и представљате се као корисник `admin`: `admin          |username`**
 
-**Then, just replace the first block with the last time and will be impersonating the user `admin`: `admin          |username`**
-
-## References
+## Референце
 
 * [http://cryptowiki.net/index.php?title=Electronic_Code_Book\_(ECB)](http://cryptowiki.net/index.php?title=Electronic_Code_Book_\(ECB\))
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Научите хаковање AWS-а од нуле до хероја са</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Други начини да подржите HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ако желите да видите **вашу компанију рекламирану на HackTricks** или **преузмете HackTricks у PDF формату** Проверите [**ПРЕТПЛАТНЕ ПЛАНОВЕ**](https://github.com/sponsors/carlospolop)!
+* Набавите [**званични PEASS & HackTricks сувенир**](https://peass.creator-spring.com)
+* Откријте [**The PEASS Family**](https://opensea.io/collection/the-peass-family), нашу колекцију ексклузивних [**NFT-ова**](https://opensea.io/collection/the-peass-family)
+* **Придружите се** 💬 [**Discord групи**](https://discord.gg/hRep4RUj7f) или [**телеграм групи**](https://t.me/peass) или **пратите** нас на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Поделите своје хакерске трикове слањем PR-ова на** [**HackTricks**](https://github.com/carlospolop/hacktricks) и [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторијуме.
 
 </details>
-
-

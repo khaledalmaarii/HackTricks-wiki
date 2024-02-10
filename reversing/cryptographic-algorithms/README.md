@@ -1,210 +1,195 @@
-# Cryptographic/Compression Algorithms
+# Kriptografski/Kompresioni Algoritmi
 
-## Cryptographic/Compression Algorithms
+## Kriptografski/Kompresioni Algoritmi
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Identifying Algorithms
+## Identifikacija Algoritama
 
-If you ends in a code **using shift rights and lefts, xors and several arithmetic operations** it's highly possible that it's the implementation of a **cryptographic algorithm**. Here it's going to be showed some ways to **identify the algorithm that it's used without needing to reverse each step**.
+Ako se susretnete sa kodom **koji koristi pomeranje udesno i ulevo, ekskluzivno ili, i nekoliko aritmetičkih operacija**, vrlo je verovatno da je to implementacija **kriptografskog algoritma**. Ovde će biti prikazani neki načini **identifikacije algoritma koji se koristi bez potrebe za rekonstrukcijom svakog koraka**.
 
-### API functions
+### API funkcije
 
 **CryptDeriveKey**
 
-If this function is used, you can find which **algorithm is being used** checking the value of the second parameter:
+Ako se koristi ova funkcija, možete pronaći koji **algoritam se koristi** proverom vrednosti drugog parametra:
 
 ![](<../../.gitbook/assets/image (375) (1) (1) (1) (1).png>)
 
-Check here the table of possible algorithms and their assigned values: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Pogledajte ovde tabelu mogućih algoritama i njihovih dodeljenih vrednosti: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 **RtlCompressBuffer/RtlDecompressBuffer**
 
-Compresses and decompresses a given buffer of data.
+Komprimuje i dekomprimuje dati bafer podataka.
 
 **CryptAcquireContext**
 
-From [the docs](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): The **CryptAcquireContext** function is used to acquire a handle to a particular key container within a particular cryptographic service provider (CSP). **This returned handle is used in calls to CryptoAPI** functions that use the selected CSP.
+Iz [dokumentacije](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Funkcija **CryptAcquireContext** se koristi za dobijanje ručke ka određenom kontejneru ključeva unutar određenog provajdera kriptografskih usluga (CSP). **Ova vraćena ručka se koristi u pozivima CryptoAPI** funkcija koje koriste izabrani CSP.
 
 **CryptCreateHash**
 
-Initiates the hashing of a stream of data. If this function is used, you can find which **algorithm is being used** checking the value of the second parameter:
+Inicira heširanje niza podataka. Ako se koristi ova funkcija, možete pronaći koji **algoritam se koristi** proverom vrednosti drugog parametra:
 
 ![](<../../.gitbook/assets/image (376).png>)
 
-\
-Check here the table of possible algorithms and their assigned values: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Pogledajte ovde tabelu mogućih algoritama i njihovih dodeljenih vrednosti: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
-### Code constants
+### Konstante koda
 
-Sometimes it's really easy to identify an algorithm thanks to the fact that it needs to use a special and unique value.
+Ponekad je vrlo jednostavno identifikovati algoritam zahvaljujući činjenici da mora koristiti posebnu i jedinstvenu vrednost.
 
 ![](<../../.gitbook/assets/image (370).png>)
 
-If you search for the first constant in Google this is what you get:
+Ako pretražite prvu konstantu na Google-u, dobićete sledeće:
 
 ![](<../../.gitbook/assets/image (371).png>)
 
-Therefore, you can assume that the decompiled function is a **sha256 calculator.**\
-You can search any of the other constants and you will obtain (probably) the same result.
+Stoga, možete pretpostaviti da je dekompilirana funkcija **kalkulator sha256**.\
+Možete pretražiti bilo koju od drugih konstanti i verovatno ćete dobiti isti rezultat.
 
-### data info
+### informacije o podacima
 
-If the code doesn't have any significant constant it may be **loading information from the .data section**.\
-You can access that data, **group the first dword** and search for it in google as we have done in the section before:
+Ako kod nema značajne konstante, može se **učitavati informacije iz .data sekcije**.\
+Možete pristupiti tim podacima, **grupisati prvi dword** i pretražiti ga na Google-u kao što smo uradili u prethodnom odeljku:
 
 ![](<../../.gitbook/assets/image (372).png>)
 
-In this case, if you look for **0xA56363C6** you can find that it's related to the **tables of the AES algorithm**.
+U ovom slučaju, ako potražite **0xA56363C6**, možete saznati da je povezano sa **tabelama AES algoritma**.
 
-## RC4 **(Symmetric Crypt)**
+## RC4 **(Simetrična Kriptografija)**
 
-### Characteristics
+### Karakteristike
 
-It's composed of 3 main parts:
+Sastoji se od 3 glavna dela:
 
-* **Initialization stage/**: Creates a **table of values from 0x00 to 0xFF** (256bytes in total, 0x100). This table is commonly call **Substitution Box** (or SBox).
-* **Scrambling stage**: Will **loop through the table** crated before (loop of 0x100 iterations, again) creating modifying each value with **semi-random** bytes. In order to create this semi-random bytes, the RC4 **key is used**. RC4 **keys** can be **between 1 and 256 bytes in length**, however it is usually recommended that it is above 5 bytes. Commonly, RC4 keys are 16 bytes in length.
-* **XOR stage**: Finally, the plain-text or cyphertext is **XORed with the values created before**. The function to encrypt and decrypt is the same. For this, a **loop through the created 256 bytes** will be performed as many times as necessary. This is usually recognized in a decompiled code with a **%256 (mod 256)**.
+* **Faza inicijalizacije/**: Kreira **tabelu vrednosti od 0x00 do 0xFF** (ukupno 256 bajtova, 0x100). Ova tabela se obično naziva **Substitution Box** (ili SBox).
+* **Faza mešanja**: Prolaziće kroz prethodno kreiranu tabelu (ponavljanje 0x100 iteracija, opet) modifikovanjem svake vrednosti sa **polu-slučajnim** bajtovima. Da bi se stvorili ovi polu-slučajni bajtovi, koristi se RC4 **ključ**. RC4 **ključevi** mogu biti **dugački između 1 i 256 bajtova**, mada se obično preporučuje da bude duži od 5 bajtova. Obično, RC4 ključevi su dužine 16 bajtova.
+* **XOR faza**: Na kraju, plain-text ili šifrovani tekst se **XOR-uje sa vrednostima koje su prethodno kreirane**. Funkcija za šifrovanje i dešifrovanje je ista. Za to će se izvršiti **ponavljanje kroz kreiranih 256 bajtova** koliko god puta je potrebno. Ovo se obično prepoznaje u dekompiliranom kodu sa **%256 (mod 256)**.
 
 {% hint style="info" %}
-**In order to identify a RC4 in a disassembly/decompiled code you can check for 2 loops of size 0x100 (with the use of a key) and then a XOR of the input data with the 256 values created before in the 2 loops probably using a %256 (mod 256)**
+**Da biste identifikovali RC4 u disasembliranom/dekompiliranom kodu, možete proveriti da li postoje 2 petlje veličine 0x100 (sa upotrebom ključa) i zatim XOR ulaznih podataka sa 256 vrednosti koje su prethodno kreirane u 2 petlje, verovatno koristeći %256 (mod 256)**
 {% endhint %}
 
-### **Initialization stage/Substitution Box:** (Note the number 256 used as counter and how a 0 is written in each place of the 256 chars)
+### **Faza inicijalizacije/Substitution Box:** (Obratite pažnju na broj 256 koji se koristi kao brojač i kako je 0 upisano na svako mesto od 256 karaktera)
 
 ![](<../../.gitbook/assets/image (377).png>)
 
-### **Scrambling Stage:**
+### **Faza mešanja:**
 
 ![](<../../.gitbook/assets/image (378).png>)
 
-### **XOR Stage:**
+### **XOR faza:**
 
 ![](<../../.gitbook/assets/image (379).png>)
 
-## **AES (Symmetric Crypt)**
+## **AES (Simetrična Kriptografija)**
 
-### **Characteristics**
+### **Karakteristike**
 
-* Use of **substitution boxes and lookup tables**
-  * It's possible to **distinguish AES thanks to the use of specific lookup table values** (constants). _Note that the **constant** can be **stored** in the binary **or created**_ _**dynamically**._
-* The **encryption key** must be **divisible** by **16** (usually 32B) and usually an **IV** of 16B is used.
+* Upotreba **substitution box-ova i lookup tabela**
+* Moguće je **razlikovati AES zahvaljujući upotrebi specifičnih vrednosti lookup tabela** (konstanti). _Imajte na umu da se **konstanta** može **čuvati** u binarnom **ili kreirati**_ _**dinamički**._
+* **Ključ za šifrovanje** mora biti **deljiv** sa **16** (obično 32B) i obično se koristi IV od 16B.
 
-### SBox constants
+### SBox konstante
 
 ![](<../../.gitbook/assets/image (380).png>)
 
-## Serpent **(Symmetric Crypt)**
+## Serpent **(Simetrična Kriptografija)**
 
-### Characteristics
+### Karakteristike
 
-* It's rare to find some malware using it but there are examples (Ursnif)
-* Simple to determine if an algorithm is Serpent or not based on it's length (extremely long function)
+* Retko je pronaći malver koji ga koristi, ali postoje primeri (Ursnif)
+* Jednostavno je odrediti da li je algoritam Serpent ili ne na osnovu njeg
+## RSA **(Asimetrična kriptografija)**
 
-### Identifying
+### Karakteristike
 
-In the following image notice how the constant **0x9E3779B9** is used (note that this constant is also used by other crypto algorithms like **TEA** -Tiny Encryption Algorithm).\
-Also note the **size of the loop** (**132**) and the **number of XOR operations** in the **disassembly** instructions and in the **code** example:
+* Kompleksniji od simetričnih algoritama
+* Nema konstanti! (teško je odrediti prilagođenu implementaciju)
+* KANAL (kripto analizator) ne može pružiti podatke o RSA jer se oslanja na konstante.
 
-![](<../../.gitbook/assets/image (381).png>)
-
-As it was mentioned before, this code can be visualized inside any decompiler as a **very long function** as there **aren't jumps** inside of it. The decompiled code can look like the following:
-
-![](<../../.gitbook/assets/image (382).png>)
-
-Therefore, it's possible to identify this algorithm checking the **magic number** and the **initial XORs**, seeing a **very long function** and **comparing** some **instructions** of the long function **with an implementation** (like the shift left by 7 and the rotate left by 22).
-
-## RSA **(Asymmetric Crypt)**
-
-### Characteristics
-
-* More complex than symmetric algorithms
-* There are no constants! (custom implementation are difficult to determine)
-* KANAL (a crypto analyzer) fails to show hints on RSA ad it relies on constants.
-
-### Identifying by comparisons
+### Identifikacija pomoću poređenja
 
 ![](<../../.gitbook/assets/image (383).png>)
 
-* In line 11 (left) there is a `+7) >> 3` which is the same as in line 35 (right): `+7) / 8`
-* Line 12 (left) is checking if `modulus_len < 0x040` and in line 36 (right) it's checking if `inputLen+11 > modulusLen`
+* U liniji 11 (levo) se nalazi `+7) >> 3`, što je isto kao u liniji 35 (desno): `+7) / 8`
+* Linija 12 (levo) proverava da li je `modulus_len < 0x040`, a u liniji 36 (desno) proverava da li je `inputLen+11 > modulusLen`
 
 ## MD5 & SHA (hash)
 
-### Characteristics
+### Karakteristike
 
-* 3 functions: Init, Update, Final
-* Similar initialize functions
+* 3 funkcije: Init, Update, Final
+* Slične inicijalizacijske funkcije
 
-### Identify
+### Identifikacija
 
 **Init**
 
-You can identify both of them checking the constants. Note that the sha\_init has 1 constant that MD5 doesn't have:
+Možete ih identifikovati proverom konstanti. Imajte na umu da sha\_init ima 1 konstantu koju MD5 nema:
 
 ![](<../../.gitbook/assets/image (385).png>)
 
 **MD5 Transform**
 
-Note the use of more constants
+Primetite upotrebu više konstanti
 
 ![](<../../.gitbook/assets/image (253) (1) (1) (1).png>)
 
 ## CRC (hash)
 
-* Smaller and more efficient as it's function is to find accidental changes in data
-* Uses lookup tables (so you can identify constants)
+* Manji i efikasniji jer je njegova funkcija pronalaženje slučajnih promena u podacima
+* Koristi lookup tabele (tako da možete identifikovati konstante)
 
-### Identify
+### Identifikacija
 
-Check **lookup table constants**:
+Proverite **konstante lookup tabele**:
 
 ![](<../../.gitbook/assets/image (387).png>)
 
-A CRC hash algorithm looks like:
+Algoritam za CRC hash izgleda ovako:
 
 ![](<../../.gitbook/assets/image (386).png>)
 
-## APLib (Compression)
+## APLib (Kompresija)
 
-### Characteristics
+### Karakteristike
 
-* Not recognizable constants
-* You can try to write the algorithm in python and search for similar things online
+* Nema prepoznatljivih konstanti
+* Možete pokušati da napišete algoritam u Pythonu i tražite slične stvari na internetu
 
-### Identify
+### Identifikacija
 
-The graph is quiet large:
+Grafikon je prilično velik:
 
 ![](<../../.gitbook/assets/image (207) (2) (1).png>)
 
-Check **3 comparisons to recognise it**:
+Proverite **3 poređenja da biste ga prepoznali**:
 
 ![](<../../.gitbook/assets/image (384).png>)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od početnika do stručnjaka sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **oglašavanje vaše kompanije u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, pogledajte [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

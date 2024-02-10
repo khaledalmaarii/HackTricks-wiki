@@ -1,74 +1,74 @@
-# macOS Bundles
+# macOS Paketi
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Basic Information
+## Osnovne informacije
 
-Bundles in macOS serve as containers for a variety of resources including applications, libraries, and other necessary files, making them appear as single objects in Finder, such as the familiar `*.app` files. The most commonly encountered bundle is the `.app` bundle, though other types like `.framework`, `.systemextension`, and `.kext` are also prevalent.
+Paketi u macOS-u služe kao kontejneri za različite resurse, uključujući aplikacije, biblioteke i druge neophodne datoteke, čime se prikazuju kao jedinstveni objekti u Finder-u, poput poznatih `*.app` datoteka. Najčešće korišćeni paket je `.app` paket, iako su takođe prisutni i drugi tipovi kao što su `.framework`, `.systemextension` i `.kext`.
 
-### Essential Components of a Bundle
+### Osnovne komponente paketa
 
-Within a bundle, particularly within the `<application>.app/Contents/` directory, a variety of important resources are housed:
+Unutar paketa, posebno unutar direktorijuma `<application>.app/Contents/`, smešteni su različiti važni resursi:
 
-- **_CodeSignature**: This directory stores code-signing details vital for verifying the integrity of the application. You can inspect the code-signing information using commands like:
-  %%%bash
-  openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64
-  %%%
-- **MacOS**: Contains the executable binary of the application that runs upon user interaction.
-- **Resources**: A repository for the application's user interface components including images, documents, and interface descriptions (nib/xib files).
-- **Info.plist**: Acts as the application's main configuration file, crucial for the system to recognize and interact with the application appropriately.
+- **_CodeSignature**: Ovaj direktorijum čuva detalje potpisivanja koda koji su vitalni za proveru integriteta aplikacije. Možete pregledati informacije o potpisivanju koda koristeći komande poput:
+%%%bash
+openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64
+%%%
+- **MacOS**: Sadrži izvršnu binarnu datoteku aplikacije koja se pokreće prilikom interakcije korisnika.
+- **Resources**: Repozitorijum za komponente korisničkog interfejsa aplikacije, uključujući slike, dokumente i opise interfejsa (nib/xib datoteke).
+- **Info.plist**: Deluje kao glavna konfiguraciona datoteka aplikacije, ključna za sistem da prepozna i interaguje sa aplikacijom na odgovarajući način.
 
-#### Important Keys in Info.plist
+#### Važni ključevi u Info.plist
 
-The `Info.plist` file is a cornerstone for application configuration, containing keys such as:
+Datoteka `Info.plist` je osnova za konfiguraciju aplikacije i sadrži ključeve kao što su:
 
-- **CFBundleExecutable**: Specifies the name of the main executable file located in the `Contents/MacOS` directory.
-- **CFBundleIdentifier**: Provides a global identifier for the application, used extensively by macOS for application management.
-- **LSMinimumSystemVersion**: Indicates the minimum version of macOS required for the application to run.
+- **CFBundleExecutable**: Određuje ime glavne izvršne datoteke koja se nalazi u direktorijumu `Contents/MacOS`.
+- **CFBundleIdentifier**: Pruža globalni identifikator za aplikaciju, koji se široko koristi u macOS-u za upravljanje aplikacijama.
+- **LSMinimumSystemVersion**: Označava minimalnu verziju macOS-a potrebnu za pokretanje aplikacije.
 
-### Exploring Bundles
+### Istraživanje paketa
 
-To explore the contents of a bundle, such as `Safari.app`, the following command can be used:
+Da biste istražili sadržaj paketa, poput `Safari.app`, možete koristiti sledeću komandu:
 %%%bash
 ls -lR /Applications/Safari.app/Contents
 %%%
 
-This exploration reveals directories like `_CodeSignature`, `MacOS`, `Resources`, and files like `Info.plist`, each serving a unique purpose from securing the application to defining its user interface and operational parameters.
+Ovo istraživanje otkriva direktorijume poput `_CodeSignature`, `MacOS`, `Resources`, i datoteke poput `Info.plist`, pri čemu svaki ima jedinstvenu svrhu, od osiguravanja aplikacije do definisanja njenog korisničkog interfejsa i operativnih parametara.
 
-#### Additional Bundle Directories
+#### Dodatni direktorijumi paketa
 
-Beyond the common directories, bundles may also include:
+Pored uobičajenih direktorijuma, paketi mogu takođe sadržati:
 
-- **Frameworks**: Contains bundled frameworks used by the application.
-- **PlugIns**: A directory for plug-ins and extensions that enhance the application's capabilities.
-- **XPCServices**: Holds XPC services used by the application for out-of-process communication.
+- **Frameworks**: Sadrži uvezene framework-ove koje koristi aplikacija.
+- **PlugIns**: Direktorijum za dodatke i ekstenzije koje poboljšavaju mogućnosti aplikacije.
+- **XPCServices**: Sadrži XPC servise koje aplikacija koristi za komunikaciju van procesa.
 
-This structure ensures that all necessary components are encapsulated within the bundle, facilitating a modular and secure application environment.
+Ova struktura osigurava da su svi neophodni komponenti smeštene unutar paketa, olakšavajući modularno i sigurno okruženje aplikacije.
 
-For more detailed information on `Info.plist` keys and their meanings, the Apple developer documentation provides extensive resources: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
+Za detaljnije informacije o ključevima u `Info.plist` datoteci i njihovom značenju, dokumentacija Apple razvojnog tima pruža obimne resurse: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

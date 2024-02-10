@@ -1,123 +1,111 @@
-# Kerberos Double Hop Problem
+# Problem dvostrukog skoka u Kerberosu
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Da li radite u **cybersecurity kompaniji**? Želite li da vidite **vašu kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Introduction
+## Uvod
 
-The Kerberos "Double Hop" problem appears when an attacker attempts to use **Kerberos authentication across two** **hops**, for example using **PowerShell**/**WinRM**.
+Problem "dvostrukog skoka" u Kerberosu se javlja kada napadač pokušava da koristi **Kerberos autentifikaciju preko dva** **skoka**, na primer koristeći **PowerShell**/**WinRM**.
 
-When an **authentication** occurs through **Kerberos**, **credentials** **aren't** cached in **memory.** Therefore, if you run mimikatz you **won't find credentials** of the user in the machine even if he is running processes.
+Kada se **autentifikacija** vrši putem **Kerberosa**, **poverilački podaci** se **ne čuvaju** u **memoriji**. Zato, ako pokrenete mimikatz, **nećete pronaći poverilačke podatke** korisnika na mašini, čak i ako on pokreće procese.
 
-This is because when connecting with Kerberos these are the steps:
+To je zato što kada se povezujete sa Kerberosom, sledeći su koraci:
 
-1. User1 provides credentials and **domain controller** returns a Kerberos **TGT** to the User1.
-2. User1 uses **TGT** to request a **service ticket** to **connect** to Server1.
-3. User1 **connects** to **Server1** and provides **service ticket**.
-4. **Server1** **doesn't** have **credentials** of User1 cached or the **TGT** of User1. Therefore, when User1 from Server1 tries to login to a second server, he is **not able to authenticate**.
+1. Korisnik1 pruža poverilačke podatke i **kontroler domena** vraća Kerberos **TGT** korisniku1.
+2. Korisnik1 koristi **TGT** da zatraži **servisni tiket** za **povezivanje** sa Serverom1.
+3. Korisnik1 se **povezuje** sa **Serverom1** i pruža **servisni tiket**.
+4. **Server1** **nema** poverilačke podatke korisnika1 u kešu niti **TGT** korisnika1. Zato, kada korisnik1 sa Servera1 pokuša da se prijavi na drugi server, on **ne može da se autentifikuje**.
 
-### Unconstrained Delegation
+### Neograničeno preusmeravanje
 
-If **unconstrained delegation** is enabled in the PC, this won't happen as the **Server** will **get** a **TGT** of each user accessing it. Moreover, if unconstrained delegation is used you probably can **compromise the Domain Controller** from it.\
-[**More info in the unconstrained delegation page**](unconstrained-delegation.md).
+Ako je **neograničeno preusmeravanje** omogućeno na računaru, ovo se neće dogoditi jer će **Server** dobiti **TGT** svakog korisnika koji mu pristupa. Osim toga, ako se koristi neograničeno preusmeravanje, verovatno možete **ugroziti kontroler domena** iz njega.\
+[**Više informacija na stranici o neograničenom preusmeravanju**](unconstrained-delegation.md).
 
 ### CredSSP
 
-Another way to avoid this problem which is [**notably insecure**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) is **Credential Security Support Provider**. From Microsoft:
+Još jedan način da se izbegne ovaj problem koji je [**posebno nesiguran**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) je **Credential Security Support Provider**. Prema Microsoft-u:
 
-> CredSSP authentication delegates the user credentials from the local computer to a remote computer. This practice increases the security risk of the remote operation. If the remote computer is compromised, when credentials are passed to it, the credentials can be used to control the network session.
+> CredSSP autentifikacija delegira korisničke poverilačke podatke sa lokalnog računara na udaljeni računar. Ova praksa povećava sigurnosni rizik udaljene operacije. Ako je udaljeni računar kompromitovan, kada mu se proslede poverilački podaci, poverilački podaci mogu se koristiti za kontrolu mrežne sesije.
 
-It is highly recommended that **CredSSP** be disabled on production systems, sensitive networks, and similar environments due to security concerns. To determine whether **CredSSP** is enabled, the `Get-WSManCredSSP` command can be run. This command allows for the **checking of CredSSP status** and can even be executed remotely, provided **WinRM** is enabled.
-
+Visoko se preporučuje da se **CredSSP** onemogući na proizvodnim sistemima, osetljivim mrežama i sličnim okruženjima zbog sigurnosnih razloga. Da biste utvrdili da li je **CredSSP** omogućen, može se pokrenuti komanda `Get-WSManCredSSP`. Ova komanda omogućava **proveru statusa CredSSP** i može se čak izvršiti i udaljeno, pod uslovom da je omogućen **WinRM**.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
-    Get-WSManCredSSP
+Get-WSManCredSSP
 }
 ```
-
-## Workarounds
+## Rešenja
 
 ### Invoke Command
 
-To address the double hop issue, a method involving a nested `Invoke-Command` is presented. This does not solve the problem directly but offers a workaround without needing special configurations. The approach allows executing a command (`hostname`) on a secondary server through a PowerShell command executed from an initial attacking machine or through a previously established PS-Session with the first server. Here's how it's done:
-
+Da biste rešili problem dvostrukog skoka, predstavljen je metod koji uključuje ugnježđeni `Invoke-Command`. Ovo ne rešava problem direktno, već nudi alternativno rešenje bez potrebe za posebnim konfiguracijama. Pristup omogućava izvršavanje komande (`hostname`) na sekundarnom serveru putem PowerShell komande izvršene sa početnog napadačkog računara ili putem prethodno uspostavljene PS-Session sa prvom serverom. Evo kako se to radi:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
-    Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
+Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
+Alternativno, predlaže se uspostavljanje PS-sesije sa prvom serverom i pokretanje `Invoke-Command` koristeći `$cred` radi centralizacije zadataka.
 
-Alternatively, establishing a PS-Session with the first server and running the `Invoke-Command` using `$cred` is suggested for centralizing tasks.
+### Registrovanje PSSession konfiguracije
 
-### Register PSSession Configuration
-
-A solution to bypass the double hop problem involves using `Register-PSSessionConfiguration` with `Enter-PSSession`. This method requires a different approach than `evil-winrm` and allows for a session that does not suffer from the double hop limitation. 
-
+Rešenje za zaobilaženje problema dvostrukog skoka uključuje korišćenje `Register-PSSessionConfiguration` sa `Enter-PSSession`. Ovaj metod zahteva drugačiji pristup od `evil-winrm` i omogućava sesiju koja ne pati od ograničenja dvostrukog skoka.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
 Enter-PSSession -ConfigurationName doublehopsess -ComputerName <pc_name> -Credential domain_name\username
 klist
 ```
-
 ### PortForwarding
 
-For local administrators on an intermediary target, port forwarding allows requests to be sent to a final server. Using `netsh`, a rule can be added for port forwarding, alongside a Windows firewall rule to allow the forwarded port. 
-
+Za lokalne administratore na posrednom cilju, port forwarding omogućava slanje zahteva ka krajnjem serveru. Korišćenjem `netsh` komande, može se dodati pravilo za port forwarding, zajedno sa Windows firewall pravilom koje dozvoljava prosleđivanje porta.
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
 ```
-
 #### winrs.exe
 
-`winrs.exe` can be used for forwarding WinRM requests, potentially as a less detectable option if PowerShell monitoring is a concern. The command below demonstrates its use:
-
+`winrs.exe` može se koristiti za prosleđivanje WinRM zahteva, potencijalno kao manje detektabilna opcija ako je praćenje PowerShell-a zabrinjavajuće. Sledeća komanda demonstrira njegovu upotrebu:
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
-
 ### OpenSSH
 
-Installing OpenSSH on the first server enables a workaround for the double-hop issue, particularly useful for jump box scenarios. This method requires CLI installation and setup of OpenSSH for Windows. When configured for Password Authentication, this allows the intermediary server to obtain a TGT on behalf of the user.
+Instaliranje OpenSSH-a na prvom serveru omogućava rešenje za problem dvostrukog preskakanja, posebno korisno u scenarijima sa skočnim kutijama. Ovaj metod zahteva CLI instalaciju i podešavanje OpenSSH-a za Windows. Kada je konfigurisan za autentifikaciju lozinkom, ovo omogućava posrednom serveru da dobije TGT u ime korisnika.
 
-#### OpenSSH Installation Steps
+#### Koraci za instalaciju OpenSSH-a
 
-1. Download and move the latest OpenSSH release zip to the target server.
-2. Unzip and run the `Install-sshd.ps1` script.
-3. Add a firewall rule to open port 22 and verify SSH services are running.
+1. Preuzmite najnoviji zip fajl sa OpenSSH izdanjem i premestite ga na ciljni server.
+2. Raspakujte zip fajl i pokrenite skriptu `Install-sshd.ps1`.
+3. Dodajte pravilo za otvaranje porta 22 na firewall-u i proverite da li SSH servisi rade.
 
-To resolve `Connection reset` errors, permissions might need to be updated to allow everyone read and execute access on the OpenSSH directory.
-
+Da biste rešili greške `Connection reset`, možda će biti potrebno ažurirati dozvole kako bi svi imali pristup čitanju i izvršavanju u OpenSSH direktorijumu.
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
+## Reference
 
-## References
-
-* [https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20](https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20)
+* [https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/razumevanje-kerberos-dvostrukog-skok/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20](https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/razumevanje-kerberos-dvostrukog-skok/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20)
 * [https://posts.slayerlabs.com/double-hop/](https://posts.slayerlabs.com/double-hop/)
-* [https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting](https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting)
-* [https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/](https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/)
+* [https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/još-jedno-rešenje-za-višestruko-prebacivanje-powershell-udaljavanja](https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/još-jedno-rešenje-za-višestruko-prebacivanje-powershell-udaljavanja)
+* [https://4sysops.com/archives/rešite-problem-višestrukog-prebacivanja-powershell-a-bez-korišćenja-credssp/](https://4sysops.com/archives/rešite-problem-višestrukog-prebacivanja-powershell-a-bez-korišćenja-credssp/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Da li radite u **cybersecurity kompaniji**? Želite li da vidite **vašu kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -1,46 +1,44 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-# Wasm Decompilation and Wat Compilation Guide
+# Vodič za dekompilaciju Wasm-a i kompilaciju Wat-a
 
-In the realm of **WebAssembly**, tools for **decompiling** and **compiling** are essential for developers. This guide introduces some online resources and software for handling **Wasm (WebAssembly binary)** and **Wat (WebAssembly text)** files.
+U svetu **WebAssembly-a**, alati za **dekompilaciju** i **kompilaciju** su neophodni za programere. Ovaj vodič predstavlja neke online resurse i softver za rukovanje **Wasm (WebAssembly binarnim)** i **Wat (WebAssembly tekstualnim)** fajlovima.
 
-## Online Tools
+## Online alati
 
-- To **decompile** Wasm to Wat, the tool available at [Wabt's wasm2wat demo](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) comes in handy. 
-- For **compiling** Wat back to Wasm, [Wabt's wat2wasm demo](https://webassembly.github.io/wabt/demo/wat2wasm/) serves the purpose.
-- Another decompilation option can be found at [web-wasmdec](https://wwwg.github.io/web-wasmdec/).
+- Za **dekompilaciju** Wasm-a u Wat, koristan je alat dostupan na [Wabt-ovom wasm2wat demo-u](https://webassembly.github.io/wabt/demo/wasm2wat/index.html).
+- Za **kompilaciju** Wat-a nazad u Wasm, [Wabt-ov wat2wasm demo](https://webassembly.github.io/wabt/demo/wat2wasm/) služi svrsi.
+- Druga opcija za dekompilaciju može se pronaći na [web-wasmdec](https://wwwg.github.io/web-wasmdec/).
 
-## Software Solutions
+## Softverska rešenja
 
-- For a more robust solution, [JEB by PNF Software](https://www.pnfsoftware.com/jeb/demo) offers extensive features.
-- The open-source project [wasmdec](https://github.com/wwwg/wasmdec) is also available for decompilation tasks.
+- Za robustnije rešenje, [JEB od PNF Software](https://www.pnfsoftware.com/jeb/demo) nudi obimne funkcionalnosti.
+- Open-source projekat [wasmdec](https://github.com/wwwg/wasmdec) takođe je dostupan za zadatke dekompilacije.
 
-# .Net Decompilation Resources
+# Resursi za dekompilaciju .Net-a
 
-Decompiling .Net assemblies can be accomplished with tools such as:
+Dekompilacija .Net skupova može se postići pomoću alata kao što su:
 
-- [ILSpy](https://github.com/icsharpcode/ILSpy), which also offers a [plugin for Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode), allowing cross-platform usage.
-- For tasks involving **decompilation**, **modification**, and **recompilation**, [dnSpy](https://github.com/0xd4d/dnSpy/releases) is highly recommended. **Right-clicking** a method and choosing **Modify Method** enables code changes.
-- [JetBrains' dotPeek](https://www.jetbrains.com/es-es/decompiler/) is another alternative for decompiling .Net assemblies.
+- [ILSpy](https://github.com/icsharpcode/ILSpy), koji takođe nudi [dodatak za Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode), omogućavajući upotrebu na više platformi.
+- Za zadatke koji uključuju **dekompilaciju**, **modifikaciju** i **rekompilaciju**, visoko se preporučuje [dnSpy](https://github.com/0xd4d/dnSpy/releases). **Desnim klikom** na metod i izborom **Modify Method** omogućava se izmena koda.
+- [JetBrains-ov dotPeek](https://www.jetbrains.com/es-es/decompiler/) je još jedna alternativa za dekompilaciju .Net skupova.
 
-## Enhancing Debugging and Logging with DNSpy
+## Unapređivanje debagovanja i logovanja sa DNSpy
 
-### DNSpy Logging
-To log information to a file using DNSpy, incorporate the following .Net code snippet:
+### DNSpy logovanje
+Da biste logovali informacije u fajl pomoću DNSpy-a, uključite sledeći .Net kod:
 
 %%%cpp
 using System.IO;
@@ -48,84 +46,80 @@ path = "C:\\inetpub\\temp\\MyTest2.txt";
 File.AppendAllText(path, "Password: " + password + "\n");
 %%%
 
-### DNSpy Debugging
-For effective debugging with DNSpy, a sequence of steps is recommended to adjust **Assembly attributes** for debugging, ensuring that optimizations that could hinder debugging are disabled. This process includes changing the `DebuggableAttribute` settings, recompiling the assembly, and saving the changes.
+### DNSpy debagovanje
+Za efikasno debagovanje sa DNSpy, preporučuje se niz koraka za podešavanje **Assembly atributa** za debagovanje, obezbeđujući da su onemogućene optimizacije koje mogu ometati debagovanje. Ovaj proces uključuje promenu podešavanja `DebuggableAttribute`, rekomplikaciju skupa i čuvanje promena.
 
-Moreover, to debug a .Net application run by **IIS**, executing `iisreset /noforce` restarts IIS. To attach DNSpy to the IIS process for debugging, the guide instructs on selecting the **w3wp.exe** process within DNSpy and starting the debugging session.
+Osim toga, da biste debagovali .Net aplikaciju pokrenutu putem **IIS-a**, izvršavanje `iisreset /noforce` restartuje IIS. Da biste povezali DNSpy sa IIS procesom za debagovanje, vodič daje instrukcije za odabir **w3wp.exe** procesa unutar DNSpy-a i pokretanje debagovanja.
 
-For a comprehensive view of loaded modules during debugging, accessing the **Modules** window in DNSpy is advised, followed by opening all modules and sorting assemblies for easier navigation and debugging.
+Za sveobuhvatan prikaz učitanih modula tokom debagovanja, preporučuje se pristupanje prozoru **Modules** u DNSpy-u, zatim otvaranje svih modula i sortiranje skupova radi lakšeg navigiranja i debagovanja.
 
-This guide encapsulates the essence of WebAssembly and .Net decompilation, offering a pathway for developers to navigate these tasks with ease. 
+Ovaj vodič obuhvata suštinu dekompilacije WebAssembly-a i .Net-a, nudeći putokaz programerima za lakše rukovanje ovim zadacima.
 
-## **Java Decompiler**
-To decompile Java bytecode, these tools can be very helpful:
+## **Java dekompajler**
+Za dekompajliranje Java bajtkoda, ovi alati mogu biti veoma korisni:
 - [jadx](https://github.com/skylot/jadx)
 - [JD-GUI](https://github.com/java-decompiler/jd-gui/releases)
 
-## **Debugging DLLs**
-### Using IDA
-- **Rundll32** is loaded from specific paths for 64-bit and 32-bit versions.
-- **Windbg** is selected as the debugger with the option to suspend on library load/unload enabled.
-- Execution parameters include the DLL path and function name. This setup halts execution upon each DLL's loading.
+## **Debagovanje DLL fajlova**
+### Korišćenje IDA-e
+- **Rundll32** se učitava sa specifičnih putanja za 64-bitne i 32-bitne verzije.
+- **Windbg** se bira kao debager sa omogućenom opcijom za zaustavljanje pri učitavanju/isključivanju biblioteke.
+- Parametri izvršavanja uključuju putanju DLL fajla i ime funkcije. Ova konfiguracija zaustavlja izvršavanje pri svakom učitavanju DLL-a.
 
-### Using x64dbg/x32dbg
-- Similar to IDA, **rundll32** is loaded with command line modifications to specify the DLL and function.
-- Settings are adjusted to break on DLL entry, allowing breakpoint setting at the desired DLL entry point.
+### Korišćenje x64dbg/x32dbg
+- Slično kao i kod IDA-e, **rundll32** se učitava sa modifikacijama komandne linije koje specificiraju DLL i funkciju.
+- Podešavanja se prilagođavaju da bi se prekinulo izvršavanje pri ulasku u DLL, omogućavajući postavljanje prekida na željenoj tački ulaska u DLL.
 
-### Images
-- Execution stopping points and configurations are illustrated through screenshots.
+### Slike
+- Tačke zaustavljanja izvršavanja i konfiguracije ilustrovane su putem snimaka ekrana.
 
-## **ARM & MIPS**
-- For emulation, [arm_now](https://github.com/nongiach/arm_now) is a useful resource.
+## **ARM i MIPS**
+- Za emulaciju, [arm_now](https://github.com/nongiach/arm_now) je koristan resurs.
 
-## **Shellcodes**
-### Debugging Techniques
-- **Blobrunner** and **jmp2it** are tools for allocating shellcodes in memory and debugging them with Ida or x64dbg.
-  - Blobrunner [releases](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
-  - jmp2it [compiled version](https://github.com/adamkramer/jmp2it/releases/)
-- **Cutter** offers GUI-based shellcode emulation and inspection, highlighting differences in shellcode handling as a file versus direct shellcode.
+## **Shell kodovi**
+### Tehnike debagovanja
+- **Blobrunner** i **jmp2it** su alati za alokaciju shell kodova u memoriji i debagovanje istih pomoću Ida ili x64dbg.
+- Blobrunner [izdanja](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
+- jmp2it [kompilirana verzija](https://github.com/adamkramer/jmp2it/releases/)
+- **Cutter** nudi GUI baziranu emulaciju i inspekciju shell kodova, ističući razlike u rukovanju shell kodovima kao fajlom naspram direktnog shell koda.
 
-### Deobfuscation and Analysis
-- **scdbg** provides insights into shellcode functions and deobfuscation capabilities.
+### Deobfuskacija i analiza
+- **scdbg** pruža uvid u funkcije shell koda i mogućnosti deobfuskacije.
 %%%bash
-scdbg.exe -f shellcode # Basic info
-scdbg.exe -f shellcode -r # Analysis report
-scdbg.exe -f shellcode -i -r # Interactive hooks
-scdbg.exe -f shellcode -d # Dump decoded shellcode
-scdbg.exe -f shellcode /findsc # Find start offset
-scdbg.exe -f shellcode /foff 0x0000004D # Execute from offset
+scdbg.exe -f shellcode # Osnovne informacije
+scdbg.exe -f shellcode -r # Izveštaj analize
+scdbg.exe -f shellcode -i -r # Interaktivni hookovi
+scdbg.exe -f shellcode -d # Dump dekodiranog shell koda
+scdbg.exe -f shellcode /findsc # Pronalaženje početnog offseta
+scdbg.exe -f shellcode /foff 0x0000004D # Izvršavanje od offseta
 %%%
 
-- **CyberChef** for disassembling shellcode: [CyberChef recipe](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
+- **CyberChef** za rastavljanje shell koda: [CyberChef recept](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
 
 ## **Movfuscator**
-- An obfuscator that replaces all instructions with `mov`.
-- Useful resources include a [YouTube explanation](https://www.youtube.com/watch?v=2VF_wPkiBJY) and [PDF slides](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
-- **demovfuscator** might reverse movfuscator's obfuscation, requiring dependencies like `libcapstone-dev` and `libz3-dev`, and installing [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
-
+- Obfuskator koji zamenjuje sve instrukcije sa `mov`.
+- Korisni resursi uključuju [YouTube objašnjenje](https://www.youtube.com/watch?v=2VF_wPkiBJY) i
 ## **Delphi**
-- For Delphi binaries, [IDR](https://github.com/crypto2011/IDR) is recommended.
+- Za Delphi binarne datoteke preporučuje se korišćenje [IDR](https://github.com/crypto2011/IDR).
 
 
-# Courses
+# Kursevi
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) \(Binary deobfuscation\)
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) \(Deobfuskacija binarnih datoteka\)
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju oglašenu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
-
-

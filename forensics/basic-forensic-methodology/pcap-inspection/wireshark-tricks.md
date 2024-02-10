@@ -1,183 +1,181 @@
-# Wireshark tricks
+# Trikovi za Wireshark
 
-## Wireshark tricks
+## Trikovi za Wireshark
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini da podržite HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Improve your Wireshark skills
+## Unapredite svoje veštine u Wireshark-u
 
-### Tutorials
+### Tutorijali
 
-The following tutorials are amazing to learn some cool basic tricks:
+Sledeći tutorijali su sjajni za učenje nekih cool osnovnih trikova:
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/](https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/](https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/)
 
-### Analysed Information
+### Analizirane informacije
 
-**Expert Information**
+**Ekspertne informacije**
 
-Clicking on _**Analyze** --> **Expert Information**_ you will have an **overview** of what is happening in the packets **analyzed**:
+Klikom na _**Analyze** --> **Expert Information**_ dobićete **pregled** onoga što se dešava u analiziranim paketima:
 
 ![](<../../../.gitbook/assets/image (570).png>)
 
-**Resolved Addresses**
+**Rešene adrese**
 
-Under _**Statistics --> Resolved Addresses**_ you can find several **information** that was "**resolved**" by wireshark like port/transport to protocol, MAC to the manufacturer, etc. It is interesting to know what is implicated in the communication.
+Pod _**Statistics --> Resolved Addresses**_ možete pronaći nekoliko **informacija** koje je wireshark "**rešio**" kao što su port/transport u protokol, MAC adresa proizvođača, itd. Korisno je znati šta je uključeno u komunikaciju.
 
 ![](<../../../.gitbook/assets/image (571).png>)
 
-**Protocol Hierarchy**
+**Hijerarhija protokola**
 
-Under _**Statistics --> Protocol Hierarchy**_ you can find the **protocols** **involved** in the communication and data about them.
+Pod _**Statistics --> Protocol Hierarchy**_ možete pronaći **protokole** koji su uključeni u komunikaciju i podatke o njima.
 
 ![](<../../../.gitbook/assets/image (572).png>)
 
-**Conversations**
+**Konverzacije**
 
-Under _**Statistics --> Conversations**_ you can find a **summary of the conversations** in the communication and data about them.
+Pod _**Statistics --> Conversations**_ možete pronaći **rezime konverzacija** u komunikaciji i podatke o njima.
 
 ![](<../../../.gitbook/assets/image (573).png>)
 
-**Endpoints**
+**Krajnje tačke**
 
-Under _**Statistics --> Endpoints**_ you can find a **summary of the endpoints** in the communication and data about each of them.
+Pod _**Statistics --> Endpoints**_ možete pronaći **rezime krajnjih tačaka** u komunikaciji i podatke o svakoj od njih.
 
 ![](<../../../.gitbook/assets/image (575).png>)
 
-**DNS info**
+**DNS informacije**
 
-Under _**Statistics --> DNS**_ you can find statistics about the DNS request captured.
+Pod _**Statistics --> DNS**_ možete pronaći statistike o uhvaćenim DNS zahtevima.
 
 ![](<../../../.gitbook/assets/image (577).png>)
 
-**I/O Graph**
+**I/O Grafikon**
 
-Under _**Statistics --> I/O Graph**_ you can find a **graph of the communication.**
+Pod _**Statistics --> I/O Graph**_ možete pronaći **grafikon komunikacije**.
 
 ![](<../../../.gitbook/assets/image (574).png>)
 
-### Filters
+### Filteri
 
-Here you can find wireshark filter depending on the protocol: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
-Other interesting filters:
+Ovde možete pronaći Wireshark filtere u zavisnosti od protokola: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Drugi interesantni filteri:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-  * HTTP and initial HTTPS traffic
+* HTTP i početni HTTPS saobraćaj
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-  * HTTP and initial HTTPS traffic + TCP SYN
+* HTTP i početni HTTPS saobraćaj + TCP SYN
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-  * HTTP and initial HTTPS traffic + TCP SYN + DNS requests
+* HTTP i početni HTTPS saobraćaj + TCP SYN + DNS zahtevi
 
-### Search
+### Pretraga
 
-If you want to **search** for **content** inside the **packets** of the sessions press _CTRL+f_. You can add new layers to the main information bar (No., Time, Source, etc.) by pressing the right button and then the edit column.
+Ako želite da **pretražujete** **sadržaj** unutar **paketa** sesija pritisnite _CTRL+f_. Možete dodati nove slojeve u glavnu traku informacija (No., Vreme, Izvor, itd.) pritiskom na desno dugme, a zatim na dugme za uređivanje kolone.
 
-### Free pcap labs
+### Besplatni pcap labovi
 
-**Practice with the free challenges of: [https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
+**Vežbajte sa besplatnim izazovima na: [https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
 
-## Identifying Domains
+## Identifikacija domena
 
-You can add a column that shows the Host HTTP header:
+Možete dodati kolonu koja prikazuje Host HTTP zaglavlje:
 
 ![](<../../../.gitbook/assets/image (403).png>)
 
-And a column that add the Server name from an initiating HTTPS connection (**ssl.handshake.type == 1**):
+I kolonu koja dodaje ime servera iz inicijalne HTTPS veze (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
-## Identifying local hostnames
+## Identifikacija lokalnih imena hostova
 
-### From DHCP
+### Iz DHCP-a
 
-In current Wireshark instead of `bootp` you need to search for `DHCP`
+U trenutnom Wireshark-u umesto `bootp` trebate pretražiti `DHCP`
 
 ![](<../../../.gitbook/assets/image (404).png>)
 
-### From NBNS
+### Iz NBNS-a
 
 ![](<../../../.gitbook/assets/image (405).png>)
 
-## Decrypting TLS
+## Dekriptovanje TLS-a
 
-### Decrypting https traffic with server private key
+### Dekriptovanje https saobraćaja sa privatnim ključem servera
 
 _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (98).png>)
 
-Press _Edit_ and add all the data of the server and the private key (_IP, Port, Protocol, Key file and password_)
+Pritisnite _Edit_ i dodajte sve podatke o serveru i privatnom ključu (_IP, Port, Protocol, Key file i password_)
 
-### Decrypting https traffic with symmetric session keys
+### Dekriptovanje https saobraćaja sa simetričnim sesijskim ključevima
 
-Both Firefox and Chrome have the capability to log TLS session keys, which can be used with Wireshark to decrypt TLS traffic. This allows for in-depth analysis of secure communications. More details on how to perform this decryption can be found in a guide at [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+i Firefox i Chrome imaju mogućnost beleženja TLS sesijskih ključeva, koji se mogu koristiti sa Wireshark-om za dekriptovanje TLS saobraćaja. Ovo omogućava detaljnu analizu sigurne komunikacije. Više detalja o tome kako izvršiti ovo dekriptovanje možete pronaći u vodiču na [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
-To detect this search inside the environment for to variable `SSLKEYLOGFILE`
+Da biste ovo otkrili, pretražite okruženje za promenljivu `SSLKEYLOGFILE`
 
-A file of shared keys will look like this:
+Fajl sa deljenim ključevima će izgledati ovako:
 
 ![](<../../../.gitbook/assets/image (99).png>)
 
-To import this in wireshark go to \_edit > preference > protocol > ssl > and import it in (Pre)-Master-Secret log filename:
+Da biste uvezli ovo u wireshark idite na \_edit > preference > protocol > ssl > i uvezite ga u (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (100).png>)
 
-## ADB communication
+## ADB komunikacija
 
-Extract an APK from an ADB communication where the APK was sent:
-
+Izvucite APK iz ADB komunikacije gde je APK poslat:
 ```python
 from scapy.all import *
 
 pcap = rdpcap("final2.pcapng")
 
 def rm_data(data):
-    splitted = data.split(b"DATA")
-    if len(splitted) == 1:
-        return data
-    else:
-        return splitted[0]+splitted[1][4:]
+splitted = data.split(b"DATA")
+if len(splitted) == 1:
+return data
+else:
+return splitted[0]+splitted[1][4:]
 
 all_bytes = b""
 for pkt in pcap:
-    if Raw in pkt:
-        a = pkt[Raw]
-        if b"WRTE" == bytes(a)[:4]:
-            all_bytes += rm_data(bytes(a)[24:])
-        else:
-            all_bytes += rm_data(bytes(a))
+if Raw in pkt:
+a = pkt[Raw]
+if b"WRTE" == bytes(a)[:4]:
+all_bytes += rm_data(bytes(a)[24:])
+else:
+all_bytes += rm_data(bytes(a))
 print(all_bytes)
 
 f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
