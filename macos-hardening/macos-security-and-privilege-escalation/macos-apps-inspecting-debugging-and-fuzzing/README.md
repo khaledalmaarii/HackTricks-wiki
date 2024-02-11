@@ -1,28 +1,26 @@
-# macOS Apps - Inspecting, debugging and Fuzzing
+# macOS-toepassings - Inspekteer, foutopsporing en Fuzzing
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
 
-## Static Analysis
+## Statische Analise
 
 ### otool
-
 ```bash
 otool -L /bin/ls #List dynamically linked libraries
 otool -tv /bin/ps #Decompile application
 ```
-
 ### objdump
 
 {% code overflow="wrap" %}
@@ -38,8 +36,7 @@ objdump --disassemble-symbols=_hello --x86-asm-syntax=intel toolsdemo #Disassemb
 
 ### jtool2
 
-The tool can be used as a **replacement** for **codesign**, **otool**, and **objdump**, and provides a few additional features. [**Download it here**](http://www.newosxbook.com/tools/jtool.html) or install it with `brew`.
-
+Die instrument kan gebruik word as 'n **vervanging** vir **codesign**, **otool**, en **objdump**, en bied 'n paar ekstra kenmerke. [**Laai dit hier af**](http://www.newosxbook.com/tools/jtool.html) of installeer dit met `brew`.
 ```bash
 # Install
 brew install --cask jtool2
@@ -56,13 +53,11 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 # Get MIG information
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-
 ### Codesign / ldid
 
 {% hint style="danger" %}
-**`Codesign`** can be found in **macOS** while **`ldid`** can be found in **iOS**
+**`Codesign`** kan gevind word in **macOS** terwyl **`ldid`** gevind kan word in **iOS**
 {% endhint %}
-
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -89,86 +84,78 @@ ldid -e <binary>
 ## /tmp/entl.xml is a XML file with the new entitlements to add
 ldid -S/tmp/entl.xml <binary>
 ```
+### VerdagtePakket
 
-### SuspiciousPackage
-
-[**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) is a tool useful to inspect **.pkg** files (installers) and see what is inside before installing it.\
-These installers have `preinstall` and `postinstall` bash scripts that malware authors usually abuse to **persist** **the** **malware**.
+[**VerdagtePakket**](https://mothersruin.com/software/SuspiciousPackage/get.html) is 'n nuttige hulpmiddel om **.pkg** lêers (installeerders) te ondersoek en te sien wat binne-in is voordat dit geïnstalleer word.\
+Hierdie installeerders het `preinstall` en `postinstall` bash-skripte wat malware-skrywers gewoonlik misbruik om die malware te **volhard**.
 
 ### hdiutil
 
-This tool allows to **mount** Apple disk images (**.dmg**) files to inspect them before running anything:
-
+Hierdie hulpmiddel maak dit moontlik om Apple-diskbeeldlêers (**.dmg**) te **monteer** om dit te ondersoek voordat enige iets uitgevoer word:
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
-
-It will be mounted in `/Volumes`
+Dit sal in `/Volumes` gemonteer word.
 
 ### Objective-C
 
 #### Metadata
 
 {% hint style="danger" %}
-Note that programs written in Objective-C **retain** their class declarations **when** **compiled** into [Mach-O binaries](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Such class declarations **include** the name and type of:
+Let daarop dat programme wat in Objective-C geskryf is, hul klassedeclarasies behou wanneer hulle gekompileer word in [Mach-O-binêre](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Sulke klassedeclarasies sluit die naam en tipe van die volgende in:
 {% endhint %}
 
-* The class
-* The class methods
-* The class instance variables
+* Die klas
+* Die klasmetodes
+* Die klasinstansie-variables
 
-You can get this information using [**class-dump**](https://github.com/nygard/class-dump):
-
+Jy kan hierdie inligting kry deur [**class-dump**](https://github.com/nygard/class-dump) te gebruik:
 ```bash
 class-dump Kindle.app
 ```
+Let wel, hierdie name kan versteek word om die omkeer van die binêre kode moeiliker te maak.
 
-Note that this names could be obfuscated to make the reversing of the binary more difficult.
+#### Funksie-oproep
 
-#### Function calling
-
-When a function is called in a binary that uses objective-C, the compiled code instead of calling that function, it will call **`objc_msgSend`**. Which will be calling the final function:
+Wanneer 'n funksie in 'n binêre kode geroep word wat Objective-C gebruik, sal die gekompileerde kode in plaas daarvan die funksie **`objc_msgSend`** oproep. Dit sal die finale funksie oproep:
 
 ![](<../../../.gitbook/assets/image (560).png>)
 
-The params this function expects are:
+Die parameters wat hierdie funksie verwag, is:
 
-* The first parameter (**self**) is "a pointer that points to the **instance of the class that is to receive the message**". Or more simply put, it’s the object that the method is being invoked upon. If the method is a class method, this will be an instance of the class object (as a whole), whereas for an instance method, self will point to an instantiated instance of the class as an object.
-* The second parameter, (**op**), is "the selector of the method that handles the message". Again, more simply put, this is just the **name of the method.**
-* The remaining parameters are any **values that are required by the method** (op).
+* Die eerste parameter (**self**) is " 'n wyser wat wys na die **instansie van die klas wat die boodskap moet ontvang** ". Of eenvoudig gestel, dit is die objek waarop die metode aangeroep word. As die metode 'n klasmetode is, sal dit 'n instansie van die klasobjek (as geheel) wees, terwyl dit vir 'n instansiemetode sal wys na 'n geïnstantieerde instansie van die klas as 'n objek.
+* Die tweede parameter (**op**) is "die selekteerder van die metode wat die boodskap hanteer". Weereens, eenvoudig gestel, is dit net die **naam van die metode**.
+* Die oorblywende parameters is enige **waardes wat deur die metode vereis word** (op).
 
-| **Argument**      | **Register**                                                    | **(for) objc\_msgSend**                                |
+| **Argument**      | **Register**                                                    | **(vir) objc\_msgSend**                                |
 | ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
-| **1st argument**  | **rdi**                                                         | **self: object that the method is being invoked upon** |
-| **2nd argument**  | **rsi**                                                         | **op: name of the method**                             |
-| **3rd argument**  | **rdx**                                                         | **1st argument to the method**                         |
-| **4th argument**  | **rcx**                                                         | **2nd argument to the method**                         |
-| **5th argument**  | **r8**                                                          | **3rd argument to the method**                         |
-| **6th argument**  | **r9**                                                          | **4th argument to the method**                         |
-| **7th+ argument** | <p><strong>rsp+</strong><br><strong>(on the stack)</strong></p> | **5th+ argument to the method**                        |
+| **1ste argument** | **rdi**                                                         | **self: objek waarop die metode aangeroep word**       |
+| **2de argument**  | **rsi**                                                         | **op: naam van die metode**                            |
+| **3de argument**  | **rdx**                                                         | **1ste argument van die metode**                       |
+| **4de argument**  | **rcx**                                                         | **2de argument van die metode**                        |
+| **5de argument**  | **r8**                                                          | **3de argument van die metode**                        |
+| **6de argument**  | **r9**                                                          | **4de argument van die metode**                        |
+| **7de+ argument** | <p><strong>rsp+</strong><br><strong>(op die stapel)</strong></p> | **5de+ argument van die metode**                       |
 
 ### Swift
 
-With Swift binaries, since there is Objective-C compatibility, sometimes you can extract declarations using [class-dump](https://github.com/nygard/class-dump/) but not always.
+Met Swift-binêre lêers, aangesien daar Objective-C-verenigbaarheid is, kan jy soms verklarings onttrek deur [class-dump](https://github.com/nygard/class-dump/) te gebruik, maar nie altyd nie.
 
-With the **`jtool -l`** or **`otool -l`** command lines it's possible ti find several sections that start with **`__swift5`** prefix:
-
+Met die **`jtool -l`** of **`otool -l`** opdraglyne is dit moontlik om verskeie afdelings te vind wat begin met die voorvoegsel **`__swift5`**:
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
 LC 01: LC_SEGMENT_64              Mem: 0x100000000-0x100028000    __TEXT
-    [...]
-    Mem: 0x100026630-0x100026d54        __TEXT.__swift5_typeref
-    Mem: 0x100026d60-0x100027061        __TEXT.__swift5_reflstr
-    Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
-    Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
-    [...]
+[...]
+Mem: 0x100026630-0x100026d54        __TEXT.__swift5_typeref
+Mem: 0x100026d60-0x100027061        __TEXT.__swift5_reflstr
+Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
+Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
+[...]
 ```
+Jy kan verdere inligting oor die **inligting wat in hierdie afdeling gestoor word in hierdie blogpos** vind (https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html).
 
-You can find further information about the [**information stored in these section in this blog post**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html).
-
-Moreover, **Swift binaries might have symbols** (for example libraries need to store symbols so its functions can be called). The **symbols usually have the info about the function name** and attr in a ugly way, so they are very useful and there are "**demanglers"** that can get the original name:
-
+Verder, **Swift binaêre lêers kan simbole hê** (byvoorbeeld biblioteke moet simbole stoor sodat sy funksies geroep kan word). Die **simbole het gewoonlik die inligting oor die funksienaam** en attr op 'n lelike manier, so hulle is baie nuttig en daar is "**demanglers"** wat die oorspronklike naam kan kry:
 ```bash
 # Ghidra plugin
 https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
@@ -176,94 +163,140 @@ https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
 # Swift cli
 swift demangle
 ```
+### Gepakte binaire lêers
 
-### Packed binaries
+* Kontroleer vir hoë entropie
+* Kontroleer die strings (as daar byna geen verstaanbare string is nie, is dit gepak)
+* Die UPX-pakker vir MacOS genereer 'n afdeling genaamd "\_\_XHDR"
 
-* Check for high entropy
-* Check the strings (is there is almost no understandable string, packed)
-* The UPX packer for MacOS generates a section called "\_\_XHDR"
-
-## Dynamic Analysis
+## Dinamiese Analise
 
 {% hint style="warning" %}
-Note that in order to debug binaries, **SIP needs to be disabled** (`csrutil disable` or `csrutil enable --without debug`) or to copy the binaries to a temporary folder and **remove the signature** with `codesign --remove-signature <binary-path>` or allow the debugging of the binary (you can use [this script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b))
+Let daarop dat om binaire lêers te ontleed, **SIP gedeaktiveer moet word** (`csrutil disable` of `csrutil enable --without debug`) of om die binaire lêers na 'n tydelike vouer te kopieer en die handtekening met `codesign --remove-signature <binary-pad>` te verwyder of om die ontleed van die binaire lêer toe te laat (jy kan [hierdie skripsie](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b) gebruik)
 {% endhint %}
 
 {% hint style="warning" %}
-Note that in order to **instrument system binaries**, (such as `cloudconfigurationd`) on macOS, **SIP must be disabled** (just removing the signature won't work).
+Let daarop dat om **sisteem-binaire lêers** (soos `cloudconfigurationd`) op macOS te **instrumenteer**, moet SIP gedeaktiveer word (net die handtekening verwyder sal nie werk nie).
 {% endhint %}
 
-### Unified Logs
+### Vereenigde Logboeke
 
-MacOS generates a lot of logs that can be very useful when running an application trying to understand **what is it doing**.
+MacOS genereer baie logboeke wat baie nuttig kan wees wanneer 'n toepassing uitgevoer word om te probeer verstaan **wat dit doen**.
 
-Moreover, the are some logs that will contain the tag `<private>` to **hide** some **user** or **computer** **identifiable** information. However, it's possible to **install a certificate to disclose this information**. Follow the explanations from [**here**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
+Daar is ook logboeke wat die etiket `<private>` bevat om sekere **gebruikers-** of **rekenaaridentifiseerbare** inligting te **versteek**. Dit is egter moontlik om 'n sertifikaat te installeer om hierdie inligting bekend te maak. Volg die verduidelikings vanaf [**hierdie skakel**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
 
 ### Hopper
 
-#### Left panel
+#### Linker paneel
 
-In the left panel of hopper it's possible to see the symbols (**Labels**) of the binary, the list of procedures and functions (**Proc**) and the strings (**Str**). Those aren't all the strings but the ones defined in several parts of the Mac-O file (like _cstring or_ `objc_methname`).
+In die linker paneel van Hopper is dit moontlik om die simbole (**Etikette**) van die binaire lêer, die lys van prosedures en funksies (**Proc**) en die strings (**Str**) te sien. Dit is nie al die strings nie, maar diegene wat in verskeie dele van die Mac-O-lêer gedefinieer is (soos _cstring of_ `objc_methname`).
 
-#### Middle panel
+#### Middelste paneel
 
-In the middle panel you can see the **dissasembled code**. And you can see it a **raw** disassemble, as **graph**, as **decompiled** and as **binary** by clicking on the respective icon:
+In die middelste paneel kan jy die **ontleedde kode** sien. En jy kan dit sien as 'n **rof** ontleed, as 'n **grafiek**, as **ontsommel** en as **binêr** deur op die betrokke ikoon te klik:
 
 <figure><img src="../../../.gitbook/assets/image (2) (6).png" alt=""><figcaption></figcaption></figure>
 
-Right clicking in a code object you can see **references to/from that object** or even change its name (this doesn't work in decompiled pseudocode):
+Deur met die rechtermuisknop op 'n kode-object te klik, kan jy **verwysings na/van daardie objek** sien of selfs sy naam verander (dit werk nie in ontsommelde pseudokode nie):
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-Moreover, in the **middle down you can write python commands**.
+Verder kan jy in die **middelste onderste deel Python-opdragte skryf**.
 
-#### Right panel
+#### Regter paneel
 
-In the right panel you can see interesting information such as the **navigation history** (so you know how you arrived at the current situation), the **call grap**h where you can see all the **functions that call this function** and all the functions that **this function calls**, and **local variables** information.
+In die regter paneel kan jy interessante inligting sien soos die **navigasiegeskiedenis** (sodat jy weet hoe jy by die huidige situasie uitgekom het), die **oproepgrafiek** waar jy al die **funksies kan sien wat hierdie funksie oproep** en al die funksies wat **hierdie funksie oproep**, en inligting oor **plaaslike veranderlikes**.
 
 ### dtrace
 
-It allows users access to applications at an extremely **low level** and provides a way for users to **trace** **programs** and even change their execution flow. Dtrace uses **probes** which are **placed throughout the kernel** and are at locations such as the beginning and end of system calls.
+Dit stel gebruikers in staat om toepassings op 'n uiters **lae vlak** te benader en bied 'n manier vir gebruikers om **programme te volg** en selfs hul uitvoeringsvloei te **verander**. Dtrace gebruik **sondes** wat **regdeur die kernel geplaas** word en op plekke soos die begin en einde van stelseloproepe is.
 
-DTrace uses the **`dtrace_probe_create`** function to create a probe for each system call. These probes can be fired in the **entry and exit point of each system call**. The interaction with DTrace occur through /dev/dtrace which is only available for the root user.
+DTrace gebruik die **`dtrace_probe_create`**-funksie om 'n sonde vir elke stelseloproep te skep. Hierdie sonde kan by die **intree- en uittreepunt van elke stelseloproep** geaktiveer word. Die interaksie met DTrace vind plaas deur middel van /dev/dtrace wat slegs beskikbaar is vir die root-gebruiker.
 
 {% hint style="success" %}
-To enable Dtrace without fully disabling SIP protection you could execute on recovery mode: `csrutil enable --without dtrace`
+Om Dtrace te aktiveer sonder om SIP-beskerming heeltemal te deaktiveer, kan jy in herstelmodus uitvoer: `csrutil enable --without dtrace`
 
-You can also **`dtrace`** or **`dtruss`** binaries that **you have compiled**.
+Jy kan ook **`dtrace`** of **`dtruss`** binaire lêers wat **jy self saamgestel het**, gebruik.
 {% endhint %}
 
-The available probes of dtrace can be obtained with:
-
+Die beskikbare sonde van dtrace kan verkry word met:
 ```bash
 dtrace -l | head
-   ID   PROVIDER            MODULE                          FUNCTION NAME
-    1     dtrace                                                     BEGIN
-    2     dtrace                                                     END
-    3     dtrace                                                     ERROR
-   43    profile                                                     profile-97
-   44    profile                                                     profile-199
+ID   PROVIDER            MODULE                          FUNCTION NAME
+1     dtrace                                                     BEGIN
+2     dtrace                                                     END
+3     dtrace                                                     ERROR
+43    profile                                                     profile-97
+44    profile                                                     profile-199
 ```
+Die ondersoeknaam bestaan uit vier dele: die verskaffer, module, funksie en naam (`fbt:mach_kernel:ptrace:entry`). As jy nie 'n deel van die naam spesifiseer nie, sal Dtrace daardie deel as 'n wildcard toepas.
 
-The probe name consists of four parts: the provider, module, function, and name (`fbt:mach_kernel:ptrace:entry`). If you not specifies some part of the name, Dtrace will apply that part as a wildcard.
+Om DTrace te konfigureer om ondersoeke te aktiveer en om te spesifiseer watter aksies uitgevoer moet word wanneer hulle aktiveer, sal ons die D-taal moet gebruik.
 
-To configure DTrace to activate probes and to specify what actions to perform when they fire, we will need to use the D language.
+'n Meer gedetailleerde verduideliking en meer voorbeelde kan gevind word in [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)
 
-A more detailed explanation and more examples can be found in [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)
+#### Voorbeelde
 
-#### Examples
+Voer `man -k dtrace` uit om die **DTrace-skrips beskikbaar** te lys. Voorbeeld: `sudo dtruss -n binary`
 
-Run `man -k dtrace` to list the **DTrace scripts available**. Example: `sudo dtruss -n binary`
-
-* In line
-
+* Op lyn
 ```bash
 #Count the number of syscalls of each running process
 sudo dtrace -n 'syscall:::entry {@[execname] = count()}'
 ```
+# Skripsie
 
-* script
+Hierdie is 'n skripsie oor die inspekteer, foutopsporing en fuzzing van macOS-toepassings. Hierdie tegnieke kan gebruik word om die sekuriteit van macOS-toepassings te verbeter en voorregverhoging te bereik.
 
+## Inspekteer
+
+By die inspekteer van 'n macOS-toepassing, kan jy die toepassing se bronkode, afhanklikhede en ander relevante inligting ontleed. Hier is 'n paar tegnieke wat jy kan gebruik:
+
+### 1. Disassembling
+
+Deur die toepassing te disassembleer, kan jy die masjienkode ontleed en die programlogika verstaan. Jy kan hulpmiddels soos `Hopper Disassembler` of `IDA Pro` gebruik om hierdie taak uit te voer.
+
+### 2. Dynamic Analysis
+
+Deur die toepassing dinamies te analiseer, kan jy sy gedrag tydens uitvoering bestudeer. Jy kan hulpmiddels soos `lldb` of `gdb` gebruik om die toepassing te ontleed en te monitor terwyl dit uitgevoer word.
+
+### 3. Reverse Engineering
+
+Deur die toepassing te herontwerp, kan jy die oorspronklike bronkode herstel. Jy kan hulpmiddels soos `class-dump` of `Hopper Disassembler` gebruik om die toepassing se klassedefinisies en metodes te ontleed.
+
+## Foutopsporing
+
+Foutopsporing is 'n belangrike tegniek om probleme in 'n toepassing te identifiseer en op te los. Hier is 'n paar tegnieke wat jy kan gebruik:
+
+### 1. Logging
+
+Deur logboeke in die toepassing in te skakel, kan jy nuttige inligting oor die toepassing se uitvoering versamel. Jy kan die `NSLog`-funksie gebruik om logboekinskrywings te skep en die `Console`-toepassing gebruik om die logboeke te monitor.
+
+### 2. Breakpoints
+
+Deur breekpunte in die toepassing te plaas, kan jy die uitvoering stop en die toestand van die toepassing ondersoek. Jy kan hulpmiddels soos `lldb` of `gdb` gebruik om breekpunte te plaas en die toepassing te ontleed terwyl dit uitgevoer word.
+
+### 3. Memory Analysis
+
+Deur die geheue van die toepassing te analiseer, kan jy probleme soos geheuelekke of ongeldige geheueverwysings identifiseer. Jy kan hulpmiddels soos `Instruments` of `Valgrind` gebruik om hierdie analise uit te voer.
+
+## Fuzzing
+
+Fuzzing is 'n tegniek wat gebruik word om die toepassing te toets deur ongeldige of lukrake insette te voorsien. Hier is 'n paar tegnieke wat jy kan gebruik:
+
+### 1. Input Mutation
+
+Deur die insette van die toepassing te muteer, kan jy verskillende scenario's simuleer en potensiële probleme identifiseer. Jy kan hulpmiddels soos `AFL` of `Radamsa` gebruik om die insette te muteer.
+
+### 2. Protocol Fuzzing
+
+Deur die kommunikasieprotokolle van die toepassing te fuzz, kan jy die toepassing se reaksie op ongeldige of onverwagte protokolopdragte toets. Jy kan hulpmiddels soos `Sulley` of `Peach` gebruik om hierdie tipe fuzzing uit te voer.
+
+### 3. File Fuzzing
+
+Deur lukrake of ongeldige lêers as insette te gebruik, kan jy die toepassing se hantering van lêers toets. Jy kan hulpmiddels soos `zzuf` of `Atheris` gebruik om hierdie tipe fuzzing uit te voer.
+
+Met hierdie inspekteer-, foutopsporing- en fuzzingtegnieke kan jy die sekuriteit van macOS-toepassings verbeter en voorregverhoging bereik. Dit is belangrik om hierdie tegnieke verantwoordelik en eties te gebruik.
 ```bash
 syscall:::entry
 /pid == $1/
@@ -271,17 +304,17 @@ syscall:::entry
 }
 
 #Log every syscall of a PID
-sudo dtrace -s script.d 1234 
+sudo dtrace -s script.d 1234
 ```
 
 ```bash
 syscall::open:entry
 {
-    printf("%s(%s)", probefunc, copyinstr(arg0));
+printf("%s(%s)", probefunc, copyinstr(arg0));
 }
 syscall::close:entry
 {
-        printf("%s(%d)\n", probefunc, arg0);
+printf("%s(%d)\n", probefunc, arg0);
 }
 
 #Log files opened and closed by a process
@@ -291,100 +324,105 @@ sudo dtrace -s b.d -c "cat /etc/hosts"
 ```bash
 syscall:::entry
 {
-        ;
+;
 }
 syscall:::return
 {
-        printf("=%d\n", arg1);
+printf("=%d\n", arg1);
 }
 
 #Log sys calls with values
 sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 ```
-
 ### dtruss
 
+`dtruss` is a command-line tool available on macOS that allows you to trace and inspect system calls made by an application. It can be used for debugging and analyzing the behavior of macOS applications.
+
+To use `dtruss`, you need to run it with the target application as an argument. It will then display a list of system calls made by the application, along with their arguments and return values. This can be useful for understanding how an application interacts with the operating system and identifying any potential security vulnerabilities or performance issues.
+
+Here is an example of how to use `dtruss`:
+
+```bash
+$ sudo dtruss -f -p <PID>
+```
+
+In this command, `-f` specifies that `dtruss` should follow child processes, and `-p <PID>` specifies the process ID of the target application. Running `dtruss` with these options will display a live stream of system calls made by the application.
+
+Keep in mind that `dtruss` requires root privileges to run, so you may need to use `sudo` to execute it. Additionally, it is important to only use `dtruss` on applications that you have permission to inspect, as it can potentially expose sensitive information.
+
+Overall, `dtruss` is a powerful tool for inspecting and debugging macOS applications. By tracing system calls, you can gain valuable insights into an application's behavior and identify potential security issues.
 ```bash
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
 ```
-
 ### ktrace
 
-You can use this one even with **SIP activated**
-
+Jy kan dit selfs gebruik met **SIP geaktiveer**
 ```bash
 ktrace trace -s -S -t c -c ls | grep "ls("
 ```
-
 ### ProcessMonitor
 
-[**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) is a very useful tool to check the process related actions a process is performing (for example, monitor which new processes a process is creating).
+[**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) is 'n baie nuttige instrument om die prosesverwante aksies wat 'n proses uitvoer te monitor (byvoorbeeld, om te monitor watter nuwe prosesse 'n proses skep).
 
 ### SpriteTree
 
-[**SpriteTree**](https://themittenmac.com/tools/) is a tool to prints the relations between processes.\
-You need to monitor your mac with a command like **`sudo eslogger fork exec rename create > cap.json`** (the terminal launching this required FDA). And then you can load the json in this tool to viwe all the relations:
+[**SpriteTree**](https://themittenmac.com/tools/) is 'n instrument wat die verhoudings tussen prosesse afdruk.\
+Jy moet jou Mac monitor met 'n bevel soos **`sudo eslogger fork exec rename create > cap.json`** (die terminal wat dit lanceer, vereis FDA). En dan kan jy die json in hierdie instrument laai om al die verhoudings te sien:
 
 <figure><img src="../../../.gitbook/assets/image (710).png" alt="" width="375"><figcaption></figcaption></figure>
 
 ### FileMonitor
 
-[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) allows to monitor file events (such as creation, modifications, and deletions) providing detailed information about such events.
+[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) maak dit moontlik om lêer-gebeure (soos skepping, wysigings en verwyderings) te monitor en bied gedetailleerde inligting oor sulke gebeure.
 
 ### Crescendo
 
-[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) is a GUI tool with the look and feel Windows users may know from Microsoft Sysinternal’s _Procmon_. This tool allows the recording of various event types to be started and stopped, allows for the filtering of these events by categories such as file, process, network, etc., and provides the functionality to save the events recorded in a json format.
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) is 'n GUI-instrument met die voorkoms en gevoel wat Windows-gebruikers mag ken van Microsoft Sysinternal se _Procmon_. Hierdie instrument maak dit moontlik om die opname van verskillende tipes gebeure te begin en te stop, maak dit moontlik om hierdie gebeure te filter volgens kategorieë soos lêer, proses, netwerk, ens., en bied die funksionaliteit om die opgeneemde gebeure in 'n json-formaat te stoor.
 
 ### Apple Instruments
 
-[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) are part of Xcode’s Developer tools – used for monitoring application performance, identifying memory leaks and tracking filesystem activity.
+[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) is deel van Xcode se Ontwikkelaarshulpmiddels - dit word gebruik om programprestasie te monitor, geheuelekasies te identifiseer en lêersisteemaktiwiteit te volg.
 
 ![](<../../../.gitbook/assets/image (15).png>)
 
 ### fs\_usage
 
-Allows to follow actions performed by processes:
-
+Maak dit moontlik om aksies wat deur prosesse uitgevoer word, te volg:
 ```bash
 fs_usage -w -f filesys ls #This tracks filesystem actions of proccess names containing ls
 fs_usage -w -f network curl #This tracks network actions
 ```
-
 ### TaskExplorer
 
-[**Taskexplorer**](https://objective-see.com/products/taskexplorer.html) is useful to see the **libraries** used by a binary, the **files** it's using and the **network** connections.\
-It also checks the binary processes against **virustotal** and show information about the binary.
+[**Taskexplorer**](https://objective-see.com/products/taskexplorer.html) is nuttig om die **biblioteke** wat deur 'n binêre lêer gebruik word, die **lêers** wat dit gebruik en die **netwerk**-verbindings te sien.\
+Dit kontroleer ook die binêre prosesse teen **virustotal** en wys inligting oor die binêre lêer.
 
 ## PT\_DENY\_ATTACH <a href="#page-title" id="page-title"></a>
 
-In [**this blog post**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html) you can find an example about how to **debug a running daemon** that used **`PT_DENY_ATTACH`** to prevent debugging even if SIP was disabled.
+In [**hierdie blogpos**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html) kan jy 'n voorbeeld vind oor hoe om 'n lopende daemon te **debug** wat **`PT_DENY_ATTACH`** gebruik om te voorkom dat dit gedebug word, selfs as SIP gedeaktiveer is.
 
 ### lldb
 
-**lldb** is the de **facto tool** for **macOS** binary **debugging**.
-
+**lldb** is die de **facto-hulpmiddel** vir **macOS** binêre **debugging**.
 ```bash
 lldb ./malware.bin
 lldb -p 1122
 lldb -n malware.bin
 lldb -n malware.bin --waitfor
 ```
-
-You can set intel flavour when using lldb creating a file called **`.lldbinit`** in your home folder with the following line:
-
+Jy kan die intel-flavour instel wanneer jy lldb gebruik deur 'n lêer genaamd **`.lldbinit`** in jou tuisgids te skep met die volgende lyn:
 ```bash
 settings set target.x86-disassembly-flavor intel
 ```
-
 {% hint style="warning" %}
-Inside lldb, dump a process with `process save-core`
+Binne lldb, dump 'n proses met `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Command</strong></td><td><strong>Description</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Starting execution, which will continue unabated until a breakpoint is hit or the process terminates.</td></tr><tr><td><strong>continue (c)</strong></td><td>Continue execution of the debugged process.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Execute the next instruction. This command will skip over function calls.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Execute the next instruction. Unlike the nexti command, this command will step into function calls.</td></tr><tr><td><strong>finish (f)</strong></td><td>Execute the rest of the instructions in the current function (“frame”) return and halt.</td></tr><tr><td><strong>control + c</strong></td><td>Pause execution. If the process has been run (r) or continued (c), this will cause the process to halt ...wherever it is currently executing.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Any func called main</p><p>b &#x3C;binname>`main #Main func of the bin</p><p>b set -n main --shlib &#x3C;lib_name> #Main func of the indicated bin</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Breakpoint list</p><p>br e/dis &#x3C;num> #Enable/Disable breakpoint</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Get help of breakpoint command</p><p>help memory write #Get help to write into the memory</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>Display the memory as a null-terminated string.</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>Display the memory as assembly instruction.</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>Display the memory as byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>This will print the object referenced by the param</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Note that most of Apple’s Objective-C APIs or methods return objects, and thus should be displayed via the “print object” (po) command. If po doesn't produce a meaningful output use <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Write AAAA in that address<br>memory write -f s $rip+0x11f+7 "AAAA" #Write AAAA in the addr</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Disas current function</p><p>dis -n &#x3C;funcname> #Disas func</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Disas func<br>dis -c 6 #Disas 6 lines<br>dis -c 0x100003764 -e 0x100003768 # From one add until the other<br>dis -p -c 4 # Start in current address disassembling</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Check array of 3 components in x1 reg</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Opdrag</strong></td><td><strong>Beskrywing</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Begin uitvoering, wat ononderbroke sal voortgaan totdat 'n breekpunt getref word of die proses beëindig word.</td></tr><tr><td><strong>continue (c)</strong></td><td>Gaan voort met die uitvoering van die gedebugde proses.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Voer die volgende instruksie uit. Hierdie opdrag sal oorslaan oor funksie-oproepe.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Voer die volgende instruksie uit. In teenstelling met die nexti-opdrag, sal hierdie opdrag in funksie-oproepe stap.</td></tr><tr><td><strong>finish (f)</strong></td><td>Voer die res van die instruksies in die huidige funksie ("raam") uit en hou op.</td></tr><tr><td><strong>control + c</strong></td><td>Onderbreek uitvoering. As die proses uitgevoer (r) of voortgesit (c) is, sal dit die proses laat staan ​​... waar dit tans uitgevoer word.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Enige funksie genaamd main</p><p>b &#x3C;binname>`main #Hooffunksie van die bin</p><p>b set -n main --shlib &#x3C;lib_name> #Hooffunksie van die aangeduide bin</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Breekpuntlys</p><p>br e/dis &#x3C;num> #Aktiveer/Deaktiveer breekpunt</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Kry hulp van breekpunt-opdrag</p><p>help memory write #Kry hulp om in die geheue te skryf</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formaat</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/geheue-adres></strong></td><td>Vertoon die geheue as 'n null-geëindigde string.</td></tr><tr><td><strong>x/i &#x3C;reg/geheue-adres></strong></td><td>Vertoon die geheue as 'n samestellingsinstruksie.</td></tr><tr><td><strong>x/b &#x3C;reg/geheue-adres></strong></td><td>Vertoon die geheue as 'n byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Dit sal die voorwerp wat deur die parameter verwys word, druk</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Merk op dat die meeste van Apple se Objective-C API's of metodes voorwerpe teruggee, en dus vertoon moet word deur middel van die "print object" (po) opdrag. As po nie 'n betekenisvolle uitset lewer nie, gebruik <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Skryf AAAA in daardie adres<br>memory write -f s $rip+0x11f+7 "AAAA" #Skryf AAAA in die adres</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Ontas huidige funksie</p><p>dis -n &#x3C;funcname> #Ontas funksie</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Ontas funksie<br>dis -c 6 #Ontas 6 lyne<br>dis -c 0x100003764 -e 0x100003768 # Van die een adres tot die ander<br>dis -p -c 4 # Begin by huidige adres ontleed</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 #Kontroleer reeks van 3 komponente in x1-reg</td></tr></tbody></table>
 
 {% hint style="info" %}
-When calling the **`objc_sendMsg`** function, the **rsi** register holds the **name of the method** as a null-terminated (“C”) string. To print the name via lldb do:
+Wanneer die **`objc_sendMsg`**-funksie geroep word, hou die **rsi**-register die **naam van die metode** as 'n null-geëindigde ("C") string. Om die naam via lldb af te druk, doen die volgende:
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -394,30 +432,28 @@ When calling the **`objc_sendMsg`** function, the **rsi** register holds the **n
 `(lldb) reg read $rsi: rsi = 0x00000001000f1576 "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 {% endhint %}
 
-### Anti-Dynamic Analysis
+### Anti-Dinamiese Analise
 
-#### VM detection
+#### VM-opsporing
 
-* The command **`sysctl hw.model`** returns "Mac" when the **host is a MacOS** but something different when it's a VM.
-* Playing with the values of **`hw.logicalcpu`** and **`hw.physicalcpu`** some malwares try to detect if it's a VM.
-* Some malwares can also **detect** if the machine is **VMware** based on the MAC address (00:50:56).
-* It's also possible to find **if a process is being debugged** with a simple code such us:
-  * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //process being debugged }`
-* It can also invoke the **`ptrace`** system call with the **`PT_DENY_ATTACH`** flag. This **prevents** a deb**u**gger from attaching and tracing.
-  * You can check if the **`sysctl`** or **`ptrace`** function is being **imported** (but the malware could import it dynamically)
-  * As noted in this writeup, “[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
-    “_The message Process # exited with **status = 45 (0x0000002d)** is usually a tell-tale sign that the debug target is using **PT\_DENY\_ATTACH**_”
-
+* Die opdrag **`sysctl hw.model`** gee "Mac" terug as die **gasheer 'n MacOS** is, maar iets anders as dit 'n VM is.
+* Deur te speel met die waardes van **`hw.logicalcpu`** en **`hw.physicalcpu`** probeer sommige kwaadwillige programme om te bepaal of dit 'n VM is.
+* Sommige kwaadwillige programme kan ook **vasstel of die masjien VMware-gebaseer** is op grond van die MAC-adres (00:50:56).
+* Dit is ook moontlik om vas te stel of 'n proses gedebugeer word met 'n eenvoudige kode soos:
+* `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //proses word gedebugeer }`
+* Dit kan ook die **`ptrace`**-sisteemaanroep met die **`PT_DENY_ATTACH`**-vlag aanroep. Dit **voorkom** dat 'n deb**u**gger kan koppel en naspeur.
+* Jy kan nagaan of die **`sysctl`**- of **`ptrace`**-funksie **ingevoer** word (maar die kwaadwillige program kan dit dinamies invoer)
+* Soos opgemerk in hierdie uiteensetting, “[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
+"_Die boodskap Process # exited with **status = 45 (0x0000002d)** is gewoonlik 'n duidelike teken dat die doelwit van die debuut **PT\_DENY\_ATTACH** gebruik_"
 ## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash **analyzes crashing processes and saves a crash report to disk**. A crash report contains information that can **help a developer diagnose** the cause of a crash.\
-For applications and other processes **running in the per-user launchd context**, ReportCrash runs as a LaunchAgent and saves crash reports in the user's `~/Library/Logs/DiagnosticReports/`\
-For daemons, other processes **running in the system launchd context** and other privileged processes, ReportCrash runs as a LaunchDaemon and saves crash reports in the system's `/Library/Logs/DiagnosticReports`
+ReportCrash **ontleed afbrekende prosesse en stoor 'n afbrekingsverslag op die skyf**. 'n Afbrekingsverslag bevat inligting wat 'n ontwikkelaar kan help om die oorsaak van 'n afbreking te diagnoseer.\
+Vir toepassings en ander prosesse **wat in die per-gebruiker launchd konteks loop**, loop ReportCrash as 'n LaunchAgent en stoor afbrekingsverslae in die gebruiker se `~/Library/Logs/DiagnosticReports/`\
+Vir daemons, ander prosesse **wat in die stelsel launchd konteks loop** en ander bevoorregte prosesse, loop ReportCrash as 'n LaunchDaemon en stoor afbrekingsverslae in die stelsel se `/Library/Logs/DiagnosticReports`
 
-If you are worried about crash reports **being sent to Apple** you can disable them. If not, crash reports can be useful to **figure out how a server crashed**.
-
+As jy bekommerd is oor afbrekingsverslae **wat na Apple gestuur word**, kan jy dit deaktiveer. As nie, kan afbrekingsverslae nuttig wees om **uit te vind hoe 'n bediener afgebreek het**.
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -427,48 +463,43 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Roo
 launchctl load -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Root.plist
 ```
+### Slaap
 
-### Sleep
-
-While fuzzing in a MacOS it's important to not allow the Mac to sleep:
+Terwyl jy in 'n MacOS fuzz, is dit belangrik om te verseker dat die Mac nie gaan slaap nie:
 
 * systemsetup -setsleep Never
-* pmset, System Preferences
+* pmset, Sisteemvoorkeure
 * [KeepingYouAwake](https://github.com/newmarcel/KeepingYouAwake)
 
-#### SSH Disconnect
+#### SSH Ontkoppel
 
-If you are fuzzing via a SSH connection it's important to make sure the session isn't going to day. So change the sshd\_config file with:
+As jy fuzz via 'n SSH-verbinding, is dit belangrik om seker te maak dat die sessie nie gaan afloop nie. Verander dus die sshd\_config-lêer met:
 
 * TCPKeepAlive Yes
 * ClientAliveInterval 0
 * ClientAliveCountMax 0
-
 ```bash
 sudo launchctl unload /System/Library/LaunchDaemons/ssh.plist
 sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
+### Interne Handlers
 
-### Internal Handlers
-
-**Checkout the following page** to find out how you can find which app is responsible of **handling the specified scheme or protocol:**
+**Kyk na die volgende bladsy** om uit te vind watter toepassing verantwoordelik is vir **die hanteer van die gespesifiseerde skema of protokol:**
 
 {% content-ref url="../macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](../macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-### Enumerating Network Processes
+### Enumerating Netwerkprosesse
 
-This interesting to find processes that are managing network data:
-
+Dit is interessant om prosesse te vind wat netwerkdata bestuur:
 ```bash
 dtrace -n 'syscall::recv*:entry { printf("-> %s (pid=%d)", execname, pid); }' >> recv.log
 #wait some time
 sort -u recv.log > procs.txt
 cat procs.txt
 ```
-
-Or use `netstat` or `lsof`
+Of gebruik `netstat` of `lsof`
 
 ### Libgmalloc
 
@@ -484,13 +515,13 @@ lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYL
 
 #### [AFL++](https://github.com/AFLplusplus/AFLplusplus)
 
-Works for CLI tools
+Werk vir CLI-hulpmiddels
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-It "**just works"** with macOS GUI tools. Note some some macOS apps have some specific requirements like unique filenames, the right extension, need to read the files from the sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
+Dit "**werk net"** met macOS GUI-hulpmiddels. Merk op dat sommige macOS-programme spesifieke vereistes het, soos unieke lêernaam, die regte uitbreiding, die lees van lêers uit die sandput (`~/Library/Containers/com.apple.Safari/Data`)...
 
-Some examples:
+Voorbeelde:
 
 {% code overflow="wrap" %}
 ```bash
@@ -518,14 +549,14 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 ```
 {% endcode %}
 
-### More Fuzzing MacOS Info
+### Meer Fuzzing MacOS-inligting
 
 * [https://www.youtube.com/watch?v=T5xfL9tEg44](https://www.youtube.com/watch?v=T5xfL9tEg44)
 * [https://github.com/bnagy/slides/blob/master/OSXScale.pdf](https://github.com/bnagy/slides/blob/master/OSXScale.pdf)
 * [https://github.com/bnagy/francis/tree/master/exploitaben](https://github.com/bnagy/francis/tree/master/exploitaben)
 * [https://github.com/ant4g0nist/crashwrangler](https://github.com/ant4g0nist/crashwrangler)
 
-## References
+## Verwysings
 
 * [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://www.youtube.com/watch?v=T5xfL9tEg44**](https://www.youtube.com/watch?v=T5xfL9tEg44)
@@ -534,14 +565,14 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy jou **maatskappy in HackTricks wil adverteer** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>

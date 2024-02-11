@@ -1,55 +1,55 @@
-# macOS Defensive Apps
+# macOS Verdedigingsprogramme
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
 
 </details>
 
-## Firewalls
+## Vuurmuur
 
-* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): It will monitor every connection made by each process. Depending on the mode (silent allow connections, silent deny connection and alert) it will **show you an alert** every time a new connection is stablished. It also has a very nice GUI to see all this information.
-* [**LuLu**](https://objective-see.org/products/lulu.html): Objective-See firewall. This is a basic firewall that will alert you for suspicious connections (it has a GUI but it isn't as fancy as the one of Little Snitch).
+* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): Dit sal elke verbinding wat deur elke proses gemaak word, monitor. Afhangende van die modus (stil toelaat van verbindinge, stil ontkenning van verbindinge en waarskuwing), sal dit **'n waarskuwing wys** elke keer as 'n nuwe verbinding tot stand gebring word. Dit het ook 'n baie mooi GUI om al hierdie inligting te sien.
+* [**LuLu**](https://objective-see.org/products/lulu.html): Objective-See-vuurmuur. Dit is 'n basiese vuurmuur wat jou sal waarsku vir verdagte verbindinge (dit het 'n GUI, maar dit is nie so luuks soos dié van Little Snitch nie).
 
-## Persistence detection
+## Volharding opsporing
 
-* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Objective-See application that will search in several locations where **malware could be persisting** (it's a one-shot tool, not a monitoring service).
-* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Like KnockKnock by monitoring processes that generate persistence.
+* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Objective-See-toepassing wat sal soek na verskeie plekke waar **malware volharding kan hê** (dit is 'n eenmalige instrument, nie 'n moniteringsdiens nie).
+* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Soos KnockKnock deur prosesse te monitor wat volharding genereer.
 
-## Keyloggers detection
+## Sleutelloggers opsporing
 
-* [**ReiKey**](https://objective-see.org/products/reikey.html): Objective-See application to find **keyloggers** that install keyboard "event taps"&#x20;
+* [**ReiKey**](https://objective-see.org/products/reikey.html): Objective-See-toepassing om **sleutelloggers** op te spoor wat sleutelbord "gebeurtenis-aftastings" installeer.
 
-## Ransomware detection
+## Ransomware opsporing
 
-* [**RansomWhere**](https://objective-see.org/products/ransomwhere.html): Objective-See application to detect **file encryption** actions.
+* [**RansomWhere**](https://objective-see.org/products/ransomwhere.html): Objective-See-toepassing om **lêerversleuteling**-aksies op te spoor.
 
-## Mic & Webcam detection
+## Mikrofoon & Webkamera opsporing
 
-* [**OverSight**](https://objective-see.org/products/oversight.html): Objective-See application to detect **application that starts using webcam and mic.**
+* [**OverSight**](https://objective-see.org/products/oversight.html): Objective-See-toepassing om **toepassings wat die webkamera en mikrofoon begin gebruik** op te spoor.
 
-## Process Injection detection
+## Prosessinspuiting opsporing
 
-* [**Shield**](https://theevilbit.github.io/shield/): Applicaiton that **detects different process injection** techniques.
+* [**Shield**](https://theevilbit.github.io/shield/): Toepassing wat **verskillende prosessinspuitingstegnieke opspoor**.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
 
 </details>

@@ -1,137 +1,136 @@
-# Checklist - Local Windows Privilege Escalation
+# Kontrolelys - Plaaslike Windows Voorregverhoging
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
 
-### **Best tool to look for Windows local privilege escalation vectors:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Die beste instrument om te soek na Windows plaaslike voorregverhogingsvektore:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
-### [System Info](windows-local-privilege-escalation/#system-info)
+### [Stelselinligting](windows-local-privilege-escalation/#system-info)
 
-* [ ] Obtain [**System information**](windows-local-privilege-escalation/#system-info)
-* [ ] Search for **kernel** [**exploits using scripts**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Use **Google to search** for kernel **exploits**
-* [ ] Use **searchsploit to search** for kernel **exploits**
-* [ ] Interesting info in [**env vars**](windows-local-privilege-escalation/#environment)?
-* [ ] Passwords in [**PowerShell history**](windows-local-privilege-escalation/#powershell-history)?
-* [ ] Interesting info in [**Internet settings**](windows-local-privilege-escalation/#internet-settings)?
-* [ ] [**Drives**](windows-local-privilege-escalation/#drives)?
-* [ ] [**WSUS exploit**](windows-local-privilege-escalation/#wsus)?
+* [ ] Verkry [**stelselinligting**](windows-local-privilege-escalation/#system-info)
+* [ ] Soek na **kernel** [**uitbuitings deur middel van skripte**](windows-local-privilege-escalation/#version-exploits)
+* [ ] Gebruik **Google om te soek** vir kernel **uitbuitings**
+* [ ] Gebruik **searchsploit om te soek** vir kernel **uitbuitings**
+* [ ] Interessante inligting in [**omgewingsveranderlikes**](windows-local-privilege-escalation/#environment)?
+* [ ] Wagwoorde in [**PowerShell-geskiedenis**](windows-local-privilege-escalation/#powershell-history)?
+* [ ] Interessante inligting in [**Internet-instellings**](windows-local-privilege-escalation/#internet-settings)?
+* [ ] [**Skywe**](windows-local-privilege-escalation/#drives)?
+* [ ] [**WSUS-uitbuiting**](windows-local-privilege-escalation/#wsus)?
 * [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
-### [Logging/AV enumeration](windows-local-privilege-escalation/#enumeration)
+### [Logging/AV-opname](windows-local-privilege-escalation/#enumeration)
 
-* [ ] Check [**Audit** ](windows-local-privilege-escalation/#audit-settings)and [**WEF** ](windows-local-privilege-escalation/#wef)settings
-* [ ] Check [**LAPS**](windows-local-privilege-escalation/#laps)
-* [ ] Check if [**WDigest** ](windows-local-privilege-escalation/#wdigest)is active
-* [ ] [**LSA Protection**](windows-local-privilege-escalation/#lsa-protection)?
+* [ ] Kontroleer [**Oudit** ](windows-local-privilege-escalation/#audit-settings)en [**WEF** ](windows-local-privilege-escalation/#wef)instellings
+* [ ] Kontroleer [**LAPS**](windows-local-privilege-escalation/#laps)
+* [ ] Kontroleer of [**WDigest** ](windows-local-privilege-escalation/#wdigest)aktief is
+* [ ] [**LSA-beskerming**](windows-local-privilege-escalation/#lsa-protection)?
 * [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
-* [ ] [**Cached Credentials**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Check if any [**AV**](windows-av-bypass)
-* [ ] [**AppLocker Policy**](authentication-credentials-uac-and-efs#applocker-policy)?
+* [ ] [**Gekaspte geloofsbriewe**](windows-local-privilege-escalation/#cached-credentials)?
+* [ ] Kontroleer of enige [**AV**](windows-av-bypass)
+* [ ] [**AppLocker-beleid**](authentication-credentials-uac-and-efs#applocker-policy)?
 * [ ] [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
-* [ ] [**User Privileges**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Check [**current** user **privileges**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Are you [**member of any privileged group**](windows-local-privilege-escalation/#privileged-groups)?
-* [ ] Check if you have [any of these tokens enabled](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [ ] [**Users Sessions**](windows-local-privilege-escalation/#logged-users-sessions)?
-* [ ] Check[ **users homes**](windows-local-privilege-escalation/#home-folders) (access?)
-* [ ] Check [**Password Policy**](windows-local-privilege-escalation/#password-policy)
-* [ ] What is[ **inside the Clipboard**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] [**Gebruikersvoorregte**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Kontroleer [**huidige** gebruiker **voorregte**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Is jy 'n [**lid van enige bevoorregte groep**](windows-local-privilege-escalation/#privileged-groups)?
+* [ ] Kontroleer of jy een van hierdie tokens geaktiveer het: **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [ ] [**Gebruikersessies**](windows-local-privilege-escalation/#logged-users-sessions)?
+* [ ] Kontroleer[ **gebruikershuise**](windows-local-privilege-escalation/#home-folders) (toegang?)
+* [ ] Kontroleer [**Wagwoordbeleid**](windows-local-privilege-escalation/#password-policy)
+* [ ] Wat is[ **binne die Knipbord**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
-### [Network](windows-local-privilege-escalation/#network)
+### [Netwerk](windows-local-privilege-escalation/#network)
 
-* [ ] Check **current** [**network** **information**](windows-local-privilege-escalation/#network)
-* [ ] Check **hidden local services** restricted to the outside
+* [ ] Kontroleer **huidige** [**netwerk** **inligting**](windows-local-privilege-escalation/#network)
+* [ ] Kontroleer **verskuilde plaaslike dienste** wat beperk is tot die buitewêreld
 
-### [Running Processes](windows-local-privilege-escalation/#running-processes)
+### [Lopende Prosesse](windows-local-privilege-escalation/#running-processes)
 
-* [ ] Processes binaries [**file and folders permissions**](windows-local-privilege-escalation/#file-and-folder-permissions)
-* [ ] [**Memory Password mining**](windows-local-privilege-escalation/#memory-password-mining)
-* [ ] [**Insecure GUI apps**](windows-local-privilege-escalation/#insecure-gui-apps)
+* [ ] Prosesse binêre [**lêer- en vouerregte**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* [ ] [**Geheue Wagwoordontginning**](windows-local-privilege-escalation/#memory-password-mining)
+* [ ] [**Onveilige GUI-programme**](windows-local-privilege-escalation/#insecure-gui-apps)
 
-### [Services](windows-local-privilege-escalation/#services)
+### [Dienste](windows-local-privilege-escalation/#services)
 
-* [ ] [Can you **modify any service**?](windows-local-privilege-escalation#permissions)
-* [ ] [Can you **modify** the **binary** that is **executed** by any **service**?](windows-local-privilege-escalation/#modify-service-binary-path)
-* [ ] [Can you **modify** the **registry** of any **service**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* [ ] [Can you take advantage of any **unquoted service** binary **path**?](windows-local-privilege-escalation/#unquoted-service-paths)
+* [ ] [Kan jy enige diens **verander**?](windows-local-privilege-escalation#permissions)
+* [ ] [Kan jy die **binêre** wat deur enige **diens** **uitgevoer** word, **verander**?](windows-local-privilege-escalation/#modify-service-binary-path)
+* [ ] [Kan jy die **registreer** van enige **diens** **verander**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
+* [ ] [Kan jy voordeel trek uit enige **ongekwoteerde diens** binêre **pad**?](windows-local-privilege-escalation/#unquoted-service-paths)
 
-### [**Applications**](windows-local-privilege-escalation/#applications)
+### [**Toepassings**](windows-local-privilege-escalation/#applications)
 
-* [ ] **Write** [**permissions on installed applications**](windows-local-privilege-escalation/#write-permissions)
-* [ ] [**Startup Applications**](windows-local-privilege-escalation/#run-at-startup)
-* [ ] **Vulnerable** [**Drivers**](windows-local-privilege-escalation/#drivers)
+* [ ] **Skryf** [**regte op geïnstalleerde toepassings**](windows-local-privilege-escalation/#write-permissions)
+* [ ] [**Begin-toepassings**](windows-local-privilege-escalation/#run-at-startup)
+* [ ] **Kwesbare** [**Drywers**](windows-local-privilege-escalation/#drivers)
 
-### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
+### [DLL-ontvoering](windows-local-privilege-escalation/#path-dll-hijacking)
 
-* [ ] Can you **write in any folder inside PATH**?
-* [ ] Is there any known service binary that **tries to load any non-existant DLL**?
-* [ ] Can you **write** in any **binaries folder**?
+* [ ] Kan jy **skryf in enige vouer binne die PAD**?
+* [ ] Is daar enige bekende diensbinêre wat probeer om enige nie-bestaande DLL te laai?
+* [ ] Kan jy **skryf** in enige **binêre vouer**?
+### [Netwerk](windows-local-privilege-escalation/#network)
 
-### [Network](windows-local-privilege-escalation/#network)
+* [ ] Enumereer die netwerk (aandele, interfaces, roetes, bure, ...)
+* [ ] Neem 'n spesiale kyk na netwerkdienste wat op localhost (127.0.0.1) luister
 
-* [ ] Enumerate the network (shares, interfaces, routes, neighbours, ...)
-* [ ] Take a special look at network services listening on localhost (127.0.0.1)
+### [Windows Legitieme Inligting](windows-local-privilege-escalation/#windows-credentials)
 
-### [Windows Credentials](windows-local-privilege-escalation/#windows-credentials)
+* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)legitieme inligting
+* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) legitieme inligting wat jy kan gebruik?
+* [ ] Interessante [**DPAPI legitieme inligting**](windows-local-privilege-escalation/#dpapi)?
+* [ ] Wagwoorde van gestoorde [**Wifi-netwerke**](windows-local-privilege-escalation/#wifi)?
+* [ ] Interessante inligting in [**gestoorde RDP-verbindings**](windows-local-privilege-escalation/#saved-rdp-connections)?
+* [ ] Wagwoorde in [**onlangs uitgevoerde opdragte**](windows-local-privilege-escalation/#recently-run-commands)?
+* [ ] [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager) wagwoorde?
+* [ ] [**AppCmd.exe** bestaan](windows-local-privilege-escalation/#appcmd-exe)? Legitieme inligting?
+* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL-kantlaai?
 
-* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)credentials
-* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) credentials that you could use?
-* [ ] Interesting [**DPAPI credentials**](windows-local-privilege-escalation/#dpapi)?
-* [ ] Passwords of saved [**Wifi networks**](windows-local-privilege-escalation/#wifi)?
-* [ ] Interesting info in [**saved RDP Connections**](windows-local-privilege-escalation/#saved-rdp-connections)?
-* [ ] Passwords in [**recently run commands**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager) passwords?
-* [ ] [**AppCmd.exe** exists](windows-local-privilege-escalation/#appcmd-exe)? Credentials?
-* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Side Loading?
+### [Lêers en Register (Legitieme Inligting)](windows-local-privilege-escalation/#files-and-registry-credentials)
 
-### [Files and Registry (Credentials)](windows-local-privilege-escalation/#files-and-registry-credentials)
+* [ ] **Putty:** [**Legitieme inligting**](windows-local-privilege-escalation/#putty-creds) **en** [**SSH-gashere sleutels**](windows-local-privilege-escalation/#putty-ssh-host-keys)
+* [ ] [**SSH-sleutels in die register**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
+* [ ] Wagwoorde in [**ongeagte lêers**](windows-local-privilege-escalation/#unattended-files)?
+* [ ] Enige [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) rugsteun?
+* [ ] [**Cloud legitieme inligting**](windows-local-privilege-escalation/#cloud-credentials)?
+* [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) lêer?
+* [ ] [**Cached GPP-wagwoord**](windows-local-privilege-escalation/#cached-gpp-pasword)?
+* [ ] Wagwoord in [**IIS-webkonfigurasie-lêer**](windows-local-privilege-escalation/#iis-web-config)?
+* [ ] Interessante inligting in [**web** **lêers**](windows-local-privilege-escalation/#logs)?
+* [ ] Wil jy [**legitieme inligting van die gebruiker vra**](windows-local-privilege-escalation/#ask-for-credentials)?
+* [ ] Interessante [**lêers binne die Recycle Bin**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
+* [ ] Ander [**register wat legitieme inligting bevat**](windows-local-privilege-escalation/#inside-the-registry)?
+* [ ] Binne [**Blaaierdata**](windows-local-privilege-escalation/#browsers-history) (dbs, geskiedenis, bladmerke, ...)?
+* [ ] [**Generiese wagwoordsoektog**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in lêers en register
+* [ ] [**Hulpmiddels**](windows-local-privilege-escalation/#tools-that-search-for-passwords) om outomaties na wagwoorde te soek
 
-* [ ] **Putty:** [**Creds**](windows-local-privilege-escalation/#putty-creds) **and** [**SSH host keys**](windows-local-privilege-escalation/#putty-ssh-host-keys)
-* [ ] [**SSH keys in registry**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
-* [ ] Passwords in [**unattended files**](windows-local-privilege-escalation/#unattended-files)?
-* [ ] Any [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) backup?
-* [ ] [**Cloud credentials**](windows-local-privilege-escalation/#cloud-credentials)?
-* [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) file?
-* [ ] [**Cached GPP Password**](windows-local-privilege-escalation/#cached-gpp-pasword)?
-* [ ] Password in [**IIS Web config file**](windows-local-privilege-escalation/#iis-web-config)?
-* [ ] Interesting info in [**web** **logs**](windows-local-privilege-escalation/#logs)?
-* [ ] Do you want to [**ask for credentials**](windows-local-privilege-escalation/#ask-for-credentials) to the user?
-* [ ] Interesting [**files inside the Recycle Bin**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
-* [ ] Other [**registry containing credentials**](windows-local-privilege-escalation/#inside-the-registry)?
-* [ ] Inside [**Browser data**](windows-local-privilege-escalation/#browsers-history) (dbs, history, bookmarks, ...)?
-* [ ] [**Generic password search**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in files and registry
-* [ ] [**Tools**](windows-local-privilege-escalation/#tools-that-search-for-passwords) to automatically search for passwords
+### [Uitgelek Handlers](windows-local-privilege-escalation/#leaked-handlers)
 
-### [Leaked Handlers](windows-local-privilege-escalation/#leaked-handlers)
+* [ ] Het jy toegang tot enige handler van 'n proses wat deur 'n administrateur uitgevoer word?
 
-* [ ] Have you access to any handler of a process run by administrator?
+### [Pypkliënt-impersonasie](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
-### [Pipe Client Impersonation](windows-local-privilege-escalation/#named-pipe-client-impersonation)
-
-* [ ] Check if you can abuse it
+* [ ] Kyk of jy dit kan misbruik
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy jou **maatskappy in HackTricks wil adverteer** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

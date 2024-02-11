@@ -1,204 +1,151 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
 
-<a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://licensebuttons.net/l/by-nc/4.0/88x31.png" /></a><br>Copyright © Carlos Polop 2021.  Except where otherwise specified (the external information copied into the book belongs to the original authors), the text on <a href="https://github.com/carlospolop/hacktricks">HACK TRICKS</a> by Carlos Polop is licensed under the <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)</a>.
+<a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://licensebuttons.net/l/by-nc/4.0/88x31.png" /></a><br>Kopiereg © Carlos Polop 2021. Behalwe waar anders gespesifiseer (die eksterne inligting wat in die boek gekopieer is, behoort aan die oorspronklike outeurs), is die teks op <a href="https://github.com/carlospolop/hacktricks">HACK TRICKS</a> deur Carlos Polop gelisensieer onder die <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)</a>.
 
-License: Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)<br>
-Human Readable License: https://creativecommons.org/licenses/by-nc/4.0/<br>
-Complete Legal Terms: https://creativecommons.org/licenses/by-nc/4.0/legalcode<br>
-Formatting: https://github.com/jmatsushita/Creative-Commons-4.0-Markdown/blob/master/licenses/by-nc.markdown<br>
+Lisensie: Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)<br>
+Mensleesbare Lisensie: https://creativecommons.org/licenses/by-nc/4.0/<br>
+Volledige Regsterme: https://creativecommons.org/licenses/by-nc/4.0/legalcode<br>
+Formattering: https://github.com/jmatsushita/Creative-Commons-4.0-Markdown/blob/master/licenses/by-nc.markdown<br>
 
-# creative commons
+# kreatiewe gemeenskap
 
 # Attribution-NonCommercial 4.0 International
 
-Creative Commons Corporation (“Creative Commons”) is not a law firm and does not provide legal services or legal advice. Distribution of Creative Commons public licenses does not create a lawyer-client or other relationship. Creative Commons makes its licenses and related information available on an “as-is” basis. Creative Commons gives no warranties regarding its licenses, any material licensed under their terms and conditions, or any related information. Creative Commons disclaims all liability for damages resulting from their use to the fullest extent possible.
+Creative Commons Corporation ("Creative Commons") is nie 'n regspraktyk nie en verskaf nie regsadvies of regsdiens nie. Verspreiding van Creative Commons openbare lisensies skep nie 'n regsverhouding tussen regspraktisyn en kliënt of enige ander verhouding nie. Creative Commons maak sy lisensies en verwante inligting beskikbaar "soos dit is". Creative Commons gee geen waarborge met betrekking tot sy lisensies, enige materiaal wat onder die voorwaardes daarvan gelisensieer is, of enige verwante inligting nie. Creative Commons verwerp alle aanspreeklikheid vir skade wat voortspruit uit die gebruik daarvan tot die volle omvang moontlik.
 
-## Using Creative Commons Public Licenses
+## Gebruik van Creative Commons Openbare Lisensies
 
-Creative Commons public licenses provide a standard set of terms and conditions that creators and other rights holders may use to share original works of authorship and other material subject to copyright and certain other rights specified in the public license below. The following considerations are for informational purposes only, are not exhaustive, and do not form part of our licenses.
+Creative Commons openbare lisensies bied 'n standaardstel voorwaardes wat skeppers en ander reghebbendes kan gebruik om oorspronklike werke van outeurskap en ander materiaal wat onderhewig is aan kopiereg en sekere ander regte soos gespesifiseer in die openbare lisensie hieronder, te deel. Die volgende oorwegings is slegs vir inligtingsdoeleindes, is nie uitputtend nie, en vorm nie deel van ons lisensies nie.
 
-* __Considerations for licensors:__ Our public licenses are intended for use by those authorized to give the public permission to use material in ways otherwise restricted by copyright and certain other rights. Our licenses are irrevocable. Licensors should read and understand the terms and conditions of the license they choose before applying it. Licensors should also secure all rights necessary before applying our licenses so that the public can reuse the material as expected. Licensors should clearly mark any material not subject to the license. This includes other CC-licensed material, or material used under an exception or limitation to copyright. [More considerations for licensors](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensors).
+* __Oorwegings vir lisensiegevers:__ Ons openbare lisensies is bedoel vir gebruik deur diegene wat gemagtig is om die publiek toestemming te gee om materiaal op maniere te gebruik wat andersins deur kopiereg en sekere ander regte beperk word. Ons lisensies is onherroeplik. Lisensiegevers moet die terme en voorwaardes van die lisensie wat hulle kies, lees en verstaan voordat hulle dit toepas. Lisensiegevers moet ook alle regte verseker voordat hulle ons lisensies toepas, sodat die publiek die materiaal kan hergebruik soos verwag. Lisensiegevers moet enige materiaal wat nie onderhewig is aan die lisensie nie, duidelik merk. Dit sluit ander CC-gelisensieerde materiaal in, of materiaal wat onder 'n uitsondering of beperking tot kopiereg gebruik word. [Meer oorwegings vir lisensiegevers](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensors).
 
-* __Considerations for the public:__ By using one of our public licenses, a licensor grants the public permission to use the licensed material under specified terms and conditions. If the licensor’s permission is not necessary for any reason–for example, because of any applicable exception or limitation to copyright–then that use is not regulated by the license. Our licenses grant only permissions under copyright and certain other rights that a licensor has authority to grant. Use of the licensed material may still be restricted for other reasons, including because others have copyright or other rights in the material. A licensor may make special requests, such as asking that all changes be marked or described. Although not required by our licenses, you are encouraged to respect those requests where reasonable. [More considerations for the public](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensees).
+* __Oorwegings vir die publiek:__ Deur een van ons openbare lisensies te gebruik, gee 'n lisensiegever die publiek toestemming om die gelisensieerde materiaal te gebruik onder gespesifiseerde terme en voorwaardes. As die toestemming van die lisensiegever nie nodig is om enige rede nie – byvoorbeeld as gevolg van enige toepaslike uitsondering of beperking tot kopiereg – word daardie gebruik nie deur die lisensie gereguleer nie. Ons lisensies verleen slegs toestemmings onder kopiereg en sekere ander regte waaroor 'n lisensiegever magtig is om toestemming te gee. Die gebruik van die gelisensieerde materiaal kan nog steeds beperk word om ander redes, insluitend omdat ander kopiereg of ander regte in die materiaal het. 'n Lisensiegever mag spesiale versoeke maak, soos om te vra dat alle veranderinge gemerk of beskryf word. Alhoewel dit nie deur ons lisensies vereis word nie, word jy aangemoedig om daardie versoeke te respekteer waar dit redelik is. [Meer oorwegings vir die publiek](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensees).
 
-# Creative Commons Attribution-NonCommercial 4.0 International Public License
+# Creative Commons Attribution-NonCommercial 4.0 International Openbare Lisensie
 
-By exercising the Licensed Rights (defined below), You accept and agree to be bound by the terms and conditions of this Creative Commons Attribution-NonCommercial 4.0 International Public License ("Public License"). To the extent this Public License may be interpreted as a contract, You are granted the Licensed Rights in consideration of Your acceptance of these terms and conditions, and the Licensor grants You such rights in consideration of benefits the Licensor receives from making the Licensed Material available under these terms and conditions.
+Deur die Gelisensieerde Regte (hieronder gedefinieer) uit te oefen, aanvaar en stem jy in om gebonde te wees aan die terme en voorwaardes van hierdie Creative Commons Attribution-NonCommercial 4.0 International Openbare Lisensie ("Openbare Lisensie"). Vir sover hierdie Openbare Lisensie as 'n kontrak geïnterpreteer kan word, word die Gelisensieerde Regte aan jou verleen in oorweging van jou aanvaarding van hierdie terme en voorwaardes, en die Lisensiegever verleen jou sulke regte in oorweging van die voordele wat die Lisensiegever ontvang deur die Gelisensieerde Materiaal beskikbaar te stel onder hierdie terme en voorwaardes.
 
-## Section 1 – Definitions.
+## Artikel 1 – Definisies.
 
-a. __Adapted Material__ means material subject to Copyright and Similar Rights that is derived from or based upon the Licensed Material and in which the Licensed Material is translated, altered, arranged, transformed, or otherwise modified in a manner requiring permission under the Copyright and Similar Rights held by the Licensor. For purposes of this Public License, where the Licensed Material is a musical work, performance, or sound recording, Adapted Material is always produced where the Licensed Material is synched in timed relation with a moving image.
+a. __Aangepaste Materiaal__ beteken materiaal wat onderhewig is aan Kopiereg en Soortgelyke Regte en wat afgelei is van of gebaseer is op die Gelisensieerde Materiaal en waarin die Gelisensieerde Materiaal vertaal, verander, gereël, verander, of andersins gewysig word op 'n wyse wat toestemming vereis onder die Kopiereg en Soortgelyke Regte wat deur die Lisensiegever gehou word. Vir doeleindes van hierdie Openbare Lisensie word Aangepaste Materiaal altyd geproduseer waar die Gelisensieerde Materiaal gesinkroniseer word met 'n bewegende beeld.
 
-b. __Adapter's License__ means the license You apply to Your Copyright and Similar Rights in Your contributions to Adapted Material in accordance with the terms and conditions of this Public License.
+b. __Lisensie van die Aanpasser__ beteken die lisensie wat jy toepas op jou Kopiereg en Soortgelyke Regte in jou bydraes tot Aangepaste Materiaal in ooreenstem
+## Artikel 2 - Omvang.
 
-c. __Copyright and Similar Rights__ means copyright and/or similar rights closely related to copyright including, without limitation, performance, broadcast, sound recording, and Sui Generis Database Rights, without regard to how the rights are labeled or categorized. For purposes of this Public License, the rights specified in Section 2(b)(1)-(2) are not Copyright and Similar Rights.
+a. ___Lisensieverlening.___
 
-d. __Effective Technological Measures__ means those measures that, in the absence of proper authority, may not be circumvented under laws fulfilling obligations under Article 11 of the WIPO Copyright Treaty adopted on December 20, 1996, and/or similar international agreements.
+1. Onderworpe aan die bepalings en voorwaardes van hierdie Openbare Lisensie, verleen die Lisensiehouer hiermee aan U 'n wêreldwye, vry van lisensiefooi, nie-onderlisensieerbare, nie-uitsluitlike, onherroeplike lisensie om die Gelisensieerde Regte in die Gelisensieerde Materiaal uit te oefen om:
 
-e. __Exceptions and Limitations__ means fair use, fair dealing, and/or any other exception or limitation to Copyright and Similar Rights that applies to Your use of the Licensed Material.
+A. die Gelisensieerde Materiaal, geheel of gedeeltelik, vir nie-kommersiële doeleindes slegs te verveelvoudig en te deel; en
 
-f. __Licensed Material__ means the artistic or literary work, database, or other material to which the Licensor applied this Public License.
+B. Aangepaste Materiaal te produseer, te verveelvoudig en te deel vir nie-kommersiële doeleindes slegs.
 
-g. __Licensed Rights__ means the rights granted to You subject to the terms and conditions of this Public License, which are limited to all Copyright and Similar Rights that apply to Your use of the Licensed Material and that the Licensor has authority to license.
+2. __Uitsonderings en Beperkings.__ Vir die vermyding van twyfel, waar Uitsonderings en Beperkings van toepassing is op U gebruik, is hierdie Openbare Lisensie nie van toepassing nie, en U hoef nie aan sy bepalings en voorwaardes te voldoen nie.
 
-h. __Licensor__ means the individual(s) or entity(ies) granting rights under this Public License.
+3. __Termyn.__ Die termyn van hierdie Openbare Lisensie word gespesifiseer in Artikel 6(a).
 
-i. __NonCommercial__ means not primarily intended for or directed towards commercial advantage or monetary compensation. For purposes of this Public License, the exchange of the Licensed Material for other material subject to Copyright and Similar Rights by digital file-sharing or similar means is NonCommercial provided there is no payment of monetary compensation in connection with the exchange.
+4. __Media en formate; tegniese wysigings toegelaat.__ Die Lisensiehouer gee U toestemming om die Gelisensieerde Regte in alle media en formate uit te oefen, hetsy nou bekend of hierna geskep, en om tegniese wysigings te maak wat nodig is om dit te doen. Die Lisensiehouer doen afstand van en/of stem daarmee saam om enige reg of gesag te ontken om U te verbied om tegniese wysigings te maak wat nodig is om die Gelisensieerde Regte uit te oefen, insluitend tegniese wysigings wat nodig is om Effektiewe Tegnologiese Maatreëls te omseil. Vir doeleindes van hierdie Openbare Lisensie, produseer die eenvoudige maak van wysigings wat deur hierdie Artikel 2(a)(4) gemagtig word nooit Aangepaste Materiaal nie.
 
-j. __Share__ means to provide material to the public by any means or process that requires permission under the Licensed Rights, such as reproduction, public display, public performance, distribution, dissemination, communication, or importation, and to make material available to the public including in ways that members of the public may access the material from a place and at a time individually chosen by them.
+5. __Ontvangers van stroomaf.__
 
-k. __Sui Generis Database Rights__ means rights other than copyright resulting from Directive 96/9/EC of the European Parliament and of the Council of 11 March 1996 on the legal protection of databases, as amended and/or succeeded, as well as other essentially equivalent rights anywhere in the world.
+A. __Aanbod van die Lisensiehouer - Gelisensieerde Materiaal.__ Elke ontvanger van die Gelisensieerde Materiaal ontvang outomaties 'n aanbod van die Lisensiehouer om die Gelisensieerde Regte uit te oefen onder die bepalings en voorwaardes van hierdie Openbare Lisensie.
 
-l. __You__ means the individual or entity exercising the Licensed Rights under this Public License. Your has a corresponding meaning.
+B. __Geen stroomafbeperkings nie.__ U mag geen addisionele of verskillende terme of voorwaardes aanbied of opleg op die Gelisensieerde Materiaal nie, as dit die uitoefening van die Gelisensieerde Regte deur enige ontvanger van die Gelisensieerde Materiaal beperk nie.
 
-## Section 2 – Scope.
+6. __Geen goedkeuring.__ Niks in hierdie Openbare Lisensie stel of mag beskou word as toestemming om te beweer of te impliseer dat U, of dat U gebruik van die Gelisensieerde Materiaal, verband hou met, of gesponsoreer, ondersteun, of amptelike status verleen deur, die Lisensiehouer of ander persone wat aangewys is om erkenning te ontvang soos voorsien in Artikel 3(a)(1)(A)(i).
 
-a. ___License grant.___
+b. ___Ander regte.___
 
- 1. Subject to the terms and conditions of this Public License, the Licensor hereby grants You a worldwide, royalty-free, non-sublicensable, non-exclusive, irrevocable license to exercise the Licensed Rights in the Licensed Material to:
+1. Morele regte, soos die reg op integriteit, word nie onder hierdie Openbare Lisensie gelisensieer nie, en ook nie publisiteit, privaatheid, en/of ander soortgelyke persoonlikheidsregte nie; egter, vir sover moontlik, doen die Lisensiehouer afstand van en/of stem daarmee saam om enige sulke regte wat deur die Lisensiehouer gehou word, tot die beperkte mate wat nodig is om U in staat te stel om die Gelisensieerde Regte uit te oefen, maar andersins nie.
 
-  A. reproduce and Share the Licensed Material, in whole or in part, for NonCommercial purposes only; and
+2. Patent- en handelsmerkregte word nie onder hierdie Openbare Lisensie gelisensieer nie.
 
-  B. produce, reproduce, and Share Adapted Material for NonCommercial purposes only.
+3. Vir sover moontlik, doen die Lisensiehouer afstand van enige reg om koninklike te erf van U vir die uitoefening van die Gelisensieerde Regte, hetsy direk of deur 'n inwinninggenootskap onder enige vrywillige of afstanddoenbare statutêre of verpligte lisensiëringskema. In alle ander gevalle behou die Lisensiehouer uitdruklik enige reg voor om sulke koninklike in te samel, insluitend wanneer die Gelisensieerde Materiaal gebruik word vir nie-kommersiële doeleindes nie.
 
- 2. __Exceptions and Limitations.__ For the avoidance of doubt, where Exceptions and Limitations apply to Your use, this Public License does not apply, and You do not need to comply with its terms and conditions.
-     
- 3. __Term.__ The term of this Public License is specified in Section 6(a).
+## Artikel 3 - Lisensievoorwaardes.
 
- 4. __Media and formats; technical modifications allowed.__ The Licensor authorizes You to exercise the Licensed Rights in all media and formats whether now known or hereafter created, and to make technical modifications necessary to do so. The Licensor waives and/or agrees not to assert any right or authority to forbid You from making technical modifications necessary to exercise the Licensed Rights, including technical modifications necessary to circumvent Effective Technological Measures. For purposes of this Public License, simply making modifications authorized by this Section 2(a)(4) never produces Adapted Material.
-    
- 5. __Downstream recipients.__
+U uitoefening van die Gelisensieerde Regte is uitdruklik onderhewig aan die volgende voorwaardes.
 
-  A. __Offer from the Licensor – Licensed Material.__ Every recipient of the Licensed Material automatically receives an offer from the Licensor to exercise the Licensed Rights under the terms and conditions of this Public License.
+a. ___Toekennings.___
 
-  B. __No downstream restrictions.__ You may not offer or impose any additional or different terms or conditions on, or apply any Effective Technological Measures to, the Licensed Material if doing so restricts exercise of the Licensed Rights by any recipient of the Licensed Material.
+1. As U die Gelisensieerde Materiaal deel (insluitend in gewysigde vorm), moet U:
 
- 6. __No endorsement.__ Nothing in this Public License constitutes or may be construed as permission to assert or imply that You are, or that Your use of the Licensed Material is, connected with, or sponsored, endorsed, or granted official status by, the Licensor or others designated to receive attribution as provided in Section 3(a)(1)(A)(i).
-    
-b. ___Other rights.___
+A. die volgende behou as dit deur die Lisensiehouer saam met die Gelisensieerde Materiaal voorsien word:
 
- 1. Moral rights, such as the right of integrity, are not licensed under this Public License, nor are publicity, privacy, and/or other similar personality rights; however, to the extent possible, the Licensor waives and/or agrees not to assert any such rights held by the Licensor to the limited extent necessary to allow You to exercise the Licensed Rights, but not otherwise.
+i. identifikasie van die skepper(s) van die Gelisensieerde Materiaal en enige ander persone wat aangewys is om erkenning te ontvang, op enige redelike wyse wat deur die Lisensiehouer versoek word (insluitend deur skuilnaam as dit aangewys word);
 
- 2. Patent and trademark rights are not licensed under this Public License.
+ii. 'n kopieregkennisgewing;
 
- 3. To the extent possible, the Licensor waives any right to collect royalties from You for the exercise of the Licensed Rights, whether directly or through a collecting society under any voluntary or waivable statutory or compulsory licensing scheme. In all other cases the Licensor expressly reserves any right to collect such royalties, including when the Licensed Material is used other than for NonCommercial purposes.
-    
-## Section 3 – License Conditions.
+iii. 'n kennisgewing wat na hierdie Openbare Lisensie verwys;
 
-Your exercise of the Licensed Rights is expressly made subject to the following conditions.
+iv. 'n kennisgewing wat na die vrywaring van waarborge verwys;
 
-a. ___Attribution.___
+v. 'n URI of skakel na die Gelisensieerde Materiaal, vir sover dit redelik uitvoerbaar is;
 
- 1. If You Share the Licensed Material (including in modified form), You must:
+B. aandui of U die Gelisensieerde Materiaal gewysig het en 'n aanduiding van enige vorige wysigings behou; en
 
-  A. retain the following if it is supplied by the Licensor with the Licensed Material:
+C. aandui dat die Gelisensieerde Materiaal gelisensieer is onder hierdie Openbare Lisensie, en die teks van, of die URI of skakel na, hierdie Openbare Lisensie insluit.
 
-   i. identification of the creator(s) of the Licensed Material and any others designated to receive attribution, in any reasonable manner requested by the Licensor (including by pseudonym if designated);
+2. U kan aan die voorwaardes in Artikel 3(a)(1) voldoen op enige redelike wyse gebaseer op die medium, middels, en konteks waarin U die Gelisensieerde Materiaal deel. Byvoorbeeld, dit mag redelik wees om aan die voorwaardes te voldoen deur 'n URI of skakel na 'n hulpbron te voorsien wat die vereiste inligting insluit.
 
-   ii. a copyright notice;
+3. Indien versoek deur die Lisensiehouer, moet U enige van die inligting wat vereis word deur Artikel 3(a)(1)(A) verwyder, vir sover dit redelik uitvoerbaar is.
 
-   iii. a notice that refers to this Public License;
+4. As U Aangepaste Materiaal wat U produseer deel, mag die Lisensie van die Aanpasser wat U toepas, nie ontvangers van die Aangepaste Materiaal verhoed om aan hierdie Openbare Lisensie te voldoen nie.
 
-   iv. a notice that refers to the disclaimer of warranties;
+## Artikel 4 - Sui Generis Databasisregte.
 
-   v. a URI or hyperlink to the Licensed Material to the extent reasonably practicable;
+Waar die Gelisensieerde Regte Sui Generis Databasisregte insluit wat van toepassing is op U gebruik van die Gelisensieerde Materiaal:
 
-  B. indicate if You modified the Licensed Material and retain an indication of any previous modifications; and
+a. vir die vermyding van twyfel, verleen Artikel 2(a)(1) U die reg om al of 'n aansienlike gedeelte van die inhoud van die databasis te onttrek, hergebruik, verveelvoudig, en te deel vir nie-kommersiële doeleindes slegs;
 
-  C. indicate the Licensed Material is licensed under this Public License, and include the text of, or the URI or hyperlink to, this Public License.
+b. as U al of 'n aansienlike gedeelte van die inhoud van die databasis insluit in 'n databasis waarin U Sui Generis Databasisregte het, dan is die databasis waarin U Sui Generis Databasisregte het (maar nie sy individuele inhoud nie) Aangepaste Materiaal; en
 
- 2. You may satisfy the conditions in Section 3(a)(1) in any reasonable manner based on the medium, means, and context in which You Share the Licensed Material. For example, it may be reasonable to satisfy the conditions by providing a URI or hyperlink to a resource that includes the required information.
+c. U moet voldoen aan die voorwaardes in Artikel 3(a) as U al of 'n aansienlike gedeelte van die inhoud van die databasis deel.
 
- 3. If requested by the Licensor, You must remove any of the information required by Section 3(a)(1)(A) to the extent reasonably practicable.
+Vir die vermyding van twyfel, vul
+## Artikel 7 - Ander Voorwaardes en Bepalings.
 
- 4. If You Share Adapted Material You produce, the Adapter's License You apply must not prevent recipients of the Adapted Material from complying with this Public License.
+a. Die Lisensiehouer sal nie gebonde wees aan enige bykomende of verskillende terme of voorwaardes wat deur U gekommunikeer word tensy uitdruklik ooreengekom.
 
-## Section 4 – Sui Generis Database Rights.
+b. Enige reëlings, verstandhoudings of ooreenkomste met betrekking tot die Gelisensieerde Materiaal wat nie hierin vermeld word nie, is afsonderlik van en onafhanklik van die terme en voorwaardes van hierdie Openbare Lisensie.
 
-Where the Licensed Rights include Sui Generis Database Rights that apply to Your use of the Licensed Material:
+## Artikel 8 - Interpretasie.
 
-a. for the avoidance of doubt, Section 2(a)(1) grants You the right to extract, reuse, reproduce, and Share all or a substantial portion of the contents of the database for NonCommercial purposes only;
+a. Ten einde twyfel te voorkom, verminder hierdie Openbare Lisensie nie, en mag nie geïnterpreteer word om, die gebruik van die Gelisensieerde Materiaal te beperk, beperk, beperk of voorwaardes op te lê wat wettiglik sonder toestemming onder hierdie Openbare Lisensie gemaak kan word nie.
 
-b. if You include all or a substantial portion of the database contents in a database in which You have Sui Generis Database Rights, then the database in which You have Sui Generis Database Rights (but not its individual contents) is Adapted Material; and
+b. Vir sover moontlik, as enige bepaling van hierdie Openbare Lisensie as onafdwingbaar beskou word, sal dit outomaties hervorm word tot die minimum mate wat nodig is om dit afdwingbaar te maak. As die bepaling nie hervorm kan word nie, sal dit van hierdie Openbare Lisensie afgesny word sonder om die afdwingbaarheid van die oorblywende terme en voorwaardes te beïnvloed.
 
-c. You must comply with the conditions in Section 3(a) if You Share all or a substantial portion of the contents of the database.
+c. Geen term of voorwaarde van hierdie Openbare Lisensie sal afgesien word nie en geen versuim om te voldoen sal toegestem word tensy uitdruklik ooreengekom deur die Lisensiehouer.
 
-For the avoidance of doubt, this Section 4 supplements and does not replace Your obligations under this Public License where the Licensed Rights include other Copyright and Similar Rights.
-
-## Section 5 – Disclaimer of Warranties and Limitation of Liability.
-
-a. __Unless otherwise separately undertaken by the Licensor, to the extent possible, the Licensor offers the Licensed Material as-is and as-available, and makes no representations or warranties of any kind concerning the Licensed Material, whether express, implied, statutory, or other. This includes, without limitation, warranties of title, merchantability, fitness for a particular purpose, non-infringement, absence of latent or other defects, accuracy, or the presence or absence of errors, whether or not known or discoverable. Where disclaimers of warranties are not allowed in full or in part, this disclaimer may not apply to You.__
-
-b. __To the extent possible, in no event will the Licensor be liable to You on any legal theory (including, without limitation, negligence) or otherwise for any direct, special, indirect, incidental, consequential, punitive, exemplary, or other losses, costs, expenses, or damages arising out of this Public License or use of the Licensed Material, even if the Licensor has been advised of the possibility of such losses, costs, expenses, or damages. Where a limitation of liability is not allowed in full or in part, this limitation may not apply to You.__
-
-c. The disclaimer of warranties and limitation of liability provided above shall be interpreted in a manner that, to the extent possible, most closely approximates an absolute disclaimer and waiver of all liability.
-
-## Section 6 – Term and Termination.
-
-a. This Public License applies for the term of the Copyright and Similar Rights licensed here. However, if You fail to comply with this Public License, then Your rights under this Public License terminate automatically.
-
-b. Where Your right to use the Licensed Material has terminated under Section 6(a), it reinstates:
-
- 1. automatically as of the date the violation is cured, provided it is cured within 30 days of Your discovery of the violation; or
-
- 2. upon express reinstatement by the Licensor.
-
- For the avoidance of doubt, this Section 6(b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License.
-
-c. For the avoidance of doubt, the Licensor may also offer the Licensed Material under separate terms or conditions or stop distributing the Licensed Material at any time; however, doing so will not terminate this Public License.
-
-d. Sections 1, 5, 6, 7, and 8 survive termination of this Public License.
-
-## Section 7 – Other Terms and Conditions.
-
-a. The Licensor shall not be bound by any additional or different terms or conditions communicated by You unless expressly agreed.
-
-b. Any arrangements, understandings, or agreements regarding the Licensed Material not stated herein are separate from and independent of the terms and conditions of this Public License.
-
-## Section 8 – Interpretation.
-
-a. For the avoidance of doubt, this Public License does not, and shall not be interpreted to, reduce, limit, restrict, or impose conditions on any use of the Licensed Material that could lawfully be made without permission under this Public License.
-
-b. To the extent possible, if any provision of this Public License is deemed unenforceable, it shall be automatically reformed to the minimum extent necessary to make it enforceable. If the provision cannot be reformed, it shall be severed from this Public License without affecting the enforceability of the remaining terms and conditions.
-
-c. No term or condition of this Public License will be waived and no failure to comply consented to unless expressly agreed to by the Licensor.
-
-d. Nothing in this Public License constitutes or may be interpreted as a limitation upon, or waiver of, any privileges and immunities that apply to the Licensor or You, including from the legal processes of any jurisdiction or authority.
-
+d. Niks in hierdie Openbare Lisensie stel 'n beperking op, of afstand van, enige voorregte en immuniteite wat van toepassing is op die Lisensiehouer of U nie, insluitend van die regsprosesse van enige jurisdiksie of gesag.
 ```
-Creative Commons is not a party to its public licenses. Notwithstanding, Creative Commons may elect to apply one of its public licenses to material it publishes and in those instances will be considered the “Licensor.” Except for the limited purpose of indicating that material is shared under a Creative Commons public license or as otherwise permitted by the Creative Commons policies published at [creativecommons.org/policies](http://creativecommons.org/policies), Creative Commons does not authorize the use of the trademark “Creative Commons” or any other trademark or logo of Creative Commons without its prior written consent including, without limitation, in connection with any unauthorized modifications to any of its public licenses or any other arrangements, understandings, or agreements concerning use of licensed material. For the avoidance of doubt, this paragraph does not form part of the public licenses. 
+Creative Commons is not a party to its public licenses. Notwithstanding, Creative Commons may elect to apply one of its public licenses to material it publishes and in those instances will be considered the “Licensor.” Except for the limited purpose of indicating that material is shared under a Creative Commons public license or as otherwise permitted by the Creative Commons policies published at [creativecommons.org/policies](http://creativecommons.org/policies), Creative Commons does not authorize the use of the trademark “Creative Commons” or any other trademark or logo of Creative Commons without its prior written consent including, without limitation, in connection with any unauthorized modifications to any of its public licenses or any other arrangements, understandings, or agreements concerning use of licensed material. For the avoidance of doubt, this paragraph does not form part of the public licenses.
 
 Creative Commons may be contacted at [creativecommons.org](http://creativecommons.org/).
 ```
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
-
-

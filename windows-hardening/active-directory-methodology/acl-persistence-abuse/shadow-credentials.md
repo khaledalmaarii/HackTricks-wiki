@@ -1,71 +1,67 @@
-# Shadow Credentials
+# Skadu-geloofsbriewe
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks af in PDF-formaat**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## Intro <a href="#3f17" id="3f17"></a>
+## Inleiding <a href="#3f17" id="3f17"></a>
 
-**Check the original post for [all the information about this technique](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab).**
+**Kyk na die oorspronklike pos vir [alle inligting oor hierdie tegniek](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab).**
 
-As **summary**: if you can write to the **msDS-KeyCredentialLink** property of a user/computer, you can retrieve the **NT hash of that object**.
+As 'n **opsomming**: as jy kan skryf na die **msDS-KeyCredentialLink** eienskap van 'n gebruiker/rekenaar, kan jy die **NT-hash van daardie objek** herwin.
 
-In the post, a method is outlined for setting up **public-private key authentication credentials** to acquire a unique **Service Ticket** that includes the target's NTLM hash. This process involves the encrypted NTLM_SUPPLEMENTAL_CREDENTIAL within the Privilege Attribute Certificate (PAC), which can be decrypted.
+In die pos word 'n metode uitgelê om **openbare-privaat sleutel-verifikasie-geloofsbriewe** op te stel om 'n unieke **Dienskaartjie** te bekom wat die teiken se NTLM-hash insluit. Hierdie proses behels die versleutelde NTLM_SUPPLEMENTAL_CREDENTIAL binne die Privilege Attribute Certificate (PAC), wat ontsluit kan word.
 
-### Requirements
+### Vereistes
 
-To apply this technique, certain conditions must be met:
-- A minimum of one Windows Server 2016 Domain Controller is needed.
-- The Domain Controller must have a server authentication digital certificate installed.
-- The Active Directory must be at the Windows Server 2016 Functional Level.
-- An account with delegated rights to modify the msDS-KeyCredentialLink attribute of the target object is required.
+Om hierdie tegniek toe te pas, moet sekere voorwaardes voldoen word:
+- 'n Minimum van een Windows Server 2016-domeinbeheerder is nodig.
+- Die domeinbeheerder moet 'n bedienerverifikasie digitale sertifikaat geïnstalleer hê.
+- Die Aktiewe Gids moet op die Windows Server 2016-funksievlak wees.
+- 'n Rekening met gedelegeerde regte om die msDS-KeyCredentialLink-eienskap van die teikenobjek te wysig, is nodig.
 
-## Abuse
+## Misbruik
 
-The abuse of Key Trust for computer objects encompasses steps beyond obtaining a Ticket Granting Ticket (TGT) and the NTLM hash. The options include:
-1. Creating an **RC4 silver ticket** to act as privileged users on the intended host.
-2. Using the TGT with **S4U2Self** for impersonation of **privileged users**, necessitating alterations to the Service Ticket to add a service class to the service name.
+Die misbruik van Sleutelvertroue vir rekenaarobjekte behels stappe wat verder gaan as die verkryging van 'n Ticket Granting Ticket (TGT) en die NTLM-hash. Die opsies sluit in:
+1. Die skep van 'n **RC4 silwerkaartjie** om as bevoorregte gebruikers op die beoogde gasheer op te tree.
+2. Die gebruik van die TGT met **S4U2Self** vir die nabootsing van **bevoorregte gebruikers**, wat wysigings aan die Dienskaartjie vereis om 'n diensklas by die diensnaam te voeg.
 
-A significant advantage of Key Trust abuse is its limitation to the attacker-generated private key, avoiding delegation to potentially vulnerable accounts and not requiring the creation of a computer account, which could be challenging to remove.
+'n Belangrike voordeel van Sleutelvertroue-misbruik is dat dit beperk is tot die aanvaller se gegenereerde privaatsleutel, wat die delegasie na potensieel kwesbare rekeninge vermy en nie die skepping van 'n rekenaarrekening vereis nie, wat moeilik kan wees om te verwyder.
 
-## Tools
+## Gereedskap
 
 ### [**Whisker**](https://github.com/eladshamir/Whisker)
 
-It's based on DSInternals providing a C# interface for this attack. Whisker and its Python counterpart, **pyWhisker**, enable manipulation of the `msDS-KeyCredentialLink` attribute to gain control over Active Directory accounts. These tools support various operations like adding, listing, removing, and clearing key credentials from the target object.
+Dit is gebaseer op DSInternals en bied 'n C#-koppelvlak vir hierdie aanval. Whisker en sy Python-teendeel, **pyWhisker**, maak manipulasie van die `msDS-KeyCredentialLink` eienskap moontlik om beheer oor Aktiewe Gids-rekeninge te verkry. Hierdie gereedskap ondersteun verskeie operasies soos byvoeging, lys, verwydering en skoonmaak van sleutelgelowiges van die teikenobjek.
 
-**Whisker** functions include:
-- **Add**: Generates a key pair and adds a key credential.
-- **List**: Displays all key credential entries.
-- **Remove**: Deletes a specified key credential.
-- **Clear**: Erases all key credentials, potentially disrupting legitimate WHfB usage.
-
+**Whisker**-funksies sluit in:
+- **Byvoeg**: Genereer 'n sleutelpaar en voeg 'n sleutelgelowige by.
+- **Lys**: Vertoon alle sleutelgelowige inskrywings.
+- **Verwyder**: Verwyder 'n gespesifiseerde sleutelgelowige.
+- **Skoon**: Vee alle sleutelgelowiges uit, wat potensieel legitieme WHfB-gebruik kan ontwrig.
 ```shell
 Whisker.exe add /target:computername$ /domain:constoso.local /dc:dc1.contoso.local /path:C:\path\to\file.pfx /password:P@ssword1
 ```
+### [pyWhisker](https://github.com/ShutdownRepo/pywhisker)
 
-### [pyWhisker](https://github.com/ShutdownRepo/pywhisker) 
-
-It extends Whisker functionality to **UNIX-based systems**, leveraging Impacket and PyDSInternals for comprehensive exploitation capabilities, including listing, adding, and removing KeyCredentials, as well as importing and exporting them in JSON format.
-
+Dit brei Whisker funksionaliteit uit na **UNIX-gebaseerde stelsels**, deur gebruik te maak van Impacket en PyDSInternals vir omvattende uitbuitingsmoontlikhede, insluitend die lys, byvoeging en verwydering van KeyCredentials, sowel as die invoer en uitvoer daarvan in JSON-formaat.
 ```shell
 python3 pywhisker.py -d "domain.local" -u "user1" -p "complexpassword" --target "user2" --action "list"
 ```
-
 ### [ShadowSpray](https://github.com/Dec0ne/ShadowSpray/)
 
-ShadowSpray aims to **exploit GenericWrite/GenericAll permissions that wide user groups may have over domain objects** to apply ShadowCredentials broadly. It entails logging into the domain, verifying the domain's functional level, enumerating domain objects, and attempting to add KeyCredentials for TGT acquisition and NT hash revelation. Cleanup options and recursive exploitation tactics enhance its utility.
+ShadowSpray het as doel om **GenericWrite/GenericAll-toestemmings wat wydverspreide gebruikersgroepe mag hê oor domeinvoorwerpe** te benut om ShadowCredentials wyd toe te pas. Dit behels om in te teken op die domein, die funksionele vlak van die domein te verifieer, domeinvoorwerpe op te som, en te probeer om KeyCredentials by te voeg vir TGT-verwerwing en NT-hash-onthulling. Opruimingsopsies en herhalende benuttingstaktieke verbeter sy bruikbaarheid.
 
 
-## References
+## Verwysings
 
 * [https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab)
 * [https://github.com/eladshamir/Whisker](https://github.com/eladshamir/Whisker)
@@ -74,12 +70,12 @@ ShadowSpray aims to **exploit GenericWrite/GenericAll permissions that wide user
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**SUBSKRIPSIEPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die [hacktricks-repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud-repo](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

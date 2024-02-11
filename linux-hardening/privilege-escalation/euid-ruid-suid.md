@@ -2,86 +2,105 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacking-truuks deur PR's in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-### User Identification Variables
+### Gebruikersidentifikasie Veranderlikes
 
-- **`ruid`**: The **real user ID** denotes the user who initiated the process.
-- **`euid`**: Known as the **effective user ID**, it represents the user identity utilized by the system to ascertain process privileges. Generally, `euid` mirrors `ruid`, barring instances like a SetUID binary execution, where `euid` assumes the file owner's identity, thus granting specific operational permissions.
-- **`suid`**: This **saved user ID** is pivotal when a high-privilege process (typically running as root) needs to temporarily relinquish its privileges to perform certain tasks, only to later reclaim its initial elevated status.
+- **`ruid`**: Die **werklike gebruikers-ID** dui die gebruiker aan wat die proses geïnisieer het.
+- **`euid`**: Bekend as die **effektiewe gebruikers-ID**, verteenwoordig dit die gebruikersidentiteit wat deur die stelsel gebruik word om prosesbevoegdhede te bepaal. Gewoonlik weerspieël `euid` `ruid`, behalwe in gevalle soos 'n SetUID-binêre uitvoering, waar `euid` die identiteit van die lêereienaar aanneem en dus spesifieke bedryfsbevoegdhede verleen.
+- **`suid`**: Hierdie **gebergde gebruikers-ID** is van kardinale belang wanneer 'n hoë-bevoegdheidsproses (gewoonlik as root uitgevoer) tydelik sy bevoegdhede moet opgee om sekere take uit te voer, slegs om later sy oorspronklike verhoogde status te herwin.
 
-#### Important Note
-A process not operating under root can only modify its `euid` to match the current `ruid`, `euid`, or `suid`.
+#### Belangrike Nota
+'n Proses wat nie as root werk nie, kan slegs sy `euid` wysig om ooreen te stem met die huidige `ruid`, `euid` of `suid`.
 
-### Understanding set*uid Functions
+### Begrip van set*uid Funksies
 
-- **`setuid`**: Contrary to initial assumptions, `setuid` primarily modifies `euid` rather than `ruid`. Specifically, for privileged processes, it aligns `ruid`, `euid`, and `suid` with the specified user, often root, effectively solidifying these IDs due to the overriding `suid`. Detailed insights can be found in the [setuid man page](https://man7.org/linux/man-pages/man2/setuid.2.html).
-- **`setreuid`** and **`setresuid`**: These functions allow for the nuanced adjustment of `ruid`, `euid`, and `suid`. However, their capabilities are contingent on the process's privilege level. For non-root processes, modifications are restricted to the current values of `ruid`, `euid`, and `suid`. In contrast, root processes or those with `CAP_SETUID` capability can assign arbitrary values to these IDs. More information can be gleaned from the [setresuid man page](https://man7.org/linux/man-pages/man2/setresuid.2.html) and the [setreuid man page](https://man7.org/linux/man-pages/man2/setreuid.2.html).
+- **`setuid`**: In teenstelling met aanvanklike aannames, wysig `setuid` hoofsaaklik `euid` eerder as `ruid`. Spesifiek vir bevoorregte prosesse stem dit `ruid`, `euid` en `suid` af op die gespesifiseerde gebruiker, dikwels root, en versterk sodoende hierdie ID's as gevolg van die oorskrywing van `suid`. Gedetailleerde insigte is beskikbaar in die [setuid man-bladsy](https://man7.org/linux/man-pages/man2/setuid.2.html).
+- **`setreuid`** en **`setresuid`**: Hierdie funksies maak die fynafstelling van `ruid`, `euid` en `suid` moontlik. Hul vermoëns is egter afhanklik van die bevoorregtingsvlak van die proses. Vir nie-root prosesse is wysigings beperk tot die huidige waardes van `ruid`, `euid` en `suid`. Daarenteen kan rootprosesse of dié met die `CAP_SETUID`-vermoë arbitêre waardes aan hierdie ID's toewys. Meer inligting is beskikbaar in die [setresuid man-bladsy](https://man7.org/linux/man-pages/man2/setresuid.2.html) en die [setreuid man-bladsy](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
-These functionalities are designed not as a security mechanism but to facilitate the intended operational flow, such as when a program adopts another user's identity by altering its effective user ID.
+Hierdie funksionaliteite is nie ontwerp as 'n sekuriteitsmeganisme nie, maar om die bedoelde bedryfsvloei te fasiliteer, soos wanneer 'n program 'n ander gebruiker se identiteit aanneem deur sy effektiewe gebruikers-ID te verander.
 
-Notably, while `setuid` might be a common go-to for privilege elevation to root (since it aligns all IDs to root), differentiating between these functions is crucial for understanding and manipulating user ID behaviors in varying scenarios.
+Dit is veral belangrik om te onderskei tussen hierdie funksies om gebruikers-ID-gedrag in verskillende scenario's te verstaan en te manipuleer, alhoewel `setuid` dikwels gebruik word vir bevoorregte verhoging na root (aangesien dit alle ID's op root afstem).
 
-### Program Execution Mechanisms in Linux
+### Programuitvoeringsmeganismes in Linux
 
-#### **`execve` System Call**
-- **Functionality**: `execve` initiates a program, determined by the first argument. It takes two array arguments, `argv` for arguments and `envp` for the environment.
-- **Behavior**: It retains the memory space of the caller but refreshes the stack, heap, and data segments. The program's code is replaced by the new program.
-- **User ID Preservation**:
-  - `ruid`, `euid`, and supplementary group IDs remain unaltered.
-  - `euid` might have nuanced changes if the new program has the SetUID bit set.
-  - `suid` gets updated from `euid` post-execution.
-- **Documentation**: Detailed information can be found on the [`execve` man page](https://man7.org/linux/man-pages/man2/execve.2.html).
+#### **`execve`-Stelseloproep**
+- **Funksionaliteit**: `execve` inisieer 'n program wat bepaal word deur die eerste argument. Dit neem twee reeksargumente, `argv` vir argumente en `envp` vir die omgewing.
+- **Gedrag**: Dit behou die geheue van die oproeper, maar verfris die stapel, heap en data-segmente. Die kode van die program word vervang deur die nuwe program.
+- **Behoud van Gebruikers-ID**:
+- `ruid`, `euid` en aanvullende groep-ID's bly onveranderd.
+- `euid` kan subtiel verander as die nuwe program die SetUID-bit ingestel het.
+- `suid` word na uitvoering van `euid` opgedateer.
+- **Dokumentasie**: Gedetailleerde inligting is beskikbaar op die [`execve` man-bladsy](https://man7.org/linux/man-pages/man2/execve.2.html).
 
-#### **`system` Function**
-- **Functionality**: Unlike `execve`, `system` creates a child process using `fork` and executes a command within that child process using `execl`.
-- **Command Execution**: Executes the command via `sh` with `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
-- **Behavior**: As `execl` is a form of `execve`, it operates similarly but in the context of a new child process.
-- **Documentation**: Further insights can be obtained from the [`system` man page](https://man7.org/linux/man-pages/man3/system.3.html).
+#### **`system`-Funksie**
+- **Funksionaliteit**: In teenstelling met `execve` skep `system` 'n kinderproses deur `fork` te gebruik en voer 'n opdrag binne daardie kinderproses uit met behulp van `execl`.
+- **Opdraguitvoering**: Voer die opdrag uit via `sh` met `execl("/bin/sh", "sh", "-c", opdrag, (char *) NULL);`.
+- **Gedrag**: Aangesien `execl` 'n vorm van `execve` is, werk dit op 'n soortgelyke manier, maar in die konteks van 'n nuwe kinderproses.
+- **Dokumentasie**: Verdere insigte kan verkry word uit die [`system` man-bladsy](https://man7.org/linux/man-pages/man3/system.3.html).
 
-#### **Behavior of `bash` and `sh` with SUID**
+#### **Gedrag van `bash` en `sh` met SUID**
 - **`bash`**:
-  - Has a `-p` option influencing how `euid` and `ruid` are treated.
-  - Without `-p`, `bash` sets `euid` to `ruid` if they initially differ.
-  - With `-p`, the initial `euid` is preserved.
-  - More details can be found on the [`bash` man page](https://linux.die.net/man/1/bash).
+- Het 'n `-p`-opsie wat beïnvloed hoe `euid` en `ruid` hanteer word.
+- Sonder `-p` stel `bash` `euid` in op `ruid` as hulle aanvanklik verskil.
+- Met `-p` word die aanvanklike `euid` behou.
+- Meer besonderhede is beskikbaar op die [`bash` man-bladsy](https://linux.die.net/man/1/bash).
 - **`sh`**:
-  - Does not possess a mechanism similar to `-p` in `bash`.
-  - The behavior concerning user IDs is not explicitly mentioned, except under the `-i` option, emphasizing the preservation of `euid` and `ruid` equality.
-  - Additional information is available on the [`sh` man page](https://man7.org/linux/man-pages/man1/sh.1p.html).
+- Besit nie 'n meganisme soortgelyk aan `-p` in `bash` nie.
+- Die gedrag met betrekking tot gebruikers-ID's word nie uitdruklik genoem nie, behalwe onder die `-i`-opsie, wat beklemtoon dat `euid` en `ruid` gelyk bly.
+- Addisionele inligting is beskikbaar op die [`sh` man-bladsy](https://man7.org/linux/man-pages/man1/sh.1p.html).
 
-These mechanisms, distinct in their operation, offer a versatile range of options for executing and transitioning between programs, with specific nuances in how user IDs are managed and preserved.
+Hierdie meganismes, wat verskil in hul werking, bied 'n veelsydige reeks opsies vir die uitvoering en oorgang tussen programme, met spesifieke subtiliteite in hoe gebruikers-ID's bestuur en behou word.
 
-### Testing User ID Behaviors in Executions
+### Toetsing van Gebruikers-ID-Gedrag in Uitvoerings
 
-Examples taken from https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, check it for further information
+Voorbeelde geneem vanaf https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, kyk dit vir verdere inligting
 
-#### Case 1: Using `setuid` with `system`
+#### Geval 1: Gebruik van `setuid` met `system`
 
-**Objective**: Understanding the effect of `setuid` in combination with `system` and `bash` as `sh`.
+**Doel**: Begrip van die effek van `setuid` in kombinasie met `system` en `bash` as `sh`.
 
-**C Code**:
+**C-kode**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    system("id");
-    return 0;
+setuid(1000);
+system("id");
+return 0;
 }
 ```
+**Samelewing en Toestemmings:**
 
-**Compilation and Permissions:**
+Wanneer jy 'n program op Linux samestel, word 'n uitvoerbare lêer geskep wat die program se kode bevat. Hierdie uitvoerbare lêer het spesifieke toestemmings wat bepaal wie die program kan uitvoer, wysig of lees.
+
+Die toestemmings van 'n lêer kan gesien word deur die `ls -l` opdrag uit te voer. Die uitset sal iets soos die volgende wees:
+
+```
+-rwxr-xr-x 1 user group 12345 Jan 1 00:00 program
+```
+
+Die eerste karakter in die uitset (`-` in hierdie geval) dui aan dat dit 'n lêer is. As dit 'n `d` was, sou dit 'n gids wees. Die volgende drie karakters (`rwx`) dui die toestemmings van die eienaar van die lêer aan, die volgende drie karakters (`r-x`) dui die toestemmings van die groep aan, en die laaste drie karakters (`r-x`) dui die toestemmings van ander gebruikers aan.
+
+Elke karakter in die toestemmingsreeks verteenwoordig 'n spesifieke toestemming:
+
+- `r` dui aan dat die lêer gelees kan word.
+- `w` dui aan dat die lêer gewysig kan word.
+- `x` dui aan dat die lêer uitgevoer kan word.
+
+Om die toestemmings van 'n lêer te verander, kan die `chmod` opdrag gebruik word. Byvoorbeeld, `chmod +x program` sal die uitvoerbare toestemming aan die lêer toevoeg.
+
+Dit is belangrik om die toestemmings van jou lêers korrek te konfigureer om die veiligheid van jou Linux-stelsel te verseker.
 ```bash
 oxdf@hacky$ gcc a.c -o /mnt/nfsshare/a;
 oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
@@ -91,133 +110,136 @@ oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
 bash-4.2$ $ ./a
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Ontleding:**
 
-**Analysis:**
+* `ruid` en `euid` begin as 99 (niemand) en 1000 (frank) onderskeidelik.
+* `setuid` pas beide aan na 1000.
+* `system` voer `/bin/bash -c id` uit as gevolg van die simboliese skakel van sh na bash.
+* `bash`, sonder `-p`, pas `euid` aan om ooreen te stem met `ruid`, wat beteken dat beide 99 (niemand) is.
 
-* `ruid` and `euid` start as 99 (nobody) and 1000 (frank) respectively.
-* `setuid` aligns both to 1000.
-* `system` executes `/bin/bash -c id` due to the symlink from sh to bash.
-* `bash`, without `-p`, adjusts `euid` to match `ruid`, resulting in both being 99 (nobody).
+#### Geval 2: Gebruik van setreuid met system
 
-#### Case 2: Using setreuid with system
-
-**C Code**:
+**C-kode**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setreuid(1000, 1000);
-    system("id");
-    return 0;
+setreuid(1000, 1000);
+system("id");
+return 0;
 }
 ```
+**Samelewing en Toestemmings:**
 
-**Compilation and Permissions:**
+Wanneer jy 'n program op Linux samestel, word 'n uitvoerbare lêer geskep wat die program se kode bevat. Hierdie uitvoerbare lêer het spesifieke toestemmings wat bepaal wie die program kan uitvoer, wysig of lees.
+
+Die toestemmings van 'n lêer kan gesien word deur die `ls -l` opdrag uit te voer. Die uitset sal iets soos die volgende wees:
+
+```
+-rwxr-xr-x 1 user group 12345 Jan 1 00:00 program
+```
+
+Die eerste karakter in die uitset (`-` in hierdie geval) dui aan dat dit 'n lêer is. As dit 'n `d` was, sou dit 'n gids wees. Die volgende drie karakters (`rwx`) dui die toestemmings van die eienaar van die lêer aan, die volgende drie karakters (`r-x`) dui die toestemmings van die groep aan, en die laaste drie karakters (`r-x`) dui die toestemmings van ander gebruikers aan.
+
+Elke karakter in die toestemmingsreeks verteenwoordig 'n spesifieke toestemming:
+
+- `r` dui aan dat die lêer gelees kan word.
+- `w` dui aan dat die lêer gewysig kan word.
+- `x` dui aan dat die lêer uitgevoer kan word.
+
+Om die toestemmings van 'n lêer te verander, kan die `chmod` opdrag gebruik word. Byvoorbeeld, `chmod +x program` sal die uitvoerbare toestemming aan die lêer toevoeg.
+
+Dit is belangrik om die toestemmings van jou lêers korrek te konfigureer om die veiligheid van jou Linux-stelsel te verseker.
 ```bash
 oxdf@hacky$ gcc b.c -o /mnt/nfsshare/b; chmod 4755 /mnt/nfsshare/b
 ```
-
-**Execution and Result:**
-
+**Uitvoering en Resultaat:**
 ```bash
 bash-4.2$ $ ./b
 uid=1000(frank) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Ontleding:**
 
-**Analysis:**
+* `setreuid` stel beide ruid en euid in op 1000.
+* `system` roep bash aan, wat de gebruikers-ID's behoudt vanwege hun gelijkheid, waardoor het effectief werkt als frank.
 
-* `setreuid` sets both ruid and euid to 1000.
-* `system` invokes bash, which maintains the user IDs due to their equality, effectively operating as frank.
-
-#### Case 3: Using setuid with execve
-Objective: Exploring the interaction between setuid and execve.
-
+#### Geval 3: Gebruik van setuid met execve
+Doel: Verkenning van de interactie tussen setuid en execve.
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/usr/bin/id", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/usr/bin/id", NULL, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Uitvoering en Resultaat:**
 ```bash
 bash-4.2$ $ ./c
 uid=99(nobody) gid=99(nobody) euid=1000(frank) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Ontleding:**
 
-**Analysis:**
+* `ruid` bly 99, maar `euid` word ingestel op 1000, in lyn met die effek van `setuid`.
 
-* `ruid` remains 99, but euid is set to 1000, in line with setuid's effect.
-
-**C Code Example 2 (Calling Bash):**
-
+**C-kode-voorbeeld 2 (Bash aanroep):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/bin/bash", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/bin/bash", NULL, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Uitvoering en Resultaat:**
 ```bash
 bash-4.2$ $ ./d
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Ontleding:**
 
-**Analysis:**
+* Alhoewel `euid` deur `setuid` na 1000 ingestel word, stel `bash` `euid` terug na `ruid` (99) as gevolg van die afwesigheid van `-p`.
 
-* Although `euid` is set to 1000 by `setuid`, `bash` resets euid to `ruid` (99) due to the absence of `-p`.
-
-**C Code Example 3 (Using bash -p):**
-
+**C-kode-voorbeeld 3 (Met behulp van bash -p):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    char *const paramList[10] = {"/bin/bash", "-p", NULL};
-    setuid(1000);
-    execve(paramList[0], paramList, NULL);
-    return 0;
+char *const paramList[10] = {"/bin/bash", "-p", NULL};
+setuid(1000);
+execve(paramList[0], paramList, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Uitvoering en Resultaat:**
 ```bash
 bash-4.2$ $ ./e
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) euid=100
 ```
-
-## References
+## Verwysings
 * [https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail](https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks af in PDF-formaat**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacking-truuks deur PR's in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

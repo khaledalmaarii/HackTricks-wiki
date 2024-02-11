@@ -1,4 +1,4 @@
-## Attribution
-We value your knowledge and encourage you to share content. Please ensure that you only upload content that you own or have explicit permission to use from the original author. Your respect for intellectual property rights fosters a trustworthy and legal sharing environment for everyone.
+## Toewysing
+Ons waardeer jou kennis en moedig jou aan om inhoud te deel. Maak asseblief seker dat jy slegs inhoud oplaai wat jy besit of uitdruklike toestemming het van die oorspronklike skrywer om dit te gebruik. Jou respek vir intellektuele eiendomsregte bevorder 'n betroubare en wettige deelomgewing vir almal.
 
-Thank you for contributing to HackTricks!
+Dankie dat jy bydra tot HackTricks!

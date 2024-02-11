@@ -1,117 +1,104 @@
-# Windows Credentials Protections
+# Windows Kredensiaalbeskerming
 
-## Credentials Protections
+## Kredensiaalbeskerming
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
 ## WDigest
 
-The [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868(v=ws.10).aspx?f=255&MSPPError=-2147217396) protocol, introduced with Windows XP, is designed for authentication via the HTTP Protocol and is **enabled by default on Windows XP through Windows 8.0 and Windows Server 2003 to Windows Server 2012**. This default setting results in **plain-text password storage in LSASS** (Local Security Authority Subsystem Service). An attacker can use Mimikatz to **extract these credentials** by executing:
-
+Die [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868(v=ws.10).aspx?f=255&MSPPError=-2147217396) protokol, wat met Windows XP bekendgestel is, is ontwerp vir outentisering via die HTTP-protokol en is **standaard geaktiveer op Windows XP tot Windows 8.0 en Windows Server 2003 tot Windows Server 2012**. Hierdie verstekinstelling lei tot **plain-text wagwoordberging in LSASS** (Local Security Authority Subsystem Service). 'n Aanvaller kan Mimikatz gebruik om hierdie kredensiale te **onttrek** deur die volgende uit te voer:
 ```bash
 sekurlsa::wdigest
 ```
-
-To **toggle this feature off or on**, the _**UseLogonCredential**_ and _**Negotiate**_ registry keys within _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ must be set to "1". If these keys are **absent or set to "0"**, WDigest is **disabled**:
-
+Om hierdie funksie af of aan te skakel, moet die _**UseLogonCredential**_ en _**Negotiate**_ register sleutels binne _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ op "1" gestel word. As hierdie sleutels **afwesig of op "0" gestel** is, is WDigest **uitgeschakel**.
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential
 ```
+## LSA-beskerming
 
-
-## LSA Protection
-
-Starting with **Windows 8.1**, Microsoft enhanced the security of LSA to **block unauthorized memory reads or code injections by untrusted processes**. This enhancement hinders the typical functioning of commands like `mimikatz.exe sekurlsa:logonpasswords`. To **enable this enhanced protection**, the _**RunAsPPL**_ value in _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ should be adjusted to 1:
-
-
+Vanaf **Windows 8.1** het Microsoft die veiligheid van LSA verbeter om **onbevoegde geheugenlesings of kode-inspuitings deur onbetroubare prosesse te blokkeer**. Hierdie verbetering belemmer die tipiese werking van opdragte soos `mimikatz.exe sekurlsa:logonpasswords`. Om hierdie verbeterde beskerming **te aktiveer**, moet die _**RunAsPPL**_-waarde in _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ aangepas word na 1:
 ```
 reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL
 ```
+### Oorsteek
 
-### Bypass
-
-It is possible to bypass this protection using Mimikatz driver mimidrv.sys:
+Dit is moontlik om hierdie beskerming te oorsteek deur die gebruik van die Mimikatz-bestuurder mimidrv.sys:
 
 ![](../../.gitbook/assets/mimidrv.png)
 
 ## Credential Guard
 
-**Credential Guard**, a feature exclusive to **Windows 10 (Enterprise and Education editions)**, enhances the security of machine credentials using **Virtual Secure Mode (VSM)** and **Virtualization Based Security (VBS)**. It leverages CPU virtualization extensions to isolate key processes within a protected memory space, away from the main operating system's reach. This isolation ensures that even the kernel cannot access the memory in VSM, effectively safeguarding credentials from attacks like **pass-the-hash**. The **Local Security Authority (LSA)** operates within this secure environment as a trustlet, while the **LSASS** process in the main OS acts merely as a communicator with the VSM's LSA.
+**Credential Guard**, 'n funksie wat eksklusief is vir **Windows 10 (Enterprise en Education-weergawes)**, verbeter die veiligheid van masjienlegitimasie deur gebruik te maak van **Virtual Secure Mode (VSM)** en **Virtualization Based Security (VBS)**. Dit maak gebruik van CPU-virtualiseringsextensies om sleutelprosesse binne 'n beskermde geheue-omgewing te isoleer, weg van die bereik van die hoof-bedryfstelsel. Hierdie isolasie verseker dat selfs die kernel nie toegang tot die geheue in VSM kan verkry nie, en beskerm sodoende legitimasie teen aanvalle soos **pass-the-hash**. Die **Local Security Authority (LSA)** werk binne hierdie veilige omgewing as 'n trustlet, terwyl die **LSASS**-proses in die hoof-bedryfstelsel slegs as 'n kommunikeerder met die LSA van die VSM optree.
 
-By default, **Credential Guard** is not active and requires manual activation within an organization. It's critical for enhancing security against tools like **Mimikatz**, which are hindered in their ability to extract credentials. However, vulnerabilities can still be exploited through the addition of custom **Security Support Providers (SSP)** to capture credentials in clear text during login attempts.
+Standaard is **Credential Guard** nie aktief nie en vereis handmatige aktivering binne 'n organisasie. Dit is krities vir die verbetering van veiligheid teenoor hulpmiddels soos **Mimikatz**, wat belemmer word in hul vermoë om legitimasie te onttrek. Nietemin kan kwesbaarhede steeds uitgebuit word deur die byvoeging van aangepaste **Security Support Providers (SSP)** om legitimasie in duidelike teks vas te vang tydens aanmeldingspogings.
 
-To verify **Credential Guard**'s activation status, the registry key **_LsaCfgFlags_** under **_HKLM\System\CurrentControlSet\Control\LSA_** can be inspected. A value of "**1**" indicates activation with **UEFI lock**, "**2**" without lock, and "**0**" denotes it is not enabled. This registry check, while a strong indicator, is not the sole step for enabling Credential Guard. Detailed guidance and a PowerShell script for enabling this feature are available online.
-
+Om die aktiveringsstatus van **Credential Guard** te verifieer, kan die registerleutel **_LsaCfgFlags_** onder **_HKLM\System\CurrentControlSet\Control\LSA_** ondersoek word. 'n Waarde van "**1**" dui op aktivering met **UEFI-sluiting**, "**2**" sonder sluiting, en "**0**" dui daarop dat dit nie geaktiveer is nie. Hierdie registerkontrole, alhoewel 'n sterk aanduiding, is nie die enigste stap vir die aktivering van Credential Guard nie. Gedetailleerde leiding en 'n PowerShell-skrips vir die aktivering van hierdie funksie is aanlyn beskikbaar.
 ```powershell
 reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 ```
+Vir 'n omvattende begrip en instruksies oor die aktivering van **Credential Guard** in Windows 10 en die outomatiese aktivering daarvan in verenigbare stelsels van **Windows 11 Enterprise en Education (weergawe 22H2)**, besoek [Microsoft se dokumentasie](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
 
-For a comprehensive understanding and instructions on enabling **Credential Guard** in Windows 10 and its automatic activation in compatible systems of **Windows 11 Enterprise and Education (version 22H2)**, visit [Microsoft's documentation](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
-
-Further details on implementing custom SSPs for credential capture are provided in [this guide](../active-directory-methodology/custom-ssp.md).
+Verdere besonderhede oor die implementering van aangepaste SSP's vir kredensievaslegging word verskaf in [hierdie gids](../active-directory-methodology/custom-ssp.md).
 
 
-## RDP RestrictedAdmin Mode
+## RDP RestrictedAdmin-modus
 
-**Windows 8.1 and Windows Server 2012 R2** introduced several new security features, including the **_Restricted Admin mode for RDP_**. This mode was designed to enhance security by mitigating the risks associated with **[pass the hash](https://blog.ahasayen.com/pass-the-hash/)** attacks.
+**Windows 8.1 en Windows Server 2012 R2** het verskeie nuwe sekuriteitskenmerke ingevoer, insluitend die **_Restricted Admin-modus vir RDP_**. Hierdie modus is ontwerp om sekuriteit te verbeter deur die risiko's wat verband hou met **[pass the hash](https://blog.ahasayen.com/pass-the-hash/)**-aanvalle te verminder.
 
-Traditionally, when connecting to a remote computer via RDP, your credentials are stored on the target machine. This poses a significant security risk, especially when using accounts with elevated privileges. However, with the introduction of **_Restricted Admin mode_**, this risk is substantially reduced.
+Tradisioneel word jou legitimasie-inligting wanneer jy via RDP met 'n afgeleë rekenaar verbind, op die teikenrekenaar gestoor. Dit stel 'n beduidende sekuriteitsrisiko in, veral wanneer rekeninge met verhoogde bevoegdhede gebruik word. Met die bekendstelling van die **_Restricted Admin-modus_** word hierdie risiko aansienlik verminder.
 
-When initiating an RDP connection using the command **mstsc.exe /RestrictedAdmin**, authentication to the remote computer is performed without storing your credentials on it. This approach ensures that, in the event of a malware infection or if a malicious user gains access to the remote server, your credentials are not compromised, as they are not stored on the server.
+Wanneer jy 'n RDP-verbinding inisieer deur die opdrag **mstsc.exe /RestrictedAdmin** te gebruik, word verifikasie na die afgeleë rekenaar uitgevoer sonder dat jou legitimasie-inligting daarop gestoor word. Hierdie benadering verseker dat, in die geval van 'n malware-infeksie of as 'n kwaadwillige gebruiker toegang tot die afgeleë bediener verkry, jou legitimasie-inligting nie in gevaar gebring word nie, aangesien dit nie op die bediener gestoor word nie.
 
-It's important to note that in **Restricted Admin mode**, attempts to access network resources from the RDP session will not use your personal credentials; instead, the **machine's identity** is used.
+Dit is belangrik om daarop te let dat in die **Restricted Admin-modus** pogings om netwerkbronne vanuit die RDP-sessie te benader nie jou persoonlike legitimasie-inligting gebruik nie; in plaas daarvan word die **identiteit van die masjien** gebruik.
 
-This feature marks a significant step forward in securing remote desktop connections and protecting sensitive information from being exposed in case of a security breach.
+Hierdie kenmerk is 'n belangrike stap vorentoe in die beveiliging van afgeleë skermverbindinge en die beskerming van sensitiewe inligting teen blootstelling in geval van 'n sekuriteitskending.
 
 ![](../../.gitbook/assets/ram.png)
 
-For more detailed information on visit [this resource](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
+Vir meer gedetailleerde inligting besoek [hierdie bron](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
 
 
-## Cached Credentials
+## Gekasieerde Legitimasie-inligting
 
-Windows secures **domain credentials** through the **Local Security Authority (LSA)**, supporting logon processes with security protocols like **Kerberos** and **NTLM**. A key feature of Windows is its capability to cache the **last ten domain logins** to ensure users can still access their computers even if the **domain controller is offline**—a boon for laptop users often away from their company's network.
+Windows beveilig **domeinlegitimasie-inligting** deur die **Local Security Authority (LSA)**, wat aanmeldprosesse ondersteun met sekuriteitsprotokolle soos **Kerberos** en **NTLM**. 'n Sleutelkenmerk van Windows is sy vermoë om die **laaste tien domein-aanmeldings** te kasieer om te verseker dat gebruikers steeds toegang tot hul rekenaars kan verkry selfs as die **domeinbeheerder aflyn is**—'n voordeel vir draagbare rekenaargebruikers wat dikwels weg is van hul maatskappy se netwerk.
 
-The number of cached logins is adjustable via a specific **registry key or group policy**. To view or change this setting, the following command is utilized:
-
+Die aantal gekasieerde aanmeldings kan aangepas word deur 'n spesifieke **registervoorwerp of groepriglyn**. Om hierdie instelling te sien of te verander, word die volgende opdrag gebruik:
 ```bash
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLOGON" /v CACHEDLOGONSCOUNT
 ```
+Toegang tot hierdie gekaapte geloofsbriewe word streng beheer, met slegs die **SYSTEM**-rekening wat die nodige toestemmings het om dit te sien. Administrateurs wat toegang tot hierdie inligting benodig, moet dit doen met SYSTEM-gebruikersbevoegdhede. Die geloofsbriewe word gestoor by: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
 
-Access to these cached credentials is tightly controlled, with only the **SYSTEM** account having the necessary permissions to view them. Administrators needing to access this information must do so with SYSTEM user privileges. The credentials are stored at: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
+**Mimikatz** kan gebruik word om hierdie gekaapte geloofsbriewe te onttrek deur die opdrag `lsadump::cache` te gebruik.
 
-**Mimikatz** can be employed to extract these cached credentials using the command `lsadump::cache`.
+Vir verdere besonderhede verskaf die oorspronklike [bron](http://juggernaut.wikidot.com/cached-credentials) omvattende inligting.
 
-For further details, the original [source](http://juggernaut.wikidot.com/cached-credentials) provides comprehensive information.
+## Beskermde Gebruikers
 
+Lidmaatskap in die **Beskermde Gebruikers-groep** bring verskeie sekuriteitsverbeterings vir gebruikers mee, wat verseker dat hoër vlakke van beskerming teen geloofsbriewe-diefstal en misbruik verkry word:
 
-## Protected Users
+- **Geloofsbriewe-delegasie (CredSSP)**: Selfs as die Groepbeleid-instelling vir **Toelaat om standaardgeloofsbriewe te delegeren** geaktiveer is, sal die klaarteks geloofsbriewe van Beskermde Gebruikers nie gekaap word nie.
+- **Windows Digest**: Vanaf **Windows 8.1 en Windows Server 2012 R2** sal die stelsel nie klaarteks geloofsbriewe van Beskermde Gebruikers in die cache stoor nie, ongeag die status van Windows Digest.
+- **NTLM**: Die stelsel sal nie die klaarteks geloofsbriewe of NT eenrigtingfunksies (NTOWF) van Beskermde Gebruikers in die cache stoor nie.
+- **Kerberos**: Vir Beskermde Gebruikers sal Kerberos-verifikasie nie **DES** of **RC4-sleutels** genereer nie, en dit sal ook nie klaarteks geloofsbriewe of langtermynsleutels stoor buite die aanvanklike Tikkie-Verlening-Tikkie (TGT)-verkryging nie.
+- **Aflyn Aanmelding**: Beskermde Gebruikers sal nie 'n gekaapte verifieerder by aanmelding of ontgrendeling hê nie, wat beteken dat aflyn aanmelding nie ondersteun word vir hierdie rekeninge nie.
 
-Membership in the **Protected Users group** introduces several security enhancements for users, ensuring higher levels of protection against credential theft and misuse:
+Hierdie beskermings word geaktiveer sodra 'n gebruiker, wat 'n lid van die **Beskermde Gebruikers-groep** is, by die toestel aanmeld. Dit verseker dat kritieke sekuriteitsmaatreëls in plek is om teen verskeie metodes van geloofsbriewe-kompromittering te beskerm.
 
-- **Credential Delegation (CredSSP)**: Even if the Group Policy setting for **Allow delegating default credentials** is enabled, plain text credentials of Protected Users will not be cached.
-- **Windows Digest**: Starting from **Windows 8.1 and Windows Server 2012 R2**, the system will not cache plain text credentials of Protected Users, regardless of the Windows Digest status.
-- **NTLM**: The system will not cache Protected Users' plain text credentials or NT one-way functions (NTOWF).
-- **Kerberos**: For Protected Users, Kerberos authentication will not generate **DES** or **RC4 keys**, nor will it cache plain text credentials or long-term keys beyond the initial Ticket-Granting Ticket (TGT) acquisition.
-- **Offline Sign-In**: Protected Users will not have a cached verifier created at sign-in or unlock, meaning offline sign-in is not supported for these accounts.
+Vir meer gedetailleerde inligting, raadpleeg die amptelike [dokumentasie](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group).
 
-These protections are activated the moment a user, who is a member of the **Protected Users group**, signs into the device. This ensures that critical security measures are in place to safeguard against various methods of credential compromise.
-
-For more detailed information, consult the official [documentation](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group).
-
-**Table from** [**the docs**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
+**Tabel van** [**die dokumentasie**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
 
 | Windows Server 2003 RTM | Windows Server 2003 SP1+ | <p>Windows Server 2012,<br>Windows Server 2008 R2,<br>Windows Server 2008</p> | Windows Server 2016          |
 | ----------------------- | ------------------------ | ----------------------------------------------------------------------------- | ---------------------------- |
@@ -134,14 +121,14 @@ For more detailed information, consult the official [documentation](https://docs
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslagplekke.
 
 </details>

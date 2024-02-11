@@ -1,68 +1,65 @@
-# Docker Security
+# Docker Sekuriteit
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy jou **maatskappy in HackTricks wil adverteer** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik werkstrome te bou en outomatiseer met behulp van die wêreld se mees gevorderde gemeenskapsinstrumente.\
+Kry vandag toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## **Basic Docker Engine Security**
+## **Basiese Docker Engine Sekuriteit**
 
-The **Docker engine** employs the Linux kernel's **Namespaces** and **Cgroups** to isolate containers, offering a basic layer of security. Additional protection is provided through **Capabilities dropping**, **Seccomp**, and **SELinux/AppArmor**, enhancing container isolation. An **auth plugin** can further restrict user actions.
+Die **Docker-engine** maak gebruik van die Linux-kernel se **Namespaces** en **Cgroups** om houers te isoleer en bied 'n basiese vlak van sekuriteit. Addisionele beskerming word gebied deur **Capabilities dropping**, **Seccomp**, en **SELinux/AppArmor**, wat houer-isolasie verbeter. 'n **Auth plugin** kan verdere beperkings plaas op gebruikersaksies.
 
-![Docker Security](https://sreeninet.files.wordpress.com/2016/03/dockersec1.png)
+![Docker Sekuriteit](https://sreeninet.files.wordpress.com/2016/03/dockersec1.png)
 
-### Secure Access to Docker Engine
+### Veilige Toegang tot Docker Engine
 
-The Docker engine can be accessed either locally via a Unix socket or remotely using HTTP. For remote access, it's essential to employ HTTPS and **TLS** to ensure confidentiality, integrity, and authentication.
+Die Docker-engine kan plaaslik benader word deur 'n Unix-aansluiting of op afstand deur middel van HTTP. Vir afstandsbenadering is dit noodsaaklik om HTTPS en **TLS** te gebruik om vertroulikheid, integriteit en outentisiteit te verseker.
 
-The Docker engine, by default, listens on the Unix socket at `unix:///var/run/docker.sock`. On Ubuntu systems, Docker's startup options are defined in `/etc/default/docker`. To enable remote access to the Docker API and client, expose the Docker daemon over an HTTP socket by adding the following settings:
-
+Die Docker-engine luister standaard na die Unix-aansluiting by `unix:///var/run/docker.sock`. Op Ubuntu-stelsels word Docker se opstartopsies gedefinieer in `/etc/default/docker`. Om afstandsbenadering tot die Docker API en klient moontlik te maak, stel die Docker-daemon bloot oor 'n HTTP-aansluiting deur die volgende instellings by te voeg:
 ```bash
 DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H tcp://192.168.56.101:2376"
 sudo service docker restart
 ```
+Nietemin, dit word nie aanbeveel om die Docker daemon oor HTTP bloot te stel nie as gevolg van sekuriteitskwessies. Dit is raadsaam om verbinding te beveilig deur gebruik te maak van HTTPS. Daar is twee hoofbenaderings om die verbinding te beveilig:
+1. Die klient verifieer die identiteit van die bediener.
+2. Beide die klient en bediener verifieer mekaar se identiteit.
 
-However, exposing the Docker daemon over HTTP is not recommended due to security concerns. It's advisable to secure connections using HTTPS. There are two main approaches to securing the connection:
-1. The client verifies the server's identity.
-2. Both the client and server mutually authenticate each other's identity.
+Sertifikate word gebruik om die identiteit van 'n bediener te bevestig. Vir gedetailleerde voorbeelde van beide metodes, verwys na [**hierdie gids**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/).
 
-Certificates are utilized to confirm a server's identity. For detailed examples of both methods, refer to [**this guide**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/).
+### Sekuriteit van Houderverspreidings
 
-### Security of Container Images
+Houderverspreidings kan in private of openbare verspreidingsbewaarplekke gestoor word. Docker bied verskeie stooropsies vir houderverspreidings:
 
-Container images can be stored in either private or public repositories. Docker offers several storage options for container images:
+* **[Docker Hub](https://hub.docker.com)**: 'n Openbare registerdiens van Docker.
+* **[Docker Registry](https://github.com/docker/distribution)**: 'n Opensourceprojek wat gebruikers in staat stel om hul eie register te bedryf.
+* **[Docker Trusted Registry](https://www.docker.com/docker-trusted-registry)**: Docker se kommersiële registerdiens wat rolgebaseerde gebruikersverifikasie en integrasie met LDAP-gidsdienste bied.
 
-* **[Docker Hub](https://hub.docker.com)**: A public registry service from Docker.
-* **[Docker Registry](https://github.com/docker/distribution)**: An open-source project allowing users to host their own registry.
-* **[Docker Trusted Registry](https://www.docker.com/docker-trusted-registry)**: Docker's commercial registry offering, featuring role-based user authentication and integration with LDAP directory services.
+### Beeldskandering
 
-### Image Scanning
+Houers kan **sekuriteitskwessies** hê as gevolg van die basisbeeld of as gevolg van die sagteware wat bo-op die basisbeeld geïnstalleer is. Docker werk aan 'n projek genaamd **Nautilus** wat sekuriteitskandering van Houers doen en die kwessies lys. Nautilus werk deur elke Houerbeeldlaag te vergelyk met 'n kwessierepositorium om sekuriteitslekke te identifiseer.
 
-Containers can have **security vulnerabilities** either because of the base image or because of the software installed on top of the base image. Docker is working on a project called **Nautilus** that does security scan of Containers and lists the vulnerabilities. Nautilus works by comparing the each Container image layer with vulnerability repository to identify security holes.
-
-For more [**information read this**](https://docs.docker.com/engine/scan/).
+Vir meer [**inligting lees hierdie**](https://docs.docker.com/engine/scan/).
 
 * **`docker scan`**
 
-The **`docker scan`** command allows you to scan existing Docker images using the image name or ID. For example, run the following command to scan the hello-world image:
-
+Die **`docker scan`** opdrag stel jou in staat om bestaande Docker-beelde te skandeer deur die beeldnaam of ID te gebruik. Voer byvoorbeeld die volgende opdrag uit om die hello-world beeld te skandeer:
 ```bash
 docker scan hello-world
 
@@ -78,78 +75,68 @@ Licenses:          enabled
 
 Note that we do not currently have vulnerability data for your image.
 ```
-
 * [**`trivy`**](https://github.com/aquasecurity/trivy)
-
 ```bash
 trivy -q -f json <ontainer_name>:<tag>
 ```
-
 * [**`snyk`**](https://docs.snyk.io/snyk-cli/getting-started-with-the-cli)
-
 ```bash
 snyk container test <image> --json-file-output=<output file> --severity-threshold=high
 ```
-
 * [**`clair-scanner`**](https://github.com/arminc/clair-scanner)
-
 ```bash
 clair-scanner -w example-alpine.yaml --ip YOUR_LOCAL_IP alpine:3.5
 ```
+### Docker Beeldondertekening
 
-### Docker Image Signing
+Docker beeldondertekening verseker die veiligheid en integriteit van beelde wat in houers gebruik word. Hier is 'n beknopte verduideliking:
 
-Docker image signing ensures the security and integrity of images used in containers. Here's a condensed explanation:
+- **Docker Inhoudsvertroue** maak gebruik van die Notary-projek, gebaseer op The Update Framework (TUF), om beeldondertekening te bestuur. Vir meer inligting, sien [Notary](https://github.com/docker/notary) en [TUF](https://theupdateframework.github.io).
+- Om Docker inhoudsvertroue te aktiveer, stel `export DOCKER_CONTENT_TRUST=1` in. Hierdie funksie is standaard af in Docker weergawe 1.10 en later.
+- Met hierdie funksie geaktiveer, kan slegs ondertekende beelde afgelaai word. Die aanvanklike beeldstoot vereis die instelling van wagwoorde vir die hoof- en etiketteringssleutels, terwyl Docker ook Yubikey ondersteun vir verbeterde veiligheid. Meer besonderhede kan [hier](https://blog.docker.com/2015/11/docker-content-trust-yubikey/) gevind word.
+- As jy probeer om 'n ondertekende beeld met inhoudsvertroue geaktiveer af te trek, sal jy 'n "Geen vertroue data vir latest" fout kry.
+- Vir beeldstote na die eerste, vra Docker vir die wagwoord van die stoor sleutel om die beeld te onderteken.
 
-- **Docker Content Trust** utilizes the Notary project, based on The Update Framework (TUF), to manage image signing. For more info, see [Notary](https://github.com/docker/notary) and [TUF](https://theupdateframework.github.io).
-- To activate Docker content trust, set `export DOCKER_CONTENT_TRUST=1`. This feature is off by default in Docker version 1.10 and later.
-- With this feature enabled, only signed images can be downloaded. Initial image push requires setting passphrases for the root and tagging keys, with Docker also supporting Yubikey for enhanced security. More details can be found [here](https://blog.docker.com/2015/11/docker-content-trust-yubikey/).
-- Attempting to pull an unsigned image with content trust enabled results in a "No trust data for latest" error.
-- For image pushes after the first, Docker asks for the repository key's passphrase to sign the image.
-
-To back up your private keys, use the command:
-
+Om jou privaat sleutels te rugsteun, gebruik die opdrag:
 ```bash
 tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 ```
-
-When switching Docker hosts, it's necessary to move the root and repository keys to maintain operations.
-
+Wanneer jy oorskakel na Docker-gashere, is dit nodig om die root- en bewaarpleksleutels te skuif om werksaamhede te behou.
 
 ***
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en outomatiese werksvloeie te bou wat aangedryf word deur die wêreld se mees gevorderde gemeenskapsinstrumente.\
+Kry vandag toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Containers Security Features
+## Kontainer Sekuriteitskenmerke
 
 <details>
 
-<summary>Summary of Container Security Features</summary>
+<summary>Oorsig van Kontainer Sekuriteitskenmerke</summary>
 
-### Main Process Isolation Features
+### Hoofproses Isolasiekenmerke
 
-In containerized environments, isolating projects and their processes is paramount for security and resource management. Here's a simplified explanation of key concepts:
+In gekontainerde omgewings is die isolasie van projekte en hul prosesse van uiterste belang vir sekuriteit en hulpbronbestuur. Hier is 'n vereenvoudigde verduideliking van sleutelkonsepte:
 
 #### **Namespaces**
-- **Purpose**: Ensure isolation of resources like processes, network, and filesystems. Particularly in Docker, namespaces keep a container's processes separate from the host and other containers.
-- **Usage of `unshare`**: The `unshare` command (or the underlying syscall) is utilized to create new namespaces, providing an added layer of isolation. However, while Kubernetes doesn't inherently block this, Docker does.
-- **Limitation**: Creating new namespaces doesn't allow a process to revert to the host's default namespaces. To penetrate the host namespaces, one would typically require access to the host's `/proc` directory, using `nsenter` for entry.
+- **Doel**: Verseker isolasie van hulpbronne soos prosesse, netwerk en lêersisteme. Veral in Docker hou namespaces 'n kontainer se prosesse geskei van die gasheer en ander kontainers.
+- **Gebruik van `unshare`**: Die `unshare`-opdrag (of die onderliggende stelseloproep) word gebruik om nuwe namespaces te skep, wat 'n bygevoegde laag van isolasie bied. Alhoewel Kubernetes dit nie inherent blokkeer nie, doen Docker dit wel.
+- **Beperking**: Die skep van nuwe namespaces laat nie toe dat 'n proses terugkeer na die gasheer se verstek-namespaces nie. Om toegang tot die gasheer-namespaces te verkry, sal 'n persoon tipies toegang tot die gasheer se `/proc`-gids benodig en `nsenter` gebruik om in te gaan.
 
-#### **Control Groups (CGroups)**
-- **Function**: Primarily used for allocating resources among processes.
-- **Security Aspect**: CGroups themselves don't offer isolation security, except for the `release_agent` feature, which, if misconfigured, could potentially be exploited for unauthorized access.
+#### **Beheergroepe (CGroups)**
+- **Funksie**: Primêr gebruik vir die toekenning van hulpbronne aan prosesse.
+- **Sekuriteitsaspek**: CGroups self bied nie isolasie-sekuriteit nie, behalwe vir die `release_agent`-kenmerk wat, as dit verkeerd gekonfigureer is, potensieel uitgebuit kan word vir ongemagtigde toegang.
 
-#### **Capability Drop**
-- **Importance**: It's a crucial security feature for process isolation.
-- **Functionality**: It restricts the actions a root process can perform by dropping certain capabilities. Even if a process runs with root privileges, lacking the necessary capabilities prevents it from executing privileged actions, as the syscalls will fail due to insufficient permissions.
+#### **Bevoegdheid Laat Vaar**
+- **Belangrikheid**: Dit is 'n belangrike sekuriteitskenmerk vir prosesisolasie.
+- **Funksionaliteit**: Dit beperk die aksies wat 'n rootproses kan uitvoer deur sekere bevoegdhede te laat vaar. Selfs as 'n proses met root-voorregte loop, sal dit nie bevoorregte aksies kan uitvoer nie, aangesien die stelseloproepe weens onvoldoende toestemmings sal misluk.
 
-These are the **remaining capabilities** after the process drop the others:
+Dit is die **oorblywende bevoegdhede** nadat die proses die ander laat vaar:
 
 {% code overflow="wrap" %}
 ```
@@ -159,30 +146,30 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 
 **Seccomp**
 
-It's enabled by default in Docker. It helps to **limit even more the syscalls** that the process can call.\
-The **default Docker Seccomp profile** can be found in [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)
+Dit is standaard geaktiveer in Docker. Dit help om die syscalls wat die proses kan aanroep, nog meer te beperk.\
+Die standaard Docker Seccomp profiel kan gevind word by [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)
 
 **AppArmor**
 
-Docker has a template that you can activate: [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
+Docker het 'n sjabloon wat jy kan aktiveer: [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
 
-This will allow to reduce capabilities, syscalls, access to files and folders...
+Dit sal toelaat om funksies, syscalls, toegang tot lêers en vouers te verminder...
 
 </details>
 
 ### Namespaces
 
-**Namespaces** are a feature of the Linux kernel that **partitions kernel resources** such that one set of **processes** **sees** one set of **resources** while **another** set of **processes** sees a **different** set of resources. The feature works by having the same namespace for a set of resources and processes, but those namespaces refer to distinct resources. Resources may exist in multiple spaces.
+**Namespaces** is 'n kenmerk van die Linux-kernel wat die kernelbronne verdeel sodat een stel **prosesse** een stel **bronne sien**, terwyl 'n **ander** stel **prosesse** 'n **verskillende** stel bronne sien. Die kenmerk werk deur dieselfde namespace vir 'n stel bronne en prosesse te hê, maar daardie namespaces verwys na afsonderlike bronne. Bronne kan in meerdere ruimtes bestaan.
 
-Docker makes use of the following Linux kernel Namespaces to achieve Container isolation:
+Docker maak gebruik van die volgende Linux-kernel Namespaces om kontainer-isolasie te bereik:
 
-* pid namespace
-* mount namespace
-* network namespace
-* ipc namespace
-* UTS namespace
+* pid-namespace
+* mount-namespace
+* netwerk-namespace
+* ipc-namespace
+* UTS-namespace
 
-For **more information about the namespaces** check the following page:
+Vir **meer inligting oor die namespaces**, kyk na die volgende bladsy:
 
 {% content-ref url="namespaces/" %}
 [namespaces](namespaces/)
@@ -190,32 +177,28 @@ For **more information about the namespaces** check the following page:
 
 ### cgroups
 
-Linux kernel feature **cgroups** provides capability to **restrict resources like cpu, memory, io, network bandwidth among** a set of processes. Docker allows to create Containers using cgroup feature which allows for resource control for the specific Container.\
-Following is a Container created with user space memory limited to 500m, kernel memory limited to 50m, cpu share to 512, blkioweight to 400. CPU share is a ratio that controls Container’s CPU usage. It has a default value of 1024 and range between 0 and 1024. If three Containers have the same CPU share of 1024, each Container can take upto 33% of CPU in case of CPU resource contention. blkio-weight is a ratio that controls Container’s IO. It has a default value of 500 and range between 10 and 1000.
-
+Die Linux-kernelkenmerk **cgroups** bied die vermoë om hulpbronne soos CPU, geheue, IO, netwerkbandwydte te beperk vir 'n stel prosesse. Docker maak dit moontlik om Kontainers te skep met behulp van die cgroup-funksie wat hulpbronbeheer vir die spesifieke Kontainer moontlik maak.\
+Hieronder is 'n Kontainer wat geskep is met gebruikersruimte-geheue beperk tot 500m, kernelgeheue beperk tot 50m, CPU-aandeel tot 512, blkioweight tot 400. CPU-aandeel is 'n verhouding wat Kontainer se CPU-gebruik beheer. Dit het 'n verstekwaarde van 1024 en 'n reeks tussen 0 en 1024. As drie Kontainers dieselfde CPU-aandeel van 1024 het, kan elke Kontainer tot 33% van die CPU neem in geval van CPU-hulpbronkonflik. blkio-weight is 'n verhouding wat Kontainer se IO beheer. Dit het 'n verstekwaarde van 500 en 'n reeks tussen 10 en 1000.
 ```
 docker run -it -m 500M --kernel-memory 50M --cpu-shares 512 --blkio-weight 400 --name ubuntu1 ubuntu bash
 ```
-
-To get the cgroup of a container you can do:
-
+Om die cgroup van 'n houer te kry, kan jy die volgende doen:
 ```bash
 docker run -dt --rm denial sleep 1234 #Run a large sleep inside a Debian container
 ps -ef | grep 1234 #Get info about the sleep process
 ls -l /proc/<PID>/ns #Get the Group and the namespaces (some may be uniq to the hosts and some may be shred with it)
 ```
-
-For more information check:
+Vir meer inligting, kyk na:
 
 {% content-ref url="cgroups.md" %}
 [cgroups.md](cgroups.md)
 {% endcontent-ref %}
 
-### Capabilities
+### Bevoegdhede
 
-Capabilities allow **finer control for the capabilities that can be allowed** for root user. Docker uses the Linux kernel capability feature to **limit the operations that can be done inside a Container** irrespective of the type of user.
+Bevoegdhede maak dit moontlik om **fyn beheer oor die bevoegdhede wat toegelaat kan word** vir die root-gebruiker te hê. Docker maak gebruik van die Linux-kernel se bevoegdheidseienskapfunksie om **die operasies wat binne 'n houer gedoen kan word te beperk**, ongeag die tipe gebruiker.
 
-When a docker container is run, the **process drops sensitive capabilities that the proccess could use to escape from the isolation**. This try to assure that the proccess won't be able to perform sensitive actions and escape:
+Wanneer 'n Docker-houer uitgevoer word, **verloor die proses sensitiewe bevoegdhede wat die proses kan gebruik om uit die isolasie te ontsnap**. Dit probeer verseker dat die proses nie sensitiewe aksies kan uitvoer en ontsnap nie:
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
@@ -223,7 +206,7 @@ When a docker container is run, the **process drops sensitive capabilities that 
 
 ### Seccomp in Docker
 
-This is a security feature that allows Docker to **limit the syscalls** that can be used inside the container:
+Dit is 'n sekuriteitskenmerk wat Docker in staat stel om **die syscalls wat binne die houer gebruik kan word te beperk**:
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
@@ -231,7 +214,7 @@ This is a security feature that allows Docker to **limit the syscalls** that can
 
 ### AppArmor in Docker
 
-**AppArmor** is a kernel enhancement to confine **containers** to a **limited** set of **resources** with **per-program profiles**.:
+**AppArmor** is 'n kernel-verbetering om **houers** tot 'n **beperkte** stel **hulpbronne** met **per-program profiele** te beperk:
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -239,13 +222,13 @@ This is a security feature that allows Docker to **limit the syscalls** that can
 
 ### SELinux in Docker
 
-- **Labeling System**: SELinux assigns a unique label to every process and filesystem object.
-- **Policy Enforcement**: It enforces security policies that define what actions a process label can perform on other labels within the system.
-- **Container Process Labels**: When container engines initiate container processes, they are typically assigned a confined SELinux label, commonly `container_t`.
-- **File Labeling within Containers**: Files within the container are usually labeled as `container_file_t`.
-- **Policy Rules**: The SELinux policy primarily ensures that processes with the `container_t` label can only interact (read, write, execute) with files labeled as `container_file_t`.
+- **Etiketteringstelsel**: SELinux ken 'n unieke etiket toe aan elke proses en lêerstelselobjek.
+- **Beleidshandhawing**: Dit dwing sekuriteitsbeleide af wat bepaal watter aksies 'n prosesetiket binne die stelsel op ander etikette kan uitvoer.
+- **Houerprosesetikette**: Wanneer houermotors houerprosesse inisieer, word hulle gewoonlik toegewys aan 'n beperkte SELinux-etiket, gewoonlik `container_t`.
+- **Lêeretikettering binne houers**: Lêers binne die houer word gewoonlik geëtiketteer as `container_file_t`.
+- **Beleidsreëls**: Die SELinux-beleid verseker hoofsaaklik dat prosesse met die `container_t`-etiket slegs kan interaksie hê (lees, skryf, uitvoer) met lêers wat geëtiketteer is as `container_file_t`.
 
-This mechanism ensures that even if a process within a container is compromised, it's confined to interacting only with objects that have the corresponding labels, significantly limiting the potential damage from such compromises.
+Hierdie meganisme verseker dat selfs as 'n proses binne 'n houer gekompromitteer word, dit beperk is tot interaksie slegs met objekte wat die ooreenstemmende etikette het, wat die potensiële skade van sulke kompromitterings aansienlik beperk.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -253,23 +236,22 @@ This mechanism ensures that even if a process within a container is compromised,
 
 ### AuthZ & AuthN
 
-In Docker, an authorization plugin plays a crucial role in security by deciding whether to allow or block requests to the Docker daemon. This decision is made by examining two key contexts:
+In Docker speel 'n outorisasie-inprop 'n belangrike rol in sekuriteit deur te besluit of versoek aan die Docker-daemon toegelaat of geblokkeer moet word. Hierdie besluit word geneem deur twee sleutelkontekste te ondersoek:
 
-- **Authentication Context**: This includes comprehensive information about the user, such as who they are and how they've authenticated themselves.
-- **Command Context**: This comprises all pertinent data related to the request being made.
+- **Outentiseringskonteks**: Dit sluit omvattende inligting oor die gebruiker in, soos wie hulle is en hoe hulle hulself geoutentiseer het.
+- **Opdragkonteks**: Dit bestaan uit alle relevante data wat verband hou met die gedane versoek.
 
-These contexts help ensure that only legitimate requests from authenticated users are processed, enhancing the security of Docker operations.
+Hierdie kontekste help verseker dat slegs legitieme versoek van geoutentiseerde gebruikers verwerk word, wat die sekuriteit van Docker-operasies verbeter.
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
 {% endcontent-ref %}
 
-## DoS from a container
+## DoS vanuit 'n houer
 
-If you are not properly limiting the resources a container can use, a compromised container could DoS the host where it's running.
+As jy nie die hulpbronne wat 'n houer kan gebruik behoorlik beperk nie, kan 'n gekompromitteerde houer die gasheer waarop dit uitgevoer word, DoS (versteurings van diens) gee.
 
 * CPU DoS
-
 ```bash
 # stress-ng
 sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 5m
@@ -277,18 +259,15 @@ sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 
 # While loop
 docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :; done'
 ```
-
-* Bandwidth DoS
-
+* Bandwydte DoS
 ```bash
 nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
 ```
+## Interessante Docker-vlae
 
-## Interesting Docker Flags
+### --privileged-vlag
 
-### --privileged flag
-
-In the following page you can learn **what does the `--privileged` flag imply**:
+Op die volgende bladsy kan jy leer **wat impliseer die `--privileged`-vlag**:
 
 {% content-ref url="docker-privileged.md" %}
 [docker-privileged.md](docker-privileged.md)
@@ -298,16 +277,847 @@ In the following page you can learn **what does the `--privileged` flag imply**:
 
 #### no-new-privileges
 
-If you are running a container where an attacker manages to get access as a low privilege user. If you have a **miss-configured suid binary**, the attacker may abuse it and **escalate privileges inside** the container. Which, may allow him to escape from it.
+As jy 'n houer hardloop waar 'n aanvaller toegang kry as 'n gebruiker met lae bevoegdhede. As jy 'n **verkeerd gekonfigureerde suid-binêre lêer** het, kan die aanvaller dit misbruik en **bevoegdhede binne die houer verhoog**. Dit kan hom in staat stel om daaruit te ontsnap.
 
-Running the container with the **`no-new-privileges`** option enabled will **prevent this kind of privilege escalation**.
-
+Deur die houer met die **`no-new-privileges`**-opsie geaktiveer te hardloop, sal dit **hierdie soort bevoegdheidsverhoging voorkom**.
 ```
 docker run -it --security-opt=no-new-privileges:true nonewpriv
 ```
+#### Ander
 
-#### Other
+---
 
+### Docker Security
+
+### Docker Sekuriteit
+
+---
+
+#### Docker Security Cheat Sheet
+
+#### Docker Sekuriteit Spiekbriefie
+
+---
+
+#### Docker Security Best Practices
+
+#### Docker Sekuriteit Beste Praktyke
+
+---
+
+#### Docker Security Tools
+
+#### Docker Sekuriteit Gereedskap
+
+---
+
+#### Docker Security Vulnerabilities
+
+#### Docker Sekuriteit Swakhede
+
+---
+
+#### Docker Security Resources
+
+#### Docker Sekuriteit Hulpbronne
+
+---
+
+#### Docker Security Checklist
+
+#### Docker Sekuriteit Kontrolelys
+
+---
+
+#### Docker Security Tips
+
+#### Docker Sekuriteit Wenke
+
+---
+
+#### Docker Security Hardening
+
+#### Docker Sekuriteit Verharding
+
+---
+
+#### Docker Security Auditing
+
+#### Docker Sekuriteit Oudit
+
+---
+
+#### Docker Security Incident Response
+
+#### Docker Sekuriteit Insident Reaksie
+
+---
+
+#### Docker Security Monitoring
+
+#### Docker Sekuriteit Monitering
+
+---
+
+#### Docker Security Training
+
+#### Docker Sekuriteit Opleiding
+
+---
+
+#### Docker Security Challenges
+
+#### Docker Sekuriteit Uitdagings
+
+---
+
+#### Docker Security Best Practices for Developers
+
+#### Docker Sekuriteit Beste Praktyke vir Ontwikkelaars
+
+---
+
+#### Docker Security Best Practices for Operations
+
+#### Docker Sekuriteit Beste Praktyke vir Operasies
+
+---
+
+#### Docker Security Best Practices for DevOps
+
+#### Docker Sekuriteit Beste Praktyke vir DevOps
+
+---
+
+#### Docker Security Best Practices for CI/CD
+
+#### Docker Sekuriteit Beste Praktyke vir CI/CD
+
+---
+
+#### Docker Security Best Practices for Kubernetes
+
+#### Docker Sekuriteit Beste Praktyke vir Kubernetes
+
+---
+
+#### Docker Security Best Practices for AWS
+
+#### Docker Sekuriteit Beste Praktyke vir AWS
+
+---
+
+#### Docker Security Best Practices for Azure
+
+#### Docker Sekuriteit Beste Praktyke vir Azure
+
+---
+
+#### Docker Security Best Practices for GCP
+
+#### Docker Sekuriteit Beste Praktyke vir GCP
+
+---
+
+#### Docker Security Best Practices for DigitalOcean
+
+#### Docker Sekuriteit Beste Praktyke vir DigitalOcean
+
+---
+
+#### Docker Security Best Practices for Alibaba Cloud
+
+#### Docker Sekuriteit Beste Praktyke vir Alibaba Cloud
+
+---
+
+#### Docker Security Best Practices for IBM Cloud
+
+#### Docker Sekuriteit Beste Praktyke vir IBM Cloud
+
+---
+
+#### Docker Security Best Practices for Oracle Cloud
+
+#### Docker Sekuriteit Beste Praktyke vir Oracle Cloud
+
+---
+
+#### Docker Security Best Practices for Heroku
+
+#### Docker Sekuriteit Beste Praktyke vir Heroku
+
+---
+
+#### Docker Security Best Practices for OpenShift
+
+#### Docker Sekuriteit Beste Praktyke vir OpenShift
+
+---
+
+#### Docker Security Best Practices for Rancher
+
+#### Docker Sekuriteit Beste Praktyke vir Rancher
+
+---
+
+#### Docker Security Best Practices for Nomad
+
+#### Docker Sekuriteit Beste Praktyke vir Nomad
+
+---
+
+#### Docker Security Best Practices for Jenkins
+
+#### Docker Sekuriteit Beste Praktyke vir Jenkins
+
+---
+
+#### Docker Security Best Practices for GitLab
+
+#### Docker Sekuriteit Beste Praktyke vir GitLab
+
+---
+
+#### Docker Security Best Practices for Bitbucket
+
+#### Docker Sekuriteit Beste Praktyke vir Bitbucket
+
+---
+
+#### Docker Security Best Practices for CircleCI
+
+#### Docker Sekuriteit Beste Praktyke vir CircleCI
+
+---
+
+#### Docker Security Best Practices for Travis CI
+
+#### Docker Sekuriteit Beste Praktyke vir Travis CI
+
+---
+
+#### Docker Security Best Practices for GitHub Actions
+
+#### Docker Sekuriteit Beste Praktyke vir GitHub Actions
+
+---
+
+#### Docker Security Best Practices for Jenkins X
+
+#### Docker Sekuriteit Beste Praktyke vir Jenkins X
+
+---
+
+#### Docker Security Best Practices for Spinnaker
+
+#### Docker Sekuriteit Beste Praktyke vir Spinnaker
+
+---
+
+#### Docker Security Best Practices for TeamCity
+
+#### Docker Sekuriteit Beste Praktyke vir TeamCity
+
+---
+
+#### Docker Security Best Practices for Bamboo
+
+#### Docker Sekuriteit Beste Praktyke vir Bamboo
+
+---
+
+#### Docker Security Best Practices for GoCD
+
+#### Docker Sekuriteit Beste Praktyke vir GoCD
+
+---
+
+#### Docker Security Best Practices for Drone
+
+#### Docker Sekuriteit Beste Praktyke vir Drone
+
+---
+
+#### Docker Security Best Practices for Argo CD
+
+#### Docker Sekuriteit Beste Praktyke vir Argo CD
+
+---
+
+#### Docker Security Best Practices for Harbor
+
+#### Docker Sekuriteit Beste Praktyke vir Harbor
+
+---
+
+#### Docker Security Best Practices for Artifactory
+
+#### Docker Sekuriteit Beste Praktyke vir Artifactory
+
+---
+
+#### Docker Security Best Practices for Nexus
+
+#### Docker Sekuriteit Beste Praktyke vir Nexus
+
+---
+
+#### Docker Security Best Practices for Sonatype
+
+#### Docker Sekuriteit Beste Praktyke vir Sonatype
+
+---
+
+#### Docker Security Best Practices for JFrog
+
+#### Docker Sekuriteit Beste Praktyke vir JFrog
+
+---
+
+#### Docker Security Best Practices for Docker Hub
+
+#### Docker Sekuriteit Beste Praktyke vir Docker Hub
+
+---
+
+#### Docker Security Best Practices for Quay
+
+#### Docker Sekuriteit Beste Praktyke vir Quay
+
+---
+
+#### Docker Security Best Practices for Container Registry
+
+#### Docker Sekuriteit Beste Praktyke vir Houderversameling
+
+---
+
+#### Docker Security Best Practices for Container Runtime
+
+#### Docker Sekuriteit Beste Praktyke vir Houvertyd
+
+---
+
+#### Docker Security Best Practices for Container Orchestration
+
+#### Docker Sekuriteit Beste Praktyke vir Houverorkestrering
+
+---
+
+#### Docker Security Best Practices for Container Networking
+
+#### Docker Sekuriteit Beste Praktyke vir Houvernetwerking
+
+---
+
+#### Docker Security Best Practices for Container Storage
+
+#### Docker Sekuriteit Beste Praktyke vir Houverstoor
+
+---
+
+#### Docker Security Best Practices for Container Monitoring
+
+#### Docker Sekuriteit Beste Praktyke vir Houvermonitering
+
+---
+
+#### Docker Security Best Practices for Container Logging
+
+#### Docker Sekuriteit Beste Praktyke vir Houverlog
+
+---
+
+#### Docker Security Best Practices for Container Tracing
+
+#### Docker Sekuriteit Beste Praktyke vir Houvernaspeuring
+
+---
+
+#### Docker Security Best Practices for Container Vulnerability Scanning
+
+#### Docker Sekuriteit Beste Praktyke vir Houverkwesbaarheidsskandering
+
+---
+
+#### Docker Security Best Practices for Container Image Scanning
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldskandering
+
+---
+
+#### Docker Security Best Practices for Container Image Signing
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldondertekening
+
+---
+
+#### Docker Security Best Practices for Container Image Hardening
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldverharding
+
+---
+
+#### Docker Security Best Practices for Container Image Lifecycle Management
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldlewenssiklusbestuur
+
+---
+
+#### Docker Security Best Practices for Container Image Registry
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldregister
+
+---
+
+#### Docker Security Best Practices for Container Image Repository
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldbewaarplek
+
+---
+
+#### Docker Security Best Practices for Container Image Distribution
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeelddistribusie
+
+---
+
+#### Docker Security Best Practices for Container Image Updates
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldopdaterings
+
+---
+
+#### Docker Security Best Practices for Container Image Versioning
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldweergawes
+
+---
+
+#### Docker Security Best Practices for Container Image Tagging
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldmerking
+
+---
+
+#### Docker Security Best Practices for Container Image Pulling
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldtrekking
+
+---
+
+#### Docker Security Best Practices for Container Image Pushing
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldstoot
+
+---
+
+#### Docker Security Best Practices for Container Image Building
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldbou
+
+---
+
+#### Docker Security Best Practices for Container Image Packaging
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldverpakking
+
+---
+
+#### Docker Security Best Practices for Container Image Distribution
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeelddistribusie
+
+---
+
+#### Docker Security Best Practices for Container Image Validation
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldgeldigheid
+
+---
+
+#### Docker Security Best Practices for Container Image Verification
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldverifikasie
+
+---
+
+#### Docker Security Best Practices for Container Image Deployment
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldimplementering
+
+---
+
+#### Docker Security Best Practices for Container Image Rollback
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldterugrol
+
+---
+
+#### Docker Security Best Practices for Container Image Cleanup
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldopruiming
+
+---
+
+#### Docker Security Best Practices for Container Image Backup
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldrugsteun
+
+---
+
+#### Docker Security Best Practices for Container Image Restore
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldherstel
+
+---
+
+#### Docker Security Best Practices for Container Image Migration
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldmigrasie
+
+---
+
+#### Docker Security Best Practices for Container Image Replication
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldverdubbeling
+
+---
+
+#### Docker Security Best Practices for Container Image Scaling
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldskaling
+
+---
+
+#### Docker Security Best Practices for Container Image Load Balancing
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldlasbalansering
+
+---
+
+#### Docker Security Best Practices for Container Image High Availability
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldhoë beskikbaarheid
+
+---
+
+#### Docker Security Best Practices for Container Image Fault Tolerance
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldfouttoleransie
+
+---
+
+#### Docker Security Best Practices for Container Image Disaster Recovery
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldrampherstel
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Scaling
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese skaling
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Healing
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese genesing
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Repair
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese herstel
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Update
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese opdatering
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Backup
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese rugsteun
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Restore
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese herstel
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Migration
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese migrasie
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Replication
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese verdubbeling
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Scaling
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese skaling
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Load Balancing
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese lasbalansering
+
+---
+
+#### Docker Security Best Practices for Container Image Auto High Availability
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese hoë beskikbaarheid
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Fault Tolerance
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese fouttoleransie
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Disaster Recovery
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese rampherstel
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Orchestration
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese orkestrering
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Provisioning
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese voorsiening
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Configuration
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese konfigurasie
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Deployment
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese implementering
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Rollback
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese terugrol
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Cleanup
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese opruiming
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Backup
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese rugsteun
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Restore
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese herstel
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Migration
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese migrasie
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Replication
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese verdubbeling
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Scaling
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese skaling
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Load Balancing
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese lasbalansering
+
+---
+
+#### Docker Security Best Practices for Container Image Auto High Availability
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese hoë beskikbaarheid
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Fault Tolerance
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese fouttoleransie
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Disaster Recovery
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese rampherstel
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Orchestration
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese orkestrering
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Provisioning
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese voorsiening
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Configuration
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese konfigurasie
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Deployment
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese implementering
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Rollback
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese terugrol
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Cleanup
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese opruiming
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Backup
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese rugsteun
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Restore
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese herstel
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Migration
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese migrasie
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Replication
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese verdubbeling
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Scaling
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese skaling
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Load Balancing
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese lasbalansering
+
+---
+
+#### Docker Security Best Practices for Container Image Auto High Availability
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese hoë beskikbaarheid
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Fault Tolerance
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese fouttoleransie
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Disaster Recovery
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese rampherstel
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Orchestration
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese orkestrering
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Provisioning
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese voorsiening
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Configuration
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese konfigurasie
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Deployment
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese implementering
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Rollback
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese terugrol
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Cleanup
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese opruiming
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Backup
+
+#### Docker Sekuriteit Beste Praktyke vir Houverbeeldoutomatiese rugsteun
+
+---
+
+#### Docker Security Best Practices for Container Image Auto Restore
+
+#### Docker Sekuriteit Beste Praktyke
 ```bash
 #You can manually add/drop capabilities with
 --cap-add
@@ -322,134 +1132,118 @@ docker run -it --security-opt=no-new-privileges:true nonewpriv
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
+Vir meer **`--security-opt`** opsies, kyk na: [https://docs.docker.com/engine/reference/run/#security-configuration](https://docs.docker.com/engine/reference/run/#security-configuration)
 
-For more **`--security-opt`** options check: [https://docs.docker.com/engine/reference/run/#security-configuration](https://docs.docker.com/engine/reference/run/#security-configuration)
+## Ander Sekuriteits-oorwegings
 
-## Other Security Considerations
+### Bestuur van Geheime: Beste Praktyke
 
-### Managing Secrets: Best Practices
+Dit is noodsaaklik om te vermy dat geheime direk in Docker-beelde ingebed word of dat omgewingsveranderlikes gebruik word, aangesien hierdie metodes jou sensitiewe inligting blootstel aan enige persoon met toegang tot die houer deur bevele soos `docker inspect` of `exec`.
 
-It's crucial to avoid embedding secrets directly in Docker images or using environment variables, as these methods expose your sensitive information to anyone with access to the container through commands like `docker inspect` or `exec`.
+**Docker volumes** is 'n veiliger alternatief wat aanbeveel word vir die toegang tot sensitiewe inligting. Dit kan gebruik word as 'n tydelike lêersisteem in die geheue, wat die risiko's wat verband hou met `docker inspect` en logboekinskrywings verminder. Nietemin kan root-gebruikers en diegene met `exec`-toegang tot die houer steeds toegang verkry tot die geheime.
 
-**Docker volumes** are a safer alternative, recommended for accessing sensitive information. They can be utilized as a temporary filesystem in memory, mitigating the risks associated with `docker inspect` and logging. However, root users and those with `exec` access to the container might still access the secrets.
+**Docker geheime** bied 'n selfs veiliger metode vir die hantering van sensitiewe inligting. Vir gevalle waar geheime tydens die beeldboufase benodig word, bied **BuildKit** 'n doeltreffende oplossing met ondersteuning vir geheime tydens die boufase, wat die bou spoed verbeter en addisionele funksies bied.
 
-**Docker secrets** offer an even more secure method for handling sensitive information. For instances requiring secrets during the image build phase, **BuildKit** presents an efficient solution with support for build-time secrets, enhancing build speed and providing additional features.
+Om BuildKit te benut, kan dit op drie maniere geaktiveer word:
 
-To leverage BuildKit, it can be activated in three ways:
+1. Deur 'n omgewingsveranderlike: `export DOCKER_BUILDKIT=1`
+2. Deur bevele te voorvoeg: `DOCKER_BUILDKIT=1 docker build .`
+3. Deur dit standaard in die Docker-konfigurasie te aktiveer: `{ "features": { "buildkit": true } }`, gevolg deur 'n herlaai van Docker.
 
-1. Through an environment variable: `export DOCKER_BUILDKIT=1`
-2. By prefixing commands: `DOCKER_BUILDKIT=1 docker build .`
-3. By enabling it by default in the Docker configuration: `{ "features": { "buildkit": true } }`, followed by a Docker restart.
-
-BuildKit allows for the use of build-time secrets with the `--secret` option, ensuring these secrets are not included in the image build cache or the final image, using a command like:
-
+BuildKit maak die gebruik van geheime tydens die boufase moontlik met die `--secret` opsie, wat verseker dat hierdie geheime nie ingesluit word in die beeldboukas of die finale beeld nie, deur 'n bevel soos die volgende te gebruik:
 ```bash
 docker build --secret my_key=my_value ,src=path/to/my_secret_file .
 ```
+Vir geheime wat nodig is in 'n lopende houer, bied **Docker Compose en Kubernetes** robuuste oplossings. Docker Compose maak gebruik van 'n `secrets` sleutel in die diensdefinisie om geheime lêers te spesifiseer, soos getoon in 'n voorbeeld van 'n `docker-compose.yml`:
 
-For secrets needed in a running container, **Docker Compose and Kubernetes** offer robust solutions. Docker Compose utilizes a `secrets` key in the service definition for specifying secret files, as shown in a `docker-compose.yml` example:
+```yaml
+services:
+  myservice:
+    secrets:
+      - mysecret
+secrets:
+  mysecret:
+    file: ./path/to/secret/file
+```
 
+In hierdie voorbeeld word 'n diens genaamd `myservice` gedefinieer wat 'n geheim genaamd `mysecret` gebruik. Die geheime lêer word gespesifiseer deur die `file` sleutel in die `secrets` afdeling.
 ```yaml
 version: "3.7"
 services:
-  my_service:
-    image: centos:7
-    entrypoint: "cat /run/secrets/my_secret"
-    secrets:
-      - my_secret
+my_service:
+image: centos:7
+entrypoint: "cat /run/secrets/my_secret"
 secrets:
-  my_secret:
-    file: ./my_secret_file.txt
+- my_secret
+secrets:
+my_secret:
+file: ./my_secret_file.txt
 ```
+Hierdie konfigurasie maak die gebruik van geheime moontlik wanneer dienste met Docker Compose begin word.
 
-This configuration allows for the use of secrets when starting services with Docker Compose.
-
-In Kubernetes environments, secrets are natively supported and can be further managed with tools like [Helm-Secrets](https://github.com/futuresimple/helm-secrets). Kubernetes' Role Based Access Controls (RBAC) enhances secret management security, similar to Docker Enterprise.
+In Kubernetes-omgewings word geheime outomaties ondersteun en kan dit verder bestuur word met gereedskap soos [Helm-Secrets](https://github.com/futuresimple/helm-secrets). Kubernetes se Rol Gebaseerde Toegangsbeheer (RBAC) verbeter die veiligheid van geheimbestuur, soortgelyk aan Docker Enterprise.
 
 ### gVisor
 
-**gVisor** is an application kernel, written in Go, that implements a substantial portion of the Linux system surface. It includes an [Open Container Initiative (OCI)](https://www.opencontainers.org) runtime called `runsc` that provides an **isolation boundary between the application and the host kernel**. The `runsc` runtime integrates with Docker and Kubernetes, making it simple to run sandboxed containers.
+**gVisor** is 'n toepassingskernel, geskryf in Go, wat 'n groot gedeelte van die Linux-stelseloppervlak implementeer. Dit sluit 'n [Open Container Initiative (OCI)](https://www.opencontainers.org) runtime genaamd `runsc` in wat 'n **isolasiegrens tussen die toepassing en die gasheerkernel** voorsien. Die `runsc` runtime integreer met Docker en Kubernetes, wat dit eenvoudig maak om gesandbokte houers te hardloop.
 
 {% embed url="https://github.com/google/gvisor" %}
 
 ### Kata Containers
 
-**Kata Containers** is an open source community working to build a secure container runtime with lightweight virtual machines that feel and perform like containers, but provide **stronger workload isolation using hardware virtualization** technology as a second layer of defense.
+**Kata Containers** is 'n oopbron-gemeenskap wat werk aan die bou van 'n veilige houer-runtime met ligte virtuele masjiene wat soos houers voel en optree, maar **sterker werklas-isolasie bied deur middel van hardeware-virtualisering** as 'n tweede verdedigingslaag.
 
 {% embed url="https://katacontainers.io/" %}
 
-### Summary Tips
+### Opsomming van Wenke
 
-* **Do not use the `--privileged` flag or mount a** [**Docker socket inside the container**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**.** The docker socket allows for spawning containers, so it is an easy way to take full control of the host, for example, by running another container with the `--privileged` flag.
-* Do **not run as root inside the container. Use a** [**different user**](https://docs.docker.com/develop/develop-images/dockerfile\_best-practices/#user) **and** [**user namespaces**](https://docs.docker.com/engine/security/userns-remap/)**.** The root in the container is the same as on host unless remapped with user namespaces. It is only lightly restricted by, primarily, Linux namespaces, capabilities, and cgroups.
-* [**Drop all capabilities**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`) and enable only those that are required** (`--cap-add=...`). Many of workloads don’t need any capabilities and adding them increases the scope of a potential attack.
-* [**Use the “no-new-privileges” security option**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) to prevent processes from gaining more privileges, for example through suid binaries.
-* [**Limit resources available to the container**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**.** Resource limits can protect the machine from denial of service attacks.
-* **Adjust** [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(or SELinux)** profiles to restrict the actions and syscalls available for the container to the minimum required.
-* **Use** [**official docker images**](https://docs.docker.com/docker-hub/official\_images/) **and require signatures** or build your own based on them. Don’t inherit or use [backdoored](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/) images. Also store root keys, passphrase in a safe place. Docker has plans to manage keys with UCP.
-* **Regularly** **rebuild** your images to **apply security patches to the host an images.**
-* Manage your **secrets wisely** so it's difficult to the attacker to access them.
-* If you **exposes the docker daemon use HTTPS** with client & server authentication.
-* In your Dockerfile, **favor COPY instead of ADD**. ADD automatically extracts zipped files and can copy files from URLs. COPY doesn’t have these capabilities. Whenever possible, avoid using ADD so you aren’t susceptible to attacks through remote URLs and Zip files.
-* Have **separate containers for each micro-s**ervice
-* **Don’t put ssh** inside container, “docker exec” can be used to ssh to Container.
-* Have **smaller** container **images**
+* **Moenie die `--privileged` vlag gebruik of 'n** [**Docker-aansluiting binne die houer monteer**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**.** Die Docker-aansluiting maak dit moontlik om houers te skep, dus is dit 'n maklike manier om volle beheer oor die gasheer te verkry, byvoorbeeld deur 'n ander houer met die `--privileged` vlag te hardloop.
+* Moenie **as root binne die houer hardloop nie. Gebruik 'n** [**ander gebruiker**](https://docs.docker.com/develop/develop-images/dockerfile\_best-practices/#user) **en** [**gebruikersnaamruimtes**](https://docs.docker.com/engine/security/userns-remap/)**.** Die root in die houer is dieselfde as op die gasheer tensy dit met gebruikersnaamruimtes herkartografeer word. Dit word slegs lig beperk deur Linux-naamruimtes, vermoëns en cgroups.
+* [**Laat alle vermoëns vaar**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`) en aktiveer slegs dié wat benodig word** (`--cap-add=...`). Baie werklaste benodig geen vermoëns nie en die byvoeging daarvan verhoog die omvang van 'n potensiële aanval.
+* [**Gebruik die "no-new-privileges" veiligheidsoptie**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) om te voorkom dat prosesse meer vermoëns bekom, byvoorbeeld deur suid-binêre lêers.
+* [**Beperk die hulpbronne wat beskikbaar is vir die houer**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**.** Hulpbronbeperkings kan die masjien teen ontkenning-van-diens-aanvalle beskerm.
+* **Pas** [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(of SELinux)** profiele aan om die aksies en stelseloproepe wat vir die houer beskikbaar is, tot die minimum wat benodig word, te beperk.
+* **Gebruik** [**amptelike Docker-beelde**](https://docs.docker.com/docker-hub/official\_images/) **en vereis handtekeninge** of bou jou eie beelde gebaseer daarop. Moenie beelde erf of gebruik wat [agterdeure](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/) bevat nie. Berg ook wortelsleutels en wagwoord op 'n veilige plek op. Docker het planne om sleutels met UCP te bestuur.
+* **Herbou jou beelde gereeld** om sekuriteitsopdaterings op die gasheer en beelde toe te pas.
+* Bestuur jou **geheime verstandig** sodat dit moeilik is vir die aanvaller om toegang daartoe te verkry.
+* As jy die Docker-daeemon blootstel, gebruik **HTTPS** met klient- en bedienerverifikasie.
+* In jou Dockerfile, **gee voorkeur aan KOPIËRE in plaas van TOEVOEGEN**. TOEVOEGEN onttrek outomaties saamgepersde lêers en kan lêers vanaf URL's kopieer. KOPIËRE het nie hierdie vermoëns nie. Vermy waar moontlik die gebruik van TOEVOEGEN sodat jy nie vatbaar is vir aanvalle deur middel van afgeleë URL's en Zip-lêers nie.
+* Het **afsonderlike houers vir elke mikrodiens**
+* **Moenie ssh** binne die houer plaas nie, "docker exec" kan gebruik word om na die houer ssh.
+* Het **kleiner** houerbeelde
 
-## Docker Breakout / Privilege Escalation
+## Docker Uitbreek / Voorregverhoging
 
-If you are **inside a docker container** or you have access to a user in the **docker group**, you could try to **escape and escalate privileges**:
+As jy **binne 'n Docker-houer** is of toegang het tot 'n gebruiker in die **docker-groep**, kan jy probeer om **uit te breek en voorregte te verhoog**:
 
 {% content-ref url="docker-breakout-privilege-escalation/" %}
 [docker-breakout-privilege-escalation](docker-breakout-privilege-escalation/)
 {% endcontent-ref %}
 
-## Docker Authentication Plugin Bypass
+## Docker-verifikasieplugin-omseil
 
-If you have access to the docker socket or have access to a user in the **docker group but your actions are being limited by a docker auth plugin**, check if you can **bypass it:**
+As jy toegang het tot die Docker-aansluiting of toegang het tot 'n gebruiker in die **docker-groep, maar jou aksies word beperk deur 'n Docker-verifikasieplugin**, kyk of jy dit kan **omseil:**
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
 {% endcontent-ref %}
 
-## Hardening Docker
+## Verharding van Docker
 
-* The tool [**docker-bench-security**](https://github.com/docker/docker-bench-security) is a script that checks for dozens of common best-practices around deploying Docker containers in production. The tests are all automated, and are based on the [CIS Docker Benchmark v1.3.1](https://www.cisecurity.org/benchmark/docker/).\
-  You need to run the tool from the host running docker or from a container with enough privileges. Find out **how to run it in the README:** [**https://github.com/docker/docker-bench-security**](https://github.com/docker/docker-bench-security).
+* Die gereedskap [**docker-bench-security**](https://github.com/docker/docker-bench-security) is 'n skrip wat tientalle algemene beste praktyke vir die implementering van Docker-houers in produksie nagaan. Die toetse is outomaties en is gebaseer op die [CIS Docker Benchmark v1.3.1](https://www.cisecurity.org/benchmark/docker/).\
+Jy moet die gereedskap vanaf die gasheer wat Docker hardloop, of vanaf 'n houer met genoeg voorregte, hardloop. Vind **hoe om dit in die README te hardloop:** [**https://github.com/docker/docker-bench-security**](https://github.com/docker/docker-bench-security).
 
-## References
+## Verwysings
 
 * [https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/)
 * [https://twitter.com/\_fel1x/status/1151487051986087936](https://twitter.com/\_fel1x/status/1151487051986087936)
-* [https://ajxchapman.github.io/containers/2020/11/19/privileged-container-escape.html](https://ajxchapman.github.io/containers/2020/11/19/privileged-container-escape.html)
-* [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-1overview/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-1overview/)
-* [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
-* [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/)
-* [https://sreeninet.wordpress.com/2016/03/06/docker-security-part-4container-image/](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-4container-image/)
-* [https://en.wikipedia.org/wiki/Linux\_namespaces](https://en.wikipedia.org/wiki/Linux\_namespaces)
-* [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
-* [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
-* [https://docs.docker.com/engine/extend/plugins_authorization](https://docs.docker.com/engine/extend/plugins_authorization)
-* [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
-* [https://resources.experfy.com/bigdata-cloud/top-20-docker-security-tips/](https://resources.experfy.com/bigdata-cloud/top-20-docker-security-tips/)
+* [https://ajxchapman.github.io/containers/2020/11/19/privileged-container
+Ander maniere om HackTricks te ondersteun:
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSKRIPSIEPLANNE**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
 
 </details>

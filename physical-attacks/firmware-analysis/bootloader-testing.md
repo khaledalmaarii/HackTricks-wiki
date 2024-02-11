@@ -1,75 +1,71 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSKRIPSIEPLANNE**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
 
 </details>
 
-The following steps are recommended for modifying device startup configurations and bootloaders like U-boot:
+Die volgende stappe word aanbeveel vir die wysiging van toestelopstartkonfigurasies en opstartlaaiers soos U-boot:
 
-1. **Access Bootloader's Interpreter Shell**:
-   - During boot, press "0", space, or other identified "magic codes" to access the bootloader's interpreter shell.
+1. **Kry toegang tot die opstartlaaier se tolkshell**:
+- Druk tydens opstart "0", spasie, of ander geïdentifiseerde "sielkodes" om toegang tot die opstartlaaier se tolkshell te verkry.
 
-2. **Modify Boot Arguments**:
-   - Execute the following commands to append '`init=/bin/sh`' to the boot arguments, allowing execution of a shell command:
-     %%%
-     #printenv
-     #setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh
-     #saveenv
-     #boot
-     %%%
+2. **Wysig opstartargumente**:
+- Voer die volgende opdragte uit om '`init=/bin/sh`' by die opstartargumente te voeg, wat die uitvoering van 'n skelopdrag moontlik maak:
+%%%
+#printenv
+#setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh
+#saveenv
+#boot
+%%%
 
-3. **Setup TFTP Server**:
-   - Configure a TFTP server to load images over a local network:
-     %%%
-     #setenv ipaddr 192.168.2.2 #local IP of the device
-     #setenv serverip 192.168.2.1 #TFTP server IP
-     #saveenv
-     #reset
-     #ping 192.168.2.1 #check network access
-     #tftp ${loadaddr} uImage-3.6.35 #loadaddr takes the address to load the file into and the filename of the image on the TFTP server
-     %%%
+3. **Stel 'n TFTP-bediener op**:
+- Stel 'n TFTP-bediener op om beelde oor 'n plaaslike netwerk te laai:
+%%%
+#setenv ipaddr 192.168.2.2 #plaaslike IP van die toestel
+#setenv serverip 192.168.2.1 #TFTP-bediener IP
+#saveenv
+#reset
+#ping 192.168.2.1 #kontroleer netwerktoegang
+#tftp ${loadaddr} uImage-3.6.35 #loadaddr neem die adres om die lêer in te laai en die lêernaam van die beeld op die TFTP-bediener
+%%%
 
-4. **Utilize `ubootwrite.py`**:
-   - Use `ubootwrite.py` to write the U-boot image and push a modified firmware to gain root access.
+4. **Maak gebruik van `ubootwrite.py`**:
+- Gebruik `ubootwrite.py` om die U-boot-beeld te skryf en 'n gewysigde firmware te stuur om root-toegang te verkry.
 
-5. **Check Debug Features**:
-   - Verify if debug features like verbose logging, loading arbitrary kernels, or booting from untrusted sources are enabled.
+5. **Kontroleer foutopsporingsfunksies**:
+- Verifieer of foutopsporingsfunksies soos oordrewe logboekinskrywings, die laai van willekeurige kerns, of die opstart vanaf onbetroubare bronne geaktiveer is.
 
-6. **Cautionary Hardware Interference**:
-   - Be cautious when connecting one pin to ground and interacting with SPI or NAND flash chips during the device boot-up sequence, particularly before the kernel decompresses. Consult the NAND flash chip's datasheet before shorting pins.
+6. **Versigtige hardeware-inmenging**:
+- Wees versigtig wanneer jy een pen aan die grond verbind en interaksie hê met SPI- of NAND-flitskypleiers tydens die toestel se opstartvolgorde, veral voordat die kernel ontspan. Raadpleeg die NAND-flitskypleier se datablad voordat jy pennaaldjies kortsluit.
 
-7. **Configure Rogue DHCP Server**:
-   - Set up a rogue DHCP server with malicious parameters for a device to ingest during a PXE boot. Utilize tools like Metasploit's (MSF) DHCP auxiliary server. Modify the 'FILENAME' parameter with command injection commands such as `'a";/bin/sh;#'` to test input validation for device startup procedures.
+7. **Stel 'n skelm DHCP-bediener op**:
+- Stel 'n skelm DHCP-bediener op met skadelike parameters vir 'n toestel om tydens 'n PXE-opstart in te neem. Maak gebruik van hulpmiddels soos Metasploit se (MSF) DHCP-hulpbediener. Wysig die 'FILENAME'-parameter met opdraginskrywings soos `'a";/bin/sh;#'` om insetvalidering vir toestelopstartprosedures te toets.
 
-**Note**: The steps involving physical interaction with device pins (*marked with asterisks) should be approached with extreme caution to avoid damaging the device.
+**Opmerking**: Die stappe wat fisieke interaksie met toestelpenne behels (*gemerk met asterisk) moet met uiterste versigtigheid benader word om skade aan die toestel te voorkom.
 
 
-## References
+## Verwysings
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSKRIPSIEPLANNE**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
 
 </details>
-
-

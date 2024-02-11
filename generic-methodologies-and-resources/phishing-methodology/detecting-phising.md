@@ -1,95 +1,92 @@
-# Detecting Phising
+# Op die spoor van Phishing
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
 
-## Introduction
+## Inleiding
 
-To detect a phishing attempt it's important to **understand the phishing techniques that are being used nowadays**. On the parent page of this post, you can find this information, so if you aren't aware of which techniques are being used today I recommend you to go to the parent page and read at least that section.
+Om 'n phising-poging op te spoor, is dit belangrik om **die phising-tegnieke wat tans gebruik word, te verstaan**. Op die ouerbladsy van hierdie pos kan jy hierdie inligting vind, so as jy nie bewus is van watter tegnieke vandag gebruik word nie, sal ek aanbeveel dat jy na die ouerbladsy gaan en ten minste daardie afdeling lees.
 
-This post is based on the idea that the **attackers will try to somehow mimic or use the victim's domain name**. If your domain is called `example.com` and you are phished using a completely different domain name for some reason like `youwonthelottery.com`, these techniques aren't going to uncover it.
+Hierdie pos is gebaseer op die idee dat die **aanvallers op een of ander manier die domeinnaam van die slagoffer sal probeer naboots of gebruik**. As jou domein `example.com` genoem word en jy ge-phish word deur 'n heeltemal ander domeinnaam vir 'n rede soos `youwonthelottery.com`, sal hierdie tegnieke dit nie ontbloot nie.
 
-## Domain name variations
+## Variasies van domeinname
 
-It's kind of **easy** to **uncover** those **phishing** attempts that will use a **similar domain** name inside the email.\
-It's enough to **generate a list of the most probable phishing names** that an attacker may use and **check** if it's **registered** or just check if there is any **IP** using it.
+Dit is redelik **maklik** om daardie **phising-pogings** wat 'n **soortgelyke domeinnaam** binne die e-pos gebruik, **te ontbloot**.\
+Dit is genoeg om 'n lys van die mees waarskynlike phisingname te **genereer** wat 'n aanvaller kan gebruik en te **kyk** of dit **geregistreer** is of net te kyk of daar enige **IP** is wat dit gebruik.
 
-### Finding suspicious domains
+### Verdagte domeine vind
 
-For this purpose, you can use any of the following tools. Note that these tolls will also perform DNS requests automatically to check if the domain has any IP assigned to it:
+Vir hierdie doel kan jy enige van die volgende hulpmiddels gebruik. Let daarop dat hierdie hulpmiddels outomaties DNS-versoeke sal doen om te kyk of die domein 'n IP daaraan toegewys het:
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
 ### Bitflipping
 
-**You can find a short the explanation of this technique in the parent page. Or read the original research in [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)**
+**Jy kan 'n kort verduideliking van hierdie tegniek op die ouerbladsy vind. Of lees die oorspronklike navorsing by [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)**
 
+Byvoorbeeld, 'n 1-bit-wysiging in die domein microsoft.com kan dit omskep in _windnws.com._\
+**Aanvallers kan soveel moontlike bitflipping-domeine registreer wat verband hou met die slagoffer om legitieme gebruikers na hul infrastruktuur om te lei**.
 
-For example, a 1 bit modification in the domain microsoft.com can transform it into _windnws.com._\
-**Attackers may register as many bit-flipping domains as possible related to the victim to redirect legitimate users to their infrastructure**.
+**Alle moontlike bitflipping-domeinname moet ook gemonitor word.**
 
+### Basiese kontroles
 
-**All possible bit-flipping domain names should be also monitored.**
+Sodra jy 'n lys potensiële verdagte domeinname het, moet jy dit **ondersoek** (veral die poorte HTTP en HTTPS) om te **sien of hulle 'n soortgelyke aanmeldingsvorm gebruik** as een van die slagoffer se domeine.\
+Jy kan ook poort 3333 ondersoek om te sien of dit oop is en 'n instansie van `gophish` uitvoer.\
+Dit is ook interessant om te weet **hoe oud elke ontdekte verdagte domein is**, hoe jonger dit is, hoe gevaarliker dit is.\
+Jy kan ook **skermskote** van die HTTP- en/of HTTPS-verdagte webblad kry om te sien of dit verdag is en in daardie geval **toegang daartoe neem om 'n dieper kyk te neem**.
 
-### Basic checks
+### Gevorderde kontroles
 
-Once you have a list of potential suspicious domain names you should **check** them (mainly the ports HTTP and HTTPS) to **see if they are using some login form similar** to someone of the victim's domain.\
-You could also check port 3333 to see if it's open and running an instance of `gophish`.\
-It's also interesting to know **how old each discovered suspicions domain is**, the younger it's the riskier it is.\
-You can also get **screenshots** of the HTTP and/or HTTPS suspicious web page to see if it's suspicious and in that case **access it to take a deeper look**.
+As jy 'n stap verder wil gaan, sal ek aanbeveel dat jy **hierdie verdagte domeine monitor en gereeld soek na meer** (elke dag? dit neem slegs 'n paar sekondes/minute). Jy moet ook die **oop poorte** van die betrokke IP's **ondersoek** en **soek na instansies van `gophish` of soortgelyke hulpmiddels** (ja, aanvallers maak ook foute) en **monitor die HTTP- en HTTPS-webblaaie van die verdagte domeine en subdomeine** om te sien of hulle enige aanmeldingsvorm van die slagoffer se webblaaie gekopieer het.\
+Om dit te **outomatiseer**, sal ek aanbeveel om 'n lys van aanmeldingsvorms van die slagoffer se domeine te hê, die verdagte webblaaie te spider en elke aanmeldingsvorm wat binne die verdagte domeine gevind is, te vergelyk met elke aanmeldingsvorm van die slagoffer se domein deur iets soos `ssdeep` te gebruik.\
+As jy die aanmeldingsvorms van die verdagte domeine gelokaliseer het, kan jy probeer om **rommelgeloofsbriewe te stuur** en **kyk of dit jou na die slagoffer se domein omskakel**.
 
-### Advanced checks
+## Domeinname met sleutelwoorde
 
-If you want to go one step further I would recommend you to **monitor those suspicious domains and search for more** once in a while (every day? it only takes a few seconds/minutes). You should also **check** the open **ports** of the related IPs and **search for instances of `gophish` or similar tools** (yes, attackers also make mistakes) and **monitor the HTTP and HTTPS web pages of the suspicious domains and subdomains** to see if they have copied any login form from the victim's web pages.\
-In order to **automate this** I would recommend having a list of login forms of the victim's domains, spider the suspicious web pages and comparing each login form found inside the suspicious domains with each login form of the victim's domain using something like `ssdeep`.\
-If you have located the login forms of the suspicious domains, you can try to **send junk credentials** and **check if it's redirecting you to the victim's domain**.
+Die ouerbladsy noem ook 'n tegniek vir die variasie van domeinname wat bestaan uit die plaas van die **slagoffer se domeinnaam binne 'n groter domein** (bv. paypal-financial.com vir paypal.com).
 
-## Domain names using keywords
+### Sertifikaattransparansie
 
-The parent page also mentions a domain name variation technique that consists of putting the **victim's domain name inside a bigger domain** (e.g. paypal-financial.com for paypal.com).
+Dit is nie moontlik om die vorige "Brute-Force" benadering te gebruik nie, maar dit is eintlik **moontlik om sulke phising-pogings te ontbloot** danksy sertifikaattransparansie. Telkens wanneer 'n sertifikaat deur 'n CA uitgereik word, word die besonderhede openbaar gemaak. Dit beteken dat deur die sertifikaattransparansie te lees of selfs te monitor, dit **moontlik is om domeine te vind wat 'n sleutelwoord binne hul naam gebruik**. Byvoorbeeld, as 'n aanvaller 'n sertifikaat genereer vir [https://paypal-financial.com](https://paypal-financial.com), is dit moontlik om die sleutelwoord "paypal" in die sertifikaat te vind en te weet dat 'n verdagte e-pos gebruik word.
 
-### Certificate Transparency
-
-It's not possible to take the previous "Brute-Force" approach but it's actually **possible to uncover such phishing attempts** also thanks to certificate transparency. Every time a certificate is emitted by a CA, the details are made public. This means that by reading the certificate transparency or even monitoring it, it's **possible to find domains that are using a keyword inside its name** For example, if an attacker generates a certificate of [https://paypal-financial.com](https://paypal-financial.com), seeing the certificate it's possible to find the keyword "paypal" and know that suspicious email is being used.
-
-The post [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) suggests that you can use Censys to search for certificates affecting a specific keyword and filter by date (only "new" certificates) and by the CA issuer "Let's Encrypt":
+Die pos [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) stel voor dat jy Censys kan gebruik om te soek na sertifikate wat 'n spesifieke sleutelwoord affekteer en te filter volgens datum (slegs "nuwe" sertifikate) en volgens die CA-uitreiker "Let's Encrypt":
 
 ![https://0xpatrik.com/content/images/2018/07/cert_listing.png](<../../.gitbook/assets/image (390).png>)
 
-However, you can do "the same" using the free web [**crt.sh**](https://crt.sh). You can **search for the keyword** and the **filter** the results **by date and CA** if you wish.
+Jy kan egter "dieselfde" doen deur die gratis webwerf [**crt.sh**](https://crt.sh) te gebruik. Jy kan **soek na die sleutelwoord** en die resultate **filter** volgens datum en CA as jy wil.
 
 ![](<../../.gitbook/assets/image (391).png>)
 
-Using this last option you can even use the field Matching Identities to see if any identity from the real domain matches any of the suspicious domains (note that a suspicious domain can be a false positive).
+Met hierdie laaste opsie kan jy selfs die veld "Matching Identities" gebruik om te sien of enige identiteit van die werklike domein ooreenstem met enige van die verdagte domeine (let daarop dat 'n verdagte domein 'n vals positief kan wees).
 
-**Another alternative** is the fantastic project called [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream provides a real-time stream of newly generated certificates which you can use to detect specified keywords in (near) real-time. In fact, there is a project called [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) that does just that.
+**'n Ander alternatief** is die fantastiese projek genaamd [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream bied 'n stroom van nuut gegenereerde sertifikate in werklike tyd wat jy kan gebruik om gespesifiseerde sleutelwoorde in (byna) werklike tyd op te spoor. In werklikheid is daar 'n projek genaamd [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) wat presies dit doen.
+### **Nuwe domeine**
 
-### **New domains**
-
-**One last alternative** is to gather a list of **newly registered domains** for some TLDs ([Whoxy](https://www.whoxy.com/newly-registered-domains/) provides such service) and **check the keywords in these domains**. However, long domains usually use one or more subdomains, therefore the keyword won't appear inside the FLD and you won't be able to find the phishing subdomain.
+**Een laaste alternatief** is om 'n lys van **nuut geregistreerde domeine** vir sommige TLD's ([Whoxy](https://www.whoxy.com/newly-registered-domains/) bied so 'n diens) te versamel en **die sleutelwoorde in hierdie domeine te ondersoek**. Tog gebruik lang domeine gewoonlik een of meer subdomeine, dus sal die sleutelwoord nie binne die FLD verskyn nie en sal jy nie die phising subdomein kan vind nie.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

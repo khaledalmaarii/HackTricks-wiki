@@ -1,192 +1,187 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) is a useful program to find where important values are saved inside the memory of a running game and change them.\
-When you download and run it, you are **presented** with a **tutorial** of how to use the tool. If you want to learn how to use the tool it's highly recommended to complete it.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) is 'n nuttige program om te vind waar belangrike waardes binne die geheue van 'n lopende spel gestoor word en om dit te verander.\
+Wanneer jy dit aflaai en uitvoer, word jy **voorgestel** aan 'n **opleiding** oor hoe om die instrument te gebruik. As jy wil leer hoe om die instrument te gebruik, word dit sterk aanbeveel om dit te voltooi.
 
-# What are you searching?
+# Wat soek jy?
 
 ![](<../../.gitbook/assets/image (580).png>)
 
-This tool is very useful to find **where some value** (usually a number) **is stored in the memory** of a program.\
-**Usually numbers** are stored in **4bytes** form, but you could also find them in **double** or **float** formats, or you may want to look for something **different from a number**. For that reason you need to be sure you **select** what you want to **search for**:
+Hierdie instrument is baie nuttig om te vind **waar 'n sekere waarde** (gewoonlik 'n getal) **in die geheue van 'n program gestoor word**.\
+**Gewoonlik word getalle** in **4byte**-vorm gestoor, maar jy kan hulle ook in **double** of **float**-formate vind, of jy wil dalk iets **anders as 'n getal** soek. Daarom moet jy seker maak dat jy kies wat jy wil **soek vir**:
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-Also you can indicate **different** types of **searches**:
+Jy kan ook **verskillende tipes soektogte** aandui:
 
 ![](<../../.gitbook/assets/image (582).png>)
 
-You can also check the box to **stop the game while scanning the memory**:
+Jy kan ook die blokkie merk om die spel te **stop terwyl jy die geheue deursoek**:
 
 ![](<../../.gitbook/assets/image (584).png>)
 
 ## Hotkeys
 
-In _**Edit --> Settings --> Hotkeys**_ you can set different **hotkeys** for different purposes like **stopping** the **game** (which is quiet useful if at some point you want to scan the memory). Other options are available:
+In _**Edit --> Settings --> Hotkeys**_ kan jy verskillende **hotkeys** instel vir verskillende doeleindes, soos die **stop van die spel** (wat baie nuttig is as jy op 'n punt die geheue wil deursoek). Ander opsies is beskikbaar:
 
 ![](<../../.gitbook/assets/image (583).png>)
 
-# Modifying the value
+# Die waarde wysig
 
-Once you **found** where is the **value** you are **looking for** (more about this in the following steps) you can **modify it** double clicking it, then double clicking its value:
+Sodra jy **gevind** het waar die **waarde** wat jy **soek** (meer hieroor in die volgende stappe) gestoor word, kan jy dit wysig deur dit dubbel te kliek, en dan dubbel te kliek op die waarde daarvan:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
-And finally **marking the check** to get the modification done in the memory:
+En uiteindelik die blokkie merk om die wysiging in die geheue te laat plaasvind:
 
 ![](<../../.gitbook/assets/image (586).png>)
 
-The **change** to the **memory** will be immediately **applied** (note that until the game doesn't use this value again the value **won't be updated in the game**).
+Die **verandering** aan die **geheue** sal onmiddellik **toegepas** word (let daarop dat die waarde **nie in die spel opgedateer sal word nie** totdat die spel hierdie waarde weer gebruik).
 
-# Searching the value
+# Die waarde soek
 
-So, we are going to suppose that there is an important value (like the life of your user) that you want to improve, and you are looking for this value in the memory)
+So, ons gaan aanneem dat daar 'n belangrike waarde is (soos die lewe van jou gebruiker) wat jy wil verbeter, en jy is op soek na hierdie waarde in die geheue)
 
-## Through a known change
+## Deur 'n bekende verandering
 
-Supposing you are looking for the value 100, you **perform a scan** searching for that value and you find a lot of coincidences:
+As jy op soek is na die waarde 100, doen jy 'n soektog deur te soek na daardie waarde en jy vind baie ooreenkomste:
 
 ![](<../../.gitbook/assets/image (587).png>)
 
-Then, you do something so that **value changes**, and you **stop** the game and **perform** a **next scan**:
+Dan doen jy iets sodat die **waarde verander**, en jy **stop** die spel en doen 'n **volgende soektog**:
 
 ![](<../../.gitbook/assets/image (588).png>)
 
-Cheat Engine will search for the **values** that **went from 100 to the new value**. Congrats, you **found** the **address** of the value you were looking for, you can now modify it.\
-_If you still have several values, do something to modify again that value, and perform another "next scan" to filter the addresses._
+Cheat Engine sal soek na die **waardes** wat **van 100 na die nuwe waarde** gegaan het. Geluk, jy het die **adres** van die waarde wat jy gesoek het, gevind, en jy kan dit nou wysig.\
+_As jy nog verskeie waardes het, doen iets om daardie waarde weer te wysig, en doen nog 'n "volgende soektog" om die adresse te filter._
 
-## Unknown Value, known change
+## Onbekende waarde, bekende verandering
 
-In the scenario you **don't know the value** but you know **how to make it change** (and even the value of the change) you can look for your number.
+In die scenario waar jy **nie die waarde weet nie**, maar jy weet **hoe om dit te verander** (en selfs die waarde van die verandering), kan jy na jou getal soek.
 
-So, start by performing a scan of type "**Unknown initial value**":
+Begin dus deur 'n soektog van die tipe "**Onbekende aanvanklike waarde**" uit te voer:
 
 ![](<../../.gitbook/assets/image (589).png>)
 
-Then, make the value change, indicate **how** the **value** **changed** (in my case it was decreased by 1) and perform a **next scan**:
+Maak dan die waarde verander, dui aan **hoe** die **waarde verander** het (in my geval is dit met 1 verminder) en doen 'n **volgende soektog**:
 
 ![](<../../.gitbook/assets/image (590).png>)
 
-You will be presented **all the values that were modified in the selected way**:
+Jy sal **alle waardes wat op die gekose manier gewysig is**, te sien kry:
 
 ![](<../../.gitbook/assets/image (591).png>)
 
-Once you have found your value, you can modify it.
+Sodra jy jou waarde gevind het, kan jy dit wysig.
 
-Note that there are a **lot of possible changes** and you can do these **steps as much as you want** to filter the results:
+Let daarop dat daar 'n **baie moontlike veranderinge** is en jy hierdie stappe soveel as jy wil kan doen om die resultate te filter:
 
 ![](<../../.gitbook/assets/image (592).png>)
 
-## Random Memory Address - Finding the code
+## Willekeurige geheue-adres - Die kode vind
 
-Until know we learnt how to find an address storing a value, but it's highly probably that in **different executions of the game that address is in different places of the memory**. So lets find out how to always find that address.
+Tot dusver het ons geleer hoe om 'n adres te vind wat 'n waarde stoor, maar dit is baie waarskynlik dat in **verskillende uitvoerings van die spel daardie adres op verskillende plekke in die geheue** is. Kom ons vind uit hoe om altyd daardie adres te vind.
 
-Using some of the mentioned tricks, find the address where your current game is storing the important value. Then (stopping the game if you whish) do a **right click** on the found **address** and select "**Find out what accesses this address**" or "**Find out what writes to this address**":
+Gebruik van een van die genoemde truuks, vind die adres waar jou huidige spel die belangrike waarde stoor. Doen dan (as jy wil, stop die spel) 'n **regs-klik** op die gevonde **adres** en kies "**Find out what accesses this address**" of "**Find out what writes to this address**":
 
 ![](<../../.gitbook/assets/image (593).png>)
 
-The **first option** is useful to know which **parts** of the **code** are **using** this **address** (which is useful for more things like **knowing where you can modify the code** of the game).\
-The **second option** is more **specific**, and will be more helpful in this case as we are interested in knowing **from where this value is being written**.
+Die **eerste opsie** is nuttig om te weet watter **dele** van die **kode** hierdie **adres gebruik** (wat nuttig is vir ander dinge soos **weet waar jy die kode van die spel kan wysig**).\
+Die **tweede opsie** is meer **spesifiek**, en sal meer nuttig wees in hierdie geval aangesien ons belangstel om te weet **van waar hierdie waarde geskryf word**.
 
-Once you have selected one of those options, the **debugger** will be **attached** to the program and a new **empty window** will appear. Now, **play** the **game** and **modify** that **value** (without restarting the game). The **window** should be **filled** with the **addresses** that are **modifying** the **value**:
+Sodra jy een van daardie opsies gekies het, sal die **debugger** aan die program **geheg** word en 'n nuwe **leë venster** sal verskyn. Speel nou die spel en wysig daardie waarde (sonder om die spel te herlaai). Die **venster** behoort gevul te word met die **adresses** wat die **waarde wysig**:
 
 ![](<../../.gitbook/assets/image (594).png>)
 
-Now that you found the address it's modifying the value you can **modify the code at your pleasure** (Cheat Engine allows you to modify it for NOPs real quick):
+Nou dat jy die adres gevind het wat die waarde wysig, kan jy die kode **na willekeur wysig** (Cheat Engine stel jou in staat om dit vinnig vir NOPs te wysig):
 
 ![](<../../.gitbook/assets/image (595).png>)
 
-So, you can now modify it so the code won't affect your number, or will always affect in a positive way.
+Jy kan dit nou wysig sodat die kode nie jou getal beïnvloed nie, of altyd op 'n positiewe manier beïnvloed.
+## Willekeurige Geheugenadres - Vind die wysiger
 
-## Random Memory Address - Finding the pointer
-
-Following the previous steps, find where the value you are interested is. Then, using "**Find out what writes to this address**" find out which address writes this value and double click on it to get the disassembly view:
+Volg die vorige stappe om te vind waar die waarde waarin jy belangstel, is. Gebruik dan "**Vind uit wat na hierdie adres skryf**" om uit te vind watter adres hierdie waarde skryf en dubbelklik daarop om die disassemblage-aansig te kry:
 
 ![](<../../.gitbook/assets/image (596).png>)
 
-Then, perform a new scan **searching for the hex value between "\[]"** (the value of $edx in this case):
+Voer dan 'n nuwe soektog uit **deur te soek na die hekswaarde tussen "\[]"** (die waarde van $edx in hierdie geval):
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-(_If several appear you usually need the smallest address one_)\
-Now, we have f**ound the pointer that will be modifying the value we are interested in**.
+(_As daar verskeie verskyn, het jy gewoonlik die kleinste adres een nodig_)\
+Nou het ons die **wysiger gevind wat die waarde wat ons belangstel, sal wysig**.
 
-Click on "**Add Address Manually**":
+Klik op "**Voeg adres handmatig by**":
 
 ![](<../../.gitbook/assets/image (598).png>)
 
-Now, click on the "Pointer" check box and add the found address in the text box (in this scenario, the found address in the previous image was "Tutorial-i386.exe"+2426B0):
+Klik nou op die "Wysiger" keuseblokkie en voeg die gevonde adres by in die teksblokkie (in hierdie scenario was die gevonde adres in die vorige prentjie "Tutorial-i386.exe"+2426B0):
 
 ![](<../../.gitbook/assets/image (599).png>)
 
-(Note how the first "Address" is automatically populated from the pointer address you introduce)
+(Merk op hoe die eerste "Adres" outomaties gevul word vanuit die wysigeradres wat jy intik)
 
-Click OK and a new pointer will be created:
+Klik OK en 'n nuwe wysiger sal geskep word:
 
 ![](<../../.gitbook/assets/image (600).png>)
 
-Now, every time you modifies that value you are **modifying the important value even if the memory address where the value is is different.**
+Nou, elke keer as jy daardie waarde wysig, wysig jy die belangrike waarde, selfs al is die geheueadres waar die waarde is, verskillend.
 
-## Code Injection
+## Kode-inspuiting
 
-Code injection is a technique where you inject a piece of code into the target process, and then reroute the execution of code to go through your own written code (like giving you points instead of resting them).
+Kode-inspuiting is 'n tegniek waar jy 'n stukkie kode in die teikenproses inspuit en dan die uitvoering van die kode omlei om deur jou eie geskrewe kode te gaan (soos om jou punte te gee in plaas daarvan om dit af te trek).
 
-So, imagine you have found the address that is subtracting 1 to the life of your player:
+Stel jou voor jy het die adres gevind wat 1 van die lewe van jou speler aftrek:
 
 ![](<../../.gitbook/assets/image (601).png>)
 
-Click on Show disassembler to get the **disassemble code**.\
-Then, click **CTRL+a** to invoke the Auto assemble window and select _**Template --> Code Injection**_
+Klik op "Wys disassembler" om die **ontsamelingskode** te kry.\
+Klik dan **CTRL+a** om die Auto assemble-venster te roep en kies _**Template --> Kode-inspuiting**_
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Fill the **address of the instruction you want to modify** (this is usually autofilled):
+Vul die **adres van die instruksie wat jy wil wysig** in (dit word gewoonlik outomaties ingevul):
 
 ![](<../../.gitbook/assets/image (603).png>)
 
-A template will be generated:
+'n Templaat sal gegenereer word:
 
 ![](<../../.gitbook/assets/image (604).png>)
 
-So, insert your new assembly code in the "**newmem**" section and remove the original code from the "**originalcode**" if you don't want it to be executed**.** In this example the injected code will add 2 points instead of substracting 1:
+Voeg jou nuwe saamgestelde kode in die "**newmem**" afdeling in en verwyder die oorspronklike kode uit die "**originalcode**" as jy nie wil hê dat dit uitgevoer moet word nie. In hierdie voorbeeld sal die ingespuite kode 2 punte byvoeg in plaas van 1 af te trek:
 
 ![](<../../.gitbook/assets/image (605).png>)
 
-**Click on execute and so on and your code should be injected in the program changing the behaviour of the functionality!**
+**Klik op uitvoer en so aan en jou kode behoort in die program ingespuit te word en die gedrag van die funksionaliteit te verander!**
 
-# **References**
+# **Verwysings**
 
-* **Cheat Engine tutorial, complete it to learn how to start with Cheat Engine**
+* **Cheat Engine-tutoriaal, voltooi dit om te leer hoe om met Cheat Engine te begin**
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
-
-

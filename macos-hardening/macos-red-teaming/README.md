@@ -1,88 +1,86 @@
-# macOS Red Teaming
+# macOS Rooi-span
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
 
-## Abusing MDMs
+## MDM-misbruik
 
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-If you manage to **compromise admin credentials** to access the management platform, you can **potentially compromise all the computers** by distributing your malware in the machines.
+As jy daarin slaag om **administratiewe legitimasie te kompromitteer** om toegang tot die bestuursplatform te verkry, kan jy **moontlik alle rekenaars kompromitteer** deur jou kwaadwillige sagteware op die masjiene te versprei.
 
-For red teaming in MacOS environments it's highly recommended to have some understanding of how the MDMs work:
+Vir rooi-spanning in MacOS-omgewings word dit sterk aanbeveel om 'n basiese begrip van hoe die MDM's werk te hê:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
 {% endcontent-ref %}
 
-### Using MDM as a C2
+### MDM gebruik as 'n C2
 
-A MDM will have permission to install, query or remove profiles, install applications, create local admin accounts, set firmware password, change the FileVault key...
+'n MDM het toestemming om profiele te installeer, navrae te doen of te verwyder, programme te installeer, plaaslike administrateursrekeninge te skep, firmware-wagwoord te stel, die FileVault-sleutel te verander...
 
-In order to run your own MDM you need to **your CSR signed by a vendor** which you could try to get with [**https://mdmcert.download/**](https://mdmcert.download/). And to run your own MDM for Apple devices you could use [**MicroMDM**](https://github.com/micromdm/micromdm).
+Om jou eie MDM te laat loop, moet jy **jou CSR deur 'n verskaffer laat onderteken** wat jy kan probeer kry met [**https://mdmcert.download/**](https://mdmcert.download/). En om jou eie MDM vir Apple-toestelle te laat loop, kan jy [**MicroMDM**](https://github.com/micromdm/micromdm) gebruik.
 
-However, to install an application in an enrolled device, you still need it to be signed by a developer account... however, upon MDM enrolment the **device adds the SSL cert of the MDM as a trusted CA**, so you can now sign anything.
+Om egter 'n toepassing op 'n ingeskryfde toestel te installeer, moet dit steeds deur 'n ontwikkelaarsrekening onderteken word... maar met MDM-inskrywing voeg die **toestel die SSL-sertifikaat van die MDM as 'n vertroude CA by**, sodat jy nou enigiets kan onderteken.
 
-To enrol the device in a MDM you. need to install a **`mobileconfig`** file as root, which could be delivered via a **pkg** file (you could compress it in zip and when downloaded from safari it will be decompressed).
+Om die toestel in 'n MDM in te skryf, moet jy 'n **`mobileconfig`**-lêer as root installeer, wat afgelewer kan word deur 'n **pkg**-lêer (jy kan dit in 'n zip-komprimeer en wanneer dit vanaf Safari afgelaai word, sal dit gedekomprimeer word).
 
-**Mythic agent Orthrus** uses this technique.
+**Mythic-agent Orthrus** gebruik hierdie tegniek.
 
-### Abusing JAMF PRO
+### JAMF PRO-misbruik
 
-JAMF can run **custom scripts** (scripts developed by the sysadmin), **native payloads** (local account creation, set EFI password, file/process monitoring...) and **MDM** (device configurations, device certificates...).
+JAMF kan **aangepaste skripte** (skripte wat deur die stelseladministrateur ontwikkel is), **inheemse ladinge** (skep van plaaslike rekeninge, stel EFI-wagwoord, lêer-/prosesmonitering...) en **MDM** (toestelkonfigurasies, toestelsertifikate...) uitvoer.
 
-#### JAMF self-enrolment
+#### JAMF selfinskrywing
 
-Go to a page such as `https://<company-name>.jamfcloud.com/enroll/` to see if they have **self-enrolment enabled**. If they have it might **ask for credentials to access**.
+Gaan na 'n bladsy soos `https://<company-name>.jamfcloud.com/enroll/` om te sien of hulle **selfinskrywing geaktiveer** het. As hulle dit het, kan dit **vra vir legitimasie om toegang te verkry**.
 
-You could use the script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) to perform a password spraying attack.
+Jy kan die skrip [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) gebruik om 'n wagwoordspuitaanval uit te voer.
 
-Moreover, after finding proper credentials you could be able to brute-force other usernames with the next form:
+Verder, nadat jy die regte legitimasie gevind het, kan jy moontlik ander gebruikersname met die volgende vorm deur kragtige kragtige aanvalle aanval:
 
 ![](<../../.gitbook/assets/image (7) (1) (1).png>)
 
-#### JAMF device Authentication
+#### JAMF-toestelverifikasie
 
 <figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-The **`jamf`** binary contained the secret to open the keychain which at the time of the discovery was **shared** among everybody and it was: **`jk23ucnq91jfu9aj`**.\
-Moreover, jamf **persist** as a **LaunchDaemon** in **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
+Die **`jamf`** binêre lêer bevat die geheim om die sleutelketting oop te maak wat op daardie tydstip **gedeel** was onder almal en dit was: **`jk23ucnq91jfu9aj`**.\
+Verder volharder jamf as 'n **LaunchDaemon** in **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
-#### JAMF Device Takeover
+#### JAMF-toesteloorgawe
 
-The **JSS** (Jamf Software Server) **URL** that **`jamf`** will use is located in **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
-This file basically contains the URL:
+Die **JSS** (Jamf Software Server) **URL** wat **`jamf`** sal gebruik, is geleë in **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
+Hierdie lêer bevat basies die URL:
 
 {% code overflow="wrap" %}
 ```bash
 plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 
 [...]
-	<key>is_virtual_machine</key>
-	<false/>
-	<key>jss_url</key>
-	<string>https://halbornasd.jamfcloud.com/</string>
-	<key>last_management_framework_change_id</key>
-	<integer>4</integer>
+<key>is_virtual_machine</key>
+<false/>
+<key>jss_url</key>
+<string>https://halbornasd.jamfcloud.com/</string>
+<key>last_management_framework_change_id</key>
+<integer>4</integer>
 [...]
 ```
 {% endcode %}
 
-So, an attacker could drop a malicious package (`pkg`) that **overwrites this file** when installed setting the **URL to a Mythic C2 listener from a Typhon agent** to now be able to abuse JAMF as C2.
-
-{% code overflow="wrap" %}
+So, 'n aanvaller kan 'n skadelike pakkie (`pkg`) laat val wat **hierdie lêer oorskryf** wanneer dit geïnstalleer word en die **URL instel op 'n Mythic C2 luisteraar van 'n Typhon-agent** om nou JAMF te misbruik as C2.
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -93,34 +91,34 @@ sudo jamf policy -id 0
 
 #### JAMF Impersonation
 
-In order to **impersonate the communication** between a device and JMF you need:
+Om die kommunikasie tussen 'n toestel en JMF na te boots, benodig jy die volgende:
 
-* The **UUID** of the device: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
-* The **JAMF keychain** from: `/Library/Application\ Support/Jamf/JAMF.keychain` which contains the device certificate
+* Die **UUID** van die toestel: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
+* Die **JAMF-sleutelbos** vanaf: `/Library/Application\ Support/Jamf/JAMF.keychain` wat die toestelsertifikaat bevat
 
-With this information, **create a VM** with the **stolen** Hardware **UUID** and with **SIP disabled**, drop the **JAMF keychain,** **hook** the Jamf **agent** and steal its information.
+Met hierdie inligting, **skep 'n VM** met die **gesteelde** Hardeware **UUID** en met **SIP gedeaktiveer**, laat die **JAMF-sleutelbos val**, **haak** die Jamf **agent** en steel sy inligting.
 
-#### Secrets stealing
+#### Geheimhouding steel
 
 <figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-You could also monitor the location `/Library/Application Support/Jamf/tmp/` for the **custom scripts** admins might want to execute via Jamf as they are **placed here, executed and removed**. These scripts **might contain credentials**.
+Jy kan ook die ligging `/Library/Application Support/Jamf/tmp/` monitor vir die **aangepaste skripte** wat administrateurs dalk wil uitvoer via Jamf aangesien hulle hier **geplaas, uitgevoer en verwyder** word. Hierdie skripte **kan geloofsbriewe bevat**.
 
-However, **credentials** might be passed tho these scripts as **parameters**, so you would need to monitor `ps aux | grep -i jamf` (without even being root).
+Nietemin, **geloofsbriewe** kan aan hierdie skripte oorgedra word as **parameters**, dus sal jy `ps aux | grep -i jamf` moet monitor (sonder om selfs root te wees).
 
-The script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) can listen for new files being added and new process arguments.
+Die skrip [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) kan luister vir nuwe lêers wat bygevoeg word en nuwe prosesargumente.
 
-### macOS Remote Access
+### macOS Afstandsbediening
 
-And also about **MacOS** "special" **network** **protocols**:
+En ook oor **MacOS** "spesiale" **netwerkprotokolle**:
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
 {% endcontent-ref %}
 
-## Active Directory
+## Aktiewe Gids
 
-In some occasions you will find that the **MacOS computer is connected to an AD**. In this scenario you should try to **enumerate** the active directory as you are use to it. Find some **help** in the following pages:
+In sommige gevalle sal jy vind dat die **MacOS-rekenaar aan 'n AD gekoppel is**. In hierdie scenario moet jy probeer om die aktiewe gids soos jy gewoond is te **opnoem**. Vind 'n bietjie **hulp** in die volgende bladsye:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -134,41 +132,36 @@ In some occasions you will find that the **MacOS computer is connected to an AD*
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Some **local MacOS tool** that may also help you is `dscl`:
-
+Sommige **plaaslike MacOS-hulpmiddels** wat jou ook kan help, is `dscl`:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
+Daar is ook 'n paar gereedgemaakte hulpmiddels vir MacOS om outomaties die AD te ondersoek en met kerberos te speel:
 
-Also there are some tools prepared for MacOS to automatically enumerate the AD and play with kerberos:
+* [**Machound**](https://github.com/XMCyber/MacHound): MacHound is 'n uitbreiding van die Bloodhound ouditeringshulpmiddel wat die insameling en opname van Active Directory-verhoudings op MacOS-gashere moontlik maak.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost is 'n Objective-C-projek wat ontwerp is om met die Heimdal krb5 API's op macOS te kommunikeer. Die doel van die projek is om beter sekuriteitstoetsing rondom Kerberos op macOS-toestelle moontlik te maak deur gebruik te maak van inheemse API's sonder om enige ander raamwerk of pakkette op die teiken te vereis.
+* [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript vir Automatisering (JXA) hulpmiddel vir Active Directory-ondersoek.
 
-* [**Machound**](https://github.com/XMCyber/MacHound): MacHound is an extension to the Bloodhound audting tool allowing collecting and ingesting of Active Directory relationships on MacOS hosts.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost is an Objective-C project designed to interact with the Heimdal krb5 APIs on macOS. The goal of the project is to enable better security testing around Kerberos on macOS devices using native APIs without requiring any other framework or packages on the target.
-* [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript for Automation (JXA) tool to do Active Directory enumeration.
-
-### Domain Information
-
+### Domein Inligting
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
+### Gebruikers
 
-### Users
+Die drie tipes MacOS-gebruikers is:
 
-The three types of MacOS users are:
+* **Plaaslike Gebruikers** - Bestuur deur die plaaslike OpenDirectory-diens, hulle is op geen manier gekoppel aan die Aktiewe Gids nie.
+* **Netwerkgebruikers** - Vlugtige Aktiewe Gids-gebruikers wat 'n verbinding met die DC-bediener benodig om te verifieer.
+* **Mobiele Gebruikers** - Aktiewe Gids-gebruikers met 'n plaaslike rugsteun vir hul geloofsbriewe en lêers.
 
-* **Local Users** — Managed by the local OpenDirectory service, they aren’t connected in any way to the Active Directory.
-* **Network Users** — Volatile Active Directory users who require a connection to the DC server to authenticate.
-* **Mobile Users** — Active Directory users with a local backup for their credentials and files.
+Die plaaslike inligting oor gebruikers en groepe word gestoor in die map _/var/db/dslocal/nodes/Default._\
+Byvoorbeeld, die inligting oor 'n gebruiker genaamd _mark_ word gestoor in _/var/db/dslocal/nodes/Default/users/mark.plist_ en die inligting oor die groep _admin_ is in _/var/db/dslocal/nodes/Default/groups/admin.plist_.
 
-The local information about users and groups is stored in in the folder _/var/db/dslocal/nodes/Default._\
-For example, the info about user called _mark_ is stored in _/var/db/dslocal/nodes/Default/users/mark.plist_ and the info about the group _admin_ is in _/var/db/dslocal/nodes/Default/groups/admin.plist_.
+Bo en behalwe die gebruik van die HasSession en AdminTo-lyne, **voeg MacHound drie nuwe lyne by** tot die Bloodhound-databasis:
 
-In addition to using the HasSession and AdminTo edges, **MacHound adds three new edges** to the Bloodhound database:
-
-* **CanSSH** - entity allowed to SSH to host
-* **CanVNC** - entity allowed to VNC to host
-* **CanAE** - entity allowed to execute AppleEvent scripts on host
-
+* **CanSSH** - entiteit wat toegelaat word om SSH na gasheer te maak
+* **CanVNC** - entiteit wat toegelaat word om VNC na gasheer te maak
+* **CanAE** - entiteit wat toegelaat word om AppleEvent-skripsies op gasheer uit te voer
 ```bash
 #User enumeration
 dscl . ls /Users
@@ -190,30 +183,29 @@ dscl "/Active Directory/TEST/All Domains" read "/Groups/[groupname]"
 #Domain Information
 dsconfigad -show
 ```
+Meer inligting in [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
 
-More info in [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
+## Toegang tot die Sleutelbos
 
-## Accessing the Keychain
-
-The Keychain highly probably contains sensitive information that if accessed withuot generating a prompt could help to move forward a red team exercise:
+Die Sleutelbos bevat hoogstwaarskynlik sensitiewe inligting wat, as dit sonder 'n vraag gegenereer word, kan help om 'n rooi-span-oefening voort te sit:
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
 {% endcontent-ref %}
 
-## External Services
+## Eksterne Dienste
 
-MacOS Red Teaming is different from a regular Windows Red Teaming as usually **MacOS is integrated with several external platforms directly**. A common configuration of MacOS is to access to the computer using **OneLogin synchronised credentials, and accessing several external services** (like github, aws...) via OneLogin.
+MacOS Red Teaming verskil van 'n gewone Windows Red Teaming omdat gewoonlik **MacOS geïntegreer is met verskeie eksterne platforms direk**. 'n Gewone konfigurasie van MacOS is om toegang tot die rekenaar te verkry deur gebruik te maak van **OneLogin-gesinkroniseerde geloofsbriewe en toegang tot verskeie eksterne dienste** (soos github, aws...) via OneLogin.
 
-## Misc Red Team techniques
+## Verskeie Red Team-tegnieke
 
 ### Safari
 
-When a file is downloaded in Safari, if its a "safe" file, it will be **automatically opened**. So for example, if you **download a zip**, it will be automatically decompressed:
+Wanneer 'n lêer in Safari afgelaai word, sal dit as dit 'n "veilige" lêer is, **outomaties oopgemaak** word. So byvoorbeeld, as jy 'n zip aflaai, sal dit outomaties gedekomprimeer word:
 
 <figure><img src="../../.gitbook/assets/image (12) (3).png" alt=""><figcaption></figcaption></figure>
 
-## References
+## Verwysings
 
 * [**https://www.youtube.com/watch?v=IiMladUbL6E**](https://www.youtube.com/watch?v=IiMladUbL6E)
 * [**https://medium.com/xm-cyber/introducing-machound-a-solution-to-macos-active-directory-based-attacks-2a425f0a22b6**](https://medium.com/xm-cyber/introducing-machound-a-solution-to-macos-active-directory-based-attacks-2a425f0a22b6)
@@ -223,14 +215,14 @@ When a file is downloaded in Safari, if its a "safe" file, it will be **automati
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks in PDF aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks-klere**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>

@@ -1,106 +1,101 @@
-# Infrared
+# Infrarooi
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
 
 </details>
 
-## How the Infrared Works <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
+## Hoe die Infrarooi Werk <a href="#hoe-die-infrarooi-poort-werk" id="hoe-die-infrarooi-poort-werk"></a>
 
-**Infrared light is invisible to humans**. IR wavelength is from **0.7 to 1000 microns**. Household remotes use an IR signal for data transmission and operate in the wavelength range of 0.75..1.4 microns. A microcontroller in the remote makes an infrared LED blink with a specific frequency, turning the digital signal into an IR signal.
+**Infrarooi lig is onsigbaar vir mense**. IR-golflengte is van **0.7 tot 1000 mikrone**. Huishoudelike afstandbeheerders gebruik 'n IR-sein vir datatransmissie en werk in die golflengtebereik van 0.75..1.4 mikrone. 'n Mikrokontroleerder in die afstandbeheerder laat 'n infrarooi LED met 'n spesifieke frekwensie knipper, wat die digitale sein in 'n IR-sein omskakel.
 
-To receive IR signals a **photoreceiver** is used. It **converts IR light into voltage pulses**, which are already **digital signals**. Usually, there is a **dark light filter inside the receiver**, which lets **only the desired wavelength through** and cuts out noise.
+Om IR-seine te ontvang, word 'n **fotoreseiver** gebruik. Dit **skakel IR-lig om in voltpulse**, wat reeds **digitale seine** is. Gewoonlik is daar 'n **donkerligfilter binne die ontvanger**, wat slegs die gewenste golflengte deurlaat en geraas uitsny.
 
-### Variety of IR Protocols <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
+### Verskeidenheid IR-Protokolle <a href="#verskeidenheid-ir-protokolle" id="verskeidenheid-ir-protokolle"></a>
 
-IR protocols differ in 3 factors:
+IR-protokolle verskil in 3 faktore:
 
-* bit encoding
-* data structure
-* carrier frequency — often in range 36..38 kHz
+* bitkodering
+* datastruktuur
+* draerfrekwensie - dikwels in die reeks 36..38 kHz
 
-#### Bit encoding ways <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
+#### Maniere van bitkodering <a href="#maniere-van-bitkodering" id="maniere-van-bitkodering"></a>
 
-**1. Pulse Distance Encoding**
+**1. Pulsaftandkodering**
 
-Bits are encoded by modulating the duration of the space between pulses. The width of the pulse itself is constant.
+Bits word gekodeer deur die duur van die ruimte tussen pulsskote te moduleer. Die breedte van die puls self is konstant.
 
 <figure><img src="../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
 
-**2. Pulse Width Encoding**
+**2. Pulsbreedtekodering**
 
-Bits are encoded by modulation of the pulse width. The width of space after pulse burst is constant.
+Bits word gekodeer deur modulasie van die puls breedte. Die breedte van die ruimte na die pulsskoot is konstant.
 
 <figure><img src="../../.gitbook/assets/image (29) (1).png" alt=""><figcaption></figcaption></figure>
 
-**3. Phase Encoding**
+**3. Fasekodering**
 
-It is also known as Manchester encoding. The logical value is defined by the polarity of the transition between pulse burst and space. "Space to pulse burst" denotes logic "0", "pulse burst to space" denotes logic "1".
+Dit staan ook bekend as Manchester-kodering. Die logiese waarde word bepaal deur die polariteit van die oorgang tussen pulsskoot en ruimte. "Ruimte na pulsskoot" dui logika "0" aan, "pulsskoot na ruimte" dui logika "1" aan.
 
 <figure><img src="../../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
 
-**4. Combination of previous ones and other exotics**
+**4. Kombinasie van voriges en ander eksotiese protokolle**
 
 {% hint style="info" %}
-There are IR protocols that are **trying to become universal** for several types of devices. The most famous ones are RC5 and NEC. Unfortunately, the most famous **does not mean the most common**. In my environment, I met just two NEC remotes and no RC5 ones.
+Daar is IR-protokolle wat **universeel probeer word** vir verskeie tipes toestelle. Die bekendste is RC5 en NEC. Ongelukkig beteken die bekendste **nie die mees algemene nie**. In my omgewing het ek net twee NEC-afstandbeheerders en geen RC5-afstandbeheerders ontmoet nie.
 
-Manufacturers love to use their own unique IR protocols, even within the same range of devices (for example, TV-boxes). Therefore, remotes from different companies and sometimes from different models from the same company, are unable to work with other devices of the same type.
+Vervaardigers hou daarvan om hul eie unieke IR-protokolle te gebruik, selfs binne dieselfde reeks toestelle (byvoorbeeld TV-bokse). Daarom kan afstandbeheerders van verskillende maatskappye en soms van verskillende modelle van dieselfde maatskappy nie met ander toestelle van dieselfde tipe werk nie.
 {% endhint %}
 
-### Exploring an IR signal
+### Verkenning van 'n IR-sein
 
-The most reliable way to see how the remote IR signal looks like is to use an oscilloscope. It does not demodulate or invert the received signal, it is just displayed "as is". This is useful for testing and debugging. I will show the expected signal on the example of the NEC IR protocol.
+Die betroubaarste manier om te sien hoe die afstandbeheerder se IR-sein lyk, is om 'n oscilloskoop te gebruik. Dit demoduleer of keer die ontvangste sein nie om nie, dit word net "soos dit is" vertoon. Dit is nuttig vir toetsing en foutopsporing. Ek sal die verwagte sein toon aan die hand van die NEC IR-protokol.
 
 <figure><img src="../../.gitbook/assets/image (18) (2).png" alt=""><figcaption></figcaption></figure>
 
-Usually, there is a preamble at the beginning of an encoded packet. This allows the receiver to determine the level of gain and background. There are also protocols without preamble, for example, Sharp.
+Gewoonlik is daar 'n preamble aan die begin van 'n gekodeerde pakkie. Dit stel die ontvanger in staat om die vlak van wins en agtergrond te bepaal. Daar is ook protokolle sonder preamble, byvoorbeeld Sharp.
 
-Then data is transmitted. The structure, preamble, and bit encoding method are determined by the specific protocol.
+Dan word data oorgedra. Die struktuur, preamble en bitkoderingsmetode word deur die spesifieke protokol bepaal.
 
-**NEC IR protocol** contains a short command and a repeat code, which is sent while the button is pressed. Both the command and the repeat code have the same preamble at the beginning.
+Die **NEC IR-protokol** bevat 'n kort bevel en 'n herhaalkode wat gestuur word terwyl die knoppie ingedruk word. Beide die bevel en die herhaalkode het dieselfde preamble aan die begin.
 
-NEC **command**, in addition to the preamble, consists of an address byte and a command-number byte, by which the device understands what needs to be performed. Address and command-number bytes are duplicated with inverse values, to check the integrity of the transmission. There is an additional stop bit at the end of the command.
+NEC **bevel**, naas die preamble, bestaan uit 'n adresbyte en 'n bevelnommerbyte, waarmee die toestel verstaan wat gedoen moet word. Adres- en bevelnommerbyte word gedupliseer met inverse waardes om die integriteit van die oordrag te toets. Daar is 'n bykomende stopbit aan die einde van die bevel.
 
-The **repeat code** has a "1" after the preamble, which is a stop bit.
+Die **herhaalkode** het 'n "1" na die preamble, wat 'n stopbit is.
 
-For **logic "0" and "1"** NEC uses Pulse Distance Encoding: first, a pulse burst is transmitted after which there is a pause, its length sets the value of the bit.
+Vir **logika "0" en "1"** gebruik NEC Pulsaftandkodering: Eerstens word 'n pulsskoot oorgedra, waarna daar 'n onderbreking is, waarvan die lengte die waarde van die bit bepaal.
 
-### Air Conditioners
+### Lugversorgers
 
-Unlike other remotes, **air conditioners do not transmit just the code of the pressed button**. They also **transmit all the information** when a button is pressed to assure that the **air conditioned machine and the remote are synchronised**.\
-This will avoid that a machine set as 20ºC is increased to 21ºC with one remote, and then when another remote, which still has the temperature as 20ºC, is used to increase more the temperature, it will "increase" it to 21ºC (and not to 22ºC thinking it's in 21ºC).
+In teenstelling met ander afstandbeheerders, **stuur lugversorgers nie net die kode van die ingedrukte knoppie nie**. Hulle stuur ook **alle inligting** oor wanneer 'n knoppie ingedruk word om te verseker dat die **lugversorgingsmasjien en die afstandbeheerder gesinkroniseer is**.\
+Dit sal voorkom dat 'n masjien wat as 20ºC ingestel is, met een afstandbeheerder na 21ºC verhoog word, en dan wanneer 'n ander afstandbeheerder, wat die temperatuur steeds as 20ºC het, gebruik word om die temperatuur verder te verhoog, dit na 21ºC "verhoog" (en nie na 22ºC dink dat dit in 21ºC is).
 
-### Attacks
+### Aanvalle
 
-You can attack Infrared with Flipper Zero:
+Jy kan Infrarooi aanval met Flipper Zero:
 
 {% content-ref url="flipper-zero/fz-infrared.md" %}
 [fz-infrared.md](flipper-zero/fz-infrared.md)
 {% endcontent-ref %}
 
-## References
+## Verwysings
 
 * [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass

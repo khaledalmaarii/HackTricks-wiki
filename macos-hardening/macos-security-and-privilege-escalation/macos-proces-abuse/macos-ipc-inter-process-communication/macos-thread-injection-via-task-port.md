@@ -1,196 +1,179 @@
-# macOS Thread Injection via Task port
+# macOS Draadinspuiting via Taakpoort
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
 
-## Code
+## Kode
 
 * [https://github.com/bazad/threadexec](https://github.com/bazad/threadexec)
 * [https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36](https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36)
 
 
-## 1. Thread Hijacking
+## 1. Draadkaping
 
-Initially, the **`task_threads()`** function is invoked on the task port to obtain a thread list from the remote task. A thread is selected for hijacking. This approach diverges from conventional code injection methods as creating a new remote thread is prohibited due to the new mitigation blocking `thread_create_running()`.
+Aanvanklik word die **`task_threads()`**-funksie op die taakpoort aangeroep om 'n draadlys van die afgeleë taak te verkry. 'n Draad word gekies om te kap. Hierdie benadering wyk af van konvensionele kode-inspuitingsmetodes, aangesien die skep van 'n nuwe afgeleë draad verbied word as gevolg van die nuwe mitigasie wat `thread_create_running()` blokkeer.
 
-To control the thread, **`thread_suspend()`** is called, halting its execution.
+Om die draad te beheer, word **`thread_suspend()`** geroep om sy uitvoering te stuit.
 
-The only operations permitted on the remote thread involve **stopping** and **starting** it, **retrieving** and **modifying** its register values. Remote function calls are initiated by setting registers `x0` to `x7` to the **arguments**, configuring **`pc`** to target the desired function, and activating the thread. Ensuring the thread does not crash after the return necessitates detection of the return.
+Die enigste toegelate operasies op die afgeleë draad behels die **stop** en **begin** daarvan, die **herwinning** en **verandering** van sy registerwaardes. Afgeleë funksie-oproepe word geïnisieer deur die registers `x0` tot `x7` in te stel op die **argumente**, die **`pc`** te konfigureer om die gewenste funksie te teiken, en die draad te aktiveer. Om te verseker dat die draad nie na die terugkeer afskakel nie, is dit nodig om die terugkeer op te spoor.
 
-One strategy involves **registering an exception handler** for the remote thread using `thread_set_exception_ports()`, setting the `lr` register to an invalid address before the function call. This triggers an exception post-function execution, sending a message to the exception port, enabling state inspection of the thread to recover the return value. Alternatively, as adopted from Ian Beer’s triple\_fetch exploit, `lr` is set to loop infinitely. The thread's registers are then continuously monitored until **`pc` points to that instruction**.
+Een strategie behels die **registreer van 'n uitsonderingshanterer** vir die afgeleë draad deur `thread_set_exception_ports()` te gebruik, deur die `lr`-register na 'n ongeldige adres voor die funksie-oproep te stel. Dit veroorsaak 'n uitsondering na die funksie-uitvoering, wat 'n boodskap na die uitsonderingspoort stuur en die staat inspekteer om die terugkeerwaarde te herstel. As alternatief, soos aangeneem van Ian Beer se triple\_fetch-exploit, word `lr` ingestel om oneindig te loop. Die draad se register word dan voortdurend gemonitor totdat **`pc` na daardie instruksie wys**.
 
-## 2. Mach ports for communication
+## 2. Mach-poorte vir kommunikasie
 
-The subsequent phase involves establishing Mach ports to facilitate communication with the remote thread. These ports are instrumental in transferring arbitrary send and receive rights between tasks.
+Die volgende fase behels die vestiging van Mach-poorte om kommunikasie met die afgeleë draad te fasiliteer. Hierdie poorte is instrumenteel in die oordrag van willekeurige stuur- en ontvangsregte tussen take.
 
-For bidirectional communication, two Mach receive rights are created: one in the local and the other in the remote task. Subsequently, a send right for each port is transferred to the counterpart task, enabling message exchange.
+Vir tweerigtingkommunikasie word twee Mach-ontvangsregte geskep: een in die plaaslike en die ander in die afgeleë taak. Daarna word 'n stuurreg vir elke poort oorgedra na die teenoorgestelde taak, wat boodskapuitruiling moontlik maak.
 
-Focusing on the local port, the receive right is held by the local task. The port is created with `mach_port_allocate()`. The challenge lies in transferring a send right to this port into the remote task.
+Met die fokus op die plaaslike poort, word die ontvangsreg deur die plaaslike taak aangehou. Die poort word geskep met `mach_port_allocate()`. Die uitdaging lê daarin om 'n stuurreg na hierdie poort oor te dra na die afgeleë taak.
 
-A strategy involves leveraging `thread_set_special_port()` to place a send right to the local port in the remote thread’s `THREAD_KERNEL_PORT`. Then, the remote thread is instructed to call `mach_thread_self()` to retrieve the send right.
+'n Strategie behels die gebruik van `thread_set_special_port()` om 'n stuurreg na die plaaslike poort in die afgeleë draad se `THREAD_KERNEL_PORT` te plaas. Daarna word die afgeleë draad geïnstrueer om `mach_thread_self()` te roep om die stuurreg te herwin.
 
-For the remote port, the process is essentially reversed. The remote thread is directed to generate a Mach port via `mach_reply_port()` (as `mach_port_allocate()` is unsuitable due to its return mechanism). Upon port creation, `mach_port_insert_right()` is invoked in the remote thread to establish a send right. This right is then stashed in the kernel using `thread_set_special_port()`. Back in the local task, `thread_get_special_port()` is used on the remote thread to acquire a send right to the newly allocated Mach port in the remote task.
+Vir die afgeleë poort word die proses in wese omgekeer. Die afgeleë draad word geïnstrueer om 'n Mach-poort te genereer via `mach_reply_port()` (aangesien `mach_port_allocate()` ongeskik is as gevolg van sy terugkeer-meganisme). By die skep van die poort word `mach_port_insert_right()` in die afgeleë draad geroep om 'n stuurreg te vestig. Hierdie reg word dan in die kernel gestoor deur `thread_set_special_port()` te gebruik. Terug in die plaaslike taak word `thread_get_special_port()` gebruik op die afgeleë draad om 'n stuurreg te bekom na die nuut toegewese Mach-poort in die afgeleë taak.
 
-Completion of these steps results in the establishment of Mach ports, laying the groundwork for bidirectional communication.
+Voltooiing van hierdie stappe lei tot die vestiging van Mach-poorte, wat die grondslag lê vir tweerigtingkommunikasie.
 
-## 3. Basic Memory Read/Write Primitives
+## 3. Basiese Geheue Lees-/Skryfprimitiewe
 
-In this section, the focus is on utilizing the execute primitive to establish basic memory read and write primitives. These initial steps are crucial for gaining more control over the remote process, though the primitives at this stage won't serve many purposes. Soon, they will be upgraded to more advanced versions.
+In hierdie gedeelte lê die fokus op die gebruik van die uitvoerprimitief om basiese geheue lees- en skryfprimitiewe te vestig. Hierdie aanvanklike stappe is noodsaaklik om meer beheer oor die afgeleë proses te verkry, alhoewel die primitiewe op hierdie stadium nie baie doeleindes dien nie. Binnekort sal hulle opgradeer word na meer gevorderde weergawes.
 
-### Memory Reading and Writing Using Execute Primitive
+### Geheue lees en skryf met behulp van die uitvoerprimitief
 
-The goal is to perform memory reading and writing using specific functions. For reading memory, functions resembling the following structure are used:
-
+Die doel is om geheue lees en skryf uit te voer met behulp van spesifieke funksies. Vir geheue lees word funksies met die volgende struktuur gebruik:
 ```c
 uint64_t read_func(uint64_t *address) {
-    return *address;
+return *address;
 }
 ```
-
-And for writing to memory, functions similar to this structure are used:
-
+En vir skryf na geheue, word funksies soortgelyk aan hierdie struktuur gebruik:
 ```c
 void write_func(uint64_t *address, uint64_t value) {
-    *address = value;
+*address = value;
 }
 ```
-
-These functions correspond to the given assembly instructions:
-
+Hierdie funksies stem ooreen met die gegewe saamgestelde instruksies:
 ```
 _read_func:
-    ldr x0, [x0]
-    ret
+ldr x0, [x0]
+ret
 _write_func:
-    str x1, [x0]
-    ret
+str x1, [x0]
+ret
 ```
+### Identifiseer Geskikte Funksies
 
-### Identifying Suitable Functions
+'n Skandering van algemene biblioteke het geskikte kandidate vir hierdie operasies geïdentifiseer:
 
-A scan of common libraries revealed appropriate candidates for these operations:
-
-1. **Reading Memory:**
-   The `property_getName()` function from the [Objective-C runtime library](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) is identified as a suitable function for reading memory. The function is outlined below:
-
+1. **Lees van Geheue:**
+Die `property_getName()`-funksie van die [Objective-C runtime-biblioteek](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) word geïdentifiseer as 'n geskikte funksie vir die lees van geheue. Die funksie word hieronder uiteengesit:
 ```c
 const char *property_getName(objc_property_t prop) {
-      return prop->name;
+return prop->name;
 }
 ```
-   
-   This function effectively acts like the `read_func` by returning the first field of `objc_property_t`.
+Hierdie funksie tree effektief op soos die `read_func` deur die eerste veld van `objc_property_t` terug te gee.
 
-2. **Writing Memory:**
-   Finding a pre-built function for writing memory is more challenging. However, the `_xpc_int64_set_value()` function from libxpc is a suitable candidate with the following disassembly:
-
+2. **Skryf van Geheue:**
+Dit is meer uitdagend om 'n voorafgeboude funksie vir die skryf van geheue te vind. Die `_xpc_int64_set_value()` funksie van libxpc is egter 'n geskikte kandidaat met die volgende disassemblage:
 ```c
 __xpc_int64_set_value:
-    str x1, [x0, #0x18]
-    ret
+str x1, [x0, #0x18]
+ret
 ```
-
-
-To perform a 64-bit write at a specific address, the remote call is structured as:
-
+Om 'n 64-bit skryf by 'n spesifieke adres uit te voer, word die afstandsoproep gestruktureer as:
 ```c
 _xpc_int64_set_value(address - 0x18, value)
 ```
+Met hierdie primitiewe gevestig, is die verhoog gestel vir die skep van gedeelde geheue, wat 'n beduidende vordering in die beheer van die afgeleë proses beteken.
 
-With these primitives established, the stage is set for creating shared memory, marking a significant progression in controlling the remote process.
+## 4. Gedeelde Geheue Opstelling
 
-## 4. Shared Memory Setup
+Die doel is om gedeelde geheue tussen plaaslike en afgeleë take te vestig, wat data-oordrag vereenvoudig en die aanroep van funksies met veelvuldige argumente fasiliteer. Die benadering behels die benutting van `libxpc` en sy `OS_xpc_shmem` objek tipe, wat gebaseer is op Mach-geheueinskrywings.
 
-The objective is to establish shared memory between local and remote tasks, simplifying data transfer and facilitating the calling of functions with multiple arguments. The approach involves leveraging `libxpc` and its `OS_xpc_shmem` object type, which is built upon Mach memory entries.
+### Prosessoorsig:
 
-### Process Overview:
+1. **Geheue-toekenning**:
+- Ken die geheue toe vir deling deur `mach_vm_allocate()` te gebruik.
+- Gebruik `xpc_shmem_create()` om 'n `OS_xpc_shmem` objek vir die toegewese geheuegebied te skep. Hierdie funksie sal die skepping van die Mach-geheueinskrywing bestuur en die Mach-stuurreg op offset `0x18` van die `OS_xpc_shmem` objek stoor.
 
-1. **Memory Allocation**:
-   - Allocate the memory for sharing using `mach_vm_allocate()`.
-   - Use `xpc_shmem_create()` to create an `OS_xpc_shmem` object for the allocated memory region. This function will manage the creation of the Mach memory entry and store the Mach send right at offset `0x18` of the `OS_xpc_shmem` object.
+2. **Skep van Gedeelde Geheue in Afgeleë Proses**:
+- Ken geheue toe vir die `OS_xpc_shmem` objek in die afgeleë proses met 'n afgeleë oproep na `malloc()`.
+- Kopieer die inhoud van die plaaslike `OS_xpc_shmem` objek na die afgeleë proses. Hierdie aanvanklike kopie sal egter verkeerde Mach-geheueinskrywingname hê by offset `0x18`.
 
-2. **Creating Shared Memory in Remote Process**:
-   - Allocate memory for the `OS_xpc_shmem` object in the remote process with a remote call to `malloc()`.
-   - Copy the contents of the local `OS_xpc_shmem` object to the remote process. However, this initial copy will have incorrect Mach memory entry names at offset `0x18`.
+3. **Korrigeer die Mach-Geheueinskrywing**:
+- Maak gebruik van die `thread_set_special_port()` metode om 'n stuurreg vir die Mach-geheueinskrywing in die afgeleë taak in te voeg.
+- Korrekteer die Mach-geheueinskrywingveld by offset `0x18` deur dit te oorskryf met die naam van die afgeleë geheueinskrywing.
 
-3. **Correcting the Mach Memory Entry**:
-   - Utilize the `thread_set_special_port()` method to insert a send right for the Mach memory entry into the remote task.
-   - Correct the Mach memory entry field at offset `0x18` by overwriting it with the remote memory entry's name.
+4. **Voltooiing van Gedeelde Geheue Opstelling**:
+- Valideer die afgeleë `OS_xpc_shmem` objek.
+- Stel die gedeelde geheueafbeelding op met 'n afgeleë oproep na `xpc_shmem_remote()`.
 
-4. **Finalizing Shared Memory Setup**:
-   - Validate the remote `OS_xpc_shmem` object.
-   - Establish the shared memory mapping with a remote call to `xpc_shmem_remote()`.
+Deur hierdie stappe te volg, sal gedeelde geheue tussen die plaaslike en afgeleë take doeltreffend opgestel word, wat eenvoudige data-oordrag en die uitvoering van funksies met veelvuldige argumente moontlik maak.
 
-By following these steps, shared memory between the local and remote tasks will be efficiently set up, allowing for straightforward data transfers and the execution of functions requiring multiple arguments.
+## Addisionele Kodefragmente
 
-## Additional Code Snippets
-
-For memory allocation and shared memory object creation:
+Vir geheue-toekenning en die skep van gedeelde geheue objekte:
 ```c
 mach_vm_allocate();
 xpc_shmem_create();
 ```
-
-For creating and correcting the shared memory object in the remote process:
-
+Vir die skep en regstelling van die gedeelde geheue-object in die afgeleë proses:
 ```c
 malloc(); // for allocating memory remotely
 thread_set_special_port(); // for inserting send right
 ```
+Onthou om die besonderhede van Mach-poorte en geheue-invoernaam korrek te hanteer om te verseker dat die gedeelde geheue korrek funksioneer.
 
-Remember to handle the details of Mach ports and memory entry names correctly to ensure that the shared memory setup functions properly.
+## 5. Volledige beheer bereik
 
+Nadat ons suksesvol gedeelde geheue opgestel en willekeurige uitvoeringsvermoëns verkry het, het ons in wese volledige beheer oor die teikenproses verkry. Die sleutelfunksies wat hierdie beheer moontlik maak, is:
 
-## 5. Achieving Full Control
+1. **Willekeurige Geheue-operasies**:
+- Voer willekeurige geheuelesings uit deur `memcpy()` aan te roep om data van die gedeelde gebied te kopieer.
+- Voer willekeurige geheue-skrywings uit deur `memcpy()` te gebruik om data na die gedeelde gebied oor te dra.
 
-Upon successfully establishing shared memory and gaining arbitrary execution capabilities, we have essentially gained full control over the target process. The key functionalities enabling this control are:
+2. **Hantering van Funksie-oproepe met Meerdere Argumente**:
+- Vir funksies wat meer as 8 argumente vereis, reël die bykomende argumente op die stapel in ooreenstemming met die oproepkonvensie.
 
-1. **Arbitrary Memory Operations**:
-   - Perform arbitrary memory reads by invoking `memcpy()` to copy data from the shared region.
-   - Execute arbitrary memory writes by using `memcpy()` to transfer data to the shared region.
+3. **Mach-poortoorplasing**:
+- Oordra van Mach-poorte tussen take deur Mach-boodskappe via voorheen opgestelde poorte.
 
-2. **Handling Function Calls with Multiple Arguments**:
-   - For functions requiring more than 8 arguments, arrange the additional arguments on the stack in compliance with the calling convention.
+4. **Lêerbeskryweroorplasing**:
+- Oordra van lêerbeskrywers tussen prosesse deur gebruik te maak van lêerpoorte, 'n tegniek wat deur Ian Beer in `triple_fetch` beklemtoon word.
 
-3. **Mach Port Transfer**:
-   - Transfer Mach ports between tasks through Mach messages via previously established ports.
+Hierdie omvattende beheer word gekapsuleer binne die [threadexec](https://github.com/bazad/threadexec) biblioteek, wat 'n gedetailleerde implementering en 'n gebruikersvriendelike API bied vir interaksie met die slagofferproses.
 
-4. **File Descriptor Transfer**:
-   - Transfer file descriptors between processes using fileports, a technique highlighted by Ian Beer in `triple_fetch`.
+## Belangrike oorwegings:
 
-This comprehensive control is encapsulated within the [threadexec](https://github.com/bazad/threadexec) library, providing a detailed implementation and a user-friendly API for interaction with the victim process.
+- Verseker korrekte gebruik van `memcpy()` vir geheuelees-/skryfoperasies om die stabiliteit van die stelsel en die integriteit van data te handhaaf.
+- Wanneer Mach-poorte of lêerbeskrywers oorgedra word, volg korrekte protokolle en hanteer hulpbronne verantwoordelik om lekke of onbedoelde toegang te voorkom.
 
-## Important Considerations:
+Deur hierdie riglyne na te kom en die `threadexec` biblioteek te gebruik, kan 'n persoon prosesse doeltreffend bestuur en interaksie daarmee op 'n fynvlakvlak bereik, en sodoende volledige beheer oor die teikenproses verkry.
 
-- Ensure proper use of `memcpy()` for memory read/write operations to maintain system stability and data integrity.
-- When transferring Mach ports or file descriptors, follow proper protocols and handle resources responsibly to prevent leaks or unintended access.
-
-By adhering to these guidelines and utilizing the `threadexec` library, one can efficiently manage and interact with processes at a granular level, achieving full control over the target process.
-
-## References
+## Verwysings
 * [https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/](https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

