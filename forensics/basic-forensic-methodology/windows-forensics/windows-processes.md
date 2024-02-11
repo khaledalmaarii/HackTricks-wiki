@@ -1,147 +1,120 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 
 ## smss.exe
 
-**Session Manager**.\
-Session 0 starts **csrss.exe** and **wininit.exe** (**OS** **services**) while Session 1 starts **csrss.exe** and **winlogon.exe** (**User** **session**). However, you should see **only one process** of that **binary** without children in the processes tree.
+**Meneja wa Kikao**.\
+Kikao cha 0 kinaanza **csrss.exe** na **wininit.exe** (**huduma za OS**) wakati Kikao cha 1 kinaanza **csrss.exe** na **winlogon.exe** (**kikao cha mtumiaji**). Walakini, unapaswa kuona **mchakato mmoja tu** wa hiyo **binary** bila watoto katika mti wa michakato.
 
-Also, sessions apart from 0 and 1 may mean that RDP sessions are occurring.
+Pia, vikao visivyo vya 0 na 1 vinaweza kuashiria kuwa vikao vya RDP vinaendelea.
 
 
 ## csrss.exe
 
-**Client/Server Run Subsystem Process**.\
-It manages **processes** and **threads**, makes the **Windows** **API** available for other processes and also **maps drive letters**, create **temp files**, and handles the **shutdown** **process**.
+**Mchakato wa Subsystem ya Mteja/Mhudumu**.\
+Inasimamia **michakato** na **nyuzi**, inafanya **Windows API** ipatikane kwa michakato mingine na pia **inamapisha barua za kuendesha gari**, inaunda **faili za muda**, na inashughulikia **mchakato wa kuzima**.
 
-There is one **running in Session 0 and another one in Session 1** (so **2 processes** in the processes tree). Another one is created **per new Session**.
+Kuna mmoja anayekimbia katika Kikao cha 0 na mwingine katika Kikao cha 1 (kwa hivyo **michakato 2** katika mti wa michakato). Mwingine mmoja huundwa **kwa kila Kikao kipya**.
 
 
 ## winlogon.exe
 
-**Windows Logon Process**.\
-It's responsible for user **logon**/**logoffs**. It launches **logonui.exe** to ask for username and password and then calls **lsass.exe** to verify them.
+**Mchakato wa Ingia wa Windows**.\
+Inahusika na **kuingia kwa mtumiaji**/**kutoka kwa mtumiaji**. Inazindua **logonui.exe** kuomba jina la mtumiaji na nenosiri na kisha inaita **lsass.exe** kuvithibitisha.
 
-Then it launches **userinit.exe** which is specified in **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** with key **Userinit**.
+Kisha inazindua **userinit.exe** ambayo imeainishwa katika **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** na funguo **Userinit**.
 
-Mover over, the previous registry should have **explorer.exe** in the **Shell key** or it might be abused as a **malware persistence method**.
+Zaidi ya hayo, usajili uliotangulia unapaswa kuwa na **explorer.exe** katika funguo la **Shell** au inaweza kutumiwa kama **njia ya kudumu ya programu hasidi**.
 
 
 ## wininit.exe
 
-**Windows Initialization Process**. \
-It launches **services.exe**, **lsass.exe**, and **lsm.exe** in Session 0. There should only be 1 process.
+**Mchakato wa Uzinduzi wa Windows**. \
+Inazindua **services.exe**, **lsass.exe**, na **lsm.exe** katika Kikao cha 0. Inapaswa kuwa na mchakato mmoja tu.
 
 
 ## userinit.exe
 
-**Userinit Logon Application**.\
-Loads the **ntduser.dat in HKCU** and initialises the **user** **environment** and runs **logon** **scripts** and **GPO**.
+**Programu ya Ingia ya Userinit**.\
+Inapakia **ntduser.dat katika HKCU** na inaanzisha **mazingira ya mtumiaji** na inatekeleza **maandishi ya kuingia** na **GPO**.
 
-It launches **explorer.exe**.
+Inazindua **explorer.exe**.
 
 
 ## lsm.exe
 
-**Local Session Manager**.\
-It works with smss.exe to manipulate user sessions: Logon/logoff, shell start, lock/unlock desktop, etc.
+**Meneja wa Kikao cha Lokal**.\
+Inafanya kazi na smss.exe kubadilisha vikao vya mtumiaji: Kuingia/kutoka, kuanza kwa kichupo, kufunga/kufungua kufungwa, nk.
 
-After W7 lsm.exe was transformed into a service (lsm.dll).
+Baada ya W7 lsm.exe iligeuzwa kuwa huduma (lsm.dll).
 
-There should only be 1 process in W7 and from them a service running the DLL.
+Inapaswa kuwa na mchakato mmoja tu katika W7 na kutoka kwao huduma inayotumia DLL.
 
 
 ## services.exe
 
-**Service Control Manager**.\
-It **loads** **services** configured as **auto-start** and **drivers**.
+**Meneja wa Udhibiti wa Huduma**.\
+Ina **kuzaa** **huduma** zilizo **sanidiwa kama kuanza moja kwa moja** na **madereva**.
 
-It's the parent process of **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** and many more.
+Ni mchakato mzazi wa **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** na wengine wengi.
 
-Services are defined in `HKLM\SYSTEM\CurrentControlSet\Services` and this process maintains a DB in memory of service info that can be queried by sc.exe.
+Huduma zimefafanuliwa katika `HKLM\SYSTEM\CurrentControlSet\Services` na mchakato huu unahifadhi DB kumbukumbu ya habari ya huduma ambayo inaweza kuulizwa na sc.exe.
 
-Note how **some** **services** are going to be running in a **process of their own** and others are going to be **sharing a svchost.exe process**.
+Tazama jinsi **baadhi ya huduma** **zitakuwa zikikimbia katika mchakato wao wenyewe** na zingine zitakuwa **zinafungua mchakato wa svchost.exe**.
 
-There should only be 1 process.
+Inapaswa kuwa na mchakato mmoja tu.
 
 
 ## lsass.exe
 
-**Local Security Authority Subsystem**.\
-It's responsible for the user **authentication** and create the **security** **tokens**. It uses authentication packages located in `HKLM\System\CurrentControlSet\Control\Lsa`.
+**Mamlaka ya Usalama wa Lokal**.\
+Inahusika na **uthibitishaji** wa mtumiaji na kuunda **vitambulisho vya usalama**. Inatumia vifurushi vya uthibitishaji vilivyoko katika `HKLM\System\CurrentControlSet\Control\Lsa`.
 
-It writes to the **Security** **event** **log** and there should only be 1 process.
+Inaandika kwenye **tukio la usalama** **la usalama** na inapaswa kuwa na mchakato mmoja tu.
 
-Keep in mind that this process is highly attacked to dump passwords.
+Kumbuka kuwa mchakato huu unashambuliwa sana ili kupata nywila.
 
 
 ## svchost.exe
 
-**Generic Service Host Process**.\
-It hosts multiple DLL services in one shared process.
+**Mchakato Mwenyeji wa Huduma Mbadala**.\
+Inahifadhi huduma nyingi za DLL katika mchakato mmoja ulioshirikiwa.
 
-Usually, you will find that **svchost.exe** is launched with the `-k` flag. This will launch a query to the registry **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** where there will be a key with the argument mentioned in -k that will contain the services to launch in the same process.
+Kawaida, utagundua kuwa **svchost.exe** inazinduliwa na bendera ya `-k`. Hii itazindua uchunguzi kwenye usajili **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** ambapo kutakuwa na funguo na hoja iliyotajwa katika -k ambayo italeta huduma za kuzindua katika mchakato huo huo.
 
-For example: `-k UnistackSvcGroup` will launch: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
+Kwa mfano: `-k UnistackSvcGroup` itazindua: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
 
-If the **flag `-s`** is also used with an argument, then svchost is asked to **only launch the specified service** in this argument.
+Ikiwa **bendera `-s`** pia inatumika na hoja, basi svchost inaulizwa **kuzindua huduma iliyoainishwa tu** katika hoja hii.
 
-There will be several processes of `svchost.exe`. If any of them is **not using the `-k` flag**, then that's very suspicious. If you find that **services.exe is not the parent**, that's also very suspicious.
+Kutakuwa na michakato kadhaa ya `svchost.exe`. Ikiwa yeyote wao **haifanyi matumizi ya bendera `-k`**, basi hiyo ni ya kutiliwa shaka sana. Ikiwa utagundua kuwa **services.exe sio mzazi**, hiyo pia ni ya kutiliwa shaka.
 
 
 ## taskhost.exe
 
-This process act as a host for processes running from DLLs. It also loads the services that are running from DLLs.
+Mchakato huu hufanya kama mwenyeji kwa michakato inayokimbia kutoka kwa DLL. Pia inapakia huduma zinazokimbia kutoka kwa DLL.
 
-In W8 this is called taskhostex.exe and in W10 taskhostw.exe.
+Katika W8 hii inaitwa taskhostex.exe na katika W10 taskhostw.exe.
 
 
 ## explorer.exe
 
-This is the process responsible for the **user's desktop** and launching files via file extensions.
+Hii ndio mchakato unaohusika na **desktop ya mtumiaji** na kuzindua faili kupitia viendelezi vya faili.
 
-**Only 1** process should be spawned **per logged on user.**
+**Mchakato 1 tu** unapaswa kuundwa **kwa kila mtumiaji aliyeingia**.
 
-This is run from **userinit.exe** which should be terminated, so **no parent** should appear for this process.
-
-
-# Catching Malicious Processes
-
-* Is it running from the expected path? (No Windows binaries run from temp location)
-* Is it communicating with weird IPs?
-* Check digital signatures (Microsoft artifacts should be signed)
-* Is it spelled correctly?
-* Is running under the expected SID?
-* Is the parent process the expected one (if any)?
-* Are the children processes the expecting ones? (no cmd.exe, wscript.exe, powershell.exe..?)
+Hii inatekelezwa kutoka kwa **userinit.exe** ambayo inapaswa kufutwa, kwa hivyo **mzazi haitapaswi kuonekana** kwa mchakato huu.
 
 
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-
+# Kukamata Michak

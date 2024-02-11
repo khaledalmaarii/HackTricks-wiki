@@ -1,104 +1,94 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 
 # ECB
 
-(ECB) Electronic Code Book - symmetric encryption scheme which **replaces each block of the clear text** by the **block of ciphertext**. It is the **simplest** encryption scheme. The main idea is to **split** the clear text into **blocks of N bits** (depends on the size of the block of input data, encryption algorithm) and then to encrypt (decrypt) each block of clear text using the only key.
+(ECB) Kitabu cha Nambari cha Umeme - mfumo wa kusimbua wa usawa ambao **badala kila kibodi cha maandishi wazi** na **kibodi ya maandishi ya siri**. Ni mfumo wa kusimbua wa **rahisi zaidi**. Wazo kuu ni **kugawanya** maandishi wazi katika **vibodi vya N bits** (inategemea ukubwa wa kibodi ya data ya kuingiza, algorithm ya kusimbua) na kisha kusimbua (kusimbua) kila kibodi cha maandishi wazi kwa kutumia ufunguo pekee.
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/ECB_decryption.svg/601px-ECB_decryption.svg.png)
 
-Using ECB has multiple security implications:
+Kutumia ECB kuna athari za usalama nyingi:
 
-* **Blocks from encrypted message can be removed**
-* **Blocks from encrypted message can be moved around**
+* **Vibodi kutoka kwenye ujumbe uliosimbwa vinaweza kuondolewa**
+* **Vibodi kutoka kwenye ujumbe uliosimbwa vinaweza kusogezwa**
 
-# Detection of the vulnerability
+# Ugunduzi wa udhaifu
 
-Imagine you login into an application several times and you **always get the same cookie**. This is because the cookie of the application is **`<username>|<password>`**.\
-Then, you generate to new users, both of them with the **same long password** and **almost** the **same** **username**.\
-You find out that the **blocks of 8B** where the **info of both users** is the same are **equals**. Then, you imagine that this might be because **ECB is being used**. 
+Fikiria unaingia kwenye programu mara kadhaa na unapata **kuki ile ile kila wakati**. Hii ni kwa sababu kuki ya programu ni **`<jina la mtumiaji>|<nywila>`**.\
+Kisha, unazalisha watumiaji wapya, wote wakiwa na **nywila ndefu ile ile** na **karibu** **jina la mtumiaji** **lile lile**.\
+Unagundua kuwa **vibodi za 8B** ambapo **habari ya watumiaji wote** ni sawa ni **sawa**. Kisha, unafikiria kuwa hii inaweza kuwa kwa sababu **ECB inatumika**.
 
-Like in the following example. Observe how these** 2 decoded cookies** has several times the block **`\x23U\xE45K\xCB\x21\xC8`**
-
+Kama katika mfano ufuatao. Tazama jinsi **kuki hizi 2 zilizosimbwa** zina mara kadhaa kibodi **`\x23U\xE45K\xCB\x21\xC8`**
 ```
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 ```
+Hii ni kwa sababu **jina la mtumiaji na nenosiri la vidakuzi hivyo vilikuwa na herufi "a" mara kadhaa** (kwa mfano). **Vidokezo** ambavyo ni **tofauti** ni vidokezo ambavyo vilikuwa na **angalau herufi moja tofauti** (labda kizuizi "|" au tofauti muhimu katika jina la mtumiaji).
 
-This is because the **username and password of those cookies contained several times the letter "a"** (for example). The **blocks** that are **different** are blocks that contained **at least 1 different character** (maybe the delimiter "|" or some necessary difference in the username).
+Sasa, mshambuliaji anahitaji tu kugundua ikiwa muundo ni `<jina la mtumiaji><kizuizi><nenosiri>` au `<nenosiri><kizuizi><jina la mtumiaji>`. Kufanya hivyo, anaweza tu **kuunda majina mengi ya mtumiaji** na majina ya mtumiaji na nywila **yenye urefu sawa na mrefu** hadi atapata muundo na urefu wa kizuizi:
 
-Now, the attacker just need to discover if the format is `<username><delimiter><password>` or `<password><delimiter><username>`. For doing that, he can just **generate several usernames **with s**imilar and long usernames and passwords until he find the format and the length of the delimiter:**
+| Urefu wa Jina la Mtumiaji: | Urefu wa Nenosiri: | Urefu wa Jina la Mtumiaji+Nenosiri: | Urefu wa Kidakuzi (baada ya kudecode): |
+| ------------------------- | ----------------- | ----------------------------------- | ------------------------------------- |
+| 2                         | 2                 | 4                                   | 8                                     |
+| 3                         | 3                 | 6                                   | 8                                     |
+| 3                         | 4                 | 7                                   | 8                                     |
+| 4                         | 4                 | 8                                   | 16                                    |
+| 7                         | 7                 | 14                                  | 16                                    |
 
-| Username length: | Password length: | Username+Password length: | Cookie's length (after decoding): |
-| ---------------- | ---------------- | ------------------------- | --------------------------------- |
-| 2                | 2                | 4                         | 8                                 |
-| 3                | 3                | 6                         | 8                                 |
-| 3                | 4                | 7                         | 8                                 |
-| 4                | 4                | 8                         | 16                                |
-| 7                | 7                | 14                        | 16                                |
+# Utekaji wa udhaifu
 
-# Exploitation of the vulnerability
+## Kuondoa vikundi vyote
 
-## Removing entire blocks
-
-Knowing the format of the cookie (`<username>|<password>`), in order to impersonate the username `admin` create a new user called `aaaaaaaaadmin` and get the cookie and decode it:
-
+Kwa kujua muundo wa kidakuzi (`<jina la mtumiaji>|<nenosiri>`), ili kujifanya kuwa jina la mtumiaji `admin`, tumia mtumiaji mpya aliyeitwa `aaaaaaaaadmin` na pata kidakuzi na kudecode:
 ```
 \x23U\xE45K\xCB\x21\xC8\xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
-
-We can see the pattern `\x23U\xE45K\xCB\x21\xC8` created previously with the username that contained only `a`.\
-Then, you can remove the first block of 8B and you will et a valid cookie for the username `admin`:
-
+Tunaweza kuona mfano `\x23U\xE45K\xCB\x21\xC8` uliotengenezwa hapo awali na jina la mtumiaji ambalo lilikuwa na `a` pekee.\
+Kisha, unaweza kuondoa kibodi ya kwanza ya 8B na utapata kuki halali kwa jina la mtumiaji `admin`:
 ```
 \xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
+## Kuhamisha vitengo
 
-## Moving blocks
+Katika database nyingi, ni sawa kutafuta `WHERE username='admin';` au `WHERE username='admin    ';` _(Tafadhali kumbuka nafasi za ziada)_
 
-In many databases it is the same to search for `WHERE username='admin';` or for `WHERE username='admin    ';` _(Note the extra spaces)_
+Kwa hivyo, njia nyingine ya kujifanya kuwa mtumiaji `admin` itakuwa:
 
-So, another way to impersonate the user `admin` would be to:
+* Tengeneza jina la mtumiaji ambalo: `len(<username>) + len(<delimiter) % len(block)`. Kwa ukubwa wa vitengo wa `8B` unaweza kutengeneza jina la mtumiaji linaloitwa: `username       `, na kipengee cha kugawanya `|` kipande `<username><delimiter>` kitazalisha vitengo 2 vya 8Bs.
+* Kisha, tengeneza nenosiri ambalo litajaza idadi kamili ya vitengo vinavyo zaweza jina la mtumiaji tunayotaka kujifanya kuwa ni nafasi, kama vile: `admin   `
 
-* Generate a username that: `len(<username>) + len(<delimiter) % len(block)`. With a block size of `8B` you can generate username called: `username       `, with the delimiter `|` the chunk `<username><delimiter>` will generate 2 blocks of 8Bs.
-* Then, generate a password that will fill an exact number of blocks containing the username we want to impersonate and spaces, like: `admin   ` 
+Kidakuzi cha mtumiaji huyu kitajumuisha vitengo 3: vya kwanza 2 ni vitengo vya jina la mtumiaji + kipengee cha kugawanya na cha tatu ni nenosiri (ambalo linajifanya kuwa jina la mtumiaji): `username       |admin   `
 
-The cookie of this user is going to be composed by 3 blocks: the first 2 is the blocks of the username + delimiter and the third one of the password (which is faking the username): `username       |admin   `
+**Kisha, tuweke kipengee cha kwanza na cha mwisho na tutakuwa tunajifanya kuwa mtumiaji `admin`: `admin          |username`**
 
-**Then, just replace the first block with the last time and will be impersonating the user `admin`: `admin          |username`**
-
-## References
+## Marejeo
 
 * [http://cryptowiki.net/index.php?title=Electronic_Code_Book\_(ECB)](http://cryptowiki.net/index.php?title=Electronic_Code_Book_\(ECB\))
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

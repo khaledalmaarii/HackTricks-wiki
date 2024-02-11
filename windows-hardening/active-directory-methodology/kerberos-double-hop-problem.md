@@ -1,109 +1,97 @@
-# Kerberos Double Hop Problem
+# Tatizo la Mara Mbili la Kerberos
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Introduction
+## Utangulizi
 
-The Kerberos "Double Hop" problem appears when an attacker attempts to use **Kerberos authentication across two** **hops**, for example using **PowerShell**/**WinRM**.
+Tatizo la "Mara Mbili" la Kerberos linatokea wakati mshambuliaji anajaribu kutumia **uthibitisho wa Kerberos kupitia hatua mbili**, kwa mfano kwa kutumia **PowerShell**/**WinRM**.
 
-When an **authentication** occurs through **Kerberos**, **credentials** **aren't** cached in **memory.** Therefore, if you run mimikatz you **won't find credentials** of the user in the machine even if he is running processes.
+Wakati **uthibitisho** unapotokea kupitia **Kerberos**, **vyeti** **havihifadhiwi** kwenye **kumbukumbu**. Kwa hiyo, ikiwa unatumia mimikatz hutapata vyeti vya mtumiaji kwenye kompyuta hata kama anatumia michakato.
 
-This is because when connecting with Kerberos these are the steps:
+Hii ni kwa sababu wakati unapojiunganisha na Kerberos hatua zifuatazo hufanyika:
 
-1. User1 provides credentials and **domain controller** returns a Kerberos **TGT** to the User1.
-2. User1 uses **TGT** to request a **service ticket** to **connect** to Server1.
-3. User1 **connects** to **Server1** and provides **service ticket**.
-4. **Server1** **doesn't** have **credentials** of User1 cached or the **TGT** of User1. Therefore, when User1 from Server1 tries to login to a second server, he is **not able to authenticate**.
+1. User1 hutoa vyeti na **kudhibitiwa kwa kikoa** hurudisha **TGT** ya Kerberos kwa User1.
+2. User1 anatumia **TGT** kuomba **cheti cha huduma** ili **kuunganisha** na Server1.
+3. User1 **anaunganisha** na **Server1** na hutoa **cheti cha huduma**.
+4. **Server1** **haina** vyeti vya User1 vilivyohifadhiwa au **TGT** ya User1. Kwa hiyo, wakati User1 kutoka Server1 anajaribu kuingia kwenye seva ya pili, hawezi **kuthibitisha kitambulisho**.
 
-### Unconstrained Delegation
+### Utekelezaji Usiozuiliwa
 
-If **unconstrained delegation** is enabled in the PC, this won't happen as the **Server** will **get** a **TGT** of each user accessing it. Moreover, if unconstrained delegation is used you probably can **compromise the Domain Controller** from it.\
-[**More info in the unconstrained delegation page**](unconstrained-delegation.md).
+Ikiwa **utekelezaji usiozuiliwa** umewezeshwa kwenye PC, hii haitatokea kwani **Seva** itapata **TGT** ya kila mtumiaji anayeiingia. Zaidi ya hayo, ikiwa utekelezaji usiozuiliwa unatumika, labda unaweza **kudhoofisha Kudhibiti Kikoa** kutoka hapo.\
+[**Maelezo zaidi katika ukurasa wa utekelezaji usiozuiliwa**](unconstrained-delegation.md).
 
 ### CredSSP
 
-Another way to avoid this problem which is [**notably insecure**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) is **Credential Security Support Provider**. From Microsoft:
+Njia nyingine ya kuepuka tatizo hili ambayo ni [**hatari sana**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) ni **Mtoa Msaada wa Usalama wa Kitambulisho**. Kutoka kwa Microsoft:
 
-> CredSSP authentication delegates the user credentials from the local computer to a remote computer. This practice increases the security risk of the remote operation. If the remote computer is compromised, when credentials are passed to it, the credentials can be used to control the network session.
+> Uthibitisho wa CredSSP huruhusu uthibitisho wa kitambulisho cha mtumiaji kutoka kwenye kompyuta ya ndani kwenda kwenye kompyuta ya mbali. Mazoea haya huongeza hatari ya usalama ya operesheni ya mbali. Ikiwa kompyuta ya mbali imevamiwa, vyeti vinapopitishwa kwake, vyeti vinaweza kutumika kudhibiti kikao cha mtandao.
 
-It is highly recommended that **CredSSP** be disabled on production systems, sensitive networks, and similar environments due to security concerns. To determine whether **CredSSP** is enabled, the `Get-WSManCredSSP` command can be run. This command allows for the **checking of CredSSP status** and can even be executed remotely, provided **WinRM** is enabled.
-
+Inashauriwa sana kwamba **CredSSP** iwe imelemazwa kwenye mifumo ya uzalishaji, mitandao yenye hisia, na mazingira kama hayo kutokana na wasiwasi wa usalama. Ili kujua ikiwa **CredSSP** imezimwa, amri ya `Get-WSManCredSSP` inaweza kukimbia. Amri hii inaruhusu **uchunguzi wa hali ya CredSSP** na inaweza hata kutekelezwa kwa mbali, ikiwa **WinRM** imezimwa.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
-    Get-WSManCredSSP
+Get-WSManCredSSP
 }
 ```
+## Njia za Kuzunguka
 
-## Workarounds
+### Kuita Amri
 
-### Invoke Command
-
-To address the double hop issue, a method involving a nested `Invoke-Command` is presented. This does not solve the problem directly but offers a workaround without needing special configurations. The approach allows executing a command (`hostname`) on a secondary server through a PowerShell command executed from an initial attacking machine or through a previously established PS-Session with the first server. Here's how it's done:
-
+Ili kushughulikia tatizo la double hop, njia inayohusisha `Invoke-Command` iliyopachikwa imeonyeshwa. Hii haishughulikii tatizo moja kwa moja lakini inatoa njia ya kuzunguka bila kuhitaji mipangilio maalum. Njia hii inaruhusu kutekeleza amri (`hostname`) kwenye seva ya pili kupitia amri ya PowerShell iliyotekelezwa kutoka kwenye kifaa cha kwanza cha kushambulia au kupitia PS-Session iliyowekwa hapo awali na seva ya kwanza. Hapa kuna jinsi ya kufanya hivyo:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
-    Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
+Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
+Kwa upande mwingine, inapendekezwa kuweka PS-Session na server ya kwanza na kukimbia `Invoke-Command` kwa kutumia `$cred` ili kusambaza kazi.
 
-Alternatively, establishing a PS-Session with the first server and running the `Invoke-Command` using `$cred` is suggested for centralizing tasks.
+### Jisajili kwa PSSession Configuration
 
-### Register PSSession Configuration
-
-A solution to bypass the double hop problem involves using `Register-PSSessionConfiguration` with `Enter-PSSession`. This method requires a different approach than `evil-winrm` and allows for a session that does not suffer from the double hop limitation. 
-
+Suluhisho la kuepuka tatizo la double hop linahusisha kutumia `Register-PSSessionConfiguration` na `Enter-PSSession`. Njia hii inahitaji njia tofauti na `evil-winrm` na inaruhusu kikao ambacho hakipatwi na kizuizi cha double hop.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
 Enter-PSSession -ConfigurationName doublehopsess -ComputerName <pc_name> -Credential domain_name\username
 klist
 ```
-
 ### PortForwarding
 
-For local administrators on an intermediary target, port forwarding allows requests to be sent to a final server. Using `netsh`, a rule can be added for port forwarding, alongside a Windows firewall rule to allow the forwarded port. 
-
+Kwa waendeshaji wa ndani kwenye lengo la kati, kuwezesha mbele ya bandari kunaruhusu maombi kutumwa kwa seva ya mwisho. Kwa kutumia `netsh`, sheria inaweza kuongezwa kwa ajili ya kuwezesha mbele ya bandari, pamoja na sheria ya Windows firewall kuruhusu bandari iliyowezeshwa.
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
 ```
-
 #### winrs.exe
 
-`winrs.exe` can be used for forwarding WinRM requests, potentially as a less detectable option if PowerShell monitoring is a concern. The command below demonstrates its use:
-
+`winrs.exe` inaweza kutumika kwa ajili ya kusambaza maombi ya WinRM, ikiwa ni chaguo linaloweza kugundulika kidogo ikiwa ufuatiliaji wa PowerShell ni wasiwasi. Amri ifuatayo inaonyesha matumizi yake:
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
-
 ### OpenSSH
 
-Installing OpenSSH on the first server enables a workaround for the double-hop issue, particularly useful for jump box scenarios. This method requires CLI installation and setup of OpenSSH for Windows. When configured for Password Authentication, this allows the intermediary server to obtain a TGT on behalf of the user.
+Kuweka OpenSSH kwenye seva ya kwanza kunawezesha suluhisho la tatizo la double-hop, hasa linapokuwa na umuhimu katika mazingira ya jump box. Njia hii inahitaji ufungaji na usanidi wa OpenSSH kwa njia ya CLI kwenye Windows. Wakati inapowekwa kwa Uthibitishaji wa Nenosiri, hii inaruhusu seva ya kati kupata TGT kwa niaba ya mtumiaji.
 
-#### OpenSSH Installation Steps
+#### Hatua za Ufungaji wa OpenSSH
 
-1. Download and move the latest OpenSSH release zip to the target server.
-2. Unzip and run the `Install-sshd.ps1` script.
-3. Add a firewall rule to open port 22 and verify SSH services are running.
+1. Pakua na hamisha faili ya hivi karibuni ya OpenSSH kwenye seva ya lengo.
+2. Fungua faili na endesha skripti ya `Install-sshd.ps1`.
+3. Ongeza sheria ya firewall ili kufungua bandari 22 na hakikisha huduma za SSH zinaendesha.
 
-To resolve `Connection reset` errors, permissions might need to be updated to allow everyone read and execute access on the OpenSSH directory.
-
+Ili kutatua makosa ya `Connection reset`, inaweza kuwa ni lazima kusasisha ruhusa ili kuruhusu kila mtu kupata haki ya kusoma na kutekeleza kwenye saraka ya OpenSSH.
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
-
-## References
+## Marejeo
 
 * [https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20](https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20)
 * [https://posts.slayerlabs.com/double-hop/](https://posts.slayerlabs.com/double-hop/)
@@ -112,12 +100,12 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -1,107 +1,105 @@
-# macOS System Extensions
+# Vifaa vya Mfumo wa macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## System Extensions / Endpoint Security Framework
+## Vifaa vya Mfumo / Kitambulisho cha Mwisho cha Usalama
 
-Unlike Kernel Extensions, **System Extensions run in user space** instead of kernel space, reducing the risk of a system crash due to extension malfunction.
+Tofauti na Vifaa vya Kernel, **Vifaa vya Mfumo hufanya kazi katika nafasi ya mtumiaji** badala ya nafasi ya kernel, kupunguza hatari ya kushindwa kwa mfumo kutokana na kosa la kifaa cha nyongeza.
 
 <figure><img src="../../../.gitbook/assets/image (1) (3) (1) (1).png" alt="https://knight.sc/images/system-extension-internals-1.png"><figcaption></figcaption></figure>
 
-There are three types of system extensions: **DriverKit** Extensions, **Network** Extensions, and **Endpoint Security** Extensions.
+Kuna aina tatu za vifaa vya mfumo: Vifaa vya Kitambulisho cha Dereva, Vifaa vya Mtandao, na Vifaa vya Kitambulisho cha Mwisho.
 
-### **DriverKit Extensions**
+### **Vifaa vya Kitambulisho cha Dereva**
 
-DriverKit is a replacement for kernel extensions that **provide hardware support**. It allows device drivers (like USB, Serial, NIC, and HID drivers) to run in user space rather than kernel space. The DriverKit framework includes **user space versions of certain I/O Kit classes**, and the kernel forwards normal I/O Kit events to user space, offering a safer environment for these drivers to run.
+Kitambulisho cha Dereva ni mbadala wa vifaa vya kernel ambavyo **hutoa msaada wa vifaa**. Inaruhusu madereva ya kifaa (kama vile USB, Serial, NIC, na madereva ya HID) kukimbia katika nafasi ya mtumiaji badala ya nafasi ya kernel. Kitambulisho cha Dereva kinajumuisha **toleo la nafasi ya mtumiaji la darasa fulani za I/O Kit**, na kernel inapeleka matukio ya kawaida ya I/O Kit kwa nafasi ya mtumiaji, kutoa mazingira salama zaidi kwa madereva haya kukimbia.
 
-### **Network Extensions**
+### **Vifaa vya Mtandao**
 
-Network Extensions provide the ability to customize network behaviors. There are several types of Network Extensions:
+Vifaa vya Mtandao hutoa uwezo wa kubinafsisha tabia za mtandao. Kuna aina kadhaa za Vifaa vya Mtandao:
 
-* **App Proxy**: This is used for creating a VPN client that implements a flow-oriented, custom VPN protocol. This means it handles network traffic based on connections (or flows) rather than individual packets.
-* **Packet Tunnel**: This is used for creating a VPN client that implements a packet-oriented, custom VPN protocol. This means it handles network traffic based on individual packets.
-* **Filter Data**: This is used for filtering network "flows". It can monitor or modify network data at the flow level.
-* **Filter Packet**: This is used for filtering individual network packets. It can monitor or modify network data at the packet level.
-* **DNS Proxy**: This is used for creating a custom DNS provider. It can be used to monitor or modify DNS requests and responses.
+* **App Proxy**: Hii hutumiwa kuunda mteja wa VPN ambao unatekeleza itifaki ya VPN ya desturi inayotegemea mtiririko. Hii inamaanisha inashughulikia trafiki ya mtandao kulingana na uhusiano (au mtiririko) badala ya pakiti binafsi.
+* **Packet Tunnel**: Hii hutumiwa kuunda mteja wa VPN ambao unatekeleza itifaki ya VPN ya desturi inayotegemea pakiti binafsi. Hii inamaanisha inashughulikia trafiki ya mtandao kulingana na pakiti binafsi.
+* **Filter Data**: Hii hutumiwa kufanya uchujaji wa "mtiririko" wa mtandao. Inaweza kufuatilia au kurekebisha data ya mtandao kwa kiwango cha mtiririko.
+* **Filter Packet**: Hii hutumiwa kufanya uchujaji wa pakiti binafsi za mtandao. Inaweza kufuatilia au kurekebisha data ya mtandao kwa kiwango cha pakiti binafsi.
+* **DNS Proxy**: Hii hutumiwa kuunda mtoa huduma wa DNS ya desturi. Inaweza kutumika kufuatilia au kurekebisha maombi na majibu ya DNS.
 
-## Endpoint Security Framework
+## Kitambulisho cha Mwisho cha Usalama
 
-Endpoint Security is a framework provided by Apple in macOS that provides a set of APIs for system security. It's intended for use by **security vendors and developers to build products that can monitor and control system activity** to identify and protect against malicious activity.
+Kitambulisho cha Mwisho ni mfumo uliotolewa na Apple kwenye macOS ambao hutoa seti ya APIs kwa usalama wa mfumo. Inalenga kutumiwa na **wauzaji wa usalama na watengenezaji** kujenga bidhaa ambazo zinaweza kufuatilia na kudhibiti shughuli za mfumo ili kutambua na kulinda dhidi ya shughuli za uovu.
 
-This framework provides a **collection of APIs to monitor and control system activity**, such as process executions, file system events, network and kernel events.
+Mfumo huu hutoa **mkusanyiko wa APIs kufuatilia na kudhibiti shughuli za mfumo**, kama vile utekelezaji wa michakato, matukio ya mfumo wa faili, matukio ya mtandao na kernel.
 
-The core of this framework is implemented in the kernel, as a Kernel Extension (KEXT) located at **`/System/Library/Extensions/EndpointSecurity.kext`**. This KEXT is made up of several key components:
+Muhimu wa mfumo huu umetekelezwa katika kernel, kama Kifaa cha Kernel (KEXT) kilichoko katika **`/System/Library/Extensions/EndpointSecurity.kext`**. KEXT hii inajumuisha sehemu kadhaa muhimu:
 
-* **EndpointSecurityDriver**: This acts as the "entry point" for the kernel extension. It's the main point of interaction between the OS and the Endpoint Security framework.
-* **EndpointSecurityEventManager**: This component is responsible for implementing kernel hooks. Kernel hooks allow the framework to monitor system events by intercepting system calls.
-* **EndpointSecurityClientManager**: This manages the communication with user space clients, keeping track of which clients are connected and need to receive event notifications.
-* **EndpointSecurityMessageManager**: This sends messages and event notifications to user space clients.
+* **EndpointSecurityDriver**: Hii hufanya kama "njia ya kuingia" kwa kifaa cha kernel. Ni sehemu kuu ya mwingiliano kati ya OS na mfumo wa Kitambulisho cha Mwisho.
+* **EndpointSecurityEventManager**: Sehemu hii inahusika na utekelezaji wa kanzu za kernel. Kanzu za kernel huruhusu mfumo wa kufuatilia matukio ya mfumo kwa kuingilia wito wa mfumo.
+* **EndpointSecurityClientManager**: Hii inasimamia mawasiliano na wateja wa nafasi ya mtumiaji, ikifuatilia wateja wapi wameunganishwa na wanahitaji kupokea arifa za matukio.
+* **EndpointSecurityMessageManager**: Hii inatuma ujumbe na arifa za matukio kwa wateja wa nafasi ya mtumiaji.
 
-The events that the Endpoint Security framework can monitor are categorized into:
+Matukio ambayo mfumo wa Kitambulisho cha Mwisho unaweza kufuatilia yamegawanywa katika makundi yafuatayo:
 
-* File events
-* Process events
-* Socket events
-* Kernel events (such as loading/unloading a kernel extension or opening an I/O Kit device)
+* Matukio ya faili
+* Matukio ya michakato
+* Matukio ya soketi
+* Matukio ya kernel (kama vile kupakia/kufuta kifaa cha kernel au kufungua kifaa cha I/O Kit)
 
-### Endpoint Security Framework Architecture
+### Muundo wa Kitambulisho cha Mwisho cha Usalama
 
 <figure><img src="../../../.gitbook/assets/image (3) (8).png" alt="https://www.youtube.com/watch?v=jaVkpM1UqOs"><figcaption></figcaption></figure>
 
-**User-space communication** with the Endpoint Security framework happens through the IOUserClient class. Two different subclasses are used, depending on the type of caller:
+Mawasiliano ya **nafasi ya mtumiaji** na mfumo wa Kitambulisho cha Mwisho hufanyika kupitia darasa la IOUserClient. Darasa mbili tofauti hutumiwa, kulingana na aina ya mtumiaji:
 
-* **EndpointSecurityDriverClient**: This requires the `com.apple.private.endpoint-security.manager` entitlement, which is only held by the system process `endpointsecurityd`.
-* **EndpointSecurityExternalClient**: This requires the `com.apple.developer.endpoint-security.client` entitlement. This would typically be used by third-party security software that needs to interact with the Endpoint Security framework.
+* **EndpointSecurityDriverClient**: Hii inahitaji ruhusa ya `com.apple.private.endpoint-security.manager`, ambayo inashikiliwa tu na mchakato wa mfumo `endpointsecurityd`.
+* **EndpointSecurityExternalClient**: Hii inahitaji ruhusa ya `com.apple.developer.endpoint-security.client`. Kawaida hutumiwa na programu ya usalama ya mtu wa tatu ambayo inahitaji kuingiliana na mfumo wa Kitambulisho cha Mwisho.
 
-The Endpoint Security Extensions:**`libEndpointSecurity.dylib`** is the C library that system extensions use to communicate with the kernel. This library uses the I/O Kit (`IOKit`) to communicate with the Endpoint Security KEXT.
+Vifaa vya Kitambulisho cha Mwisho:**`libEndpointSecurity.dylib`** ni maktaba ya C ambayo vifaa vya mfumo hutumia kuwasiliana na kernel. Maktaba hii hutumia I/O Kit (`IOKit`) kuwasiliana na KEXT ya Kitambulisho cha Mwisho.
 
-**`endpointsecurityd`** is a key system daemon involved in managing and launching endpoint security system extensions, particularly during the early boot process. **Only system extensions** marked with **`NSEndpointSecurityEarlyBoot`** in their `Info.plist` file receive this early boot treatment.
+**`endpointsecurityd`** ni daemani muhimu wa mfumo unahusika katika kusimamia na kuzindua vifaa vya mfumo vya usalama wa mwisho, haswa wakati wa mchakato wa kuanza kwa mfumo. **Vifaa vya mfumo tu** vilivyotambuliwa na **`NSEndpointSecurityEarlyBoot`** katika faili yao ya `Info.plist` hupokea matibabu haya ya kuanza kwa mfumo.
 
-Another system daemon, **`sysextd`**, **validates system extensions** and moves them into the proper system locations. It then asks the relevant daemon to load the extension. The **`SystemExtensions.framework`** is responsible for activating and deactivating system extensions.
+Daemani mwingine wa mfumo, **`sysextd`**, **huthibitisha vifaa vya mfumo** na kuvipeleka kwenye maeneo sahihi ya mfumo. Kisha inaomba daemani husika kupakia kifaa cha nyongeza. **`SystemExtensions.framework`** inahusika na kuamsha na kuzima vifaa vya mfumo.
 
-## Bypassing ESF
+## Kuvuka ESF
 
-ESF is used by security tools that will try to detect a red teamer, so any information about how this could be avoided sounds interesting.
+ESF hutumiwa na zana za usalama ambazo zitajaribu kugundua timu nyekundu, kwa hivyo habari yoyote kuhusu jinsi hii inaweza kuepukwa inaonekana kuwa ya kuvutia.
 
 ### CVE-2021-30965
 
-The thing is that the security application needs to have **Full Disk Access permissions**. So if an attacker could remove that, he could prevent the software from running:
-
+Jambo ni kwamba programu ya usalama inahitaji kuwa na **Ruhusa ya Kupata Diski Kamili**. Kwa hivyo ikiwa mshambuliaji anaweza kuiondoa, anaweza kuzuia programu hiyo isifanye kazi:
 ```bash
 tccutil reset All
 ```
+Kwa **mashauri zaidi** kuhusu kosa hili na mengine yanayohusiana nayo, angalia mazungumzo [#OBTS v5.0: "The Achilles Heel of EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
 
-For **more information** about this bypass and related ones check the talk [#OBTS v5.0: "The Achilles Heel of EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
+Mwishowe, hili lilirekebishwa kwa kutoa idhini mpya ya **`kTCCServiceEndpointSecurityClient`** kwa programu ya usalama iliyoongozwa na **`tccd`** ili `tccutil` isisafishe idhini zake na kuzuia programu hiyo isifanye kazi.
 
-At the end this was fixed by giving the new permission **`kTCCServiceEndpointSecurityClient`** to the security app managed by **`tccd`** so `tccutil` won't clear its permissions preventing it from running.
-
-## References
+## Marejeo
 
 * [**OBTS v3.0: "Endpoint Security & Insecurity" - Scott Knight**](https://www.youtube.com/watch?v=jaVkpM1UqOs)
 * [**https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html**](https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

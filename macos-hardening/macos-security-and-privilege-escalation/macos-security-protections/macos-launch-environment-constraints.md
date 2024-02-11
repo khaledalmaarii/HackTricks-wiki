@@ -1,104 +1,100 @@
-# macOS Launch/Environment Constraints & Trust Cache
+# Vizuizi vya Kuzindua/Mazingira ya macOS & Cache ya Imani
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
 *
 * .
 
 </details>
 
-## Basic Information
+## Taarifa Msingi
 
-Launch constraints in macOS were introduced to enhance security by **regulating how, who, and from where a process can be initiated**. Initiated in macOS Ventura, they provide a framework that categorizes **each system binary into distinct constraint categories**, which are defined within the **trust cache**, a list containing system binaries and their respective hashes​. These constraints extend to every executable binary within the system, entailing a set of **rules** delineating the requirements for **launching a particular binary**. The rules encompass self constraints that a binary must satisfy, parent constraints required to be met by its parent process, and responsible constraints to be adhered to by other relevant entities​.
+Vizuizi vya kuzindua katika macOS vilianzishwa ili kuimarisha usalama kwa **kudhibiti jinsi, nani, na kutoka wapi mchakato unaweza kuanzishwa**. Ilianzishwa katika macOS Ventura, hutoa mfumo ambao unagawa **kila faili ya mfumo katika makundi tofauti ya vizuizi**, ambavyo vimefafanuliwa ndani ya **cache ya imani**, orodha inayojumuisha faili za mfumo na hash zao husika. Vizuizi hivi vinahusisha kila faili ya kutekelezwa ndani ya mfumo, na kuhusisha seti ya **kanuni** zinazoelezea mahitaji ya **kuzindua faili fulani**. Kanuni hizi zinajumuisha vizuizi vya ndani ambavyo faili ya kutekelezwa lazima itimize, vizuizi vya mzazi vinavyohitajika kutimizwa na mchakato wake mzazi, na vizuizi vya jukumu vinavyopaswa kuzingatiwa na vyombo vingine vinavyohusika.
 
-The mechanism extends to third-party apps through **Environment Constraints**, beginning from macOS Sonoma, allowing developers to protect their apps by specifying a **set of keys and values for environment constraints.**
+Mfumo huu unahusisha programu za watu wa tatu kupitia **Vizuizi vya Mazingira**, kuanzia macOS Sonoma, kuruhusu watengenezaji kulinda programu zao kwa kutoa **seti ya funguo na thamani kwa vizuizi vya mazingira**.
 
-You define **launch environment and library constraints** in constraint dictionaries that you either save in **`launchd` property list files**, or in **separate property list** files that you use in code signing.
+Unafafanua **vizuizi vya kuzindua mazingira na maktaba** katika kamusi za vizuizi ambazo unahifadhi katika faili za **orodha ya mali ya `launchd`**, au katika **faili tofauti za orodha ya mali** ambazo unatumia katika kusaini kanuni.
 
-There are 4 types of constraints:
+Kuna aina 4 za vizuizi:
 
-* **Self Constraints**: Constrains applied to the **running** binary.
-* **Parent Process**: Constraints applied to the **parent of the process** (for example **`launchd`** running a XP service)
-* **Responsible Constraints**: Constraints applied to the **process calling the service** in a XPC communication
-* **Library load constraints**: Use library load constraints to selectively describe code that can be loaded
+* **Vizuizi vya Ndani**: Vizuizi vinavyotumika kwa faili ya kutekelezwa **inayotumika**.
+* **Mchakato wa Mzazi**: Vizuizi vinavyotumika kwa **mzazi wa mchakato** (kwa mfano **`launchd`** inayotekeleza huduma ya XP)
+* **Vizuizi vya Jukumu**: Vizuizi vinavyotumika kwa **mchakato unaotumia huduma** katika mawasiliano ya XPC
+* **Vizuizi vya Kupakia Maktaba**: Tumia vizuizi vya kupakia maktaba kuelezea sehemu za kanuni ambazo zinaweza kupakiwa
 
-So when a process tries to launch another process — by calling `execve(_:_:_:)` or `posix_spawn(_:_:_:_:_:_:)` — the operating system checks that the **executable** file **satisfies** its **own self constraint**. It also checks that the **parent** **process’s** executable **satisfies** the executable’s **parent constraint**, and that the **responsible** **process’s** executable **satisfies the executable’s responsible process constrain**t. If any of these launch constraints aren’t satisfied, the operating system doesn’t run the program.
+Kwa hivyo, wakati mchakato unajaribu kuzindua mchakato mwingine - kwa kuita `execve(_:_:_:)` au `posix_spawn(_:_:_:_:_:_:)` - mfumo wa uendeshaji unakagua kwamba **faili ya kutekelezwa** inatimiza **vizuizi vyake vya ndani**. Pia unakagua kwamba **faili ya kutekelezwa ya mchakato wa mzazi** inatimiza **vizuizi vya mzazi** vya faili ya kutekelezwa, na kwamba **faili ya kutekelezwa ya mchakato wa jukumu** inatimiza **vizuizi vya jukumu** vya faili ya kutekelezwa. Ikiwa vizuizi vyovyote vya kuzindua havikutimizwa, mfumo wa uendeshaji hautazindua programu.
 
-If when loading a library any part of the **library constraint isn’t true**, your process **doesn’t load** the library.
+Ikiwa wakati wa kupakia maktaba sehemu yoyote ya **vizuizi vya maktaba sio kweli**, mchakato wako **haupaki** maktaba.
 
-## LC Categories
+## Jamii za LC
 
-A LC as composed by **facts** and **logical operations** (and, or..) that combines facts.
+LC inajumuisha **ukweli** na **shughuli za mantiki** (na, au..) ambazo zinaunganisha ukweli.
 
-The[ **facts that a LC can use are documented**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). For example:
+[**Ukweli ambao LC inaweza kutumia umedokumentiwa**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Kwa mfano:
 
-* is-init-proc: A Boolean value that indicates whether the executable must be the operating system’s initialization process (`launchd`).
-* is-sip-protected: A Boolean value that indicates whether the executable must be a file protected by System Integrity Protection (SIP).
-* `on-authorized-authapfs-volume:` A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
-* `on-authorized-authapfs-volume`: A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
-  * Cryptexes volume
-* `on-system-volume:`A Boolean value that indicates whether the operating system loaded the executable from the currently-booted system volume.
-  * Inside /System...
+* is-init-proc: Thamani ya Boolean inayoonyesha ikiwa faili ya kutekelezwa lazima iwe mchakato wa kuanzisha wa mfumo wa uendeshaji (`launchd`).
+* is-sip-protected: Thamani ya Boolean inayoonyesha ikiwa faili ya kutekelezwa lazima iwe faili iliyolindwa na Usalama wa Uadilifu wa Mfumo (SIP).
+* `on-authorized-authapfs-volume:` Thamani ya Boolean inayoonyesha ikiwa mfumo wa uendeshaji umepakia faili ya kutekelezwa kutoka kwenye kizio cha APFS kilichoidhinishwa na kuthibitishwa.
+* `on-authorized-authapfs-volume`: Thamani ya Boolean inayoonyesha ikiwa mfumo wa uendeshaji umepakia faili ya kutekelezwa kutoka kwenye kizio cha APFS kilichoidhinishwa na kuthibitishwa.
+* Kizio cha Cryptexes
+* `on-system-volume:` Thamani ya Boolean inayoonyesha ikiwa mfumo wa uendeshaji umepakia faili ya kutekelezwa kutoka kwenye kizio cha mfumo kinachotumiwa kwa sasa.
+* Ndani ya /System...
 * ...
 
-When an Apple binary is signed it **assigns it to a LC category** inside the **trust cache**.
+Wakati faili ya Apple inaposainiwa, **inahusishwa na jamii ya LC** ndani ya **cache ya imani**.
 
-* **iOS 16 LC categories** were [**reversed and documented in here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
-* Current **LC categories (macOS 14** - Somona) have been reversed and their [**descriptions can be found here**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
+* **Jamii za LC za iOS 16** zilikuwa [**zimegeuzwa na kudokumentiwa hapa**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
+* **Jamii za LC za sasa (macOS 14** - Somona) zimegeuzwa na [**maelezo yao yanaweza kupatikana hapa**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
 
-For example Category 1 is:
-
+Kwa mfano, Jamii 1 ni:
 ```
 Category 1:
-        Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
-        Parent Constraint: is-init-proc
+Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
+Parent Constraint: is-init-proc
 ```
-
-* `(on-authorized-authapfs-volume || on-system-volume)`: Must be in System or Cryptexes volume.
-* `launch-type == 1`: Must be a system service (plist in LaunchDaemons).
-* `validation-category == 1`: An operating system executable.
+* `(on-authorized-authapfs-volume || on-system-volume)`: Lazima iwe kwenye kizio cha Mfumo au Cryptexes.
+* `launch-type == 1`: Lazima iwe huduma ya mfumo (plist katika LaunchDaemons).
+* `validation-category == 1`: Programu inayoweza kutekelezwa ya mfumo wa uendeshaji.
 * `is-init-proc`: Launchd
 
-### Reversing LC Categories
+### Kurejesha LC Jamii
 
-You have more information [**about it in here**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), but basically, They are defined in **AMFI (AppleMobileFileIntegrity)**, so you need to download the Kernel Development Kit to get the **KEXT**. The symbols starting with **`kConstraintCategory`** are the **interesting** ones. Extracting them you will get a DER (ASN.1) encoded stream that you will need to decode with [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) or the python-asn1 library and its `dump.py` script, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) which will give you a more understandable string.
+Una habari zaidi [**kuihusu hapa**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), lakini kimsingi, zinatambuliwa katika **AMFI (AppleMobileFileIntegrity)**, kwa hivyo unahitaji kupakua Kituo cha Maendeleo cha Kernel ili kupata **KEXT**. Alama zinazoanza na **`kConstraintCategory`** ndizo zinazovutia. Kwa kuzitoa, utapata mkondo ulioandikwa kwa DER (ASN.1) ambao utahitaji kudekodeza na [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) au maktaba ya python-asn1 na skripti yake ya `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) ambayo itakupa herufi inayoeleweka zaidi.
 
-## Environment Constraints
+## Vizuizi vya Mazingira
 
-These are the Launch Constraints set configured in **third party applications**. The developer can select the **facts** and **logical operands to use** in his application to restrict the access to itself.
+Hizi ni Vizuizi vya Mazingira vilivyowekwa katika **programu za watu wengine**. Mwandishi wa programu anaweza kuchagua **ukweli** na **masharti ya mantiki** ya kutumia katika programu yake ili kuzuia ufikiaji kwake.
 
-It's possible to enumerate the Environment Constraints of an application with:
-
+Inawezekana kuorodhesha Vizuizi vya Mazingira ya programu na:
 ```bash
 codesign -d -vvvv app.app
 ```
+## Hifadhidata za Uaminifu
 
-## Trust Caches
-
-In **macOS** there are a few trust caches:
+Katika **macOS** kuna hifadhidata chache za uaminifu:
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
 * **`/System/Library/Security/OSLaunchPolicyData`**
 
-And in iOS it looks like it's in **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
+Na katika iOS inaonekana iko katika **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
 
 {% hint style="warning" %}
-On macOS running on Apple Silicon devices, if an Apple signed binary is not in the trust cache, AMFI will refuse to load it.
+Katika macOS inayotumia vifaa vya Apple Silicon, ikiwa faili iliyosainiwa na Apple haipo katika hifadhidata ya uaminifu, AMFI itakataa kuiweka.
 {% endhint %}
 
-### Enumerating Trust Caches
+### Kuhesabu Hifadhidata za Uaminifu
 
-The previous trust cache files are in format **IMG4** and **IM4P**, being IM4P the payload section of a IMG4 format.
+Faili za hifadhidata za uaminifu zilizotajwa hapo awali zina muundo wa **IMG4** na **IM4P**, huku IM4P ikiwa sehemu ya mzigo wa muundo wa IMG4.
 
-You can use [**pyimg4**](https://github.com/m1stadev/PyIMG4) to extract the payload of databases:
+Unaweza kutumia [**pyimg4**](https://github.com/m1stadev/PyIMG4) ili kuchambua mzigo wa hifadhidata:
 
 {% code overflow="wrap" %}
 ```bash
@@ -118,10 +114,9 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(Another option could be to use the tool [**img4tool**](https://github.com/tihmstar/img4tool), which will run even in M1 even if the release is old and for x86\_64 if you install it in the proper locations).
+(Chaguo lingine linaweza kuwa kutumia zana [**img4tool**](https://github.com/tihmstar/img4tool), ambayo itafanya kazi hata kwenye M1 hata kama toleo ni la zamani na kwa x86\_64 ikiwa utaifunga kwenye maeneo sahihi).
 
-Now you can use the tool [**trustcache**](https://github.com/CRKatri/trustcache) to get the information in a readable format:
-
+Sasa unaweza kutumia zana [**trustcache**](https://github.com/CRKatri/trustcache) ili kupata habari kwa muundo unaoweza kusomwa:
 ```bash
 # Install
 wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
@@ -145,46 +140,43 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
-
-The trust cache follows the following structure, so The **LC category is the 4th column**
-
+Hifadhidata ya imani inafuata muundo ufuatao, kwa hivyo **Jamii ya LC ni safu ya 4**
 ```c
 struct trust_cache_entry2 {
-	uint8_t cdhash[CS_CDHASH_LEN];
-	uint8_t hash_type;
-	uint8_t flags;
-	uint8_t constraintCategory;
-	uint8_t reserved0;
+uint8_t cdhash[CS_CDHASH_LEN];
+uint8_t hash_type;
+uint8_t flags;
+uint8_t constraintCategory;
+uint8_t reserved0;
 } __attribute__((__packed__));
 ```
+Kisha, unaweza kutumia script kama [**hii**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) ili kuchambua data.
 
-Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
+Kutoka kwenye data hiyo, unaweza kuangalia Apps na **thamani ya vikwazo vya uzinduzi ya `0`**, ambazo ni zile ambazo hazina vikwazo ([**angalia hapa**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) kwa maelezo ya kila thamani).
 
-From that data you can check the Apps with a **launch constraints value of `0`** , which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
+## Kinga za Mashambulizi
 
-## Attack Mitigations
+Vikwazo vya Uzinduzi vingeweza kuzuia mashambulizi kadhaa ya zamani kwa **kufanya uhakika kwamba mchakato hautatekelezwa katika hali zisizotarajiwa:** Kwa mfano kutoka kwenye maeneo yasiyotarajiwa au kuitwa na mchakato wa mzazi usiotarajiwa (ikiwa ni launchd pekee inapaswa kuizindua)
 
-Launch Constrains would have mitigated several old attacks by **making sure that the process won't be executed in unexpected conditions:** For example from unexpected locations or being invoked by an unexpected parent process (if only launchd should be launching it)
+Zaidi ya hayo, Vikwazo vya Uzinduzi pia **vinazuia mashambulizi ya kushusha kiwango.**
 
-Moreover, Launch Constraints also **mitigates downgrade attacks.**
+Hata hivyo, havizuizi matumizi mabaya ya XPC, uingizaji wa kanuni za Electron au uingizaji wa dylib bila uthibitisho wa maktaba (isipokuwa kitambulisho cha timu ambazo zinaweza kupakia maktaba kinajulikana).
 
-However, they **don't mitigate common XPC** abuses, **Electron** code injections or **dylib injections** without library validation (unless the team IDs that can load libraries are known).
+### Kinga ya XPC Daemon
 
-### XPC Daemon Protection
+Katika toleo la Sonoma, jambo muhimu ni **mpangilio wa jukumu** la huduma ya XPC daemon. Huduma ya XPC inawajibika kwa ajili yake, tofauti na mteja anayehusika. Hii imeandikwa katika ripoti ya maoni FB13206884. Mpangilio huu unaweza kuonekana kuwa na kasoro, kwani inaruhusu mwingiliano fulani na huduma ya XPC:
 
-In the Sonoma release, a notable point is the daemon XPC service's **responsibility configuration**. The XPC service is accountable for itself, as opposed to the connecting client being responsible. This is documented in the feedback report FB13206884. This setup might seem flawed, as it allows certain interactions with the XPC service:
+- **Kuzindua Huduma ya XPC**: Ikiwa inachukuliwa kuwa ni kasoro, mpangilio huu haumruhusu kuanzisha huduma ya XPC kupitia kanuni ya mshambuliaji.
+- **Kuunganisha kwenye Huduma Iliyopo**: Ikiwa huduma ya XPC tayari inaendeshwa (labda imeamilishwa na programu yake ya awali), hakuna vizuizi vya kuunganisha nayo.
 
-- **Launching the XPC Service**: If assumed to be a bug, this setup does not permit initiating the XPC service through attacker code.
-- **Connecting to an Active Service**: If the XPC service is already running (possibly activated by its original application), there are no barriers to connecting to it.
-
-While implementing constraints on the XPC service might be beneficial by **narrowing the window for potential attacks**, it doesn't address the primary concern. Ensuring the security of the XPC service fundamentally requires **validating the connecting client effectively**. This remains the sole method to fortify the service's security. Also, it's worth noting that the mentioned responsibility configuration is currently operational, which might not align with the intended design.
+Ingawa kuweka vikwazo kwenye huduma ya XPC kunaweza kuwa na manufaa kwa **kupunguza fursa za mashambulizi**, haitatua wasiwasi kuu. Kuhakikisha usalama wa huduma ya XPC kimsingi kunahitaji **uthibitisho wa mteja anayeunganisha kwa ufanisi**. Hii ndiyo njia pekee ya kuimarisha usalama wa huduma hiyo. Pia, ni muhimu kutambua kuwa mpangilio wa jukumu uliotajwa unatumika kwa sasa, ambao huenda usilingane na muundo uliokusudiwa.
 
 
-### Electron Protection
+### Kinga ya Electron
 
-Even if it's required that the application has to be **opened by LaunchService** (in the parents constraints). This can be achieved using **`open`** (which can set env variables) or using the **Launch Services API** (where env variables can be indicated).
+Hata kama inahitajika kwamba programu lazima **izinduliwe na LaunchService** (katika vikwazo vya wazazi). Hii inaweza kufanikishwa kwa kutumia **`open`** (ambayo inaweza kuweka mazingira ya mazingira) au kutumia **API ya Huduma za Uzinduzi** (ambapo mazingira ya mazingira yanaweza kuonyeshwa).
 
-## References
+## Marejeo
 
 * [https://youtu.be/f1HA5QhLQ7Y?t=24146](https://youtu.be/f1HA5QhLQ7Y?t=24146)
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
@@ -193,13 +185,13 @@ Even if it's required that the application has to be **opened by LaunchService**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikitangazwa katika HackTricks**? Au ungependa kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
 *
 * .
 

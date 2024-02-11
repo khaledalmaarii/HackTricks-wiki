@@ -2,86 +2,81 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? au ungependa kupata ufikiaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-### User Identification Variables
+### Vitambulisho vya Utambuzi wa Mtumiaji
 
-- **`ruid`**: The **real user ID** denotes the user who initiated the process.
-- **`euid`**: Known as the **effective user ID**, it represents the user identity utilized by the system to ascertain process privileges. Generally, `euid` mirrors `ruid`, barring instances like a SetUID binary execution, where `euid` assumes the file owner's identity, thus granting specific operational permissions.
-- **`suid`**: This **saved user ID** is pivotal when a high-privilege process (typically running as root) needs to temporarily relinquish its privileges to perform certain tasks, only to later reclaim its initial elevated status.
+- **`ruid`**: Kitambulisho cha mtumiaji halisi kinawakilisha mtumiaji ambaye alianzisha mchakato.
+- **`euid`**: Inajulikana kama kitambulisho cha mtumiaji kinachofaa, inawakilisha kitambulisho cha mtumiaji kinachotumiwa na mfumo kuthibitisha mamlaka ya mchakato. Kwa ujumla, `euid` inafanana na `ruid`, isipokuwa katika hali kama utekelezaji wa faili ya SetUID, ambapo `euid` inachukua kitambulisho cha mmiliki wa faili, hivyo kutoa ruhusa maalum za uendeshaji.
+- **`suid`**: Kitambulisho hiki cha mtumiaji kilichohifadhiwa ni muhimu wakati mchakato wenye mamlaka ya juu (kawaida unakimbia kama root) unahitaji kwa muda kutoa mamlaka yake ya juu ili kutekeleza kazi fulani, kisha baadaye kurudisha hadhi yake ya awali iliyoinuliwa.
 
-#### Important Note
-A process not operating under root can only modify its `euid` to match the current `ruid`, `euid`, or `suid`.
+#### Taarifa muhimu
+Mchakato usiofanya kazi chini ya root unaweza kubadilisha tu `euid` yake ili ifanane na `ruid`, `euid`, au `suid` ya sasa.
 
-### Understanding set*uid Functions
+### Kuelewa Kazi za set*uid
 
-- **`setuid`**: Contrary to initial assumptions, `setuid` primarily modifies `euid` rather than `ruid`. Specifically, for privileged processes, it aligns `ruid`, `euid`, and `suid` with the specified user, often root, effectively solidifying these IDs due to the overriding `suid`. Detailed insights can be found in the [setuid man page](https://man7.org/linux/man-pages/man2/setuid.2.html).
-- **`setreuid`** and **`setresuid`**: These functions allow for the nuanced adjustment of `ruid`, `euid`, and `suid`. However, their capabilities are contingent on the process's privilege level. For non-root processes, modifications are restricted to the current values of `ruid`, `euid`, and `suid`. In contrast, root processes or those with `CAP_SETUID` capability can assign arbitrary values to these IDs. More information can be gleaned from the [setresuid man page](https://man7.org/linux/man-pages/man2/setresuid.2.html) and the [setreuid man page](https://man7.org/linux/man-pages/man2/setreuid.2.html).
+- **`setuid`**: Kinyume na dhana za awali, `setuid` kimsingi hubadilisha `euid` badala ya `ruid`. Hasa, kwa michakato yenye mamlaka, inalinganisha `ruid`, `euid`, na `suid` na mtumiaji aliyetajwa, mara nyingi root, kwa ufanisi kufanya vitambulisho hivi kuwa thabiti kutokana na `suid` inayobadilisha. Maelezo zaidi yanaweza kupatikana kwenye [ukurasa wa man wa setuid](https://man7.org/linux/man-pages/man2/setuid.2.html).
+- **`setreuid`** na **`setresuid`**: Hizi ni kazi zinazoruhusu marekebisho ya kina ya `ruid`, `euid`, na `suid`. Walakini, uwezo wao unategemea kiwango cha mamlaka ya mchakato. Kwa michakato isiyokuwa ya root, marekebisho yanazuiliwa kwa thamani za sasa za `ruid`, `euid`, na `suid`. Kwa upande mwingine, michakato ya root au ile yenye uwezo wa `CAP_SETUID` inaweza kutoa thamani za kiholela kwa vitambulisho hivi. Taarifa zaidi inaweza kupatikana kwenye [ukurasa wa man wa setresuid](https://man7.org/linux/man-pages/man2/setresuid.2.html) na [ukurasa wa man wa setreuid](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
-These functionalities are designed not as a security mechanism but to facilitate the intended operational flow, such as when a program adopts another user's identity by altering its effective user ID.
+Hizi ni huduma zilizoundwa sio kama kifaa cha usalama lakini kusaidia mchakato wa uendeshaji uliokusudiwa, kama wakati programu inachukua kitambulisho cha mtumiaji mwingine kwa kubadilisha kitambulisho chake cha mtumiaji kinachofaa.
 
-Notably, while `setuid` might be a common go-to for privilege elevation to root (since it aligns all IDs to root), differentiating between these functions is crucial for understanding and manipulating user ID behaviors in varying scenarios.
+Ni muhimu kutambua kwamba wakati `setuid` inaweza kuwa chaguo la kawaida kwa kuinua mamlaka hadi root (kwa kuwa inalinganisha vitambulisho vyote na root), kutofautisha kati ya huduma hizi ni muhimu kwa kuelewa na kudhibiti tabia za vitambulisho vya mtumiaji katika hali tofauti.
 
-### Program Execution Mechanisms in Linux
+### Mbinu za Utekelezaji wa Programu katika Linux
 
-#### **`execve` System Call**
-- **Functionality**: `execve` initiates a program, determined by the first argument. It takes two array arguments, `argv` for arguments and `envp` for the environment.
-- **Behavior**: It retains the memory space of the caller but refreshes the stack, heap, and data segments. The program's code is replaced by the new program.
-- **User ID Preservation**:
-  - `ruid`, `euid`, and supplementary group IDs remain unaltered.
-  - `euid` might have nuanced changes if the new program has the SetUID bit set.
-  - `suid` gets updated from `euid` post-execution.
-- **Documentation**: Detailed information can be found on the [`execve` man page](https://man7.org/linux/man-pages/man2/execve.2.html).
+#### **Wito wa Mfumo wa `execve`**
+- **Uwezo**: `execve` inaanzisha programu, iliyopangwa na hoja ya kwanza. Inachukua hoja mbili za safu, `argv` kwa hoja na `envp` kwa mazingira.
+- **Tabia**: Inahifadhi nafasi ya kumbukumbu ya mwito lakini inasasisha safu ya steki, rundo, na data. Kanuni ya programu inabadilishwa na programu mpya.
+- **Uhifadhi wa Kitambulisho cha Mtumiaji**:
+- `ruid`, `euid`, na vitambulisho vya kikundi vya ziada vinabaki bila kubadilika.
+- `euid` inaweza kuwa na mabadiliko madogo ikiwa programu mpya ina biti ya SetUID iliyowekwa.
+- `suid` inasasishwa kutoka `euid` baada ya utekelezaji.
+- **Nyaraka**: Maelezo ya kina yanaweza kupatikana kwenye [ukurasa wa man wa `execve`](https://man7.org/linux/man-pages/man2/execve.2.html).
 
-#### **`system` Function**
-- **Functionality**: Unlike `execve`, `system` creates a child process using `fork` and executes a command within that child process using `execl`.
-- **Command Execution**: Executes the command via `sh` with `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
-- **Behavior**: As `execl` is a form of `execve`, it operates similarly but in the context of a new child process.
-- **Documentation**: Further insights can be obtained from the [`system` man page](https://man7.org/linux/man-pages/man3/system.3.html).
+#### **Kazi ya `system`**
+- **Uwezo**: Tofauti na `execve`, `system` inaunda mchakato wa watoto kwa kutumia `fork` na inatekeleza amri ndani ya mchakato huo wa watoto kwa kutumia `execl`.
+- **Utekelezaji wa Amri**: Inatekeleza amri kupitia `sh` na `execl("/bin/sh", "sh", "-c", amri, (char *) NULL);`.
+- **Tabia**: Kwa kuwa `execl` ni aina ya `execve`, inafanya kazi kwa njia sawa lakini katika muktadha wa mchakato mpya wa watoto.
+- **Nyaraka**: Maelezo zaidi yanaweza kupatikana kwenye [ukurasa wa man wa `system`](https://man7.org/linux/man-pages/man3/system.3.html).
 
-#### **Behavior of `bash` and `sh` with SUID**
+#### **Tabia ya `bash` na `sh` na SUID**
 - **`bash`**:
-  - Has a `-p` option influencing how `euid` and `ruid` are treated.
-  - Without `-p`, `bash` sets `euid` to `ruid` if they initially differ.
-  - With `-p`, the initial `euid` is preserved.
-  - More details can be found on the [`bash` man page](https://linux.die.net/man/1/bash).
+- Ina chaguo la `-p` linaloathiri jinsi `euid` na `ruid` zinavyoshughulikiwa.
+- Bila `-p`, `bash` inaweka `euid` kuwa `ruid` ikiwa awali zinatofautiana.
+- Na `-p`, `euid` ya awali inahifadhiwa.
+- Maelezo zaidi yanaweza kupatikana kwenye [ukurasa wa man wa `bash`](https://linux.die.net/man/1/bash).
 - **`sh`**:
-  - Does not possess a mechanism similar to `-p` in `bash`.
-  - The behavior concerning user IDs is not explicitly mentioned, except under the `-i` option, emphasizing the preservation of `euid` and `ruid` equality.
-  - Additional information is available on the [`sh` man page](https://man7.org/linux/man-pages/man1/sh.1p.html).
+- Haina mfumo kama `-p` katika `bash`.
+- Tabia inayohusiana na vitambulisho vya mtumiaji haijatajwa wazi, isipokuwa chini ya chaguo la `-i`, ikisisitiza uhifadhi wa usawa wa `euid` na `ruid`.
+- Taarifa zaidi inapatikana kwenye [ukurasa wa man wa `sh`](https://man7.org/linux/man-pages/man1/sh.1p.html).
 
-These mechanisms, distinct in their operation, offer a versatile range of options for executing and transitioning between programs, with specific nuances in how user IDs are managed and preserved.
+Mbinu hizi, tofauti katika uendeshaji wao, zinatoa mbalimbali ya chaguzi za kutekeleza na kubadilisha kati ya programu, na nuances maalum katika jinsi vitambulisho vya mtumiaji vinavyosimamiwa na kuhifadhiwa.
 
-### Testing User ID Behaviors in Executions
+### Kujaribu Tabia za Vitambulisho vya Mtumiaji katika Utekelezaji
 
-Examples taken from https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, check it for further information
+Mifano imechukuliwa kutoka https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, angalia kwa maelezo zaidi
 
-#### Case 1: Using `setuid` with `system`
-
-**Objective**: Understanding the effect of `setuid` in combination with `system` and `bash` as `sh`.
-
-**C Code**:
+#### Kesi
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    system("id");
-    return 0;
+setuid(1000);
+system("id");
+return 0;
 }
 ```
-
-**Compilation and Permissions:**
+**Ukuzaji na Ruhusa:**
 ```bash
 oxdf@hacky$ gcc a.c -o /mnt/nfsshare/a;
 oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
@@ -91,133 +86,116 @@ oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
 bash-4.2$ $ ./a
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Uchambuzi:**
 
-**Analysis:**
+* `ruid` na `euid` huanza kama 99 (hakuna mtu) na 1000 (frank) mtawalia.
+* `setuid` inaweka wote kuwa 1000.
+* `system` inatekeleza `/bin/bash -c id` kutokana na symlink kutoka sh kwenda bash.
+* `bash`, bila `-p`, inabadilisha `euid` ili kulingana na `ruid`, hivyo wote wawili kuwa 99 (hakuna mtu).
 
-* `ruid` and `euid` start as 99 (nobody) and 1000 (frank) respectively.
-* `setuid` aligns both to 1000.
-* `system` executes `/bin/bash -c id` due to the symlink from sh to bash.
-* `bash`, without `-p`, adjusts `euid` to match `ruid`, resulting in both being 99 (nobody).
+#### Kesi 2: Kutumia setreuid na system
 
-#### Case 2: Using setreuid with system
-
-**C Code**:
+**Msimbo wa C**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setreuid(1000, 1000);
-    system("id");
-    return 0;
+setreuid(1000, 1000);
+system("id");
+return 0;
 }
 ```
-
-**Compilation and Permissions:**
+**Ukuzaji na Ruhusa:**
 ```bash
 oxdf@hacky$ gcc b.c -o /mnt/nfsshare/b; chmod 4755 /mnt/nfsshare/b
 ```
-
-**Execution and Result:**
-
+**Utekelezaji na Matokeo:**
 ```bash
 bash-4.2$ $ ./b
 uid=1000(frank) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Uchambuzi:**
 
-**Analysis:**
+* `setreuid` inaweka ruid na euid kuwa 1000.
+* `system` inaita bash, ambayo inadumisha vitambulisho vya mtumiaji kutokana na usawa wao, na kwa hiyo inafanya kazi kama frank.
 
-* `setreuid` sets both ruid and euid to 1000.
-* `system` invokes bash, which maintains the user IDs due to their equality, effectively operating as frank.
-
-#### Case 3: Using setuid with execve
-Objective: Exploring the interaction between setuid and execve.
-
+#### Kesi ya 3: Kutumia setuid na execve
+Lengo: Kuchunguza mwingiliano kati ya setuid na execve.
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/usr/bin/id", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/usr/bin/id", NULL, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Utekelezaji na Matokeo:**
 ```bash
 bash-4.2$ $ ./c
 uid=99(nobody) gid=99(nobody) euid=1000(frank) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Uchambuzi:**
 
-**Analysis:**
+* `ruid` inabaki kuwa 99, lakini euid imewekwa kuwa 1000, kulingana na athari ya setuid.
 
-* `ruid` remains 99, but euid is set to 1000, in line with setuid's effect.
-
-**C Code Example 2 (Calling Bash):**
-
+**Mfano wa Msimbo wa C 2 (Kuita Bash):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/bin/bash", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/bin/bash", NULL, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Utekelezaji na Matokeo:**
 ```bash
 bash-4.2$ $ ./d
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Uchambuzi:**
 
-**Analysis:**
+* Ingawa `euid` imewekwa kuwa 1000 na `setuid`, `bash` inarejesha euid kuwa `ruid` (99) kutokana na kutokuwepo kwa `-p`.
 
-* Although `euid` is set to 1000 by `setuid`, `bash` resets euid to `ruid` (99) due to the absence of `-p`.
-
-**C Code Example 3 (Using bash -p):**
-
+**Mfano wa Kanuni ya C 3 (Kutumia bash -p):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    char *const paramList[10] = {"/bin/bash", "-p", NULL};
-    setuid(1000);
-    execve(paramList[0], paramList, NULL);
-    return 0;
+char *const paramList[10] = {"/bin/bash", "-p", NULL};
+setuid(1000);
+execve(paramList[0], paramList, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Utekelezaji na Matokeo:**
 ```bash
 bash-4.2$ $ ./e
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) euid=100
 ```
-
-## References
+## Marejeo
 * [https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail](https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye repo ya [hacktricks](https://github.com/carlospolop/hacktricks) na [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

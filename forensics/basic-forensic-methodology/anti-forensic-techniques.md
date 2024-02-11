@@ -1,181 +1,166 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 
-# Timestamps
+# Vipindi vya Wakati
 
-An attacker may be interested in **changing the timestamps of files** to avoid being detected.\
-It's possible to find the timestamps inside the MFT in attributes `$STANDARD_INFORMATION` __ and __ `$FILE_NAME`.
+Mshambuliaji anaweza kuwa na nia ya **kubadilisha vipindi vya wakati wa faili** ili kuepuka kugundulika.\
+Inawezekana kupata vipindi vya wakati ndani ya MFT kwenye sifa `$STANDARD_INFORMATION` __ na __ `$FILE_NAME`.
 
-Both attributes have 4 timestamps: **Modification**, **access**, **creation**, and **MFT registry modification** (MACE or MACB).
+Sifa zote zina vipindi vya wakati 4: **Mabadiliko**, **upatikanaji**, **umbaji**, na **ubadilishaji wa usajili wa MFT** (MACE au MACB).
 
-**Windows explorer** and other tools show the information from **`$STANDARD_INFORMATION`**.
+**Windows explorer** na zana zingine huonyesha habari kutoka kwa **`$STANDARD_INFORMATION`**.
 
-## TimeStomp - Anti-forensic Tool
+## TimeStomp - Zana ya Kuzuia Uchunguzi
 
-This tool **modifies** the timestamp information inside **`$STANDARD_INFORMATION`** **but** **not** the information inside **`$FILE_NAME`**. Therefore, it's possible to **identify** **suspicious** **activity**.
+Zana hii **inabadilisha** habari ya vipindi vya wakati ndani ya **`$STANDARD_INFORMATION`** **lakini** **sio** habari ndani ya **`$FILE_NAME`**. Kwa hivyo, inawezekana **kutambua** **shughuli** **tuhuma**.
 
 ## Usnjrnl
 
-The **USN Journal** (Update Sequence Number Journal) is a feature of the NTFS (Windows NT file system) that keeps track of volume changes. The [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) tool allows for the examination of these changes.
+**USN Journal** (Kumbukumbu ya Nambari ya Mfululizo ya Sasisho) ni kipengele cha NTFS (mfumo wa faili wa Windows NT) ambacho kinafuatilia mabadiliko kwenye kiasi. Zana ya [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) inaruhusu uchunguzi wa mabadiliko haya.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-The previous image is the **output** shown by the **tool** where it can be observed that some **changes were performed** to the file.
+Picha iliyotangulia ni **matokeo** yanayoonyeshwa na **zana** ambapo inaweza kuonekana kuwa **mabadiliko fulani yalifanywa** kwenye faili.
 
 ## $LogFile
 
-**All metadata changes to a file system are logged** in a process known as [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). The logged metadata is kept in a file named `**$LogFile**`, located in the root directory of an NTFS file system. Tools such as [LogFileParser](https://github.com/jschicht/LogFileParser) can be used to parse this file and identify changes.
+**Mabadiliko yote ya metadata kwenye mfumo wa faili yanalindwa** katika mchakato unaojulikana kama [kuandika kabla ya kuingiza](https://en.wikipedia.org/wiki/Write-ahead_logging). Metadata iliyorekodiwa inahifadhiwa kwenye faili iliyoitwa `**$LogFile**`, iliyoko kwenye saraka ya msingi ya mfumo wa faili wa NTFS. Zana kama [LogFileParser](https://github.com/jschicht/LogFileParser) inaweza kutumika kuchambua faili hii na kutambua mabadiliko.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Again, in the output of the tool it's possible to see that **some changes were performed**.
+Tena, kwenye matokeo ya zana inawezekana kuona kuwa **mabadiliko fulani yalifanywa**.
 
-Using the same tool it's possible to identify to **which time the timestamps were modified**:
+Kwa kutumia zana hiyo hiyo inawezekana kutambua **vipindi vya wakati vilivyobadilishwa**:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
-* CTIME: File's creation time
-* ATIME: File's modification time
-* MTIME: File's MFT registry modification
-* RTIME: File's access time
+* CTIME: Wakati wa umbaji wa faili
+* ATIME: Wakati wa kubadilisha faili
+* MTIME: Ubunifu wa usajili wa MFT wa faili
+* RTIME: Wakati wa kupata faili
 
-## `$STANDARD_INFORMATION` and `$FILE_NAME` comparison
+## Linganisha `$STANDARD_INFORMATION` na `$FILE_NAME`
 
-Another way to identify suspicious modified files would be to compare the time on both attributes looking for **mismatches**.
+Njia nyingine ya kutambua faili zilizobadilishwa kwa tuhuma ni kulinganisha wakati kwenye sifa zote mbili kutafuta **tofauti**.
 
-## Nanoseconds
+## Nanodetano
 
-**NTFS** timestamps have a **precision** of **100 nanoseconds**. Then, finding files with timestamps like 2010-10-10 10:10:**00.000:0000 is very suspicious**.
+Vipindi vya wakati vya **NTFS** vina **usahihi** wa **nanodetano 100**. Kwa hivyo, kupata faili na vipindi vya wakati kama 2010-10-10 10:10:**00.000:0000 ni tuhuma sana**.
 
-## SetMace - Anti-forensic Tool
+## SetMace - Zana ya Kuzuia Uchunguzi
 
-This tool can modify both attributes `$STARNDAR_INFORMATION` and `$FILE_NAME`. However, from Windows Vista, it's necessary for a live OS to modify this information.
+Zana hii inaweza kubadilisha sifa zote mbili `$STARNDAR_INFORMATION` na `$FILE_NAME`. Walakini, kuanzia Windows Vista, ni lazima kuwa na OS hai ili kubadilisha habari hii.
 
-# Data Hiding
+# Kujificha Data
 
-NFTS uses a cluster and the minimum information size. That means that if a file occupies uses and cluster and a half, the **reminding half is never going to be used** until the file is deleted. Then, it's possible to **hide data in this slack space**.
+NFTS hutumia kikundi na ukubwa wa habari wa chini. Hii inamaanisha kuwa ikiwa faili inatumia kikundi na nusu, **nusu iliyobaki haitatumika kamwe** hadi faili ifutwe. Kwa hivyo, inawezekana **kujificha data katika nafasi hii ya siri**.
 
-There are tools like slacker that allow hiding data in this "hidden" space. However, an analysis of the `$logfile` and `$usnjrnl` can show that some data was added:
+Kuna zana kama slacker ambayo inaruhusu kujificha data katika nafasi hii "iliyofichwa". Walakini, uchambuzi wa `$logfile` na `$usnjrnl` unaweza kuonyesha kuwa data fulani iliongezwa:
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-Then, it's possible to retrieve the slack space using tools like FTK Imager. Note that this kind of tool can save the content obfuscated or even encrypted.
+Kwa hivyo, inawezekana kupata nafasi ya siri kwa kutumia zana kama FTK Imager. Kumbuka kuwa aina hii ya zana inaweza kuokoa yaliyomo yaliyofichwa au hata yaliyofichwa.
 
 # UsbKill
 
-This is a tool that will **turn off the computer if any change in the USB** ports is detected.\
-A way to discover this would be to inspect the running processes and **review each python script running**.
+Hii ni zana ambayo ita**zima kompyuta ikiwa kuna mabadiliko yoyote kwenye bandari za USB**.\
+Njia ya kugundua hii ni kuchunguza michakato inayoendelea na **kuchunguza kila script ya python inayoendelea**.
 
-# Live Linux Distributions
+# Usambazaji wa Linux wa Moja kwa Moja
 
-These distros are **executed inside the RAM** memory. The only way to detect them is **in case the NTFS file-system is mounted with write permissions**. If it's mounted just with read permissions it won't be possible to detect the intrusion.
+Distros hizi za Linux zinaendeshwa ndani ya kumbukumbu ya RAM. Njia pekee ya kugundua ni **ikiwa mfumo wa faili wa NTFS umemalizika na ruhusa za kuandika**. Ikiwa imeunganishwa tu na ruhusa za kusoma, haitawezekana kugundua uvamizi.
 
-# Secure Deletion
+# Kufuta Salama
 
 [https://github.com/Claudio-C/awesome-data-sanitization](https://github.com/Claudio-C/awesome-data-sanitization)
 
-# Windows Configuration
+# Usanidi wa Windows
 
-It's possible to disable several windows logging methods to make the forensics investigation much harder.
+Inawezekana kulemaza njia kadhaa za kuingiza data za Windows ili kufanya uchunguzi wa kisayansi kuwa mgumu zaidi.
 
-## Disable Timestamps - UserAssist
+## Lemaza Vipindi vya Wakati - UserAssist
 
-This is a registry key that maintains dates and hours when each executable was run by the user.
+Hii ni ufunguo wa usajili ambao unahifadhi tarehe na saa wakati kila programu iliyotekelezwa na mtumiaji.
 
-Disabling UserAssist requires two steps:
+Kulemaza UserAssist kunahitaji hatua mbili:
 
-1. Set two registry keys, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` and `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, both to zero in order to signal that we want UserAssist disabled.
-2. Clear your registry subtrees that look like `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
+1. Weka ufunguo wa usajili mbili, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` na `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, zote kuwa sifuri ili kuonyesha kuwa tunataka UserAssist iwelemazwe.
+2. Futa matawi yako ya usajili yanayofanana na `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
 
-## Disable Timestamps - Prefetch
+## Lemaza Vipindi vya Wakati - Prefetch
 
-This will save information about the applications executed with the goal of improving the performance of the Windows system. However, this can also be useful for forensics practices.
+Hii itahifadhi habari juu ya programu zilizotekelezwa kwa lengo la kuboresha utendaji wa mfumo wa Windows. Walakini, hii pia inaweza kuwa muhimu kwa mazoezi ya kisayansi.
 
-* Execute `regedit`
-* Select the file path `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* Right-click on both `EnablePrefetcher` and `EnableSuperfetch`
-* Select Modify on each of these to change the value from 1 (or 3) to 0
-* Restart
+* Tekeleza `regedit`
+* Chagua njia ya faili `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
+* Bonyeza kulia kwenye `EnablePrefetcher` na `EnableSuperfetch`
+* Chagua Bad
+## Futa Historia ya USB
 
-## Disable Timestamps - Last Access Time
+Maelezo yote ya **Vifaa vya USB** hifadhiwa katika Usajili wa Windows chini ya ufunguo wa Usajili wa **USBSTOR** ambao una funguo ndogo zinazoundwa unapoweka Kifaa cha USB kwenye PC au Laptop yako. Unaweza kupata ufunguo huu hapa H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Kwa kufuta** hii utafuta historia ya USB.\
+Unaweza pia kutumia zana [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) ili kuhakikisha umewafuta (na kuwafuta).
 
-Whenever a folder is opened from an NTFS volume on a Windows NT server, the system takes the time to **update a timestamp field on each listed folder**, called the last access time. On a heavily used NTFS volume, this can affect performance.
+Faili nyingine ambayo inahifadhi habari kuhusu USB ni faili `setupapi.dev.log` ndani ya `C:\Windows\INF`. Hii pia inapaswa kufutwa.
 
-1. Open the Registry Editor (Regedit.exe).
-2. Browse to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Look for `NtfsDisableLastAccessUpdate`. If it doesn’t exist, add this DWORD and set its value to 1, which will disable the process.
-4. Close the Registry Editor, and reboot the server.
+## Lemaza Nakala za Kivuli
 
-## Delete USB History
+**Pata orodha** ya nakala za kivuli kwa kutumia `vssadmin list shadowstorage`\
+**Zifute** kwa kuendesha `vssadmin delete shadow`
 
-All the **USB Device Entries** are stored in Windows Registry Under the **USBSTOR** registry key that contains sub keys which are created whenever you plug a USB Device into your PC or Laptop. You can find this key here H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deleting this** you will delete the USB history.\
-You may also use the tool [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) to be sure you have deleted them (and to delete them).
+Unaweza pia kuzifuta kupitia GUI kwa kufuata hatua zilizopendekezwa katika [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-Another file that saves information about the USBs is the file `setupapi.dev.log` inside `C:\Windows\INF`. This should also be deleted.
+Kulemaza nakala za kivuli [hatua kutoka hapa](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
-## Disable Shadow Copies
+1. Fungua programu ya Huduma kwa kuingiza "huduma" katika sanduku la utaftaji wa maandishi baada ya kubonyeza kitufe cha kuanza cha Windows.
+2. Kutoka kwenye orodha, tafuta "Volume Shadow Copy", ichague, na kisha ufikie Vipengele kwa kubofya kulia.
+3. Chagua Lemaza kutoka kwenye menyu ya kushuka ya "Aina ya Kuanza", kisha thibitisha mabadiliko kwa kubonyeza Tumia na Sawa.
 
-**List** shadow copies with `vssadmin list shadowstorage`\
-**Delete** them running `vssadmin delete shadow`
+Pia ni pia inawezekana kubadilisha usanidi wa ni faili zipi zitakazohifadhiwa katika nakala ya kivuli kwenye usajili `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
-You can also delete them via GUI following the steps proposed in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
+## Futa faili zilizofutwa
 
-To disable shadow copies [steps from here](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+* Unaweza kutumia **zana ya Windows**: `cipher /w:C` Hii itaagiza cipher kuondoa data yoyote kutoka kwenye nafasi ya diski isiyotumiwa inayopatikana ndani ya diski C.
+* Unaweza pia kutumia zana kama [**Eraser**](https://eraser.heidi.ie)
 
-1. Open the Services program by typing "services" into the text search box after clicking the Windows start button.
-2. From the list, find "Volume Shadow Copy", select it, and then access Properties by right-clicking.
-3. Choose Disabled from the "Startup type" drop-down menu, and then confirm the change by clicking Apply and OK.
+## Futa magogo ya tukio la Windows
 
-It's also possible to modify the configuration of which files are going to be copied in the shadow copy in the registry `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
-
-## Overwrite deleted files
-
-* You can use a **Windows tool**: `cipher /w:C` This will indicate cipher to remove any data from the available unused disk space inside the C drive.
-* You can also use tools like [**Eraser**](https://eraser.heidi.ie)
-
-## Delete Windows event logs
-
-* Windows + R --> eventvwr.msc --> Expand "Windows Logs" --> Right click each category and select "Clear Log"
+* Windows + R --> eventvwr.msc --> Panua "Magogo ya Windows" --> Bonyeza kulia kwenye kila jamii na chagua "Futa Magogo"
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
-## Disable Windows event logs
+## Lemaza magogo ya tukio la Windows
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Inside the services section disable the service "Windows Event Log"
-* `WEvtUtil.exec clear-log` or `WEvtUtil.exe cl`
+* Ndani ya sehemu ya huduma, lemesha huduma "Windows Event Log"
+* `WEvtUtil.exec clear-log` au `WEvtUtil.exe cl`
 
-## Disable $UsnJrnl
+## Lemaza $UsnJrnl
 
 * `fsutil usn deletejournal /d c:`
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

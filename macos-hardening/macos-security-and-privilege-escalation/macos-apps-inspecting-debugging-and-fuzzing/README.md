@@ -1,28 +1,26 @@
-# macOS Apps - Inspecting, debugging and Fuzzing
+# Programu za macOS - Kuchunguza, kurekebisha na Kufanya Fuzzing
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Static Analysis
+## Uchambuzi Statisa
 
 ### otool
-
 ```bash
 otool -L /bin/ls #List dynamically linked libraries
 otool -tv /bin/ps #Decompile application
 ```
-
 ### objdump
 
 {% code overflow="wrap" %}
@@ -38,8 +36,7 @@ objdump --disassemble-symbols=_hello --x86-asm-syntax=intel toolsdemo #Disassemb
 
 ### jtool2
 
-The tool can be used as a **replacement** for **codesign**, **otool**, and **objdump**, and provides a few additional features. [**Download it here**](http://www.newosxbook.com/tools/jtool.html) or install it with `brew`.
-
+Zana hii inaweza kutumika kama **badala** ya **codesign**, **otool**, na **objdump**, na inatoa huduma chache za ziada. [**Pakua hapa**](http://www.newosxbook.com/tools/jtool.html) au usakinishe kwa kutumia `brew`.
 ```bash
 # Install
 brew install --cask jtool2
@@ -56,13 +53,11 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 # Get MIG information
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-
 ### Codesign / ldid
 
 {% hint style="danger" %}
-**`Codesign`** can be found in **macOS** while **`ldid`** can be found in **iOS**
+**`Codesign`** inapatikana kwenye **macOS** wakati **`ldid`** inapatikana kwenye **iOS**
 {% endhint %}
-
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -89,86 +84,78 @@ ldid -e <binary>
 ## /tmp/entl.xml is a XML file with the new entitlements to add
 ldid -S/tmp/entl.xml <binary>
 ```
-
 ### SuspiciousPackage
 
-[**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) is a tool useful to inspect **.pkg** files (installers) and see what is inside before installing it.\
-These installers have `preinstall` and `postinstall` bash scripts that malware authors usually abuse to **persist** **the** **malware**.
+[**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) ni chombo kinachofaa kuchunguza faili za **.pkg** (wakala) na kuona kilichomo ndani kabla ya kuiweka.\
+Wakala hawa wana skripti za bash za `preinstall` na `postinstall` ambazo waundaji wa programu hasidi kawaida hutumia kuweka **programu hasidi**.
 
 ### hdiutil
 
-This tool allows to **mount** Apple disk images (**.dmg**) files to inspect them before running anything:
-
+Chombo hiki kinaruhusu kufunga picha za diski za Apple (**.dmg**) ili kuzichunguza kabla ya kuzitumia:
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
-
-It will be mounted in `/Volumes`
+Itakuwa imewekwa katika `/Volumes`
 
 ### Objective-C
 
 #### Metadata
 
 {% hint style="danger" %}
-Note that programs written in Objective-C **retain** their class declarations **when** **compiled** into [Mach-O binaries](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Such class declarations **include** the name and type of:
+Tafadhali kumbuka kuwa programu zilizoandikwa kwa Objective-C **huhifadhi** maelezo yao ya darasa **wakati** **zinafanywa** **kuwa** [Mach-O binaries](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Maelezo haya ya darasa **yanajumuisha** jina na aina ya:
 {% endhint %}
 
-* The class
-* The class methods
-* The class instance variables
+* Darasa
+* Njia za darasa
+* Variables za kesi ya darasa
 
-You can get this information using [**class-dump**](https://github.com/nygard/class-dump):
-
+Unaweza kupata habari hii kwa kutumia [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
 class-dump Kindle.app
 ```
+Tafadhali kumbuka kuwa majina haya yanaweza kufichwa ili kufanya kurejesha kwa binary kuwa ngumu zaidi.
 
-Note that this names could be obfuscated to make the reversing of the binary more difficult.
+#### Kuita kazi
 
-#### Function calling
-
-When a function is called in a binary that uses objective-C, the compiled code instead of calling that function, it will call **`objc_msgSend`**. Which will be calling the final function:
+Wakati kazi inaitwa kwenye binary ambayo inatumia objective-C, badala ya kuita kazi hiyo, code iliyokompiliwa itaita **`objc_msgSend`**. Ambayo itaita kazi ya mwisho:
 
 ![](<../../../.gitbook/assets/image (560).png>)
 
-The params this function expects are:
+Paramu ambazo kazi hii inatarajia ni:
 
-* The first parameter (**self**) is "a pointer that points to the **instance of the class that is to receive the message**". Or more simply put, it’s the object that the method is being invoked upon. If the method is a class method, this will be an instance of the class object (as a whole), whereas for an instance method, self will point to an instantiated instance of the class as an object.
-* The second parameter, (**op**), is "the selector of the method that handles the message". Again, more simply put, this is just the **name of the method.**
-* The remaining parameters are any **values that are required by the method** (op).
+* Paramu ya kwanza (**self**) ni "kiashiria kinachoelekeza kwa **kifungu cha darasa ambacho kinapaswa kupokea ujumbe**". Au kwa maneno rahisi, ni kitu ambacho njia inaitwa juu yake. Ikiwa njia ni njia ya darasa, hii itakuwa kifungu cha kitu cha darasa (kwa ujumla), wakati kwa njia ya kifungu, self itaelekeza kwa kifungu kilichotengenezwa cha darasa kama kitu.
+* Paramu ya pili, (**op**), ni "chaguo la njia ambayo inashughulikia ujumbe". Tena, kwa maneno rahisi, hii ni tu **jina la njia**.
+* Paramu zilizobaki ni **thamani zozote zinazohitajika na njia** (op).
 
-| **Argument**      | **Register**                                                    | **(for) objc\_msgSend**                                |
+| **Hoja**          | **Jisajili**                                                    | **(kwa) objc\_msgSend**                                |
 | ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
-| **1st argument**  | **rdi**                                                         | **self: object that the method is being invoked upon** |
-| **2nd argument**  | **rsi**                                                         | **op: name of the method**                             |
-| **3rd argument**  | **rdx**                                                         | **1st argument to the method**                         |
-| **4th argument**  | **rcx**                                                         | **2nd argument to the method**                         |
-| **5th argument**  | **r8**                                                          | **3rd argument to the method**                         |
-| **6th argument**  | **r9**                                                          | **4th argument to the method**                         |
-| **7th+ argument** | <p><strong>rsp+</strong><br><strong>(on the stack)</strong></p> | **5th+ argument to the method**                        |
+| **Hoja ya 1**     | **rdi**                                                         | **self: kitu ambacho njia inaitwa juu yake**           |
+| **Hoja ya 2**     | **rsi**                                                         | **op: jina la njia**                                   |
+| **Hoja ya 3**     | **rdx**                                                         | **hoja ya 1 kwa njia**                                 |
+| **Hoja ya 4**     | **rcx**                                                         | **hoja ya 2 kwa njia**                                 |
+| **Hoja ya 5**     | **r8**                                                          | **hoja ya 3 kwa njia**                                 |
+| **Hoja ya 6**     | **r9**                                                          | **hoja ya 4 kwa njia**                                 |
+| **Hoja ya 7+**    | <p><strong>rsp+</strong><br><strong>(kwenye stack)</strong></p> | **hoja ya 5+ kwa njia**                                |
 
 ### Swift
 
-With Swift binaries, since there is Objective-C compatibility, sometimes you can extract declarations using [class-dump](https://github.com/nygard/class-dump/) but not always.
+Kwa binary za Swift, kwa kuwa kuna utangamano wa Objective-C, mara nyingi unaweza kuchambua maelezo kwa kutumia [class-dump](https://github.com/nygard/class-dump/) lakini sio kila wakati.
 
-With the **`jtool -l`** or **`otool -l`** command lines it's possible ti find several sections that start with **`__swift5`** prefix:
-
+Kwa kutumia amri za **`jtool -l`** au **`otool -l`**, inawezekana kupata sehemu kadhaa ambazo zinaanza na kipimo cha **`__swift5`**:
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
 LC 01: LC_SEGMENT_64              Mem: 0x100000000-0x100028000    __TEXT
-    [...]
-    Mem: 0x100026630-0x100026d54        __TEXT.__swift5_typeref
-    Mem: 0x100026d60-0x100027061        __TEXT.__swift5_reflstr
-    Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
-    Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
-    [...]
+[...]
+Mem: 0x100026630-0x100026d54        __TEXT.__swift5_typeref
+Mem: 0x100026d60-0x100027061        __TEXT.__swift5_reflstr
+Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
+Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
+[...]
 ```
+Unaweza kupata habari zaidi kuhusu [**habari zilizohifadhiwa katika sehemu hizi katika chapisho hili la blogu**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html).
 
-You can find further information about the [**information stored in these section in this blog post**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html).
-
-Moreover, **Swift binaries might have symbols** (for example libraries need to store symbols so its functions can be called). The **symbols usually have the info about the function name** and attr in a ugly way, so they are very useful and there are "**demanglers"** that can get the original name:
-
+Zaidi ya hayo, **faili za Swift zinaweza kuwa na alama** (kwa mfano maktaba zinahitaji kuhifadhi alama ili kuita kazi zake). **Alama kwa kawaida zina habari kuhusu jina la kazi** na sifa kwa njia isiyovutia, hivyo ni muhimu sana na kuna "**demanglers"** ambazo zinaweza kupata jina halisi:
 ```bash
 # Ghidra plugin
 https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
@@ -176,94 +163,115 @@ https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
 # Swift cli
 swift demangle
 ```
+### Programu zilizopakiwa
 
-### Packed binaries
+* Angalia kiwango cha entropy
+* Angalia herufi (kama hakuna herufi inayoeleweka, inaweza kuwa imepakwa)
+* Packer ya UPX kwa MacOS inazalisha sehemu inayoitwa "\_\_XHDR"
 
-* Check for high entropy
-* Check the strings (is there is almost no understandable string, packed)
-* The UPX packer for MacOS generates a section called "\_\_XHDR"
-
-## Dynamic Analysis
+## Uchambuzi wa Kudumu
 
 {% hint style="warning" %}
-Note that in order to debug binaries, **SIP needs to be disabled** (`csrutil disable` or `csrutil enable --without debug`) or to copy the binaries to a temporary folder and **remove the signature** with `codesign --remove-signature <binary-path>` or allow the debugging of the binary (you can use [this script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b))
+Tafadhali kumbuka kuwa ili kuchunguza programu zilizopakiwa, **SIP inahitaji kuwa imezimwa** (`csrutil disable` au `csrutil enable --without debug`) au nakala programu zipelekwe kwenye folda ya muda na **saini iondolewe** kwa kutumia `codesign --remove-signature <njia-ya-programu>` au ruhusu uchunguzi wa programu (unaweza kutumia [script hii](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b))
 {% endhint %}
 
 {% hint style="warning" %}
-Note that in order to **instrument system binaries**, (such as `cloudconfigurationd`) on macOS, **SIP must be disabled** (just removing the signature won't work).
+Tafadhali kumbuka kuwa ili **kuchunguza programu za mfumo**, (kama vile `cloudconfigurationd`) kwenye macOS, **SIP lazima iwe imezimwa** (kuondoa saini pekee haitafanya kazi).
 {% endhint %}
 
-### Unified Logs
+### Kumbukumbu Zilizounganishwa
 
-MacOS generates a lot of logs that can be very useful when running an application trying to understand **what is it doing**.
+MacOS inazalisha kumbukumbu nyingi ambazo zinaweza kuwa na manufaa sana wakati wa kukimbia programu na kujaribu kuelewa **inachofanya**.
 
-Moreover, the are some logs that will contain the tag `<private>` to **hide** some **user** or **computer** **identifiable** information. However, it's possible to **install a certificate to disclose this information**. Follow the explanations from [**here**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
+Zaidi ya hayo, kuna kumbukumbu ambazo zitakuwa na lebo `<private>` ili **kuficha** baadhi ya habari **zinazoweza kutambulika** za mtumiaji au kompyuta. Hata hivyo, ni **inawezekana kufunga cheti** ili kufichua habari hizi. Fuata maelezo kutoka [**hapa**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
 
 ### Hopper
 
-#### Left panel
+#### Kifungu cha Kushoto
 
-In the left panel of hopper it's possible to see the symbols (**Labels**) of the binary, the list of procedures and functions (**Proc**) and the strings (**Str**). Those aren't all the strings but the ones defined in several parts of the Mac-O file (like _cstring or_ `objc_methname`).
+Kwenye kifungu cha kushoto cha hopper, ni muhimu kuona alama (**Lebo**) za programu, orodha ya taratibu na kazi (**Proc**) na herufi (**Str**). Hizi sio herufi zote lakini ni zile zilizofafanuliwa katika sehemu kadhaa za faili ya Mac-O (kama vile _cstring au_ `objc_methname`).
 
-#### Middle panel
+#### Kifungu cha Kati
 
-In the middle panel you can see the **dissasembled code**. And you can see it a **raw** disassemble, as **graph**, as **decompiled** and as **binary** by clicking on the respective icon:
+Kwenye kifungu cha kati unaweza kuona **msimbo uliopanguliwa**. Na unaweza kuona kama **msimbo safi**, kama **grafu**, kama **kimeundwa** na kama **binari** kwa kubofya kwenye ishara husika:
 
 <figure><img src="../../../.gitbook/assets/image (2) (6).png" alt=""><figcaption></figcaption></figure>
 
-Right clicking in a code object you can see **references to/from that object** or even change its name (this doesn't work in decompiled pseudocode):
+Kwa kubofya kulia kwenye kifungu cha msimbo, unaweza kuona **marejeleo kwa/na kutoka kwa kifungu hicho** au hata kubadilisha jina lake (hii haifanyi kazi katika msimbo wa pseudocode ulioundwa):
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-Moreover, in the **middle down you can write python commands**.
+Zaidi ya hayo, kwenye **kifungu cha kati chini unaweza kuandika amri za python**.
 
-#### Right panel
+#### Kifungu cha Kulia
 
-In the right panel you can see interesting information such as the **navigation history** (so you know how you arrived at the current situation), the **call grap**h where you can see all the **functions that call this function** and all the functions that **this function calls**, and **local variables** information.
+Kwenye kifungu cha kulia unaweza kuona habari muhimu kama **historia ya urambazaji** (ili ujue jinsi ulivyofika kwenye hali ya sasa), **grafu ya wito** ambapo unaweza kuona **kazi zote zinazowaita kazi hii** na kazi zote ambazo **kazi hii inawaita**, na habari za **majaribio ya ndani**.
 
 ### dtrace
 
-It allows users access to applications at an extremely **low level** and provides a way for users to **trace** **programs** and even change their execution flow. Dtrace uses **probes** which are **placed throughout the kernel** and are at locations such as the beginning and end of system calls.
+Inaruhusu watumiaji kupata ufikiaji wa programu kwa kiwango cha **chini sana** na inatoa njia kwa watumiaji kufuatilia **programu** na hata kubadilisha mtiririko wao wa utekelezaji. Dtrace hutumia **probes** ambazo zimewekwa kote katika kernel na ziko katika maeneo kama mwanzo na mwisho wa wito wa mfumo.
 
-DTrace uses the **`dtrace_probe_create`** function to create a probe for each system call. These probes can be fired in the **entry and exit point of each system call**. The interaction with DTrace occur through /dev/dtrace which is only available for the root user.
+DTrace hutumia kazi ya **`dtrace_probe_create`** kuunda kipimo kwa kila wito wa mfumo. Vipimo hivi vinaweza kufanywa katika **kipengele cha kuingia na kutoka kwa kila wito wa mfumo**. Mwingiliano na DTrace hufanyika kupitia /dev/dtrace ambayo inapatikana tu kwa mtumiaji wa mizizi.
 
 {% hint style="success" %}
-To enable Dtrace without fully disabling SIP protection you could execute on recovery mode: `csrutil enable --without dtrace`
+Ili kuwezesha Dtrace bila kuzima kabisa ulinzi wa SIP, unaweza kutekeleza kwenye hali ya kupona: `csrutil enable --without dtrace`
 
-You can also **`dtrace`** or **`dtruss`** binaries that **you have compiled**.
+Unaweza pia kuchunguza programu za **`dtrace`** au **`dtruss`** ambazo **umekusanya**.
 {% endhint %}
 
-The available probes of dtrace can be obtained with:
-
+Vipimo vilivyopo vya dtrace vinaweza kupatikana kwa kutumia:
 ```bash
 dtrace -l | head
-   ID   PROVIDER            MODULE                          FUNCTION NAME
-    1     dtrace                                                     BEGIN
-    2     dtrace                                                     END
-    3     dtrace                                                     ERROR
-   43    profile                                                     profile-97
-   44    profile                                                     profile-199
+ID   PROVIDER            MODULE                          FUNCTION NAME
+1     dtrace                                                     BEGIN
+2     dtrace                                                     END
+3     dtrace                                                     ERROR
+43    profile                                                     profile-97
+44    profile                                                     profile-199
 ```
+Jina la kuchunguza linajumuisha sehemu nne: mtoa huduma, moduli, kazi, na jina (`fbt:mach_kernel:ptrace:entry`). Ikiwa haujataja sehemu fulani ya jina, Dtrace itatumia sehemu hiyo kama kichujio.
 
-The probe name consists of four parts: the provider, module, function, and name (`fbt:mach_kernel:ptrace:entry`). If you not specifies some part of the name, Dtrace will apply that part as a wildcard.
+Ili kusanidi DTrace kuamsha vichujio na kuelezea vitendo gani vifanyike wakati vinapochomwa, tutahitaji kutumia lugha ya D.
 
-To configure DTrace to activate probes and to specify what actions to perform when they fire, we will need to use the D language.
+Maelezo zaidi na mifano zaidi yanaweza kupatikana katika [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)
 
-A more detailed explanation and more examples can be found in [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)
+#### Mifano
 
-#### Examples
+Changanya `man -k dtrace` ili kuorodhesha **scripti za DTrace zinazopatikana**. Mfano: `sudo dtruss -n binary`
 
-Run `man -k dtrace` to list the **DTrace scripts available**. Example: `sudo dtruss -n binary`
-
-* In line
-
+* Katika mstari
 ```bash
 #Count the number of syscalls of each running process
 sudo dtrace -n 'syscall:::entry {@[execname] = count()}'
 ```
+# Maelezo
 
-* script
+Hii ni hati ya bash ambayo inaweza kutumika kwa uchambuzi wa haraka wa faili za maandishi. Inachukua faili ya maandishi kama parameter na kisha inachambua faili hiyo kwa mistari ya maandishi ambayo ina maneno yaliyopewa.
 
+## Matumizi
+
+Unaweza kutumia hati hii kwa kufuata hatua hizi:
+
+1. Pakua hati ya bash na uhifadhi kwenye folda yako ya kazi.
+2. Fungua terminal na nenda kwenye folda ambapo hati ya bash imehifadhiwa.
+3. Chapa amri ifuatayo kwenye terminal: `bash script.sh <jina_la_faili> <neno_la_kutafuta>`
+
+    - `<jina_la_faili>`: Jina la faili ya maandishi unayotaka kuchambua.
+    - `<neno_la_kutafuta>`: Neno ambalo unataka kuchunguza kwenye faili ya maandishi.
+
+4. Baada ya kuchapisha amri hiyo, hati ya bash itachambua faili ya maandishi na itatoa matokeo ya mistari ambayo ina neno la kutafuta.
+
+## Mfano
+
+Ili kuelewa vizuri jinsi ya kutumia hati hii, hapa kuna mfano:
+
+Chukulia una faili ya maandishi inayoitwa `majaribio.txt` ambayo ina mistari kadhaa ya maandishi. Unataka kuchunguza ikiwa kuna mistari ambayo ina neno "hakiki" ndani yake.
+
+1. Pakua hati ya bash na uhifadhi kwenye folda yako ya kazi.
+2. Fungua terminal na nenda kwenye folda ambapo hati ya bash imehifadhiwa.
+3. Chapa amri ifuatayo kwenye terminal: `bash script.sh majaribio.txt hakiki`
+
+Baada ya kuchapisha amri hiyo, hati ya bash itachambua faili ya maandishi `majaribio.txt` na itatoa matokeo ya mistari ambayo ina neno "hakiki".
 ```bash
 syscall:::entry
 /pid == $1/
@@ -271,17 +279,17 @@ syscall:::entry
 }
 
 #Log every syscall of a PID
-sudo dtrace -s script.d 1234 
+sudo dtrace -s script.d 1234
 ```
 
 ```bash
 syscall::open:entry
 {
-    printf("%s(%s)", probefunc, copyinstr(arg0));
+printf("%s(%s)", probefunc, copyinstr(arg0));
 }
 syscall::close:entry
 {
-        printf("%s(%d)\n", probefunc, arg0);
+printf("%s(%d)\n", probefunc, arg0);
 }
 
 #Log files opened and closed by a process
@@ -291,100 +299,104 @@ sudo dtrace -s b.d -c "cat /etc/hosts"
 ```bash
 syscall:::entry
 {
-        ;
+;
 }
 syscall:::return
 {
-        printf("=%d\n", arg1);
+printf("=%d\n", arg1);
 }
 
 #Log sys calls with values
 sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 ```
-
 ### dtruss
 
+dtruss is a command-line tool available on macOS that allows you to trace and inspect system calls made by an application. It can be used for debugging and analyzing the behavior of macOS applications.
+
+To use dtruss, you need to run it with the target application as an argument. It will then display a list of system calls made by the application, along with their arguments and return values. This can be helpful in understanding how an application interacts with the operating system and identifying any potential security vulnerabilities or privilege escalation opportunities.
+
+Here's an example of how to use dtruss:
+
+```
+$ dtruss /path/to/application
+```
+
+This will start tracing the system calls made by the specified application. You can then analyze the output to gain insights into its behavior.
+
+It's important to note that dtruss requires root privileges to trace system calls made by other processes. Therefore, you may need to run it with sudo or as the root user.
+
+Overall, dtruss is a powerful tool for inspecting and debugging macOS applications. By analyzing the system calls made by an application, you can gain a deeper understanding of its inner workings and potentially uncover security vulnerabilities or privilege escalation paths.
 ```bash
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
 ```
-
 ### ktrace
 
-You can use this one even with **SIP activated**
-
+Unaweza kutumia hii hata na **SIP imewezeshwa**
 ```bash
 ktrace trace -s -S -t c -c ls | grep "ls("
 ```
-
 ### ProcessMonitor
 
-[**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) is a very useful tool to check the process related actions a process is performing (for example, monitor which new processes a process is creating).
+[**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) ni zana muhimu sana ya kuchunguza vitendo vinavyohusiana na mchakato ambavyo mchakato unatekeleza (kwa mfano, kufuatilia mchakato gani mpya mchakato unazalisha).
 
 ### SpriteTree
 
-[**SpriteTree**](https://themittenmac.com/tools/) is a tool to prints the relations between processes.\
-You need to monitor your mac with a command like **`sudo eslogger fork exec rename create > cap.json`** (the terminal launching this required FDA). And then you can load the json in this tool to viwe all the relations:
+[**SpriteTree**](https://themittenmac.com/tools/) ni zana inayochapisha uhusiano kati ya michakato.\
+Unahitaji kuchunguza mac yako na amri kama **`sudo eslogger fork exec rename create > cap.json`** (terminal inayozindua hii inahitaji FDA). Kisha unaweza kupakia json katika zana hii kuona uhusiano wote:
 
 <figure><img src="../../../.gitbook/assets/image (710).png" alt="" width="375"><figcaption></figcaption></figure>
 
 ### FileMonitor
 
-[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) allows to monitor file events (such as creation, modifications, and deletions) providing detailed information about such events.
+[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) inaruhusu kufuatilia matukio ya faili (kama vile uundaji, marekebisho, na kufuta) kwa kutoa habari za kina kuhusu matukio hayo.
 
 ### Crescendo
 
-[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) is a GUI tool with the look and feel Windows users may know from Microsoft Sysinternal’s _Procmon_. This tool allows the recording of various event types to be started and stopped, allows for the filtering of these events by categories such as file, process, network, etc., and provides the functionality to save the events recorded in a json format.
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) ni zana ya GUI ambayo inaonekana na hisia ambazo watumiaji wa Windows wanaweza kuzijua kutoka kwa _Procmon_ ya Microsoft Sysinternal. Zana hii inaruhusu kuanza na kuacha kurekodi aina mbalimbali za matukio, inaruhusu kuchuja matukio haya kwa makundi kama faili, mchakato, mtandao, nk., na inatoa uwezo wa kuhifadhi matukio yaliyorekodiwa katika muundo wa json.
 
 ### Apple Instruments
 
-[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) are part of Xcode’s Developer tools – used for monitoring application performance, identifying memory leaks and tracking filesystem activity.
+[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) ni sehemu ya zana za Maendeleo ya Xcode - hutumiwa kwa kufuatilia utendaji wa programu, kutambua uvujaji wa kumbukumbu, na kufuatilia shughuli za mfumo wa faili.
 
 ![](<../../../.gitbook/assets/image (15).png>)
 
 ### fs\_usage
 
-Allows to follow actions performed by processes:
-
+Inaruhusu kufuatilia vitendo vilivyotekelezwa na michakato:
 ```bash
 fs_usage -w -f filesys ls #This tracks filesystem actions of proccess names containing ls
 fs_usage -w -f network curl #This tracks network actions
 ```
-
 ### TaskExplorer
 
-[**Taskexplorer**](https://objective-see.com/products/taskexplorer.html) is useful to see the **libraries** used by a binary, the **files** it's using and the **network** connections.\
-It also checks the binary processes against **virustotal** and show information about the binary.
+[**Taskexplorer**](https://objective-see.com/products/taskexplorer.html) ni muhimu kuona **maktaba** zinazotumiwa na faili ya binary, **faili** inayotumiwa na **muunganisho wa mtandao**. Pia inachunguza michakato ya binary dhidi ya **virustotal** na kuonyesha habari kuhusu binary hiyo.
 
 ## PT\_DENY\_ATTACH <a href="#page-title" id="page-title"></a>
 
-In [**this blog post**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html) you can find an example about how to **debug a running daemon** that used **`PT_DENY_ATTACH`** to prevent debugging even if SIP was disabled.
+Katika [**chapisho hili la blog**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html) unaweza kupata mfano juu ya jinsi ya **kudebugi daemon inayofanya kazi** ambayo ilikuwa inatumia **`PT_DENY_ATTACH`** kuzuia kudebugi hata kama SIP ilikuwa imelemazwa.
 
 ### lldb
 
-**lldb** is the de **facto tool** for **macOS** binary **debugging**.
-
+**lldb** ni chombo cha **kawaida** kwa ajili ya **kudebugi** faili za binary za **macOS**.
 ```bash
 lldb ./malware.bin
 lldb -p 1122
 lldb -n malware.bin
 lldb -n malware.bin --waitfor
 ```
-
-You can set intel flavour when using lldb creating a file called **`.lldbinit`** in your home folder with the following line:
-
+Unaweza kuweka intel flavour unapotumia lldb kwa kuunda faili inayoitwa **`.lldbinit`** katika folda yako ya nyumbani na mstari ufuatao:
 ```bash
 settings set target.x86-disassembly-flavor intel
 ```
-
 {% hint style="warning" %}
-Inside lldb, dump a process with `process save-core`
+Ndani ya lldb, dumpisha mchakato na `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Command</strong></td><td><strong>Description</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Starting execution, which will continue unabated until a breakpoint is hit or the process terminates.</td></tr><tr><td><strong>continue (c)</strong></td><td>Continue execution of the debugged process.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Execute the next instruction. This command will skip over function calls.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Execute the next instruction. Unlike the nexti command, this command will step into function calls.</td></tr><tr><td><strong>finish (f)</strong></td><td>Execute the rest of the instructions in the current function (“frame”) return and halt.</td></tr><tr><td><strong>control + c</strong></td><td>Pause execution. If the process has been run (r) or continued (c), this will cause the process to halt ...wherever it is currently executing.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Any func called main</p><p>b &#x3C;binname>`main #Main func of the bin</p><p>b set -n main --shlib &#x3C;lib_name> #Main func of the indicated bin</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Breakpoint list</p><p>br e/dis &#x3C;num> #Enable/Disable breakpoint</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Get help of breakpoint command</p><p>help memory write #Get help to write into the memory</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>Display the memory as a null-terminated string.</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>Display the memory as assembly instruction.</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>Display the memory as byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>This will print the object referenced by the param</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Note that most of Apple’s Objective-C APIs or methods return objects, and thus should be displayed via the “print object” (po) command. If po doesn't produce a meaningful output use <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Write AAAA in that address<br>memory write -f s $rip+0x11f+7 "AAAA" #Write AAAA in the addr</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Disas current function</p><p>dis -n &#x3C;funcname> #Disas func</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Disas func<br>dis -c 6 #Disas 6 lines<br>dis -c 0x100003764 -e 0x100003768 # From one add until the other<br>dis -p -c 4 # Start in current address disassembling</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Check array of 3 components in x1 reg</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Amri</strong></td><td><strong>Maelezo</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Kuanza utekelezaji, ambao utaendelea bila kikomo hadi kizuizi kikubwa kisipigwe au mchakato ukome.</td></tr><tr><td><strong>continue (c)</strong></td><td>Kuendelea na utekelezaji wa mchakato uliopimwa.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Tekeleza maagizo inayofuata. Amri hii itaruka wito wa kazi.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Tekeleza maagizo inayofuata. Kinyume na amri ya nexti, amri hii itaingia kwenye wito wa kazi.</td></tr><tr><td><strong>finish (f)</strong></td><td>Tekeleza maagizo yaliyobaki katika kazi ya sasa ("frame") na kusimamisha.</td></tr><tr><td><strong>control + c</strong></td><td>Sitisha utekelezaji. Ikiwa mchakato umekimbia (r) au kuendelea (c), hii itasababisha mchakato kusimama ...popote inapotekelezwa kwa sasa.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Wito wowote wa kazi unaitwa main</p><p>b &#x3C;binname>`main #Wito wa kazi kuu ya bin</p><p>b set -n main --shlib &#x3C;lib_name> #Wito wa kazi kuu ya bin iliyotajwa</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Orodha ya kizuizi</p><p>br e/dis &#x3C;num> #Wezesha/lemaza kizuizi</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Pata msaada wa amri ya kizuizi</p><p>help memory write #Pata msaada wa kuandika kwenye kumbukumbu</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">muundo</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>Onyesha kumbukumbu kama herufi zilizomalizika na sifuri.</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>Onyesha kumbukumbu kama maagizo ya mkutano.</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>Onyesha kumbukumbu kama herufi.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Hii itaonyesha kitu kinachohusishwa na paramu</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Taarifa kwamba API nyingi za Objective-C za Apple au njia zinarudisha vitu, na kwa hivyo zinapaswa kuonyeshwa kupitia amri ya "print object" (po). Ikiwa po haizalishi matokeo yanayofaa tumia <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Andika AAAA kwenye anwani hiyo<br>memory write -f s $rip+0x11f+7 "AAAA" #Andika AAAA kwenye anwani</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Disas kazi ya sasa</p><p>dis -n &#x3C;funcname> #Disas kazi</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Disas kazi<br>dis -c 6 #Disas mistari 6<br>dis -c 0x100003764 -e 0x100003768 # Kutoka anwani moja hadi nyingine<br>dis -p -c 4 # Anza kwenye anwani ya sasa ya kufasiri</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Angalia safu ya 3 katika x1 reg</td></tr></tbody></table>
 
 {% hint style="info" %}
-When calling the **`objc_sendMsg`** function, the **rsi** register holds the **name of the method** as a null-terminated (“C”) string. To print the name via lldb do:
+Wakati wa kuita **`objc_sendMsg`** function, usajili wa **rsi** unashikilia **jina la njia** kama herufi zilizomalizika na sifuri ("C"). Ili kuonyesha jina kupitia lldb fanya:
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -394,30 +406,28 @@ When calling the **`objc_sendMsg`** function, the **rsi** register holds the **n
 `(lldb) reg read $rsi: rsi = 0x00000001000f1576 "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 {% endhint %}
 
-### Anti-Dynamic Analysis
+### Uchambuzi wa Kuzuia-Dinamiki
 
-#### VM detection
+#### Ugunduzi wa VM
 
-* The command **`sysctl hw.model`** returns "Mac" when the **host is a MacOS** but something different when it's a VM.
-* Playing with the values of **`hw.logicalcpu`** and **`hw.physicalcpu`** some malwares try to detect if it's a VM.
-* Some malwares can also **detect** if the machine is **VMware** based on the MAC address (00:50:56).
-* It's also possible to find **if a process is being debugged** with a simple code such us:
-  * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //process being debugged }`
-* It can also invoke the **`ptrace`** system call with the **`PT_DENY_ATTACH`** flag. This **prevents** a deb**u**gger from attaching and tracing.
-  * You can check if the **`sysctl`** or **`ptrace`** function is being **imported** (but the malware could import it dynamically)
-  * As noted in this writeup, “[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
-    “_The message Process # exited with **status = 45 (0x0000002d)** is usually a tell-tale sign that the debug target is using **PT\_DENY\_ATTACH**_”
-
+* Amri ya **`sysctl hw.model`** inarudi "Mac" wakati **mwenyeji ni MacOS** lakini kitu tofauti wakati ni VM.
+* Kwa kucheza na thamani za **`hw.logicalcpu`** na **`hw.physicalcpu`** baadhi ya programu hasidi jaribu kugundua ikiwa ni VM.
+* Baadhi ya programu hasidi pia zinaweza **kugundua** ikiwa mashine ni ya VMware kulingana na anwani ya MAC (00:50:56).
+* Pia inawezekana kugundua ikiwa mchakato unafanyiwa uchunguzi na nambari rahisi kama hii:
+* `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //mchakato unafanyiwa uchunguzi }`
+* Inaweza pia kuita wito wa mfumo wa **`ptrace`** na bendera ya **`PT_DENY_ATTACH`**. Hii **inazuia** mchunguzi kushikamana na kufuatilia.
+* Unaweza kuangalia ikiwa **`sysctl`** au **`ptrace`** kazi inaingizwa (lakini programu hasidi inaweza kuiongeza kwa kudumu)
+* Kama ilivyobainishwa katika nakala hii, “[Kushinda Mbinu za Kuzuia-Uchunguzi: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
+"_Ujumbe Mchakato # ulitoka na **hali = 45 (0x0000002d)** kawaida ni ishara ya wazi kwamba lengo la uchunguzi linatumia **PT\_DENY\_ATTACH**_"
 ## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash **analyzes crashing processes and saves a crash report to disk**. A crash report contains information that can **help a developer diagnose** the cause of a crash.\
-For applications and other processes **running in the per-user launchd context**, ReportCrash runs as a LaunchAgent and saves crash reports in the user's `~/Library/Logs/DiagnosticReports/`\
-For daemons, other processes **running in the system launchd context** and other privileged processes, ReportCrash runs as a LaunchDaemon and saves crash reports in the system's `/Library/Logs/DiagnosticReports`
+ReportCrash **huchambua michakato inayopata ajali na kuokoa ripoti ya ajali kwenye diski**. Ripoti ya ajali ina habari ambazo zinaweza **kusaidia msanidi programu kugundua** sababu ya ajali.\
+Kwa maombi na michakato mingine **inayofanya kazi katika muktadha wa uzinduzi wa mtumiaji mmoja**, ReportCrash inafanya kazi kama LaunchAgent na kuokoa ripoti za ajali kwenye `~/Library/Logs/DiagnosticReports/` ya mtumiaji.\
+Kwa daemons, michakato mingine **inayofanya kazi katika muktadha wa uzinduzi wa mfumo** na michakato mingine yenye mamlaka, ReportCrash inafanya kazi kama LaunchDaemon na kuokoa ripoti za ajali kwenye `/Library/Logs/DiagnosticReports` ya mfumo.
 
-If you are worried about crash reports **being sent to Apple** you can disable them. If not, crash reports can be useful to **figure out how a server crashed**.
-
+Ikiwa una wasiwasi juu ya ripoti za ajali **zikitumwa kwa Apple**, unaweza kuzizima. Ikiwa sivyo, ripoti za ajali zinaweza kuwa na manufaa katika **kugundua jinsi seva ilivyoanguka**.
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -427,48 +437,43 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Roo
 launchctl load -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Root.plist
 ```
+### Kulala
 
-### Sleep
+Wakati wa kufanya fuzzing kwenye MacOS, ni muhimu kuhakikisha kuwa Mac haipati usingizi:
 
-While fuzzing in a MacOS it's important to not allow the Mac to sleep:
-
-* systemsetup -setsleep Never
-* pmset, System Preferences
+* systemsetup -setsleep Kamwe
+* pmset, Mapendeleo ya Mfumo
 * [KeepingYouAwake](https://github.com/newmarcel/KeepingYouAwake)
 
-#### SSH Disconnect
+#### Kukatisha Mawasiliano ya SSH
 
-If you are fuzzing via a SSH connection it's important to make sure the session isn't going to day. So change the sshd\_config file with:
+Ikiwa unafanya fuzzing kupitia kikao cha SSH, ni muhimu kuhakikisha kuwa kikao hakitakatika. Kwa hivyo, badilisha faili ya sshd\_config na:
 
-* TCPKeepAlive Yes
+* TCPKeepAlive Ndiyo
 * ClientAliveInterval 0
 * ClientAliveCountMax 0
-
 ```bash
 sudo launchctl unload /System/Library/LaunchDaemons/ssh.plist
 sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
+### Wachunguzi wa Ndani
 
-### Internal Handlers
-
-**Checkout the following page** to find out how you can find which app is responsible of **handling the specified scheme or protocol:**
+**Angalia ukurasa ufuatao** ili kujua jinsi unavyoweza kugundua ni programu gani inayohusika na **kushughulikia mpango au itifaki iliyotajwa:**
 
 {% content-ref url="../macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](../macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-### Enumerating Network Processes
+### Kuhesabu Mchakato wa Mtandao
 
-This interesting to find processes that are managing network data:
-
+Hii ni muhimu kupata mchakato ambao unashughulikia data ya mtandao:
 ```bash
 dtrace -n 'syscall::recv*:entry { printf("-> %s (pid=%d)", execname, pid); }' >> recv.log
 #wait some time
 sort -u recv.log > procs.txt
 cat procs.txt
 ```
-
-Or use `netstat` or `lsof`
+Au tumia `netstat` au `lsof`
 
 ### Libgmalloc
 
@@ -484,13 +489,13 @@ lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYL
 
 #### [AFL++](https://github.com/AFLplusplus/AFLplusplus)
 
-Works for CLI tools
+Inafanya kazi kwa zana za CLI
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-It "**just works"** with macOS GUI tools. Note some some macOS apps have some specific requirements like unique filenames, the right extension, need to read the files from the sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
+Inafanya kazi na zana za GUI za macOS. Tafadhali kumbuka kuwa baadhi ya programu za macOS zinahitaji mahitaji maalum kama majina ya faili ya kipekee, ugani sahihi, na kusoma faili kutoka kwenye sanduku la mchanga (`~/Library/Containers/com.apple.Safari/Data`)...
 
-Some examples:
+Baadhi ya mifano:
 
 {% code overflow="wrap" %}
 ```bash
@@ -518,14 +523,14 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 ```
 {% endcode %}
 
-### More Fuzzing MacOS Info
+### Maelezo Zaidi Kuhusu Fuzzing kwenye MacOS
 
 * [https://www.youtube.com/watch?v=T5xfL9tEg44](https://www.youtube.com/watch?v=T5xfL9tEg44)
 * [https://github.com/bnagy/slides/blob/master/OSXScale.pdf](https://github.com/bnagy/slides/blob/master/OSXScale.pdf)
 * [https://github.com/bnagy/francis/tree/master/exploitaben](https://github.com/bnagy/francis/tree/master/exploitaben)
 * [https://github.com/ant4g0nist/crashwrangler](https://github.com/ant4g0nist/crashwrangler)
 
-## References
+## Marejeo
 
 * [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://www.youtube.com/watch?v=T5xfL9tEg44**](https://www.youtube.com/watch?v=T5xfL9tEg44)
@@ -534,14 +539,14 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

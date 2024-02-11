@@ -1,37 +1,36 @@
-# macOS Installers Abuse
+# Uvunjaji wa Matumizi ya Wafungaji wa macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu uvunjaji wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuvunja kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Pkg Basic Information
+## Habari Msingi za Pkg
 
-A macOS **installer package** (also known as a `.pkg` file) is a file format used by macOS to **distribute software**. These files are like a **box that contains everything a piece of software** needs to install and run correctly.
+Kifurushi cha **ufungaji wa macOS** (pia hujulikana kama faili ya `.pkg`) ni muundo wa faili unaotumiwa na macOS kusambaza programu. Faili hizi ni kama **sanduku linaloambatanisha kila kitu ambacho kipande cha programu** inahitaji ili kusakinisha na kukimbia kwa usahihi.
 
-The package file itself is an archive that holds a **hierarchy of files and directories that will be installed on the target** computer. It can also include **scripts** to perform tasks before and after the installation, like setting up configuration files or cleaning up old versions of the software.
+Faili ya kifurushi yenyewe ni kiunzi kinachoshikilia **muundo wa faili na saraka ambazo zitasakinishwa kwenye kompyuta ya lengo**. Inaweza pia kuwa na **hati** za kutekeleza kazi kabla na baada ya usakinishaji, kama vile kuweka faili za usanidi au kusafisha toleo la zamani la programu.
 
-### Hierarchy
+### Muundo
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Distribution (xml)**: Customizations (title, welcome text…) and script/installation checks
-* **PackageInfo (xml)**: Info, install requirements, install location, paths to scripts to run
-* **Bill of materials (bom)**: List of files to install, update or remove with file permissions
-* **Payload (CPIO archive gzip compresses)**: Files to install in the `install-location` from PackageInfo
-* **Scripts (CPIO archive gzip compressed)**: Pre and post install scripts and more resources extracted to a temp directory for execution.
+* **Usambazaji (xml)**: Kubinafsisha (kichwa, maandishi ya karibu...) na ukaguzi wa hati/usakinishaji
+* **PackageInfo (xml)**: Habari, mahitaji ya usakinishaji, mahali pa usakinishaji, njia za hati za kukimbia
+* **Bili ya vifaa (bom)**: Orodha ya faili za kusakinisha, kusasisha au kuondoa na ruhusa za faili
+* **Payload (CPIO kiunzi kilichopunguzwa kwa gzip)**: Faili za kusakinisha kwenye `mahali-pakua` kutoka kwa PackageInfo
+* **Hati (CPIO kiunzi kilichopunguzwa kwa gzip)**: Hati za kabla na baada ya usakinishaji na rasilimali zaidi zilizopatikana kwenye saraka ya muda kwa ajili ya utekelezaji.
 
-### Decompress
-
+### Kupunguza kiunzi
 ```bash
 # Tool to directly get the files inside a package
 pkgutil —expand "/path/to/package.pkg" "/path/to/out/dir"
@@ -45,74 +44,71 @@ xar -xf "/path/to/package.pkg"
 cat Scripts | gzip -dc | cpio -i
 cpio -i < Scripts
 ```
+## Taarifa Msingi kuhusu DMG
 
-## DMG Basic Information
+Faili za DMG, au Picha za Diski za Apple, ni muundo wa faili unaotumiwa na macOS ya Apple kwa picha za diski. Faili ya DMG ni kimsingi **picha ya diski inayoweza kufungwa** (ina mfumo wa faili yake) ambayo ina data ya kibodi iliyopakwa kawaida na wakati mwingine imefichwa. Unapofungua faili ya DMG, macOS **inafunga kama vile ni diski halisi**, kuruhusu ufikiaji wa maudhui yake.
 
-DMG files, or Apple Disk Images, are a file format used by Apple's macOS for disk images. A DMG file is essentially a **mountable disk image** (it contains its own filesystem) that contains raw block data typically compressed and sometimes encrypted. When you open a DMG file, macOS **mounts it as if it were a physical disk**, allowing you to access its contents.
-
-### Hierarchy
+### Mfumo wa Hierarchy
 
 <figure><img src="../../../.gitbook/assets/image (12) (2).png" alt=""><figcaption></figcaption></figure>
 
-The hierarchy of a DMG file can be different based on the content. However, for application DMGs, it usually follows this structure:
+Mfumo wa hierarchy wa faili ya DMG unaweza kuwa tofauti kulingana na maudhui. Walakini, kwa DMG za programu, kawaida inafuata muundo huu:
 
-* Top Level: This is the root of the disk image. It often contains the application and possibly a link to the Applications folder.
-  * Application (.app): This is the actual application. In macOS, an application is typically a package that contains many individual files and folders that make up the application.
-  * Applications Link: This is a shortcut to the Applications folder in macOS. The purpose of this is to make it easy for you to install the application. You can drag the .app file to this shortcut to install the app.
+* Kiwango cha Juu: Hii ni mzizi wa picha ya diski. Mara nyingi ina programu na labda kiunga kwa folda ya Maombi.
+* Programu (.app): Hii ni programu halisi. Katika macOS, programu kawaida ni mfuko ambao una faili na folda nyingi ambazo hufanya programu hiyo.
+* Kiunga cha Maombi: Hii ni njia ya mkato kwa folda ya Maombi katika macOS. Lengo la hii ni kufanya iwe rahisi kwako kufunga programu. Unaweza kuvuta faili ya .app kwenye njia hii ya mkato ili kufunga programu.
 
-## Privesc via pkg abuse
+## Privesc kupitia utumiaji mbaya wa pkg
 
-### Execution from public directories
+### Utekelezaji kutoka kwenye folda za umma
 
-If a pre or post installation script is for example executing from **`/var/tmp/Installerutil`**, and attacker could control that script so he escalate privileges whenever it's executed. Or another similar example:
+Ikiwa hati ya ufungaji kabla au baada ya ufungaji inatekelezwa, kwa mfano, kutoka kwenye **`/var/tmp/Installerutil`**, na mshambuliaji anaweza kudhibiti hati hiyo ili apate mamlaka ya juu wakati inatekelezwa. Au mfano mwingine kama huo:
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-This is a [public function](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) that several installers and updaters will call to **execute something as root**. This function accepts the **path** of the **file** to **execute** as parameter, however, if an attacker could **modify** this file, he will be able to **abuse** its execution with root to **escalate privileges**.
-
+Hii ni [kazi ya umma](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) ambayo wakala na wakurugenzi wengi watatumia kutekeleza kitu kama mizizi. Kazi hii inakubali **njia** ya **faili** ya **utekelezaji** kama parameter, hata hivyo, ikiwa mshambuliaji anaweza **kubadilisha** faili hii, ataweza **kutumia vibaya** utekelezaji wake na mizizi ili kupata mamlaka ya juu.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
+Kwa habari zaidi angalia mazungumzo haya: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
 
-For more info check this talk: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
+### Utekelezaji kwa kufunga
 
-### Execution by mounting
+Ikiwa mtunzi wa programu anaandika kwenye `/tmp/fixedname/bla/bla`, ni **inawezekana kuunda kifungu** juu ya `/tmp/fixedname` bila mmiliki ili uweze **kubadilisha faili yoyote wakati wa usakinishaji** ili kutumia mchakato wa usakinishaji.
 
-If an installer writes to `/tmp/fixedname/bla/bla`, it's possible to **create a mount** over `/tmp/fixedname` with noowners so you could **modify any file during the installation** to abuse the installation process.
+Mfano wa hii ni **CVE-2021-26089** ambayo ilifanikiwa **kubadilisha skripti ya kawaida** ili kupata utekelezaji kama mtumiaji mkuu. Kwa habari zaidi angalia mazungumzo haya: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
-An example of this is **CVE-2021-26089** which managed to **overwrite a periodic script** to get execution as root. For more information take a look to the talk: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+## pkg kama programu hasidi
 
-## pkg as malware
+### Malipo tupu
 
-### Empty Payload
+Inawezekana tu kuunda faili ya **`.pkg`** na **skripti za kabla na baada ya usakinishaji** bila malipo yoyote.
 
-It's possible to just generate a **`.pkg`** file with **pre and post-install scripts** without any payload.
+### JS katika xml ya Usambazaji
 
-### JS in Distribution xml
-
-It's possible to add **`<script>`** tags in the **distribution xml** file of the package and that code will get executed and it can **execute commands** using **`system.run`**:
+Inawezekana kuongeza vitambulisho vya **`<script>`** katika faili ya xml ya **usambazaji** ya kifurushi na namna hiyo itatekelezwa na inaweza **kutekeleza amri** kwa kutumia **`system.run`**:
 
 <figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
 
-## References
+## Marejeo
 
 * [**DEF CON 27 - Unpacking Pkgs A Look Inside Macos Installer Packages And Common Security Flaws**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
 * [**OBTS v4.0: "The Wild World of macOS Installers" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

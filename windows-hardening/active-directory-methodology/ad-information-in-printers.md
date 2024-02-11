@@ -1,82 +1,74 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inayotangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 
-There are several blogs in the Internet which **highlight the dangers of leaving printers configured with LDAP with default/weak** logon credentials.\
-This is because an attacker could **trick the printer to authenticate against a rouge LDAP server** (typically a `nc -vv -l -p 444` is enough) and to capture the printer **credentials on clear-text**.
+Kuna blogi kadhaa kwenye mtandao ambazo **zinaonyesha hatari za kuacha wachapishaji wameboreshwa na LDAP na sifa za kuingia za chaguo-msingi/dhaifu**.\
+Hii ni kwa sababu mshambuliaji anaweza **kudanganya wachapishaji kuthibitisha dhidi ya seva ya LDAP ya udanganyifu** (kawaida `nc -vv -l -p 444` inatosha) na kukamata **sifa za wachapishaji kwa maandishi wazi**.
 
-Also, several printers will contains **logs with usernames** or could even be able to **download all usernames** from the Domain Controller.
+Pia, wachapishaji kadhaa watakuwa na **magogo na majina ya watumiaji** au hata wanaweza **kupakua majina yote ya watumiaji** kutoka kwa Kudhibitiwa na Kudhibitiwa na Kudhibitiwa.
 
-All this **sensitive information** and the common **lack of security** makes printers very interesting for attackers.
+Maelezo yote haya **yenye hisia** na **ukosefu wa usalama wa kawaida** hufanya wachapishaji kuwa ya kuvutia sana kwa wadukuzi.
 
-Some blogs about the topic:
+Baadhi ya blogi kuhusu mada hiyo:
 
 * [https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/](https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/)
 * [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 
-## Printer Configuration
-- **Location**: The LDAP server list is found at: `Network > LDAP Setting > Setting Up LDAP`.
-- **Behavior**: The interface allows LDAP server modifications without re-entering credentials, aiming for user convenience but posing security risks.
-- **Exploit**: The exploit involves redirecting the LDAP server address to a controlled machine and leveraging the "Test Connection" feature to capture credentials.
+## Usanidi wa Wachapishaji
+- **Mahali**: Orodha ya seva ya LDAP inapatikana kwenye: `Mtandao > Usanidi wa LDAP > Kuweka LDAP`.
+- **Tabia**: Kiolesura kinawezesha marekebisho ya seva ya LDAP bila kuingiza tena sifa za kuingia, lengo likiwa ni urahisi wa mtumiaji lakini kuna hatari za usalama.
+- **Kudukua**: Kudukua kunahusisha kuelekeza anwani ya seva ya LDAP kwa kompyuta iliyodhibitiwa na kutumia kipengele cha "Jaribu Uunganisho" kukamata sifa.
 
-## Capturing Credentials
+## Kukamata Sifa
 
-**For more detailed steps, refer to the original [source](https://grimhacker.com/2018/03/09/just-a-printer/).**
+**Kwa hatua za kina zaidi, tazama [chanzo](https://grimhacker.com/2018/03/09/just-a-printer/) asili.**
 
-### Method 1: Netcat Listener
-A simple netcat listener might suffice:
-
+### Njia 1: Msikilizaji wa Netcat
+Msikilizaji wa netcat rahisi inaweza kuwa ya kutosha:
 ```bash
 sudo nc -k -v -l -p 386
 ```
+Hata hivyo, mafanikio ya njia hii hutofautiana.
 
-However, this method's success varies.
+### Njia ya 2: Seva kamili ya LDAP na Slapd
+Njia yenye uhakika zaidi inahusisha kuweka seva kamili ya LDAP kwa sababu printer hufanya null bind ikifuatiwa na utafutaji kabla ya kujaribu kuunganisha kitambulisho.
 
-### Method 2: Full LDAP Server with Slapd
-A more reliable approach involves setting up a full LDAP server because the printer performs a null bind followed by a query before attempting credential binding.
-
-1. **LDAP Server Setup**: The guide follows steps from [this source](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
-2. **Key Steps**:
-    - Install OpenLDAP.
-    - Configure admin password.
-    - Import basic schemas.
-    - Set domain name on LDAP DB.
-    - Configure LDAP TLS.
-3. **LDAP Service Execution**: Once set up, the LDAP service can be run using:
-
+1. **Kuweka Seva ya LDAP**: Mwongozo unafuata hatua kutoka [chanzo hiki](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
+2. **Hatua muhimu**:
+- Sakinisha OpenLDAP.
+- Sanidi nenosiri la admin.
+- Ingiza skimu za msingi.
+- Weka jina la kikoa kwenye DB ya LDAP.
+- Sanidi LDAP TLS.
+3. **Utekelezaji wa Huduma ya LDAP**: Mara baada ya kuweka, huduma ya LDAP inaweza kutekelezwa kwa kutumia:
 ```bash
 slapd -d 2
 ```
-
-## References
+## Marejeo
 * [https://grimhacker.com/2018/03/09/just-a-printer/](https://grimhacker.com/2018/03/09/just-a-printer/)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

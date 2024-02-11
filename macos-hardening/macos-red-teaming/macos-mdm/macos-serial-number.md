@@ -1,34 +1,34 @@
-# macOS Serial Number
+# Nambari ya Siri ya macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 
-## Basic Information
+## Taarifa Msingi
 
-Apple devices post-2010 have serial numbers consisting of **12 alphanumeric characters**, each segment conveying specific information:
+Vifaa vya Apple vilivyotengenezwa baada ya 2010 vina nambari za siri zinazojumuisha **herufi na nambari 12**, kila sehemu ikitoa habari maalum:
 
-- **First 3 Characters**: Indicate the **manufacturing location**.
-- **Characters 4 & 5**: Denote the **year and week of manufacture**.
-- **Characters 6 to 8**: Serve as a **unique identifier** for each device.
-- **Last 4 Characters**: Specify the **model number**.
+- **Herufi 3 za Kwanza**: Zinaonyesha **eneo la utengenezaji**.
+- **Herufi 4 na 5**: Zinaonyesha **mwaka na wiki ya utengenezaji**.
+- **Herufi 6 hadi 8**: Hutumika kama **kitambulisho cha kipekee** kwa kila kifaa.
+- **Herufi 4 za Mwisho**: Zinaelezea **nambari ya mfano**.
 
-For instance, the serial number **C02L13ECF8J2** follows this structure.
+Kwa mfano, nambari ya siri **C02L13ECF8J2** inafuata muundo huu.
 
-### **Manufacturing Locations (First 3 Characters)**
-Certain codes represent specific factories:
-- **FC, F, XA/XB/QP/G8**: Various locations in the USA.
+### **Maeneo ya Utengenezaji (Herufi 3 za Kwanza)**
+Nambari fulani zinaonyesha viwanda maalum:
+- **FC, F, XA/XB/QP/G8**: Maeneo mbalimbali nchini Marekani.
 - **RN**: Mexico.
 - **CK**: Cork, Ireland.
 - **VM**: Foxconn, Czech Republic.
@@ -36,36 +36,36 @@ Certain codes represent specific factories:
 - **MB**: Malaysia.
 - **PT/CY**: Korea.
 - **EE/QT/UV**: Taiwan.
-- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**: Different locations in China.
-- **C0, C3, C7**: Specific cities in China.
-- **RM**: Refurbished devices.
+- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7**: Maeneo mbalimbali nchini China.
+- **C0, C3, C7**: Miji maalum nchini China.
+- **RM**: Vifaa vilivyorekebishwa.
 
-### **Year of Manufacturing (4th Character)**
-This character varies from 'C' (representing the first half of 2010) to 'Z' (second half of 2019), with different letters indicating different half-year periods.
+### **Mwaka wa Utengenezaji (Herufi ya 4)**
+Herufi hii inatofautiana kutoka 'C' (inayoonyesha nusu ya kwanza ya 2010) hadi 'Z' (nusu ya pili ya 2019), na herufi tofauti zinaonyesha nusu ya mwaka tofauti.
 
-### **Week of Manufacturing (5th Character)**
-Digits 1-9 correspond to weeks 1-9. Letters C-Y (excluding vowels and 'S') represent weeks 10-27. For the second half of the year, 26 is added to this number.
+### **Wiki ya Utengenezaji (Herufi ya 5)**
+Nambari 1-9 inalingana na wiki 1-9. Herufi C-Y (isipokuwa herufi za kivumishi na 'S') zinaonyesha wiki 10-27. Kwa nusu ya pili ya mwaka, 26 inaongezwa kwenye nambari hii.
 
-### **Unique Identifier (Characters 6 to 8)**
-These three digits ensure each device, even of the same model and batch, has a distinct serial number.
+### **Kitambulisho cha Kipekee (Herufi 6 hadi 8)**
+Nambari hizi tatu zinahakikisha kila kifaa, hata cha mfano na kundi moja, kina nambari ya siri tofauti.
 
-### **Model Number (Last 4 Characters)**
-These digits identify the specific model of the device.
+### **Nambari ya Mfano (Herufi 4 za Mwisho)**
+Nambari hizi zinafahamisha mfano maalum wa kifaa.
 
-### Reference
+### Marejeo
 
 * [https://beetstech.com/blog/decode-meaning-behind-apple-serial-number](https://beetstech.com/blog/decode-meaning-behind-apple-serial-number)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

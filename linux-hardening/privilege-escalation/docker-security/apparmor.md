@@ -2,45 +2,44 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inayotangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Basic Information
+## Taarifa Msingi
 
-AppArmor is a **kernel enhancement designed to restrict the resources available to programs through per-program profiles**, effectively implementing Mandatory Access Control (MAC) by tying access control attributes directly to programs instead of users. This system operates by **loading profiles into the kernel**, usually during boot, and these profiles dictate what resources a program can access, such as network connections, raw socket access, and file permissions.
+AppArmor ni **uboreshaji wa kernel ulioundwa kuzuia rasilimali zinazopatikana kwa programu kupitia maelezo ya kila programu**, kwa ufanisi kutekeleza Udhibiti wa Upatikanaji wa Lazima (MAC) kwa kuunganisha sifa za udhibiti wa upatikanaji moja kwa moja kwa programu badala ya watumiaji. Mfumo huu hufanya kazi kwa **kupakia maelezo ya kila programu kwenye kernel**, kawaida wakati wa kuanza, na maelezo haya yanadhibiti ni rasilimali gani programu inaweza kupata, kama vile uhusiano wa mtandao, upatikanaji wa soketi za moja kwa moja, na ruhusa za faili.
 
-There are two operational modes for AppArmor profiles:
+Kuna njia mbili za uendeshaji kwa maelezo ya kila programu ya AppArmor:
 
-- **Enforcement Mode**: This mode actively enforces the policies defined within the profile, blocking actions that violate these policies and logging any attempts to breach them through systems like syslog or auditd.
-- **Complain Mode**: Unlike enforcement mode, complain mode does not block actions that go against the profile's policies. Instead, it logs these attempts as policy violations without enforcing restrictions.
+- **Njia ya Utekelezaji**: Njia hii inatekeleza kikamilifu sera zilizoelezwa ndani ya maelezo ya kila programu, kwa kuzuia vitendo vinavyokiuka sera hizi na kurekodi jaribio lolote la kukiuka sera hizo kupitia mifumo kama syslog au auditd.
+- **Njia ya Malalamiko**: Tofauti na njia ya utekelezaji, njia ya malalamiko haikatazi vitendo vinavyokwenda kinyume na sera za maelezo ya kila programu. Badala yake, inarekodi majaribio haya kama uvunjaji wa sera bila kutekeleza vizuizi.
 
-### Components of AppArmor
+### Vipengele vya AppArmor
 
-- **Kernel Module**: Responsible for the enforcement of policies.
-- **Policies**: Specify the rules and restrictions for program behavior and resource access.
-- **Parser**: Loads policies into the kernel for enforcement or reporting.
-- **Utilities**: These are user-mode programs that provide an interface for interacting with and managing AppArmor.
+- **Moduli ya Kernel**: Inahusika na utekelezaji wa sera.
+- **Sera**: Zinaeleza sheria na vizuizi kwa tabia ya programu na upatikanaji wa rasilimali.
+- **Kisomaji**: Inapakia sera kwenye kernel kwa utekelezaji au taarifa.
+- **Zana**: Hizi ni programu za mode ya mtumiaji ambazo zinatoa kiolesura cha kuwasiliana na kusimamia AppArmor.
 
-### Profiles path
+### Njia za Maelezo ya AppArmor
 
-Apparmor profiles are usually saved in _**/etc/apparmor.d/**_\
-With `sudo aa-status` you will be able to list the binaries that are restricted by some profile. If you can change the char "/" for a dot of the path of each listed binary and you will obtain the name of the apparmor profile inside the mentioned folder.
+Maelezo ya AppArmor kawaida hufungwa katika _**/etc/apparmor.d/**_\
+Kwa kutumia `sudo aa-status` utaweza kuorodhesha programu ambazo zimezuiliwa na maelezo ya kila programu. Ikiwa unaweza kubadilisha herufi "/" na kipindi cha njia ya kila programu iliyoorodheshwa, utapata jina la maelezo ya AppArmor ndani ya folda iliyotajwa.
 
-For example, a **apparmor** profile for _/usr/bin/man_ will be located in _/etc/apparmor.d/usr.bin.man_
+Kwa mfano, maelezo ya **AppArmor** kwa _/usr/bin/man_ yatakuwa yamehifadhiwa katika _/etc/apparmor.d/usr.bin.man_
 
-### Commands
-
+### Amri
 ```bash
-aa-status     #check the current status 
+aa-status     #check the current status
 aa-enforce    #set profile to enforce mode (from disable or complain)
 aa-complain   #set profile to complain mode (from diable or enforcement)
 apparmor_parser #to load/reload an altered policy
@@ -48,48 +47,42 @@ aa-genprof    #generate a new profile
 aa-logprof    #used to change the policy when the binary/program is changed
 aa-mergeprof  #used to merge the policies
 ```
+## Kuunda wasifu
 
-## Creating a profile
-
-* In order to indicate the affected executable, **absolute paths and wildcards** are allowed (for file globbing) for specifying files.
-* To indicate the access the binary will have over **files** the following **access controls** can be used:
-  * **r** (read)
-  * **w** (write)
-  * **m** (memory map as executable)
-  * **k** (file locking)
-  * **l** (creation hard links)
-  * **ix** (to execute another program with the new program inheriting policy)
-  * **Px** (execute under another profile, after cleaning the environment)
-  * **Cx** (execute under a child profile, after cleaning the environment)
-  * **Ux** (execute unconfined, after cleaning the environment)
-* **Variables** can be defined in the profiles and can be manipulated from outside the profile. For example: @{PROC} and @{HOME} (add #include \<tunables/global> to the profile file)
-* **Deny rules are supported to override allow rules**.
+* Ili kuonyesha faili zilizoathiriwa, **njia kamili na alama za wilcard** zinaruhusiwa (kwa ajili ya kuchagua faili).
+* Ili kuonyesha upatikanaji wa faili ambao programu itakuwa nayo, **udhibiti wa upatikanaji** ufuatao unaweza kutumika:
+* **r** (kusoma)
+* **w** (kuandika)
+* **m** (kumbukumbu ya ram kama inayoweza kutekelezwa)
+* **k** (kufunga faili)
+* **l** (kuunda viungo vya ngumu)
+* **ix** (kutekeleza programu nyingine na programu mpya inarithi sera)
+* **Px** (kutekeleza chini ya wasifu mwingine, baada ya kusafisha mazingira)
+* **Cx** (kutekeleza chini ya wasifu wa mtoto, baada ya kusafisha mazingira)
+* **Ux** (kutekeleza bila kizuizi, baada ya kusafisha mazingira)
+* **Mipangilio** inaweza kuwekwa katika wasifu na inaweza kubadilishwa kutoka nje ya wasifu. Kwa mfano: @{PROC} na @{HOME} (ongeza #include \<tunables/global> kwenye faili ya wasifu)
+* **Sheria za kukataa zinasaidiwa ili kubadilisha sheria za kuruhusu**.
 
 ### aa-genprof
 
-To easily start creating a profile apparmor can help you. It's possible to make **apparmor inspect the actions performed by a binary and then let you decide which actions you want to allow or deny**.\
-You just need to run:
-
+Ili kuanza kwa urahisi kuunda wasifu, apparmor inaweza kukusaidia. Ni rahisi kufanya **apparmor ichunguze vitendo vilivyofanywa na programu na kisha kukuruhusu kuamua vitendo gani unataka kuruhusu au kukataa**.\
+Unahitaji tu kukimbia:
 ```bash
 sudo aa-genprof /path/to/binary
 ```
-
-Then, in a different console perform all the actions that the binary will usually perform:
-
+Kisha, katika konsoli tofauti fanya vitendo vyote ambavyo kawaida programu itatekeleza:
 ```bash
 /path/to/binary -a dosomething
 ```
-
-Then, in the first console press "**s**" and then in the recorded actions indicate if you want to ignore, allow, or whatever. When you have finished press "**f**" and the new profile will be created in _/etc/apparmor.d/path.to.binary_
+Kisha, katika konsoli ya kwanza bonyeza "**s**" na kisha katika hatua zilizorekodiwa eleza ikiwa unataka kuzipuuza, kuruhusu, au chochote. Ukimaliza bonyeza "**f**" na wasifu mpya utaundwa katika _/etc/apparmor.d/path.to.binary_
 
 {% hint style="info" %}
-Using the arrow keys you can select what you want to allow/deny/whatever
+Kwa kutumia mishale unaweza kuchagua unachotaka kuruhusu/kukataa/chochote
 {% endhint %}
 
 ### aa-easyprof
 
-You can also create a template of an apparmor profile of a binary with:
-
+Unaweza pia kuunda kigezo cha wasifu wa apparmor ya programu ya binary na:
 ```bash
 sudo aa-easyprof /path/to/binary
 # vim:syntax=apparmor
@@ -103,42 +96,36 @@ sudo aa-easyprof /path/to/binary
 # No template variables specified
 
 "/path/to/binary" {
-  #include <abstractions/base>
+#include <abstractions/base>
 
-  # No abstractions specified
+# No abstractions specified
 
-  # No policy groups specified
+# No policy groups specified
 
-  # No read paths specified
+# No read paths specified
 
-  # No write paths specified
+# No write paths specified
 }
 ```
-
 {% hint style="info" %}
-Note that by default in a created profile nothing is allowed, so everything is denied. You will need to add lines like `/etc/passwd r,` to allow the binary read `/etc/passwd` for example.
+Tafadhali kumbuka kuwa kwa chaguo-msingi katika wasifu uliozalishwa hakuna kitu kinachoruhusiwa, kwa hivyo kila kitu kimekataliwa. Utahitaji kuongeza mistari kama `/etc/passwd r,` ili kuruhusu kusoma faili ya binary `/etc/passwd` kwa mfano.
 {% endhint %}
 
-You can then **enforce** the new profile with
-
+Kisha unaweza **kutekeleza** wasifu mpya na
 ```bash
 sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
+### Kubadilisha wasifu kutoka kwenye magogo
 
-### Modifying a profile from logs
-
-The following tool will read the logs and ask the user if he wants to permit some of the detected forbidden actions:
-
+Zana ifuatayo itasoma magogo na kuuliza mtumiaji ikiwa anataka kuruhusu baadhi ya vitendo vilivyopigwa marufuku vilivyogunduliwa:
 ```bash
 sudo aa-logprof
 ```
-
 {% hint style="info" %}
-Using the arrow keys you can select what you want to allow/deny/whatever
+Kwa kutumia mishale ya kibonyezo unaweza kuchagua unachotaka kuruhusu/kukataa/chochote
 {% endhint %}
 
-### Managing a Profile
-
+### Kusimamia Profaili
 ```bash
 #Main profile management commands
 apparmor_parser -a /etc/apparmor.d/profile.name #Load a new profile in enforce mode
@@ -146,18 +133,14 @@ apparmor_parser -C /etc/apparmor.d/profile.name #Load a new profile in complain 
 apparmor_parser -r /etc/apparmor.d/profile.name #Replace existing profile
 apparmor_parser -R /etc/apparmor.d/profile.name #Remove profile
 ```
+## Kumbukumbu
 
-## Logs
-
-Example of **AUDIT** and **DENIED** logs from _/var/log/audit/audit.log_ of the executable **`service_bin`**:
-
+Mfano wa kumbukumbu za **AUDIT** na **DENIED** kutoka kwa faili _/var/log/audit/audit.log_ ya programu inayoweza kutekelezwa **`service_bin`**:
 ```bash
 type=AVC msg=audit(1610061880.392:286): apparmor="AUDIT" operation="getattr" profile="/bin/rcat" name="/dev/pts/1" pid=954 comm="service_bin" requested_mask="r" fsuid=1000 ouid=1000
 type=AVC msg=audit(1610061880.392:287): apparmor="DENIED" operation="open" profile="/bin/rcat" name="/etc/hosts" pid=954 comm="service_bin" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
 ```
-
-You can also get this information using:
-
+Unaweza pia kupata habari hii kwa kutumia:
 ```bash
 sudo aa-notify -s 1 -v
 Profile: /bin/service_bin
@@ -175,127 +158,105 @@ Logfile: /var/log/audit/audit.log
 AppArmor denials: 2 (since Wed Jan  6 23:51:08 2021)
 For more information, please see: https://wiki.ubuntu.com/DebuggingApparmor
 ```
+## Apparmor katika Docker
 
-## Apparmor in Docker
-
-Note how the profile **docker-profile** of docker is loaded by default:
-
+Tazama jinsi wasifu **docker-profile** wa docker unavyopakiwa kwa chaguo-msingi:
 ```bash
 sudo aa-status
 apparmor module is loaded.
 50 profiles are loaded.
 13 profiles are in enforce mode.
-   /sbin/dhclient
-   /usr/bin/lxc-start
-   /usr/lib/NetworkManager/nm-dhcp-client.action
-   /usr/lib/NetworkManager/nm-dhcp-helper
-   /usr/lib/chromium-browser/chromium-browser//browser_java
-   /usr/lib/chromium-browser/chromium-browser//browser_openjdk
-   /usr/lib/chromium-browser/chromium-browser//sanitized_helper
-   /usr/lib/connman/scripts/dhclient-script
-   docker-default
+/sbin/dhclient
+/usr/bin/lxc-start
+/usr/lib/NetworkManager/nm-dhcp-client.action
+/usr/lib/NetworkManager/nm-dhcp-helper
+/usr/lib/chromium-browser/chromium-browser//browser_java
+/usr/lib/chromium-browser/chromium-browser//browser_openjdk
+/usr/lib/chromium-browser/chromium-browser//sanitized_helper
+/usr/lib/connman/scripts/dhclient-script
+docker-default
 ```
+Kwa chaguo-msingi, **Profaili ya Apparmor ya docker-default** inatengenezwa kutoka [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
 
-By default **Apparmor docker-default profile** is generated from [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
+**Muhtasari wa profaili ya docker-default**:
 
-**docker-default profile Summary**:
+* **Upatikanaji** wa mtandao wote
+* **Uwezo wowote** haujatolewa (Hata hivyo, baadhi ya uwezo utatoka kwa kuingiza sheria za msingi za msingi kama vile #include \<abstractions/base>)
+* **Kuandika** kwenye faili yoyote ya **/proc** **hairuhusiwi**
+* **Subdirectories**/**faili** nyingine za /**proc** na /**sys** zinaruhusiwa kusoma/kuandika/kufunga/kuunganisha/kutekeleza
+* **Kufunga** **hairuhusiwi**
+* **Ptrace** inaweza kufanywa tu kwenye mchakato ambao umefungwa na **profaili sawa ya apparmor**
 
-* **Access** to all **networking**
-* **No capability** is defined (However, some capabilities will come from including basic base rules i.e. #include \<abstractions/base> )
-* **Writing** to any **/proc** file is **not allowed**
-* Other **subdirectories**/**files** of /**proc** and /**sys** are **denied** read/write/lock/link/execute access
-* **Mount** is **not allowed**
-* **Ptrace** can only be run on a process that is confined by **same apparmor profile**
-
-Once you **run a docker container** you should see the following output:
-
+Maranyi unapo **kuanzisha chombo cha docker**, unapaswa kuona matokeo yafuatayo:
 ```bash
 1 processes are in enforce mode.
-   docker-default (825)
+docker-default (825)
 ```
-
-Note that **apparmor will even block capabilities privileges** granted to the container by default. For example, it will be able to **block permission to write inside /proc even if the SYS\_ADMIN capability is granted** because by default docker apparmor profile denies this access:
-
+Tafadhali kumbuka kuwa **apparmor itazuia hata uwezo wa ruhusa** uliopewa kontena kwa chaguo-msingi. Kwa mfano, itaweza **kuzuia ruhusa ya kuandika ndani ya /proc hata kama uwezo wa SYS\_ADMIN umepewa** kwa sababu ya profaili ya apparmor ya docker kukataa ufikiaji huu kwa chaguo-msingi:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
 sh: 1: cannot create /proc/stat: Permission denied
 ```
-
-You need to **disable apparmor** to bypass its restrictions:
-
+Unahitaji **kulemaza apparmor** ili kuepuka vizuizi vyake:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu /bin/bash
 ```
+Tafadhali kumbuka kwamba kwa chaguo-msingi **AppArmor** pia itakataza kontena kufunga folda kutoka ndani hata na uwezo wa SYS\_ADMIN.
 
-Note that by default **AppArmor** will also **forbid the container to mount** folders from the inside even with SYS\_ADMIN capability.
+Tafadhali kumbuka unaweza **kuongeza/kuondoa** uwezo kwa kontena ya docker (hii itakuwa bado imezuiliwa na njia za ulinzi kama **AppArmor** na **Seccomp**):
 
-Note that you can **add/remove** **capabilities** to the docker container (this will be still restricted by protection methods like **AppArmor** and **Seccomp**):
-
-* `--cap-add=SYS_ADMIN` give `SYS_ADMIN` cap
-* `--cap-add=ALL` give all caps
-* `--cap-drop=ALL --cap-add=SYS_PTRACE` drop all caps and only give `SYS_PTRACE`
+* `--cap-add=SYS_ADMIN` itaongeza uwezo wa `SYS_ADMIN`
+* `--cap-add=ALL` itaongeza uwezo wote
+* `--cap-drop=ALL --cap-add=SYS_PTRACE` itaondoa uwezo wote na kuongeza tu `SYS_PTRACE`
 
 {% hint style="info" %}
-Usually, when you **find** that you have a **privileged capability** available **inside** a **docker** container **but** some part of the **exploit isn't working**, this will be because docker **apparmor will be preventing it**.
+Kawaida, unapogundua kuwa una uwezo wa **kipekee** uliopo **ndani** ya kontena ya **docker** lakini sehemu fulani ya shambulio haifanyi kazi, hii itakuwa kwa sababu **apparmor ya docker itazuia**.
 {% endhint %}
 
-### Example
+### Mfano
 
-(Example from [**here**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/))
+(Mfano kutoka [**hapa**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/))
 
-To illustrate AppArmor functionality, I created a new Docker profile “mydocker” with the following line added:
-
+Ili kuelezea utendaji wa AppArmor, niliumba maelezo mapya ya Docker "mydocker" na mstari ufuatao uliongezwa:
 ```
 deny /etc/* w,   # deny write for all files directly in /etc (not in a subdir)
 ```
-
-To activate the profile, we need to do the following:
-
+Kuamsha wasifu, tunahitaji kufanya yafuatayo:
 ```
 sudo apparmor_parser -r -W mydocker
 ```
-
-To list the profiles, we can do the following command. The command below is listing my new AppArmor profile.
-
+Kuorodhesha maelezo ya profaili, tunaweza kutumia amri ifuatayo. Amri hapa chini inaorodhesha maelezo ya profaili yangu mpya ya AppArmor.
 ```
 $ sudo apparmor_status  | grep mydocker
-   mydocker
+mydocker
 ```
-
-As shown below, we get error when trying to change “/etc/” since AppArmor profile is preventing write access to “/etc”.
-
+Kama inavyoonekana hapa chini, tunapata kosa tunapojaribu kubadilisha "/etc/" kwani maelezo ya AppArmor yanazuia ufikiaji wa kuandika kwenye "/etc".
 ```
 $ docker run --rm -it --security-opt apparmor:mydocker -v ~/haproxy:/localhost busybox chmod 400 /etc/hostname
 chmod: /etc/hostname: Permission denied
 ```
+### AppArmor Docker Kupita1
 
-### AppArmor Docker Bypass1
-
-You can find which **apparmor profile is running a container** using:
-
+Unaweza kupata **profaili ya apparmor inayotumika kwenye kontena** kwa kutumia:
 ```bash
 docker inspect 9d622d73a614 | grep lowpriv
-        "AppArmorProfile": "lowpriv",
-                "apparmor=lowpriv"
+"AppArmorProfile": "lowpriv",
+"apparmor=lowpriv"
 ```
-
-Then, you can run the following line to **find the exact profile being used**:
-
+Kisha, unaweza kukimbia mstari ufuatao ili **kupata maelezo sahihi ya profile inayotumiwa**:
 ```bash
 find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 ```
+Katika kesi ya ajabu unaweza **kubadilisha maelezo ya apparmor ya docker na kuirudisha tena.** Unaweza kuondoa vizuizi na "kuvuka" vizuizi hivyo.
 
-In the weird case you can **modify the apparmor docker profile and reload it.** You could remove the restrictions and "bypass" them.
+### Kuvuka AppArmor ya Docker 2
 
-### AppArmor Docker Bypass2
+**AppArmor inategemea njia**, hii inamaanisha kwamba hata kama inaweza **kulinda** faili ndani ya saraka kama **`/proc`** ikiwa unaweza **kuweka jinsi chombo cha kudhibitiwa kitakavyotekelezwa**, unaweza **kufunga** saraka ya proc ya mwenyeji ndani ya **`/host/proc`** na haitalindwa tena na AppArmor.
 
-**AppArmor is path based**, this means that even if it might be **protecting** files inside a directory like **`/proc`** if you can **configure how the container is going to be run**, you could **mount** the proc directory of the host inside **`/host/proc`** and it **won't be protected by AppArmor anymore**.
+### Kuvuka Shebang ya AppArmor
 
-### AppArmor Shebang Bypass
-
-In [**this bug**](https://bugs.launchpad.net/apparmor/+bug/1911431) you can see an example of how **even if you are preventing perl to be run with certain resources**, if you just create a a shell script **specifying** in the first line **`#!/usr/bin/perl`** and you **execute the file directly**, you will be able to execute whatever you want. E.g.:
-
+Katika [**mdudu huu**](https://bugs.launchpad.net/apparmor/+bug/1911431) unaweza kuona mfano wa jinsi **hata kama unazuia perl kutumika na rasilimali fulani**, ikiwa tu unatengeneza script ya shell **ukiainisha** kwenye mstari wa kwanza **`#!/usr/bin/perl`** na **kutekeleza faili moja kwa moja**, utaweza kutekeleza chochote unachotaka. Kwa mfano:
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);
@@ -305,17 +266,16 @@ exec "/bin/sh"' > /tmp/test.pl
 chmod +x /tmp/test.pl
 /tmp/test.pl
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

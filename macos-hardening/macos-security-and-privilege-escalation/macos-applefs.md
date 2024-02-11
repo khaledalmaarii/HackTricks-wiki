@@ -2,43 +2,40 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 ## Apple Propietary File System (APFS)
 
-**Apple File System (APFS)** is a modern file system designed to supersede the Hierarchical File System Plus (HFS+). Its development was driven by the need for **improved performance, security, and efficiency**.
+**Apple File System (APFS)** ni mfumo wa faili wa kisasa ulioundwa kuchukua nafasi ya Hierarchical File System Plus (HFS+). Maendeleo yake yalichochea hitaji la **utendaji bora, usalama, na ufanisi**.
 
-Some notable features of APFS include:
+Baadhi ya sifa muhimu za APFS ni pamoja na:
 
-1. **Space Sharing**: APFS allows multiple volumes to **share the same underlying free storage** on a single physical device. This enables more efficient space utilization as the volumes can dynamically grow and shrink without the need for manual resizing or repartitioning.
-   1. This means, compared with traditional partitions in file disks, **that in APFS different partitions (volumes) shares all the disk space**, while a regular partition usually had a fixed size.
-2. **Snapshots**: APFS supports **creating snapshots**, which are **read-only**, point-in-time instances of the file system. Snapshots enable efficient backups and easy system rollbacks, as they consume minimal additional storage and can be quickly created or reverted.
-3. **Clones**: APFS can **create file or directory clones that share the same storage** as the original until either the clone or the original file is modified. This feature provides an efficient way to create copies of files or directories without duplicating the storage space.
-4. **Encryption**: APFS **natively supports full-disk encryption** as well as per-file and per-directory encryption, enhancing data security across different use cases.
-5. **Crash Protection**: APFS uses a **copy-on-write metadata scheme that ensures file system consistency** even in cases of sudden power loss or system crashes, reducing the risk of data corruption.
+1. **Kugawana Nafasi**: APFS inaruhusu sehemu nyingi kushiriki **uhifadhi huru sawa** kwenye kifaa kimoja cha kimwili. Hii inawezesha matumizi bora ya nafasi kwani sehemu zinaweza kukua na kupungua kwa urahisi bila hitaji la kubadilisha ukubwa au kugawa upya kwa mikono.
+1. Hii inamaanisha, ikilinganishwa na sehemu za jadi kwenye diski za faili, **kwamba kwenye APFS sehemu tofauti (sehemu) zinashiriki nafasi yote ya diski**, wakati sehemu ya kawaida kawaida ilikuwa na ukubwa uliowekwa.
+2. **Picha za Haraka**: APFS inasaidia **kuunda picha za haraka**, ambazo ni nakala za mfumo wa faili kwa wakati fulani ambazo ni **soma tu**. Picha za haraka hufanikisha nakala za rudufu zenye ufanisi na kurudisha mfumo kwa urahisi, kwani zinatumia uhifadhi wa ziada kidogo na zinaweza kuundwa au kurudishwa haraka.
+3. **Mara mbili**: APFS inaweza **kuunda nakala za faili au saraka ambazo zinashiriki uhifadhi sawa** na asili hadi nakala au faili ya asili inapobadilishwa. Kipengele hiki kinatoa njia yenye ufanisi ya kuunda nakala za faili au saraka bila kuiga nafasi ya uhifadhi.
+4. **Ufichaji**: APFS **inasaidia kwa asili uchimbaji kamili wa diski** pamoja na uchimbaji wa faili na saraka kwa kila faili, ikiboresha usalama wa data katika matumizi tofauti.
+5. **Ulinzi wa Ajali**: APFS hutumia **mfumo wa meta-data wa nakala-on-kuandika ambao huhakikisha utulivu wa mfumo wa faili** hata katika kesi za kupoteza umeme ghafla au kuzuka kwa mfumo, kupunguza hatari ya uharibifu wa data.
 
-Overall, APFS offers a more modern, flexible, and efficient file system for Apple devices, with a focus on improved performance, reliability, and security.
-
+Kwa ujumla, APFS inatoa mfumo wa faili wa kisasa, wenye nguvu, na wenye ufanisi zaidi kwa vifaa vya Apple, ukiwa na lengo la kuboresha utendaji, uaminifu, na usalama.
 ```bash
 diskutil list # Get overview of the APFS volumes
 ```
-
 ## Firmlinks
 
-The `Data` volume is mounted in **`/System/Volumes/Data`** (you can check this with `diskutil apfs list`).
+Kiasi cha `Data` kimeunganishwa katika **`/System/Volumes/Data`** (unaweza kuthibitisha hili kwa kutumia `diskutil apfs list`).
 
-The list of firmlinks can be found in the **`/usr/share/firmlinks`** file.
-
+Orodha ya firmlinks inaweza kupatikana katika faili ya **`/usr/share/firmlinks`**.
 ```bash
 cat /usr/share/firmlinks
 /AppleInternal	AppleInternal
@@ -46,19 +43,4 @@ cat /usr/share/firmlinks
 /Library	Library
 [...]
 ```
-
-On the **left**, there is the directory path on the **System volume**, and on the **right**, the directory path where it maps on the **Data volume**. So, `/library` --> `/system/Volumes/data/library`
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Kwenye **kushoto**, kuna njia ya saraka kwenye **kiasi cha Mfumo**, na kwenye **kulia**, njia ya saraka ambapo inaunganisha kwenye **kiasi cha Data**. Kwa hivyo, `/library` --> `/system/Volumes/data/library`

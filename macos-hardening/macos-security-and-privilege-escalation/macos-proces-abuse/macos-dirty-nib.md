@@ -2,85 +2,85 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-**For further detail about the technique check the original post from: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** Here is a summary:
+**Kwa maelezo zaidi kuhusu mbinu hii angalia chapisho la asili kutoka: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** Hapa kuna muhtasari:
 
-NIB files, part of Apple's development ecosystem, are intended for defining **UI elements** and their interactions in applications. They encompass serialized objects such as windows and buttons, and are loaded at runtime. Despite their ongoing usage, Apple now advocates for Storyboards for more comprehensive UI flow visualization.
+Faili za NIB, sehemu ya mfumo wa maendeleo wa Apple, zinatumika kwa kufafanua **vipengele vya UI** na mwingiliano wao katika programu. Zinaunda vitu vilivyosanidishwa kama madirisha na vitufe, na hulipwa wakati wa utekelezaji. Ingawa bado zinatumika, Apple sasa inapendekeza matumizi ya Storyboards kwa kuonyesha vizuri mtiririko wa UI.
 
-### Security Concerns with NIB Files
-It's critical to note that **NIB files can be a security risk**. They have the potential to **execute arbitrary commands**, and alterations to NIB files within an app don't hinder Gatekeeper from executing the app, posing a significant threat.
+### Wasiwasi wa Usalama na Faili za NIB
+Ni muhimu kuzingatia kuwa **faili za NIB zinaweza kuwa hatari kwa usalama**. Zina uwezo wa **kutekeleza amri za kiholela**, na mabadiliko kwenye faili za NIB ndani ya programu hayazuizi Gatekeeper kutoka kutekeleza programu, hivyo kuwa tishio kubwa.
 
-### Dirty NIB Injection Process
-#### Creating and Setting Up a NIB File
-1. **Initial Setup**:
-   - Create a new NIB file using XCode.
-   - Add an Object to the interface, setting its class to `NSAppleScript`.
-   - Configure the initial `source` property via User Defined Runtime Attributes.
+### Mchakato wa Uingizaji wa Dirty NIB
+#### Kuunda na Kuweka Up Faili ya NIB
+1. **Usanidi wa Awali**:
+- Unda faili mpya ya NIB ukitumia XCode.
+- Ongeza kitu kwenye kiolesura, ukiweka darasa lake kuwa `NSAppleScript`.
+- Sanidi mali ya awali ya `source` kupitia Atributi za Wakati wa Utekelezaji Zilizofafanuliwa na Mtumiaji.
 
-2. **Code Execution Gadget**:
-   - The setup facilitates running AppleScript on demand.
-   - Integrate a button to activate the `Apple Script` object, specifically triggering the `executeAndReturnError:` selector.
+2. **Kifaa cha Utekelezaji wa Kanuni**:
+- Usanidi huu unawezesha kukimbia AppleScript kwa ombi.
+- Ingiza kitufe cha kuamsha kitu cha `Apple Script`, kwa kusababisha hasa chaguo la `executeAndReturnError:`.
 
-3. **Testing**:
-   - A simple Apple Script for testing purposes:
-     ```bash
-     set theDialogText to "PWND"
-     display dialog theDialogText
-     ```
-   - Test by running in the XCode debugger and clicking the button.
+3. **Jaribio**:
+- Apple Script rahisi kwa ajili ya majaribio:
+```bash
+set theDialogText to "PWND"
+display dialog theDialogText
+```
+- Jaribu kwa kukimbia kwenye kichujio cha XCode na bonyeza kitufe.
 
-#### Targeting an Application (Example: Pages)
-1. **Preparation**:
-   - Copy the target app (e.g., Pages) into a separate directory (e.g., `/tmp/`).
-   - Initiate the app to sidestep Gatekeeper issues and cache it.
+#### Kulenga Programu (Mfano: Pages)
+1. **Maandalizi**:
+- Nakili programu lengwa (k.m., Pages) kwenye saraka tofauti (k.m., `/tmp/`).
+- Anzisha programu ili kuepuka matatizo ya Gatekeeper na kuihifadhi kwenye akiba.
 
-2. **Overwriting NIB File**:
-   - Replace an existing NIB file (e.g., About Panel NIB) with the crafted DirtyNIB file.
+2. **Kubadilisha Faili ya NIB**:
+- Badilisha faili ya NIB iliyopo (k.m., About Panel NIB) na faili iliyoundwa ya DirtyNIB.
 
-3. **Execution**:
-   - Trigger the execution by interacting with the app (e.g., selecting the `About` menu item).
+3. **Utekelezaji**:
+- Sababisha utekelezaji kwa kuingiliana na programu (k.m., kuchagua kipengee cha menyu ya `About`).
 
-#### Proof of Concept: Accessing User Data
-- Modify the AppleScript to access and extract user data, such as photos, without user consent.
+#### Uthibitisho wa Dhana: Kupata Data ya Mtumiaji
+- Badilisha AppleScript ili kupata na kuchambua data ya mtumiaji, kama picha, bila idhini ya mtumiaji.
 
-### Code Sample: Malicious .xib File
-- Access and review a [**sample of a malicious .xib file**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) that demonstrates executing arbitrary code.
+### Mfano wa Kanuni: Faili ya .xib Iliyodhuru
+- Pata na ukague [**mfano wa faili ya .xib iliyo dhahiri**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) ambayo inaonyesha utekelezaji wa nambari za kiholela.
 
-### Addressing Launch Constraints
-- Launch Constraints hinder app execution from unexpected locations (e.g., `/tmp`).
-- It's possible to identify apps not protected by Launch Constraints and target them for NIB file injection.
+### Kukabiliana na Vizuizi vya Kuzindua
+- Vizuizi vya Kuzindua vinazuia utekelezaji wa programu kutoka maeneo yasiyotarajiwa (k.m., `/tmp`).
+- Inawezekana kutambua programu ambazo hazilindwi na Vizuizi vya Kuzindua na kuzilenga kwa uingizaji wa faili za NIB.
 
-### Additional macOS Protections
-From macOS Sonoma onwards, modifications inside App bundles are restricted. However, earlier methods involved:
-1. Copying the app to a different location (e.g., `/tmp/`).
-2. Renaming directories within the app bundle to bypass initial protections.
-3. After running the app to register with Gatekeeper, modifying the app bundle (e.g., replacing MainMenu.nib with Dirty.nib).
-4. Renaming directories back and rerunning the app to execute the injected NIB file.
+### Kinga za Ziada za macOS
+Kuanzia macOS Sonoma na kuendelea, marekebisho ndani ya vifurushi vya Programu yanazuiliwa. Walakini, njia za awali zilijumuisha:
+1. Kunakili programu kwenye eneo tofauti (k.m., `/tmp/`).
+2. Kubadilisha majina ya saraka ndani ya kifurushi cha programu ili kuepuka kinga za awali.
+3. Baada ya kukimbia programu ili kujiandikisha na Gatekeeper, kubadilisha kifurushi cha programu (k.m., kubadilisha MainMenu.nib na Dirty.nib).
+4. Kubadilisha majina ya saraka kurudi na kukimbia tena programu ili kutekeleza faili ya NIB iliyoingizwa.
 
-**Note**: Recent macOS updates have mitigated this exploit by preventing file modifications within app bundles post Gatekeeper caching, rendering the exploit ineffective.
+**Kumbuka**: Sasisho za hivi karibuni za macOS zimezuia udanganyifu huu kwa kuzuia marekebisho ya faili ndani ya vifurushi vya programu baada ya akiba ya Gatekeeper, hivyo kufanya udanganyifu huu usifanikiwe.
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

@@ -1,192 +1,179 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) is a useful program to find where important values are saved inside the memory of a running game and change them.\
-When you download and run it, you are **presented** with a **tutorial** of how to use the tool. If you want to learn how to use the tool it's highly recommended to complete it.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) ni programu muhimu ya kupata mahali ambapo thamani muhimu zimehifadhiwa ndani ya kumbukumbu ya mchezo unaofanya kazi na kuzibadilisha.\
+Unapopakua na kuendesha programu hiyo, utapewa mafunzo juu ya jinsi ya kutumia zana hiyo. Ikiwa unataka kujifunza jinsi ya kutumia zana hiyo, ni muhimu sana kukamilisha mafunzo hayo.
 
-# What are you searching?
+# Unatafuta nini?
 
 ![](<../../.gitbook/assets/image (580).png>)
 
-This tool is very useful to find **where some value** (usually a number) **is stored in the memory** of a program.\
-**Usually numbers** are stored in **4bytes** form, but you could also find them in **double** or **float** formats, or you may want to look for something **different from a number**. For that reason you need to be sure you **select** what you want to **search for**:
+Zana hii ni muhimu sana kupata **mahali ambapo thamani fulani** (kawaida ni nambari) **imehifadhiwa kwenye kumbukumbu** ya programu.\
+**Kawaida nambari** zimehifadhiwa kwa **muundo wa 4bytes**, lakini unaweza pia kuzipata kwa muundo wa **double** au **float**, au unaweza kutaka kutafuta kitu **tofauti na nambari**. Kwa sababu hiyo, ni muhimu kuhakikisha unachagua kile unachotaka kutafuta:
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-Also you can indicate **different** types of **searches**:
+Pia unaweza kuonyesha **aina tofauti** za **utafutaji**:
 
 ![](<../../.gitbook/assets/image (582).png>)
 
-You can also check the box to **stop the game while scanning the memory**:
+Unaweza pia kuweka alama kwenye sanduku ili **kusimamisha mchezo wakati wa kutafuta kumbukumbu**:
 
 ![](<../../.gitbook/assets/image (584).png>)
 
-## Hotkeys
+## Vitenzi vya Haraka
 
-In _**Edit --> Settings --> Hotkeys**_ you can set different **hotkeys** for different purposes like **stopping** the **game** (which is quiet useful if at some point you want to scan the memory). Other options are available:
+Katika _**Hariri --> Mipangilio --> Vitenzi vya Haraka**_ unaweza kuweka **vitenzi vya haraka** tofauti kwa madhumuni tofauti kama **kusimamisha** mchezo (ambayo ni muhimu ikiwa wakati fulani unataka kutafuta kumbukumbu). Chaguo zingine zinapatikana:
 
 ![](<../../.gitbook/assets/image (583).png>)
 
-# Modifying the value
+# Kubadilisha thamani
 
-Once you **found** where is the **value** you are **looking for** (more about this in the following steps) you can **modify it** double clicking it, then double clicking its value:
+Marafiki umepata **mahali ambapo thamani** unayotafuta (zaidi kuhusu hii katika hatua zifuatazo) unaweza **kuibadilisha** kwa kubofya mara mbili, kisha kubofya mara mbili thamani yake:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
-And finally **marking the check** to get the modification done in the memory:
+Na hatimaye **weka alama** ili kufanya mabadiliko kwenye kumbukumbu:
 
 ![](<../../.gitbook/assets/image (586).png>)
 
-The **change** to the **memory** will be immediately **applied** (note that until the game doesn't use this value again the value **won't be updated in the game**).
+Mabadiliko kwenye kumbukumbu yatafanywa mara moja (kumbuka kuwa hadi mchezo hautumii tena thamani hii, thamani **haitasasishwa kwenye mchezo**).
 
-# Searching the value
+# Kutafuta thamani
 
-So, we are going to suppose that there is an important value (like the life of your user) that you want to improve, and you are looking for this value in the memory)
+Kwa hivyo, tutafanya kudhani kuwa kuna thamani muhimu (kama maisha ya mtumiaji wako) ambayo unataka kuboresha, na unatafuta thamani hii kwenye kumbukumbu)
 
-## Through a known change
+## Kupitia mabadiliko yanayojulikana
 
-Supposing you are looking for the value 100, you **perform a scan** searching for that value and you find a lot of coincidences:
+Kukisia kuwa unatafuta thamani 100, unafanya **utafutaji** ukatafuta thamani hiyo na unapata matokeo mengi yanayofanana:
 
 ![](<../../.gitbook/assets/image (587).png>)
 
-Then, you do something so that **value changes**, and you **stop** the game and **perform** a **next scan**:
+Kisha, fanya kitu ili **thamani ibadilike**, na **sima** mchezo na **fanya** utafutaji **uendeleo**:
 
 ![](<../../.gitbook/assets/image (588).png>)
 
-Cheat Engine will search for the **values** that **went from 100 to the new value**. Congrats, you **found** the **address** of the value you were looking for, you can now modify it.\
-_If you still have several values, do something to modify again that value, and perform another "next scan" to filter the addresses._
+Cheat Engine itatafuta **thamani** ambazo **zilibadilika kutoka 100 hadi thamani mpya**. Hongera, umepata **anwani** ya thamani uliyokuwa ukiitafuta, sasa unaweza kuibadilisha.\
+_Ikiwa bado una anwani kadhaa, fanya kitu kingine ili kubadilisha tena thamani hiyo, na fanya utafutaji mwingine wa "next scan" ili kuchuja anwani._
 
-## Unknown Value, known change
+## Thamani Isiyojulikana, mabadiliko yanayojulikana
 
-In the scenario you **don't know the value** but you know **how to make it change** (and even the value of the change) you can look for your number.
+Katika hali ambayo **hujui thamani** lakini unajua **jinsi ya kufanya mabadiliko** (na hata thamani ya mabadiliko), unaweza kutafuta nambari yako.
 
-So, start by performing a scan of type "**Unknown initial value**":
+Kwa hivyo, anza kwa kufanya utafutaji wa aina "**Thamani ya awali isiyojulikana**":
 
 ![](<../../.gitbook/assets/image (589).png>)
 
-Then, make the value change, indicate **how** the **value** **changed** (in my case it was decreased by 1) and perform a **next scan**:
+Kisha, fanya mabadiliko ya thamani, eleza **jinsi** thamani **ilibadilika** (katika kesi yangu ilipungua kwa 1) na fanya **utafutaji uendeleo**:
 
 ![](<../../.gitbook/assets/image (590).png>)
 
-You will be presented **all the values that were modified in the selected way**:
+Utapewa **thamani zote zilizobadilishwa kwa njia iliyochaguliwa**:
 
 ![](<../../.gitbook/assets/image (591).png>)
 
-Once you have found your value, you can modify it.
+Marafiki umepata thamani yako, unaweza kuibadilisha.
 
-Note that there are a **lot of possible changes** and you can do these **steps as much as you want** to filter the results:
+Kumbuka kuwa kuna **mabadiliko mengi yanayowezekana** na unaweza kufanya hatua hizi **kwa kadri unavyotaka** ili kuchuja matokeo:
 
 ![](<../../.gitbook/assets/image (592).png>)
 
-## Random Memory Address - Finding the code
+## Anwani Isiyotabirika ya Kumbukumbu - Kupata nambari
 
-Until know we learnt how to find an address storing a value, but it's highly probably that in **different executions of the game that address is in different places of the memory**. So lets find out how to always find that address.
+Hadi sasa tumefunzwa jinsi ya kupata anwani inayohifadhi thamani, lakini ni kawaida sana kuwa katika **utekelezaji tofauti wa mchezo anwani hiyo iko sehemu tofauti ya kumbukumbu**. Kwa hivyo hebu tujue jinsi ya kupata anwani hiyo kila wakati.
 
-Using some of the mentioned tricks, find the address where your current game is storing the important value. Then (stopping the game if you whish) do a **right click** on the found **address** and select "**Find out what accesses this address**" or "**Find out what writes to this address**":
+Kwa kutumia mbinu zilizotajwa, pata anwani ambapo mchezo wako wa sasa unahifadhi thamani muhimu. Kisha (kusimamisha mchezo ikiwa unataka) bofya **click ya kulia** kwenye anwani iliyopatikana na chagua "**Pata ni nini kinachotumia anwani hii**" au "**Pata ni nini kinachoandika kwenye anwani hii**":
 
 ![](<../../.gitbook/assets/image (593).png>)
 
-The **first option** is useful to know which **parts** of the **code** are **using** this **address** (which is useful for more things like **knowing where you can modify the code** of the game).\
-The **second option** is more **specific**, and will be more helpful in this case as we are interested in knowing **from where this value is being written**.
+**Chaguo la kwanza** ni muhimu kujua ni **sehemu gani** za **kificho** zinatumia **anwani** hii (ambayo ni muhimu kwa mambo zaidi kama **kujua wapi unaweza kubadilisha kificho** cha mchezo).\
+**Chaguo la pili** ni **maalum zaidi**, na litakuwa na manufaa zaidi katika kesi hii kwani tunataka kujua **kutoka wapi thamani hii inaandikwa**.
 
-Once you have selected one of those options, the **debugger** will be **attached** to the program and a new **empty window** will appear. Now, **play** the **game** and **modify** that **value** (without restarting the game). The **window** should be **filled** with the **addresses** that are **modifying** the **value**:
+Baada ya kuchagua moja ya chaguo hizo, **mchunguzi** atakuwa **ameunganishwa** na programu na dirisha jipya **tupu** litatokea. Sasa, **cheza** mchezo na **badilisha** thamani hiyo (bila kuanza tena mche
+## Anwani ya Kumbukumbu Isiyotabirika - Kupata Kiashiria
 
-![](<../../.gitbook/assets/image (594).png>)
-
-Now that you found the address it's modifying the value you can **modify the code at your pleasure** (Cheat Engine allows you to modify it for NOPs real quick):
-
-![](<../../.gitbook/assets/image (595).png>)
-
-So, you can now modify it so the code won't affect your number, or will always affect in a positive way.
-
-## Random Memory Address - Finding the pointer
-
-Following the previous steps, find where the value you are interested is. Then, using "**Find out what writes to this address**" find out which address writes this value and double click on it to get the disassembly view:
+Kufuatia hatua za awali, tafuta mahali ambapo thamani unayopendezwa nayo iko. Kisha, kwa kutumia "**Pata ni nini kinachoandika kwenye anwani hii**" gundua anwani ambayo inaandika thamani hii na bonyeza mara mbili ili upate mtazamo wa kuvunja:
 
 ![](<../../.gitbook/assets/image (596).png>)
 
-Then, perform a new scan **searching for the hex value between "\[]"** (the value of $edx in this case):
+Kisha, fanya utafutaji mpya **ukitafuta thamani ya hex kati ya "\[]"** (thamani ya $edx katika kesi hii):
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-(_If several appear you usually need the smallest address one_)\
-Now, we have f**ound the pointer that will be modifying the value we are interested in**.
+(Ikiwa zinatokea kadhaa, kawaida unahitaji ile yenye anwani ndogo zaidi)\
+Sasa, tume**pata kiashiria ambacho kitabadilisha thamani tunayopendezwa nayo**.
 
-Click on "**Add Address Manually**":
+Bonyeza "**Ongeza Anwani Kwa Mkono**":
 
 ![](<../../.gitbook/assets/image (598).png>)
 
-Now, click on the "Pointer" check box and add the found address in the text box (in this scenario, the found address in the previous image was "Tutorial-i386.exe"+2426B0):
+Sasa, bonyeza kisanduku cha "Kiashiria" na ongeza anwani iliyopatikana kwenye sanduku la maandishi (katika kesi hii, anwani iliyopatikana kwenye picha iliyotangulia ilikuwa "Tutorial-i386.exe"+2426B0):
 
 ![](<../../.gitbook/assets/image (599).png>)
 
-(Note how the first "Address" is automatically populated from the pointer address you introduce)
+(Angalia jinsi "Anwani" ya kwanza inavyojazwa moja kwa moja kutoka kwa anwani ya kiashiria unayoingiza)
 
-Click OK and a new pointer will be created:
+Bonyeza OK na kiashiria kipya kitatengenezwa:
 
 ![](<../../.gitbook/assets/image (600).png>)
 
-Now, every time you modifies that value you are **modifying the important value even if the memory address where the value is is different.**
+Sasa, kila wakati unabadilisha thamani hiyo unakuwa **unabadilisha thamani muhimu hata ikiwa anwani ya kumbukumbu ambapo thamani iko ni tofauti.**
 
-## Code Injection
+## Uingizaji wa Kanuni
 
-Code injection is a technique where you inject a piece of code into the target process, and then reroute the execution of code to go through your own written code (like giving you points instead of resting them).
+Uingizaji wa kanuni ni mbinu ambapo unaingiza kipande cha kanuni ndani ya mchakato wa lengo, na kisha kuelekeza utekelezaji wa kanuni kupitia kanuni uliyoandika mwenyewe (kama kukupa alama badala ya kuzipunguza).
 
-So, imagine you have found the address that is subtracting 1 to the life of your player:
+Kwa hivyo, fikiria umepata anwani ambayo inapunguza 1 kwenye maisha ya mchezaji wako:
 
 ![](<../../.gitbook/assets/image (601).png>)
 
-Click on Show disassembler to get the **disassemble code**.\
-Then, click **CTRL+a** to invoke the Auto assemble window and select _**Template --> Code Injection**_
+Bonyeza Onyesha kuvunja kanuni ili upate **kanuni ya kuvunja**.\
+Kisha, bonyeza **CTRL+a** ili kuita dirisha la Kuingiza Kiotomatiki na chagua _**Kiolezo --> Uingizaji wa Kanuni**_
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Fill the **address of the instruction you want to modify** (this is usually autofilled):
+Jaza **anwani ya maagizo unayotaka kubadilisha** (kawaida inajazwa moja kwa moja):
 
 ![](<../../.gitbook/assets/image (603).png>)
 
-A template will be generated:
+Kiolezo kitazalishwa:
 
 ![](<../../.gitbook/assets/image (604).png>)
 
-So, insert your new assembly code in the "**newmem**" section and remove the original code from the "**originalcode**" if you don't want it to be executed**.** In this example the injected code will add 2 points instead of substracting 1:
+Kwa hivyo, ingiza kanuni yako mpya ya mkutano katika sehemu ya "**newmem**" na ondoa kanuni ya asili kutoka kwa "**originalcode**" ikiwa hautaki iwe inatekelezwa**.** Katika mfano huu, kanuni iliyochomwa itaongeza alama 2 badala ya kuzipunguza 1:
 
 ![](<../../.gitbook/assets/image (605).png>)
 
-**Click on execute and so on and your code should be injected in the program changing the behaviour of the functionality!**
+**Bonyeza kutekeleza na kadhalika na kanuni yako inapaswa kuingizwa kwenye programu ikibadilisha tabia ya kazi!**
 
-# **References**
+# **Marejeo**
 
-* **Cheat Engine tutorial, complete it to learn how to start with Cheat Engine**
+* **Mafunzo ya Cheat Engine, kamilisha ili kujifunza jinsi ya kuanza na Cheat Engine**
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inayotangazwa katika HackTricks** au **kupakua HackTricks katika PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

@@ -1,42 +1,39 @@
-# AD CS Domain Persistence
+# AD CS Uthabiti wa Kikoa
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-**This is a summary of the domain persistence techniques shared in [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Check it for further details.
+**Hii ni muhtasari wa mbinu za uthabiti wa kikoa zilizoshirikiwa katika [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Angalia kwa maelezo zaidi.
 
-## Forging Certificates with Stolen CA Certificates - DPERSIST1
+## Kufanya Udanganyifu wa Vyeti na Vyeti vya CA Vilivyoporwa - DPERSIST1
 
-How can you tell that a certificate is a CA certificate?
+Unawezaje kujua kwamba cheti ni cheti cha CA?
 
-It can be determined that a certificate is a CA certificate if several conditions are met:
+Inaweza kubainika kwamba cheti ni cheti cha CA ikiwa hali kadhaa zinakidhi:
 
-- The certificate is stored on the CA server, with its private key secured by the machine's DPAPI, or by hardware such as a TPM/HSM if the operating system supports it.
-- Both the Issuer and Subject fields of the certificate match the distinguished name of the CA.
-- A "CA Version" extension is present in the CA certificates exclusively.
-- The certificate lacks Extended Key Usage (EKU) fields.
+- Cheti hicho kimehifadhiwa kwenye seva ya CA, na ufunguo wake wa kibinafsi umelindwa na DPAPI ya kifaa, au na vifaa kama TPM/HSM ikiwa mfumo wa uendeshaji unaiunga mkono.
+- Vipengele vya Issuer na Subject vya cheti vinalingana na jina la kipekee la CA.
+- Kuna kipengele cha "CA Version" kinachopatikana kwa vyeti vya CA pekee.
+- Cheti halina uga wa Matumizi ya Upanuzi wa Muhimu (EKU).
 
-To extract the private key of this certificate, the `certsrv.msc` tool on the CA server is the supported method via the built-in GUI. Nonetheless, this certificate does not differ from others stored within the system; thus, methods such as the [THEFT2 technique](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) can be applied for extraction.
+Ili kuchimbua ufunguo wa kibinafsi wa cheti hiki, zana ya `certsrv.msc` kwenye seva ya CA ndiyo njia inayoungwa mkono kupitia GUI iliyojengwa. Walakini, cheti hiki hakina tofauti na vyeti vingine vilivyohifadhiwa ndani ya mfumo; kwa hivyo, njia kama [tekinolojia ya THEFT2](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) inaweza kutumika kwa uchimbaji.
 
-The certificate and private key can also be obtained using Certipy with the following command:
-
+Cheti na ufunguo wa kibinafsi pia yanaweza kupatikana kwa kutumia Certipy na amri ifuatayo:
 ```bash
 certipy ca 'corp.local/administrator@ca.corp.local' -hashes :123123.. -backup
 ```
-
-Upon acquiring the CA certificate and its private key in `.pfx` format, tools like [ForgeCert](https://github.com/GhostPack/ForgeCert) can be utilized to generate valid certificates:
-
+Baada ya kupata cheti cha CA na ufunguo wake wa kibinafsi katika muundo wa `.pfx`, zana kama [ForgeCert](https://github.com/GhostPack/ForgeCert) zinaweza kutumika kuzalisha vyeti halali:
 ```bash
 # Generating a new certificate with ForgeCert
 ForgeCert.exe --CaCertPath ca.pfx --CaCertPassword Password123! --Subject "CN=User" --SubjectAltName localadmin@theshire.local --NewCertPath localadmin.pfx --NewCertPassword Password123!
@@ -50,44 +47,28 @@ Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /pa
 # Authenticating using the new certificate with certipy
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
-
 {% hint style="warning" %}
-The user targeted for certificate forgery must be active and capable of authenticating in Active Directory for the process to succeed. Forging a certificate for special accounts like krbtgt is ineffective.
+Mtumiaji anayelengwa kwa udanganyifu wa cheti lazima awe hai na aweze kuthibitisha katika Active Directory ili mchakato ufanikiwe. Udanganyifu wa cheti kwa akaunti maalum kama krbtgt haufanikiwi.
 {% endhint %}
 
-This forged certificate will be **valid** until the end date specified and as **long as the root CA certificate is valid** (usually from 5 to **10+ years**). It's also valid for **machines**, so combined with **S4U2Self**, an attacker can **maintain persistence on any domain machine** for as long as the CA certificate is valid.\
-Moreover, the **certificates generated** with this method **cannot be revoked** as CA is not aware of them.
+Cheti hiki kilichodanganywa kitakuwa **halali** hadi tarehe ya mwisho iliyotajwa na **muda mrefu kama cheti cha CA kina halali** (kawaida kwa miaka 5 hadi **10+**). Pia ni halali kwa **mashine**, kwa hivyo ikishirikiana na **S4U2Self**, mshambuliaji anaweza **kuendelea kuwa na uwepo kwenye kifaa chochote cha kikoa** kwa muda mrefu kama cheti cha CA kina halali. 
+Zaidi ya hayo, **vyeti vilivyozalishwa** kwa njia hii **haviwezi kufutwa** kwani CA haijui kuhusu vyeti hivyo.
 
-## Trusting Rogue CA Certificates - DPERSIST2
+## Kuamini Cheti za CA za Udanganyifu - DPERSIST2
 
-The `NTAuthCertificates` object is defined to contain one or more **CA certificates** within its `cacertificate` attribute, which Active Directory (AD) utilizes. The verification process by the **domain controller** involves checking the `NTAuthCertificates` object for an entry matching the **CA specified** in the Issuer field of the authenticating **certificate**. Authentication proceeds if a match is found.
+Kitu cha `NTAuthCertificates` kimeainishwa kuwa na cheti kimoja au zaidi cha **CA** ndani ya sifa yake ya `cacertificate`, ambayo Active Directory (AD) inatumia. Mchakato wa uthibitisho na **kudhibiti kikoa** unahusisha kuangalia kitu cha `NTAuthCertificates` kwa kuingia kulingana na **CA iliyotajwa** katika uga wa Mtoa Cheti wa cheti cha kuthibitisha. Uthibitisho unaendelea ikiwa kuna kulingana.
 
-A self-signed CA certificate can be added to the `NTAuthCertificates` object by an attacker, provided they have control over this AD object. Normally, only members of the **Enterprise Admin** group, along with **Domain Admins** or **Administrators** in the **forest root’s domain**, are granted permission to modify this object. They can edit the `NTAuthCertificates` object using `certutil.exe` with the command `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, or by employing the [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).
+Mshambuliaji anaweza kuongeza cheti cha CA kilichojisaini kwenye kitu cha `NTAuthCertificates`, ikiwa ana udhibiti juu ya kitu hiki cha AD. Kawaida, ni wanachama wa kikundi cha **Enterprise Admin**, pamoja na **Domain Admins** au **Administrators** katika **kikoa cha mizizi cha msitu**, wanaopewa ruhusa ya kuhariri kitu hiki. Wanaweza kuhariri kitu cha `NTAuthCertificates` kwa kutumia `certutil.exe` na amri `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, au kwa kutumia [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).
 
-This capability is especially relevant when used in conjunction with a previously outlined method involving ForgeCert to dynamically generate certificates.
+Uwezo huu ni muhimu sana unapotumiwa pamoja na njia iliyoelezwa hapo awali inayohusisha ForgeCert kuzalisha vyeti kwa njia ya kudumu.
 
-## Malicious Misconfiguration - DPERSIST3
+## Usanidi Mbaya wa Nia Mbaya - DPERSIST3
 
-Opportunities for **persistence** through **security descriptor modifications of AD CS** components are plentiful. Modifications described in the "[Domain Escalation](domain-escalation.md)" section can be maliciously implemented by an attacker with elevated access. This includes the addition of "control rights" (e.g., WriteOwner/WriteDACL/etc.) to sensitive components such as:
+Fursa za **kudumu** kupitia **marekebisho ya maelezo ya usalama ya sehemu za AD CS** ni nyingi. Marekebisho yaliyoelezwa katika sehemu ya "[Kuongezeka kwa Kikoa](domain-escalation.md)" yanaweza kutekelezwa kwa nia mbaya na mshambuliaji mwenye ufikiaji wa juu. Hii ni pamoja na kuongeza "haki za kudhibiti" (k.m., WriteOwner/WriteDACL/n.k.) kwa sehemu nyeti kama vile:
 
-- The **CA server’s AD computer** object
-- The **CA server’s RPC/DCOM server**
-- Any **descendant AD object or container** in **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (for instance, the Certificate Templates container, Certification Authorities container, the NTAuthCertificates object, etc.)
-- **AD groups delegated rights to control AD CS** by default or by the organization (such as the built-in Cert Publishers group and any of its members)
+- Kitu cha kompyuta cha AD cha **seva ya CA**
+- Seva ya **RPC/DCOM ya seva ya CA**
+- Kitu au chombo cha AD cha **mzao wa chini** katika **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (kwa mfano, chombo cha Templeti za Cheti, chombo cha Mamlaka za Uthibitishaji, kitu cha NTAuthCertificates, n.k.)
+- **Vikundi vya AD vilivyopewa haki za kudhibiti AD CS** kwa chaguo-msingi au na shirika (kama kikundi cha kujengwa cha Cert Publishers na wanachama wake)
 
-An example of malicious implementation would involve an attacker, who has **elevated permissions** in the domain, adding the **`WriteOwner`** permission to the default **`User`** certificate template, with the attacker being the principal for the right. To exploit this, the attacker would first change the ownership of the **`User`** template to themselves. Following this, the **`mspki-certificate-name-flag`** would be set to **1** on the template to enable **`ENROLLEE_SUPPLIES_SUBJECT`**, allowing a user to provide a Subject Alternative Name in the request. Subsequently, the attacker could **enroll** using the **template**, choosing a **domain administrator** name as an alternative name, and utilize the acquired certificate for authentication as the DA.
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Mfano wa utekelezaji mbaya unaweza kuhusisha mshambuliaji, ambaye ana **ruhusa za juu** katika kikoa, kuongeza ruhusa ya **`WriteOwner`** kwenye templeti ya cheti ya **`User`** ya chaguo-msingi, na mshambuliaji kuwa mkuu wa haki hiyo. Ili kutumia hii, mshambuliaji kwanza angebadilisha umiliki wa templeti ya **`User`** kuwa yeye mwenyewe. Baada ya hapo, **`mspki-certificate-name-flag`** ingewekwa kuwa **1** kwenye templeti kuwezesha **`ENROLLEE_SUPPLIES_SUBJECT`**, kuruhusu mtumiaji kutoa Jina mbadala la Mada katika ombi. Kufuatia hilo, mshambuliaji anaweza **kujiandikisha** kwa kutumia **templeti**, kuchagua jina la **msimamizi wa kikoa** kama jina mbadala, na kutumia cheti kilichopatikana kwa uthibitisho kama DA.

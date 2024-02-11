@@ -2,27 +2,27 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-A linux machine can also be present inside an Active Directory environment.
+Mashine ya Linux inaweza kuwepo ndani ya mazingira ya Active Directory.
 
-A linux machine in an AD might be **storing different CCACHE tickets inside files. This tickets can be used and abused as any other kerberos ticket**. In order to read this tickets you will need to be the user owner of the ticket or **root** inside the machine.
+Mashine ya Linux katika AD inaweza **kuhifadhi tiketi za CCACHE tofauti ndani ya faili. Tiketi hizi zinaweza kutumiwa na kudukuliwa kama tiketi nyingine yoyote ya kerberos**. Ili kusoma tiketi hizi, utahitaji kuwa mmiliki wa mtumiaji wa tiketi au **root** ndani ya mashine.
 
-## Enumeration
+## Uchunguzi
 
-### AD enumeration from linux
+### Uchunguzi wa AD kutoka kwenye Linux
 
-If you have access over an AD in linux (or bash in Windows) you can try [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) to enumerate the AD.
+Ikiwa una ufikiaji juu ya AD kwenye Linux (au bash kwenye Windows) unaweza jaribu [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) kuorodhesha AD.
 
-You can also check the following page to learn **other ways to enumerate AD from linux**:
+Pia unaweza kuangalia ukurasa ufuatao kujifunza **njia nyingine za kuorodhesha AD kutoka kwenye Linux**:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -30,28 +30,27 @@ You can also check the following page to learn **other ways to enumerate AD from
 
 ### FreeIPA
 
-FreeIPA is an open-source **alternative** to Microsoft Windows **Active Directory**, mainly for **Unix** environments. It combines a complete **LDAP directory** with an MIT **Kerberos** Key Distribution Center for management akin to Active Directory. Utilizing the Dogtag **Certificate System** for CA & RA certificate management, it supports **multi-factor** authentication, including smartcards. SSSD is integrated for Unix authentication processes. Learn more about it in:
+FreeIPA ni **mbadala** wa chanzo wazi kwa Microsoft Windows **Active Directory**, haswa kwa mazingira ya **Unix**. Inaunganisha **directory ya LDAP kamili** na Kituo cha Usambazaji cha **Kerberos** cha MIT kwa usimamizi kama Active Directory. Kwa kutumia Mfumo wa Cheti wa Dogtag kwa usimamizi wa cheti cha CA & RA, inasaidia uwakiki wa **hatua nyingi**, pamoja na kadi za akili. SSSD imeingizwa kwa mchakato wa uwakiki wa Unix. Jifunze zaidi kuhusu hilo katika:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
 {% endcontent-ref %}
 
-## Playing with tickets
+## Kucheza na tiketi
 
 ### Pass The Ticket
 
-In this page you are going to find different places were you could **find kerberos tickets inside a linux host**, in the following page you can learn how to transform this CCache tickets formats to Kirbi (the format you need to use in Windows) and also how to perform a PTT attack:
+Katika ukurasa huu utapata sehemu tofauti ambapo unaweza **kupata tiketi za kerberos ndani ya mwenyeji wa Linux**, kwenye ukurasa ufuatao unaweza kujifunza jinsi ya kubadilisha muundo wa tiketi za CCache kuwa Kirbi (muundo unahitajika kutumia Windows) na pia jinsi ya kufanya shambulio la PTT:
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/pass-the-ticket.md" %}
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
 {% endcontent-ref %}
 
-### CCACHE ticket reuse from /tmp
+### Matumizi ya tiketi za CCACHE kutoka /tmp
 
-CCACHE files are binary formats for **storing Kerberos credentials** are typically stored with 600 permissions in `/tmp`. These files can be identified by their **name format, `krb5cc_%{uid}`,** correlating to the user's UID. For authentication ticket verification, the **environment variable `KRB5CCNAME`** should be set to the path of the desired ticket file, enabling its reuse.
+Faili za CCACHE ni muundo wa binary kwa **kuhifadhi sifa za Kerberos** kawaida huhifadhiwa na ruhusa za 600 katika `/tmp`. Faili hizi zinaweza kutambuliwa na **muundo wa jina lake, `krb5cc_%{uid}`,** unaolingana na UID ya mtumiaji. Kwa uthibitisho wa tiketi ya uwakiki, **mazingira ya mazingira `KRB5CCNAME`** yanapaswa kuwekwa kwenye njia ya faili ya tiketi inayotaka, kuruhusu matumizi yake tena.
 
-List the current ticket used for authentication with `env | grep KRB5CCNAME`. The format is portable and the ticket can be **reused by setting the environment variable** with `export KRB5CCNAME=/tmp/ticket.ccache`. Kerberos ticket name format is `krb5cc_%{uid}` where uid is the user UID.
-
+Angalia tiketi ya sasa inayotumiwa kwa uwakiki na `env | grep KRB5CCNAME`. Muundo ni portable na tiketi inaweza **kutumiwa tena kwa kuweka mazingira ya mazingira** na `export KRB5CCNAME=/tmp/ticket.ccache`. Muundo wa jina la tiketi ya Kerberos ni `krb5cc_%{uid}` ambapo uid ni UID ya mtumiaji.
 ```bash
 # Find tickets
 ls /tmp/ | grep krb5cc
@@ -60,87 +59,72 @@ krb5cc_1000
 # Prepare to use it
 export KRB5CCNAME=/tmp/krb5cc_1000
 ```
+### Matumizi ya tiketi ya CCACHE kutoka kwa keyring
 
-### CCACHE ticket reuse from keyring
+**Tiketi za Kerberos zilizohifadhiwa kwenye kumbukumbu ya mchakato zinaweza kuchimbwa**, haswa wakati ulinzi wa ptrace wa mashine umewezeshwa (`/proc/sys/kernel/yama/ptrace_scope`). Zana muhimu kwa kusudi hili inapatikana kwenye [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), ambayo inafanikisha uchimbaji kwa kuingiza kwenye vikao na kudondosha tiketi kwenye `/tmp`.
 
-**Kerberos tickets stored in a process's memory can be extracted**, particularly when the machine's ptrace protection is disabled (`/proc/sys/kernel/yama/ptrace_scope`). A useful tool for this purpose is found at [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), which facilitates the extraction by injecting into sessions and dumping tickets into `/tmp`.
-
-To configure and use this tool, the steps below are followed:
-
+Ili kusanidi na kutumia zana hii, hatua zifuatazo zinafuatwa:
 ```bash
 git clone https://github.com/TarlogicSecurity/tickey
 cd tickey/tickey
 make CONF=Release
 /tmp/tickey -i
 ```
+Mchakato huu utajaribu kuingiza katika vikao mbalimbali, ikionyesha mafanikio kwa kuhifadhi tiketi zilizopatikana katika `/tmp` kwa mfumo wa jina `__krb_UID.ccache`.
 
-This procedure will attempt to inject into various sessions, indicating success by storing extracted tickets in `/tmp` with a naming convention of `__krb_UID.ccache`. 
 
+### Matumizi ya tiketi ya CCACHE kutoka SSSD KCM
 
-### CCACHE ticket reuse from SSSD KCM
+SSSD inahifadhi nakala ya database katika njia ya `/var/lib/sss/secrets/secrets.ldb`. Funguo husika huhifadhiwa kama faili iliyofichwa katika njia ya `/var/lib/sss/secrets/.secrets.mkey`. Kwa chaguo-msingi, funguo hilo linaweza kusomwa tu ikiwa una **ruhusa ya root**.
 
-SSSD maintains a copy of the database at the path `/var/lib/sss/secrets/secrets.ldb`. The corresponding key is stored as a hidden file at the path `/var/lib/sss/secrets/.secrets.mkey`. By default, the key is only readable if you have **root** permissions.
-
-Invoking \*\*`SSSDKCMExtractor` \*\* with the --database and --key parameters will parse the database and **decrypt the secrets**.
-
+Kuita \*\*`SSSDKCMExtractor` \*\* na vigezo vya --database na --key kutapitisha database na **kufichua siri**.
 ```bash
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
 ```
+**Blob la kache ya kitambulisho cha Kerberos inaweza kubadilishwa kuwa faili ya CCache ya Kerberos inayoweza kutumika** ambayo inaweza kupitishwa kwa Mimikatz/Rubeus.
 
-The **credential cache Kerberos blob can be converted into a usable Kerberos CCache** file that can be passed to Mimikatz/Rubeus.
-
-### CCACHE ticket reuse from keytab
-
+### Matumizi ya tiketi ya CCACHE kutoka kwa keytab
 ```bash
 git clone https://github.com/its-a-feature/KeytabParser
 python KeytabParser.py /etc/krb5.keytab
 klist -k /etc/krb5.keytab
 ```
+### Pata akaunti kutoka /etc/krb5.keytab
 
-### Extract accounts from /etc/krb5.keytab
+Vidakuzi vya akaunti za huduma, muhimu kwa huduma zinazofanya kazi na mamlaka ya mizizi, hifadhiwa kwa usalama katika faili za **`/etc/krb5.keytab`**. Vidakuzi hivi, kama nywila za huduma, huhitaji siri kali.
 
-Service account keys, essential for services operating with root privileges, are securely stored in **`/etc/krb5.keytab`** files. These keys, akin to passwords for services, demand strict confidentiality.
-
-To inspect the keytab file's contents, **`klist`** can be employed. The tool is designed to display key details, including the **NT Hash** for user authentication, particularly when the key type is identified as 23.
-
+Kutathmini maudhui ya faili ya keytab, unaweza kutumia **`klist`**. Zana hii imeundwa kuonyesha maelezo ya ufunguo, ikiwa ni pamoja na **NT Hash** kwa uthibitisho wa mtumiaji, hasa wakati aina ya ufunguo inatambuliwa kama 23.
 ```bash
 klist.exe -t -K -e -k FILE:C:/Path/to/your/krb5.keytab
 # Output includes service principal details and the NT Hash
 ```
-
-For Linux users, **`KeyTabExtract`** offers functionality to extract the RC4 HMAC hash, which can be leveraged for NTLM hash reuse.
-
+Kwa watumiaji wa Linux, **`KeyTabExtract`** inatoa uwezo wa kuchanganua hash ya RC4 HMAC, ambayo inaweza kutumika kwa matumizi ya upya wa hash ya NTLM.
 ```bash
-python3 keytabextract.py krb5.keytab 
+python3 keytabextract.py krb5.keytab
 # Expected output varies based on hash availability
 ```
-
-On macOS, **`bifrost`** serves as a tool for keytab file analysis.
-
+Kwenye macOS, **`bifrost`** hutumika kama zana ya uchambuzi wa faili ya keytab.
 ```bash
 ./bifrost -action dump -source keytab -path /path/to/your/file
 ```
-
-Utilizing the extracted account and hash information, connections to servers can be established using tools like **`crackmapexec`**.
-
+Kwa kutumia habari ya akaunti na hash iliyopatikana, unaweza kuunganisha kwenye seva kwa kutumia zana kama **`crackmapexec`**.
 ```bash
 crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDOMAIN"
 ```
-
-## References
+## Marejeo
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 * [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#linux-active-directory](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#linux-active-directory)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

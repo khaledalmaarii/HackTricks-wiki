@@ -1,73 +1,73 @@
-# macOS XPC Connecting Process Check
+# Uthibitisho wa Uunganishaji wa Mchakato wa macOS XPC
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inayotangazwa katika HackTricks** au **kupakua HackTricks katika PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## XPC Connecting Process Check
+## Uthibitisho wa Uunganishaji wa Mchakato wa XPC
 
-When a connection is stablished to an XPC service, the server will check if the connection is allowed. These are the checks it would usually perform:
+Wakati uunganishaji unafanywa kwa huduma ya XPC, seva itathibitisha ikiwa uunganishaji huo unaruhusiwa. Hizi ni uthibitisho ambao kawaida hufanywa:
 
-1. Check if the connecting **process is signed with an Apple-signed** certificate (only given out by Apple).
-   * If this **isn't verified**, an attacker could create a **fake certificate** to match any other check.
-2. Check if the connecting process is signed with the **organization’s certificate**, (team ID verification).
-   * If this **isn't verified**, **any developer certificate** from Apple can be used for signing, and connect to the service.
-3. Check if the connecting process **contains a proper bundle ID**.
-   * If this **isn't verified**, any tool **signed by the same org** could be used to interact with the XPC service.
-4. (4 or 5) Check if the connecting process has a **proper software version number**.
-   * If this **isn't verified,** an old, insecure clients, vulnerable to process injection could be used to connect to the XPC service even with the other checks in place.
-5. (4 or 5) Check if the connecting process has hardened runtime without dangerous entitlements (like the ones that allows to load arbitrary libraries or use DYLD env vars)
-   1. If this **isn't verified,** the client might be **vulnerable to code injection**
-6. Check if the connecting process has an **entitlement** that allows it to connect to the service. This is applicable for Apple binaries.
-7. The **verification** must be **based** on the connecting **client’s audit token** **instead** of its process ID (**PID**) since the former prevents **PID reuse attacks**.
-   * Developers **rarely use the audit token** API call since it’s **private**, so Apple could **change** at any time. Additionally, private API usage is not allowed in Mac App Store apps.
-     * If the method **`processIdentifier`** is used, it might be vulnerable
-     * **`xpc_dictionary_get_audit_token`** should be used instead of **`xpc_connection_get_audit_token`**, as the latest could also be [vulnerable in certain situations](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
+1. Angalia ikiwa **mchakato unaounganisha umesainiwa na cheti kilichosainiwa na Apple** (kinachotolewa tu na Apple).
+* Ikiwa hii **haitathibitishwa**, mshambuliaji anaweza kuunda **cheti bandia** ili kufanana na uthibitisho mwingine wowote.
+2. Angalia ikiwa mchakato unaounganisha umesainiwa na **cheti cha shirika** (uthibitisho wa kitambulisho cha timu).
+* Ikiwa hii **haitathibitishwa**, **cheti chochote cha maendeleo** kutoka Apple kinaweza kutumika kwa kusaini na kuunganisha na huduma.
+3. Angalia ikiwa mchakato unaounganisha una **kitambulisho sahihi cha kifurushi**.
+* Ikiwa hii **haitathibitishwa**, zana yoyote **iliyosainiwa na shirika lile lile** inaweza kutumika kwa kuingiliana na huduma ya XPC.
+4. (4 au 5) Angalia ikiwa mchakato unaounganisha una **nambari sahihi ya toleo la programu**.
+* Ikiwa hii **haitathibitishwa**, wateja wazee na dhaifu, walio hatarini kwa kuingiza mchakato, wanaweza kutumika kuunganisha na huduma ya XPC hata na uthibitisho mwingine uliopo.
+5. (4 au 5) Angalia ikiwa mchakato unaounganisha una **runtime imara bila ruhusa hatari** (kama zile zinazoruhusu kupakia maktaba za aina yoyote au kutumia mazingira ya DYLD)
+1. Ikiwa hii **haitathibitishwa**, mteja anaweza kuwa **hatarini kwa kuingiza nambari**
+6. Angalia ikiwa mchakato unaounganisha una **ruhusa** inayoruhusu kuunganisha na huduma. Hii inatumika kwa programu za Apple.
+7. **Uthibitisho** lazima uwe **kulingana** na **kitambulisho cha ukaguzi cha mteja kinachounganisha** badala ya Kitambulisho cha Mchakato (**PID**) kwani cha kwanza kinazuia mashambulizi ya kutumia tena PID.
+* Watengenezaji **mara chache hutumia wito wa API ya kitambulisho cha ukaguzi** kwani ni **binafsi**, kwa hivyo Apple inaweza **kubadilisha** wakati wowote. Kwa kuongezea, matumizi ya API binafsi hayaruhusiwi katika programu za Duka la App la Mac.
+* Ikiwa njia ya **`processIdentifier`** inatumika, inaweza kuwa hatarini
+* Badala ya **`xpc_connection_get_audit_token`**, inapaswa kutumika **`xpc_dictionary_get_audit_token`**, kwani ya mwisho inaweza pia kuwa [hatarini katika hali fulani](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
 
-### Communication Attacks
+### Mashambulizi ya Mawasiliano
 
-For more information about the PID reuse attack check:
+Kwa habari zaidi kuhusu shambulio la kutumia tena PID angalia:
 
 {% content-ref url="macos-pid-reuse.md" %}
 [macos-pid-reuse.md](macos-pid-reuse.md)
 {% endcontent-ref %}
 
-For more information **`xpc_connection_get_audit_token`** attack check:
+Kwa habari zaidi kuhusu shambulio la **`xpc_connection_get_audit_token`** angalia:
 
 {% content-ref url="macos-xpc_connection_get_audit_token-attack.md" %}
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
 {% endcontent-ref %}
 
-### Trustcache - Downgrade Attacks Prevention
+### Kuzuia Mashambulizi ya Kupunguza - Trustcache
 
-Trustcache is a defensive method introduced in Apple Silicon machines that stores a database of CDHSAH of Apple binaries so only allowed non modified binaries can be executed. Which prevent the execution of downgrade versions.
+Trustcache ni njia ya ulinzi iliyoletwa kwenye mashine za Apple Silicon ambayo inahifadhi kwenye hifadhidata CDHSAH ya programu za Apple ili tu programu zisizobadilishwa zinazoruhusiwa ziweze kutekelezwa. Hii inazuia utekelezaji wa toleo za kupunguza.
 
-### Code Examples
+### Mifano ya Nambari
 
-The server will implement this **verification** in a function called **`shouldAcceptNewConnection`**.
+Seva itatekeleza uthibitisho huu katika kazi inayoitwa **`shouldAcceptNewConnection`**.
 
 {% code overflow="wrap" %}
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection {
-    //Check connection
-    return YES;
+//Check connection
+return YES;
 }
 ```
 {% endcode %}
 
-The object NSXPCConnection has a **private** property **`auditToken`** (the one that should be used but could change) and a the **public** property **`processIdentifier`** (the one that shouldn't be used).
+Kitu NSXPCConnection ina mali ya **binafsi** **`auditToken`** (ile inayopaswa kutumika lakini inaweza kubadilika) na mali ya **umma** **`processIdentifier`** (ile ambayo haipaswi kutumika).
 
-The connecting process could be verified with something like:
+Mchakato wa kuunganisha unaweza kuthibitishwa kwa kitu kama hiki:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -91,7 +91,7 @@ SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(requirementString)
 ```
 {% endcode %}
 
-If a developer doesn't want to check the version of the client, he could check that the client is not vulnerable to process injection at least:
+Ikiwa msanidi programu hataki kuangalia toleo la mteja, anaweza angalia kuwa mteja hana udhaifu wa kuingiza mchakato angalau:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -99,27 +99,27 @@ If a developer doesn't want to check the version of the client, he could check t
 CFDictionaryRef csInfo = NULL;
 SecCodeCopySigningInformation(code, kSecCSDynamicInformation, &csInfo);
 uint32_t csFlags = [((__bridge NSDictionary *)csInfo)[(__bridge NSString *)kSecCodeInfoStatus] intValue];
-const uint32_t cs_hard = 0x100;        // don't load invalid page. 
+const uint32_t cs_hard = 0x100;        // don't load invalid page.
 const uint32_t cs_kill = 0x200;        // Kill process if page is invalid
 const uint32_t cs_restrict = 0x800;    // Prevent debugging
 const uint32_t cs_require_lv = 0x2000; // Library Validation
 const uint32_t cs_runtime = 0x10000;   // hardened runtime
 if ((csFlags & (cs_hard | cs_require_lv)) {
-    return Yes; // Accept connection
+return Yes; // Accept connection
 }
 ```
 {% endcode %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuhack AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

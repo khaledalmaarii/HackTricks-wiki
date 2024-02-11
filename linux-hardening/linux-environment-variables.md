@@ -1,50 +1,57 @@
-# Linux Environment Variables
+# Mazingira ya Linux
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuhack AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Global variables
+## Mazingira ya kawaida
 
-The global variables **will be** inherited by **child processes**.
+Mazingira ya kawaida **yataurithiwa** na **mchakato wa watoto**.
 
-You can create a global variable for your current session doing:
-
+Unaweza kuunda mazingira ya kawaida kwa kikao chako cha sasa kwa kufanya:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
+Hii variable itapatikana kwenye vikao vyako vya sasa na michakato yake ya watoto.
 
-This variable will be accessible by your current sessions and its child processes.
-
-You can **remove** a variable doing:
-
+Unaweza **kuondoa** variable kwa kufanya:
 ```bash
 unset MYGLOBAL
 ```
+## Variables za ndani
 
-## Local variables
-
-The **local variables** can only be **accessed** by the **current shell/script**.
-
+**Variables za ndani** zinaweza kufikiwa tu na **kifaa cha sasa/kielekezi**.
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
+## Orodha ya mazingira ya sasa
 
-## List current variables
+To list the current environment variables in Linux, you can use the following command:
 
+```bash
+echo $VARIABLE_NAME
+```
+
+Replace `VARIABLE_NAME` with the name of the specific variable you want to display. If you want to list all the variables, you can use the `env` command:
+
+```bash
+env
+```
+
+This will display a list of all the current environment variables in your Linux system.
 ```bash
 set
 env
@@ -52,97 +59,88 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
+## Variables za Kawaida
 
-## Common variables
+Kutoka: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
+* **DISPLAY** - kuonyesha inayotumiwa na **X**. Kawaida, hii variable imewekwa kama **:0.0**, ambayo inamaanisha kuwa ni kuonyesha ya kwanza kwenye kompyuta ya sasa.
+* **EDITOR** - mhariri wa maandishi unaopendelewa na mtumiaji.
+* **HISTFILESIZE** - idadi kubwa ya mistari inayoweza kuwa kwenye faili ya historia.
+* **HISTSIZE** - Idadi ya mistari inayopaswa kuongezwa kwenye faili ya historia wakati mtumiaji anapomaliza kikao chake.
+* **HOME** - saraka yako ya nyumbani.
+* **HOSTNAME** - jina la mwenyeji wa kompyuta.
+* **LANG** - lugha yako ya sasa.
+* **MAIL** - eneo la sanduku la barua pepe la mtumiaji. Kawaida ni **/var/spool/mail/USER**.
+* **MANPATH** - orodha ya saraka za kutafuta kurasa za mwongozo.
+* **OSTYPE** - aina ya mfumo wa uendeshaji.
+* **PS1** - ishara ya amri ya msingi katika bash.
+* **PATH** - inahifadhi njia ya saraka zote ambazo zina faili za binary unazotaka kutekeleza kwa kutoa tu jina la faili na sio njia ya kihusishi au kamili.
+* **PWD** - saraka ya kazi ya sasa.
+* **SHELL** - njia ya kabati ya amri ya sasa (kwa mfano, **/bin/bash**).
+* **TERM** - aina ya terminal ya sasa (kwa mfano, **xterm**).
+* **TZ** - muda wako wa eneo.
+* **USER** - jina lako la mtumiaji la sasa.
 
-* **DISPLAY** – the display used by **X**. This variable is usually set to **:0.0**, which means the first display on the current computer.
-* **EDITOR** – the user’s preferred text editor.
-* **HISTFILESIZE** – the maximum number of lines contained in the history file.
-* **HISTSIZE** – Number of lines added to the history file when the user finish his session
-* **HOME** – your home directory.
-* **HOSTNAME** – the hostname of the computer.
-* **LANG** – your current language.
-* **MAIL** – the location of the user’s mail spool. Usually **/var/spool/mail/USER**.
-* **MANPATH** – the list of directories to search for manual pages.
-* **OSTYPE** – the type of operating system.
-* **PS1** – the default prompt in bash.
-* **PATH** – stores the path of all the directories which holds binary files you want to execute just by specifying the name of the file and not by relative or absolute path.
-* **PWD** – the current working directory.
-* **SHELL** – the path to the current command shell (for example, **/bin/bash**).
-* **TERM** – the current terminal type (for example, **xterm**).
-* **TZ** – your time zone.
-* **USER** – your current username.
-
-## Interesting variables for hacking
+## Variables za Kuvutia kwa Udukuzi
 
 ### **HISTFILESIZE**
 
-Change the **value of this variable to 0**, so when you **end your session** the **history file** (\~/.bash\_history) **will be deleted**.
-
+Badilisha **thamani ya variable hii kuwa 0**, ili wakati unapo **maliza kikao chako**, faili ya historia (\~/.bash\_history) **itafutwa**.
 ```bash
 export HISTFILESIZE=0
 ```
-
 ### **HISTSIZE**
 
-Change the **value of this variable to 0**, so when you **end your session** any command will be added to the **history file** (\~/.bash\_history).
-
+Badilisha **thamani ya kipekee ya hii variable kuwa 0**, ili wakati unapo **maliza kikao chako**, amri yoyote itakayotumika haitaongezwa kwenye **faili ya historia** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
-
 ### http\_proxy & https\_proxy
 
-The processes will use the **proxy** declared here to connect to internet through **http or https**.
-
+Mchakato utatumia **proxy** iliyotangazwa hapa kuunganisha na mtandao kupitia **http au https**.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
-
 ### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-The processes will trust the certificates indicated in **these env variables**.
-
+Mchakato utaamini vyeti vilivyotajwa katika **hizi variables za mazingira**.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
 ```
-
 ### PS1
 
-Change how your prompt looks.
+Badilisha jinsi kivinjari chako kinavyoonekana.
 
-[**This is an example**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
+[**Hii ni mfano**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
 Root:
 
 ![](<../.gitbook/assets/image (87).png>)
 
-Regular user:
+Mtumiaji wa kawaida:
 
 ![](<../.gitbook/assets/image (88).png>)
 
-One, two and three backgrounded jobs:
+Kazi tatu zilizowekwa nyuma:
 
 ![](<../.gitbook/assets/image (89).png>)
 
-One background job, one stopped and last command didn't finish correctly:
+Kazi moja iliyowekwa nyuma, moja ilisimamishwa na amri ya mwisho haikumalizika kwa usahihi:
 
 ![](<../.gitbook/assets/image (90).png>)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

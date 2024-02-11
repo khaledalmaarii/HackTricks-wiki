@@ -1,195 +1,181 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 
-## Basic Concepts
+## Mawazo Muhimu
 
-- **Smart Contracts** are defined as programs that execute on a blockchain when certain conditions are met, automating agreement executions without intermediaries.
-- **Decentralized Applications (dApps)** build upon smart contracts, featuring a user-friendly front-end and a transparent, auditable back-end.
-- **Tokens & Coins** differentiate where coins serve as digital money, while tokens represent value or ownership in specific contexts.
-  - **Utility Tokens** grant access to services, and **Security Tokens** signify asset ownership.
-- **DeFi** stands for Decentralized Finance, offering financial services without central authorities.
-- **DEX** and **DAOs** refer to Decentralized Exchange Platforms and Decentralized Autonomous Organizations, respectively.
+- **Mikataba Smart** inafafanuliwa kama programu ambazo hutekelezwa kwenye blockchain wakati masharti fulani yanakidhiwa, kutekeleza makubaliano bila wakala wa kati.
+- **Maombi Yasiyotawaliwa (dApps)** yanajengwa kwenye mikataba smart, yakionyesha kiolesura cha mtumiaji rafiki na sehemu ya nyuma inayoweza kuangaliwa na kuthibitishwa.
+- **Alama & Sarafu** zinatofautisha ambapo sarafu hutumika kama pesa ya dijiti, wakati alama zinaonyesha thamani au umiliki katika muktadha maalum.
+- **Alama za Matumizi** hutoa ufikiaji wa huduma, na **Alama za Usalama** zinaashiria umiliki wa mali.
+- **DeFi** inasimama kwa Decentralized Finance, ikitoa huduma za kifedha bila mamlaka ya kati.
+- **DEX** na **DAOs** inahusu Jukwaa za Kubadilishana Zisizotawaliwa na Shirika la Kujitawala la Kujitawala, mtawaliwa.
 
-## Consensus Mechanisms
+## Mifumo ya Makubaliano
 
-Consensus mechanisms ensure secure and agreed transaction validations on the blockchain:
-- **Proof of Work (PoW)** relies on computational power for transaction verification.
-- **Proof of Stake (PoS)** demands validators to hold a certain amount of tokens, reducing energy consumption compared to PoW.
+Mifumo ya makubaliano inahakikisha uthibitisho salama na uliokubaliwa wa shughuli kwenye blockchain:
+- **Uthibitisho wa Kazi (PoW)** unategemea nguvu ya kompyuta kwa uthibitisho wa shughuli.
+- **Uthibitisho wa Umiliki (PoS)** unahitaji wathibitishaji kushikilia kiasi fulani cha alama, kupunguza matumizi ya nishati ikilinganishwa na PoW.
 
-## Bitcoin Essentials
+## Mambo Muhimu ya Bitcoin
 
-### Transactions
+### Shughuli
 
-Bitcoin transactions involve transferring funds between addresses. Transactions are validated through digital signatures, ensuring only the owner of the private key can initiate transfers.
+Shughuli za Bitcoin zinahusisha kuhamisha fedha kati ya anwani. Shughuli huthibitishwa kupitia saini za dijiti, ikihakikisha kuwa mmiliki wa ufunguo wa faragha ndiye anayeweza kuanzisha uhamisho.
 
-#### Key Components:
+#### Vipengele muhimu:
 
-- **Multisignature Transactions** require multiple signatures to authorize a transaction.
-- Transactions consist of **inputs** (source of funds), **outputs** (destination), **fees** (paid to miners), and **scripts** (transaction rules).
+- Shughuli za **Multisignature** inahitaji saini nyingi kuidhinisha shughuli.
+- Shughuli zinaundwa na **vyanzo** (chanzo cha fedha), **matokeo** (marudio), **ada** (ilipwa kwa wachimbaji), na **hati** (kanuni za shughuli).
 
-### Lightning Network
+### Mtandao wa Lightning
 
-Aims to enhance Bitcoin's scalability by allowing multiple transactions within a channel, only broadcasting the final state to the blockchain.
+Lengo ni kuboresha uwezo wa Bitcoin kwa kuruhusu shughuli nyingi ndani ya kituo, na kutangaza hali ya mwisho tu kwenye blockchain.
 
-## Bitcoin Privacy Concerns
+## Maswala ya Faragha ya Bitcoin
 
-Privacy attacks, such as **Common Input Ownership** and **UTXO Change Address Detection**, exploit transaction patterns. Strategies like **Mixers** and **CoinJoin** improve anonymity by obscuring transaction links between users.
+Mashambulizi ya faragha, kama **Umiliki wa Ingizo la Kawaida** na **Ugunduzi wa Anwani ya Kubadilisha UTXO**, yanatumia mifumo ya shughuli. Mkakati kama **Mixers** na **CoinJoin** huongeza usiri kwa kuficha viungo vya shughuli kati ya watumiaji.
 
-## Acquiring Bitcoins Anonymously
+## Kupata Bitcoins kwa Siri
 
-Methods include cash trades, mining, and using mixers. **CoinJoin** mixes multiple transactions to complicate traceability, while **PayJoin** disguises CoinJoins as regular transactions for heightened privacy.
+Njia ni pamoja na biashara ya pesa taslimu, uchimbaji, na matumizi ya mixers. **CoinJoin** inachanganya shughuli nyingi ili kufanya ufuatiliaji kuwa mgumu, wakati **PayJoin** inaficha CoinJoins kama shughuli za kawaida kwa faragha zaidi.
 
 
-# Bitcoin Privacy Atacks
+# Mashambulizi ya Faragha ya Bitcoin
 
-# Summary of Bitcoin Privacy Attacks
+# Muhtasari wa Mashambulizi ya Faragha ya Bitcoin
 
-In the world of Bitcoin, the privacy of transactions and the anonymity of users are often subjects of concern. Here's a simplified overview of several common methods through which attackers can compromise Bitcoin privacy.
+Katika ulimwengu wa Bitcoin, faragha ya shughuli na utambulisho wa watumiaji mara nyingi ni masuala ya wasiwasi. Hapa kuna muhtasari rahisi wa njia kadhaa za kawaida ambazo wadukuzi wanaweza kuhatarisha faragha ya Bitcoin.
 
-## **Common Input Ownership Assumption**
+## **Kudhani Umiliki wa Ingizo la Kawaida**
 
-It is generally rare for inputs from different users to be combined in a single transaction due to the complexity involved. Thus, **two input addresses in the same transaction are often assumed to belong to the same owner**.
+Kwa ujumla ni nadra kwa vyanzo kutoka kwa watumiaji tofauti kuunganishwa katika shughuli moja kutokana na ugumu uliopo. Hivyo, **anwani mbili za chanzo katika shughuli moja mara nyingi huchukuliwa kuwa mali ya mmiliki mmoja**.
 
-## **UTXO Change Address Detection**
+## **Ugunduzi wa Anwani ya Kubadilisha UTXO**
 
-A UTXO, or **Unspent Transaction Output**, must be entirely spent in a transaction. If only a part of it is sent to another address, the remainder goes to a new change address. Observers can assume this new address belongs to the sender, compromising privacy.
+UTXO, au **Unspent Transaction Output**, lazima itumike kabisa katika shughuli. Ikiwa sehemu tu ya UTXO inatumwa kwa anwani nyingine, sehemu iliyobaki inaenda kwa anwani mpya ya kubadilisha. Wachunguzi wanaweza kudhani anwani hii mpya ni ya mtumaji, ikidhoofisha faragha.
 
-### Example
-To mitigate this, mixing services or using multiple addresses can help obscure ownership.
+### Mfano
+Kuongeza usiri kunaweza kusaidia kwa kutumia huduma za kuchanganya au kutumia anwani nyingi.
 
-## **Social Networks & Forums Exposure**
+## **Ufunuo wa Mitandao ya Kijamii na Vikundi**
 
-Users sometimes share their Bitcoin addresses online, making it **easy to link the address to its owner**.
+Watumiaji mara nyingi hushiriki anwani zao za Bitcoin mkondoni, ikifanya iwe **rahisi kuunganisha anwani na mmiliki wake**.
 
-## **Transaction Graph Analysis**
+## **Uchambuzi wa Grafu ya Shughuli**
 
-Transactions can be visualized as graphs, revealing potential connections between users based on the flow of funds.
+Shughuli zinaweza kuonyeshwa kama grafu, zikifunua uhusiano kati ya watumiaji kulingana na mtiririko wa fedha.
 
-## **Unnecessary Input Heuristic (Optimal Change Heuristic)**
+## **Heuristi ya Ingizo Isiyohitajika (Heuristi ya Kubadilisha Bora)**
 
-This heuristic is based on analyzing transactions with multiple inputs and outputs to guess which output is the change returning to the sender.
+Heuristi hii inategemea uchambuzi wa shughuli na vyanzo na matokeo kadhaa ili kudhani ni matokeo gani yanayorudi kwa mtumaji.
 
-### Example
-
+### Mfano
 ```bash
 2 btc --> 4 btc
 3 btc     1 btc
 ```
+## **Matumizi ya Anwani kwa Lazima**
 
-If adding more inputs makes the change output larger than any single input, it can confuse the heuristic.
+Wahalifu wanaweza kutuma kiasi kidogo kwenye anwani zilizotumiwa hapo awali, wakitarajia mpokeaji atachanganya kiasi hicho na michango mingine kwenye shughuli za baadaye, hivyo kuunganisha anwani hizo pamoja.
 
-## **Forced Address Reuse**
+### Tabia Sahihi ya Mfuko wa Fedha
+Mifuko ya fedha inapaswa kuepuka kutumia sarafu zilizopokelewa kwenye anwani zilizotumiwa hapo awali na zilizo tupu ili kuzuia uvujaji wa faragha hii.
 
-Attackers may send small amounts to previously used addresses, hoping the recipient combines these with other inputs in future transactions, thereby linking addresses together.
+## **Teknolojia Nyingine za Uchambuzi wa Blockchain**
 
-### Correct Wallet Behavior
-Wallets should avoid using coins received on already used, empty addresses to prevent this privacy leak.
+- **Kiasi Halisi cha Malipo:** Shughuli zisizo na mabadiliko huonyesha uwezekano wa kuwa kati ya anwani mbili zinazomilikiwa na mtumiaji mmoja.
+- **Namba za Mzunguko:** Namba za mzunguko kwenye shughuli inaonyesha kuwa ni malipo, na pato lisilo la mzunguko linaweza kuwa mabadiliko.
+- **Uchunguzi wa Alama ya Mfuko wa Fedha:** Mifuko tofauti ya fedha ina mifumo ya kipekee ya kuunda shughuli, kuruhusu wachambuzi kutambua programu iliyotumiwa na labda anwani ya mabadiliko.
+- **Ulinganishaji wa Kiasi na Wakati:** Kufichua nyakati au kiasi cha shughuli kunaweza kufanya shughuli ziweze kufuatiliwa.
 
-## **Other Blockchain Analysis Techniques**
+## **Uchambuzi wa Trafiki**
 
-- **Exact Payment Amounts:** Transactions without change are likely between two addresses owned by the same user.
-- **Round Numbers:** A round number in a transaction suggests it's a payment, with the non-round output likely being the change.
-- **Wallet Fingerprinting:** Different wallets have unique transaction creation patterns, allowing analysts to identify the software used and potentially the change address.
-- **Amount & Timing Correlations:** Disclosing transaction times or amounts can make transactions traceable.
+Kwa kufuatilia trafiki ya mtandao, wahalifu wanaweza kuunganisha shughuli au vitalu kwenye anwani za IP, kuhatarisha faragha ya mtumiaji. Hii ni kweli hasa ikiwa kampuni inaendesha nodi nyingi za Bitcoin, ikiongeza uwezo wao wa kufuatilia shughuli.
 
-## **Traffic Analysis**
-
-By monitoring network traffic, attackers can potentially link transactions or blocks to IP addresses, compromising user privacy. This is especially true if an entity operates many Bitcoin nodes, enhancing their ability to monitor transactions.
-
-## More
-For a comprehensive list of privacy attacks and defenses, visit [Bitcoin Privacy on Bitcoin Wiki](https://en.bitcoin.it/wiki/Privacy).
+## Zaidi
+Kwa orodha kamili ya mashambulizi na ulinzi wa faragha, tembelea [Bitcoin Privacy on Bitcoin Wiki](https://en.bitcoin.it/wiki/Privacy).
 
 
-# Anonymous Bitcoin Transactions
+# Shughuli za Bitcoin Zisizo na Majina
 
-## Ways to Get Bitcoins Anonymously
+## Njia za Kupata Bitcoins kwa Siri
 
-- **Cash Transactions**: Acquiring bitcoin through cash.
-- **Cash Alternatives**: Purchasing gift cards and exchanging them online for bitcoin.
-- **Mining**: The most private method to earn bitcoins is through mining, especially when done alone because mining pools may know the miner's IP address. [Mining Pools Information](https://en.bitcoin.it/wiki/Pooled_mining)
-- **Theft**: Theoretically, stealing bitcoin could be another method to acquire it anonymously, although it's illegal and not recommended.
+- **Shughuli za Fedha:** Kupata bitcoin kwa njia ya fedha taslimu.
+- **Chaguzi za Fedha:** Kununua kadi za zawadi na kuzibadilisha mtandaoni kwa bitcoin.
+- **Uchimbaji:** Njia ya faragha zaidi ya kupata bitcoins ni kupitia uchimbaji, hasa wakati inafanywa peke yake kwa sababu vikundi vya uchimbaji vinaweza kujua anwani ya IP ya mchimbaji. [Maelezo ya Vikundi vya Uchimbaji](https://en.bitcoin.it/wiki/Pooled_mining)
+- **Wizi:** Kimsingi, kuiba bitcoin kunaweza kuwa njia nyingine ya kupata kwa siri, ingawa ni kinyume cha sheria na sio inapendekezwa.
 
-## Mixing Services
+## Huduma za Kuchanganya
 
-By using a mixing service, a user can **send bitcoins** and receive **different bitcoins in return**, which makes tracing the original owner difficult. Yet, this requires trust in the service not to keep logs and to actually return the bitcoins. Alternative mixing options include Bitcoin casinos.
+Kwa kutumia huduma ya kuchanganya, mtumiaji anaweza **kutuma bitcoins** na kupokea **bitcoins tofauti kama malipo**, ambayo inafanya kuwa ngumu kufuatilia mmiliki wa awali. Hata hivyo, hii inahitaji imani kwa huduma hiyo kutokuhifadhi kumbukumbu na kwa kweli kurudisha bitcoins. Chaguzi zingine za kuchanganya ni pamoja na kasinoo za Bitcoin.
 
 ## CoinJoin
 
-**CoinJoin** merges multiple transactions from different users into one, complicating the process for anyone trying to match inputs with outputs. Despite its effectiveness, transactions with unique input and output sizes can still potentially be traced.
+**CoinJoin** inachanganya shughuli nyingi kutoka kwa watumiaji tofauti kuwa moja, ikifanya iwe ngumu kwa yeyote anayejaribu kulinganisha michango na pato. Licha ya ufanisi wake, shughuli zenye ukubwa wa kipekee wa kuingiza na pato bado zinaweza kufuatiliwa.
 
-Example transactions that may have used CoinJoin include `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` and `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`.
+Shughuli za mfano ambazo zinaweza kuwa zimeitumia CoinJoin ni `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` na `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`.
 
-For more information, visit [CoinJoin](https://coinjoin.io/en). For a similar service on Ethereum, check out [Tornado Cash](https://tornado.cash), which anonymizes transactions with funds from miners.
-
-## PayJoin
-
-A variant of CoinJoin, **PayJoin** (or P2EP), disguises the transaction among two parties (e.g., a customer and a merchant) as a regular transaction, without the distinctive equal outputs characteristic of CoinJoin. This makes it extremely hard to detect and could invalidate the common-input-ownership heuristic used by transaction surveillance entities.
-
+Kwa maelezo zaidi, tembelea [CoinJoin](https://coinjoin.io/en). Kwa huduma kama hiyo kwenye Ethereum, angalia [Tornado Cash](https://tornado.cash), ambayo inaficha shughuli na fedha kutoka kwa wachimbaji.
 ```plaintext
 2 btc --> 3 btc
 5 btc     4 btc
 ```
+Miamalaumalipo kama yaliyotajwa hapo juu yanaweza kuwa PayJoin, kuongeza faragha wakati bado inaonekana kama shughuli za kawaida za bitcoin.
 
-Transactions like the above could be PayJoin, enhancing privacy while remaining indistinguishable from standard bitcoin transactions.
+**Matumizi ya PayJoin yanaweza kuvuruga sana njia za uchunguzi za jadi**, hivyo kuwa maendeleo yanayotia moyo katika kufuatilia faragha ya shughuli.
 
-**The utilization of PayJoin could significantly disrupt traditional surveillance methods**, making it a promising development in the pursuit of transactional privacy.
+# Mbinu Bora za Faragha katika Sarafu za Kielektroniki
 
+## **Mbinu za Synchronizing za Mifuko ya Pesa**
 
-# Best Practices for Privacy in Cryptocurrencies
+Ili kudumisha faragha na usalama, kusawazisha mifuko ya pesa na blockchain ni muhimu. Kuna njia mbili zinazosimama:
 
-## **Wallet Synchronization Techniques**
+- **Node kamili**: Kwa kupakua blockchain nzima, node kamili inahakikisha faragha ya juu. Shughuli zote zilizofanywa hapo awali zimehifadhiwa kwenye kifaa, hivyo kuwa haiwezekani kwa wapinzani kutambua ni shughuli gani au anwani gani mtumiaji anavutiwa nazo.
+- **Uchujaji wa kizuizi upande wa mteja**: Njia hii inahusisha kuunda vichujio kwa kila kizuizi katika blockchain, kuruhusu mifuko ya pesa kutambua shughuli muhimu bila kufichua maslahi maalum kwa wachunguzi wa mtandao. Mifuko nyepesi hupakua vichujio hivi, na kuchukua kizuizi kamili tu wakati kuna mechi na anwani za mtumiaji.
 
-To maintain privacy and security, synchronizing wallets with the blockchain is crucial. Two methods stand out:
+## **Matumizi ya Tor kwa Anonimiteti**
 
-- **Full node**: By downloading the entire blockchain, a full node ensures maximum privacy. All transactions ever made are stored locally, making it impossible for adversaries to identify which transactions or addresses the user is interested in.
-- **Client-side block filtering**: This method involves creating filters for every block in the blockchain, allowing wallets to identify relevant transactions without exposing specific interests to network observers. Lightweight wallets download these filters, only fetching full blocks when a match with the user's addresses is found.
+Kwa kuwa Bitcoin inafanya kazi kwenye mtandao wa rika-kwa-rika, ni vyema kutumia Tor ili kuficha anwani yako ya IP, kuongeza faragha wakati wa kuingiliana na mtandao.
 
-## **Utilizing Tor for Anonymity**
+## **Kuzuia Matumizi ya Anwani**
 
-Given that Bitcoin operates on a peer-to-peer network, using Tor is recommended to mask your IP address, enhancing privacy when interacting with the network.
+Ili kulinda faragha, ni muhimu kutumia anwani mpya kwa kila shughuli. Matumizi ya anwani moja yanaweza kuhatarisha faragha kwa kuunganisha shughuli kwa kitu kimoja. Mifuko ya pesa ya kisasa inakataza matumizi ya anwani moja kupitia muundo wake.
 
-## **Preventing Address Reuse**
+## **Mbinu za Faragha katika Shughuli**
 
-To safeguard privacy, it's vital to use a new address for every transaction. Reusing addresses can compromise privacy by linking transactions to the same entity. Modern wallets discourage address reuse through their design.
+- **Shughuli nyingi**: Kugawanya malipo katika shughuli kadhaa kunaweza kuficha kiasi cha shughuli, kuzuia mashambulizi ya faragha.
+- **Kuepuka kubadilisha**: Kuchagua shughuli ambazo hazihitaji mabadiliko ya pato kunaimarisha faragha kwa kuvuruga njia za kugundua mabadiliko.
+- **Patoni nyingi za kubadilisha**: Ikiwa kuepuka kubadilisha sio rahisi, kuzalisha patoni nyingi za kubadilisha bado kunaweza kuboresha faragha.
 
-## **Strategies for Transaction Privacy**
+# **Monero: Ishara ya Anonimiteti**
 
-- **Multiple transactions**: Splitting a payment into several transactions can obscure the transaction amount, thwarting privacy attacks.
-- **Change avoidance**: Opting for transactions that don't require change outputs enhances privacy by disrupting change detection methods.
-- **Multiple change outputs**: If avoiding change isn't feasible, generating multiple change outputs can still improve privacy.
+Monero inashughulikia haja ya anonimiteti kamili katika shughuli za dijiti, ikiweka kiwango cha juu cha faragha.
 
-# **Monero: A Beacon of Anonymity**
+# **Ethereum: Gas na Shughuli**
 
-Monero addresses the need for absolute anonymity in digital transactions, setting a high standard for privacy.
+## **Kuelewa Gas**
 
-# **Ethereum: Gas and Transactions**
+Gas inapima juhudi za kihesabu zinazohitajika kutekeleza shughuli kwenye Ethereum, bei yake ikiwa ni **gwei**. Kwa mfano, shughuli inayogharimu 2,310,000 gwei (au 0.00231 ETH) inahusisha kikomo cha gas na ada ya msingi, pamoja na dau la kuhamasisha wachimbaji. Watumiaji wanaweza kuweka ada ya juu ili kuhakikisha hawalipi zaidi, na ziada inarudishwa.
 
-## **Understanding Gas**
+## **Kutekeleza Shughuli**
 
-Gas measures the computational effort needed to execute operations on Ethereum, priced in **gwei**. For example, a transaction costing 2,310,000 gwei (or 0.00231 ETH) involves a gas limit and a base fee, with a tip to incentivize miners. Users can set a max fee to ensure they don't overpay, with the excess refunded.
+Shughuli katika Ethereum inahusisha mtumaji na mpokeaji, ambao wanaweza kuwa anwani za mtumiaji au mikataba ya akili. Shughuli hizo zinahitaji ada na lazima zichimbwe. Habari muhimu katika shughuli ni mpokeaji, saini ya mtumaji, thamani, data ya hiari, kikomo cha gas, na ada. Kwa umuhimu, anwani ya mtumaji inatokana na saini, hivyo kuondoa haja ya kuwepo kwake katika data ya shughuli.
 
-## **Executing Transactions**
+Mbinu na mifumo hii ni msingi kwa yeyote anayetaka kushiriki katika sarafu za kielektroniki huku akipa kipaumbele faragha na usalama.
 
-Transactions in Ethereum involve a sender and a recipient, which can be either user or smart contract addresses. They require a fee and must be mined. Essential information in a transaction includes the recipient, sender's signature, value, optional data, gas limit, and fees. Notably, the sender's address is deduced from the signature, eliminating the need for it in the transaction data.
-
-These practices and mechanisms are foundational for anyone looking to engage with cryptocurrencies while prioritizing privacy and security.
-
-
-## References
+## Marejeo
 
 * [https://en.wikipedia.org/wiki/Proof\_of\_stake](https://en.wikipedia.org/wiki/Proof\_of\_stake)
 * [https://www.mycryptopedia.com/public-key-private-key-explained/](https://www.mycryptopedia.com/public-key-private-key-explained/)
@@ -201,16 +187,14 @@ These practices and mechanisms are foundational for anyone looking to engage wit
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inayotangazwa katika HackTricks** au **kupakua HackTricks katika PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

@@ -2,71 +2,70 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Main Keychains
+## Keychain Kuu
 
-* The **User Keychain** (`~/Library/Keychains/login.keycahin-db`), which is used to store **user-specific credentials** like application passwords, internet passwords, user-generated certificates, network passwords, and user-generated public/private keys.
-* The **System Keychain** (`/Library/Keychains/System.keychain`), which stores **system-wide credentials** such as WiFi passwords, system root certificates, system private keys, and system application passwords.
+* **Keychain ya Mtumiaji** (`~/Library/Keychains/login.keycahin-db`), ambayo hutumika kuhifadhi **vitambulisho maalum vya mtumiaji** kama nywila za programu, nywila za mtandao, vyeti vilivyotengenezwa na mtumiaji, nywila za mtandao, na funguo za umma / binafsi zilizotengenezwa na mtumiaji.
+* **Keychain ya Mfumo** (`/Library/Keychains/System.keychain`), ambayo inahifadhi **vitambulisho vya mfumo kwa kiwango cha mfumo** kama vile nywila za WiFi, vyeti vya mfumo, funguo binafsi za mfumo, na nywila za programu za mfumo.
 
-### Password Keychain Access
+### Upatikanaji wa Nywila za Keychain
 
-These files, while they do not have inherent protection and can be **downloaded**, are encrypted and require the **user's plaintext password to be decrypted**. A tool like [**Chainbreaker**](https://github.com/n0fate/chainbreaker) could be used for decryption.
+Faili hizi, ingawa hazina ulinzi wa asili na zinaweza **kupakuliwa**, zimefichwa na zinahitaji **nywila halisi ya mtumiaji ili kufichuliwa**. Zana kama [**Chainbreaker**](https://github.com/n0fate/chainbreaker) inaweza kutumika kwa kufichua.
 
-## Keychain Entries Protections
+## Ulinzi wa Vitambulisho vya Keychain
 
 ### ACLs
 
-Each entry in the keychain is governed by **Access Control Lists (ACLs)** which dictate who can perform various actions on the keychain entry, including:
+Kila kuingia kwenye keychain linatawaliwa na **Majedwali ya Kudhibiti Upatikanaji (ACLs)** ambayo yanadhibiti ni nani anaweza kufanya vitendo mbalimbali kwenye kuingia kwenye keychain, ikiwa ni pamoja na:
 
-* **ACLAuhtorizationExportClear**: Allows the holder to get the clear text of the secret.
-* **ACLAuhtorizationExportWrapped**: Allows the holder to get the clear text encrypted with another provided password.
-* **ACLAuhtorizationAny**: Allows the holder to perform any action.
+* **ACLAuhtorizationExportClear**: Inaruhusu mmiliki kupata maandishi wazi ya siri.
+* **ACLAuhtorizationExportWrapped**: Inaruhusu mmiliki kupata maandishi wazi yaliyofichwa na nywila nyingine iliyotolewa.
+* **ACLAuhtorizationAny**: Inaruhusu mmiliki kufanya kitendo chochote.
 
-The ACLs are further accompanied by a **list of trusted applications** that can perform these actions without prompting. This could be:
+ACLs hizo zinaambatana na **orodha ya programu za kuaminika** ambazo zinaweza kufanya vitendo hivi bila kuuliza. Hii inaweza kuwa:
 
-* &#x20;**N`il`** (no authorization required, **everyone is trusted**)
-* An **empty** list (**nobody** is trusted)
-* **List** of specific **applications**.
+* &#x20;**N`il`** (hakuna idhini inayohitajika, **kila mtu anaaminika**)
+* Orodha **tupu** (**hakuna mtu** anaaminika)
+* **Orodha** ya **programu maalum**.
 
-Also the entry might contain the key **`ACLAuthorizationPartitionID`,** which is use to identify the **teamid, apple,** and **cdhash.**
+Pia kuingia kunaweza kuwa na ufunguo **`ACLAuthorizationPartitionID`,** ambao hutumiwa kutambua **teamid, apple,** na **cdhash.**
 
-* If the **teamid** is specified, then in order to **access the entry** value **withuot** a **prompt** the used application must have the **same teamid**.
-* If the **apple** is specified, then the app needs to be **signed** by **Apple**.
-* If the **cdhash** is indicated, then **app** must have the specific **cdhash**.
+* Ikiwa **teamid** imeelekezwa, basi ili **kupata thamani ya kuingia** bila **kuuliza**, programu iliyotumika lazima iwe na **teamid sawa**.
+* Ikiwa **apple** imeelekezwa, basi programu inahitaji kuwa **imesainiwa** na **Apple**.
+* Ikiwa **cdhash** inaonyeshwa, basi programu lazima iwe na **cdhash** maalum.
 
-### Creating a Keychain Entry
+### Kuunda Kuingia kwenye Keychain
 
-When a **new** **entry** is created using **`Keychain Access.app`**, the following rules apply:
+Wakati kuingia kwenye keychain mpya inaundwa kwa kutumia **`Keychain Access.app`**, sheria zifuatazo zinatumika:
 
-* All apps can encrypt.
-* **No apps** can export/decrypt (without prompting the user).
-* All apps can see the integrity check.
-* No apps can change ACLs.
-* The **partitionID** is set to **`apple`**.
+* Programu zote zinaweza kusimbua.
+* **Hakuna programu** inaweza kusafirisha/kusimbua (bila kuuliza mtumiaji).
+* Programu zote zinaweza kuona ukaguzi wa uadilifu.
+* Hakuna programu inaweza kubadilisha ACLs.
+* **partitionID** imewekwa kuwa **`apple`**.
 
-When an **application creates an entry in the keychain**, the rules are slightly different:
+Wakati programu inaunda kuingia kwenye keychain, sheria ni kidogo tofauti:
 
-* All apps can encrypt.
-* Only the **creating application** (or any other apps explicitly added) can export/decrypt (without prompting the user).
-* All apps can see the integrity check.
-* No apps can change the ACLs.
-* The **partitionID** is set to **`teamid:[teamID here]`**.
+* Programu zote zinaweza kusimbua.
+* Ni programu ya **kuunda kuingia** (au programu nyingine yoyote iliyowekwa wazi) tu inaweza kusafirisha/kusimbua (bila kuuliza mtumiaji).
+* Programu zote zinaweza kuona ukaguzi wa uadilifu.
+* Hakuna programu inaweza kubadilisha ACLs.
+* **partitionID** imewekwa kuwa **`teamid:[teamID hapa]`**.
 
-## Accessing the Keychain
+## Kupata Keychain
 
 ### `security`
-
 ```bash
 # Dump all metadata and decrypted secrets (a lot of pop-ups)
 security dump-keychain -a -d
@@ -77,73 +76,72 @@ security find-generic-password -a "Slack" -g
 # Change the specified entrys PartitionID entry
 security set-generic-password-parition-list -s "test service" -a "test acount" -S
 ```
-
 ### APIs
 
 {% hint style="success" %}
-The **keychain enumeration and dumping** of secrets that **won't generate a prompt** can be done with the tool [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+**Uchunguzi na kudondosha** kwa siri za **keychain** ambazo **hazitazalisha ombi** inaweza kufanywa kwa kutumia zana [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
-List and get **info** about each keychain entry:
+Pata orodha na **habari** kuhusu kila kuingia kwenye keychain:
 
-* The API **`SecItemCopyMatching`** gives info about each entry and there are some attributes you can set when using it:
-  * **`kSecReturnData`**: If true, it will try to decrypt the data (set to false to avoid potential pop-ups)
-  * **`kSecReturnRef`**: Get also reference to keychain item (set to true in case later you see you can decrypt without pop-up)
-  * **`kSecReturnAttributes`**: Get metadata about entries
-  * **`kSecMatchLimit`**: How many results to return
-  * **`kSecClass`**: What kind of keychain entry
+* API ya **`SecItemCopyMatching`** inatoa habari kuhusu kila kuingia na kuna sifa kadhaa unazoweza kuweka unapotumia:
+* **`kSecReturnData`**: Ikiwa ni kweli, itajaribu kufichua data (weka kuwa sahihi ili kuepuka pop-ups)
+* **`kSecReturnRef`**: Pata pia kumbukumbu ya kipengee cha keychain (weka kuwa kweli ikiwa baadaye unaona unaweza kufichua bila pop-up)
+* **`kSecReturnAttributes`**: Pata metadata kuhusu kuingia
+* **`kSecMatchLimit`**: Ni matokeo mangapi ya kurudi
+* **`kSecClass`**: Aina gani ya kuingia kwenye keychain
 
-Get **ACLs** of each entry:
+Pata **ACLs** ya kila kuingia:
 
-* With the API **`SecAccessCopyACLList`** you can get the **ACL for the keychain item**, and it will return a list of ACLs (like `ACLAuhtorizationExportClear` and the others previously mentioned)  where each list has:
-  * Description
-  * **Trusted Application List**. This could be:
-    * An app: /Applications/Slack.app
-    * A binary: /usr/libexec/airportd
-    * A group: group://AirPort
+* Kwa kutumia API ya **`SecAccessCopyACLList`** unaweza kupata **ACL kwa kuingia kwenye keychain**, na itarudi orodha ya ACLs (kama `ACLAuhtorizationExportClear` na zingine zilizotajwa hapo awali) ambapo kila orodha ina:
+* Maelezo
+* **Orodha ya Maombi Yaliyoidhinishwa**. Hii inaweza kuwa:
+* Programu: /Applications/Slack.app
+* Binary: /usr/libexec/airportd
+* Kikundi: group://AirPort
 
-Export the data:
+Changanua data:
 
-* The API **`SecKeychainItemCopyContent`** gets the plaintext
-* The API  **`SecItemExport`** exports the keys and certificates but might have to set passwords to export the content encrypted
+* API ya **`SecKeychainItemCopyContent`** inapata maandishi wazi
+* API ya **`SecItemExport`** inachanganua funguo na vyeti lakini inaweza kuwa inahitaji kuweka nywila ili kuchanganua yaliyomo yaliyofichwa
 
-And these are the **requirements** to be able to **export a secret without a prompt**:
+Na hizi ndizo **mahitaji** ya kuweza **kuchanganua siri bila ombi**:
 
-* If **1+ trusted** apps listed:
-  * Need the appropriate **authorizations** (**`Nil`**, or be **part** of the allowed list of apps in the authorization to access the secret info)
-  * Need code signature to match **PartitionID**
-  * Need code signature to match that of one **trusted app** (or be a member of the right KeychainAccessGroup)
-* If **all applications trusted**:
-  * Need the appropriate **authorizations**
-  * Need code signature to match **PartitionID**
-    * If **no PartitionID**, then this isn't needed
+* Ikiwa kuna **programu 1 au zaidi zilizoidhinishwa**:
+* Inahitaji **idhini sahihi** (**`Nil`**, au kuwa sehemu ya orodha iliyoruhusiwa ya programu katika idhini ya kufikia habari za siri)
+* Inahitaji saini ya nambari kufanana na **PartitionID**
+* Inahitaji saini ya nambari kufanana na ile ya **programu iliyoidhinishwa** (au kuwa mwanachama wa Kikundi sahihi cha KeychainAccessGroup)
+* Ikiwa **programu zote zinatambuliwa**:
+* Inahitaji **idhini sahihi**
+* Inahitaji saini ya nambari kufanana na **PartitionID**
+* Ikiwa hakuna **PartitionID**, basi hii haihitajiki
 
 {% hint style="danger" %}
-Therefore, if there is **1 application listed**, you need to **inject code in that application**.
+Kwa hivyo, ikiwa kuna **programu 1 iliyoorodheshwa**, unahitaji **kuingiza nambari kwenye programu hiyo**.
 
-If **apple** is indicated in the **partitionID**, you could access it with **`osascript`** so anything that is trusting all applications with apple in the partitionID. **`Python`** could also be used for this.
+Ikiwa **apple** imeonyeshwa katika **PartitionID**, unaweza kufikia hiyo na **`osascript`** kwa hivyo chochote kinachotumaini programu zote na apple katika PartitionID. **`Python`** pia inaweza kutumika kwa hili.
 {% endhint %}
 
-### Two additional attributes
+### Atributi mbili zaidi
 
-* **Invisible**: It's a boolean flag to **hide** the entry from the **UI** Keychain app
-* **General**: It's to store **metadata** (so it's NOT ENCRYPTED)
-  * Microsoft was storing in plain text all the refresh tokens to access sensitive endpoint.
+* **Invisible**: Ni bendera ya boolean ya **kuficha** kuingia kutoka kwenye programu ya **UI** ya Keychain
+* **General**: Ni kuhifadhi **metadata** (kwa hivyo HAIJAFICHWA)
+* Microsoft ilikuwa inahifadhi kwa maandishi wazi vivuli vyote vya kuboresha kufikia mwisho nyeti.
 
-## References
+## Marejeo
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -1,106 +1,77 @@
-# Interesting Windows Registry Keys
+# Funguo za Usajili za Windows Zinazovutia
 
-### Interesting Windows Registry Keys
+### Funguo za Usajili za Windows Zinazovutia
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inayotangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 
-### **Windows Version and Owner Info**
-- Located at **`Software\Microsoft\Windows NT\CurrentVersion`**, you'll find the Windows version, Service Pack, installation time, and the registered owner's name in a straightforward manner.
+### **Toleo la Windows na Habari ya Mmiliki**
+- Iko katika **`Software\Microsoft\Windows NT\CurrentVersion`**, utapata toleo la Windows, Pakiti ya Huduma, wakati wa usakinishaji, na jina la mmiliki aliyesajiliwa kwa njia rahisi.
 
-### **Computer Name**
-- The hostname is found under **`System\ControlSet001\Control\ComputerName\ComputerName`**.
+### **Jina la Kompyuta**
+- Jina la mwenyeji linapatikana chini ya **`System\ControlSet001\Control\ComputerName\ComputerName`**.
 
-### **Time Zone Setting**
-- The system's time zone is stored in **`System\ControlSet001\Control\TimeZoneInformation`**.
+### **Mipangilio ya Muda wa Eneo**
+- Muda wa eneo la mfumo unahifadhiwa katika **`System\ControlSet001\Control\TimeZoneInformation`**.
 
-### **Access Time Tracking**
-- By default, the last access time tracking is turned off (**`NtfsDisableLastAccessUpdate=1`**). To enable it, use:
-  `fsutil behavior set disablelastaccess 0`
+### **Ufuatiliaji wa Wakati wa Kufikia**
+- Kwa chaguo-msingi, ufuatiliaji wa wakati wa kufikia wa mwisho umezimwa (**`NtfsDisableLastAccessUpdate=1`**). Ili kuwezesha, tumia:
+`fsutil behavior set disablelastaccess 0`
 
-### Windows Versions and Service Packs
-- The **Windows version** indicates the edition (e.g., Home, Pro) and its release (e.g., Windows 10, Windows 11), while **Service Packs** are updates that include fixes and, sometimes, new features.
+### Matoleo ya Windows na Pakiti za Huduma
+- **Toleo la Windows** linaonyesha toleo (k.m., Home, Pro) na kutolewa kwake (k.m., Windows 10, Windows 11), wakati **Pakiti za Huduma** ni sasisho zinazojumuisha marekebisho na, mara nyingine, vipengele vipya.
 
-### Enabling Last Access Time
-- Enabling last access time tracking allows you to see when files were last opened, which can be critical for forensic analysis or system monitoring.
+### Kuwezesha Ufuatiliaji wa Wakati wa Kufikia
+- Kuwezesha ufuatiliaji wa wakati wa kufikia wa mwisho kunakuwezesha kuona wakati faili zilifunguliwa mara ya mwisho, ambayo inaweza kuwa muhimu kwa uchambuzi wa kisayansi au ufuatiliaji wa mfumo.
 
-### Network Information Details
-- The registry holds extensive data on network configurations, including **types of networks (wireless, cable, 3G)** and **network categories (Public, Private/Home, Domain/Work)**, which are vital for understanding network security settings and permissions.
+### Maelezo ya Habari za Mtandao
+- Usajili una data nyingi juu ya mipangilio ya mtandao, ikiwa ni pamoja na **aina za mitandao (isiyo na waya, kebo, 3G)** na **makundi ya mtandao (Umma, Binafsi/Nyumbani, Kikoa/Kazi)**, ambayo ni muhimu kwa kuelewa mipangilio ya usalama wa mtandao na ruhusa.
 
-### Client Side Caching (CSC)
-- **CSC** enhances offline file access by caching copies of shared files. Different **CSCFlags** settings control how and what files are cached, affecting performance and user experience, especially in environments with intermittent connectivity.
+### Kache ya Upande wa Mteja (CSC)
+- **CSC** inaboresha ufikiaji wa faili nje ya mtandao kwa kuhifadhi nakala za faili zilizoshirikiwa. Mipangilio tofauti ya **CSCFlags** inadhibiti jinsi na ni faili gani zinazohifadhiwa kwenye kache, ikiaathiri utendaji na uzoefu wa mtumiaji, hasa katika mazingira yenye uunganisho wa muda mfupi.
 
-### AutoStart Programs
-- Programs listed in various `Run` and `RunOnce` registry keys are automatically launched at startup, affecting system boot time and potentially being points of interest for identifying malware or unwanted software.
+### Programu Zinazoanza Kiotomatiki
+- Programu zilizoorodheshwa katika funguo mbalimbali za usajili za `Run` na `RunOnce` zinaanzishwa kiotomatiki wakati wa kuanza, zikiathiri wakati wa kuanza wa mfumo na kuwa hatua muhimu za kutambua programu hasidi au programu zisizohitajika.
 
 ### Shellbags
-- **Shellbags** not only store preferences for folder views but also provide forensic evidence of folder access even if the folder no longer exists. They are invaluable for investigations, revealing user activity that isn't obvious through other means.
+- **Shellbags** sio tu hifadhi mapendeleo ya maoni ya folda lakini pia hutoa ushahidi wa kisayansi wa ufikiaji wa folda hata ikiwa folda haipo tena. Ni muhimu kwa uchunguzi, kufunua shughuli za mtumiaji ambazo hazionekani kwa njia nyingine.
 
-### USB Information and Forensics
-- The details stored in the registry about USB devices can help trace which devices were connected to a computer, potentially linking a device to sensitive file transfers or unauthorized access incidents.
+### Habari na Uchunguzi wa USB
+- Maelezo yaliyohifadhiwa kwenye usajili kuhusu vifaa vya USB vinaweza kusaidia kufuatilia ni vifaa vipi vilivyokuwa vimeunganishwa kwenye kompyuta, na hivyo kuunganisha kifaa na uhamisho wa faili nyeti au matukio ya ufikiaji usioruhusiwa.
 
-### Volume Serial Number
-- The **Volume Serial Number** can be crucial for tracking the specific instance of a file system, useful in forensic scenarios where file origin needs to be established across different devices.
+### Nambari ya Serial ya Kiasi
+- **Nambari ya Serial ya Kiasi** inaweza kuwa muhimu kufuatilia kesi maalum ya mfumo wa faili, inayoweza kutumika katika mazingira ya kisayansi ambapo asili ya faili inahitaji kubainishwa kwenye vifaa tofauti.
 
-### **Shutdown Details**
-- Shutdown time and count (the latter only for XP) are kept in **`System\ControlSet001\Control\Windows`** and **`System\ControlSet001\Control\Watchdog\Display`**.
+### **Maelezo ya Kuzima**
+- Wakati wa kuzima na idadi (kwa XP tu) zinahifadhiwa katika **`System\ControlSet001\Control\Windows`** na **`System\ControlSet001\Control\Watchdog\Display`**.
 
-### **Network Configuration**
-- For detailed network interface info, refer to **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
-- First and last network connection times, including VPN connections, are logged under various paths in **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
+### **Usanidi wa Mtandao**
+- Kwa habari ya kina ya interface ya mtandao, tazama **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
+- Wakati wa kwanza na wa mwisho wa uunganisho wa mtandao, ikiwa ni pamoja na uunganisho wa VPN, zimeorodheshwa chini ya njia mbalimbali katika **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
 
-### **Shared Folders**
-- Shared folders and settings are under **`System\ControlSet001\Services\lanmanserver\Shares`**. The Client Side Caching (CSC) settings dictate offline file availability.
+### **Folda Zilizoshirikiwa**
+- Folda zilizoshirikiwa na mipangilio ziko chini ya **`System\ControlSet001\Services\lanmanserver\Shares`**. Mipangilio ya Kache ya Upande wa Mteja (CSC) inaamua upatikanaji wa faili nje ya mtandao.
 
-### **Programs that Start Automatically**
-- Paths like **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** and similar entries under `Software\Microsoft\Windows\CurrentVersion` detail programs set to run at startup.
+### **Programu Zinazoanza Kiotomatiki**
+- Njia kama **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** na vitu sawa chini ya `Software\Microsoft\Windows\CurrentVersion` hufafanua programu zilizowekwa kuanza wakati wa kuanza.
 
-### **Searches and Typed Paths**
-- Explorer searches and typed paths are tracked in the registry under **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** for WordwheelQuery and TypedPaths, respectively.
+### **Utafutaji na Njia Zilizotumiwa**
+- Utafutaji wa Explorer na njia zilizotumiwa zinafuatiliwa kwenye usajili chini ya **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** kwa WordwheelQuery na TypedPaths, mtawalia.
 
-### **Recent Documents and Office Files**
-- Recent documents and Office files accessed are noted in `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` and specific Office version paths.
+### **Hati za Hivi Karibuni na Faili za Ofisi**
+- Hati za hivi karibuni na faili za Ofisi zilizofikiwa zimeorodheshwa katika `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` na njia maalum za toleo la Ofisi.
 
-### **Most Recently Used (MRU) Items**
-- MRU lists, indicating recent file paths and commands, are stored in various `ComDlg32` and `Explorer` subkeys under `NTUSER.DAT`.
-
-### **User Activity Tracking**
-- The User Assist feature logs detailed application usage stats, including run count and last run time, at **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**.
-
-### **Shellbags Analysis**
-- Shellbags, revealing folder access details, are stored in `USRCLASS.DAT` and `NTUSER.DAT` under `Software\Microsoft\Windows\Shell`. Use **[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)** for analysis.
-
-### **USB Device History**
-- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`** and **`HKLM\SYSTEM\ControlSet001\Enum\USB`** contain rich details on connected USB devices, including manufacturer, product name, and connection timestamps.
-- The user associated with a specific USB device can be pinpointed by searching `NTUSER.DAT` hives for the device's **{GUID}**.
-- The last mounted device and its volume serial number can be traced through `System\MountedDevices` and `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`, respectively.
-
-This guide condenses the crucial paths and methods for accessing detailed system, network, and user activity information on Windows systems, aiming for clarity and usability.
-
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+### **Vitu Vilivyotumiwa Hivi Karibuni (MRU)**
+- Orodha za MRU, zikionyesha njia za hivi karibuni za faili na amri, zimehifadhiwa kat

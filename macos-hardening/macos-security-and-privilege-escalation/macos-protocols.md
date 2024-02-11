@@ -1,31 +1,30 @@
-# macOS Network Services & Protocols
+# Huduma na Itifaki za Mtandao za macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuhack AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Remote Access Services
+## Huduma za Kupata Kijijini
 
-These are the common macOS services to access them remotely.\
-You can enable/disable these services in `System Settings` --> `Sharing`
+Hizi ni huduma za kawaida za macOS ambazo unaweza kuzifikia kijijini.\
+Unaweza kuwezesha/kulemaza huduma hizi katika `Mipangilio ya Mfumo` --> `Kushiriki`
 
-* **VNC**, known as “Screen Sharing” (tcp:5900)
-* **SSH**, called “Remote Login” (tcp:22)
-* **Apple Remote Desktop** (ARD), or “Remote Management” (tcp:3283, tcp:5900)
-* **AppleEvent**, known as “Remote Apple Event” (tcp:3031)
+* **VNC**, inayojulikana kama "Screen Sharing" (tcp:5900)
+* **SSH**, inayoitwa "Remote Login" (tcp:22)
+* **Apple Remote Desktop** (ARD), au "Remote Management" (tcp:3283, tcp:5900)
+* **AppleEvent**, inayojulikana kama "Remote Apple Event" (tcp:3031)
 
-Check if any is enabled running:
-
+Angalia ikiwa yoyote imelemazwa kwa kukimbia:
 ```bash
 rmMgmt=$(netstat -na | grep LISTEN | grep tcp46 | grep "*.3283" | wc -l);
 scrShrng=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.5900" | wc -l);
@@ -35,102 +34,88 @@ rAE=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.3031" | wc -l);
 bmM=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.4488" | wc -l);
 printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharing: %s\nFile Sharing: %s\nRemote Login: %s\nRemote Mgmt: %s\nRemote Apple Events: %s\nBack to My Mac: %s\n\n" "$scrShrng" "$flShrng" "$rLgn" "$rmMgmt" "$rAE" "$bmM";
 ```
-
 ### Pentesting ARD
 
-Apple Remote Desktop (ARD) is an enhanced version of [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) tailored for macOS, offering additional features. A notable vulnerability in ARD is its authentication method for the control screen password, which only uses the first 8 characters of the password, making it prone to [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) with tools like Hydra or [GoRedShell](https://github.com/ahhh/GoRedShell/), as there are no default rate limits.
+Apple Remote Desktop (ARD) ni toleo lililoboreshwa la [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) lililobinafsishwa kwa macOS, likitoa huduma za ziada. Kasoro inayojulikana katika ARD ni njia yake ya uwakiki kwa nenosiri la skrini ya udhibiti, ambayo hutumia tu herufi 8 za kwanza za nenosiri, ikifanya iwe rahisi kwa [mashambulizi ya nguvu ya kijusi](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) kwa kutumia zana kama Hydra au [GoRedShell](https://github.com/ahhh/GoRedShell/), kwani hakuna mipaka ya kiwango cha kawaida.
 
-Vulnerable instances can be identified using **nmap**'s `vnc-info` script. Services supporting `VNC Authentication (2)` are especially susceptible to brute force attacks due to the 8-character password truncation.
+Mifano yenye kasoro inaweza kutambuliwa kwa kutumia script ya `vnc-info` ya **nmap**. Huduma zinazounga mkono `VNC Authentication (2)` ziko katika hatari kubwa ya mashambulizi ya nguvu ya kijusi kutokana na kukatwa kwa nenosiri la herufi 8.
 
-To enable ARD for various administrative tasks like privilege escalation, GUI access, or user monitoring, use the following command:
-
+Ili kuwezesha ARD kwa kazi mbalimbali za utawala kama kuongeza mamlaka, kupata ufikivu wa GUI, au ufuatiliaji wa mtumiaji, tumia amri ifuatayo:
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
+ARD hutoa viwango mbalimbali vya udhibiti, ikiwa ni pamoja na uangalizi, udhibiti ulioshirikishwa, na udhibiti kamili, na vikao vinaendelea hata baada ya mabadiliko ya nenosiri la mtumiaji. Inaruhusu kutuma amri za Unix moja kwa moja, kuzitekeleza kama mizizi kwa watumiaji wa utawala. Uwezo wa kupanga kazi na utafutaji wa mbali wa Spotlight ni vipengele muhimu, vinavyorahisisha utafutaji wa faili nyeti kwa njia ya mbali na athari ndogo kwenye mashine kadhaa.
 
-ARD provides versatile control levels, including observation, shared control, and full control, with sessions persisting even after user password changes. It allows sending Unix commands directly, executing them as root for administrative users. Task scheduling and Remote Spotlight search are notable features, facilitating remote, low-impact searches for sensitive files across multiple machines.
+## Itifaki ya Bonjour
 
+Bonjour, teknolojia iliyoundwa na Apple, inaruhusu **vifaa kwenye mtandao huo huo kugundua huduma zinazotolewa na kila mmoja**. Inayojulikana pia kama Rendezvous, **Zero Configuration**, au Zeroconf, inawezesha kifaa kujiunga na mtandao wa TCP/IP, **kuchagua anwani ya IP kiotomatiki**, na kutangaza huduma zake kwa vifaa vingine kwenye mtandao.
 
-## Bonjour Protocol
+Zero Configuration Networking, inayotolewa na Bonjour, inahakikisha kuwa vifaa vinaweza:
+* **Kupata anwani ya IP kiotomatiki** hata kama hakuna seva ya DHCP.
+* Kufanya **tafsiri ya jina-kuwa-anwani** bila kuhitaji seva ya DNS.
+* **Kugundua huduma** zilizopo kwenye mtandao.
 
-Bonjour, an Apple-designed technology, allows **devices on the same network to detect each other's offered services**. Known also as Rendezvous, **Zero Configuration**, or Zeroconf, it enables a device to join a TCP/IP network, **automatically choose an IP address**, and broadcast its services to other network devices.
+Vifaa vinavyotumia Bonjour vitajitengea wenyewe anwani ya **IP kutoka kwa safu ya 169.254/16** na kuhakikisha kuwa ni ya pekee kwenye mtandao. Macs inaingiza kuingia kwenye meza ya ujumbe kwa subnet hii, inayoweza kuthibitishwa kupitia `netstat -rn | grep 169`.
 
-Zero Configuration Networking, provided by Bonjour, ensures that devices can:
-* **Automatically obtain an IP Address** even in the absence of a DHCP server.
-* Perform **name-to-address translation** without requiring a DNS server.
-* **Discover services** available on the network.
+Kwa DNS, Bonjour hutumia **Itifaki ya Multicast DNS (mDNS)**. mDNS inafanya kazi kupitia **bandari 5353/UDP**, ikitumia **mambo ya kawaida ya DNS** lakini ikilenga **anwani ya multicast 224.0.0.251**. Njia hii inahakikisha kuwa vifaa vyote vinavyosikiliza kwenye mtandao vinaweza kupokea na kujibu maswali, ikirahisisha sasisho la rekodi zao.
 
-Devices using Bonjour will assign themselves an **IP address from the 169.254/16 range** and verify its uniqueness on the network. Macs maintain a routing table entry for this subnet, verifiable via `netstat -rn | grep 169`.
+Baada ya kujiunga na mtandao, kila kifaa huchagua jina lake, kawaida likiishia na **.local**, ambalo linaweza kutokana na jina la mwenyeji au kuzalishwa kwa nasibu.
 
-For DNS, Bonjour utilizes the **Multicast DNS (mDNS) protocol**. mDNS operates over **port 5353/UDP**, employing **standard DNS queries** but targeting the **multicast address 224.0.0.251**. This approach ensures that all listening devices on the network can receive and respond to the queries, facilitating the update of their records.
+Ugunduzi wa huduma ndani ya mtandao unafanikishwa na **Ugunduzi wa Huduma za DNS (DNS-SD)**. Kwa kutumia muundo wa rekodi za DNS SRV, DNS-SD hutumia **rekodi za DNS PTR** kuwezesha orodha ya huduma nyingi. Mteja anayetafuta huduma maalum atauliza rekodi ya PTR kwa `<Huduma>.<Kikoa>`, na kupokea orodha ya rekodi za PTR zilizoandaliwa kama `<Kipengele>.<Huduma>.<Kikoa>` ikiwa huduma inapatikana kutoka kwa watumishi wengi.
 
-Upon joining the network, each device self-selects a name, typically ending in **.local**, which may be derived from the hostname or randomly generated.
+Zana ya `dns-sd` inaweza kutumika kwa **ugunduzi na matangazo ya huduma za mtandao**. Hapa kuna mifano ya matumizi yake:
 
-Service discovery within the network is facilitated by **DNS Service Discovery (DNS-SD)**. Leveraging the format of DNS SRV records, DNS-SD uses **DNS PTR records** to enable the listing of multiple services. A client seeking a specific service will request a PTR record for `<Service>.<Domain>`, receiving in return a list of PTR records formatted as `<Instance>.<Service>.<Domain>` if the service is available from multiple hosts.
+### Kutafuta Huduma za SSH
 
-
-The `dns-sd` utility can be employed for **discovering and advertising network services**. Here are some examples of its usage:
-
-### Searching for SSH Services
-
-To search for SSH services on the network, the following command is used:
+Kutafuta huduma za SSH kwenye mtandao, tumia amri ifuatayo:
 ```bash
 dns-sd -B _ssh._tcp
 ```
+Amri hii inaanzisha utafutaji wa huduma za _ssh._tcp na kutoa maelezo kama vile muda, bendera, kiolesura, kikoa, aina ya huduma, na jina la kesi.
 
-This command initiates browsing for _ssh._tcp services and outputs details such as timestamp, flags, interface, domain, service type, and instance name.
+### Kutangaza Huduma ya HTTP
 
-### Advertising an HTTP Service
-
-To advertise an HTTP service, you can use:
-
+Ili kutangaza huduma ya HTTP, unaweza kutumia:
 ```bash
 dns-sd -R "Index" _http._tcp . 80 path=/index.html
 ```
+Amri hii inasajili huduma ya HTTP iliyoitwa "Index" kwenye bandari 80 na njia ya `/index.html`.
 
-This command registers an HTTP service named "Index" on port 80 with a path of `/index.html`.
-
-To then search for HTTP services on the network:
-
+Kisha kutafuta huduma za HTTP kwenye mtandao:
 ```bash
 dns-sd -B _http._tcp
 ```
+Wakati huduma inapoanza, inatangaza upatikanaji wake kwa vifaa vyote kwenye mtandao wa eneo kwa kutuma habari kwa wote. Vifaa vinavyopendezwa na huduma hizi havitaji kutuma maombi bali tu kusikiliza matangazo haya.
 
-When a service starts, it announces its availability to all devices on the subnet by multicasting its presence. Devices interested in these services don't need to send requests but simply listen for these announcements.
+Kwa kiolesura cha mtumiaji rafiki zaidi, programu ya **Discovery - DNS-SD Browser** inapatikana kwenye Duka la App la Apple inaweza kuonyesha huduma zinazotolewa kwenye mtandao wako wa ndani.
 
-For a more user-friendly interface, the **Discovery - DNS-SD Browser** app available on the Apple App Store can visualize the services offered on your local network.
-
-Alternatively, custom scripts can be written to browse and discover services using the `python-zeroconf` library. The [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) script demonstrates creating a service browser for `_http._tcp.local.` services, printing added or removed services:
-
+Kwa upande mwingine, hati za desturi zinaweza kuandikwa ili kuvinjari na kugundua huduma kwa kutumia maktaba ya `python-zeroconf`. Hati ya [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) inaonyesha jinsi ya kuunda kivinjari cha huduma kwa huduma za `_http._tcp.local.`, kuchapisha huduma zilizoongezwa au kuondolewa:
 ```python
 from zeroconf import ServiceBrowser, Zeroconf
 
 class MyListener:
 
-    def remove_service(self, zeroconf, type, name):
-        print("Service %s removed" % (name,))
+def remove_service(self, zeroconf, type, name):
+print("Service %s removed" % (name,))
 
-    def add_service(self, zeroconf, type, name):
-        info = zeroconf.get_service_info(type, name)
-        print("Service %s added, service info: %s" % (name, info))
+def add_service(self, zeroconf, type, name):
+info = zeroconf.get_service_info(type, name)
+print("Service %s added, service info: %s" % (name, info))
 
 zeroconf = Zeroconf()
 listener = MyListener()
 browser = ServiceBrowser(zeroconf, "_http._tcp.local.", listener)
 try:
-    input("Press enter to exit...\n\n")
+input("Press enter to exit...\n\n")
 finally:
-    zeroconf.close()
+zeroconf.close()
 ```
-
-### Disabling Bonjour
-If there are concerns about security or other reasons to disable Bonjour, it can be turned off using the following command:
-
+### Kulemaza Bonjour
+Ikiwa kuna wasiwasi kuhusu usalama au sababu nyingine za kulemaza Bonjour, inaweza kuzimwa kwa kutumia amri ifuatayo:
 ```bash
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
 ```
-
-## References
+## Marejeo
 
 * [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
@@ -138,14 +123,14 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.p
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

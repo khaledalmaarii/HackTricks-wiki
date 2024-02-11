@@ -2,210 +2,191 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu macOS MDMs kutoka sifuri hadi bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks katika PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-**To learn about macOS MDMs check:**
+**Ili kujifunza kuhusu macOS MDMs angalia:**
 
 * [https://www.youtube.com/watch?v=ku8jZe-MHUU](https://www.youtube.com/watch?v=ku8jZe-MHUU)
 * [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe)
 
-## Basics
+## Misingi
 
-### **MDM (Mobile Device Management) Overview**
-[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile_device_management) (MDM) is utilized for overseeing various end-user devices like smartphones, laptops, and tablets. Particularly for Apple's platforms (iOS, macOS, tvOS), it involves a set of specialized features, APIs, and practices. The operation of MDM hinges on a compatible MDM server, which is either commercially available or open-source, and must support the [MDM Protocol](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Key points include:
+### **Muhtasari wa MDM (Mobile Device Management)**
+[Usimamizi wa Kifaa cha Simu](https://en.wikipedia.org/wiki/Mobile_device_management) (MDM) hutumiwa kusimamia vifaa mbalimbali vya watumiaji kama simu za mkononi, kompyuta ndogo, na vidonge. Hasa kwa majukwaa ya Apple (iOS, macOS, tvOS), inajumuisha seti ya huduma maalum, APIs, na mazoea. Uendeshaji wa MDM unategemea seva ya MDM inayofaa, ambayo inapatikana kibiashara au chanzo wazi, na lazima iweze kusaidia [Itifaki ya MDM](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Mambo muhimu ni pamoja na:
 
-- Centralized control over devices.
-- Dependence on an MDM server that adheres to the MDM protocol.
-- Capability of the MDM server to dispatch various commands to devices, for instance, remote data erasure or configuration installation.
+- Udhibiti uliojumuishwa juu ya vifaa.
+- Utegemezi kwa seva ya MDM inayofuata itifaki ya MDM.
+- Uwezo wa seva ya MDM kutuma amri mbalimbali kwa vifaa, kwa mfano, kufuta data kwa mbali au usanidi wa usakinishaji.
 
-### **Basics of DEP (Device Enrollment Program)**
-The [Device Enrollment Program](https://www.apple.com/business/site/docs/DEP_Guide.pdf) (DEP) offered by Apple streamlines the integration of Mobile Device Management (MDM) by facilitating zero-touch configuration for iOS, macOS, and tvOS devices. DEP automates the enrollment process, allowing devices to be operational right out of the box, with minimal user or administrative intervention. Essential aspects include:
+### **Misingi ya DEP (Programu ya Usajili wa Kifaa)**
+[Programu ya Usajili wa Kifaa](https://www.apple.com/business/site/docs/DEP_Guide.pdf) (DEP) inayotolewa na Apple inasaidia ushirikiano wa Usimamizi wa Kifaa cha Simu (MDM) kwa kusaidia usanidi wa kugusa sifuri kwa vifaa vya iOS, macOS, na tvOS. DEP inafanya usajili kuwa wa moja kwa moja, kuruhusu vifaa kuwa tayari kutumika mara tu baada ya kufunguliwa, bila kuingilia kati kwa mtumiaji au utawala. Mambo muhimu ni pamoja na:
 
-- Enables devices to autonomously register with a pre-defined MDM server upon initial activation.
-- Primarily beneficial for brand-new devices, but also applicable for devices undergoing reconfiguration.
-- Facilitates a straightforward setup, making devices ready for organizational use swiftly.
+- Inawezesha vifaa kujiandikisha kiotomatiki na seva ya MDM iliyopangwa mapema baada ya kuanzishwa kwa mara ya kwanza.
+- Inafaa hasa kwa vifaa vipya, lakini pia inatumika kwa vifaa vinavyopitia upya usanidi.
+- Inarahisisha usanidi rahisi, kufanya vifaa kuwa tayari kwa matumizi ya shirika kwa haraka.
 
-### **Security Consideration**
-It's crucial to note that the ease of enrollment provided by DEP, while beneficial, can also pose security risks. If protective measures are not adequately enforced for MDM enrollment, attackers might exploit this streamlined process to register their device on the organization's MDM server, masquerading as a corporate device.
+### **Uzingatiaji wa Usalama**
+Ni muhimu kuzingatia kuwa urahisi wa usajili uliotolewa na DEP, ingawa ni wa manufaa, pia unaweza kuleta hatari za usalama. Ikiwa hatua za kinga hazitekelezwi ipasavyo kwa usajili wa MDM, wadukuzi wanaweza kutumia mchakato huu uliofupishwa kujiandikisha kifaa chao kwenye seva ya MDM ya shirika, wakijifanya kuwa kifaa cha kampuni.
 
 {% hint style="danger" %}
-**Security Alert**: Simplified DEP enrollment could potentially allow unauthorized device registration on the organization's MDM server if proper safeguards are not in place.
+**Tahadhari ya Usalama**: Usajili uliofupishwa wa DEP unaweza kuruhusu usajili usiohalali wa kifaa kwenye seva ya MDM ya shirika ikiwa hatua sahihi za usalama hazijawekwa.
 {% endhint %}
 
-### Basics What is SCEP (Simple Certificate Enrolment Protocol)?
+### Misingi Je! Ni nini SCEP (Itifaki ya Usajili Rahisi wa Cheti)?
 
-* A relatively old protocol, created before TLS and HTTPS were widespread.
-* Gives clients a standardized way of sending a **Certificate Signing Request** (CSR) for the purpose of being granted a certificate. The client will ask the server to give him a signed certificate.
+* Itifaki ya zamani, iliyoanzishwa kabla ya TLS na HTTPS kuenea.
+* Inawapa wateja njia iliyostandardi ya kutuma **Ombi la Kusaini Cheti** (CSR) kwa lengo la kupewa cheti. Mteja atamwomba server kumpa cheti kilichosainiwa.
 
-### What are Configuration Profiles (aka mobileconfigs)?
+### Je! Ni nini Mipangilio ya Usanidi (inayojulikana kama mobileconfigs)?
 
-* Apple’s official way of **setting/enforcing system configuration.**
-* File format that can contain multiple payloads.
-* Based on property lists (the XML kind).
-* “can be signed and encrypted to validate their origin, ensure their integrity, and protect their contents.” Basics — Page 70, iOS Security Guide, January 2018.
+* Njia rasmi ya Apple ya **kuweka/kutekeleza usanidi wa mfumo.**
+* Muundo wa faili ambao unaweza kuwa na malipo mengi.
+* Inategemea orodha za mali (aina ya XML).
+* "inaweza kusainiwa na kusimbwa ili kuthibitisha asili yao, kuhakikisha uadilifu wao, na kulinda maudhui yao." Misingi - Ukurasa 70, Mwongozo wa Usalama wa iOS, Januari 2018.
 
-## Protocols
+## Itifaki
 
 ### MDM
 
-* Combination of APNs (**Apple server**s) + RESTful API (**MDM** **vendor** servers)
-* **Communication** occurs between a **device** and a server associated with a **device** **management** **product**
-* **Commands** delivered from the MDM to the device in **plist-encoded dictionaries**
-* All over **HTTPS**. MDM servers can be (and are usually) pinned.
-* Apple grants the MDM vendor an **APNs certificate** for authentication
+* Uunganisho wa APNs (**seva za Apple**) + API ya RESTful (**seva za wauzaji wa MDM**)
+* **Mawasiliano** yanatokea kati ya **kifaa** na seva inayohusiana na **bidhaa ya usimamizi wa kifaa**
+* **Amri** zinazotolewa kutoka MDM kwenda kifaa katika **orodha za plist-encoded**
+* Yote juu ya **HTTPS**. Seva za MDM zinaweza kuwa (na kawaida) zimefungwa.
+* Apple inatoa cheti cha **APNs** kwa muuzaji wa MDM kwa uthibitisho
 
 ### DEP
 
-* **3 APIs**: 1 for resellers, 1 for MDM vendors, 1 for device identity (undocumented):
-  * The so-called [DEP "cloud service" API](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). This is used by MDM servers to associate DEP profiles with specific devices.
-  * The [DEP API used by Apple Authorized Resellers](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) to enroll devices, check enrollment status, and check transaction status.
-  * The undocumented private DEP API. This is used by Apple Devices to request their DEP profile. On macOS, the `cloudconfigurationd` binary is responsible for communicating over this API.
-* More modern and **JSON** based (vs. plist)
-* Apple grants an **OAuth token** to the MDM vendor
+* **API 3**: 1 kwa wauzaji, 1 kwa wauzaji wa MDM, 1 kwa kitambulisho cha kifaa (hakijadiliwa):
+* Inayoitwa [DEP "huduma ya wingu" API](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Hii hutumiwa na seva za MDM kuunganisha maelezo ya DEP na vifaa maalum.
+* [API ya DEP inayotumiwa na Wauzaji wa Kuidhinishwa na Apple](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) kujiandikisha vifaa, kuchunguza hali ya usajili, na kuchunguza hali ya shughuli.
+* API ya DEP isiyojulikana. Hii hutumiwa na Vifaa vya Apple kuomba maelezo yao ya DEP. Kwenye macOS, faili ya `cloudconfigurationd` inahusika na mawasiliano kupitia API hii.
+* Inategemea zaidi na **JSON** (tofauti na plist)
+* Apple inatoa **kitufe cha OAuth** kwa muuzaji wa MDM
 
-**DEP "cloud service" API**
+**DEP "huduma ya wingu" API**
 
 * RESTful
-* sync device records from Apple to the MDM server
-* sync “DEP profiles” to Apple from the MDM server (delivered by Apple to the device later on)
-* A DEP “profile” contains:
-  * MDM vendor server URL
-  * Additional trusted certificates for server URL (optional pinning)
-  * Extra settings (e.g. which screens to skip in Setup Assistant)
+* kusawazisha rekodi za kifaa kutoka Apple kwenda seva ya MDM
+* kusawazisha "maelezo ya DEP" kwa Apple kutoka seva ya MDM (yaliyotolewa na Apple kwa kifaa baadaye)
+* "Maelezo ya DEP" yanajumuisha:
+* URL ya seva ya muuzaji wa MDM
+* Vyeti vya kuaminika zaidi kwa URL ya seva (pia pinning hiari)
+* Mipangilio ya ziada (k.m. skrini zipi za kupitisha katika Msaidizi wa Usanidi)
 
-## Serial Number
+## Nambari ya Serial
 
-Apple devices manufactured after 2010 generally have **12-character alphanumeric** serial numbers, with the **first three digits representing the manufacturing location**, the following **two** indicating the **year** and **week** of manufacture, the next **three** digits providing a **unique** **identifier**, and the **last** **four** digits representing the **model number**.
+V
+### Hatua ya 4: Ukaguzi wa DEP - Kupata Rekodi ya Ufunguzi
 
-{% content-ref url="macos-serial-number.md" %}
-[macos-serial-number.md](macos-serial-number.md)
-{% endcontent-ref %}
-
-## Steps for enrolment and management
-
-1. Device record creation (Reseller, Apple): The record for the new device is created
-2. Device record assignment (Customer): The device is assigned to a MDM server
-3. Device record sync (MDM vendor): MDM sync the device records and push the DEP profiles to Apple
-4. DEP check-in (Device): Device gets his DEP profile
-5. Profile retrieval (Device)
-6. Profile installation (Device) a. incl. MDM, SCEP and root CA payloads
-7. MDM command issuance (Device)
-
-![](<../../../.gitbook/assets/image (564).png>)
-
-The file `/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/PrivateFrameworks/ConfigurationProfiles.framework/ConfigurationProfiles.tbd` exports functions that can be considered **high-level "steps"** of the enrolment process.
-
-### Step 4: DEP check-in - Getting the Activation Record
-
-This part of the process occurs when a **user boots a Mac for the first time** (or after a complete wipe)
+Sehemu hii ya mchakato inatokea wakati **mtumiaji anapobootisha Mac kwa mara ya kwanza** (au baada ya kufuta kabisa)
 
 ![](<../../../.gitbook/assets/image (568).png>)
 
-or when executing `sudo profiles show -type enrollment`
+au wakati wa kutekeleza `sudo profiles show -type enrollment`
 
-* Determine **whether device is DEP enabled**
-* Activation Record is the internal name for **DEP “profile”**
-* Begins as soon as the device is connected to Internet
-* Driven by **`CPFetchActivationRecord`**
-* Implemented by **`cloudconfigurationd`** via XPC. The **"Setup Assistant**" (when the device is firstly booted) or the **`profiles`** command will **contact this daemon** to retrieve the activation record.
-  * LaunchDaemon (always runs as root)
+* Tathmini **iwapo kifaa kina DEP imewezeshwa**
+* Rekodi ya Ufunguzi ni jina la ndani la **"profile" ya DEP**
+* Inaanza mara tu kifaa kinapounganishwa na mtandao
+* Inasukumwa na **`CPFetchActivationRecord`**
+* Imetekelezwa na **`cloudconfigurationd`** kupitia XPC. **"Msaidizi wa Usanidi**" (wakati kifaa kinabootiwa kwa mara ya kwanza) au amri ya **`profiles`** itawasiliana na daemon huyu ili kupata rekodi ya ufunguzi.
+* LaunchDaemon (daima inaendeshwa kama root)
 
-It follows a few steps to get the Activation Record performed by **`MCTeslaConfigurationFetcher`**. This process uses an encryption called **Absinthe**
+Inafuata hatua chache za kupata Rekodi ya Ufunguzi iliyotekelezwa na **`MCTeslaConfigurationFetcher`**. Mchakato huu hutumia encryption inayoitwa **Absinthe**
 
-1. Retrieve **certificate**
-   1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
-2. **Initialize** state from certificate (**`NACInit`**)
-   1. Uses various device-specific data (i.e. **Serial Number via `IOKit`**)
-3. Retrieve **session key**
-   1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
-4. Establish the session (**`NACKeyEstablishment`**)
-5. Make the request
-   1. POST to [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) sending the data `{ "action": "RequestProfileConfiguration", "sn": "" }`
-   2. The JSON payload is encrypted using Absinthe (**`NACSign`**)
-   3. All requests over HTTPs, built-in root certificates are used
+1. Pata **cheti**
+1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
+2. **Anzisha** hali kutoka kwa cheti (**`NACInit`**)
+1. Inatumia data mbalimbali maalum ya kifaa (kwa mfano **Nambari ya Serial kupitia `IOKit`**)
+3. Pata **funguo la kikao**
+1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
+4. Anzisha kikao (**`NACKeyEstablishment`**)
+5. Fanya ombi
+1. POST kwa [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) ukituma data `{ "action": "RequestProfileConfiguration", "sn": "" }`
+2. Mzigo wa JSON umefichwa kwa kutumia Absinthe (**`NACSign`**)
+3. Ombi zote zinafanywa kupitia HTTPs, vyeti vya mizizi iliyojengwa ndani hutumiwa
 
 ![](<../../../.gitbook/assets/image (566).png>)
 
-The response is a JSON dictionary with some important data like:
+Jibu ni kamusi ya JSON na data muhimu kama vile:
 
-* **url**: URL of the MDM vendor host for the activation profile
-* **anchor-certs**: Array of DER certificates used as trusted anchors
+* **url**: URL ya mwenyeji wa muuzaji wa MDM kwa ajili ya profile ya ufunguzi
+* **anchor-certs**: Safu ya vyeti vya DER vinavyotumiwa kama vyeti vya kuaminika
 
-### **Step 5: Profile Retrieval**
+### **Hatua ya 5: Upatikanaji wa Profile**
 
 ![](<../../../.gitbook/assets/image (567).png>)
 
-* Request sent to **url provided in DEP profile**.
-* **Anchor certificates** are used to **evaluate trust** if provided.
-  * Reminder: the **anchor\_certs** property of the DEP profile
-* **Request is a simple .plist** with device identification
-  * Examples: **UDID, OS version**.
-* CMS-signed, DER-encoded
-* Signed using the **device identity certificate (from APNS)**
-* **Certificate chain** includes expired **Apple iPhone Device CA**
+* Ombi linatumwa kwa **url iliyotolewa katika profile ya DEP**.
+* **Vyeti vya kiungo** hutumiwa kwa **kutathmini uaminifu** ikiwa vimepatikana.
+* Kumbuka: mali ya **anchor\_certs** ya profile ya DEP
+* **Ombi ni .plist rahisi** lenye kitambulisho cha kifaa
+* Mifano: **UDID, toleo la OS**.
+* Imesainiwa na CMS, imekodishwa kwa DER
+* Imesainiwa kwa kutumia **cheti cha kitambulisho cha kifaa (kutoka APNS)**
+* **Mnyororo wa vyeti** unajumuisha **Apple iPhone Device CA** iliyopita muda wake
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
+![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
 
-### Step 6: Profile Installation
+### Hatua ya 6: Usakinishaji wa Profile
 
-* Once retrieved, **profile is stored on the system**
-* This step begins automatically (if in **setup assistant**)
-* Driven by **`CPInstallActivationProfile`**
-* Implemented by mdmclient over XPC
-  * LaunchDaemon (as root) or LaunchAgent (as user), depending on context
-* Configuration profiles have multiple payloads to install
-* Framework has a plugin-based architecture for installing profiles
-* Each payload type is associated with a plugin
-  * Can be XPC (in framework) or classic Cocoa (in ManagedClient.app)
-* Example:
-  * Certificate Payloads use CertificateService.xpc
+* Mara baada ya kupatikana, **profile inahifadhiwa kwenye mfumo**
+* Hatua hii inaanza moja kwa moja (ikiwa katika **msaidizi wa usanidi**)
+* Inasukumwa na **`CPInstallActivationProfile`**
+* Imetekelezwa na mdmclient kupitia XPC
+* LaunchDaemon (kama root) au LaunchAgent (kama mtumiaji), kulingana na muktadha
+* Vipengele vya usanidi vina malipo mengi ya kusakinisha
+* Mfumo una usanifu unaotegemea programu-jalizi kwa ajili ya kusakinisha vipengele vya usanidi
+* Kila aina ya malipo inahusishwa na programu-jalizi
+* Inaweza kuwa XPC (katika mfumo) au Cocoa ya kawaida (katika ManagedClient.app)
+* Mfano:
+* Malipo ya Cheti hutumia CertificateService.xpc
 
-Typically, **activation profile** provided by an MDM vendor will **include the following payloads**:
+Kwa kawaida, **profile ya ufunguzi** inayotolewa na muuzaji wa MDM ita **kuhusisha malipo yafuatayo**:
 
-* `com.apple.mdm`: to **enroll** the device in MDM
-* `com.apple.security.scep`: to securely provide a **client certificate** to the device.
-* `com.apple.security.pem`: to **install trusted CA certificates** to the device’s System Keychain.
-* Installing the MDM payload equivalent to **MDM check-in in the documentation**
-* Payload **contains key properties**:
+* `com.apple.mdm`: kwa **kujiandikisha** kifaa katika MDM
+* `com.apple.security.scep`: kutoa kwa usalama **cheti cha mteja** kwa kifaa.
+* `com.apple.security.pem`: kusakinisha vyeti vya CA vinavyoaminika kwenye Kitufe cha Mfumo cha kifaa.
+* Kusakinisha malipo ya MDM sawa na **kujiandikisha kwa MDM katika nyaraka**
+* Malipo **yana mali muhimu**:
 *
-  * MDM Check-In URL (**`CheckInURL`**)
-  * MDM Command Polling URL (**`ServerURL`**) + APNs topic to trigger it
-* To install MDM payload, request is sent to **`CheckInURL`**
-* Implemented in **`mdmclient`**
-* MDM payload can depend on other payloads
-* Allows **requests to be pinned to specific certificates**:
-  * Property: **`CheckInURLPinningCertificateUUIDs`**
-  * Property: **`ServerURLPinningCertificateUUIDs`**
-  * Delivered via PEM payload
-* Allows device to be attributed with an identity certificate:
-  * Property: IdentityCertificateUUID
-  * Delivered via SCEP payload
+* URL ya Kujiandikisha MDM (**`CheckInURL`**)
+* URL ya Kupiga Ombi la Amri ya MDM (**`ServerURL`**) + mada ya APNs kuichomoa
+* Kusakinisha malipo ya MDM, ombi linatumwa kwa **`CheckInURL`**
+* Imetekelezwa katika **`mdmclient`**
+* Malipo ya MDM yanaweza kulingana na malipo mengine
+* Inaruhusu **ombi kuwa imewekwa kwenye vyeti maalum**:
+* Mali: **`CheckInURLPinningCertificateUUIDs`**
+* Mali: **`ServerURLPinningCertificateUUIDs`**
+* Inayotolewa kupitia malipo ya PEM
+* Inaruhusu kifaa kuwa na cheti cha kitambulisho:
+* Mali: IdentityCertificateUUID
+* Inayotolewa kupitia malipo ya SCEP
 
-### **Step 7: Listening for MDM commands**
+### **Hatua ya 7: Kusikiliza Amri za MDM**
 
-* After MDM check-in is complete, vendor can **issue push notifications using APNs**
-* Upon receipt, handled by **`mdmclient`**
-* To poll for MDM commands, request is sent to ServerURL
-* Makes use of previously installed MDM payload:
-  * **`ServerURLPinningCertificateUUIDs`** for pinning request
-  * **`IdentityCertificateUUID`** for TLS client certificate
+* Baada ya ukaguzi wa MDM kukamilika, muuzaji anaweza **kutoa arifa za itifaki za push kwa kutumia APNs**
+* Baada ya kupokea, inashughulikiwa na **`mdmclient`**
+* Kupiga ombi la amri za MDM, ombi linatumwa kwa ServerURL
+* Inatumia malipo ya MDM yaliyosakinishwa hapo awali:
+* **`ServerURLPinningCertificateUUIDs`** kwa ombi la kuweka
+* **`IdentityCertificateUUID`** kwa cheti cha mteja cha TLS
 
-## Attacks
+## Mashambulizi
 
-### Enrolling Devices in Other Organisations
+### Kujiandikisha Kifaa katika Mashirika Mengine
 
-As previously commented, in order to try to enrol a device into an organization **only a Serial Number belonging to that Organization is needed**. Once the device is enrolled, several organizations will install sensitive data on the new device: certificates, applications, WiFi passwords, VPN configurations [and so on](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Therefore, this could be a dangerous entrypoint for attackers if the enrolment process isn't correctly protected:
+Kama ilivyosemwa hapo awali, ili kujaribu kujiandikisha kifaa katika shirika **inahitajika tu Nambari ya Serial inayomilikiwa na Shirika hilo**. Mara kifaa kinapojiandikisha, mashirika kadhaa yataweka data nyeti kwenye kifaa kipya: vyeti, programu, nywila za WiFi, mipangilio ya VPN [na kadhalika](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Kwa hivyo, hii inaweza kuwa njia hatari kwa wadukuzi ikiwa mchakato wa kujiandikisha haujalindwa kwa usahihi:
 
 {% content-ref url="enrolling-devices-in-other-organisations.md" %}
 [enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
@@ -214,14 +195,4 @@ Therefore, this could be a dangerous entrypoint for attackers if the enrolment p
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong

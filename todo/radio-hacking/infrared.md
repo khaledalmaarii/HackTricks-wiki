@@ -2,105 +2,83 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## How the Infrared Works <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
+## Jinsi Infrared Inavyofanya Kazi <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
 
-**Infrared light is invisible to humans**. IR wavelength is from **0.7 to 1000 microns**. Household remotes use an IR signal for data transmission and operate in the wavelength range of 0.75..1.4 microns. A microcontroller in the remote makes an infrared LED blink with a specific frequency, turning the digital signal into an IR signal.
+**Mwanga wa Infrared haionekani na binadamu**. Wavelength ya IR ni kutoka **0.7 hadi 1000 microns**. Vidhibiti vya nyumbani hutumia ishara ya IR kwa uhamisho wa data na hufanya kazi kwenye safu ya wavelength ya 0.75..1.4 microns. Kipokezi cha umeme kwenye kifaa hicho hufanya taa ya infrared ichanganye na kasi maalum, ikigeuza ishara ya dijiti kuwa ishara ya IR.
 
-To receive IR signals a **photoreceiver** is used. It **converts IR light into voltage pulses**, which are already **digital signals**. Usually, there is a **dark light filter inside the receiver**, which lets **only the desired wavelength through** and cuts out noise.
+Kwa kupokea ishara za IR, hutumiwa **kipokezi cha picha**. Inabadilisha mwanga wa IR kuwa mihimili ya voltage, ambayo tayari ni **ishara za dijiti**. Kawaida, kuna **kipambaza nuru gizani ndani ya kipokezi**, ambacho kinapitisha **wavelength inayotakiwa tu** na kukata kelele.
 
-### Variety of IR Protocols <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
+### Aina za Itifaki za IR <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
 
-IR protocols differ in 3 factors:
+Itifaki za IR zinatofautiana katika mambo 3:
 
-* bit encoding
-* data structure
-* carrier frequency — often in range 36..38 kHz
+* uendeshaji wa biti
+* muundo wa data
+* kubeba kipimo - mara nyingi kwenye safu ya 36..38 kHz
 
-#### Bit encoding ways <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
+#### Njia za uendeshaji wa biti <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
 
-**1. Pulse Distance Encoding**
+**1. Uendeshaji wa Umbali wa Mshipa**
 
-Bits are encoded by modulating the duration of the space between pulses. The width of the pulse itself is constant.
+Biti zinaendeshwa kwa kubadilisha urefu wa nafasi kati ya mshipa. Upana wa mshipa yenyewe ni thabiti.
 
 <figure><img src="../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
 
-**2. Pulse Width Encoding**
+**2. Uendeshaji wa Upana wa Mshipa**
 
-Bits are encoded by modulation of the pulse width. The width of space after pulse burst is constant.
+Biti zinaendeshwa kwa kubadilisha upana wa mshipa. Upana wa nafasi baada ya mshipa ni thabiti.
 
 <figure><img src="../../.gitbook/assets/image (29) (1).png" alt=""><figcaption></figcaption></figure>
 
-**3. Phase Encoding**
+**3. Uendeshaji wa Awamu**
 
-It is also known as Manchester encoding. The logical value is defined by the polarity of the transition between pulse burst and space. "Space to pulse burst" denotes logic "0", "pulse burst to space" denotes logic "1".
+Inajulikana pia kama uendeshaji wa Manchester. Thamani ya mantiki inaamuliwa na umbo la mpito kati ya mshipa na nafasi. "Nafasi hadi mshipa" inaonyesha mantiki "0", "mshipa hadi nafasi" inaonyesha mantiki "1".
 
 <figure><img src="../../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
 
-**4. Combination of previous ones and other exotics**
+**4. Uunganisho wa njia za awali na nyingine za kipekee**
 
 {% hint style="info" %}
-There are IR protocols that are **trying to become universal** for several types of devices. The most famous ones are RC5 and NEC. Unfortunately, the most famous **does not mean the most common**. In my environment, I met just two NEC remotes and no RC5 ones.
+Kuna itifaki za IR ambazo zina **jaribu kuwa za kawaida** kwa aina kadhaa za vifaa. Zinazojulikana zaidi ni RC5 na NEC. Kwa bahati mbaya, maarufu zaidi **haimaanishi ya kawaida zaidi**. Katika mazingira yangu, nilikutana na vijijisanduku viwili vya NEC na hakuna kimoja cha RC5.
 
-Manufacturers love to use their own unique IR protocols, even within the same range of devices (for example, TV-boxes). Therefore, remotes from different companies and sometimes from different models from the same company, are unable to work with other devices of the same type.
+Wazalishaji wanapenda kutumia itifaki zao za kipekee za IR, hata ndani ya safu ile ile ya vifaa (kwa mfano, vijisanduku vya TV). Kwa hivyo, vidhibiti kutoka kampuni tofauti na mara nyingine kutoka kwa mifano tofauti kutoka kampuni moja, haziwezi kufanya kazi na vifaa vingine vya aina ile ile.
 {% endhint %}
 
-### Exploring an IR signal
+### Kuchunguza Ishara ya IR
 
-The most reliable way to see how the remote IR signal looks like is to use an oscilloscope. It does not demodulate or invert the received signal, it is just displayed "as is". This is useful for testing and debugging. I will show the expected signal on the example of the NEC IR protocol.
+Njia sahihi zaidi ya kuona jinsi ishara ya IR ya kijijisanduku inavyoonekana ni kutumia oscilloscope. Haibadilishi au kugeuza ishara iliyopokelewa, inaonyeshwa "kama ilivyo". Hii ni muhimu kwa majaribio na uchunguzi. Nitaweka ishara inayotarajiwa kwa mfano wa itifaki ya NEC.
 
 <figure><img src="../../.gitbook/assets/image (18) (2).png" alt=""><figcaption></figcaption></figure>
 
-Usually, there is a preamble at the beginning of an encoded packet. This allows the receiver to determine the level of gain and background. There are also protocols without preamble, for example, Sharp.
+Kawaida, kuna kichwa cha habari mwanzoni mwa pakiti iliyohifadhiwa. Hii inaruhusu mpokeaji kubaini kiwango cha faida na mandharinyuma. Pia kuna itifaki bila kichwa cha habari, kwa mfano, Sharp.
 
-Then data is transmitted. The structure, preamble, and bit encoding method are determined by the specific protocol.
+Kisha data inatumwa. Muundo, kichwa cha habari, na njia ya uendeshaji wa biti hutegemea itifaki maalum.
 
-**NEC IR protocol** contains a short command and a repeat code, which is sent while the button is pressed. Both the command and the repeat code have the same preamble at the beginning.
+**Itifaki ya NEC ya IR** ina amri fupi na nambari ya kurudia, ambayo hutumwa wakati kifungo kinasukumwa. Sifa zote mbili, amri na nambari ya kurudia, zina kichwa cha habari sawa mwanzoni.
 
-NEC **command**, in addition to the preamble, consists of an address byte and a command-number byte, by which the device understands what needs to be performed. Address and command-number bytes are duplicated with inverse values, to check the integrity of the transmission. There is an additional stop bit at the end of the command.
+**Amri ya NEC**, mbali na kichwa cha habari, inajumuisha bajeti ya anwani na bajeti ya nambari ya amri, ambayo kifaa kinaelewa ni nini kinahitaji kufanywa. Bajeti ya anwani na bajeti ya nambari ya amri zinadondoshwa na thamani za kinyume, ili kuhakiki uadilifu wa uhamisho. Kuna biti ya kusimamisha ziada mwishoni mwa amri.
 
-The **repeat code** has a "1" after the preamble, which is a stop bit.
+**Nambari ya kurudia** ina "1" baada ya kichwa cha habari, ambayo ni biti ya kusimamisha.
 
-For **logic "0" and "1"** NEC uses Pulse Distance Encoding: first, a pulse burst is transmitted after which there is a pause, its length sets the value of the bit.
+Kwa **mantiki "0" na "1"** NEC hutumia Uendeshaji wa Umbali wa Mshipa: kwanza, mshipa unatumiwa baada ya hapo kuna kusimama, urefu wake unaweka thamani ya biti.
 
-### Air Conditioners
+### Mashine za Hali ya Hewa
 
-Unlike other remotes, **air conditioners do not transmit just the code of the pressed button**. They also **transmit all the information** when a button is pressed to assure that the **air conditioned machine and the remote are synchronised**.\
-This will avoid that a machine set as 20ºC is increased to 21ºC with one remote, and then when another remote, which still has the temperature as 20ºC, is used to increase more the temperature, it will "increase" it to 21ºC (and not to 22ºC thinking it's in 21ºC).
+Tofauti na vidhibiti vingine, **mashine za hali ya hewa hazitumi tu nambari ya kifungo kilichosukumwa**. Pia **hutuma habari yote** wakati kifungo kinaposukumwa ili kuhakikisha kuwa **mashine ya hali ya hewa na kijijisanduku cha kudhibiti vimekamilishwa**.\
+Hii itazuia mashine iliyowekwa kama 20ºC kuongezeka hadi 21ºC na kijijisanduku kimoja, na kisha wakati kijijisanduku kingine, ambacho bado kina joto kama 20ºC, kinatumika kuongeza joto zaidi, itaongeza joto hadi 21ºC (na sio hadi 22ºC ikidhani kuwa iko kwenye 21ºC).
 
-### Attacks
+### Mashambulizi
 
-You can attack Infrared with Flipper Zero:
-
-{% content-ref url="flipper-zero/fz-infrared.md" %}
-[fz-infrared.md](flipper-zero/fz-infrared.md)
-{% endcontent-ref %}
-
-## References
-
-* [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Unaweza kushambulia Infrared na Flipper Zero

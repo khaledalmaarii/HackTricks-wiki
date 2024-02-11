@@ -1,95 +1,86 @@
-# Detecting Phising
+# Kugundua Udukuzi wa Phishing
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inayotangazwa katika HackTricks** au **kupakua HackTricks katika PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Introduction
+## Utangulizi
 
-To detect a phishing attempt it's important to **understand the phishing techniques that are being used nowadays**. On the parent page of this post, you can find this information, so if you aren't aware of which techniques are being used today I recommend you to go to the parent page and read at least that section.
+Ili kugundua jaribio la udukuzi wa phishing, ni muhimu **kuelewa mbinu za phishing zinazotumiwa siku hizi**. Kwenye ukurasa wa mzazi wa chapisho hili, unaweza kupata habari hii, kwa hivyo ikiwa haujui mbinu gani zinazotumiwa leo, napendekeza uende kwenye ukurasa wa mzazi na usome angalau sehemu hiyo.
 
-This post is based on the idea that the **attackers will try to somehow mimic or use the victim's domain name**. If your domain is called `example.com` and you are phished using a completely different domain name for some reason like `youwonthelottery.com`, these techniques aren't going to uncover it.
+Chapisho hili linategemea wazo kwamba **wahalifu watajaribu kwa njia fulani kuiga au kutumia jina la kikoa cha mwathirika**. Ikiwa kikoa chako kinaitwa `example.com` na unadukuliwa kwa kutumia jina la kikoa kabisa tofauti kwa sababu fulani kama `youwonthelottery.com`, mbinu hizi hazitafunua hilo.
 
-## Domain name variations
+## Mabadiliko ya Jina la Kikoa
 
-It's kind of **easy** to **uncover** those **phishing** attempts that will use a **similar domain** name inside the email.\
-It's enough to **generate a list of the most probable phishing names** that an attacker may use and **check** if it's **registered** or just check if there is any **IP** using it.
+Ni **rahisi kidogo** kugundua **jaribio la udukuzi** ambalo litatumia **jina la kikoa kama hicho** ndani ya barua pepe.\
+Inatosha **kuunda orodha ya majina ya udukuzi yanayowezekana zaidi** ambayo mhalifu anaweza kutumia na **kuangalia** ikiwa **imeandikishwa** au tu kuangalia ikiwa kuna **IP** yoyote inayoitumia.
 
-### Finding suspicious domains
+### Kupata Vichwa vya Kikoa Vinavyoshukiwa
 
-For this purpose, you can use any of the following tools. Note that these tolls will also perform DNS requests automatically to check if the domain has any IP assigned to it:
+Kwa kusudi hili, unaweza kutumia moja ya zana zifuatazo. Kumbuka kuwa zana hizi pia zitafanya ombi la DNS kiotomatiki kuangalia ikiwa kikoa kina IP yoyote iliyopewa:
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
 ### Bitflipping
 
-**You can find a short the explanation of this technique in the parent page. Or read the original research in [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)**
+**Unaweza kupata maelezo mafupi ya mbinu hii kwenye ukurasa wa mzazi. Au soma utafiti halisi kwenye [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)**
 
+Kwa mfano, mabadiliko ya bit 1 katika kikoa cha microsoft.com yanaweza kubadilisha kuwa _windnws.com._\
+**Wahalifu wanaweza kujiandikisha kama vichwa vingi vya bit-flipping iwezekanavyo vinavyohusiana na mwathirika ili kupelekeza watumiaji halali kwenye miundombinu yao**.
 
-For example, a 1 bit modification in the domain microsoft.com can transform it into _windnws.com._\
-**Attackers may register as many bit-flipping domains as possible related to the victim to redirect legitimate users to their infrastructure**.
+**Vichwa vyote vya kikoa vinavyowezekana vya bit-flipping pia vinapaswa kufuatiliwa.**
 
+### Uchunguzi wa Msingi
 
-**All possible bit-flipping domain names should be also monitored.**
+Marafiki unapopata orodha ya majina ya uwezekano ya kikoa kinachoshukiwa unapaswa **kuvichunguza** (haswa bandari za HTTP na HTTPS) ili **kuona ikiwa wanatumia fomu ya kuingia inayofanana** na moja ya kikoa cha mwathirika.\
+Unaweza pia kuangalia bandari 3333 kuona ikiwa imefunguliwa na inaendesha kipengele cha `gophish`.\
+Ni muhimu pia kujua **umri wa kila kikoa kinachoshukiwa kilichogunduliwa**, kadri kinavyokuwa kipya, ndivyo hatari zaidi.\
+Unaweza pia kupata **picha za skrini** za ukurasa wa wavuti wa HTTP na / au HTTPS ili kuona ikiwa ni shuki na katika kesi hiyo **ufikie ili uchunguze zaidi**.
 
-### Basic checks
+### Uchunguzi wa Juu
 
-Once you have a list of potential suspicious domain names you should **check** them (mainly the ports HTTP and HTTPS) to **see if they are using some login form similar** to someone of the victim's domain.\
-You could also check port 3333 to see if it's open and running an instance of `gophish`.\
-It's also interesting to know **how old each discovered suspicions domain is**, the younger it's the riskier it is.\
-You can also get **screenshots** of the HTTP and/or HTTPS suspicious web page to see if it's suspicious and in that case **access it to take a deeper look**.
+Ikiwa unataka kwenda hatua moja mbele, ningekushauri **kufuatilia vichwa vya kikoa vinavyoshukiwa na kutafuta zaidi** mara kwa mara (kila siku? inachukua sekunde / dakika chache tu). Unapaswa pia **kuangalia** bandari **zilizofunguliwa** za IP zinazohusiana na **kutafuta mifano ya `gophish` au zana kama hizo** (ndio, wahalifu pia hufanya makosa) na **kufuatilia kurasa za wavuti za HTTP na HTTPS za vichwa vya kikoa na vikoa vidogo vinavyoshukiwa** ili kuona ikiwa wameiga fomu yoyote ya kuingia kutoka kwenye kurasa za wavuti za mwathirika.\
+Ili **kuautomatisha hii**, ningependekeza kuwa na orodha ya fomu za kuingia za vikoa vya mwathirika, tembelea kurasa za wavuti za vichwa vya kikoa vinavyoshukiwa na kulinganisha kila fomu ya kuingia iliyopatikana ndani ya vichwa vya kikoa vinavyoshukiwa na kila fomu ya kuingia ya kikoa cha mwathirika kwa kutumia kitu kama `ssdeep`.\
+Ikiwa umepata fomu za kuingia za vichwa vya kikoa vinavyoshukiwa, unaweza kujaribu **kupeleka vitambulisho visivyo sahihi** na **kuangalia ikiwa inakuelekeza kwenye kikoa cha mwathirika**.
 
-### Advanced checks
+## Majina ya Kikoa yanayotumia Maneno muhimu
 
-If you want to go one step further I would recommend you to **monitor those suspicious domains and search for more** once in a while (every day? it only takes a few seconds/minutes). You should also **check** the open **ports** of the related IPs and **search for instances of `gophish` or similar tools** (yes, attackers also make mistakes) and **monitor the HTTP and HTTPS web pages of the suspicious domains and subdomains** to see if they have copied any login form from the victim's web pages.\
-In order to **automate this** I would recommend having a list of login forms of the victim's domains, spider the suspicious web pages and comparing each login form found inside the suspicious domains with each login form of the victim's domain using something like `ssdeep`.\
-If you have located the login forms of the suspicious domains, you can try to **send junk credentials** and **check if it's redirecting you to the victim's domain**.
+Ukurasa wa mzazi pia unataja mbinu ya mabadiliko ya jina la kikoa ambayo inajumuisha kuweka **jina la kikoa cha mwathirika ndani ya kikoa kikubwa** (kwa mfano, paypal-financial.com kwa paypal.com).
 
-## Domain names using keywords
+### Uwazi wa Cheti
 
-The parent page also mentions a domain name variation technique that consists of putting the **victim's domain name inside a bigger domain** (e.g. paypal-financial.com for paypal.com).
+Haiwezekani kutumia njia ya "Brute-Force" hapo awali lakini kwa kweli **inawezekana kugundua jaribio la udukuzi kama huo** pia kwa sababu ya uwazi wa cheti. Kila wakati cheti kinapotolewa na CA, maelezo yanafanywa kuwa ya umma. Hii inamaanisha kwamba kwa kusoma uwazi wa cheti au hata kufuatilia, ni **inawezekana kupata vichwa vya kikoa vinavyotumia neno muhimu ndani ya jina lake**. Kwa mfano, ikiwa mhalifu anazalisha cheti cha [https://paypal-financial.com](https://paypal-financial.com), kwa kuona cheti ni rahisi kupata neno muhimu "paypal" na kujua kuwa barua pepe shuki inatumika.
 
-### Certificate Transparency
-
-It's not possible to take the previous "Brute-Force" approach but it's actually **possible to uncover such phishing attempts** also thanks to certificate transparency. Every time a certificate is emitted by a CA, the details are made public. This means that by reading the certificate transparency or even monitoring it, it's **possible to find domains that are using a keyword inside its name** For example, if an attacker generates a certificate of [https://paypal-financial.com](https://paypal-financial.com), seeing the certificate it's possible to find the keyword "paypal" and know that suspicious email is being used.
-
-The post [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) suggests that you can use Censys to search for certificates affecting a specific keyword and filter by date (only "new" certificates) and by the CA issuer "Let's Encrypt":
+Chapisho [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) inapendekeza unaweza kutumia Censys kutafuta vyeti vinavyoathiri neno muhimu maalum na kuchuja kwa tarehe (vyeti "vipya" tu) na kwa CA inayotoa "Let's Encrypt":
 
 ![https://0xpatrik.com/content/images/2018/07/cert_listing.png](<../../.gitbook/assets/image (390).png>)
 
-However, you can do "the same" using the free web [**crt.sh**](https://crt.sh). You can **search for the keyword** and the **filter** the results **by date and CA** if you wish.
+Walakini, unaweza kufanya "vile vile" kwa kutumia wavuti ya bure [**crt.sh**](https://crt.sh). Unaweza **kutafuta neno muhimu**
+### **Domains Mpya**
 
-![](<../../.gitbook/assets/image (391).png>)
-
-Using this last option you can even use the field Matching Identities to see if any identity from the real domain matches any of the suspicious domains (note that a suspicious domain can be a false positive).
-
-**Another alternative** is the fantastic project called [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream provides a real-time stream of newly generated certificates which you can use to detect specified keywords in (near) real-time. In fact, there is a project called [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) that does just that.
-
-### **New domains**
-
-**One last alternative** is to gather a list of **newly registered domains** for some TLDs ([Whoxy](https://www.whoxy.com/newly-registered-domains/) provides such service) and **check the keywords in these domains**. However, long domains usually use one or more subdomains, therefore the keyword won't appear inside the FLD and you won't be able to find the phishing subdomain.
+**Chaguo la mwisho** ni kukusanya orodha ya **domaini zilizosajiliwa hivi karibuni** kwa baadhi ya TLDs ([Whoxy](https://www.whoxy.com/newly-registered-domains/) hutoa huduma kama hiyo) na **angalia maneno muhimu katika domaini hizi**. Hata hivyo, domaini ndefu kawaida hutumia subdomaini moja au zaidi, kwa hiyo neno muhimu halitaonekana ndani ya FLD na hautaweza kupata subdomaini ya ulaghai.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

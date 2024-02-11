@@ -2,30 +2,29 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Basic Information
+## Taarifa Msingi
 
-**Linux Control Groups**, or **cgroups**, are a feature of the Linux kernel that allows the allocation, limitation, and prioritization of system resources like CPU, memory, and disk I/O among process groups. They offer a mechanism for **managing and isolating the resource usage** of process collections, beneficial for purposes such as resource limitation, workload isolation, and resource prioritization among different process groups.
+**Linux Control Groups**, au **cgroups**, ni kipengele cha kernel ya Linux kinachoruhusu ugawaji, kikomo, na vipaumbele vya rasilimali za mfumo kama vile CPU, kumbukumbu, na diski I/O kati ya vikundi vya michakato. Hutoa njia ya **kusimamia na kuisolate matumizi ya rasilimali** ya vikundi vya michakato, ambayo ni muhimu kwa madhumuni kama kikomo cha rasilimali, kuisolishwa kwa kazi, na vipaumbele vya rasilimali kati ya vikundi tofauti vya michakato.
 
-There are **two versions of cgroups**: version 1 and version 2. Both can be used concurrently on a system. The primary distinction is that **cgroups version 2** introduces a **hierarchical, tree-like structure**, enabling more nuanced and detailed resource distribution among process groups. Additionally, version 2 brings various enhancements, including:
+Kuna **toleo mbili za cgroups**: toleo 1 na toleo 2. Zote zinaweza kutumiwa kwa pamoja kwenye mfumo. Tofauti kuu ni kwamba **cgroups toleo 2** inaleta **muundo wa kihierarkia kama mti**, kuruhusu ugawaji wa rasilimali wenye undani na maelezo kati ya vikundi vya michakato. Aidha, toleo 2 linakuja na uboreshaji mbalimbali, ikiwa ni pamoja na:
 
-In addition to the new hierarchical organization, cgroups version 2 also introduced **several other changes and improvements**, such as support for **new resource controllers**, better support for legacy applications, and improved performance.
+Pamoja na muundo mpya wa kihierarkia, cgroups toleo 2 pia ilileta **mabadiliko na uboreshaji mwingine**, kama vile msaada kwa **wakaguzi wa rasilimali mpya**, msaada bora kwa programu za zamani, na utendaji ulioboreshwa.
 
-Overall, cgroups **version 2 offers more features and better performance** than version 1, but the latter may still be used in certain scenarios where compatibility with older systems is a concern.
+Kwa ujumla, cgroups **toleo 2 inatoa huduma zaidi na utendaji bora** kuliko toleo 1, lakini toleo la kwanza linaweza bado kutumiwa katika hali fulani ambapo utangamano na mifumo ya zamani ni wasiwasi.
 
-You can list the v1 and v2 cgroups for any process by looking at its cgroup file in /proc/\<pid>. You can start by looking at your shell’s cgroups with this command:
-
+Unaweza kuorodhesha vikundi vya cgroups v1 na v2 kwa mchakato wowote kwa kuangalia faili yake ya cgroup katika /proc/\<pid>. Unaweza kuanza kwa kuangalia vikundi vya cgroups ya kikao chako cha shell kwa amri hii:
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -40,75 +39,68 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
+Muundo wa matokeo ni kama ifuatavyo:
 
-The output structure is as follows:
+- **Nambari 2-12**: cgroups v1, kila mstari unawakilisha cgroup tofauti. Wadhibiti kwa hizi zinatajwa karibu na nambari.
+- **Nambari 1**: Pia cgroups v1, lakini kwa madhumuni ya usimamizi tu (kama ilivyowekwa na, kwa mfano, systemd), na haina mdhibiti.
+- **Nambari 0**: Inawakilisha cgroups v2. Hakuna wadhibiti waliotajwa, na mstari huu ni maalum kwa mifumo inayotumia tu cgroups v2.
+- **Majina ni ya kihierarkia**, yanafanana na njia za faili, yanayoonyesha muundo na uhusiano kati ya cgroups tofauti.
+- **Majina kama vile /user.slice au /system.slice** yanabainisha uainishaji wa cgroups, na user.slice kwa kawaida ni kwa vikao vya kuingia vinavyosimamiwa na systemd na system.slice kwa huduma za mfumo.
 
-- **Numbers 2–12**: cgroups v1, with each line representing a different cgroup. Controllers for these are specified adjacent to the number.
-- **Number 1**: Also cgroups v1, but solely for management purposes (set by, e.g., systemd), and lacks a controller.
-- **Number 0**: Represents cgroups v2. No controllers are listed, and this line is exclusive on systems only running cgroups v2.
-- The **names are hierarchical**, resembling file paths, indicating the structure and relationship between different cgroups.
-- **Names like /user.slice or /system.slice** specify the categorization of cgroups, with user.slice typically for login sessions managed by systemd and system.slice for system services.
+### Kuangalia cgroups
 
-### Viewing cgroups
+Kwa kawaida, mfumo wa faili hutumiwa kufikia **cgroups**, tofauti na kiolesura cha wito cha mfumo wa Unix kinachotumiwa kwa kawaida kwa mwingiliano wa kernel. Ili kuchunguza usanidi wa cgroup wa kikao cha shell, mtu anapaswa kuchunguza faili ya **/proc/self/cgroup**, ambayo inaonyesha cgroup ya kikao cha shell. Kisha, kwa kwenda kwenye saraka ya **/sys/fs/cgroup** (au **`/sys/fs/cgroup/unified`**) na kupata saraka ambayo inashiriki jina la cgroup, mtu anaweza kuona mipangilio mbalimbali na habari ya matumizi ya rasilimali inayohusiana na cgroup.
 
-The filesystem is typically utilized for accessing **cgroups**, diverging from the Unix system call interface traditionally used for kernel interactions. To investigate a shell's cgroup configuration, one should examine the **/proc/self/cgroup** file, which reveals the shell's cgroup. Then, by navigating to the **/sys/fs/cgroup** (or **`/sys/fs/cgroup/unified`**) directory and locating a directory that shares the cgroup's name, one can observe various settings and resource usage information pertinent to the cgroup.
+![Mfumo wa Faili wa Cgroup](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
 
-![Cgroup Filesystem](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
-
-The key interface files for cgroups are prefixed with **cgroup**. The **cgroup.procs** file, which can be viewed with standard commands like cat, lists the processes within the cgroup. Another file, **cgroup.threads**, includes thread information.
+Faili muhimu za kiolesura cha cgroups zina kipimo cha awali cha **cgroup**. Faili ya **cgroup.procs**, ambayo inaweza kuonekana kwa kutumia amri za kawaida kama cat, inaorodhesha michakato ndani ya cgroup. Faili nyingine, **cgroup.threads**, ina habari za nyuzi.
 
 ![Cgroup Procs](../../../.gitbook/assets/image%20(1)%20(1)%20(5).png)
 
-Cgroups managing shells typically encompass two controllers that regulate memory usage and process count. To interact with a controller, files bearing the controller's prefix should be consulted. For instance, **pids.current** would be referenced to ascertain the count of threads in the cgroup.
+Cgroups zinazosimamia vikao vya shell kwa kawaida zina wadhibiti wawili ambao hurekebisha matumizi ya kumbukumbu na idadi ya michakato. Ili kuingiliana na mdhibiti, faili zinazobeba kipimo cha awali cha mdhibiti zinapaswa kuchunguzwa. Kwa mfano, **pids.current** itatumika kuangalia idadi ya nyuzi katika cgroup.
 
 ![Cgroup Memory](../../../.gitbook/assets/image%20(3)%20(5).png)
 
-The indication of **max** in a value suggests the absence of a specific limit for the cgroup. However, due to the hierarchical nature of cgroups, limits might be imposed by a cgroup at a lower level in the directory hierarchy.
+Ishara ya **max** katika thamani inaonyesha kutokuwepo kwa kikomo maalum kwa cgroup. Walakini, kutokana na muundo wa kihierarkia wa cgroups, vikwazo vinaweza kuwekwa na cgroup katika kiwango cha chini katika muundo wa saraka.
 
 
-### Manipulating and Creating cgroups
+### Kubadilisha na Kuunda cgroups
 
-Processes are assigned to cgroups by **writing their Process ID (PID) to the `cgroup.procs` file**. This requires root privileges. For instance, to add a process:
-
+Michakato inapewa cgroups kwa **kuandika Kitambulisho cha Mchakato (PID) yao kwenye faili ya `cgroup.procs`**. Hii inahitaji mamlaka ya mizizi. Kwa mfano, kuongeza mchakato:
 ```bash
 echo [pid] > cgroup.procs
 ```
-
-Similarly, **modifying cgroup attributes, like setting a PID limit**, is done by writing the desired value to the relevant file. To set a maximum of 3,000 PIDs for a cgroup:
-
+Vivyo hivyo, **kubadilisha sifa za cgroup, kama kuweka kikomo cha PID**, hufanywa kwa kuandika thamani inayotaka kwenye faili husika. Ili kuweka kiwango cha juu cha PIDs 3,000 kwa cgroup:
 ```bash
 echo 3000 > pids.max
 ```
+**Kuunda cgroups mpya** kunahusisha kujenga saraka mpya ndani ya muundo wa cgroup, ambayo inasababisha kernel kuzalisha faili za kiolesura zinazohitajika kiotomatiki. Ingawa cgroups bila michakato inayofanya kazi inaweza kuondolewa kwa kutumia `rmdir`, tambua vikwazo fulani:
 
-**Creating new cgroups** involves making a new subdirectory within the cgroup hierarchy, which prompts the kernel to automatically generate necessary interface files. Though cgroups without active processes can be removed with `rmdir`, be aware of certain constraints:
-
-- **Processes can only be placed in leaf cgroups** (i.e., the most nested ones in a hierarchy). 
-- **A cgroup cannot possess a controller absent in its parent**.
-- **Controllers for child cgroups must be explicitly declared** in the `cgroup.subtree_control` file. For example, to enable CPU and PID controllers in a child cgroup:
-
+- **Michakato inaweza kuwekwa tu katika cgroups za majani** (yaani, zilizo ndani zaidi katika muundo wa hiyerakia).
+- **Cgroup haiwezi kuwa na kudhibiti ambao haupo kwa mzazi wake**.
+- **Wadhibiti kwa cgroups za watoto lazima zitangazwe wazi** katika faili ya `cgroup.subtree_control`. Kwa mfano, kuwezesha wadhibiti wa CPU na PID katika cgroup ya mtoto:
 ```bash
 echo "+cpu +pids" > cgroup.subtree_control
 ```
+**Kikundi cha mizizi** ni ubaguzi wa sheria hizi, kuruhusu kuweka mchakato moja kwa moja. Hii inaweza kutumika kuondoa michakato kutoka kwa usimamizi wa systemd.
 
-The **root cgroup** is an exception to these rules, allowing direct process placement. This can be used to remove processes from systemd management.
+**Ufuatiliaji wa matumizi ya CPU** ndani ya kikundi cha mizizi ni kawaida kupitia faili ya `cpu.stat`, inayoonyesha jumla ya wakati wa CPU uliotumiwa, inayosaidia kufuatilia matumizi kote kwa michakato ya huduma:
 
-**Monitoring CPU usage** within a cgroup is possible through the `cpu.stat` file, displaying total CPU time consumed, helpful for tracking usage across a service's subprocesses:
+<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>Takwimu za matumizi ya CPU kama inavyoonyeshwa katika faili ya cpu.stat</figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>CPU usage statistics as shown in the cpu.stat file</figcaption></figure>
-
-## References
-* **Book: How Linux Works, 3rd Edition: What Every Superuser Should Know By Brian Ward**
+## Marejeo
+* **Kitabu: Jinsi Linux Inavyofanya Kazi, Toleo la 3: Kila Mtumiaji Mkuu Anapaswa Kujua Na Brian Ward**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

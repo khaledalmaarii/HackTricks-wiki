@@ -2,39 +2,39 @@
 
 <figure><img src=".gitbook/assets/hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
-_Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
+_Logo na muundo wa harakati za Hacktricks na_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Welcome to the wiki where you will find each hacking trick/technique/whatever I have learnt from CTFs, real life apps, reading researches, and news.**
+**Karibu kwenye wiki ambapo utapata kila mbinu/ufundi/chochote nilichojifunza kutoka kwenye CTFs, programu halisi za maisha, kusoma utafiti, na habari.**
 {% endhint %}
 
-To get started follow this page where you will find the **typical flow** that **you should follow when pentesting** one or more **machines:**
+Ili kuanza, fuata ukurasa huu ambapo utapata **mtiririko wa kawaida** ambao **unapaswa kufuata wakati wa kufanya pentesting** kwenye mashine moja au zaidi:
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
 {% endcontent-ref %}
 
-## Platinum Sponsors
+## Wadhamini wa Platinum
 
-_Your company could be here._
+_Kampuni yako inaweza kuwa hapa._
 
-## Corporate Sponsors
+## Wadhamini wa Kampuni
 
 ### [STM Cyber](https://www.stmcyber.com)
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) is a great cybersecurity company whose slogan is **HACK THE UNHACKABLE**. They perform their own research and develop their own hacking tools to **offer several valuable cybersecurity services** like pentesting, Red teams and training.
+[**STM Cyber**](https://www.stmcyber.com) ni kampuni kubwa ya usalama wa mtandao ambayo kauli mbiu yao ni **HACK THE UNHACKABLE**. Wanafanya utafiti wao wenyewe na kukuza zana zao za kuhack ili **kutoa huduma muhimu za usalama wa mtandao** kama pentesting, timu nyekundu na mafunzo.
 
-You can check their **blog** in [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
+Unaweza kuangalia **blog** yao kwenye [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
-**STM Cyber** also support cybersecurity open source projects like HackTricks :)
+**STM Cyber** pia inasaidia miradi ya chanzo wazi ya usalama wa mtandao kama HackTricks :)
 
 ### [RootedCON](https://www.rootedcon.com/)
 
 <figure><img src=".gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **malengo ya kukuza maarifa ya kiufundi**, mkutano huu ni sehemu ya kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila fani.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -42,9 +42,9 @@ You can check their **blog** in [**https://blog.stmcyber.com**](https://blog.stm
 
 <figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** is the **Europe's #1** ethical hacking and **bug bounty platform.**
+**Intigriti** ni jukwaa la uhalifu wa kimaadili la #1 barani Ulaya na **bug bounty.**
 
-**Bug bounty tip**: **sign up** for **Intigriti**, a premium **bug bounty platform created by hackers, for hackers**! Join us at [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) today, and start earning bounties up to **$100,000**!
+**Ncha ya bug bounty**: **jiandikishe** kwenye **Intigriti**, jukwaa la **bug bounty la hali ya juu lililoanzishwa na wadukuzi, kwa wadukuzi**! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata zawadi hadi **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -53,9 +53,9 @@ You can check their **blog** in [**https://blog.stmcyber.com**](https://blog.stm
 <figure><img src=".gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia mchakato wa kiotomatiki** unaotumia zana za jamii za **juu zaidi** duniani.
 
-Get Access Today:
+Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -63,13 +63,13 @@ Get Access Today:
 
 <figure><img src=".gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Stay a step ahead in the cybersecurity game.
+Kaa mbele katika mchezo wa usalama wa mtandao.
 
-[**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) makes vulnerability management easy. Keep track of your attack surface, see where your company is vulnerable, and prioritize issues that leave your systems most exposed so you can focus on what matters most.
+[**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) inafanya usimamizi wa udhaifu kuwa rahisi. Fuatilia eneo lako la shambulio, angalia wapi kampuni yako iko hatarini, na weka kipaumbele kwa masuala yanayoweka mifumo yako wazi zaidi ili uweze kuzingatia mambo muhimu zaidi.
 
-Run thousands of checks with a single platform that covers your entire tech stack from internal infrastructure to web apps, APIs and cloud systems. Integrate seamlessly with [AWS, GCP, Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) and streamline DevOps so your team can implement fixes faster.
+Fanya maelfu ya ukaguzi na jukwaa moja linalofunika mfumo wako wote wa teknolojia kutoka miundombinu ya ndani hadi programu za wavuti, APIs, na mifumo ya wingu. Integreka kwa urahisi na [AWS, GCP, Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) na kuwezesha DevOps ili timu yako iweze kutekeleza marekebisho kwa haraka.
 
-Intruder never rests. Round-the-clock protection monitors your systems 24/7. Want to learn more? Visit their site and take it for a spin with [**a free trial**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
+Intruder haitulii kamwe. Ulinzi wa saa 24/7 unafuatilia mifumo yako kila wakati. Unataka kujifunza zaidi? Tembelea tovuti yao na jaribu bure [**jaribio la bure**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -77,26 +77,26 @@ Intruder never rests. Round-the-clock protection monitors your systems 24/7. Wan
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Jiunge na seva ya [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) ili kuwasiliana na wadukuzi wenye uzoefu na wawindaji wa bug bounty!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Machapisho ya Udukuzi**\
+Shiriki na yaliyomo yanayochunguza msisimko na changamoto za udukuzi
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Habari za Udukuzi za Wakati Halisi**\
+Endelea kuwa na habari za ulimwengu wa udukuzi kwa habari na ufahamu wa wakati halisi
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**Matangazo ya Hivi Karibuni**\
+Endelea kuwa na habari kuhusu bug bounties mpya zinazozinduliwa na sasisho muhimu za jukwaa
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na anza kushirikiana na wadukuzi bora leo!
 
 ***
 
-### [Pentest-Tools.com](https://pentest-tools.com/) - The essential penetration testing toolkit
+### [Pentest-Tools.com](https://pentest-tools.com/) - Jopo la zana muhimu za upenyezaji
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Instantly available setup for vulnerability assessment & penetration testing**. Run a full pentest from anywhere with 20+ tools & features that go from recon to reporting. We don't replace pentesters - we develop custom tools, detection & exploitation modules to give them back some time to dig deeper, pop shells, and have fun.
+**Usanidi uliopo mara moja kwa tathmini ya udhaifu na upenyezaji**. Fanya upenyezaji kamili kutoka mahali popote na zana na huduma 20+ ambazo zinaenda kutoka uchunguzi hadi ripoti. Hatuchukui nafasi ya wapenyezaji - tunakua zana za desturi, ugunduzi na moduli za udukuzi ili kuwapa muda wa kuchimba kwa kina zaidi, kuvunja mabaka, na kufurahi.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -104,19 +104,14 @@ Stay informed with the newest bug bounties launching and crucial platform update
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) is a professional cybersecurity company based in **Amsterdam** which helps **protecting** businesses **all over the world** against the latest cybersecurity threats by providing **offensive-security services** with a **modern** approach.
+[**WebSec**](https://websec.nl) ni kampuni ya usalama wa mtandao ya kitaalamu iliyoko **Amsterdam** ambayo husaidia **kulinda** biashara **kote ulimwenguni** dhidi ya vitisho vya usalama wa mtandao kwa kutoa huduma za **usalama wa kushambulia** na **njia ya kisasa**.
 
-WebSec is an **all-in-one security company** which means they do it all; Pentesting, **Security** Audits, Awareness Trainings, Phishing Campagnes, Code Review, Exploit Development, Security Experts Outsourcing and much more.
+WebSec ni kampuni ya **usalama wa kila kitu kimoja** ambayo inamaanisha wanafanya kila kitu; Pentesting, Ukaguzi wa Usalama, Mafunzo ya Uwajibikaji, Kampeni za Udukuzi, Tathmini ya Kanuni, Maendeleo ya Udukuzi, Kuajiri Wataalamu wa Usalama na mengi zaidi.
 
-Another cool thing about WebSec is that unlike the industry average WebSec is **very confident in their skills**, to such an extent that they **guarantee the best quality results**, it states on their website "**If we can't hack it, You don't pay it!**". For more info take a look at their [**website**](https://websec.nl/en/) and [**blog**](https://websec.nl/blog/)!
+Jambo lingine zuri kuhusu WebSec ni kwamba tofauti na wastani wa tasnia
+## Leseni na Kukanusha
 
-In addition to the above WebSec is also a **committed supporter of HackTricks.**
-
-{% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
-
-## License & Disclaimer
-
-**Check them in:**
+**Angalia katika:**
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -124,14 +119,14 @@ In addition to the above WebSec is also a **committed supporter of HackTricks.**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

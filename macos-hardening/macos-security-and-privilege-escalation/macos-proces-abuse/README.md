@@ -1,108 +1,107 @@
-# macOS Proces Abuse
+# Uvunjaji wa Mchakato wa macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## MacOS Process Abuse
+## Uvunjaji wa Mchakato wa MacOS
 
-MacOS, like any other operating system, provides a variety of methods and mechanisms for **processes to interact, communicate, and share data**. While these techniques are essential for efficient system functioning, they can also be abused by threat actors to **perform malicious activities**.
+MacOS, kama mfumo wa uendeshaji mwingine wowote, hutoa njia na mbinu mbalimbali za **mchakato kuingiliana, kuwasiliana, na kushiriki data**. Ingawa mbinu hizi ni muhimu kwa utendaji mzuri wa mfumo, pia zinaweza kutumiwa vibaya na wahalifu wa mtandao kufanya shughuli za uovu.
 
-### Library Injection
+### Uingizaji wa Maktaba
 
-Library Injection is a technique wherein an attacker **forces a process to load a malicious library**. Once injected, the library runs in the context of the target process, providing the attacker with the same permissions and access as the process.
+Uingizaji wa Maktaba ni mbinu ambapo mshambuliaji **anawalazimisha mchakato kusoma maktaba yenye nia mbaya**. Mara baada ya kuingizwa, maktaba hiyo inaendesha katika muktadha wa mchakato wa lengo, ikimpa mshambuliaji idhini na ufikiaji sawa na mchakato huo.
 
 {% content-ref url="macos-library-injection/" %}
 [macos-library-injection](macos-library-injection/)
 {% endcontent-ref %}
 
-### Function Hooking
+### Kufunga Kazi
 
-Function Hooking involves **intercepting function calls** or messages within a software code. By hooking functions, an attacker can **modify the behavior** of a process, observe sensitive data, or even gain control over the execution flow.
+Kufunga Kazi ni mchakato wa **kukamata wito wa kazi** au ujumbe ndani ya nambari ya programu. Kwa kufunga kazi, mshambuliaji anaweza **kubadilisha tabia** ya mchakato, kuchunguza data nyeti, au hata kupata udhibiti wa mtiririko wa utekelezaji.
 
 {% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
 [macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
-### Inter Process Communication
+### Mawasiliano kati ya Mchakato
 
-Inter Process Communication (IPC) refers to different methods by which separate processes **share and exchange data**. While IPC is fundamental for many legitimate applications, it can also be misused to subvert process isolation, leak sensitive information, or perform unauthorized actions.
+Mawasiliano kati ya Mchakato (IPC) inahusu njia tofauti ambazo michakato tofauti **inashiriki na kubadilishana data**. Ingawa IPC ni muhimu kwa matumizi mengi halali, inaweza pia kutumiwa vibaya kwa kuvunja kizuizi cha mchakato, kuvuja habari nyeti, au kufanya vitendo visivyoruhusiwa.
 
 {% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-### Electron Applications Injection
+### Uingizaji wa Programu za Electron
 
-Electron applications executed with specific env variables could be vulnerable to process injection:
+Programu za Electron zilizoendeshwa na mazingira maalum ya env zinaweza kuwa na udhaifu wa uingizaji wa mchakato:
 
 {% content-ref url="macos-electron-applications-injection.md" %}
 [macos-electron-applications-injection.md](macos-electron-applications-injection.md)
 {% endcontent-ref %}
 
-### Dirty NIB
+### NIB Chafu
 
-NIB files **define user interface (UI) elements** and their interactions within an application. However, they can **execute arbitrary commands** and **Gatekeeper doesn't stop** an already executed application from being executed if a **NIB file is modified**. Therefore, they could be used to make arbitrary programs execute arbitrary commands:
+Faili za NIB **hutambua vipengele vya kiolesura cha mtumiaji (UI)** na mwingiliano wao ndani ya programu. Walakini, wanaweza **kutekeleza amri za kiholela** na **Gatekeeper haikatazi** programu iliyotekelezwa tayari kutoka kutekelezwa ikiwa faili ya NIB imebadilishwa. Kwa hivyo, wanaweza kutumiwa kufanya programu za kiholela kutekeleza amri za kiholela:
 
 {% content-ref url="macos-dirty-nib.md" %}
 [macos-dirty-nib.md](macos-dirty-nib.md)
 {% endcontent-ref %}
 
-### Java Applications Injection
+### Uingizaji wa Programu za Java
 
-It's possible to abuse certain java capabilities (like the **`_JAVA_OPTS`** env variable) to make a java application execute **arbitrary code/commands**.
+Inawezekana kutumia uwezo fulani wa Java (kama **`_JAVA_OPTS`** env variable) ili kufanya programu ya Java itekeleze **msimbo/amri za kiholela**.
 
 {% content-ref url="macos-java-apps-injection.md" %}
 [macos-java-apps-injection.md](macos-java-apps-injection.md)
 {% endcontent-ref %}
 
-### .Net Applications Injection
+### Uingizaji wa Programu za .Net
 
-It's possible to inject code into .Net applications by **abusing the .Net debugging functionality** (not protected by macOS protections such as runtime hardening).
+Inawezekana kuingiza msimbo kwenye programu za .Net kwa **kutumia vibaya kazi ya kufuatilia ya .Net** (isiyolindwa na ulinzi wa macOS kama uimarishaji wa wakati wa utekelezaji).
 
 {% content-ref url="macos-.net-applications-injection.md" %}
 [macos-.net-applications-injection.md](macos-.net-applications-injection.md)
 {% endcontent-ref %}
 
-### Perl Injection
+### Uingizaji wa Perl
 
-Check different options to make a Perl script execute arbitrary code in:
+Angalia chaguzi tofauti za kufanya script ya Perl itekeleze msimbo wa kiholela:
 
 {% content-ref url="macos-perl-applications-injection.md" %}
 [macos-perl-applications-injection.md](macos-perl-applications-injection.md)
 {% endcontent-ref %}
 
-### Ruby Injection
+### Uingizaji wa Ruby
 
-I't also possible to abuse ruby env variables to make arbitrary scripts execute arbitrary code:
+Pia inawezekana kutumia mazingira ya env ya ruby kufanya script za kiholela zitekeleze msimbo wa kiholela:
 
 {% content-ref url="macos-ruby-applications-injection.md" %}
 [macos-ruby-applications-injection.md](macos-ruby-applications-injection.md)
 {% endcontent-ref %}
 
-### Python Injection
+### Uingizaji wa Python
 
-If the environment variable **`PYTHONINSPECT`** is set, the python process will drop into a python cli once it's finished. It's also possible to use **`PYTHONSTARTUP`** to indicate a python script to execute at the beginning of an interactive session.\
-However, note that **`PYTHONSTARTUP`** script won't be executed when **`PYTHONINSPECT`** creates the interactive session.
+Ikiwa mazingira ya env ya **`PYTHONINSPECT`** yameset, mchakato wa python utaingia kwenye cli ya python mara tu itakapomalizika. Pia inawezekana kutumia **`PYTHONSTARTUP`** kuonyesha script ya python itekelezwe mwanzoni mwa kikao cha mwingiliano.\
+Hata hivyo, kumbuka kuwa script ya **`PYTHONSTARTUP`** haitatekelezwa wakati **`PYTHONINSPECT`** inaunda kikao cha mwingiliano.
 
-Other env variables such as **`PYTHONPATH`** and **`PYTHONHOME`** could also be useful to make a python command execute arbitrary code.
+Mazingira mengine ya env kama **`PYTHONPATH`** na **`PYTHONHOME`** pia yanaweza kuwa na manufaa kufanya amri ya python itekeleze msimbo wa kiholela.
 
-Note that executables compiled with **`pyinstaller`** won't use these environmental variables even if they are running using an embedded python.
+Tafadhali kumbuka kuwa programu zilizopachikwa na **`pyinstaller`** hazitatumia mazingira haya ya kimazingira hata kama zinaendeshwa kwa kutumia python iliyowekwa.
 
 {% hint style="danger" %}
-Overall I couldn't find a way to make python execute arbitrary code abusing environment variables.\
-However, most of the people install pyhton using **Hombrew**, which will install pyhton in a **writable location** for the default admin user. You can hijack it with something like:
-
+Kwa ujumla, sikuweza kupata njia ya kufanya python itekeleze msimbo wa kiholela kwa kutumia vibaya mazingira ya env.\
+Hata hivyo, watu wengi hufunga python kwa kutumia **Hombrew**, ambayo itainstall python katika eneo la **kuandika** kwa mtumiaji wa msimamizi wa chaguo-msingi. Unaweza kuchukua udhibiti wake kwa kitu kama:
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -112,42 +111,41 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
-
-Even **root** will run this code when running python.
+Hata **root** atakimbia nambari hii wakati wa kukimbia python.
 {% endhint %}
 
-## Detection
+## Uchunguzi
 
 ### Shield
 
-[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) is an open source application that can **detect and block process injection** actions:
+[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) ni programu huria ambayo inaweza **kuchunguza na kuzuia vitendo vya kuingiza mchakato**:
 
-* Using **Environmental Variables**: It will monitor the presence of any of the following environmental variables: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** and **`ELECTRON_RUN_AS_NODE`**
-* Using **`task_for_pid`** calls: To find when one process wants to get the **task port of another** which allows to inject code in the process.
-* **Electron apps params**: Someone can use **`--inspect`**, **`--inspect-brk`** and **`--remote-debugging-port`** command line argument to start an Electron app in debugging mode, and thus inject code to it.
-* Using **symlinks** or **hardlinks**: Typically the most common abuse is to **place a link with our user privileges**, and **point it to a higher privilege** location. The detection is very simple for both hardlink and symlinks. If the process creating the link has a **different privilege level** than the target file, we create an **alert**. Unfortunately in the case of symlinks blocking is not possible, as we don’t have information about the destination of the link prior creation. This is a limitation of Apple’s EndpointSecuriy framework.
+* Kwa kutumia **Mazingira ya Mazingira**: Itakuwa ikifuatilia uwepo wa mojawapo ya mazingira ya mazingira yafuatayo: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** na **`ELECTRON_RUN_AS_NODE`**
+* Kwa kutumia wito wa **`task_for_pid`**: Ili kugundua wakati mchakato mmoja anataka kupata **kituo cha kazi cha mchakato mwingine** ambacho kinaruhusu kuingiza nambari katika mchakato.
+* **Vigezo vya programu za Electron**: Mtu anaweza kutumia **`--inspect`**, **`--inspect-brk`** na **`--remote-debugging-port`** hoja ya mstari wa amri kuanza programu ya Electron katika hali ya kurekebisha, na hivyo kuingiza nambari ndani yake.
+* Kwa kutumia **symlinks** au **hardlinks**: Kawaida unyanyasaji wa kawaida ni kuweka kiunga na **haki za mtumiaji wetu**, na **kuelekeza kwenye eneo lenye haki kubwa**. Uchunguzi ni rahisi sana kwa hardlink na symlinks. Ikiwa mchakato unaounda kiunga una **kiwango tofauti cha haki** kuliko faili ya lengo, tunatengeneza **onyo**. Kwa bahati mbaya katika kesi ya kuzuia symlinks haiwezekani, kwani hatuna habari juu ya marudio ya kiunga kabla ya kuundwa. Hii ni kizuizi cha mfumo wa EndpointSecuriy wa Apple.
 
-### Calls made by other processes
+### Wito uliofanywa na michakato mingine
 
-In [**this blog post**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) you can find how it's possible to use the function **`task_name_for_pid`** to get information about other **processes injecting code in a process** and then getting information about that other process.
+Katika [**chapisho hili la blogu**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) unaweza kupata jinsi inavyowezekana kutumia kazi ya **`task_name_for_pid`** kupata habari juu ya michakato mingine inayoingiza nambari katika mchakato na kisha kupata habari juu ya mchakato huo mwingine.
 
-Note that to call that function you need to be **the same uid** as the one running the process or **root** (and it returns info about the process, not a way to inject code).
+Tafadhali kumbuka kuwa ili kuita kazi hiyo unahitaji kuwa **uid sawa** na yule anayekimbia mchakato au **root** (na inarudi habari juu ya mchakato, sio njia ya kuingiza nambari).
 
-## References
+## Marejeo
 
 * [https://theevilbit.github.io/shield/](https://theevilbit.github.io/shield/)
 * [https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks katika PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

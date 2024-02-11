@@ -1,109 +1,107 @@
-# Writable Sys Path +Dll Hijacking Privesc
+# Njia ya kuongeza mamlaka kwa kutumia Dll Hijacking na Njia ya Sys Path Inayoweza Kuandikwa
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Introduction
+## Utangulizi
 
-If you found that you can **write in a System Path folder** (note that this won't work if you can write in a User Path folder) it's possible that you could **escalate privileges** in the system.
+Ikiwa umegundua kuwa unaweza **kuandika kwenye folda ya Njia ya Mfumo** (kumbuka kuwa hii haitafanya kazi ikiwa unaweza kuandika kwenye folda ya Njia ya Mtumiaji), inawezekana kuwa unaweza **kuongeza mamlaka** kwenye mfumo.
 
-In order to do that you can abuse a **Dll Hijacking** where you are going to **hijack a library being loaded** by a service or process with **more privileges** than yours, and because that service is loading a Dll that probably doesn't even exist in the entire system, it's going to try to load it from the System Path where you can write.
+Ili kufanya hivyo, unaweza kutumia **Dll Hijacking** ambapo utaiba maktaba inayopakiwa na huduma au mchakato na **mamlaka zaidi** kuliko zako, na kwa sababu huduma hiyo inapakia Dll ambayo labda haipo kabisa kwenye mfumo mzima, itajaribu kuipakia kutoka kwenye Njia ya Mfumo ambapo unaweza kuandika.
 
-For more info about **what is Dll Hijackig** check:
+Kwa habari zaidi kuhusu **Dll Hijacking ni nini**, angalia:
 
 {% content-ref url="../dll-hijacking.md" %}
 [dll-hijacking.md](../dll-hijacking.md)
 {% endcontent-ref %}
 
-## Privesc with Dll Hijacking
+## Kuongeza Mamlaka kwa Kutumia Dll Hijacking
 
-### Finding a missing Dll
+### Kupata Dll Inayokosekana
 
-The first thing you need is to **identify a process** running with **more privileges** than you that is trying to **load a Dll from the System Path** you can write in.
+Jambo la kwanza unahitaji kufanya ni **kutambua mchakato** unaoendesha na **mamlaka zaidi** kuliko wewe ambao unajaribu **kupakia Dll kutoka kwenye Njia ya Mfumo** ambayo unaweza kuandika.
 
-The problem in this cases is that probably thoses processes are already running. To find which Dlls are lacking the services you need to launch procmon as soon as possible (before processes are loaded). So, to find lacking .dlls do:
+Shida katika kesi hizi ni kwamba labda mchakato huo tayari unaendelea. Ili kupata Dll zinazokosekana kwenye huduma unahitaji kuzindua procmon haraka iwezekanavyo (kabla ya michakato kupakiwa). Kwa hivyo, ili kupata .dlls zinazokosekana, fanya yafuatayo:
 
-* **Create** the folder `C:\privesc_hijacking` and add the path `C:\privesc_hijacking` to **System Path env variable**. You can do this **manually** or with **PS**:
-
+* **Tengeneza** folda `C:\privesc_hijacking` na ongeza njia `C:\privesc_hijacking` kwenye **mazingira ya Njia ya Mfumo**. Unaweza kufanya hivi **kwa mkono** au kwa kutumia **PS**:
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
 
 # Create the folder if it does not exist
 if (!(Test-Path $folderPath -PathType Container)) {
-    New-Item -ItemType Directory -Path $folderPath | Out-Null
+New-Item -ItemType Directory -Path $folderPath | Out-Null
 }
 
 # Set the folder path in the System environment variable PATH
 $envPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 if ($envPath -notlike "*$folderPath*") {
-    $newPath = "$envPath;$folderPath"
-    [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
+$newPath = "$envPath;$folderPath"
+[Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
-
-* Launch **`procmon`** and go to **`Options`** --> **`Enable boot logging`** and press **`OK`** in the prompt.
-* Then, **reboot**. When the computer is restarted **`procmon`** will start **recording** events asap.
-* Once **Windows** is **started execute `procmon`** again, it'll tell you that it has been running and will **ask you if you want to store** the events in a file. Say **yes** and **store the events in a file**.
-* **After** the **file** is **generated**, **close** the opened **`procmon`** window and **open the events file**.
-* Add these **filters** and you will find all the Dlls that some **proccess tried to load** from the writable System Path folder:
+* Zindua **`procmon`** na nenda kwa **`Chaguo`** --> **`Wezesha kuingia kwenye kumbukumbu`** na bonyeza **`Sawa`** kwenye ujumbe.
+* Kisha, **zima**. Wakati kompyuta inapoanza tena, **procmon** itaanza **kurekodi** matukio mara moja.
+* Mara baada ya **Windows** kuanza, tekeleza tena **procmon**, itakuambia kuwa imekuwa ikifanya kazi na itakuuliza ikiwa unataka kuhifadhi matukio kwenye faili. Sema **ndio** na **hifadhi matukio kwenye faili**.
+* **Baada** ya **faili** kuwa **imeundwa**, **funga** dirisha la **procmon** lililofunguliwa na **fungua faili ya matukio**.
+* Ongeza **vichujio** hivi na utapata Dll zote ambazo baadhi ya **mchakato ulijaribu kuzipakia** kutoka kwenye folda ya Njia ya Mfumo inayoweza kuandikwa:
 
 <figure><img src="../../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
-### Missed Dlls
+### Dll Zilizokosekana
 
-Running this in a free **virtual (vmware) Windows 11 machine** I got these results:
+Nikikimbia hii kwenye **mashine ya Windows 11 ya bure (vmware)** nilipata matokeo haya:
 
 <figure><img src="../../../.gitbook/assets/image (253).png" alt=""><figcaption></figcaption></figure>
 
-In this case the .exe are useless so ignore them, the missed DLLs where from:
+Katika kesi hii, .exe hazina maana, hivyo waipuuze, Dll zilizokosekana zilikuwa kutoka:
 
-| Service                         | Dll                | CMD line                                                             |
+| Huduma                         | Dll                | Mstari wa Amri                                                       |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
 | Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
 | Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
-After finding this, I found this interesting blog post that also explains how to [**abuse WptsExtensions.dll for privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Which is what we **are going to do now**.
+Baada ya kupata hii, nilipata chapisho la blogu lenye kuvutia ambalo pia linaelezea jinsi ya [**kutumia WptsExtensions.dll kwa privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Hii ndio tunayotarajia **kufanya sasa**.
 
-### Exploitation
+### Utekaji
 
-So, to **escalate privileges** we are going to hijack the library **WptsExtensions.dll**. Having the **path** and the **name** we just need to **generate the malicious dll**.
+Kwa hivyo, ili **kuongeza mamlaka**, tutateka maktaba ya **WptsExtensions.dll**. Tukiwa na **njia** na **jina**, tunahitaji tu **kuunda dll mbaya**.
 
-You can [**try to use any of these examples**](../dll-hijacking.md#creating-and-compiling-dlls). You could run payloads such as: get a rev shell, add a user, execute a beacon...
+Unaweza [**jaribu kutumia moja ya mifano hii**](../dll-hijacking.md#creating-and-compiling-dlls). Unaweza kutekeleza malipo kama vile: kupata kabati la rev, kuongeza mtumiaji, kutekeleza beacon...
 
 {% hint style="warning" %}
-Note that **not all the service are run** with **`NT AUTHORITY\SYSTEM`** some are also run with **`NT AUTHORITY\LOCAL SERVICE`** which has **less privileges** and you **won't be able to create a new user** abuse its permissions.\
-However, that user has the **`seImpersonate`** privilege, so you can use the[ **potato suite to escalate privileges**](../roguepotato-and-printspoofer.md). So, in this case a rev shell is a better option that trying to create a user.
+Tafadhali kumbuka kuwa **huduma zote hazitekelezwi** na **`NT AUTHORITY\SYSTEM`** baadhi pia zinatekelezwa na **`NT AUTHORITY\LOCAL SERVICE`** ambayo ina **mamlaka kidogo** na huwezi kuunda mtumiaji mpya kwa kutumia mamlaka yake.\
+Hata hivyo, mtumiaji huyo ana **ruhusa ya seImpersonate**, kwa hivyo unaweza kutumia [**zana ya viazi kuongeza mamlaka**](../roguepotato-and-printspoofer.md). Kwa hivyo, katika kesi hii kabati la rev ni chaguo bora kuliko jaribio la kuunda mtumiaji.
 {% endhint %}
 
-At the moment of writing the **Task Scheduler** service is run with **Nt AUTHORITY\SYSTEM**.
+Wakati wa kuandika huduma ya **Task Scheduler** inatekelezwa na **Nt AUTHORITY\SYSTEM**.
 
-Having **generated the malicious Dll** (_in my case I used x64 rev shell and I got a shell back but defender killed it because it was from msfvenom_), save it in the writable System Path with the name **WptsExtensions.dll** and **restart** the computer (or restart the service or do whatever it takes to rerun the affected service/program).
+Baada ya **kuunda Dll mbaya** (_katika kesi yangu nilitumia kabati la rev x64 na nilipata kabati lakini msalaba wa ulinzi uliua kwa sababu ilikuwa kutoka msfvenom_), iihifadhi kwenye Njia ya Mfumo inayoweza kuandikwa na jina la **WptsExtensions.dll** na **zima** kompyuta (au zima huduma au fanya chochote kinachohitajika kuanzisha tena huduma/programu iliyoharibiwa).
 
-When the service is re-started, the **dll should be loaded and executed** (you can **reuse** the **procmon** trick to check if the **library was loaded as expected**).
+Huduma inapoanza tena, **dll inapaswa kupakiwa na kutekelezwa** (unaweza **kutumia tena** mbinu ya **procmon** kuangalia ikiwa **maktaba imepakia kama ilivyotarajiwa**).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inayotangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

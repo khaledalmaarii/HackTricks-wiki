@@ -1,31 +1,30 @@
-# DDexec / EverythingExec
+# DDexec / KilaKituExec
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Context
+## Mazingira
 
-In Linux in order to run a program it must exist as a file, it must be accessible in some way through the file system hierarchy (this is just how `execve()` works). This file may reside on disk or in ram (tmpfs, memfd) but you need a filepath. This has made very easy to control what is run on a Linux system, it makes easy to detect threats and attacker's tools or to prevent them from trying to execute anything of theirs at all (_e. g._ not allowing unprivileged users to place executable files anywhere).
+Katika Linux ili kuendesha programu, lazima iwe kama faili, lazima iwe inapatikana kwa njia fulani kupitia mfumo wa faili (hii ndio jinsi `execve()` inavyofanya kazi). Faili hii inaweza kuwepo kwenye diski au kwenye ram (tmpfs, memfd) lakini unahitaji njia ya faili. Hii imefanya iwe rahisi sana kudhibiti ni nini kinachoendeshwa kwenye mfumo wa Linux, inafanya iwe rahisi kugundua vitisho na zana za mshambuliaji au kuzuia jaribio lolote lao la kutekeleza chochote chao kabisa (_kwa mfano_ kutowaruhusu watumiaji wasio na uwezo kuweka faili za kutekelezwa mahali popote).
 
-But this technique is here to change all of this. If you can not start the process you want... **then you hijack one already existing**.
+Lakini mbinu hii iko hapa kubadilisha yote haya. Ikiwa huwezi kuanza mchakato unayotaka... **basi unateka moja iliyopo tayari**.
 
-This technique allows you to **bypass common protection techniques such as read-only, noexec, file-name whitelisting, hash whitelisting...**
+Mbinu hii inakuwezesha **kupita njia za kawaida za ulinzi kama vile kusoma tu, noexec, orodha nyeupe ya majina ya faili, orodha nyeupe ya hash...**
 
-## Dependencies
+## Mahitaji
 
-The final script depends on the following tools to work, they need to be accessible in the system you are attacking (by default you will find all of them everywhere):
-
+Script ya mwisho inahitaji zana zifuatazo ili kufanya kazi, zinahitaji kuwa inapatikana kwenye mfumo unaoshambuliwa (kwa chaguo-msingi utazipata kote):
 ```
 dd
 bash | zsh | ash (busybox)
@@ -39,80 +38,73 @@ wc
 tr
 base64
 ```
+## Mbinu
 
-## The technique
+Ikiwa unaweza kubadilisha kumbukumbu ya mchakato kwa hiari, basi unaweza kuuchukua udhibiti. Hii inaweza kutumika kuiba mchakato uliopo tayari na kuiweka nafasi yake na programu nyingine. Tunaweza kufanikisha hili kwa kutumia syscall ya `ptrace()` (ambayo inahitaji uwezo wa kutekeleza syscalls au kuwa na gdb inapatikana kwenye mfumo) au, zaidi ya hayo, kwa kuandika kwenye `/proc/$pid/mem`.
 
-If you are able to modify arbitrarily the memory of a process then you can take over it. This can be used to hijack an already existing process and replace it with another program. We can achieve this either by using the `ptrace()` syscall (which requires you to have the ability to execute syscalls or to have gdb available on the system) or, more interestingly, writing to `/proc/$pid/mem`.
+Faili ya `/proc/$pid/mem` ni ramani moja kwa moja ya nafasi nzima ya anwani ya mchakato (kwa mfano kutoka `0x0000000000000000` hadi `0x7ffffffffffff000` kwenye x86-64). Hii inamaanisha kuwa kusoma au kuandika kwenye faili hii kwenye nafasi ya mbali `x` ni sawa na kusoma au kubadilisha maudhui kwenye anwani ya kawaida `x`.
 
-The file `/proc/$pid/mem` is a one-to-one mapping of the entire address space of a process (_e. g._ from `0x0000000000000000` to `0x7ffffffffffff000` in x86-64). This means that reading from or writing to this file at an offset `x` is the same as reading from or modifying the contents at the virtual address `x`.
+Sasa, tuna matatizo manne ya msingi ya kukabiliana nayo:
 
-Now, we have four basic problems to face:
-
-* In general, only root and the program owner of the file may modify it.
+* Kwa ujumla, tu root na mmiliki wa programu ya faili wanaweza kuihariri.
 * ASLR.
-* If we try to read or write to an address not mapped in the address space of the program we will get an I/O error.
+* Ikiwa tunajaribu kusoma au kuandika kwenye anwani ambayo haipo kwenye nafasi ya anwani ya programu, tutapata kosa la I/O.
 
-This problems have solutions that, although they are not perfect, are good:
+Matatizo haya yana suluhisho ambayo, ingawa sio kamili, ni nzuri:
 
-* Most shell interpreters allow the creation of file descriptors that will then be inherited by child processes. We can create a fd pointing to the `mem` file of the sell with write permissions... so child processes that use that fd will be able to modify the shell's memory.
-* ASLR isn't even a problem, we can check the shell's `maps` file or any other from the procfs in order to gain information about the address space of the process.
-* So we need to `lseek()` over the file. From the shell this cannot be done unless using the infamous `dd`.
+* Winterpreti wengi wa shell huruhusu uundaji wa maelezo ya faili ambayo kisha yataurithiwa na michakato ya watoto. Tunaweza kuunda fd inayoelekeza kwenye faili ya `mem` ya shell na ruhusa za kuandika... kwa hivyo michakato ya watoto ambayo hutumia fd hiyo itaweza kuhariri kumbukumbu ya shell.
+* ASLR hata sio tatizo, tunaweza kuangalia faili ya `maps` ya shell au nyingine yoyote kutoka kwenye procfs ili kupata habari kuhusu nafasi ya anwani ya mchakato.
+* Kwa hivyo tunahitaji kufanya `lseek()` juu ya faili. Kutoka kwenye shell hii haiwezekani isipokuwa kwa kutumia `dd` maarufu.
 
-### In more detail
+### Kwa undani zaidi
 
-The steps are relatively easy and do not require any kind of expertise to understand them:
+Hatua ni rahisi na hazihitaji aina yoyote ya ujuzi wa kuzielewa:
 
-* Parse the binary we want to run and the loader to find out what mappings they need. Then craft a "shell"code that will perform, broadly speaking, the same steps that the kernel does upon each call to `execve()`:
-  * Create said mappings.
-  * Read the binaries into them.
-  * Set up permissions.
-  * Finally initialize the stack with the arguments for the program and place the auxiliary vector (needed by the loader).
-  * Jump into the loader and let it do the rest (load libraries needed by the program).
-* Obtain from the `syscall` file the address to which the process will return after the syscall it is executing.
-* Overwrite that place, which will be executable, with our shellcode (through `mem` we can modify unwritable pages).
-* Pass the program we want to run to the stdin of the process (will be `read()` by said "shell"code).
-* At this point it is up to the loader to load the necessary libraries for our program and jump into it.
+* Tathmini faili tunayotaka kuendesha na mzigo ili kugundua ramani wanazohitaji. Kisha tengeneza "shell"code ambayo itatekeleza, kwa ujumla, hatua sawa ambazo kernel hufanya kwa kila wito wa `execve()`:
+* Unda ramani hizo.
+* Soma faili za binary ndani yao.
+* Weka ruhusa.
+* Hatimaye, anzisha stack na hoja za programu na weka vector ya ziada (inayohitajika na mzigo).
+* Ruka kwenye mzigo na ruhusu ifanye yake (kupakia maktaba zinazohitajika na programu).
+* Pata kutoka kwenye faili ya `syscall` anwani ambayo mchakato utarudi baada ya syscall inayotekelezwa.
+* Badilisha mahali hilo, ambalo litakuwa na uwezo wa kutekelezwa, na shellcode yetu (kupitia `mem` tunaweza kubadilisha kurasa zisizoweza kuandikwa).
+* Pita programu tunayotaka kuendesha kwa stdin ya mchakato (itakayosomwa na "shell"code hiyo).
+* Kwa wakati huu, ni jukumu la mzigo kupakia maktaba muhimu kwa programu yetu na kuruka ndani yake.
 
-**Check out the tool in** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
+**Angalia zana katika** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
 
-## EverythingExec
+## KilaKituExec
 
-There are several alternatives to `dd`, one of which, `tail`, is currently the default program used to `lseek()` through the `mem` file (which was the sole purpose for using `dd`). Said alternatives are:
-
+Kuna njia kadhaa mbadala za `dd`, moja wapo, `tail`, kwa sasa ni programu inayotumiwa kwa chaguo-msingi kwa `lseek()` kupitia faili ya `mem` (ambayo ilikuwa kusudi pekee la kutumia `dd`). Njia mbadala hizo ni:
 ```bash
 tail
 hexdump
 cmp
 xxd
 ```
-
-Setting the variable `SEEKER` you may change the seeker used, _e. g._:
-
+Kwa kuweka variable `SEEKER` unaweza kubadilisha mtumiaji wa kutafuta, kwa mfano:
 ```bash
 SEEKER=cmp bash ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-
-If you find another valid seeker not implemented in the script you may still use it setting the `SEEKER_ARGS` variable:
-
+Ikiwa utapata mtafuta mwingine halali ambao haujatekelezwa kwenye hati, bado unaweza kutumia kwa kuweka variable ya `SEEKER_ARGS`:
 ```bash
 SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
+Zuia hii, EDRs.
 
-Block this, EDRs.
-
-## References
+## Marejeo
 * [https://github.com/arget13/DDexec](https://github.com/arget13/DDexec)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

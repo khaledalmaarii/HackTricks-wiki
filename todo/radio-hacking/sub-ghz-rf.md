@@ -2,97 +2,83 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Garage Doors
+## Milango ya Gari
 
-Garage door openers typically operate at frequencies in the 300-190 MHz range, with the most common frequencies being 300 MHz, 310 MHz, 315 MHz, and 390 MHz. This frequency range is commonly used for garage door openers because it is less crowded than other frequency bands and is less likely to experience interference from other devices.
+Wafunguo wa milango ya gari kawaida hufanya kazi kwa masafa katika kiwango cha 300-190 MHz, na masafa yanayotumiwa sana ni 300 MHz, 310 MHz, 315 MHz, na 390 MHz. Kiwango hiki cha masafa kinatumiwa kawaida kwa wafunguo wa milango ya gari kwa sababu kina msongamano mdogo kuliko bendi zingine za masafa na ni kidogo uwezekano wa kupata kuingiliwa na vifaa vingine.
 
-## Car Doors
+## Milango ya Gari
 
-Most car key fobs operate on either **315 MHz or 433 MHz**. These are both radio frequencies, and they are used in a variety of different applications. The main difference between the two frequencies is that 433 MHz has a longer range than 315 MHz. This means that 433 MHz is better for applications that require a longer range, such as remote keyless entry.\
-In Europe 433.92MHz is commonly used and in U.S. and Japan it's the 315MHz.
+Wafunguo wengi wa gari hufanya kazi kwa masafa ya **315 MHz au 433 MHz**. Hizi ni masafa ya redio, na hutumiwa katika matumizi mbalimbali tofauti. Tofauti kuu kati ya masafa haya mawili ni kwamba 433 MHz ina mbalimbali kubwa kuliko 315 MHz. Hii inamaanisha kuwa 433 MHz ni bora kwa matumizi yanayohitaji mbalimbali kubwa, kama vile kuingia kwa kijijini bila ufunguo.\
+Barani Ulaya, 433.92MHz hutumiwa kawaida na katika Marekani na Japani ni 315MHz.
 
-## **Brute-force Attack**
+## **Shambulio la Brute-force**
 
 <figure><img src="../../.gitbook/assets/image (4) (3) (2).png" alt=""><figcaption></figcaption></figure>
 
-If instead of sending each code 5 times (sent like this to make sure the receiver gets it) so just send it once, the time is reduced to 6mins:
+Badala ya kutuma kila nambari mara 5 (kutumwa kwa njia hii ili kuhakikisha mpokeaji anapokea), unaweza kuituma mara moja, wakati unapunguzwa hadi dakika 6:
 
 <figure><img src="../../.gitbook/assets/image (1) (1) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
-and if you **remove the 2 ms waiting** period between signals you can **reduce the time to 3minutes.**
+Na ikiwa **ondoa kipindi cha kusubiri cha 2 ms** kati ya ishara, unaweza **kupunguza wakati hadi dakika 3**.
 
-Moreover, by using the De Bruijn Sequence (a way to reduce the number of bits needed to send all the potential binary numbers to burteforce) this **time is reduced just to 8 seconds**:
+Zaidi ya hayo, kwa kutumia De Bruijn Sequence (njia ya kupunguza idadi ya bits inayohitajika kutuma nambari zote za binary zinazowezekana kwa nguvu), **wakati huu unapunguzwa hadi sekunde 8**:
 
 <figure><img src="../../.gitbook/assets/image (5) (2) (3).png" alt=""><figcaption></figcaption></figure>
 
-Example of this attack was implemented in [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)
+Mfano wa shambulio hili ulitekelezwa katika [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)
 
-Requiring **a preamble will avoid the De Bruijn Sequence** optimization and **rolling codes will prevent this attack** (supposing the code is long enough to not be bruteforceable).
+Kuweka **kielelezo kutazuia De Bruijn Sequence** optimization na **codes za kusonga zitazuia shambulio hili** (ikiwa nambari ni ndefu ya kutosha ili isidukuliwe kwa nguvu).
 
-## Sub-GHz Attack
+## Shambulio la Sub-GHz
 
-To attack these signals with Flipper Zero check:
+Kuwashambulia ishara hizi na Flipper Zero angalia:
 
 {% content-ref url="flipper-zero/fz-sub-ghz.md" %}
 [fz-sub-ghz.md](flipper-zero/fz-sub-ghz.md)
 {% endcontent-ref %}
 
-## Rolling Codes Protection
+## Ulinzi wa Codes za Kusonga
 
-Automatic garage door openers typically use a wireless remote control to open and close the garage door. The remote control **sends a radio frequency (RF) signal** to the garage door opener, which activates the motor to open or close the door.
+Wafunguo wa milango ya gari ya kiotomatiki kawaida hutumia kijijini cha udhibiti wa wireless kufungua na kufunga mlango wa gari. Kijijini cha udhibiti **hutuma ishara ya masafa ya redio (RF)** kwa mfunguo wa mlango wa gari, ambayo inawezesha injini kufungua au kufunga mlango.
 
-It is possible for someone to use a device known as a code grabber to intercept the RF signal and record it for later use. This is known as a **replay attack**. To prevent this type of attack, many modern garage door openers use a more secure encryption method known as a **rolling code** system.
+Inawezekana kwa mtu kutumia kifaa kinachojulikana kama code grabber kuiba ishara ya RF na kuihifadhi kwa matumizi ya baadaye. Hii inajulikana kama **shambulio la kurudia**. Ili kuzuia aina hii ya shambulio, wafunguo wengi wa milango ya gari ya kisasa hutumia njia ya usimbaji salama zaidi inayojulikana kama **mfumo wa codes za kusonga**.
 
-The **RF signal is typically transmitted using a rolling code**, which means that the code changes with each use. This makes it **difficult** for someone to **intercept** the signal and **use** it to gain **unauthorised** access to the garage.
+**Ishara ya RF kawaida hutumwa kwa kutumia code za kusonga**, ambayo inamaanisha kuwa code inabadilika kila wakati inapotumiwa. Hii inafanya iwe **ngumu** kwa mtu yeyote kudaka ishara na kuitumia kupata ufikiaji **usiohalali** kwenye gari.
 
-In a rolling code system, the remote control and the garage door opener have a **shared algorithm** that **generates a new code** every time the remote is used. The garage door opener will only respond to the **correct code**, making it much more difficult for someone to gain unauthorised access to the garage just by capturing a code.
+Katika mfumo wa codes za kusonga, kijijini cha udhibiti na mfunguo wa mlango wa gari wana **algorithmu inayoshiriki** ambayo **inazalisha code mpya** kila wakati kijijini kinapotumiwa. Mfunguo wa mlango wa gari utajibu tu kwa **code sahihi**, hivyo inakuwa ngumu zaidi kwa mtu yeyote kupata ufikiaji usiohalali kwenye gari kwa kudaka tu code.
 
-### **Missing Link Attack**
+### **Shambulio la Kiungo Kilichopotea**
 
-Basically, you listen for the button and **capture the signal whilst the remote is out of range** of the device (say the car or garage). You then move to the device and **use the captured code to open it**.
+Kimsingi, unalisikiliza kifungo na **kudaka ishara wakati kijijini kiko nje ya upeo** wa kifaa (kama gari au garaji). Kisha, unahamia kwenye kifaa na **kutumia code uliyodaka kufungua**.
 
-### Full Link Jamming Attack
+### Shambulio la Kuzuia Kiungo Kamili
 
-An attacker could **jam the signal near the vehicle or receive**r so the **receiver cannot actually ‘hear’ the code**, and once that is happening you can simply **capture and replay** the code when you have stopped jamming.
+Mshambuliaji anaweza **kuzuia ishara karibu na gari au mpokeaji** ili **mpokeaji asisikie kwa kweli code**, na mara tu hilo linapotokea, unaweza tu **kudaka na kucheza tena** code wakati umesimamisha kuzuia.
 
-The victim at some point will use the **keys to lock the car**, but then the attack will have **recorded enough "close door" codes** that hopefully could be resent to open the door (a **change of frequency might be needed** as there are cars that use the same codes to open and close but listens for both commands in different frequencies).
-
-{% hint style="warning" %}
-**Jamming works**, but it's noticeable as if the **person locking the car simply tests the doors** to ensure they are locked they would notice the car unlocked. Additionally if they were aware of such attacks they could even listen to the fact that the doors never made the lock **sound** or the cars **lights** never flashed when they pressed the ‘lock’ button.
-{% endhint %}
-
-### **Code Grabbing Attack ( aka ‘RollJam’ )**
-
-This is a more **stealth Jamming technique**. The attacker will jam the signal, so when the victim tries to lock the door it won't work, but the attacker will **record this code**. Then, the victim will **try to lock the car again** pressing the button and the car will **record this second code**.\
-Instantly after this the **attacker can send the first code** and the **car will lock** (victim will think the second press closed it). Then, the attacker will be able to **send the second stolen code to open** the car (supposing that a **"close car" code can also be used to open it**). A change of frequency might be needed (as there are cars that use the same codes to open and close but listens for both commands in different frequencies).
-
-The attacker can **jam the car receiver and not his receiver** because if the car receiver is listening in for example a 1MHz broadband, the attacker won't **jam** the exact frequency used by the remote but **a close one in that spectrum** while the **attackers receiver will be listening in a smaller range** where he can listen the remote signal **without the jam signal**.
+Mwathirika wakati fulani atatumia **funguo kufunga gari**, lakini kisha shambulio litakuwa lime**hifadhiwa codes za "funga mlango"** za kutosha ambazo kwa matumaini zinaweza kutumwa tena kufungua mlango (inaweza kuhitajika **mabadiliko ya masafa** kwani kuna magari yanayotumia codes sawa kufungua na kufunga lakini hulisikiliza amri zote kwa masafa tofauti).
 
 {% hint style="warning" %}
-Other implementations seen in specifications show that the **rolling code is a portion** of the total code sent. Ie the code sent is a **24 bit key** where the first **12 are the rolling code**, the **second 8 are the command** (such as lock or unlock) and the last 4 is the **checksum**. Vehicles implementing this type are also naturally susceptible as the attacker merely needs to replace the rolling code segment to be able to **use any rolling code on both frequencies**.
+**Kuzuia kazi**, lakini inaonekana kama ikiwa **mtu anayefunga gari anajaribu tu milango** kuhakikisha kuwa wamefungwa wangeona gari limefunguliwa. Aidha, ikiwa wangekuwa na ufahamu wa mashambulio kama hayo, wangeweza hata kusikiliza ukweli kwamba milango haikufanya sauti ya **kufunga** au taa za gari hazikung'aa wakati walipogusa kitufe cha 'funga'.
 {% endhint %}
 
-{% hint style="danger" %}
-Note that if the victim sends a third code while the attacker is sending the first one, the first and second code will be invalidated.
-{% endhint %}
+### **Shambulio la
+### Shambulio la Kuzuia Kengele Inayolia
 
-### Alarm Sounding Jamming Attack
+Kujaribu dhidi ya mfumo wa nambari ya kusonga baada ya kufungwa kwenye gari, **kutuma nambari ile ile mara mbili** mara moja **ilizindua kengele** na kifungo cha kuwezesha kutoa fursa ya **kukataa huduma** ya kipekee. Kwa kushangaza, njia ya **kulemaza kengele** na kifungo cha kuwezesha ilikuwa **kubonyeza** **kidhibiti cha mbali**, ikimpa mshambuliaji uwezo wa **kutekeleza shambulio la kukataa huduma kwa muda mrefu**. Au changanya shambulio hili na **lile la awali ili kupata nambari zaidi** kwani muathirika angependa kusitisha shambulio haraka iwezekanavyo.
 
-Testing against an aftermarket rolling code system installed on a car, **sending the same code twice** immediately **activated the alarm** and immobiliser providing a unique **denial of service** opportunity. Ironically the means of **disabling the alarm** and immobiliser was to **press** the **remote**, providing an attacker with the ability to **continually perform DoS attack**. Or mix this attack with the **previous one to obtain more codes** as the victim would like to stop the attack asap.
-
-## References
+## Marejeo
 
 * [https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/](https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/)
 * [https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/](https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/)
@@ -101,14 +87,14 @@ Testing against an aftermarket rolling code system installed on a car, **sending
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -1,82 +1,66 @@
-# Enrolling Devices in Other Organisations
+# Kujiunga na Vifaa katika Mashirika Mengine
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-## Intro
-
-As [**previously commented**](./#what-is-mdm-mobile-device-management)**,** in order to try to enrol a device into an organization **only a Serial Number belonging to that Organization is needed**. Once the device is enrolled, several organizations will install sensitive data on the new device: certificates, applications, WiFi passwords, VPN configurations [and so on](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Therefore, this could be a dangerous entrypoint for attackers if the enrolment process isn't correctly protected.
-
-**The following is a summary of the research [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Check it for further technical details!**
-
-## Overview of DEP and MDM Binary Analysis
-
-This research delves into the binaries associated with the Device Enrollment Program (DEP) and Mobile Device Management (MDM) on macOS. Key components include:
-
-- **`mdmclient`**: Communicates with MDM servers and triggers DEP check-ins on macOS versions before 10.13.4.
-- **`profiles`**: Manages Configuration Profiles, and triggers DEP check-ins on macOS versions 10.13.4 and later.
-- **`cloudconfigurationd`**: Manages DEP API communications and retrieves Device Enrollment profiles.
-
-DEP check-ins utilize the `CPFetchActivationRecord` and `CPGetActivationRecord` functions from the private Configuration Profiles framework to fetch the Activation Record, with `CPFetchActivationRecord` coordinating with `cloudconfigurationd` through XPC.
-
-## Tesla Protocol and Absinthe Scheme Reverse Engineering
-
-The DEP check-in involves `cloudconfigurationd` sending an encrypted, signed JSON payload to _iprofiles.apple.com/macProfile_. The payload includes the device's serial number and the action "RequestProfileConfiguration". The encryption scheme used is referred to internally as "Absinthe". Unraveling this scheme is complex and involves numerous steps, which led to exploring alternative methods for inserting arbitrary serial numbers in the Activation Record request.
-
-## Proxying DEP Requests
-
-Attempts to intercept and modify DEP requests to _iprofiles.apple.com_ using tools like Charles Proxy were hindered by payload encryption and SSL/TLS security measures. However, enabling the `MCCloudConfigAcceptAnyHTTPSCertificate` configuration allows bypassing the server certificate validation, although the payload's encrypted nature still prevents modification of the serial number without the decryption key.
-
-## Instrumenting System Binaries Interacting with DEP
-
-Instrumenting system binaries like `cloudconfigurationd` requires disabling System Integrity Protection (SIP) on macOS. With SIP disabled, tools like LLDB can be used to attach to system processes and potentially modify the serial number used in DEP API interactions. This method is preferable as it avoids the complexities of entitlements and code signing.
-
-**Exploiting Binary Instrumentation:**
-Modifying the DEP request payload before JSON serialization in `cloudconfigurationd` proved effective. The process involved:
-
-1. Attaching LLDB to `cloudconfigurationd`.
-2. Locating the point where the system serial number is fetched.
-3. Injecting an arbitrary serial number into the memory before the payload is encrypted and sent.
-
-This method allowed for retrieving complete DEP profiles for arbitrary serial numbers, demonstrating a potential vulnerability.
-
-### Automating Instrumentation with Python
-
-The exploitation process was automated using Python with the LLDB API, making it feasible to programmatically inject arbitrary serial numbers and retrieve corresponding DEP profiles.
-
-### Potential Impacts of DEP and MDM Vulnerabilities
-
-The research highlighted significant security concerns:
-
-1. **Information Disclosure**: By providing a DEP-registered serial number, sensitive organizational information contained in the DEP profile can be retrieved.
-2. **Rogue DEP Enrollment**: Without proper authentication, an attacker with a DEP-registered serial number can enroll a rogue device into an organization's MDM server, potentially gaining access to sensitive data and network resources.
-
-In conclusion, while DEP and MDM provide powerful tools for managing Apple devices in enterprise environments, they also present potential attack vectors that need to be secured and monitored.
-
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+
+## Utangulizi
+
+Kama [**ilivyoelezwa hapo awali**](./#what-is-mdm-mobile-device-management)**,** ili kujaribu kujiunga na kifaa katika shirika, **inahitajika Nambari ya Siri inayomilikiwa na Shirika hilo**. Mara kifaa kinapojiunga, mashirika kadhaa yatafunga data nyeti kwenye kifaa kipya: vyeti, programu, nywila za WiFi, mipangilio ya VPN [na kadhalika](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Kwa hivyo, hii inaweza kuwa njia hatari kwa wadukuzi ikiwa mchakato wa kujiunga haujalindwa kwa usahihi.
+
+**Hapa kuna muhtasari wa utafiti [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Angalia kwa maelezo zaidi ya kiufundi!**
+
+## Muhtasari wa DEP na Uchambuzi wa MDM Binary
+
+Utafiti huu unachunguza faili za binary zinazohusiana na Programu ya Usajili wa Kifaa (DEP) na Usimamizi wa Kifaa cha Simu (MDM) kwenye macOS. Sehemu muhimu ni pamoja na:
+
+- **`mdmclient`**: Inawasiliana na seva za MDM na kuzindua ukaguzi wa DEP kwenye toleo za macOS kabla ya 10.13.4.
+- **`profiles`**: Inasimamia Mipangilio ya Usanidi, na kuzindua ukaguzi wa DEP kwenye toleo za macOS 10.13.4 na baadaye.
+- **`cloudconfigurationd`**: Inasimamia mawasiliano ya API ya DEP na kupata mipangilio ya Usajili wa Kifaa.
+
+Ukaguzi wa DEP hutumia kazi za `CPFetchActivationRecord` na `CPGetActivationRecord` kutoka kwenye mfumo wa Sifa za Usanidi wa faragha ili kupata Kumbukumbu ya Uanzishaji, na `CPFetchActivationRecord` inashirikiana na `cloudconfigurationd` kupitia XPC.
+
+## Urekebishaji wa Itifaki ya Tesla na Mpango wa Absinthe
+
+Ukaguzi wa DEP unahusisha `cloudconfigurationd` kutuma data iliyosainiwa na kusimbwa ya JSON kwa _iprofiles.apple.com/macProfile_. Data hiyo inajumuisha nambari ya siri ya kifaa na hatua "RequestProfileConfiguration". Mfumo wa kusimbwa unaotumiwa unaitwa "Absinthe" ndani ya kampuni. Kufumbua mfumo huu ni ngumu na inahusisha hatua nyingi, ambazo zilisababisha kuchunguza njia mbadala za kuweka nambari za siri za kiholela katika ombi la Kumbukumbu ya Uanzishaji.
+
+## Kupitia Ombi za DEP
+
+Jaribio la kuingilia na kubadilisha ombi za DEP kwa _iprofiles.apple.com_ kwa kutumia zana kama Charles Proxy lilizuiliwa na kusimbwa kwa data na hatua za usalama za SSL/TLS. Walakini, kuwezesha usanidi wa `MCCloudConfigAcceptAnyHTTPSCertificate` kunaruhusu kuepuka uthibitisho wa cheti cha seva, ingawa asili ya kusimbwa kwa data bado inazuia ubadilishaji wa nambari ya siri bila ufunguo wa kusimbua.
+
+## Kuwezesha Zana za Mfumo Zinazoshirikiana na DEP
+
+Kuwezesha zana za mfumo kama vile `cloudconfigurationd` kunahitaji kuzima Ulinzi wa Uadilifu wa Mfumo (SIP) kwenye macOS. Kwa SIP iliyozimwa, zana kama LLDB zinaweza kutumika kujiunga na michakato ya mfumo na kubadilisha nambari ya siri inayotumiwa katika mwingiliano wa API ya DEP. Njia hii ni bora kwani inapuuza ugumu wa ruhusu na uthibitisho wa nambari.
+
+**Kudukua Kwa Kurekebisha Zana za Mfumo:**
+Kubadilisha data ya ombi la DEP kabla ya kujumlishwa kwa JSON katika `cloudconfigurationd` kulikuwa na ufanisi. Mchakato ulihusisha:
+
+1. Kujiunga na LLDB kwenye `cloudconfigurationd`.
+2. Kupata sehemu ambapo nambari ya siri ya mfumo inapatikana.
+3. Kuingiza nambari ya siri ya kiholela kwenye kumbukumbu kabla ya data kusimbwa na kutumwa.
+
+Njia hii iliruhusu kupata maelezo kamili ya DEP kwa nambari za siri za kiholela, ikionyesha udhaifu unaowezekana.
+
+### Kuwezesha Kurekebisha na Python
+
+Mchakato wa kudukua uliautomatishwa kwa kutumia Python na API ya LLDB, ikifanya iwezekane kuingiza nambari za siri za kiholela kwa njia ya programu na kupata maelezo kamili ya DEP yanayohusiana.
+
+### Athari Zinazowezekana za Udhaifu wa DEP na MDM
+
+Utafiti ulionyesha wasiwasi mkubwa wa usalama:
+
+1. **Kufichua Taarifa**: Kwa kutoa nambari ya siri iliyosajiliwa na DEP, taarifa nyeti za shirika zilizomo kwenye kumbukumbu ya DEP zinaweza kupatikana.
+2. **Usajili Haramu wa DEP**: Bila uwakilishi sahihi, mshambuliaji mwenye nambari ya siri iliyosajiliwa na DEP anaweza kujiunga na kifaa cha haramu kwenye seva ya MDM ya shirika, na hivyo kupata ufikiaji wa data nyeti na rasilimali za mtandao.
+
+Kwa hitimisho, ingawa DEP na MDM hutoa zana zenye nguvu za kusimamia vifaa vya Apple katika mazingira ya biashara, pia zinaleta njia za mashambulizi ambazo zinahitaji kusimamiwa na kufuatiliwa.

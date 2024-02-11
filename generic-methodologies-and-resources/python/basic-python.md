@@ -1,37 +1,37 @@
-# Basic Python
+# Msingi wa Python
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Python Basics
+## Misingi ya Python
 
-### Useful information
+### Taarifa muhimu
 
-list(xrange()) == range() --> In python3 range is the xrange of python2 (it is not a list but a generator)\
-The difference between a Tuple and a List is that the position of a value in a tuple gives it meaning but the lists are just ordered values. Tuples have structures but lists have an order.
+list(xrange()) == range() --> Katika python3, range ni kama xrange ya python2 (siyo orodha bali ni jenereta)\
+Tofauti kati ya Tuple na Orodha ni kwamba nafasi ya thamani katika tuple inampa maana lakini orodha ni thamani zilizopangwa tu. Tuples zina muundo lakini orodha zina utaratibu.
 
-### Main operations
+### Operesheni kuu
 
-To raise a number you use: 3\*\*2 (not 3^2)\
-If you do 2/3 it returns 1 because you are dividing two ints (integers). If you want decimals you should divide floats (2.0/3.0).\
+Kuongeza namba unatumia: 3\*\*2 (siyo 3^2)\
+Ikiwa unafanya 2/3 inarudisha 1 kwa sababu unagawanya nambari mbili (integers). Ikiwa unataka namba za kdecimals unapaswa kugawa floats (2.0/3.0).\
 i >= j\
 i <= j\
 i == j\
 i != j\
-a and b\
-a or b\
-not a\
+a na b\
+a au b\
+siyo a\
 float(a)\
 int(a)\
 str(d)\
@@ -46,53 +46,51 @@ isinstance(1, int) = True\
 "abcdef".contains("abc") = True\
 "abc\n".strip() = "abc"\
 "apbc".replace("p","") = "abc"\
-dir(str) = List of all the available methods\
-help(str) = Definition of the class str\
+dir(str) = Orodha ya njia zote zilizopo\
+help(str) = Maelezo ya darasa la str\
 "a".upper() = "A"\
 "A".lower() = "a"\
 "abc".capitalize() = "Abc"\
 sum(\[1,2,3]) = 6\
 sorted(\[1,43,5,3,21,4])
 
-**Join chars**\
+**Kuunganisha herufi**\
 3 \* ’a’ = ‘aaa’\
 ‘a’ + ‘b’ = ‘ab’\
 ‘a’ + str(3) = ‘a3’\
 \[1,2,3]+\[4,5]=\[1,2,3,4,5]
 
-**Parts of a list**\
+**Sehemu za orodha**\
 ‘abc’\[0] = ‘a’\
 'abc’\[-1] = ‘c’\
-'abc’\[1:3] = ‘bc’ from \[1] to \[2]\
+'abc’\[1:3] = ‘bc’ kutoka \[1] hadi \[2]\
 "qwertyuiop"\[:-1] = 'qwertyuio'
 
-**Comments**\
-\# One line comment\
+**Maoni**\
+\# Maoni ya mstari mmoja\
 """\
-Several lines comment\
-Another one\
+Maoni ya mistari kadhaa\
+Mwingine\
 """
 
-**Loops**
-
+**Mizunguko**
 ```
 if a:
-    #somethig
+#somethig
 elif b:
-    #something
+#something
 else:
-    #something
+#something
 
 while(a):
-    #comething
+#comething
 
 for i in range(0,100):
-    #something from 0 to 99
+#something from 0 to 99
 
 for letter in "hola":
-    #something with a letter in "hola"
+#something with a letter in "hola"
 ```
-
 ### Tuples
 
 t1 = (1,'2,'three')\
@@ -104,7 +102,7 @@ d += (4,) --> Adding into a tuple\
 CANT! --> t1\[1] == 'New value'\
 list(t2) = \[5,6] --> From tuple to list
 
-### List (array)
+### Orodha (array)
 
 d = \[] empty\
 a = \[1,2,3]\
@@ -149,193 +147,177 @@ myset.symmetric\_difference\_update(myset2) #myset = Elements that are not in bo
 ### Classes
 
 The method in \_\_It\_\_ will be the one used by sort to compare if an object of this class is bigger than other
-
 ```python
 class Person(name):
-	def __init__(self,name):
-		self.name= name
-		self.lastName = name.split(‘ ‘)[-1]
-		self.birthday = None
- 	def __It__(self, other):
-		if self.lastName == other.lastName:
-			return self.name < other.name
-		return self.lastName < other.lastName #Return True if the lastname is smaller
+def __init__(self,name):
+self.name= name
+self.lastName = name.split(‘ ‘)[-1]
+self.birthday = None
+def __It__(self, other):
+if self.lastName == other.lastName:
+return self.name < other.name
+return self.lastName < other.lastName #Return True if the lastname is smaller
 
-	def setBirthday(self, month, day. year):
-		self.birthday = date tame.date(year,month,day)
-	def getAge(self):
-		return (date time.date.today() - self.birthday).days
+def setBirthday(self, month, day. year):
+self.birthday = date tame.date(year,month,day)
+def getAge(self):
+return (date time.date.today() - self.birthday).days
 
 
 class MITPerson(Person):
-	nextIdNum = 0	# Attribute of the Class
-	def __init__(self, name):
-		Person.__init__(self,name)
-		self.idNum = MITPerson.nextIdNum  —> Accedemos al atributo de la clase
-		MITPerson.nextIdNum += 1 #Attribute of the class +1
+nextIdNum = 0	# Attribute of the Class
+def __init__(self, name):
+Person.__init__(self,name)
+self.idNum = MITPerson.nextIdNum  —> Accedemos al atributo de la clase
+MITPerson.nextIdNum += 1 #Attribute of the class +1
 
-	def __it__(self, other):
-		return self.idNum < other.idNum
+def __it__(self, other):
+return self.idNum < other.idNum
 ```
+### map, zip, filter, lambda, sorted na mistari ya kifupi
 
-### map, zip, filter, lambda, sorted and one-liners
-
-**Map** is like: \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
+**Map** ni kama: \[f(x) kwa x katika iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
 m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, True, False, False, True, False, False, True]
 
-**zip** stops when the shorter of foo or bar stops:
-
+**zip** inakoma wakati wa kumalizika kwa mafupi kati ya foo au bar:
 ```
 for f, b in zip(foo, bar):
-    print(f, b)
+print(f, b)
 ```
-
-**Lambda** is used to define a function\
-(lambda x,y: x+y)(5,3) = 8 --> Use lambda as simple **function**\
-**sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> Use lambda to sort a list\
-m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> Use lambda to filter\
+**Lambda** hutumiwa kuamua kazi\
+(lambda x,y: x+y)(5,3) = 8 --> Tumia lambda kama **kazi** rahisi\
+**sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> Tumia lambda kuorodhesha orodha\
+m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> Tumia lambda kuchuja\
 **reduce** (lambda x,y: x\*y, \[1,2,3,4]) = 24
-
 ```
 def make_adder(n):
-	return lambda x: x+n
+return lambda x: x+n
 plus3 = make_adder(3)
 plus3(4) = 7 # 3 + 4 = 7
 
 class Car:
-	crash = lambda self: print('Boom!')
+crash = lambda self: print('Boom!')
 my_car = Car(); my_car.crash() = 'Boom!'
 ```
+mult1 = \[x kwa ajili ya x katika \[1, 2, 3, 4, 5, 6, 7, 8, 9] kama x%3 == 0 ]
 
-mult1 = \[x for x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
-
-### Exceptions
-
+### Makosa ya Kutokea
 ```
-def divide(x,y):	
-	try:
-		result = x/y
-	except ZeroDivisionError, e:
-		print “division by zero!” + str(e)
-	except TypeError:
-		divide(int(x),int(y))
-	else:
-		print “result i”, result
-	finally
-		print “executing finally clause in any case”
+def divide(x,y):
+try:
+result = x/y
+except ZeroDivisionError, e:
+print “division by zero!” + str(e)
+except TypeError:
+divide(int(x),int(y))
+else:
+print “result i”, result
+finally
+print “executing finally clause in any case”
 ```
-
 ### Assert()
 
-If the condition is false the string will be printed in the screen
-
+Ikiwa hali ni ya uwongo, kamba itachapishwa kwenye skrini
 ```
 def avg(grades, weights):
-	assert not len(grades) == 0, 'no grades data'
-	assert len(grades) == 'wrong number grades'
+assert not len(grades) == 0, 'no grades data'
+assert len(grades) == 'wrong number grades'
 ```
+### Wazalishaji, toa
 
-### Generators, yield
-
-A generator, instead of returning something, it "yields" something. When you access it, it will "return" the first value generated, then, you can access it again and it will return the next value generated. So, all the values are not generated at the same time and a lot of memory could be saved using this instead of a list with all the values.
-
+Mbadala ya kurudisha kitu, wazalishaji "hutoa" kitu. Unapofikia wazalishaji, itarudisha thamani ya kwanza iliyozalishwa, kisha unaweza kuifikia tena na itarudisha thamani inayofuata iliyozalishwa. Kwa hivyo, thamani zote hazizalishwi wakati mmoja na kwa kutumia hii badala ya orodha na thamani zote, unaweza kuokoa kumbukumbu nyingi.
 ```
 def myGen(n):
-	yield n
-	yield n + 1
+yield n
+yield n + 1
 ```
-
 g = myGen(6) --> 6\
 next(g) --> 7\
 next(g) --> Error
 
-### Regular Expresions
+### Mbinu za Kawaida
 
 import re\
 re.search("\w","hola").group() = "h"\
 re.findall("\w","hola") = \['h', 'o', 'l', 'a']\
 re.findall("\w+(la)","hola caracola") = \['la', 'la']
 
-**Special meanings:**\
-. --> Everything\
+**Maana Maalum:**\
+. --> Kila kitu\
 \w --> \[a-zA-Z0-9\_]\
-\d --> Number\
-\s --> WhiteSpace char\[ \n\r\t\f]\
-\S --> Non-whitespace char\
-^ --> Starts with\
-$ --> Ends with\
-\+ --> One or more\
-\* --> 0 or more\
-? --> 0 or 1 occurrences
+\d --> Nambari\
+\s --> Nafasi nyeupe \[ \n\r\t\f]\
+\S --> Herufi zisizo nafasi nyeupe\
+^ --> Anza na\
+$ --> Ishi na\
+\+ --> Moja au zaidi\
+\* --> 0 au zaidi\
+? --> 0 au 1 mara
 
-**Options:**\
+**Chaguo:**\
 re.search(pat,str,re.IGNORECASE)\
 IGNORECASE\
-DOTALL --> Allow dot to match newline\
-MULTILINE --> Allow ^ and $ to match in different lines
+DOTALL --> Ruhusu alama ya kipindi kuendana na mstari mpya\
+MULTILINE --> Ruhusu ^ na $ kuendana katika mistari tofauti
 
 re.findall("<.\*>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>foo\</b>and\<i>so on\</i>']\
 re.findall("<.\*?>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>', '\</b>', '\<i>', '\</i>']
 
 IterTools\
 **product**\
-from **itertools** import product --> Generates combinations between 1 or more lists, perhaps repeating values, cartesian product (distributive property)\
+from **itertools** import product --> Inazalisha mchanganyiko kati ya orodha 1 au zaidi, labda kurudia thamani, mchanganyiko wa Cartesian (mali ya kugawa)\
 print list(**product**(\[1,2,3],\[3,4])) = \[(1, 3), (1, 4), (2, 3), (2, 4), (3, 3), (3, 4)]\
 print list(**product**(\[1,2,3],repeat = 2)) = \[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
 
 **permutations**\
-from **itertools** import **permutations** --> Generates combinations of all characters in every position\
-print list(permutations(\['1','2','3'])) = \[('1', '2', '3'), ('1', '3', '2'), ('2', '1', '3'),... Every posible combination\
-print(list(permutations('123',2))) = \[('1', '2'), ('1', '3'), ('2', '1'), ('2', '3'), ('3', '1'), ('3', '2')] Every possible combination of length 2
+from **itertools** import **permutations** --> Inazalisha mchanganyiko wa wahusika wote katika kila nafasi\
+print list(permutations(\['1','2','3'])) = \[('1', '2', '3'), ('1', '3', '2'), ('2', '1', '3'),... Kila mchanganyiko unaowezekana\
+print(list(permutations('123',2))) = \[('1', '2'), ('1', '3'), ('2', '1'), ('2', '3'), ('3', '1'), ('3', '2')] Kila mchanganyiko unaowezekana wa urefu wa 2
 
 **combinations**\
-from itertools import **combinations** --> Generates all possible combinations without repeating characters (if "ab" existing, doesn't generate "ba")\
+from itertools import **combinations** --> Inazalisha mchanganyiko wote unaowezekana bila kurudia wahusika (ikiwa "ab" ipo, haizalishi "ba")\
 print(list(**combinations**('123',2))) --> \[('1', '2'), ('1', '3'), ('2', '3')]
 
 **combinations\_with\_replacement**\
-from itertools import **combinations\_with\_replacement** --> Generates all possible combinations from the char onwards(for example, the 3rd is mixed from the 3rd onwards but not with the 2nd o first)\
+from itertools import **combinations\_with\_replacement** --> Inazalisha mchanganyiko wote unaowezekana kutoka kwa wahusika kuanzia hapo baadaye (kwa mfano, ya 3 imechanganywa kutoka ya 3 lakini sio na ya 2 au ya 1)\
 print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3')]
 
-### Decorators
+### Wapambaaji
 
-Decorator that size the time that a function needs to be executed (from [here](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
-
+Wapambaaji ambao hupima wakati ambao kazi inahitaji kutekelezwa (kutoka [hapa](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
 ```python
 from functools import wraps
 import time
 def timeme(func):
-  @wraps(func)
-  def wrapper(*args, **kwargs):
-    print("Let's call our decorated function")
-    start = time.time()
-    result = func(*args, **kwargs)
-    print('Execution time: {} seconds'.format(time.time() - start))
-    return result
-  return wrapper
+@wraps(func)
+def wrapper(*args, **kwargs):
+print("Let's call our decorated function")
+start = time.time()
+result = func(*args, **kwargs)
+print('Execution time: {} seconds'.format(time.time() - start))
+return result
+return wrapper
 
 @timeme
 def decorated_func():
-  print("Decorated func!")
+print("Decorated func!")
 ```
-
-If you run it, you will see something like the following:
-
+Ikiendeshwa, utaona kitu kama hiki:
 ```
 Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

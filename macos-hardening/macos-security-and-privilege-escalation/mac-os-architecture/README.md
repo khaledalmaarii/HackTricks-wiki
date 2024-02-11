@@ -1,57 +1,57 @@
-# macOS Kernel & System Extensions
+# Kernel na Vipengele vya Mfumo wa macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## XNU Kernel
+## Kernel ya XNU
 
-The **core of macOS is XNU**, which stands for "X is Not Unix". This kernel is fundamentally composed of the **Mach microkerne**l (to be discussed later), **and** elements from Berkeley Software Distribution (**BSD**). XNU also provides a platform for **kernel drivers via a system called the I/O Kit**. The XNU kernel is part of the Darwin open source project, which means **its source code is freely accessible**.
+**Kiini kikuu cha macOS ni XNU**, ambayo inasimama kwa "X is Not Unix". Kiini hiki kinaundwa msingi wa **Mach microkernel** (utajadiliwa baadaye), **na** vipengele kutoka kwa **Berkeley Software Distribution (BSD)**. XNU pia hutoa jukwaa kwa **madereva ya kiini kupitia mfumo unaoitwa I/O Kit**. Kiini cha XNU ni sehemu ya mradi wa chanzo wazi wa Darwin, ambayo inamaanisha **msimbo wake wa chanzo unapatikana bure**.
 
-From a perspective of a security researcher or a Unix developer, **macOS** can feel quite **similar** to a **FreeBSD** system with an elegant GUI and a host of custom applications. Most applications developed for BSD will compile and run on macOS without needing modifications, as the command-line tools familiar to Unix users are all present in macOS. However, because the XNU kernel incorporates Mach, there are some significant differences between a traditional Unix-like system and macOS, and these differences might cause potential issues or provide unique advantages.
+Kwa mtazamo wa mtafiti wa usalama au mtengenezaji wa Unix, **macOS** inaweza kuonekana kama **mfumo wa FreeBSD** na GUI nzuri na programu nyingi za desturi. Programu nyingi zilizoendelezwa kwa BSD zitakusanywa na kukimbia kwenye macOS bila kuhitaji marekebisho, kwani zana za mstari wa amri zinazojulikana kwa watumiaji wa Unix zote zinapatikana kwenye macOS. Walakini, kwa sababu kiini cha XNU kinajumuisha Mach, kuna tofauti kubwa kati ya mfumo wa kawaida kama wa Unix na macOS, na tofauti hizi zinaweza kusababisha masuala yanayowezekana au kutoa faida za kipekee.
 
-Open source version of XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
+Toleo la chanzo wazi la XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
 
 ### Mach
 
-Mach is a **microkernel** designed to be **UNIX-compatible**. One of its key design principles was to **minimize** the amount of **code** running in the **kernel** space and instead allow many typical kernel functions, such as file system, networking, and I/O, to **run as user-level tasks**.
+Mach ni **microkernel** iliyoundwa kuwa **sambamba na UNIX**. Moja ya kanuni muhimu za kubuni ilikuwa **kupunguza** idadi ya **msimbo** unaofanya kazi katika nafasi ya **kiini** na badala yake kuruhusu kazi nyingi za kiini za kawaida, kama mfumo wa faili, mtandao, na I/O, kuendesha kama kazi za kiwango cha mtumiaji.
 
-In XNU, Mach is **responsible for many of the critical low-level operations** a kernel typically handles, such as processor scheduling, multitasking, and virtual memory management.
+Katika XNU, Mach ni **jukumu la shughuli nyingi muhimu za kiwango cha chini** ambazo kiini kawaida hushughulikia, kama ratiba ya processor, multitasking, na usimamizi wa kumbukumbu ya kawaida.
 
 ### BSD
 
-The XNU **kernel** also **incorporates** a significant amount of code derived from the **FreeBSD** project. This code **runs as part of the kernel along with Mach**, in the same address space. However, the FreeBSD code within XNU may differ substantially from the original FreeBSD code because modifications were required to ensure its compatibility with Mach. FreeBSD contributes to many kernel operations including:
+**Kiini** cha XNU pia **kinajumuisha** kiasi kikubwa cha msimbo uliopatikana kutoka kwa mradi wa **FreeBSD**. Msimbo huu **unaendesha kama sehemu ya kiini pamoja na Mach**, kwenye nafasi ile ile ya anwani. Walakini, msimbo wa FreeBSD ndani ya XNU unaweza kutofautiana sana na msimbo wa asili wa FreeBSD kwa sababu marekebisho yalihitajika ili kuhakikisha utangamano wake na Mach. FreeBSD inachangia katika shughuli nyingi za kiini ikiwa ni pamoja na:
 
-* Process management
-* Signal handling
-* Basic security mechanisms, including user and group management
-* System call infrastructure
-* TCP/IP stack and sockets
-* Firewall and packet filtering
+* Usimamizi wa mchakato
+* Kusindika ishara
+* Mfumo wa msingi wa usalama, ikiwa ni pamoja na usimamizi wa mtumiaji na kikundi
+* Miundombinu ya wito wa mfumo
+* Stack ya TCP/IP na soketi
+* Firewall na uchujaji wa pakiti
 
-Understanding the interaction between BSD and Mach can be complex, due to their different conceptual frameworks. For instance, BSD uses processes as its fundamental executing unit, while Mach operates based on threads. This discrepancy is reconciled in XNU by **associating each BSD process with a Mach task** that contains exactly one Mach thread. When BSD's fork() system call is used, the BSD code within the kernel uses Mach functions to create a task and a thread structure.
+Kuelewa mwingiliano kati ya BSD na Mach kunaweza kuwa ngumu, kutokana na mfumo wao tofauti wa kufikiria. Kwa mfano, BSD hutumia michakato kama kitengo chake cha msingi cha utekelezaji, wakati Mach inafanya kazi kulingana na nyuzi. Tofauti hii inatatuliwa katika XNU kwa **kuhusisha kila mchakato wa BSD na kazi ya Mach** ambayo ina nyuzi moja tu ya Mach. Wakati wito wa mfumo wa fork() wa BSD unapotumiwa, msimbo wa BSD ndani ya kiini hutumia kazi za Mach kuunda kazi na muundo wa nyuzi.
 
-Moreover, **Mach and BSD each maintain different security models**: **Mach's** security model is based on **port rights**, whereas BSD's security model operates based on **process ownership**. Disparities between these two models have occasionally resulted in local privilege-escalation vulnerabilities. Apart from typical system calls, there are also **Mach traps that allow user-space programs to interact with the kernel**. These different elements together form the multifaceted, hybrid architecture of the macOS kernel.
+Zaidi ya hayo, **Mach na BSD kila mmoja una mifano tofauti ya usalama**: mfano wa usalama wa Mach unategemea **haki za bandari**, wakati mfano wa usalama wa BSD unafanya kazi kulingana na **umiliki wa mchakato**. Tofauti kati ya mifano hii mbili mara kwa mara imepelekea udhaifu wa kuongeza haki za ndani. Mbali na wito wa mfumo wa kawaida, pia kuna **mtego wa Mach ambao huruhusu programu za nafasi ya mtumiaji kuingiliana na kiini**. Vipengele tofauti hivi pamoja hujenga usanifu wa kipekee na wenye tabaka nyingi wa kiini cha macOS.
 
-### I/O Kit - Drivers
+### I/O Kit - Madereva
 
-The I/O Kit is an open-source, object-oriented **device-driver framework** in the XNU kernel, handles **dynamically loaded device drivers**. It allows modular code to be added to the kernel on-the-fly, supporting diverse hardware.
+I/O Kit ni mfumo wa **madereva ya kifaa ulio na msimbo wa chanzo wazi** ndani ya kiini cha XNU, unashughulikia **madereva ya kifaa yanayopakia kwa kudumu**. Inaruhusu msimbo wa moduli kuongezwa kwenye kiini wakati wa kutekelezwa, ikisaidia vifaa mbalimbali.
 
 {% content-ref url="macos-iokit.md" %}
 [macos-iokit.md](macos-iokit.md)
 {% endcontent-ref %}
 
-### IPC - Inter Process Communication
+### IPC - Mawasiliano kati ya Mchakato
 
 {% content-ref url="macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
@@ -59,29 +59,28 @@ The I/O Kit is an open-source, object-oriented **device-driver framework** in th
 
 ### Kernelcache
 
-The **kernelcache** is a **pre-compiled and pre-linked version of the XNU kernel**, along with essential device **drivers** and **kernel extensions**. It's stored in a **compressed** format and gets decompressed into memory during the boot-up process. The kernelcache facilitates a **faster boot time** by having a ready-to-run version of the kernel and crucial drivers available, reducing the time and resources that would otherwise be spent on dynamically loading and linking these components at boot time.
+Kernelcache ni **toleo lililopangwa mapema na limeunganishwa la kiini cha XNU**, pamoja na **madereva muhimu ya kifaa** na **nyongeza za kiini**. Inahifadhiwa katika muundo **ulioshikamana** na hupata kufutwa kwenye kumbukumbu wakati wa mchakato wa kuanza. Kernelcache inawezesha **kuanza haraka** kwa kuwa na toleo tayari la kiini na madereva muhimu, kupunguza wakati na rasilimali ambazo zingetumiwa kwa kubeba na kuunganisha sehemu hizi wakati wa kuanza.
 
-In iOS it's located in **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** in macOS you can find it with **`find / -name kernelcache 2>/dev/null`**
+Katika iOS, iko katika **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** na kwenye macOS unaweza kuipata kwa kutumia **`find / -name kernelcache 2>/dev/null`**
 
 #### IMG4
 
-The IMG4 file format is a container format used by Apple in its iOS and macOS devices for securely **storing and verifying firmware** components (like **kernelcache**). The IMG4 format includes a header and several tags which encapsulate different pieces of data including the actual payload (like a kernel or bootloader), a signature, and a set of manifest properties. The format supports cryptographic verification, allowing the device to confirm the authenticity and integrity of the firmware component before executing it.
+Muundo wa faili wa IMG4 ni muundo wa chombo kinachotumiwa na Apple kwenye vifaa vyake vya iOS na macOS kwa **kuhifadhi na kuthibitisha kwa usalama** sehemu za firmware (kama vile **kernelcache**). Muundo wa IMG4 unajumuisha kichwa na vitambulisho kadhaa ambavyo hufunga vipande tofauti vya data ikiwa ni pamoja na mzigo halisi (kama kiini au bootloader), saini, na seti ya mali ya manifesto. Muundo huu unathibitisha kwa njia ya kryptografia, kuruhusu kifaa kuthibitisha uhalali na usahihi wa sehemu ya firmware kabla ya kuitekeleza.
 
-It's usually composed of the following components:
+Kawaida inajumuisha sehemu zifuatazo:
 
-* **Payload (IM4P)**:
-  * Often compressed (LZFSE4, LZSS, …)
-  * Optionally encrypted
-* **Manifest (IM4M)**:
-  * Contains Signature
-  * Additional Key/Value dictionary
-* **Restore Info (IM4R)**:
-  * Also known as APNonce
-  * Prevents replaying of some updates
-  * OPTIONAL: Usually this isn't found
+* **Mzigo (IM4P)**:
+* Mara nyingi imepakwa (LZFSE4, LZSS, ...)
+* Kwa hiari imefichwa
+* **Manifesto (IM4M)**:
+* Ina Saini
+* Kamusi ya ziada ya Funguo/Thamani
+* **Maelezo ya Kurejesha (IM4R)**:
+* Inajulikana pia kama APNonce
+* Inazuia kurudia baadhi ya sasisho
+* HIARI: Kawaida hii haipatikani
 
-Decompress the Kernelcache:
-
+Fungua Kernelcache iliyofutwa:
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -89,17 +88,16 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+#### Alama za Kernelcache
 
-#### Kernelcache Symbols
-
-Sometime Apple releases **kernelcache** with **symbols**. You can download some firmwares with symbols by following links on [https://theapplewiki.com](https://theapplewiki.com/).
+Wakati mwingine Apple inatoa **kernelcache** na **alama**. Unaweza kupakua baadhi ya firmware na alama kwa kufuata viungo kwenye [https://theapplewiki.com](https://theapplewiki.com/).
 
 ### IPSW
 
-These are Apple **firmwares** you can download from [**https://ipsw.me/**](https://ipsw.me/). Among other files it will contains the **kernelcache**.\
-To **extract** the files you can just **unzip** it.
+Hizi ni **firmwares** za Apple unazoweza kupakua kutoka [**https://ipsw.me/**](https://ipsw.me/). Kati ya faili zingine, italeta **kernelcache**.\
+Kuweza **kuchambua** faili hizo, unaweza tu kuzifungua.
 
-After extracting the firmware you will get a file like: **`kernelcache.release.iphone14`**. It's in **IMG4** format, you can extract the interesting info with:
+Baada ya kuchambua firmware, utapata faili kama: **`kernelcache.release.iphone14`**. Iko katika muundo wa **IMG4**, unaweza kuchambua habari muhimu kwa kutumia:
 
 * [**pyimg4**](https://github.com/m1stadev/PyIMG4)
 
@@ -110,15 +108,12 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
-
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+Unaweza kuangalia alama zilizochimbwa za kernelcache kwa kutumia: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
-You can check the extracted kernelcache for symbols with:  **`nm -a kernelcache.release.iphone14.e | wc -l`**
-
-With this we can now **extract all the extensions** or the **one you are insterested in:**
-
+Kwa hili sasa tunaweza **kuchimba nyongeza zote** au **ile unayopendezwa nayo:**
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -131,38 +126,37 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+## Vifurushi vya Kernel vya macOS
 
-## macOS Kernel Extensions
-
-macOS is **super restrictive to load Kernel Extensions** (.kext) because of the high privileges that code will run with. Actually, by default is virtually impossible (unless a bypass is found).
+macOS ni **mdhibiti mkali wa kupakia Vifurushi vya Kernel** (.kext) kwa sababu ya mamlaka kubwa ambayo nambari hiyo itaendeshwa nayo. Kwa kweli, kwa chaguo-msingi ni vigumu sana (isipokuwa kama kuna njia ya kuzunguka).
 
 {% content-ref url="macos-kernel-extensions.md" %}
 [macos-kernel-extensions.md](macos-kernel-extensions.md)
 {% endcontent-ref %}
 
-### macOS System Extensions
+### Vifurushi vya Mfumo vya macOS
 
-Instead of using Kernel Extensions macOS created the System Extensions, which offers in user level APIs to interact with the kernel. This way, developers can avoid to use kernel extensions.
+Badala ya kutumia Vifurushi vya Kernel, macOS iliunda Vifurushi vya Mfumo, ambavyo hutoa API za kiwango cha mtumiaji kuingiliana na kernel. Kwa njia hii, waendelezaji wanaweza kuepuka kutumia vifurushi vya kernel.
 
 {% content-ref url="macos-system-extensions.md" %}
 [macos-system-extensions.md](macos-system-extensions.md)
 {% endcontent-ref %}
 
-## References
+## Marejeo
 
 * [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
