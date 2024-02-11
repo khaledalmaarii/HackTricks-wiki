@@ -1,59 +1,58 @@
-# Certificates
+# Certyfikaty
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** przy użyciu najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
+Otrzymaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## What is a Certificate
+## Czym jest certyfikat
 
-A **public key certificate** is a digital ID used in cryptography to prove someone owns a public key. It includes the key's details, the owner's identity (the subject), and a digital signature from a trusted authority (the issuer). If the software trusts the issuer and the signature is valid, secure communication with the key's owner is possible.
+**Certyfikat klucza publicznego** to cyfrowe ID używane w kryptografii do udowodnienia, że ktoś jest właścicielem klucza publicznego. Zawiera szczegóły klucza, tożsamość właściciela (podmiotu) oraz cyfrowy podpis od zaufanego organu (wydawcy). Jeśli oprogramowanie ufa wydawcy i podpis jest prawidłowy, możliwa jest bezpieczna komunikacja z właścicielem klucza.
 
-Certificates are mostly issued by [certificate authorities](https://en.wikipedia.org/wiki/Certificate_authority) (CAs) in a [public-key infrastructure](https://en.wikipedia.org/wiki/Public-key_infrastructure) (PKI) setup. Another method is the [web of trust](https://en.wikipedia.org/wiki/Web_of_trust), where users directly verify each other’s keys. The common format for certificates is [X.509](https://en.wikipedia.org/wiki/X.509), which can be adapted for specific needs as outlined in RFC 5280.
+Certyfikaty są głównie wydawane przez [organizacje certyfikujące](https://en.wikipedia.org/wiki/Certificate_authority) (CA) w ramach [infrastruktury klucza publicznego](https://en.wikipedia.org/wiki/Public-key_infrastructure) (PKI). Inną metodą jest [sieć zaufania](https://en.wikipedia.org/wiki/Web_of_trust), w której użytkownicy bezpośrednio weryfikują klucze innych użytkowników. Powszechnym formatem certyfikatów jest [X.509](https://en.wikipedia.org/wiki/X.509), który można dostosować do konkretnych potrzeb, zgodnie z RFC 5280.
 
-## x509 Common Fields
+## Wspólne pola x509
 
-### **Common Fields in x509 Certificates**
+### **Wspólne pola w certyfikatach x509**
 
-In x509 certificates, several **fields** play critical roles in ensuring the certificate's validity and security. Here's a breakdown of these fields:
+W certyfikatach x509 kilka **pól** odgrywa kluczowe role w zapewnieniu ważności i bezpieczeństwa certyfikatu. Oto podział tych pól:
 
-- **Version Number** signifies the x509 format's version.
-- **Serial Number** uniquely identifies the certificate within a Certificate Authority's (CA) system, mainly for revocation tracking.
-- The **Subject** field represents the certificate's owner, which could be a machine, an individual, or an organization. It includes detailed identification such as:
-  - **Common Name (CN)**: Domains covered by the certificate.
-  - **Country (C)**, **Locality (L)**, **State or Province (ST, S, or P)**, **Organization (O)**, and **Organizational Unit (OU)** provide geographical and organizational details.
-  - **Distinguished Name (DN)** encapsulates the full subject identification.
-- **Issuer** details who verified and signed the certificate, including similar subfields as the Subject for the CA.
-- **Validity Period** is marked by **Not Before** and **Not After** timestamps, ensuring the certificate is not used before or after a certain date.
-- The **Public Key** section, crucial for the certificate's security, specifies the algorithm, size, and other technical details of the public key.
-- **x509v3 extensions** enhance the certificate's functionality, specifying **Key Usage**, **Extended Key Usage**, **Subject Alternative Name**, and other properties to fine-tune the certificate's application.
+- **Numer wersji** oznacza wersję formatu x509.
+- **Numer seryjny** jednoznacznie identyfikuje certyfikat w systemie Organizacji Certyfikującej (CA), głównie w celu śledzenia unieważnienia.
+- Pole **Podmiot** reprezentuje właściciela certyfikatu, który może być maszyną, osobą fizyczną lub organizacją. Zawiera szczegółowe dane identyfikacyjne, takie jak:
+- **Nazwa wspólna (CN)**: Domeny objęte certyfikatem.
+- **Kraj (C)**, **Miejscowość (L)**, **Stan lub prowincja (ST, S lub P)**, **Organizacja (O)** i **Jednostka organizacyjna (OU)** dostarczają informacje geograficzne i organizacyjne.
+- **Nazwa wyróżniająca (DN)** zawiera pełną identyfikację podmiotu.
+- **Wydawca** podaje informacje o osobie, która zweryfikowała i podpisała certyfikat, zawierając podobne podpola jak Podmiot dla CA.
+- **Okres ważności** jest oznaczony znacznikami **Nie wcześniej niż** i **Nie później niż**, zapewniając, że certyfikat nie jest używany przed określoną datą ani po niej.
+- Sekcja **Klucz publiczny**, kluczowa dla bezpieczeństwa certyfikatu, określa algorytm, rozmiar i inne techniczne szczegóły klucza publicznego.
+- **Rozszerzenia x509v3** zwiększają funkcjonalność certyfikatu, określając **Użycie klucza**, **Rozszerzone użycie klucza**, **Alternatywną nazwę podmiotu** i inne właściwości, aby dostosować certyfikat do konkretnego zastosowania.
 
-#### **Key Usage and Extensions**
+#### **Użycie klucza i rozszerzenia**
 
-- **Key Usage** identifies cryptographic applications of the public key, like digital signature or key encipherment.
-- **Extended Key Usage** further narrows down the certificate's use cases, e.g., for TLS server authentication.
-- **Subject Alternative Name** and **Basic Constraint** define additional host names covered by the certificate and whether it's a CA or end-entity certificate, respectively.
-- Identifiers like **Subject Key Identifier** and **Authority Key Identifier** ensure uniqueness and traceability of keys.
-- **Authority Information Access** and **CRL Distribution Points** provide paths to verify the issuing CA and check certificate revocation status.
-- **CT Precertificate SCTs** offer transparency logs, crucial for public trust in the certificate.
-
+- **Użycie klucza** identyfikuje kryptograficzne zastosowania klucza publicznego, takie jak podpis cyfrowy lub szyfrowanie klucza.
+- **Rozszerzone użycie klucza** bardziej precyzuje przypadki użycia certyfikatu, np. do uwierzytelniania serwera TLS.
+- **Alternatywna nazwa podmiotu** i **Podstawowe ograniczenie** definiują dodatkowe nazwy hostów objęte certyfikatem oraz czy jest to certyfikat CA czy jednostki końcowej.
+- Identyfikatory, takie jak **Identyfikator klucza podmiotu** i **Identyfikator klucza wydawcy**, zapewniają unikalność i możliwość śledzenia kluczy.
+- **Dostęp do informacji o wydawcy** i **Punkty dystrybucji listy unieważnień** dostarczają ścieżki do weryfikacji wydającego CA i sprawdzenia stanu unieważnienia certyfikatu.
+- **CT Precertificate SCTs** oferują dzienniki przejrzystości, kluczowe dla publicznego zaufania do certyfikatu.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -61,8 +60,8 @@ from cryptography.hazmat.backends import default_backend
 
 # Load an x509 certificate (assuming cert.pem is a certificate file)
 with open("cert.pem", "rb") as file:
-    cert_data = file.read()
-    certificate = x509.load_pem_x509_certificate(cert_data, default_backend())
+cert_data = file.read()
+certificate = x509.load_pem_x509_certificate(cert_data, default_backend())
 
 # Accessing fields
 serial_number = certificate.serial_number
@@ -75,139 +74,170 @@ print(f"Issuer: {issuer}")
 print(f"Subject: {subject}")
 print(f"Public Key: {public_key}")
 ```
+### **Różnica między OCSP a punktami dystrybucji CRL**
 
-### **Difference between OCSP and CRL Distribution Points**
+**OCSP** (**RFC 2560**) polega na współpracy klienta i respondera w celu sprawdzenia, czy cyfrowy certyfikat klucza publicznego został unieważniony, bez konieczności pobierania pełnego **CRL**. Ta metoda jest bardziej wydajna niż tradycyjny **CRL**, który zawiera listę unieważnionych numerów seryjnych certyfikatów, ale wymaga pobrania potencjalnie dużego pliku. CRL może zawierać do 512 wpisów. Więcej szczegółów można znaleźć [tutaj](https://www.arubanetworks.com/techdocs/ArubaOS%206_3_1_Web_Help/Content/ArubaFrameStyles/CertRevocation/About_OCSP_and_CRL.htm).
 
-**OCSP** (**RFC 2560**) involves a client and a responder working together to check if a digital public-key certificate has been revoked, without needing to download the full **CRL**. This method is more efficient than the traditional **CRL**, which provides a list of revoked certificate serial numbers but requires downloading a potentially large file. CRLs can include up to 512 entries. More details are available [here](https://www.arubanetworks.com/techdocs/ArubaOS%206_3_1_Web_Help/Content/ArubaFrameStyles/CertRevocation/About_OCSP_and_CRL.htm).
+### **Co to jest Transparentność Certyfikatów**
 
-### **What is Certificate Transparency**
+Transparentność Certyfikatów pomaga zwalczać zagrożenia związane z certyfikatami, zapewniając, że wydawanie i istnienie certyfikatów SSL są widoczne dla właścicieli domen, CA i użytkowników. Jej cele to:
 
-Certificate Transparency helps combat certificate-related threats by ensuring the issuance and existence of SSL certificates are visible to domain owners, CAs, and users. Its objectives are:
+* Zapobieganie wydawaniu certyfikatów SSL dla domeny bez wiedzy właściciela domeny.
+* Ustanowienie otwartego systemu audytu do śledzenia błędnie lub złośliwie wydanych certyfikatów.
+* Ochrona użytkowników przed fałszywymi certyfikatami.
 
-* Preventing CAs from issuing SSL certificates for a domain without the domain owner's knowledge.
-* Establishing an open auditing system for tracking mistakenly or maliciously issued certificates.
-* Safeguarding users against fraudulent certificates.
+#### **Rejestry Certyfikatów**
 
-#### **Certificate Logs**
+Rejestry certyfikatów to publicznie audytowalne, tylko do odczytu zapisy certyfikatów, utrzymywane przez usługi sieciowe. Rejestry te dostarczają dowodów kryptograficznych w celach audytowych. Zarówno wydawcy certyfikatów, jak i publiczność mogą przesyłać certyfikaty do tych rejestrów lub zapytać o nie w celu weryfikacji. Chociaż dokładna liczba serwerów rejestrów nie jest ustalona, oczekuje się, że będzie ich mniej niż tysiąc na całym świecie. Serwery te mogą być niezależnie zarządzane przez CA, dostawców usług internetowych lub dowolną zainteresowaną jednostkę.
 
-Certificate logs are publicly auditable, append-only records of certificates, maintained by network services. These logs provide cryptographic proofs for auditing purposes. Both issuance authorities and the public can submit certificates to these logs or query them for verification. While the exact number of log servers is not fixed, it's expected to be less than a thousand globally. These servers can be independently managed by CAs, ISPs, or any interested entity.
+#### **Zapytanie**
 
-#### **Query**
+Aby przeglądać rejestry Transparentności Certyfikatów dla dowolnej domeny, odwiedź [https://crt.sh/](https://crt.sh).
 
-To explore Certificate Transparency logs for any domain, visit [https://crt.sh/](https://crt.sh).
+Istnieją różne formaty przechowywania certyfikatów, z różnymi zastosowaniami i kompatybilnością. Ten podsumowanie obejmuje główne formaty i udziela wskazówek dotyczących konwersji między nimi.
 
-Different formats exist for storing certificates, each with its own use cases and compatibility. This summary covers the main formats and provides guidance on converting between them.
+## **Formaty**
 
-## **Formats**
+### **Format PEM**
+- Najczęściej używany format dla certyfikatów.
+- Wymaga oddzielnych plików dla certyfikatów i kluczy prywatnych, zakodowanych w Base64 ASCII.
+- Powszechnie stosowany przez serwery Apache i podobne.
 
-### **PEM Format**
-- Most widely used format for certificates.
-- Requires separate files for certificates and private keys, encoded in Base64 ASCII.
-- Common extensions: .cer, .crt, .pem, .key.
-- Primarily used by Apache and similar servers.
+### **Format DER**
+- Binarny format certyfikatów.
+- Nie zawiera instrukcji "BEGIN/END CERTIFICATE" znajdujących się w plikach PEM.
+- Powszechne rozszerzenia: .cer, .der.
+- Często używany w platformach Java.
 
-### **DER Format**
-- A binary format of certificates.
-- Lacks the "BEGIN/END CERTIFICATE" statements found in PEM files.
-- Common extensions: .cer, .der.
-- Often used with Java platforms.
+### **Format P7B/PKCS#7**
+- Przechowywany w Base64 ASCII, z rozszerzeniami .p7b lub .p7c.
+- Zawiera tylko certyfikaty i łańcuchy certyfikatów, bez klucza prywatnego.
+- Obsługiwany przez systemy Microsoft Windows i Java Tomcat.
 
-### **P7B/PKCS#7 Format**
-- Stored in Base64 ASCII, with extensions .p7b or .p7c.
-- Contains only certificates and chain certificates, excluding the private key.
-- Supported by Microsoft Windows and Java Tomcat.
+### **Format PFX/P12/PKCS#12**
+- Binarny format, który zawiera certyfikaty serwera, certyfikaty pośrednie i klucze prywatne w jednym pliku.
+- Rozszerzenia: .pfx, .p12.
+- Głównie używany w systemach Windows do importu i eksportu certyfikatów.
 
-### **PFX/P12/PKCS#12 Format**
-- A binary format that encapsulates server certificates, intermediate certificates, and private keys in one file.
-- Extensions: .pfx, .p12.
-- Mainly used on Windows for certificate import and export.
+### **Konwersja formatów**
 
-### **Converting Formats**
+Konwersje **PEM** są niezbędne dla kompatybilności:
 
-**PEM conversions** are essential for compatibility:
-
-- **x509 to PEM**
-
+- **x509 do PEM**
 ```bash
 openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```
+- **PEM na DER**
 
+Aby przekonwertować plik w formacie PEM na format DER, można użyć narzędzia OpenSSL. Poniżej znajduje się polecenie, które można użyć do wykonania tej konwersji:
 
-- **PEM to DER**
+```plaintext
+openssl x509 -outform der -in certificate.pem -out certificate.der
+```
+
+Gdzie `certificate.pem` to nazwa pliku w formacie PEM, który chcesz przekonwertować, a `certificate.der` to nazwa pliku wynikowego w formacie DER. Po wykonaniu tego polecenia, plik w formacie PEM zostanie przekonwertowany na format DER.
 ```bash
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
-
-
 - **DER to PEM**
+
+- **DER na PEM**
 ```bash
 openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
+- **PEM na P7B**
 
-- **PEM to P7B**
+Aby przekonwertować plik w formacie PEM na format P7B, można użyć narzędzia OpenSSL. Poniżej znajduje się polecenie, które można użyć do wykonania tej konwersji:
+
+```plaintext
+openssl crl2pkcs7 -nocrl -certfile certificate.pem -out certificate.p7b
+```
+
+Gdzie `certificate.pem` to ścieżka do pliku w formacie PEM, który chcesz przekonwertować, a `certificate.p7b` to nazwa pliku wynikowego w formacie P7B. Po wykonaniu tego polecenia, plik w formacie P7B zostanie utworzony i będzie zawierał certyfikat z pliku PEM.
 ```bash
 openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b -certfile CACert.cer
 ```
+- **PKCS7 do PEM**
 
+Aby przekonwertować plik w formacie PKCS7 na format PEM, można użyć następującego polecenia OpenSSL:
 
-- **PKCS7 to PEM**
+```plaintext
+openssl pkcs7 -print_certs -in input.p7b -out output.pem
+```
+
+Gdzie `input.p7b` to plik w formacie PKCS7, a `output.pem` to docelowy plik w formacie PEM, do którego zostaną zapisane certyfikaty.
+
+Ten proces konwersji umożliwia łatwiejsze zarządzanie certyfikatami w formacie PEM, który jest bardziej powszechnie stosowany.
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
+**Konwersje PFX** są kluczowe dla zarządzania certyfikatami w systemie Windows:
 
-
-**PFX conversions** are crucial for managing certificates on Windows:
-
-- **PFX to PEM**
+- **PFX na PEM**
 ```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
-
-
-- **PFX to PKCS#8** involves two steps:
-  1. Convert PFX to PEM
-
+- **PFX na PKCS#8** wymaga dwóch kroków:
+1. Konwertuj PFX na PEM
 ```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
+2. Konwersja PEM do PKCS8
 
-  2. Convert PEM to PKCS8
+Aby przekonwertować plik w formacie PEM na format PKCS8, można użyć narzędzia OpenSSL. Poniżej przedstawiono polecenie, które można wykorzystać do wykonania tej konwersji:
+
+```plaintext
+openssl pkcs8 -topk8 -inform PEM -outform PEM -in private_key.pem -out private_key_pkcs8.pem
+```
+
+W powyższym poleceniu należy zamienić `private_key.pem` na nazwę pliku zawierającego klucz prywatny w formacie PEM, który chcemy przekonwertować. Po wykonaniu tego polecenia, zostanie utworzony plik `private_key_pkcs8.pem`, który będzie zawierał klucz prywatny w formacie PKCS8.
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
-
-
-- **P7B to PFX** also requires two commands:
-  1. Convert P7B to CER
+- **P7B na PFX** wymaga również dwóch poleceń:
+1. Konwertuj P7B na CER
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
 ```
+2. Konwersja pliku CER i klucza prywatnego do formatu PFX
 
-  2. Convert CER and Private Key to PFX
+Aby przekonwertować plik CER i klucz prywatny do formatu PFX, możemy użyć narzędzia OpenSSL. Oto jak to zrobić:
+
+1. Upewnij się, że masz zainstalowane narzędzie OpenSSL na swoim systemie.
+2. Otwórz terminal lub wiersz polecenia i przejdź do folderu, w którym znajdują się pliki CER i klucz prywatny.
+3. Wykonaj następujące polecenie, aby przekonwertować plik CER i klucz prywatny do formatu PFX:
+
+```
+openssl pkcs12 -export -out certificate.pfx -inkey privatekey.key -in certificate.cer
+```
+
+4. Zostaniesz poproszony o wprowadzenie hasła dla pliku PFX. Wprowadź odpowiednie hasło i zatwierdź.
+5. Po zakończeniu procesu, plik PFX zostanie utworzony w bieżącym folderze. Możesz go teraz użyć do różnych celów, takich jak importowanie certyfikatu do przeglądarki lub serwera.
+
+Pamiętaj, że plik PFX zawiera zarówno certyfikat, jak i klucz prywatny, dlatego ważne jest, aby zachować go w bezpiecznym miejscu i nie udostępniać go publicznie.
 ```bash
 openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile cacert.cer
 ```
-
 ***
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** przy użyciu najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
+Otrzymaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

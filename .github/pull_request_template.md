@@ -1,4 +1,4 @@
-## Attribution
-We value your knowledge and encourage you to share content. Please ensure that you only upload content that you own or have explicit permission to use from the original author. Your respect for intellectual property rights fosters a trustworthy and legal sharing environment for everyone.
+## Atrybucja
+Cenimy Twoją wiedzę i zachęcamy do dzielenia się treściami. Upewnij się, że przesyłasz tylko treści, które posiadasz lub masz wyraźną zgodę od oryginalnego autora. Twój szacunek dla praw własności intelektualnej sprzyja zaufanemu i legalnemu środowisku udostępniania dla wszystkich.
 
-Thank you for contributing to HackTricks!
+Dziękujemy za wkład w HackTricks!

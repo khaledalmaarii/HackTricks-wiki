@@ -1,192 +1,187 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów GitHub.
 
 </details>
 
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) is a useful program to find where important values are saved inside the memory of a running game and change them.\
-When you download and run it, you are **presented** with a **tutorial** of how to use the tool. If you want to learn how to use the tool it's highly recommended to complete it.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) to przydatny program do znajdowania, gdzie w pamięci działającej gry są przechowywane ważne wartości i ich zmieniania.\
+Po pobraniu i uruchomieniu programu, zostaniesz **poinstruowany** w jaki sposób korzystać z narzędzia. Jeśli chcesz nauczyć się korzystać z narzędzia, zdecydowanie zaleca się ukończenie instrukcji.
 
-# What are you searching?
+# Czego szukasz?
 
 ![](<../../.gitbook/assets/image (580).png>)
 
-This tool is very useful to find **where some value** (usually a number) **is stored in the memory** of a program.\
-**Usually numbers** are stored in **4bytes** form, but you could also find them in **double** or **float** formats, or you may want to look for something **different from a number**. For that reason you need to be sure you **select** what you want to **search for**:
+To narzędzie jest bardzo przydatne do znajdowania, gdzie w pamięci programu jest przechowywana **pewna wartość** (zwykle liczba).\
+**Zwykle liczby** są przechowywane w formie **4 bajtów**, ale można je również znaleźć w formatach **double** lub **float**, lub możesz szukać czegoś **innego niż liczba**. Dlatego musisz upewnić się, że **wybierasz** to, czego **szukasz**:
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-Also you can indicate **different** types of **searches**:
+Możesz również wskazać **różne** rodzaje **wyszukiwań**:
 
 ![](<../../.gitbook/assets/image (582).png>)
 
-You can also check the box to **stop the game while scanning the memory**:
+Możesz również zaznaczyć pole wyboru, aby **zatrzymać grę podczas skanowania pamięci**:
 
 ![](<../../.gitbook/assets/image (584).png>)
 
-## Hotkeys
+## Skróty klawiszowe
 
-In _**Edit --> Settings --> Hotkeys**_ you can set different **hotkeys** for different purposes like **stopping** the **game** (which is quiet useful if at some point you want to scan the memory). Other options are available:
+W _**Edycja --> Ustawienia --> Skróty klawiszowe**_ możesz ustawić różne **skróty klawiszowe** do różnych celów, takich jak **zatrzymywanie** gry (co jest bardzo przydatne, jeśli w pewnym momencie chcesz przeskanować pamięć). Dostępne są inne opcje:
 
 ![](<../../.gitbook/assets/image (583).png>)
 
-# Modifying the value
+# Modyfikowanie wartości
 
-Once you **found** where is the **value** you are **looking for** (more about this in the following steps) you can **modify it** double clicking it, then double clicking its value:
+Gdy już **znalazłeś** miejsce, gdzie jest **poszukiwana wartość** (więcej na ten temat w kolejnych krokach), możesz ją **zmodyfikować**, klikając dwukrotnie na nią, a następnie dwukrotnie klikając na jej wartość:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
-And finally **marking the check** to get the modification done in the memory:
+Następnie zaznacz pole wyboru, aby dokonać modyfikacji w pamięci:
 
 ![](<../../.gitbook/assets/image (586).png>)
 
-The **change** to the **memory** will be immediately **applied** (note that until the game doesn't use this value again the value **won't be updated in the game**).
+Zmiana w pamięci zostanie natychmiast **zastosowana** (zauważ, że dopóki gra nie użyje tej wartości ponownie, wartość **nie zostanie zaktualizowana w grze**).
 
-# Searching the value
+# Wyszukiwanie wartości
 
-So, we are going to suppose that there is an important value (like the life of your user) that you want to improve, and you are looking for this value in the memory)
+Załóżmy, że istnieje ważna wartość (np. życie twojego użytkownika), którą chcesz poprawić, i szukasz tej wartości w pamięci.
 
-## Through a known change
+## Przez znane zmiany
 
-Supposing you are looking for the value 100, you **perform a scan** searching for that value and you find a lot of coincidences:
+Załóżmy, że szukasz wartości 100, wykonujesz skanowanie w poszukiwaniu tej wartości i znajdujesz wiele zgodności:
 
 ![](<../../.gitbook/assets/image (587).png>)
 
-Then, you do something so that **value changes**, and you **stop** the game and **perform** a **next scan**:
+Następnie wykonujesz jakąś czynność, aby **zmienić wartość**, a następnie **zatrzymujesz** grę i wykonujesz **następne skanowanie**:
 
 ![](<../../.gitbook/assets/image (588).png>)
 
-Cheat Engine will search for the **values** that **went from 100 to the new value**. Congrats, you **found** the **address** of the value you were looking for, you can now modify it.\
-_If you still have several values, do something to modify again that value, and perform another "next scan" to filter the addresses._
+Cheat Engine będzie szukał **wartości**, które **zmieniły się z 100 na nową wartość**. Gratulacje, **znalazłeś adres** poszukiwanej wartości, teraz możesz ją zmodyfikować.\
+_Jeśli nadal masz kilka wartości, wykonaj jakąś czynność, aby ponownie zmodyfikować tę wartość, a następnie wykonaj kolejne skanowanie, aby przefiltrować adresy._
 
-## Unknown Value, known change
+## Nieznana wartość, znana zmiana
 
-In the scenario you **don't know the value** but you know **how to make it change** (and even the value of the change) you can look for your number.
+W przypadku, gdy **nie znasz wartości**, ale wiesz, **jak ją zmienić** (nawet wartość zmiany), możesz szukać swojej liczby.
 
-So, start by performing a scan of type "**Unknown initial value**":
+Rozpocznij od wykonania skanu o typie "**Nieznana wartość początkowa**":
 
 ![](<../../.gitbook/assets/image (589).png>)
 
-Then, make the value change, indicate **how** the **value** **changed** (in my case it was decreased by 1) and perform a **next scan**:
+Następnie dokonaj zmiany wartości, wskaż, **jak** wartość **zmieniła się** (w moim przypadku zmniejszyła się o 1) i wykonaj **następne skanowanie**:
 
 ![](<../../.gitbook/assets/image (590).png>)
 
-You will be presented **all the values that were modified in the selected way**:
+Zostaną wyświetlone **wszystkie wartości, które zostały zmodyfikowane w wybrany sposób**:
 
 ![](<../../.gitbook/assets/image (591).png>)
 
-Once you have found your value, you can modify it.
+Gdy już znajdziesz swoją wartość, możesz ją zmodyfikować.
 
-Note that there are a **lot of possible changes** and you can do these **steps as much as you want** to filter the results:
+Zauważ, że istnieje **wiele możliwych zmian** i możesz wykonywać te **kroki tak wiele razy, jak chcesz**, aby przefiltrować wyniki:
 
 ![](<../../.gitbook/assets/image (592).png>)
 
-## Random Memory Address - Finding the code
+## Losowy adres pamięci - Znajdowanie kodu
 
-Until know we learnt how to find an address storing a value, but it's highly probably that in **different executions of the game that address is in different places of the memory**. So lets find out how to always find that address.
+Do tej pory nauczyliśmy się, jak znaleźć adres przechowujący wartość, ale jest bardzo prawdopodobne, że w **różnych wykonaniach gry ten adres znajduje się w różnych miejscach pamięci**. Dowiedzmy się teraz, jak zawsze znaleźć ten adres.
 
-Using some of the mentioned tricks, find the address where your current game is storing the important value. Then (stopping the game if you whish) do a **right click** on the found **address** and select "**Find out what accesses this address**" or "**Find out what writes to this address**":
+Korzystając z niektórych wspomnianych sztuczek, znajdź adres, w którym twoja obecna gra przechowuje ważną wartość. Następnie (zatrzymując grę, jeśli chcesz) kliknij prawym przyciskiem myszy na znalezionym adresie i wybierz "**Znajdź, co korzysta z tego adresu**" lub "**Znajdź, co zapisuje do tego adresu**":
 
 ![](<../../.gitbook/assets/image (593).png>)
 
-The **first option** is useful to know which **parts** of the **code** are **using** this **address** (which is useful for more things like **knowing where you can modify the code** of the game).\
-The **second option** is more **specific**, and will be more helpful in this case as we are interested in knowing **from where this value is being written**.
+**Pierwsza opcja** jest przydatna, aby dowiedzieć się, które **części** kodu **korzystają** z tego **adresu** (co jest przydatne do innych rzeczy, takich jak **znajdowanie miejsca, w którym można zmodyfikować kod** gry).\
+**Druga opcja** jest bardziej **konkretna** i będzie bardziej pomocna w tym przypadku, ponieważ interesuje nas, **skąd jest zapisywana ta wartość**.
 
-Once you have selected one of those options, the **debugger** will be **attached** to the program and a new **empty window** will appear. Now, **play** the **game** and **modify** that **value** (without restarting the game). The **window** should be **filled** with the **addresses** that are **modifying** the **value**:
+Po wybraniu jednej z tych opcji, **debugger** zostanie **podłączony** do programu, a pojawi się nowe **puste okno**. Teraz **uruchom** grę i **zmodyfikuj** tę **wartość** (bez ponownego uruchamiania gry). **Okno** powinno być **wypełnione** adresami, które **modyfikują** wartość:
 
 ![](<../../.gitbook/assets/image (594).png>)
 
-Now that you found the address it's modifying the value you can **modify the code at your pleasure** (Cheat Engine allows you to modify it for NOPs real quick):
+Teraz, gdy znalazłeś adres, który modyfikuje wartość, możesz **zmodyfikować kod według własnego uznania** (Cheat Engine pozwala na szybkie modyfikowanie go na NOPs):
 
 ![](<../../.gitbook/assets/image (595).png>)
 
-So, you can now modify it so the code won't affect your number, or will always affect in a positive way.
+Teraz możesz go zmodyfikować, aby kod nie wpływał na twoją liczbę lub zawsze wpływał w pozytywny sposób.
+## Losowy adres pamięci - Znajdowanie wskaźnika
 
-## Random Memory Address - Finding the pointer
-
-Following the previous steps, find where the value you are interested is. Then, using "**Find out what writes to this address**" find out which address writes this value and double click on it to get the disassembly view:
+Kontynuując poprzednie kroki, znajdź miejsce, w którym znajduje się interesująca cię wartość. Następnie, korzystając z opcji "**Znajdź, co zapisuje do tego adresu**", dowiedz się, który adres zapisuje tę wartość, a następnie kliknij dwukrotnie, aby wyświetlić widok rozkładu:
 
 ![](<../../.gitbook/assets/image (596).png>)
 
-Then, perform a new scan **searching for the hex value between "\[]"** (the value of $edx in this case):
+Następnie, wykonaj nowe skanowanie, **szukając wartości szesnastkowej między "\[]"** (wartość $edx w tym przypadku):
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-(_If several appear you usually need the smallest address one_)\
-Now, we have f**ound the pointer that will be modifying the value we are interested in**.
+(Jeśli pojawi się ich kilka, zazwyczaj potrzebujesz tego o najmniejszym adresie)\
+Teraz **znaleźliśmy wskaźnik, który będzie modyfikował interesującą nas wartość**.
 
-Click on "**Add Address Manually**":
+Kliknij "**Dodaj adres ręcznie**":
 
 ![](<../../.gitbook/assets/image (598).png>)
 
-Now, click on the "Pointer" check box and add the found address in the text box (in this scenario, the found address in the previous image was "Tutorial-i386.exe"+2426B0):
+Następnie, zaznacz pole wyboru "Wskaźnik" i dodaj znaleziony adres w polu tekstowym (w tym scenariuszu znaleziony adres na poprzednim obrazku to "Tutorial-i386.exe"+2426B0):
 
 ![](<../../.gitbook/assets/image (599).png>)
 
-(Note how the first "Address" is automatically populated from the pointer address you introduce)
+(Zauważ, jak pierwszy "Adres" jest automatycznie wypełniany adresem wskaźnika, który wprowadzasz)
 
-Click OK and a new pointer will be created:
+Kliknij OK, a zostanie utworzony nowy wskaźnik:
 
 ![](<../../.gitbook/assets/image (600).png>)
 
-Now, every time you modifies that value you are **modifying the important value even if the memory address where the value is is different.**
+Teraz, za każdym razem, gdy zmienisz tę wartość, **zmieniasz ważną wartość, nawet jeśli adres pamięci, w którym znajduje się wartość, jest inny**.
 
-## Code Injection
+## Wstrzykiwanie kodu
 
-Code injection is a technique where you inject a piece of code into the target process, and then reroute the execution of code to go through your own written code (like giving you points instead of resting them).
+Wstrzykiwanie kodu to technika, w której wstrzykujesz fragment kodu do docelowego procesu, a następnie przekierowujesz wykonanie kodu, aby przejść przez twój własny napisany kod (na przykład dawanie ci punktów zamiast odejmowania ich).
 
-So, imagine you have found the address that is subtracting 1 to the life of your player:
+Wyobraź sobie, że znalazłeś adres, który odejmuje 1 od życia twojego gracza:
 
 ![](<../../.gitbook/assets/image (601).png>)
 
-Click on Show disassembler to get the **disassemble code**.\
-Then, click **CTRL+a** to invoke the Auto assemble window and select _**Template --> Code Injection**_
+Kliknij "Pokaż deasembler", aby uzyskać **kod rozkładu**.\
+Następnie kliknij **CTRL+a**, aby wywołać okno Auto Assemble, a następnie wybierz _**Szablon --> Wstrzykiwanie kodu**_
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Fill the **address of the instruction you want to modify** (this is usually autofilled):
+Wypełnij **adres instrukcji, którą chcesz zmodyfikować** (zazwyczaj jest to automatycznie wypełniane):
 
 ![](<../../.gitbook/assets/image (603).png>)
 
-A template will be generated:
+Wygenerowany zostanie szablon:
 
 ![](<../../.gitbook/assets/image (604).png>)
 
-So, insert your new assembly code in the "**newmem**" section and remove the original code from the "**originalcode**" if you don't want it to be executed**.** In this example the injected code will add 2 points instead of substracting 1:
+Wstaw swój nowy kod asemblera w sekcji "**newmem**" i usuń oryginalny kod z sekcji "**originalcode**", jeśli nie chcesz, aby był wykonany. W tym przykładzie wstrzyknięty kod doda 2 punkty zamiast odejmować 1:
 
 ![](<../../.gitbook/assets/image (605).png>)
 
-**Click on execute and so on and your code should be injected in the program changing the behaviour of the functionality!**
+**Kliknij wykonaj i tak dalej, a twój kod powinien zostać wstrzyknięty do programu, zmieniając zachowanie funkcjonalności!**
 
-# **References**
+# **Odnośniki**
 
-* **Cheat Engine tutorial, complete it to learn how to start with Cheat Engine**
+* **Samouczek Cheat Engine, ukończ go, aby nauczyć się, jak zacząć korzystać z Cheat Engine**
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) **i** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github repos**.
 
 </details>
-
-

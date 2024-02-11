@@ -1,84 +1,83 @@
-# macOS Files, Folders, Binaries & Memory
+# Pliki, Foldery, Binarki i Pamięć w macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## File hierarchy layout
+## Układ hierarchii plików
 
-* **/Applications**: The installed apps should be here. All the users will be able to access them.
-* **/bin**: Command line binaries
-* **/cores**: If exists, it's used to store core dumps
-* **/dev**: Everything is treated as a file so you may see hardware devices stored here.
-* **/etc**: Configuration files
-* **/Library**: A lot of subdirectories and files related to preferences, caches and logs can be found here. A Library folder exists in root and on each user's directory.
-* **/private**: Undocumented but a lot of the mentioned folders are symbolic links to the private directory.
-* **/sbin**: Essential system binaries (related to administration)
-* **/System**: File fo making OS X run. You should find mostly only Apple specific files here (not third party).
-* **/tmp**: Files are deleted after 3 days (it's a soft link to /private/tmp)
-* **/Users**: Home directory for users.
-* **/usr**: Config and system binaries
-* **/var**: Log files
-* **/Volumes**: The mounted drives will apear here.
-* **/.vol**: Running `stat a.txt` you obtain something like `16777223 7545753 -rw-r--r-- 1 username wheel ...` where the first number is the id number of the volume where the file exists and the second one is the inode number. You can access the content of this file through /.vol/ with that information running `cat /.vol/16777223/7545753`
+* **/Applications**: Zainstalowane aplikacje powinny znajdować się tutaj. Wszyscy użytkownicy będą miały do nich dostęp.
+* **/bin**: Binarki wiersza poleceń
+* **/cores**: Jeśli istnieje, służy do przechowywania zrzutów pamięci jądra
+* **/dev**: Wszystko jest traktowane jako plik, więc tutaj można znaleźć urządzenia sprzętowe.
+* **/etc**: Pliki konfiguracyjne
+* **/Library**: Wiele podkatalogów i plików związanych z preferencjami, pamięci podręcznej i dziennikami można znaleźć tutaj. Istnieje folder Library w katalogu głównym i w katalogu każdego użytkownika.
+* **/private**: Nieudokumentowane, ale wiele wymienionych folderów to dowiązania symboliczne do katalogu private.
+* **/sbin**: Podstawowe binarki systemowe (związane z administracją)
+* **/System**: Plik do uruchamiania OS X. Tutaj powinny znajdować się głównie pliki specyficzne dla Apple (nie firm trzecich).
+* **/tmp**: Pliki są usuwane po 3 dniach (to miękie połączenie do /private/tmp)
+* **/Users**: Katalog domowy użytkowników.
+* **/usr**: Konfiguracje i binarki systemowe
+* **/var**: Pliki dziennika
+* **/Volumes**: Zamontowane dyski pojawią się tutaj.
+* **/.vol**: Uruchomienie `stat a.txt` daje coś takiego jak `16777223 7545753 -rw-r--r-- 1 nazwaużytkownika grupa ...`, gdzie pierwsza liczba to numer identyfikacyjny woluminu, w którym znajduje się plik, a druga to numer i-węzła. Możesz uzyskać dostęp do zawartości tego pliku za pomocą /.vol/ z tymi informacjami, uruchamiając `cat /.vol/16777223/7545753`
 
-### Applications Folders
+### Foldery aplikacji
 
-* **System applications** are located under `/System/Applications`
-* **Installed** applications are usually installed in `/Applications` or in `~/Applications`
-* **Application data** can be found in `/Library/Application Support` for the applications running as root and `~/Library/Application Support` for applications running as the user.
-* Third-party applications **daemons** that **need to run as root** as usually located in `/Library/PrivilegedHelperTools/`
-* **Sandboxed** apps are mapped into the `~/Library/Containers` folder. Each app has a folder named according to the application’s bundle ID (`com.apple.Safari`).
-* The **kernel** is located in `/System/Library/Kernels/kernel`
-* **Apple's kernel extensions** are located in `/System/Library/Extensions`
-* **Third-party kernel extensions** are stored in `/Library/Extensions`
+* **Aplikacje systemowe** znajdują się w `/System/Applications`
+* **Zainstalowane** aplikacje zazwyczaj są instalowane w `/Applications` lub w `~/Applications`
+* **Dane aplikacji** można znaleźć w `/Library/Application Support` dla aplikacji działających jako root i `~/Library/Application Support` dla aplikacji działających jako użytkownik.
+* Aplikacje **sandboxed** są mapowane do folderu `~/Library/Containers`. Każda aplikacja ma folder o nazwie zgodnej z identyfikatorem pakietu aplikacji (`com.apple.Safari`).
+* **Jądro** znajduje się w `/System/Library/Kernels/kernel`
+* **Rozszerzenia jądra Apple** znajdują się w `/System/Library/Extensions`
+* **Rozszerzenia jądra firm trzecich** są przechowywane w `/Library/Extensions`
 
-### Files with Sensitive Information
+### Pliki z Wrażliwymi Informacjami
 
-MacOS stores information such as passwords in several places:
+macOS przechowuje informacje, takie jak hasła, w kilku miejscach:
 
 {% content-ref url="macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-sensitive-locations.md)
 {% endcontent-ref %}
 
-### Vulnerable pkg installers
+### Podatne instalatory pkg
 
 {% content-ref url="macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-installers-abuse.md)
 {% endcontent-ref %}
 
-## OS X Specific Extensions
+## Rozszerzenia Specyficzne dla OS X
 
-* **`.dmg`**: Apple Disk Image files are very frequent for installers.
-* **`.kext`**: It must follow a specific structure and it's the OS X version of a driver. (it's a bundle)
-* **`.plist`**: Also known as property list stores information in XML or binary format.
-  * Can be XML or binary. Binary ones can be read with:
-    * `defaults read config.plist`
-    * `/usr/libexec/PlistBuddy -c print config.plsit`
-    * `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
-    * `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
-    * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
-* **`.app`**: Apple applications that follows directory structure (It's a bundle).
-* **`.dylib`**: Dynamic libraries (like Windows DLL files)
-* **`.pkg`**: Are the same as xar (eXtensible Archive format). The installer command can be use to install the contents of these files.
-* **`.DS_Store`**: This file is on each directory, it saves the attributes and customisations of the directory.
-* **`.Spotlight-V100`**: This folder appears on the root directory of every volume on the system.
-* **`.metadata_never_index`**: If this file is at the root of a volume Spotlight won't index that volume.
-* **`.noindex`**: Files and folder with this extension won't be indexed by Spotlight.
+* **`.dmg`**: Pliki obrazów dysków Apple są bardzo częste dla instalatorów.
+* **`.kext`**: Musi mieć określoną strukturę i jest to wersja OS X sterownika. (to jest paczka)
+* **`.plist`**: Znany również jako lista właściwości, przechowuje informacje w formacie XML lub binarnym.
+* Może być XML lub binarny. Binarne można odczytać za pomocą:
+* `defaults read config.plist`
+* `/usr/libexec/PlistBuddy -c print config.plsit`
+* `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
+* `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
+* `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
+* **`.app`**: Aplikacje Apple, które mają strukturę katalogu (to jest paczka).
+* **`.dylib`**: Biblioteki dynamiczne (podobne do plików DLL w systemie Windows)
+* **`.pkg`**: Są takie same jak xar (format rozszerzalnego archiwum). Polecenie installer może być używane do instalacji zawartości tych plików.
+* **`.DS_Store`**: Ten plik znajduje się w każdym katalogu, zapisuje atrybuty i dostosowania katalogu.
+* **`.Spotlight-V100`**: Ten folder pojawia się w katalogu głównym każdego woluminu w systemie.
+* **`.metadata_never_index`**: Jeśli ten plik znajduje się w głównym katalogu woluminu, Spotlight nie będzie indeksować tego woluminu.
+* **`.noindex`**: Pliki i foldery z tym rozszerzeniem nie będą indeksowane przez Spotlight.
 
-### macOS Bundles
+### Paczki macOS
 
-A bundle is a **directory** which **looks like an object in Finder** (a Bundle example are `*.app` files).
+Paczka to **katalog**, który **wygląda jak obiekt w Finderze** (przykładem paczki są pliki `*.app`).
 
 {% content-ref url="macos-bundles.md" %}
 [macos-bundles.md](macos-bundles.md)
@@ -86,11 +85,11 @@ A bundle is a **directory** which **looks like an object in Finder** (a Bundle e
 
 ## Dyld Shared Cache
 
-On macOS (and iOS) all system shared libraries, like frameworks and dylibs, are **combined into a single file**, called the **dyld shared cache**. This improved performance, since code can be loaded faster.
+W macOS (i iOS) wszystkie współdzielone biblioteki systemowe, takie jak frameworki i dyliby, są **łączone w pojedynczy plik**, zwany **dyld shared cache**. Poprawia to wydajność, ponieważ kod może być ładowany szybciej.
 
-Similar to the dyld shared cache, the kernel and the kernel extensions are also compiled into a kernel cache, which is loaded at boot time.
+Podobnie jak dyld shared cache, jądro i rozszerzenia jądra również są kompilowane do pamięci podręcznej jądra, która jest ładowana podczas uruchamiania systemu.
 
-In order to extract the libraries from the single file dylib shared cache it was possible to use the binary  [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) which might not be working nowadays but you can also use [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
+Aby wyodrębnić biblioteki z pojedynczego pliku dylib shared cache, można było użyć binarnego narzędzia [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip), które obecnie może nie działać, ale można również użyć [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
 
 {% code overflow="wrap" %}
 ```bash
@@ -104,63 +103,56 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 ```
 {% endcode %}
 
-In older versions you might be able to find the **shared cache** in **`/System/Library/dyld/`**.
+W starszych wersjach możesz znaleźć **współdzielone dane podręczne** w **`/System/Library/dyld/`**.
 
-In iOS you can find them in **`/System/Library/Caches/com.apple.dyld/`**.
+W systemie iOS możesz je znaleźć w **`/System/Library/Caches/com.apple.dyld/`**.
 
 {% hint style="success" %}
-Note that even if `dyld_shared_cache_util` tool doesn't work, you can pass the **shared dyld binary to Hopper** and Hopper will be able to identify all the libraries and let you **select which one** you want to investigate:
+Należy zauważyć, że nawet jeśli narzędzie `dyld_shared_cache_util` nie działa, można przekazać **współdzielony plik dyld do Hoppera**, a Hopper będzie w stanie zidentyfikować wszystkie biblioteki i pozwolić na **wybór** tej, którą chcesz zbadać:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Special File Permissions
+## Specjalne uprawnienia plików
 
-### Folder permissions
+### Uprawnienia folderów
 
-In a **folder**, **read** allows to **list it**, **write** allows to **delete** and **write** files on it, and **execute** allows to **traverse** the directory. So, for example, a user with **read permission over a file** inside a directory where he **doesn't have execute** permission **won't be able to read** the file.
+W **folderze**, **odczyt** pozwala na **wyświetlanie zawartości**, **zapis** pozwala na **usuwanie** i **zapisywanie** plików w nim, a **wykonanie** pozwala na **przechodzenie** przez katalog. Na przykład, użytkownik z **uprawnieniami do odczytu pliku** wewnątrz katalogu, w którym nie ma **uprawnienia do wykonania**, **nie będzie mógł odczytać** pliku.
 
-### Flag modifiers
+### Modyfikatory flag
 
-There are some flags that could be set in the files that will make file behave differently. You can **check the flags** of the files inside a directory with `ls -lO /path/directory`
+Istnieją pewne flagi, które można ustawić w plikach, które sprawią, że plik będzie zachowywał się inaczej. Możesz **sprawdzić flagi** plików wewnątrz katalogu za pomocą polecenia `ls -lO /ścieżka/do/katalogu`
 
-* **`uchg`**: Known as **uchange** flag will **prevent any action** changing or deleting the **file**. To set it do: `chflags uchg file.txt`
-  * The root user could **remove the flag** and modify the file
-* **`restricted`**: This flag makes the file be **protected by SIP** (you cannot add this flag to a file).
-* **`Sticky bit`**: If a directory with sticky bit, **only** the **directories owner or root can remane or delete** files. Typically this is set on the /tmp directory to prevent ordinary users from deleting or moving other users’ files.
+* **`uchg`**: Znana jako flaga **uchange**, uniemożliwia **zmianę lub usunięcie** pliku. Aby ją ustawić, wykonaj: `chflags uchg plik.txt`
+* Użytkownik root może **usunąć flagę** i zmodyfikować plik
+* **`restricted`**: Ta flaga powoduje, że plik jest **chroniony przez SIP** (nie można dodać tej flagi do pliku).
+* **`Sticky bit`**: Jeśli katalog ma ustawiony sticky bit, **tylko** właściciel katalogu lub root może **zmieniać nazwę lub usuwać** pliki. Zazwyczaj jest to ustawiane w katalogu /tmp, aby zwykli użytkownicy nie mogli usuwać ani przenosić plików innych użytkowników.
 
-### **File ACLs**
+### **ACL plików**
 
-File **ACLs** contain **ACE** (Access Control Entries) where more **granular permissions** can be assigned to different users.
+ACL plików zawiera **ACE** (Access Control Entries), w których można przypisać bardziej **szczegółowe uprawnienia** różnym użytkownikom.
 
-It's possible to grant a **directory** these permissions: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
-Ans to a **file**: `read`, `write`, `append`, `execute`.
+Można nadać **katalogowi** następujące uprawnienia: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
+A plikowi: `read`, `write`, `append`, `execute`.
 
-When the file contains ACLs you will **find a "+" when listing the permissions like in**:
-
+Gdy plik zawiera ACL, **znajdziesz znak "+" przy wyświetlaniu uprawnień, jak w**:
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
 ```
-
-You can **read the ACLs** of the file with:
-
+Możesz **odczytać ACL** pliku za pomocą:
 ```bash
 ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
- 0: group:everyone deny delete
+0: group:everyone deny delete
 ```
-
-You can find **all the files with ACLs** with (this is veeery slow):
-
+Poniżej znajduje się **spis wszystkich plików z ACL** (to jest baaardzo wolne):
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
-
 ### Resource Forks | macOS ADS
 
-This is a way to obtain **Alternate Data Streams in MacOS** machines. You can save content inside an extended attribute called **com.apple.ResourceFork** inside a file by saving it in **file/..namedfork/rsrc**.
-
+To jest sposób na uzyskanie **Alternatywnych Strumieni Danych w systemach MacOS**. Możesz zapisać zawartość wewnątrz rozszerzonego atrybutu o nazwie **com.apple.ResourceFork** w pliku, zapisując go w **file/..namedfork/rsrc**.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -171,8 +163,7 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-
-You can **find all the files containing this extended attribute** with:
+Możesz **znaleźć wszystkie pliki zawierające ten rozszerzony atrybut** za pomocą:
 
 {% code overflow="wrap" %}
 ```bash
@@ -180,50 +171,50 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 ```
 {% endcode %}
 
-## **Universal binaries &** Mach-o Format
+## **Uniwersalne pliki binarne i** Format Mach-o
 
-Mac OS binaries usually are compiled as **universal binaries**. A **universal binary** can **support multiple architectures in the same file**.
+Binarki systemu Mac OS zazwyczaj są kompilowane jako **uniwersalne pliki binarne**. **Uniwersalny plik binarny** może **obsługiwać wiele architektur w tym samym pliku**.
 
 {% content-ref url="universal-binaries-and-mach-o-format.md" %}
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
 {% endcontent-ref %}
 
-## macOS memory dumping
+## Dumpowanie pamięci macOS
 
 {% content-ref url="macos-memory-dumping.md" %}
 [macos-memory-dumping.md](macos-memory-dumping.md)
 {% endcontent-ref %}
 
-## Risk Category Files Mac OS
+## Pliki kategorii ryzyka w systemie Mac OS
 
-The directory `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` is where information about the **risk associated with different file extensions is stored**. This directory categorizes files into various risk levels, influencing how Safari handles these files upon download. The categories are as follows:
+Katalog `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` to miejsce, gdzie przechowywane są informacje na temat **ryzyka związanego z różnymi rozszerzeniami plików**. Ten katalog kategoryzuje pliki na różne poziomy ryzyka, wpływając na to, w jaki sposób Safari obsługuje te pliki po pobraniu. Kategorie są następujące:
 
-- **LSRiskCategorySafe**: Files in this category are considered **completely safe**. Safari will automatically open these files after they are downloaded.
-- **LSRiskCategoryNeutral**: These files come with no warnings and are **not automatically opened** by Safari.
-- **LSRiskCategoryUnsafeExecutable**: Files under this category **trigger a warning** indicating that the file is an application. This serves as a security measure to alert the user.
-- **LSRiskCategoryMayContainUnsafeExecutable**: This category is for files, such as archives, that might contain an executable. Safari will **trigger a warning** unless it can verify that all contents are safe or neutral.
+- **LSRiskCategorySafe**: Pliki w tej kategorii są uważane za **całkowicie bezpieczne**. Safari automatycznie otwiera te pliki po pobraniu.
+- **LSRiskCategoryNeutral**: Te pliki nie wywołują żadnych ostrzeżeń i **nie są automatycznie otwierane** przez Safari.
+- **LSRiskCategoryUnsafeExecutable**: Pliki w tej kategorii **wywołują ostrzeżenie**, wskazujące, że plik jest aplikacją. Jest to środek bezpieczeństwa mający na celu poinformowanie użytkownika.
+- **LSRiskCategoryMayContainUnsafeExecutable**: Ta kategoria dotyczy plików, takich jak archiwa, które mogą zawierać plik wykonywalny. Safari **wywołuje ostrzeżenie**, chyba że może zweryfikować, że wszystkie zawartości są bezpieczne lub neutralne.
 
-## Log files
+## Pliki dzienników
 
-* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Contains information about downloaded files, like the URL from where they were downloaded.
-* **`/var/log/system.log`**: Main log of OSX systems. com.apple.syslogd.plist is responsible for the execution of syslogging (you can check if it's disabled looking for "com.apple.syslogd" in `launchctl list`.
-* **`/private/var/log/asl/*.asl`**: These are the Apple System Logs which may contain interesting information.
-* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Stores recently accessed files and applications through "Finder".
-* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Stores items to launch upon system startup
-* **`$HOME/Library/Logs/DiskUtility.log`**: Log file for thee DiskUtility App (info about drives, including USBs)
-* **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Data about wireless access points.
-* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: List of daemons deactivated.
+* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Zawiera informacje o pobranych plikach, takie jak adres URL, z którego zostały pobrane.
+* **`/var/log/system.log`**: Główny dziennik systemowy systemów OSX. com.apple.syslogd.plist jest odpowiedzialny za wykonywanie sysloggingu (możesz sprawdzić, czy jest wyłączony, szukając "com.apple.syslogd" w `launchctl list`.
+* **`/private/var/log/asl/*.asl`**: To są dzienniki systemowe Apple, które mogą zawierać interesujące informacje.
+* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Przechowuje informacje o ostatnio używanych plikach i aplikacjach za pośrednictwem "Finder".
+* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Przechowuje elementy do uruchomienia podczas uruchamiania systemu.
+* **`$HOME/Library/Logs/DiskUtility.log`**: Plik dziennika dla aplikacji DiskUtility (informacje o dyskach, w tym USB).
+* **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Dane dotyczące punktów dostępu do sieci bezprzewodowej.
+* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Lista dezaktywowanych demonów.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

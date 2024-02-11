@@ -1,62 +1,60 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów GitHub.
 
 </details>
 
 
-# Check for possible actions inside the GUI application
+# Sprawdź możliwe działania w aplikacji GUI
 
-**Common Dialogs** are those options of **saving a file**, **opening a file**, selecting a font, a color... Most of them will **offer a full Explorer functionality**. This means that you will be able to access Explorer functionalities if you can access these options:
+**Wspólne okna dialogowe** to opcje takie jak **zapisywanie pliku**, **otwieranie pliku**, wybieranie czcionki, koloru... Większość z nich **oferuje pełną funkcjonalność Eksploratora**. Oznacza to, że będziesz mógł uzyskać dostęp do funkcji Eksploratora, jeśli będziesz mógł uzyskać dostęp do tych opcji:
 
-* Close/Close as
-* Open/Open with
-* Print
-* Export/Import
-* Search
-* Scan
+* Zamknij/Zamknij jako
+* Otwórz/Otwórz za pomocą
+* Drukuj
+* Eksportuj/Importuj
+* Szukaj
+* Skanuj
 
-You should check if you can:
+Powinieneś sprawdzić, czy możesz:
 
-* Modify or create new files
-* Create symbolic links
-* Get access to restricted areas
-* Execute other apps
+* Modyfikować lub tworzyć nowe pliki
+* Tworzyć dowiązania symboliczne
+* Uzyskać dostęp do ograniczonych obszarów
+* Wykonywać inne aplikacje
 
-## Command Execution
+## Wykonanie polecenia
 
-Maybe **using a `Open with`** option** you can open/execute some kind of shell.
+Być może **korzystając z opcji `Otwórz za pomocą`** możesz otworzyć/wykonac pewnego rodzaju powłokę.
 
 ### Windows
 
-For example _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ find more binaries that can be used to execute commands (and perform unexpected actions) here: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
+Na przykład _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ znajdź więcej binarnych plików, które można użyć do wykonywania poleceń (i wykonywania nieoczekiwanych działań) tutaj: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 ### \*NIX __
 
-_bash, sh, zsh..._ More here: [https://gtfobins.github.io/](https://gtfobins.github.io)
+_bash, sh, zsh..._ Więcej tutaj: [https://gtfobins.github.io/](https://gtfobins.github.io)
 
 # Windows
 
-## Bypassing path restrictions
+## Omijanie ograniczeń ścieżki
 
-* **Environment variables**: There are a lot of environment variables that are pointing to some path
-* **Other protocols**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
-* **Symbolic links**
-* **Shortcuts**: CTRL+N (open new session), CTRL+R (Execute Commands), CTRL+SHIFT+ESC (Task Manager),  Windows+E (open explorer), CTRL-B, CTRL-I (Favourites), CTRL-H (History), CTRL-L, CTRL-O (File/Open Dialog), CTRL-P (Print Dialog), CTRL-S (Save As)
-  * Hidden Administrative menu: CTRL-ALT-F8, CTRL-ESC-F9
-* **Shell URIs**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
-* **UNC paths**: Paths to connect to shared folders. You should try to connect to the C$ of the local machine ("\\\127.0.0.1\c$\Windows\System32")
-  * **More UNC paths:**
+* **Zmienne środowiskowe**: Istnieje wiele zmiennych środowiskowych, które wskazują na pewną ścieżkę
+* **Inne protokoły**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
+* **Dowiązania symboliczne**
+* **Skróty**: CTRL+N (otwórz nową sesję), CTRL+R (Wykonaj polecenia), CTRL+SHIFT+ESC (Menedżer zadań),  Windows+E (otwórz eksplorator), CTRL-B, CTRL-I (Ulubione), CTRL-H (Historia), CTRL-L, CTRL-O (Okno/Otwórz), CTRL-P (Okno/Drukuj), CTRL-S (Okno/Zapisz jako)
+* Ukryte menu administracyjne: CTRL-ALT-F8, CTRL-ESC-F9
+* **URI powłoki**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
+* **Ścieżki UNC**: Ścieżki do połączenia z udostępnionymi folderami. Spróbuj połączyć się z C$ lokalnej maszyny ("\\\127.0.0.1\c$\Windows\System32")
+* **Więcej ścieżek UNC:**
 
 | UNC                       | UNC            | UNC                  |
 | ------------------------- | -------------- | -------------------- |
@@ -70,15 +68,15 @@ _bash, sh, zsh..._ More here: [https://gtfobins.github.io/](https://gtfobins.git
 | %TMP%                     | %USERDOMAIN%   | %USERNAME%           |
 | %USERPROFILE%             | %WINDIR%       |                      |
 
-## Download Your Binaries
+## Pobierz swoje pliki binarne
 
-Console: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
-Explorer: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
-Registry editor: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
+Konsola: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
+Eksplorator: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
+Edytor rejestru: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
 
-## Accessing filesystem from the browser
+## Dostęp do systemu plików z przeglądarki
 
-| PATH                | PATH              | PATH               | PATH                |
+| ŚCIEŻKA             | ŚCIEŻKA           | ŚCIEŻKA            | ŚCIEŻKA             |
 | ------------------- | ----------------- | ------------------ | ------------------- |
 | File:/C:/windows    | File:/C:/windows/ | File:/C:/windows\\ | File:/C:\windows    |
 | File:/C:\windows\\  | File:/C:\windows/ | File://C:/windows  | File://C:/windows/  |
@@ -88,47 +86,46 @@ Registry editor: [https://sourceforge.net/projects/uberregedit/](https://sourcef
 | %TEMP%              | %SYSTEMDRIVE%     | %SYSTEMROOT%       | %APPDATA%           |
 | %HOMEDRIVE%         | %HOMESHARE        |                    | <p><br></p>         |
 
-## ShortCuts
+## Skróty
 
-* Sticky Keys – Press SHIFT 5 times
+* Sticky Keys – Naciśnij SHIFT 5 razy
 * Mouse Keys – SHIFT+ALT+NUMLOCK
 * High Contrast – SHIFT+ALT+PRINTSCN
-* Toggle Keys – Hold NUMLOCK for 5 seconds
-* Filter Keys – Hold right SHIFT for 12 seconds
-* WINDOWS+F1 – Windows Search
-* WINDOWS+D – Show Desktop
-* WINDOWS+E – Launch Windows Explorer
-* WINDOWS+R – Run
-* WINDOWS+U – Ease of Access Centre
-* WINDOWS+F – Search
-* SHIFT+F10 – Context Menu
-* CTRL+SHIFT+ESC – Task Manager
-* CTRL+ALT+DEL – Splash screen on newer Windows versions
-* F1 – Help F3 – Search
-* F6 – Address Bar
-* F11 – Toggle full screen within Internet Explorer
-* CTRL+H – Internet Explorer History
-* CTRL+T – Internet Explorer – New Tab
-* CTRL+N – Internet Explorer – New Page
-* CTRL+O – Open File
-* CTRL+S – Save CTRL+N – New RDP / Citrix
+* Toggle Keys – Przytrzymaj NUMLOCK przez 5 sekund
+* Filter Keys – Przytrzymaj prawy SHIFT przez 12 sekund
+* WINDOWS+F1 – Wyszukiwanie w systemie Windows
+* WINDOWS+D – Pokaż pulpit
+* WINDOWS+E – Uruchom Eksploratora Windows
+* WINDOWS+R – Uruchom
+* WINDOWS+U – Centrum ułatwień dostępu
+* WINDOWS+F – Wyszukiwanie
+* SHIFT+F10 – Menu kontekstowe
+* CTRL+SHIFT+ESC – Menedżer zadań
+* CTRL+ALT+DEL – Ekran powitalny w nowszych wersjach systemu Windows
+* F1 – Pomoc F3 – Wyszukiwanie
+* F6 – Pasek adresu
+* F11 – Przełącz pełny ekran w przeglądarce Internet Explorer
+* CTRL+H – Historia przeglądarki Internet Explorer
+* CTRL+T – Internet Explorer – Nowa karta
+* CTRL+N – Internet Explorer – Nowa strona
+* CTRL+O – Otwórz plik
+* CTRL+S – Zapisz CTRL+N – Nowe RDP / Citrix
+## Swipy
 
-## Swipes
+* Przesuń palcem z lewej strony na prawą, aby zobaczyć wszystkie otwarte okna, minimalizując aplikację KIOSK i uzyskując bezpośredni dostęp do całego systemu operacyjnego;
+* Przesuń palcem z prawej strony na lewą, aby otworzyć Centrum akcji, minimalizując aplikację KIOSK i uzyskując bezpośredni dostęp do całego systemu operacyjnego;
+* Przesuń palcem od górnego brzegu, aby wyświetlić pasek tytułu dla aplikacji otwartej w trybie pełnoekranowym;
+* Przesuń palcem w górę od dołu, aby pokazać pasek zadań w aplikacji pełnoekranowej.
 
-* Swipe from the left side to the right to see all open Windows, minimizing the KIOSK app and accessing the whole OS directly;
-* Swipe from the right side to the left to open Action Center, minimizing the KIOSK app and accessing the whole OS directly;
-* Swipe in from the top edge to make the title bar visible for an app opened in full screen mode;
-* Swipe up from the bottom to show  the taskbar in a full screen app.
+## Triki Internet Explorera
 
-## Internet Explorer Tricks
+### 'Pasek narzędzi obrazu'
 
-### 'Image Toolbar'
+To pasek narzędzi, który pojawia się w lewym górnym rogu obrazu po jego kliknięciu. Będziesz mógł zapisać, wydrukować, wysłać wiadomość e-mail, otworzyć "Moje obrazy" w Eksploratorze. Kiosk musi korzystać z przeglądarki Internet Explorer.
 
-It's a toolbar that appears on the top-left of image when it's clicked. You will be able to Save, Print, Mailto, Open "My Pictures" in Explorer. The Kiosk needs to be using Internet Explorer.
+### Protokół Shell
 
-### Shell Protocol
-
-Type this URLs to obtain an Explorer view:
+Wpisz te adresy URL, aby uzyskać widok Eksploratora:
 
 * `shell:Administrative Tools`
 * `shell:DocumentsLibrary`
@@ -147,141 +144,135 @@ Type this URLs to obtain an Explorer view:
 * `Shell:System`
 * `Shell:ControlPanelFolder`
 * `Shell:Windows`
-* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Control Panel
-* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> My Computer
-* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> My Network Places
+* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Panel sterowania
+* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Mój komputer
+* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Moje miejsca sieciowe
 * `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> Internet Explorer
 
-## Show File Extensions
+## Pokaż rozszerzenia plików
 
-Check this page for more information: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
+Sprawdź tę stronę, aby uzyskać więcej informacji: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
 
-# Browsers tricks
+# Triki przeglądarek
 
-Backup iKat versions:
+Kopia zapasowa wersji iKat:
 
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\
 
-Create a common dialog using JavaScript and access file explorer: `document.write('<input/type=file>')`  
-Source: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
+Utwórz wspólny dialog za pomocą JavaScript i uzyskaj dostęp do eksploratora plików: `document.write('<input/type=file>')`
+Źródło: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
 
 # iPad
 
-## Gestures and bottoms
+## Gesty i przyciski
 
-* Swipe up with four (or five) fingers / Double-tap Home button: To view the multitask view and change App
+* Przesuń palcem w górę z czterema (lub pięcioma) palcami / Podwójne kliknięcie przycisku Home: Aby wyświetlić widok wielozadaniowy i zmienić aplikację
 
-* Swipe one way or another with four or five fingers: In order to change to the next/last App
+* Przesuń palcem w jedną lub drugą stronę z czterema lub pięcioma palcami: Aby przejść do następnej/ostatniej aplikacji
 
-* Pinch the screen with five fingers / Touch Home button / Swipe up with 1 finger from the bottom of the screen in a quick motion to the up: To access Home
- 
-* Swipe one finger from the bottom of the screen just 1-2 inches (slow): The dock will appear
+* Ściśnij ekran pięcioma palcami / Dotknij przycisku Home / Przesuń palcem w górę jednym palcem od dołu ekranu w szybkim ruchu do góry: Aby uzyskać dostęp do ekranu głównego
 
-* Swipe down from the top of the display with 1 finger: To view your notifications
+* Przesuń palcem jeden cal od dołu ekranu (powoli): Pojawi się pasek dokowania
 
-* Swipe down with 1 finger the top-right corner of the screen: To see iPad Pro's control centre
+* Przesuń palcem w dół od góry ekranu jednym palcem: Aby wyświetlić powiadomienia
 
-* Swipe 1 finger from the left of the screen 1-2 inches: To see Today view
+* Przesuń palcem w dół jednym palcem w prawym górnym rogu ekranu: Aby zobaczyć centrum sterowania iPad Pro
 
-* Swipe fast 1 finger from the centre of the screen to the right or left: To change to next/last App
+* Przesuń palcem jeden cal od lewej strony ekranu (1-2 cale): Aby zobaczyć widok dzisiejszy
 
-* Press and hold the On/**Off**/Sleep button at the upper-right corner of the **iPad +** Move the Slide to **power off** slider all the way to the right: To power off
+* Szybko przesuń palcem jeden cal od środka ekranu w prawo lub lewo: Aby przejść do następnej/ostatniej aplikacji
 
-* Press the  On/**Off**/Sleep button at the upper-right corner of the **iPad and the Home button for a few second**: To force a hard power off
+* Przytrzymaj przycisk Włącz/Wyłącz/Uśpij w prawym górnym rogu iPada + Przesuń suwak "Wyłącz" aż do końca w prawo: Aby wyłączyć zasilanie
 
-* Press the  On/**Off**/Sleep button at the upper-right corner of the **iPad and the Home button quickly**: To take a screenshot that will pop up in the lower left of the display. Press both buttons at the same time very briefly as if you hold them a few seconds a hard power off will be performed.
+* Naciśnij przycisk Włącz/Wyłącz/Uśpij w prawym górnym rogu iPada i przycisk Home przez kilka sekund: Aby wymusić twardy wyłącznik
 
-## Shortcuts
+* Naciśnij przycisk Włącz/Wyłącz/Uśpij w prawym górnym rogu iPada i przycisk Home szybko: Aby zrobić zrzut ekranu, który pojawi się w lewym dolnym rogu ekranu. Naciśnij oba przyciski jednocześnie bardzo krótko, jeśli przytrzymasz je przez kilka sekund, zostanie wykonane twardy wyłączenie.
 
-You should have an iPad keyboard or a USB keyboard adaptor. Only shortcuts that could help escaping from the application will be shown here.
+## Skróty
 
-| Key | Name         |
-| --- | ------------ |
-| ⌘   | Command      |
-| ⌥   | Option (Alt) |
-| ⇧   | Shift        |
-| ↩   | Return       |
-| ⇥   | Tab          |
-| ^   | Control      |
-| ←   | Left Arrow   |
-| →   | Right Arrow  |
-| ↑   | Up Arrow     |
-| ↓   | Down Arrow   |
+Powinieneś mieć klawiaturę do iPada lub adapter USB do klawiatury. Tylko skróty, które mogą pomóc w wyjściu z aplikacji, zostaną tutaj pokazane.
 
-### System shortcuts
+| Klawisz | Nazwa         |
+| ------- | ------------- |
+| ⌘       | Command       |
+| ⌥       | Option (Alt)  |
+| ⇧       | Shift         |
+| ↩       | Return        |
+| ⇥       | Tab           |
+| ^       | Control       |
+| ←       | Strzałka w lewo   |
+| →       | Strzałka w prawo  |
+| ↑       | Strzałka w górę    |
+| ↓       | Strzałka w dół  |
 
-These shortcuts are for the visual settings and sound settings, depending on the use of the iPad.
+### Skróty systemowe
 
-| Shortcut | Action                                                                         |
-| -------- | ------------------------------------------------------------------------------ |
-| F1       | Dim Sscreen                                                                    |
-| F2       | Brighten screen                                                                |
-| F7       | Back one song                                                                  |
-| F8       | Play/pause                                                                     |
-| F9       | Skip song                                                                      |
-| F10      | Mute                                                                           |
-| F11      | Decrease volume                                                                |
-| F12      | Increase volume                                                                |
-| ⌘ Space  | Display a list of available languages; to choose one, tap the space bar again. |
+Te skróty dotyczą ustawień wizualnych i ustawień dźwięku, w zależności od sposobu korzystania z iPada.
 
-### iPad navigation
+| Skrót    | Działanie                                                                 |
+| -------- | ------------------------------------------------------------------------ |
+| F1       | Przyciemnij ekran                                                         |
+| F2       | Rozjaśnij ekran                                                           |
+| F7       | Poprzedni utwór                                                            |
+| F8       | Odtwarzaj/wstrzymaj                                                        |
+| F9       | Pomijaj utwór                                                              |
+| F10      | Wycisz                                                                     |
+| F11      | Zmniejsz głośność                                                          |
+| F12      | Zwiększ głośność                                                           |
+| ⌘ Spacja | Wyświetl listę dostępnych języków; aby wybrać jeden, ponownie naciśnij spację. |
 
-| Shortcut                                           | Action                                                  |
-| -------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                 | Go to Home                                              |
-| ⌘⇧H (Command-Shift-H)                              | Go to Home                                              |
-| ⌘ (Space)                                          | Open Spotlight                                          |
-| ⌘⇥ (Command-Tab)                                   | List last ten used apps                                 |
-| ⌘\~                                                | Go t the last App                                       |
-| ⌘⇧3 (Command-Shift-3)                              | Screenshot (hovers in bottom left to save or act on it) |
-| ⌘⇧4                                                | Screenshot and open it in the editor                    |
-| Press and hold ⌘                                   | List of shortcuts available for the App                 |
-| ⌘⌥D (Command-Option/Alt-D)                         | Brings up the dock                                      |
-| ^⌥H (Control-Option-H)                             | Home button                                             |
-| ^⌥H H (Control-Option-H-H)                         | Show multitask bar                                      |
-| ^⌥I (Control-Option-i)                             | Item chooser                                            |
-| Escape                                             | Back button                                             |
-| → (Right arrow)                                    | Next item                                               |
-| ← (Left arrow)                                     | Previous item                                           |
-| ↑↓ (Up arrow, Down arrow)                          | Simultaneously tap selected item                        |
-| ⌥ ↓ (Option-Down arrow)                            | Scroll down                                             |
-| ⌥↑ (Option-Up arrow)                               | Scroll up                                               |
-| ⌥← or ⌥→ (Option-Left arrow or Option-Right arrow) | Scroll left or right                                    |
-| ^⌥S (Control-Option-S)                             | Turn VoiceOver speech on or off                         |
-| ⌘⇧⇥ (Command-Shift-Tab)                            | Switch to the previous app                              |
-| ⌘⇥ (Command-Tab)                                   | Switch back to the original app                         |
-| ←+→, then Option + ← or Option+→                   | Navigate through Dock                                   |
+### Nawigacja w iPadzie
 
-### Safari shortcuts
+| Skrót                                              | Działanie                                                      |
+| -------------------------------------------------- | -------------------------------------------------------------- |
+| ⌘H                                                 | Przejdź do ekranu głównego                                      |
+| ⌘⇧H (Command-Shift-H)                              | Przejdź do ekranu głównego                                      |
+| ⌘ (Spacja)                                         | Otwórz Spotlight                                                |
+| ⌘⇥ (Command-Tab)                                   | Wyświetl listę ostatnio używanych aplikacji                     |
+| ⌘\~                                                | Przejdź do ostatniej aplikacji                                  |
+| ⌘⇧3 (Command-Shift-3)                              | Zrzut ekranu (pojawia się w lewym dolnym rogu do zapisania lub działania) |
+| ⌘⇧4                                                | Zrzut ekranu i otwórz go w edytorze                             |
+| Przytrzymaj ⌘                                       | Lista dostępnych skrótów dla aplikacji                          |
+| ⌘⌥D (Command-Option/Alt-D)                         | Wyświetl dokowanie                                              |
+| ^⌥H (Control-Option-H)                             | Przycisk Home                                                   |
+| ^⌥H H (Control-Option-H-H)                         | Pokaż pasek wielozadaniowy                                      |
+| ^⌥I (Control-Option-i)                             | Wybór elementu                                                  |
+| Escape                                             | Przycisk Wstecz                                                 |
+| → (Strzałka w prawo)                                    | Następny element                                                |
+| ← (Strzałka w lewo)                                     | Poprzedni element                                              |
+| ↑↓ (Strzałka w górę, Strzałka w dół)                    | Jednocześnie dotknij wybranego elementu                         |
+| ⌥ ↓ (Option-Strzałka w dół)                            | Przewiń w dół                                                   |
+| ⌥↑ (Option-Strzałka w górę)                             | Przewiń w górę                                                  |
+### Skróty klawiszowe w Safari
 
-| Shortcut                | Action                                           |
-| ----------------------- | ------------------------------------------------ |
-| ⌘L (Command-L)          | Open Location                                    |
-| ⌘T                      | Open a new tab                                   |
-| ⌘W                      | Close the current tab                            |
-| ⌘R                      | Refresh the current tab                          |
-| ⌘.                      | Stop loading the current tab                     |
-| ^⇥                      | Switch to the next tab                           |
-| ^⇧⇥ (Control-Shift-Tab) | Move to the previous tab                         |
-| ⌘L                      | Select the text input/URL field to modify it     |
-| ⌘⇧T (Command-Shift-T)   | Open last closed tab (can be used several times) |
-| ⌘\[                     | Goes back one page in your browsing history      |
-| ⌘]                      | Goes forward one page in your browsing history   |
-| ⌘⇧R                     | Activate Reader Mode                             |
+| Skrót                   | Działanie                                      |
+| ----------------------- | ---------------------------------------------- |
+| ⌘L (Command-L)          | Otwórz lokalizację                              |
+| ⌘T                      | Otwórz nową kartę                               |
+| ⌘W                      | Zamknij bieżącą kartę                           |
+| ⌘R                      | Odśwież bieżącą kartę                           |
+| ⌘.                      | Zatrzymaj ładowanie bieżącej karty               |
+| ^⇥                      | Przełącz się do następnej karty                  |
+| ^⇧⇥ (Control-Shift-Tab) | Przejdź do poprzedniej karty                     |
+| ⌘L                      | Wybierz pole tekstowe/URL do modyfikacji         |
+| ⌘⇧T (Command-Shift-T)   | Otwórz ostatnio zamkniętą kartę (można użyć kilka razy) |
+| ⌘\[                     | Wróć do poprzedniej strony w historii przeglądania |
+| ⌘]                      | Przejdź do następnej strony w historii przeglądania |
+| ⌘⇧R                     | Aktywuj tryb czytnika                            |
 
-### Mail shortcuts
+### Skróty klawiszowe w Mailu
 
-| Shortcut                   | Action                       |
-| -------------------------- | ---------------------------- |
-| ⌘L                         | Open Location                |
-| ⌘T                         | Open a new tab               |
-| ⌘W                         | Close the current tab        |
-| ⌘R                         | Refresh the current tab      |
-| ⌘.                         | Stop loading the current tab |
-| ⌘⌥F (Command-Option/Alt-F) | Search in your mailbox       |
+| Skrót                      | Działanie                     |
+| -------------------------- | ----------------------------- |
+| ⌘L                         | Otwórz lokalizację             |
+| ⌘T                         | Otwórz nową kartę              |
+| ⌘W                         | Zamknij bieżącą kartę          |
+| ⌘R                         | Odśwież bieżącą kartę          |
+| ⌘.                         | Zatrzymaj ładowanie bieżącej karty |
+| ⌘⌥F (Command-Option/Alt-F) | Szukaj w skrzynce odbiorczej    |
 
-# References
+# Odwołania
 
 * [https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html](https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html)
 * [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
@@ -291,16 +282,14 @@ These shortcuts are for the visual settings and sound settings, depending on the
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć **reklamę swojej firmy w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-

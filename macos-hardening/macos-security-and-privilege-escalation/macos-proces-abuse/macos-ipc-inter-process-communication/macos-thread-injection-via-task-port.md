@@ -1,196 +1,179 @@
-# macOS Thread Injection via Task port
+# Wstrzykiwanie wątków w macOS za pomocą portu zadania
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Code
+## Kod
 
 * [https://github.com/bazad/threadexec](https://github.com/bazad/threadexec)
 * [https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36](https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36)
 
 
-## 1. Thread Hijacking
+## 1. Porwanie wątku
 
-Initially, the **`task_threads()`** function is invoked on the task port to obtain a thread list from the remote task. A thread is selected for hijacking. This approach diverges from conventional code injection methods as creating a new remote thread is prohibited due to the new mitigation blocking `thread_create_running()`.
+Początkowo na porcie zadania wywoływana jest funkcja **`task_threads()`**, aby uzyskać listę wątków z zdalnego zadania. Wybierany jest wątek do porwania. To podejście różni się od konwencjonalnych metod wstrzykiwania kodu, ponieważ tworzenie nowego zdalnego wątku jest zabronione ze względu na nowe zabezpieczenia blokujące `thread_create_running()`.
 
-To control the thread, **`thread_suspend()`** is called, halting its execution.
+Aby kontrolować wątek, wywoływane jest **`thread_suspend()`**, zatrzymując jego wykonanie.
 
-The only operations permitted on the remote thread involve **stopping** and **starting** it, **retrieving** and **modifying** its register values. Remote function calls are initiated by setting registers `x0` to `x7` to the **arguments**, configuring **`pc`** to target the desired function, and activating the thread. Ensuring the thread does not crash after the return necessitates detection of the return.
+Jedyne dozwolone operacje na zdalnym wątku dotyczą jego **zatrzymywania** i **uruchamiania**, **pobierania** i **modyfikowania** jego wartości rejestrów. Wywołania zdalnych funkcji są inicjowane poprzez ustawienie rejestrów `x0` do `x7` na **argumenty**, konfigurację **`pc`** na docelową funkcję i aktywację wątku. Zapewnienie, że wątek nie ulegnie awarii po zakończeniu, wymaga wykrycia zwracanej wartości.
 
-One strategy involves **registering an exception handler** for the remote thread using `thread_set_exception_ports()`, setting the `lr` register to an invalid address before the function call. This triggers an exception post-function execution, sending a message to the exception port, enabling state inspection of the thread to recover the return value. Alternatively, as adopted from Ian Beer’s triple\_fetch exploit, `lr` is set to loop infinitely. The thread's registers are then continuously monitored until **`pc` points to that instruction**.
+Jedna strategia polega na **zarejestrowaniu obsługi wyjątków** dla zdalnego wątku za pomocą `thread_set_exception_ports()`, ustawieniu rejestru `lr` na nieprawidłowy adres przed wywołaniem funkcji. Powoduje to wywołanie wyjątku po wykonaniu funkcji, wysyłając wiadomość do portu wyjątku, umożliwiając inspekcję stanu wątku w celu odzyskania wartości zwracanej. Alternatywnie, jak w przypadku wykorzystania podwójnego ataku Ian Beer'a, `lr` jest ustawiane na nieskończoną pętlę. Następnie rejestry wątku są ciągle monitorowane, aż **`pc` wskazuje na tę instrukcję**.
 
-## 2. Mach ports for communication
+## 2. Porty Mach do komunikacji
 
-The subsequent phase involves establishing Mach ports to facilitate communication with the remote thread. These ports are instrumental in transferring arbitrary send and receive rights between tasks.
+Kolejny etap polega na ustanowieniu portów Mach w celu ułatwienia komunikacji z zdalnym wątkiem. Te porty są niezbędne do przesyłania dowolnych praw do wysyłania i odbierania między zadaniami.
 
-For bidirectional communication, two Mach receive rights are created: one in the local and the other in the remote task. Subsequently, a send right for each port is transferred to the counterpart task, enabling message exchange.
+W celu dwukierunkowej komunikacji tworzone są dwa prawa odbierania Mach: jedno w zadaniu lokalnym, a drugie w zdalnym zadaniu. Następnie prawa wysyłania dla każdego portu są przekazywane do odpowiedniego zadania, umożliwiając wymianę wiadomości.
 
-Focusing on the local port, the receive right is held by the local task. The port is created with `mach_port_allocate()`. The challenge lies in transferring a send right to this port into the remote task.
+Skupiając się na porcie lokalnym, prawo odbierania jest przechowywane przez zadanie lokalne. Port jest tworzony za pomocą `mach_port_allocate()`. Wyzwaniem jest przekazanie prawa wysyłania do tego portu do zdalnego zadania.
 
-A strategy involves leveraging `thread_set_special_port()` to place a send right to the local port in the remote thread’s `THREAD_KERNEL_PORT`. Then, the remote thread is instructed to call `mach_thread_self()` to retrieve the send right.
+Jedna strategia polega na wykorzystaniu `thread_set_special_port()` do umieszczenia prawa wysyłania do lokalnego portu w `THREAD_KERNEL_PORT` zdalnego wątku. Następnie zdalny wątek jest instruowany, aby wywołał `mach_thread_self()` w celu pobrania prawa wysyłania.
 
-For the remote port, the process is essentially reversed. The remote thread is directed to generate a Mach port via `mach_reply_port()` (as `mach_port_allocate()` is unsuitable due to its return mechanism). Upon port creation, `mach_port_insert_right()` is invoked in the remote thread to establish a send right. This right is then stashed in the kernel using `thread_set_special_port()`. Back in the local task, `thread_get_special_port()` is used on the remote thread to acquire a send right to the newly allocated Mach port in the remote task.
+Dla zdalnego portu proces jest odwrócony. Zdalny wątek jest instruowany, aby wygenerował port Mach za pomocą `mach_reply_port()` (ponieważ `mach_port_allocate()` jest nieodpowiednie ze względu na swoje zachowanie zwracania). Po utworzeniu portu w zdalnym wątku wywoływane jest `mach_port_insert_right()`, aby ustanowić prawo wysyłania. To prawo jest następnie przechowywane w jądrze za pomocą `thread_set_special_port()`. W zadaniu lokalnym używane jest `thread_get_special_port()` na zdalnym wątku, aby uzyskać prawo wysyłania do nowo przydzielonego portu Mach w zdalnym zadaniu.
 
-Completion of these steps results in the establishment of Mach ports, laying the groundwork for bidirectional communication.
+Ukończenie tych kroków prowadzi do ustanowienia portów Mach, tworząc podstawę do dwukierunkowej komunikacji.
 
-## 3. Basic Memory Read/Write Primitives
+## 3. Podstawowe podstawy odczytu/zapisu pamięci
 
-In this section, the focus is on utilizing the execute primitive to establish basic memory read and write primitives. These initial steps are crucial for gaining more control over the remote process, though the primitives at this stage won't serve many purposes. Soon, they will be upgraded to more advanced versions.
+W tej sekcji skupiamy się na wykorzystaniu podstawowych podstaw odczytu i zapisu pamięci za pomocą podstawowych funkcji wykonawczych. Te początkowe kroki są kluczowe dla uzyskania większej kontroli nad zdalnym procesem, chociaż podstawowe podstawy w tym etapie nie będą służyć wielu celom. Wkrótce zostaną ulepszone do bardziej zaawansowanych wersji.
 
-### Memory Reading and Writing Using Execute Primitive
+### Odczyt i zapis pamięci za pomocą podstawowych funkcji wykonawczych
 
-The goal is to perform memory reading and writing using specific functions. For reading memory, functions resembling the following structure are used:
-
+Celem jest wykonanie odczytu i zapisu pamięci za pomocą określonych funkcji. Do odczytu pamięci używane są funkcje o następującej strukturze:
 ```c
 uint64_t read_func(uint64_t *address) {
-    return *address;
+return *address;
 }
 ```
-
-And for writing to memory, functions similar to this structure are used:
-
+A do zapisywania do pamięci używane są funkcje podobne do tej struktury:
 ```c
 void write_func(uint64_t *address, uint64_t value) {
-    *address = value;
+*address = value;
 }
 ```
-
-These functions correspond to the given assembly instructions:
-
+Te funkcje odpowiadają podanym instrukcjom asemblera:
 ```
 _read_func:
-    ldr x0, [x0]
-    ret
+ldr x0, [x0]
+ret
 _write_func:
-    str x1, [x0]
-    ret
+str x1, [x0]
+ret
 ```
+### Identyfikowanie odpowiednich funkcji
 
-### Identifying Suitable Functions
+Skanowanie popularnych bibliotek ujawniło odpowiednie kandydatki na te operacje:
 
-A scan of common libraries revealed appropriate candidates for these operations:
-
-1. **Reading Memory:**
-   The `property_getName()` function from the [Objective-C runtime library](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) is identified as a suitable function for reading memory. The function is outlined below:
-
+1. **Odczytywanie pamięci:**
+Funkcja `property_getName()` z biblioteki [Objective-C runtime library](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) została zidentyfikowana jako odpowiednia funkcja do odczytywania pamięci. Poniżej przedstawiono opis tej funkcji:
 ```c
 const char *property_getName(objc_property_t prop) {
-      return prop->name;
+return prop->name;
 }
 ```
-   
-   This function effectively acts like the `read_func` by returning the first field of `objc_property_t`.
+Ta funkcja działa efektywnie jak `read_func`, zwracając pierwsze pole `objc_property_t`.
 
-2. **Writing Memory:**
-   Finding a pre-built function for writing memory is more challenging. However, the `_xpc_int64_set_value()` function from libxpc is a suitable candidate with the following disassembly:
-
+2. **Zapisywanie pamięci:**
+Znalezienie gotowej funkcji do zapisywania pamięci jest bardziej wymagające. Jednak funkcja `_xpc_int64_set_value()` z biblioteki libxpc jest odpowiednim kandydatem, oto jej rozkład:
 ```c
 __xpc_int64_set_value:
-    str x1, [x0, #0x18]
-    ret
+str x1, [x0, #0x18]
+ret
 ```
-
-
-To perform a 64-bit write at a specific address, the remote call is structured as:
-
+Aby wykonać zapis 64-bitowy pod określonym adresem, zdalne wywołanie jest strukturalne w następujący sposób:
 ```c
 _xpc_int64_set_value(address - 0x18, value)
 ```
+Za pomocą tych podstawowych narzędzi, jesteśmy gotowi do utworzenia pamięci współdzielonej, co stanowi znaczący postęp w kontroli zdalnego procesu.
 
-With these primitives established, the stage is set for creating shared memory, marking a significant progression in controlling the remote process.
+## 4. Konfiguracja pamięci współdzielonej
 
-## 4. Shared Memory Setup
+Celem jest ustanowienie pamięci współdzielonej między lokalnymi i zdalnymi zadaniami, upraszczając transfer danych i ułatwiając wywoływanie funkcji z wieloma argumentami. Metoda polega na wykorzystaniu `libxpc` i jej obiektu typu `OS_xpc_shmem`, który jest oparty na wpisach pamięci Mach.
 
-The objective is to establish shared memory between local and remote tasks, simplifying data transfer and facilitating the calling of functions with multiple arguments. The approach involves leveraging `libxpc` and its `OS_xpc_shmem` object type, which is built upon Mach memory entries.
+### Przegląd procesu:
 
-### Process Overview:
+1. **Alokacja pamięci**:
+- Alokuj pamięć do współdzielenia za pomocą `mach_vm_allocate()`.
+- Użyj `xpc_shmem_create()` do utworzenia obiektu `OS_xpc_shmem` dla zaalokowanego obszaru pamięci. Ta funkcja zarządza utworzeniem wpisu pamięci Mach i przechowuje prawo wysyłania Mach na przesunięciu `0x18` obiektu `OS_xpc_shmem`.
 
-1. **Memory Allocation**:
-   - Allocate the memory for sharing using `mach_vm_allocate()`.
-   - Use `xpc_shmem_create()` to create an `OS_xpc_shmem` object for the allocated memory region. This function will manage the creation of the Mach memory entry and store the Mach send right at offset `0x18` of the `OS_xpc_shmem` object.
+2. **Tworzenie pamięci współdzielonej w zdalnym procesie**:
+- Alokuj pamięć dla obiektu `OS_xpc_shmem` w zdalnym procesie za pomocą zdalnego wywołania `malloc()`.
+- Skopiuj zawartość lokalnego obiektu `OS_xpc_shmem` do zdalnego procesu. Jednak to początkowe skopiowanie będzie miało nieprawidłowe nazwy wpisów pamięci Mach na przesunięciu `0x18`.
 
-2. **Creating Shared Memory in Remote Process**:
-   - Allocate memory for the `OS_xpc_shmem` object in the remote process with a remote call to `malloc()`.
-   - Copy the contents of the local `OS_xpc_shmem` object to the remote process. However, this initial copy will have incorrect Mach memory entry names at offset `0x18`.
+3. **Poprawianie wpisu pamięci Mach**:
+- Wykorzystaj metodę `thread_set_special_port()` do wstawienia prawidła wysyłania dla wpisu pamięci Mach do zdalnego zadania.
+- Popraw pole wpisu pamięci Mach na przesunięciu `0x18`, nadpisując je nazwą wpisu pamięci zdalnej.
 
-3. **Correcting the Mach Memory Entry**:
-   - Utilize the `thread_set_special_port()` method to insert a send right for the Mach memory entry into the remote task.
-   - Correct the Mach memory entry field at offset `0x18` by overwriting it with the remote memory entry's name.
+4. **Finalizowanie konfiguracji pamięci współdzielonej**:
+- Zweryfikuj zdalny obiekt `OS_xpc_shmem`.
+- Ustanów mapowanie pamięci współdzielonej za pomocą zdalnego wywołania `xpc_shmem_remote()`.
 
-4. **Finalizing Shared Memory Setup**:
-   - Validate the remote `OS_xpc_shmem` object.
-   - Establish the shared memory mapping with a remote call to `xpc_shmem_remote()`.
+Postępując zgodnie z tymi krokami, pamięć współdzielona między lokalnymi i zdalnymi zadaniami zostanie skonfigurowana w sposób efektywny, umożliwiając prosty transfer danych i wykonywanie funkcji wymagających wielu argumentów.
 
-By following these steps, shared memory between the local and remote tasks will be efficiently set up, allowing for straightforward data transfers and the execution of functions requiring multiple arguments.
+## Dodatkowe fragmenty kodu
 
-## Additional Code Snippets
-
-For memory allocation and shared memory object creation:
+Alokacja pamięci i tworzenie obiektu pamięci współdzielonej:
 ```c
 mach_vm_allocate();
 xpc_shmem_create();
 ```
-
-For creating and correcting the shared memory object in the remote process:
-
+Do tworzenia i poprawiania obiektu pamięci współdzielonej w zdalnym procesie:
 ```c
 malloc(); // for allocating memory remotely
 thread_set_special_port(); // for inserting send right
 ```
+Pamiętaj, aby poprawnie obsługiwać szczegóły portów Mach i nazwy wpisów pamięci, aby zapewnić prawidłowe działanie funkcji udostępniania pamięci.
 
-Remember to handle the details of Mach ports and memory entry names correctly to ensure that the shared memory setup functions properly.
+## 5. Uzyskiwanie pełnej kontroli
 
+Po pomyślnym ustanowieniu pamięci udostępnianej i uzyskaniu możliwości dowolnego wykonywania poleceń, zasadniczo uzyskujemy pełną kontrolę nad procesem docelowym. Kluczowe funkcje umożliwiające tę kontrolę to:
 
-## 5. Achieving Full Control
+1. **Dowolne operacje na pamięci**:
+- Wykonuj dowolne odczyty pamięci, wywołując funkcję `memcpy()` w celu skopiowania danych z obszaru udostępnionego.
+- Wykonuj dowolne zapisy pamięci, używając funkcji `memcpy()` do przesyłania danych do obszaru udostępnionego.
 
-Upon successfully establishing shared memory and gaining arbitrary execution capabilities, we have essentially gained full control over the target process. The key functionalities enabling this control are:
+2. **Obsługa wywołań funkcji z wieloma argumentami**:
+- Dla funkcji wymagających więcej niż 8 argumentów, ułóż dodatkowe argumenty na stosie zgodnie z konwencją wywoływania.
 
-1. **Arbitrary Memory Operations**:
-   - Perform arbitrary memory reads by invoking `memcpy()` to copy data from the shared region.
-   - Execute arbitrary memory writes by using `memcpy()` to transfer data to the shared region.
+3. **Transfer portów Mach**:
+- Przenoś porty Mach między zadaniami za pomocą wiadomości Mach za pośrednictwem wcześniej ustanowionych portów.
 
-2. **Handling Function Calls with Multiple Arguments**:
-   - For functions requiring more than 8 arguments, arrange the additional arguments on the stack in compliance with the calling convention.
+4. **Transfer deskryptorów plików**:
+- Przenoś deskryptory plików między procesami, używając fileportów, techniki podkreślonej przez Iana Beera w `triple_fetch`.
 
-3. **Mach Port Transfer**:
-   - Transfer Mach ports between tasks through Mach messages via previously established ports.
+Ta kompleksowa kontrola jest zawarta w bibliotece [threadexec](https://github.com/bazad/threadexec), która zapewnia szczegółową implementację i przyjazne dla użytkownika API do interakcji z procesem ofiary.
 
-4. **File Descriptor Transfer**:
-   - Transfer file descriptors between processes using fileports, a technique highlighted by Ian Beer in `triple_fetch`.
+## Ważne uwagi:
 
-This comprehensive control is encapsulated within the [threadexec](https://github.com/bazad/threadexec) library, providing a detailed implementation and a user-friendly API for interaction with the victim process.
+- Upewnij się, że funkcję `memcpy()` używasz poprawnie do operacji odczytu/zapisu pamięci, aby utrzymać stabilność systemu i integralność danych.
+- Przy przenoszeniu portów Mach lub deskryptorów plików stosuj odpowiednie protokoły i odpowiedzialnie zarządzaj zasobami, aby zapobiec wyciekom lub niezamierzonemu dostępowi.
 
-## Important Considerations:
+Przestrzegając tych wytycznych i korzystając z biblioteki `threadexec`, można skutecznie zarządzać i współdziałać z procesami na granularnym poziomie, uzyskując pełną kontrolę nad procesem docelowym.
 
-- Ensure proper use of `memcpy()` for memory read/write operations to maintain system stability and data integrity.
-- When transferring Mach ports or file descriptors, follow proper protocols and handle resources responsibly to prevent leaks or unintended access.
-
-By adhering to these guidelines and utilizing the `threadexec` library, one can efficiently manage and interact with processes at a granular level, achieving full control over the target process.
-
-## References
+## Odwołania
 * [https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/](https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć **reklamę swojej firmy w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi trikami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

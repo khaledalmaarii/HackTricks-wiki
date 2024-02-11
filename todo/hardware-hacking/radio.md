@@ -2,222 +2,200 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) **i** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **repozytoriów GitHub.**
 
 </details>
 
 ## SigDigger
 
-[**SigDigger** ](https://github.com/BatchDrake/SigDigger)is a free digital signal analyzer for GNU/Linux and macOS, designed to extract information of unknown radio signals. It supports a variety of SDR devices through SoapySDR, and allows adjustable demodulation of FSK, PSK and ASK signals, decode analog video, analyze bursty signals and listen to analog voice channels (all in real time).
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger)to darmowy analizator sygnałów cyfrowych dla systemów GNU/Linux i macOS, zaprojektowany do wyodrębniania informacji z nieznanych sygnałów radiowych. Obsługuje różne urządzenia SDR za pomocą SoapySDR i umożliwia regulację demodulacji sygnałów FSK, PSK i ASK, dekodowanie analogowego wideo, analizę sygnałów impulsowych i słuchanie analogowych kanałów głosowych (wszystko w czasie rzeczywistym).
 
-### Basic Config
+### Podstawowa konfiguracja
 
-After installing there are a few things that you could consider configuring.\
-In settings (the second tab button) you can select the **SDR device** or **select a file** to read and which frequency to syntonise and the Sample rate (recommended to up to 2.56Msps if your PC support it)\\
+Po zainstalowaniu istnieje kilka rzeczy, które można skonfigurować.\
+W ustawieniach (drugie przycisku zakładki) można wybrać **urządzenie SDR** lub **wybrać plik**, który chcesz odczytać, a także częstotliwość do syntonizacji i częstotliwość próbkowania (zalecane do 2,56Msps, jeśli twój komputer to obsługuje)\\
 
 ![](<../../.gitbook/assets/image (655) (1).png>)
 
-In the GUI behaviour it's recommended to enable a few things if your PC support it:
+W zachowaniu interfejsu GUI zaleca się włączenie kilku rzeczy, jeśli twój komputer to obsługuje:
 
 ![](<../../.gitbook/assets/image (465) (2).png>)
 
 {% hint style="info" %}
-If you realise that your PC is not capturing things try to disable OpenGL and lowering the sample rate.
+Jeśli zauważysz, że twój komputer nie rejestruje sygnałów, spróbuj wyłączyć OpenGL i zmniejszyć częstotliwość próbkowania.
 {% endhint %}
 
-### Uses
+### Zastosowania
 
-* Just to **capture some time of a signal and analyze it** just maintain the button "Push to capture" as long as you need.
+* Aby **przechwycić pewien czas sygnału i go przeanalizować**, wystarczy nacisnąć przycisk "Push to capture" tak długo, jak jest to potrzebne.
 
 ![](<../../.gitbook/assets/image (631).png>)
 
-* The **Tuner** of SigDigger helps to **capture better signals** (but it can also degrade them). Ideally start with 0 and keep **making it bigger until** you find the **noise** introduce is **bigger** than the **improvement of the signal** you need).
+* **Tuner** w SigDiggerze pomaga **lepiej przechwytywać sygnały** (ale może je również pogarszać). Najlepiej zacząć od 0 i **zwiększać go**, aż znajdziesz, że **szum** wprowadzony jest **większy** niż **poprawa sygnału**, którą potrzebujesz).
 
 ![](<../../.gitbook/assets/image (658).png>)
 
-### Synchronize with radio channel
+### Synchronizacja z kanałem radiowym
 
-With [**SigDigger** ](https://github.com/BatchDrake/SigDigger)synchronize with the channel you want to hear, configure "Baseband audio preview" option, configure the bandwith to get all the info being sent and then set the Tuner to the level before the noise is really starting to increase:
+Z [**SigDiggerem** ](https://github.com/BatchDrake/SigDigger)możesz zsynchronizować się z kanałem, który chcesz odsłuchać, skonfigurować opcję "Podgląd audio pasma podstawowego", skonfigurować szerokość pasma, aby uzyskać wszystkie wysyłane informacje, a następnie ustawić tuner na poziomie przed rozpoczęciem rzeczywistego wzrostu szumu:
 
 ![](<../../.gitbook/assets/image (389).png>)
 
-## Interesting tricks
+## Ciekawe sztuczki
 
-* When a device is sending bursts of information, usually the **first part is going to be a preamble** so you **don't** need to **worry** if you **don't find information** in there **or if there are some errors** there.
-* In frames of information you usually should **find different frames well aligned between them**:
+* Gdy urządzenie wysyła serie informacji, zazwyczaj **pierwsza część będzie preambułą**, więc **nie musisz się martwić**, jeśli **nie znajdziesz tam informacji** lub jeśli występują w niej błędy.
+* W ramkach informacyjnych zwykle powinieneś **znaleźć różne ramki dobrze wyrównane między nimi**:
 
 ![](<../../.gitbook/assets/image (660) (1).png>)
 
 ![](<../../.gitbook/assets/image (652) (1) (1).png>)
 
-* **After recovering the bits you might need to process them someway**. For example, in Manchester codification a up+down will be a 1 or 0 and a down+up will be the other one. So pairs of 1s and 0s (ups and downs) will be a real 1 or a real 0.
-* Even if a signal is using Manchester codification (it's impossible to find more than two 0s or 1s in a row), you might **find several 1s or 0s together in the preamble**!
+* **Po odzyskaniu bitów możliwe, że będziesz musiał je w jakiś sposób przetworzyć**. Na przykład, w kodowaniu Manchester up+down będzie oznaczać 1 lub 0, a down+up będzie oznaczać drugą wartość. Więc pary 1 i 0 (ups i downs) będą prawdziwym 1 lub prawdziwym 0.
+* Nawet jeśli sygnał używa kodowania Manchester (niemożliwe jest znalezienie więcej niż dwóch zer lub jedynek pod rząd), możesz **znaleźć kilka jedynek lub zer razem w preambule**!
 
-### Uncovering modulation type with IQ
+### Odkrywanie typu modulacji za pomocą IQ
 
-There are 3 ways to store information in signals: Modulating the **amplitude**, **frequency** or **phase**.\
-If you are checking a signal there are different ways to try to figure out what is being used to store information (fin more ways below) but a good one is to check the IQ graph.
+Istnieją 3 sposoby przechowywania informacji w sygnałach: modulacja **amplitudy**, **częstotliwości** lub **fazy**.\
+Jeśli sprawdzasz sygnał, istnieje różne sposoby, aby spróbować dowiedzieć się, jakie metody są używane do przechowywania informacji (znajdziesz więcej sposobów poniżej), ale dobrym sposobem jest sprawdzenie wykresu IQ.
 
 ![](<../../.gitbook/assets/image (630).png>)
 
-* **Detecting AM**: If in the IQ graph appears for example **2 circles** (probably one in 0 and other in a different amplitude), it could means that this is an AM signal. This is because in the IQ graph the distance between the 0 and the circle is the amplitude of the signal, so it's easy to visualize different amplitudes being used.
-* **Detecting PM**: Like in the previous image, if you find small circles not related between them it probably means that a phase modulation is used. This is because in the IQ graph, the angle between the point and the 0,0 is the phase of the signal, so that means that 4 different phases are used.
-  * Note that if the information is hidden in the fact that a phase is changed and not in the phase itself, you won't see different phases clearly differentiated.
-* **Detecting FM**: IQ doesn't have a field to identify frequencies (distance to centre is amplitude and angle is phase).\
-  Therefore, to identify FM, you should **only see basically a circle** in this graph.\
-  Moreover, a different frequency is "represented" by the IQ graph by a **speed acceleration across the circle** (so in SysDigger selecting the signal the IQ graph is populated, if you find an acceleration or change of direction in the created circle it could mean that this is FM):
+* **Wykrywanie AM**: Jeśli na wykresie IQ pojawiają się na przykład **2 okręgi** (prawdopodobnie jeden w 0 i drugi w innej amplitudzie), może to oznaczać, że jest to sygnał AM. Wynika to z faktu, że na wykresie IQ odległość między 0 a okręgiem to amplituda sygnału, więc łatwo jest zobaczyć różne amplitudy używane.
+* **Wykrywanie PM**: Podobnie jak na poprzednim obrazku, jeśli znajdziesz małe okręgi niepowiązane między sobą, prawdopodobnie oznacza to, że używana jest modulacja fazowa. Wynika to z faktu, że na wykresie IQ kąt między punktem a 0,0 to faza sygnału, co oznacza, że używane są 4 różne fazy.
+* Należy zauważyć, że jeśli informacja jest ukryta w fakcie, że zmienia się faza, a nie w samej fazie, nie zobaczysz wyraźnie różnych faz.
+* **Wykrywanie FM**: IQ nie ma pola do identyfikacji częstotliwości (odległość od środka to amplituda, a kąt to faza).\
+Dlatego, aby zidentyfikować FM, powinieneś **zobaczyć basically tylko okrąg** na tym wykresie.\
+Ponadto, różna częstotliwość jest "reprezentowana" na wykresie IQ przez **przyspieszenie prędkości wzdłuż okręgu** (więc w SysDigger po wybraniu sygnału wykres IQ jest wypełniany, jeśli znajdziesz przyspieszenie lub zmianę kierunku w utworzonym okręgu, może to oznaczać, że jest to FM):
 
-## AM Example
+## Przykład AM
 
 {% file src="../../.gitbook/assets/sigdigger_20220308_165547Z_2560000_433500000_float32_iq.raw" %}
 
-### Uncovering AM
+### Odkrywanie AM
 
-#### Checking the envelope
+#### Sprawdzanie obwiedni
 
-Checking AM info with [**SigDigger** ](https://github.com/BatchDrake/SigDigger)and just looking at the **envelop** you can see different clear amplitude levels. The used signal is sending pulses with information in AM, this is how one pulse looks like:
+Sprawdzając informacje AM za pomocą [**SigDiggera** ](https://github.com/BatchDrake/SigDigger)i patrząc tylko na **obwied
+#### Z IQ
 
-![](<../../.gitbook/assets/image (636).png>)
-
-And this is how part of the symbol looks like with the waveform:
-
-![](<../../.gitbook/assets/image (650) (1).png>)
-
-#### Checking the Histogram
-
-You can **select the whole signal** where information is located, select **Amplitude** mode and **Selection** and click on **Histogram.** You can observer that 2 clear levels are only found
-
-![](<../../.gitbook/assets/image (647) (1) (1).png>)
-
-For example, if you select Frequency instead of Amplitude in this AM signal you find just 1 frequency (no way information modulated in frequency is just using 1 freq).
-
-![](<../../.gitbook/assets/image (637) (1) (1).png>)
-
-If you find a lot of frequencies potentially this won't be a FM, probably the signal frequency was just modified because of the channel.
-
-#### With IQ
-
-In this example you can see how there is a **big circle** but also **a lot of points in the centre.**
+W tym przykładzie możesz zobaczyć, że jest **duże koło**, ale także **wiele punktów w centrum**.
 
 ![](<../../.gitbook/assets/image (640).png>)
 
-### Get Symbol Rate
+### Uzyskaj szybkość symbolu
 
-#### With one symbol
+#### Z jednym symbolem
 
-Select the smallest symbol you can find (so you are sure it's just 1) and check the "Selection freq". I this case it would be 1.013kHz (so 1kHz).
+Wybierz najmniejszy symbol, jaki możesz znaleźć (aby mieć pewność, że to tylko 1) i sprawdź "Selection freq". W tym przypadku wynosiłoby to 1,013 kHz (czyli 1 kHz).
 
 ![](<../../.gitbook/assets/image (638) (1).png>)
 
-#### With a group of symbols
+#### Z grupą symboli
 
-You can also indicate the number of symbols you are going to select and SigDigger will calculate the frequency of 1 symbol (the more symbols selected the better probably). In this scenario I selected 10 symbols and the "Selection freq" is 1.004 Khz:
+Możesz również określić liczbę symboli, które zamierzasz wybrać, a SigDigger obliczy częstotliwość 1 symbolu (im więcej symboli wybranych, tym lepiej prawdopodobnie). W tym scenariuszu wybrałem 10 symboli, a "Selection freq" wynosi 1,004 kHz:
 
 ![](<../../.gitbook/assets/image (635).png>)
 
-### Get Bits
+### Uzyskaj bity
 
-Having found this is an **AM modulated** signal and the **symbol rate** (and knowing that in this case something up means 1 and something down means 0), it's very easy to **obtain the bits** encoded in the signal. So, select the signal with info and configure the sampling and decision and press sample (check that **Amplitude** is selected, the discovered **Symbol rate** is configured and the **Gadner clock recovery** is selected):
+Po ustaleniu, że jest to sygnał **modulowany AM** i znając **szybkość symbolu** (i wiedząc, że w tym przypadku coś w górę oznacza 1, a coś w dół oznacza 0), bardzo łatwo jest **uzyskać bity** zakodowane w sygnale. Wybierz sygnał z informacjami, skonfiguruj próbkowanie i decyzję, a następnie naciśnij przycisk próbkowania (upewnij się, że wybrano **Amplitudę**, skonfigurowano odkrytą **szybkość symbolu** i wybrano **odzyskiwanie zegara Gadnera**):
 
 ![](<../../.gitbook/assets/image (642) (1).png>)
 
-* **Sync to selection intervals** means that if you previously selected intervals to find the symbol rate, that symbol rate will be used.
-* **Manual** means that the indicated symbol rate is going to be used
-* In **Fixed interval selection** you indicate the number of intervals that should be selected and it calculates the symbol rate from it
-* **Gadner clock recovery** is usually the best option, but you still need to indicate some approximate symbol rate.
+* **Sync to selection intervals** oznacza, że jeśli wcześniej wybrałeś interwały, aby znaleźć szybkość symbolu, ta szybkość symbolu zostanie użyta.
+* **Manual** oznacza, że zostanie użyta wskazana szybkość symbolu.
+* W **Fixed interval selection** określasz liczbę interwałów, które powinny zostać wybrane, a oblicza się z tego szybkość symbolu.
+* **Odzyskiwanie zegara Gadnera** to zazwyczaj najlepsza opcja, ale nadal musisz podać przybliżoną szybkość symbolu.
 
-Pressing sample this appears:
+Po naciśnięciu przycisku próbkowania pojawi się to:
 
 ![](<../../.gitbook/assets/image (659).png>)
 
-Now, to make SigDigger understand **where is the range** of the level carrying information you need to click on the **lower level** and maintain clicked until the biggest level:
+Aby sprawić, że SigDigger zrozumie, **gdzie znajduje się zakres** przenoszenia informacji, musisz kliknąć na **niższy poziom** i przytrzymać go kliknięty, aż do największego poziomu:
 
 ![](<../../.gitbook/assets/image (662) (1) (1) (1).png>)
 
-If there would have been for example **4 different levels of amplitude**, you should have need to configure the **Bits per symbol to 2** and select from the smallest to the biggest.
+Jeśli na przykład byłyby **4 różne poziomy amplitudy**, musiałbyś skonfigurować **Bits per symbol na 2** i wybrać od najmniejszego do największego.
 
-Finally **increasing** the **Zoom** and **changing the Row size** you can see the bits (and you can select all and copy to get all the bits):
+Ostatecznie, **zwiększając** **Zoom** i **zmieniając rozmiar wiersza**, możesz zobaczyć bity (i możesz je wszystkie zaznaczyć i skopiować, aby uzyskać wszystkie bity):
 
 ![](<../../.gitbook/assets/image (649) (1).png>)
 
-If the signal has more than 1 bit per symbol (for example 2), SigDigger has **no way to know which symbol is** 00, 01, 10, 11, so it will use different **grey scales** the represent each (and if you copy the bits it will use **numbers from 0 to 3**, you will need to treat them).
+Jeśli sygnał ma więcej niż 1 bit na symbol (na przykład 2), SigDigger **nie ma możliwości określenia, który symbol to** 00, 01, 10, 11, dlatego użyje różnych **skali szarości**, aby przedstawić każdy z nich (i jeśli skopiujesz bity, użyje **liczb od 0 do 3**, będziesz musiał je przetworzyć).
 
-Also, use **codifications** such as **Manchester**, and **up+down** can be **1 or 0** and an down+up can be a 1 or 0. In those cases you need to **treat the obtained ups (1) and downs (0)** to substitute the pairs of 01 or 10 as 0s or 1s.
+Należy również stosować **kodowania** takie jak **Manchester**, a **up+down** może być **1 lub 0**, a down+up może być 1 lub 0. W tych przypadkach musisz **przetworzyć uzyskane wartości up (1) i down (0)**, aby zastąpić pary 01 lub 10 jako 0 lub 1.
 
-## FM Example
+## Przykład FM
 
 {% file src="../../.gitbook/assets/sigdigger_20220308_170858Z_2560000_433500000_float32_iq.raw" %}
 
-### Uncovering FM
+### Odkrywanie FM
 
-#### Checking the frequencies and waveform
+#### Sprawdzanie częstotliwości i kształtu fali
 
-Signal example sending information modulated in FM:
+Przykład sygnału wysyłającego informacje zmodulowane w FM:
 
 ![](<../../.gitbook/assets/image (661) (1).png>)
 
-In the previous image you can observe pretty good that **2 frequencies are used** but if you **observe** the **waveform** you might n**ot be able to identify correctly the 2 different frequencies**:
+Na poprzednim obrazie można zauważyć, że używane są **2 różne częstotliwości**, ale jeśli **obserwujesz** **kształt fali**, możesz **nie być w stanie poprawnie zidentyfikować 2 różnych częstotliwości**:
 
 ![](<../../.gitbook/assets/image (653).png>)
 
-This is because I capture the signal in booth frequencies, therefore one is approximately the other in negative:
+Dzieje się tak dlatego, że przechwytuję sygnał w obu częstotliwościach, więc jedna jest mniej więcej przeciwna do drugiej:
 
 ![](<../../.gitbook/assets/image (656).png>)
 
-If the synchronized frequency is **closer to one frequency than to the other** you can easily see the 2 different frequencies:
+Jeśli zsynchronizowana częstotliwość jest **bliższa jednej częstotliwości niż drugiej**, łatwo można zobaczyć 2 różne częstotliwości:
 
 ![](<../../.gitbook/assets/image (648) (1) (1) (1).png>)
 
 ![](<../../.gitbook/assets/image (634).png>)
 
-#### Checking the histogram
+#### Sprawdzanie histogramu
 
-Checking the frequency histogram of the signal with information you can easily see 2 different signals:
+Sprawdzając histogram częstotliwości sygnału z informacjami, łatwo można zobaczyć 2 różne sygnały:
 
 ![](<../../.gitbook/assets/image (657).png>)
 
-In this case if you check the **Amplitude histogram** you will find **only one amplitude**, so it **cannot be AM** (if you find a lot of amplitudes it might be because the signal has been losing power along the channel):
+W tym przypadku, jeśli sprawdzisz **histogram amplitudy**, znajdziesz **tylko jedną amplitudę**, więc **nie może to być AM** (jeśli znajdziesz wiele amplitud, może to oznaczać, że sygnał tracił moc wzdłuż kanału):
 
 ![](<../../.gitbook/assets/image (646).png>)
 
-And this is would be phase histogram (which makes very clear the signal is not modulated in phase):
+A to byłby histogram fazy (co bardzo wyraźnie pokazuje, że sygnał nie jest modulowany fazowo):
 
 ![](<../../.gitbook/assets/image (201) (2).png>)
 
-#### With IQ
+#### Z IQ
 
-IQ doesn't have a field to identify frequencies (distance to centre is amplitude and angle is phase).\
-Therefore, to identify FM, you should **only see basically a circle** in this graph.\
-Moreover, a different frequency is "represented" by the IQ graph by a **speed acceleration across the circle** (so in SysDigger selecting the signal the IQ graph is populated, if you find an acceleration or change of direction in the created circle it could mean that this is FM):
+IQ nie ma pola do identyfikacji częstotliwości (odległość od środka to amplituda, a kąt to faza).\
+Dlatego, aby zidentyfikować FM, powinieneś **zobaczyć basically tylko koło** na tym wykresie.\
+Ponadto, inna częstotliwość jest "reprezentowana" na wykresie IQ przez **przyspieszenie prędkości wzdłuż koła** (więc w SysDigger, wybierając sygnał, wykres IQ jest wypełniany, jeśli znajdziesz przyspieszenie lub zmianę kierunku na utworzonym kole, może to oznaczać, że jest to FM):
 
 ![](<../../.gitbook/assets/image (643) (1).png>)
 
-### Get Symbol Rate
+### Uzyskaj szybkość symbolu
 
-You can use the **same technique as the one used in the AM example** to get the symbol rate once you have found the frequencies carrying symbols.
+Możesz użyć **tej samej techniki, co w przykładzie AM**, aby uzyskać szybkość symbolu, gdy już znalazłeś częstotliwości przenoszące symbole.
 
-### Get Bits
+### Uzyskaj bity
 
-You can use the **same technique as the one used in the AM example** to get the bits once you have **found the signal is modulated in frequency** and the **symbol rate**.
+Możesz użyć **tej samej techniki, co w przykładzie AM**, aby uzyskać bity, gdy już **znalazłeś, że sygnał jest modulowany częstotliwością** i **szybkość symbolu**.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Inne sposoby wsparcia HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Uzyskaj [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**The PEASS Family**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@
