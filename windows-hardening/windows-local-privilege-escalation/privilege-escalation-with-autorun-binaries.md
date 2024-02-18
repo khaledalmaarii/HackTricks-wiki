@@ -6,19 +6,19 @@
 
 支持 HackTricks 的其他方式：
 
-* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) 上 **关注**我们。
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
+- 如果您想在 HackTricks 中看到您的**公司广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+- 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+- 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+- **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) 上 **关注**我们。
+- 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-如果您对**黑客职业**感兴趣并想要攻破不可攻破的 - **我们正在招聘！**（需要流利的波兰语书面和口头表达能力）。
+**漏洞赏金提示**：**注册** Intigriti，这是一家由黑客创建的高级**漏洞赏金平台**！立即加入我们，访问 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)，开始赚取高达**$100,000**的赏金！
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## WMIC
 
@@ -42,7 +42,7 @@ schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgro
 ```
 ## 文件夹
 
-**启动文件夹中的所有二进制文件将在启动时执行**。常见的启动文件夹如下所示，但启动文件夹在注册表中指定。[阅读此处以了解位置。](privilege-escalation-with-autorun-binaries.md#startup-path)
+**启动文件夹中的所有二进制文件将在启动时执行**。常见的启动文件夹如下所示，但启动文件夹在注册表中有指示。[阅读此处以了解位置。](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -91,16 +91,16 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-在 Windows Vista 及更高版本中，**Run** 和 **RunOnce** 注册表键不会自动生成。这些键中的条目可以直接启动程序或将它们指定为依赖项。例如，要在登录时加载 DLL 文件，可以使用 **RunOnceEx** 注册表键以及一个 "Depend" 键。通过添加一个注册表项来执行 "C:\\temp\\evil.dll" 可在系统启动时演示此操作：
+在 Windows Vista 及更高版本中，**Run** 和 **RunOnce** 注册表键不会自动生成。这些键中的条目可以直接启动程序或将它们指定为依赖项。例如，要在登录时加载 DLL 文件，可以使用 **RunOnceEx** 注册表键以及一个 "Depend" 键。通过添加一个注册表项来在系统启动时执行 "C:\temp\evil.dll" 来演示这一点:
 ```
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
 {% hint style="info" %}
-**Exploit 1**: 如果你可以写入**HKLM**中提到的任何注册表，当不同用户登录时，你可以提升权限。
+**Exploit 1**：如果您可以在**HKLM**中的任何提到的注册表中写入内容，则可以在不同用户登录时提升权限。
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 2**: 如果你可以覆盖**HKLM**中任何注册表中指定的二进制文件，当不同用户登录时，你可以修改该二进制文件并提升权限。
+**Exploit 2**：如果您可以覆盖**HKLM**中任何注册表中指定的任何二进制文件，则可以在不同用户登录时修改该二进制文件并提升权限。
 {% endhint %}
 ```bash
 #CMD
@@ -211,19 +211,19 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 
 ### 更改安全模式命令提示符
 
-在Windows注册表中的 `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot` 下，默认设置了一个名为 **`AlternateShell`** 的数值，其默认值为 `cmd.exe`。这意味着当您在启动过程中选择“带命令提示符的安全模式”（通过按下 F8 键），将使用 `cmd.exe`。但是，您可以设置计算机自动启动到此模式，而无需按下 F8 并手动选择它。
+在Windows注册表中的 `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot` 下，默认设置了一个名为 **`AlternateShell`** 的数值，其数值为 `cmd.exe`。这意味着当您在启动时选择“带命令提示符的安全模式”（按 F8 键），将使用 `cmd.exe`。但是，可以设置计算机自动启动到此模式，而无需按 F8 并手动选择它。
 
-创建一个用于自动启动到“带命令提示符的安全模式”的引导选项的步骤：
+创建一个用于自动启动“带命令提示符的安全模式”的引导选项的步骤：
 
 1. 更改 `boot.ini` 文件的属性，以移除只读、系统和隐藏标志：`attrib c:\boot.ini -r -s -h`
 2. 打开 `boot.ini` 进行编辑。
 3. 插入一行类似于：`multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
-4. 保存对 `boot.ini` 的更改。
+4. 保存更改到 `boot.ini`。
 5. 重新应用原始文件属性：`attrib c:\boot.ini +r +s +h`
 
-- **Exploit 1:** 更改 **AlternateShell** 注册表键允许设置自定义命令 shell，可能用于未经授权的访问。
-- **Exploit 2 (PATH 写入权限):** 拥有对系统 **PATH** 变量的任何部分的写入权限，特别是在 `C:\Windows\system32` 之前，可以让您执行自定义的 `cmd.exe`，如果系统在安全模式下启动，则可能成为后门。
-- **Exploit 3 (PATH 和 boot.ini 写入权限):** 对 `boot.ini` 的写入访问权限使自动启动到安全模式成为可能，在下一次重启时促进未经授权的访问。
+* **Exploit 1:** 更改 **AlternateShell** 注册表键允许设置自定义命令 shell，可能用于未经授权的访问。
+* **Exploit 2 (PATH 写入权限):** 对系统 **PATH** 变量的任何部分具有写入权限，特别是在 `C:\Windows\system32` 之前，可以执行自定义的 `cmd.exe`，如果系统在安全模式下启动，则可能成为后门。
+* **Exploit 3 (PATH 和 boot.ini 写入权限):** 对 `boot.ini` 的写入访问权限使安全模式自动启动，从而在下次重启时促进未经授权的访问。
 
 要检查当前的 **AlternateShell** 设置，请使用以下命令：
 ```bash
@@ -232,7 +232,7 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 ```
 ### 已安装组件
 
-Active Setup 是 Windows 中的一个功能，在桌面环境完全加载之前启动。它优先执行某些命令，这些命令必须在用户登录继续之前完成。这个过程甚至发生在其他启动条目之前，比如在 Run 或 RunOnce 注册表部分中触发的条目。
+Active Setup 是 Windows 中的一个功能，在桌面环境完全加载之前启动。它优先执行某些命令，这些命令必须在用户登录继续之前完成。这个过程甚至发生在其他启动条目之前，比如在 Run 或 RunOnce 注册表部分触发的条目。
 
 Active Setup 通过以下注册表键进行管理：
 
@@ -248,7 +248,7 @@ Active Setup 通过以下注册表键进行管理：
   - `1` 表示命令将为每个用户执行一次，这是默认行为，如果缺少 `IsInstalled` 值。
 - **StubPath:** 定义由 Active Setup 执行的命令。它可以是任何有效的命令行，比如启动 `notepad`。
 
-**安全见解:**
+**安全洞察:**
 
 - 修改或写入 `IsInstalled` 设置为 `"1"` 的键，具有特定 `StubPath` 的键可能导致未经授权的命令执行，潜在地用于特权升级。
 - 修改任何 `StubPath` 值中引用的二进制文件也可能实现特权升级，如果有足够的权限。
@@ -264,7 +264,7 @@ reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
 
 ### 浏览器辅助对象（BHOs）概述
 
-浏览器辅助对象（BHOs）是DLL模块，可为Microsoft的Internet Explorer添加额外功能。它们在每次启动时加载到Internet Explorer和Windows Explorer中。然而，通过将**NoExplorer**键设置为1，可以阻止它们在Windows Explorer实例中加载。
+浏览器辅助对象（BHOs）是DLL模块，可为微软的Internet Explorer添加额外功能。它们在每次启动时加载到Internet Explorer和Windows Explorer中。然而，通过将**NoExplorer**键设置为1，可以阻止它们在Windows Explorer实例中加载，从而阻止它们执行。
 
 BHOs通过Internet Explorer 11与Windows 10兼容，但不支持Microsoft Edge，这是较新版本Windows中的默认浏览器。
 
@@ -314,13 +314,13 @@ HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Executi
 ```
 ## SysInternals
 
-请注意，您可以找到自动运行的所有站点都已经被**winpeas.exe**搜索过。但是，为了获得更全面的自动执行文件列表，您可以使用[systinternals的autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)：
+请注意，您可以找到自动运行的所有站点都已经被**winpeas.exe**搜索过。但是，为了获得更全面的自动执行文件列表，您可以使用[systinternals的autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)。
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
 ## 更多
 
-**查找更多类似注册表的Autoruns，请访问[https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)**
+**查找更多类似注册表的自动运行程序，请访问** [**https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2**](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
 ## 参考资料
 
@@ -329,22 +329,22 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 * [https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-如果您对**黑客职业**感兴趣并想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书面和口头表达能力）。
+**漏洞悬赏提示**：**注册** Intigriti，一个由黑客创建的高级**漏洞悬赏平台**！立即加入我们，访问 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)，开始赚取高达**$100,000**的悬赏！
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+支持 HackTricks 的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我们。
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
