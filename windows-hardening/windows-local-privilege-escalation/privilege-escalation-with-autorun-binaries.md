@@ -2,23 +2,23 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
+**Astuce de prime de bug** : **inscrivez-vous** à **Intigriti**, une plateforme de prime de bug premium créée par des pirates informatiques, pour les pirates informatiques ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui, et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## WMIC
 
@@ -54,7 +54,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ## Registre
 
 {% hint style="info" %}
-[Note à partir d'ici](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): L'entrée de registre **Wow6432Node** indique que vous exécutez une version Windows 64 bits. Le système d'exploitation utilise cette clé pour afficher une vue séparée de HKEY_LOCAL_MACHINE\SOFTWARE pour les applications 32 bits qui s'exécutent sur des versions Windows 64 bits.
+[Note à partir d'ici](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): L'entrée de registre **Wow6432Node** indique que vous exécutez une version Windows 64 bits. Le système d'exploitation utilise cette clé pour afficher une vue séparée de HKEY\_LOCAL\_MACHINE\SOFTWARE pour les applications 32 bits qui s'exécutent sur des versions Windows 64 bits.
 {% endhint %}
 
 ### Exécutions
@@ -91,7 +91,7 @@ Les clés de registre connues sous le nom de **Run** et **RunOnce** sont conçue
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Sur Windows Vista et les versions ultérieures, les clés de registre **Run** et **RunOnce** ne sont pas générées automatiquement. Les entrées dans ces clés peuvent soit démarrer directement des programmes, soit les spécifier comme dépendances. Par exemple, pour charger un fichier DLL au démarrage de session, on pourrait utiliser la clé de registre **RunOnceEx** avec une clé "Depend". Cela est démontré en ajoutant une entrée de registre pour exécuter "C:\\temp\\evil.dll" lors du démarrage du système :
+Sur Windows Vista et les versions ultérieures, les clés de registre **Run** et **RunOnce** ne sont pas générées automatiquement. Les entrées dans ces clés peuvent soit démarrer directement des programmes, soit les spécifier comme dépendances. Par exemple, pour charger un fichier DLL au démarrage de session, on pourrait utiliser la clé de registre **RunOnceEx** avec une clé "Depend". Cela est démontré en ajoutant une entrée de registre pour exécuter "C:\temp\evil.dll" lors du démarrage du système :
 ```
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
@@ -167,7 +167,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 Les raccourcis placés dans le dossier **Démarrage** déclencheront automatiquement des services ou des applications au démarrage de l'utilisateur ou du système. L'emplacement du dossier **Démarrage** est défini dans le registre pour les scopes **Machine Locale** et **Utilisateur Actuel**. Cela signifie que tout raccourci ajouté à ces emplacements **Démarrage** spécifiés garantira que le service ou le programme lié démarre après le processus de connexion ou de redémarrage, en faisant une méthode simple pour planifier l'exécution automatique de programmes.
 
 {% hint style="info" %}
-Si vous pouvez écraser un \[Utilisateur] Shell Folder sous **HKLM**, vous pourrez le rediriger vers un dossier contrôlé par vous et y placer une porte dérobée qui sera exécutée à chaque fois qu'un utilisateur se connecte au système, escaladant ainsi les privilèges.
+Si vous pouvez écraser un \[Utilisateur] Shell Folder sous **HKLM**, vous pourrez le rediriger vers un dossier contrôlé par vous et y placer une porte dérobée qui sera exécutée à chaque fois qu'un utilisateur se connecte au système, permettant ainsi une élévation de privilèges.
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -211,7 +211,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 
 ### Modification de l'invite de commande du mode sans échec
 
-Dans le Registre de Windows sous `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, il y a une valeur **`AlternateShell`** définie par défaut sur `cmd.exe`. Cela signifie que lorsque vous choisissez "Mode sans échec avec invite de commande" au démarrage (en appuyant sur F8), `cmd.exe` est utilisé. Cependant, il est possible de configurer votre ordinateur pour démarrer automatiquement dans ce mode sans avoir besoin d'appuyer sur F8 et de le sélectionner manuellement.
+Dans le Registre Windows sous `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, il y a une valeur **`AlternateShell`** définie par défaut sur `cmd.exe`. Cela signifie que lorsque vous choisissez "Mode sans échec avec invite de commande" au démarrage (en appuyant sur F8), `cmd.exe` est utilisé. Cependant, il est possible de configurer votre ordinateur pour démarrer automatiquement dans ce mode sans avoir besoin d'appuyer sur F8 et de le sélectionner manuellement.
 
 Étapes pour créer une option de démarrage pour démarrer automatiquement en "Mode sans échec avec invite de commande":
 
@@ -219,18 +219,18 @@ Dans le Registre de Windows sous `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot
 2. Ouvrir `boot.ini` pour l'éditer.
 3. Insérer une ligne comme : `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
 4. Enregistrer les modifications apportées à `boot.ini`.
-5. Réappliquer les attributs originaux du fichier : `attrib c:\boot.ini +r +s +h`
+5. Réappliquer les attributs de fichier d'origine : `attrib c:\boot.ini +r +s +h`
 
-- **Exploitation 1 :** Modifier la clé de Registre **AlternateShell** permet de configurer un shell de commande personnalisé, potentiellement pour un accès non autorisé.
-- **Exploitation 2 (Permissions d'écriture du chemin d'accès) :** Avoir des permissions d'écriture sur n'importe quelle partie de la variable **PATH** du système, en particulier avant `C:\Windows\system32`, vous permet d'exécuter un `cmd.exe` personnalisé, qui pourrait être une porte dérobée si le système démarre en mode sans échec.
-- **Exploitation 3 (Permissions d'écriture du chemin d'accès et de boot.ini) :** L'accès en écriture à `boot.ini` permet un démarrage automatique en mode sans échec, facilitant l'accès non autorisé au prochain redémarrage.
+* **Exploitation 1 :** Modifier la clé de Registre **AlternateShell** permet de configurer un shell de commande personnalisé, potentiellement pour un accès non autorisé.
+* **Exploitation 2 (Permissions d'écriture du chemin d'accès) :** Avoir des permissions d'écriture sur n'importe quelle partie de la variable **PATH** du système, en particulier avant `C:\Windows\system32`, vous permet d'exécuter un `cmd.exe` personnalisé, qui pourrait être une porte dérobée si le système démarre en mode sans échec.
+* **Exploitation 3 (Permissions d'écriture du chemin d'accès et de boot.ini) :** L'accès en écriture à `boot.ini` permet un démarrage automatique en mode sans échec, facilitant l'accès non autorisé au prochain redémarrage.
 
 Pour vérifier le paramètre actuel de **AlternateShell**, utilisez ces commandes :
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot' -Name 'AlternateShell'
 ```
-### Composant Installé
+### Composant installé
 
 Active Setup est une fonctionnalité de Windows qui **s'initialise avant que l'environnement de bureau ne soit entièrement chargé**. Il donne la priorité à l'exécution de certaines commandes, qui doivent être terminées avant que la connexion de l'utilisateur ne se poursuive. Ce processus se produit même avant que d'autres entrées de démarrage, telles que celles des sections du registre Run ou RunOnce, ne soient déclenchées.
 
@@ -243,12 +243,12 @@ Active Setup est géré via les clés de registre suivantes :
 
 Au sein de ces clés, diverses sous-clés existent, correspondant chacune à un composant spécifique. Les valeurs clés d'intérêt particulier incluent :
 
-- **IsInstalled:**
+- **IsInstalled :**
   - `0` indique que la commande du composant ne s'exécutera pas.
   - `1` signifie que la commande s'exécutera une fois pour chaque utilisateur, ce qui est le comportement par défaut si la valeur `IsInstalled` est manquante.
-- **StubPath:** Définit la commande à exécuter par Active Setup. Il peut s'agir de n'importe quelle ligne de commande valide, comme le lancement de `notepad`.
+- **StubPath :** Définit la commande à exécuter par Active Setup. Il peut s'agir de n'importe quelle ligne de commande valide, comme le lancement de `notepad`.
 
-**Informations de Sécurité :**
+**Informations de sécurité :**
 
 - Modifier ou écrire dans une clé où **`IsInstalled`** est défini sur `"1"` avec un **`StubPath`** spécifique peut entraîner une exécution de commande non autorisée, potentiellement pour une élévation de privilèges.
 - Modifier le fichier binaire référencé dans n'importe quelle valeur **`StubPath`** pourrait également permettre une élévation de privilèges, en fonction des autorisations suffisantes.
@@ -270,8 +270,8 @@ Les BHO sont compatibles avec Windows 10 via Internet Explorer 11 mais ne sont p
 
 Pour explorer les BHO enregistrés sur un système, vous pouvez inspecter les clés de registre suivantes :
 
-- `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
-- `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
+* `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
+* `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
 Chaque BHO est représenté par son **CLSID** dans le registre, servant d'identifiant unique. Des informations détaillées sur chaque CLSID peuvent être trouvées sous `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`.
 
@@ -285,9 +285,9 @@ reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\B
 * `HKLM\Software\Microsoft\Internet Explorer\Extensions`
 * `HKLM\Software\Wow6432Node\Microsoft\Internet Explorer\Extensions`
 
-Notez que le registre contiendra 1 nouveau registre pour chaque dll et il sera représenté par le **CLSID**. Vous pouvez trouver les informations CLSID dans `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`
+Notez que le registre contiendra 1 nouveau registre par dll et sera représenté par le **CLSID**. Vous pouvez trouver les informations CLSID dans `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`
 
-### Pilotes de police
+### Pilotes de police de caractères
 
 * `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers`
 * `HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers`
@@ -320,7 +320,7 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
 ## Plus
 
-**Trouvez plus d'Autoruns comme des registres dans [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)**
+**Trouvez plus d'Autoruns comme des registres dans** [**https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2**](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
 ## Références
 
@@ -329,11 +329,11 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 * [https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Si vous êtes intéressé par une **carrière en piratage** et pirater l'impiratable - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
+**Conseil de prime de bug** : **inscrivez-vous** à **Intigriti**, une plateforme de prime de bug premium créée par des hackers, pour des hackers ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui, et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 <details>
 
@@ -344,7 +344,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
