@@ -1,4 +1,4 @@
-# Nadużywanie procesów w systemie macOS
+# Nadużycie procesów w macOS
 
 <details>
 
@@ -6,43 +6,43 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-## Nadużywanie procesów w systemie macOS
+## Nadużycie procesów w macOS
 
-System macOS, podobnie jak każdy inny system operacyjny, zapewnia różne metody i mechanizmy **interakcji, komunikacji i udostępniania danych** między procesami. Choć te techniki są niezbędne dla efektywnego funkcjonowania systemu, mogą być również wykorzystywane przez cyberprzestępców do **wykonywania szkodliwych działań**.
+macOS, podobnie jak każdy inny system operacyjny, zapewnia różne metody i mechanizmy, dzięki którym **procesy mogą ze sobą współdziałać, komunikować się i dzielić danymi**. Choć te techniki są niezbędne dla efektywnego funkcjonowania systemu, mogą być również wykorzystywane przez sprawców zagrożeń do **wykonywania działań o charakterze złośliwym**.
 
-### Wstrzykiwanie bibliotek
+### Wstrzykiwanie Bibliotek
 
-Wstrzykiwanie bibliotek to technika, w której atakujący **wymusza na procesie załadowanie złośliwej biblioteki**. Po wstrzyknięciu biblioteka działa w kontekście docelowego procesu, zapewniając atakującemu takie same uprawnienia i dostęp jak proces.
+Wstrzykiwanie Bibliotek to technika, w której atakujący **zmusza proces do załadowania złośliwej biblioteki**. Po wstrzyknięciu biblioteka działa w kontekście docelowego procesu, zapewniając atakującemu takie same uprawnienia i dostęp jak proces.
 
 {% content-ref url="macos-library-injection/" %}
 [macos-library-injection](macos-library-injection/)
 {% endcontent-ref %}
 
-### Hookowanie funkcji
+### Hacowanie Funkcji
 
-Hookowanie funkcji polega na **przechwytywaniu wywołań funkcji** lub wiadomości w kodzie oprogramowania. Poprzez hookowanie funkcji atakujący może **modyfikować zachowanie** procesu, obserwować poufne dane lub nawet przejąć kontrolę nad przebiegiem wykonywania.
+Hacowanie Funkcji polega na **przechwytywaniu wywołań funkcji** lub komunikatów w kodzie oprogramowania. Poprzez hacowanie funkcji atakujący może **modyfikować zachowanie** procesu, obserwować wrażliwe dane, a nawet uzyskać kontrolę nad przepływem wykonania.
 
 {% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
 [macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
-### Komunikacja międzyprocesowa
+### Komunikacja Międzyprocesowa
 
-Komunikacja międzyprocesowa (IPC) odnosi się do różnych metod, za pomocą których oddzielne procesy **udostępniają i wymieniają dane**. Choć IPC jest niezbędne dla wielu legalnych aplikacji, może być również nadużywane do podważania izolacji procesów, wycieku poufnych informacji lub wykonywania nieautoryzowanych działań.
+Komunikacja Międzyprocesowa (IPC) odnosi się do różnych metod, za pomocą których oddzielne procesy **dzielą się i wymieniają danymi**. Choć IPC jest fundamentalny dla wielu legalnych aplikacji, może być również nadużywany do omijania izolacji procesów, ujawniania wrażliwych informacji lub wykonywania nieautoryzowanych działań.
 
 {% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-### Wstrzykiwanie aplikacji Electron
+### Wstrzykiwanie Aplikacji Electron
 
 Aplikacje Electron uruchamiane z określonymi zmiennymi środowiskowymi mogą być podatne na wstrzykiwanie procesów:
 
@@ -50,33 +50,41 @@ Aplikacje Electron uruchamiane z określonymi zmiennymi środowiskowymi mogą by
 [macos-electron-applications-injection.md](macos-electron-applications-injection.md)
 {% endcontent-ref %}
 
-### Brudne pliki NIB
+### Wstrzykiwanie Chromium
 
-Pliki NIB **definiują elementy interfejsu użytkownika (UI)** i ich interakcje w ramach aplikacji. Jednak mogą one **wykonywać dowolne polecenia** i **Gatekeeper nie powstrzymuje** już uruchomionej aplikacji przed ponownym uruchomieniem, jeśli plik NIB zostanie zmodyfikowany. Dlatego mogą być one wykorzystane do wykonania dowolnych programów:
+Możliwe jest użycie flag `--load-extension` i `--use-fake-ui-for-media-stream` do przeprowadzenia **ataków typu man in the browser**, umożliwiających kradzież naciśnięć klawiszy, ruchu sieciowego, plików cookie, wstrzykiwanie skryptów na stronach...:
+
+{% content-ref url="macos-chromium-injection.md" %}
+[macos-chromium-injection.md](macos-chromium-injection.md)
+{% endcontent-ref %}
+
+### Brudne NIB
+
+Pliki NIB **definiują elementy interfejsu użytkownika (UI)** i ich interakcje w ramach aplikacji. Jednak mogą **wykonywać dowolne polecenia** i **Gatekeeper nie blokuje** już uruchomionej aplikacji przed ponownym uruchomieniem, jeśli plik NIB zostanie zmodyfikowany. Dlatego mogą być wykorzystane do uruchamiania dowolnych programów w celu wykonania dowolnych poleceń:
 
 {% content-ref url="macos-dirty-nib.md" %}
 [macos-dirty-nib.md](macos-dirty-nib.md)
 {% endcontent-ref %}
 
-### Wstrzykiwanie aplikacji Java
+### Wstrzykiwanie Aplikacji Java
 
-Można nadużyć pewnych możliwości języka Java (takich jak zmienna środowiskowa **`_JAVA_OPTS`**) do wykonania przez aplikację Java **dowolnego kodu/polecenia**.
+Możliwe jest nadużycie pewnych możliwości Javy (takich jak zmienna środowiskowa **`_JAVA_OPTS`**) do zmuszenia aplikacji Javy do wykonania **dowolnego kodu/polecenia**.
 
 {% content-ref url="macos-java-apps-injection.md" %}
 [macos-java-apps-injection.md](macos-java-apps-injection.md)
 {% endcontent-ref %}
 
-### Wstrzykiwanie aplikacji .Net
+### Wstrzykiwanie Aplikacji .Net
 
-Można wstrzykiwać kod do aplikacji .Net, **nadużywając funkcjonalności debugowania .Net** (niechronionych przez zabezpieczenia macOS, takie jak utwardzanie czasu wykonania).
+Możliwe jest wstrzykiwanie kodu do aplikacji .Net poprzez **nadużycie funkcjonalności debugowania .Net** (niechronionej przez zabezpieczenia macOS, takie jak utwardzanie czasu wykonania).
 
 {% content-ref url="macos-.net-applications-injection.md" %}
 [macos-.net-applications-injection.md](macos-.net-applications-injection.md)
 {% endcontent-ref %}
 
-### Wstrzykiwanie Perl
+### Wstrzykiwanie Perla
 
-Sprawdź różne opcje, aby skrypt Perl wykonywał dowolny kod:
+Sprawdź różne opcje, aby skrypt Perl wykonał dowolny kod w:
 
 {% content-ref url="macos-perl-applications-injection.md" %}
 [macos-perl-applications-injection.md](macos-perl-applications-injection.md)
@@ -84,7 +92,7 @@ Sprawdź różne opcje, aby skrypt Perl wykonywał dowolny kod:
 
 ### Wstrzykiwanie Ruby
 
-Można również nadużywać zmiennych środowiskowych Ruby do wykonania dowolnego kodu w skryptach:
+Możliwe jest również nadużycie zmiennych środowiskowych Ruby do wykonania dowolnych skryptów:
 
 {% content-ref url="macos-ruby-applications-injection.md" %}
 [macos-ruby-applications-injection.md](macos-ruby-applications-injection.md)
@@ -92,16 +100,16 @@ Można również nadużywać zmiennych środowiskowych Ruby do wykonania dowolne
 
 ### Wstrzykiwanie Pythona
 
-Jeśli zmienna środowiskowa **`PYTHONINSPECT`** jest ustawiona, proces Pythona przejdzie do interaktywnego interfejsu wiersza poleceń Pythona po zakończeniu działania. Można również użyć **`PYTHONSTARTUP`**, aby wskazać skrypt Pythona do wykonania na początku sesji interaktywnej.\
+Jeśli zmienna środowiskowa **`PYTHONINSPECT`** jest ustawiona, proces Pythona przejdzie do interaktywnej konsoli Pythona po zakończeniu. Można również użyć **`PYTHONSTARTUP`** do wskazania skryptu Pythona do wykonania na początku sesji interaktywnej.\
 Należy jednak zauważyć, że skrypt **`PYTHONSTARTUP`** nie zostanie wykonany, gdy **`PYTHONINSPECT`** tworzy sesję interaktywną.
 
-Inne zmienne środowiskowe, takie jak **`PYTHONPATH`** i **`PYTHONHOME`**, mogą również być przydatne do wykonania dowolnego kodu w poleceniu Pythona.
+Inne zmienne środowiskowe, takie jak **`PYTHONPATH`** i **`PYTHONHOME`**, mogą również być przydatne do wykonania dowolnego kodu za pomocą polecenia Pythona.
 
-Należy zauważyć, że pliki wykonywalne skompilowane za pomocą **`pyinstaller`** nie będą korzystać z tych zmiennych środowiskowych, nawet jeśli są uruchamiane za pomocą osadzonego Pythona.
+Należy pamiętać, że pliki wykonywalne skompilowane za pomocą **`pyinstaller`** nie będą korzystać z tych zmiennych środowiskowych, nawet jeśli są uruchamiane za pomocą osadzonego Pythona.
 
 {% hint style="danger" %}
-Ogólnie rzecz biorąc, nie udało mi się znaleźć sposobu na wykonanie dowolnego kodu w Pythonie, nadużywając zmiennych środowiskowych.\
-Jednak większość osób instaluje Pythona za pomocą **Hombrew**, który instaluje Pythona w **zapisywalnej lokalizacji** dla domyślnego użytkownika administratora. Można go przejąć za pomocą czegoś takiego jak:
+Ogólnie rzecz biorąc, nie udało mi się znaleźć sposobu na zmuszenie Pythona do wykonania dowolnego kodu, nadużywając zmiennych środowiskowych.\
+Jednak większość osób instaluje Pythona za pomocą **Hombrew**, który zainstaluje Pythona w **zapisywalnej lokalizacji** dla domyślnego użytkownika admina. Możesz go przejąć, wykonując coś w stylu:
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -116,22 +124,22 @@ Nawet **root** uruchomi ten kod podczas uruchamiania pythona.
 
 ## Wykrywanie
 
-### Shield
+### Tarcza
 
-[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) to otwarte oprogramowanie, które może **wykrywać i blokować działania związane z wstrzykiwaniem procesów**:
+[**Tarcza**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) to aplikacja typu open source, która może **wykrywać i blokować działania związane z wstrzykiwaniem procesów**:
 
-* Korzystanie z **Zmiennych Środowiskowych**: Monitoruje obecność dowolnej z następujących zmiennych środowiskowych: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** i **`ELECTRON_RUN_AS_NODE`**
-* Korzystanie z wywołań **`task_for_pid`**: Służy do znalezienia momentu, gdy jeden proces chce uzyskać **port zadania innego procesu**, co umożliwia wstrzyknięcie kodu do tego procesu.
-* Parametry aplikacji **Electron**: Ktoś może użyć argumentów wiersza poleceń **`--inspect`**, **`--inspect-brk`** i **`--remote-debugging-port`** do uruchomienia aplikacji Electron w trybie debugowania i wstrzyknięcia do niej kodu.
-* Korzystanie z **symlinków** lub **hardlinków**: Najczęstszym nadużyciem jest umieszczenie linku z uprawnieniami naszego użytkownika i skierowanie go do lokalizacji o wyższych uprawnieniach. Wykrywanie jest bardzo proste zarówno dla hardlinków, jak i symlinków. Jeśli proces tworzący link ma **inne poziomy uprawnień** niż plik docelowy, tworzymy **alert**. Niestety w przypadku symlinków blokowanie jest niemożliwe, ponieważ nie mamy informacji o miejscu docelowym linku przed jego utworzeniem. Jest to ograniczenie frameworka EndpointSecuriy firmy Apple.
+* Korzystanie z **Zmiennych Środowiskowych**: Będzie monitorować obecność dowolnej z następujących zmiennych środowiskowych: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** oraz **`ELECTRON_RUN_AS_NODE`**
+* Korzystanie z wywołań **`task_for_pid`**: Aby znaleźć, kiedy jeden proces chce uzyskać **port zadania innego**, co pozwala na wstrzyknięcie kodu do procesu.
+* **Parametry aplikacji Electron**: Ktoś może użyć argumentów wiersza poleceń **`--inspect`**, **`--inspect-brk`** oraz **`--remote-debugging-port`** do uruchomienia aplikacji Electron w trybie debugowania, co umożliwia wstrzyknięcie kodu do niej.
+* Korzystanie z **symlinków** lub **hardlinków**: Zwykle najczęstszym nadużyciem jest **umieszczenie linku z uprawnieniami naszego użytkownika** i **skierowanie go do lokalizacji z wyższymi uprawnieniami**. Wykrycie jest bardzo proste zarówno dla hardlinków, jak i symlinków. Jeśli proces tworzący link ma **inne poziomy uprawnień** niż plik docelowy, tworzymy **alert**. Niestety w przypadku symlinków blokowanie nie jest możliwe, ponieważ nie mamy informacji o miejscu docelowym linku przed jego utworzeniem. Jest to ograniczenie frameworka EndpointSecuriy firmy Apple.
 
 ### Wywołania dokonywane przez inne procesy
 
-W [**tym wpisie na blogu**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) można znaleźć informacje na temat tego, jak można użyć funkcji **`task_name_for_pid`** do uzyskania informacji o innych **procesach wstrzykujących kod w proces** i następnie uzyskania informacji o tym innym procesie.
+W [**tym wpisie na blogu**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) można dowiedzieć się, jak można użyć funkcji **`task_name_for_pid`** do uzyskania informacji o innych **procesach wstrzykujących kod w proces** i uzyskania informacji o tym innym procesie.
 
-Należy zauważyć, że aby wywołać tę funkcję, musisz mieć **ten sam uid** co proces uruchamiający lub **root** (a funkcja zwraca informacje o procesie, a nie sposób wstrzyknięcia kodu).
+Należy zauważyć, że aby wywołać tę funkcję, musisz być **tym samym uid** co proces uruchamiający lub **root** (i zwraca informacje o procesie, a nie sposób wstrzyknięcia kodu).
 
-## Odwołania
+## Odnośniki
 
 * [https://theevilbit.github.io/shield/](https://theevilbit.github.io/shield/)
 * [https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)
@@ -142,10 +150,10 @@ Należy zauważyć, że aby wywołać tę funkcję, musisz mieć **ten sam uid**
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
-* Uzyskaj [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFTów**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

