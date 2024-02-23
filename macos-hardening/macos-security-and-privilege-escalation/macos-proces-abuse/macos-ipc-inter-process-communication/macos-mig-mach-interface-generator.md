@@ -1,4 +1,4 @@
-# macOS MIG - Generator interfejsa za Mach
+# macOS MIG - Mach Interfejs Generator
 
 <details>
 
@@ -6,15 +6,15 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-MIG je kreiran kako bi **simplifikovao proces kreiranja Mach IPC** koda. On u osnovi **generiše potreban kod** za server i klijent da komuniciraju sa datom definicijom. Čak i ako je generisani kod ružan, programer će samo trebati da ga uveze i njegov kod će biti mnogo jednostavniji nego pre.
+MIG je kreiran kako bi **simplifikovao proces kreiranja koda za Mach IPC**. U osnovi, **generiše potreban kod** za server i klijenta da komuniciraju sa datom definicijom. Čak i ako je generisani kod ružan, programer će samo trebati da ga uveze i njegov kod će biti mnogo jednostavniji nego pre.
 
 ### Primer
 
@@ -37,13 +37,13 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Sada koristite mig da generišete server i klijentski kod koji će moći da komuniciraju međusobno kako bi pozvali funkciju Oduzmi:
+Sada koristite mig da generišete server i klijentski kod koji će moći da komuniciraju međusobno kako bi pozvali Subtract funkciju:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-U trenutnom direktorijumu će biti kreirane nekoliko novih fajlova.
+Napraviće se nekoliko novih datoteka u trenutnom direktorijumu.
 
-U fajlovima **`myipcServer.c`** i **`myipcServer.h`** možete pronaći deklaraciju i definiciju strukture **`SERVERPREFmyipc_subsystem`**, koja u osnovi definiše funkciju koju treba pozvati na osnovu primljenog ID-ja poruke (navedeno je početno brojanje od 500):
+U datotekama **`myipcServer.c`** i **`myipcServer.h`** možete pronaći deklaraciju i definiciju strukture **`SERVERPREFmyipc_subsystem`**, koja u osnovi definiše funkciju koja će se pozvati na osnovu primljenog ID-ja poruke (označili smo početni broj od 500):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -62,464 +62,29 @@ myipc_server_routine,
 }
 };
 ```
-{% tab title="myipcServer.h" %}
+{% endtab %}
+
+{% tab title="myipcServer.h" %} 
+
+### macOS MIG (Mach Interface Generator)
+
+MIG (Mach Interface Generator) is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code for message-based IPC. 
+
+#### Example:
 
 ```c
-#ifndef myipcServer_h
-#define myipcServer_h
-
-#include <stdio.h>
-#include <stdlib.h>
 #include <mach/mach.h>
-#include <mach/mach_error.h>
 #include <servers/bootstrap.h>
-#include <mach/mach_traps.h>
-#include <mach/mach_types.h>
-#include <mach/mach_init.h>
-#include <mach/mach_port.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher
+#include "myipcServer.h"
+
+kern_return_t myipc_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP);
+```
+
+In the example above, `myipc_server` is the function that will be called when a message is received by the server. 
+
+MIG simplifies the process of defining IPC interfaces and handling messages between processes in macOS. 
+
+{% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -535,7 +100,7 @@ routine[1];
 {% endtab %}
 {% endtabs %}
 
-Na osnovu prethodne strukture, funkcija **`myipc_server_routine`** će dobiti **ID poruke** i vratiti odgovarajuću funkciju koju treba pozvati:
+Na osnovu prethodne strukture, funkcija **`myipc_server_routine`** će dobiti **ID poruke** i vratiti odgovarajuću funkciju koja treba da se pozove:
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -550,16 +115,16 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-U ovom primeru smo definisali samo 1 funkciju u definicijama, ali ako bismo definisali više funkcija, bile bi unutar niza **`SERVERPREFmyipc_subsystem`** i prva bi bila dodeljena ID-u **500**, druga ID-u **501**...
+U ovom primeru smo definisali samo 1 funkciju u definicijama, ali da smo definisali više funkcija, bile bi unutar niza **`SERVERPREFmyipc_subsystem`** i prva bi bila dodeljena ID-u **500**, druga ID-u **501**...
 
-Zapravo je moguće identifikovati ovu vezu u strukturi **`subsystem_to_name_map_myipc`** iz **`myipcServer.h`** datoteke:
+Zapravo je moguće identifikovati ovu vezu u strukturi **`subsystem_to_name_map_myipc`** iz **`myipcServer.h`**:
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-Konačno, još jedna važna funkcija koja će omogućiti rad servera je **`myipc_server`**, koja će zapravo **pozvati funkciju** povezanu sa primljenim ID-om:
+Konačno, još jedna važna funkcija koja će omogućiti rad servera će biti **`myipc_server`**, koja će zapravo **pozvati funkciju** povezanu sa primljenim ID-om:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -576,7 +141,7 @@ mig_routine_t routine;
 
 OutHeadP->msgh_bits = MACH_MSGH_BITS(MACH_MSGH_BITS_REPLY(InHeadP->msgh_bits), 0);
 OutHeadP->msgh_remote_port = InHeadP->msgh_reply_port;
-/* Minimalna veličina: rutina() će je ažurirati ako je drugačija */
+/* Minimal size: routine() will update it if different */
 OutHeadP->msgh_size = (mach_msg_size_t)sizeof(mig_reply_error_t);
 OutHeadP->msgh_local_port = MACH_PORT_NULL;
 OutHeadP->msgh_id = InHeadP->msgh_id + 100;
@@ -593,9 +158,9 @@ return FALSE;
 }
 </code></pre>
 
-Proverite prethodno istaknute linije pristupajući funkciji koju treba pozvati prema ID-u.
+Proverite prethodno istaknute linije pristupaći funkciji koju treba pozvati prema ID-u.
 
-U nastavku je kod za kreiranje jednostavnog **servera** i **klijenta** gde klijent može pozvati funkcije Oduzmi sa servera:
+U nastavku je kod za kreiranje jednostavnog **servera** i **klijenta** gde klijent može pozvati funkcije Oduzimanje sa servera:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -629,7 +194,33 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% tab title="myipc_client.c" %}
+{% endtab %}
+
+{% tab title="myipc_client.c" %} 
+
+### macOS MIG (Mach Interface Generator)
+
+MIG (Mach Interface Generator) is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code for message-based IPC. MIG is commonly used in macOS for system services and kernel extensions.
+
+To use MIG, you need to define an interface file (.defs) that specifies the messages and data structures exchanged between client and server processes. This file is then compiled using MIG to generate the necessary C code for IPC.
+
+Here is an example of a simple MIG interface definition:
+
+```c
+routine simple_message {
+    mach_msg_header_t Head;
+    mach_msg_type_t Type;
+    int data;
+};
+```
+
+In this example, `simple_message` is a routine that defines a message containing an integer data field. The generated code will handle sending and receiving this message between processes.
+
+MIG simplifies the process of implementing IPC in macOS by automatically generating boilerplate code for message handling. It abstracts away the low-level details of IPC, making it easier to focus on the logic of the communication.
+
+By understanding how MIG works and leveraging its capabilities, developers can efficiently implement secure and reliable inter-process communication in macOS applications. 
+
+{% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -656,20 +247,20 @@ USERPREFSubtract(port, 40, 2);
 ```
 ### Analiza binarnih fajlova
 
-Pošto mnogi binarni fajlovi sada koriste MIG za izlaganje mach portova, interesantno je znati kako **identifikovati da je korišćen MIG** i **funkcije koje MIG izvršava** sa svakim ID-em poruke.
+Pošto mnogi binarni fajlovi sada koriste MIG za izlaganje mach portova, interesantno je znati kako **identifikovati da je korišćen MIG** i **funkcije koje MIG izvršava** sa svakim ID-jem poruke.
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) može analizirati MIG informacije iz Mach-O binarnog fajla, prikazujući ID poruke i identifikaciju funkcije koju treba izvršiti:
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) može parsirati MIG informacije iz Mach-O binarnog fajla, pokazujući ID poruke i identifikujući funkciju za izvršavanje:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Ranije je pomenuto da će funkcija koja će se brinuti o **pozivanju odgovarajuće funkcije u zavisnosti od primljenog ID-ja poruke** biti `myipc_server`. Međutim, obično nećete imati simbole binarnog fajla (bez imena funkcija), pa je interesantno **proveriti kako izgleda dekompajlirana verzija** jer će uvek biti veoma slična (kod ove funkcije je nezavisna od izloženih funkcija):
+Ranije je pomenuto da će funkciju koja će se brinuti o **pozivanju odgovarajuće funkcije u zavisnosti od primljenog ID-ja poruke** biti `myipc_server`. Međutim, obično nećete imati simbole binarnog koda (imenovanje funkcija), pa je zanimljivo **proveriti kako izgleda dekompilirano** jer će uvek biti vrlo slično (kod ove funkcije je nezavisan od izloženih funkcija):
 
 {% tabs %}
-{% tab title="myipc_server dekompajlirana 1" %}
+{% tab title="myipc_server dekompilirano 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
-// Početne instrukcije za pronalaženje odgovarajućih pokazivača na funkcije
+// Početne instrukcije za pronalaženje odgovarajućih pokazivača funkcija
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -678,13 +269,13 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// Poziv funkcije sign_extend_64 koji može pomoći u identifikaciji ove funkcije
-// Ovo čuva u rax pokazivač na poziv koji treba pozvati
+// Poziv funkciji sign_extend_64 koja može pomoći u identifikaciji ove funkcije
+// Ovo čuva u rax pokazivač na poziv koji treba biti izvršen
 // Proverite upotrebu adrese 0x100004040 (niz adresa funkcija)
 // 0x1f4 = 500 (početni ID)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// Ako - inače, ako uslov nije ispunjen, dok inače poziva odgovarajuću funkciju i vraća true
+// If - else, if vraća false, dok else poziva odgovarajuću funkciju i vraća true
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -707,8 +298,8 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="myipc_server dekompajlirana 2" %}
-Ovo je ista funkcija dekompajlirana u drugoj verziji besplatnog Hoppera:
+{% tab title="myipc_server dekompilirano 2" %}
+Ovo je ista funkcija dekompilirana u drugoj besplatnoj verziji Hopper-a:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -716,7 +307,7 @@ saved_fp = r29;
 stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
-// Početne instrukcije za pronalaženje odgovarajućih pokazivača na funkcije
+// Početne instrukcije za pronalaženje odgovarajućih pokazivača funkcija
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -751,7 +342,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Ista if else kao u prethodnoj verziji
+// Isto if else kao u prethodnoj verziji
 // Proverite upotrebu adrese 0x100004040 (niz adresa funkcija)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -759,7 +350,7 @@ r8 = 0x1;
 var_4 = 0x0;
 }
 else {
-// Poziv izračunate adrese gde bi trebala biti funkcija
+// Poziv na izračunatu adresu gde bi trebala biti funkcija
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -783,12 +374,22 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Zapravo, ako odete na funkciju **`0x100004000`**, pronaći ćete niz struktura **`routine_descriptor`**. Prvi element strukture je **adresa** gde je **funkcija** implementirana, a **struktura zauzima 0x28 bajtova**, tako da svakih 0x28 bajtova (počevši od bajta 0) možete dobiti 8 bajtova koji će biti **adresa funkcije** koja će biti pozvana:
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+Zapravo, ako odete na funkciju **`0x100004000`** pronaći ćete niz struktura **`routine_descriptor`**. Prvi element strukture je **adresa** gde je **funkcija** implementirana, a **struktura zauzima 0x28 bajtova**, tako da svakih 0x28 bajtova (počevši od bajta 0) možete dobiti 8 bajtova i to će biti **adresa funkcije** koja će biti pozvana:
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Ove podatke možete izvući [**koristeći ovaj Hopper skript**
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+Ovi podaci mogu biti izvađeni [**korišćenjem ovog Hopper skripta**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
+
+<details>
+
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Drugi načini podrške HackTricks-u:
+
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.

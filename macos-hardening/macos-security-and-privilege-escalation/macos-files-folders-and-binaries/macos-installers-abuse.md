@@ -1,4 +1,4 @@
-# Zloupotreba macOS instalera
+# Zloupotreba macOS instalatera
 
 <details>
 
@@ -6,29 +6,29 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 ## Osnovne informacije o Pkg-u
 
-macOS **instalacioni paket** (poznat i kao `.pkg` fajl) je format fajla koji se koristi na macOS-u za **distribuciju softvera**. Ovi fajlovi su poput **kutije koja sadrži sve što je potrebno da se softver instalira i pokrene ispravno**.
+macOS **instalacioni paket** (poznat i kao `.pkg` fajl) je format fajla koji koristi macOS za **distribuciju softvera**. Ovi fajlovi su poput **kutije koja sadrži sve što je potrebno da se komad softvera** instalira i pokrene ispravno.
 
-Sam paket fajl je arhiva koja sadrži **hijerarhiju fajlova i direktorijuma koji će biti instalirani na ciljnom** računaru. Takođe može uključivati **skripte** koje obavljaju zadatke pre i posle instalacije, poput podešavanja konfiguracionih fajlova ili čišćenja starih verzija softvera.
+Sam paket fajl je arhiva koja drži **hijerarhiju fajlova i direktorijuma koji će biti instalirani na ciljnom** računaru. Takođe može uključivati **skripte** za obavljanje zadataka pre i posle instalacije, poput postavljanja konfiguracionih fajlova ili čišćenja starih verzija softvera.
 
 ### Hijerarhija
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Distribution (xml)**: Prilagođavanja (naslov, tekst dobrodošlice...) i skripte/provere instalacije
-* **PackageInfo (xml)**: Informacije, zahtevi za instalaciju, lokacija instalacije, putanje do skripti koje se izvršavaju
-* **Bill of materials (bom)**: Lista fajlova za instalaciju, ažuriranje ili uklanjanje sa dozvolama za fajlove
+* **Distribucija (xml)**: Prilagođavanja (naslov, tekst dobrodošlice...) i skripte/provere instalacije
+* **PackageInfo (xml)**: Informacije, zahtevi za instalaciju, lokacija instalacije, putanje do skripti za pokretanje
+* **Račun materijala (bom)**: Lista fajlova za instalaciju, ažuriranje ili uklanjanje sa dozvolama za fajlove
 * **Payload (CPIO arhiva gzip kompresovana)**: Fajlovi za instalaciju na `install-location` iz PackageInfo
-* **Skripte (CPIO arhiva gzip kompresovana)**: Pre i post instalacione skripte i dodatni resursi izdvojeni u privremeni direktorijum za izvršavanje.
+* **Skripte (CPIO arhiva gzip kompresovana)**: Pre i post instalacione skripte i dodatni resursi izdvojeni u privremeni direktorijum za izvršenje.
 
 ### Dekompresija
 ```bash
@@ -46,51 +46,49 @@ cpio -i < Scripts
 ```
 ## Osnovne informacije o DMG-u
 
-DMG datoteke, ili Apple Disk Images, su format datoteka koji se koristi u Apple-ovom macOS-u za disk slike. DMG datoteka je suštinski **montabilna disk slika** (sadrži sopstveni fajl sistem) koja sadrži sirove blok podatke obično komprimirane i ponekad šifrovane. Kada otvorite DMG datoteku, macOS je **montira kao da je fizički disk**, omogućavajući vam pristup njenom sadržaju.
+DMG datoteke, ili Apple Disk Images, su format datoteka koji koristi macOS kompanije Apple za disk slike. DMG datoteka je suštinski **montabilna disk slika** (sadrži svoj sopstveni fajl sistem) koja sadrži sirove blok podatke obično kompresovane i ponekad enkriptovane. Kada otvorite DMG datoteku, macOS je **montira kao da je fizički disk**, omogućavajući vam pristup njenom sadržaju.
 
 ### Hijerarhija
 
 <figure><img src="../../../.gitbook/assets/image (12) (2).png" alt=""><figcaption></figcaption></figure>
 
-Hijerarhija DMG datoteke može biti različita u zavisnosti od sadržaja. Međutim, za DMG datoteke aplikacija, obično prati ovu strukturu:
+Hijerarhija DMG datoteke može biti različita u zavisnosti od sadržaja. Međutim, za aplikacione DMG datoteke, obično prati ovu strukturu:
 
-* Gornji nivo: Ovo je koren disk slike. Često sadrži aplikaciju i eventualno link ka folderu Aplikacije.
-* Aplikacija (.app): Ovo je stvarna aplikacija. U macOS-u, aplikacija je obično paket koji sadrži mnogo pojedinačnih fajlova i foldera koji čine aplikaciju.
-* Link ka Aplikacijama: Ovo je prečica ka folderu Aplikacije u macOS-u. Svrha ovoga je da olakša instalaciju aplikacije. Možete prevući .app fajl na ovu prečicu da biste instalirali aplikaciju.
+- Gornji nivo: Ovo je koren disk slike. Često sadrži aplikaciju i eventualno link ka folderu Aplikacije.
+- Aplikacija (.app): Ovo je stvarna aplikacija. U macOS-u, aplikacija je obično paket koji sadrži mnogo pojedinačnih fajlova i foldera koji čine aplikaciju.
+- Link ka Aplikacijama: Ovo je prečica do foldera Aplikacije u macOS-u. Svrha ovoga je da vam olakša instalaciju aplikacije. Možete prevući .app fajl na ovu prečicu da instalirate aplikaciju.
 
-## Eskalacija privilegija putem zloupotrebe pkg-a
+## Privilegije preko zloupotrebe pkg-a
 
 ### Izvršavanje iz javnih direktorijuma
 
-Ako se skripta za pre ili post instalaciju na primer izvršava iz **`/var/tmp/Installerutil`**, napadač može kontrolisati tu skriptu kako bi eskalirao privilegije kada god se izvrši. Ili drugi sličan primer:
+Ako se skript za pre ili post instalaciju na primer izvršava iz **`/var/tmp/Installerutil`**, napadač može kontrolisati tu skriptu kako bi eskalirao privilegije svaki put kada se izvrši. Ili još jedan sličan primer:
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-Ovo je [javna funkcija](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) koju nekoliko instalera i ažuriranja poziva da **izvrši nešto kao root**. Ova funkcija prihvata **putanju** **fajla** koji treba **izvršiti** kao parametar, međutim, ako napadač može **izmeniti** ovaj fajl, moći će **zloupotrebiti** njegovo izvršavanje sa privilegijama root-a kako bi eskalirao privilegije.
+Ovo je [javna funkcija](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) koju će nekoliko instalatera i ažuriranja pozvati da **izvrše nešto kao root**. Ova funkcija prihvata **putanju** **fajla** koji se **izvršava** kao parametar, međutim, ako napadač može **modifikovati** ovaj fajl, biće u mogućnosti da **zloupotrebi** njegovo izvršavanje sa root privilegijama kako bi **eskaliro privilegije**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
-Za više informacija pogledajte ovaj video: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
+### Izvršenje putem montiranja
 
-### Izvršavanje putem montiranja
+Ako instalater piše u `/tmp/fixedname/bla/bla`, moguće je **napraviti montiranje** preko `/tmp/fixedname` bez vlasnika tako da možete **izmeniti bilo koji fajl tokom instalacije** kako biste zloupotrebili proces instalacije.
 
-Ako instalater piše u `/tmp/fixedname/bla/bla`, moguće je **kreirati montiranje** preko `/tmp/fixedname` bez vlasnika, tako da možete **izmeniti bilo koji fajl tokom instalacije** kako biste zloupotrebili proces instalacije.
+Primer za ovo je **CVE-2021-26089** koji je uspeo da **prepiše periodični skript** kako bi dobio izvršenje kao root. Za više informacija pogledajte ovaj razgovor: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
-Primer za ovo je **CVE-2021-26089** koji je uspeo da **prepiše periodični skript** kako bi se izvršio kao root. Za više informacija pogledajte video: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
-
-## pkg kao malver
+## pkg kao zlonamerni softver
 
 ### Prazan Payload
 
-Moguće je samo generisati **`.pkg`** fajl sa **pre i post-install skriptama** bez ikakvog payloada.
+Moguće je jednostavno generisati **`.pkg`** fajl sa **pre i post-install skriptama** bez ikakvog payload-a.
 
 ### JS u Distribution xml
 
-Moguće je dodati **`<script>`** tagove u **distribution xml** fajl paketa i taj kod će biti izvršen i može **izvršavati komande** koristeći **`system.run`**:
+Moguće je dodati **`<script>`** tagove u **distribution xml** fajl paketa i taj kod će biti izvršen i može **izvršiti komande** koristeći **`system.run`**:
 
 <figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
 
@@ -98,17 +96,3 @@ Moguće je dodati **`<script>`** tagove u **distribution xml** fajl paketa i taj
 
 * [**DEF CON 27 - Unpacking Pkgs A Look Inside Macos Installer Packages And Common Security Flaws**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
 * [**OBTS v4.0: "The Wild World of macOS Installers" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
-
-<details>
-
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Drugi načini da podržite HackTricks:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
-
-</details>
