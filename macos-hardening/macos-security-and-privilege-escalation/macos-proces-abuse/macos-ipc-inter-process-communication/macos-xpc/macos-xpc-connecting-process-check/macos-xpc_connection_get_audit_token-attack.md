@@ -2,110 +2,134 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalam wa juu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha** [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-**Kwa habari zaidi angalia chapisho asili: [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)**. Hii ni muhtasari:
+**Kwa habari zaidi angalia chapisho la asili:** [**https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/**](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/). Hii ni muhtasari:
 
+## Taarifa Msingi za Ujumbe wa Mach
 
-## Habari Msingi kuhusu Mach Messages
-
-Ikiwa haujui ni nini Mach Messages, anza kwa kuangalia ukurasa huu:
+Ikiwa haujui ni nini Ujumbe wa Mach angalia ukurasa huu:
 
 {% content-ref url="../../../../mac-os-architecture/macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-Kwa sasa kumbuka kuwa ([ufafanuzi kutoka hapa](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
-Mach messages hutumwa kupitia _mach port_, ambayo ni **njia ya mawasiliano ya mpokeaji mmoja, watumaji wengi** iliyojengwa ndani ya kernel ya mach. **Mchakato mmoja unaweza kutuma ujumbe** kwenye mach port, lakini wakati wowote **mchakato mmoja tu unaweza kusoma kutoka kwake**. Kama vile file descriptors na sockets, mach ports zinatengwa na kusimamiwa na kernel na michakato huona nambari tu, ambayo wanaweza kutumia kuonyesha kernel ni mach ports yao wanayotaka kutumia.
+Kwa sasa kumbuka ([ufafanuzi kutoka hapa](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
+Ujumbe wa Mach unatumwa juu ya _mach port_, ambayo ni **mpokeaji mmoja, watoaji wengi wa mawasiliano** iliyojengwa ndani ya kernel ya mach. **Michakato mingi inaweza kutuma ujumbe** kwa mach port, lakini wakati wowote **mpokeaji mmoja tu anaweza kusoma kutoka kwake**. Kama vile vitambulisho vya faili na soketi, mach ports zinatengwa na kusimamiwa na kernel na michakato huona nambari ya nambari, ambayo wanaweza kutumia kuashiria kernel ni mach ports yao wanataka kutumia.
 
-## XPC Connection
+## Uunganisho wa XPC
 
-Ikiwa haujui jinsi uhusiano wa XPC unavyoundwa, angalia:
+Ikiwa haujui jinsi uhusiano wa XPC unavyoundwa angalia:
 
 {% content-ref url="../" %}
 [..](../)
 {% endcontent-ref %}
 
-## Muhtasari wa Kuziba
+## Muhtasari wa Udhaifu
 
-Jambo linalovutia kujua ni kwamba **uhusiano wa XPC ni uhusiano wa mtu-mmoja-kwa-mtu-mmoja**, lakini unategemea teknolojia ambayo **inaweza kuwa na watumaji wengi, kwa hivyo:**
+Jambo linalovutia kujua ni kwamba **kuhakikisha ya XPC ni uhusiano wa moja kwa moja**, lakini inategemea teknolojia ambayo **inaweza kuwa na watoaji wengi, hivyo:**
 
-* Mach ports ni mpokeaji mmoja, **watumaji wengi**.
-* Kitambulisho cha ukaguzi wa uhusiano wa XPC ni kitambulisho cha ukaguzi **kimekopwa kutoka kwa ujumbe uliopokelewa hivi karibuni zaidi**.
-* Kupata **kitambulisho cha ukaguzi** wa uhusiano wa XPC ni muhimu kwa ukaguzi wa usalama nyingi.
+* Mach ports ni mpokeaji mmoja, **watoaji wengi**.
+* Audit token ya uhusiano wa XPC ni token ya ukaguzi wa **iliyochukuliwa kutoka ujumbe uliopokelewa hivi karibuni zaidi**.
+* Kupata **audit token** ya uhusiano wa XPC ni muhimu kwa **uchunguzi wa usalama** mengi.
 
-Ingawa hali iliyotangulia inasikika kuahidi, kuna hali ambapo hii haitasababisha matatizo ([kutoka hapa](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
+Ingawa hali iliyopita inaonekana kuahidi kuna hali ambapo hii haitasababisha matatizo ([kutoka hapa](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
 
-* Vitambulisho vya ukaguzi mara nyingi hutumiwa kwa ukaguzi wa idhini ili kuamua ikiwa kukubali uhusiano. Kwa kuwa hii inatokea kwa kutumia ujumbe kwenye bandari ya huduma, **hakuna uhusiano ulioanzishwa bado**. Ujumbe zaidi kwenye bandari hii utashughulikiwa kama maombi ya uhusiano ya ziada. Kwa hivyo, **ukaguzi kabla ya kukubali uhusiano hautakuwa na udhaifu** (hii pia inamaanisha kuwa ndani ya `-listener:shouldAcceptNewConnection:` kitambulisho cha ukaguzi ni salama). Kwa hivyo, **tunatafuta uhusiano wa XPC ambao unathibitisha hatua maalum**.
-* Wachanganuzi wa tukio la XPC hushughulikiwa kwa usawazishaji. Hii inamaanisha kuwa mchanganuzi wa tukio kwa ujumbe mmoja lazima ukamilike kabla ya kuita kwa ujumbe unaofuata, hata kwenye foleni za kutuma wakati huo huo. Kwa hivyo ndani ya **mchanganuzi wa tukio la XPC kitambulisho cha ukaguzi hakiwezi kuandikwa tena** na ujumbe wa kawaida (sio majibu!) mengine.
+* Tokeni za ukaguzi mara nyingi hutumiwa kwa ukaguzi wa idhini kuamua ikiwa kukubali uhusiano. Kwa kuwa hii inatokea kwa kutumia ujumbe kwa bandari ya huduma, **hakuna uhusiano ulioanzishwa bado**. Ujumbe zaidi kwenye bandari hii utashughulikiwa kama maombi ya uhusiano ya ziada. Kwa hivyo **uchunguzi kabla ya kukubali uhusiano sio hatarini** (hii pia inamaanisha kuwa ndani ya `-listener:shouldAcceptNewConnection:` tokeni ya ukaguzi ni salama). Kwa hivyo tuna **tafuta uhusiano wa XPC ambao huthibitisha hatua maalum**.
+* Wachambuzi wa matukio ya XPC hushughulikiwa kwa usawazishaji. Hii inamaanisha kuwa mchambuzi wa tukio kwa ujumbe mmoja lazima ukamilike kabla ya kuita kwa mwingine, hata kwenye foleni za kutuma wakati mmoja. Kwa hivyo ndani ya **mchambuzi wa tukio la XPC tokeni ya ukaguzi haiwezi kubadilishwa** na ujumbe wa kawaida (si majibu!) mwingine.
 
-Kuna njia mbili tofauti ambazo hii inaweza kudukuliwa:
+Kuna njia mbili tofauti ambazo hii inaweza kutumika:
 
 1. Variant1:
-* **Kudukua** **kuunganisha** kwa huduma **A** na huduma **B**
-* Huduma **B** inaweza kuita **kazi yenye mamlaka** katika huduma A ambayo mtumiaji hawezi
-* Huduma **A** inaita **`xpc_connection_get_audit_token`** wakati _**si**_ ndani ya **mchanganuzi wa tukio** kwa uhusiano katika **`dispatch_async`**.
-* Kwa hivyo ujumbe **tofauti** unaweza **kuandika upya Kitambulisho cha Ukaguzi** kwa sababu inatumiwa kwa njia ya kusambazwa kwa asynchronously nje ya mchanganuzi wa tukio.
-* Kudukua inapitisha kwa huduma **B haki ya KUTUMA kwa huduma A**.
-* Kwa hivyo svc **B** itakuwa kweli **inatuma** **ujumbe** kwa huduma **A**.
-* Kudukua inajaribu **kuita** **hatua yenye mamlaka.** Katika RC svc **A inakagua** idhini ya **hatua** hii wakati **svc B imeandika upya Kitambulisho cha Ukaguzi** (ikitoa kudukua upatikanaji wa kuita hatua yenye mamlaka).
+* **Kudukua** kunajumuisha kuunganisha huduma **A** na huduma **B**
+* Huduma **B** inaweza kuita **kazi ya kipekee** katika huduma **A** ambayo mtumiaji hawezi
+* Huduma **A** inaita **`xpc_connection_get_audit_token`** wakati _**si**_ ndani ya **mchambuzi wa tukio** kwa uhusiano katika **`dispatch_async`**.
+* Kwa hivyo **ujumbe tofauti unaweza kubadilisha Audit Token** kwa sababu inatuma kwa njia ya asinkronasi nje ya mchambuzi wa tukio.
+* Kudukua inapitisha **huduma B haki ya KUTUMA kwa huduma A**.
+* Kwa hivyo svc **B** itakuwa **kutuma** **ujumbe** kwa huduma **A**.
+* Kudukua inajaribu **kuita** **hatua ya kipekee.** Katika RC svc **A** **huthibitisha** idhini ya **hatua** hii wakati **svc B imebadilisha Tokeni ya Ukaguzi** (ikimpa kudukua upatikanaji wa kuita hatua ya kipekee).
 2. Variant 2:
-* Huduma **B** inaweza kuita **kazi yenye mamlaka** katika huduma A ambayo mtumiaji hawezi
-* Kudukua inaunganisha na huduma **A** ambayo **inatuma** kudukua **ujumbe unaotarajia majibu** kwenye **bandari ya majibu** maalum.
-* Kudukua inatuma huduma
-4. Hatua inayofuata inahusisha kuiagiza `diagnosticd` kuanzisha ufuatiliaji wa mchakato uliochaguliwa (labda mchakato wa mtumiaji mwenyewe). Kwa wakati huo huo, mafuriko ya ujumbe wa kawaida wa 1004 yanatumwa kwa `smd`. Lengo hapa ni kusakinisha zana yenye mamlaka ya juu.
-5. Hatua hii inasababisha hali ya ushindani ndani ya kazi ya `handle_bless`. Wakati ni muhimu: wito wa kazi ya `xpc_connection_get_pid` lazima urejeshe PID ya mchakato wa mtumiaji (kwa kuwa zana yenye mamlaka ya juu iko katika mfuko wa programu ya mtumiaji). Walakini, wito wa kazi ya `xpc_connection_get_audit_token`, hasa ndani ya subroutine ya `connection_is_authorized`, lazima irejelee alama ya ukaguzi inayomilikiwa na `diagnosticd`.
+* Huduma **B** inaweza kuita **kazi ya kipekee** katika huduma **A** ambayo mtumiaji hawezi
+* Kudukua inaunganisha na **huduma A** ambayo **inatuma** kudukua ujumbe ukitarajia majibu katika **bandari ya majibu** maalum.
+* Kudukua inatuma huduma **B** ujumbe ukipitisha **ile bandari ya majibu**.
+* Wakati huduma **B inajibu**, inatuma ujumbe kwa huduma **A**, **wakati** kudukua inatuma ujumbe tofauti kwa huduma **A** kujaribu **kufikia kazi ya kipekee** na kutarajia majibu kutoka kwa huduma B itabadilisha Tokeni ya Ukaguzi katika wakati kamili (Hali ya Mashindano).
 
-## Variant 2: kuhamisha majibu
+## Variant 1: kuita xpc\_connection\_get\_audit\_token nje ya mchambuzi wa tukio <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
 
-Katika mazingira ya XPC (Mawasiliano kati ya Mchakato), ingawa wakurugenzi wa tukio hawatekelezi kwa wakati mmoja, kushughulikia ujumbe wa majibu kuna tabia ya pekee. Kwa usahihi, kuna njia mbili tofauti za kutuma ujumbe ambao unatarajia majibu:
+Hali:
 
-1. **`xpc_connection_send_message_with_reply`**: Hapa, ujumbe wa XPC unapokelewa na kusindika kwenye foleni iliyotengwa.
-2. **`xpc_connection_send_message_with_reply_sync`**: Kinyume chake, katika njia hii, ujumbe wa XPC unapokelewa na kusindika kwenye foleni ya sasa ya utekelezaji.
+* Huduma mbili za mach **`A`** na **`B`** ambazo tunaweza kuunganisha (kulingana na wasifu wa sanduku la mchanga na ukaguzi kabla ya kukubali uhusiano).
+* _**A**_ lazima awe na **ukaguzi wa idhini** kwa hatua maalum ambayo **`B`** inaweza kupitisha (lakini programu yetu haiwezi).
+* Kwa mfano, ikiwa B ana **haki za kipekee** au inaendeshwa kama **root**, inaweza kumruhusu kuuliza A kutekeleza hatua ya kipekee.
+* Kwa ukaguzi huu wa idhini, **`A`** inapata tokeni ya ukaguzi kwa njia ya asinkronasi, kwa mfano kwa kuita `xpc_connection_get_audit_token` kutoka **`dispatch_async`**.
 
-Tofauti hii ni muhimu kwa sababu inaruhusu uwezekano wa **pakiti za majibu kuchambuliwa kwa wakati mmoja na utekelezaji wa kiongozi wa tukio la XPC**. Hasa, wakati `_xpc_connection_set_creds` inatekeleza kufunga ili kulinda dhidi ya kuandika sehemu ya alama ya ukaguzi, haifanyi ulinzi huu kwa kitu cha uhusiano kizima. Kwa hivyo, hii inaunda udhaifu ambapo alama ya ukaguzi inaweza kubadilishwa wakati wa kipindi kati ya kuchambua kwa pakiti na utekelezaji wa kiongozi wa tukio lake.
+{% hint style="danger" %}
+Katika kesi hii, mshambuliaji anaweza kuanzisha **Hali ya Mashindano** kufanya **kudukua** ambayo **inaomba A kutekeleza hatua** mara kadhaa wakati **B inatuma ujumbe kwa `A`**. Wakati RC inafanikiwa, **tokeni ya ukaguzi** ya **B** itakopiwa kwenye kumbukumbu **wakati** ombi la **kudukua** letu linashughulikiwa na A, ikimpa **upatikanaji wa hatua ya kipekee ambayo B pekee angeweza kuomba**.
+{% endhint %}
 
-Kuutumia udhaifu huu, usanidi ufuatao unahitajika:
+Hii ilitokea na **`A`** kama `smd` na **`B`** kama `diagnosticd`. Kazi [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) kutoka smb inaweza kutumika kufunga zana mpya ya msaidizi wa kipekee (kama **root**). Ikiwa **mchakato unaoendeshwa kama root** unawasiliana na **smd**, hakuna ukaguzi mwingine utafanywa.
 
-- Huduma mbili za mach, zinazojulikana kama **`A`** na **`B`**, zote ambazo zinaweza kuanzisha uhusiano.
-- Huduma **`A`** inapaswa kuwa na ukaguzi wa idhini kwa hatua maalum ambayo **`B`** tu inaweza kutekeleza (programu ya mtumiaji haiwezi).
-- Huduma **`A`** inapaswa kutuma ujumbe ambao unatarajia majibu.
-- Mtumiaji anaweza kutuma ujumbe kwa **`B`** ambao itajibu.
+Kwa hivyo, huduma **B** ni **`diagnosticd`** kwa sababu inaendeshwa kama **root** na inaweza kutumika kufuatilia mchakato, kwa hivyo mara tu ufuatiliaji unapoanza, itatuma **ujumbe zaidi ya moja kwa sekunde.**
 
-Mchakato wa kuutumia udhaifu huu unajumuisha hatua zifuatazo:
+Kufanya shambulizi:
 
-1. Subiri huduma **`A`** itume ujumbe ambao unatarajia majibu.
+1. Anzisha **uunganisho** kwa huduma iliyoitwa `smd` kwa kutumia itifaki ya XPC ya kawaida.
+2. Unda **uunganisho wa pili** kwa `diagnosticd`. Tofauti na utaratibu wa kawaida, badala ya kuunda na kutuma machapisho mawili mapya, haki ya kutuma ya bandari ya mteja inabadilishwa na nakala ya **haki ya kutuma** inayohusishwa na uhusiano wa `smd`.
+3. Kama matokeo, ujumbe wa XPC unaweza kutumwa kwa `diagnosticd`, lakini majibu kutoka kwa `diagnosticd` yanaelekezwa tena kwa `smd`. Kwa `smd`, inaonekana kana kwamba ujumbe kutoka kwa mtumiaji na `diagnosticd` unatoka kwa uhusiano mmoja.
+
+![Picha inayoonyesha mchakato wa kudukua](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
+4. Hatua inayofuata ni kuagiza `diagnosticd` kuanzisha ufuatiliaji wa mchakato uliochaguliwa (labda wa mtumiaji mwenyewe). Kwa wakati huo huo, mafuriko ya ujumbe wa kawaida wa 1004 hutumwa kwa `smd`. Lengo hapa ni kusakinisha chombo chenye mamlaka ya juu.
+5. Hatua hii inachochea hali ya mashindano ndani ya kazi ya `handle_bless`. Wakati ni muhimu: wito wa kazi ya `xpc_connection_get_pid` lazima irudishe PID ya mchakato wa mtumiaji (kwa kuwa chombo cha mamlaka kiko kwenye mfuko wa programu ya mtumiaji). Walakini, kazi ya `xpc_connection_get_audit_token`, kwa kina ndani ya subroutine ya `connection_is_authorized`, lazima itaje alama ya ukaguzi inayomilikiwa na `diagnosticd`.
+
+## Tofauti 2: kusonga majibu
+
+Katika mazingira ya XPC (Mawasiliano kati ya Mchakato), ingawa wakusanyaji wa matukio hawatekelezi kwa wakati mmoja, kushughulikia ujumbe wa majibu kuna tabia ya kipekee. Kwa kina, kuna njia mbili tofauti za kutuma ujumbe ambao unatarajia majibu:
+
+1. **`xpc_connection_send_message_with_reply`**: Hapa, ujumbe wa XPC unapokelewa na kusindika kwenye foleni iliyoteuliwa.
+2. **`xpc_connection_send_message_with_reply_sync`**: Kinyume chake, kwa njia hii, ujumbe wa XPC unapokelewa na kusindika kwenye foleni ya kutolewa ya sasa.
+
+Tofauti hii ni muhimu kwa sababu inaruhusu uwezekano wa **pakiti za majibu kuchambuliwa kwa wakati mmoja na utekelezaji wa kusindika kwa tukio la XPC**. Hasa, wakati `_xpc_connection_set_creds` inatekeleza kufunga ili kulinda dhidi ya kubadilisha sehemu ya alama ya ukaguzi, haiongezi ulinzi huu kwa kitu cha uhusiano mzima. Kwa hivyo, hii inaunda udhaifu ambapo alama ya ukaguzi inaweza kubadilishwa wakati wa kipindi kati ya kuchambua kwa pakiti na utekelezaji wa kusindika tukio lake.
+
+Kutumia udhaifu huu, usanidi ufuatao unahitajika:
+
+* Huduma mbili za mach, zinazojulikana kama **`A`** na **`B`**, zote ambazo zinaweza kuanzisha uhusiano.
+* Huduma **`A`** inapaswa kujumuisha ukaguzi wa idhini kwa hatua maalum ambayo **`B`** pekee inaweza kutekeleza (programu ya mtumiaji hawezi).
+* Huduma **`A`** inapaswa kutuma ujumbe ambao unatarajia majibu.
+* Mtumiaji anaweza kutuma ujumbe kwa **`B`** ambao itajibu.
+
+Mchakato wa kutumia udhaifu huu unajumuisha hatua zifuatazo:
+
+1. Subiri huduma **`A`** itume ujumbe unaotarajia majibu.
 2. Badala ya kujibu moja kwa moja kwa **`A`**, bandari ya majibu inatekwa na kutumika kutuma ujumbe kwa huduma **`B`**.
-3. Kisha, ujumbe unaohusisha hatua iliyokatazwa unatumwa, ukitarajia kwamba utasindika kwa wakati mmoja na majibu kutoka kwa **`B`**.
+3. Kisha, ujumbe unaohusisha hatua iliyozuiwa unatuma, ukitarajia kwamba utasindika kwa wakati mmoja na jibu kutoka kwa **`B`**.
 
-Hapa chini ni uwakilishi wa kielelezo wa senario ya shambulio iliyoelezwa:
+Hapa chini ni uwakilishi wa picha wa mazingira ya shambulio yaliyoelezwa:
 
 ![https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png](../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
-
-<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 
 ## Matatizo ya Ugunduzi
 
-- **Vikwazo katika Kupata Mifano**: Kutafuta mifano ya matumizi ya `xpc_connection_get_audit_token` ilikuwa changamoto, kwa njia za kistatiki na za kudumu.
-- **Njia ya Utafiti**: Frida iliotumika kufunga kazi ya `xpc_connection_get_audit_token`, ikichuja wito usiotoka kwa wakurugenzi wa tukio. Walakini, njia hii ilikuwa imepunguzwa kwa mchakato uliofungwa na ilihitaji matumizi ya kazi hiyo.
-- **Zana za Uchambuzi**: Zana kama IDA/Ghidra zilitumika kuchunguza huduma za mach zinazoweza kufikiwa, lakini mchakato ulikuwa wa muda mrefu, uliogumuza na wito unaohusisha hifadhi ya pamoja ya dyld.
-- **Vikwazo vya Ufundi**: Jaribio la kuandika skripti ya uchambuzi kwa wito wa `xpc_connection_get_audit_token` kutoka kwa vitengo vya `dispatch_async` lilikwamishwa na ugumu wa kuchambua vitengo na mwingiliano na hifadhi ya pamoja ya dyld.
+* **Vikwazo katika Kutambua Mifano**: Kutafuta mifano ya matumizi ya `xpc_connection_get_audit_token` ilikuwa changamoto, kwa njia ya kudumu na kwa njia ya kudumu.
+* **Mbinu**: Frida iliotumika kufunga kazi ya `xpc_connection_get_audit_token`, ikichuja wito usiotoka kwa wakusanyaji wa matukio. Walakini, njia hii ilikuwa imezuiliwa kwa mchakato uliofungwa na ilihitaji matumizi ya moja kwa moja.
+* **Zana za Uchambuzi**: Zana kama IDA/Ghidra zilitumika kuchunguza huduma za mach zinazoweza kufikiwa, lakini mchakato ulichukua muda mrefu, uliogumuza na wito unaojumuisha hifadhi iliyoshirikiwa ya dyld.
+* **Vikwazo vya Uandishi wa Script**: Jaribio la kuandika skripti ya uchambuzi kwa wito wa `xpc_connection_get_audit_token` kutoka kwa vitengo vya `dispatch_async` vilizuiliwa na ugumu katika kuchambua vitengo na mwingiliano na hifadhi iliyoshirikiwa ya dyld.
 
-## Suluhisho <a href="#the-fix" id="the-fix"></a>
+## Marekebisho <a href="#the-fix" id="the-fix"></a>
 
-- **Masuala Yaliyoripotiwa**: Ripoti ilipelekwa kwa Apple ikielezea masuala ya jumla na maalum yaliyopatikana ndani ya `smd`.
-- **Jibu la Apple**: Apple ilishughulikia suala hilo katika `smd` kwa kubadilisha `xpc_connection_get_audit_token` na `xpc_dictionary_get_audit_token`.
-- **Asili ya Suluhisho**: Kazi ya `xpc_dictionary_get_audit_token` inachukuliwa kuwa salama kwani inapata alama ya ukaguzi moja kwa moja kutoka kwa ujumbe wa mach unaohusiana na ujumbe wa XPC uliopokelewa. Walakini, haipo katika API ya umma, kama vile `xpc_connection_get_audit_token`.
-- **Ukosefu wa Suluhisho Pana**: Bado haijulikani kwa nini Apple haikutekeleza suluhisho pana zaidi, kama vile kutupa ujumbe ambao haufanani na alama ya ukaguzi iliyohifadhiwa ya uhusiano. Uwezekano wa mabadiliko halali ya alama ya ukaguzi katika hali fulani (kwa mfano, matumizi ya `setuid`) inaweza kuwa sababu.
-- **Hali ya Sasa**: Tatizo linaendelea katika iOS 17 na macOS 14, likiwa changamoto kwa wale wanaotafuta kuligundua na kulielewa.
+* **Masuala Yaliyoripotiwa**: Ripoti ilipelekwa kwa Apple ikielezea masuala ya jumla na maalum yaliyopatikana ndani ya `smd`.
+* **Jibu la Apple**: Apple ilishughulikia suala hilo katika `smd` kwa kubadilisha `xpc_connection_get_audit_token` na `xpc_dictionary_get_audit_token`.
+* **Asili ya Marekebisho**: Kazi ya `xpc_dictionary_get_audit_token` inachukuliwa kuwa salama kwani inapata alama ya ukaguzi moja kwa moja kutoka kwa ujumbe wa mach uliounganishwa na ujumbe wa XPC uliopokelewa. Walakini, sio sehemu ya API ya umma, kama `xpc_connection_get_audit_token`.
+* **Ukosefu wa Marekebisho Kamili**: Bado haijulikani kwa nini Apple haikutekeleza marekebisho kamili zaidi, kama kutupa ujumbe usioendana na alama ya ukaguzi iliyohifadhiwa ya uhusiano. Uwezekano wa mabadiliko halali ya alama ya ukaguzi katika hali fulani (k.m., matumizi ya `setuid`) inaweza kuwa sababu.
+* **Hali ya Sasa**: Suala hili linaendelea kuwepo katika iOS 17 na macOS 14, likiwa changamoto kwa wale wanaotafuta kulitambua na kulielewa.

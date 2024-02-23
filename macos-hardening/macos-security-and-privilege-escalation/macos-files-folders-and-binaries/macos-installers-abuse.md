@@ -1,36 +1,34 @@
-# Uvunjaji wa Matumizi ya Wafungaji wa macOS
+# Matumizi Mabaya ya Wasakinishaji wa macOS
 
 <details>
 
-<summary><strong>Jifunze kuhusu uvunjaji wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvunja kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) **na** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **repos za github.**
 
 </details>
 
-## Habari Msingi za Pkg
+## Taarifa Msingi za Pkg
 
-Kifurushi cha **ufungaji wa macOS** (pia hujulikana kama faili ya `.pkg`) ni muundo wa faili unaotumiwa na macOS kusambaza programu. Faili hizi ni kama **sanduku linaloambatanisha kila kitu ambacho kipande cha programu** inahitaji ili kusakinisha na kukimbia kwa usahihi.
+Pakiti ya wasakinishaji wa macOS (inayojulikana pia kama faili ya `.pkg`) ni muundo wa faili unaotumiwa na macOS kusambaza programu. Faili hizi ni kama **sanduku linaloleta kila kitu ambacho programu** inahitaji kusakinisha na kukimbia kwa usahihi.
 
-Faili ya kifurushi yenyewe ni kiunzi kinachoshikilia **muundo wa faili na saraka ambazo zitasakinishwa kwenye kompyuta ya lengo**. Inaweza pia kuwa na **hati** za kutekeleza kazi kabla na baada ya usakinishaji, kama vile kuweka faili za usanidi au kusafisha toleo la zamani la programu.
+Faili ya pakiti yenyewe ni nyaraka inayoshikilia **hiraki ya faili na saraka ambazo zitasakinishwa kwenye** kompyuta ya lengo. Inaweza pia kujumuisha **maandishi** kutekeleza kazi kabla na baada ya usakinishaji, kama vile kuweka faili za usanidi au kusafisha toleo za zamani za programu.
 
-### Muundo
+### Hiraki
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Usambazaji (xml)**: Kubinafsisha (kichwa, maandishi ya karibu...) na ukaguzi wa hati/usakinishaji
-* **PackageInfo (xml)**: Habari, mahitaji ya usakinishaji, mahali pa usakinishaji, njia za hati za kukimbia
-* **Bili ya vifaa (bom)**: Orodha ya faili za kusakinisha, kusasisha au kuondoa na ruhusa za faili
-* **Payload (CPIO kiunzi kilichopunguzwa kwa gzip)**: Faili za kusakinisha kwenye `mahali-pakua` kutoka kwa PackageInfo
-* **Hati (CPIO kiunzi kilichopunguzwa kwa gzip)**: Hati za kabla na baada ya usakinishaji na rasilimali zaidi zilizopatikana kwenye saraka ya muda kwa ajili ya utekelezaji.
-
-### Kupunguza kiunzi
+* **Usambazaji (xml)**: Kubinafsisha (jina, maandishi ya kukaribisha...) na maandishi/vipimo vya usakinishaji
+* **PackageInfo (xml)**: Taarifa, mahitaji ya usakinishaji, mahali pa usakinishaji, njia za maandishi za kukimbia
+* **Bili ya vifaa (bom)**: Orodha ya faili za kusakinisha, kuboresha au kuondoa na ruhusa za faili
+* **Mzigo (CPIO archive gzip compresses)**: Faili za kusakinisha kwenye `mahali-pa-usakinishaji` kutoka PackageInfo
+* **Maandishi (CPIO archive gzip compressed)**: Maandishi kabla na baada ya usakinishaji na rasilimali zaidi zilizochimbuliwa kwenye saraka ya muda kwa utekelezaji.
 ```bash
 # Tool to directly get the files inside a package
 pkgutil —expand "/path/to/package.pkg" "/path/to/out/dir"
@@ -44,71 +42,56 @@ xar -xf "/path/to/package.pkg"
 cat Scripts | gzip -dc | cpio -i
 cpio -i < Scripts
 ```
-## Taarifa Msingi kuhusu DMG
+Kwa kuchora maudhui ya mpangilio bila kuidondoa kwa mkono unaweza kutumia zana ya bure [**Suspicious Package**](https://mothersruin.com/software/SuspiciousPackage/).
 
-Faili za DMG, au Picha za Diski za Apple, ni muundo wa faili unaotumiwa na macOS ya Apple kwa picha za diski. Faili ya DMG ni kimsingi **picha ya diski inayoweza kufungwa** (ina mfumo wa faili yake) ambayo ina data ya kibodi iliyopakwa kawaida na wakati mwingine imefichwa. Unapofungua faili ya DMG, macOS **inafunga kama vile ni diski halisi**, kuruhusu ufikiaji wa maudhui yake.
+## Taarifa Msingi za DMG
 
-### Mfumo wa Hierarchy
+Faili za DMG, au Picha za Apple Disk, ni muundo wa faili unaotumiwa na macOS ya Apple kwa picha za diski. Faili ya DMG ni **picha ya diski inayoweza kufungwa** (ina filesystem yake) ambayo ina data ya block ya ghafi mara nyingi imepakwa na wakati mwingine imefichwa. Unapofungua faili ya DMG, macOS **inaifunga kama vile ingekuwa diski halisi**, kuruhusu kupata maudhui yake.
+
+### Hierarchy
 
 <figure><img src="../../../.gitbook/assets/image (12) (2).png" alt=""><figcaption></figcaption></figure>
 
-Mfumo wa hierarchy wa faili ya DMG unaweza kuwa tofauti kulingana na maudhui. Walakini, kwa DMG za programu, kawaida inafuata muundo huu:
+Mfumo wa faili ya DMG unaweza kutofautiana kulingana na maudhui. Hata hivyo, kwa DMGs za programu, kawaida inafuata muundo huu:
 
-* Kiwango cha Juu: Hii ni mzizi wa picha ya diski. Mara nyingi ina programu na labda kiunga kwa folda ya Maombi.
-* Programu (.app): Hii ni programu halisi. Katika macOS, programu kawaida ni mfuko ambao una faili na folda nyingi ambazo hufanya programu hiyo.
-* Kiunga cha Maombi: Hii ni njia ya mkato kwa folda ya Maombi katika macOS. Lengo la hii ni kufanya iwe rahisi kwako kufunga programu. Unaweza kuvuta faili ya .app kwenye njia hii ya mkato ili kufunga programu.
+* Kiwango cha Juu: Hii ni mzizi wa picha ya diski. Mara nyingi ina programu na labda kiungo kwa folda za Maombi.
+* Maombi (.app): Hii ni programu halisi. Katika macOS, programu ni kawaida pakiti inayojumuisha faili na folda nyingi zinazounda programu.
 
-## Privesc kupitia utumiaji mbaya wa pkg
+## Privesc kupitia unyanyasaji wa pkg
 
 ### Utekelezaji kutoka kwenye folda za umma
 
-Ikiwa hati ya ufungaji kabla au baada ya ufungaji inatekelezwa, kwa mfano, kutoka kwenye **`/var/tmp/Installerutil`**, na mshambuliaji anaweza kudhibiti hati hiyo ili apate mamlaka ya juu wakati inatekelezwa. Au mfano mwingine kama huo:
+Ikiwa script ya kufunga kabla au baada ya kufunga kwa mfano inatekelezwa kutoka **`/var/tmp/Installerutil`**, na mshambuliaji anaweza kudhibiti script hiyo ili apate mamlaka ya ziada kila wakati inatekelezwa. Au mfano mwingine sawa:
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-Hii ni [kazi ya umma](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) ambayo wakala na wakurugenzi wengi watatumia kutekeleza kitu kama mizizi. Kazi hii inakubali **njia** ya **faili** ya **utekelezaji** kama parameter, hata hivyo, ikiwa mshambuliaji anaweza **kubadilisha** faili hii, ataweza **kutumia vibaya** utekelezaji wake na mizizi ili kupata mamlaka ya juu.
+Hii ni [kazi ya umma](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) ambayo wakufunzi na wakusasisha kadhaa watatumia kuita **kutekeleza kitu kama mizizi**. Kazi hii inakubali **njia** ya **faili** ya **kutekeleza** kama parameter, hata hivyo, ikiwa mshambuliaji anaweza **kurekebisha** faili hii, ataweza **kunyanyasa** utekelezaji wake na mizizi ili **kupata mamlaka ya ziada**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
-Kwa habari zaidi angalia mazungumzo haya: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
-
 ### Utekelezaji kwa kufunga
 
-Ikiwa mtunzi wa programu anaandika kwenye `/tmp/fixedname/bla/bla`, ni **inawezekana kuunda kifungu** juu ya `/tmp/fixedname` bila mmiliki ili uweze **kubadilisha faili yoyote wakati wa usakinishaji** ili kutumia mchakato wa usakinishaji.
+Ikiwa mtengenezaji anaandika kwa `/tmp/fixedname/bla/bla`, inawezekana **kuunda mlima** juu ya `/tmp/fixedname` bila wamiliki ili uweze **kurekebisha faili yoyote wakati wa usakinishaji** kwa lengo la kutumia mchakato wa usakinishaji.
 
-Mfano wa hii ni **CVE-2021-26089** ambayo ilifanikiwa **kubadilisha skripti ya kawaida** ili kupata utekelezaji kama mtumiaji mkuu. Kwa habari zaidi angalia mazungumzo haya: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Mfano wa hii ni **CVE-2021-26089** ambayo ilifanikiwa **kubadilisha skripti ya kipindi** ili kupata utekelezaji kama mtumiaji wa mizizi. Kwa maelezo zaidi angalia mazungumzo: [**OBTS v4.0: "Mlima wa Mende" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
-## pkg kama programu hasidi
+## pkg kama zisizo
 
-### Malipo tupu
+### Mzigo wa Kufuta
 
-Inawezekana tu kuunda faili ya **`.pkg`** na **skripti za kabla na baada ya usakinishaji** bila malipo yoyote.
+Inawezekana tu kuzalisha faili ya **`.pkg`** na **skripti za kabla na baada ya usakinishaji** bila mzigo wowote.
 
-### JS katika xml ya Usambazaji
+### JS katika Usambazaji wa xml
 
-Inawezekana kuongeza vitambulisho vya **`<script>`** katika faili ya xml ya **usambazaji** ya kifurushi na namna hiyo itatekelezwa na inaweza **kutekeleza amri** kwa kutumia **`system.run`**:
+Inawezekana kuongeza vitambulisho vya **`<script>`** katika faili ya **usambazaji wa xml** ya pakiti na msimbo huo utatekelezwa na unaweza **kutekeleza amri** kutumia **`system.run`**:
 
 <figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
 
 ## Marejeo
 
-* [**DEF CON 27 - Unpacking Pkgs A Look Inside Macos Installer Packages And Common Security Flaws**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
-* [**OBTS v4.0: "The Wild World of macOS Installers" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
-
-<details>
-
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* [**DEF CON 27 - Kufungua Pkgs Tazama Ndani ya Pakiti za Usakinishaji wa Macos na Uvimbe wa Usalama wa Kawaida**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
+* [**OBTS v4.0: "Dunia ya Kufunga ya macOS" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)

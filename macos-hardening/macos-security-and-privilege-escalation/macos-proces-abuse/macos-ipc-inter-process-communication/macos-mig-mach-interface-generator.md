@@ -1,4 +1,4 @@
-# macOS MIG - Jenereta ya Kiolesura cha Mach
+# macOS MIG - Mach Interface Generator
 
 <details>
 
@@ -6,15 +6,15 @@
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-MIG iliumbwa ili **kurahisisha mchakato wa kuunda nambari ya Mach IPC**. Kimsingi, ina **jenereta ya nambari inayohitajika** ili seva na mteja waweze kuwasiliana na ufafanuzi uliopewa. Hata kama nambari iliyozalishwa ni mbaya, msanidi programu atahitaji tu kuimporti na nambari yake itakuwa rahisi zaidi kuliko hapo awali.
+MIG iliundwa ili **kurahisisha mchakato wa uundaji wa nambari ya Mach IPC**. Kimsingi **inazalisha nambari inayohitajika** kwa server na mteja kuwasiliana na ufafanuzi uliopewa. Hata kama nambari iliyozalishwa ni mbaya, mwandishi wa programu atahitaji tu kuagiza na nambari yake itakuwa rahisi sana kuliko hapo awali.
 
 ### Mfano
 
@@ -37,13 +37,13 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Sasa tumia mig ili kuzalisha nambari ya seva na mteja ambayo itaweza kuwasiliana ndani yao wenyewe ili kuita kazi ya Subtract:
+Sasa tumia mig kuzalisha msimamizi na nambari ya mteja ambayo itaweza kushirikiana ndani yao kuita kazi ya Kutoa:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-Zitafunguliwa faili kadhaa mpya katika saraka ya sasa.
+Kuna faili kadhaa mpya zitakazoundwa katika saraka ya sasa.
 
-Katika faili za **`myipcServer.c`** na **`myipcServer.h`** unaweza kupata tamko na ufafanuzi wa muundo wa **`SERVERPREFmyipc_subsystem`**, ambao kimsingi unafafanua kazi ya kuita kulingana na kitambulisho cha ujumbe uliopokelewa (tumetaja nambari ya kuanzia 500):
+Katika faili za **`myipcServer.c`** na **`myipcServer.h`** unaweza kupata tamko na ufafanuzi wa muundo wa **`SERVERPREFmyipc_subsystem`**, ambao kimsingi unafafanua kazi ya kuita kulingana na kitambulisho cha ujumbe uliopokelewa (tulitaja nambari ya kuanzia 500):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -62,43 +62,29 @@ myipc_server_routine,
 }
 };
 ```
-{% tab title="myipcServer.h" %}
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <mach/mach.h>
-#include <mach/message.h>
-#include <mach/mig.h>
-#include "myipcServer.h"
-
-kern_return_t myipc_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
-{
-    // Handle the incoming message
-    switch (InHeadP->msgh_id)
-    {
-        case MACH_MSG_ID_REQUEST:
-            printf("Received request message\n");
-            break;
-        default:
-            printf("Unknown message received\n");
-            break;
-    }
-    
-    // Prepare the outgoing message
-    OutHeadP->msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0);
-    OutHeadP->msgh_size = sizeof(mach_msg_header_t);
-    OutHeadP->msgh_remote_port = InHeadP->msgh_remote_port;
-    OutHeadP->msgh_local_port = MACH_PORT_NULL;
-    OutHeadP->msgh_id = MACH_MSG_ID_REPLY;
-    
-    return KERN_SUCCESS;
-}
-```
-
 {% endtab %}
 
-{% tab title="myipcClient.c" %}
+{% tab title="myipcServer.h" %} 
+
+### macOS MIG (Mach Interface Generator)
+
+MIG is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code to handle messages sent between processes. MIG interfaces are defined in .defs files, which are then compiled to create the necessary code.
+
+#### Example:
+
+```c
+#include <mach/mach.h>
+#include <servers/bootstrap.h>
+#include "myipcServer.h"
+
+kern_return_t myipc_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP);
+```
+
+In the example above, `myipc_server` is the function generated by MIG to handle incoming messages. This function processes the messages and sends responses back to the client.
+
+MIG is a powerful tool for handling IPC in macOS, but it can also introduce security risks if not implemented correctly. It is important to carefully review and secure MIG interfaces to prevent unauthorized access and privilege escalation. 
+
+{% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -114,7 +100,7 @@ routine[1];
 {% endtab %}
 {% endtabs %}
 
-Kulingana na muundo uliopita, kazi ya **`myipc_server_routine`** itapokea **kitambulisho cha ujumbe** na kurudisha kazi sahihi ya kuita:
+Kulingana na muundo uliopita, kazi **`myipc_server_routine`** itapata **ID ya ujumbe** na kurudisha kazi sahihi ya kuita:
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -129,16 +115,16 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-Katika mfano huu tumetaja tu kazi 1 katika ufafanuzi, lakini kama tungeweza kutaja kazi zaidi, zingekuwa ndani ya safu ya **`SERVERPREFmyipc_subsystem`** na ya kwanza ingepewa kitambulisho cha **500**, ya pili kitambulisho cha **501**...
+Katika mfano huu tumetaja tu 1 kazi katika ufafanuzi, lakini kama tungelitaja kazi zaidi, zingelikuwa ndani ya safu ya **`SERVERPREFmyipc_subsystem`** na ya kwanza ingelipewa kitambulisho cha **500**, ya pili kitambulisho cha **501**...
 
-Kwa kweli niwezekano kutambua uhusiano huu katika muundo wa **`subsystem_to_name_map_myipc`** kutoka **`myipcServer.h`**:
+Kwa kweli ni rahisi kutambua uhusiano huu katika muundo wa **`subsystem_to_name_map_myipc`** kutoka **`myipcServer.h`**:
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-Hatimaye, kazi muhimu nyingine ya kufanya server itakuwa **`myipc_server`**, ambayo ndiyo itakayoitisha kazi inayohusiana na id iliyopokelewa:
+Hatimaye, kazi nyingine muhimu ya kufanya server ifanye kazi itakuwa **`myipc_server`**, ambayo ndiyo itakayoitisha **kazi inayohusiana** na kitambulisho kilichopokelewa:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -155,7 +141,7 @@ mig_routine_t routine;
 
 OutHeadP->msgh_bits = MACH_MSGH_BITS(MACH_MSGH_BITS_REPLY(InHeadP->msgh_bits), 0);
 OutHeadP->msgh_remote_port = InHeadP->msgh_reply_port;
-/* Ukubwa mdogo: routine() itaupdate ikiwa tofauti */
+/* Ukubwa wa chini: routine() itaupdate ikiwa tofauti */
 OutHeadP->msgh_size = (mach_msg_size_t)sizeof(mig_reply_error_t);
 OutHeadP->msgh_local_port = MACH_PORT_NULL;
 OutHeadP->msgh_id = InHeadP->msgh_id + 100;
@@ -172,9 +158,9 @@ return FALSE;
 }
 </code></pre>
 
-Angalia mistari iliyotangazwa hapo awali kwa kufikia kazi ya kuita kwa kutumia ID.
+Angalia mistari iliyotangazwa hapo awali kwa kufikia kazi ya kuita kwa ID.
 
-Hapa chini ni nambari ya kuunda **server** na **client** rahisi ambapo client anaweza kuita kazi ya Subtract kutoka kwa server:
+Hapa chini ni namna ya kuunda **server** na **client** rahisi ambapo client anaweza kuita kazi ya kutoa kutoka kwa server:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -208,50 +194,9 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% tab title="myipc_client.c" %}
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipc.h"
-
-int main(int argc, char *argv[]) {
-    kern_return_t kr;
-    mach_port_t bootstrap_port, service_port;
-    char *message = "Hello, server!";
-    char reply[256];
-
-    // Get the bootstrap port
-    kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to get bootstrap port: %s\n", mach_error_string(kr));
-        exit(1);
-    }
-
-    // Look up the service port
-    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc", &service_port);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to look up service port: %s\n", mach_error_string(kr));
-        exit(1);
-    }
-
-    // Send a message to the server
-    kr = myipc_send_message(service_port, message, reply, sizeof(reply));
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to send message: %s\n", mach_error_string(kr));
-        exit(1);
-    }
-
-    // Print the server's reply
-    printf("Server replied: %s\n", reply);
-
-    return 0;
-}
-```
-
 {% endtab %}
+
+{% tab title="myipc_client.c" %}Hii ni programu ndogo ya mfano inayoonyesha jinsi ya kutumia MIG kwenye macOS kwa mawasiliano ya mchakato. Programu hii inaunganisha kwenye seva ya mchakato iliyoundwa na `myipc_server.c` na kisha inatumia mchakato wa MIG kufanya wito wa kazi iliyoundwa kwenye seva. Kazi hii inarudi jumla ya idadi ya mchakato wa kazi zilizopo kwenye seva. Programu hii inaonyesha jinsi ya kutumia MIG kwa mawasiliano ya mchakato kwenye macOS.{% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -276,25 +221,22 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
-{% endtab %}
-{% endtabs %}
-
 ### Uchambuzi wa Binary
 
-Kwa kuwa binaries nyingi sasa hutumia MIG kuwezesha mach ports, ni muhimu kujua jinsi ya **kutambua kuwa MIG ilitumika** na **kazi ambazo MIG inatekeleza** kwa kila kitambulisho cha ujumbe.
+Kwa kuwa binaries nyingi sasa hutumia MIG kuonyesha mach ports, ni muhimu kujua jinsi ya **kutambua kuwa MIG ilitumika** na **kazi ambazo MIG inatekeleza** kwa kila kitambulisho cha ujumbe.
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) inaweza kuchambua habari za MIG kutoka kwenye binary ya Mach-O ikionyesha kitambulisho cha ujumbe na kutambua kazi ya kutekeleza:
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) inaweza kuchambua habari za MIG kutoka kwa binary ya Mach-O ikionyesha kitambulisho cha ujumbe na kutambua kazi ya kutekeleza:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Ilitajwa hapo awali kwamba kazi ambayo itashughulikia **kuita kazi sahihi kulingana na kitambulisho cha ujumbe uliopokelewa** ilikuwa `myipc_server`. Walakini, kawaida hautakuwa na alama za binary (hakuna majina ya kazi), kwa hivyo ni muhimu **kuangalia jinsi inavyoonekana baada ya kudecompile** kwani itakuwa sawa daima (msimbo wa kazi hii ni huru kutoka kwa kazi zilizofichuliwa):
+Ilitajwa hapo awali kwamba kazi itakayoshughulikia **wito wa kazi sahihi kulingana na kitambulisho cha ujumbe uliopokelewa** ilikuwa `myipc_server`. Walakini, kwa kawaida hautakuwa na alama za binary (majina ya kazi), kwa hivyo ni muhimu **kuangalia jinsi ilivyoonekana baada ya kudecompile** kwani itakuwa sawa sana (msimbo wa kazi hii ni huru kutoka kwa kazi zilizofunuliwa):
 
 {% tabs %}
-{% tab title="myipc_server kudecompile 1" %}
+{% tab title="myipc_server decompiled 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
-// Maagizo ya awali ya kupata pointa sahihi za kazi
+// Maelekezo ya awali ya kupata pointers sahihi za kazi
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -303,20 +245,20 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// Wito wa sign_extend_64 ambao unaweza kusaidia kutambua kazi hii
-// Hii inahifadhi rax kama pointa kwa wito ambao unahitaji kuitwa
-// Angalia matumizi ya anwani 0x100004040 (orodha ya anwani za kazi)
-// 0x1f4 = 500 (kitambulisho cha kuanzia)
+// Wito wa sign_extend_64 unaweza kusaidia kutambua kazi hii
+// Hii inahifadhi katika rax pointer kwa wito unahitaji kuitwa
+// Angalia matumizi ya anwani 0x100004040 (anwani za kazi)
+// 0x1f4 = 500 (ID ya kuanzia)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// If - else, ikiwa if inarudi uongo, wakati else inaita kazi sahihi na inarudi kweli
+// Ikiwa - vinginevyo, ikiwa inarudi uongo, wakati vinginevyo inaita kazi sahihi na inarudi kweli
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
 var_4 = 0x0;
 }
 else {
-// Anwani iliyohesabiwa ambayo inaita kazi sahihi na ina vigezo 2
+// Anwani iliyohesabiwa inayoitisha kazi sahihi na vigezo 2
 <strong>                    (var_20)(var_10, var_18);
 </strong>                    var_4 = 0x1;
 }
@@ -332,8 +274,8 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="myipc_server kudecompile 2" %}
-Hii ni kazi ile ile iliyokudecompile katika toleo tofauti la Hopper free:
+{% tab title="myipc_server decompiled 2" %}
+Hii ni kazi sawa iliyodecompilewa kwenye toleo tofauti la Hopper bure:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -341,7 +283,7 @@ saved_fp = r29;
 stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
-// Maagizo ya awali ya kupata pointa sahihi za kazi
+// Maelekezo ya awali ya kupata pointers sahihi za kazi
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -365,7 +307,7 @@ r8 = 0x1;
 }
 if ((r8 &#x26; 0x1) == 0x0) {
 r8 = *(int32_t *)(var_10 + 0x14);
-// 0x1f4 = 500 (kitambulisho cha kuanzia)
+// 0x1f4 = 500 (ID ya kuanzia)
 <strong>                    r8 = r8 - 0x1f4;
 </strong>                    asm { smaddl     x8, w8, w9, x10 };
 r8 = *(r8 + 0x8);
@@ -376,15 +318,15 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// If - else ile ile kama katika toleo la awali
-// Angalia matumizi ya anwani 0x100004040 (orodha ya anwani za kazi)
+// Ile ile if else kama katika toleo lililopita
+// Angalia matumizi ya anwani 0x100004040 (anwani za kazi)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
 var_4 = 0x0;
 }
 else {
-// Wito kwa anwani iliyohesabiwa ambapo kazi inapaswa kuwa
+// Wito kwenye anwani iliyohesabiwa ambapo kazi inapaswa kuwa
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -408,12 +350,14 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Kwa kweli, ikiwa unakwenda kwenye kazi **`0x100004000`** utapata safu ya muundo wa **`routine_descriptor`**. Kipengele cha kwanza cha muundo huo ni **anwani** ambapo **kazi** imefanywa, na **muundo unachukua byte 0x28**, kwa hivyo kila baada ya byte 0x28 (kuanzia byte 0) unaweza kupata byte 8 na hiyo itakuwa **anwani ya kazi** ambayo itaitwa:
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+Kwa kweli ikiwa unakwenda kwenye kazi **`0x100004000`** utapata safu ya **muundo wa maelekezo**. Elementi ya kwanza ya muundo ni **anwani** ambapo **kazi** imefanywa, na **muundo unachukua 0x28 bytes**, kwa hivyo kila 0x28 bytes (kuanzia byte 0) unaweza kupata 8 bytes na hiyo itakuwa **anwani ya kazi** itakayoitwa:
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Data hii inaweza kuchimbwa [**
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+Data hii inaweza kuchimbuliwa [**kwa kutumia script ya Hopper hii**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
