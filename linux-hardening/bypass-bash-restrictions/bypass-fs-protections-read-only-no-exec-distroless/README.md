@@ -4,9 +4,9 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -14,9 +14,9 @@ Outras formas de apoiar o HackTricks:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Se você está interessado em **carreira de hacking** e hackear o inhackeável - **estamos contratando!** (_fluência em polonês escrito e falado é necessária_).
+Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -29,7 +29,7 @@ Nos seguintes vídeos, você pode encontrar as técnicas mencionadas nesta pági
 
 ## Cenário de somente leitura / sem execução
 
-É cada vez mais comum encontrar máquinas Linux montadas com **proteção de sistema de arquivos somente leitura (ro)**, especialmente em contêineres. Isso ocorre porque executar um contêiner com sistema de arquivos ro é tão fácil quanto definir **`readOnlyRootFilesystem: true`** no `securitycontext`:
+É cada vez mais comum encontrar máquinas Linux montadas com a proteção do sistema de arquivos em **somente leitura (ro)**, especialmente em contêineres. Isso ocorre porque executar um contêiner com sistema de arquivos ro é tão fácil quanto definir **`readOnlyRootFilesystem: true`** no `securitycontext`:
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
@@ -44,7 +44,7 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-No entanto, mesmo que o sistema de arquivos seja montado como ro, **`/dev/shm`** ainda será gravável, então é falso que não podemos escrever nada no disco. No entanto, esta pasta será **montada com proteção sem execução**, então se você baixar um binário aqui, **não poderá executá-lo**.
+No entanto, mesmo que o sistema de arquivos seja montado como ro, **`/dev/shm`** ainda será gravável, então é falso que não podemos escrever nada no disco. No entanto, esta pasta será **montada com proteção no-exec**, então se você baixar um binário aqui, **não poderá executá-lo**.
 
 {% hint style="warning" %}
 Do ponto de vista de uma equipe vermelha, isso torna **complicado baixar e executar** binários que não estão no sistema (como backdoors ou enumeradores como `kubectl`).
@@ -62,14 +62,14 @@ Se você deseja executar um binário, mas o sistema de arquivos não permite, a 
 
 ### Bypass de chamada de sistema FD + exec
 
-Se você tiver mecanismos de script poderosos dentro da máquina, como **Python**, **Perl** ou **Ruby**, você pode baixar o binário para executar da memória, armazená-lo em um descritor de arquivo de memória (`create_memfd` syscall), que não será protegido por essas proteções e então chamar uma **chamada de sistema `exec`** indicando o **fd como o arquivo a ser executado**.
+Se você tiver motores de script poderosos dentro da máquina, como **Python**, **Perl** ou **Ruby**, você pode baixar o binário para executar da memória, armazená-lo em um descritor de arquivo de memória (`create_memfd` syscall), que não será protegido por essas proteções e então chamar uma **chamada de sistema `exec`** indicando o **fd como o arquivo a ser executado**.
 
-Para isso, você pode facilmente usar o projeto [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Você pode passar a ele um binário e ele gerará um script na linguagem indicada com o **binário comprimido e codificado em b64** com as instruções para **decodificar e descomprimir** em um **fd** criado chamando a syscall `create_memfd` e uma chamada à **chamada de sistema exec** para executá-lo.
+Para isso, você pode facilmente usar o projeto [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Você pode passar a ele um binário e ele irá gerar um script na linguagem indicada com o **binário comprimido e codificado em b64** com as instruções para **decodificar e descomprimir** em um **fd** criado chamando a syscall `create_memfd` e uma chamada à **chamada de sistema exec** para executá-lo.
 
 {% hint style="warning" %}
-Isso não funciona em outras linguagens de script como PHP ou Node porque eles não têm nenhuma maneira **padrão de chamar chamadas de sistema brutas** de um script, então não é possível chamar `create_memfd` para criar o **fd de memória** para armazenar o binário.
+Isso não funciona em outras linguagens de script como PHP ou Node porque eles não têm nenhuma maneira **padrão de chamar chamadas de sistema** brutos de um script, então não é possível chamar `create_memfd` para criar o **fd de memória** para armazenar o binário.
 
-Além disso, criar um **fd regular** com um arquivo em `/dev/shm` não funcionará, pois você não terá permissão para executá-lo porque a **proteção sem execução** será aplicada.
+Além disso, criar um **fd regular** com um arquivo em `/dev/shm` não funcionará, pois você não terá permissão para executá-lo porque a **proteção no-exec** será aplicada.
 {% endhint %}
 
 ### DDexec / EverythingExec
@@ -93,9 +93,9 @@ Você pode encontrar um exemplo de como usar **memexec para executar binários a
 
 ### Memdlopen
 
-Com um propósito semelhante ao DDexec, a técnica [**memdlopen**](https://github.com/arget13/memdlopen) permite uma **forma mais fácil de carregar binários** na memória para posteriormente executá-los. Isso poderia até permitir carregar binários com dependências.
+Com um propósito semelhante ao DDexec, a técnica [**memdlopen**](https://github.com/arget13/memdlopen) permite uma **maneira mais fácil de carregar binários** na memória para posteriormente executá-los. Isso poderia até permitir carregar binários com dependências.
 
-## Bypass Distroless
+## Bypass do Distroless
 
 ### O que é distroless
 
@@ -111,7 +111,7 @@ Em um contêiner distroless, você pode **nem mesmo encontrar `sh` ou `bash`** p
 Portanto, você **não** poderá obter um **shell reverso** ou **enumerar** o sistema como costuma fazer.
 {% endhint %}
 
-No entanto, se o contêiner comprometido estiver executando, por exemplo, um aplicativo web flask, então o Python está instalado e, portanto, você pode obter um **shell reverso em Python**. Se estiver executando node, você pode obter um shell reverso em Node, e o mesmo com praticamente qualquer **linguagem de script**.
+No entanto, se o contêiner comprometido estiver executando, por exemplo, um aplicativo web flask, então o Python está instalado e, portanto, você pode obter um **shell reverso em Python**. Se estiver executando node, você pode obter um shell reverso em Node, e o mesmo com a maioria das **linguagens de script**.
 
 {% hint style="success" %}
 Usando a linguagem de script, você poderia **enumerar o sistema** usando as capacidades da linguagem.
@@ -125,9 +125,9 @@ No entanto, nesse tipo de contêineres, essas proteções geralmente existirão,
 
 Você pode encontrar **exemplos** de como **explorar algumas vulnerabilidades de RCE** para obter **shells reversos de linguagens de script** e executar binários da memória em [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Se você está interessado em uma **carreira de hacking** e hackear o inhackeável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
+Se você está interessado em uma **carreira em hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -139,7 +139,7 @@ Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
