@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-MIG, Mach IPC kodu oluşturma sürecini **basitleştirmek için oluşturulmuştur**. Temel olarak, sunucu ve istemcinin iletişim kurması için gereken kodu **otomatik olarak oluşturur**. Oluşturulan kod ne kadar kötü görünse de, bir geliştirici sadece bunu içe aktarması gerekecek ve kodu öncekinden çok daha basit olacaktır.
+MIG, **Mach IPC işlemi oluşturma sürecini basitleştirmek** için oluşturulmuştur. Temelde, sunucu ve istemcinin iletişim kurması için gerekli kodu **belirli bir tanım ile oluşturur**. Oluşturulan kod ne kadar kötü görünürse görünsün, bir geliştirici sadece bunu içe aktarması yeterli olacak ve kodu öncekinden çok daha basit olacaktır.
 
 ### Örnek
 
@@ -37,13 +37,13 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Şimdi, birbirleriyle iletişim kurabilen sunucu ve istemci kodunu oluşturmak için mig'i kullanın. Bu kodlar, Subtract fonksiyonunu çağırmak için birbirleriyle iletişim kurabilecekler.
+Şimdi mig'i kullanarak, birbirleriyle iletişim kurabilecek şekilde sunucu ve istemci kodunu oluşturun ve Çıkarma işlevini çağırmak için birbirleriyle iletişim kurun:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-Geçerli dizinde birkaç yeni dosya oluşturulacak.
+Çeşitli yeni dosyalar mevcut dizinde oluşturulacaktır.
 
-**`myipcServer.c`** ve **`myipcServer.h`** dosyalarında **`SERVERPREFmyipc_subsystem`** yapısının bildirimi ve tanımını bulabilirsiniz. Bu yapı, alınan mesaj kimliğine dayalı olarak çağrılacak işlevi tanımlar (başlangıç numarası olarak 500 belirttik):
+**`myipcServer.c`** ve **`myipcServer.h`** dosyalarında **`SERVERPREFmyipc_subsystem`** yapısının bildirimi ve tanımını bulabilirsiniz, bu yapı temelde alınan mesaj kimliğine göre çağrılacak işlevi tanımlar (başlangıç numarasını 500 olarak belirttik):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -62,134 +62,29 @@ myipc_server_routine,
 }
 };
 ```
-{% tab title="myipcServer.h" %}
+{% endtab %}
+
+{% tab title="myipcServer.h" %} 
+
+### macOS MIG (Mach Interface Generator)
+
+MIG is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code for IPC. MIG interfaces are defined in .defs files and are used to define the messages that can be sent between processes.
+
+#### Example .defs file:
 
 ```c
-#ifndef myipcServer_h
-#define myipcServer_h
+routine my_ipc_message {
+    mach_msg_header_t Head;
+    int data;
+} -> {
+    mach_msg_header_t Head;
+    int result;
+};
+```
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <mach/mach.h>
-#include <mach/mach_error.h>
-#include <mach/mach_traps.h>
-#include <mach/mach_types.h>
-#include <mach/mach_init.h>
-#include <mach/mach_port.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_server.h>
-#include <mach/mach_host_user.h>
-#include <mach/mach_host_reboot.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_host_info.h>
-#include <mach/mach_host_notify.h>
-#include <mach/mach_host_security.h>
-#include <mach/mach_host_policy.h>
-#include <mach/mach_host_qos.h>
-#include <mach/mach_host_ledger.h>
-#include <mach/mach_host_statistics.h>
-#include <mach/mach_host_vm_info.h>
-#include <mach/mach_host_vm_priv.h>
-#include <mach/mach_host_vm_ext.h>
-#include <mach/mach_host_vm_prot.h>
-#include <mach/mach_host_vm_behavior.h>
-#include <mach/mach_host_vm_region.h>
-#include <mach/mach_host_vm_purgable.h>
-#include <mach/mach_host_vm_wire.h>
-#include <mach/mach_host_vm_pressure.h>
-#include <mach/mach_host_vm_page_info.h>
-#include <mach/mach_host_vm_page_query.h>
-#include <mach/mach_host_vm_page_range.h>
-#include <mach/mach_host_vm_page_behavior.h>
-#include <mach/mach_host_vm_page_info_internal.h>
-#include <mach/mach_host_vm_page_info_external.h>
-#include <mach/mach_host_vm_page_info_basic.h>
-#include <mach/mach_host_vm_page_info_extended.h>
-#include <mach/mach_host_vm_page_info_compressed.h>
-#include <mach/mach_host_vm_page_info_purgable.h>
-#include <mach/mach_host_vm_page_info_wire.h>
-#include <mach/mach_host_vm_page_info_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_mapped.h>
-#include <mach/mach_host_vm_page_info_iokit_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_reusable_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_reusable_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_basic.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_extended.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_compressed.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_purgable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_wire.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_mapped.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_mapped.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_mapped.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_mapped.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_mapped.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_reusable.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_shared.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_private.h>
-#include <mach/mach_host_vm_page_info_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_external_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire_iokit_iomapped_shared_private_reusable_compressed_purgable_wire
+In this example, `my_ipc_message` is a routine that sends an integer `data` from the client to the server and receives an integer `result` in response.
+
+MIG simplifies the process of defining IPC interfaces and handling messages between processes in macOS.
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -205,7 +100,7 @@ routine[1];
 {% endtab %}
 {% endtabs %}
 
-Önceki yapıya dayanarak, **`myipc_server_routine`** işlevi **mesaj kimliğini** alacak ve çağrılacak uygun işlevi döndürecektir:
+Önceki yapıya dayanarak **`myipc_server_routine`** işlevi **mesaj kimliğini** alacak ve çağrılacak uygun işlevi döndürecektir:
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -220,7 +115,7 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-Bu örnekte, tanımlamalarda sadece 1 fonksiyon tanımladık, ancak daha fazla fonksiyon tanımlasaydık, bunlar **`SERVERPREFmyipc_subsystem`** dizisinin içinde olacaktı ve ilk fonksiyon ID **500**'e, ikinci fonksiyon ID **501**'e atanacaktı...
+Bu örnekte tanımlamalar içinde sadece 1 fonksiyon tanımladık, ancak daha fazla fonksiyon tanımlasaydık, bunlar **`SERVERPREFmyipc_subsystem`** dizisinin içinde olacaktı ve ilk fonksiyon **500** ID'ye, ikinci fonksiyon ise **501** ID'ye atanacaktı...
 
 Aslında bu ilişkiyi **`myipcServer.h`** dosyasındaki **`subsystem_to_name_map_myipc`** yapısında tanımlayabiliriz:
 ```c
@@ -229,7 +124,7 @@ Aslında bu ilişkiyi **`myipcServer.h`** dosyasındaki **`subsystem_to_name_map
 { "Subtract", 500 }
 #endif
 ```
-Son olarak, sunucunun çalışmasını sağlamak için önemli bir işlev olan **`myipc_server`** olacak, bu işlev aslında alınan id'ye bağlı olan işlevi **çağıracaktır**:
+Son olarak, sunucunun çalışmasını sağlamak için önemli bir işlev olan **`myipc_server`** olacaktır, bu işlev aslında alınan kimliğe ilişkin işlevi **çağıracak olan** işlevdir:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -263,9 +158,9 @@ return FALSE;
 }
 </code></pre>
 
-ID'ye göre çağrılacak işlevi erişmek için önceden vurgulanan satırları kontrol edin.
+Önceki vurgulanan satırları kontrol ederek, kimliğe göre çağrılacak işlevi erişin.
 
-Aşağıda, istemcinin sunucudan Subtract işlevlerini çağırabileceği basit bir **sunucu** ve **istemci** kodu bulunmaktadır:
+Aşağıda, istemcinin sunucudan çıkarmak için işlevleri çağırabileceği basit bir **sunucu** ve **istemci** oluşturmak için kod bulunmaktadır:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -299,41 +194,60 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% tab title="myipc_client.c" %}
+{% endtab %}
+
+{% tab title="myipc_client.c" %} 
 
 ```c
 #include <stdio.h>
-#include <stdlib.h>
 #include <mach/mach.h>
-#include <mach/message.h>
 #include <servers/bootstrap.h>
-
-#define SERVER_NAME "com.example.myipc_server"
+#include "myipc.h"
 
 int main() {
-    mach_port_t server_port;
-    kern_return_t kr;
-    char message[256];
-    
-    // Look up the server port
-    kr = bootstrap_look_up(bootstrap_port, SERVER_NAME, &server_port);
+    mach_port_t bootstrap_port;
+    kern_return_t kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to look up server port: %s\n", mach_error_string(kr));
-        exit(1);
+        printf("Failed to get bootstrap port\n");
+        return 1;
     }
-    
-    // Prepare the message
-    snprintf(message, sizeof(message), "Hello from client");
-    
-    // Send the message
-    kr = mach_msg((mach_msg_header_t *)&message, MACH_SEND_MSG, sizeof(message), 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
+
+    myipc_t myipc = MYIPC_NULL;
+    kr = bootstrap_look_up(bootstrap_port, MYIPC_SERVICE_NAME, &myipc);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to send message: %s\n", mach_error_string(kr));
-        exit(1);
+        printf("Failed to look up service %s\n", MYIPC_SERVICE_NAME);
+        return json_object();
     }
-    
-    printf("Message sent successfully\n");
-    
+
+    myipc_msg_t msg = {
+        .hdr = {
+            .msgh_bits = MACH_MSGH_BITS_COMPLEX | MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, Mjson_objectACH_MSG_TYPE_MAKE_SEND_ONCE),
+            .msgh_size = sizeof(myipc_msg_t),
+            .msgh_remote_port = myipc,
+            .msgh_local_port = MACH_PORT_NULL,
+            .msgh_id = 0x41414141
+        },
+        .body = {
+            .msgh_descriptor_count = 1,
+            .msgh_descriptors = {
+                {
+                    .name = MACH_MSG_PORT_DESCRIPTOR,
+                    .disposition = MACH_MSG_TYPE_COPY_SEND,
+                    .type = MACH_MSG_PORT_DESCRIPTOR,
+                    .pad1 = 0,
+                    .pad2 = 0,
+                    .port = MACH_PORT_NULL
+                }
+            }
+        }
+    };
+
+    kr = mach_msg(&msg.hdr, MACH_SEND_MSG, msg.hmsg_size, 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
+    if (kr != KERN_SUCCESS) {
+        printf("Failed to send message\n");
+        return 1;
+    }
+
     return 0;
 }
 ```
@@ -363,25 +277,22 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
-{% endtab %}
-{% endtabs %}
-
 ### Binary Analizi
 
-Birçok ikili dosya artık MIG'yi kullanarak mach bağlantı noktalarını açığa çıkardığından, MIG'nin kullanıldığını **belirlemek** ve her mesaj kimliğiyle **MIG'nin yürüteceği işlevleri** tanımak ilginç olabilir.
+Birçok ikili dosya artık mach bağlantı noktalarını açığa çıkarmak için MIG'yi kullandığından, MIG'nin kullanıldığını **tanımanın** ve her mesaj kimliği ile MIG'nin yürüttüğü **işlevleri** bilmek ilginçtir.
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2), bir Mach-O ikili dosyasından MIG bilgilerini ayrıştırabilir ve mesaj kimliğini göstererek yürütülecek işlevi tanımlayabilir:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Daha önce, **alınan mesaj kimliğine bağlı olarak doğru işlevi çağıracak olan fonksiyonun** `myipc_server` olduğu belirtilmişti. Ancak genellikle ikili dosyanın sembolleri (işlev adları yok) olmayacaktır, bu yüzden dekompilasyonun nasıl göründüğünü kontrol etmek ilginç olacaktır çünkü her zaman çok benzer olacaktır (bu işlevin kodu, sunulan işlevlerden bağımsızdır):
+Önceki bölümde, **alınan mesaj kimliğine bağlı olarak doğru işlevi çağıracak olan fonksiyonun** `myipc_server` olduğu belirtilmişti. Ancak genellikle ikili dosyanın sembolleri olmayacaktır (işlev adları yok), bu yüzden **nasıl decompile edildiğine bakmak ilginç olacaktır** çünkü her zaman çok benzer olacaktır (bu işlevin kodu, sunulan işlevlerden bağımsızdır):
 
 {% tabs %}
 {% tab title="myipc_server decompiled 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
-// Uygun işlev işaretçilerini bulmak için ilk talimatlar
+// Doğru işlev işaretçilerini bulmak için ilk talimatlar
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -391,11 +302,12 @@ var_18 = arg1;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
 // Bu işlevi tanımlamaya yardımcı olabilecek sign_extend_64 çağrısı
-// Bu, çağrılması gereken işlevin işaretçisini rax'e depolar
+// Bu, çağrılması gereken işlevin işaretçisini rax'a depolar
+// Kullanılan adres 0x100004040'ı kontrol edin (işlev adresleri dizisi)
 // 0x1f4 = 500 (başlangıç ​​ID'si)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// If - else, if yanlış dönerken else doğru işlevi çağırır ve true döner
+// If - else, if döndürmezken else doğru işlevi çağırır ve true döndürür
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -419,7 +331,7 @@ return rax;
 {% endtab %}
 
 {% tab title="myipc_server decompiled 2" %}
-Bu, farklı bir Hopper free sürümünde dekompile edilmiş aynı işlevdir:
+Bu, farklı bir Hopper ücretsiz sürümünde decompile edilmiş aynı işlevdir:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -427,7 +339,7 @@ saved_fp = r29;
 stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
-// Uygun işlev işaretçilerini bulmak için ilk talimatlar
+// Doğru işlev işaretçilerini bulmak için ilk talimatlar
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -462,15 +374,15 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Önceki sürümdeki gibi if else
-// 0x100004040 adresinin kullanımını kontrol edin (işlevlerin adresleri dizisi)
+// Önceki sürümdeki gibi aynı if else
+// Kullanılan adres 0x100004040 (işlev adresleri dizisi) kontrol edilir
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
 var_4 = 0x0;
 }
 else {
-// Hesaplanan adrese yapılan çağrıda işlevin çağrılması
+// İşlevin çağrılması gereken hesaplanmış adresine çağrı
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -494,18 +406,24 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Aslında **`0x100004000`** işlevine giderseniz, **`routine_descriptor`** yapılarının bir dizisini bulacaksınız. Yapının ilk öğesi, işlevin uygulandığı **adres**'dir ve **yapı 0x28 bayt** alır, bu yüzden her 0x28 baytta (bayt 0'dan başlayarak) 8 bayt alabilir ve bu, çağrılacak olan **işlevin adresi** olacaktır:
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+Aslında, **`0x100004000`** işlevine giderseniz, **`routine_descriptor`** yapılarının dizisini bulacaksınız. Yapının ilk öğesi, **işlevin uygulandığı adres** ve **yapının 0x28 bayt** alacağıdır, bu nedenle her 0x28 baytta (bayt 0'dan başlayarak) 8 bayt alabilir ve bu, **çağrılacak işlevin adresi** olacaktır:
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Bu veriler, [**bu Hopper betiği kullanılarak**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py) çıkarılabilir.
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hack
-* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın** veya **Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** bizi takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) **ve** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github reposuna PR göndererek paylaşın**.
+<summary><strong>Sıfırdan başlayarak AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+
+HackTricks'i desteklemenin diğer yolları:
+
+* Şirketinizi **HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* **Discord grubuna** 💬 [**katılın**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin**.
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) **ve** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github depolarına katkıda bulunun**.
 
 </details>
