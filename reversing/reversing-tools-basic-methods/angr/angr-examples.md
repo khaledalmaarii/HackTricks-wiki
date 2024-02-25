@@ -6,14 +6,14 @@
 
 * 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中做广告**吗？ 或者想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边**](https://peass.creator-spring.com)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
 
 {% hint style="info" %}
-如果程序使用`scanf`从stdin**一次获取多个值**，则需要生成一个在**`scanf`**之后开始的状态。
+如果程序使用`scanf`从stdin中**一次获取多个值**，则需要生成一个在**`scanf`**之后开始的状态。
 {% endhint %}
 
 代码取自[https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)
@@ -37,7 +37,7 @@ good_address = 0x804867d
 
 # Avoiding this address
 avoid_address = 0x080485A8
-simulation.explore(find=good_address , avoid=avoid_address ))
+simulation.explore(find=good_address, avoid=avoid_address)
 
 # If found a way to reach the address
 if simulation.found:
@@ -418,7 +418,7 @@ main(sys.argv)
 ### 应用约束
 
 {% hint style="info" %}
-有时候像逐个字符比较长度为16的两个单词这样简单的人类操作（循环），对于**angr**来说会**花费**很多资源，因为它需要**指数级地生成分支**，因为每个if语句会生成一个分支：`2^16`。\
+有时候像逐个字符比较长度为16的两个单词这样简单的人类操作（循环），对于**angr**来说会**花费**很多资源，因为它需要**指数级地生成分支**，因为它会根据if语句生成1个分支：`2^16`\
 因此，更容易**要求angr回到先前的一个点**（在那里真正困难的部分已经完成），然后**手动设置这些约束**。
 {% endhint %}
 ```python
@@ -501,7 +501,7 @@ main(sys.argv)
 
 ### 模拟管理器
 
-有些模拟管理器比其他的更有用。在前面的示例中，存在一个问题，即创建了许多有用的分支。在这里，**veritesting**技术将合并这些分支并找到解决方案。\
+有些模拟管理器可能比其他的更有用。在前面的示例中，存在一个问题，因为创建了许多有用的分支。在这里，**veritesting**技术将合并这些分支并找到解决方案。\
 这个模拟管理器也可以通过以下方式激活：`simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -540,7 +540,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 钩住/绕过对函数的一个调用
+### 钩住/绕过对函数的一次调用
 ```python
 # This level performs the following computations:
 #
@@ -608,7 +608,9 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hooking一个函数 / Simprocedure
+### Hooking a function / Simprocedure
+
+### 钩住一个函数 / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -825,10 +827,10 @@ main(sys.argv)
 
 <summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
-* 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks上做广告**吗？或者想要获取**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks中被宣传**吗？或者想要获取**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs收藏品](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
