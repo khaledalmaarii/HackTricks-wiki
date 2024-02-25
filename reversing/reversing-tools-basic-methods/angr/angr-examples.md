@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* Bir **cybersecurity şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin.
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da beni takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
+* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? Ya da en son PEASS sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grubuna**](https://discord.gg/hRep4RUj7f) veya **telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
+* **Hacking püf noktalarınızı göndererek [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**'a PR gönderin.
 
 </details>
 
 {% hint style="info" %}
-Eğer program, `scanf` kullanarak **stdin'den bir seferde birden fazla değer alıyorsa**, `scanf`'den sonra başlayan bir durum oluşturmanız gerekmektedir.
+Program, **bir seferde birden fazla değeri stdin'den almak için `scanf`** kullanıyorsa, **`scanf`'den sonra başlayan bir durum oluşturmanız gerekir**.
 {% endhint %}
 
-Kodlar [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf) adresinden alınmıştır.
+Kodlar [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)'den alınmıştır.
 
 ### Adrese ulaşmak için giriş (adresi belirterek)
 ```python
@@ -37,7 +37,7 @@ good_address = 0x804867d
 
 # Avoiding this address
 avoid_address = 0x080485A8
-simulation.explore(find=good_address , avoid=avoid_address ))
+simulation.explore(find=good_address, avoid=avoid_address)
 
 # If found a way to reach the address
 if simulation.found:
@@ -86,15 +86,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Kayıt Defteri Değerleri
-
-Registry values, Windows işletim sistemindeki kayıt defterinde depolanan verilerdir. Kayıt defteri, sistem yapılandırmasını, kullanıcı ayarlarını ve diğer önemli bilgileri saklar. Kayıt defteri değerleri, anahtarlar altında saklanır ve her bir değer, bir anahtarın altında bir ad ve bir veri türü ile tanımlanır.
-
-Kayıt defteri değerlerine erişmek ve bunları değiştirmek için çeşitli yöntemler vardır. Bu değerleri okumak, yazmak veya silmek için kayıt defteri düzenleyicisi kullanılabilir. Ayrıca, kayıt defteri değerlerini programatik olarak erişmek için birçok programlama dilinde kayıt defteri API'leri bulunmaktadır.
-
-Kayıt defteri değerlerini anlamak ve analiz etmek için bazı araçlar ve teknikler mevcuttur. Bu araçlar, kayıt defteri değerlerini otomatik olarak analiz edebilir ve anlamlandırabilir. Örneğin, kayıt defteri değerlerini incelemek ve analiz etmek için "regedit" veya "reg" komutunu kullanabilirsiniz.
-
-Kayıt defteri değerlerini anlamak, sistem yapılandırmasını anlamak ve sorunları gidermek için önemlidir. Ayrıca, kötü amaçlı yazılımların veya zararlı programların tespit edilmesi ve analiz edilmesi için de kullanılabilir.
+### Kayıt Değerleri
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -158,17 +150,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Yığın Değerleri
-
-The stack is a data structure used by programs to store local variables and function call information. When a function is called, its local variables and return address are pushed onto the stack. The stack grows downwards, meaning that new values are added at the top of the stack.
-
-In reverse engineering, understanding the values stored on the stack can be crucial for analyzing the behavior of a program. By examining the stack values at different points in the program's execution, you can gain insights into how the program manipulates data and makes decisions.
-
-To view the stack values during program execution, you can use a debugger or a dynamic analysis tool like angr. These tools allow you to set breakpoints at specific locations in the program and inspect the stack at those points.
-
-By examining the stack values, you can identify important variables and function arguments, which can help you understand the program's logic and potentially find vulnerabilities or weaknesses.
-
-Overall, understanding the stack values is an essential skill in reverse engineering, as it allows you to gain insights into a program's inner workings and make informed decisions during the analysis process.
+### Yığın değerleri
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -230,7 +212,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-Bu senaryoda, giriş `scanf("%u %u")` ile alındı ve değer olarak `"1 1"` verildi, bu yüzden yığının **kullanıcı girişinden** gelen **`0x00000001`** değerlerini görebilirsiniz. Bu değerlerin `$ebp - 8`'de başladığını görebilirsiniz. Bu nedenle, kodda **`$esp`'den 8 bayt çıkardık (o anda `$ebp` ve `$esp` aynı değere sahipti)** ve ardından BVS'yi iteledik.
+Bu senaryoda, girdi `scanf("%u %u")` ile alındı ve değer `"1 1"` verildi, bu nedenle yığının değerleri **kullanıcı girdisinden** gelmektedir. Bu değerlerin `$ebp - 8`'de nasıl başladığını görebilirsiniz. Bu nedenle, kodda **`$esp`'den 8 bayt çıkardık (çünkü o anda `$ebp` ve `$esp` aynı değere sahipti)** ve ardından BVS'yi ittik.
 
 ![](<../../../.gitbook/assets/image (614).png>)
 
@@ -296,14 +278,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Dinamik Bellek Değerleri (Malloc)
-
-Malloc, C programlama dilinde dinamik bellek tahsisi yapmak için kullanılan bir işlevdir. Dinamik bellek tahsisi, programın çalışma zamanında değişken miktarda bellek tahsis etmesine olanak tanır. Malloc işlevi, programın çalışması sırasında bellek blokları oluşturur ve bu bloklara erişim sağlar.
-
-Malloc işlevi, bir bellek bloğu oluştururken, bloğun boyutunu belirtmek için kullanılan bir parametre alır. Bu boyut, programın ihtiyaçlarına göre değişebilir. Malloc işlevi, bellek bloğunu oluşturduktan sonra, bloğun başlangıç adresini döndürür. Bu adres, oluşturulan bellek bloğuna erişmek için kullanılır.
-
-Malloc işlevi, dinamik bellek tahsisinin yanı sıra, bellek sızıntılarını da önlemek için kullanılabilir. Bellek sızıntıları, programın bellek bloklarını serbest bırakmadan önce bellek tahsis ettiği durumlarda ortaya çıkar. Malloc işlevi, bellek bloklarını serbest bırakmadan önce bu blokları izlemek ve gerektiğinde belleği serbest bırakmak için kullanılabilir.
-
-Malloc işlevi, C programlama dilinde yaygın olarak kullanılan bir araçtır ve dinamik bellek tahsisinin etkin bir şekilde yapılmasını sağlar. Bu nedenle, Malloc işlevinin kullanımı ve dinamik bellek değerlerinin yönetimi, bir programcı için önemli bir beceridir.
 ```python
 import angr
 import claripy
@@ -363,37 +337,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Dosya Simülasyonu
-
-Angr, dosya sistemi üzerinde çalışan programları simüle etmek için de kullanılabilir. Bu, programın dosya işlemlerini taklit etmek ve belirli bir dosya durumunda nasıl davrandığını görmek için kullanışlı olabilir.
-
-Angr, dosya sistemi simülasyonu için `simuvex.SimFile` sınıfını kullanır. Bu sınıf, dosya işlemlerini taklit etmek için gerekli olan işlevleri sağlar.
-
-Aşağıda, bir dosya simülasyonu örneği verilmiştir:
-
-```python
-import angr
-import simuvex
-
-# Dosya simülasyonu için gerekli olan dosya nesnesini oluşturun
-file = simuvex.SimFile('/path/to/file', 'r')
-
-# Dosya nesnesini kullanarak bir dosya simülasyonu oluşturun
-state = angr.Project('/path/to/binary').factory.entry_state(fs={'/path/to/file': file})
-
-# Dosya simülasyonunu çalıştırın
-simgr = angr.Project(state)
-simgr.run()
-
-# Dosya simülasyonu sonucunda elde edilen durumu kontrol edin
-if simgr.deadended:
-    print("Dosya simülasyonu başarıyla tamamlandı.")
-else:
-    print("Dosya simülasyonu tamamlanamadı.")
-```
-
-Bu örnekte, `simuvex.SimFile` sınıfı kullanılarak bir dosya nesnesi oluşturulur. Ardından, `angr.Project` sınıfı kullanılarak bir dosya simülasyonu oluşturulur. Son olarak, `simgr.run()` yöntemiyle dosya simülasyonu çalıştırılır ve `simgr.deadended` özelliği kontrol edilerek simülasyonun başarıyla tamamlanıp tamamlanmadığı belirlenir.
-
-Dosya simülasyonu, programın belirli bir dosya durumunda nasıl davrandığını anlamak için kullanışlı bir araçtır. Bu, programın dosya işlemlerini taklit ederek, dosya işlemlerinin sonuçlarını analiz etmenizi sağlar.
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -449,7 +392,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Sembolik dosya, sembolik verilerle birleştirilmiş sabit verileri de içerebilir:
+Sembolik dosya aynı zamanda sembolik verilerle birleştirilmiş sabit veriler de içerebilir:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -472,11 +415,11 @@ Sembolik dosya, sembolik verilerle birleştirilmiş sabit verileri de içerebili
 ```
 {% endhint %}
 
-### Kısıtlamaları Uygulama
+### Kısıtlamalar Uygulama
 
 {% hint style="info" %}
-Bazen 16 karakter uzunluğundaki 2 kelimeyi **karakter karakter** karşılaştırmak gibi basit insan işlemleri, **angr** için maliyetli olabilir çünkü üreteceği dalları **üstel olarak** üretmesi gerekmektedir çünkü her if için 1 dal üretir: `2^16`\
-Bu nedenle, **angr'ye daha önceki bir noktaya gitmesini** (gerçek zor kısmın zaten yapıldığı nokta) ve bu kısıtlamaları manuel olarak **ayarlamasını istemek daha kolaydır**.
+Bazen 16 karakter uzunluğundaki 2 kelimeyi **karakter karakter karşılaştırma** gibi basit insan işlemleri, bir **angr**'a çok **maliyet** getirir çünkü her if için bir dal oluşturduğundan **üstel olarak** dallar oluşturması gerekir: `2^16`\
+Bu nedenle, **angr'ın önceki bir noktaya ulaşmasını istemek** (gerçek zor kısmın zaten yapıldığı yer) ve **bu kısıtlamaları manuel olarak belirlemek** daha kolaydır.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -549,16 +492,16 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-Bazı senaryolarda, gereksiz dalları kaydetmek ve çözümü bulmak için benzer durumları birleştiren **veritesting** etkinleştirebilirsiniz: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Bazı senaryolarda, benzer durumları birleştirmek için **veritesting**'i etkinleştirebilirsiniz, böylece gereksiz dalları kaydedebilir ve çözümü bulabilirsiniz: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Bu senaryolarda yapabileceğiniz başka bir şey de, angr'a daha kolay anlaşılabilir bir şey vermek için fonksiyonu **hook** etmektir.
+Bu senaryolarda yapabileceğiniz başka bir şey de, angr'a daha kolay anlayabileceği bir şey vermek için fonksiyonu **hook** etmektir.
 {% endhint %}
 
 ### Simülasyon Yöneticileri
 
-Bazı simülasyon yöneticileri diğerlerinden daha kullanışlı olabilir. Önceki örnekte bir sorun vardı çünkü birçok kullanışlı dal oluşturuldu. Burada, **veritesting** tekniği bu dalları birleştirecek ve bir çözüm bulacaktır.\
+Bazı simülasyon yöneticileri diğerlerinden daha kullanışlı olabilir. Önceki örnekte bir sorun vardı çünkü birçok faydalı dal oluşturuldu. Burada **veritesting** tekniği bunları birleştirecek ve bir çözüm bulacaktır.\
 Bu simülasyon yöneticisi ayrıca şu şekilde etkinleştirilebilir: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -597,64 +540,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Bir işlevin bir çağrısını kancalamak/geçmek
-
-In this example, we will use angr to hook/bypass a specific call to a function in a binary. 
-
-Bu örnekte, bir ikili dosyadaki belirli bir işlevin çağrısını kancalamak/geçmek için angr kullanacağız.
-
-First, we need to create an angr project and load the binary:
-
-İlk olarak, bir angr projesi oluşturmalı ve ikili dosyayı yüklemeliyiz:
-
-```python
-import angr
-
-project = angr.Project("/path/to/binary")
-```
-
-Next, we need to find the address of the call instruction we want to hook/bypass. We can use the `project.factory.block()` method to get a basic block at a specific address:
-
-Ardından, kancalamak/geçmek istediğimiz çağrı talimatının adresini bulmamız gerekiyor. Belirli bir adreste temel bir blok elde etmek için `project.factory.block()` yöntemini kullanabiliriz:
-
-```python
-call_address = 0x12345678
-block = project.factory.block(call_address)
-```
-
-Now, we can use the `block.vex` attribute to get the VEX representation of the basic block. We can then iterate over the instructions in the block to find the specific call instruction:
-
-Şimdi, `block.vex` özniteliğini kullanarak temel bloğun VEX temsilini alabiliriz. Ardından, bloktaki talimatları döngüyle gezerek belirli çağrı talimatını bulabiliriz:
-
-```python
-for stmt in block.vex.statements:
-    if stmt.tag == 'Ist_IMark' and stmt.addr == call_address:
-        call_stmt = stmt
-        break
-```
-
-Once we have the call instruction, we can modify it to hook/bypass the function call. For example, we can replace the call instruction with a jump to a different address:
-
-Çağrı talimatını elde ettikten sonra, işlev çağrısını kancalamak/geçmek için değiştirebiliriz. Örneğin, çağrı talimatını farklı bir adrese yönlendiren bir atlama talimatıyla değiştirebiliriz:
-
-```python
-jump_target = 0x87654321
-call_stmt.stmt = call_stmt.stmt.replace('call', 'jmp')
-call_stmt.stmt = call_stmt.stmt.replace(hex(call_address), hex(jump_target))
-```
-
-Finally, we can use the `block.bytes` attribute to get the modified bytes of the basic block. We can then patch the binary with the modified bytes:
-
-Son olarak, `block.bytes` özniteliğini kullanarak temel bloğun değiştirilmiş baytlarını alabiliriz. Ardından, ikili dosyayı değiştirilmiş baytlarla yamalayabiliriz:
-
-```python
-patched_bytes = block.bytes
-project.loader.memory.write_bytes(call_address, patched_bytes)
-```
-
-Now, when the binary is executed, the modified call instruction will be executed as a jump to the specified address, effectively hooking/bypassing the original function call.
-
-Artık ikili dosya çalıştırıldığında, değiştirilmiş çağrı talimatı belirtilen adrese atlama olarak çalıştırılacak ve böylece orijinal işlev çağrısı kancalanacak/geçilecektir.
+### Bir fonksiyona yapılan bir çağrıyı kancalamak/geçmek
 ```python
 # This level performs the following computations:
 #
@@ -722,40 +608,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Bir fonksiyonu kancalamak / Simprosedür
-
-In some cases, you may want to modify the behavior of a specific function during the execution of a binary. This can be useful for various purposes, such as bypassing certain checks or altering the flow of the program. One way to achieve this is by hooking the function using a technique called simprocedure.
-
-Bir ikili dosyanın yürütülmesi sırasında belirli bir fonksiyonun davranışını değiştirmek isteyebilirsiniz. Bu, belirli kontrolleri atlamak veya programın akışını değiştirmek gibi çeşitli amaçlar için faydalı olabilir. Bunun için kullanılan bir teknik olan simprosedürü kullanarak fonksiyonu kancalamak mümkündür.
-
-Simprocedures are essentially replacement functions that can be used to override the original behavior of a function. When a hooked function is called, the simprocedure is executed instead, allowing you to control the flow of the program and modify its behavior as desired.
-
-Simprosedürler, bir fonksiyonun orijinal davranışını geçersiz kılmak için kullanılan yerine geçen fonksiyonlardır. Kancalanan bir fonksiyon çağrıldığında, istenen şekilde programın akışını kontrol etmenizi ve davranışını değiştirmenizi sağlayan simprosedür çalıştırılır.
-
-The angr framework provides a convenient way to hook functions using simprocedures. You can define a custom simprocedure that will be executed when a specific function is called. This allows you to modify the behavior of the function without modifying the original binary.
-
-angr çatısı, simprosedürleri kullanarak fonksiyonları kancalamak için pratik bir yol sağlar. Belirli bir fonksiyon çağrıldığında çalıştırılacak özel bir simprosedür tanımlayabilirsiniz. Bu, orijinal ikili dosyayı değiştirmeden fonksiyonun davranışını değiştirmenizi sağlar.
-
-To hook a function using angr, you can use the `sim_procedure` decorator provided by the framework. This decorator allows you to define a custom simprocedure for a specific function. Here's an example:
-
-Bir fonksiyonu angr kullanarak kancalamak için, çatı tarafından sağlanan `sim_procedure` dekoratörünü kullanabilirsiniz. Bu dekoratör, belirli bir fonksiyon için özel bir simprosedür tanımlamanıza olanak sağlar. İşte bir örnek:
-
-```python
-import angr
-
-# Define a custom simprocedure
-class CustomSimProcedure(angr.SimProcedure):
-    def run(self, arg1, arg2):
-        # Modify the behavior of the function
-        # ...
-
-# Hook the function using the custom simprocedure
-proj.hook(0x123456, CustomSimProcedure())
-```
-
-In this example, we define a custom simprocedure called `CustomSimProcedure` that overrides the behavior of a specific function. We then use the `hook` method provided by angr to hook the function at address `0x123456` with our custom simprocedure.
-
-Bu örnekte, belirli bir fonksiyonun davranışını geçersiz kılan `CustomSimProcedure` adında özel bir simprosedür tanımlıyoruz. Ardından, angr tarafından sağlanan `hook` yöntemini kullanarak belirli bir adresteki (`0x123456`) fonksiyonu özel simprosedürümüzle kancalıyoruz.
+### Bir fonksiyonu kanca ileme / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -839,49 +692,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Birden fazla parametre ile scanf'i simüle etmek
-
-Bazı durumlarda, birden fazla parametre ile scanf işlevini simüle etmek gerekebilir. Bu, angr kütüphanesini kullanarak yapılabilir. İşte bir örnek:
-
-```python
-import angr
-
-# Hedef programın dosya yolunu belirtin
-binary_path = "/path/to/program"
-
-# angr projesini oluşturun
-proj = angr.Project(binary_path, auto_load_libs=False)
-
-# scanf işlevinin adresini bulun
-scanf_addr = 0x12345678
-
-# scanf işlevinin sembolik çağrısını oluşturun
-scanf_call = proj.factory.call_state(scanf_addr)
-
-# scanf'in ilk parametresini belirleyin
-param1 = angr.claripy.BVS("param1", 32)  # 32 bit sembolik değişken oluşturun
-scanf_call.regs.eax = param1  # eax kaydını sembolik değişkenle güncelleyin
-
-# scanf'in ikinci parametresini belirleyin
-param2 = angr.claripy.BVS("param2", 32)  # 32 bit sembolik değişken oluşturun
-scanf_call.regs.ebx = param2  # ebx kaydını sembolik değişkenle güncelleyin
-
-# scanf işlevini çağırın
-proj.factory.simulation_manager().step(state=scanf_call)
-
-# Sonuçları alın
-result_state = proj.factory.simulation_manager().active[0]
-
-# Sembolik değişkenlerin değerlerini elde edin
-param1_value = result_state.solver.eval(param1)
-param2_value = result_state.solver.eval(param2)
-
-# Elde edilen değerleri yazdırın
-print("Parametre 1 değeri:", param1_value)
-print("Parametre 2 değeri:", param2_value)
-```
-
-Bu örnekte, scanf işlevinin sembolik bir çağrısını oluşturuyoruz. İlk parametre için 32 bit sembolik bir değişken ve ikinci parametre için başka bir 32 bit sembolik değişken oluşturuyoruz. Ardından, scanf işlevini çağırıyoruz ve sonuçları elde ediyoruz.
+### Birden fazla parametre ile scanf işlemini simüle edin
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -944,22 +755,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Statik İkili Dosyalar
-
-Statik ikili dosyalar, tüm bağımlılıklarını içeren ve çalıştırılabilir bir dosya olarak derlenen ikili dosyalardır. Bu dosyalar, çalıştırıldıkları sistemde herhangi bir dış bağımlılığa ihtiyaç duymazlar. Bu nedenle, statik ikili dosyalar, farklı sistemlerde çalıştırılmak üzere taşınabilir ve dağıtılabilir.
-
-Statik ikili dosyaların avantajları şunlardır:
-
-- Bağımlılıkların yönetimi kolaydır.
-- Sistemdeki güncellemelerden etkilenmezler.
-- Taşınabilir ve dağıtılabilirler.
-
-Ancak, statik ikili dosyaların dezavantajları da vardır:
-
-- Dosya boyutu genellikle daha büyüktür.
-- Güncellemeler için yeniden derleme gerektirirler.
-- Bellek kullanımı daha yüksek olabilir.
-
-Statik ikili dosyalar, çeşitli programlama dilleri ve derleyiciler kullanılarak oluşturulabilir. Bu dosyalar, hedef sistemde çalıştırılmak üzere derlenirken, tüm bağımlılıkları dahil edecek şekilde yapılandırılmalıdır.
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -1028,12 +823,12 @@ main(sys.argv)
 ```
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Bir **cybersecurity şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu keşfedin.
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da beni takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
+* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? ya da PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* **[**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak [hacktricks repo'ya](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo'ya](https://github.com/carlospolop/hacktricks-cloud) PR gönderin.**
 
 </details>
