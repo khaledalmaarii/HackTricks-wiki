@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS erhalten oder HackTricks im PDF-Format herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks repo](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [HackTricks-Repository](https://github.com/carlospolop/hacktricks) und das [HackTricks-Cloud-Repository](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
 
 </details>
 
@@ -18,7 +18,7 @@ Wenn das Programm `scanf` verwendet, um **mehrere Werte gleichzeitig von stdin**
 
 Codes entnommen von [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)
 
-### Eingabe, um eine Adresse zu erreichen (Angabe der Adresse)
+### Eingabe, um die Adresse zu erreichen (die Adresse angeben)
 ```python
 import angr
 import sys
@@ -37,7 +37,7 @@ good_address = 0x804867d
 
 # Avoiding this address
 avoid_address = 0x080485A8
-simulation.explore(find=good_address , avoid=avoid_address ))
+simulation.explore(find=good_address, avoid=avoid_address)
 
 # If found a way to reach the address
 if simulation.found:
@@ -51,7 +51,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Eingabe zum Erreichen der Adresse (zeigt Drucke an)
+### Eingabe zum Erreichen der Adresse (die Ausgaben anzeigen)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -87,8 +87,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Registrierungswerte
-
-Registrywerte sind Schlüssel in der Windows-Registrierung, die Informationen über verschiedene Einstellungen und Konfigurationen enthalten. Diese Werte werden von Anwendungen und dem Betriebssystem verwendet, um auf wichtige Informationen zuzugreifen und diese zu speichern. Beim Reverse Engineering können Registrywerte nützlich sein, um Informationen über die Funktionalität einer Anwendung zu erhalten oder um bestimmte Verhaltensweisen zu ändern. Es gibt verschiedene Tools und Techniken, um auf Registrywerte zuzugreifen und mit ihnen zu interagieren.
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -153,10 +151,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Stapelwerte
-
-The stack is a data structure used in computer programming to store and manage variables and function calls. In the context of reverse engineering, understanding the values stored in the stack can be crucial for analyzing and manipulating a program.
-
-Der Stapel ist eine Datenstruktur, die in der Computerprogrammierung verwendet wird, um Variablen und Funktionsaufrufe zu speichern und zu verwalten. Im Kontext der Reverse-Engineering ist es wichtig, die Werte zu verstehen, die im Stapel gespeichert sind, um ein Programm zu analysieren und zu manipulieren.
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -218,11 +212,11 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-In diesem Szenario wurde die Eingabe mit `scanf("%u %u")` entgegengenommen und der Wert `"1 1"` wurde angegeben, daher stammen die Werte **`0x00000001`** des Stacks von der **Benutzereingabe**. Sie können sehen, wie diese Werte in `$ebp - 8` beginnen. Daher haben wir im Code **8 Bytes von `$esp` abgezogen (da zu diesem Zeitpunkt `$ebp` und `$esp` den gleichen Wert hatten)** und dann das BVS gepusht.
+In diesem Szenario wurde die Eingabe mit `scanf("%u %u")` entgegengenommen und der Wert `"1 1"` wurde übergeben, sodass die Werte **`0x00000001`** des Stacks vom **Benutzereingabe** stammen. Sie können sehen, wie diese Werte in `$ebp - 8` beginnen. Daher haben wir im Code **8 Bytes von `$esp` subtrahiert (da zu diesem Zeitpunkt `$ebp` und `$esp` den gleichen Wert hatten)** und dann haben wir den BVS gepusht.
 
 ![](<../../../.gitbook/assets/image (614).png>)
 
-### Statische Speicherwerte (globale Variablen)
+### Statische Speicherwerte (Globale Variablen)
 ```python
 import angr
 import claripy
@@ -284,80 +278,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Dynamische Speicherwerte (Malloc)
-
-In this example, we will use angr to analyze a binary that dynamically allocates memory using the `malloc` function. The goal is to find the values stored in the dynamically allocated memory.
-
-```python
-import angr
-
-def main():
-    # Load the binary
-    project = angr.Project("/path/to/binary")
-
-    # Set up the initial state
-    state = project.factory.entry_state()
-
-    # Create a simulation manager
-    simgr = project.factory.simulation_manager(state)
-
-    # Explore the binary
-    simgr.explore()
-
-    # Get the final states
-    final_states = simgr.deadended
-
-    # Print the memory values
-    for state in final_states:
-        # Get the memory address of the dynamically allocated memory
-        malloc_address = state.solver.eval(state.regs.rax)
-
-        # Get the value stored at the memory address
-        value = state.mem[malloc_address].int.concrete
-
-        # Print the memory address and value
-        print(f"Memory Address: {malloc_address}")
-        print(f"Value: {value}")
-
-if __name__ == "__main__":
-    main()
-```
-
-In diesem Beispiel verwenden wir angr, um eine Binärdatei zu analysieren, die den Speicher dynamisch mit der `malloc`-Funktion allokiert. Das Ziel ist es, die Werte zu finden, die im dynamisch allokierten Speicher gespeichert sind.
-
-```python
-import angr
-
-def main():
-    # Lade die Binärdatei
-    project = angr.Project("/Pfad/zur/Binärdatei")
-
-    # Setze den initialen Zustand
-    state = project.factory.entry_state()
-
-    # Erstelle einen Simulation Manager
-    simgr = project.factory.simulation_manager(state)
-
-    # Erkunde die Binärdatei
-    simgr.explore()
-
-    # Hole die finalen Zustände
-    final_states = simgr.deadended
-
-    # Gib die Speicherwerte aus
-    for state in final_states:
-        # Hole die Speicheradresse des dynamisch allokierten Speichers
-        malloc_address = state.solver.eval(state.regs.rax)
-
-        # Hole den Wert, der an der Speicheradresse gespeichert ist
-        value = state.mem[malloc_address].int.concrete
-
-        # Gib die Speicheradresse und den Wert aus
-        print(f"Speicheradresse: {malloc_address}")
-        print(f"Wert: {value}")
-
-if __name__ == "__main__":
-    main()
-```
 ```python
 import angr
 import claripy
@@ -417,40 +337,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Dateisimulation
-
-The `angr` framework provides a powerful feature called file simulation, which allows you to analyze the behavior of a program when interacting with files. This feature is particularly useful when reverse engineering or analyzing malware that relies heavily on file operations.
-
-With file simulation, you can create virtual files and specify their properties, such as size, content, and permissions. You can then use these virtual files as inputs to the program being analyzed. This allows you to explore different scenarios and understand how the program behaves under different file conditions.
-
-To perform file simulation with `angr`, you need to use the `angr.SimFile` class. This class represents a virtual file and provides methods to set its properties. You can create a `SimFile` object by specifying the file name and mode (read, write, or append).
-
-Once you have created a `SimFile` object, you can use it as an input to the program being analyzed. `angr` will automatically handle file operations, such as opening, reading, writing, and closing the file. You can also specify the content of the file using the `write` method of the `SimFile` object.
-
-Here is an example of how to perform file simulation with `angr`:
-
-```python
-import angr
-
-# Create a SimFile object
-file = angr.SimFile("myfile.txt", "r")
-
-# Set the content of the file
-file.write(b"Hello, world!")
-
-# Create an angr project
-proj = angr.Project("myprogram")
-
-# Create a state with the file as input
-state = proj.factory.entry_state(stdin=file)
-
-# Explore the program's behavior
-simgr = proj.factory.simulation_manager(state)
-simgr.run()
-```
-
-In this example, we create a `SimFile` object named "myfile.txt" with read mode. We then set the content of the file to "Hello, world!". Next, we create an `angr` project for the program we want to analyze. We create a state with the `SimFile` object as the input for the program's standard input. Finally, we use a simulation manager to explore the program's behavior.
-
-By using file simulation, you can gain valuable insights into how a program interacts with files and understand its behavior in different file scenarios. This can be particularly useful for analyzing malware or reverse engineering software.
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -506,7 +392,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Beachten Sie, dass die symbolische Datei auch konstante Daten enthalten kann, die mit symbolischen Daten zusammengeführt wurden:
+Beachten Sie, dass die symbolische Datei auch konstante Daten enthalten kann, die mit symbolischen Daten zusammengeführt sind:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -529,11 +415,11 @@ Beachten Sie, dass die symbolische Datei auch konstante Daten enthalten kann, di
 ```
 {% endhint %}
 
-### Anwendung von Einschränkungen
+### Anwenden von Einschränkungen
 
 {% hint style="info" %}
-Manchmal kosten einfache menschliche Operationen wie das Vergleichen von 2 Wörtern der Länge 16 **Zeichen für Zeichen** (Schleife) **viel** für ein **angr**, weil es exponentiell viele Zweige generieren muss, da es pro if-Anweisung einen Zweig generiert: `2^16`\
-Daher ist es einfacher, **angr dazu zu bringen, zu einem früheren Punkt zurückzukehren** (wo der wirklich schwierige Teil bereits erledigt wurde) und diese Einschränkungen manuell festzulegen.
+Manchmal kosten einfache menschliche Operationen wie das Vergleichen von 2 Wörtern der Länge 16 **Zeichen für Zeichen** (Schleife) **eine Menge für ein** angr, da es Verzweigungen **exponentiell** generieren muss, da es pro if-Abfrage eine Verzweigung generiert: `2^16`\
+Daher ist es einfacher, **angr zu bitten, zu einem früheren Punkt zu gelangen** (wo der wirklich schwierige Teil bereits erledigt wurde) und **diese Einschränkungen manuell festzulegen**.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -606,17 +492,17 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-In einigen Szenarien können Sie **veritesting** aktivieren, um ähnliche Zustände zusammenzuführen und unnötige Verzweigungen zu vermeiden und die Lösung zu finden: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+In einigen Szenarien können Sie **veritesting** aktivieren, um ähnliche Zustände zusammenzuführen, unnötige Zweige zu vermeiden und die Lösung zu finden: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Eine weitere Möglichkeit in solchen Szenarien ist es, die Funktion zu **hooken**, um angr etwas zu geben, das es leichter verstehen kann.
+Eine weitere Möglichkeit in diesen Szenarien ist es, die Funktion zu **hooken**, um angr etwas zu geben, was es leichter verstehen kann.
 {% endhint %}
 
-### Simulation Manager
+### Simulationsmanager
 
-Einige Simulation Manager können nützlicher sein als andere. Im vorherigen Beispiel gab es ein Problem, da viele nützliche Verzweigungen erstellt wurden. Hier wird die **veritesting** Technik diese zusammenführen und eine Lösung finden.\
-Dieser Simulation Manager kann auch aktiviert werden mit: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Einige Simulationsmanager können nützlicher sein als andere. Im vorherigen Beispiel gab es ein Problem, da viele nützliche Zweige erstellt wurden. Hier wird die **veritesting**-Technik diese zusammenführen und eine Lösung finden.\
+Dieser Simulationsmanager kann auch aktiviert werden mit: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -654,49 +540,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hooking/Bypassing eines Funktionsaufrufs
-
-In einigen Fällen möchten Sie möglicherweise einen bestimmten Funktionsaufruf in einem Programm umgehen oder ändern. Dies kann nützlich sein, um bestimmte Verhaltensweisen zu modifizieren oder um Sicherheitsmechanismen zu umgehen.
-
-Mit der Angr-Bibliothek können Sie dies erreichen, indem Sie den Funktionsaufruf "hooken". Das bedeutet, dass Sie eine benutzerdefinierte Funktion schreiben, die anstelle des ursprünglichen Funktionsaufrufs aufgerufen wird.
-
-Um einen Funktionsaufruf zu hooken, müssen Sie die Adresse der Funktion im Speicher kennen. Sie können dies mithilfe von Angr herausfinden, indem Sie die Funktion `project.loader.find_symbol()` verwenden.
-
-Sobald Sie die Adresse der Funktion haben, können Sie die Funktion `project.hook()` verwenden, um Ihre benutzerdefinierte Funktion als Hook zu registrieren. Ihre benutzerdefinierte Funktion sollte die gleichen Parameter wie die ursprüngliche Funktion akzeptieren und den gleichen Rückgabetyp haben.
-
-Hier ist ein Beispiel, wie Sie einen Funktionsaufruf mit Angr hooken können:
-
-```python
-import angr
-
-def my_hooked_function(state):
-    # Hier können Sie den Funktionsaufruf modifizieren oder umgehen
-    # state.regs.rax enthält den Rückgabewert der Funktion
-    # state.regs.rdi, state.regs.rsi, usw. enthalten die Funktionsparameter
-
-    # Beispiel: Umgehen des Funktionsaufrufs und Rückgabe eines festgelegten Werts
-    state.regs.rax = 0x1337
-
-project = angr.Project("/path/to/program")
-
-# Adresse der Funktion im Speicher finden
-function_address = project.loader.find_symbol("function_name").rebased_addr
-
-# Funktion hooken
-project.hook(function_address, my_hooked_function)
-
-# Programm ausführen
-state = project.factory.entry_state()
-simgr = project.factory.simulation_manager(state)
-simgr.run()
-
-# Den Rückgabewert der Funktion erhalten
-print(simgr.deadended[0].regs.rax)
-```
-
-In diesem Beispiel wird die Funktion `function_name` gehookt. Die benutzerdefinierte Funktion `my_hooked_function` wird anstelle des ursprünglichen Funktionsaufrufs aufgerufen. Sie können den Funktionsaufruf in `my_hooked_function` modifizieren oder umgehen, indem Sie die Registerwerte ändern.
-
-Bitte beachten Sie, dass das Hooken von Funktionsaufrufen eine fortgeschrittene Technik ist und sorgfältig angewendet werden sollte. Es ist wichtig, die Auswirkungen auf das Programmverhalten zu verstehen und mögliche Nebenwirkungen zu berücksichtigen.
+### Einen Aufruf einer Funktion abfangen/umgehen
 ```python
 # This level performs the following computations:
 #
@@ -764,42 +608,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hooking einer Funktion / Simprocedure
-
-In einigen Fällen möchten Sie möglicherweise eine Funktion in einem Programm "hooken", um ihr Verhalten zu ändern oder Informationen zu sammeln. In der Angr-Plattform können Sie dies mithilfe von Simprocedures erreichen.
-
-Ein Simprocedure ist eine Funktion, die anstelle der ursprünglichen Funktion aufgerufen wird. Sie können den Code des Simprocedures anpassen, um das gewünschte Verhalten zu implementieren. Dies ermöglicht es Ihnen, die Kontrolle über den Programmfluss zu übernehmen und bestimmte Aktionen auszuführen.
-
-Um eine Funktion mit einem Simprocedure zu hooken, müssen Sie die Adresse der Funktion kennen. Sie können dies mithilfe von Symbolen oder anderen Techniken ermitteln. Sobald Sie die Adresse haben, können Sie den Simprocedure erstellen und ihn mit der Funktion verknüpfen.
-
-Hier ist ein Beispiel, wie Sie eine Funktion mit einem Simprocedure in Angr hooken können:
-
-```python
-import angr
-
-# Adresse der zu hookenden Funktion
-function_address = 0x12345678
-
-# Simprocedure erstellen
-def my_simprocedure(state):
-    # Code des Simprocedures hier einfügen
-    pass
-
-# Angr-Projekt erstellen
-proj = angr.Project("/path/to/binary")
-
-# Simprocedure mit der Funktion verknüpfen
-proj.hook(function_address, my_simprocedure)
-
-# Angr starten
-state = proj.factory.entry_state()
-simgr = proj.factory.simulation_manager(state)
-simgr.run()
-```
-
-In diesem Beispiel wird die Funktion mit der Adresse `0x12345678` gehookt. Der Simprocedure `my_simprocedure` wird anstelle der Funktion aufgerufen. Sie können den Code des Simprocedures anpassen, um Ihre spezifischen Anforderungen zu erfüllen.
-
-Durch das Hooken von Funktionen mit Simprocedures können Sie das Verhalten eines Programms ändern und Informationen sammeln, um Ihre Reverse-Engineering- oder Hacking-Aufgaben zu unterstützen.
+### Eine Funktion / Simprocedure abfangen
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -884,29 +693,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Simuliere scanf mit mehreren Parametern
-
-Manchmal müssen wir scanf simulieren, um den Fluss eines Programms zu analysieren oder bestimmte Bedingungen zu überprüfen. Die `simprocedure`-Funktion in Angr ermöglicht es uns, scanf mit mehreren Parametern zu simulieren.
-
-Hier ist ein Beispiel, wie man scanf mit zwei Parametern simuliert:
-
-```python
-import angr
-
-def scanf_sim(state):
-    # Simuliere scanf mit zwei Parametern
-    state.memory.store(state.regs.rdi, state.solver.BVS('input1', 8*8))
-    state.memory.store(state.regs.rsi, state.solver.BVS('input2', 8*8))
-
-proj = angr.Project('./binary')
-state = proj.factory.entry_state()
-simgr = proj.factory.simulation_manager(state)
-simgr.use_technique(angr.exploration_techniques.Explorer(find=0xdeadbeef))
-simgr.run(simprocedure=scanf_sim)
-```
-
-In diesem Beispiel wird `scanf_sim` als `simprocedure` verwendet, um scanf zu simulieren. Die Funktion speichert zwei benannte Bit-Vektor-Symbole in den Speicheradressen, die den beiden Parametern von scanf entsprechen.
-
-Durch die Verwendung von `simprocedure` können wir den Fluss des Programms analysieren und bestimmte Bedingungen überprüfen, indem wir die Eingaben für scanf steuern.
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -969,16 +755,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Statische Binärdateien
-
-Statische Binärdateien sind ausführbare Dateien, die alle erforderlichen Bibliotheken und Abhängigkeiten enthalten, um unabhängig von der Umgebung ausgeführt zu werden. Im Gegensatz zu dynamischen Binärdateien, die zur Laufzeit auf externe Bibliotheken verweisen, sind statische Binärdateien eigenständig und können auf verschiedenen Systemen ohne zusätzliche Installationen oder Konfigurationen ausgeführt werden.
-
-Das Reverse Engineering von statischen Binärdateien kann hilfreich sein, um deren Funktionsweise zu verstehen, Schwachstellen zu identifizieren oder Sicherheitslücken zu finden. Es gibt verschiedene Tools und Techniken, die beim Reverse Engineering von statischen Binärdateien eingesetzt werden können, um den Code zu analysieren und zu verstehen.
-
-Ein beliebtes Tool für das Reverse Engineering von statischen Binärdateien ist Angr. Angr ist ein mächtiges Framework, das entwickelt wurde, um die Analyse und Manipulation von Binärdateien zu erleichtern. Es bietet eine Vielzahl von Funktionen und Methoden, um den Code zu analysieren, Pfade zu erkunden, Bedingungen zu überprüfen und vieles mehr.
-
-Mit Angr können Sie statische Binärdateien analysieren, um Schwachstellen zu finden oder bestimmte Funktionen zu verstehen. Es ermöglicht Ihnen auch, den Code zu manipulieren, um bestimmte Pfade zu erzwingen oder bestimmte Bedingungen zu erfüllen. Durch die Kombination von Angr mit anderen Tools und Techniken können Sie effektivere Reverse Engineering-Methoden entwickeln und anwenden.
-
-Das Reverse Engineering von statischen Binärdateien erfordert jedoch ein tiefes Verständnis der zugrunde liegenden Architektur und des Codes. Es erfordert auch Geduld und Ausdauer, da das Reverse Engineering oft ein zeitaufwändiger Prozess ist. Dennoch kann das Reverse Engineering von statischen Binärdateien wertvolle Erkenntnisse liefern und Ihnen helfen, Sicherheitslücken zu identifizieren und zu beheben.
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -1047,12 +823,12 @@ main(sys.argv)
 ```
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family).
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com).
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks repo](https://github.com/carlospolop/hacktricks) und [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud) senden**.
+* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) bei oder der [**Telegram-Gruppe**](https://t.me/peass) oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [HackTricks-Repository](https://github.com/carlospolop/hacktricks) und das [HackTricks-Cloud-Repository](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
 
 </details>
