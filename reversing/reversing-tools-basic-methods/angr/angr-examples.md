@@ -1,14 +1,14 @@
-# Angr - 예제
+# Angr - 예시
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로에서 영웅까지 AWS 해킹을 배워보세요<strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로부터 영웅까지 AWS 해킹을 배우세요**!</summary>
 
-* **사이버 보안 회사**에서 일하시나요? **회사를 HackTricks에서 광고하고 싶으신가요**? 아니면 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인해보세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견해보세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter**에서 저를 **팔로우**하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **해킹 트릭을 공유하려면 [hacktricks repo](https://github.com/carlospolop/hacktricks) 및 [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**에 PR을 제출하세요.
+* **사이버보안 회사**에서 일하시나요? **HackTricks에 귀사를 광고**하고 싶으신가요? 혹은 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f)이나 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
+* **해킹 트릭을 공유하고 싶으시다면 [hacktricks repo](https://github.com/carlospolop/hacktricks) 및 [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**로 PR을 제출하세요.
 
 </details>
 
@@ -18,7 +18,7 @@
 
 코드는 [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)에서 가져왔습니다.
 
-### 주소에 도달하기 위한 입력 (주소를 나타냄)
+### 주소에 도달하기 위한 입력 (주소 표시)
 ```python
 import angr
 import sys
@@ -37,7 +37,7 @@ good_address = 0x804867d
 
 # Avoiding this address
 avoid_address = 0x080485A8
-simulation.explore(find=good_address , avoid=avoid_address ))
+simulation.explore(find=good_address, avoid=avoid_address)
 
 # If found a way to reach the address
 if simulation.found:
@@ -51,53 +51,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 주소에 도달하기 위한 입력 (출력을 나타냄)
-
-The `angr` framework provides a powerful way to analyze and solve binary programs. One common use case is to find inputs that can reach a specific address in the program, which can be useful for understanding program behavior or finding vulnerabilities.
-
-To achieve this, you can use the `angr` framework to create a symbolic execution path that starts from the program's entry point and explores different paths until it reaches the desired address. During the exploration, you can set constraints on the input variables to guide the symbolic execution towards the target address.
-
-Here is an example of how to use `angr` to find inputs that can reach a specific address in a program:
-
-```python
-import angr
-
-# Load the binary
-project = angr.Project("/path/to/program")
-
-# Set the desired address to reach
-target_address = 0x12345678
-
-# Create an initial state with symbolic input
-initial_state = project.factory.entry_state()
-
-# Create a simulation manager
-simulation = project.factory.simgr(initial_state)
-
-# Explore paths until the target address is reached
-simulation.explore(find=target_address)
-
-# Check if a path to the target address was found
-if simulation.found:
-    # Get the input that reaches the target address
-    solution_state = simulation.found[0]
-    solution_input = solution_state.posix.dumps(0)
-
-    # Print the solution input
-    print("Solution input:", solution_input)
-else:
-    print("No solution found")
-```
-
-In this example, we first load the binary program using `angr.Project()`. Then, we set the desired address to reach by assigning the target address to the `target_address` variable. We create an initial state with symbolic input using `project.factory.entry_state()`. Next, we create a simulation manager using `project.factory.simgr()` and pass the initial state to it.
-
-We then use the `simulation.explore()` method to explore different paths until the target address is reached. The `find` parameter is set to the target address, indicating that we want to find a path that reaches this address.
-
-After the exploration, we check if a path to the target address was found using `simulation.found`. If a path was found, we retrieve the solution state from `simulation.found[0]` and get the input that reaches the target address using `solution_state.posix.dumps(0)`. Finally, we print the solution input.
-
-If no path to the target address is found, we simply print "No solution found".
-
-By using `angr` in this way, you can efficiently find inputs that can reach a specific address in a binary program, which can be helpful for various reverse engineering and vulnerability analysis tasks.
+### 주소에 도달하기 위한 입력 (출력 표시)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -133,38 +87,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### 레지스트리 값
-
-The Windows Registry is a hierarchical database that stores configuration settings and options for the operating system and installed applications. It contains various keys and values that control the behavior of the system. In this section, we will explore some common registry values and their significance.
-
-#### Default Value
-
-The default value represents the initial value assigned to a registry key when it is created. It serves as a fallback option if no other value is specified.
-
-#### String Value
-
-A string value is a sequence of characters stored as a registry entry. It is commonly used to store textual information such as user names, file paths, or configuration settings.
-
-#### Binary Value
-
-A binary value is a sequence of bytes stored as a registry entry. It is often used to store binary data such as encryption keys or device driver settings.
-
-#### DWORD Value
-
-A DWORD (Double Word) value is a 32-bit integer stored as a registry entry. It is frequently used to store numerical data such as network settings or system configurations.
-
-#### QWORD Value
-
-A QWORD (Quad Word) value is a 64-bit integer stored as a registry entry. It is similar to the DWORD value but can store larger numerical values.
-
-#### Expandable String Value
-
-An expandable string value is a string that can contain variables or references to other environment variables. It allows for dynamic content within the registry.
-
-#### Multi-String Value
-
-A multi-string value is a sequence of strings stored as a registry entry. It is commonly used to store lists of values such as program paths or installed software.
-
-Understanding these registry values is essential for analyzing and modifying the Windows Registry during the reverse engineering process.
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -228,11 +150,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 스택 값
-
-The stack is a data structure used in computer programming to store and manage variables and function calls. In the context of reverse engineering, understanding the values stored in the stack can be crucial for analyzing and manipulating a program.
-
-스택은 컴퓨터 프로그래밍에서 변수와 함수 호출을 저장하고 관리하기 위해 사용되는 데이터 구조입니다. 역공학의 맥락에서 스택에 저장된 값들을 이해하는 것은 프로그램을 분석하고 조작하는 데 있어서 중요할 수 있습니다.
+### 스택 값들
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -294,7 +212,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-이 시나리오에서는 `scanf("%u %u")`를 사용하여 입력을 받았으며, 값 `"1 1"`이 주어졌으므로 스택의 값 **`0x00000001`**은 **사용자 입력**에서 가져온 것입니다. 이 값들이 `$ebp - 8`에서 시작되는 것을 볼 수 있습니다. 따라서 코드에서는 **`$esp`에서 8바이트를 뺀 다음 (그 순간 `$ebp`와 `$esp`가 동일한 값을 가지고 있었기 때문에)** BVS를 푸시했습니다.
+이 시나리오에서는 입력이 `scanf("%u %u")`를 사용하여 가져오고 값으로 `"1 1"`이 주어졌으므로 스택의 값 **`0x00000001`**은 **사용자 입력**에서 나옵니다. 이 값이 `$ebp - 8`에서 시작하는 것을 볼 수 있습니다. 따라서 코드에서는 **`$ebp`와 `$esp`가 동일한 값을 가질 때** **`$esp`에서 8바이트를 뺀 다음 BVS를 푸시했습니다.**
 
 ![](<../../../.gitbook/assets/image (614).png>)
 
@@ -360,35 +278,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### 동적 메모리 값 (Malloc)
-
-angr은 동적 메모리 할당 함수인 `malloc`을 분석하는 데 사용될 수 있습니다. `malloc`은 프로그램에서 동적으로 메모리를 할당하는 데 사용되는 함수입니다. 이 함수를 분석하면 할당된 메모리 영역에 대한 정보를 얻을 수 있습니다.
-
-다음은 `malloc` 함수를 분석하는 예제입니다.
-
-```python
-import angr
-
-# 바이너리 파일을 로드합니다.
-project = angr.Project("/path/to/binary")
-
-# 초기 상태를 설정합니다.
-state = project.factory.entry_state()
-
-# 동적 메모리 할당 함수를 호출합니다.
-malloc_addr = 0x12345678
-size = 32
-state.memory.store(malloc_addr, state.solver.BVV(size, 32))
-
-# 메모리 할당을 시뮬레이션합니다.
-simulation = project.factory.simgr(state)
-simulation.explore()
-
-# 할당된 메모리 영역에 대한 정보를 얻습니다.
-memory = simulation.found[0].memory.load(malloc_addr, size)
-print(memory)
-```
-
-위 예제에서는 `malloc` 함수를 호출하여 메모리를 할당하고, 할당된 메모리 영역에 대한 정보를 얻기 위해 `memory.load` 함수를 사용합니다. 이를 통해 할당된 메모리 영역의 값을 확인할 수 있습니다.
 ```python
 import angr
 import claripy
@@ -448,18 +337,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### 파일 시뮬레이션
-
-파일 시뮬레이션은 angr을 사용하여 파일 시스템의 동작을 모델링하는 방법입니다. 이를 통해 프로그램이 파일을 어떻게 조작하는지 이해하고, 파일 조작에 따른 프로그램의 동작을 예측할 수 있습니다.
-
-파일 시뮬레이션은 angr의 `SimFile` 객체를 사용하여 수행됩니다. 이 객체는 파일의 내용과 속성을 나타내는데 사용됩니다. 파일 시뮬레이션을 위해 다음과 같은 작업을 수행할 수 있습니다.
-
-- 파일 생성: `SimFile` 객체를 사용하여 새 파일을 생성할 수 있습니다.
-- 파일 열기: `SimFile` 객체를 사용하여 기존 파일을 열 수 있습니다.
-- 파일 읽기: `SimFile` 객체의 `read` 메서드를 사용하여 파일에서 데이터를 읽을 수 있습니다.
-- 파일 쓰기: `SimFile` 객체의 `write` 메서드를 사용하여 파일에 데이터를 쓸 수 있습니다.
-- 파일 닫기: `SimFile` 객체의 `close` 메서드를 사용하여 파일을 닫을 수 있습니다.
-
-파일 시뮬레이션을 통해 프로그램이 파일 조작에 따라 어떻게 동작하는지 분석할 수 있습니다. 이를 통해 취약점을 발견하거나 프로그램의 동작을 예측하는 데 도움이 될 수 있습니다.
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -515,7 +392,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-심볼릭 파일에는 심볼릭 데이터와 병합된 상수 데이터가 포함될 수도 있다는 점을 유의하세요:
+심볼릭 파일에는 상수 데이터와 심볼릭 데이터가 결합된 데이터가 포함될 수도 있다는 점을 유의하십시오:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -538,11 +415,11 @@ main(sys.argv)
 ```
 {% endhint %}
 
-### 제약 조건 적용하기
+### 제약 조건 적용
 
 {% hint style="info" %}
-가끔은 16자 길이의 두 단어를 **문자별로** 비교하는 단순한 인간 작업은 **angr**에게 많은 비용이 들 수 있습니다. 왜냐하면 **지수적으로** 분기를 생성해야 하기 때문에 각 if문마다 1개의 분기를 생성합니다: `2^16`\
-따라서, **angr가 이전 지점으로 돌아가도록 요청**하고 **수동으로 제약 조건을 설정하는 것이 더 쉽습니다** (실제로 어려운 부분이 이미 완료된 지점).
+가끔 길이가 16인 2개의 단어를 **문자별로** 비교하는 단순한 인간 작업은 **angr**에게 많은 **비용**을 지불해야 합니다. 왜냐하면 각 if문마다 가지를 생성하기 때문에 가지가 **지수적으로** 증가하기 때문입니다: `2^16`\
+따라서, **angr에게 이전 지점으로 돌아가서** (실제 어려운 부분이 이미 완료된 곳) **수동으로 해당 제약 조건을 설정하는 것이 더 쉽습니다**.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -615,17 +492,17 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-일부 시나리오에서는 유사한 상태를 병합하여 불필요한 분기를 제거하고 해결책을 찾기 위해 **veritesting**을 활성화할 수 있습니다: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+일부 시나리오에서는 비슷한 상태를 병합하여 쓸모없는 분기를 저장하고 해결책을 찾기 위해 **veritesting**를 활성화할 수 있습니다: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-이러한 시나리오에서 할 수 있는 다른 방법은 angr에게 이해하기 쉬운 형태로 함수를 **hook**하는 것입니다.
+이러한 시나리오에서 할 수 있는 또 다른 작업은 **angr이 이해하기 쉬운 무언가를 제공하기 위해 함수를 후킹**하는 것입니다.
 {% endhint %}
 
-### 시뮬레이션 매니저
+### 시뮬레이션 관리자
 
-일부 시뮬레이션 매니저는 다른 것보다 더 유용할 수 있습니다. 이전 예제에서는 많은 유용한 분기가 생성되어 문제가 발생했습니다. 여기에서는 **veritesting** 기법을 사용하여 이러한 분기를 병합하고 해결책을 찾을 수 있습니다.\
-이 시뮬레이션 매니저는 다음과 같이 활성화할 수도 있습니다: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+일부 시뮬레이션 관리자는 다른 것보다 유용할 수 있습니다. 이전 예제에서 많은 유용한 분기가 생성되는 문제가 있었습니다. 여기서 **veritesting** 기술을 사용하여 이러한 분기를 병합하고 해결책을 찾을 수 있습니다.\
+이 시뮬레이션 관리자는 다음과 같이 활성화할 수도 있습니다: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -663,54 +540,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 함수의 하나의 호출을 후킹/바이패스하기
-
-In this example, we will use angr to hook or bypass a specific call to a function in a binary. 
-
-이 예제에서는 angr을 사용하여 이진 파일에서 특정 함수의 호출을 후킹하거나 바이패스할 것입니다.
-
-First, we need to create an angr project and load the binary:
-
-먼저, angr 프로젝트를 생성하고 이진 파일을 로드해야 합니다.
-
-```python
-import angr
-
-# Create an angr project
-proj = angr.Project("/path/to/binary")
-
-# Get the address of the function call to hook/bypass
-call_addr = 0x12345678
-
-# Set up the initial state
-state = proj.factory.entry_state()
-
-# Hook the function call
-proj.hook(call_addr, your_hook_function)
-
-# Explore the binary
-simgr = proj.factory.simgr(state)
-simgr.explore()
-```
-
-Next, we define the `your_hook_function` that will be called when the function call is reached:
-
-다음으로, 함수 호출이 도달되었을 때 호출될 `your_hook_function`을 정의합니다.
-
-```python
-def your_hook_function(state):
-    # Modify the state or perform any desired actions
-    # before or after the function call
-    pass
-```
-
-Inside the `your_hook_function`, you can modify the state or perform any desired actions before or after the function call.
-
-`your_hook_function` 내부에서는 함수 호출 전후에 상태를 수정하거나 원하는 작업을 수행할 수 있습니다.
-
-By hooking the function call, you can intercept the execution flow and modify the behavior of the binary.
-
-함수 호출을 후킹함으로써 실행 흐름을 가로채고 이진 파일의 동작을 수정할 수 있습니다.
+### 함수 호출 하나를 후킹/바이패스하기
 ```python
 # This level performs the following computations:
 #
@@ -778,35 +608,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 함수 후킹 / 시뮬레이션 프로시저
-
-In some cases, you may want to modify the behavior of a specific function during the execution of a binary. This can be useful for various purposes, such as bypassing certain checks or altering the program's flow. One way to achieve this is by hooking the function using a technique called simprocedure.
-
-시나리오에 따라서는 이진 파일의 실행 중에 특정 함수의 동작을 수정하고 싶을 수 있습니다. 이는 특정 검사를 우회하거나 프로그램의 흐름을 변경하는 등 다양한 목적으로 유용할 수 있습니다. 이를 위해 simprocedure라는 기술을 사용하여 함수를 후킹하는 방법이 있습니다.
-
-Simprocedure is a feature provided by angr that allows you to replace the execution of a function with your own custom code. This can be done by creating a subclass of angr's SimProcedure class and overriding the relevant methods.
-
-Simprocedure는 angr이 제공하는 기능으로, 함수의 실행을 사용자 정의 코드로 대체할 수 있습니다. 이를 위해 angr의 SimProcedure 클래스의 하위 클래스를 생성하고 관련 메서드를 재정의하는 방식으로 수행할 수 있습니다.
-
-To hook a function using simprocedure, you need to follow these steps:
-
-simprocedure를 사용하여 함수를 후킹하려면 다음 단계를 따라야 합니다:
-
-1. Identify the function you want to hook. This can be done by analyzing the binary or using tools like IDA Pro or Ghidra.
-
-1. 후킹하려는 함수를 식별합니다. 이는 이진 파일을 분석하거나 IDA Pro 또는 Ghidra와 같은 도구를 사용하여 수행할 수 있습니다.
-
-2. Create a subclass of angr's SimProcedure class and override the relevant methods. The most commonly overridden method is `run()`, where you can define your custom code.
-
-2. angr의 SimProcedure 클래스의 하위 클래스를 생성하고 관련 메서드를 재정의합니다. 가장 일반적으로 재정의하는 메서드는 `run()`이며, 여기에서 사용자 정의 코드를 정의할 수 있습니다.
-
-3. Use angr's `hook_symbol()` method to replace the original function with your simprocedure. This method takes the name of the function and the simprocedure subclass as arguments.
-
-3. angr의 `hook_symbol()` 메서드를 사용하여 원래 함수를 simprocedure로 대체합니다. 이 메서드는 함수의 이름과 simprocedure 하위 클래스를 인수로 사용합니다.
-
-By hooking a function using simprocedure, you can modify its behavior to suit your needs without modifying the original binary. This can be a powerful technique for reverse engineering and vulnerability analysis.
-
-simprocedure를 사용하여 함수를 후킹함으로써 원본 바이너리를 수정하지 않고도 원하는 대로 함수의 동작을 수정할 수 있습니다. 이는 리버스 엔지니어링과 취약점 분석에 유용한 기술일 수 있습니다.
+### 함수 후킹 / 시무프로시저
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -890,52 +692,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 여러 매개변수를 사용하여 scanf 시뮬레이션하기
-
-To simulate the `scanf` function with several parameters, you can use the `angr` framework. The `angr` framework is a powerful binary analysis tool that allows you to perform symbolic execution and solve complex constraints.
-
-Here is an example of how you can simulate `scanf` with multiple parameters using `angr`:
-
-```python
-import angr
-
-# Create an angr project
-project = angr.Project("/path/to/binary")
-
-# Define the symbolic input variables
-input1 = angr.claripy.BVS("input1", 8)
-input2 = angr.claripy.BVS("input2", 8)
-
-# Create a state with symbolic input
-state = project.factory.entry_state(stdin=angr.SimFile(fd=0, content=input1+input2))
-
-# Create a simulation manager
-simgr = project.factory.simulation_manager(state)
-
-# Explore the program's execution
-simgr.explore(find=0xADDRESS_OF_SUCCESS, avoid=0xADDRESS_OF_FAILURE)
-
-# Get the successful state
-success_state = simgr.found[0]
-
-# Get the concrete values of the symbolic inputs
-concrete_input1 = success_state.solver.eval(input1)
-concrete_input2 = success_state.solver.eval(input2)
-
-# Print the concrete values
-print("Input 1:", concrete_input1)
-print("Input 2:", concrete_input2)
-```
-
-In this example, we create an `angr` project from the binary file. We define two symbolic input variables, `input1` and `input2`, using the `angr.claripy.BVS` function. We then create a state with symbolic input by passing the symbolic inputs to the `stdin` parameter of the `entry_state` function.
-
-Next, we create a simulation manager and explore the program's execution using the `explore` function. We specify the addresses of the success and failure conditions using the `find` and `avoid` parameters.
-
-Once the exploration is complete, we retrieve the successful state from the simulation manager. We can then use the `solver.eval` function to obtain the concrete values of the symbolic inputs.
-
-Finally, we print the concrete values of `input1` and `input2`.
-
-By simulating `scanf` with multiple parameters using `angr`, you can analyze and understand the behavior of the program without actually executing it. This can be useful for reverse engineering and vulnerability analysis purposes.
+### 여러 매개변수를 사용하여 scanf 시뮬레이션
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -997,24 +754,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 정적 바이너리
-
-정적 바이너리는 실행 파일이 컴파일된 시점에서 모든 종속성을 포함하는 바이너리입니다. 이는 실행 파일이 다른 라이브러리나 외부 파일에 의존하지 않고 독립적으로 실행될 수 있음을 의미합니다. 정적 바이너리는 이식성이 높고, 실행 환경에 대한 의존성이 적으며, 보안 측면에서도 이점이 있습니다.
-
-정적 바이너리를 분석하는 경우, 실행 파일의 내부 구조와 동작을 이해하는 데 도움이 되는 도구를 사용할 수 있습니다. 이러한 도구 중 하나가 angr입니다.
-
-### angr을 사용한 정적 바이너리 분석
-
-angr은 바이너리 분석 및 역공학 도구로, 정적 바이너리의 분석을 위해 사용될 수 있습니다. angr은 바이너리의 제어 흐름을 분석하고, 실행 경로를 탐색하며, 입력 조건을 찾아내는 등 다양한 분석 작업을 수행할 수 있습니다.
-
-angr을 사용하여 정적 바이너리를 분석하는 기본적인 방법은 다음과 같습니다:
-
-1. 바이너리를 로드하고, 분석할 프로젝트를 생성합니다.
-2. 분석할 함수 또는 코드 블록을 식별합니다.
-3. 분석 작업을 수행하기 위해 angr의 기능을 활용합니다. 예를 들어, 제어 흐름 분석, 실행 경로 탐색, 입력 조건 탐색 등을 수행할 수 있습니다.
-4. 분석 결과를 확인하고, 원하는 정보를 추출합니다.
-
-angr은 정적 바이너리 분석에 유용한 도구 중 하나이며, 다양한 분석 작업을 수행할 수 있습니다. 이를 통해 바이너리의 동작을 이해하고, 취약점을 찾거나 보안 강화를 위한 조치를 취할 수 있습니다.
+### 정적 이진 파일
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -1083,12 +823,12 @@ main(sys.argv)
 ```
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹을 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* **사이버 보안 회사**에서 일하시나요? **회사를 HackTricks에서 광고하고 싶으신가요**? 아니면 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인해보세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견해보세요. 독점적인 [**NFT**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter**에서 저를 **팔로우**하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **[hacktricks repo](https://github.com/carlospolop/hacktricks)와 [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**에 PR을 제출하여 여러분의 해킹 기교를 공유해주세요.
+* **사이버 보안 회사**에서 일하시나요? **회사가 HackTricks에 광고**되길 원하시나요? 혹은 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인해보세요!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견해보세요, 저희의 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+* [**공식 PEASS & HackTricks 스왹**](https://peass.creator-spring.com)을 얻으세요
+* **[💬](https://emojipedia.org/speech-balloon/) Discord 그룹**에 **가입**하거나 [텔레그램 그룹](https://t.me/peass)에 **참여**하거나 **트위터**에서 저를 팔로우하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **해킹 트릭을 공유하고 싶으시다면 [hacktricks repo](https://github.com/carlospolop/hacktricks) 및 [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**로 PR을 제출하세요.
 
 </details>
