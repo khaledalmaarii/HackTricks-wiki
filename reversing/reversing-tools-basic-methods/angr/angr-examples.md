@@ -4,21 +4,19 @@
 
 <summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Pata [**swagi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 {% hint style="info" %}
-Ikiwa programu inatumia `scanf` kupata **thamani kadhaa kwa wakati mmoja kutoka kwa stdin** unahitaji kuzalisha hali ambayo inaanza baada ya **`scanf`**.
+Ikiwa programu inatumia `scanf` kupata **thamani kadhaa kwa wakati mmoja kutoka kwa stdin** unahitaji kuzalisha hali inayoanza baada ya **`scanf`**.
 {% endhint %}
 
-Mambo yaliyochukuliwa kutoka [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)
-
-### Ingiza ili kufikia anwani (ikiashiria anwani)
+Makod
 ```python
 import angr
 import sys
@@ -37,7 +35,7 @@ good_address = 0x804867d
 
 # Avoiding this address
 avoid_address = 0x080485A8
-simulation.explore(find=good_address , avoid=avoid_address ))
+simulation.explore(find=good_address, avoid=avoid_address)
 
 # If found a way to reach the address
 if simulation.found:
@@ -51,7 +49,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Kuingiza ili kufikia anwani (inayoonyesha prints)
+### Ingiza ili ufikie anwani (ikiashiria machapisho)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -87,17 +85,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Thamani za Usajili
-
-Registry ni sehemu muhimu ya mfumo wa Windows ambapo habari na mipangilio ya programu zinahifadhiwa. Thamani za Usajili ni vipengele muhimu katika Registry ambavyo hushikilia data kama vile mipangilio ya programu, mipangilio ya mfumo, na maelezo mengine muhimu.
-
-Kuna aina tofauti za thamani za Usajili ambazo zinaweza kuhifadhiwa katika Registry. Hapa chini ni mifano ya aina kadhaa za thamani za Usajili:
-
-- **Thamani ya Nakala Moja (String Value):** Hii ni thamani ambayo inashikilia data ya maandishi. Inaweza kutumika kuhifadhi habari kama majina ya faili, anwani za barua pepe, au mipangilio ya programu.
-- **Thamani ya Binary (Binary Value):** Hii ni thamani ambayo inashikilia data ya binary, kama vile faili za picha au faili za sauti.
-- **Thamani ya Nambari (Numeric Value):** Hii ni thamani ambayo inashikilia data ya nambari, kama vile idadi ya toleo la programu au mipangilio ya mtandao.
-- **Thamani ya Multi-String (Multi-String Value):** Hii ni thamani ambayo inashikilia orodha ya maandishi. Inaweza kutumika kuhifadhi habari kama orodha ya anwani za IP au orodha ya mipangilio ya programu.
-
-Kwa kawaida, thamani za Usajili zinaweza kusomwa na kuhaririwa na programu au watumiaji wa mfumo. Ni muhimu kuelewa jinsi ya kusoma na kuhariri thamani za Usajili ili kufanya mabadiliko sahihi kwenye mfumo wa Windows.
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -162,14 +149,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Thamani za Stack
-
-Katika uwanja wa ughack, stack ni eneo la kumbukumbu ambalo hutumiwa kuhifadhi thamani za pembejeo, anwani za kurudi, na maelezo mengine muhimu. Kwa kawaida, thamani za stack huwekwa katika utaratibu wa "last in, first out" (LIFO), ambapo thamani ya hivi karibuni iliyowekwa ndio ya kwanza kuondolewa.
-
-Kuelewa thamani za stack ni muhimu katika uchambuzi wa kurejesha (reversing) na ughack. Kwa kutumia zana kama angr, unaweza kuchunguza na kubadilisha thamani za stack ili kufikia malengo yako ya ughack.
-
-Kwa mfano, unaweza kutumia angr kuweka thamani maalum kwenye stack ili kudhibiti mzunguko wa programu. Hii inaweza kusaidia katika kubadilisha matokeo ya programu au kuepuka hatua fulani za usalama.
-
-Kwa kumalizia, kuelewa jinsi thamani za stack zinavyofanya kazi na jinsi ya kuzibadilisha ni muhimu katika uchambuzi wa kurejesha na ughack. Zana kama angr zinaweza kuwa na manufaa katika kufikia malengo yako ya ughack kwa kudhibiti thamani za stack.
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -231,11 +210,11 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-Katika kesi hii, kuingiza ilichukuliwa na `scanf("%u %u")` na thamani `"1 1"` ilitolewa, kwa hivyo thamani **`0x00000001`** ya stack inatoka kwa **kuingiza mtumiaji**. Unaweza kuona jinsi thamani hizi zinaanza katika `$ebp - 8`. Kwa hivyo, katika nambari tumepunguza **baiti 8 kwa `$esp` (kwa sababu wakati huo `$ebp` na `$esp` zilikuwa na thamani sawa)** na kisha tumeboresha BVS.
+Katika kesi hii, kuingia ilichukuliwa na `scanf("%u %u")` na thamani `"1 1"` ilitolewa, hivyo thamani **`0x00000001`** ya stack inatoka kwa **mara ya mtumiaji**. Unaweza kuona jinsi thamani hizi zinaanza katika `$ebp - 8`. Kwa hivyo, katika kanuni tunayo **kupunguza 8 bytes kwa `$esp` (kama wakati huo `$ebp` na `$esp` walikuwa na thamani sawa)** na kisha tumeboresha BVS.
 
 ![](<../../../.gitbook/assets/image (614).png>)
 
-### Thamani za Kumbukumbu za Stesheni (Variables za Kikoa)
+### Thamani za Kumbukumbu za Stati (Vipimo vya Kimataifa)
 ```python
 import angr
 import claripy
@@ -296,15 +275,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Thamani za Kumbukumbu ya Kudumu (Malloc)
-
-Kumbukumbu ya kudumu ni eneo la kumbukumbu ambalo linaweza kutumika kwa uhuru na programu wakati wa utekelezaji wake. Katika muktadha wa uharibifu, tunaweza kutaka kuchunguza thamani za kumbukumbu ya kudumu ili kuelewa jinsi programu inavyofanya kazi na jinsi inavyoshughulikia data.
-
-Kazi ya `malloc` ni kutumika kuomba kumbukumbu ya kudumu wakati wa utekelezaji wa programu. Kwa kawaida, `malloc` inarudi anwani ya kumbukumbu iliyotengwa. Kwa hivyo, tunaweza kutumia anwani hii kuchunguza na kubadilisha thamani za kumbukumbu ya kudumu.
-
-Katika muktadha wa uharibifu, tunaweza kutumia zana kama vile Angr kuchunguza na kubadilisha thamani za kumbukumbu ya kudumu. Angr inaruhusu uchambuzi wa kiotomatiki wa programu na inaweza kutumika kwa uchunguzi wa kumbukumbu ya kudumu.
-
-Kwa kutumia Angr, tunaweza kufuatilia jinsi thamani za kumbukumbu ya kudumu zinavyobadilika wakati wa utekelezaji wa programu. Hii inaweza kutusaidia kugundua mifumo ya usalama na kuchunguza udhaifu katika programu.
+### Thamani za Kumbukumbu ya Kielelezo (Malloc)
 ```python
 import angr
 import claripy
@@ -364,14 +335,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Uigaji wa Faili
-
-Angr inaweza kutumika kwa uigaji wa faili ili kuchunguza na kuelewa jinsi programu inavyofanya kazi. Uigaji wa faili unaruhusu mtumiaji kuiga mazingira ya programu na kuchunguza matokeo ya kila hatua ya programu. Hii inaweza kuwa muhimu katika kuelewa jinsi programu inavyojibu kwa pembejeo tofauti au kugundua kasoro na udhaifu.
-
-Kwa kutumia angr, unaweza kuunda mfano wa faili na kuingiza pembejeo tofauti ili kuona jinsi programu inavyojibu. Unaweza kuchunguza hali tofauti za programu na kugundua maeneo ambayo yanaweza kuwa na udhaifu. Hii inaweza kusaidia katika kufanya uchunguzi wa usalama na kuboresha programu yako ili kuwa na nguvu zaidi dhidi ya mashambulizi.
-
-Kwa kufanya uigaji wa faili, unaweza kuchunguza matokeo ya kila hatua ya programu na kuelewa jinsi programu inavyofanya kazi. Hii inaweza kusaidia katika kugundua mifumo ya kudhibiti, kuchambua algorithms, na kuelewa jinsi programu inavyoshughulikia data. Uigaji wa faili pia unaweza kusaidia katika kugundua kasoro za programu na kufanya majaribio ya usalama ili kuboresha programu yako.
-
-Kwa kutumia angr, unaweza kufanya uigaji wa faili kwa njia rahisi na yenye nguvu. Unaweza kuchunguza programu yako na kugundua maeneo ambayo yanaweza kuwa na udhaifu. Hii inaweza kusaidia katika kufanya majaribio ya usalama na kuboresha programu yako ili kuwa na nguvu zaidi dhidi ya mashambulizi.
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -427,7 +390,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Tafadhali kumbuka kuwa faili ya ishara inaweza pia kuwa na data ya kudumu iliyochanganywa na data ya ishara:
+Tafadhali kumbuka kwamba faili ya ishara inaweza pia kuwa na data ya kudumu iliyochanganywa na data ya ishara:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -450,11 +413,11 @@ Tafadhali kumbuka kuwa faili ya ishara inaweza pia kuwa na data ya kudumu iliyoc
 ```
 {% endhint %}
 
-### Kuomba Vizuizi
+### Kutumia Vizuizi
 
 {% hint style="info" %}
-Maranyingi, shughuli rahisi za binadamu kama kulinganisha maneno 2 ya urefu wa 16 **herufi kwa herufi** (kwa mzunguko), **gharama** sana kwa **angr** kwa sababu inahitaji kuzalisha matawi **kwa kiasi kikubwa** kwa sababu inazalisha tawi 1 kwa kila if: `2^16`\
-Kwa hivyo, ni rahisi zaidi **kuomba angr ifike kwenye hatua ya awali** (ambapo sehemu ngumu ya kweli tayari imefanywa) na **kuweka vizuizi hivyo kwa mkono**.
+Maranyingi shughuli rahisi za binadamu kama kulinganisha maneno 2 yenye urefu wa 16 **herufi kwa herufi** (mzunguko), **gharama** sana kwa **angr** kwa sababu inahitaji kuzalisha matawi **kwa kiwango cha kipekee** kwa sababu inazalisha tawi 1 kwa kila ikiwa: `2^16`\
+Hivyo basi, ni rahisi zaidi **kuuliza angr irudi kwenye hatua ya awali** (ambapo sehemu ngumu halisi ilishafanywa) na **kuweka vizuizi hivyo kwa mkono**.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -527,17 +490,17 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-Katika hali fulani unaweza kuamsha **veritesting**, ambayo itaunganisha hali sawa ili kuokoa matawi yasiyofaa na kupata suluhisho: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Katika hali fulani unaweza kuamsha **veritesting**, ambayo itaunganisha hali sawa, ili kuokoa matawi yasiyofaa na kupata suluhisho: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Jambo lingine unaloweza kufanya katika hali hizi ni **kufunga kazi ya angr kwa kumpa kitu ambacho angr anaweza kuelewa** kwa urahisi zaidi.
+Jambo lingine unaloweza kufanya katika hali hizi ni **kufunga kazi ya kumpa angr kitu ambacho inaweza kuelewa** kwa urahisi zaidi.
 {% endhint %}
 
 ### Mameneja wa Uigaji
 
-Baadhi ya mameneja wa uigaji wanaweza kuwa na manufaa zaidi kuliko wengine. Katika mfano uliopita kulikuwa na tatizo kwa sababu matawi mengi muhimu yaliumbwa. Hapa, mbinu ya **veritesting** itaunganisha hayo na kupata suluhisho.\
-Mameneja huu wa uigaji pia unaweza kuamshwa kwa: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Baadhi ya mameneja wa uigaji wanaweza kuwa na manufaa zaidi kuliko wengine. Katika mfano uliopita kulikuwa na tatizo kama matawi mengi muhimu yaliumbwa. Hapa, mbinu ya **veritesting** itaunganisha hayo na kupata suluhisho.\
+Mameneja huyu wa uigaji pia unaweza kuamshwa kwa: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -575,81 +538,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Kukwepa/Kupitisha wito mmoja kwa kazi
-
-In some cases, when reverse engineering a binary, you may come across a function call that you want to bypass or modify. This can be achieved using the angr framework.
-
-Katika baadhi ya hali, unapofanya uhandisi wa nyuma kwa faili ya binary, unaweza kukutana na wito wa kazi ambao unataka kuukwepa au kubadilisha. Hii inaweza kufanikishwa kwa kutumia mfumo wa angr.
-
-To hook or bypass a function call, you can use the `simprocedures` feature of angr. Simprocedures allow you to replace or modify the behavior of a function during symbolic execution.
-
-Ili kukwepa au kupitisha wito wa kazi, unaweza kutumia kipengele cha `simprocedures` cha angr. Simprocedures inakuwezesha kubadilisha au kubadilisha tabia ya kazi wakati wa utekelezaji wa ishara.
-
-Here's an example of how to hook a function call using angr:
-
-Hapa kuna mfano wa jinsi ya kukwepa wito wa kazi kwa kutumia angr:
-
-```python
-import angr
-
-# Create an angr project
-project = angr.Project("/path/to/binary")
-
-# Define a custom simprocedure to replace the function call
-class CustomSimProcedure(angr.SimProcedure):
-    def run(self, state):
-        # Modify the behavior of the function call here
-        # You can access the arguments and return value using state.regs
-        # You can modify the memory or registers using state.memory and state.regs
-        # You can also modify the program counter using state.ip
-        pass
-
-# Hook the function call with the custom simprocedure
-project.hook_symbol("function_name", CustomSimProcedure())
-
-# Explore the binary with angr
-explorer = project.surveyors.Explorer(find=0xdeadbeef, avoid=0xcafebabe)
-explorer.run()
-
-# Get the state where the desired address is reached
-state = explorer.found[0]
-
-# Print the value of a register at that state
-print(state.regs.eax)
-```
-
-```python
-import angr
-
-# Unda mradi wa angr
-project = angr.Project("/path/to/binary")
-
-# Taja simprocedure ya desturi kuchukua nafasi ya wito wa kazi
-class CustomSimProcedure(angr.SimProcedure):
-    def run(self, state):
-        # Badilisha tabia ya wito wa kazi hapa
-        # Unaweza kupata hoja na thamani ya kurudi kwa kutumia state.regs
-        # Unaweza kubadilisha kumbukumbu au rejista kwa kutumia state.memory na state.regs
-        # Unaweza pia kubadilisha kinyume cha programu kwa kutumia state.ip
-        pass
-
-# Kukwepa wito wa kazi na simprocedure ya desturi
-project.hook_symbol("jina_la_kazi", CustomSimProcedure())
-
-# Tafiti faili ya binary na angr
-explorer = project.surveyors.Explorer(find=0xdeadbeef, avoid=0xcafebabe)
-explorer.run()
-
-# Pata hali ambapo anwani inayotakiwa imefikiwa
-state = explorer.found[0]
-
-# Chapisha thamani ya rejista katika hali hiyo
-print(state.regs.eax)
-```
-
-In the example above, we create an angr project for the binary and define a custom simprocedure called `CustomSimProcedure`. We then hook the function call with the custom simprocedure using `project.hook_symbol("function_name", CustomSimProcedure())`. Finally, we explore the binary using angr and retrieve the state where the desired address is reached. We can access and modify the registers and memory of that state as needed.
-
-Katika mfano uliotajwa hapo juu, tunatengeneza mradi wa angr kwa faili ya binary na tunatamka simprocedure ya desturi iliyoitwa `CustomSimProcedure`. Kisha tunakwepa wito wa kazi na simprocedure ya desturi kwa kutumia `project.hook_symbol("jina_la_kazi", CustomSimProcedure())`. Hatimaye, tunatafiti faili ya binary kwa kutumia angr na kupata hali ambapo anwani inayotakiwa imefikiwa. Tunaweza kupata na kubadilisha rejista na kumbukumbu ya hali hiyo kama inavyohitajika.
+### Kufunga/Kupitisha wito mmoja kwa kazi
 ```python
 # This level performs the following computations:
 #
@@ -718,38 +607,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Kufunga kazi / Simprocedure
-
-To hook a function in angr, you can use the `SimProcedure` class. This class allows you to replace the behavior of a function with your own custom code. 
-
-To create a `SimProcedure`, you need to subclass the `SimProcedure` class and override the `run()` method. Inside the `run()` method, you can define the behavior of the function you want to hook.
-
-Here is an example of how to hook the `printf()` function using a `SimProcedure`:
-
-```python
-import angr
-
-class MyPrintf(angr.SimProcedure):
-    def run(self, fmt, *args):
-        # Custom code to replace printf() behavior
-        # ...
-
-# Create an angr project
-proj = angr.Project("/path/to/binary")
-
-# Hook the printf() function with MyPrintf
-proj.hook_symbol("printf", MyPrintf())
-
-# Start the exploration
-state = proj.factory.entry_state()
-simgr = proj.factory.simgr(state)
-simgr.explore()
-```
-
-In the example above, we define a `MyPrintf` class that subclasses `SimProcedure` and overrides the `run()` method. Inside the `run()` method, you can write your own code to replace the behavior of `printf()`. 
-
-Then, we create an angr project and hook the `printf()` function with `MyPrintf` using the `hook_symbol()` method. Finally, we start the exploration by creating an entry state and a simulation manager.
-
-By hooking a function with a `SimProcedure`, you can control the behavior of the function during the execution of the binary. This can be useful for various purposes, such as modifying the function's output or analyzing its behavior.
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -834,39 +691,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Linganisha scanf na vigezo kadhaa
-
-Ili kusimulisha scanf na vigezo kadhaa, unaweza kutumia kifurushi cha angr katika Python. Hapa kuna mfano wa jinsi ya kufanya hivyo:
-
-```python
-import angr
-
-# Unda mpango wa angr
-proj = angr.Project("binary_file")
-
-# Unda kuingia kwa scanf
-scanf_input = angr.claripy.BVS("scanf_input", 8 * 4)  # Unda symbolic variable ya 4 bytes
-
-# Pata anwani ya scanf
-scanf_addr = proj.loader.find_symbol("scanf").rebased_addr
-
-# Unda hali ya kuanza
-state = proj.factory.entry_state(args=["binary_file"])
-
-# Weka kuingia ya scanf kwenye hali ya kuanza
-state.memory.store(state.regs.esp + 4, scanf_input)
-
-# Simulate scanf
-simgr = proj.factory.simgr(state)
-simgr.explore(find=scanf_addr)
-
-# Pata matokeo ya kuingia
-found_state = simgr.found[0]
-input_value = found_state.solver.eval(scanf_input)
-
-print("Input value:", input_value)
-```
-
-Katika mfano huu, tunatumia angr kuunda mpango wa angr kutoka kwa faili ya binary_file. Kisha tunatumia kifurushi cha claripy kutengeneza kuingia ya scanf kama variable ya ishara ya 4 bytes. Tunapata anwani ya scanf kutoka kwa mpango na kuunda hali ya kuanza. Tunaweka kuingia ya scanf kwenye hali ya kuanza na kisha tunasimamia scanf kwa kutumia simgr.explore. Hatimaye, tunapata matokeo ya kuingia kutoka kwa hali iliyopatikana na kuchapisha thamani ya kuingia.
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -928,19 +752,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Programu za Kudumu
-
-Programu za kudumu ni faili za binary ambazo zinafanya kazi bila kutegemea mazingira ya nje. Hii inamaanisha kuwa programu hizo zinaweza kufanya kazi kwenye mfumo wowote ambao unalingana na usanidi wao. Kwa mfano, unaweza kuwa na programu ya kudumu ambayo inafanya kazi kwenye mfumo wa Windows na pia kwenye mfumo wa Linux.
-
-Kwa wapenzi wa udukuzi, programu za kudumu ni muhimu sana. Unaweza kuzitumia kuchunguza na kuchambua programu za binary bila kuzitegemea kwenye mazingira ya nje. Hii inamaanisha kuwa unaweza kufanya uchunguzi wako bila kuathiri mfumo wa mwenyeji au kuacha alama zozote.
-
-Kuna zana nyingi za kudumu ambazo unaweza kutumia kwenye uchunguzi wako. Baadhi ya zana hizo ni:
-
-- **IDA Pro**: Hii ni zana maarufu ya uchambuzi wa binary ambayo inaruhusu uchunguzi wa kina wa programu za kudumu. Inatoa vipengele vingi vya kusaidia kama vile uchambuzi wa kiotomatiki na uchambuzi wa kificho.
-- **Ghidra**: Hii ni zana ya chanzo wazi ya uchambuzi wa binary ambayo inaruhusu uchunguzi wa kina wa programu za kudumu. Ina vipengele vingi vya kusaidia kama vile uchambuzi wa kiotomatiki na uchambuzi wa kificho.
-- **Radare2**: Hii ni zana ya chanzo wazi ya uchambuzi wa binary ambayo inaruhusu uchunguzi wa kina wa programu za kudumu. Ina vipengele vingi vya kusaidia kama vile uchambuzi wa kiotomatiki na uchambuzi wa kificho.
-
-Kwa kutumia zana hizi, unaweza kuchunguza na kuchambua programu za kudumu kwa urahisi na ufanisi. Unaweza kugundua udhaifu na kufanya marekebisho kulingana na mahitaji yako.
+### Programu za Statiči
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -1009,12 +821,12 @@ main(sys.argv)
 ```
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
