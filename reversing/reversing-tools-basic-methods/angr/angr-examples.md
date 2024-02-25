@@ -4,21 +4,21 @@
 
 <summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Werk jy in 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Deel jou haktruuks deur PR's in te dien by die [hacktricks-opslag](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud-opslag](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 {% hint style="info" %}
-As die program `scanf` gebruik om **verskeie waardes gelyktydig van stdin te kry**, moet jy 'n toestand genereer wat begin ná die **`scanf`**.
+As die program `scanf` gebruik om **verskeie waardes gelyktydig vanaf stdin te kry**, moet jy 'n toestand genereer wat begin ná die **`scanf`**.
 {% endhint %}
 
 Kodes geneem van [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)
 
-### Inset om adres te bereik (wat die adres aandui)
+### Invoer om adres te bereik (wat die adres aandui)
 ```python
 import angr
 import sys
@@ -37,7 +37,7 @@ good_address = 0x804867d
 
 # Avoiding this address
 avoid_address = 0x080485A8
-simulation.explore(find=good_address , avoid=avoid_address ))
+simulation.explore(find=good_address, avoid=avoid_address)
 
 # If found a way to reach the address
 if simulation.found:
@@ -51,7 +51,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Inset om adres te bereik (druk aanduidend)
+### Inset om adres te bereik (wat afdrukke aandui)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -86,15 +86,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Registervarwaardes
-
-Registervarwaardes is sleutels in die Windows-registreerder wat data bevat wat deur die bedryfstelsel gebruik word. Hier is 'n paar voorbeelde van registervarwaardes:
-
-- **CurrentVersion**: Hierdie registervarwaarde bevat inligting oor die huidige weergawe van die bedryfstelsel.
-- **Shell**: Hierdie registervarwaarde bevat die pad na die skilprogram wat gebruik word om die gebruikerskoppelvlak te vertoon.
-- **Userinit**: Hierdie registervarwaarde bevat die pad na die program wat uitgevoer word wanneer 'n gebruiker aanmeld.
-
-Dit is belangrik om registervarwaardes te verstaan en te ondersoek, aangesien dit waardevolle inligting kan verskaf vir 'n hacker of pentester.
+### Registriewaardes
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -158,15 +150,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Stakwaardes
-
-Die stak is 'n belangrike konsep in die programmering. Dit is 'n datastruktuur wat gebruik word om waardes te stoor en te organiseer. In die konteks van die hakwerk, kan die stak gebruik word om waardes te manipuleer en te ondersoek.
-
-Wanneer 'n funksie aangeroep word, word die parameters en die terugkeeradres op die stak geplaas. Die funksie kan dan die waardes van die stak gebruik om sy berekeninge uit te voer. Dit sluit in die gebruik van lokale veranderlikes en die oproep van ander funksies.
-
-Die stakwaardes kan ook gebruik word om foutopsporing te doen. Deur die waardes op die stak te ondersoek, kan 'n hakker insig kry in die uitvoering van 'n program en moontlike kwesbaarhede identifiseer.
-
-Dit is belangrik om te verstaan hoe die stak werk en hoe om die waardes daarop te ondersoek en te manipuleer. Hierdie kennis kan 'n hakker help om die program te verstaan en moontlike aanvalspunte te identifiseer.
+### Stokwaardes
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -232,7 +216,7 @@ In hierdie scenario is die inset geneem met `scanf("%u %u")` en die waarde `"1 1
 
 ![](<../../../.gitbook/assets/image (614).png>)
 
-### Statische geheue waardes (Globale veranderlikes)
+### Statische Geheue waardes (Globale veranderlikes)
 ```python
 import angr
 import claripy
@@ -294,78 +278,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Dinamiese Geheue Waardes (Malloc)
-
-Die `malloc` funksie in C word gebruik om dinamiese geheue toe te ken aan 'n program tydens uitvoering. Dit kan handig wees vir die manipulasie van geheue waardes tydens die uitvoering van 'n program. Hier is 'n paar voorbeelde van hoe jy die `malloc` funksie kan gebruik met behulp van die angr raamwerk.
-
-#### Voorbeeld 1: Malloc Waarde Manipulasie
-
-```python
-import angr
-
-# Skep 'n angr projek
-proj = angr.Project("/path/to/binary")
-
-# Skep 'n angr state
-state = proj.factory.entry_state()
-
-# Kry 'n verwysing na die malloc funksie
-malloc_addr = proj.loader.find_symbol("malloc").rebased_addr
-
-# Skep 'n simboliese waarde vir die malloc funksie
-malloc_size = 8
-malloc_value = state.solver.BVS("malloc_value", malloc_size * 8)
-
-# Voeg die simboliese waarde by die geheue van die program
-state.memory.store(malloc_addr, malloc_value)
-
-# Los die program op
-simgr = proj.factory.simulation_manager(state)
-simgr.run()
-
-# Kry die finale waardes van die malloc funksie
-final_malloc_value = simgr.deadended[0].solver.eval(malloc_value)
-
-print(f"Final malloc value: {final_malloc_value}")
-```
-
-In hierdie voorbeeld word 'n angr projek geskep en 'n angr state word geïnisialiseer. Die `malloc` funksie se adres word verkry deur die `find_symbol` metode te gebruik en die adres word herbasis. 'n Simboliese waarde word geskep vir die `malloc` funksie met behulp van die `BVS` metode. Die simboliese waarde word dan by die geheue van die program gevoeg deur die `store` metode te gebruik. Die program word opgelos en die finale waarde van die `malloc` funksie word verkry deur die `eval` metode te gebruik.
-
-#### Voorbeeld 2: Malloc Waarde Vergelyking
-
-```python
-import angr
-
-# Skep 'n angr projek
-proj = angr.Project("/path/to/binary")
-
-# Skep 'n angr state
-state = proj.factory.entry_state()
-
-# Kry 'n verwysing na die malloc funksie
-malloc_addr = proj.loader.find_symbol("malloc").rebased_addr
-
-# Skep 'n simboliese waarde vir die malloc funksie
-malloc_size = 8
-malloc_value = state.solver.BVS("malloc_value", malloc_size * 8)
-
-# Voeg die simboliese waarde by die geheue van die program
-state.memory.store(malloc_addr, malloc_value)
-
-# Los die program op
-simgr = proj.factory.simulation_manager(state)
-simgr.run()
-
-# Vergelyk die finale waarde van die malloc funksie met 'n konstante waarde
-final_malloc_value = simgr.deadended[0].solver.eval(malloc_value)
-comparison_value = 42
-
-if final_malloc_value == comparison_value:
-    print("Malloc value matches comparison value")
-else:
-    print("Malloc value does not match comparison value")
-```
-
-In hierdie voorbeeld word 'n angr projek geskep en 'n angr state word geïnisialiseer. Die `malloc` funksie se adres word verkry deur die `find_symbol` metode te gebruik en die adres word herbasis. 'n Simboliese waarde word geskep vir die `malloc` funksie met behulp van die `BVS` metode. Die simboliese waarde word dan by die geheue van die program gevoeg deur die `store` metode te gebruik. Die program word opgelos en die finale waarde van die `malloc` funksie word verkry deur die `eval` metode te gebruik. Die finale waarde word dan vergelyk met 'n konstante waarde en die relevante boodskap word gedruk volgens die vergelyking.
 ```python
 import angr
 import claripy
@@ -424,36 +336,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Lêersimulasie
-
-Die Angr-raamwerk bied 'n kragtige funksie vir lêersimulasie. Hiermee kan jy 'n virtuele lêerstelsel skep en manipuleer sonder om fisiese lêers op jou stelsel te skep. Dit is baie nuttig vir die analise van programme wat met lêers werk sonder om die werklike lêers te verander.
-
-Om 'n lêersimulasie te skep, begin jy deur 'n `SimState`-objek te skep. Hierdie objek verteenwoordig die toestand van die virtuele masjien waarop die lêerstelsel sal loop. Jy kan dan die lêerstelsel manipuleer deur funksies soos `fs` (vir lêerstelsel) en `memory` te gebruik.
-
-Byvoorbeeld, as jy 'n lêer wil skep met die naam "geheime.txt" en die inhoud "Hierdie is 'n geheime lêer", kan jy die volgende kode gebruik:
-
-```python
-import angr
-
-proj = angr.Project("my_binary")
-
-state = proj.factory.simulation_manager().active[0]
-
-fs = state.fs
-fs.create("geheime.txt", content="Hierdie is 'n geheime lêer")
-```
-
-Hierdie kode skep 'n `SimState`-objek, kry die lêerstelselobjek (`fs`) van die `SimState`-objek, en skep dan die lêer "geheime.txt" met die gewenste inhoud.
-
-Jy kan ook lêers en lêerinhoud verander deur die `fs`-objek te manipuleer. Byvoorbeeld, as jy die inhoud van die lêer "geheime.txt" wil verander na "Nuwe geheime", kan jy die volgende kode gebruik:
-
-```python
-fs.write("geheime.txt", "Nuwe geheime")
-```
-
-Hierdie kode verander die inhoud van die lêer "geheime.txt" na "Nuwe geheime".
-
-Lêersimulasie is 'n kragtige tegniek wat jou in staat stel om lêerstelsels te manipuleer sonder om fisiese lêers te skep. Dit kan baie nuttig wees vir die analise van programme wat met lêers werk.
+### Lêer Simulasie
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -509,7 +392,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Let daarop dat die simboliese lêer ook konstante data kan bevat wat saamgevoeg is met simboliese data:
+Let wel dat die simboliese lêer ook konstante data kan bevat wat saamgevoeg is met simboliese data:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -530,13 +413,11 @@ Let daarop dat die simboliese lêer ook konstante data kan bevat wat saamgevoeg 
 # stored.
 # (!)
 ```
-{% endhint %}
-
 ### Toepassing van Beperkings
 
 {% hint style="info" %}
-Soms kos eenvoudige menslike handelinge, soos die vergelyking van 2 woorde van lengte 16 **karakter vir karakter** (lus), baie vir 'n **angr** omdat dit eksponensieel takke moet genereer omdat dit 1 tak per if genereer: `2^16`\
-Daarom is dit makliker om **angr te vra om na 'n vorige punt te gaan** (waar die regte moeilike deel al gedoen is) en **daardie beperkings handmatig in te stel**.
+Soms kos eenvoudige menslike operasies soos die vergelyking van 2 woorde van lengte 16 **karakter vir karakter** (lus), baie vir 'n **angr** omdat dit takke **eksponensieel** moet genereer omdat dit 1 tak per if genereer: `2^16`\
+Daarom is dit makliker om **angr te vra om na 'n vorige punt te gaan** (waar die werklike moeilike deel reeds gedoen is) en om daardie beperkings handmatig in te stel.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -609,11 +490,11 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-In sommige scenario's kan jy **veritesting** aktiveer, wat soortgelyke toestande sal saamvoeg om nuttelose takke te spaar en die oplossing te vind: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+In sommige scenarios kan jy **veritesting** aktiveer, wat soortgelyke statusse sal saamvoeg, om onnodige takke te spaar en die oplossing te vind: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-'n Ander ding wat jy in hierdie scenario's kan doen, is om die funksie te **hook** en angr iets te gee wat dit makliker kan verstaan.
+'n Ander ding wat jy in hierdie scenarios kan doen, is om die funksie te **hook om angr iets te gee wat dit makliker kan verstaan**.
 {% endhint %}
 
 ### Simulasiebestuurders
@@ -657,51 +538,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Haak/Bypass een oproep na 'n funksie
-
-Om 'n oproep na 'n spesifieke funksie te haak of te omseil, kan jy die volgende stappe volg:
-
-1. Identifiseer die funksie waarvan jy die oproep wil haak of omseil.
-2. Vind die plek in die program waar die oproep na die funksie plaasvind.
-3. Gebruik 'n tegniek soos 'n hook of 'n omseiling om die oproep te verander of te omseil.
-4. Monitor die program se gedrag om te verseker dat die oproep korrek gehaak of omseil word.
-
-Hier is 'n voorbeeld van hoe jy 'n oproep na 'n funksie kan haak met behulp van die angr-raamwerk:
-
-```python
-import angr
-
-# Laai die program in die angr-raamwerk
-proj = angr.Project("/pad/na/program")
-
-# Definieer die funksie wat jy wil haak
-target_function = "funksie_na_haak"
-
-# Vind die plek waar die oproep na die funksie plaasvind
-call_site = proj.loader.find_symbol(target_function).rebased_addr
-
-# Definieer 'n hook-funksie wat die oproep sal vervang
-def hook_function(state):
-    # Voer jou eie logika uit om die oproep te vervang
-    # byvoorbeeld deur 'n ander funksie op te roep
-    state.regs.eax = 0x12345678  # Vervang die waarde in die eax-register
-
-# Haak die oproep na die funksie
-proj.hook(call_site, hook_function)
-
-# Voer die program uit met die gehaakte oproep
-state = proj.factory.entry_state()
-simgr = proj.factory.simulation_manager(state)
-simgr.run()
-
-# Kry die finale toestand na die uitvoering
-final_state = simgr.deadended[0]
-
-# Kry die waarde van die eax-register na die gehaakte oproep
-hooked_value = final_state.regs.eax
-```
-
-Met hierdie voorbeeld kan jy 'n oproep na 'n spesifieke funksie haak deur die waarde in die eax-register te vervang. Jy kan jou eie logika implementeer om die oproep te vervang met enige gewenste funksie of gedrag.
+### Hooking/Omleiding van een oproep na 'n funksie
 ```python
 # This level performs the following computations:
 #
@@ -769,16 +606,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Haak 'n funksie / Simprocedure
-
-Om 'n funksie te haak of 'n simprocedure te gebruik, kan jy die volgende stappe volg:
-
-1. Identifiseer die funksie wat jy wil haak. Dit kan 'n belangrike funksie wees wat jy wil monitor of manipuleer.
-2. Skep 'n simprocedure wat die funksie se gedrag simuleer. Dit kan 'n eenvoudige simulasie wees wat die funksie se oorspronklike gedrag naboots, of dit kan 'n aangepaste simulasie wees wat spesifieke veranderinge aanbring.
-3. Haak die funksie deur die simprocedure in te stel as die nuwe implementering van die funksie. Dit sal die oorspronklike funksie vervang met die simulasie wat jy geskep het.
-4. Voer die program uit en monitor die gedrag van die gehaakte funksie. Jy kan die simprocedure gebruik om data te manipuleer, te onderskep of te monitor soos nodig.
-
-Dit is 'n kragtige tegniek wat gebruik kan word om die gedrag van 'n program te manipuleer en te ondersoek. Deur funksies te haak en simprosedures te gebruik, kan jy die program se uitvoering beheer en data manipuleer om jou doelwitte te bereik.
+### Hooking 'n funksie / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -863,51 +691,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Simuleer scanf met verskeie parameters
-
-Om scanf te simuleer met verskeie parameters, kan jy die `simprocedure`-funksie in angr gebruik. Hier is 'n voorbeeld van hoe jy dit kan doen:
-
-```python
-import angr
-
-# Definieer die simulasiefunksie
-def simulate_scanf(state):
-    # Kry die waardes van die parameters
-    param1 = state.solver.BVS('param1', 32)
-    param2 = state.solver.BVS('param2', 32)
-    param3 = state.solver.BVS('param3', 32)
-
-    # Stel die waardes van die parameters in
-    state.memory.store(state.regs.esp + 4, param1)
-    state.memory.store(state.regs.esp + 8, param2)
-    state.memory.store(state.regs.esp + 12, param3)
-
-    # Voer die scanf-funksie uit
-    state.regs.eax = state.solver.BVV(3, 32)  # Stel die terugkeerwaarde in
-
-# Laai die program in angr
-proj = angr.Project('/path/to/program')
-
-# Definieer die simulasie
-simgr = proj.factory.simgr()
-
-# Voer die simulasie uit
-simgr.explore(find=simulate_scanf)
-
-# Kry die staat waarin die simulasie voltooi is
-state = simgr.found[0]
-
-# Kry die waardes van die parameters
-param1_value = state.solver.eval(state.memory.load(state.regs.esp + 4, 4))
-param2_value = state.solver.eval(state.memory.load(state.regs.esp + 8, 4))
-param3_value = state.solver.eval(state.memory.load(state.regs.esp + 12, 4))
-
-# Druk die waardes van die parameters af
-print(f"param1: {param1_value}")
-print(f"param2: {param2_value}")
-print(f"param3: {param3_value}")
-```
-
-In hierdie voorbeeld gebruik ons die `simprocedure`-funksie om 'n simulasie van scanf met verskeie parameters uit te voer. Ons definieer 'n funksie genaamd `simulate_scanf` wat die waardes van die parameters kry en dit in die geheue stoor. Ons stel ook die terugkeerwaarde van scanf in. Ons laai die program in angr en definieer die simulasie. Ons voer die simulasie uit en kry die staat waarin die simulasie voltooi is. Ons kry die waardes van die parameters uit die geheue en druk dit af.
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -970,12 +753,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Statische Binêre lêers
-
-'n Statische binêre lêer is 'n uitvoerbare lêer wat alle benodigde biblioteke en hulpbronne bevat om selfstandig te kan hardloop sonder om afhanklik te wees van eksterne bronne. Dit beteken dat alle nodige kode ingesluit is in die lêer self, wat dit maklik maak om die program op verskillende stelsels uit te voer sonder om die biblioteke apart te installeer.
-
-'n Statische binêre lêer kan 'n nuttige hulpmiddel wees vir omgekeerde ingenieurswese, omdat dit die analisering van die program vereenvoudig sonder om te hoef bekommer oor die ontbrekende biblioteke of afhanklikhede. Dit maak dit ook moeiliker vir aanvallers om die program te manipuleer deur die vervanging van biblioteke of die inspuiting van skadelike kode.
-
-Om 'n statiese binêre lêer te skep, kan jy gebruik maak van hulpmiddels soos `gcc` of `ld`. Dit is belangrik om te verseker dat jy die regte biblioteke insluit en dat die lêer korrek gekoppel word. Deur die gebruik van 'n statiese binêre lêer kan jy die program onafhanklik van die omgewing hardloop en dit maak dit makliker om die program te analiseer vir omgekeerde ingenieurswese.
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -1042,14 +819,14 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-<details>
+<besonderhede>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<opsomming><sterk>Leer AWS-hacking vanaf nul tot held met</sterk> <a href="https://training.hacktricks.xyz/courses/arte"><sterk>htARTE (HackTricks AWS Red Team Expert)</sterk></a><sterk>!</sterk></opsomming>
 
-* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Deel jou haktruuks deur PR's in te dien by die [hacktricks-opslag](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud-opslag](https://github.com/carlospolop/hacktricks-cloud)**.
 
-</details>
+</besonderhede>
