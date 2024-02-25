@@ -4,7 +4,7 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -37,7 +37,7 @@ good_address = 0x804867d
 
 # Avoiding this address
 avoid_address = 0x080485A8
-simulation.explore(find=good_address , avoid=avoid_address ))
+simulation.explore(find=good_address, avoid=avoid_address)
 
 # If found a way to reach the address
 if simulation.found:
@@ -216,7 +216,7 @@ Neste cenário, a entrada foi feita com `scanf("%u %u")` e o valor `"1 1"` foi f
 
 ![](<../../../.gitbook/assets/image (614).png>)
 
-### Valores de Memória Estáticos (Variáveis Globais)
+### Valores de Memória Estática (Variáveis Globais)
 ```python
 import angr
 import claripy
@@ -501,7 +501,7 @@ Outra coisa que você pode fazer nesses cenários é **enganar a função dando 
 
 ### Gerenciadores de Simulação
 
-Alguns gerenciadores de simulação podem ser mais úteis do que outros. No exemplo anterior, houve um problema, pois muitos ramos úteis foram criados. Aqui, a técnica **veritesting** irá mesclá-los e encontrar uma solução.\
+Alguns gerenciadores de simulação podem ser mais úteis do que outros. No exemplo anterior, houve um problema, pois foram criados muitos ramos úteis. Aqui, a técnica **veritesting** irá mesclá-los e encontrar uma solução.\
 Este gerenciador de simulação também pode ser ativado com: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -540,7 +540,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Enganchando/Passando por uma chamada para uma função
+### Enganchando/Burlando uma chamada para uma função
 ```python
 # This level performs the following computations:
 #
@@ -608,7 +608,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Enganchando uma função / Simprocedure
+### Enganchar uma função / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
