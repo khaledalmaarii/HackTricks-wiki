@@ -4,16 +4,16 @@
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS ili preuzimanje HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 {% hint style="info" %}
-Ako program koristi `scanf` da bi dobio **nekoliko vrednosti odjednom sa stdin-a**, morate generisati stanje koje počinje nakon **`scanf`**.
+Ako program koristi `scanf` da dobije **više vrednosti odjednom sa standardnog ulaza** morate generisati stanje koje počinje posle **`scanf`**.
 {% endhint %}
 
 Kodovi preuzeti sa [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)
@@ -37,7 +37,7 @@ good_address = 0x804867d
 
 # Avoiding this address
 avoid_address = 0x080485A8
-simulation.explore(find=good_address , avoid=avoid_address ))
+simulation.explore(find=good_address, avoid=avoid_address)
 
 # If found a way to reach the address
 if simulation.found:
@@ -87,55 +87,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Vrednosti registra
-
-Registry vrednosti su ključni elementi u operativnom sistemu Windows. One čuvaju informacije o postavkama sistema, instaliranim aplikacijama i drugim konfiguracijama. Kada se bavite analizom malvera ili istraživanjem sistema, može biti korisno proučiti registry vrednosti kako biste dobili uvid u aktivnosti i konfiguraciju sistema.
-
-Da biste pristupili registry vrednostima, možete koristiti različite alate kao što su `regedit`, `reg`, `PowerShell` ili `WMI`. Ovi alati omogućavaju pregled, izmenu i brisanje registry vrednosti.
-
-Kada se bavite reverznim inženjeringom malvera, možete koristiti angr biblioteku za analizu i manipulaciju registry vrednostima. Angr pruža funkcionalnosti za čitanje, pisanje i praćenje promena registry vrednosti.
-
-Evo nekoliko primera korišćenja angr biblioteke za rad sa registry vrednostima:
-
-1. Čitanje vrednosti registra:
-
-```python
-import angr
-
-proj = angr.Project("malware.exe")
-registry = proj.simos.syscall_registry
-
-value = registry.read_value("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", "Malware")
-print(value)
-```
-
-2. Pisanje vrednosti registra:
-
-```python
-import angr
-
-proj = angr.Project("malware.exe")
-registry = proj.simos.syscall_registry
-
-registry.write_value("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", "Malware", "C:\\malware.exe")
-```
-
-3. Praćenje promena vrednosti registra:
-
-```python
-import angr
-
-proj = angr.Project("malware.exe")
-registry = proj.simos.syscall_registry
-
-registry.track_changes(True)
-
-# Izvršavanje malvera...
-
-changes = registry.get_changes()
-print(changes)
-```
-
-Korišćenje angr biblioteke za rad sa registry vrednostima može biti veoma korisno prilikom analize malvera i istraživanja sistema.
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -200,24 +151,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Vrednosti steka
-
-Stack (stek) je struktura podataka koja se koristi za čuvanje privremenih vrednosti tokom izvršavanja programa. U kontekstu reverznog inženjeringa, proučavanje vrednosti steka može biti korisno za razumevanje kako program funkcioniše i pronalaženje ranjivosti.
-
-Da biste proučavali vrednosti steka u programu pomoću angr alata, možete koristiti `state.regs.sp` da biste pristupili trenutnoj vrednosti pokazivača steka (stack pointer). Takođe možete koristiti `state.mem[state.regs.sp].deref` da biste pristupili vrednostima na vrhu steka.
-
-Na primer, ako želite da pristupite vrednosti prvih 4 bajta na vrhu steka, možete koristiti sledeći kod:
-
-```python
-top_of_stack = state.mem[state.regs.sp].deref.resolved
-value1 = top_of_stack[0:4].int.resolved
-value2 = top_of_stack[4:8].int.resolved
-value3 = top_of_stack[8:12].int.resolved
-value4 = top_of_stack[12:16].int.resolved
-```
-
-Ovaj kod će vam omogućiti da pristupite i čitate vrednosti na vrhu steka. Možete prilagoditi kod da biste pristupili drugim delovima steka ili promenili veličinu bajtova koje čitate.
-
-Proučavanje vrednosti steka može biti korisno za pronalaženje osetljivih informacija, kao što su lozinke ili ključevi, koji se mogu slučajno ili namerno ostaviti na steku.
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -279,11 +212,11 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-U ovom scenariju, unos je uzet pomoću `scanf("%u %u")` i dodeljena je vrednost `"1 1"`, tako da vrednosti **`0x00000001`** na steku potiču od **korisničkog unosa**. Možete videti kako ove vrednosti počinju na `$ebp - 8`. Stoga, u kodu smo **oduzeli 8 bajtova od `$esp` (kako su u tom trenutku `$ebp` i `$esp` imali istu vrednost)**, a zatim smo gurnuli BVS.
+U ovom scenariju, unos je uzet sa `scanf("%u %u")` i vrednost `"1 1"` je data, tako da vrednosti **`0x00000001`** sa steka dolaze od **korisničkog unosa**. Možete videti kako ove vrednosti počinju na `$ebp - 8`. Stoga, u kodu smo **oduzeli 8 bajtova od `$esp` (kako su u tom trenutku `$ebp` i `$esp` imali istu vrednost)** a zatim smo gurnuli BVS.
 
 ![](<../../../.gitbook/assets/image (614).png>)
 
-### Statičke vrednosti memorije (globalne promenljive)
+### Staticne vrednosti memorije (Globalne promenljive)
 ```python
 import angr
 import claripy
@@ -345,18 +278,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Dinamičke vrednosti memorije (Malloc)
-
-Kada se bavite reverznom inženjeringom, često ćete se susresti sa situacijama u kojima morate analizirati dinamički alociranu memoriju. Jedan od najčešćih načina za alociranje dinamičke memorije u programima je korišćenje funkcije `malloc()`.
-
-Funkcija `malloc()` se koristi za alociranje bloka memorije određene veličine u heapu. Ova funkcija vraća pokazivač na početak alocirane memorije. Kada više ne koristite alociranu memoriju, trebali biste je osloboditi pomoću funkcije `free()` kako biste izbegli curenje memorije.
-
-Kada analizirate program koji koristi `malloc()`, možete pratiti vrednosti dinamički alocirane memorije kako biste razumeli kako se koristi i manipuliše. Ovo može biti korisno za pronalaženje ranjivosti ili razumevanje ponašanja programa.
-
-Angr pruža mogućnost praćenja vrednosti dinamički alocirane memorije. Možete koristiti angr za simuliranje izvršavanja programa i pratiti promene vrednosti memorije tokom izvršavanja.
-
-Da biste pratili vrednosti dinamičke memorije, možete koristiti angr-ovu funkciju `simgr.explore()`. Ova funkcija će simulirati izvršavanje programa i pratiti sve promene vrednosti memorije. Možete pristupiti vrednostima memorije pomoću `state.memory.load()` funkcije.
-
-Na taj način, angr vam omogućava da analizirate dinamički alociranu memoriju i pratite promene vrednosti tokom izvršavanja programa. Ovo može biti korisno za pronalaženje ranjivosti ili razumevanje ponašanja programa.
 ```python
 import angr
 import claripy
@@ -416,36 +337,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Simulacija fajlova
-
-Angr pruža mogućnost simulacije fajlova kako bi se analizirao njihov uticaj na izvršavanje programa. Ova funkcionalnost je korisna za istraživanje ponašanja programa u odnosu na različite ulazne fajlove.
-
-Da biste simulirali fajl, prvo morate kreirati instancu `angr.SimFile` klase. Ova klasa omogućava manipulaciju fajlovima i pruža metode za čitanje, pisanje i izvršavanje operacija nad fajlovima.
-
-Evo nekoliko osnovnih metoda koje možete koristiti prilikom simulacije fajlova:
-
-- `read(offset, size)`: Čita podatke iz fajla na određenoj poziciji `offset` i sa određenom veličinom `size`.
-- `write(offset, data)`: Upisuje podatke `data` u fajl na određenoj poziciji `offset`.
-- `seek(offset)`: Pomeranje trenutne pozicije u fajlu na određenu poziciju `offset`.
-- `tell()`: Vraća trenutnu poziciju u fajlu.
-- `size()`: Vraća veličinu fajla.
-
-Kada kreirate instancu `angr.SimFile`, možete je koristiti kao argument prilikom kreiranja `angr.SimState` objekta. Na taj način možete simulirati izvršavanje programa sa određenim fajlovima kao ulazom.
-
-```python
-import angr
-
-# Kreiranje instance SimFile
-file = angr.SimFile("path/to/file.txt", content=b"Hello, World!")
-
-# Kreiranje instance SimState sa fajlom kao ulazom
-state = project.factory.entry_state(stdin=file)
-
-# Simulacija izvršavanja programa
-simulation = project.factory.simgr(state)
-simulation.run()
-```
-
-Ova simulacija će izvršiti program koristeći fajl "file.txt" kao ulaz. Možete koristiti različite metode za manipulaciju fajlom tokom simulacije kako biste istražili različite scenarije izvršavanja programa.
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -501,7 +392,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Imajte na umu da simbolički fajl može takođe sadržati konstantne podatke spojene sa simboličkim podacima:
+Imajte na umu da simbolička datoteka takođe može sadržati konstantne podatke spojene sa simboličkim podacima:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -524,11 +415,11 @@ Imajte na umu da simbolički fajl može takođe sadržati konstantne podatke spo
 ```
 {% endhint %}
 
-### Примена ограничења
+### Primenjivanje ograničenja
 
 {% hint style="info" %}
-Понекад једноставне операције као што је упоређивање две речи дужине 16 **карактер по карактер** (петља), **кошта** много ангру јер мора да генерише гране **експоненцијално** зато што генерише 1 грану по услову: `2^16`\
-Зато је лакше **затражити од ангра да се врати на претходну тачку** (где је већ тешки део обављен) и **ручно поставити та ограничења**.
+Ponekad jednostavne ljudske operacije poput poređenja 2 reči dužine 16 **karaktera po karakter** (petlja), **mnogo koštaju** **angr** jer mora generisati grane **eksponencijalno** jer generiše 1 granu po uslovu: `2^16`\
+Stoga je lakše **zatražiti od angr-a da se vrati na prethodnu tačku** (gde je već obavljen stvarno težak deo) i **postaviti ta ograničenja ručno**.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -601,17 +492,17 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-U nekim scenarijima možete aktivirati **veritesting**, što će spojiti slične grane kako bi se uštedele beskorisne grane i pronašlo rešenje: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+U nekim scenarijima možete aktivirati **veritesting**, što će spojiti slične stanja, kako bi se sačuvale beskorisne grane i pronašlo rešenje: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Još jedna stvar koju možete uraditi u ovim scenarijima je da **hookujete funkciju dajući angr-u nešto što može lakše razumeti**.
+Još nešto što možete uraditi u ovim scenarijima je **hookovanje funkcije kako bi angru pružili nešto što može lakše da razume**.
 {% endhint %}
 
-### Menadžeri simulacija
+### Menadžeri simulacije
 
-Neki menadžeri simulacija mogu biti korisniji od drugih. U prethodnom primeru postojao je problem jer je stvoreno puno korisnih grana. Ovde će **veritesting** tehnika spojiti te grane i pronaći rešenje.\
-Ovaj menadžer simulacija takođe se može aktivirati sa: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Neki menadžeri simulacije mogu biti korisniji od drugih. U prethodnom primeru postojao je problem jer je bilo mnogo korisnih grana koje su kreirane. Ovde će **veritesting** tehnika spojiti te grane i pronaći rešenje.\
+Ovaj menadžer simulacije takođe može biti aktiviran sa: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -649,18 +540,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hakovanje/Bajpasiranje jednog poziva funkciji
-
-Da biste hakovali ili bajpasirali jedan poziv funkciji, možete koristiti angr kako biste pronašli putanju izvršavanja koja zaobilazi taj poziv. Evo osnovnog postupka:
-
-1. Kreirajte instancu `Project` objekta u angr-u sa ciljnim izvršnim fajlom.
-2. Definišite ciljnu funkciju koju želite da hakujete.
-3. Kreirajte instancu `PathGroup` objekta sa početnom putanjom koja sadrži poziv ciljne funkcije.
-4. Koristite metodu `step()` na `PathGroup` objektu kako biste generisali nove putanje izvršavanja.
-5. Proverite svaku novu putanju da biste videli da li sadrži poziv ciljne funkcije.
-6. Ako pronađete putanju koja zaobilazi poziv, možete je dalje analizirati ili modifikovati prema potrebi.
-
-Ovaj postupak vam omogućava da hakujete ili bajpasirate specifičan poziv funkciji, pružajući vam veću kontrolu nad izvršavanjem programa.
+### Hakovanje/Bajpasovanje jednog poziva funkcije
 ```python
 # This level performs the following computations:
 #
@@ -729,18 +609,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Hakovanje funkcije / Simprocedura
-
-Kada se radi o reverznom inženjeringu, često je potrebno hakovati ili modifikovati funkcije u ciljanom programu. Jedan od načina za to je korišćenje tehnike poznate kao "hooking" ili "simprocedura".
-
-Hooking je proces umetanja dodatnog koda u funkciju kako bi se promenilo njeno ponašanje. Ovo se može postići na različite načine, ali jedan od popularnih alata koji se koristi za ovo je angr.
-
-Angr je biblioteka za simboličko izvršavanje koja omogućava analizu i manipulaciju binarnih fajlova. Jedna od funkcionalnosti angr-a je mogućnost hookovanja funkcija.
-
-Kada se koristi angr za hookovanje funkcije, prvo je potrebno definisati simproceduru koja će biti pozvana umesto originalne funkcije. Simprocedura je funkcija koja se izvršava umesto ciljne funkcije i može biti korišćena za manipulaciju ulaznih parametara, izvršavanje dodatnog koda ili promenu povratne vrednosti.
-
-Da biste hookovali funkciju pomoću angr-a, prvo morate kreirati instancu angr projekta i odabrati ciljni binarni fajl. Zatim, koristite metodu `hook_symbol()` da biste definisali simproceduru za ciljnu funkciju. Na kraju, pokrenite angr projekat i simprocedura će biti pozvana umesto originalne funkcije.
-
-Ova tehnika je veoma korisna u različitim scenarijima reverznog inženjeringa, kao što su debagovanje, analiza malvera ili modifikacija programa.
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -825,53 +693,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Simulirajte scanf sa više parametara
-
-Da biste simulirali funkciju scanf sa više parametara, možete koristiti angr biblioteku. Evo primera kako to možete uraditi:
-
-```python
-import angr
-
-# Kreirajte projekat angr
-proj = angr.Project("./program")
-
-# Kreirajte simbol za svaki parametar scanf funkcije
-param1 = angr.claripy.BVS("param1", 32)
-param2 = angr.claripy.BVS("param2", 32)
-param3 = angr.claripy.BVS("param3", 32)
-
-# Kreirajte početno stanje sa simbolima kao vrednostima parametara
-state = proj.factory.entry_state(args=["./program"], stdin=angr.SimFile)
-
-# Ubacite simbole u registre koji se koriste kao argumenti za scanf
-state.regs.eax = param1
-state.regs.ebx = param2
-state.regs.ecx = param3
-
-# Kreirajte simbol za povratnu vrednost scanf funkcije
-ret = angr.claripy.BVS("ret", 32)
-
-# Pozovite scanf funkciju
-scanf_addr = 0x12345678  # Adresa scanf funkcije
-scanf_call = angr.SIM_PROCEDURES['libc']['scanf'](proj.arch)
-state = state.step().successors[0]
-state.regs.eip = scanf_addr
-state.regs.eax = ret
-state = scanf_call(state)
-
-# Rešite simbole kako biste dobili konkretne vrednosti
-param1_val = state.solver.eval(param1)
-param2_val = state.solver.eval(param2)
-param3_val = state.solver.eval(param3)
-ret_val = state.solver.eval(ret)
-
-# Ispisujte vrednosti parametara i povratnu vrednost
-print("param1:", param1_val)
-print("param2:", param2_val)
-print("param3:", param3_val)
-print("ret:", ret_val)
-```
-
-U ovom primeru, simuliramo poziv funkcije scanf sa tri parametra. Kreiramo simbole za svaki parametar i ubacujemo ih u registre koji se koriste kao argumenti za scanf. Zatim pozivamo scanf funkciju i rešavamo simbole kako bismo dobili konkretne vrednosti parametara i povratnu vrednost.
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -934,16 +755,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### Statički binarni fajlovi
-
-Staticki binarni fajlovi su izvrsni fajlovi koji sadrže sve potrebne biblioteke i zavisnosti unutar samog fajla. To znači da se ne oslanjaju na sistemsku biblioteku prilikom izvršavanja. Ovo može biti korisno u situacijama kada želite da izvršite program na različitim sistemima bez potrebe za instaliranjem dodatnih biblioteka.
-
-Kada se bavite reverznim inženjeringom, rad sa statičkim binarnim fajlovima može biti izazovan. Budući da su sve biblioteke već uključene u fajl, ne možete jednostavno pristupiti izvornom kodu biblioteka kako biste ih analizirali.
-
-Međutim, postoje alati kao što je Angr koji mogu pomoći u analizi statičkih binarnih fajlova. Angr je biblioteka za simboličko izvršavanje koja omogućava analizu i manipulaciju binarnim fajlovima.
-
-Korišćenjem Angr-a, možete izvršiti simboličko izvršavanje statičkog binarnog fajla, što vam omogućava da pratite put izvršavanja programa i analizirate njegovo ponašanje. Takođe možete koristiti Angr za pronalaženje ranjivosti ili za automatizaciju procesa analize.
-
-Angr pruža različite metode za analizu statičkih binarnih fajlova, kao što su simboličko izvršavanje, simboličko izvršavanje sa konkretnim ulazom, simboličko izvršavanje sa ograničenjima i mnoge druge. Ovi alati mogu biti veoma korisni u procesu reverznog inženjeringa i pronalaženju ranjivosti u statičkim binarnim fajlovima.
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -1014,10 +825,10 @@ main(sys.argv)
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite vašu **kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Da li radite u **kompaniji za sajber bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks-u**? ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova u [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
