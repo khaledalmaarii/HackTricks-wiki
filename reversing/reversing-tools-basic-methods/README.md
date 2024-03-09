@@ -4,23 +4,15 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras maneiras de apoiar o HackTricks:
+Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira [**produtos oficiais PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
 
 ## Ferramentas de Reversão Baseadas em ImGui
 
@@ -47,7 +39,7 @@ Software:
 
 dotPeek é um decompilador que **descompila e examina múltiplos formatos**, incluindo **bibliotecas** (.dll), arquivos de metadados do Windows (.winmd) e **executáveis** (.exe). Uma vez descompilada, uma montagem pode ser salva como um projeto do Visual Studio (.csproj).
 
-O mérito aqui é que se um código-fonte perdido requer restauração de uma montagem legada, essa ação pode economizar tempo. Além disso, o dotPeek fornece navegação útil por todo o código descompilado, tornando-o uma das ferramentas perfeitas para **análise de algoritmos Xamarin.**&#x20;
+O mérito aqui é que se um código-fonte perdido requer restauração de uma montagem legada, essa ação pode economizar tempo. Além disso, o dotPeek fornece navegação útil por todo o código descompilado, tornando-o uma das ferramentas perfeitas para **análise de algoritmos Xamarin.**
 
 ### [.Net Reflector](https://www.red-gate.com/products/reflector/)
 
@@ -57,12 +49,12 @@ Com um modelo abrangente de complementos e uma API que estende a ferramenta para
 * Fornece insights sobre a implementação e uso de idiomas e estruturas .NET
 * Encontra funcionalidades não documentadas e não expostas para obter mais das APIs e tecnologias utilizadas.
 * Encontra dependências e diferentes montagens
-* Localiza exatamente a origem de erros em seu código, componentes de terceiros e bibliotecas.&#x20;
+* Localiza exatamente a origem de erros em seu código, componentes de terceiros e bibliotecas.
 * Depura o código-fonte de todo o código .NET com o qual você trabalha.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[Plugin ILSpy para Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Você pode tê-lo em qualquer SO (você pode instalá-lo diretamente do VSCode, sem precisar baixar o git. Clique em **Extensões** e **pesquise ILSpy**).\
+[Plugin ILSpy para Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Você pode tê-lo em qualquer sistema operacional (pode instalá-lo diretamente do VSCode, sem precisar baixar o git. Clique em **Extensões** e **pesquise ILSpy**).\
 Se você precisa **descompilar**, **modificar** e **recompilar** novamente, você pode usar: [**https://github.com/0xd4d/dnSpy/releases**](https://github.com/0xd4d/dnSpy/releases) (**Clique com o botão direito -> Modificar Método** para alterar algo dentro de uma função).\
 Você também pode tentar [https://www.jetbrains.com/es-es/decompiler/](https://www.jetbrains.com/es-es/decompiler/)
 
@@ -78,7 +70,7 @@ File.AppendAllText(path, "Password: " + password + "\n");
 
 Para depurar o código usando o DNSpy, você precisa:
 
-Primeiro, alterar os **atributos de Assembly** relacionados à **depuração**:
+Primeiro, altere os **atributos da Assembleia** relacionados à **depuração**:
 
 ![](<../../.gitbook/assets/image (278).png>)
 ```aspnet
@@ -155,7 +147,7 @@ Mas, como você pode chegar ao código da DLL que foi carregada? Usando este mé
 * **Carregar rundll32** (64 bits em C:\Windows\System32\rundll32.exe e 32 bits em C:\Windows\SysWOW64\rundll32.exe)
 * **Alterar a Linha de Comando** ( _Arquivo --> Alterar Linha de Comando_ ) e definir o caminho da dll e a função que deseja chamar, por exemplo: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Altere _Opções --> Configurações_ e selecione "**Entrada de DLL**".
-* Em seguida, **inicie a execução**, o depurador irá parar em cada dll principal, em algum momento você irá **parar na Entrada da DLL de sua dll**. A partir daí, basta procurar os pontos onde deseja colocar um ponto de interrupção.
+* Em seguida, **inicie a execução**, o depurador irá parar em cada dll principal, em algum momento você irá **parar na Entrada da DLL da sua dll**. A partir daí, basta procurar os pontos onde deseja colocar um ponto de interrupção.
 
 Observe que quando a execução é interrompida por qualquer motivo no win64dbg, você pode ver **em qual código está** olhando no **topo da janela do win64dbg**:
 
@@ -201,7 +193,7 @@ Você pode baixar uma versão compilada do [jmp2it na página de lançamentos](h
 
 [**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) é a GUI do radare. Usando o Cutter, você pode emular o shellcode e inspecioná-lo dinamicamente.
 
-Observe que o Cutter permite "Abrir Arquivo" e "Abrir Shellcode". No meu caso, quando abri o shellcode como um arquivo, ele o descompilou corretamente, mas quando o abri como um shellcode, não:
+Observe que o Cutter permite "Abrir Arquivo" e "Abrir Shellcode". No meu caso, quando abri o shellcode como arquivo, ele o descompilou corretamente, mas quando o abri como shellcode, não:
 
 ![](<../../.gitbook/assets/image (400).png>)
 
@@ -231,15 +223,15 @@ scDbg também conta com um iniciador gráfico onde você pode selecionar as opç
 
 ![](<../../.gitbook/assets/image (398).png>)
 
-A opção **Create Dump** fará o dump do shellcode final se alguma alteração for feita dinamicamente no shellcode na memória (útil para baixar o shellcode decodificado). O **start offset** pode ser útil para iniciar o shellcode em um deslocamento específico. A opção **Debug Shell** é útil para depurar o shellcode usando o terminal scDbg (no entanto, considero qualquer uma das opções explicadas anteriormente melhor para esse fim, pois você poderá usar o Ida ou x64dbg).
+A opção **Create Dump** irá despejar o shellcode final se alguma alteração for feita dinamicamente no shellcode na memória (útil para baixar o shellcode decodificado). O **start offset** pode ser útil para iniciar o shellcode em um deslocamento específico. A opção **Debug Shell** é útil para depurar o shellcode usando o terminal scDbg (no entanto, considero qualquer uma das opções explicadas anteriormente melhor para este assunto, pois você poderá usar o Ida ou x64dbg).
 
 ### Desmontagem usando o CyberChef
 
-Faça o upload do seu arquivo de shellcode como entrada e use a seguinte receita para descompilá-lo: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
+Faça upload do seu arquivo de shellcode como entrada e use a seguinte receita para descompilá-lo: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-Este ofuscador **modifica todas as instruções para `mov`** (sim, muito legal). Ele também usa interrupções para alterar os fluxos de execução. Para mais informações sobre como funciona:
+Este ofuscador **modifica todas as instruções para `mov`** (sim, muito legal). Ele também usa interrupções para alterar os fluxos de execução. Para obter mais informações sobre como funciona:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
@@ -251,16 +243,7 @@ apt-get install libz3-dev
 ```
 E [instale keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-Se você está participando de um **CTF, essa solução alternativa para encontrar a flag** pode ser muito útil: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
-
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Encontre vulnerabilidades que são mais importantes para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
+Se estiver participando de um **CTF, essa solução alternativa para encontrar a flag** pode ser muito útil: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
@@ -275,7 +258,7 @@ Tendo o **nome** das **funções** sendo chamadas, pesquise sobre elas na **Inte
 
 Para binários compilados em Delphi, você pode usar [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
 
-Se você precisar reverter um binário Delphi, sugiro que use o plugin do IDA [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
+Se precisar reverter um binário Delphi, sugiro que use o plugin do IDA [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
 
 Basta pressionar **ATL+f7** (importar plugin python no IDA) e selecionar o plugin python.
 
@@ -285,7 +268,7 @@ Também é muito interessante porque se você pressionar um botão na aplicaçã
 
 ## Golang
 
-Se você precisar reverter um binário Golang, sugiro que use o plugin do IDA [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
+Se precisar reverter um binário Golang, sugiro que use o plugin do IDA [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
 
 Basta pressionar **ATL+f7** (importar plugin python no IDA) e selecionar o plugin python.
 
@@ -293,7 +276,7 @@ Isso resolverá os nomes das funções.
 
 ## Python Compilado
 
-Nesta página, você pode encontrar como obter o código python de um binário compilado ELF/EXE python:
+Nesta página, você pode encontrar como obter o código Python de um binário compilado em ELF/EXE Python:
 
 {% content-ref url="../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -301,7 +284,7 @@ Nesta página, você pode encontrar como obter o código python de um binário c
 
 ## GBA - Game Body Advance
 
-Se você obter o **binário** de um jogo GBA, você pode usar diferentes ferramentas para **emular** e **depurar**:
+Se você obter o **binário** de um jogo GBA, pode usar diferentes ferramentas para **emular** e **depurar**:
 
 * [**no$gba**](https://problemkaputt.de/gba.htm) (_Baixe a versão de depuração_) - Contém um depurador com interface
 * [**mgba** ](https://mgba.io)- Contém um depurador CLI
@@ -325,7 +308,7 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Portanto, nesse tipo de programas, uma parte interessante será **como o programa trata a entrada do usuário**. No endereço **0x4000130**, você encontrará a função comumente encontrada: **KEYINPUT**.
+Portanto, nesse tipo de programas, uma parte interessante será **como o programa trata a entrada do usuário**. No endereço **0x4000130** você encontrará a função comumente encontrada: **KEYINPUT**.
 
 ![](<../../.gitbook/assets/image (579).png>)
 
@@ -397,7 +380,7 @@ No código anterior, você pode ver que estamos comparando **uVar1** (o local on
 - Primeiro, é comparado com o **valor 4** (botão **SELECT**): No desafio, este botão limpa a tela.
 - Em seguida, é comparado com o **valor 8** (botão **START**): No desafio, isso verifica se o código é válido para obter a bandeira.
 - Neste caso, a variável **`DAT_030000d8`** é comparada com 0xf3 e se o valor for o mesmo, algum código é executado.
-- Em todos os outros casos, é verificado um contador (`DAT_030000d4`). É um contador porque está adicionando 1 logo após entrar no código. Se for menor que 8, algo que envolve **adicionar** valores a **`DAT_030000d8`** é feito (basicamente está adicionando os valores das teclas pressionadas nesta variável, desde que o contador seja menor que 8).
+- Em todos os outros casos, é verificado um cont (`DAT_030000d4`). É um cont porque está adicionando 1 logo após entrar no código. Se for menor que 8, algo que envolve **adicionar** valores a **`DAT_030000d8`** é feito (basicamente está adicionando os valores dos botões pressionados nesta variável, desde que o cont seja menor que 8).
 
 Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pressionar uma combinação com um comprimento menor que 8, de modo que a adição resultante seja 0xf3**.
 
@@ -410,14 +393,7 @@ Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pr
 ## Cursos
 
 - [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
-- [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Desobfuscação binária)
-
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+- [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Desofuscação binária)
 
 <details>
 
@@ -425,10 +401,10 @@ Encontre vulnerabilidades que mais importam para que você possa corrigi-las mai
 
 Outras maneiras de apoiar o HackTricks:
 
-- Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 - Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-- Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-- **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+- **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
