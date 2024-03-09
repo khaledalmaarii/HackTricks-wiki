@@ -1,8 +1,8 @@
-# Astuces de piratage
+# Astuces de Piratage
 
 <figure><img src=".gitbook/assets/hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
-_Logos et design en mouvement de Hacktricks par_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
+_Logos et design de mouvement Hacktricks par_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
 **Bienvenue sur le wiki où vous trouverez chaque astuce/technique de piratage/ce que j'ai appris des CTFs, des applications de la vie réelle, de la lecture de recherches et de l'actualité.**
@@ -53,39 +53,25 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 <figure><img src=".gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.
 
 Accédez dès aujourd'hui:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-### [Intruder](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)
-
-<figure><img src=".gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Restez en avance dans le jeu de la cybersécurité.
-
-[**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) rend la gestion des vulnérabilités facile. Suivez votre surface d'attaque, voyez où votre entreprise est vulnérable et priorisez les problèmes qui laissent vos systèmes les plus exposés afin de vous concentrer sur ce qui compte le plus.
-
-Effectuez des milliers de vérifications avec une seule plateforme qui couvre l'ensemble de votre pile technologique, de l'infrastructure interne aux applications web, aux API et aux systèmes cloud. Intégrez-vous parfaitement avec [AWS, GCP, Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) et rationalisez DevOps pour que votre équipe puisse implémenter des correctifs plus rapidement.
-
-Intruder ne dort jamais. Une protection 24h/24 surveille vos systèmes en continu. Vous voulez en savoir plus? Visitez leur site et essayez-le avec **un essai gratuit**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
 ### [HACKENPROOF](https://bit.ly/3xrrDrL)
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes!
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de bugs!
 
-**Perspectives de piratage**\
+**Perspectives de Piratage**\
 Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
 
-**Actualités de piratage en temps réel**\
-Restez à jour avec le monde du piratage en temps réel grâce aux actualités et aux informations
+**Actualités de Piratage en Temps Réel**\
+Restez informé du monde du piratage en temps réel à travers des actualités et des perspectives
 
-**Dernières annonces**\
+**Dernières Annonces**\
 Restez informé des derniers bug bounties lancés et des mises à jour cruciales de la plateforme
 
 **Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui!
@@ -96,7 +82,7 @@ Restez informé des derniers bug bounties lancés et des mises à jour cruciales
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Configuration instantanément disponible pour l'évaluation des vulnérabilités et les tests d'intrusion**. Exécutez un test d'intrusion complet de n'importe où avec plus de 20 outils et fonctionnalités allant de la reconnaissance au reporting. Nous ne remplaçons pas les testeurs d'intrusion - nous développons des outils personnalisés, des modules de détection et d'exploitation pour leur donner du temps pour creuser plus profondément, ouvrir des shells et s'amuser.
+**Configuration instantanément disponible pour l'évaluation des vulnérabilités et les tests d'intrusion**. Exécutez un test d'intrusion complet de n'importe où avec plus de 20 outils et fonctionnalités allant de la reconnaissance au reporting. Nous ne remplaçons pas les testeurs d'intrusion - nous développons des outils personnalisés, des modules de détection et d'exploitation pour leur donner plus de temps pour creuser plus profondément, ouvrir des shells et s'amuser.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -108,7 +94,7 @@ Restez informé des derniers bug bounties lancés et des mises à jour cruciales
 
 WebSec est une **entreprise de sécurité tout-en-un** ce qui signifie qu'ils font tout; Tests d'intrusion, Audits de sécurité, Formations en sensibilisation, Campagnes de phishing, Revue de code, Développement d'exploits, Externalisation d'experts en sécurité et bien plus encore.
 
-Une autre chose cool à propos de WebSec est que contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, il est indiqué sur leur site "**Si nous ne pouvons pas le pirater, vous ne le payez pas!**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/)!
+Une autre chose cool à propos de WebSec est que contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, il est indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas!**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/)!
 
 En plus de ce qui précède, WebSec est également un **supporter engagé de HackTricks.**
 
@@ -124,14 +110,14 @@ En plus de ce qui précède, WebSec est également un **supporter engagé de Hac
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

