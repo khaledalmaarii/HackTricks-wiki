@@ -2,21 +2,21 @@
 
 <figure><img src=".gitbook/assets/hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
-_Λογότυπα και σχεδιασμός κίνησης του Hacktricks από τον_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
+_Τα λογότυπα και το σχεδιασμό κίνησης του Hacktricks από_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Καλώς ήρθατε στο wiki όπου θα βρείτε κάθε κόλπο/τεχνική/οτιδήποτε έχω μάθει από CTFs, εφαρμογές στην πραγματική ζωή, αναγνώσεις ερευνών και ειδήσεων.**
+**Καλώς ήρθατε στο wiki όπου θα βρείτε κάθε κόλπο/τεχνική/ό,τι έχω μάθει από CTFs, εφαρμογές στην πραγματική ζωή, αναγνώσεις έρευνας και ειδήσεις.**
 {% endhint %}
 
-Για να ξεκινήσετε, ακολουθήστε αυτήν τη σελίδα όπου θα βρείτε την **τυπική ροή** που **πρέπει να ακολουθήσετε κατά τον pentesting** ενός ή περισσότερων **μηχανημάτων:**
+Για να ξεκινήσετε ακολουθήστε αυτήν τη σελίδα όπου θα βρείτε την **κανονική ροή** που **πρέπει να ακολουθήσετε κατά τον έλεγχο ασφαλείας** ενός ή περισσότερων **μηχανημάτων:**
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
 {% endcontent-ref %}
 
-## Χορηγοί Platinum
+## Χορηγοί Πλατινένιου Επιπέδου
 
-_Η εταιρεία σας θα μπορούσε να είναι εδώ._
+_Η εταιρεία σας θα μπορούσε να βρίσκεται εδώ._
 
 ## Εταιρικοί Χορηγοί
 
@@ -24,17 +24,17 @@ _Η εταιρεία σας θα μπορούσε να είναι εδώ._
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) είναι μια εξαιρετική εταιρεία κυβερνοασφάλειας, το σύνθημα της οποίας είναι **HACK THE UNHACKABLE**. Διεξάγουν τις δικές τους έρευνες και αναπτύσσουν τα δικά τους εργαλεία χάκερ για να προσφέρουν πολλές αξιόλογες υπηρεσίες κυβερνοασφάλειας, όπως pentesting, Red teams και εκπαίδευση.
+[**STM Cyber**](https://www.stmcyber.com) είναι μια εξαιρετική εταιρεία κυβερνοασφάλειας της οποίας το σύνθημα είναι **HACK THE UNHACKABLE**. Διεξάγουν τη δική τους έρευνα και αναπτύσσουν τα δικά τους εργαλεία χάκερ για να **προσφέρουν αρκετές αξιόλογες υπηρεσίες κυβερνοασφάλειας** όπως ελεγκτικές δοκιμές, Κόκκινες Ομάδες και εκπαίδευση.
 
 Μπορείτε να ελέγξετε το **blog** τους στο [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
-**Η STM Cyber** υποστηρίζει επίσης ανοιχτά εργαλεία κυβερνοασφάλειας όπως το HackTricks :)
+**Η STM Cyber** υποστηρίζει επίσης ανοικτά έργα κυβερνοασφάλειας όπως το HackTricks :)
 
 ### [RootedCON](https://www.rootedcon.com/)
 
 <figure><img src=".gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) είναι το πιο σημαντικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή να προωθήσει την τεχνική γνώση**, αυτό το συνέδριο είναι ένας ζωηρός σημείο συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε ειδικότητα.
+[**RootedCON**](https://www.rootedcon.com) είναι το πιο σημαντικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένας ζωηρός χώρος συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε πεδίο.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -42,9 +42,9 @@ _Η εταιρεία σας θα μπορούσε να είναι εδώ._
 
 <figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** είναι η **αριθμός 1** ευρωπαϊκή πλατφόρμα για ηθικό χάκινγκ και **bug bounty**.
+**Η Intigriti** είναι η **#1** εταιρεία ηθικού χάκερ και **πλατφόρμα ανταμοιβής ευρημάτων ευπάθειας στην Ευρώπη.**
 
-**Συμβουλή bug bounty**: **εγγραφείτε** στο **Intigriti**, μια προηγμένη **πλατφόρμα bug bounty που δημιουργήθηκε από χάκερ, για χάκερ**! Γίνετε μέλος στο [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) σήμερα και αρχίστε να κερδίζετε αμοιβές έως και **$100,000**!
+**Συμβουλή ανταμοιβής ευπάθειας**: **Εγγραφείτε** στην **Intigriti**, μια προηγμένη **πλατφόρμα ανταμοιβής ευπάθειας δημιουργημένη από χάκερς, για χάκερς**! Γίνετε μέλος στο [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) σήμερα και αρχίστε να κερδίζετε ανταμοιβές έως και **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -53,24 +53,56 @@ _Η εταιρεία σας θα μπορούσε να είναι εδώ._
 <figure><img src=".gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να αυτοματοποιήσετε ροές εργασίας με τα πιο προηγμένα εργαλεία κοινότητας στον κόσμο.
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία κοινότητας στον κόσμο.
 
 Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-### [Intruder](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)
+### [HACKENPROOF](https://bit.ly/3xrrDrL)
 
-<figure><img src=".gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-Μείνετε ένα βήμα μπροστά στο παιχνίδι της κυβερνοασφάλειας.
+Συμμετέχετε στον διακομιστή [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) για να επικοινωνήσετε με έμπειρους χάκερ και κυνηγούς ανταμοιβής ευπάθειας!
 
-Το [**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) καθιστά τη διαχείριση ευπαθειών εύκολη. Παρακολουθήστε την επιθετική επιφάνεια επίθεσης, δείτε πού είναι ευάλωτη η εταιρεία σας και δώστε προτεραιότητα στα θέματα που αφήνουν τα συστήματά σας πιο εκτεθειμένα, ώστε να μπορείτε να επικεντρωθείτε στα πιο σημαντικά.
+**Εισαγωγή στο Χάκινγκ**\
+Συμμετέχετε σε περιεχόμενο που εξετάζει την αγωνία και τις προκλήσεις του χάκινγκ
 
-Εκτελέστε χιλιάδες ελέγχους με μια μόνο πλατφόρμα που καλύπτει ολόκληρο το τεχνολογικό σας στοίχημα από την εσωτερική υποδομή
-## Άδεια χρήσης και Αποποίηση Ευθυνών
+**Ειδήσεις Χάκινγκ σε Πραγματικό Χρόνο**\
+Μείνετε ενήμεροι με τον γρήγορο ρυθμό του κόσμου του χάκινγκ μέσω ειδήσεων και αναλύσεων σε πραγματικό χρόνο
 
-**Ελέγξτε τις πληροφορίες στο:**
+**Τελευταίες Ανακοινώσεις**\
+Μείνετε ενήμεροι με τις νεότερες ανταμοιβές ευπάθειας που ξεκινούν και τις κρίσιμες ενημερώσεις πλατφόρμας
+
+**Συμμετέχετε στο** [**Discord**](https://discord.com/invite/N3FrSbmwdy) και αρχίστε να συνεργάζεστε με κορυφαίους χάκερ σήμερα!
+
+***
+
+### [Pentest-Tools.com](https://pentest-tools.com/) - Το απαραίτητο εργαλείο δοκιμών διείσδυσης
+
+<figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+
+**Άμεσα διαθέσιμη εγκατάσταση για αξιολόγηση ευπαθειών & δοκιμές διείσδυσης**. Εκτελέστε μια πλήρη δοκιμή διείσδυσης από οπουδήποτε με 20+ εργαλεία & χαρακτηριστικά που καλύπτουν από την αναγνώριση μέχρι την αναφορά. Δεν αντικαθιστούμε τους δοκιμαστές διείσδυσης - αναπτύσσουμε προσαρμοσμένα εργαλεία, ανίχνευση & εκμετάλλευση modules για να τους δώσουμε χρόνο να εξερευνήσουν βαθύτερα, να ανοίξουν κελιά και να διασκεδάσουν.
+
+{% embed url="https://pentest-tools.com/" %}
+
+### [WebSec](https://websec.nl/)
+
+<figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
+
+[**WebSec**](https://websec.nl) είναι μια επαγγελματική εταιρεία κυβερνοασφάλειας με έδρα το **Άμστερνταμ** που βοηθάει στην **προστασία** επιχειρήσεων **σε όλο τον κόσμο** ενάντια στις τελευταίες κυβερνοασφαλειακές απειλές παρέχοντας υπηρεσίες **επιθετικής ασφάλειας** με μια **σύγχρονη** προσέγγιση.
+
+Η WebSec είναι μια **εταιρεία ασφάλειας όλα-σε-ένα** που σημαίνει ότι κάνουν τα πάντα· Δοκιμές Διείσδυσης, **Ελεγκτικές** Επιθεωρήσεις, Εκπαιδεύσεις Ευαισθητοποίησης, Καμπάνιες Φισιγκ, Αναθεώρηση Κώδικα, Ανάπτυξη Εκμετάλλευσης, Εξωτερική Ανάθεση Ειδικών Ασφάλειας και πολλά άλλα.
+
+Ένα άλλο καλό πράγμα για την WebSec είναι ότι αντίθετα με τον μέσο όρο της βιομηχανίας, η WebSec είναι **πολύ βέβαιη για τις δεξιότητές της**, με τέτοιο βαθμό που **εγγυάται τα καλύτερα ποιοτικά αποτελέσματα**, αναφέρεται στον ιστότοπό τους "**Αν δεν μπορούμε να το χακάρουμε, Δεν πληρώνετε!**". Για περισσότερες πληροφορίες ρίξτε μια ματιά στην [**ιστοσελίδα**](https://websec.nl/en/) και το [**blog**](https://websec.nl/blog/) τους!
+
+Εκτός από τα παραπάνω, η WebSec υποστηρίζει επίσης το HackTricks.
+
+{% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
+
+## Άδεια & Αποποίηση Ευθυνών
+
+**Ελέγξτε τα στο:**
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -78,14 +110,6 @@ _Η εταιρεία σας θα μπορούσε να είναι εδώ._
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
-
-</details>
+Άλλοι τρ

