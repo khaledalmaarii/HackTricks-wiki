@@ -12,14 +12,6 @@
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Introduction <a href="#9wrzi" id="9wrzi"></a>
 
 Pour des informations sur les RFID et NFC, consultez la page suivante :
@@ -36,8 +28,8 @@ En plus des cartes NFC, Flipper Zero prend en charge **d'autres types de cartes 
 
 De nouveaux types de cartes NFC seront ajoutés à la liste des cartes prises en charge. Flipper Zero prend en charge les cartes NFC de type A suivantes (ISO 14443A) :
 
-* ﻿**Cartes bancaires (EMV)** — seulement lire UID, SAK et ATQA sans enregistrement.
-* ﻿**Cartes inconnues** — lire (UID, SAK, ATQA) et émuler un UID.
+* **Cartes bancaires (EMV)** — lire uniquement l'UID, SAK et ATQA sans enregistrement.
+* **Cartes inconnues** — lire (UID, SAK, ATQA) et émuler un UID.
 
 Pour les **cartes NFC de type B, type F et type V**, Flipper Zero est capable de lire un UID sans l'enregistrer.
 
@@ -53,9 +45,9 @@ Flipper Zero peut seulement lire un UID, SAK, ATQA et les données stockées sur
 
 #### Cartes inconnues <a href="#37eo8" id="37eo8"></a>
 
-Lorsque Flipper Zero est **incapable de déterminer le type de carte NFC**, alors seulement un **UID, SAK et ATQA** peuvent être **lus et enregistrés**.
+Lorsque Flipper Zero est **incapable de déterminer le type de carte NFC**, seuls un **UID, SAK et ATQA** peuvent être **lus et enregistrés**.
 
-Écran de lecture de carte inconnuePour les cartes NFC inconnues, Flipper Zero peut émuler seulement un UID.
+Écran de lecture de carte inconnuePour les cartes NFC inconnues, Flipper Zero peut uniquement émuler un UID.
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-27-53.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=932&#x26;w=2634" alt=""><figcaption></figcaption></figure>
 
@@ -79,8 +71,8 @@ Flipper Zero peut **lire les cartes NFC**, cependant, il ne **comprend pas tous 
 
 Dans Flipper, la lecture des tags à 13,56 MHz peut être divisée en deux parties :
 
-* **Lecture de bas niveau** — lit uniquement l'UID, SAK et ATQA. Flipper essaie de deviner le protocole de haut niveau basé sur ces données lues sur la carte. Vous ne pouvez pas être sûr à 100 % avec cela, car c'est juste une supposition basée sur certains facteurs.
-* **Lecture de haut niveau** — lit les données de la mémoire de la carte en utilisant un protocole de haut niveau spécifique. Cela consisterait à lire les données sur un Mifare Ultralight, lire les secteurs d'un Mifare Classic, ou lire les attributs de la carte de PayPass/Apple Pay.
+* **Lecture de bas niveau** — lit uniquement l'UID, SAK et ATQA. Flipper essaie de deviner le protocole de haut niveau basé sur ces données lues sur la carte. Vous ne pouvez pas être sûr à 100 % avec cela, car c'est juste une hypothèse basée sur certains facteurs.
+* **Lecture de haut niveau** — lit les données de la mémoire de la carte en utilisant un protocole de haut niveau spécifique. Cela consisterait à lire les données sur un Mifare Ultralight, lire les secteurs d'un Mifare Classic ou lire les attributs de la carte de PayPass/Apple Pay.
 
 ### Lecture spécifique
 
@@ -90,20 +82,13 @@ Dans le cas où Flipper Zero n'est pas capable de trouver le type de carte à pa
 
 En plus de simplement lire l'UID, vous pouvez extraire beaucoup plus de données d'une carte bancaire. Il est possible d'**obtenir le numéro complet de la carte** (les 16 chiffres à l'avant de la carte), la **date de validité**, et dans certains cas même le **nom du propriétaire** ainsi qu'une liste des **transactions les plus récentes**.\
 Cependant, vous **ne pouvez pas lire le CVV de cette manière** (les 3 chiffres à l'arrière de la carte). De plus, **les cartes bancaires sont protégées contre les attaques de rejeu**, donc les copier avec Flipper et essayer ensuite de les émuler pour payer quelque chose ne fonctionnera pas.
-
 ## Références
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)

