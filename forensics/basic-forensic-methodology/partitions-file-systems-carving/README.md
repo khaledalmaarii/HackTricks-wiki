@@ -1,37 +1,35 @@
-# Sehemu za Diski/Mfumo wa Faili/Uchongaji
-
-## Sehemu za Diski/Mfumo wa Faili/Uchongaji
+# Sehemu za Diski/Mifumo ya Faili/Carving
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Sehemu za Diski
+## Sehemu
 
-Diski ngumu au diski ya **SSD inaweza kuwa na sehemu tofauti** kwa lengo la kutenganisha data kimwili.\
-**Kiwango cha chini** cha diski ni **sekta** (kawaida ina 512B). Kwa hivyo, ukubwa wa kila sehemu unahitaji kuwa mara nyingi ya ukubwa huo.
+Diski ngumu au **diski ya SSD inaweza kuwa na sehemu tofauti** na lengo la kutenganisha data kimwili.\
+**Kitengo cha chini** cha diski ni **sektori** (kawaida inajumuisha 512B). Kwa hivyo, ukubwa wa kila sehemu unahitaji kuwa maradufu ya ukubwa huo.
 
-### MBR (Master Boot Record)
+### MBR (Rekodi ya Mwanzo ya Boot)
 
-Imetengwa katika **sehemu ya kwanza ya diski baada ya 446B ya msimbo wa kuanza**. Sekta hii ni muhimu kuonyesha PC ni nini na kutoka wapi sehemu inapaswa kufungwa.\
-Inaruhusu hadi **sehemu 4** (kwa kiwango cha juu **1 tu** inaweza kuwa **inayofanya kazi**/**inayoweza kufungwa**). Walakini, ikiwa unahitaji sehemu zaidi unaweza kutumia **sehemu zilizopanuliwa**. **Bayt ya mwisho** ya sehemu hii ya kwanza ni saini ya rekodi ya kuanza **0x55AA**. Sehemu moja tu inaweza kuwa imeandikwa kama inayofanya kazi.\
+Imetengwa katika **sektori ya kwanza ya diski baada ya 446B ya msimbo wa boot**. Sekta hii ni muhimu kwa kuelekeza PC ni nini na kutoka wapi sehemu inapaswa kufungwa.\
+Inaruhusu hadi **sehemu 4** (angalau **moja tu** inaweza kuwa **inayoweza kuanzishwa**). Walakini, ikiwa unahitaji sehemu zaidi unaweza kutumia **sehemu zilizopanuliwa**. **Bayt ya mwisho** ya sektori hii ya kwanza ni saini ya rekodi ya boot **0x55AA**. Sehemu moja tu inaweza kuwa imeorodheshwa kama inayoweza kuanzishwa.\
 MBR inaruhusu **max 2.2TB**.
 
 ![](<../../../.gitbook/assets/image (489).png>)
 
 ![](<../../../.gitbook/assets/image (490).png>)
 
-Kutoka kwa **bayt 440 hadi 443** ya MBR unaweza kupata **Windows Disk Signature** (ikiwa Windows inatumika). Barua ya anwani ya anatokea kwa saini ya Diski ya Windows. Kubadilisha saini hii kunaweza kuzuia Windows kuanza (zana: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
+Kutoka kwa **bayti 440 hadi 443** za MBR unaweza kupata **Sahihi ya Diski ya Windows** (ikiwa Windows inatumika). Barua ya kisasa ya diski ngumu inategemea Saini ya Diski ya Windows. Kubadilisha saini hii inaweza kuzuia Windows kuanza (zana: [**Mhariri wa Diski ya Active**](https://www.disk-editor.org/index.html)**)**.
 
 ![](<../../../.gitbook/assets/image (493).png>)
 
@@ -39,7 +37,7 @@ Kutoka kwa **bayt 440 hadi 443** ya MBR unaweza kupata **Windows Disk Signature*
 
 | Offset      | Urefu      | Kitu                |
 | ----------- | ---------- | ------------------- |
-| 0 (0x00)    | 446(0x1BE) | Msimbo wa kuanza    |
+| 0 (0x00)    | 446(0x1BE) | Msimbo wa Boot      |
 | 446 (0x1BE) | 16 (0x10)  | Sehemu ya Kwanza    |
 | 462 (0x1CE) | 16 (0x10)  | Sehemu ya Pili      |
 | 478 (0x1DE) | 16 (0x10)  | Sehemu ya Tatu      |
@@ -50,22 +48,22 @@ Kutoka kwa **bayt 440 hadi 443** ya MBR unaweza kupata **Windows Disk Signature*
 
 | Offset    | Urefu     | Kitu                                                   |
 | --------- | --------- | ------------------------------------------------------ |
-| 0 (0x00)  | 1 (0x01)  | Bendera ya kazi (0x80 = inayoweza kufungwa)             |
-| 1 (0x01)  | 1 (0x01)  | Kichwa cha kuanza                                      |
-| 2 (0x02)  | 1 (0x01)  | Sekta ya kuanza (bits 0-5); bits za juu za silinda (6-7) |
-| 3 (0x03)  | 1 (0x01)  | Silinda ya kuanza ya chini 8 bits                       |
-| 4 (0x04)  | 1 (0x01)  | Nambari ya aina ya sehemu (0x83 = Linux)                 |
-| 5 (0x05)  | 1 (0x01)  | Kichwa cha mwisho                                      |
-| 6 (0x06)  | 1 (0x01)  | Sekta ya mwisho (bits 0-5); bits za juu za silinda (6-7) |
-| 7 (0x07)  | 1 (0x01)  | Silinda ya mwisho ya chini 8 bits                       |
-| 8 (0x08)  | 4 (0x04)  | Sekta zilizotangulia sehemu (little endian)             |
-| 12 (0x0C) | 4 (0x04)  | Sekta katika sehemu                                    |
+| 0 (0x00)  | 1 (0x01)  | Bendera ya Kazi (0x80 = inayoweza kuanzishwa)         |
+| 1 (0x01)  | 1 (0x01)  | Kichwa cha Kuanza                                      |
+| 2 (0x02)  | 1 (0x01)  | Sekta ya Kuanza (bits 0-5); bayti za juu za silinda (6- 7) |
+| 3 (0x03)  | 1 (0x01)  | Silinda ya Kuanza ya chini                             |
+| 4 (0x04)  | 1 (0x01)  | Nambari ya aina ya sehemu (0x83 = Linux)               |
+| 5 (0x05)  | 1 (0x01)  | Kichwa cha Mwisho                                      |
+| 6 (0x06)  | 1 (0x01)  | Sekta ya Mwisho (bits 0-5); bayti za juu za silinda (6- 7) |
+| 7 (0x07)  | 1 (0x01)  | Silinda ya Mwisho ya chini                             |
+| 8 (0x08)  | 4 (0x04)  | Sekta zilizotangulia sehemu (kidogo kwa kidogo)         |
+| 12 (0x0C) | 4 (0x04)  | Sekta katika sehemu                                   |
 
-Ili kufunga MBR kwenye Linux, kwanza unahitaji kupata kianzio cha kuanza (unaweza kutumia `fdisk` na amri ya `p`)
+Ili kufunga MBR kwenye Linux kwanza unahitaji kupata kianzishaji wa kuanza (unaweza kutumia `fdisk` na amri ya `p`)
 
 ![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
 
-Kisha tumia nambari ifuatayo
+Na kisha tumia msimbo ufuatao
 ```bash
 #Mount MBR in Linux
 mount -o ro,loop,offset=<Bytes>
@@ -74,78 +72,82 @@ mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
 **LBA (Logical block addressing)**
 
-**Logical block addressing** (**LBA**) ni mfumo wa kawaida unaotumiwa kwa **kutaja eneo la vitalu** vya data vilivyohifadhiwa kwenye vifaa vya uhifadhi wa kompyuta, kwa ujumla mfumo wa uhifadhi wa sekondari kama vile diski ngumu. LBA ni mfumo rahisi sana wa kutaja eneo; **vitalu hupatikana kwa kutumia nambari ya kiashiria**, na kwa kuanzia vitalu vya kwanza ni LBA 0, vitalu vya pili ni LBA 1, na kadhalika.
+**Ukarabati wa kibao cha mantiki** (**LBA**) ni mpango wa kawaida unaotumika kwa **kutaja mahali pa vitalu** vya data vilivyohifadhiwa kwenye vifaa vya kuhifadhi vya kompyuta, kwa ujumla mifumo ya kuhifadhi ya sekondari kama vile diski ngumu. LBA ni mpango wa kutaja wa moja kwa moja wa linear; **vitalu hupatikana kwa kiashiria cha nambari ya kima cha nambari**, na kibao cha kwanza kikiwa LBA 0, kibao cha pili LBA 1, na kadhalika.
 
-### GPT (GUID Partition Table)
+### GPT (Mwongozo wa Jedwali la Sehemu)
 
-Mwongozo wa Sehemu ya Kitambulisho, unaojulikana kama GPT, unapendelewa kwa uwezo wake ulioboreshwa ikilinganishwa na MBR (Master Boot Record). Kipekee kwa kitambulisho chake cha kipekee cha kimataifa kwa sehemu, GPT ina sifa kadhaa:
+Mwongozo wa Jedwali la Sehemu, unaojulikana kama GPT, unapendelewa kwa uwezo wake ulioboreshwa ikilinganishwa na MBR (Rekodi ya Kwanza ya Kuanza). Kipekee kwa **kitambulisho cha kipekee duniani** kwa sehemu, GPT inaonekana katika njia kadhaa:
 
-- **Mahali na Ukubwa**: GPT na MBR zote zinaanza kwenye **sekta 0**. Walakini, GPT inafanya kazi kwa kutumia **bits 64**, tofauti na bits 32 za MBR.
-- **Vikwazo vya Sehemu**: GPT inasaidia hadi **sehemu 128** kwenye mifumo ya Windows na inaweza kuhifadhi hadi **9.4ZB** ya data.
-- **Majina ya Sehemu**: Inatoa uwezo wa kutoa majina kwa sehemu kwa kutumia wahusika wa Unicode hadi 36.
+* **Mahali na Ukubwa**: GPT na MBR zinaanza katika **sehemu 0**. Walakini, GPT inafanya kazi kwa **biti 64**, ikilinganishwa na biti 32 za MBR.
+* **Vikwazo vya Sehemu**: GPT inasaidia hadi **sehemu 128** kwenye mifumo ya Windows na inaweza kuhifadhi hadi **9.4ZB** ya data.
+* **Majina ya Sehemu**: Inatoa uwezo wa kuita sehemu kwa hadi wahusika wa Unicode 36.
 
 **Uimara na Uokoaji wa Data**:
 
-- **Udhibiti**: Tofauti na MBR, GPT haizuizi upangaji wa sehemu na data ya upakiaji kwenye eneo moja. Inarejesha data hii kwenye diski nzima, ikiboresha uadilifu na uimara wa data.
-- **Cyclic Redundancy Check (CRC)**: GPT inatumia CRC kuhakikisha uadilifu wa data. Inachunguza kwa uangalifu uharibifu wa data, na ikigundulika, GPT inajaribu kurejesha data iliyoharibika kutoka eneo lingine la diski.
+* **Udhibitishaji**: Tofauti na MBR, GPT haifungi upangaji wa sehemu na data ya kuanza kwenye sehemu moja. Inarejesha data hii kote kwenye diski, ikiboresha uadilifu na uimara wa data.
+* **Uchunguzi wa Redundancy wa Mzunguko (CRC)**: GPT inatumia CRC kuhakikisha uadilifu wa data. Inachunguza kwa uangalifu uharibifu wa data, na ikigunduliwa, GPT inajaribu kurejesha data iliyoharibika kutoka kwenye eneo lingine la diski.
 
-**Protective MBR (LBA0)**:
+**MBR ya Kinga (LBA0)**:
 
-- GPT inaendeleza utangamano wa nyuma kupitia MBR ya kinga. Kipengele hiki kipo kwenye nafasi ya MBR ya zamani lakini imeundwa kuzuia programu za zamani zinazotegemea MBR kwa makosa kufuta diski za GPT, hivyo kulinda uadilifu wa data kwenye diski zilizo na muundo wa GPT.
+* GPT inaendeleza utangamano wa nyuma kupitia MBR ya kinga. Kipengele hiki kinaishi katika nafasi ya MBR ya urithi lakini imeundwa kuzuia programu za zamani za MBR kwa makosa kuharibu diski zilizo na GPT, hivyo kulinda uadilifu wa data kwenye diski zilizo na GPT.
 
-![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID_Partition_Table_Scheme.svg/800px-GUID_Partition_Table_Scheme.svg.png](<../../../.gitbook/assets/image (491).png>)
+![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (491).png>)
 
-**Hybrid MBR (LBA 0 + GPT)**
+**MBR ya Kihybridi (LBA 0 + GPT)**
 
-[Kutoka Wikipedia](https://en.wikipedia.org/wiki/GUID_Partition_Table)
+[Kutoka Wikipedia](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
-Katika mifumo ya uendeshaji ambayo inasaidia **upakiaji wa GPT kupitia huduma za BIOS** badala ya EFI, sekta ya kwanza inaweza pia kutumika kuhifadhi hatua ya kwanza ya kificho cha **upakiaji wa mfumo** , lakini **imebadilishwa** ili kutambua **sehemu za GPT**. Kificho cha upakiaji wa MBR haitakiwi kudhani ukubwa wa sekta ya 512 baiti.
+Katika mifumo ya uendeshaji inayounga mkono **kuanza kwa GPT kupitia huduma za BIOS** badala ya EFI, sekta ya kwanza inaweza pia kutumika kuhifadhi hatua ya kwanza ya msimbo wa **kuanza** wa **bootloader**, lakini **imebadilishwa** kutambua **sehemu za GPT**. Bootloader katika MBR haitakiwi kudhani ukubwa wa sekta ni 512 biti.
 
-**Kichwa cha meza ya sehemu (LBA 1)**
+**Kichwa cha Jedwali la Sehemu (LBA 1)**
 
-[Kutoka Wikipedia](https://en.wikipedia.org/wiki/GUID_Partition_Table)
+[Kutoka Wikipedia](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
-Kichwa cha meza ya sehemu kinatambua vitalu vinavyoweza kutumiwa kwenye diski. Pia inatambua idadi na ukubwa wa kuingia kwenye meza ya sehemu (offsets 80 na 84 kwenye meza).
+Kichwa cha jedwali la sehemu hufafanua vitalu vinavyoweza kutumika kwenye diski. Pia hufafanua idadi na ukubwa wa vipengele vya sehemu vinavyounda jedwali la sehemu (offsets 80 na 84 kwenye jedwali).
 
 | Offset    | Urefu    | Yaliyomo                                                                                                                                                                        |
 | --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0 (0x00)  | 8 baiti  | Saini ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h au 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)kwenye mashine za little-endian) |
-| 8 (0x08)  | 4 baiti  | Toleo 1.0 (00h 00h 01h 00h) kwa UEFI 2.8                                                                                                                                     |
-| 12 (0x0C) | 4 baiti  | Ukubwa wa kichwa kwa mtindo wa little endian (kwa baiti, kawaida 5Ch 00h 00h 00h au baiti 92)                                                                                   |
-| 16 (0x10) | 4 baiti  | [CRC32](https://en.wikipedia.org/wiki/CRC32) ya kichwa (offset +0 hadi ukubwa wa kichwa) kwa mtindo wa little endian, na uga huu ukiwa umefutwa wakati wa kuhesabu               |
-| 20 (0x14) | 4 baiti  | Imehifadhiwa; lazima iwe sifuri                                                                                                                                                 |
-| 24 (0x18) | 8 baiti  | LBA ya sasa (eneo la nakala hii ya kichwa)                                                                                                                                     |
-| 32 (0x20) | 8 baiti  | LBA ya nakala nyingine ya kichwa                                                                                                                                                |
-| 40 (0x28) | 8 baiti  | LBA ya kwanza inayoweza kutumiwa kwa sehemu (meza ya sehemu ya msingi ya mwisho LBA + 1)                                                                                         |
-| 48 (0x30) | 8 baiti  | LBA ya mwisho inayoweza kutumiwa (meza ya sehemu ya sekondari ya kwanza LBA − 1)                                                                                                  |
-| 56 (0x38) | 16 baiti | GUID ya diski kwa mtindo wa endian iliyochanganywa                                                                                                                               |
-| 72 (0x48) | 8 baiti  | Kuanzia LBA ya safu ya kuingia kwenye sehemu (daima 2 kwenye nakala ya msingi)                                                                                                    |
-| 80 (0x50) | 4 baiti  | Idadi ya kuingia kwenye sehemu kwenye safu                                                                                                                                      |
-| 84 (0x54) | 4 baiti  | Ukubwa wa kuingia kwenye sehemu moja (kawaida 80h au 128)                                                                                                                        |
-| 88 (0x58) | 4 baiti  | CRC32 ya safu ya kuingia kwenye sehemu kwa mtindo wa little endian                                                                                                               |
-| 92 (0x5C) | \*       | Imehifadhiwa; lazima iwe sifuri kwa sehemu iliyobaki ya kizuizi (baiti 420 kwa ukubwa wa sekta ya 512 baiti; lakini inaweza kuwa zaidi na ukubwa mkubwa wa sekta)                 |
+| 0 (0x00)  | 8 biti   | Saini ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h au 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)kwenye mashine za little-endian) |
+| 8 (0x08)  | 4 biti   | Mapitio 1.0 (00h 00h 01h 00h) kwa UEFI 2.8                                                                                                                                     |
+| 12 (0x0C) | 4 biti   | Ukubwa wa kichwa kwa mtindo wa little-endian (kwa biti, kawaida 5Ch 00h 00h 00h au 92 biti)                                                                                      |
+| 16 (0x10) | 4 biti   | [CRC32](https://en.wikipedia.org/wiki/CRC32) ya kichwa (offset +0 hadi ukubwa wa kichwa) kwa mtindo wa little-endian, na uga huu ukiwekwa sifuri wakati wa kuhesabu               |
+| 20 (0x14) | 4 biti   | Imehifadhiwa; lazima iwe sifuri                                                                                                                                                 |
+| 24 (0x18) | 8 biti   | LBA ya Sasa (eneo la nakala hii ya kichwa)                                                                                                                                      |
+| 32 (0x20) | 8 biti   | LBA ya Kurejesha (eneo la nakala nyingine ya kichwa)                                                                                                                             |
+| 40 (0x28) | 8 biti   | LBA ya kwanza inayoweza kutumika kwa sehemu (jedwali la sehemu la msingi la mwisho LBA + 1)                                                                                      |
+| 48 (0x30) | 8 biti   | LBA ya mwisho inayoweza kutumika (jedwali la sehemu la sekondari la kwanza LBA − 1)                                                                                               |
+| 56 (0x38) | 16 biti  | GUID ya Diski kwa mtindo wa mchanganyiko                                                                                                                                         |
+| 72 (0x48) | 8 biti   | Kuanza LBA ya safu ya vipengele vya sehemu (daima 2 kwenye nakala ya msingi)                                                                                                    |
+| 80 (0x50) | 4 biti   | Idadi ya vipengele vya sehemu kwenye safu                                                                                                                                       |
+| 84 (0x54) | 4 biti   | Ukubwa wa kipengele kimoja cha sehemu (kawaida 80h au 128)                                                                                                                       |
+| 88 (0x58) | 4 biti   | CRC32 ya safu ya vipengele vya sehemu kwa mtindo wa little-endian                                                                                                                |
+| 92 (0x5C) | \*       | Imehifadhiwa; lazima iwe sifuri kwa sehemu iliyobaki (420 biti kwa ukubwa wa sekta ya 512 biti; lakini inaweza kuwa zaidi na ukubwa mkubwa wa sekta)                             |
 
-**Kuingia kwenye sehemu (LBA 2–33)**
+**Vipengele vya Sehemu (LBA 2–33)**
 
-| Muundo wa kuingia kwenye sehemu ya GUID |          |                                                                                                                   |
+| Muundo wa Kuingia wa Sehemu ya GUID |          |                                                                                                                   |
 | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
 | Offset                      | Urefu    | Yaliyomo                                                                                                          |
-| 0 (0x00)                    | 16 baiti | [Kitambulisho cha aina ya sehemu](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian iliyochanganywa) |
-| 16 (0x10)                   | 16 baiti | Kitambulisho cha kipekee cha sehemu (endian iliyochanganywa)                                                        |
-| 32 (0x20)                   | 8 baiti  | LBA ya kwanza ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
-| 40 (0x28)                   | 8 baiti  | LBA ya mwisho (pamoja, kawaida ni namba isiyo ya kawaida)                                                                                 |
-| 48 (0x30)                   | 8 baiti  | Alama za sifa (kwa mfano, biti 60 inaonyesha tu kusoma)                                                                   |
-| 56 (0x38)                   | 72 baiti | Jina la sehemu (36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE vitengo vya nambari)                                   |
+| 0 (0x00)                    | 16 biti  | [GUID ya aina ya sehemu](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (mchanganyiko wa mchanganyiko) |
+| 16 (0x10)                   | 16 biti  | GUID ya sehemu ya kipekee (mchanganyiko wa mchanganyiko)                                                          |
+| 32 (0x20)                   | 8 biti   | LBA ya Kwanza ([little-endian](https://en.wikipedia.org/wiki/Little\_endian))                                     |
+| 40 (0x28)                   | 8 biti   | LBA ya Mwisho (pamoja, kawaida ni namba ya kipekee)                                                               |
+| 48 (0x30)                   | 8 biti   | Bendera za sifa (k.m. biti 60 inaonyesha kusoma tu)                                                              |
+| 56 (0x38)                   | 72 biti  | Jina la sehemu (36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE vitengo vya nambari)                           |
 
 **Aina za Sehemu**
 
 ![](<../../../.gitbook/assets/image (492).png>)
 
-Aina zaidi za sehemu zinapatikana kwenye [https://en.wikipedia.org/wiki/GUID\_Partition\_Table](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
+Aina zaidi za sehemu katika [https://en.wikipedia.org/wiki/GUID\_Partition\_Table](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
 ### Ukaguzi
 
-Baada ya kufunga picha ya uchunguzi na [**ArsenalImageMounter**](https://arsenalrecon.com/downloads/), unaweza kukagua sekta ya kwanza kwa kutumia zana ya Windows [**Active Disk Editor**](https://www.disk-editor.org/index.html)**.** Katika picha ifuatayo, **MBR** iligunduliwa kwenye
+Baada ya kufunga picha ya uchunguzi na [**ArsenalImageMounter**](https://arsenalrecon.com/downloads/), unaweza kukagua sekta ya kwanza ukitumia zana ya Windows [**Active Disk Editor**](https://www.disk-editor.org/index.html)**.** Katika picha ifuatayo, **MBR** iligunduliwa kwenye **sehemu 0** na kufafanuliwa:
+
+![](<../../../.gitbook/assets/image (494).png>)
+
+Ikiwa ilikuwa **jedwali la GPT badala ya MBR** inapaswa kuonekana saini _EFI PART_ kwenye **sehemu 1** (ambayo kwenye picha iliyotangulia iko wazi).
 ## Mifumo ya Faili
 
 ### Orodha ya mifumo ya faili ya Windows
@@ -158,49 +160,49 @@ Baada ya kufunga picha ya uchunguzi na [**ArsenalImageMounter**](https://arsenal
 
 ### FAT
 
-Mfumo wa faili wa **FAT (File Allocation Table)** umebuniwa karibu na sehemu yake kuu, meza ya kugawanya faili, iliyo katika mwanzo wa kiasi. Mfumo huu unalinda data kwa kudumisha **nakala mbili** za meza, ikihakikisha uadilifu wa data hata kama moja imeharibika. Meza, pamoja na folda ya mizizi, lazima iwe katika **eneo lililofungwa**, muhimu kwa mchakato wa kuanza kwa mfumo.
+**FAT (File Allocation Table)** mfumo wa faili umebuniwa karibu na sehemu yake kuu, jedwali la kugawanya faili, lililowekwa mwanzoni mwa kiasi. Mfumo huu unalinda data kwa kudumisha **nakala mbili** za jedwali, ikihakikisha usalama wa data hata kama moja imeharibika. Jedwali, pamoja na folda ya mizizi, lazima iwe katika **eneo lililofungwa**, muhimu kwa mchakato wa kuanza kwa mfumo.
 
-Kitengo cha msingi cha kuhifadhi cha mfumo wa faili ni **kikundi, kawaida 512B**, kinachojumuisha sehemu kadhaa. FAT imeendelea kupitia toleo:
+Kitengo cha msingi cha kuhifadhi cha mfumo wa FAT ni **kluster, kawaida 512B**, ikijumuisha sehemu nyingi. FAT imeendelea kupitia toleo:
 
-- **FAT12**, inayounga mkono anwani za kikundi cha biti 12 na kushughulikia hadi vikundi 4078 (4084 na UNIX).
-- **FAT16**, ikiboreshwa hadi anwani za biti 16, hivyo kuhifadhi hadi vikundi 65,517.
-- **FAT32**, ikiboreshwa zaidi na anwani za biti 32, ikiruhusu vikundi vya kushangaza 268,435,456 kwa kiasi.
+* **FAT12**, ikiunga mkono anwani za kluster za biti 12 na kushughulikia hadi kluster 4078 (4084 na UNIX).
+* **FAT16**, ikiboresha hadi anwani za biti 16, hivyo kuhifadhi hadi kluster 65,517.
+* **FAT32**, ikisonga mbele zaidi na anwani za biti 32, kuruhusu kluster 268,435,456 za kuvutia kwa kiasi.
 
-Kikomo kikubwa katika matoleo ya FAT ni **ukubwa wa faili wa 4GB**, uliowekwa na uga wa biti 32 unaotumiwa kuhifadhi ukubwa wa faili.
+Kizuizi kikubwa kote kwenye toleo za FAT ni **ukubwa wa faili wa 4GB**, uliowekwa na uga wa biti 32 uliotumika kuhifadhi ukubwa wa faili.
 
 Vipengele muhimu vya saraka ya mizizi, haswa kwa FAT12 na FAT16, ni pamoja na:
 
-- **Jina la Faili/Folda** (hadithi 8)
-- **Sifa**
-- **Tarehe za Uundaji, Kubadilisha, na Kufikia Mwisho**
-- **Anwani ya Meza ya FAT** (inayoonyesha kikundi cha kuanza cha faili)
-- **Ukubwa wa Faili**
+* **Jina la Faili/Folda** (hadi wahusika 8)
+* **Sifa**
+* **Tarehe za Uundaji, Kubadilisha, na Kupata Mwisho**
+* **Anwani ya Jedwali la FAT** (inayoonyesha kluster ya kuanza ya faili)
+* **Ukubwa wa Faili**
 
 ### EXT
 
-**Ext2** ni mfumo wa faili unaotumiwa sana kwa kugawanya **bila kujaribu** (kugawanya ambazo hazibadiliki sana) kama kugawanya kuanza. **Ext3/4** ni za **kujaribu** na hutumiwa kawaida kwa **kugawanya zilizobaki**.
+**Ext2** ndio mfumo wa faili wa kawaida zaidi kwa **partisheni zisizo na journaling** (**partisheni ambazo hazibadiliki sana**) kama partisheni ya boot. **Ext3/4** ni **journaling** na hutumiwa kawaida kwa **partisheni zilizobaki**.
 
 ## **Metadata**
 
-Baadhi ya faili zina metadata. Habari hii ni kuhusu maudhui ya faili ambayo mara nyingi inaweza kuwa ya kuvutia kwa mchambuzi kulingana na aina ya faili, inaweza kuwa na habari kama:
+Baadhi ya faili zina metadata. Taarifa hii ni kuhusu maudhui ya faili ambayo mara nyingine inaweza kuwa ya kuvutia kwa mchambuzi kwani kulingana na aina ya faili, inaweza kuwa na taarifa kama:
 
 * Kichwa
-* Toleo la MS Office lililotumiwa
+* Toleo la MS Office lililotumika
 * Mwandishi
 * Tarehe za uundaji na ubadilishaji wa mwisho
 * Mfano wa kamera
-* Wiani wa GPS
-* Habari ya Picha
+* Vihisishi vya GPS
+* Taarifa ya Picha
 
 Unaweza kutumia zana kama [**exiftool**](https://exiftool.org) na [**Metadiver**](https://www.easymetadata.com/metadiver-2/) kupata metadata ya faili.
 
-## **Kurejesha Faili Zilizofutwa**
+## **Uokoaji wa Faili Zilizofutwa**
 
-### Kurejesha Faili Zilizosajiliwa
+### Faili Zilizofutwa Zilizosajiliwa
 
-Kama ilivyoonekana hapo awali, kuna maeneo kadhaa ambapo faili bado imehifadhiwa baada ya "kufutwa". Hii ni kwa sababu kawaida kufuta faili kutoka kwa mfumo wa faili kunaiweka kama imefutwa lakini data haijaguswa. Kwa hivyo, ni muhimu kuangalia kwenye usajili wa faili (kama MFT) na kupata faili zilizofutwa.
+Kama ilivyoonekana hapo awali kuna sehemu kadhaa ambapo faili bado imehifadhiwa baada ya "kufutwa". Hii ni kwa sababu kawaida kufuta faili kutoka kwa mfumo wa faili kunaiweka kama imefutwa lakini data haijaguswa. Kisha, inawezekana kuangalia usajili wa faili (kama MFT) na kupata faili zilizofutwa.
 
-Pia, mfumo wa uendeshaji kawaida huhifadhi habari nyingi kuhusu mabadiliko ya mfumo wa faili na nakala rudufu, kwa hivyo ni muhimu kujaribu kuzitumia kurejesha faili au habari nyingi iwezekanavyo.
+Pia, OS kawaida huihifadhi habari nyingi kuhusu mabadiliko ya mfumo wa faili na nakala rudufu, hivyo inawezekana kujaribu kuzitumia kurejesha faili au habari nyingi iwezekanavyo.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -208,19 +210,20 @@ Pia, mfumo wa uendeshaji kawaida huhifadhi habari nyingi kuhusu mabadiliko ya mf
 
 ### **Uchongaji wa Faili**
 
-**Uchongaji wa faili** ni mbinu inayojaribu **kupata faili katika data nyingi**. Kuna njia 3 kuu ambazo zana kama hizi hufanya kazi: **Kulingana na vichwa na miguu ya aina za faili**, kulingana na **muundo wa aina za faili** na kulingana na **maudhui** yenyewe.
+**Uchongaji wa faili** ni mbinu inayojaribu **kupata faili katika data nyingi**. Kuna njia 3 kuu ambazo zana kama hizi hufanya kazi: **Kulingana na vichwa na miguu ya aina za faili**, kulingana na **miundo ya aina za faili** na kulingana na **maudhui** yenyewe.
 
-Tafadhali kumbuka kuwa mbinu hii **haitafanya kazi kuokoa faili zilizovunjika**. Ikiwa faili **haipo katika sehemu zinazofuata**, basi mbinu hii haitaweza kuipata au angalau sehemu yake.
+Tafadhali kumbuka kuwa mbinu hii **haitafaulu kurejesha faili zilizovunjika**. Ikiwa faili **haipo katika sehemu za mfululizo**, basi mbinu hii haitaweza kuipata au angalau sehemu yake.
 
-Kuna zana kadhaa unazoweza kutumia kwa Uchongaji wa Faili kwa kuonyesha aina za faili unazotaka kutafuta
+Kuna zana kadhaa unazoweza kutumia kwa Uchongaji wa Faili ukionyesha aina za faili unazotaka kutafuta
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Uchongaji wa Data Stream
+### Uchongaji wa **M**izizi ya Data
 
-Uchongaji wa Data Stream ni sawa na Uchongaji wa Faili lakini **badala ya kutafuta faili kamili, inatafuta vipande vya habari vilivyo na umuhimu**. Kwa mfano, badala ya kutafuta faili kamili inayohusisha URL zilizosajiliwa, mbinu hii itatafuta URL.
+Uchongaji wa Mizizi ya Data ni sawa na Uchongaji wa Faili lakini **badala ya kutafuta faili kamili, inatafuta vipande vya kuvutia** vya habari.\
+Kwa mfano, badala ya kutafuta faili kamili inayohifadhi URL zilizosajiliwa, mbinu hii itatafuta URL.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -228,8 +231,8 @@ Uchongaji wa Data Stream ni sawa na Uchongaji wa Faili lakini **badala ya kutafu
 
 ### Kufuta kwa Usalama
 
-Kwa dhahiri, kuna njia za **kufuta faili kwa usalama na sehemu ya kumbukumbu juu yao**. Kwa mfano, inawezekana **kubadilisha maudhui** ya faili na data ya taka mara kadhaa, na kisha **kuondoa** **kumbukumbu** kutoka **$MFT** na **$LOGFILE** kuhusu faili, na **kuondoa Nakala za Kivuli za Kiasi**.\
-Unaweza kugundua kuwa hata kwa kutekeleza hatua hiyo, kunaweza kuwa na **sehemu zingine ambapo uwepo wa faili bado unajisajili**, na hiyo ni kweli na sehemu ya kazi ya mtaalamu wa uchunguzi wa kisayansi.
+Kwa dhahiri, kuna njia za **kufuta faili kwa usalama na sehemu za kumbukumbu kuhusu hizo**. Kwa mfano, inawezekana **kubadilisha maudhui** ya faili na data ya taka mara kadhaa, kisha **iondoe** **kumbukumbu** kutoka kwa **$MFT** na **$LOGFILE** kuhusu faili, na **iondoe Nakala za Kivuli cha Kiasi**.\
+Unaweza kugundua kuwa hata ukifanya hatua hiyo, kunaweza kuwa na **sehemu zingine ambapo uwepo wa faili bado unasajiliwa**, na hiyo ni kweli na sehemu ya kazi ya kitaalam ya uchunguzi wa kielelezo.
 
 ## Marejeo
 
@@ -238,15 +241,3 @@ Unaweza kugundua kuwa hata kwa kutekeleza hatua hiyo, kunaweza kuwa na **sehemu 
 * [https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html](https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html)
 * [https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service](https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service)
 * **iHackLabs Certified Digital Forensics Windows**
-
-<details>
-
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki m

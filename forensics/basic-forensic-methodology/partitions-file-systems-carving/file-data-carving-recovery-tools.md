@@ -1,34 +1,28 @@
+# Zana za Kuchonga na Kurejesha Data
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inayotangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+## Zana za Kuchonga na Kurejesha
 
-Pata udhaifu unaofaa zaidi ili uweze kuzirekebisha haraka. Intruder inafuatilia eneo lako la shambulio, inafanya uchunguzi wa vitisho wa kujitokeza, inapata masuala katika mfumo wako mzima wa teknolojia, kutoka kwa APIs hadi programu za wavuti na mifumo ya wingu. [**Jaribu bure**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) leo.
+Zana zaidi kwenye [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+### Autopsy
 
-***
+Zana inayotumiwa sana katika uchunguzi wa kiforensiki kutoa faili kutoka kwa picha ni [**Autopsy**](https://www.autopsy.com/download/). Pakua, isakinishe na ifanye iingize faili ili kupata faili "zilizofichwa". Kumbuka kwamba Autopsy imejengwa kusaidia picha za diski na aina zingine za picha, lakini sio faili za kawaida.
 
-# Zana za Kuchimba na Kurejesha
-
-Zana zaidi katika [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
-
-## Autopsy
-
-Zana inayotumiwa sana katika uchunguzi wa kisayansi kuchambua faili kutoka kwa picha ni [**Autopsy**](https://www.autopsy.com/download/). Pakua, sakinisha na ingiza faili ili kupata faili "zilizofichwa". Kumbuka kuwa Autopsy imejengwa ili kusaidia picha za diski na aina zingine za picha, lakini sio faili rahisi.
-
-## Binwalk <a href="#binwalk" id="binwalk"></a>
+### Binwalk <a href="#binwalk" id="binwalk"></a>
 
 **Binwalk** ni zana ya kuchambua faili za binary ili kupata yaliyomo yaliyofichwa. Inaweza kusakinishwa kupitia `apt` na chanzo chake kiko kwenye [GitHub](https://github.com/ReFirmLabs/binwalk).
 
@@ -39,86 +33,79 @@ binwalk file #Displays the embedded data in the given file
 binwalk -e file #Displays and extracts some files from the given file
 binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
-## Foremost
+### Foremost
 
-Chombo kingine cha kawaida cha kupata faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi ya foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta faili fulani maalum, toa maoni kwenye faili hizo. Ikiwa haujatoa maoni yoyote, foremost itatafuta aina za faili zilizowekwa kwa usanidi wake wa msingi.
+Chombo kingine cha kawaida cha kutafuta faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi wa foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta baadhi ya faili maalum, toa alama ya maoni kwao. Ikiwa hutotoa alama ya maoni kwa kitu chochote, foremost itatafuta aina zake za faili zilizosanidiwa kwa msingi.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
 #Discovered files will appear inside the folder "output"
 ```
-## **Scalpel**
+### **Scalpel**
 
-**Scalpel** ni chombo kingine kinachoweza kutumika kupata na kuchimbua **faili zilizojumuishwa katika faili**. Katika kesi hii, utahitaji kuondoa alama kutoka kwenye faili ya usanidi (_/etc/scalpel/scalpel.conf_) aina za faili unazotaka izichimbue.
+**Scalpel** ni chombo kingine kinachoweza kutumika kutafuta na kutoa **faili zilizojumuishwa katika faili**. Katika kesi hii, utahitaji kufuta maoni kutoka kwenye faili ya usanidi (_/etc/scalpel/scalpel.conf_) aina za faili unazotaka izichimbue.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
 ```
-## Bulk Extractor
+### Bulk Extractor
 
 Herramienta hii iko ndani ya kali lakini unaweza kuipata hapa: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Herramienta hii inaweza kuchunguza picha na **kuchimbua pcaps** ndani yake, **taarifa za mtandao (URLs, domains, IPs, MACs, mails)** na **faili zaidi**. Unachotakiwa kufanya ni:
+Herramienta hii inaweza kutafuta picha na **kutoa pcaps** ndani yake, **taarifa za mtandao (URLs, domains, IPs, MACs, barua pepe)** na **faili zaidi**. Unachohitaji kufanya ni:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Pitapita kupitia **habari zote** ambazo zana imekusanya (nywila?), **chambua** **pakiti** (soma [**Uchambuzi wa Pcaps**](../pcap-inspection/)), tafuta **anwani za ajabu** (anwani zinazohusiana na **programu hasidi** au **zisizokuwepo**).
+Pitia **maelezo yote** ambayo chombo kimekusanya (nywila?), **chambua** **pakiti** (soma [**Uchambuzi wa Pcaps**](../pcap-inspection/)), tafuta **vikoa vya ajabu** (vikoa vinavyohusiana na **programu hasidi** au **visivyokuwepo**).
 
-## PhotoRec
+### PhotoRec
 
 Unaweza kuipata kwenye [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
 
-Inakuja na toleo la GUI na CLI. Unaweza kuchagua **aina za faili** unayotaka PhotoRec iweze kutafuta.
+Inakuja na toleo la GUI na CLI. Unaweza kuchagua **aina za faili** unazotaka PhotoRec iweze kutafuta.
 
 ![](<../../../.gitbook/assets/image (524).png>)
 
-## binvis
+### binvis
 
-Angalia [msimbo](https://code.google.com/archive/p/binvis/) na [zana ya ukurasa wa wavuti](https://binvis.io/#/).
+Angalia [mimba](https://code.google.com/archive/p/binvis/) na [zana ya ukurasa wa wavuti](https://binvis.io/#/).
 
-### Vipengele vya BinVis
+#### Sifa za BinVis
 
-* Mwonekano na mtazamaji wa **muundo**
-* Grafu nyingi kwa vituo tofauti vya umakini
-* Kuzingatia sehemu ya sampuli
-* **Kuona herufi na rasilimali**, katika faili za utekelezaji za PE au ELF kwa mfano
-* Kupata **mifano** kwa ajili ya kuchambua faili za siri
-* **Kugundua** pakiti au algorithm za kufunga
-* **Tambua** Steganografia kwa mifano
-* **Tazama** tofauti za binary
+* Mwangaza wa **muonekano wa muundo** na shughuli
+* Grafu nyingi kwa pointi tofauti za kuzingatia
+* Kuzingatia sehemu za sampuli
+* **Kuona maneno na rasilimali**, katika utekelezaji wa PE au ELF kwa mfano
+* Kupata **mifumo** kwa cryptanalysis kwenye faili
+* **Kutambua** pakiti au algorithm za kufunga
+* **Kutambua** Steganografia kwa mifumo
+* **Mwangaza** wa tofauti za binary
 
-BinVis ni **mwanzo mzuri wa kujifunza kuhusu lengo lisilojulikana** katika hali ya black-boxing.
+BinVis ni **mahali pazuri pa kuanzia ili kuzoea lengo lisilojulikana** katika hali ya sanduku jeusi.
 
-# Zana za Kuchimba Data Maalum
+## Vyombo Maalum vya Ukataji wa Data
 
-## FindAES
+### FindAES
 
-Inatafuta funguo za AES kwa kutafuta ratiba zao za funguo. Inaweza kupata funguo za biti 128, 192, na 256, kama vile zinavyotumiwa na TrueCrypt na BitLocker.
+Inatafuta funguo za AES kwa kutafuta ratiba zao za funguo. Inaweza kupata funguo za biti 128, 192, na 256, kama zile zinazotumiwa na TrueCrypt na BitLocker.
 
 Pakua [hapa](https://sourceforge.net/projects/findaes/).
 
-# Zana Zingine za Kuboresha
+## Vyombo vya Kuboresha
 
-Unaweza kutumia [**viu**](https://github.com/atanunq/viu) kuona picha kutoka kwenye terminal.\
-Unaweza kutumia zana ya mstari wa amri ya linux **pdftotext** kubadilisha pdf kuwa maandishi na kuyasoma.
-
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Tafuta udhaifu unaowajali zaidi ili uweze kuyatatua haraka. Intruder inafuatilia eneo lako la shambulio, inafanya uchunguzi wa vitisho wa kujitokeza, inapata masuala katika mfumo wako mzima wa teknolojia, kutoka kwa API hadi programu za wavuti na mifumo ya wingu. [**Jaribu bure**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) leo.
-
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+Unaweza kutumia [**viu** ](https://github.com/atanunq/viu)kuona picha kutoka kwenye terminal.\
+Unaweza kutumia zana ya mstari wa amri ya linux **pdftotext** kubadilisha pdf kuwa maandishi na kusoma.
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka mwanzo hadi kuwa shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Njia zingine za kusaidia HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha** [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 **kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

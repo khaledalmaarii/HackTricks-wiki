@@ -2,33 +2,25 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhack AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Pata [**swagi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+## Kuvamia Mifumo ya RFID na Proxmark3
 
-Tafuta udhaifu unaofaa zaidi ili uweze kuzirekebisha haraka. Intruder inafuatilia eneo lako la shambulio, inafanya uchunguzi wa vitisho wa kujitokeza, inapata masuala katika mfumo wako mzima wa teknolojia, kutoka kwa APIs hadi programu za wavuti na mifumo ya wingu. [**Jaribu bure**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) leo.
+Jambo la kwanza unalohitaji kufanya ni kuwa na [**Proxmark3**](https://proxmark.com) na [**kusanikisha programu na mahitaji yake**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
-{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+### Kuvamia MIFARE Classic 1KB
 
-***
-
-## Kudukua Mifumo ya RFID na Proxmark3
-
-Jambo la kwanza unalohitaji kufanya ni kuwa na [**Proxmark3**](https://proxmark.com) na [**kusakinisha programu na dependencie zake**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
-
-### Kudukua MIFARE Classic 1KB
-
-Ina **sehemu 16**, kila moja ina **vibao 4** na kila kibao kina **16B**. UID iko kwenye sehemu 0 kibao 0 (na haiwezi kubadilishwa).\
-Ili kupata ufikiaji wa kila sehemu, unahitaji **funguo 2** (**A** na **B**) ambazo zimehifadhiwa katika **kibao 3 cha kila sehemu** (sehemu ya trailer). Sehemu ya trailer pia inahifadhi **vibali vya kusoma na kuandika** kwenye **kila kibao** kwa kutumia funguo 2.\
-Funguo 2 ni muhimu kutoa vibali vya kusoma ikiwa unajua cha kwanza na kuandika ikiwa unajua cha pili (kwa mfano).
+Ina **vikundi 16**, kila kimoja kina **vibao 4** na kila kibao kina **16B**. UID iko kwenye kikundi 0 kibao 0 (na haiwezi kubadilishwa).\
+Kupata ufikiaji wa kila kikundi unahitaji **funguo 2** (**A** na **B**) ambazo zimehifadhiwa kwenye **kibao 3 cha kila kikundi** (mkia wa kikundi). Mkia wa kikundi pia hifadhi **vibali vya ufikiaji** vinavyotoa **ruhusa ya kusoma na kuandika** kwenye **kila kibao** kwa kutumia funguo 2.\
+Funguo 2 ni muhimu kutoa ruhusa ya kusoma ikiwa unajua ya kwanza na kuandika ikiwa unajua ya pili (kwa mfano).
 
 Mashambulizi kadhaa yanaweza kutekelezwa
 ```bash
@@ -49,11 +41,11 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Proxmark3 inaruhusu kufanya vitendo vingine kama vile **kupeleleza** mawasiliano kati ya **Tag na Reader** ili kujaribu kupata data nyeti. Katika kadi hii, unaweza tu kusikiliza mawasiliano na kuhesabu ufunguo uliotumiwa kwa sababu **shughuli za kriptografia zilizotumika ni dhaifu** na kwa kujua maandishi wazi na maandishi yaliyofichwa unaweza kuihesabu (`mfkey64` chombo).
+Proxmark3 inaruhusu kutekeleza vitendo vingine kama **kupeleleza** mawasiliano ya **Tag to Reader** kujaribu kupata data nyeti. Kwenye kadi hii unaweza kunusa mawasiliano na kuhesabu funguo zilizotumiwa kwa sababu **shughuli za kryptographi zilizotumiwa ni dhaifu** na kwa kujua maandishi wazi na maandishi ya siri unaweza kuhesabu (`mfkey64` zana).
 
-### Amri za Raw
+### Amri za Mbichi
 
-Mifumo ya IoT mara nyingi hutumia **vitambulisho visivyo na chapa au visivyo biashara**. Katika kesi hii, unaweza kutumia Proxmark3 kutuma **amri za desturi kwa vitambulisho**.
+Mifumo ya IoT mara nyingi hutumia vitambulisho **visivyo na chapa au visivyo vya kibiashara**. Katika kesi hii, unaweza kutumia Proxmark3 kutuma **amri za mbichi kwa vitambulisho**.
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -63,31 +55,12 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
-Kwa habari hii unaweza kujaribu kutafuta habari kuhusu kadi na njia ya kuwasiliana nayo. Proxmark3 inaruhusu kutuma amri za moja kwa moja kama vile: `hf 14a raw -p -b 7 26`
+Kwa habari hii unaweza kujaribu kutafuta habari kuhusu kadi na njia ya kuwasiliana nayo. Proxmark3 inaruhusu kutuma amri za moja kwa moja kama: `hf 14a raw -p -b 7 26`
 
-### Skrini
+### Scripts
 
-Programu ya Proxmark3 inakuja na orodha iliyopakuliwa kabla ya **skrini za otomatiki** ambazo unaweza kutumia kufanya kazi rahisi. Ili kupata orodha kamili, tumia amri ya `script list`. Kisha, tumia amri ya `script run`, ikifuatiwa na jina la skrini:
+Programu ya Proxmark3 inakuja na orodha iliyopakiwa kabla ya **maandishi ya kiotomatiki** ambayo unaweza kutumia kutekeleza kazi rahisi. Ili kupata orodha kamili, tumia amri ya `script list`. Kisha, tumia amri ya `script run`, ikifuatiwa na jina la maandishi:
 ```
 proxmark3> script run mfkeys
 ```
-Unaweza kuunda script ya **kufanya majaribio kwa wasomaji wa vitambulisho**, kwa hiyo unachukua data ya **kadi halali** na kuandika **script ya Lua** ambayo inabadilisha moja au zaidi ya **baiti za nasibu** na kuangalia kama msomaji unapata ajali na jaribio lolote.
-
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
-
-Tafuta udhaifu ambao ni muhimu zaidi ili uweze kuzirekebisha haraka. Intruder inafuatilia eneo lako la shambulio, inafanya uchunguzi wa vitisho wa kujitokeza, inapata matatizo katika mfumo wako mzima wa teknolojia, kutoka kwa APIs hadi programu za wavuti na mifumo ya wingu. [**Jaribu bure**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) leo.
-
-{% embed url="https://www.intruder.io/?utm\_campaign=hacktricks&utm\_source=referral" %}
-
-
-<details>
-
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+Unaweza kuunda script ya **kufanya fuzz tag readers**, kwa kunakili data ya **kadi halali** tuandike **Lua script** ambayo **inabadilisha** moja au zaidi ya **bytes za kubahatisha** na kuangalia kama **msomaji unacrash** na mzunguko wowote.
