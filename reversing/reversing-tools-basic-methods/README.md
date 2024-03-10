@@ -8,8 +8,8 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -33,7 +33,7 @@
 * [https://www.pnfsoftware.com/jeb/demo](https://www.pnfsoftware.com/jeb/demo)
 * [https://github.com/wwwg/wasmdec](https://github.com/wwwg/wasmdec)
 
-## .Net反编译器
+## .NET反编译器
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
@@ -41,27 +41,26 @@ dotPeek是一个反编译器，可以**反编译和检查多种格式**，包括
 
 这里的优点是，如果需要从旧程序集中恢复丢失的源代码，此操作可以节省时间。此外，dotPeek提供了方便的导航功能，使其成为**Xamarin算法分析**的完美工具之一。
 
-### [.Net Reflector](https://www.red-gate.com/products/reflector/)
+### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-具有全面的插件模型和API，可以根据您的实际需求扩展工具，.NET Reflector节省时间并简化开发。让我们看看这个工具提供的众多逆向工程服务：
+通过全面的插件模型和API，.NET Reflector节省时间并简化开发。让我们看看这个工具提供的众多逆向工程服务：
 
 * 提供了数据如何在库或组件中流动的见解
 * 提供了.NET语言和框架的实现和使用见解
-* 查找未记录和未公开的功能，以更充分利用所使用的API和技术
+* 查找未记录和未公开的功能，以充分利用所使用的API和技术
 * 查找依赖项和不同的程序集
 * 追踪代码中所有.NET代码的源代码的确切位置
-* 调试您使用的所有.NET代码的源代码。
+* 调试您使用的所有.NET代码的源代码的源头
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[Visual Studio Code的ILSpy插件](https://github.com/icsharpcode/ilspy-vscode)：您可以在任何操作系统中使用它（您可以直接从VSCode安装，无需下载git。单击**扩展**，然后**搜索ILSpy**）。\
-如果您需要**反编译**，**修改**和**重新编译**，您可以使用：[**https://github.com/0xd4d/dnSpy/releases**](https://github.com/0xd4d/dnSpy/releases)（**右键单击 -> 修改方法**以更改函数内部的内容）。\
-您还可以尝试[https://www.jetbrains.com/es-es/decompiler/](https://www.jetbrains.com/es-es/decompiler/)
+[Visual Studio Code的ILSpy插件](https://github.com/icsharpcode/ilspy-vscode)：您可以在任何操作系统中使用它（您可以直接从VSCode安装，无需下载git。点击**Extensions**，然后搜索**ILSpy**）。\
+如果您需要**反编译**，**修改**和**重新编译**，可以使用[**dnSpy**](https://github.com/dnSpy/dnSpy/releases)或其积极维护的分支[**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases)。（右键单击 -> 修改方法**来更改函数内部的内容）。
 
 ### DNSpy日志记录
 
-为了使**DNSpy在文件中记录一些信息**，您可以使用以下.NET代码行：
-```bash
+为了让**DNSpy在文件中记录一些信息**，您可以使用以下代码片段：
+```cs
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
 File.AppendAllText(path, "Password: " + password + "\n");
@@ -87,13 +86,13 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 
 ![](<../../.gitbook/assets/image (314) (1) (1).png>)
 
-然后将新文件保存在_**文件 >> 保存模块...**_：
+然后通过 _**文件 >> 保存模块...**_ 保存新文件：
 
 ![](<../../.gitbook/assets/image (279).png>)
 
-这是必要的，因为如果您不这样做，在**运行时**会对代码应用几种**优化**，可能会导致在调试时**断点永远不会被触发**或一些**变量不存在**。
+这是必要的，因为如果您不这样做，在**运行时**代码将应用几个**优化**，可能会导致在调试时**断点永远不会触发**或一些**变量不存在**。
 
-然后，如果您的 .Net 应用程序正在由**IIS**运行，您可以使用以下方法**重新启动**它：
+然后，如果您的.NET应用程序正在由**IIS**运行，您可以使用以下方法**重新启动**它：
 ```
 iisreset /noforce
 ```
@@ -101,21 +100,21 @@ iisreset /noforce
 
 ![](<../../.gitbook/assets/image (280).png>)
 
-然后选择**w3wp.exe**以附加到**IIS服务器**，然后单击**附加**：
+然后选择**w3wp.exe**以附加到**IIS服务器**，然后点击**附加**：
 
 ![](<../../.gitbook/assets/image (281).png>)
 
-现在我们正在调试该进程，是时候停止它并加载所有模块了。首先单击 _调试 >> 中断所有_，然后单击 _**调试 >> 窗口 >> 模块**_：
+现在我们正在调试该进程，是时候停止它并加载所有模块了。首先点击 _Debug >> Break All_，然后点击 _**Debug >> Windows >> Modules**_：
 
 ![](<../../.gitbook/assets/image (286).png>)
 
 ![](<../../.gitbook/assets/image (283).png>)
 
-单击**模块**中的任何模块，然后选择**打开所有模块**：
+在**模块**中点击任何模块，然后选择**打开所有模块**：
 
 ![](<../../.gitbook/assets/image (284).png>)
 
-右键单击**程序集资源管理器**中的任何模块，然后单击**排序程序集**：
+右键单击**程序集资源管理器**中的任何模块，然后点击**排序程序集**：
 
 ![](<../../.gitbook/assets/image (285).png>)
 
@@ -134,11 +133,11 @@ iisreset /noforce
 
 ![](<../../.gitbook/assets/image (135).png>)
 
-* 配置执行的**参数**，放入**DLL路径**和要调用的函数：
+* 配置执行的**参数**，放入**DLL的路径**和要调用的函数：
 
 ![](<../../.gitbook/assets/image (136).png>)
 
-然后，当您开始调试时，**每次加载DLL时执行都会停止**，然后当rundll32加载您的DLL时，执行将会停止。
+然后，当您开始调试时，**每次加载DLL时执行将会停止**，然后当rundll32加载您的DLL时，执行将会停止。
 
 但是，您如何查看已加载的DLL的代码呢？使用这种方法，我不知道如何。
 
@@ -149,11 +148,11 @@ iisreset /noforce
 * 更改 _选项 --> 设置_ 并选择“**DLL入口**”。
 * 然后**开始执行**，调试器将在每个dll主函数处停止，最终您将**停在您的dll的dll入口**。从那里，只需搜索要设置断点的位置。
 
-请注意，当win64dbg由于任何原因停止执行时，您可以在**win64dbg窗口顶部**看到您所在的**代码**：
+请注意，当win64dbg以任何原因停止执行时，您可以看到**您所在的代码**，在**win64dbg窗口顶部**查看：
 
 ![](<../../.gitbook/assets/image (137).png>)
 
-然后，查看此处，您可以看到执行已在您要调试的dll中停止。
+然后，查看此处时，您可以看到执行已在您要调试的dll中停止。
 
 ## GUI应用程序 / 视频游戏
 
@@ -171,11 +170,11 @@ iisreset /noforce
 
 ### 使用blobrunner调试shellcode
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner) 将在内存空间中**分配shellcode**，并**指示**您shellcode分配的**内存地址**，然后**停止**执行。\
+[**Blobrunner**](https://github.com/OALabs/BlobRunner) 将在内存空间中**分配**shellcode，将向您指示shellcode分配的**内存地址**，并将**停止**执行。\
 然后，您需要将调试器（Ida或x64dbg）**附加到进程**，在指示的内存地址处设置**断点**，然后**恢复**执行。这样您就可以调试shellcode了。
 
-发布的github页面包含了编译版本的zip文件：[https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
-您可以在以下链接中找到Blobrunner的稍作修改的版本。要编译它，只需**在Visual Studio Code中创建一个C/C++项目，复制并粘贴代码，然后构建**。
+发布的github页面包含包含编译版本的zip文件：[https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
+您可以在以下链接中找到Blobrunner的略微修改版本。为了编译它，只需**在Visual Studio Code中创建一个C/C++项目，复制并粘贴代码，然后构建**。
 
 {% content-ref url="blobrunner.md" %}
 [blobrunner.md](blobrunner.md)
@@ -183,7 +182,7 @@ iisreset /noforce
 
 ### 使用jmp2it调试shellcode
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)与blobrunner非常相似。它将在内存空间中**分配shellcode**，然后启动一个**永久循环**。然后，您需要将调试器**附加到进程**，**开始播放等待2-5秒然后停止**，您将发现自己处于**永久循环**中。跳转到永久循环的下一条指令，因为它将是对shellcode的调用，最终您将发现自己正在执行shellcode。
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)与blobrunner非常相似。它将在内存空间中**分配**shellcode，并启动一个**永久循环**。然后，您需要将调试器附加到进程，**开始等待2-5秒然后停止**，您将发现自己处于**永久循环**中。跳转到永久循环的下一条指令，因为它将是对shellcode的调用，最终您将发现自己正在执行shellcode。
 
 ![](<../../.gitbook/assets/image (397).png>)
 
@@ -191,13 +190,13 @@ iisreset /noforce
 
 ### 使用Cutter调试shellcode
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) 是radare的GUI。使用Cutter，您可以动态地模拟和检查shellcode。
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) 是radare的GUI。使用Cutter，您可以动态模拟和检查shellcode。
 
-请注意，Cutter允许您“打开文件”和“打开shellcode”。在我的情况下，当我将shellcode作为文件打开时，它正确反编译了，但当我将其作为shellcode打开时，它没有：
+请注意，Cutter允许您“打开文件”和“打开shellcode”。在我的情况下，当我将shellcode作为文件打开时，它正确反编译了，但当我将其作为shellcode打开时则没有：
 
 ![](<../../.gitbook/assets/image (400).png>)
 
-为了从您想要的位置开始模拟，设置一个断点，显然Cutter将自动从那里开始模拟：
+为了从想要的位置开始模拟，设置一个断点，显然Cutter将自动从那里开始模拟：
 
 ![](<../../.gitbook/assets/image (399).png>)
 
@@ -219,7 +218,7 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg还配备了一个图形启动器，您可以在其中选择所需的选项并执行shellcode
+scDbg还配备了一个图形启动器，您可以在其中选择所需选项并执行shellcode
 
 ![](<../../.gitbook/assets/image (398).png>)
 
@@ -227,7 +226,7 @@ scDbg还配备了一个图形启动器，您可以在其中选择所需的选项
 
 ### 使用CyberChef进行反汇编
 
-将shellcode文件上传为输入，并使用以下配方对其进行反编译：[https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
+将您的shellcode文件上传为输入，并使用以下配方对其进行反编译：[https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
@@ -236,14 +235,14 @@ scDbg还配备了一个图形启动器，您可以在其中选择所需的选项
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-如果您很幸运，[demovfuscator ](https://github.com/kirschju/demovfuscator)将对二进制文件进行反混淆。它有几个依赖项
+如果您很幸运，[demovfuscator](https://github.com/kirschju/demovfuscator)将对二进制文件进行反混淆。它有几个依赖项
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
 ```
 并[安装keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-如果你在玩**CTF，这个绕过方法找到flag**可能非常有用：[https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
+如果你在玩**CTF，这个绕过方法来找到flag**可能会非常有用：[https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
@@ -262,9 +261,9 @@ apt-get install libz3-dev
 
 只需按下**ATL+f7**（在IDA中导入Python插件），然后选择Python插件。
 
-此插件将在调试开始时执行二进制文件并动态解析函数名称。开始调试后再次按下开始按钮（绿色按钮或f9），将在真实代码的开头触发断点。
+此插件将在调试开始时执行二进制文件并动态解析函数名称。开始调试后再次按下开始按钮（绿色按钮或f9），将在真正代码的开头触发断点。
 
-这也非常有趣，因为如果在图形应用程序中按下按钮，调试器将停在由该按钮执行的函数中。
+这也非常有趣，因为如果你在图形应用程序中按下一个按钮，调试器将停在该按钮执行的函数中。
 
 ## Golang
 
@@ -308,11 +307,11 @@ DOWN = 128
 R = 256
 L = 256
 ```
-因此，在这种程序中，一个有趣的部分将是**程序如何处理用户输入**。在地址**0x4000130**中，您将找到常见的函数：**KEYINPUT**。
+因此，在这种程序中，有趣的部分将是程序如何处理用户输入。在地址0x4000130处，您将找到常见的函数：KEYINPUT。
 
 ![](<../../.gitbook/assets/image (579).png>)
 
-在上图中，您可以发现该函数是从**FUN\_080015a8**（地址：_0x080015fa_ 和 _0x080017ac_）调用的。
+在上图中，您可以发现该函数是从FUN_080015a8（地址：0x080015fa和0x080017ac）调用的。
 
 在该函数中，在进行一些初始化操作之后（没有任何重要性）：
 ```c
@@ -347,7 +346,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-最后的if语句检查**`uVar4`**是否在**最后的Keys**中，而不是当前的密钥，也称为释放按钮（当前密钥存储在**`uVar1`**中）。
+最后的if语句检查**`uVar4`**是否在**最后的Keys**中，而不是当前的键，也称为释放按钮（当前键存储在**`uVar1`**中）。
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -379,9 +378,9 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 
 * 首先，它与**值4**（**SELECT**按钮）进行比较：在挑战中，此按钮清除屏幕
 * 然后，将其与**值8**（**START**按钮）进行比较：在挑战中，这会检查代码是否有效以获取标志。
-* 在这种情况下，将变量**`DAT_030000d8`**与0xf3进行比较，如果值相同，则执行一些代码。
-* 在任何其他情况下，将检查一些cont（`DAT_030000d4`）。这是一个cont，因为在输入代码后立即加1。
-* 如果小于8，则执行涉及向**`DAT_030000d8`**添加值的操作（基本上是将按下的键的值添加到此变量中，只要cont小于8）。
+* 在这种情况下，将**`DAT_030000d8`**与0xf3进行比较，如果值相同，则执行一些代码。
+* 在任何其他情况下，会检查一些cont（`DAT_030000d4`）。这是一个cont，因为在进入代码后立即加1。
+* 如果小于8，则会执行一些涉及**向\*\*`DAT_030000d8` \*\*添加值的操作**（基本上是将按下的键的值添加到此变量中，只要cont小于8）。
 
 因此，在这个挑战中，了解按钮的值，您需要**按下长度小于8的组合，使得结果相加为0xf3**。
 
