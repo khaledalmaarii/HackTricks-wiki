@@ -10,7 +10,7 @@ Altri modi per supportare HackTricks:
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
@@ -26,14 +26,14 @@ Online:
 
 * Usa [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) per **decompilare** da wasm (binario) a wat (testo chiaro)
 * Usa [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/) per **compilare** da wat a wasm
-* Puoi anche provare a usare [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) per decompilare
+* puoi anche provare a usare [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) per decompilare
 
 Software:
 
 * [https://www.pnfsoftware.com/jeb/demo](https://www.pnfsoftware.com/jeb/demo)
 * [https://github.com/wwwg/wasmdec](https://github.com/wwwg/wasmdec)
 
-## Decompilatore .Net
+## Decompilatore .NET
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
@@ -41,27 +41,26 @@ dotPeek è un decompilatore che **decompila ed esamina vari formati**, inclusi *
 
 Il merito qui è che se un codice sorgente perso richiede il ripristino da un assembly legacy, questa azione può risparmiare tempo. Inoltre, dotPeek fornisce una comoda navigazione all'interno del codice decompilato, rendendolo uno degli strumenti perfetti per l'analisi degli algoritmi Xamarin.
 
-### [.Net Reflector](https://www.red-gate.com/products/reflector/)
+### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
 Con un modello di add-in completo e un'API che estende lo strumento per adattarlo alle tue esigenze esatte, .NET Reflector risparmia tempo e semplifica lo sviluppo. Diamo un'occhiata alla moltitudine di servizi di reverse engineering che questo strumento fornisce:
 
 * Fornisce una visione di come i dati scorrono attraverso una libreria o un componente
 * Fornisce una visione dell'implementazione e dell'uso di linguaggi e framework .NET
 * Trova funzionalità non documentate e non esposte per ottenere di più dalle API e dalle tecnologie utilizzate.
-* Trova dipendenze e diverse librerie
+* Trova dipendenze e diverse assemblee
 * Rintraccia l'esatta posizione degli errori nel tuo codice, nei componenti di terze parti e nelle librerie.
-* Esegue il debug del codice .NET con cui lavori.
+* Esegue il debug nel codice sorgente di tutto il codice .NET con cui lavori.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[ILSpy plugin per Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Puoi averlo su qualsiasi OS (puoi installarlo direttamente da VSCode, non c'è bisogno di scaricare il git. Clicca su **Estensioni** e **cerca ILSpy**).\
-Se hai bisogno di **decompilare**, **modificare** e **ricompilare** di nuovo puoi usare: [**https://github.com/0xd4d/dnSpy/releases**](https://github.com/0xd4d/dnSpy/releases) (**Fai clic destro -> Modifica Metodo** per cambiare qualcosa all'interno di una funzione).\
-Puoi anche provare [https://www.jetbrains.com/es-es/decompiler/](https://www.jetbrains.com/es-es/decompiler/)
+[Plugin ILSpy per Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Puoi averlo in qualsiasi OS (puoi installarlo direttamente da VSCode, non c'è bisogno di scaricare il git. Clicca su **Estensioni** e **cerca ILSpy**).\
+Se hai bisogno di **decompilare**, **modificare** e **ricompilare** di nuovo puoi usare [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) o un fork attivamente mantenuto di esso, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Fai clic destro -> Modifica Metodo** per cambiare qualcosa all'interno di una funzione).
 
 ### Registrazione DNSpy
 
-Per fare in modo che **DNSpy registri alcune informazioni in un file**, potresti usare queste righe di codice .Net:
-```bash
+Per fare in modo che **DNSpy registri alcune informazioni in un file**, potresti usare questo snippet:
+```cs
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
 File.AppendAllText(path, "Password: " + password + "\n");
@@ -70,7 +69,7 @@ File.AppendAllText(path, "Password: " + password + "\n");
 
 Per eseguire il debug del codice utilizzando DNSpy è necessario:
 
-Prima di tutto, modificare gli **attributi dell'Assembly** relativi al **debugging**:
+Innanzitutto, modificare gli **attributi dell'Assembly** relativi al **debugging**:
 
 ![](<../../.gitbook/assets/image (278).png>)
 ```aspnet
@@ -83,17 +82,17 @@ DebuggableAttribute.DebuggingModes.DisableOptimizations |
 DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints |
 DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 ```
-E clicca su **compile**:
+E clicca su **compila**:
 
 ![](<../../.gitbook/assets/image (314) (1) (1).png>)
 
-Quindi salva il nuovo file su _**File >> Salva modulo...**_:
+Quindi salva il nuovo file tramite _**File >> Salva modulo...**_:
 
 ![](<../../.gitbook/assets/image (279).png>)
 
 Questo è necessario perché se non lo fai, durante l'**esecuzione** verranno applicate diverse **ottimizzazioni** al codice e potrebbe essere possibile che durante il debug un **punto di interruzione non venga mai raggiunto** o alcune **variabili non esistano**.
 
-Quindi, se la tua applicazione .Net viene **eseguita** da **IIS**, puoi **riavviarla** con:
+Quindi, se la tua applicazione .NET viene **eseguita** da **IIS**, puoi **riavviarla** con:
 ```
 iisreset /noforce
 ```
@@ -101,7 +100,7 @@ Quindi, per iniziare il debug, dovresti chiudere tutti i file aperti e seleziona
 
 ![](<../../.gitbook/assets/image (280).png>)
 
-Successivamente, seleziona **w3wp.exe** per allegarti al **server IIS** e clicca su **allega**:
+Successivamente, seleziona **w3wp.exe** per collegarti al **server IIS** e clicca su **allega**:
 
 ![](<../../.gitbook/assets/image (281).png>)
 
@@ -115,7 +114,7 @@ Fai clic su qualsiasi modulo su **Moduli** e seleziona **Apri tutti i moduli**:
 
 ![](<../../.gitbook/assets/image (284).png>)
 
-Fai clic con il pulsante destro su qualsiasi modulo in **Esplora assembly** e seleziona **Ordina assembly**:
+Fai clic con il pulsante destro su qualsiasi modulo in **Esplora assembly** e fai clic su **Ordina assembly**:
 
 ![](<../../.gitbook/assets/image (285).png>)
 
@@ -138,22 +137,22 @@ Fai clic con il pulsante destro su qualsiasi modulo in **Esplora assembly** e se
 
 ![](<../../.gitbook/assets/image (136).png>)
 
-Quindi, quando inizi il debug, l'esecuzione si interromperà quando ogni DLL viene caricata, quindi, quando rundll32 carica la tua DLL, l'esecuzione si interromperà.
+Quindi, quando inizi il debug, **l'esecuzione si interromperà quando ogni DLL viene caricata**, quindi, quando rundll32 carica la tua DLL, l'esecuzione si interromperà.
 
-Ma, come puoi accedere al codice della DLL che è stata caricata? Utilizzando questo metodo, non lo so.
+Ma, come puoi accedere al codice della DLL che è stata caricata? Utilizzando questo metodo, non so come.
 
 ### Utilizzando x64dbg/x32dbg
 
 * **Carica rundll32** (64 bit in C:\Windows\System32\rundll32.exe e 32 bit in C:\Windows\SysWOW64\rundll32.exe)
-* **Modifica la riga di comando** ( _File --> Modifica riga di comando_ ) e imposta il percorso della dll e la funzione che desideri chiamare, ad esempio: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
+* **Modifica la riga di comando** ( _File --> Modifica riga di comando_ ) e imposta il percorso della DLL e la funzione che desideri chiamare, ad esempio: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Cambia _Opzioni --> Impostazioni_ e seleziona "**Ingresso DLL**".
-* Quindi **avvia l'esecuzione**, il debugger si fermerà a ogni dll principale, a un certo punto ti **fermerai nell'ingresso della DLL della tua dll**. Da lì, cerca i punti in cui desideri impostare un breakpoint.
+* Quindi **avvia l'esecuzione**, il debugger si fermerà a ogni dll principale, a un certo punto ti **fermerai nell'ingresso della DLL del tuo dll**. Da lì, cerca i punti in cui desideri impostare un breakpoint.
 
-Nota che quando l'esecuzione viene interrotta per qualsiasi motivo in win64dbg, puoi vedere **in quale codice ti trovi** guardando nella **parte superiore della finestra di win64dbg**:
+Nota che quando l'esecuzione viene interrotta per qualsiasi motivo in win64dbg, puoi vedere **in quale codice ti trovi** guardando nella **parte superiore della finestra win64dbg**:
 
 ![](<../../.gitbook/assets/image (137).png>)
 
-Quindi, guardando questo, puoi vedere quando l'esecuzione è stata interrotta nella dll che desideri eseguire il debug.
+Quindi, guardando questo, puoi vedere quando l'esecuzione è stata interrotta nella DLL che desideri eseguire il debug.
 
 ## App GUI / Videogiochi
 
@@ -174,7 +173,7 @@ Quindi, guardando questo, puoi vedere quando l'esecuzione è stata interrotta ne
 [**Blobrunner**](https://github.com/OALabs/BlobRunner) **alloca** lo **shellcode** all'interno di uno spazio di memoria, ti **indica** l'**indirizzo di memoria** in cui lo shellcode è stato allocato e **ferma** l'esecuzione.\
 Successivamente, è necessario **collegare un debugger** (Ida o x64dbg) al processo e impostare un **breakpoint all'indirizzo di memoria indicato** e **riprendere** l'esecuzione. In questo modo sarai in grado di eseguire il debug dello shellcode.
 
-La pagina dei rilasci su GitHub contiene zippati contenenti i rilasci compilati: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
+La pagina dei rilasci su GitHub contiene zip contenenti i rilasci compilati: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 Puoi trovare una versione leggermente modificata di Blobrunner nel seguente link. Per compilarlo, basta **creare un progetto C/C++ in Visual Studio Code, copiare e incollare il codice e compilarlo**.
 
 {% content-ref url="blobrunner.md" %}
@@ -191,7 +190,7 @@ Puoi scaricare una versione compilata di [jmp2it nella pagina dei rilasci](https
 
 ### Debugging dello shellcode utilizzando Cutter
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) è l'interfaccia grafica di radare. Utilizzando Cutter puoi emulare lo shellcode e ispezionarlo dinamicamente.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) è l'interfaccia grafica di radare. Utilizzando Cutter, puoi emulare lo shellcode e ispezionarlo dinamicamente.
 
 Nota che Cutter ti consente di "Aprire file" e "Aprire shellcode". Nel mio caso, quando ho aperto lo shellcode come file, lo ha decompilato correttamente, ma quando l'ho aperto come shellcode no:
 
@@ -203,7 +202,7 @@ Per avviare l'emulazione nel punto desiderato, imposta un bp lì e apparentement
 
 ![](<../../.gitbook/assets/image (401).png>)
 
-Puoi vedere lo stack ad esempio all'interno di un dump esadecimale:
+Puoi vedere lo stack, ad esempio, all'interno di un dump esadecimale:
 
 ![](<../../.gitbook/assets/image (402).png>)
 
@@ -252,7 +251,7 @@ Per trovare il **punto di ingresso** cerca le funzioni con `::main` come in:
 ![](<../../.gitbook/assets/image (612).png>)
 
 In questo caso il binario si chiamava authenticator, quindi è abbastanza ovvio che questa sia la funzione main interessante.\
-Avendo il **nome** delle **funzioni** chiamate, cerca su **Internet** per apprendere i loro **input** e **output**.
+Avendo il **nome** delle **funzioni** chiamate, cerca informazioni su di esse su **Internet** per conoscere i loro **input** e **output**.
 
 ## **Delphi**
 
@@ -291,11 +290,11 @@ Se ottieni il **binario** di un gioco GBA puoi utilizzare diversi strumenti per 
 * [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Plugin Ghidra
 * [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Plugin Ghidra
 
-In [**no$gba**](https://problemkaputt.de/gba.htm), in _**Options --> Emulation Setup --> Controls**_\*\* \*\* puoi vedere come premere i **pulsanti** del Game Boy Advance
+In [**no$gba**](https://problemkaputt.de/gba.htm), in _**Opzioni --> Impostazioni Emulazione --> Controlli**_\*\* \*\* puoi vedere come premere i **pulsanti** del Game Boy Advance
 
 ![](<../../.gitbook/assets/image (578).png>)
 
-Quando premuto, ogni **tasto ha un valore** per identificarlo:
+Quando premuti, ogni **tasto ha un valore** per identificarlo:
 ```
 A = 1
 B = 2
@@ -308,7 +307,7 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Quindi, in questo tipo di programmi, una parte interessante sarà **come il programma gestisce l'input dell'utente**. All'indirizzo **0x4000130** troverai la funzione comunemente trovata: **KEYINPUT.**
+Quindi, in questo tipo di programma, la parte interessante sarà **come il programma gestisce l'input dell'utente**. All'indirizzo **0x4000130** troverai la funzione comunemente trovata: **KEYINPUT**.
 
 ![](<../../.gitbook/assets/image (579).png>)
 
@@ -377,10 +376,10 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 ```
 Nel codice precedente puoi vedere che stiamo confrontando **uVar1** (il luogo dove si trova il **valore del pulsante premuto**) con alcuni valori:
 
-* Prima, viene confrontato con il **valore 4** (pulsante **SELECT**): In questa sfida questo pulsante cancella lo schermo.
-* Poi, viene confrontato con il **valore 8** (pulsante **START**): In questa sfida controlla se il codice è valido per ottenere la flag.
-* In questo caso la variabile **`DAT_030000d8`** viene confrontata con 0xf3 e se il valore è lo stesso viene eseguito del codice.
-* In tutti gli altri casi, viene controllato un cont (`DAT_030000d4`). È un cont perché viene aggiunto 1 subito dopo l'ingresso nel codice.\
+- Prima, viene confrontato con il **valore 4** (pulsante **SELECT**): In questa sfida questo pulsante cancella lo schermo
+- Poi, viene confrontato con il **valore 8** (pulsante **START**): In questa sfida controlla se il codice è valido per ottenere la flag.
+- In questo caso la variabile **`DAT_030000d8`** viene confrontata con 0xf3 e se il valore è lo stesso viene eseguito del codice.
+- In tutti gli altri casi, viene controllato un cont (`DAT_030000d4`). È un cont perché viene aggiunto 1 subito dopo l'ingresso nel codice.\
 Se è inferiore a 8, viene fatto qualcosa che coinvolge l'**aggiunta** di valori a **`DAT_030000d8`** (in pratica si aggiungono i valori dei tasti premuti in questa variabile finché il cont è inferiore a 8).
 
 Quindi, in questa sfida, conoscendo i valori dei pulsanti, dovevi **premere una combinazione con una lunghezza inferiore a 8 in modo che l'aggiunta risultante sia 0xf3.**
@@ -395,3 +394,17 @@ Quindi, in questa sfida, conoscendo i valori dei pulsanti, dovevi **premere una 
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Deobfuscation binaria)
+
+<details>
+
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Altri modi per supportare HackTricks:
+
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
