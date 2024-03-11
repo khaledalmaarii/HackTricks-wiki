@@ -2,25 +2,25 @@
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
 
-### Εργαλεία Αυτόματης Απαρίθμησης για το MacOS
+### Εργαλεία Αυτόματης Απαρίθμησης για το macOS
 
 * **MacPEAS**: [https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)
 * **Metasploit**: [https://github.com/rapid7/metasploit-framework/blob/master/modules/post/osx/gather/enum\_osx.rb](https://github.com/rapid7/metasploit-framework/blob/master/modules/post/osx/gather/enum\_osx.rb)
 * **SwiftBelt**: [https://github.com/cedowens/SwiftBelt](https://github.com/cedowens/SwiftBelt)
 
-### Ειδικές Εντολές για το MacOS
+### Συγκεκριμένες Εντολές για το macOS
 ```bash
 #System info
 date
@@ -129,18 +129,14 @@ sudo killall -HUP mDNSResponder
 ```
 ### Εγκατεστημένο Λογισμικό & Υπηρεσίες
 
-Ελέγξτε για εγκατεστημένες εφαρμογές που είναι ύποπτες και τα δικαιώματα πάνω στους εγκατεστημένους πόρους:
+Ελέγξτε για **ύποπτες** εφαρμογές που έχουν εγκατασταθεί και τα **δικαιώματα** πάνω στους εγκατεστημένους πόρους:
 ```
 system_profiler SPApplicationsDataType #Installed Apps
 system_profiler SPFrameworksDataType #Instaled framework
 lsappinfo list #Installed Apps
-launchtl list #Services
+launchctl list #Services
 ```
 ### Διεργασίες Χρήστη
-
-User processes are the programs or applications that are executed by a user on a macOS system. These processes run in the context of the user who initiated them and have limited privileges based on the user's permissions.
-
-Οι διεργασίες χρήστη είναι τα προγράμματα ή οι εφαρμογές που εκτελούνται από έναν χρήστη σε ένα σύστημα macOS. Αυτές οι διεργασίες εκτελούνται στο πλαίσιο του χρήστη που τις ξεκίνησε και έχουν περιορισμένα δικαιώματα βάσει των άδειών του χρήστη.
 ```bash
 # will print all the running services under that particular user domain.
 launchctl print gui/<users UID>
@@ -153,20 +149,6 @@ launchctl print gui/<user's UID>/com.company.launchagent.label
 ```
 ### Δημιουργία χρήστη
 
-Χωρίς ερωτήσεις
+Χωρίς προτροπές
 
 <figure><img src="../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
-
-<details>
-
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
-
-</details>
