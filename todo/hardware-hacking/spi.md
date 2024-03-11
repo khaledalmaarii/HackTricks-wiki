@@ -15,17 +15,23 @@ Autres façons de soutenir HackTricks :
 
 # Informations de base
 
+SPI (Serial Peripheral Interface) est un protocole de communication série synchrone utilisé dans les systèmes embarqués pour la communication à courte distance entre les CI (Circuits Intégrés). Le protocole de communication SPI utilise l'architecture maître-esclave qui est orchestrée par le signal d'horloge et de sélection de puce. Une architecture maître-esclave se compose d'un maître (généralement un microprocesseur) qui gère les périphériques externes tels que les EEPROM, les capteurs, les dispositifs de contrôle, etc., qui sont considérés comme des esclaves.
+
+Plusieurs esclaves peuvent être connectés à un maître mais les esclaves ne peuvent pas communiquer entre eux. Les esclaves sont administrés par deux broches, l'horloge et la sélection de puce. Comme le SPI est un protocole de communication synchrone, les broches d'entrée et de sortie suivent les signaux d'horloge. La sélection de puce est utilisée par le maître pour sélectionner un esclave et interagir avec lui. Lorsque la sélection de puce est haute, le périphérique esclave n'est pas sélectionné, tandis que lorsqu'elle est basse, la puce a été sélectionnée et le maître interagirait avec l'esclave.
+
+Les broches MOSI (Master Out, Slave In) et MISO (Master In, Slave Out) sont responsables de l'envoi et de la réception de données. Les données sont envoyées au périphérique esclave via la broche MOSI tandis que la sélection de puce est maintenue basse. Les données d'entrée contiennent des instructions, des adresses mémoire ou des données selon la fiche technique du fournisseur du périphérique esclave. Après une entrée valide, la broche MISO est responsable de la transmission des données au maître. Les données de sortie sont envoyées exactement au cycle d'horloge suivant après la fin de l'entrée. Les broches MISO transmettent des données jusqu'à ce que les données soient entièrement transmises ou que le maître définisse la broche de sélection de puce haute (dans ce cas, l'esclave cesserait de transmettre et le maître n'écouterait plus après ce cycle d'horloge).
+
 # Dump Flash
 
 ## Bus Pirate + flashrom
 
 ![](<../../.gitbook/assets/image (201).png>)
 
-Notez que même si le PINOUT du Pirate Bus indique des broches pour **MOSI** et **MISO** à connecter à SPI, certaines SPI peuvent indiquer les broches comme DI et DO. **MOSI -> DI, MISO -> DO**
+Notez que même si le PINOUT du Pirate Bus indique des broches pour **MOSI** et **MISO** à connecter à SPI, cependant certains SPI peuvent indiquer des broches comme DI et DO. **MOSI -> DI, MISO -> DO**
 
 ![](<../../.gitbook/assets/image (648) (1) (1).png>)
 
-Sous Windows ou Linux, vous pouvez utiliser le programme [**`flashrom`**](https://www.flashrom.org/Flashrom) pour extraire le contenu de la mémoire flash en exécutant quelque chose comme :
+Sous Windows ou Linux, vous pouvez utiliser le programme [**`flashrom`**](https://www.flashrom.org/Flashrom) pour vider le contenu de la mémoire flash en exécutant quelque chose comme :
 ```bash
 # In this command we are indicating:
 # -VV Verbose
@@ -36,7 +42,7 @@ flashrom -VV -c "W25Q64.V" -p buspirate_spi:dev=COM3 -r flash_content.img
 ```
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 D'autres façons de soutenir HackTricks :
 
