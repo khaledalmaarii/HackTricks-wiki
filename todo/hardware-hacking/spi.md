@@ -13,7 +13,13 @@ Outras maneiras de apoiar o HackTricks:
 </details>
 
 
-# Informação Básica
+# Informações Básicas
+
+SPI (Serial Peripheral Interface) é um Protocolo de Comunicação Serial Síncrona usado em sistemas embarcados para comunicação de curta distância entre CIs (Circuitos Integrados). O Protocolo de Comunicação SPI faz uso da arquitetura mestre-escravo que é orquestrada pelo Sinal de Clock e Chip Select. Uma arquitetura mestre-escravo consiste em um mestre (geralmente um microprocessador) que gerencia periféricos externos como EEPROM, sensores, dispositivos de controle, etc., que são considerados como escravos.
+
+Vários escravos podem ser conectados a um mestre, mas os escravos não podem se comunicar entre si. Os escravos são administrados por dois pinos, clock e chip select. Como o SPI é um protocolo de comunicação síncrona, os pinos de entrada e saída seguem os sinais de clock. O chip select é usado pelo mestre para selecionar um escravo e interagir com ele. Quando o chip select está alto, o dispositivo escravo não está selecionado, enquanto quando está baixo, o chip foi selecionado e o mestre estaria interagindo com o escravo.
+
+O MOSI (Master Out, Slave In) e MISO (Master In, Slave Out) são responsáveis pelo envio e recebimento de dados. Os dados são enviados para o dispositivo escravo através do pino MOSI enquanto o chip select é mantido baixo. Os dados de entrada contêm instruções, endereços de memória ou dados conforme a folha de dados do fornecedor do dispositivo escravo. Após uma entrada válida, o pino MISO é responsável por transmitir dados para o mestre. Os dados de saída são enviados exatamente no próximo ciclo de clock após o término da entrada. Os pinos MISO transmitem dados até que os dados sejam totalmente transmitidos ou o mestre defina o pino de chip select como alto (nesse caso, o escravo pararia de transmitir e o mestre não ouviria após esse ciclo de clock).
 
 # Dump Flash
 
@@ -25,7 +31,7 @@ Observe que mesmo que o PINOUT do Pirate Bus indique pinos para **MOSI** e **MIS
 
 ![](<../../.gitbook/assets/image (648) (1) (1).png>)
 
-No Windows ou Linux, você pode usar o programa [**`flashrom`**](https://www.flashrom.org/Flashrom) para fazer dump do conteúdo da memória flash executando algo como:
+No Windows ou Linux, você pode usar o programa [**`flashrom`**](https://www.flashrom.org/Flashrom) para despejar o conteúdo da memória flash executando algo como:
 ```bash
 # In this command we are indicating:
 # -VV Verbose
