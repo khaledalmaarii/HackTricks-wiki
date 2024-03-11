@@ -6,11 +6,11 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje trikove hakovanja slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
@@ -134,65 +134,9 @@ Proverite da li su instalirane **sumnjive** aplikacije i **privilegije** nad ins
 system_profiler SPApplicationsDataType #Installed Apps
 system_profiler SPFrameworksDataType #Instaled framework
 lsappinfo list #Installed Apps
-launchtl list #Services
+launchctl list #Services
 ```
 ### Korisnički procesi
-
-User processes are the programs and applications that are executed by a user on a macOS system. These processes run in the context of the user's account and have limited privileges and access to system resources. It is important to understand and monitor user processes to ensure the security and stability of the system.
-
-Korisnički procesi su programi i aplikacije koje izvršava korisnik na macOS sistemu. Ovi procesi se izvršavaju u kontekstu korisničkog naloga i imaju ograničene privilegije i pristup sistemskim resursima. Važno je razumeti i pratiti korisničke procese kako bi se osigurala sigurnost i stabilnost sistema.
-
-#### Listing User Processes
-
-#### Lista korisničkih procesa
-
-To list all user processes running on a macOS system, you can use the `ps` command with the `-u` option:
-
-Da biste prikazali sve korisničke procese koji se izvršavaju na macOS sistemu, možete koristiti `ps` komandu sa opcijom `-u`:
-
-```bash
-ps -u
-```
-
-This will display a list of user processes along with their process IDs (PIDs), CPU usage, memory usage, and other information.
-
-Ovo će prikazati listu korisničkih procesa zajedno sa njihovim identifikatorima procesa (PID), upotrebom CPU-a, upotrebom memorije i drugim informacijama.
-
-#### Killing User Processes
-
-#### Prekidanje korisničkih procesa
-
-If you need to terminate a user process, you can use the `kill` command followed by the process ID (PID) of the process you want to kill:
-
-Ako trebate da prekinete korisnički proces, možete koristiti `kill` komandu, a zatim identifikator procesa (PID) procesa koji želite da prekinete:
-
-```bash
-kill PID
-```
-
-Replace `PID` with the actual process ID of the process you want to terminate.
-
-Zamenite `PID` stvarnim identifikatorom procesa koji želite da prekinete.
-
-#### Monitoring User Processes
-
-#### Praćenje korisničkih procesa
-
-To monitor user processes in real-time, you can use the `top` command:
-
-Da biste u realnom vremenu pratili korisničke procese, možete koristiti `top` komandu:
-
-```bash
-top
-```
-
-This will display a live view of the currently running processes, sorted by various criteria such as CPU usage, memory usage, and process ID.
-
-Ovo će prikazati prikaz uživo trenutno pokrenutih procesa, sortiranih po različitim kriterijumima kao što su upotreba CPU-a, upotreba memorije i identifikator procesa.
-
-You can press `q` to exit the `top` command.
-
-Možete pritisnuti `q` da biste izašli iz `top` komande.
 ```bash
 # will print all the running services under that particular user domain.
 launchctl print gui/<users UID>
@@ -208,17 +152,3 @@ launchctl print gui/<user's UID>/com.company.launchagent.label
 Bez upita
 
 <figure><img src="../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
-
-<details>
-
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
-
-</details>
