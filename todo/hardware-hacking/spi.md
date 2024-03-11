@@ -1,19 +1,25 @@
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
 
 # Basiese Inligting
+
+SPI (Serial Peripheral Interface) is 'n Synchronous Serial Kommunikasieprotokol wat in ingebedde stelsels gebruik word vir kortafstandskommunikasie tussen ICs (Geïntegreerde stroombrekers). SPI Kommunikasieprotokol maak gebruik van die meester-slaaf argitektuur wat georkestreer word deur die Klok- en Chip Select-sein. 'n Meester-slaaf argitektuur bestaan uit 'n meester (gewoonlik 'n mikroprosessor) wat eksterne randtoestelle soos EEPROM, sensors, beheerstelsels, ens. bestuur wat as die slawe beskou word.
+
+Meer as een slaaf kan aan 'n meester gekoppel word, maar slawe kan nie met mekaar kommunikeer nie. Slawe word geadministreer deur twee pine, klok en chip select. Aangesien SPI 'n synchrone kommunikasieprotokol is, volg die inset- en uitsetpunte die kloksignale. Die chip select word deur die meester gebruik om 'n slaaf te kies en daarmee te kommunikeer. Wanneer die chip select hoog is, is die slaaftoestel nie gekies nie, terwyl wanneer dit laag is, die skyf gekies is en die meester met die slaaf sal interaksie hê.
+
+Die MOSI (Meester Uit, Slaaf In) en MISO (Meester In, Slaaf Uit) is verantwoordelik vir die stuur en ontvang van data. Data word na die slaaftoestel gestuur deur die MOSI-pen terwyl die chip select laag gehou word. Die insetdata bevat instruksies, geheue-adresse of data soos per die datablad van die slaaftoestellewer. Met 'n geldige inset is die MISO-pen verantwoordelik vir die oordrag van data na die meester. Die uitsetdata word presies met die volgende klok-siklus na die einde van die inset gestuur. Die MISO-penne stuur data oor totdat die data heeltemal oorgedra is of die meester die chip select-pen hoog stel (in daardie geval sal die slaaf ophou om oor te dra en die meester sal nie daarna luister nie).
 
 # Dump Flash
 
@@ -21,11 +27,11 @@ Ander maniere om HackTricks te ondersteun:
 
 ![](<../../.gitbook/assets/image (201).png>)
 
-Let daarop dat selfs al dui die PINOUT van die Pirate Bus pinne aan vir **MOSI** en **MISO** om aan SPI te koppel, sommige SPI's pinne as DI en DO kan aandui. **MOSI -> DI, MISO -> DO**
+Let daarop dat selfs al dui die PINOUT van die Pirate Bus pine vir **MOSI** en **MISO** aan om aan SPI te koppel, sommige SPI's kan pine aandui as DI en DO. **MOSI -> DI, MISO -> DO**
 
 ![](<../../.gitbook/assets/image (648) (1) (1).png>)
 
-In Windows of Linux kan jy die program [**`flashrom`**](https://www.flashrom.org/Flashrom) gebruik om die inhoud van die flash-geheue te dump deur iets soos die volgende uit te voer:
+In Windows of Linux kan jy die program [**`flashrom`**](https://www.flashrom.org/Flashrom) gebruik om die inhoud van die flitsgeheue te dump deur iets soos die volgende uit te voer:
 ```bash
 # In this command we are indicating:
 # -VV Verbose
@@ -36,14 +42,14 @@ flashrom -VV -c "W25Q64.V" -p buspirate_spi:dev=COM3 -r flash_content.img
 ```
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
+* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
