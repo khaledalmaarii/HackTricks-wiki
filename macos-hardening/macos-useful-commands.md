@@ -134,7 +134,7 @@ Vérifiez les applications **suspectes** installées et les **privilèges** sur 
 system_profiler SPApplicationsDataType #Installed Apps
 system_profiler SPFrameworksDataType #Instaled framework
 lsappinfo list #Installed Apps
-launchtl list #Services
+launchctl list #Services
 ```
 ### Processus Utilisateur
 ```bash
