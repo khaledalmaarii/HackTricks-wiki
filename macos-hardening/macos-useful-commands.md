@@ -134,7 +134,7 @@ sudo killall -HUP mDNSResponder
 system_profiler SPApplicationsDataType #Installed Apps
 system_profiler SPFrameworksDataType #Instaled framework
 lsappinfo list #Installed Apps
-launchtl list #Services
+launchctl list #Services
 ```
 ### 用户进程
 ```bash
