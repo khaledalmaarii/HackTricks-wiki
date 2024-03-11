@@ -1,4 +1,4 @@
-# Amri za Kufaa za MacOS
+# Amri za Kufaa za macOS
 
 <details>
 
@@ -6,15 +6,15 @@
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-### Zana za Kuhesabu Otomatiki za MacOS
+### Zana za Kuhesabu Kiotomatiki za MacOS
 
 * **MacPEAS**: [https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)
 * **Metasploit**: [https://github.com/rapid7/metasploit-framework/blob/master/modules/post/osx/gather/enum\_osx.rb](https://github.com/rapid7/metasploit-framework/blob/master/modules/post/osx/gather/enum\_osx.rb)
@@ -129,42 +129,14 @@ sudo killall -HUP mDNSResponder
 ```
 ### Programu na Huduma Zilizosakinishwa
 
-Angalia programu **tuhuma** zilizosakinishwa na **mamlaka** juu ya rasilimali zilizosakinishwa:
+Angalia programu **zinazoshukiwa** zilizosakinishwa na **mamlaka** juu ya rasilimali zilizosakinishwa:
 ```
 system_profiler SPApplicationsDataType #Installed Apps
 system_profiler SPFrameworksDataType #Instaled framework
 lsappinfo list #Installed Apps
-launchtl list #Services
+launchctl list #Services
 ```
 ### Mchakato wa Mtumiaji
-
-User processes are the programs and tasks that are executed by a user on a macOS system. These processes run in the background and are associated with a specific user account. They can include applications, scripts, and system utilities.
-
-Mchakato wa mtumiaji ni programu na kazi ambazo hutekelezwa na mtumiaji kwenye mfumo wa macOS. Mchakato huu hufanya kazi nyuma ya pazia na unahusishwa na akaunti maalum ya mtumiaji. Unaweza kujumuisha programu, hati, na zana za mfumo.
-
-To view the user processes running on a macOS system, you can use the following command:
-
-Kuona mchakato wa mtumiaji unaoendelea kwenye mfumo wa macOS, unaweza kutumia amri ifuatayo:
-
-```bash
-ps aux
-```
-
-This command will display a list of all user processes along with their associated details, such as the process ID (PID), CPU usage, and memory usage.
-
-Amri hii itaonyesha orodha ya mchakato wote wa mtumiaji pamoja na maelezo yao yanayohusiana, kama vile kitambulisho cha mchakato (PID), matumizi ya CPU, na matumizi ya kumbukumbu.
-
-You can also filter the output to display only the processes associated with a specific user by using the `grep` command. For example, to display only the processes associated with the user "john", you can use the following command:
-
-Unaweza pia kuchuja matokeo ili kuonyesha tu mchakato unaohusiana na mtumiaji maalum kwa kutumia amri ya `grep`. Kwa mfano, ili kuonyesha tu mchakato unaohusiana na mtumiaji "john", unaweza kutumia amri ifuatayo:
-
-```bash
-ps aux | grep john
-```
-
-This command will display only the user processes associated with the user "john".
-
-Amri hii itaonyesha tu mchakato wa mtumiaji unaohusiana na mtumiaji "john".
 ```bash
 # will print all the running services under that particular user domain.
 launchctl print gui/<users UID>
@@ -180,17 +152,3 @@ launchctl print gui/<user's UID>/com.company.launchagent.label
 Bila maombi
 
 <figure><img src="../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
-
-<details>
-
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya HackTricks AWS)</strong></a><strong>!</strong></summary>
-
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
-
-</details>
