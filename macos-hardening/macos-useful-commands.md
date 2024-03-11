@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme becerilerini öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'da **takip edin**.
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
@@ -129,42 +129,14 @@ sudo killall -HUP mDNSResponder
 ```
 ### Yüklü Yazılım ve Hizmetler
 
-Yüklü olan şüpheli uygulamaları ve yüklü kaynaklar üzerindeki yetkileri kontrol edin:
+Yüklü olan şüpheli uygulamaları ve yüklü kaynaklar üzerindeki ayrıcalıkları kontrol edin:
 ```
 system_profiler SPApplicationsDataType #Installed Apps
 system_profiler SPFrameworksDataType #Instaled framework
 lsappinfo list #Installed Apps
-launchtl list #Services
+launchctl list #Services
 ```
 ### Kullanıcı İşlemleri
-
-User processes are the programs and applications that are executed by a user on a macOS system. These processes run in the context of the user's account and have limited privileges based on the user's permissions.
-
-Kullanıcı işlemleri, bir kullanıcının macOS sistemde yürüttüğü programlar ve uygulamalardır. Bu işlemler, kullanıcının hesabı bağlamında çalışır ve kullanıcının izinlerine dayalı olarak sınırlı yetkilere sahiptir.
-
-To view the user processes running on a macOS system, you can use the `ps` command with the `-u` option followed by the username. For example, to view the processes running under the user "john", you can use the following command:
-
-Bir macOS sistemde çalışan kullanıcı işlemlerini görüntülemek için, kullanıcı adından sonra `-u` seçeneğiyle `ps` komutunu kullanabilirsiniz. Örneğin, "john" kullanıcısı altında çalışan işlemleri görüntülemek için aşağıdaki komutu kullanabilirsiniz:
-
-```bash
-ps -u john
-```
-
-This will display a list of processes running under the specified user, including their process IDs (PIDs), CPU usage, memory usage, and other information.
-
-Bu, belirtilen kullanıcı altında çalışan işlemlerin bir listesini, işlem kimliklerini (PID'lerini), CPU kullanımını, bellek kullanımını ve diğer bilgileri içeren bir liste görüntüler.
-
-To terminate a user process, you can use the `kill` command followed by the process ID (PID). For example, to terminate a process with PID 1234, you can use the following command:
-
-Bir kullanıcı işlemini sonlandırmak için, işlem kimliğinden (PID) sonra `kill` komutunu kullanabilirsiniz. Örneğin, 1234 PID'ye sahip bir işlemi sonlandırmak için aşağıdaki komutu kullanabilirsiniz:
-
-```bash
-kill 1234
-```
-
-This will send a termination signal to the specified process, causing it to exit.
-
-Bu, belirtilen işleme sonlandırma sinyali gönderir ve işlemin çıkmasına neden olur.
 ```bash
 # will print all the running services under that particular user domain.
 launchctl print gui/<users UID>
@@ -175,22 +147,8 @@ launchctl print system
 # will print detailed information about the specific launch agent. And if it’s not running or you’ve mistyped, you will get some output with a non-zero exit code: Could not find service “com.company.launchagent.label” in domain for login
 launchctl print gui/<user's UID>/com.company.launchagent.label
 ```
-### Kullanıcı oluşturma
+### Bir kullanıcı oluştur
 
-Prompt olmadan
+Sorular olmadan
 
 <figure><img src="../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
-
-<details>
-
-<summary><strong>AWS hacklemeyi sıfırdan kahramanlık seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
-
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
-
-</details>
