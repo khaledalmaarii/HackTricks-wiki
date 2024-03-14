@@ -9,14 +9,22 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Narzędzia do wycinania i odzyskiwania danych
+**Try Hard Security Group**
 
-Więcej narzędzi znajdziesz na [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
+## Narzędzia do wycinania i odzyskiwania
+
+Więcej narzędzi na [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
@@ -56,32 +64,30 @@ To narzędzie może przeskanować obraz i **wydobyć pcapy** wewnątrz niego, **
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Przejdź przez **wszystkie informacje**, które narzędzie zgromadziło (hasła?), **analizuj** **pakiety** (czytaj [**Analiza Pcap**](../pcap-inspection/)), szukaj **dziwnych domen** (domeny związane z **malware** lub **nieistniejące**).
-
 ### PhotoRec
 
-Możesz go znaleźć na [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
+Możesz go znaleźć pod adresem [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
 
-Dostępny jest w wersjach GUI i CLI. Możesz wybrać **typy plików**, które chcesz, aby PhotoRec wyszukał.
+Posiada wersje z interfejsem graficznym i wiersza poleceń. Możesz wybrać **typy plików**, które chcesz, aby PhotoRec wyszukał.
 
 ![](<../../../.gitbook/assets/image (524).png>)
 
 ### binvis
 
-Sprawdź [kod](https://code.google.com/archive/p/binvis/) i [narzędzie na stronie internetowej](https://binvis.io/#/).
+Sprawdź [kod](https://code.google.com/archive/p/binvis/) oraz [narzędzie na stronie internetowej](https://binvis.io/#/).
 
 #### Funkcje BinVis
 
-* Wizualizator **struktury** aktywny
+* Wizualizator **struktury** plików
 * Wiele wykresów dla różnych punktów skupienia
-* Skupianie się na fragmentach próbki
-* **Widzenie ciągów i zasobów**, w plikach PE lub ELF, np.
+* Skupienie na fragmentach próbki
+* **Wykrywanie ciągów znaków i zasobów**, w plikach wykonywalnych PE lub ELF, np.
 * Uzyskiwanie **wzorców** do kryptografii plików
-* **Wykrywanie** algorytmów pakujących lub kodujących
+* **Wykrywanie** algorytmów pakowania lub kodowania
 * **Identyfikacja** steganografii poprzez wzorce
-* Wizualne porównywanie binarne
+* **Wizualne** porównywanie binarne
 
-BinVis to świetny **punkt wyjścia do zapoznania się z nieznanym celem** w scenariuszu black-boxing.
+BinVis to świetne **miejsce początkowe, aby zapoznać się z nieznanym celem** w scenariuszu black-boxing.
 
 ## Konkretne narzędzia do odzyskiwania danych
 
@@ -94,7 +100,13 @@ Pobierz [tutaj](https://sourceforge.net/projects/findaes/).
 ## Narzędzia uzupełniające
 
 Możesz użyć [**viu** ](https://github.com/atanunq/viu), aby zobaczyć obrazy z terminala.\
-Możesz użyć narzędzia wiersza poleceń systemu Linux **pdftotext**, aby przekształcić plik pdf na tekst i go przeczytać.
+Możesz użyć narzędzia wiersza poleceń systemu Linux **pdftotext**, aby przekształcić plik PDF na tekst i go przeczytać.
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
@@ -103,9 +115,9 @@ Możesz użyć narzędzia wiersza poleceń systemu Linux **pdftotext**, aby prze
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>

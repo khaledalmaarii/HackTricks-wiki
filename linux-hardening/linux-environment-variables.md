@@ -2,54 +2,50 @@
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć **reklamę swojej firmy w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Zmienne globalne
 
-Zmienne globalne **będą dziedziczone przez** procesy **potomne**.
+Zmienne globalne **będą** dziedziczone przez **procesy potomne**.
 
 Możesz utworzyć zmienną globalną dla bieżącej sesji, wykonując:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
-Ta zmienna będzie dostępna dla bieżącej sesji i jej procesów potomnych.
+Ta zmienna będzie dostępna w bieżących sesjach i procesach potomnych.
 
-Aby **usunąć** zmienną, wykonaj:
+Możesz **usunąć** zmienną wykonując:
 ```bash
 unset MYGLOBAL
 ```
 ## Zmienne lokalne
 
-**Zmienne lokalne** mogą być **odwoływane** tylko przez **bieżącą powłokę/skrypt**.
+**Zmienne lokalne** mogą być **dostępne** tylko przez **bieżącą powłokę/skrypt**.
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
 ## Wyświetlanie bieżących zmiennych
-
-Aby wyświetlić bieżące zmienne środowiskowe w systemie Linux, można użyć polecenia `printenv` lub `env`. Oto przykład użycia:
-
-```bash
-$ printenv
-```
-
-```bash
-$ env
-```
-
-Oba polecenia wyświetlą listę wszystkich zmiennych środowiskowych wraz z ich wartościami.
 ```bash
 set
 env
@@ -61,20 +57,20 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 Z: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – wyświetlacz używany przez **X**. Ta zmienna jest zazwyczaj ustawiona na **:0.0**, co oznacza pierwszy wyświetlacz na bieżącym komputerze.
+* **DISPLAY** – wyświetlacz używany przez **X**. Zmienna ta zazwyczaj jest ustawiona na **:0.0**, co oznacza pierwszy wyświetlacz na bieżącym komputerze.
 * **EDITOR** – preferowany edytor tekstu użytkownika.
 * **HISTFILESIZE** – maksymalna liczba linii zawartych w pliku historii.
-* **HISTSIZE** – liczba linii dodanych do pliku historii po zakończeniu sesji użytkownika.
+* **HISTSIZE** – Liczba linii dodawanych do pliku historii po zakończeniu sesji użytkownika.
 * **HOME** – katalog domowy.
 * **HOSTNAME** – nazwa hosta komputera.
 * **LANG** – bieżący język.
 * **MAIL** – lokalizacja skrzynki pocztowej użytkownika. Zazwyczaj **/var/spool/mail/USER**.
-* **MANPATH** – lista katalogów, w których szukane są strony podręcznika.
+* **MANPATH** – lista katalogów do wyszukiwania stron podręcznika.
 * **OSTYPE** – typ systemu operacyjnego.
 * **PS1** – domyślny znak zachęty w bashu.
-* **PATH** – przechowuje ścieżkę do wszystkich katalogów, w których znajdują się pliki binarne, które chcesz wykonać, podając tylko nazwę pliku, a nie ścieżkę względną lub bezwzględną.
+* **PATH** – przechowuje ścieżkę do wszystkich katalogów zawierających pliki binarne, które chcesz wykonać, podając tylko nazwę pliku, a nie ścieżkę względną lub bezwzględną.
 * **PWD** – bieżący katalog roboczy.
-* **SHELL** – ścieżka do bieżącej powłoki poleceń (na przykład **/bin/bash**).
+* **SHELL** – ścieżka do bieżącego powłoki poleceń (na przykład **/bin/bash**).
 * **TERM** – bieżący typ terminala (na przykład **xterm**).
 * **TZ** – strefa czasowa.
 * **USER** – bieżąca nazwa użytkownika.
@@ -89,18 +85,18 @@ export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Zmień **wartość tej zmiennej na 0**, aby po **zakończeniu sesji** żadne polecenie nie było dodawane do **pliku historii** (\~/.bash\_history).
+Zmień **wartość tej zmiennej na 0**, aby po **zakończeniu sesji** żadne polecenie nie było dodane do **pliku historii** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Procesy będą korzystać z tutaj zadeklarowanego **proxy** do połączenia z internetem za pośrednictwem **http lub https**.
+Procesy będą korzystać z zadeklarowanego tutaj **serwera proxy** do połączenia z internetem za pośrednictwem **http lub https**.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
-### SSL\_CERT\_FILE & SSL\_CERT\_DIR
+### SSL_CERT_FILE & SSL_CERT_DIR
 
 Procesy będą ufać certyfikatom wskazanym w **tych zmiennych środowiskowych**.
 ```bash
@@ -129,16 +125,22 @@ Jeden proces w tle, jeden zatrzymany i ostatnie polecenie nie zakończyło się 
 
 ![](<../.gitbook/assets/image (90).png>)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
 <summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) **i** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **na GitHubie**.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
