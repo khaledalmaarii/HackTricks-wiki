@@ -2,19 +2,27 @@
 
 <details>
 
-<summary><strong>제로부터 영웨이에로 해킹을 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>와 함께!</strong></summary>
+<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나** **PDF로 HackTricks 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** 트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
 * **해킹 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **깃허브 저장소에 제출하세요.**
 
 </details>
 
-## **파일로부터 데이터 추출하기**
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
+## **파일에서 데이터 추출하기**
 
 ### **Binwalk**
 
@@ -32,7 +40,7 @@ foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-파일 메타데이터를 확인하는 데 도움이 되는 [여기](https://www.sno.phy.queensu.ca/\~phil/exiftool/)에서 사용할 수 있습니다.
+파일 메타데이터를 볼 수 있도록 도와줍니다. [여기](https://www.sno.phy.queensu.ca/\~phil/exiftool/)에서 사용할 수 있습니다.
 ```bash
 exiftool file # Shows the metadata
 ```
@@ -70,7 +78,7 @@ cmp original.jpg stego.jpg -b -l
 
 ### **공백 안에 숨겨진 데이터**
 
-보이지 않는 문자들이 비어있는 것처럼 보이는 공백에 정보를 숨길 수 있습니다. 이 데이터를 추출하려면 [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)을 방문하세요.
+보이지 않는 문자들이 비어 보이는 공백에 정보를 숨길 수 있습니다. 이 데이터를 추출하려면 [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)을 방문하세요.
 
 ## **이미지에서 데이터 추출하기**
 
@@ -80,17 +88,17 @@ cmp original.jpg stego.jpg -b -l
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-손상된 이미지를 수리하려면 메타데이터 주석을 추가해 볼 수 있습니다:
+손상된 이미지를 복구하려면 메타데이터 주석을 추가하는 것이 도움이 될 수 있습니다:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
 ### **데이터 숨김을 위한 Steghide**
 
-Steghide은 `JPEG, BMP, WAV 및 AU` 파일 내에 데이터를 숨기는 것을 용이하게 해주며, 암호화된 데이터를 삽입하고 추출할 수 있습니다. 설치는 `apt`를 사용하여 간단하게 할 수 있으며, [소스 코드는 GitHub에서](https://github.com/StefanoDeVuono/steghide) 사용할 수 있습니다.
+Steghide은 `JPEG, BMP, WAV 및 AU` 파일 내에 데이터를 숨기는 것을 용이하게 해주며, 암호화된 데이터를 포함하고 추출할 수 있습니다. 설치는 `apt`를 사용하여 간단하게 할 수 있으며, [소스 코드는 GitHub에서](https://github.com/StefanoDeVuono/steghide) 사용할 수 있습니다.
 
 **명령어:**
 
-* `steghide info file`는 파일에 숨겨진 데이터가 있는지 확인합니다.
+* `steghide info file`는 파일이 숨겨진 데이터를 포함하는지 여부를 나타냅니다.
 * `steghide extract -sf file [--passphrase password]`는 숨겨진 데이터를 추출하며, 비밀번호는 선택 사항입니다.
 
 웹 기반 추출을 위해서는 [이 웹사이트](https://futureboy.us/stegano/decinput.html)를 방문하십시오.
@@ -103,7 +111,7 @@ stegcracker <file> [<wordlist>]
 ```
 ### **PNG 및 BMP 파일용 zsteg**
 
-zsteg은 PNG 및 BMP 파일에서 숨겨진 데이터를 발견하는 데 특화되어 있습니다. 설치는 `gem install zsteg`를 통해 수행되며, [GitHub에서 소스](https://github.com/zed-0xff/zsteg)를 확인할 수 있습니다.
+zsteg은 PNG 및 BMP 파일에서 숨겨진 데이터를 발견하는 데 특화되어 있습니다. 설치는 `gem install zsteg`를 통해 수행되며, [GitHub에서 소스를 확인할 수 있습니다](https://github.com/zed-0xff/zsteg).
 
 **명령어:**
 
@@ -112,7 +120,7 @@ zsteg은 PNG 및 BMP 파일에서 숨겨진 데이터를 발견하는 데 특화
 
 ### **StegoVeritas 및 Stegsolve**
 
-**stegoVeritas**는 메타데이터를 확인하고 이미지 변환을 수행하며, 다른 기능 중에는 LSB 브루트 포싱도 포함됩니다. 모든 옵션의 전체 목록을 보려면 `stegoveritas.py -h`를 사용하고, 모든 확인을 실행하려면 `stegoveritas.py stego.jpg`를 사용합니다.
+**stegoVeritas**는 메타데이터를 확인하고 이미지 변환을 수행하며, 다른 기능 중에 LSB 브루트 포싱을 적용합니다. 모든 옵션의 전체 목록을 보려면 `stegoveritas.py -h`를 사용하고, 모든 확인을 실행하려면 `stegoveritas.py stego.jpg`를 사용하세요.
 
 **Stegsolve**는 다양한 색상 필터를 적용하여 이미지 내에 숨겨진 텍스트나 메시지를 드러내는 데 사용됩니다. [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)에서 사용할 수 있습니다.
 
@@ -130,7 +138,7 @@ Stegpy를 사용하면 PNG, BMP, GIF, WebP, WAV와 같은 형식을 지원하는
 
 ### **PNG 파일 분석을 위한 Pngcheck**
 
-PNG 파일을 분석하거나 그 신뢰성을 검증하려면:
+PNG 파일을 분석하거나 그 신뢰성을 확인하려면 사용하세요:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
@@ -151,11 +159,11 @@ pngcheck stego.png
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghide는 JPEG, BMP, WAV 및 AU 파일에 데이터를 숨기기 위해 설계된 다재다능한 도구입니다. 자세한 지침은 [stego tricks documentation](stego-tricks.md#steghide)에서 제공됩니다.
+Steghide는 JPEG, BMP, WAV 및 AU 파일에 데이터를 숨기기 위해 설계된 다재다능한 도구입니다. 자세한 지침은 [stego tricks 문서](stego-tricks.md#steghide)를 참조하세요.
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-이 도구는 PNG, BMP, GIF, WebP 및 WAV와 같은 다양한 형식과 호환됩니다. 자세한 내용은 [Stegpy's section](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)을 참조하세요.
+이 도구는 PNG, BMP, GIF, WebP 및 WAV와 같은 다양한 형식과 호환됩니다. 자세한 정보는 [Stegpy 섹션](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)을 참조하세요.
 
 ### **ffmpeg**
 
@@ -165,7 +173,7 @@ ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg는 최소 유의 비트 전략을 사용하여 WAV 파일 내에 데이터를 숨기고 추출하는 데 뛰어납니다. [GitHub](https://github.com/ragibson/Steganography#WavSteg)에서 사용할 수 있습니다. 명령어는 다음과 같습니다:
+WavSteg은 최소 유의 비트 전략을 사용하여 WAV 파일 내에 데이터를 숨기고 추출하는 데 뛰어납니다. [GitHub](https://github.com/ragibson/Steganography#WavSteg)에서 사용할 수 있습니다. 명령어는 다음과 같습니다:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -177,7 +185,7 @@ Deepsound는 AES-256을 사용하여 소리 파일 내의 정보를 암호화하
 
 ### **Sonic Visualizer**
 
-오디오 파일의 시각적 및 분석적 검사에 귀중한 도구 인 Sonic Visualizer는 다른 수단으로는 감지할 수 없는 숨겨진 요소를 드러낼 수 있습니다. 자세한 내용은 [공식 웹 사이트](https://www.sonicvisualiser.org/)를 방문하십시오.
+오디오 파일의 시각적 및 분석적 검사에 귀중한 도구 인 Sonic Visualizer는 다른 수단으로는 감지할 수 없는 숨겨진 요소를 드러낼 수 있습니다. 더 많은 정보는 [공식 웹 사이트](https://www.sonicvisualiser.org/)에서 확인할 수 있습니다.
 
 ### **DTMF Tones - Dial Tones**
 
@@ -187,30 +195,36 @@ Deepsound는 AES-256을 사용하여 소리 파일 내의 정보를 암호화하
 
 ### **Binary Length SQRT - QR Code**
 
-정수로 제곱되는 이진 데이터는 QR 코드를 나타낼 수 있습니다. 다음 스니펫을 사용하여 확인하십시오:
+제곱근이 정수인 이진 데이터는 QR 코드를 나타낼 수 있습니다. 다음 스니펫을 사용하여 확인하세요:
 ```python
 import math
 math.sqrt(2500) #50
 ```
 ### **점자 번역**
 
-점자 번역을 위해서는 [Branah 점자 번역기](https://www.branah.com/braille-translator)가 훌륭한 자원입니다.
+점자 번역을 위해서는 [Branah Braille Translator](https://www.branah.com/braille-translator)를 사용할 수 있습니다.
 
 ## **참고 자료**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
-<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 AWS 해킹을 마스터하세요!</summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
+* **회사를 HackTricks에서 광고하거나 PDF로 다운로드하려면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스왹**](https://peass.creator-spring.com)을 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>
