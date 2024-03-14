@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJEM**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -14,11 +14,19 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## **Izdvajanje Podataka iz Fajlova**
 
 ### **Binwalk**
 
-Alat za pretragu binarnih fajlova radi pronalaženja skrivenih fajlova i podataka. Instalira se putem `apt` i njegov izvorni kod je dostupan na [GitHub-u](https://github.com/ReFirmLabs/binwalk).
+Alat za pretragu binarnih fajlova za ugrađene skrivene fajlove i podatke. Instalira se putem `apt` i njegov izvor je dostupan na [GitHub-u](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -42,13 +50,13 @@ Slično kao exiftool, za pregled metapodataka. Instalabilan putem `apt`, izvorni
 ```bash
 exiv2 file # Shows the metadata
 ```
-### **Datoteka**
+### **Fajl**
 
-Identifikujte tip datoteke sa kojom se bavite.
+Identifikujte tip fajla sa kojim radite.
 
 ### **Niske**
 
-Izdvaja čitljive niske iz datoteka, koristeći različite postavke enkodiranja za filtriranje rezultata.
+Izdvaja čitljive niske iz fajlova, koristeći različite postavke enkodiranja za filtriranje rezultata.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -62,7 +70,7 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```
 ### **Poređenje (cmp)**
 
-Korisno za poređenje modifikovanog fajla sa originalnom verzijom pronađenom online.
+Korisno za upoređivanje modifikovanog fajla sa originalnom verzijom pronađenom online.
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
@@ -80,13 +88,13 @@ Nevidljivi znakovi u navodno praznim prostorima mogu sakriti informacije. Da bis
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-Da biste pokušali popraviti oštećenu sliku, dodavanje komentara metapodataka može pomoći:
+Da biste pokušali popravku oštećene slike, dodavanje metapodataka u komentar može pomoći:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
 ### **Steghide za skrivanje podataka**
 
-Steghide olakšava skrivanje podataka unutar `JPEG, BMP, WAV i AU` datoteka, sposoban je za ugradnju i izvlačenje šifrovanih podataka. Instalacija je jednostavna korišćenjem `apt`, a njen [izvorni kod je dostupan na GitHub-u](https://github.com/StefanoDeVuono/steghide).
+Steghide olakšava skrivanje podataka unutar `JPEG, BMP, WAV i AU` datoteka, sposoban je da ugradi i izvuče šifrovane podatke. Instalacija je jednostavna korišćenjem `apt`, a njen [izvorni kod je dostupan na GitHub-u](https://github.com/StefanoDeVuono/steghide).
 
 **Komande:**
 
@@ -101,13 +109,13 @@ Za web bazirano izvlačenje, posetite [ovaj sajt](https://futureboy.us/stegano/d
 ```bash
 stegcracker <file> [<wordlist>]
 ```
-### **zsteg za PNG i BMP datoteke**
+### **zsteg za PNG i BMP fajlove**
 
-zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP datotekama. Instalacija se vrši putem `gem install zsteg`, a izvor možete pronaći na [GitHub-u](https://github.com/zed-0xff/zsteg).
+zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP fajlovima. Instalacija se vrši putem `gem install zsteg`, sa [izvorom na GitHub-u](https://github.com/zed-0xff/zsteg).
 
 **Komande:**
 
-* `zsteg -a file` primenjuje sve metode detekcije na datoteku.
+* `zsteg -a file` primenjuje sve metode detekcije na fajlu.
 * `zsteg -E file` specificira payload za ekstrakciju podataka.
 
 ### **StegoVeritas i Stegsolve**
@@ -118,26 +126,26 @@ zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP datotekama. 
 
 ### **FFT za Otkrivanje Skrivenog Sadržaja**
 
-Tehnike brze Furijeove transformacije (FFT) mogu otkriti skriveni sadržaj u slikama. Korisni resursi uključuju:
+Tehnike Brze Furijeove Transformacije (FFT) mogu otkriti skriveni sadržaj u slikama. Korisni resursi uključuju:
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
 * [FFTStegPic na GitHub-u](https://github.com/0xcomposure/FFTStegPic)
 
-### **Stegpy za Audio i Image Datoteke**
+### **Stegpy za Audio i Image Fajlove**
 
-Stegpy omogućava ugradnju informacija u image i audio datoteke, podržavajući formate poput PNG, BMP, GIF, WebP i WAV. Dostupan je na [GitHub-u](https://github.com/dhsdshdhk/stegpy).
+Stegpy omogućava ugradnju informacija u image i audio fajlove, podržavajući formate poput PNG, BMP, GIF, WebP i WAV. Dostupan je na [GitHub-u](https://github.com/dhsdshdhk/stegpy).
 
-### **Pngcheck za Analizu PNG Datoteka**
+### **Pngcheck za Analizu PNG Fajlova**
 
-Za analizu PNG datoteka ili proveru njihove autentičnosti, koristite:
+Za analizu PNG fajlova ili proveru njihove autentičnosti, koristite:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
 ```
 ### **Dodatni alati za analizu slika**
 
-Za dalje istraživanje, razmotrite posetu:
+Za dalje istraživanje, posetite:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 * [Analiza nivoa greške slike](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -147,7 +155,7 @@ Za dalje istraživanje, razmotrite posetu:
 
 ## **Izdvajanje podataka iz audio zapisa**
 
-**Audio steganografija** nudi jedinstvenu metodu za skrivanje informacija unutar zvučnih datoteka. Različiti alati se koriste za ugradnju ili dobijanje skrivenog sadržaja.
+**Audio steganografija** nudi jedinstvenu metodu za skrivanje informacija unutar zvučnih datoteka. Različiti alati se koriste za ugradnju ili izvlačenje skrivenog sadržaja.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
@@ -159,7 +167,7 @@ Ovaj alat je kompatibilan sa različitim formatima uključujući PNG, BMP, GIF, 
 
 ### **ffmpeg**
 
-ffmpeg je ključan za procenu integriteta audio datoteka, ističući detaljne informacije i otkrivanje bilo kakvih neslaganja.
+ffmpeg je ključan za procenu integriteta audio datoteka, ističući detaljne informacije i otkrivajući eventualne neslaganja.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
@@ -177,11 +185,11 @@ Deepsound omogućava šifrovanje i otkrivanje informacija unutar zvučnih fajlov
 
 ### **Sonic Visualizer**
 
-Neprocenjiv alat za vizuelnu i analitičku inspekciju audio fajlova, Sonic Visualizer može otkriti skrivene elemente koji nisu detektovani na druge načine. Posetite [zvaničnu veb stranicu](https://www.sonicvisualiser.org/) za više informacija.
+Neprocenjiv alat za vizuelnu i analitičku inspekciju audio fajlova, Sonic Visualizer može otkriti skrivene elemente koji nisu detektovani na druge načine. Posetite [zvanični sajt](https://www.sonicvisualiser.org/) za više informacija.
 
 ### **DTMF Tones - Dial Tones**
 
-Otkrivanje DTMF tonova u audio fajlovima može se postići korišćenjem online alata poput [ovog DTMF detektora](https://unframework.github.io/dtmf-detect/) i [DialABC](http://dialabc.com/sound/detect/index.html).
+Detekcija DTMF tonova u audio fajlovima može se postići korišćenjem online alata poput [ovog DTMF detektora](https://unframework.github.io/dtmf-detect/) i [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Druge Tehnike**
 
@@ -205,16 +213,22 @@ Za prevod Brailove azbuke, [Branah Braille Translator](https://www.branah.com/br
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
