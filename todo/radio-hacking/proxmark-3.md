@@ -2,24 +2,32 @@
 
 <details>
 
-<summary><strong>Jifunze kuhack AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**swagi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
+**Kikundi cha Usalama cha Kujitahidi**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Kuvamia Mifumo ya RFID na Proxmark3
 
-Jambo la kwanza unalohitaji kufanya ni kuwa na [**Proxmark3**](https://proxmark.com) na [**kusanikisha programu na mahitaji yake**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
+Jambo la kwanza unalohitaji kufanya ni kuwa na [**Proxmark3**](https://proxmark.com) na [**kusakinisha programu na mahitaji yake**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
 ### Kuvamia MIFARE Classic 1KB
 
-Ina **vikundi 16**, kila kimoja kina **vibao 4** na kila kibao kina **16B**. UID iko kwenye kikundi 0 kibao 0 (na haiwezi kubadilishwa).\
-Kupata ufikiaji wa kila kikundi unahitaji **funguo 2** (**A** na **B**) ambazo zimehifadhiwa kwenye **kibao 3 cha kila kikundi** (mkia wa kikundi). Mkia wa kikundi pia hifadhi **vibali vya ufikiaji** vinavyotoa **ruhusa ya kusoma na kuandika** kwenye **kila kibao** kwa kutumia funguo 2.\
+Ina **vikundi 16**, kila kimoja kina **vikundi 4** na kila kikundi kina **16B**. UID iko kwenye kikundi 0 kikundi 0 (na haiwezi kubadilishwa).\
+Ili kupata ufikiaji wa kila kikundi unahitaji **funguo 2** (**A** na **B**) ambazo zimehifadhiwa kwenye **kikundi 3 cha kila kikundi** (sehemu ya mwisho ya kikundi). Sehemu ya mwisho ya kikundi pia inahifadhi **vibali vya ufikiaji** vinavyotoa **ruhusa ya kusoma na kuandika** kwenye **kila kikundi** kwa kutumia funguo 2.\
 Funguo 2 ni muhimu kutoa ruhusa ya kusoma ikiwa unajua ya kwanza na kuandika ikiwa unajua ya pili (kwa mfano).
 
 Mashambulizi kadhaa yanaweza kutekelezwa
@@ -45,7 +53,7 @@ Proxmark3 inaruhusu kutekeleza vitendo vingine kama **kupeleleza** mawasiliano y
 
 ### Amri za Mbichi
 
-Mifumo ya IoT mara nyingi hutumia vitambulisho **visivyo na chapa au visivyo vya kibiashara**. Katika kesi hii, unaweza kutumia Proxmark3 kutuma **amri za mbichi kwa vitambulisho**.
+Mifumo ya IoT mara nyingi hutumia **vitambulisho visivyo na chapa au visivyo vya kibiashara**. Katika kesi hii, unaweza kutumia Proxmark3 kutuma **amri za mbichi kwa vitambulisho**.
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -59,8 +67,27 @@ Kwa habari hii unaweza kujaribu kutafuta habari kuhusu kadi na njia ya kuwasilia
 
 ### Scripts
 
-Programu ya Proxmark3 inakuja na orodha iliyopakiwa kabla ya **maandishi ya kiotomatiki** ambayo unaweza kutumia kutekeleza kazi rahisi. Ili kupata orodha kamili, tumia amri ya `script list`. Kisha, tumia amri ya `script run`, ikifuatiwa na jina la maandishi:
+Programu ya Proxmark3 inakuja na orodha iliyopakiwa kabla ya **maandishi ya kiotomatiki** unazoweza kutumia kutekeleza kazi rahisi. Ili kupata orodha kamili, tumia amri ya `script list`. Kisha, tumia amri ya `script run`, ikifuatiwa na jina la maandishi:
 ```
 proxmark3> script run mfkeys
 ```
-Unaweza kuunda script ya **kufanya fuzz tag readers**, kwa kunakili data ya **kadi halali** tuandike **Lua script** ambayo **inabadilisha** moja au zaidi ya **bytes za kubahatisha** na kuangalia kama **msomaji unacrash** na mzunguko wowote.
+Unaweza kuunda script ya **fuzz tag readers**, kwa kunakili data ya **kadi halali** tu andika **Lua script** ambayo **inaharibu** moja au zaidi ya **bytes** za kubahatisha na angalia kama **msomaji unakwama** na mzunguko wowote.
+
+**Kikundi cha Usalama cha Kujaribu Kwa Bidii**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+
+<details>
+
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+* Je! Unafanya kazi katika **kampuni ya usalama wa mtandao**? Je! Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>

